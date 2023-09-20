@@ -65,9 +65,13 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   useEffect(() => {
     if (error) {
-      displayError(error, t('donations:donationListing.error'))
+      displayError(error, 'Failed to load donation projects', {
+        displayMessage: t('donations:donationListing.error'),
+        location: 'DonationListing.useEffect',
+        locationQuery,
+      })
     }
-  }, [error, displayError, t])
+  }, [error, displayError, t, locationQuery])
 
   if (loading) {
     return <DonationListingSkeleton isFiltering={isFiltering} amount={isFiltering ? 10 : 6} />

@@ -8,7 +8,7 @@ export const useToastForNotAvailableFeature = (onInitialRender = false) => {
   const { openToast } = useToast()
 
   const showToast = useCallback(() => {
-    openToast?.(t('global.notAvailable'), HoliToastType.SUCCESS, 3000)
+    openToast?.(t('global.notAvailable'), HoliToastType.SUCCESS)
   }, [openToast, t])
 
   useEffect(() => {

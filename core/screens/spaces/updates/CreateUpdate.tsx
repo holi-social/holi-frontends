@@ -1,7 +1,6 @@
 import React, { memo, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -70,10 +69,6 @@ const CreateSpaceUpdate = () => {
 
   const onChangeImage = (image: HoliImageInfo | undefined) => {
     setImage(image)
-  }
-
-  if (error) {
-    logError(error, `[CreateUpdate.tsx] ${error.message}`)
   }
 
   useLayoutEffect(() => {

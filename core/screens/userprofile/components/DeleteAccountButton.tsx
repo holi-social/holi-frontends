@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -13,7 +13,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type DeleteAccountButtonProps = {
@@ -23,23 +22,20 @@ export type DeleteAccountButtonProps = {
 const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps> = ({ style }) => {
   const { t } = useTranslation()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const { openToast } = useToast()
   const { logout, isLoggingOut } = useLogout()
   const { displayError } = useErrorHandling()
 
-  const [deleteAuthenticatedUser, { loading, error }] = useMutation<DeleteAuthenticatedUserResponse>(
+  const [deleteAuthenticatedUser, { loading }] = useMutation<DeleteAuthenticatedUserResponse>(
     deleteAuthenticatedUserMutation,
     {
       onCompleted: () => logout({ skipLogoutFlow: true, message: t('profile.settings.account.delete.success') }),
-      onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
+      onError: (error) =>
+        displayError(error, 'Failed to delete account', {
+          displayMessage: t('profile.settings.account.delete.error'),
+          location: 'DeleteAccountButton.deleteAuthenticatedUser',
+        }),
     }
   )
-
-  useEffect(() => {
-    if (error) {
-      displayError(error, t('profile.settings.account.delete.error'))
-    }
-  }, [error, displayError, t])
 
   const label = t('profile.settings.account.delete')
   const confirmationTitle = t('profile.settings.account.delete.confirmation.title')

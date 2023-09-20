@@ -43,7 +43,10 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
         onInviteHandled()
       },
       onError(error) {
-        displayError(error, t('global.technicalError'))
+        displayError(error, 'Failed to accept space membership request', {
+          location: 'SpaceInviteUserButton.acceptRequestToJoin',
+          spaceId: spaceId,
+        })
       },
     })
 
@@ -60,7 +63,10 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
       onError: (error) => {
-        displayError(error, t('global.technicalError'))
+        displayError(error, 'Failed to invite user to space', {
+          location: 'SpaceInviteUserButton.inviteToSpaceById',
+          spaceId: spaceId,
+        })
       },
     }
   )

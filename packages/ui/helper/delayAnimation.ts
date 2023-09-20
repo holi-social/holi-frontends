@@ -9,7 +9,9 @@ import { logError } from '@holi/core/errors/helpers'
  */
 export function delayAnimation(fn: CallableFunction | undefined, props: unknown, delay = 500) {
   if (!fn) {
-    logError(new HoliError('[delayAnimation.ts]: received an undefined function'))
+    logError(new HoliError('Callback function to delay is not defined'), 'Failed to delay animation', {
+      location: 'delayAnimation',
+    })
     return
   }
 

@@ -48,9 +48,13 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
 
   useEffect(() => {
     if (geolocationError) {
-      displayError(geolocationError, t('spaces.spaceListing.error'))
+      displayError(geolocationError, 'Failed to load geolocation details', {
+        displayMessage: t('spaces.spaceListing.error'),
+        location: 'FilteredSpaces.useEffect',
+        locationId,
+      })
     }
-  }, [displayError, geolocationError, t])
+  }, [displayError, geolocationError, locationId, t])
 
   // Error state just hides the component
   if (geolocationError) {

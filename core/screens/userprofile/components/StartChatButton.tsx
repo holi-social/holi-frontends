@@ -13,7 +13,7 @@ import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export function StartChatButton({
   label,
@@ -43,7 +43,9 @@ export function StartChatButton({
     if (!isLoggedIn) return openLoginModal()
 
     if (!identity) {
-      logError(new HoliError('Can not create a chat without a user identity'), '[UserProfileView.tsx]')
+      logError(new HoliError('Can not create a chat without a user identity'), 'Failed to open chat', {
+        location: 'StartChatButton.handleChat',
+      })
       return
     }
 
@@ -57,7 +59,7 @@ export function StartChatButton({
       const { room_id } = await getOrCreateRoom([fullIdentity])
 
       if (!room_id) {
-        openToast(t('global.offline.description'))
+        openToast(t('global.offline.description'), HoliToastType.SUCCESS)
         return
       }
       if (doReplaceRoute) {
@@ -66,7 +68,7 @@ export function StartChatButton({
         navigate('/chat/rooms/' + room_id)
       }
     } catch (e) {
-      openToast(t('global.offline.description'))
+      openToast(t('global.offline.description'), HoliToastType.SUCCESS)
     } finally {
       setChatOpening(false)
     }

@@ -21,8 +21,12 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
   const errormessage = t('webview.error')
 
   const handleError = useCallback(
-    (error: unknown) => {
-      displayError(error, errormessage)
+    (method: string) => (error: unknown) => {
+      displayError(error, 'Failed to load page in webview', {
+        displayMessage: errormessage,
+        location: 'HoliWebView.handleError',
+        method,
+      })
     },
     [displayError, errormessage]
   )
@@ -62,9 +66,9 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
     <WebView
       ref={webViewRef}
       style={style}
-      onError={handleError}
-      onHttpError={handleError}
-      onRenderProcessGone={handleError}
+      onError={handleError('onError')}
+      onHttpError={handleError('onHttpError')}
+      onRenderProcessGone={handleError('onRenderProcessGone')}
       startInLoadingState={true}
       renderLoading={() => <HoliLoader style={styles.loaderContainer} />}
       renderError={renderError}

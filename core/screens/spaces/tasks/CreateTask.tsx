@@ -67,6 +67,8 @@ const CreateTask: React.VFC<ScreenProps> = () => {
     loading: loadingSpace,
   } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', { location: 'CreateTask.spaceByIdQuery', spaceIdOrName }),
   })
 
   const space = data?.spaceById
@@ -76,7 +78,11 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const [createTask, { loading }] = useMutation<CreateTaskResponse>(createTaskMutation, {
     onCompleted: () => navigateBack(),
-    onError: (error) => displayError(error, error.message),
+    onError: (error) =>
+      displayError(error, 'Failed to create task', {
+        location: 'CreateTask.createTask',
+        spaceIdOrName,
+      }),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
@@ -183,10 +189,6 @@ const CreateTask: React.VFC<ScreenProps> = () => {
       setSaveButtonDisabled(false)
     }
   }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
-
-  if (errorSpace) {
-    logError(errorSpace, `[CreateTask.tsx] ${errorSpace.message}`)
-  }
 
   if (!loadingSpace && !isAdmin) {
     navigate(`/spaces/${spaceIdOrName}`)

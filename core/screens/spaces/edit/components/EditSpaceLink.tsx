@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isValidUrl } from '@holi/core/helpers'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
@@ -21,6 +21,7 @@ interface EditSpaceLinkProps {
 
 const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }: EditSpaceLinkProps) => {
   const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
   const [url, setUrl] = useState<string>(link.url || '')
   const [name, setName] = useState<string>(link.name || '')
   const [type, setType] = useState<string>(SpaceLinkType.OTHER || '')
@@ -35,7 +36,11 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
       onDismiss()
     },
     onError: (e) => {
-      logError(e, '[EditSpaceLink] error executing ExternalLinkMutation')
+      displayError(e, 'Failed to update external link for space', {
+        location: 'EditSpaceLink.updateLink',
+        spaceId: space.id,
+        linkId: link.id,
+      })
     },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
   })

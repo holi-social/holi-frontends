@@ -69,8 +69,12 @@ function usePaginationQuery<TData>(
       variables: {
         offset: data.length,
       },
-    }).catch((error) => logError(error, '[usePaginationQuery.tsx] error fetching more'))
-  }, [isFetchingMore, data.length, fetchMore])
+    }).catch((error) =>
+      logError(error, 'Failed to fetch more', {
+        location: 'usePaginationQuery.memoizedFetchMore',
+      })
+    )
+  }, [isFetchingMore, fetchMore, data.length])
 
   return {
     // Sometimes there is a delay between setting loading to false and filling the pagedData/error

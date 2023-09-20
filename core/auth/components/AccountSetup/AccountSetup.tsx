@@ -128,7 +128,11 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         if (selectedInterestIds.length) {
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
-            onError: (error) => displayError(error),
+            onError: (error) =>
+              displayError(error, 'Failed to update users interests', {
+                location: 'AccountSetup.handleNextPress.INTERESTS',
+                currentStep,
+              }),
           })
         }
         setIsLoading(false)
@@ -151,7 +155,11 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
-            onError: (error) => displayError(error),
+            onError: (error) =>
+              displayError(error, 'Failed to update users location', {
+                location: 'AccountSetup.handleNextPress.LOCATION',
+                currentStep,
+              }),
           })
         }
         setIsLoading(false)

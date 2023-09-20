@@ -94,7 +94,10 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
   useEffect(() => {
     if (error) {
-      displayError(error, t('spaces.spaceListing.error'))
+      displayError(error, 'Failed to discover spaces', {
+        displayMessage: t('spaces.spaceListing.error'),
+        location: 'SpacesGroupSlider.discoverSpacesQuery',
+      })
     }
   }, [error, displayError, t])
 

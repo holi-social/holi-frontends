@@ -39,7 +39,11 @@ const SpaceOnboarding = () => {
     if (spaceIdOrName) {
       fetchSpace({
         variables: { idOrName: spaceIdOrName || '' },
-        onError: (error) => logError(error, `[SpaceOnboarding.tsx] ${error.message}`),
+        onError: (error) =>
+          logError(error, 'Failed to load space', {
+            location: 'SpaceOnboarding.fetchSpace',
+            spaceIdOrName,
+          }),
       })
     }
   }, [fetchSpace, spaceIdOrName])

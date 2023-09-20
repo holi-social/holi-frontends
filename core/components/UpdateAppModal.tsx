@@ -22,24 +22,23 @@ const UpdateAppModal = () => {
   const { t } = useTranslation()
   const { error, data, refetch } = useQuery<CheckAppVersionResponse>(checkAppVersionQuery, {
     variables: { version: Constants.expoConfig?.version, buildNumber: BUILD_NUMBER },
+    onError: (error) =>
+      logError(error, 'Failed to check app version', { location: 'UpdateAppModal.checkAppVersionQuery' }),
   })
   const [showModal, setShowModal] = useState(false)
 
   const updateApp = () => {
+    const openStoreUrl = (url: string) => {
+      Linking.openURL(url).catch((error) => {
+        logError(error, 'Error opening url on ' + Platform.OS, { location: 'UpdateAppModal.updateApp', url })
+      })
+    }
     switch (Platform.OS) {
       case 'ios':
-        Linking.openURL(data?.checkAppVersion?.appStoreUrl ?? 'itms-apps://apps.apple.com/id6446693757').catch(
-          (error) => {
-            logError(error, `[UpdateAppModal.tsx] ${error.message}`)
-          }
-        )
+        openStoreUrl(data?.checkAppVersion?.appStoreUrl ?? 'itms-apps://apps.apple.com/id6446693757')
         break
       case 'android':
-        Linking.openURL(data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${ANDROID_PACKAGE_NAME}`).catch(
-          (error) => {
-            logError(error, `[UpdateAppModal.tsx] ${error.message}`)
-          }
-        )
+        openStoreUrl(data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${ANDROID_PACKAGE_NAME}`)
         break
       default:
         break
@@ -67,11 +66,6 @@ const UpdateAppModal = () => {
   }, [refetch])
 
   useEffect(() => {
-    if (error) {
-      logError(error, `[UpdateAppModal.tsx] ${error.message}`)
-      return
-    }
-
     if (data?.checkAppVersion?.needUpdate === NeedUpdateType.MANDATORY) {
       setShowModal(true)
       return

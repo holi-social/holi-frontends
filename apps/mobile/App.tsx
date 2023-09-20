@@ -51,7 +51,7 @@ const App = () => {
     try {
       await Promise.all([initI18n(), initAuth(), initNotifications()])
     } catch (error) {
-      logError(error, '[App.tsx]: Error initializing the app')
+      logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
       setInitDone(true)
     }

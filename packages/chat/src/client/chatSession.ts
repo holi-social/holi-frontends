@@ -109,7 +109,7 @@ export const startChat = async (): Promise<void> => {
     await chatClient.start(unknownTokenHandler)
     initChatClient(chatClient)
     await chatClient.configurePusher().catch((e) => {
-      logError(e, 'Could not set up push notifications for chat')
+      logError(e, 'Could not set up push notifications for chat', { location: 'chatSession.startChat.configurePusher' })
     })
     setChatConnected(true)
   } finally {

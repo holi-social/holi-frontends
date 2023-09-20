@@ -76,13 +76,14 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         limit: PLACE_SUGGESTION_MAX_COUNT,
         level,
       },
+      onError: (error) =>
+        logError(error, 'Failed to fetch places suggestions', {
+          location: 'PlacesAutocomplete.fetchSuggestions',
+          query: geoPlacesQuery,
+        }),
     })
     const debouncedFetchSuggestions = useDebounce(fetchSuggestions, PLACE_SUGGESTION_DEBOUNCE)
     const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
-
-    if (error) {
-      logError(error, `[PlacesAutocomplete.tsx] ${error.message}`)
-    }
 
     const placeSuggestions = (data?.geo_placesAutocomplete || [])
       .map(({ id, name, coordinates }) => ({
@@ -126,7 +127,10 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
               })
             )
             .catch((error) => {
-              logError(error, `[PlacesAutocomplete.tsx]: Failed to fetch place details: ${error.message}`)
+              logError(error, 'Failed to fetch place details', {
+                location: 'PlacesAutocomplete.fetchPlaceDetails',
+                placeId: selection.id,
+              })
               return onClose(undefined)
             })
         }
