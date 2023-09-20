@@ -80,6 +80,7 @@ const FooterTabBar = () => {
           inline
           transparent
           onPress={() => navigate('/chat')}
+          testID="btn-to-chat"
           contentStyle={styles.button}
         >
           <HoliIcon
