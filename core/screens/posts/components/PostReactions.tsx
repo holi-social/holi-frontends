@@ -3,7 +3,7 @@ import React from 'react'
 import { ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { UpdatePostReactionMutation, UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'
 import { Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'

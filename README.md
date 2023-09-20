@@ -247,19 +247,23 @@ To give an overview, the project contains the following workspaces (npm packages
   - `components` - shared components, e.g. layout that is used by multiple screens
   - `errors` - shared components, hooks and helpers for error handling
   - `helpers` - various helper hooks, configuration and helper functions
+  - `hooks` - TO BE MOVED
   - `i18n` - shared configuration for internationalization
     - `locales` - translations
     - `helpers` - helper functions
+  - `location` - shared components and hooks for geolocation
   - `navigation` - shared components and helpers for navigation
-  - `RootProvider.tsx` - shared root provider
+  - `pagination` - shared components and hooks for pagination
+  - `provider` - shared providers
   - `screens` - all screens used in the core app
-    - `UserProfile` - exmplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
+    - `userprofile` - exmeplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
       - `components`
       - `hooks`
       - `providers`
       - `index.tsx`
       - `queries.ts`
       - `types.ts`
+  - `static` - TO BE MOVED
 - `e2e` - end-to-end tests
   - `mobile` - end-to-end tests for the mobile app
   - `web` - end-to-end tests for the web site
@@ -267,7 +271,10 @@ To give an overview, the project contains the following workspaces (npm packages
   - `volunteering` - examplary for holi-apps in general, contains everything specific to this app, structurally equivalent to `screens` in `core`
 - `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm package
   - `api` - shared client-side code for the HOLI API
+  - `chat` - TO BE MOVED
+  - `icons` - the HOLI icon library
   - `ui` - the HOLI component library
+- `scripts` - shared scripts, e.g. for pipelines
 - `terraform`
   - `common` - definitions for common infrastructure
   - `environments` - definitions for the specific platform environments (currently only necessary for web)
