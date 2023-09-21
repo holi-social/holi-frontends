@@ -48,7 +48,11 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
   onSubmit,
 }: UseUserChipsOptions) => {
   const { displayError } = useErrorHandling()
-  const { loading, data, error } = useQuery<T>(queryToUse, { skip: !user })
+  const { loading, data } = useQuery<T>(queryToUse, {
+    skip: !user,
+    onError: (error) =>
+      logError(error, 'Failed to load terms for user chips', { location: 'useUserChips', field: keyInUserObject }),
+  })
   const [updateUser, { loading: updateUserLoading, error: updateUserError }] =
     useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
 
@@ -86,12 +90,11 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
     }
   }, [keyInUserObject, onSubmit, selectedTerms, updateUser])
 
-  if (error) {
-    logError(error, `[UserChipLoader.tsx] ${error.message}`)
-  }
-
   if (updateUserError) {
-    displayError(updateUserError)
+    displayError(updateUserError, 'Failed to update user', {
+      location: 'useUserChips',
+      field: keyInUserObject,
+    })
   }
 
   return {

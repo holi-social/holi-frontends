@@ -50,7 +50,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     findUsersByName(keyword)
       .then(setSafeResult)
       .catch((error) => {
-        logError(error, '[HoliMentionsPlugin] Error finding users')
+        logError(error, 'Error finding users', { location: 'HoliMentionsPlugin.findUsersByName' })
         setSafeResult([])
       })
       .finally(() => setSelectedOptionIndex(0))

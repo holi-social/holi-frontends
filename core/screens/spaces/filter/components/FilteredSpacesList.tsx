@@ -23,7 +23,10 @@ const FilteredSpacesList: React.FC<Props> = ({ pageSize }) => {
 
   useEffect(() => {
     if (error) {
-      displayError(error, t('spaces.spaceListing.error'))
+      displayError(error, 'Failed to load filtered spaces', {
+        displayMessage: t('spaces.spaceListing.error'),
+        location: 'FilteredSpacesList.useEffect',
+      })
     }
   }, [displayError, error, t])
 

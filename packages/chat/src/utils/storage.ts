@@ -58,7 +58,7 @@ export const storeSessionCredentials = async (credentials: StoredCredentials): P
   ]
 
   await AsyncStore.multiSet(multiSetCreds).catch((err) =>
-    logError(err, '[storage.ts] could not store session credentials')
+    logError(err, 'Could not store session credentials', { location: 'storage.storeSessionCredentials' })
   )
   return credentials
 }

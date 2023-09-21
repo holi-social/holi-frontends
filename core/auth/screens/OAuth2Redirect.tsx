@@ -20,7 +20,9 @@ const OAuth2Redirect: React.VFC<OAuth2RedirectProps> = ({ error }) => {
 
   useEffect(() => {
     if (error) {
-      displayError(new HoliError(error))
+      displayError(new HoliError(error), 'Error during OAuth2 flow', {
+        location: 'OAuth2Redirect.useEffect',
+      })
     }
   }, [displayError, error])
 

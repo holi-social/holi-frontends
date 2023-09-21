@@ -37,18 +37,15 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
-    insightsByUserIdTotalResultsQuery,
-    {
-      variables: { userId: user.id },
-    }
-  )
+  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
+    variables: { userId: user.id },
+    onError: (error) =>
+      logError(error, 'Failed to load insights for user', {
+        location: 'OwnProfileView.insightsByUserIdTotalResultsQuery',
+      }),
+  })
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
-
-  if (errorInsights) {
-    logError(errorInsights, `[OwnProfileView.tsx] ${errorInsights.message}`)
-  }
 
   return (
     <>

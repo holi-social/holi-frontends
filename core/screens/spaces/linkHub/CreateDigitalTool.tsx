@@ -54,6 +54,8 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     loading: loadingSpace,
   } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', { location: 'CreateDigitalTool.spaceByIdQuery', spaceIdOrName }),
   })
 
   const space = data?.spaceById
@@ -120,10 +122,6 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
       setFieldErrors({})
     }
   }, [description, selectedCollection?.id, space?.id, title, url])
-
-  if (errorSpace) {
-    logError(errorSpace, `[CreateDigitalTool.tsx] ${errorSpace.message}`)
-  }
 
   if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)

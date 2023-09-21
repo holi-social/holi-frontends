@@ -122,12 +122,9 @@ describe('FilteredSpaces', () => {
     renderFilteredSpaces([spacesErrorMock])
 
     await waitFor(() =>
-      expect(global.mockOpenToast).toHaveBeenCalledWith(
-        'spaces.spaceListing.error',
-        HoliToastType.ERROR,
-        undefined,
-        'test-error'
-      )
+      expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
+        testID: 'test-error',
+      })
     )
   })
 
@@ -171,12 +168,9 @@ describe('FilteredSpaces', () => {
     renderFilteredSpaces([locationDetailsErrorMock], { locationId })
 
     await waitFor(() =>
-      expect(global.mockOpenToast).toHaveBeenCalledWith(
-        'spaces.spaceListing.error',
-        HoliToastType.ERROR,
-        undefined,
-        'test-error'
-      )
+      expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
+        testID: 'test-error',
+      })
     )
   })
 

@@ -1,70 +1,70 @@
 # holi-frontends
 
 <!-- TOC -->
-
-- [holi-frontends](#holi-frontends)
-  - [Development](#development)
-    - [Prerequisites](#prerequisites)
-      - [Android emulator](#android-emulator)
-      - [iOS simulator (if you have a Mac)](#ios-simulator-if-you-have-a-mac)
-      - [Docker (optional)](#docker-optional)
-    - [Running](#running)
-    - [Automated Testing](#automated-testing)
-      - [Unit tests](#unit-tests)
-        - [Execution](#execution)
-        - [Local Execution](#local-execution)
-        - [Conventions](#conventions)
-      - [Web e2e tests](#web-e2e-tests)
-      - [Mobile e2e tests](#mobile-e2e-tests)
-  - [Monorepo - and why](#monorepo---and-why)
-    - [Yarn Workspaces](#yarn-workspaces)
-    - [Workspaces / Package Structure](#workspaces--package-structure)
-    - [Code conventions](#code-conventions)
-      - [Code style](#code-style)
-    - [Dependencies](#dependencies)
-      - [Dependencies and Yarn Workspaces](#dependencies-and-yarn-workspaces)
-    - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
-    - [Clean up](#clean-up)
-    - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
-    - [Navigation](#navigation)
-      - [core](#core)
-      - [web](#web)
-      - [mobile](#mobile)
-      - [conclusion](#conclusion)
-      - [notes](#notes)
-    - [I18n (Internationalization)](#i18n-internationalization)
-      - [Usage example](#usage-example)
-      - [VS Code extension](#vs-code-extension)
-    - [Error handling and validation](#error-handling-and-validation)
-  - [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
-    - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
-    - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
-      - [Configure the page/screen component to use SSR or SSG](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
-        - [`core/screens/Quote.tsx`](#corescreensquotetsx)
-      - [In the web app, in the file corresponding to the page using SSR or SSG](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
-        - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
-  - [Authentication](#authentication)
-    - [Mobile](#mobile-1)
-    - [Web](#web-1)
-    - [OAuth2](#oauth2)
-  - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
-    - [Linting and Autocomplete](#linting-and-autocomplete)
-    - [Code Generation](#code-generation)
-  - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
-    - [Feature Branches \& Environments](#feature-branches--environments)
-    - [Skipping parts of CI](#skipping-parts-of-ci)
-      - [noenv Branches](#noenv-branches)
-      - [noweb / nomobile Branches](#noweb--nomobile-branches)
-    - [Staging and Production Environments](#staging-and-production-environments)
-    - [Environment variables](#environment-variables)
-      - [Local execution and general usage](#local-execution-and-general-usage)
-      - [Configuration for web client](#configuration-for-web-client)
-      - [Configuration for web deployment](#configuration-for-web-deployment)
-      - [Usage for mobile](#usage-for-mobile)
-      - [Configuration for mobile builds](#configuration-for-mobile-builds)
-  - [sentry.io logging/tracing](#sentryio-loggingtracing)
-  - [Accessibility testing](#accessibility-testing)
-  - [Supported By](#supported-by)
+- [Development](#development)
+  - [Prerequisites](#prerequisites)
+    - [Android emulator](#android-emulator)
+    - [iOS simulator (if you have a Mac)](#ios-simulator-if-you-have-a-mac)
+    - [Docker (optional)](#docker-optional)
+  - [Running](#running)
+  - [Automated Testing](#automated-testing)
+    - [Unit tests](#unit-tests)
+      - [Execution](#execution)
+      - [Local Execution](#local-execution)
+      - [Conventions](#conventions)
+    - [Web e2e tests](#web-e2e-tests)
+    - [Mobile e2e tests](#mobile-e2e-tests)
+- [Monorepo - and why](#monorepo---and-why)
+  - [Yarn Workspaces](#yarn-workspaces)
+  - [Workspaces / Package Structure](#workspaces--package-structure)
+  - [Code conventions](#code-conventions)
+    - [Code style](#code-style)
+  - [Dependencies](#dependencies)
+    - [Dependencies and Yarn Workspaces](#dependencies-and-yarn-workspaces)
+  - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
+  - [Clean up](#clean-up)
+  - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
+  - [Navigation](#navigation)
+    - [core](#core)
+    - [web](#web)
+    - [mobile](#mobile)
+    - [conclusion](#conclusion)
+    - [notes](#notes)
+  - [I18n (Internationalization)](#i18n-internationalization)
+    - [Usage example](#usage-example)
+    - [VS Code extension](#vs-code-extension)
+  - [Error handling and reporting](#error-handling-and-reporting)
+  - [Form validation](#form-validation)
+- [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
+  - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
+  - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
+    - [Configure the page/screen component to use SSR or SSG](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
+      - [`core/screens/Quote.tsx`](#corescreensquotetsx)
+    - [In the web app, in the file corresponding to the page using SSR or SSG](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
+      - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
+- [Authentication](#authentication)
+  - [Mobile](#mobile)
+  - [Web](#web)
+  - [OAuth2](#oauth2)
+- [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
+  - [Linting and Autocomplete](#linting-and-autocomplete)
+  - [Code Generation](#code-generation)
+- [Continuous Integration and Deployment](#continuous-integration-and-deployment)
+  - [Feature Branches & Environments](#feature-branches--environments)
+  - [Skipping parts of CI](#skipping-parts-of-ci)
+    - [noenv Branches](#noenv-branches)
+    - [noweb / nomobile Branches](#noweb--nomobile-branches)
+  - [Staging and Production Environments](#staging-and-production-environments)
+  - [Environment variables](#environment-variables)
+    - [Local execution and general usage](#local-execution-and-general-usage)
+    - [Configuration for web client](#configuration-for-web-client)
+    - [Configuration for web deployment](#configuration-for-web-deployment)
+    - [Usage for mobile](#usage-for-mobile)
+    - [Configuration for mobile builds](#configuration-for-mobile-builds)
+- [sentry.io logging/tracing](#sentryio-loggingtracing)
+- [Accessibility testing](#accessibility-testing)
+- [Supported By](#supported-by)
+<!-- /TOC -->
 
 ## Development
 
@@ -533,14 +533,32 @@ See `holi-apps/donations/components/DonationProgress.tsx` for an example for num
 [i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
 translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
 
-### Error handling and validation
+### Error handling and reporting
+
+There are several utils and hooks in `core/errors` to facilitate error handling and deal with displaying, logging and reporting errors.
+
+- `logErrorLocal`: If the error is not relevant enough to be reported, e.g. because it was caused by "bad user input", this function can be used to log it locally, which might be helpful during development.
+- `logError`: This function will not only log the error locally, but also report it to [Sentry.io](#sentryio-loggingtracing). You can pass a custom error message as well as some information about the error context that might be helpful for future analysis. We also require the error "location" to facilitate finding the occurrence in the code, usually in the form of `<file/component name>.<method>`.
+
+    **Warning:** The error, message and context information is passed to Sentry.io as well and we have to make sure to never include any user identifiable data!
+- `displayError`: This method is provided by the `useErrorHandling` hook and is the most thorough way of handling errors:
+  - The error is displayed to the user in form of a toast
+  - If the error was caused by "bad user input", we only log the error locally (using `logErrorLocal`, see above)
+  - Otherwise we log and report the error using `logError` (see above)
+- `openToast`: If you only want to inform the user about an error, without logging or reporting it, you can use `openToast` (provided by the `useToast` hook).
+
+Note: Some types of errors are filtered before being logged or displayed, e.g. network errors.
+
+### Form validation
 
 We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
-You can find several utils and hooks in `core/errors` to handle and display errors.
+When dealing with form validation errors, that are usually caused by invalid user input, the most noteworthy hooks are the following:
 
-- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
-- and `useErrorHandling` provides a function to display error messages as toasts.
+- `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
+- `openToast` (provided by the `useToast` hook) can be used to display more general errors that can not be assigned to text input fields.
+
+Other forms of error handling are described [above](#error-handling-and-reporting).
 
 For more details see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
 

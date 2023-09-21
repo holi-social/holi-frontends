@@ -10,6 +10,5 @@
   "listing.teaser.textLink.url": "https://goodnews.eu",
   "button.loadMoreArticles.label": "Load more articles",
   "button.readArticle": "Read article",
-  "goodnewsListing.loadMoreButton.text": "See more",
-  "goodnewsListing.error": "Loading articles failed"
+  "goodnewsListing.loadMoreButton.text": "See more"
 }

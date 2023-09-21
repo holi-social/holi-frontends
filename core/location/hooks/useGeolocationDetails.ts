@@ -11,7 +11,11 @@ export const useGeolocationDetails = (geolocationId: string | undefined) => {
     if (geolocationId) {
       fetchPlaceDetails({
         variables: { id: geolocationId },
-        onError: (error) => logError(error, `[useGeolocationDetails.ts] ${error.message}`),
+        onError: (error) =>
+          logError(error, 'Failed to fetch geolocation details', {
+            location: 'useGeolocationDetails.fetchPlaceDetails',
+            geolocationId,
+          }),
       })
     }
   }, [fetchPlaceDetails, geolocationId])

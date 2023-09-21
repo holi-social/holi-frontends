@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -21,14 +20,15 @@ type SpaceInviteUserSearchProps = {
 
 const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, searchValue, onInviteHandled }) => {
   const [searchInput, setSearchInput] = useState('')
-  const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
   const userSearchQueryOptions: PaginationQueryHookOptions = {
     pageSize: USER_SEARCH_RESULT_PAGE_SIZE,
     queryPath: 'userByName',
     onError: (error) => {
-      displayError(error, t('global.technicalError'))
+      displayError(error, 'Failed to search for users by name', {
+        location: 'SpaceInviteUserSearch.userSearchQueryOptions',
+      })
     },
     fetchPolicy: 'cache-and-network',
   }

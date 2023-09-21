@@ -99,7 +99,9 @@ describe('Spaces screen', () => {
   it('displays error toast if loading own spaces failed', async () => {
     renderSpaces([authenticatedUserMock, mySpacesErrorMock, locationDetailsMock])
 
-    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR))
+    await waitFor(() =>
+      expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
+    )
   })
 
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {

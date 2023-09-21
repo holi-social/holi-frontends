@@ -52,7 +52,10 @@ const LoginRegistration = ({
     if (err instanceof HoliBadRequestError) {
       openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR)
     } else {
-      displayError(err, t('global.technicalError'))
+      displayError(err, 'Failed to load document', {
+        location: 'LoginRegistration.onDocumentLoadError',
+        document: shownDocument,
+      })
     }
     hideModal()
   }

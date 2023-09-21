@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.7.4', // user-facing value visible in stores
-  iosBuildNumber: '1.7.4', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 29, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.7.6', // user-facing value visible in stores
+  iosBuildNumber: '1.7.6', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 31, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -118,7 +118,7 @@ export default {
         url: requiredEnvVar('JITSI_URL'),
       },
       eas: {
-        projectId: requiredEnvVar('EXPO_PROJECT_ID'),
+        projectId: process.env.EXPO_PROJECT_ID,
       },
       e2e: {
         userId: process.env.E2E_USER_ID, // not required as not used in production

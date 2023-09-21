@@ -36,7 +36,10 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
         clearInput()
       },
       onError(error) {
-        displayError(error, t('global.technicalError'))
+        displayError(error, 'Failed to invite user to space by e-mail', {
+          location: 'SpaceInviteView.inviteToSpaceByEmail',
+          spaceId,
+        })
       },
     }
   )

@@ -39,24 +39,41 @@ export const SpaceTermContext = createContext<SpaceTermContextResult>(initialSta
 SpaceTermContext.displayName = 'SpaceTermContext'
 
 const SpaceTermContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { loading: loadingTopics, data: topicsData, error: errorTopics } = useQuery<TopicsQueryResult>(topicsQuery)
+  const {
+    loading: loadingTopics,
+    data: topicsData,
+    error: errorTopics,
+  } = useQuery<TopicsQueryResult>(topicsQuery, {
+    onError: (error) =>
+      logError(error, 'Failed to load topics', {
+        location: 'SpaceTermContextProvider.topicsQuery',
+      }),
+  })
   const topics = topicsData?.topics.data || []
 
-  const { loading: loadingSkills, data: skillsData, error: errorSkills } = useQuery<SkillsQueryResult>(skillsQuery)
+  const {
+    loading: loadingSkills,
+    data: skillsData,
+    error: errorSkills,
+  } = useQuery<SkillsQueryResult>(skillsQuery, {
+    onError: (error) =>
+      logError(error, 'Failed to load skills', {
+        location: 'SpaceTermContextProvider.skillsQuery',
+      }),
+  })
   const skills = skillsData?.skills.data || []
 
-  const { loading: loadingSdgs, data: sdgsData, error: errorSdgs } = useQuery<SdgsQueryResult>(sdgsQuery)
+  const {
+    loading: loadingSdgs,
+    data: sdgsData,
+    error: errorSdgs,
+  } = useQuery<SdgsQueryResult>(sdgsQuery, {
+    onError: (error) =>
+      logError(error, 'Failed to load SDGs', {
+        location: 'SpaceTermContextProvider.sdgsQuery',
+      }),
+  })
   const sdgs = sdgsData?.sdgs.data || []
-
-  if (errorTopics) {
-    logError(errorTopics, `[SpaceTermContextProvider.tsx] ${errorTopics.message}`)
-  }
-  if (errorSkills) {
-    logError(errorSkills, `[SpaceTermContextProvider.tsx] ${errorSkills.message}`)
-  }
-  if (errorSdgs) {
-    logError(errorSdgs, `[SpaceTermContextProvider.tsx] ${errorSdgs.message}`)
-  }
 
   return (
     <SpaceTermContext.Provider

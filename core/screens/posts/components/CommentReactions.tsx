@@ -27,7 +27,11 @@ const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange,
     UpdatePostCommentReactionMutation,
     {
       onCompleted: () => onChange?.(),
-      onError: (error) => displayError(error),
+      onError: (error) =>
+        displayError(error, 'Failed to update post comment reaction', {
+          location: 'CommentReactions.updatePostCommentReaction',
+          commentId: comment.id,
+        }),
     }
   )
 

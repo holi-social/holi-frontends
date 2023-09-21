@@ -29,7 +29,9 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
 
   useEffect(() => {
     if (error) {
-      displayError(error)
+      displayError(error, 'Failed to update user connection', {
+        location: 'UserConnectionButtons.useEffect',
+      })
     }
   }, [error, displayError])
 

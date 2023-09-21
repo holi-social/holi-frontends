@@ -42,12 +42,13 @@ const InsightDetailPage = () => {
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const {
     data: { insightById: insight } = {},
-    error,
     loading: loadingInsight,
     refetch,
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
     notifyOnNetworkStatusChange: true,
+    onError: (error) =>
+      logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId }),
   })
   const initLoading = loadingInsight && !insight
   const setScreenOptions = useSetScreenOptions()
@@ -65,8 +66,6 @@ const InsightDetailPage = () => {
       },
     })
   }, [t, insight?.title, setScreenOptions])
-
-  if (error) logError(error, `[InsightDetailPage.tsx] ${error.message}`)
 
   if (!loadingInsight && !insight) {
     return (

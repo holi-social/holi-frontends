@@ -31,8 +31,12 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
       .then(({ data: flow }) => {
         safeSetFlow(flow)
       })
-      .catch((error: Error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t, displayError])
+      .catch((error: Error) =>
+        displayError(error, 'Failed to initialize flow to recover password', {
+          location: 'RecoverPasswordForm.initializeFlow',
+        })
+      )
+  }, [safeSetFlow, displayError])
 
   useEffect(() => initializeFlow(), [initializeFlow])
 
@@ -42,7 +46,15 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
         await newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: payload })
         props.onSubmit?.(true)
       } catch (err) {
-        handleFormSubmitError(setFlow, initializeFlow, (error) => displayError(error, t('auth.login.error.login')), err)
+        handleFormSubmitError(
+          setFlow,
+          initializeFlow,
+          (error) =>
+            displayError(error, 'Failed to submit form', {
+              location: 'RecoverPasswordForm.requestPasswordRecovery',
+            }),
+          err
+        )
         props.onSubmit?.(false)
       }
     }

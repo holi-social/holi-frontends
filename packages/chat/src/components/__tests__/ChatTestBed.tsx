@@ -8,13 +8,13 @@ import { type ChatRoom, roomAtomsRecorAtomForTesting } from '@holi/chat/src/stor
 import { usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
 
 interface Props {
-  store?: ReturnType<typeof createStore>
-  apolloMocks: MockedResponse[]
+  jotaiStore?: ReturnType<typeof createStore>
+  apolloMocks?: MockedResponse[]
 }
 
-export const TestBed = ({ children, store, apolloMocks }: PropsWithChildren<Props>) => {
+export const ChatTestBed = ({ children, jotaiStore, apolloMocks = [] }: PropsWithChildren<Props>) => {
   return (
-    <ChatStoreInitializer store={store}>
+    <ChatStoreInitializer store={jotaiStore}>
       <MockedProvider mocks={apolloMocks} addTypename={false}>
         {children}
       </MockedProvider>

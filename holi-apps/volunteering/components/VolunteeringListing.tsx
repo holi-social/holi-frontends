@@ -19,7 +19,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -29,6 +28,7 @@ import '@holi-apps/goodnews/queries'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
+import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/volunteering/types'
@@ -70,17 +70,20 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
       category: isFiltering ? filters.category : undefined,
     },
     fetchPolicy: 'cache-and-network',
+    onError: (error) =>
+      logError(error, 'Failed to load volunteering engagements', {
+        location: 'VolunteeringListing.VolunteeringEngagementsQuery',
+      }),
   })
 
   const fetchMoreButtonText = isFetchingMore ? t('global.loading') : t('volunteering:listing.loadMoreButton.text')
 
   if (error) {
-    logError(error, `[VolunteeringListing.tsx] ${error.message}`)
     return <HoliText>{t('volunteering:listing.error')}</HoliText>
   }
 
   if (loading) {
-    return <HoliLoader />
+    return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
   const handleCardPress = (engagement: VolunteeringEngagement) => {

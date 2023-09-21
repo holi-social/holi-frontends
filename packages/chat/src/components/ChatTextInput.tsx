@@ -3,12 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleSheet, TextInputKeyPressEventData } from 'react-native'
 
 import { sendMessage } from '@holi/chat/src/store'
-import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface TextInputKeyPressEventDataWeb extends TextInputKeyPressEventData {
@@ -34,7 +33,7 @@ interface Props {
 
 export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   const { t } = useTranslation()
-  const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
   const positionRef = useRef(new Animated.Value(100))
 
   const [messageText, setMessageText] = useState('')
@@ -57,8 +56,9 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
       await sendMessage({ roomId, text })
     } catch (err) {
       setMessageText(text)
-      logError(err, '[ChatTextInput.tsx] could not send chat message')
-      openToast(t('global.technicalError'))
+      displayError(err, 'Could not send chat message', {
+        location: 'ChatTextInput.handleSendMessage',
+      })
     }
   }
 
@@ -80,7 +80,7 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
               event.nativeEvent.shiftKey
             ) {
               event.preventDefault()
-              handleSendMessage().catch((error) => logError(error, '[ChatTextInput.tsx] could not send chat message'))
+              handleSendMessage()
             }
           },
         }}

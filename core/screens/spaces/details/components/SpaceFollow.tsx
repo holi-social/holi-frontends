@@ -33,7 +33,11 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
       cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
     },
     onError: (error) => {
-      displayError(error, t('spaces.follow.error'))
+      displayError(error, 'Failed to follow space', {
+        displayMessage: t('spaces.follow.error'),
+        location: 'SpaceFollow.followSpace',
+        spaceId: space.id,
+      })
     },
   })
 
