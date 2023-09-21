@@ -5,11 +5,11 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { replaceSpecialChars } from '@holi/core/helpers'
 import PlacesAutocomplete, {
   GeolocationLevel,
   GeolocationSuggestion,
-} from '@holi/core/location/components/PlacesAutocomplete'
+} from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { replaceSpecialChars } from '@holi/core/helpers'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,

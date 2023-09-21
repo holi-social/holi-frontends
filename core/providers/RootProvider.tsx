@@ -6,17 +6,16 @@ import { Platform, StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
+import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
+import UpdateAppModal from '@holi/core/components/UpdateAppModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
-import PortalProvider from '@holi/core/provider/PortalProvider'
+import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
+import PortalProvider from '@holi/core/providers/PortalProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
-
-import FeatureTogglesFetcher from './components/FeatureTogglesFetcher'
-import UpdateAppModal from './components/UpdateAppModal'
 
 const styles = StyleSheet.create({
   loadingContainer: {
