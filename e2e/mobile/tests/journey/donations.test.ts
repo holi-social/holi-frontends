@@ -65,7 +65,7 @@ const assertResetDonationsFilterFromList = async () => {
 const assertFilterDonationsByLocation = async () => {
   await filterForLocation('Germany')
   // count results for comparison
-  await seeTextWithTestId('Germany', 'donations-list-search-heading')
+  await seeTextWithTestId('Germany', 'donations-list-search-heading-text')
   const resultCountGermany = await extractResultCount('donations-list-search-summary')
   expect(resultCountGermany).toBeGreaterThan(0)
   return resultCountGermany

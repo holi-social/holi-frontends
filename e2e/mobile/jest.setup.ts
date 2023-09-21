@@ -2,7 +2,7 @@ import * as webdriverio from 'webdriverio'
 
 import appiumConfig, { target } from './appiumConfig'
 import { logout } from './helpers/auth'
-import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
+import { waitForHomeScreen } from './helpers/navigation'
 import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
 
 global.platform = appiumConfig.platform
@@ -37,7 +37,6 @@ beforeEach(async () => {
     await waitForHomeScreen(homeScreenTimeout)
   } else {
     // Logout + navigate back to the home screen before each test
-    await navigateBackToHomeScreen()
     await logout()
   }
 }, 20 * 60 * 1000) // the timeout here has to be very high. If we end up in the queue, there might be 5 tests before us, each potentially 2 minutes long.

@@ -84,7 +84,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
           {isFiltering && (
             <HoliHeading testID="donations-list-search-heading">
               <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
-                <HoliText size="large" bold style={styles.searchQuery} />
+                <HoliText size="large" bold style={styles.searchQuery} testID="donations-list-search-heading-text" />
               </Trans>
             </HoliHeading>
           )}

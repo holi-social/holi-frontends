@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { navigateBackToHomeScreen } from '../helpers/navigation'
+import { delay } from '@holi/e2e-mobile/helpers/time'
+
+import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
@@ -96,40 +98,40 @@ export const finishAccountSetup = async ({
   // Success step
   await waitForElementWithTestId('account-setup-success-step')
   await tapOnElementWithTestId('holi-wizard-next-btn')
+
+  await waitForHomeScreen()
+  delay(10)
 }
 
 export const logout = async () => {
-  // TODO: find quicker solution to check if logged in?
-  await gotoProfileSettingsOrLogin()
-
-  if (await checkIfElementWithTestIdExists('btn-to-logout')) {
+  if (await navigateToSettings()) {
     await tapOnElementWithTestId('btn-to-logout')
     await tapOnElementWithTestId('modal-logout-confirmation-confirm')
-    await waitForElementWithTestId('already-have-account-text', 15000)
+    await waitForElementWithTestId('signed-out-illustration', 15000)
   }
 
   await tapOnElementWithTestId('btn-to-home-view')
 }
 
 export const deleteAccount = async () => {
-  await gotoProfileSettingsOrLogin()
+  if (await navigateToSettings()) {
+    await tapOnElementWithTestId('btn-your-account')
+    await tapOnElementWithTestId('btn-delete-account')
+    await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
+    await waitForElementWithTestId('signed-out-illustration', 15000)
+  }
 
-  await tapOnElementWithTestId('btn-your-account')
-  await tapOnElementWithTestId('btn-delete-account')
-  await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
-
-  await waitForElementWithTestId('already-have-account-text', 15000)
   await tapOnElementWithTestId('btn-to-home-view')
 }
 
-const gotoProfileSettingsOrLogin = async () => {
+const navigateToSettings = async () => {
   if (await checkIfElementWithTestIdExists('btn-to-logout')) {
-    return
+    return true
   }
   if (await checkIfElementWithTestIdExists('btn-to-settings')) {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')
-    return
+    return true
   }
   if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
     await tapOnElementWithTestId('btn-to-profile-view')
@@ -137,8 +139,9 @@ const gotoProfileSettingsOrLogin = async () => {
     if (await checkIfElementWithTestIdExists('btn-to-settings')) {
       await tapOnElementWithTestId('btn-to-settings')
       await waitForElementWithTestId('btn-to-logout')
+      return true
     }
-    return
+    return false
   }
   await navigateBackToHomeScreen()
   await tapOnElementWithTestId('btn-to-profile-view')
@@ -146,5 +149,7 @@ const gotoProfileSettingsOrLogin = async () => {
   if (await checkIfElementWithTestIdExists('btn-to-settings')) {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')
+    return true
   }
+  return false
 }
