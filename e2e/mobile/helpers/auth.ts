@@ -107,7 +107,7 @@ export const logout = async () => {
   if (await navigateToSettings()) {
     await tapOnElementWithTestId('btn-to-logout')
     await tapOnElementWithTestId('modal-logout-confirmation-confirm')
-    await waitForElementWithTestId('signed-out-illustration', 15000)
+    await waitForElementWithTestId('already-have-account-text', 15000)
   }
 
   await tapOnElementWithTestId('btn-to-home-view')
@@ -118,7 +118,7 @@ export const deleteAccount = async () => {
     await tapOnElementWithTestId('btn-your-account')
     await tapOnElementWithTestId('btn-delete-account')
     await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
-    await waitForElementWithTestId('signed-out-illustration', 15000)
+    await waitForElementWithTestId('already-have-account-text', 15000)
   }
 
   await tapOnElementWithTestId('btn-to-home-view')
