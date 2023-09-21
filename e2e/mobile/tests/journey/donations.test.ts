@@ -51,7 +51,7 @@ const assertKeepsFilterAfterNavigatingToDetails = async () => {
 const assertMoreSpecificFilter = async (resultCountGermany: number) => {
   await filterForLocation('Hamburg')
   // assert and compare results
-  await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
+  await seeTextWithTestId('Hamburg', 'donations-list-search-heading-text')
   const resultCountHamburg = await extractResultCount('donations-list-search-summary')
   expect(resultCountHamburg).toBeGreaterThan(0)
   expect(resultCountHamburg).toBeLessThan(resultCountGermany)
@@ -65,7 +65,8 @@ const assertResetDonationsFilterFromList = async () => {
 const assertFilterDonationsByLocation = async () => {
   await filterForLocation('Germany')
   // count results for comparison
-  await seeTextWithTestId('Germany', 'donations-list-search-heading')
+  await scrollToElementWithTestId('donations-list-search-heading-text', 'up')
+  await seeTextWithTestId('Germany', 'donations-list-search-heading-text')
   const resultCountGermany = await extractResultCount('donations-list-search-summary')
   expect(resultCountGermany).toBeGreaterThan(0)
   return resultCountGermany
@@ -91,7 +92,7 @@ const assertAllowsPagination = async () => {
   // load more
   await tapOnElementWithTestId('btn-donation-list-load-more')
   // wait until "load more" button has been replaced by next list item
-  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more-processing')
+  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more-processing', 20000)
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)

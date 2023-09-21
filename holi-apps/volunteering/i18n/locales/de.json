@@ -17,6 +17,7 @@
   "filter.heading": "Projekte filtern",
   "filter.location.label": "Standort",
   "filter.location.placeholder": "Stadt auswählen",
+  "filter.notFound.description": "Wir konnten keine Ergebnisse finden, die zu deinen Filterkriterien passen.",
   "filter.result": "{{count}} Freiwilligenarbeit",
   "filter.result_plural": "{{count}} Freiwillenangebote",
   "filter.submitButton": "Freiwilligenarbeit anzeigen",

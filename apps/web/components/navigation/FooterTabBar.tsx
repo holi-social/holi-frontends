@@ -33,6 +33,7 @@ const FooterTabBar = () => {
       accessible={true}
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.bottomNavigation')}
+      testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
     >
       <View style={[mixins.container, styles.buttonContainer]}>
         <HoliButton
@@ -80,6 +81,7 @@ const FooterTabBar = () => {
           inline
           transparent
           onPress={() => navigate('/chat')}
+          testID="btn-to-chat-view"
           contentStyle={styles.button}
         >
           <HoliIcon

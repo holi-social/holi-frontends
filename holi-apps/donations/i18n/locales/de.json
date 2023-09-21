@@ -39,7 +39,7 @@
   "donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
   "donationListing.loadMoreButton.text": "Weitere Projekte",
   "donationListing.search.heading": "Suchergebnisse für <0>{{location}}</0>",
-  "donationListing.search.empty.headline": "Versuche, die Anzahl an Filtern zu verringern oder den Ort zu ändern",
+  "donationListing.search.empty.headline": "Wir konnten keine Ergebnisse finden, die zu deinen Filterkriterien passen.",
   "donationListing.search.empty.tagline": "Keine Suchergebnisse",
   "donationListing.search.resultCount": "{{count}} Möglichkeit",
   "donationListing.search.resultCount_plural": "{{count}} Möglichkeiten",
