@@ -232,7 +232,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
     }
   }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
 
-  if (!loadingSpace && !isAdmin) {
+  if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
