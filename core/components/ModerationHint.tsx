@@ -1,41 +1,53 @@
 import fetch from 'cross-fetch'
+import { produce } from 'immer'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
 import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { perspectiveKey, perspectiveUrl } from '@holi/core/helpers/config'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
 
-type PerspectiveAttrKey = 'TOXICITY' | 'INSULT' | 'SEVERE_TOXICITY' | 'PROFANITY' | 'IDENTITY_ATTACK'
+type PerspectiveLang = 'en' | 'de'
+type PerspectiveAttributes = 'TOXICITY' | 'SEVERE_TOXICITY' | 'INSULT' | 'IDENTITY_ATTACK' | 'PROFANITY' | 'THREAT'
 
-interface ModerationScore {
+interface PerspectiveScoreResponse {
   attributeScores: {
-    [key in PerspectiveAttrKey]: {
-      spanScores: SpanScore[]
-      summaryScore: Score
+    [key in PerspectiveAttributes]: {
+      spanScores: {
+        begin: number
+        end: number
+        score: PerspectiveScore
+      }[]
+      summaryScore: PerspectiveScore
     }
   }
   languages: PerspectiveLang[]
   detectedLanguages: PerspectiveLang[]
 }
 
-interface Score {
+interface PerspectiveScore {
   value: number
   type: 'PROBABILITY'
 }
 
-interface SpanScore {
-  begin: number
-  end: number
-  score: Score
+interface CommentScores {
+  TOXICITY: number
+  SEVERE_TOXICITY: number
+  IDENTITY_ATTACK: number
+  INSULT: number
+  PROFANITY: number
+  THREAT: number
 }
 
-type PerspectiveLang = 'en' | 'de'
-const fetchPerspectiveScore = async (lang: PerspectiveLang, text: string): Promise<null | ModerationScore> => {
+/**
+ * @name fetchCommentScores
+ **/
+async function fetchCommentScores(lang: PerspectiveLang, text: string): Promise<null | PerspectiveScoreResponse> {
   const searchParams = new URLSearchParams({
     key: perspectiveKey,
   })
@@ -53,8 +65,8 @@ const fetchPerspectiveScore = async (lang: PerspectiveLang, text: string): Promi
       "requestedAttributes": {
              "TOXICITY": {},
              "SEVERE_TOXICITY": {},
-             "IDENTITY_ATTACK": {},
              "INSULT": {},
+             "IDENTITY_ATTACK": {},
              "PROFANITY": {},
              "THREAT": {}
             }
@@ -64,23 +76,44 @@ const fetchPerspectiveScore = async (lang: PerspectiveLang, text: string): Promi
 
   if (!response.ok) return null
 
-  const result: ModerationScore = await response.json()
-
-  return result
+  return response.json()
 }
 
-const perspectiveScoreAtom = atom(0)
-const setPerspectiveScoreAtom = atom(null, async (_get, set, text: string) => {
-  try {
-    const perspectiveScore = await fetchPerspectiveScore('en', text)
-    set(perspectiveScoreAtom, () => {
-      if (perspectiveScore === null) return 0
+const updateCommentScore = produce((scores: CommentScores, incomingScores: PerspectiveScoreResponse) => {
+  let scoreKey: keyof typeof scores
 
-      return perspectiveScore.attributeScores.TOXICITY.summaryScore.value
-    })
+  for (scoreKey in scores) {
+    const score = scores[scoreKey]
+    const incomingScore = incomingScores.attributeScores[scoreKey].summaryScore.value
+
+    if (score === incomingScore) continue
+
+    scores[scoreKey] = incomingScore
+  }
+})
+
+const initialCommentsScore: CommentScores = {
+  TOXICITY: 0,
+  SEVERE_TOXICITY: 0,
+  INSULT: 0,
+  IDENTITY_ATTACK: 0,
+  PROFANITY: 0,
+  THREAT: 0,
+}
+
+const _commentScoresAtom = atom<CommentScores>(initialCommentsScore)
+const commentWarningScoresAtom = atom((get) =>
+  Object.entries(get(_commentScoresAtom)).filter(([, value]) => value > 0.6)
+)
+
+const setCommentScoresAtom = atom(null, async (_get, set, lang: PerspectiveLang, text: string) => {
+  try {
+    const perspectiveScore = await fetchCommentScores(lang, text)
+    if (perspectiveScore === null) return
+
+    set(_commentScoresAtom, (prevScore) => updateCommentScore(prevScore, perspectiveScore))
   } catch (err) {
-    // We reset the value in case we get an error from the fetch call
-    set(perspectiveScoreAtom, 0)
+    set(_commentScoresAtom, (prevModerationScore) => prevModerationScore)
     logError(err, 'could not fetch the moderation score to update setPerspectiveScoreAtom', {
       location: 'setPerspectiveScoreAtom',
     })
@@ -92,26 +125,33 @@ interface Props {
 }
 
 const ModerationHint = ({ text }: Props) => {
-  const perspectiveScore = useAtomValue(perspectiveScoreAtom)
-  const setPerspectiveScore = useSetAtom(setPerspectiveScoreAtom)
-  const calcPerspectiveScore = useDebounce(async (text: string) => await setPerspectiveScore(text), 1000)
+  const warningScores = useAtomValue(commentWarningScoresAtom)
+  const setPerspectiveScore = useSetAtom(setCommentScoresAtom)
+  const calcPerspectiveScore = useDebounce(async (text: string) => await setPerspectiveScore('en', text), 1000)
 
-  const showHint = perspectiveScore > 0.7
+  const showHint = warningScores.length > 1
 
   useEffect(() => {
+    // Heuristic to not analyze at the beginning when the user is typing
     if (text.length < 5) return
     calcPerspectiveScore(text)
   }, [calcPerspectiveScore, text])
 
   return (
     <View style={[styles.container, showHint && styles.containerVisible]}>
-      <HoliColumns>
+      <HoliColumns padding={[0, 0, 8, 0]}>
         <View style={styles.circle} />
         <HoliColumn padding={[0, 6]}>
           <HoliText size="small">Please keep this conversation nice and friendly</HoliText>
         </HoliColumn>
       </HoliColumns>
-      {/*<HoliText size="extrasmall">Score: {perspectiveScore}</HoliText>*/}
+      {warningScores.map(([key, value]) => (
+        <HoliBox key={key} padding={[2, 0, 2, 24]}>
+          <HoliText size="extrasmall">
+            {key} Score: {value}
+          </HoliText>
+        </HoliBox>
+      ))}
     </View>
   )
 }
