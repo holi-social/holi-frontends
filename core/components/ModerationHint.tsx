@@ -2,6 +2,7 @@ import fetch from 'cross-fetch'
 import { produce } from 'immer'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -44,9 +45,13 @@ interface CommentScores {
   THREAT: number
 }
 
-/**
- * @name fetchCommentScores
- **/
+const isPerspectiveLang = (lang: string): lang is PerspectiveLang => {
+  return lang === 'en' || lang === 'de'
+}
+
+const getPerspectiveLang = (lang: string): PerspectiveLang => {
+  return isPerspectiveLang(lang) ? lang : 'en'
+}
 async function fetchCommentScores(lang: PerspectiveLang, text: string): Promise<null | PerspectiveScoreResponse> {
   const searchParams = new URLSearchParams({
     key: perspectiveKey,
@@ -125,11 +130,15 @@ interface Props {
 }
 
 const ModerationHint = ({ text }: Props) => {
+  const { i18n } = useTranslation()
   const warningScores = useAtomValue(commentWarningScoresAtom)
   const setPerspectiveScore = useSetAtom(setCommentScoresAtom)
-  const calcPerspectiveScore = useDebounce(async (text: string) => await setPerspectiveScore('en', text), 1000)
+  const calcPerspectiveScore = useDebounce(
+    async (text: string) => await setPerspectiveScore(getPerspectiveLang(i18n.language), text),
+    1000
+  )
 
-  const showHint = warningScores.length > 1
+  const showHint = warningScores.length > 0
 
   useEffect(() => {
     // Heuristic to not analyze at the beginning when the user is typing
