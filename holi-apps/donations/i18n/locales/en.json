@@ -39,7 +39,7 @@
   "donationListing.error": "Loading donation projects failed",
   "donationListing.loadMoreButton.text": "See more",
   "donationListing.search.heading": "Search results for <0>{{location}}</0>",
-  "donationListing.search.empty.headline": "Try reducing the amount of filters or changing the location",
+  "donationListing.search.empty.headline": "We couldn't find any opportunity to match your filters.",
   "donationListing.search.empty.tagline": "No search results",
   "donationListing.search.resultCount": "{{count}} opportunity",
   "donationListing.search.resultCount_plural": "{{count}} opportunities",
