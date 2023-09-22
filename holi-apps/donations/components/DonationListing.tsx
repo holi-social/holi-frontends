@@ -183,7 +183,6 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                     openAmountInCents={project.openAmountInCents}
                     style={styles.heading}
                   />
-                  {/* <DonationListingItem key={project.id} project={project} /> */}
                 </HoliCard>
               </HoliGridCell>
             ))}
