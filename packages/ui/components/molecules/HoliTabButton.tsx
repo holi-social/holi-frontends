@@ -34,7 +34,7 @@ const HoliTabButton = ({
   ...props
 }: PropsWithChildren<Props>) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
+    accessible: !disableFocusability,
     accessibilityRole: 'tab',
     accessibilityLabel: props.label,
     accessibilityControls,

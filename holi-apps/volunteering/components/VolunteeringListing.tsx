@@ -21,7 +21,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
@@ -161,22 +161,24 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
             </HoliNoResults>
           </View>
         )}
-        <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-          {engagements.map((engagement) => (
-            <HoliGridCell key={engagement.id}>
-              <HoliCard
-                key={engagement.id}
-                imageUrl={engagement.imageUrl}
-                imageLabel={engagement.title ?? ''}
-                imageWidth={imageWidth}
-                testID="btn-to-volunteering-engagement"
-                onCardPress={() => handleCardPress(engagement)}
-              >
-                <VolunteeringCardContent engagement={engagement} key={engagement.id} />
-              </HoliCard>
-            </HoliGridCell>
-          ))}
-        </HoliGridWrapper>
+        <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
+          <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+            {engagements.map((engagement) => (
+              <HoliGridCell key={engagement.id}>
+                <HoliCard
+                  key={engagement.id}
+                  imageUrl={engagement.imageUrl}
+                  imageLabel={engagement.title ?? ''}
+                  imageWidth={imageWidth}
+                  testID="btn-to-volunteering-engagement"
+                  onCardPress={() => handleCardPress(engagement)}
+                >
+                  <VolunteeringCardContent engagement={engagement} key={engagement.id} />
+                </HoliCard>
+              </HoliGridCell>
+            ))}
+          </HoliGridWrapper>
+        </View>
       </HoliBox>
       {listFooter}
     </View>
@@ -188,7 +190,7 @@ export default withProfiler(VolunteeringListing, { name: 'VolunteeringListing' }
 const getStyles = (bottomInset = 0) =>
   StyleSheet.create({
     list: {
-      paddingTop: 24,
+      paddingTop: +vars.topBarHeight,
       backgroundColor: colors.background20,
     },
     title: {

@@ -2,10 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -18,7 +18,7 @@ const FooterTabBar = () => {
   const pathname = usePathname()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn } = useAuth()
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')

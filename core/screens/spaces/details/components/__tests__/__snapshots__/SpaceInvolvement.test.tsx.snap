@@ -111,36 +111,36 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                 }
               >
                 <ViewManagerAdapter_ExpoImage
+                  accessibilityLabel="spaces.tasks.thumbnail.label"
                   accessibilityRole="image"
+                  accessible={true}
                   borderRadius={8}
+                  contentFit="cover"
+                  contentPosition={
+                    {
+                      "left": "50%",
+                      "top": "50%",
+                    }
+                  }
                   height={166}
                   justifyContent="center"
                   onError={[Function]}
                   onLoad={[Function]}
                   onLoadStart={[Function]}
                   onProgress={[Function]}
-                  proxiedProperties={
-                    {
-                      "accessibilityLabel": "spaces.tasks.thumbnail.label",
-                      "accessible": true,
-                      "contentFit": "cover",
-                      "contentPosition": {
-                        "left": "50%",
-                        "top": "50%",
+                  placeholder={
+                    [
+                      {
+                        "uri": "",
                       },
-                      "placeholder": [
-                        {
-                          "uri": "",
-                        },
-                      ],
-                      "source": [
-                        {
-                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
-                        },
-                      ],
-                      "tintColor": undefined,
-                      "transition": null,
-                    }
+                    ]
+                  }
+                  source={
+                    [
+                      {
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
+                      },
+                    ]
                   }
                   style={
                     {
@@ -149,6 +149,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "justifyContent": "center",
                     }
                   }
+                  transition={null}
                 />
               </View>
             </View>
@@ -363,6 +364,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="map-pin-2-filled_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
@@ -380,6 +387,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="map-pin-2-filled_svg__a"
                           >
                             <RNSVGPath
@@ -474,6 +487,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="time_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16.001A8 8 0 0 0 12 20Zm1-8h4v2h-6V7h2v5Z"
@@ -491,6 +510,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="time_svg__a"
                           >
                             <RNSVGPath
@@ -889,36 +914,36 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                 }
               >
                 <ViewManagerAdapter_ExpoImage
+                  accessibilityLabel="spaces.tasks.thumbnail.label"
                   accessibilityRole="image"
+                  accessible={true}
                   borderRadius={8}
+                  contentFit="cover"
+                  contentPosition={
+                    {
+                      "left": "50%",
+                      "top": "50%",
+                    }
+                  }
                   height={166}
                   justifyContent="center"
                   onError={[Function]}
                   onLoad={[Function]}
                   onLoadStart={[Function]}
                   onProgress={[Function]}
-                  proxiedProperties={
-                    {
-                      "accessibilityLabel": "spaces.tasks.thumbnail.label",
-                      "accessible": true,
-                      "contentFit": "cover",
-                      "contentPosition": {
-                        "left": "50%",
-                        "top": "50%",
+                  placeholder={
+                    [
+                      {
+                        "uri": "",
                       },
-                      "placeholder": [
-                        {
-                          "uri": "",
-                        },
-                      ],
-                      "source": [
-                        {
-                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
-                        },
-                      ],
-                      "tintColor": undefined,
-                      "transition": null,
-                    }
+                    ]
+                  }
+                  source={
+                    [
+                      {
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
+                      },
+                    ]
                   }
                   style={
                     {
@@ -927,6 +952,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "justifyContent": "center",
                     }
                   }
+                  transition={null}
                 />
               </View>
             </View>
@@ -1141,6 +1167,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="map-pin-2-filled_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
@@ -1158,6 +1190,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="map-pin-2-filled_svg__a"
                           >
                             <RNSVGPath
@@ -1252,6 +1290,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="time_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16.001A8 8 0 0 0 12 20Zm1-8h4v2h-6V7h2v5Z"
@@ -1269,6 +1313,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="time_svg__a"
                           >
                             <RNSVGPath

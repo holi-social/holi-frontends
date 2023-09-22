@@ -77,6 +77,10 @@ jest.mock('@holi/core/helpers/dynamicImport', () => ({
   dynamicImport: () => () => null,
 }))
 
+jest.mock('react-native-webview', () => ({
+  default: () => jest.fn(),
+}))
+
 i18n.use(initReactI18next).init({
   lng: 'en',
   fallbackLng: 'en',

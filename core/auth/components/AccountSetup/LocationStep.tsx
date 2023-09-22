@@ -74,7 +74,7 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
 
   return (
     <View testID={testID}>
-      <HoliHeading level="1" size="large" testID="headline">
+      <HoliHeading level="1" size="large" testID="account-setup-location-step-headline">
         {t('registration.accountSetup.location.heading')}
       </HoliHeading>
 

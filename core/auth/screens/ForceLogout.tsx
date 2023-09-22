@@ -16,10 +16,10 @@ const ForceLogout = () => {
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const { logout, isLoggingOut } = useLogout()
-  const { userId } = useAuth()
+  const { isLoggedIn } = useAuth()
 
   useEffect(() => {
-    if (!isLoggingOut && userId) {
+    if (isLoggedIn && !isLoggingOut) {
       logout({
         message: t('auth.loggingOut'),
         skipLogoutFlow: true,
@@ -27,7 +27,7 @@ const ForceLogout = () => {
         redirectTimeout: 3000,
       }).finally(clearProcessingUnauthorizedLogout)
     }
-  }, [t, navigate, logout, isLoggingOut, userId])
+  }, [t, navigate, logout, isLoggingOut, isLoggedIn])
 
   return (
     <DefaultLayout>
