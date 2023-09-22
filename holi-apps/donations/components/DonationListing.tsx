@@ -190,9 +190,6 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 }
 
 const styles = StyleSheet.create({
-  searchQuery: {
-    color: colors.brandColorB30,
-  },
   searchFilter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
