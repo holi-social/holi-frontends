@@ -2,15 +2,33 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { ShouldStartLoadRequest, WebViewSourceHtml, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
+import { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
 import { useNavigation } from '@react-navigation/native'
 
+import { mobileWebviewHeader } from '@holi/core/auth/helpers/oauth2'
 import { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+
+const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewSourceUri => {
+  return !!value && 'uri' in value
+}
+
+const addHeadersIfSourceUri = (value: WebViewSource | undefined): WebViewSource | undefined => {
+  if (!isWebViewSourceUri(value)) {
+    return value
+  }
+  return {
+    ...value,
+    headers: {
+      ...value.headers,
+      [mobileWebviewHeader]: 'true',
+    },
+  } as WebViewSourceUri
+}
 
 const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigateToExternalBrowser = false }) => {
   const webViewRef = useRef<WebView>(null)
@@ -46,10 +64,6 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
     </View>
   )
 
-  const isWebViewSourceUri = (value: WebViewSourceUri | WebViewSourceHtml | undefined): value is WebViewSourceUri => {
-    return !!value && 'uri' in value
-  }
-
   const openInExternalBrowser = (event: ShouldStartLoadRequest): boolean => {
     // type-correct way of checking whether we are not initially loading the page, but reacting on a tap on a link
     if (navigateToExternalBrowser && isWebViewSourceUri(webViewProps.source) && event.url !== webViewProps.source.uri) {
@@ -74,6 +88,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
       renderError={renderError}
       onShouldStartLoadWithRequest={openInExternalBrowser}
       {...webViewProps}
+      source={addHeadersIfSourceUri(webViewProps.source)}
     />
   )
 }

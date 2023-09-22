@@ -6,6 +6,7 @@ import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
 
+import { createDefaultProps } from '@holi/core/auth/helpers/oauth2'
 import OAuth2Login, { OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'
 import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
@@ -47,12 +48,18 @@ const acceptLoginRequest = async (loginChallenge: string, subjectId: string) => 
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const defaultProps = createDefaultProps(req.headers)
+
   const loginChallenge = extractQueryParameter(req.url || '', 'login_challenge')
   // The challenge is used to fetch information about the login request from ORY Hydra.
   if (!loginChallenge) {
     return {
       props: {
+        ...defaultProps,
         error: 'Expected a login challenge to be set but received none.',
+        errorContext: {
+          location: 'oauth2.login.loginChallenge',
+        },
       },
     }
   }
@@ -67,6 +74,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
     const loginFormProps = {
       props: {
+        ...defaultProps,
         returnTo: `/oauth2/login?login_challenge=${loginChallenge}`,
       },
     }
@@ -118,7 +126,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       })
       return {
         props: {
+          ...defaultProps,
           error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
+          errorContext: {
+            location: 'oauth2.login.rejectOAuth2LoginRequest',
+          },
         },
       }
     }

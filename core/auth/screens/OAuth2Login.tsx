@@ -7,9 +7,10 @@ import client from '@holi/api/graphql/client'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
+import { OAuth2DefaultProps } from '@holi/core/auth/helpers/oauth2'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
-import OAuth2Redirect from '@holi/core/auth/screens/OAuth2Redirect'
+import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -19,14 +20,13 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
-export interface OAuth2LoginProps {
+export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProps {
   returnTo?: string
-  error?: string
 }
 
 // Only used for OAuth2 login flow on web, see apps/web/pages/oauth2/login.tsx
 // Performing direct redirects by changing window.location.href
-const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', error }) => {
+const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = false, ...redirectProps }) => {
   const { userId } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -46,10 +46,10 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', error }) => {
       ),
       headerLeft: () => null,
       navigationCustomOptions: {
-        footerShown: false,
+        footerShown: !isInWebview,
       },
     })
-  }, [returnTo, setScreenOptions, t])
+  }, [isInWebview, returnTo, setScreenOptions, t])
 
   useLayoutEffect(() => {
     if (isLoggedIn) {
@@ -61,7 +61,12 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', error }) => {
   const initializeFlow = useCallback(() => {
     initLoginFlow()
       .then(safeSetFlow)
-      .catch((error) => displayError(error, t('auth.login.error.initialization')))
+      .catch((error) =>
+        displayError(error, 'Failed to initialize login flow', {
+          displayMessage: t('auth.login.error.initialization'),
+          location: 'OAuth2Login.initializeFlow',
+        })
+      )
   }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
@@ -89,15 +94,24 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', error }) => {
         }
         window.location.href = returnUrl + searchParams.toString()
       } else {
-        handleFormSubmitError(safeSetFlow, initializeFlow, (err) => displayError(err, t('auth.login.error.login')), err)
+        handleFormSubmitError(
+          safeSetFlow,
+          initializeFlow,
+          (err) =>
+            displayError(err, 'Failed to login user', {
+              displayMessage: t('auth.login.error.login'),
+              location: 'OAuth2Login.performLogin',
+            }),
+          err
+        )
       }
     } finally {
       hideLoader()
     }
   }
 
-  if (error) {
-    return <OAuth2Redirect error={error} />
+  if (redirectProps.error) {
+    return <OAuth2Redirect {...redirectProps} />
   }
 
   return (

@@ -4,21 +4,28 @@ import { setCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import pino from 'pino'
 
-import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
+import { createDefaultProps } from '@holi/core/auth/helpers/oauth2'
+import OAuth2Logout, { OAuth2LogoutProps } from '@holi/core/auth/screens/OAuth2Logout'
 import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const logger = pino()
 
-const OAuth2LogoutPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
+const OAuth2LogoutPage: NextPage = (props: OAuth2LogoutProps) => <OAuth2Logout {...props} />
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const defaultProps = createDefaultProps(req.headers)
+
   // The challenge is used to fetch information about the logout request from ORY Hydra.
   const logoutChallenge = extractQueryParameter(req.url || '', 'logout_challenge')
   if (!logoutChallenge) {
     return {
       props: {
+        ...defaultProps,
         error: 'Expected a logout challenge to be set but received none.',
+        errorContext: {
+          location: 'oauth2.logout.logoutChallenge',
+        },
       },
     }
   }
@@ -53,7 +60,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       })
       return {
         props: {
+          ...defaultProps,
           error: error?.response?.data || error.toString(),
+          errorContext: {
+            location: 'oauth2.logout.rejectOAuth2LogoutRequest',
+          },
         },
       }
     }
