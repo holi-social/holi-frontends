@@ -44,10 +44,21 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
         spaceId: notification.options.space.id,
       },
       onError(error) {
+        const context = {
+          location: 'NotificationSpaceInviteItem.updateSpaceUserConnection',
+          notificationType: notification.notificationType,
+          spaceId: notification.options.space.id,
+        }
         if (error.message.includes('User did not request membership')) {
-          displayError(error, t('spaces.membership.update.not-requested'))
+          displayError(error, 'Failed to update space user connection as membership was not requested', {
+            displayMessage: t('spaces.membership.update.not-requested'),
+            ...context,
+          })
         } else {
-          displayError(error, t('spaces.membership.update.error'))
+          displayError(error, 'Failed to update space user connection', {
+            displayMessage: t('spaces.membership.update.error'),
+            ...context,
+          })
         }
       },
       refetchQueries: [{ query: discoverSpacesQuery }, { query: mySpaceQuery }],

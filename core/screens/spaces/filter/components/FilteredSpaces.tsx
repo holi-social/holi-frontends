@@ -6,9 +6,9 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import client from '@holi/api/graphql/client'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
-import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
@@ -48,9 +48,13 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
 
   useEffect(() => {
     if (geolocationError) {
-      displayError(geolocationError, t('spaces.spaceListing.error'))
+      displayError(geolocationError, 'Failed to load geolocation details', {
+        displayMessage: t('spaces.spaceListing.error'),
+        location: 'FilteredSpaces.useEffect',
+        locationId,
+      })
     }
-  }, [displayError, geolocationError, t])
+  }, [displayError, geolocationError, locationId, t])
 
   // Error state just hides the component
   if (geolocationError) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { GestureResponderEvent } from 'react-native'
 
-import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 export type PartnerInfoRowProps = {

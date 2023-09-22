@@ -55,7 +55,12 @@ const Login = () => {
   const initializeFlow = useCallback(() => {
     initLoginFlow()
       .then(safeSetFlow)
-      .catch((error) => displayError(error, t('auth.login.error.initialization')))
+      .catch((error) =>
+        displayError(error, 'Failed to initialize login flow', {
+          displayMessage: t('auth.login.error.initialization'),
+          location: 'Login.initializeFlow',
+        })
+      )
   }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
@@ -84,7 +89,16 @@ const Login = () => {
           navigate('/onboarding')
         }
       } else {
-        handleFormSubmitError(safeSetFlow, initializeFlow, (err) => displayError(err, t('auth.login.error.login')), err)
+        handleFormSubmitError(
+          safeSetFlow,
+          initializeFlow,
+          (err) =>
+            displayError(err, 'Failed to login user', {
+              displayMessage: t('auth.login.error.login'),
+              location: 'Login.performLogin',
+            }),
+          err
+        )
       }
     } finally {
       hideLoader()

@@ -1,20 +1,20 @@
 import { DocumentNode, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
@@ -23,7 +23,6 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceT
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -33,11 +32,11 @@ const Spaces = () => {
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const [activeTab, setActiveTab] = useState(0)
-  const { openToast } = useToast()
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
+  const { displayError } = useErrorHandling()
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
@@ -45,7 +44,12 @@ const Spaces = () => {
     loading,
     data: mySpacesData,
     error: mySpacesError,
-  } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
+  } = useQuery<MySpacesResponse>(mySpaceQuery, {
+    skip: !isLoggedIn,
+    onError: (error) =>
+      error.message !== 'Unauthorized' &&
+      displayError(mySpacesError, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
+  })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
@@ -104,13 +108,6 @@ const Spaces = () => {
     },
     [navigate]
   )
-
-  useEffect(() => {
-    if (mySpacesError && mySpacesError.message !== 'Unauthorized') {
-      openToast(t('global.technicalError'), HoliToastType.ERROR)
-      logError(mySpacesError, `[Spaces.tsx] ${mySpacesError.message}`)
-    }
-  }, [mySpacesError, openToast, t])
 
   if (mySpacesError) {
     if (mySpacesError.message === 'Unauthorized') {

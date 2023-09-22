@@ -130,6 +130,7 @@
   "global.moreOptions": "Mehr Optionen",
   "global.next": "Weiter",
   "global.noResults": "Keine Ergebnisse gefunden",
+  "global.noSearchResults": "Keine Suchergebnisse",
   "global.notAvailable": "Leider noch nicht verfügbar!",
   "global.offline.title": "Keine Internetverbindung",
   "global.offline.description": "Du bist gerade offline. Wir verbinden dich, sobald du wieder online bist...",

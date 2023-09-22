@@ -69,6 +69,13 @@ const UserProfile = () => {
   const [fetchUser, { loading, error, data, refetch: refetchUser }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
+    onError: (error) => {
+      if (error && !isNotFoundError(error)) {
+        displayError(error, 'Failed to load user', {
+          location: 'UserProfile.fetchUser',
+        })
+      }
+    },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetchUser)
 
@@ -83,19 +90,16 @@ const UserProfile = () => {
     successMsg: t('global.report.successMessage'),
   })
 
-  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
-    insightsByUserIdTotalResultsQuery,
-    {
-      variables: { userId },
-      skip: !userId, // userId is empty for initial page load
-    }
-  )
+  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
+    variables: { userId },
+    skip: !userId, // userId is empty for initial page load
+    onError: (error) =>
+      logError(error, 'Failed to load insights for user', {
+        location: 'UserProfile.insightsByUserIdTotalResultsQuery',
+      }),
+  })
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
-
-  if (errorInsights) {
-    logError(errorInsights, `[UserProfile.tsx] ${errorInsights.message}`)
-  }
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -137,10 +141,7 @@ const UserProfile = () => {
   // see https://github.com/nandorojo/solito/issues/100
   useEffect(() => {
     if (userId && !loading && !user) {
-      fetchUser().catch((e) => logError(e, '[UserProfile.tsx] could not fetch user'))
-    }
-    if (error && !isNotFoundError(error)) {
-      displayError(error, '[UserProfile.tsx]')
+      fetchUser()
     }
   }, [fetchUser, userId, loading, user, error, displayError])
 

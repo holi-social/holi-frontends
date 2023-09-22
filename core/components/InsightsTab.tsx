@@ -22,13 +22,13 @@ export interface InsightsTabProps {
 const THUMBNAIL_SIZE = 64
 
 const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
-  const { data, error } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, { variables: { userId } })
+  const { data } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, {
+    variables: { userId },
+    onError: (error) =>
+      logError(error, 'Failed to load insights for user', { location: 'InsightsTab.insightsByUserIdQuery' }),
+  })
   const insights = data?.insightsByUserId
   const hasInsights = insights && insights.totalResults > 0
-
-  if (error) {
-    logError(error, `[InsightsTab.tsx] ${error.message}`)
-  }
 
   return hasInsights ? (
     <>

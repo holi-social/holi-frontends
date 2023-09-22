@@ -7,6 +7,11 @@ import Notifications from '@holi/core/screens/notifications/Notifications'
 import { notificationsQuery } from '@holi/core/screens/notifications/queries'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const loggedIn = () => ({ userId: '123' })
 const loggedOut = () => ({ userId: null })
 const useAuthMock = useAuth as jest.Mock

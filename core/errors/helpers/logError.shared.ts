@@ -1,6 +1,6 @@
-export interface ErrorInfo {
-  stack?: string
-  context?: Record<string, unknown>
+export interface ErrorContext extends Record<string, unknown> {
+  // To identify the place where the error occurred (e.g. `file.method`)
+  location: string
 }
 
 function isError(error: unknown): error is Error {

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
@@ -33,7 +33,11 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
       cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
     },
     onError: (error) => {
-      displayError(error, t('spaces.follow.error'))
+      displayError(error, 'Failed to follow space', {
+        displayMessage: t('spaces.follow.error'),
+        location: 'SpaceFollow.followSpace',
+        spaceId: space.id,
+      })
     },
   })
 

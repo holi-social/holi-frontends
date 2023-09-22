@@ -3,7 +3,7 @@ import React from 'react'
 import { ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { UpdatePostCommentReactionMutation, UpdatePostCommentReactionResponse } from '@holi/core/screens/posts/queries'
 import { Comment, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -27,7 +27,11 @@ const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange,
     UpdatePostCommentReactionMutation,
     {
       onCompleted: () => onChange?.(),
-      onError: (error) => displayError(error),
+      onError: (error) =>
+        displayError(error, 'Failed to update post comment reaction', {
+          location: 'CommentReactions.updatePostCommentReaction',
+          commentId: comment.id,
+        }),
     }
   )
 

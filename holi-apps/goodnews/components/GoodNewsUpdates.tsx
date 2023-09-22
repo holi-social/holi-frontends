@@ -26,13 +26,13 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, error, loading } = useQuery<GoodNewsArticlesQueryResponse>(GoodNewsArticlesQuery, {
+  const { data, loading } = useQuery<GoodNewsArticlesQueryResponse>(GoodNewsArticlesQuery, {
     fetchPolicy: 'cache-and-network',
+    onError: (error) =>
+      logError(error, 'Failed to load good news articles', {
+        location: 'GoodNewsUpdates.GoodNewsArticlesQuery',
+      }),
   })
-
-  if (error) {
-    logError(error, t('goodnews:goodnewsListing.error'))
-  }
 
   const { articles = [] } = data?.appGoodNews_articles || {}
 

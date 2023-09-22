@@ -39,7 +39,10 @@ export const useRegisterUserNames = () => {
   const [registerUserNames] = useMutation<RegisterUserNamesResponse, RegisterUserNamesInput>(
     registerUserNamesMutation,
     {
-      onError: (error) => displayError(error),
+      onError: (error) =>
+        displayError(error, 'Failed to register user names', {
+          location: 'useRegisterUserNames',
+        }),
     }
   )
 

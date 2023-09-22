@@ -1,5 +1,5 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
@@ -57,6 +57,14 @@ const HoliSelect = ({
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
   const [textInputHeight, setTextInputHeight] = useState(0)
+  const isScrolling = useRef(false)
+
+  const setIsScrolling = useCallback(
+    (newIsScrolling: boolean) => () => {
+      isScrolling.current = newIsScrolling
+    },
+    []
+  )
 
   const styles = useMemo(() => getStyles(textInputHeight), [textInputHeight])
 
@@ -74,13 +82,18 @@ const HoliSelect = ({
   )
 
   const clearFocus = useCallback(
-    (focusToClear) => {
+    (focusToClear: string) => {
       // without the timeout the dropdown closes upon selecting an item
       // we should first wait if another element is focused in the meantime
       const timer = setTimeout(() => {
         setFocusedItem((currentlyFocusedItem) => {
           // always close when clicking on the toggle button on mobile
           if (Platform.OS !== 'web' && focusToClear === 'toggle') return null
+          // On iOS the input field's focus gets lost during scrolling, if a
+          // previous scroll interaction did not run out of momentum yet.
+          // We can not prevent the input from losing focus, but we ignore
+          // changing the `focusedItem` so the dropdown stays open.
+          if (Platform.OS === 'ios' && isScrolling.current) return currentlyFocusedItem
           return currentlyFocusedItem === focusToClear ? null : currentlyFocusedItem
         })
       }, 0)
@@ -267,6 +280,8 @@ const HoliSelect = ({
           persistentScrollbar={true}
           accessibilityLabel={t('multiselect.options')}
           accessibilityState={{ expanded: true }}
+          onMomentumScrollBegin={setIsScrolling(true)}
+          onMomentumScrollEnd={setIsScrolling(false)}
         />
       )}
     </View>

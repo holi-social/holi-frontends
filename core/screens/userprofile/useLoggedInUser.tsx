@@ -22,7 +22,9 @@ export const useLoggedInUser = () => {
     onError: (error) => {
       if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
         logout({ redirectPath: '/' })
-        displayError(error)
+        displayError(error, 'Failed to load authenticated user', {
+          location: 'useLoggedInUser.authenticatedUserQuery',
+        })
       }
     },
     // we avoid getting previous user from GraphQL cache by passing `userId`

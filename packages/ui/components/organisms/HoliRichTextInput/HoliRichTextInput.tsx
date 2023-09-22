@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps, Suggestion } from 'react-native-controlled-mentions'
 
 import { useSafeDispatch } from '@holi/core/helpers'
-import { usePortals } from '@holi/core/provider/PortalProvider'
+import { usePortals } from '@holi/core/providers/PortalProvider'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'

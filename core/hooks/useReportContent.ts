@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client'
 import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
-import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ContentType, ReportContentMutation } from '@holi/core/queries'
@@ -16,7 +15,6 @@ export interface UseReportContentProps {
 }
 
 const useReportContent = ({ id, contentType, successMsg }: UseReportContentProps): UseReportContent => {
-  const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
@@ -29,7 +27,11 @@ const useReportContent = ({ id, contentType, successMsg }: UseReportContentProps
       openToast(successMsg, HoliToastType.SUCCESS)
     },
     onError: (e) => {
-      displayError(e, t('global.technicalError'), 3000)
+      displayError(e, 'Failed to report content', {
+        location: 'useReportContent',
+        id,
+        contentType,
+      })
     },
   })
 

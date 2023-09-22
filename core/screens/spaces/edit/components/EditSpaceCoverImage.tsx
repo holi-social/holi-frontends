@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
@@ -17,6 +18,7 @@ type EditSpaceCoverImageProps = {
 const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
   const [coverImage, setCoverImage] = useState<HoliImageInfo | undefined>()
   const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
 
   const handleImageUpload = (image: HoliImageInfo | undefined) => {
     setCoverImage(image)
@@ -27,7 +29,11 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
     },
-    onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
+    onError: (error) =>
+      displayError(error, 'Failed to update space', {
+        location: 'EditSpaceCoverImage.updateSpace',
+        spaceId: space.id,
+      }),
   })
 
   const { t } = useTranslation()

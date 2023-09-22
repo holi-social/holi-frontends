@@ -30,11 +30,9 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
 
   const { loading, error, data } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
     variables: { limit },
+    onError: (error) =>
+      logError(error, 'Failed to load user suggestions', { location: 'UserSuggestions.userSuggestionsQuery' }),
   })
-
-  if (error) {
-    logError(error, `[UserSuggestions.tsx] ${error.message}`)
-  }
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !data?.userSuggestions?.data?.length) {

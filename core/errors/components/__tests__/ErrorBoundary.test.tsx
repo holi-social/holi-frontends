@@ -37,7 +37,7 @@ const ErrorOnFirstRenderComponent = () => {
   )
 }
 
-describe('renders correctly', () => {
+describe('ErrorBoundary', () => {
   it('renders child components without error', () => {
     const { queryByText } = render(
       <ErrorBoundary>
@@ -70,9 +70,9 @@ describe('renders correctly', () => {
     )
 
     expect(mockConsoleWarn).toHaveBeenCalledWith(
-      '[logError.ts] [ErrorBoundary.tsx]:',
+      '[ErrorBoundary.componentDidCatch] Failed to render component',
       new HoliError('Test'),
-      expect.any(String)
+      { componentStack: expect.any(String) }
     )
     expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
   })
@@ -87,9 +87,9 @@ describe('renders correctly', () => {
     )
 
     expect(mockConsoleError).toHaveBeenCalledWith(
-      '[logError.ts] [ErrorBoundary.tsx]:',
+      '[ErrorBoundary.componentDidCatch] Failed to render component',
       new HoliError('Test'),
-      expect.any(String)
+      { componentStack: expect.any(String) }
     )
     expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
   })

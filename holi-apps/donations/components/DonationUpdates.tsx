@@ -26,18 +26,18 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
+  const { data, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       limit: PROJECT_PAGE_SIZE,
       offset: 0,
       location: locationQuery,
     },
     fetchPolicy: 'cache-and-network',
+    onError: (error) =>
+      logError(error, 'Failed to load donation projects', {
+        location: 'DonationUpdates.projectsQuery',
+      }),
   })
-
-  if (error) {
-    logError(error, t('donations:donationListing.error'))
-  }
 
   const { data: projects = [] } = data?.appDonations_projects || {}
 

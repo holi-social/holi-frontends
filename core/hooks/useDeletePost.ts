@@ -17,12 +17,16 @@ const useDeletePost = (post: Post, spaceIdOrName?: string, handleConfirm?: () =>
   const [deletePost, { loading: isLoadingPostDeletion }] = useMutation<null>(deleteSpacePostMutation, {
     variables: { id: post.id },
     onCompleted: () => {
-      openToast(t('insights.post.delete.success'), HoliToastType.SUCCESS, 3000)
+      openToast(t('insights.post.delete.success'), HoliToastType.SUCCESS)
       handleConfirm?.()
     },
     onError: (error: ApolloError) => {
       handleConfirm?.()
-      displayError(error, t('global.technicalError'), 5000)
+      displayError(error, 'Failed to delete post', {
+        location: 'useDeletePost',
+        postId: post.id,
+        spaceIdOrName,
+      })
     },
     // refetch first page of both the current visibility filter and the ALL filter
     refetchQueries: spaceIdOrName

@@ -6,9 +6,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
-import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
-import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -127,9 +127,13 @@ const VolunteeringAppHome = () => {
 
   useEffect(() => {
     if (geolocationError) {
-      displayError(geolocationError, t('volunteering:listing.error'))
+      displayError(geolocationError, 'Failed to load geolocation details', {
+        displayMessage: t('volunteering:listing.error'),
+        location: 'VolunteeringAppHome.useEffect',
+        locationId: location,
+      })
     }
-  }, [displayError, geolocationError, t])
+  }, [displayError, geolocationError, location, t])
 
   if (geolocationError) {
     return <></>

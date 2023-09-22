@@ -3,23 +3,13 @@
 # template file, copy it to '.envrc.local' and adjust for your personal configuration
 # the '.envrc.local' file is to be included by .envrc and can contain personal secrets or configuration so it is NOT TO BE CHECKED IN
 
-if type -t nodenv >/dev/null 2>&1; then
-    # installing correct node version using nodenv
-    nodenv install -s "$(cat .node-version)"
-else
-    # alternative using nvm
-    # shellcheck source=/dev/null
-    . ~/.nvm/nvm.sh
-    nvm install "$(cat .node-version)"
-fi
-
 # you can set you default DEV_ENV here, if you don't want to use staging by default
 # this is used by direnv, when entering the frontend directory in a shell
 export MY_DEFAULT_DEV_ENV=
 
 # valid (prepared) values: 'staging' | 'local' | 'production'
 # will result in loading `.env.${DEV_ENV}`
-export DEV_ENV=${DEV_ENV:-${MY_DEFAULT_DEV_ENV:-staging}}
+export DEV_ENV="${DEV_ENV:-${MY_DEFAULT_DEV_ENV:-staging}}"
 
 if [ ! -f ".env.${DEV_ENV}" ]; then
   echo
@@ -40,10 +30,11 @@ export E2E_USER_ID=
 export BROWSERSTACK_USERNAME=
 export BROWSERSTACK_ACCESS_KEY=
 export E2E_ANDROID_VIRTUAL_DEVICE_NAME="e2e_avd"
-case "$OSTYPE" in
-    darwin*) export ANDROID_HOME="$HOME/Library/Android/sdk" ;;
-    *) export ANDROID_HOME="$HOME/Android/Sdk" ;;
-esac
+if [ "$(uname)" = "Darwin" ]; then
+  export ANDROID_HOME="$HOME/Library/Android/sdk"
+else
+  export ANDROID_HOME="$HOME/Android/Sdk"
+fi
 export SENTRY_AUTH_TOKEN=
 export EXPO_PROJECT_ID=
 export ORY_ADMIN_ACCESS_TOKEN=

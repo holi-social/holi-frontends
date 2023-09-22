@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
+import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
@@ -94,7 +94,10 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
   useEffect(() => {
     if (error) {
-      displayError(error, t('spaces.spaceListing.error'))
+      displayError(error, 'Failed to discover spaces', {
+        displayMessage: t('spaces.spaceListing.error'),
+        location: 'SpacesGroupSlider.discoverSpacesQuery',
+      })
     }
   }, [error, displayError, t])
 

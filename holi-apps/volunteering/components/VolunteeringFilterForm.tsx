@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -39,15 +39,12 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
     filters.location ? initialLocationSelection : undefined
   )
 
-  const {
-    data: categoriesData,
-    loading,
-    error,
-  } = useQuery<VolunteeringCategoriesQueryResult>(VolunteeringCategoriesQuery)
-
-  if (error) {
-    logError(error, `[VolunteeringFilterForm.tsx] ${error.message}`)
-  }
+  const { data: categoriesData, loading } = useQuery<VolunteeringCategoriesQueryResult>(VolunteeringCategoriesQuery, {
+    onError: (error) =>
+      logError(error, 'Failed to load volunteering categories', {
+        location: 'VolunteeringFilterForm.VolunteeringCategoriesQuery',
+      }),
+  })
 
   const categories = categoriesData?.appVolunteering_categories.data || []
 

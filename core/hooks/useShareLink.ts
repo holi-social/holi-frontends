@@ -63,7 +63,9 @@ export const useShareLink = ({ link, message, linkType = LinkType.DEEP }: UseSha
         // dismissed
       }
     } catch (error) {
-      displayError(error)
+      displayError(error, 'Failed to share link', {
+        location: 'useShareLink.shareLinkMobile',
+      })
     }
   }, [message, displayError])
 

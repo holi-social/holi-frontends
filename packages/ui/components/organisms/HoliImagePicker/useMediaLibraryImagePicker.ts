@@ -9,8 +9,7 @@ import {
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { useErrorHandling } from '@holi/core/errors/hooks'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { useFileSizeValidation } from '@holi/ui/components/organisms/HoliImagePicker/useFileSizeValidation'
 
 export type HoliImagePickerOptions = ImagePickerOptions & { maxFileSizeInMB?: number }
@@ -19,7 +18,7 @@ export const useMediaLibraryImagePicker = () => {
   const [images, setImages] = useState<ImagePickerAsset[]>([])
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
   const isFileSizeValid = useFileSizeValidation()
-  const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
   const { t } = useTranslation()
 
   const verifyPermissions = useCallback(async () => {
@@ -31,13 +30,12 @@ export const useMediaLibraryImagePicker = () => {
     }
 
     if (mediaLibraryPermissionInfo.status === PermissionStatus.DENIED) {
-      const errorText = t('global.permissions.mediaLibrary.denied')
-      displayError(new HoliError(errorText), errorText)
+      openToast(t('global.permissions.mediaLibrary.denied'), HoliToastType.ERROR)
       return false
     }
 
     return true
-  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, displayError, t])
+  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, openToast, t])
 
   const pickImages = useCallback(
     async ({ maxFileSizeInMB, ...pickerOptions }: HoliImagePickerOptions) => {

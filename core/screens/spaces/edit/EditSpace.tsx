@@ -110,6 +110,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', { location: 'EditSpace.spaceByIdQuery', spaceIdOrName }),
   })
 
   const space = data?.spaceById
@@ -151,10 +153,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       },
     })
   }, [hide, setScreenOptions, show, t, visible])
-
-  if (error) {
-    logError(error, `[EditSpace.tsx] ${error.message}`)
-  }
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !space || !isAdmin) {
