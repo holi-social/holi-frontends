@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
@@ -17,12 +17,16 @@ const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewS
   return !!value && 'uri' in value
 }
 
-const addHeadersIfSourceUri = (value: WebViewSource | undefined): WebViewSource | undefined => {
-  if (!isWebViewSourceUri(value)) {
+const addHeadersIfSourceUri = (
+  value: WebViewSource | undefined,
+  uri: string | undefined
+): WebViewSource | undefined => {
+  if (!isWebViewSourceUri(value) || !uri) {
     return value
   }
   return {
     ...value,
+    uri,
     headers: {
       ...value.headers,
       [mobileWebviewHeader]: 'true',
@@ -35,6 +39,9 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const navigation = useNavigation()
+  const [currentUri, setCurrentUri] = useState(
+    isWebViewSourceUri(webViewProps?.source) ? webViewProps.source?.uri : undefined
+  )
 
   const errormessage = t('webview.error')
 
@@ -64,17 +71,31 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
     </View>
   )
 
-  const openInExternalBrowser = (event: ShouldStartLoadRequest): boolean => {
-    // type-correct way of checking whether we are not initially loading the page, but reacting on a tap on a link
-    if (navigateToExternalBrowser && isWebViewSourceUri(webViewProps.source) && event.url !== webViewProps.source.uri) {
-      // open in external browser
-      Linking.openURL(event.url)
-      // don't follow the link in webview itself
-      return false
-    } else {
-      return true
-    }
-  }
+  const onShouldStartLoadWithRequest = useCallback(
+    (request: ShouldStartLoadRequest): boolean => {
+      // type-correct way of checking whether we are not initially loading the page, but reacting on a tap on a link
+      if (
+        navigateToExternalBrowser &&
+        isWebViewSourceUri(webViewProps.source) &&
+        request.url !== webViewProps.source.uri
+      ) {
+        // open in external browser
+        Linking.openURL(request.url)
+        // don't follow the link in webview itself
+        return false
+      } else {
+        // Force rerender to pass custom header, see
+        // https://github.com/react-native-webview/react-native-webview/blob/master/docs/Guide.md#working-with-custom-headers-sessions-and-cookies
+        if (request.url === currentUri) {
+          return true
+        }
+        setCurrentUri(request.url)
+        // FIXME: Open issue for ios: onShouldStartLoadWithRequest not called after redirect, see https://github.com/react-native-webview/react-native-webview/issues/3153
+        return Platform.OS !== 'android'
+      }
+    },
+    [currentUri, navigateToExternalBrowser, webViewProps.source]
+  )
 
   return (
     <WebView
@@ -86,9 +107,9 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
       startInLoadingState={true}
       renderLoading={() => <HoliLoader style={styles.loaderContainer} />}
       renderError={renderError}
-      onShouldStartLoadWithRequest={openInExternalBrowser}
+      onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
       {...webViewProps}
-      source={addHeadersIfSourceUri(webViewProps.source)}
+      source={addHeadersIfSourceUri(webViewProps.source, currentUri)}
     />
   )
 }
