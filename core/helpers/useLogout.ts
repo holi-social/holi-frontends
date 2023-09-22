@@ -7,7 +7,6 @@ import { stopChat } from '@holi/chat/src/client/chatSession'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logDebug } from '@holi/core/helpers/logging'
-import { ensureOAuth2Logout } from '@holi/core/helpers/oauth2'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -49,7 +48,6 @@ export const useLogout = () => {
             }
           })
           .then(() => client.clearStore())
-          .then(() => ensureOAuth2Logout())
           .then(() => setUserLoggedOut())
           .then(() => {
             logDebug('useLogout', 'logout successful')

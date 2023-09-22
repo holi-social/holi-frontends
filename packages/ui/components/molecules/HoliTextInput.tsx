@@ -213,7 +213,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               props?.disabled && styles.inputWrapperDisabled,
               hasValidationErrors && styles.inputWrapperHasValidationErrors,
             ]}
-            testID={isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
+            testID={isIOS ? `${props?.testID || 'holi-text'}-input` : 'holi-text-input-wrapper'}
           >
             <TextInput
               value={value}
@@ -244,7 +244,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               autoCorrect={false}
               {...accessibilityProps}
               {...props?.inputProps}
-              testID={!isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
+              testID={!isIOS ? `${props.testID || 'holi-text'}-input` : 'input'}
               ref={textAreaRef}
             />
             {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (

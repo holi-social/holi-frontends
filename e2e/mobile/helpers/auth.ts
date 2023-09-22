@@ -22,7 +22,7 @@ type DefaultAuthStepsProps = {
 export const defaultPassword = 'TheSamePassword4A11E2eUsers'
 
 export const registerNewUser = async (): Promise<string> => {
-  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+  const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
   await defaultAuthSteps({ email, password: defaultPassword }, 'registration')
   return email
 }
@@ -70,8 +70,8 @@ export const defaultAuthSteps = async (
 }
 
 export const finishAccountSetup = async ({
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
+  firstName = faker.person.firstName(),
+  lastName = faker.person.lastName(),
 }: {
   firstName?: string
   lastName?: string

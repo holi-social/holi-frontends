@@ -27,7 +27,6 @@ import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -56,11 +55,10 @@ const UserProfile = () => {
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
-  const { userId: authenticatedUserId } = useAuth()
-  const { isLoggedIn } = useLoggedInUser()
+  const { userId: authenticatedUserId, isLoggedIn } = useAuth()
   const [userId = ''] = useParam('userId')
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isLoggedIn && userId === authenticatedUserId) {
       replaceRoute('/profile')
     }

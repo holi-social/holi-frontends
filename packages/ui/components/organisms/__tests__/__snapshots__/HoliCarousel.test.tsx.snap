@@ -88,32 +88,30 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <ViewManagerAdapter_ExpoImage
+              accessibilityLabel="Dima Rosmait"
               accessibilityRole="image"
+              accessible={true}
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
               height="100%"
               onError={[Function]}
               onLoad={[Function]}
               onLoadStart={[Function]}
               onProgress={[Function]}
-              proxiedProperties={
-                {
-                  "accessibilityLabel": "Dima Rosmait",
-                  "accessible": true,
-                  "contentFit": "cover",
-                  "contentPosition": {
-                    "left": "50%",
-                    "top": "50%",
+              placeholder={[]}
+              source={
+                [
+                  {
+                    "height": 128,
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+                    "width": 128,
                   },
-                  "placeholder": [],
-                  "source": [
-                    {
-                      "height": 128,
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-                      "width": 128,
-                    },
-                  ],
-                  "tintColor": undefined,
-                  "transition": null,
-                }
+                ]
               }
               style={
                 {
@@ -121,6 +119,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "width": "100%",
                 }
               }
+              transition={null}
               width="100%"
             />
           </View>
@@ -344,32 +343,30 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <ViewManagerAdapter_ExpoImage
+              accessibilityLabel="Thomas Mueller"
               accessibilityRole="image"
+              accessible={true}
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
               height="100%"
               onError={[Function]}
               onLoad={[Function]}
               onLoadStart={[Function]}
               onProgress={[Function]}
-              proxiedProperties={
-                {
-                  "accessibilityLabel": "Thomas Mueller",
-                  "accessible": true,
-                  "contentFit": "cover",
-                  "contentPosition": {
-                    "left": "50%",
-                    "top": "50%",
+              placeholder={[]}
+              source={
+                [
+                  {
+                    "height": 128,
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+                    "width": 128,
                   },
-                  "placeholder": [],
-                  "source": [
-                    {
-                      "height": 128,
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-                      "width": 128,
-                    },
-                  ],
-                  "tintColor": undefined,
-                  "transition": null,
-                }
+                ]
               }
               style={
                 {
@@ -377,6 +374,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "width": "100%",
                 }
               }
+              transition={null}
               width="100%"
             />
           </View>
@@ -600,32 +598,30 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <ViewManagerAdapter_ExpoImage
+              accessibilityLabel="Peter Pan"
               accessibilityRole="image"
+              accessible={true}
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
               height="100%"
               onError={[Function]}
               onLoad={[Function]}
               onLoadStart={[Function]}
               onProgress={[Function]}
-              proxiedProperties={
-                {
-                  "accessibilityLabel": "Peter Pan",
-                  "accessible": true,
-                  "contentFit": "cover",
-                  "contentPosition": {
-                    "left": "50%",
-                    "top": "50%",
+              placeholder={[]}
+              source={
+                [
+                  {
+                    "height": 128,
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+                    "width": 128,
                   },
-                  "placeholder": [],
-                  "source": [
-                    {
-                      "height": 128,
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-                      "width": 128,
-                    },
-                  ],
-                  "tintColor": undefined,
-                  "transition": null,
-                }
+                ]
               }
               style={
                 {
@@ -633,6 +629,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "width": "100%",
                 }
               }
+              transition={null}
               width="100%"
             />
           </View>
@@ -858,32 +855,30 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <ViewManagerAdapter_ExpoImage
+              accessibilityLabel="Lionel Messi"
               accessibilityRole="image"
+              accessible={true}
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
               height="100%"
               onError={[Function]}
               onLoad={[Function]}
               onLoadStart={[Function]}
               onProgress={[Function]}
-              proxiedProperties={
-                {
-                  "accessibilityLabel": "Lionel Messi",
-                  "accessible": true,
-                  "contentFit": "cover",
-                  "contentPosition": {
-                    "left": "50%",
-                    "top": "50%",
+              placeholder={[]}
+              source={
+                [
+                  {
+                    "height": 128,
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+                    "width": 128,
                   },
-                  "placeholder": [],
-                  "source": [
-                    {
-                      "height": 128,
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-                      "width": 128,
-                    },
-                  ],
-                  "tintColor": undefined,
-                  "transition": null,
-                }
+                ]
               }
               style={
                 {
@@ -891,6 +886,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "width": "100%",
                 }
               }
+              transition={null}
               width="100%"
             />
           </View>

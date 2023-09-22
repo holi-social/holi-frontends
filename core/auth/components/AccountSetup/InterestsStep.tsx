@@ -23,7 +23,7 @@ const InterestsStep = (props: UseUserChipsReturn) => {
   return (
     <View>
       <HoliBox padding={[0, 0, 16, 0]}>
-        <HoliHeading level="1" size="large" testID="headline">
+        <HoliHeading level="1" size="large" testID="account-setup-interests-step-headline">
           {t('user.interests.form.headline')}
         </HoliHeading>
       </HoliBox>

@@ -130,7 +130,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               },
             ]
           }
-          testID=""
+          testID="input"
           value=""
         />
         <View
@@ -173,7 +173,14 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 width={22}
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <RNSVGGroup>
+                <RNSVGGroup
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
                   <RNSVGPath
                     d="M0 0h24v24H0z"
                     fill={null}
@@ -351,7 +358,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               },
             ]
           }
-          testID=""
+          testID="input"
           value=""
         />
         <View

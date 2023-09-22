@@ -52,10 +52,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           style={
             {
               "color": "#6267e7",
-              "fontFamily": null,
+              "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
             }
           }
           testID="test-label"
@@ -90,7 +90,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="test-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -100,7 +100,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -118,7 +118,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -132,7 +132,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               },
             ]
           }
-          testID="test-input"
+          testID="input"
           value=""
         />
         <View
@@ -178,8 +178,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -237,7 +235,14 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                     width={22}
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <RNSVGGroup>
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
                       <RNSVGPath
                         d="M0 0h24v24H0z"
                         fill={null}
@@ -404,7 +409,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -428,8 +433,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -472,10 +475,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -511,7 +514,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={true}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -535,8 +538,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -579,10 +580,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -677,7 +678,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={true}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -701,8 +702,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -745,10 +744,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -843,7 +842,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -867,8 +866,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -911,10 +908,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -950,7 +947,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -974,8 +971,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1018,10 +1013,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -1057,7 +1052,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -1081,8 +1076,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1125,10 +1118,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -1164,7 +1157,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -1188,8 +1181,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1232,10 +1223,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -1271,7 +1262,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -1295,8 +1286,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1339,10 +1328,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -1427,10 +1416,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           style={
             {
               "color": "#6267e7",
-              "fontFamily": null,
+              "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
             }
           }
           testID="test-label"
@@ -1465,7 +1454,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="test-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -1475,7 +1464,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -1493,7 +1482,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1507,7 +1496,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               },
             ]
           }
-          testID="test-input"
+          testID="input"
           value=""
         />
         <View
@@ -1553,8 +1542,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -1612,7 +1599,14 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                     width={22}
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <RNSVGGroup>
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
                       <RNSVGPath
                         d="M0 0h24v24H0z"
                         fill={null}
@@ -1779,7 +1773,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -1803,8 +1797,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1847,10 +1839,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -1886,7 +1878,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={true}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -1910,8 +1902,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1954,10 +1944,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -2052,7 +2042,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -2076,8 +2066,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2120,10 +2108,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -2159,7 +2147,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -2183,8 +2171,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2227,10 +2213,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -2266,7 +2252,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -2290,8 +2276,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2334,10 +2318,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -2373,7 +2357,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -2397,8 +2381,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2441,10 +2423,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -2480,7 +2462,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -2504,8 +2486,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2548,10 +2528,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -2587,7 +2567,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -2611,8 +2591,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2655,10 +2633,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -2743,10 +2721,10 @@ exports[`MultiSelect renders correctly when closed 1`] = `
           style={
             {
               "color": "#262424",
-              "fontFamily": null,
+              "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
             }
           }
         >
@@ -2776,7 +2754,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="holi-text-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -2785,7 +2763,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -2802,7 +2780,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2816,7 +2794,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               },
             ]
           }
-          testID="holi-text-input"
+          testID="input"
           value=""
         />
         <View
@@ -2862,8 +2840,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -3014,10 +2990,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           style={
             {
               "color": "#6267e7",
-              "fontFamily": null,
+              "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
             }
           }
           testID="test-label"
@@ -3052,7 +3028,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="test-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -3062,7 +3038,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -3079,7 +3055,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3093,7 +3069,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-input"
+          testID="input"
           value=""
         />
         <View
@@ -3139,8 +3115,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -3198,7 +3172,14 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                     width={22}
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <RNSVGGroup>
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
                       <RNSVGPath
                         d="M0 0h24v24H0z"
                         fill={null}
@@ -3365,7 +3346,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -3389,8 +3370,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3433,10 +3412,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -3472,7 +3451,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -3496,8 +3475,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3540,10 +3517,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -3579,7 +3556,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -3603,8 +3580,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3647,10 +3622,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -3686,7 +3661,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -3710,8 +3685,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3754,10 +3727,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -3793,7 +3766,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -3817,8 +3790,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3861,10 +3832,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -3900,7 +3871,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -3924,8 +3895,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3968,10 +3937,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -4007,7 +3976,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -4031,8 +4000,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -4075,10 +4042,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -4114,7 +4081,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -4138,8 +4105,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -4182,10 +4147,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -4278,7 +4243,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="test-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -4288,7 +4253,7 @@ exports[`SingleSelect correctly filters options 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -4305,7 +4270,7 @@ exports[`SingleSelect correctly filters options 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4319,8 +4284,14 @@ exports[`SingleSelect correctly filters options 1`] = `
               },
             ]
           }
-          testID="test-input"
-          value="di"
+          testID="input"
+          value={
+            {
+              "nativeEvent": {
+                "text": "di",
+              },
+            }
+          }
         />
         <View
           style={
@@ -4365,8 +4336,6 @@ exports[`SingleSelect correctly filters options 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -4437,6 +4406,12 @@ exports[`SingleSelect correctly filters options 1`] = `
                     >
                       <RNSVGGroup
                         clipPath="close_svg__a"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
                       >
                         <RNSVGPath
                           d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95Z"
@@ -4454,6 +4429,12 @@ exports[`SingleSelect correctly filters options 1`] = `
                       </RNSVGGroup>
                       <RNSVGDefs>
                         <RNSVGClipPath
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                           name="close_svg__a"
                         >
                           <RNSVGPath
@@ -4503,8 +4484,6 @@ exports[`SingleSelect correctly filters options 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -4562,7 +4541,14 @@ exports[`SingleSelect correctly filters options 1`] = `
                     width={22}
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <RNSVGGroup>
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
                       <RNSVGPath
                         d="M0 0h24v24H0z"
                         fill={null}
@@ -4631,6 +4617,36 @@ exports[`SingleSelect correctly filters options 1`] = `
     data={
       [
         {
+          "id": "1",
+          "selected": false,
+          "title": "Animal Welfare",
+        },
+        {
+          "id": "2",
+          "selected": false,
+          "title": "Children & Youth",
+        },
+        {
+          "id": "3",
+          "selected": false,
+          "title": "Climate Protection",
+        },
+        {
+          "id": "4",
+          "selected": false,
+          "title": "Corona",
+        },
+        {
+          "id": "5",
+          "selected": false,
+          "title": "Culture & History",
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "title": "Development Cooperation",
+        },
+        {
           "id": "7",
           "selected": false,
           "title": "Digitalization",
@@ -4698,8 +4714,8 @@ exports[`SingleSelect correctly filters options 1`] = `
       >
         <View
           accessibilityChecked={false}
-          accessibilityLabel="Digitalization"
-          accessibilityRole="button"
+          accessibilityLabel="Animal Welfare"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -4723,8 +4739,6 @@ exports[`SingleSelect correctly filters options 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -4767,10 +4781,628 @@ exports[`SingleSelect correctly filters options 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
+                }
+              }
+            >
+              Animal Welfare
+            </Text>
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "height": 24,
+                    "justifyContent": "center",
+                    "width": 24,
+                  },
+                  false,
+                  false,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityChecked={false}
+          accessibilityLabel="Children & Youth"
+          accessibilityRole="menuitem"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": false,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "auto",
+                },
+              ],
+              {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+          testID="test-item"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={2}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                }
+              }
+            >
+              Children & Youth
+            </Text>
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "height": 24,
+                    "justifyContent": "center",
+                    "width": 24,
+                  },
+                  false,
+                  false,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityChecked={false}
+          accessibilityLabel="Climate Protection"
+          accessibilityRole="menuitem"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": false,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "auto",
+                },
+              ],
+              {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+          testID="test-item"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={2}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                }
+              }
+            >
+              Climate Protection
+            </Text>
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "height": 24,
+                    "justifyContent": "center",
+                    "width": 24,
+                  },
+                  false,
+                  false,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityChecked={false}
+          accessibilityLabel="Corona"
+          accessibilityRole="menuitem"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": false,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "auto",
+                },
+              ],
+              {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+          testID="test-item"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={2}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                }
+              }
+            >
+              Corona
+            </Text>
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "height": 24,
+                    "justifyContent": "center",
+                    "width": 24,
+                  },
+                  false,
+                  false,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityChecked={false}
+          accessibilityLabel="Culture & History"
+          accessibilityRole="menuitem"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": false,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "auto",
+                },
+              ],
+              {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+          testID="test-item"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={2}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                }
+              }
+            >
+              Culture & History
+            </Text>
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "height": 24,
+                    "justifyContent": "center",
+                    "width": 24,
+                  },
+                  false,
+                  false,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityChecked={false}
+          accessibilityLabel="Development Cooperation"
+          accessibilityRole="menuitem"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": false,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "auto",
+                },
+              ],
+              {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+          testID="test-item"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={2}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                }
+              }
+            >
+              Development Cooperation
+            </Text>
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "height": 24,
+                    "justifyContent": "center",
+                    "width": 24,
+                  },
+                  false,
+                  false,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityChecked={false}
+          accessibilityLabel="Digitalization"
+          accessibilityRole="menuitem"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": false,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "auto",
+                },
+              ],
+              {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+          testID="test-item"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={2}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -4804,7 +5436,7 @@ exports[`SingleSelect correctly filters options 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -4828,8 +5460,6 @@ exports[`SingleSelect correctly filters options 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -4872,10 +5502,10 @@ exports[`SingleSelect correctly filters options 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -4962,7 +5592,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="test-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -4971,7 +5601,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -4989,7 +5619,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5003,7 +5633,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               },
             ]
           }
-          testID="test-input"
+          testID="input"
           value=""
         />
         <View
@@ -5049,8 +5679,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -5206,7 +5834,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="holi-text-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -5215,7 +5843,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -5232,7 +5860,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5246,7 +5874,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               },
             ]
           }
-          testID="holi-text-input"
+          testID="input"
           value=""
         />
         <View
@@ -5292,8 +5920,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -5452,7 +6078,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             false,
           ]
         }
-        testID=""
+        testID="test-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -5462,7 +6088,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={false}
+          blurOnSubmit={true}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -5479,7 +6105,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": null,
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5493,7 +6119,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-input"
+          testID="input"
           value=""
         />
         <View
@@ -5539,8 +6165,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -5598,7 +6222,14 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                     width={22}
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <RNSVGGroup>
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
                       <RNSVGPath
                         d="M0 0h24v24H0z"
                         fill={null}
@@ -5765,7 +6396,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -5789,8 +6420,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -5833,10 +6462,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -5870,7 +6499,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -5894,8 +6523,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -5938,10 +6565,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -5975,7 +6602,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -5999,8 +6626,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6043,10 +6668,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -6080,7 +6705,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -6104,8 +6729,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6148,10 +6771,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -6185,7 +6808,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -6209,8 +6832,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6253,10 +6874,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -6290,7 +6911,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -6314,8 +6935,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6358,10 +6977,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -6395,7 +7014,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -6419,8 +7038,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6463,10 +7080,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -6500,7 +7117,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="button"
+          accessibilityRole="menuitem"
           accessibilityState={
             {
               "busy": undefined,
@@ -6524,8 +7141,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6568,10 +7183,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": null,
+                  "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >

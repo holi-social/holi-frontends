@@ -39,7 +39,7 @@ declare module 'react-native' {
 
   interface ViewProps extends ViewProps {
     accessibilityRole?: string
-    accessibilityLabelledBy?: string
+    accessibilityLabelledBy?: string | string[]
     accessibilityOrientation?: 'horizontal' | 'vertical'
     dataSet?: { [key: string]: string | number | boolean }
   }

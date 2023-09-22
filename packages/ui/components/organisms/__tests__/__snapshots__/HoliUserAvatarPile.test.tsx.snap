@@ -43,32 +43,30 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <ViewManagerAdapter_ExpoImage
+      accessibilityLabel="Dima Rosmait"
       accessibilityRole="image"
+      accessible={true}
+      contentFit="cover"
+      contentPosition={
+        {
+          "left": "50%",
+          "top": "50%",
+        }
+      }
       height="100%"
       onError={[Function]}
       onLoad={[Function]}
       onLoadStart={[Function]}
       onProgress={[Function]}
-      proxiedProperties={
-        {
-          "accessibilityLabel": "Dima Rosmait",
-          "accessible": true,
-          "contentFit": "cover",
-          "contentPosition": {
-            "left": "50%",
-            "top": "50%",
+      placeholder={[]}
+      source={
+        [
+          {
+            "height": 24,
+            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-1",
+            "width": 24,
           },
-          "placeholder": [],
-          "source": [
-            {
-              "height": 24,
-              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-1",
-              "width": 24,
-            },
-          ],
-          "tintColor": undefined,
-          "transition": null,
-        }
+        ]
       }
       style={
         {
@@ -76,6 +74,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "width": "100%",
         }
       }
+      transition={null}
       width="100%"
     />
   </View>
@@ -157,32 +156,30 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <ViewManagerAdapter_ExpoImage
+      accessibilityLabel="Thomas Mueller"
       accessibilityRole="image"
+      accessible={true}
+      contentFit="cover"
+      contentPosition={
+        {
+          "left": "50%",
+          "top": "50%",
+        }
+      }
       height="100%"
       onError={[Function]}
       onLoad={[Function]}
       onLoadStart={[Function]}
       onProgress={[Function]}
-      proxiedProperties={
-        {
-          "accessibilityLabel": "Thomas Mueller",
-          "accessible": true,
-          "contentFit": "cover",
-          "contentPosition": {
-            "left": "50%",
-            "top": "50%",
+      placeholder={[]}
+      source={
+        [
+          {
+            "height": 24,
+            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-2",
+            "width": 24,
           },
-          "placeholder": [],
-          "source": [
-            {
-              "height": 24,
-              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-2",
-              "width": 24,
-            },
-          ],
-          "tintColor": undefined,
-          "transition": null,
-        }
+        ]
       }
       style={
         {
@@ -190,6 +187,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "width": "100%",
         }
       }
+      transition={null}
       width="100%"
     />
   </View>
@@ -271,32 +269,30 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <ViewManagerAdapter_ExpoImage
+      accessibilityLabel="Peter Pan"
       accessibilityRole="image"
+      accessible={true}
+      contentFit="cover"
+      contentPosition={
+        {
+          "left": "50%",
+          "top": "50%",
+        }
+      }
       height="100%"
       onError={[Function]}
       onLoad={[Function]}
       onLoadStart={[Function]}
       onProgress={[Function]}
-      proxiedProperties={
-        {
-          "accessibilityLabel": "Peter Pan",
-          "accessible": true,
-          "contentFit": "cover",
-          "contentPosition": {
-            "left": "50%",
-            "top": "50%",
+      placeholder={[]}
+      source={
+        [
+          {
+            "height": 24,
+            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-3",
+            "width": 24,
           },
-          "placeholder": [],
-          "source": [
-            {
-              "height": 24,
-              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-3",
-              "width": 24,
-            },
-          ],
-          "tintColor": undefined,
-          "transition": null,
-        }
+        ]
       }
       style={
         {
@@ -304,6 +300,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "width": "100%",
         }
       }
+      transition={null}
       width="100%"
     />
   </View>

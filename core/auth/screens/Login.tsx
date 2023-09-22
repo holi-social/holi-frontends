@@ -35,7 +35,7 @@ export type LoginParams = {
 const { useParam } = createParam<LoginParams>()
 
 const Login = () => {
-  const { userId } = useAuth()
+  const { isLoggedOut, isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
@@ -46,8 +46,6 @@ const Login = () => {
   const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
-
-  const isLoggedIn = !!userId
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -82,8 +80,8 @@ const Login = () => {
   }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
-    !isLoggedIn && !flow && initializeFlow()
-  }, [isLoggedIn, initializeFlow, flow])
+    isLoggedOut && !flow && initializeFlow()
+  }, [isLoggedOut, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {
     if (!flow) return
@@ -108,10 +106,7 @@ const Login = () => {
         setVerificationFlowData(payload)
         await storeOnboardingState('emailVerification')
 
-        navigate('/')
-        if (Platform.OS !== 'web') {
-          navigate('/onboarding')
-        }
+        Platform.OS === 'web' ? navigate('/') : navigate('/onboarding')
       } else {
         handleFormSubmitError(
           safeSetFlow,
