@@ -131,11 +131,6 @@ describe('SpaceInviteUserSearch', () => {
 
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
+    expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
   })
 })

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -69,9 +69,13 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   useEffect(() => {
     if (error) {
-      displayError(error, t('donations:donationListing.error'))
+      displayError(error, 'Failed to load donation projects', {
+        displayMessage: t('donations:donationListing.error'),
+        location: 'DonationListing.useEffect',
+        locationQuery,
+      })
     }
-  }, [error, displayError, t])
+  }, [error, displayError, t, locationQuery])
 
   if (loading) {
     return <DonationListingSkeleton isFiltering={isFiltering} amount={6} />
@@ -85,9 +89,18 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
     <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
       {!!projects.length && (
         <HoliBox padding={[24, 0, 16, 0]}>
-          <HoliHeading level="1" testID="donations-list-search-heading">
-            {t('donations:donationListing.heading')}
-          </HoliHeading>
+          {isFiltering && (
+            <HoliHeading testID="donations-list-search-heading">
+              <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
+                <HoliText size="large" bold style={styles.searchQuery} testID="donations-list-search-heading-text" />
+              </Trans>
+            </HoliHeading>
+          )}
+          {!isFiltering && (
+            <HoliHeading level="1" testID="donations-list-search-heading">
+              {t('donations:donationListing.heading')}
+            </HoliHeading>
+          )}
         </HoliBox>
       )}
       {!!projects.length && (
@@ -190,6 +203,9 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 }
 
 const styles = StyleSheet.create({
+  searchQuery: {
+    color: colors.brandColorB30,
+  },
   searchFilter: {
     flexDirection: 'row',
     justifyContent: 'space-between',

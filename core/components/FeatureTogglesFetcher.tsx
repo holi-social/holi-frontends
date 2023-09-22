@@ -7,7 +7,10 @@ import { logError } from '@holi/core/errors/helpers'
 import { FeatureTogglesResponse, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 
 const FeatureTogglesFetcher = () => {
-  const { loading, error, data, refetch } = useQuery<FeatureTogglesResponse>(featureTogglesQuery)
+  const { refetch } = useQuery<FeatureTogglesResponse>(featureTogglesQuery, {
+    onError: (error) =>
+      logError(error, 'Failed to load feature toggles', { location: 'FeatureTogglesFetcher.featureTogglesQuery' }),
+  })
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
@@ -21,13 +24,6 @@ const FeatureTogglesFetcher = () => {
       appStateListener.remove()
     }
   }, [refetch])
-
-  useEffect(() => {
-    if (error) {
-      logError(error, `[FeatureTogglesFetcher.tsx] ${error.message}`)
-      return
-    }
-  }, [loading, data, error])
 
   return null
 }

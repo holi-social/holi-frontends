@@ -59,10 +59,14 @@ const ChangePassword = () => {
         setSessionToken(session.session_token)
         initReauthFlow(session.session_token)
           .then(({ data: reauthFlow }) => safeSetReauthFlow(reauthFlow))
-          .catch((error: Error) => displayError(error, '## Retrieve reauth flow ##'))
+          .catch((error: Error) =>
+            displayError(error, 'Failed to initialize reauth flow', { location: 'ChangePassword.initReauthFlow' })
+          )
         initSettingsFlow(session.session_token)
           .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
-          .catch((error: Error) => displayError(error, '## Retrieve settings flow ##'))
+          .catch((error: Error) =>
+            displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.initSettingsFlow' })
+          )
       }
     }
   }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError])
@@ -88,7 +92,7 @@ const ChangePassword = () => {
         try {
           await submitSettingsFlow(settingsFlow, newPwd, sessionToken)
 
-          openToast(t('auth.changePassword.success'), HoliToastType.SUCCESS, 4000)
+          openToast(t('auth.changePassword.success'), HoliToastType.SUCCESS)
           navigate('/profile')
         } catch (err) {
           handleFormSubmitError(
@@ -97,7 +101,11 @@ const ChangePassword = () => {
               setNewPwdNode(passwordNode)
             },
             initForm,
-            (error) => displayError(error, t('auth.changePassword.error')),
+            (error) =>
+              displayError(error, 'Failed to submit settings flow', {
+                displayMessage: t('auth.changePassword.error'),
+                location: 'ChangePassword.performPasswordChange',
+              }),
             err
           )
         }
@@ -112,7 +120,11 @@ const ChangePassword = () => {
             setOldPwdNode(passwordNode)
           },
           initForm,
-          (error) => displayError(error, t('auth.changePassword.error')),
+          (error) =>
+            displayError(error, 'Failed to submit reauth flow', {
+              displayMessage: t('auth.changePassword.error'),
+              location: 'ChangePassword.performPasswordChange',
+            }),
           err
         )
       }

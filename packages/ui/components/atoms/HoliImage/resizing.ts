@@ -80,7 +80,10 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
     return { ...source, uri: newUri }
     // we've seen imagekit requests with file urls, we should not wrap these
   } else if (uri.startsWith('file://')) {
-    logError(new Error('file uri should not happen'), undefined, { context: { uri } })
+    logError(new Error('File uri should not happen'), 'Failed to resize image', {
+      location: 'resizing.setScalingParams',
+      uri,
+    })
     return source
   } else if (!calculatedWidth && !calculatedHeight) {
     // Due to app crashes, we don't allow fully unbounded images

@@ -12,6 +12,12 @@ const errorDetails = {
   reason: 'No active session was found in this request.',
   message: 'request does not have a valid authentication session',
 }
+const filteredDetails = {
+  id: 'session_inactive',
+  code: 401,
+  status: 'Unauthorized',
+  reason: 'No active session was found in this request.',
+}
 const errorResponse = {
   response: {
     data: {
@@ -36,9 +42,12 @@ describe('handleKratosSdkError', () => {
     expect(() => errorHandler(errorResponse)).toThrow()
 
     expect(console.warn).toHaveBeenCalledWith(
-      '[logError.ts] [kratosSdk.createBrowserLogoutFlow] No active session was found in this request.:',
+      '[handleKratosSdkError] Error from kratosSdk: No active session was found in this request.',
       errorResponse,
-      undefined
+      {
+        ...filteredDetails,
+        method: 'kratosSdk.createBrowserLogoutFlow',
+      }
     )
   })
 
@@ -52,11 +61,9 @@ describe('handleKratosSdkError', () => {
     scopeFunction({ setContext: setContextMock })
 
     expect(setContextMock).toHaveBeenCalledWith('Error Context', {
-      id: 'session_inactive',
-      code: 401,
-      status: 'Unauthorized',
-      reason: 'No active session was found in this request.',
+      ...filteredDetails,
       method: 'kratosSdk.createBrowserLogoutFlow',
+      location: 'handleKratosSdkError',
     })
   })
 
@@ -78,9 +85,9 @@ describe('handleKratosSdkError', () => {
     expect(() => errorHandler(generalError)).toThrow()
 
     expect(console.warn).toHaveBeenCalledWith(
-      '[logError.ts] [kratosSdk.createBrowserLogoutFlow] Internal server error:',
+      '[handleKratosSdkError] Error from kratosSdk: Internal server error',
       generalError,
-      undefined
+      { method: 'kratosSdk.createBrowserLogoutFlow' }
     )
   })
 
@@ -94,6 +101,7 @@ describe('handleKratosSdkError', () => {
     scopeFunction({ setContext: setContextMock })
 
     expect(setContextMock).toHaveBeenCalledWith('Error Context', {
+      location: 'handleKratosSdkError',
       method: 'kratosSdk.createBrowserLogoutFlow',
     })
   })

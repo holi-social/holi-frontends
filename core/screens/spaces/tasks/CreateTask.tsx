@@ -6,7 +6,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
-import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -67,6 +67,8 @@ const CreateTask: React.VFC<ScreenProps> = () => {
     loading: loadingSpace,
   } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', { location: 'CreateTask.spaceByIdQuery', spaceIdOrName }),
   })
 
   const space = data?.spaceById
@@ -76,7 +78,11 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const [createTask, { loading }] = useMutation<CreateTaskResponse>(createTaskMutation, {
     onCompleted: () => navigateBack(),
-    onError: (error) => displayError(error, error.message),
+    onError: (error) =>
+      displayError(error, 'Failed to create task', {
+        location: 'CreateTask.createTask',
+        spaceIdOrName,
+      }),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
@@ -183,10 +189,6 @@ const CreateTask: React.VFC<ScreenProps> = () => {
       setSaveButtonDisabled(false)
     }
   }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
-
-  if (errorSpace) {
-    logError(errorSpace, `[CreateTask.tsx] ${errorSpace.message}`)
-  }
 
   if (!loadingSpace && !isAdmin) {
     navigate(`/spaces/${spaceIdOrName}`)

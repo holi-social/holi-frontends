@@ -37,9 +37,12 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 
   useEffect(() => {
     if (error) {
-      displayError(error)
+      displayError(error, 'Failed to update user connection', {
+        location: 'NotificationConnectionItem.useEffect',
+        notificationType: notification.notificationType,
+      })
     }
-  }, [displayError, error])
+  }, [displayError, error, notification.notificationType])
 
   const getI18Key = () => {
     // this message is for 'CONNECTION_REQUEST' notification before user does any action

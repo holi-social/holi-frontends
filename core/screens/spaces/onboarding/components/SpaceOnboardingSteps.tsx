@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -36,6 +37,7 @@ const SpaceOnboardingSteps = () => {
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
   const { visible: previewVisible, show: showPreview, hide: hidePreview } = useModalState()
   const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
 
   const [fetchSpace, { data, loading: fetchingSpace }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
 
@@ -49,7 +51,8 @@ const SpaceOnboardingSteps = () => {
     if (spaceIdOrName) {
       fetchSpace({
         variables: { idOrName: spaceIdOrName || '' },
-        onError: (error) => logError(error, `[SpaceOnboardingSteps.tsx] ${error.message}`),
+        onError: (error) =>
+          logError(error, 'Failed to load space', { location: 'SpaceOnboardingSteps.fetchSpace', spaceIdOrName }),
       })
     }
   }, [fetchSpace, spaceIdOrName])
@@ -79,7 +82,11 @@ const SpaceOnboardingSteps = () => {
       openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
       navigate(`/spaces/${spaceIdOrName}`)
     },
-    onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
+    onError: (error) =>
+      displayError(error, 'Failed to update space', {
+        location: 'SpaceOnboardingSteps.updateSpace',
+        spaceIdOrName,
+      }),
   })
 
   const handleChange = useCallback(

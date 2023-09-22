@@ -9,18 +9,21 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const TOAST_TIMEOUT = 2000
-
 export enum HoliToastType {
   ERROR = 'ERROR',
   SUCCESS = 'SUCCESS',
+}
+
+export enum HoliToastTimeout {
+  ERROR = 5000,
+  SUCCESS = 3000,
 }
 
 interface Toast {
   id: string
   type: HoliToastType
   text: string
-  timeout?: number
+  timeout?: HoliToastTimeout
   testID?: string
 }
 
@@ -28,10 +31,18 @@ export interface HoliToastProps extends Toast {
   closeToast: () => void
 }
 
+interface ToastOptions {
+  timeout?: HoliToastTimeout
+  testID?: string
+}
+
 export interface ToastContextValue {
-  openToast: (text: string, type?: HoliToastType, timeout?: number, testID?: string) => void
+  openToast: (text: string, type: HoliToastType, options?: ToastOptions) => void
   closeToast: (id: string) => void
 }
+
+const selectTimeoutForType = (type: HoliToastType): HoliToastTimeout =>
+  type === HoliToastType.ERROR ? HoliToastTimeout.ERROR : HoliToastTimeout.SUCCESS
 
 export const ToastContext = createContext<ToastContextValue>({} as ToastContextValue)
 
@@ -42,8 +53,17 @@ export const ToastProvider = ({ children }: React.PropsWithChildren<Partial<Toas
     []
   )
   const openToast = useCallback(
-    (text: string, type = HoliToastType.SUCCESS, timeout = TOAST_TIMEOUT, testID?: string) =>
-      setToasts((currentToasts: Toast[]) => [...currentToasts, { id: createUUID(), text, type, timeout, testID }]),
+    (text: string, type: HoliToastType, { timeout, testID }: ToastOptions = {}) =>
+      setToasts((currentToasts: Toast[]) => [
+        ...currentToasts,
+        {
+          id: createUUID(),
+          text,
+          type,
+          timeout,
+          testID,
+        },
+      ]),
     []
   )
   const contextValue = useMemo(() => ({ openToast, closeToast }), [closeToast, openToast])
@@ -77,15 +97,16 @@ export const ToastProvider = ({ children }: React.PropsWithChildren<Partial<Toas
 
 export const useToast = () => useContext(ToastContext)
 
-export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, timeout = TOAST_TIMEOUT, testID }) => {
+export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, timeout, testID }) => {
   const { width: deviceWidth } = useWindowDimensions()
+  const toastTimeout = timeout || selectTimeoutForType(type)
 
   const styles = useMemo(() => createStyles(deviceWidth, type), [deviceWidth, type])
 
   useEffect(() => {
-    const timer = setTimeout(closeToast, timeout)
+    const timer = setTimeout(closeToast, toastTimeout)
     return () => clearTimeout(timer)
-  }, [closeToast, timeout])
+  }, [closeToast, toastTimeout])
 
   return (
     <HoliButton

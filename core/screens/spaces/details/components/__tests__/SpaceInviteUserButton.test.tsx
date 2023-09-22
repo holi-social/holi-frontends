@@ -117,12 +117,7 @@ describe('SpaceInviteUserButton', () => {
     fireEvent.press(screen.getByTestId('btn-to-invite'))
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
+    expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
   })
 
   it('displays button if the user already requested membership', () => {
@@ -154,11 +149,6 @@ describe('SpaceInviteUserButton', () => {
     fireEvent.press(screen.getByTestId('btn-to-invite'))
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
+    expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
   })
 })

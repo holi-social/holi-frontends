@@ -35,7 +35,10 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
         cache.evict({ id: cache.identify(space) })
       },
       onError: (error) => {
-        displayError(error, t('global.technicalError'))
+        displayError(error, 'Failed to accept space invitation', {
+          location: 'SpaceAcceptInvitation.updateSpaceUserConnection',
+          spaceId: space.id,
+        })
       },
     }
   )

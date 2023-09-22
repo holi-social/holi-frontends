@@ -37,7 +37,10 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
     pageSize: POSTS_RESULT_PAGE_SIZE,
     queryPath: 'spaceById.posts',
     onError: (error) => {
-      displayError(error, t('global.technicalError'))
+      displayError(error, 'Failed to query space posts', {
+        location: 'SpaceUpdatesTab',
+        spaceId: space.id,
+      })
     },
     fetchPolicy: 'cache-first',
   }

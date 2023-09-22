@@ -21,7 +21,7 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
@@ -80,6 +80,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data, refetch } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
+    onError: (error) => logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId }),
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -111,10 +112,6 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     },
     [isWeb]
   )
-
-  if (error) {
-    logError(error, `[Post.tsx] ${error.message}`)
-  }
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error) {

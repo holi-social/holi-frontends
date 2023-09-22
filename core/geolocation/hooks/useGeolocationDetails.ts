@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { useEffect } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
-import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/location/queries'
+import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 
 export const useGeolocationDetails = (geolocationId: string | undefined) => {
   const [fetchPlaceDetails, { data, loading, error }] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
@@ -11,7 +11,11 @@ export const useGeolocationDetails = (geolocationId: string | undefined) => {
     if (geolocationId) {
       fetchPlaceDetails({
         variables: { id: geolocationId },
-        onError: (error) => logError(error, `[useGeolocationDetails.ts] ${error.message}`),
+        onError: (error) =>
+          logError(error, 'Failed to fetch geolocation details', {
+            location: 'useGeolocationDetails.fetchPlaceDetails',
+            geolocationId,
+          }),
       })
     }
   }, [fetchPlaceDetails, geolocationId])

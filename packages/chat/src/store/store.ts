@@ -491,7 +491,7 @@ export const setLatestMessagesAsRead = async (roomId: string): Promise<void> => 
   try {
     await getChatClient().setLatestMessagesAsRead(roomId)
   } catch (err) {
-    logError(err, '[store.ts] could not set last messages as read')
+    logError(err, 'Could not set latest chat messages as read', { location: 'chat.store.setLatestMessagesAsRead' })
   }
 }
 

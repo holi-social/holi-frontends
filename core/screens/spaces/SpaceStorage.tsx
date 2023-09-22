@@ -33,6 +33,9 @@ const SpaceStorage: React.FC = () => {
   const styles = getStyles(deviceHeight)
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      !isNotFoundError(error) &&
+      logError(error, 'Failed to load space', { location: 'SpaceStorage.spaceByIdQuery', spaceIdOrName }),
   })
   const space = data?.spaceById
   const storageUrl = getUrlForSpaceStorage(space)
@@ -64,9 +67,6 @@ const SpaceStorage: React.FC = () => {
         <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
       </DefaultLayout>
     )
-  }
-  if (error) {
-    logError(error, `[SpaceStorage.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component

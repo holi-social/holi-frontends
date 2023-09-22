@@ -70,12 +70,15 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
       category: isFiltering ? filters.category : undefined,
     },
     fetchPolicy: 'cache-and-network',
+    onError: (error) =>
+      logError(error, 'Failed to load volunteering engagements', {
+        location: 'VolunteeringListing.VolunteeringEngagementsQuery',
+      }),
   })
 
   const fetchMoreButtonText = isFetchingMore ? t('global.loading') : t('volunteering:listing.loadMoreButton.text')
 
   if (error) {
-    logError(error, `[VolunteeringListing.tsx] ${error.message}`)
     return <HoliText>{t('volunteering:listing.error')}</HoliText>
   }
 

@@ -37,7 +37,10 @@ const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
         cache.evict({ id: cache.identify(space) })
       },
       onError: (error) => {
-        displayError(error, t('global.technicalError'))
+        displayError(error, 'Failed to update space user connection', {
+          location: 'SpaceMoreActions.updateSpaceUserConnection',
+          spaceId: space.id,
+        })
       },
     }
   )

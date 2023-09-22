@@ -23,7 +23,10 @@ export const useFeatureToggle = (name?: FeatureToggleName) => {
   const { loading, error, data } = useQuery<FeatureTogglesResponse>(featureTogglesQuery, {
     fetchPolicy: 'cache-first', // answer query directly from cache, it will be refetched in background in handleAppStateChange
     onError: (error) => {
-      displayError(error)
+      displayError(error, 'Failed to load feature toggle', {
+        location: 'useFeatureToggle',
+        feature: name,
+      })
     },
   })
 

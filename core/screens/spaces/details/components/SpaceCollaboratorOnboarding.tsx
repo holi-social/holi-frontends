@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import client from '@holi/api/graphql/client'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import {
   UpdateSpaceUserConnectionResponse,
@@ -56,11 +56,21 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
       },
       onError(error) {
         client.cache.evict({ id: client.cache.identify(space) })
+        const context = {
+          location: 'SpaceCollaboratorOnboarding.updateSpaceUserConnection',
+          spaceId: space.id,
+        }
 
         if (error.message.includes('Not requested to join community')) {
-          displayError(error, t('spaces.join.error.already-revoked'))
+          displayError(error, 'Failed to request space membership as it was already handled', {
+            displayMessage: t('spaces.join.error.already-revoked'),
+            ...context,
+          })
         } else {
-          displayError(error, t('spaces.join.error'))
+          displayError(error, 'Failed to request space membership', {
+            displayMessage: t('spaces.join.error'),
+            ...context,
+          })
         }
       },
     }

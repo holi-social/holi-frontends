@@ -96,6 +96,7 @@ const BottomTabsNavigator = () => {
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',
+          tabBarTestID: 'btn-to-chat-view',
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
       />
@@ -106,7 +107,11 @@ const BottomTabsNavigator = () => {
           headerShown: false,
           tabBarIcon: LoginProfileButton,
           tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+            <HoliText
+              size="extrasmall"
+              style={{ color: iconColor(focused) }}
+              testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
+            >
               {isLoggedIn ? t('profile.title') : t('auth.login')}
             </HoliText>
           ),

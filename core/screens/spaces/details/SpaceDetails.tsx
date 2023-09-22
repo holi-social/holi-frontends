@@ -56,6 +56,9 @@ const SpaceDetails = () => {
     variables: { idOrName: spaceIdOrName || '' },
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
     skip: !spaceIdOrName,
+    onError: (error) =>
+      !isNotFoundError(error) &&
+      logError(error, 'Failed to load space', { location: 'SpaceDetails.spaceByIdQuery', spaceIdOrName }),
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -104,7 +107,7 @@ const SpaceDetails = () => {
 
   const deleteConfirmationAction = useCallback(() => {
     navigate('/spaces')
-    deleteSpace().catch((e) => logError(e, '[SpaceDetail.tsx] could not delete space'))
+    deleteSpace()
   }, [deleteSpace, navigate])
 
   const manageCollaboratorsAction = useCallback(() => {
@@ -249,9 +252,6 @@ const SpaceDetails = () => {
         <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
       </DefaultLayout>
     )
-  }
-  if (error) {
-    logError(error, `[SpaceDetails.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component

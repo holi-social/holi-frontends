@@ -4,8 +4,14 @@ import { useTranslation } from 'react-i18next'
 
 import { isUnauthorizedError } from '@holi/core/errors/helpers'
 import { logError, logErrorLocal } from '@holi/core/errors/helpers/logError'
-import { isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
+import { ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+
+interface ToastErrorInfo extends ErrorContext {
+  timeout?: number
+  displayMessage?: string
+  testID?: string
+}
 
 const isApolloError = (error: unknown): error is ApolloError => {
   return (
@@ -35,14 +41,17 @@ export const useErrorHandling = () => {
   const { openToast } = useToast()
 
   const displayError = useCallback(
-    (error: unknown, message: string, timeout?: number) => {
+    (error: unknown, logMessage: string, { displayMessage, timeout, testID, ...context }: ToastErrorInfo) => {
       if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
         if (isApolloError(error) && error.message === 'Bad user input') {
-          logErrorLocal(error, message)
+          logErrorLocal(error, logMessage, context)
         } else {
-          logError(error, message)
+          logError(error, logMessage, context)
         }
-        openToast(message || t('global.technicalError'), HoliToastType.ERROR, timeout, extractTestID(error))
+        openToast(displayMessage || t('global.technicalError'), HoliToastType.ERROR, {
+          timeout,
+          testID: testID || extractTestID(error),
+        })
       }
     },
     [t, openToast]

@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
@@ -18,6 +19,7 @@ type EditSpaceTopicsProps = {
 const EditSpaceTopics: React.VFC<EditSpaceTopicsProps> = ({ space, onDismiss }: EditSpaceTopicsProps) => {
   const [topics, setTopics] = useState<Term[]>([...(space?.topics || [])])
   const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
   const { topics: allTopics } = useContext(SpaceTermContext)
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
@@ -25,7 +27,11 @@ const EditSpaceTopics: React.VFC<EditSpaceTopicsProps> = ({ space, onDismiss }: 
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
     },
-    onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
+    onError: (error) =>
+      displayError(error, 'Failed to update space', {
+        location: 'EditSpaceTopics',
+        spaceId: space.id,
+      }),
   })
 
   const { t } = useTranslation()

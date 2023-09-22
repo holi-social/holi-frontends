@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import RootProvider from '@holi/core/RootProvider'
 import i18n, { initI18n } from '@holi/core/i18n'
+import RootProvider from '@holi/core/providers/RootProvider'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
