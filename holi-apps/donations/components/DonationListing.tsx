@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -89,18 +89,9 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
     <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
       {!!projects.length && (
         <HoliBox padding={[24, 0, 16, 0]}>
-          {isFiltering && (
-            <HoliHeading testID="donations-list-search-heading">
-              <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
-                <HoliText size="large" bold style={styles.searchQuery} testID="donations-list-search-heading-text" />
-              </Trans>
-            </HoliHeading>
-          )}
-          {!isFiltering && (
-            <HoliHeading level="1" testID="donations-list-search-heading">
-              {t('donations:donationListing.heading')}
-            </HoliHeading>
-          )}
+          <HoliHeading level="1" testID="donations-list-search-heading">
+            {t('donations:donationListing.heading')}
+          </HoliHeading>
         </HoliBox>
       )}
       {!!projects.length && (
