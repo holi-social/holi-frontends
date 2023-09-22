@@ -1,6 +1,6 @@
 import { deleteCookie } from 'cookies-next'
 
-import { cookieNameForceLogout } from '@holi/web/oauth2'
+import { cookieNameForceLogout } from '@holi/core/auth/helpers/oauth2/common'
 
 export const ensureOAuth2Logout = () => {
   // no-op

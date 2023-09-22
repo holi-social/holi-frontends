@@ -6,9 +6,9 @@ import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
 
-import { createDefaultProps } from '@holi/core/auth/helpers/oauth2'
+import { cookieNameForceLogout, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
 import OAuth2Login, { OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'
-import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
+import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
