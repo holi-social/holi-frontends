@@ -36,19 +36,6 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
     </HoliGridCell>
   ))
 
-  const filteredSkeletonItems = new Array(amount).fill(1).map((_, idx) => (
-    <HoliGridCell key={idx}>
-      <View style={styles.container}>
-        <HoliSkeleton aspectRatio={1 / 1} borderRadius={20} height={104} width={104} />
-        <View style={styles.textContainer}>
-          <HoliHeading level="2" size="small" style={styles.heading} loading skeletonOptions={{ width: '100%' }} />
-          <HoliText size="extrasmall" style={styles.spaceTop} loading skeletonOptions={{ width: '100%' }} />
-          <HoliText size="extrasmall" style={styles.spaceTop} loading />
-        </View>
-      </View>
-    </HoliGridCell>
-  ))
-
   const PartnerInfoRowSkeleton = () => (
     <View style={styles.partnerInfoRow}>
       <View style={styles.partnerImage}>
@@ -78,8 +65,8 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
           </>
         )}
       </HoliBox>
-      <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={isFiltering ? 16 : 32}>
-        {isFiltering ? filteredSkeletonItems : skeletonItems}
+      <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
+        {skeletonItems}
       </HoliGridWrapper>
     </View>
   )

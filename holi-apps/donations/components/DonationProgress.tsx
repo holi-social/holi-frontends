@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,6 @@ import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type DonationProgressProps = {
-  donationsCount: number
   progressPercentage: number
   openAmountInCents: number
   category?: string
@@ -16,10 +15,8 @@ type DonationProgressProps = {
 }
 
 const DonationProgress = ({
-  donationsCount,
   progressPercentage,
   openAmountInCents,
-  category,
   size = 'default',
   ...props
 }: DonationProgressProps) => {
@@ -36,33 +33,8 @@ const DonationProgress = ({
     }).format(Math.round(openAmountInCents / 100))
   }, [openAmountInCents, i18n.language])
 
-  const interactionBar = useCallback(
-    () => (
-      <HoliText>
-        <HoliText size="small" style={{ color: colors.foreground20 }}>
-          {t('donations:donationProgress.count', { count: donationsCount })}
-        </HoliText>
-        {!!category && (
-          <>
-            <HoliText size="small" style={{ color: colors.brandColorB30 }}>
-              {' ∙ '}
-            </HoliText>
-            <HoliText size="small" style={{ color: colors.foreground20 }}>
-              {t(`donations:category.${category}`)}
-            </HoliText>
-          </>
-        )}
-      </HoliText>
-    ),
-    [t, donationsCount, category]
-  )
-
   return (
     <View style={[props?.style]}>
-      {size !== 'small' && interactionBar()}
-      <View style={styles.progressBarContainer}>
-        <HoliProgressBar progress={progressPercentage} isSmall={isSmall} />
-      </View>
       <View style={styles.goals}>
         <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.foreground20 }}>
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
@@ -73,6 +45,9 @@ const DonationProgress = ({
           </HoliText>
         )}
       </View>
+      <View style={styles.progressBarContainer}>
+        <HoliProgressBar progress={progressPercentage} isSmall={isSmall} />
+      </View>
     </View>
   )
 }
@@ -82,7 +57,7 @@ export default DonationProgress
 const getStyles = () =>
   StyleSheet.create({
     progressBarContainer: {
-      marginVertical: 8,
+      marginTop: 8,
     },
     goals: {
       flexDirection: 'row',
