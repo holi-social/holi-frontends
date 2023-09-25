@@ -21,7 +21,6 @@ import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
@@ -54,7 +53,6 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
-  const redirect = useRedirect()
 
   const initializeFlow = useCallback(() => {
     if (userId) return
@@ -81,7 +79,6 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
     if (flow) {
       showLoader()
       Keyboard.dismiss()
-
       try {
         const { data } = await newKratosSdk().updateRegistrationFlow({
           flow: flow.id,
@@ -96,13 +93,10 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           )
           throw err
         }
-
         console.debug('[Registration.tsx] registration was successful.')
-
         const verificationFlowData = getVerificationFlow(data)
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
-
         // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
         await onRegister()
         // and only then load user
@@ -110,8 +104,6 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
-
-        redirect()
       } catch (err) {
         handleFormSubmitError(
           setFlow,

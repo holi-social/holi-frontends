@@ -8,6 +8,7 @@ import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
+import { useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { OnboardingStateValue, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
@@ -31,12 +32,9 @@ interface OnboardingStepperProps {
   afterAccountCreated?: () => void
 }
 
-const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
-  style,
-  onOnboardingStateChange,
-  afterAccountCreated,
-}) => {
-  const { currentStep, goNext, goBack } = useStepper()
+const OnboardingStepper = ({ style, onOnboardingStateChange }: OnboardingStepperProps) => {
+  const { currentStep, goNext, goBack, setStep } = useStepper()
+  const verificationFlowData = useVerificationFlowData()
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
     privacyPolicy: false,
@@ -72,9 +70,14 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
         privacyPolicy && goNext()
         break
       case RegistrationStep.CREATE_ACCOUNT:
+        if (verificationFlowData === 'verification-disabled') {
+          setStep(5)
+          await onOnboardingStateChange('accountSetup')
+          return
+        }
         goNext()
         await onOnboardingStateChange('emailVerification')
-        afterAccountCreated?.()
+
         break
       case RegistrationStep.EMAIL_VERIFICATION:
         await onOnboardingStateChange('accountSetup')
@@ -83,7 +86,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
       default:
         return
     }
-  }, [afterAccountCreated, communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
+  }, [onOnboardingStateChange, communityGuidelines, currentStep, goNext, privacyPolicy, setStep, verificationFlowData])
 
   return (
     <View style={[styles.container, style]}>
@@ -112,7 +115,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
           <CreateAccount onRegister={goToNextStep} key={RegistrationStep.CREATE_ACCOUNT} />,
           <EmailVerification
             onDismiss={onOnboardingStateChange}
-            onSuccess={goToNextStep}
+            handleNextStep={goToNextStep}
             key={RegistrationStep.EMAIL_VERIFICATION}
           />,
           <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,

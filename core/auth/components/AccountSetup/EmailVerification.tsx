@@ -26,10 +26,10 @@ const CODE_MAX_COUNT = 6
 
 export interface EmailVerificationProps {
   onDismiss: () => void
-  onSuccess: () => void
+  handleNextStep: () => void
 }
 
-const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => {
+const EmailVerification = ({ onDismiss, handleNextStep }: EmailVerificationProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
@@ -52,7 +52,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   useEffect(() => {
     if (data === 'verification-disabled') {
       // disabled verification in Ory: skip EmailVerification step
-      onSuccess()
+      handleNextStep()
     } else {
       // enabled verification in Ory
       getOrCreateVerificationFlow(verificationFlowData)
@@ -104,7 +104,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
     }
 
     openToast(toastMessage, HoliToastType.SUCCESS)
-    onSuccess()
+    handleNextStep()
   }
 
   const verifyEmail = async () => {
@@ -157,7 +157,10 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
     }
   }
 
-  if (!flow) return null
+  if (!flow) {
+    handleNextStep()
+    return null
+  }
 
   return (
     <HoliKeyboardSaveView>
