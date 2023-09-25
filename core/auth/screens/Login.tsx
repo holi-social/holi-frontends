@@ -27,7 +27,7 @@ import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
 const Login = () => {
-  const { isLoggedOut, isLoggedIn } = useAuth()
+  const { isLoggedOut } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
