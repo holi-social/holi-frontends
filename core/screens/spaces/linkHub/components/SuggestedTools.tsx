@@ -4,7 +4,7 @@ import { Linking, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { ChatPoll, Group, Plant, ShareBox, Wallet3 } from '@holi/icons/src/generated'
+import { ChatPoll, Group, Plant, ShareBox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -42,13 +42,6 @@ const SuggestedTools: React.FC = () => {
     },
     {
       id: '2',
-      name: t('spaces.toolKit.toolIdeas.tool.groupWallet'),
-      org: 'Elinor',
-      url: 'https://elinor.network/en',
-      icon: Wallet3,
-    },
-    {
-      id: '3',
       name: t('spaces.toolKit.toolIdeas.tool.interactivePolls'),
       org: 'Nuudel',
       url: 'https://nuudel.digitalcourage.de/',
