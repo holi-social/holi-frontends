@@ -6,11 +6,9 @@ export const oryConfiguration = new Configuration({
   accessToken: process.env.ORY_ADMIN_ACCESS_TOKEN,
 })
 
-export const cookieNameForceLogout = 'force_oauth2_logout'
-
 export const extractQueryParameter = (requestUrl: string, parameterName: string) => {
   const query = url.parse(requestUrl, true).query
-  return String(query[parameterName])
+  return query[parameterName] && String(query[parameterName])
 }
 
 export const serverSideRedirect = (destination: string) => {
