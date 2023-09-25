@@ -73,9 +73,9 @@ const Login = () => {
     showLoader()
 
     try {
-      const { data } = await submitLoginFlow(flow, payload, undefined)
+      const { data } = (await submitLoginFlow(flow, payload, undefined)) as { data: OrySessionContext }
       await client.clearStore()
-      await setUserLoggedIn(data as OrySessionContext)
+      await setUserLoggedIn(data)
       await storeOnboardingState('finished')
 
       redirect()

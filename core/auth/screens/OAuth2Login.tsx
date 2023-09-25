@@ -78,9 +78,9 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
     showLoader()
 
     try {
-      const { data } = await submitLoginFlow(flow, payload, undefined)
+      const { data } = (await submitLoginFlow(flow, payload, undefined)) as { data: OrySessionContext }
       await client.clearStore()
-      await setUserLoggedIn(data as OrySessionContext)
+      await setUserLoggedIn(data)
       confirmOAuth2Login()
       window.location.href = returnTo
     } catch (err) {
