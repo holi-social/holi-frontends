@@ -58,7 +58,7 @@ const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardPro
     return noLayout ? content : <DefaultLayout>{content}</DefaultLayout>
   }
 
-  return children
+  return children as React.ReactElement
 }
 
 export default memo(FeatureToggleGuard)

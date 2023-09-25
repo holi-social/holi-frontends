@@ -1,7 +1,16 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import {
+  Keyboard,
+  LayoutChangeEvent,
+  Platform,
+  type StyleProp,
+  StyleSheet,
+  type TextInputProps,
+  View,
+  type ViewStyle,
+} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -69,7 +78,7 @@ const HoliSelect = ({
   const styles = useMemo(() => getStyles(textInputHeight), [textInputHeight])
 
   const determineTextInputHeight = useCallback(
-    (event) => setTextInputHeight(event.nativeEvent.layout.height),
+    (event: LayoutChangeEvent) => setTextInputHeight(event.nativeEvent.layout.height),
     [setTextInputHeight]
   )
 
@@ -112,7 +121,7 @@ const HoliSelect = ({
   }, [focusedItem, setIsOpened, setSearchText])
 
   const setFocusAndOpen = useCallback(
-    (focusId) => {
+    (focusId: string) => {
       setIsOpened(true)
       setFocusedItem(focusId)
     },
@@ -120,7 +129,7 @@ const HoliSelect = ({
   )
 
   const onSelect = useCallback(
-    (option) => {
+    (option: HoliSelectOption) => {
       onChange(option)
       if (!multiSelect) {
         setIsOpened(false)
@@ -140,12 +149,12 @@ const HoliSelect = ({
   }, [isOpened, clearFocus, setFocusAndOpen])
 
   const renderItem = useCallback(
-    ({ item }) => (
+    ({ item }: { item: HoliSelectOption }) => (
       <HoliButton
         inline
         transparent
         key={item.id}
-        label={item.title}
+        label={item.title ?? ''}
         accessibilityRole={Platform.select({
           web: multiSelect ? 'menuitemcheckbox' : 'menuitemradio',
           native: 'menuitem',

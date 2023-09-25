@@ -9,7 +9,7 @@ import {
   GeoPlacesResponse,
   geoPlaceDetailsQuery,
   geoPlacesQuery,
-} from '@holi/core/location/queries'
+} from '@holi/core/geolocation/queries'
 import { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
 import { Search } from '@holi/icons/src/generated'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'

@@ -27,7 +27,7 @@ describe('HoliLinkPreview', () => {
     const { getByText, getByTestId } = render(<HoliLinkPreview previewData={linkData} />)
 
     const image = getByTestId('link-preview-image')
-    expect(image.props.proxiedProperties.accessibilityLabel).toMatch(new RegExp(linkData.title, 'gi'))
+    expect(image.props.accessibilityLabel).toMatch(new RegExp(linkData.title, 'gi'))
 
     getByText(new RegExp(linkData.title, 'gi'))
 

@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
+import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'

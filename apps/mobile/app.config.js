@@ -64,6 +64,7 @@ export default {
       googleServicesFile: './google-services.json',
     },
     plugins: [
+      'expo-localization',
       ['sentry-expo'],
       [
         'expo-image-picker',

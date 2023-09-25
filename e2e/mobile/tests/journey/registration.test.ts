@@ -9,7 +9,7 @@ const goFromRegistrationToHome = async () => {
 }
 
 describe('@Registration - journey', () => {
-  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+  const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
   it('validates Email and password fields', async () => {

@@ -4,7 +4,7 @@ import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
+import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { createSpaceList, locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'

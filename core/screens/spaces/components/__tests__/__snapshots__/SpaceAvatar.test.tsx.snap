@@ -37,36 +37,36 @@ exports[`React tree renders correctly 1`] = `
   testID="space-avatar"
 >
   <ViewManagerAdapter_ExpoImage
+    accessibilityLabel="Space title"
     accessibilityRole="image"
+    accessible={true}
+    contentFit="cover"
+    contentPosition={
+      {
+        "left": "50%",
+        "top": "50%",
+      }
+    }
     height="100%"
     onError={[Function]}
     onLoad={[Function]}
     onLoadStart={[Function]}
     onProgress={[Function]}
-    proxiedProperties={
-      {
-        "accessibilityLabel": "Space title",
-        "accessible": true,
-        "contentFit": "cover",
-        "contentPosition": {
-          "left": "50%",
-          "top": "50%",
+    placeholder={
+      [
+        {
+          "uri": "",
         },
-        "placeholder": [
-          {
-            "uri": "",
-          },
-        ],
-        "source": [
-          {
-            "height": 64,
-            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-            "width": 64,
-          },
-        ],
-        "tintColor": undefined,
-        "transition": null,
-      }
+      ]
+    }
+    source={
+      [
+        {
+          "height": 64,
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+          "width": 64,
+        },
+      ]
     }
     style={
       {
@@ -74,6 +74,7 @@ exports[`React tree renders correctly 1`] = `
         "width": "100%",
       }
     }
+    transition={null}
     width="100%"
   />
 </View>

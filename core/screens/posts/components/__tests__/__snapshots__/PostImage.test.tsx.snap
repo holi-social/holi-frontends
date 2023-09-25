@@ -56,33 +56,31 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
       }
     >
       <ViewManagerAdapter_ExpoImage
+        accessibilityLabel="insights.posts.image"
         accessibilityRole="image"
+        accessible={true}
         aspectRatio={1.4533898305084745}
         backgroundColor={4293651435}
+        contentFit="cover"
+        contentPosition={
+          {
+            "left": "50%",
+            "top": "50%",
+          }
+        }
         marginTop={26}
         onError={[Function]}
         onLayout={[Function]}
         onLoad={[Function]}
         onLoadStart={[Function]}
         onProgress={[Function]}
-        proxiedProperties={
-          {
-            "accessibilityLabel": "insights.posts.image",
-            "accessible": true,
-            "contentFit": "cover",
-            "contentPosition": {
-              "left": "50%",
-              "top": "50%",
+        placeholder={[]}
+        source={
+          [
+            {
+              "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/",
             },
-            "placeholder": [],
-            "source": [
-              {
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/",
-              },
-            ],
-            "tintColor": undefined,
-            "transition": null,
-          }
+          ]
         }
         style={
           {
@@ -92,6 +90,7 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
             "width": "100%",
           }
         }
+        transition={null}
         width="100%"
       />
     </View>

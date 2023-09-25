@@ -55,7 +55,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           false,
         ]
       }
-      testID=""
+      testID="holi-text-input-wrapper"
     >
       <TextInput
         accessibilityAutoComplete="inline"
@@ -194,7 +194,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           false,
         ]
       }
-      testID=""
+      testID="holi-text-input-wrapper"
     >
       <TextInput
         accessibilityAutoComplete="inline"
@@ -333,7 +333,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           false,
         ]
       }
-      testID=""
+      testID="holi-text-input-wrapper"
     >
       <TextInput
         accessibilityAutoComplete="inline"
@@ -510,7 +510,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           false,
         ]
       }
-      testID=""
+      testID="holi-text-input-wrapper"
     >
       <TextInput
         accessibilityAutoComplete="inline"
@@ -649,7 +649,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           false,
         ]
       }
-      testID=""
+      testID="holi-text-input-wrapper"
     >
       <TextInput
         accessibilityAutoComplete="inline"
@@ -731,7 +731,14 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             width={22}
             xmlns="http://www.w3.org/2000/svg"
           >
-            <RNSVGGroup>
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
               <RNSVGPath
                 d="M0 0h24v24H0z"
                 fill={null}
@@ -854,7 +861,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           false,
         ]
       }
-      testID=""
+      testID="holi-text-input-wrapper"
     >
       <TextInput
         accessibilityAutoComplete="inline"
@@ -994,7 +1001,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           false,
         ]
       }
-      testID=""
+      testID="holi-text-input-wrapper"
     >
       <TextInput
         accessibilityAutoComplete="inline"

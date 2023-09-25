@@ -4,9 +4,9 @@ import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
@@ -29,7 +29,7 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const BottomTabsNavigator = () => {
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn } = useAuth()
 
   return (
     <BottomTabs.Navigator
@@ -96,6 +96,7 @@ const BottomTabsNavigator = () => {
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',
+          tabBarTestID: 'btn-to-chat-view',
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
       />
@@ -106,7 +107,11 @@ const BottomTabsNavigator = () => {
           headerShown: false,
           tabBarIcon: LoginProfileButton,
           tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+            <HoliText
+              size="extrasmall"
+              style={{ color: iconColor(focused) }}
+              testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
+            >
               {isLoggedIn ? t('profile.title') : t('auth.login')}
             </HoliText>
           ),

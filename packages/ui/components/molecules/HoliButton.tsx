@@ -61,7 +61,7 @@ const HoliButton = ({
   const styles = useMemo(() => getStyles(inline, isWarning), [inline, isWarning])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
+    accessible: !disableFocusability,
     accessibilityRole: props.accessibilityRole || 'button',
     accessibilityLabel: props.label,
     accessibilityChecked: props.accessibilityChecked,
