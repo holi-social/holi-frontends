@@ -47,18 +47,20 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
     testID="post-image"
   >
     <View
-      pointerEvents="none"
       style={
         [
+          {
+            "pointerEvents": "none",
+          },
           false,
           undefined,
         ]
       }
     >
       <ViewManagerAdapter_ExpoImage
-        accessibilityLabel="insights.posts.image"
         accessibilityRole="image"
         accessible={true}
+        aria-label="insights.posts.image"
         aspectRatio={1.4533898305084745}
         backgroundColor={4293651435}
         contentFit="cover"
@@ -75,6 +77,7 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
         onLoadStart={[Function]}
         onProgress={[Function]}
         placeholder={[]}
+        role="img"
         source={
           [
             {
@@ -97,7 +100,7 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
   </View>,
   <Modal
     accessibilityLabel="insights.posts.image.modal"
-    accessibilityRole="dialog"
+    accessibilityViewIsModal={true}
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}

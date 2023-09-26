@@ -84,7 +84,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
               value={searchValue}
               onChange={setSearchValue}
               style={styles.input}
-              accessibilityLabel={t('spaces.invite.search.input')}
+              aria-label={t('spaces.invite.search.input')}
               inputProps={{ onSubmitEditing }}
               testID="space-invite-user"
             />

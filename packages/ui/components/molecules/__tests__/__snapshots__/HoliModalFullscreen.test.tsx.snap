@@ -3,7 +3,7 @@
 exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityViewIsModal={true}
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -14,7 +14,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `
 exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityViewIsModal={true}
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -103,9 +103,11 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           testID="fullscreen-modal-close-btn"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 undefined,
               ]

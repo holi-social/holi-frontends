@@ -13,7 +13,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
   >
     <View
       accessibilityLabel="Some User"
-      accessibilityRole="link"
       accessibilityState={
         {
           "busy": undefined,
@@ -43,6 +42,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
+      role="link"
       testID="text-link"
     >
       <View
@@ -73,9 +73,9 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           }
         >
           <Text
-            accessibilityLabel="Some User"
-            accessibilityRole="image"
             accessible={false}
+            aria-label="Some User"
+            role="img"
             selectable={true}
             style={
               {
@@ -85,6 +85,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "fontWeight": "bold",
                 "lineHeight": 21.599999999999998,
                 "textTransform": "uppercase",
+                "userSelect": "auto",
               }
             }
           >
@@ -111,6 +112,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "fontSize": 14,
                 "fontWeight": "400",
                 "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
               }
             }
           >
@@ -124,6 +126,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "400",
                   "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
                 }
               }
             />
@@ -139,6 +142,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
                 "marginTop": 4,
+                "userSelect": "auto",
               }
             }
           >
@@ -271,9 +275,11 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           testID="ignore-connection-request-button"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -294,6 +300,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
@@ -376,9 +383,11 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           testID="accept-connection-request-button"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -399,6 +408,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >

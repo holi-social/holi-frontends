@@ -24,9 +24,9 @@ exports[`React tree renders correctly 1`] = `
   }
 >
   <ViewManagerAdapter_ExpoImage
-    accessibilityLabel="Uschi Meyer"
     accessibilityRole="image"
     accessible={true}
+    aria-label="Uschi Meyer"
     contentFit="cover"
     contentPosition={
       {
@@ -40,6 +40,7 @@ exports[`React tree renders correctly 1`] = `
     onLoadStart={[Function]}
     onProgress={[Function]}
     placeholder={[]}
+    role="img"
     source={
       [
         {
@@ -85,9 +86,9 @@ exports[`React tree renders the users initials, when given image prop is empty 1
   }
 >
   <Text
-    accessibilityLabel="Uschi Meyer"
-    accessibilityRole="image"
     accessible={false}
+    aria-label="Uschi Meyer"
+    role="img"
     selectable={true}
     style={
       {
@@ -97,6 +98,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
         "fontWeight": "bold",
         "lineHeight": 69.12,
         "textTransform": "uppercase",
+        "userSelect": "auto",
       }
     }
   >

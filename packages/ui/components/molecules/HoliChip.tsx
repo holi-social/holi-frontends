@@ -46,13 +46,13 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
-    accessibilityRole: !disabled ? 'checkbox' : 'none',
-    accessibilityLabel: label,
+    role: !disabled ? 'checkbox' : 'none',
+    'aria-label': label,
     ...(!disabled
       ? {
           // since this component gets rerendered on every state change, we don't need an internal state, but can use the checked prop
           accessibilityState: { checked },
-          accessibilityChecked: checked,
+          'aria-checked': checked,
         }
       : {}),
   }

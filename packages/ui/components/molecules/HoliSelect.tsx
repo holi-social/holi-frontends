@@ -29,7 +29,7 @@ export type HoliSelectOption = {
 
 export interface HoliSelectProps {
   inputLabel?: string
-  accessibilityLabel: string
+  'aria-label': string
   placeholder?: string
   helperText?: string
   validationErrorText?: string
@@ -47,7 +47,7 @@ export interface HoliSelectProps {
 const HoliSelect = ({
   style = {},
   multiSelect = false,
-  accessibilityLabel,
+  'aria-label': ariaLabel,
   inputLabel,
   placeholder,
   helperText,
@@ -155,7 +155,7 @@ const HoliSelect = ({
         transparent
         key={item.id}
         label={item.title ?? ''}
-        accessibilityRole={Platform.select({
+        role={Platform.select({
           web: multiSelect ? 'menuitemcheckbox' : 'menuitemradio',
           native: 'menuitem',
         })}
@@ -165,7 +165,7 @@ const HoliSelect = ({
         onFocus={() => setFocusAndOpen('option-' + item.id)}
         onPress={() => onSelect(item)}
         testID={testID && `${testID}-item`}
-        accessibilityChecked={item.selected}
+        ariaChecked={item.selected}
         accessibilityState={{ checked: item.selected }}
       >
         <HoliText selectable={false} numberOfLines={2}>
@@ -259,12 +259,12 @@ const HoliSelect = ({
         placeholder={selectedText || placeholder}
         validationErrorText={validationErrorText}
         helperText={isOpened && options.length ? undefined : helperText}
-        accessibilityLabel={accessibilityLabel}
+        aria-label={ariaLabel}
         accessibilityAutoComplete="list"
         accessibilityControls={isOpened ? `${id}-options` : undefined}
-        accessibilityRole="combobox"
-        accessibilityExpanded={isOpened}
-        accessibilityHasPopup="menu"
+        role="combobox"
+        ariaExpanded={isOpened}
+        ariaHasPopup="menu"
         trailingComponent={trailingComponent}
         inputProps={{ ...inputProps, placeholderTextColor }}
         inputStyle={isOpened ? styles.textInputOpened : {}}
@@ -284,10 +284,10 @@ const HoliSelect = ({
           keyExtractor={(option) => option.id}
           style={styles.optionsMenu}
           nativeID={`${id}-options`}
-          accessibilityRole="menu"
+          role="menu"
           keyboardShouldPersistTaps="always"
           persistentScrollbar={true}
-          accessibilityLabel={t('multiselect.options')}
+          aria-label={t('multiselect.options')}
           accessibilityState={{ expanded: true }}
           onMomentumScrollBegin={setIsScrolling(true)}
           onMomentumScrollEnd={setIsScrolling(false)}

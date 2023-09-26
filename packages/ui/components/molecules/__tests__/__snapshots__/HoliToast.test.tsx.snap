@@ -50,9 +50,11 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
   testID="toast-ERROR"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         undefined,
       ]
@@ -79,6 +81,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
             "fontWeight": "400",
             "lineHeight": 22.4,
             "textAlign": "center",
+            "userSelect": "none",
           }
         }
       >
@@ -236,9 +239,11 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
   testID="toast-SUCCESS"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         undefined,
       ]
@@ -265,6 +270,7 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
             "fontWeight": "400",
             "lineHeight": 22.4,
             "textAlign": "center",
+            "userSelect": "none",
           }
         }
       >

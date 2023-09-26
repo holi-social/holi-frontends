@@ -101,7 +101,7 @@ const HoliBlockItem = ({
             <View style={styles.imageContainer}>
               {!imageElement ? (
                 <HoliImage
-                  label=""
+                  label={title}
                   source={imageSource}
                   blurhash={imageBlurhash}
                   resizeMode="cover"

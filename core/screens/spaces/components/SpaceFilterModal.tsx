@@ -164,7 +164,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
             <HoliSelect
               options={topicOptions}
               inputLabel={t('spaces.filter.topics.label')}
-              accessibilityLabel={t('spaces.filter.topics.label')}
+              aria-label={t('spaces.filter.topics.label')}
               placeholder={t('spaces.filter.topics.placeholder')}
               style={[styles.filterOption, { zIndex: 1 }]}
               onChange={toggleTopicSelection}
@@ -174,7 +174,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
             <HoliSelect
               options={skillOptions}
               inputLabel={t('spaces.filter.skills.label')}
-              accessibilityLabel={t('spaces.filter.skills.label')}
+              aria-label={t('spaces.filter.skills.label')}
               placeholder={t('spaces.filter.skills.placeholder')}
               style={[styles.filterOption, { zIndex: 0 }]}
               onChange={toggleSkillSelection}

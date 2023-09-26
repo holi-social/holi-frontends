@@ -34,8 +34,8 @@ const HoliTextLink = ({
 
   return (
     <HoliText
-      accessibilityRole="link"
-      accessibilityLabel={label}
+      role="link"
+      aria-label={label}
       onPress={handleLinkPress}
       size={size}
       style={styles[variant]}

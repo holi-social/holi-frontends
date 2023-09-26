@@ -4,7 +4,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
 <View>
   <View
     accessibilityLabel="Donate to animals on betterplace.org"
-    accessibilityRole="link"
     accessibilityState={
       {
         "busy": undefined,
@@ -34,6 +33,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    role="link"
     testID="text-link"
   >
     <View
@@ -50,9 +50,9 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
       }
     >
       <ViewManagerAdapter_ExpoImage
-        accessibilityLabel="Donate to animals on betterplace.org"
         accessibilityRole="image"
         accessible={true}
+        aria-label="Donate to animals on betterplace.org"
         aspectRatio={1.9536423841059603}
         backgroundColor={4293651435}
         contentFit="cover"
@@ -67,6 +67,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         onLoadStart={[Function]}
         onProgress={[Function]}
         placeholder={[]}
+        role="img"
         source={
           [
             {
@@ -107,20 +108,14 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             role="heading"
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "fontSize": 14,
-                  "lineHeight": 19.599999999999998,
-                },
-                {
-                  "color": "#787777",
-                },
-              ]
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
             }
           >
             Donate to animals on betterplace.org
@@ -137,6 +132,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
                 "marginTop": 8,
+                "userSelect": "auto",
               }
             }
           >
@@ -153,6 +149,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "fontWeight": "500",
                 "lineHeight": 16.799999999999997,
                 "marginTop": 8,
+                "userSelect": "auto",
               }
             }
           >

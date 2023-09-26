@@ -27,7 +27,7 @@ const SpaceContactPhoneInputWeb: React.VFC<SpaceContactPhoneInputWebProps> = ({
         value={value}
         type="number"
         onChange={(text: string) => onChange(text.replace(/[^0-9+ .]/g, ''))} // allow only numbers, + and space characters
-        accessibilityLabel={t('spaces.input.contact.phone.label')}
+        aria-label={t('spaces.input.contact.phone.label')}
         testID="space-contact-phone"
         {...props}
       />

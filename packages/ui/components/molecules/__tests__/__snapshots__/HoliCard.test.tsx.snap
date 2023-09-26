@@ -48,9 +48,9 @@ exports[`HoliCard renders correctly 1`] = `
   testID="holiCard"
 >
   <ViewManagerAdapter_ExpoImage
-    accessibilityLabel="volunteering"
     accessibilityRole="image"
     accessible={true}
+    aria-label="volunteering"
     aspectRatio={1.5}
     borderRadius={8}
     contentFit="cover"
@@ -66,6 +66,7 @@ exports[`HoliCard renders correctly 1`] = `
     onLoadStart={[Function]}
     onProgress={[Function]}
     placeholder={[]}
+    role="img"
     source={
       [
         {
@@ -96,6 +97,7 @@ exports[`HoliCard renders correctly 1`] = `
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,
+        "userSelect": "auto",
       }
     }
   >

@@ -1,12 +1,13 @@
-import React, { MouseEvent, SyntheticEvent, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
-  AccessibilityRole,
   AccessibilityState,
   GestureResponderEvent,
+  NativeMouseEvent,
   NativeSyntheticEvent,
   Platform,
   Pressable,
+  Role,
   StyleProp,
   StyleSheet,
   TargetedEvent,
@@ -14,7 +15,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
+import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -37,10 +38,10 @@ export interface HoliButtonProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-  onMouseEnter?: (event: SyntheticEvent<Element, MouseEvent>) => void
-  onMouseOut?: (event: SyntheticEvent<Element, MouseEvent>) => void
-  accessibilityRole?: AccessibilityRole | AccessibilityRoleWeb
-  accessibilityChecked?: boolean
+  onMouseEnter?: (event: NativeSyntheticEvent<NativeMouseEvent>) => void
+  onMouseOut?: (event: NativeSyntheticEvent<NativeMouseEvent>) => void
+  role?: AccessibilityRoleWeb
+  ariaChecked?: boolean
   accessibilityState?: AccessibilityState
 }
 
@@ -60,11 +61,19 @@ const HoliButton = ({
 
   const styles = useMemo(() => getStyles(inline, isWarning), [inline, isWarning])
 
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+  const accessibilityProps: AccessibilityProps = {
+    ...(Platform.OS === 'web'
+      ? {
+          role: (props.role || 'button') as Role,
+          'aria-label': props.label,
+          'aria-checked': props.ariaChecked,
+        }
+      : {
+          accessibilityRole: props.role || 'button',
+          accessibilityLabel: props.label,
+        }),
     accessible: !disableFocusability,
-    accessibilityRole: props.accessibilityRole || 'button',
-    accessibilityLabel: props.label,
-    accessibilityChecked: props.accessibilityChecked,
+
     accessibilityState: props.accessibilityState,
   }
 
@@ -132,10 +141,10 @@ const HoliButton = ({
     >
       <View
         style={[
+          { pointerEvents: 'none' },
           !transparent && { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' },
           props.contentStyle,
         ]}
-        pointerEvents="none"
       >
         {content}
       </View>

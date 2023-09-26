@@ -147,7 +147,7 @@ const ChangePassword = () => {
           <>
             <HoliTextInput
               inputLabel={t('auth.changePassword.input.label-OldPassword')}
-              accessibilityLabel={t('auth.changePassword.input.label-OldPassword')}
+              aria-label={t('auth.changePassword.input.label-OldPassword')}
               placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
               validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
               inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
@@ -159,10 +159,10 @@ const ChangePassword = () => {
             />
             <HoliTextInput
               inputLabel={t('auth.changePassword.input.label-NewPassword')}
-              accessibilityLabel={t('auth.changePassword.input.label-NewPassword')}
+              aria-label={t('auth.changePassword.input.label-NewPassword')}
               placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
               validationErrorText={newPwdNode && getValidationErrorText(newPwdNode, i18n)}
-              inputProps={{ onKeyPress: handleKeyDown, autocomplete: 'new-password' }}
+              inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
               maxNoOfCharacters={200}
               onChange={setNewPwd}
               type="password"
@@ -189,12 +189,12 @@ export default ChangePassword
 const styles = StyleSheet.create({
   layout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
     justifyContent: 'center',
   },
   formContainer: {
-    maxWidth: vars.maxButtonWidth,
-    paddingBottom: vars.topBarHeight,
+    maxWidth: +vars.maxButtonWidth,
+    paddingBottom: +vars.topBarHeight,
   },
   formField: {
     marginTop: 10,

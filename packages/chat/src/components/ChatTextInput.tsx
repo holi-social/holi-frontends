@@ -65,7 +65,7 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   return (
     <Animated.View style={generateContainerStyles(positionRef.current)}>
       <HoliTextInput
-        accessibilityLabel={t('chat.room.input.placeholder', { fullName: userName })}
+        aria-label={t('chat.room.input.placeholder', { fullName: userName })}
         placeholder={t('chat.room.input.placeholder', { fullName: userName })}
         value={messageText}
         onChange={setMessageText}
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     width: '100%',
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: +vars.maxScreenWidth,
     paddingHorizontal: 16,
     paddingTop: 6,
     paddingBottom: 24,

@@ -60,14 +60,14 @@ const initialOptions: HoliSelectOption[] = [
 
 const args = {
   inputLabel: 'Label',
-  accessibilityLabel: 'Accessibility label',
+  'aria-label': 'Accessibility label',
   placeholder: 'Nothing selected',
   isRequired: true,
   options: initialOptions,
 }
 const argTypes = {
   inputLabel: { description: 'Label', required: true, control: { type: 'text' } },
-  accessibilityLabel: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
+  'aria-label': { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   placeholder: { description: 'Placeholder', control: { type: 'text' } },
   options: { description: 'Options', control: { type: 'object' } },
 }

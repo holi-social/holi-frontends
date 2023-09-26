@@ -60,7 +60,7 @@ const SingleSelect = ({ ...args }) => {
   return (
     <HoliSelect
       id="singleselect"
-      accessibilityLabel="Accessibility label"
+      aria-label="Accessibility label"
       options={initialOptions.map((option) => ({ ...option, selected: option.id === selectedOption }))}
       onChange={toggleOptionSelect}
       {...args}
@@ -82,7 +82,7 @@ const MultiSelect = ({ ...args }) => {
       multiSelect
       id="multiselect"
       inputLabel="Label"
-      accessibilityLabel="Accessibility label"
+      aria-label="Accessibility label"
       options={options}
       onChange={toggleOptionSelection}
       {...args}
@@ -124,9 +124,7 @@ describe('SingleSelect', () => {
 
   it('calls onChange with selection', async () => {
     const onChange = jest.fn()
-    render(
-      <HoliSelect accessibilityLabel="test" id="test" options={initialOptions} testID="test" onChange={onChange} />
-    )
+    render(<HoliSelect aria-label="test" id="test" options={initialOptions} testID="test" onChange={onChange} />)
 
     await fireEvent.press(screen.getByTestId('test-toggle-menu'))
 

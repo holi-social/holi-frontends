@@ -6,14 +6,15 @@ import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
 
-import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
-import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
+import { cookieNameForceLogout, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
+import OAuth2Login, { OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'
+import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
 const logger = pino()
 
-const OAuth2LoginPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
+const OAuth2LoginPage: NextPage = (props: OAuth2LoginProps) => <OAuth2Login {...props} />
 
 const getSubjectIdIfLoggedIn = async (cookies: NextApiRequestCookies) => {
   const cookie = Object.entries(cookies)
@@ -47,25 +48,41 @@ const acceptLoginRequest = async (loginChallenge: string, subjectId: string) => 
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const defaultProps = createDefaultProps(req.headers)
+
   const loginChallenge = extractQueryParameter(req.url || '', 'login_challenge')
   // The challenge is used to fetch information about the login request from ORY Hydra.
   if (!loginChallenge) {
     return {
       props: {
+        ...defaultProps,
         error: 'Expected a login challenge to be set but received none.',
+        errorContext: {
+          location: 'oauth2.login.loginChallenge',
+        },
       },
     }
   }
 
   try {
+    const error = extractQueryParameter(req.url || '', 'error')
+    if (error) {
+      throw new Error(`Error during login: ${error}`)
+    }
+
     const { data: loginRequest } = await oauth2Api.getOAuth2LoginRequest({ loginChallenge })
 
-    const loginFormUrl = `/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`
+    const loginFormProps = {
+      props: {
+        ...defaultProps,
+        returnTo: `/oauth2/login?login_challenge=${loginChallenge}`,
+      },
+    }
 
     // Check if user wanted to logout before and force display of login form
     const forceLogout = getCookie(cookieNameForceLogout, { req, res })
     if (forceLogout) {
-      return serverSideRedirect(loginFormUrl)
+      return loginFormProps
     }
 
     // If hydra was already able to authenticate the user, skip will be true and we do not need to re-authenticate
@@ -82,8 +99,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       return acceptLoginRequest(loginChallenge, subjectId)
     }
 
-    // Redirect to login UI if authentication can't be skipped and user is not logged in.
-    return serverSideRedirect(loginFormUrl)
+    // Display login UI if authentication can't be skipped and user is not logged in.
+    return loginFormProps
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -109,7 +126,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       })
       return {
         props: {
+          ...defaultProps,
           error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
+          errorContext: {
+            location: 'oauth2.login.rejectOAuth2LoginRequest',
+          },
         },
       }
     }

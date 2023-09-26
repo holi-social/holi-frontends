@@ -13,7 +13,6 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
   >
     <View
       accessibilityLabel="Foo"
-      accessibilityRole="link"
       accessibilityState={
         {
           "busy": undefined,
@@ -43,6 +42,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
+      role="link"
       testID="text-link"
     >
       <View
@@ -97,9 +97,9 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
             testID="space-avatar"
           >
             <ViewManagerAdapter_ExpoImage
-              accessibilityLabel="Foo"
               accessibilityRole="image"
               accessible={true}
+              aria-label="Foo"
               contentFit="cover"
               contentPosition={
                 {
@@ -113,6 +113,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
               onLoadStart={[Function]}
               onProgress={[Function]}
               placeholder={[]}
+              role="img"
               source={
                 [
                   {
@@ -153,6 +154,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                 "fontSize": 14,
                 "fontWeight": "400",
                 "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
               }
             }
           >
@@ -166,6 +168,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "400",
                   "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
                 }
               }
             />
@@ -181,6 +184,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
                 "marginTop": 4,
+                "userSelect": "auto",
               }
             }
           >
@@ -313,9 +317,11 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
           testID="ignore-connection-request-button"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -336,6 +342,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
@@ -418,9 +425,11 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
           testID="accept-connection-request-button"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -441,6 +450,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >

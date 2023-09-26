@@ -3,7 +3,8 @@ import { AcceptOAuth2ConsentRequestSession, IdentityApi, OAuth2Api, OAuth2Consen
 import { GetServerSideProps, NextPage } from 'next'
 import pino from 'pino'
 
-import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
+import { OAuth2DefaultProps, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
+import OAuth2Consent, { OAuth2ConsentProps } from '@holi/core/auth/screens/OAuth2Consent'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
@@ -12,7 +13,7 @@ const emailSuffix = '@holi.team'
 const userNamePrefix = 'holi_'
 const logger = pino()
 
-const OAuth2ConsentPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
+const OAuth2ConsentPage: NextPage = (props: OAuth2ConsentProps) => <OAuth2Consent {...props} />
 
 const createSession = async (subject: string): Promise<AcceptOAuth2ConsentRequestSession> => {
   const { data: identity } = await identityApi.getIdentity({ id: subject })
@@ -51,7 +52,7 @@ const acceptConsentRequest = async (
   return serverSideRedirect(acceptResponse.redirect_to)
 }
 
-const rejectConsentRequest = async (consentChallenge: string, message?: string) => {
+const rejectConsentRequest = async (defaultProps: OAuth2DefaultProps, consentChallenge: string, message?: string) => {
   try {
     const { data: rejectResponse } = await oauth2Api.rejectOAuth2ConsentRequest({
       consentChallenge,
@@ -68,19 +69,29 @@ const rejectConsentRequest = async (consentChallenge: string, message?: string) 
     })
     return {
       props: {
+        ...defaultProps,
         error: error?.response?.data || error.toString(),
+        errorContext: {
+          location: 'oauth2.consent.rejectOAuth2ConsentRequest',
+        },
       },
     }
   }
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const defaultProps = createDefaultProps(req.headers)
+
   // The challenge is used to fetch information about the consent request from ORY Hydra.
   const consentChallenge = extractQueryParameter(req.url || '', 'consent_challenge')
   if (!consentChallenge) {
     return {
       props: {
+        ...defaultProps,
         error: 'Expected a consent challenge to be set but received none.',
+        errorContext: {
+          location: 'oauth2.consent.consentChallenge',
+        },
       },
     }
   }
@@ -91,13 +102,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     if (!consentRequest.subject) {
       return {
         props: {
+          ...defaultProps,
           error: 'Subject ID is missing.',
+          errorContext: {
+            location: 'oauth2.consent.getOAuth2ConsentRequest',
+          },
         },
       }
     }
 
     if (!consentRequest.skip && !consentRequest.client?.skip_consent) {
-      return rejectConsentRequest(consentChallenge, 'Skipping consent not allowed')
+      return rejectConsentRequest(defaultProps, consentChallenge, 'Skipping consent not allowed')
     }
 
     const session = await createSession(consentRequest.subject)
@@ -110,7 +125,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       message,
       error: error?.response?.data || error,
     })
-    return rejectConsentRequest(consentChallenge, message)
+    return rejectConsentRequest(defaultProps, consentChallenge, message)
   }
 }
 
