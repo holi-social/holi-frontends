@@ -22,9 +22,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
   }
 >
   <View
-    accessibilityChecked={true}
     accessibilityLabel="Test"
-    accessibilityRole="checkbox"
     accessibilityState={
       {
         "busy": undefined,
@@ -54,6 +52,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    role="checkbox"
     style={
       [
         {
@@ -81,6 +80,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
           "fontSize": 14,
           "fontWeight": "400",
           "lineHeight": 24,
+          "userSelect": "none",
         }
       }
     >
@@ -173,7 +173,6 @@ exports[`renders correctly renders correctly when disabled 1`] = `
 >
   <View
     accessibilityLabel="Test"
-    accessibilityRole="none"
     accessibilityState={
       {
         "busy": undefined,
@@ -203,6 +202,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    role="none"
     style={
       [
         {
@@ -230,6 +230,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
           "fontSize": 14,
           "fontWeight": "400",
           "lineHeight": 24,
+          "userSelect": "none",
         }
       }
     >
@@ -258,9 +259,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
   }
 >
   <View
-    accessibilityChecked={false}
     accessibilityLabel="Test"
-    accessibilityRole="checkbox"
     accessibilityState={
       {
         "busy": undefined,
@@ -290,6 +289,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    role="checkbox"
     style={
       [
         {
@@ -317,6 +317,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
           "fontSize": 14,
           "fontWeight": "400",
           "lineHeight": 24,
+          "userSelect": "none",
         }
       }
     >

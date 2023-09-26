@@ -110,6 +110,7 @@ exports[`SpaceInviteUserSearchResult displays text if no results where found 1`]
       "fontSize": 16,
       "fontWeight": "400",
       "lineHeight": 22.4,
+      "userSelect": "auto",
     }
   }
 >
@@ -181,9 +182,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="user-list-item"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             {
               "alignItems": "center",
@@ -214,9 +217,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         >
           <Text
-            accessibilityLabel="No Connection"
-            accessibilityRole="image"
             accessible={false}
+            aria-label="No Connection"
+            role="img"
             selectable={true}
             style={
               {
@@ -226,6 +229,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
                 "textTransform": "uppercase",
+                "userSelect": "auto",
               }
             }
           />
@@ -249,6 +253,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
+                "userSelect": "auto",
               }
             }
           >
@@ -325,9 +330,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="btn-to-invite"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             {
               "alignItems": "center",
               "flexDirection": "row",
@@ -453,9 +460,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="user-list-item"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             {
               "alignItems": "center",
@@ -486,9 +495,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         >
           <Text
-            accessibilityLabel="Connected"
-            accessibilityRole="image"
             accessible={false}
+            aria-label="Connected"
+            role="img"
             selectable={true}
             style={
               {
@@ -498,6 +507,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
                 "textTransform": "uppercase",
+                "userSelect": "auto",
               }
             }
           />
@@ -521,6 +531,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
+                "userSelect": "auto",
               }
             }
           >
@@ -544,6 +555,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
             >
@@ -613,9 +625,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="btn-to-invite"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             {
               "alignItems": "center",
               "flexDirection": "row",
@@ -741,9 +755,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="user-list-item"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             {
               "alignItems": "center",
@@ -774,9 +790,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         >
           <Text
-            accessibilityLabel="Connected and Space connection"
-            accessibilityRole="image"
             accessible={false}
+            aria-label="Connected and Space connection"
+            role="img"
             selectable={true}
             style={
               {
@@ -786,6 +802,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
                 "textTransform": "uppercase",
+                "userSelect": "auto",
               }
             }
           />
@@ -809,6 +826,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
+                "userSelect": "auto",
               }
             }
           >
@@ -832,6 +850,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
             >
@@ -847,6 +866,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontSize": 16,
                   "fontWeight": "500",
                   "lineHeight": 22.4,
+                  "userSelect": "auto",
                 }
               }
             >
@@ -862,6 +882,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
             >
@@ -928,9 +949,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="user-list-item"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             {
               "alignItems": "center",
@@ -961,9 +984,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         >
           <Text
-            accessibilityLabel="Follower"
-            accessibilityRole="image"
             accessible={false}
+            aria-label="Follower"
+            role="img"
             selectable={true}
             style={
               {
@@ -973,6 +996,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
                 "textTransform": "uppercase",
+                "userSelect": "auto",
               }
             }
           />
@@ -996,6 +1020,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
+                "userSelect": "auto",
               }
             }
           >
@@ -1019,6 +1044,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
             >
@@ -1088,9 +1114,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="btn-to-invite"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             {
               "alignItems": "center",
               "flexDirection": "row",
@@ -1216,9 +1244,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="user-list-item"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             {
               "alignItems": "center",
@@ -1249,9 +1279,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         >
           <Text
-            accessibilityLabel="Member"
-            accessibilityRole="image"
             accessible={false}
+            aria-label="Member"
+            role="img"
             selectable={true}
             style={
               {
@@ -1261,6 +1291,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
                 "textTransform": "uppercase",
+                "userSelect": "auto",
               }
             }
           />
@@ -1284,6 +1315,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
+                "userSelect": "auto",
               }
             }
           >
@@ -1307,6 +1339,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
             >
@@ -1373,9 +1406,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       testID="user-list-item"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             {
               "alignItems": "center",
@@ -1406,9 +1441,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         >
           <Text
-            accessibilityLabel="Admin"
-            accessibilityRole="image"
             accessible={false}
+            aria-label="Admin"
+            role="img"
             selectable={true}
             style={
               {
@@ -1418,6 +1453,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
                 "textTransform": "uppercase",
+                "userSelect": "auto",
               }
             }
           />
@@ -1441,6 +1477,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
+                "userSelect": "auto",
               }
             }
           >
@@ -1464,6 +1501,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
             >

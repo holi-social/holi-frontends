@@ -31,9 +31,8 @@ const FooterTabBar = () => {
     <View
       style={styles.fullWidthContainer}
       accessible={true}
-      accessibilityRole="navigation"
-      accessibilityLabel={t('navigation.bottomNavigation')}
-      testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
+      role="navigation"
+      aria-label={t('navigation.bottomNavigation')}
     >
       <View style={[mixins.container, styles.buttonContainer]}>
         <HoliButton

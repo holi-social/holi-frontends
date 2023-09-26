@@ -89,7 +89,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         validationErrorText={urlError}
         value={url}
         onChange={onChangeUrl}
-        accessibilityLabel={t('spaces.input.digitalTool.url.label')}
+        aria-label={t('spaces.input.digitalTool.url.label')}
         testID="tool-url"
         isRequired={true}
         maxNoOfCharacters={500}
@@ -100,7 +100,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         validationErrorText={titleError}
         value={title}
         onChange={onChangeTitle}
-        accessibilityLabel={t('spaces.input.digitalTool.title.label')}
+        aria-label={t('spaces.input.digitalTool.title.label')}
         testID="tool-title"
         style={{ marginTop: 16 }}
         isRequired={true}
@@ -123,7 +123,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         validationErrorText={descriptionError}
         value={description}
         onChange={onChangeDescription}
-        accessibilityLabel={t('spaces.input.digitalTool.description.label')}
+        aria-label={t('spaces.input.digitalTool.description.label')}
         testID="tool-description"
         style={{ marginTop: 16 }}
         maxNoOfCharacters={100}
@@ -137,7 +137,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
           <ReactNativeImage
             source={{ uri: thumbnailUri }}
             resizeMode="cover"
-            accessibilityLabel={t('spaces.input.coverImage.label')}
+            aria-label={t('spaces.input.coverImage.label')}
             style={styles.thumbnail}
           />
         ) : (

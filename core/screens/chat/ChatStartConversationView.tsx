@@ -116,7 +116,7 @@ const ChatStartConversationView = () => {
             <HoliTextInput
               value={searchUserInputValue}
               placeholder={t('chat.start.input.label')}
-              accessibilityLabel={t('chat.start.input.label')}
+              aria-label={t('chat.start.input.label')}
               trailingComponent={trailingComponent}
               onChange={onSearchUserInputChange}
               validationErrorText={
@@ -153,7 +153,7 @@ const ChatStartConversationView = () => {
                           shape="round"
                           checked={user.id === selectedUser?.id}
                           autofocus={false}
-                          accessibilityLabel={t('chat.start.userItem.checkbox.label', { user: user.fullName })}
+                          aria-label={t('chat.start.userItem.checkbox.label', { user: user.fullName })}
                           onSelect={() => onUserSelect(user)}
                         />
                       </HoliBox>

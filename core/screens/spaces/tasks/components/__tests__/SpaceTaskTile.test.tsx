@@ -29,6 +29,6 @@ describe('SpaceTaskTile', () => {
         width: 64,
       },
     ])
-    expect(avatarImage.props.accessibilityLabel).toEqual('Some Body')
+    expect(avatarImage.props['aria-label']).toEqual('Some Body')
   })
 })

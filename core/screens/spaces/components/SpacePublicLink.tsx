@@ -34,7 +34,7 @@ const SpacePublicLink: React.VFC<SpacePublicLinkProps> = ({ link, style }: Space
       inline
       transparent
       label={type}
-      accessibilityRole="link"
+      role="link"
       onPress={() => Linking.openURL(`${urlPrefix}${url}`)}
       style={style}
       contentStyle={styles.button}

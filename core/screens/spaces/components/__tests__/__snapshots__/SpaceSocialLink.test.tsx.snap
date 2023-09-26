@@ -46,9 +46,11 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
   testID="btn-to-social-link"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         {
           "alignItems": "center",
@@ -131,6 +133,7 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
           "fontWeight": "500",
           "lineHeight": 19.599999999999998,
           "marginLeft": 8,
+          "userSelect": "auto",
         }
       }
     />
@@ -184,9 +187,11 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
   testID="btn-to-social-link"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         {
           "alignItems": "center",
@@ -297,6 +302,7 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
           "fontWeight": "500",
           "lineHeight": 19.599999999999998,
           "marginLeft": 8,
+          "userSelect": "auto",
         }
       }
     />

@@ -48,7 +48,7 @@ const TabList: React.FC<TabListProps> = ({ id, testID, tabs, centeredButtons, ta
   const { setStep, currentStep } = useStepper()
 
   return (
-    <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
+    <View style={styles.headerContainer} role="tablist" accessibilityOrientation="horizontal">
       <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
         {tabs.map((tab, index) => {
           const isActive = currentStep === index
@@ -59,7 +59,7 @@ const TabList: React.FC<TabListProps> = ({ id, testID, tabs, centeredButtons, ta
               style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
               onPress={() => setStep(index)}
               key={index}
-              accessibilitySelected={isActive}
+              ariaSelected={isActive}
               accessibilityControls={`${id}-panel-${index}`}
               testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
             >
@@ -105,10 +105,10 @@ const HoliTabs = ({
       tabs.map((tab, i) => (
         <View
           style={tab.style}
-          accessibilityLabelledBy={`${id}-tab-${i}`}
+          aria-labelledby={`${id}-tab-${i}`}
           nativeID={`${id}-panel-${i}`}
           key={i}
-          accessibilityRole={Platform.OS === 'web' ? 'tabpanel' : undefined}
+          role={Platform.OS === 'web' ? 'tabpanel' : undefined}
         >
           {tab.children}
         </View>

@@ -50,7 +50,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
               <ReactNativeImage
                 source={{ uri: image ? image.uri : uri }}
                 resizeMode="cover"
-                accessibilityLabel={t('spaces.input.coverImage.label')}
+                aria-label={t('spaces.input.coverImage.label')}
                 style={{
                   aspectRatio: 1.5,
                   borderRadius: 8,

@@ -38,7 +38,7 @@ const DonationListingItemFiltered: React.VFC<DonationListingItemFilteredProps> =
         />
 
         <View style={styles.textContainer}>
-          <HoliHeading level="2" size="xSmall" selectable={true} style={styles.heading} numberOfLines={2}>
+          <HoliHeading level="2" size="xSmall" selectable style={styles.heading} numberOfLines={2}>
             {title}
           </HoliHeading>
           <DonationProgress

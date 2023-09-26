@@ -3,7 +3,6 @@ import React from 'react'
 import { AccessibilityProps, Image, ImageRequireSource, ImageSourcePropType, ImageURISource } from 'react-native'
 import { WithLocalSvg } from 'react-native-svg'
 
-import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 // Usage:
@@ -20,10 +19,10 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   style,
   resizeMode = 'cover',
 }: HoliLocalImageProps) => {
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+  const accessibilityProps: AccessibilityProps = {
     accessible: false,
-    accessibilityRole: 'image',
-    accessibilityLabel: label,
+    role: 'img',
+    'aria-label': label,
   }
 
   let consolidatedImageSource: ImageSource | ImageRequireSource | undefined = undefined

@@ -55,6 +55,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
         >
@@ -92,8 +93,10 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="autocomplete-primary-suggestions"
-          accessibilityLabel="accessibility label"
           accessible={true}
+          aria-expanded={false}
+          aria-haspopup="menu"
+          aria-label="accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -110,6 +113,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
           placeholderTextColor="#bfbebe"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -219,8 +223,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
     </View>
   </View>
   <View
-    accessibilityRole="menu"
     nativeID="autocomplete-primary-suggestions"
+    role="menu"
     style={{}}
   />
 </View>
@@ -281,6 +285,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
         >
@@ -320,8 +325,10 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="autocomplete-error-suggestions"
-          accessibilityLabel="accessibility label"
           accessible={true}
+          aria-expanded={false}
+          aria-haspopup="menu"
+          aria-label="accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -338,6 +345,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
           placeholderTextColor="#bfbebe"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -458,6 +466,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "fontSize": 12,
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
               }
             }
             testID=""
@@ -469,8 +478,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
     </View>
   </View>
   <View
-    accessibilityRole="menu"
     nativeID="autocomplete-error-suggestions"
+    role="menu"
     style={{}}
   />
 </View>

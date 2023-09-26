@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccessibilityProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
@@ -33,9 +33,9 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   const { t } = useTranslation()
   const styles = getStyles(variant)
 
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+  const accessibilityProps: AccessibilityPropsWeb = {
     accessible: !disableFocusability,
-    accessibilityLabel: label,
+    'aria-label': label,
   }
 
   if (!user) {

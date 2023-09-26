@@ -150,7 +150,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
                 <HoliText style={styles.desc}>{t('spaces.collaborate.onboarding.desc')}</HoliText>
                 <HoliTextInput
                   placeholder={t('spaces.collaborate.onboarding.input')}
-                  accessibilityLabel={t('spaces.collaborate.onboarding.input')}
+                  aria-label={t('spaces.collaborate.onboarding.input')}
                   style={styles.input}
                   noOfVisibleLines={5}
                   showCharacterCount

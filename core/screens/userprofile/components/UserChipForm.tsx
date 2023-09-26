@@ -35,7 +35,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       <HoliText style={styles.subline}>{t(`user.${keyInUserObject}.form.subline`)}</HoliText>
 
       <HoliTextInput
-        accessibilityLabel={t(`profile.${keyInUserObject}.filter.placeholder`)}
+        aria-label={t(`profile.${keyInUserObject}.filter.placeholder`)}
         value={filterString}
         placeholder={t(`profile.${keyInUserObject}.filter.placeholder`)}
         onChange={onFilterStringChange}

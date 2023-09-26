@@ -155,7 +155,7 @@ const FormInputField = React.forwardRef<View, Props>(
     return (
       <HoliTextInput
         inputLabel={t(`${translationPrefix}input.label-${fieldLabel}`)}
-        accessibilityLabel={t(`${translationPrefix}input.label-${fieldLabel}`)}
+        aria-label={t(`${translationPrefix}input.label-${fieldLabel}`)}
         placeholder={t(`${translationPrefix}input.placeholder-${fieldLabel}`)}
         value={value ? String(value) : ''}
         validationErrorText={getValidationErrorText(node, i18n)}

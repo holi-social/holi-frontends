@@ -56,6 +56,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
           testID="test-label"
@@ -95,8 +96,10 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="multiselect-options"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={true}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -112,6 +115,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           onFocus={[Function]}
           placeholder="Label · 2"
           placeholderTextColor="#262424"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -197,9 +201,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               testID="test-toggle-menu"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -299,13 +305,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         </HoliText>
       </View>
     }
-    accessibilityLabel="multiselect.options"
-    accessibilityRole="menu"
     accessibilityState={
       {
         "expanded": true,
       }
     }
+    aria-label="multiselect.options"
     bounces={false}
     collapsable={false}
     data={
@@ -372,6 +377,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
     removeClippedSubviews={false}
     renderItem={[Function]}
     renderScrollComponent={[Function]}
+    role="menu"
     scrollEventThrottle={50}
     stickyHeaderIndices={[]}
     style={
@@ -407,7 +413,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -457,9 +462,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -479,6 +486,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -512,7 +520,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={true}
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -562,9 +569,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -584,6 +593,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -676,7 +686,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={true}
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -726,9 +735,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -748,6 +759,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -840,7 +852,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -890,9 +901,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -912,6 +925,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -945,7 +959,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -995,9 +1008,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -1017,6 +1032,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -1050,7 +1066,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -1100,9 +1115,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -1122,6 +1139,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -1155,7 +1173,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -1205,9 +1222,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -1227,6 +1246,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -1260,7 +1280,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -1310,9 +1329,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -1332,6 +1353,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -1420,6 +1442,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
           testID="test-label"
@@ -1459,8 +1482,10 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="multiselect-options"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={true}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -1476,6 +1501,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           onFocus={[Function]}
           placeholder="Children & Youth"
           placeholderTextColor="#262424"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -1561,9 +1587,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               testID="test-toggle-menu"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -1663,13 +1691,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         </HoliText>
       </View>
     }
-    accessibilityLabel="multiselect.options"
-    accessibilityRole="menu"
     accessibilityState={
       {
         "expanded": true,
       }
     }
+    aria-label="multiselect.options"
     bounces={false}
     collapsable={false}
     data={
@@ -1736,6 +1763,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
     removeClippedSubviews={false}
     renderItem={[Function]}
     renderScrollComponent={[Function]}
+    role="menu"
     scrollEventThrottle={50}
     stickyHeaderIndices={[]}
     style={
@@ -1771,7 +1799,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -1821,9 +1848,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -1843,6 +1872,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -1876,7 +1906,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={true}
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -1926,9 +1955,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -1948,6 +1979,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -2040,7 +2072,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -2090,9 +2121,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -2112,6 +2145,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -2145,7 +2179,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -2195,9 +2228,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -2217,6 +2252,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -2250,7 +2286,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -2300,9 +2335,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -2322,6 +2359,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -2355,7 +2393,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -2405,9 +2442,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -2427,6 +2466,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -2460,7 +2500,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -2510,9 +2549,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -2532,6 +2573,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -2565,7 +2607,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -2615,9 +2656,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -2637,6 +2680,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -2725,6 +2769,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
         >
@@ -2758,8 +2803,10 @@ exports[`MultiSelect renders correctly when closed 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={false}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -2774,6 +2821,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholderTextColor="#787777"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -2858,9 +2906,11 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               }
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -2994,6 +3044,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
           testID="test-label"
@@ -3033,8 +3084,10 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="multiselect-options"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={true}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -3049,6 +3102,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholderTextColor="#787777"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -3134,9 +3188,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               testID="test-toggle-menu"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -3236,13 +3292,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         </HoliText>
       </View>
     }
-    accessibilityLabel="multiselect.options"
-    accessibilityRole="menu"
     accessibilityState={
       {
         "expanded": true,
       }
     }
+    aria-label="multiselect.options"
     bounces={false}
     collapsable={false}
     data={
@@ -3309,6 +3364,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
     removeClippedSubviews={false}
     renderItem={[Function]}
     renderScrollComponent={[Function]}
+    role="menu"
     scrollEventThrottle={50}
     stickyHeaderIndices={[]}
     style={
@@ -3344,7 +3400,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -3394,9 +3449,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -3416,6 +3473,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -3449,7 +3507,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -3499,9 +3556,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -3521,6 +3580,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -3554,7 +3614,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -3604,9 +3663,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -3626,6 +3687,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -3659,7 +3721,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -3709,9 +3770,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -3731,6 +3794,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -3764,7 +3828,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -3814,9 +3877,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -3836,6 +3901,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -3869,7 +3935,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -3919,9 +3984,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -3941,6 +4008,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -3974,7 +4042,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -4024,9 +4091,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -4046,6 +4115,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -4079,7 +4149,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -4129,9 +4198,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -4151,6 +4222,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -4248,8 +4320,10 @@ exports[`SingleSelect correctly filters options 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="singleselect-options"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={true}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -4264,6 +4338,7 @@ exports[`SingleSelect correctly filters options 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholderTextColor="#787777"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -4357,9 +4432,11 @@ exports[`SingleSelect correctly filters options 1`] = `
               testID="test-clear-input"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -4503,9 +4580,11 @@ exports[`SingleSelect correctly filters options 1`] = `
               testID="test-toggle-menu"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -4605,13 +4684,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         </HoliText>
       </View>
     }
-    accessibilityLabel="multiselect.options"
-    accessibilityRole="menu"
     accessibilityState={
       {
         "expanded": true,
       }
     }
+    aria-label="multiselect.options"
     bounces={false}
     collapsable={false}
     data={
@@ -4678,6 +4756,7 @@ exports[`SingleSelect correctly filters options 1`] = `
     removeClippedSubviews={false}
     renderItem={[Function]}
     renderScrollComponent={[Function]}
+    role="menu"
     scrollEventThrottle={50}
     stickyHeaderIndices={[]}
     style={
@@ -4713,7 +4792,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -4763,9 +4841,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -4785,6 +4865,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -4816,7 +4897,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -4866,9 +4946,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -4888,6 +4970,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -4919,7 +5002,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -4969,9 +5051,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -4991,6 +5075,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -5022,7 +5107,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -5072,9 +5156,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -5094,6 +5180,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -5125,7 +5212,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -5175,9 +5261,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -5197,6 +5285,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -5228,7 +5317,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -5278,9 +5366,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -5300,6 +5390,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -5331,7 +5422,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -5381,9 +5471,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -5403,6 +5495,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -5434,7 +5527,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -5484,9 +5576,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -5506,6 +5600,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -5596,8 +5691,10 @@ exports[`SingleSelect renders correctly after selection 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={false}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -5613,6 +5710,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
           onFocus={[Function]}
           placeholder="Children & Youth"
           placeholderTextColor="#262424"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -5698,9 +5796,11 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               testID="test-toggle-menu"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -5838,8 +5938,10 @@ exports[`SingleSelect renders correctly when closed 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={false}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -5854,6 +5956,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholderTextColor="#787777"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -5938,9 +6041,11 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               }
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -6083,8 +6188,10 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="singleselect-options"
-          accessibilityLabel="Accessibility label"
           accessible={true}
+          aria-expanded={true}
+          aria-haspopup="menu"
+          aria-label="Accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -6099,6 +6206,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholderTextColor="#787777"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -6184,9 +6292,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               testID="test-toggle-menu"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -6286,13 +6396,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         </HoliText>
       </View>
     }
-    accessibilityLabel="multiselect.options"
-    accessibilityRole="menu"
     accessibilityState={
       {
         "expanded": true,
       }
     }
+    aria-label="multiselect.options"
     bounces={false}
     collapsable={false}
     data={
@@ -6359,6 +6468,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
     removeClippedSubviews={false}
     renderItem={[Function]}
     renderScrollComponent={[Function]}
+    role="menu"
     scrollEventThrottle={50}
     stickyHeaderIndices={[]}
     style={
@@ -6394,7 +6504,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -6444,9 +6553,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -6466,6 +6577,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -6497,7 +6609,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -6547,9 +6658,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -6569,6 +6682,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -6600,7 +6714,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -6650,9 +6763,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -6672,6 +6787,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -6703,7 +6819,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -6753,9 +6868,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -6775,6 +6892,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -6806,7 +6924,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -6856,9 +6973,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -6878,6 +6997,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -6909,7 +7029,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -6959,9 +7078,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -6981,6 +7102,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -7012,7 +7134,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -7062,9 +7183,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -7084,6 +7207,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
@@ -7115,7 +7239,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         style={null}
       >
         <View
-          accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
@@ -7165,9 +7288,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           testID="test-item"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 {
                   "flexDirection": "row",
@@ -7187,6 +7312,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                   "fontSize": 16,
                   "fontWeight": "400",
                   "lineHeight": 22.4,
+                  "userSelect": "none",
                 }
               }
             >
