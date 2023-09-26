@@ -94,9 +94,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             }
           >
             <View
-              pointerEvents="none"
               style={
                 [
+                  {
+                    "pointerEvents": "none",
+                  },
                   false,
                   undefined,
                 ]
@@ -111,9 +113,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                 }
               >
                 <ViewManagerAdapter_ExpoImage
-                  accessibilityLabel="spaces.tasks.thumbnail.label"
                   accessibilityRole="image"
                   accessible={true}
+                  aria-label="spaces.tasks.thumbnail.label"
                   borderRadius={8}
                   contentFit="cover"
                   contentPosition={
@@ -135,6 +137,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       },
                     ]
                   }
+                  role="img"
                   source={
                     [
                       {
@@ -216,9 +219,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               }
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -236,6 +241,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 16,
                       "fontWeight": "500",
                       "lineHeight": 22.4,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -291,9 +297,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             }
           >
             <View
-              pointerEvents="none"
               style={
                 [
+                  {
+                    "pointerEvents": "none",
+                  },
                   false,
                   undefined,
                 ]
@@ -425,6 +433,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
                         "marginRight": 8,
+                        "userSelect": "auto",
                       }
                     }
                   >
@@ -548,6 +557,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
                         "marginRight": 8,
+                        "userSelect": "auto",
                       }
                     }
                   >
@@ -615,9 +625,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               testID="spaces-topic-title"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     [
                       {
@@ -647,6 +659,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 14,
                       "fontWeight": "400",
                       "lineHeight": 19.599999999999998,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -703,9 +716,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               testID="spaces-topic-title"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     [
                       {
@@ -735,6 +750,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 14,
                       "fontWeight": "400",
                       "lineHeight": 19.599999999999998,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -790,9 +806,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             }
           >
             <View
-              pointerEvents="none"
               style={
                 [
+                  {
+                    "pointerEvents": "none",
+                  },
                   false,
                   undefined,
                 ]
@@ -816,6 +834,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 14,
                       "fontWeight": "400",
                       "lineHeight": 19.599999999999998,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -897,9 +916,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             }
           >
             <View
-              pointerEvents="none"
               style={
                 [
+                  {
+                    "pointerEvents": "none",
+                  },
                   false,
                   undefined,
                 ]
@@ -914,9 +935,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                 }
               >
                 <ViewManagerAdapter_ExpoImage
-                  accessibilityLabel="spaces.tasks.thumbnail.label"
                   accessibilityRole="image"
                   accessible={true}
+                  aria-label="spaces.tasks.thumbnail.label"
                   borderRadius={8}
                   contentFit="cover"
                   contentPosition={
@@ -938,6 +959,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       },
                     ]
                   }
+                  role="img"
                   source={
                     [
                       {
@@ -1019,9 +1041,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               }
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -1039,6 +1063,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 16,
                       "fontWeight": "500",
                       "lineHeight": 22.4,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -1094,9 +1119,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             }
           >
             <View
-              pointerEvents="none"
               style={
                 [
+                  {
+                    "pointerEvents": "none",
+                  },
                   false,
                   undefined,
                 ]
@@ -1228,6 +1255,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
                         "marginRight": 8,
+                        "userSelect": "auto",
                       }
                     }
                   >
@@ -1351,6 +1379,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
                         "marginRight": 8,
+                        "userSelect": "auto",
                       }
                     }
                   >
@@ -1418,9 +1447,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               testID="spaces-topic-title"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     [
                       {
@@ -1450,6 +1481,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 14,
                       "fontWeight": "400",
                       "lineHeight": 19.599999999999998,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -1506,9 +1538,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               testID="spaces-topic-title"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     [
                       {
@@ -1538,6 +1572,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 14,
                       "fontWeight": "400",
                       "lineHeight": 19.599999999999998,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -1593,9 +1628,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             }
           >
             <View
-              pointerEvents="none"
               style={
                 [
+                  {
+                    "pointerEvents": "none",
+                  },
                   false,
                   undefined,
                 ]
@@ -1619,6 +1656,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "fontSize": 14,
                       "fontWeight": "400",
                       "lineHeight": 19.599999999999998,
+                      "userSelect": "auto",
                     }
                   }
                 >
@@ -1700,9 +1738,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
       }
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             {
               "alignItems": "center",
               "flexDirection": "row",
@@ -1722,6 +1762,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
+              "userSelect": "auto",
             }
           }
         >

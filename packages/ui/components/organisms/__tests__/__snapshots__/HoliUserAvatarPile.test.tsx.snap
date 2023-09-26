@@ -43,9 +43,9 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <ViewManagerAdapter_ExpoImage
-      accessibilityLabel="Dima Rosmait"
       accessibilityRole="image"
       accessible={true}
+      aria-label="Dima Rosmait"
       contentFit="cover"
       contentPosition={
         {
@@ -59,6 +59,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       onLoadStart={[Function]}
       onProgress={[Function]}
       placeholder={[]}
+      role="img"
       source={
         [
           {
@@ -108,9 +109,9 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <Text
-      accessibilityLabel="Max Mustermann"
-      accessibilityRole="image"
       accessible={false}
+      aria-label="Max Mustermann"
+      role="img"
       selectable={true}
       style={
         {
@@ -120,6 +121,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "fontWeight": "bold",
           "lineHeight": 12.959999999999999,
           "textTransform": "uppercase",
+          "userSelect": "auto",
         }
       }
     >
@@ -156,9 +158,9 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <ViewManagerAdapter_ExpoImage
-      accessibilityLabel="Thomas Mueller"
       accessibilityRole="image"
       accessible={true}
+      aria-label="Thomas Mueller"
       contentFit="cover"
       contentPosition={
         {
@@ -172,6 +174,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       onLoadStart={[Function]}
       onProgress={[Function]}
       placeholder={[]}
+      role="img"
       source={
         [
           {
@@ -221,9 +224,9 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <Text
-      accessibilityLabel="Sandra Kasandra"
-      accessibilityRole="image"
       accessible={false}
+      aria-label="Sandra Kasandra"
+      role="img"
       selectable={true}
       style={
         {
@@ -233,6 +236,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "fontWeight": "bold",
           "lineHeight": 12.959999999999999,
           "textTransform": "uppercase",
+          "userSelect": "auto",
         }
       }
     >
@@ -269,9 +273,9 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     testID="pile-avatar"
   >
     <ViewManagerAdapter_ExpoImage
-      accessibilityLabel="Peter Pan"
       accessibilityRole="image"
       accessible={true}
+      aria-label="Peter Pan"
       contentFit="cover"
       contentPosition={
         {
@@ -285,6 +289,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       onLoadStart={[Function]}
       onProgress={[Function]}
       placeholder={[]}
+      role="img"
       source={
         [
           {

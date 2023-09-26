@@ -37,9 +37,9 @@ exports[`React tree renders correctly 1`] = `
   testID="space-avatar"
 >
   <ViewManagerAdapter_ExpoImage
-    accessibilityLabel="Space title"
     accessibilityRole="image"
     accessible={true}
+    aria-label="Space title"
     contentFit="cover"
     contentPosition={
       {
@@ -59,6 +59,7 @@ exports[`React tree renders correctly 1`] = `
         },
       ]
     }
+    role="img"
     source={
       [
         {
@@ -117,9 +118,9 @@ exports[`React tree renders initials with colored background, when given image p
   testID="space-avatar"
 >
   <Text
-    accessibilityLabel="Space title"
-    accessibilityRole="image"
     accessible={false}
+    aria-label="Space title"
+    role="img"
     selectable={true}
     style={
       {
@@ -129,6 +130,7 @@ exports[`React tree renders initials with colored background, when given image p
         "fontWeight": "bold",
         "lineHeight": 34.56,
         "textTransform": "uppercase",
+        "userSelect": "auto",
       }
     }
   >

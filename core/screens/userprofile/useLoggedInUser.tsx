@@ -35,6 +35,7 @@ export const useLoggedInUser = () => {
 
   return {
     user,
+    // TODO: refactor all splaces and use `isLoggedIn` from `useAuth()` hook instead
     isLoggedIn: !!user,
     isLoading: loading,
     refetch,

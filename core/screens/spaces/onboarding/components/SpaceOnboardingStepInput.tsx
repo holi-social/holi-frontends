@@ -31,7 +31,7 @@ const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
     <View style={styles.input}>
       <HoliTextInput
         maxNoOfCharacters={240}
-        accessibilityLabel={t('wizard.stepsCount', { current: index, total: totalSteps })}
+        aria-label={t('wizard.stepsCount', { current: index, total: totalSteps })}
         showCharacterCount
         inputLabel={t('wizard.stepsCount', { current: index, total: totalSteps })}
         noOfVisibleLines={3}

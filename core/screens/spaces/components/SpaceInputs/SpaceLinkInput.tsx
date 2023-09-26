@@ -59,7 +59,7 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
             inline
             transparent
             label={type}
-            accessibilityRole="link"
+            role="link"
             onPress={() => onEdit && onEdit(link)}
             testID="btn-to-social-link"
           >
@@ -69,7 +69,7 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
             inline
             transparent
             label={type}
-            accessibilityRole="link"
+            role="link"
             onPress={() => setDeleteModalVisible(true)}
             testID="btn-to-social-link"
           >
@@ -96,7 +96,7 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
         inline
         transparent
         label={type}
-        accessibilityRole="link"
+        role="link"
         onPress={() => Linking.openURL(`${urlPrefix}${url}`)}
         testID="btn-to-social-link"
       >

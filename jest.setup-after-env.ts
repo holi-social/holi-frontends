@@ -10,8 +10,8 @@ configure({
     mapProps: (props: Record<string, unknown>) => {
       return {
         testID: props.testID,
-        accessibilityLabel: props.accessibilityLabel,
-        accessibilityRole: props.accessibilityRole,
+        'aria-label': props['aria-label'],
+        role: props.role,
       }
     },
   },

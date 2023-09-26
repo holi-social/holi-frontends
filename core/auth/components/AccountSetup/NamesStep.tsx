@@ -99,7 +99,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
       <HoliTextInput
         value={firstName}
         inputLabel={t('user.profileForm.firstName')}
-        accessibilityLabel={t('user.profileForm.firstName')}
+        aria-label={t('user.profileForm.firstName')}
         placeholder={t('user.profileForm.firstNamePlaceholder')}
         maxNoOfCharacters={192}
         onChange={(value: string) => onChange('firstName', value)}
@@ -114,7 +114,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
       <HoliTextInput
         value={lastName}
         inputLabel={t('user.profileForm.lastName')}
-        accessibilityLabel={t('user.profileForm.lastName')}
+        aria-label={t('user.profileForm.lastName')}
         placeholder={t('user.profileForm.lastNamePlaceholder')}
         maxNoOfCharacters={192}
         onChange={(value: string) => onChange('lastName', value)}

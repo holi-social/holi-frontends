@@ -1,14 +1,6 @@
 import React from 'react'
 import type { PropsWithChildren } from 'react'
-import {
-  AccessibilityProps,
-  GestureResponderEvent,
-  Platform,
-  Pressable,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { GestureResponderEvent, Platform, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -20,7 +12,7 @@ interface Props {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   disabled?: boolean
   disableFocusability?: boolean
-  accessibilitySelected?: boolean
+  ariaSelected?: boolean
   accessibilityControls?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
@@ -29,16 +21,16 @@ interface Props {
 const HoliTabButton = ({
   disabled = false,
   disableFocusability = false,
-  accessibilitySelected = false,
+  ariaSelected = false,
   accessibilityControls,
   ...props
 }: PropsWithChildren<Props>) => {
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+  const accessibilityProps: AccessibilityPropsWeb = {
     accessible: !disableFocusability,
-    accessibilityRole: 'tab',
-    accessibilityLabel: props.label,
+    role: 'tab',
+    'aria-label': props.label,
     accessibilityControls,
-    accessibilitySelected,
+    'aria-selected': ariaSelected,
   }
 
   const content =

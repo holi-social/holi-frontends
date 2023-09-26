@@ -32,6 +32,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           "fontSize": 14,
           "fontWeight": "400",
           "lineHeight": 19.599999999999998,
+          "userSelect": "auto",
         }
       }
     >
@@ -82,9 +83,11 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       testID="edit"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             undefined,
           ]
@@ -100,6 +103,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
+              "userSelect": "none",
             }
           }
         >
@@ -130,6 +134,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           "fontSize": 16,
           "fontWeight": "400",
           "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >
@@ -171,6 +176,7 @@ exports[`renders correctly renders correctly when there is no title, not editabl
           "fontSize": 14,
           "fontWeight": "400",
           "lineHeight": 19.599999999999998,
+          "userSelect": "auto",
         }
       }
     />

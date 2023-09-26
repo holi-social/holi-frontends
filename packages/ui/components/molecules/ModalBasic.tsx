@@ -20,9 +20,16 @@ const ModalBasic: React.FC<ModalBasicProps> = ({ show, onDismiss, testID, label,
   }, [show, setModalIsOpen, modalId])
 
   const accessibilityProps: AccessibilityPropsWeb = {
-    ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
-    accessibilityLabel: label,
-    accessibilityRole: 'dialog',
+    ...(Platform.OS === 'web'
+      ? {
+          role: 'dialog',
+          'aria-modal': true,
+          'aria-label': label,
+        }
+      : {
+          accessibilityViewIsModal: true,
+          accessibilityLabel: label,
+        }),
   }
 
   return (

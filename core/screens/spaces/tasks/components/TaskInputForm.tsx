@@ -172,13 +172,13 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         {thumbnail?.uri ? (
           <ReactNativeImage
             source={{ uri: thumbnail?.uri ?? '' }}
-            accessibilityLabel={t('spaces.input.task.thumbnail.label')}
+            aria-label={t('spaces.input.task.thumbnail.label')}
             style={styles.thumbnail}
           />
         ) : currentThumbnail ? (
           <ReactNativeImage
             source={{ uri: currentThumbnail }}
-            accessibilityLabel={t('spaces.input.task.thumbnail.label')}
+            aria-label={t('spaces.input.task.thumbnail.label')}
             style={styles.thumbnail}
           />
         ) : (
@@ -240,7 +240,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           value={name}
           onChange={onChangeName}
           style={styles.marginSeparator}
-          accessibilityLabel={t('spaces.input.task.name.label')}
+          aria-label={t('spaces.input.task.name.label')}
           testID="task-name"
           isRequired
           showCharacterCount
@@ -253,7 +253,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           value={description}
           onChange={onChangeDescription}
           style={styles.marginSeparator}
-          accessibilityLabel={t('spaces.input.task.description.label')}
+          aria-label={t('spaces.input.task.description.label')}
           validationErrorText={descriptionError}
           testID="task-description"
           isRequired
@@ -352,7 +352,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           value={contactEmail}
           onChange={onChangeContactEmail}
           style={styles.marginSeparator}
-          accessibilityLabel={t('spaces.input.task.contactEmail.label')}
+          aria-label={t('spaces.input.task.contactEmail.label')}
           testID="task-contactEmail"
           maxNoOfCharacters={256}
         />
@@ -364,7 +364,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           value={contactPhone}
           onChange={onChangeContactPhone}
           style={styles.marginSeparator}
-          accessibilityLabel={t('spaces.input.task.contactPhone.label')}
+          aria-label={t('spaces.input.task.contactPhone.label')}
           testID="task-contactPhone"
           maxNoOfCharacters={100}
         />

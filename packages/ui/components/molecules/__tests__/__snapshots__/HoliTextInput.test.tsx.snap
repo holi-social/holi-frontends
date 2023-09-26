@@ -33,6 +33,35 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
       style={
         [
           {
+            "flexDirection": "row",
+            "marginBottom": 6,
+          },
+          {
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 16.8,
+            "userSelect": "auto",
+          }
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      style={
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#ebebeb",
@@ -59,8 +88,8 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     >
       <TextInput
         accessibilityAutoComplete="inline"
-        accessibilityLabel="accessibility label"
         accessible={true}
+        aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
@@ -122,7 +151,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
       >
         <Text
           accessible={false}
-          selectable={true}
           style={
             {
               "color": "#787777",
@@ -130,6 +158,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 14.399999999999999,
+              "userSelect": "auto",
             }
           }
           testID="holi-text-inputfalse-message"
@@ -175,6 +204,35 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
       style={
         [
           {
+            "flexDirection": "row",
+            "marginBottom": 6,
+          },
+          {
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 16.8,
+            "userSelect": "auto",
+          }
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      style={
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#ebebeb",
@@ -198,8 +256,8 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     >
       <TextInput
         accessibilityAutoComplete="inline"
-        accessibilityLabel="accessibility label"
         accessible={true}
+        aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
@@ -261,7 +319,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
       >
         <Text
           accessible={false}
-          selectable={true}
           style={
             {
               "color": "#787777",
@@ -269,6 +326,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 14.399999999999999,
+              "userSelect": "auto",
             }
           }
           testID="holi-text-inputfalse-message"
@@ -314,6 +372,35 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
       style={
         [
           {
+            "flexDirection": "row",
+            "marginBottom": 6,
+          },
+          {
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 16.8,
+            "userSelect": "auto",
+          }
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      style={
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#ebebeb",
@@ -337,8 +424,8 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     >
       <TextInput
         accessibilityAutoComplete="inline"
-        accessibilityLabel="accessibility label"
         accessible={true}
+        aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
@@ -400,7 +487,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
       >
         <Text
           accessible={false}
-          selectable={true}
           style={
             {
               "color": "#787777",
@@ -408,6 +494,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 14.399999999999999,
+              "userSelect": "auto",
             }
           }
           testID="holi-text-inputfalse-message"
@@ -464,7 +551,6 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     >
       <Text
         accessible={false}
-        selectable={true}
         style={
           {
             "color": "#262424",
@@ -472,6 +558,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 16.8,
+            "userSelect": "auto",
           }
         }
       >
@@ -514,8 +601,8 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     >
       <TextInput
         accessibilityAutoComplete="inline"
-        accessibilityLabel="accessibility label"
         accessible={true}
+        aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
@@ -577,7 +664,6 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
       >
         <Text
           accessible={false}
-          selectable={true}
           style={
             {
               "color": "#787777",
@@ -585,6 +671,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 14.399999999999999,
+              "userSelect": "auto",
             }
           }
           testID="holi-text-inputfalse-message"
@@ -630,6 +717,35 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       style={
         [
           {
+            "flexDirection": "row",
+            "marginBottom": 6,
+          },
+          {
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 16.8,
+            "userSelect": "auto",
+          }
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      style={
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#ebebeb",
@@ -653,8 +769,8 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     >
       <TextInput
         accessibilityAutoComplete="inline"
-        accessibilityLabel="accessibility label"
         accessible={true}
+        aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
@@ -789,7 +905,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       >
         <Text
           accessible={false}
-          selectable={true}
           style={
             {
               "color": "#787777",
@@ -797,6 +912,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 14.399999999999999,
+              "userSelect": "auto",
             }
           }
           testID="holi-text-inputfalse-message"
@@ -842,6 +958,35 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
       style={
         [
           {
+            "flexDirection": "row",
+            "marginBottom": 6,
+          },
+          {
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 16.8,
+            "userSelect": "auto",
+          }
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      style={
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#ebebeb",
@@ -865,8 +1010,8 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     >
       <TextInput
         accessibilityAutoComplete="inline"
-        accessibilityLabel="accessibility label"
         accessible={true}
+        aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="current-password"
         autoCorrect={false}
@@ -929,7 +1074,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
       >
         <Text
           accessible={false}
-          selectable={true}
           style={
             {
               "color": "#787777",
@@ -937,6 +1081,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 14.399999999999999,
+              "userSelect": "auto",
             }
           }
           testID="holi-text-inputfalse-message"
@@ -1005,8 +1150,8 @@ exports[`HoliTextInput renders correctly without label 1`] = `
     >
       <TextInput
         accessibilityAutoComplete="inline"
-        accessibilityLabel="accessibility label"
         accessible={true}
+        aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
@@ -1068,7 +1213,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
       >
         <Text
           accessible={false}
-          selectable={true}
           style={
             {
               "color": "#787777",
@@ -1076,6 +1220,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 14.399999999999999,
+              "userSelect": "auto",
             }
           }
           testID="holi-text-inputfalse-message"

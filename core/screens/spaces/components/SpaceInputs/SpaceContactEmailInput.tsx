@@ -25,7 +25,7 @@ const SpaceContactEmailInput: React.VFC<SpaceContactEmailInputProps> = ({
       validationErrorText={errorMessage}
       value={value}
       onChange={onChange}
-      accessibilityLabel={t('spaces.input.contact.description.label')}
+      aria-label={t('spaces.input.contact.description.label')}
       testID="space-contact-mail"
       {...props}
     />
