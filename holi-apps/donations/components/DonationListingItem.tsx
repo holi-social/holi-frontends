@@ -16,7 +16,7 @@ type DonationListingItemProps = {
 
 const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
   const { navigate } = useRouting()
-  const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
+  const { title, categories, progressPercentage, openAmountInCents, picture } = project
   const { imageWidth } = useWindowDimensionsWithImageScaling()
   // requesting the correct aspect ratio, for correct cropping, lowering bandwidth
   const imageHeight = Math.ceil(imageWidth / styles.mainImage.aspectRatio)
@@ -33,10 +33,8 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
       <HoliHeading level="2" size="small" selectable style={styles.heading}>
         {title}
       </HoliHeading>
-
       <DonationProgress
         category={categories[0]}
-        donationsCount={donationsCount}
         progressPercentage={progressPercentage}
         openAmountInCents={openAmountInCents}
       />
