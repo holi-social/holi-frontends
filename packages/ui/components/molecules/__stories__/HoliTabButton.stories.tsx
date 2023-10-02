@@ -17,7 +17,7 @@ export default {
 
 const Template: ComponentStory<typeof HoliTabButton> = ({ ...args }) => {
   return (
-    <View accessibilityRole="tablist">
+    <View role="tablist">
       <HoliTabButton {...args} />
     </View>
   )

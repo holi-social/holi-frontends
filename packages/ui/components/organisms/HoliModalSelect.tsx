@@ -115,7 +115,7 @@ const HoliModalSelect = <IDType extends string>({
           autofocus={false}
           disabled={option.disabled}
           testID={`${option.selected ? 'checked-' : ''}${testID}`}
-          accessibilityLabel={option.title}
+          aria-label={option.title}
         />
       </HoliButton>
     ),

@@ -21,6 +21,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
       >
@@ -72,9 +73,11 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
       testID="btn-holi-modal-select"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             [
               {
@@ -113,6 +116,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "marginLeft": 12,
+                "userSelect": "auto",
               }
             }
           >
@@ -149,7 +153,14 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             width={22}
             xmlns="http://www.w3.org/2000/svg"
           >
-            <RNSVGGroup>
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
               <RNSVGPath
                 d="M0 0h24v24H0z"
                 fill={null}
@@ -180,7 +191,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test"
-    accessibilityRole="dialog"
+    accessibilityViewIsModal={true}
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -251,9 +262,11 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
         testID="holi-modal-select-backdrop"
       >
         <View
-          pointerEvents="none"
           style={
             [
+              {
+                "pointerEvents": "none",
+              },
               false,
               undefined,
             ]
@@ -375,9 +388,11 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
               testID="btn-to-close-holi-modal-select"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -421,23 +436,14 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 role="heading"
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Medium",
-                      "fontWeight": "500",
-                    },
-                    {
-                      "fontSize": 21,
-                      "lineHeight": 29.4,
-                    },
-                    [
-                      {
-                        "fontWeight": "400",
-                      },
-                      false,
-                    ],
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 21,
+                    "fontWeight": "400",
+                    "lineHeight": 29.4,
+                    "userSelect": "auto",
+                  }
                 }
               >
                 test
@@ -500,9 +506,11 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 testID="item-holi-modal-select"
               >
                 <View
-                  pointerEvents="none"
                   style={
                     [
+                      {
+                        "pointerEvents": "none",
+                      },
                       false,
                       {
                         "alignItems": "flex-start",
@@ -559,6 +567,12 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="global_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667ZM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.906 15.906 0 0 0 13.97 13h-3.94Zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13ZM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11Zm5.969 0h3.938A15.904 15.904 0 0 0 12 4.248 15.906 15.906 0 0 0 10.03 11h.001Zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667Z"
@@ -576,6 +590,12 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="global_svg__a"
                           >
                             <RNSVGPath
@@ -617,6 +637,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -639,6 +660,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                             "fontSize": 16,
                             "fontWeight": "400",
                             "lineHeight": 22.4,
+                            "userSelect": "auto",
                           }
                         }
                       >
@@ -657,13 +679,11 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                       }
                     >
                       <View
-                        accessibilityChecked={true}
                         accessibilityLabel="Public"
-                        accessibilityRole="checkbox"
                         accessibilityState={
                           {
                             "busy": undefined,
-                            "checked": undefined,
+                            "checked": true,
                             "disabled": false,
                             "expanded": undefined,
                             "selected": undefined,
@@ -689,6 +709,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         onResponderTerminate={[Function]}
                         onResponderTerminationRequest={[Function]}
                         onStartShouldSetResponder={[Function]}
+                        role="checkbox"
                         style={
                           {
                             "alignItems": "center",
@@ -828,9 +849,11 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 testID="item-holi-modal-select"
               >
                 <View
-                  pointerEvents="none"
                   style={
                     [
+                      {
+                        "pointerEvents": "none",
+                      },
                       false,
                       {
                         "alignItems": "flex-start",
@@ -887,6 +910,12 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="global_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667ZM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.906 15.906 0 0 0 13.97 13h-3.94Zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13ZM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11Zm5.969 0h3.938A15.904 15.904 0 0 0 12 4.248 15.906 15.906 0 0 0 10.03 11h.001Zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667Z"
@@ -904,6 +933,12 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="global_svg__a"
                           >
                             <RNSVGPath
@@ -945,6 +980,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -967,6 +1003,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                             "fontSize": 16,
                             "fontWeight": "400",
                             "lineHeight": 22.4,
+                            "userSelect": "auto",
                           }
                         }
                       >
@@ -985,13 +1022,11 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                       }
                     >
                       <View
-                        accessibilityChecked={false}
                         accessibilityLabel="Members"
-                        accessibilityRole="checkbox"
                         accessibilityState={
                           {
                             "busy": undefined,
-                            "checked": undefined,
+                            "checked": false,
                             "disabled": false,
                             "expanded": undefined,
                             "selected": undefined,
@@ -1017,6 +1052,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         onResponderTerminate={[Function]}
                         onResponderTerminationRequest={[Function]}
                         onStartShouldSetResponder={[Function]}
+                        role="checkbox"
                         style={
                           {
                             "alignItems": "center",
@@ -1081,6 +1117,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
       >
@@ -1132,9 +1169,11 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
       testID="btn-holi-modal-select"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             [
               {
@@ -1164,6 +1203,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
+              "userSelect": "auto",
             }
           }
         />
@@ -1227,7 +1267,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
-    accessibilityRole="dialog"
+    accessibilityViewIsModal={true}
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -1259,6 +1299,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
       >
@@ -1310,9 +1351,11 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
       testID="btn-holi-modal-select"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             [
               {
@@ -1342,6 +1385,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
+              "userSelect": "auto",
             }
           }
         />
@@ -1375,7 +1419,14 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             width={22}
             xmlns="http://www.w3.org/2000/svg"
           >
-            <RNSVGGroup>
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
               <RNSVGPath
                 d="M0 0h24v24H0z"
                 fill={null}
@@ -1406,7 +1457,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
-    accessibilityRole="dialog"
+    accessibilityViewIsModal={true}
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -1477,9 +1528,11 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
         testID="holi-modal-select-backdrop"
       >
         <View
-          pointerEvents="none"
           style={
             [
+              {
+                "pointerEvents": "none",
+              },
               false,
               undefined,
             ]
@@ -1601,9 +1654,11 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
               testID="btn-to-close-holi-modal-select"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -1647,23 +1702,14 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 role="heading"
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Medium",
-                      "fontWeight": "500",
-                    },
-                    {
-                      "fontSize": 21,
-                      "lineHeight": 29.4,
-                    },
-                    [
-                      {
-                        "fontWeight": "400",
-                      },
-                      false,
-                    ],
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 21,
+                    "fontWeight": "400",
+                    "lineHeight": 29.4,
+                    "userSelect": "auto",
+                  }
                 }
               >
                 test label
@@ -1726,9 +1772,11 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 testID="item-holi-modal-select"
               >
                 <View
-                  pointerEvents="none"
                   style={
                     [
+                      {
+                        "pointerEvents": "none",
+                      },
                       false,
                       {
                         "alignItems": "flex-start",
@@ -1785,6 +1833,12 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="global_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667ZM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.906 15.906 0 0 0 13.97 13h-3.94Zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13ZM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11Zm5.969 0h3.938A15.904 15.904 0 0 0 12 4.248 15.906 15.906 0 0 0 10.03 11h.001Zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667Z"
@@ -1802,6 +1856,12 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="global_svg__a"
                           >
                             <RNSVGPath
@@ -1843,6 +1903,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -1865,6 +1926,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                             "fontSize": 16,
                             "fontWeight": "400",
                             "lineHeight": 22.4,
+                            "userSelect": "auto",
                           }
                         }
                       >
@@ -1883,13 +1945,11 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                       }
                     >
                       <View
-                        accessibilityChecked={false}
                         accessibilityLabel="Public"
-                        accessibilityRole="checkbox"
                         accessibilityState={
                           {
                             "busy": undefined,
-                            "checked": undefined,
+                            "checked": false,
                             "disabled": false,
                             "expanded": undefined,
                             "selected": undefined,
@@ -1915,6 +1975,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         onResponderTerminate={[Function]}
                         onResponderTerminationRequest={[Function]}
                         onStartShouldSetResponder={[Function]}
+                        role="checkbox"
                         style={
                           {
                             "alignItems": "center",
@@ -1998,9 +2059,11 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 testID="item-holi-modal-select"
               >
                 <View
-                  pointerEvents="none"
                   style={
                     [
+                      {
+                        "pointerEvents": "none",
+                      },
                       false,
                       {
                         "alignItems": "flex-start",
@@ -2057,6 +2120,12 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                       >
                         <RNSVGGroup
                           clipPath="global_svg__a"
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
                         >
                           <RNSVGPath
                             d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667ZM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.906 15.906 0 0 0 13.97 13h-3.94Zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13ZM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11Zm5.969 0h3.938A15.904 15.904 0 0 0 12 4.248 15.906 15.906 0 0 0 10.03 11h.001Zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667Z"
@@ -2074,6 +2143,12 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         </RNSVGGroup>
                         <RNSVGDefs>
                           <RNSVGClipPath
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
                             name="global_svg__a"
                           >
                             <RNSVGPath
@@ -2115,6 +2190,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -2137,6 +2213,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                             "fontSize": 16,
                             "fontWeight": "400",
                             "lineHeight": 22.4,
+                            "userSelect": "auto",
                           }
                         }
                       >
@@ -2155,13 +2232,11 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                       }
                     >
                       <View
-                        accessibilityChecked={false}
                         accessibilityLabel="Members"
-                        accessibilityRole="checkbox"
                         accessibilityState={
                           {
                             "busy": undefined,
-                            "checked": undefined,
+                            "checked": false,
                             "disabled": false,
                             "expanded": undefined,
                             "selected": undefined,
@@ -2187,6 +2262,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         onResponderTerminate={[Function]}
                         onResponderTerminationRequest={[Function]}
                         onStartShouldSetResponder={[Function]}
+                        role="checkbox"
                         style={
                           {
                             "alignItems": "center",
@@ -2251,6 +2327,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
       >
@@ -2302,9 +2379,11 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
       testID="btn-holi-modal-select"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             [
               {
@@ -2334,6 +2413,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
+              "userSelect": "auto",
             }
           }
         />
@@ -2367,7 +2447,14 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             width={22}
             xmlns="http://www.w3.org/2000/svg"
           >
-            <RNSVGGroup>
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
               <RNSVGPath
                 d="M0 0h24v24H0z"
                 fill={null}
@@ -2398,7 +2485,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
-    accessibilityRole="dialog"
+    accessibilityViewIsModal={true}
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -2469,9 +2556,11 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
         testID="holi-modal-select-backdrop"
       >
         <View
-          pointerEvents="none"
           style={
             [
+              {
+                "pointerEvents": "none",
+              },
               false,
               undefined,
             ]
@@ -2593,9 +2682,11 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
               testID="btn-to-close-holi-modal-select"
             >
               <View
-                pointerEvents="none"
                 style={
                   [
+                    {
+                      "pointerEvents": "none",
+                    },
                     false,
                     undefined,
                   ]
@@ -2639,27 +2730,17 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                 role="heading"
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Medium",
-                      "fontWeight": "500",
-                    },
-                    {
-                      "fontSize": 21,
-                      "lineHeight": 29.4,
-                    },
-                    [
-                      {
-                        "fontWeight": "400",
-                      },
-                      {
-                        "marginTop": 16,
-                        "paddingBottom": 24,
-                        "width": "100%",
-                      },
-                    ],
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 21,
+                    "fontWeight": "400",
+                    "lineHeight": 29.4,
+                    "marginTop": 16,
+                    "paddingBottom": 24,
+                    "userSelect": "auto",
+                    "width": "100%",
+                  }
                 }
               >
                 test label
@@ -2720,9 +2801,11 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                 testID="item-holi-modal-select"
               >
                 <View
-                  pointerEvents="none"
                   style={
                     [
+                      {
+                        "pointerEvents": "none",
+                      },
                       false,
                       {
                         "alignItems": "flex-start",
@@ -2758,6 +2841,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -2775,13 +2859,11 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                       }
                     >
                       <View
-                        accessibilityChecked={false}
                         accessibilityLabel="Public"
-                        accessibilityRole="checkbox"
                         accessibilityState={
                           {
                             "busy": undefined,
-                            "checked": undefined,
+                            "checked": false,
                             "disabled": false,
                             "expanded": undefined,
                             "selected": undefined,
@@ -2807,6 +2889,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                         onResponderTerminate={[Function]}
                         onResponderTerminationRequest={[Function]}
                         onStartShouldSetResponder={[Function]}
+                        role="checkbox"
                         style={
                           {
                             "alignItems": "center",
@@ -2888,9 +2971,11 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                 testID="item-holi-modal-select"
               >
                 <View
-                  pointerEvents="none"
                   style={
                     [
+                      {
+                        "pointerEvents": "none",
+                      },
                       false,
                       {
                         "alignItems": "flex-start",
@@ -2926,6 +3011,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -2943,13 +3029,11 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                       }
                     >
                       <View
-                        accessibilityChecked={false}
                         accessibilityLabel="Members"
-                        accessibilityRole="checkbox"
                         accessibilityState={
                           {
                             "busy": undefined,
-                            "checked": undefined,
+                            "checked": false,
                             "disabled": false,
                             "expanded": undefined,
                             "selected": undefined,
@@ -2975,6 +3059,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                         onResponderTerminate={[Function]}
                         onResponderTerminationRequest={[Function]}
                         onStartShouldSetResponder={[Function]}
+                        role="checkbox"
                         style={
                           {
                             "alignItems": "center",

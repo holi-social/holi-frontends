@@ -13,7 +13,7 @@ interface Props {
 // TODO: This can be a candidate for a Holi component and should be synced with our design department
 const NotificationModal = ({ isVisible, children, label, setVisibility }: PropsWithChildren<Props>) => {
   return (
-    <Modal animationType="fade" transparent visible={isVisible} accessibilityLabel={label}>
+    <Modal animationType="fade" transparent visible={isVisible} aria-label={label}>
       <View style={styles.modalContainer}>
         <Pressable onPress={() => setVisibility(false)} style={styles.Modalbackdrop} testID="close-modal" />
         <View style={styles.modalView}>{children}</View>

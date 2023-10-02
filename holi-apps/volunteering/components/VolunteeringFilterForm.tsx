@@ -113,7 +113,7 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
         <HoliSelect
           options={topicOptions}
           inputLabel={t('volunteering:filter.category.label')}
-          accessibilityLabel={t('volunteering:filter.category.label')}
+          aria-label={t('volunteering:filter.category.label')}
           placeholder={t('volunteering:filter.category.placeholder')}
           style={[styles.filterOption, { zIndex: 0 }]}
           onChange={toggleTopicSelection}

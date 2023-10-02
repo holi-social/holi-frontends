@@ -174,7 +174,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           value={code}
           onChange={setCode}
           placeholder={t('registration.emailVerification.inputPlaceholder')}
-          accessibilityLabel={t('registration.emailVerification.inputLabel')}
+          aria-label={t('registration.emailVerification.inputLabel')}
           maxNoOfCharacters={CODE_MAX_COUNT}
           showCharacterCount
           inputProps={{
@@ -236,7 +236,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
 const styles = StyleSheet.create({
   inner: {
     alignItems: 'center',
-    maxWidth: vars.breakpointL,
+    maxWidth: +vars.breakpointL,
   },
   imageContainer: {
     alignItems: 'center',
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   limitedBox: {
-    maxWidth: vars.breakpointS,
+    maxWidth: +vars.breakpointS,
     width: '100%',
   },
 })

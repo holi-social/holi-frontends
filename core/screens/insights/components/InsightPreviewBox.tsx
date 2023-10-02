@@ -36,11 +36,11 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
       <View {...props}>
         <HoliSkeleton aspectRatio={327 / 206} borderRadius={16} height={'auto'} width={'100%'} />
 
-        <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle} loading />
+        <HoliHeading level="3" selectable size="xSmall" style={styles.topicTitle} loading />
 
         <HoliHeading
           level="2"
-          selectable={true}
+          selectable
           size="small"
           numberOfLines={3}
           style={styles.spaceTop}
@@ -48,7 +48,7 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
           skeletonOptions={{ numberOfLines: 2 }}
         />
 
-        <HoliText size="small" style={styles.spaceTop} selectable={true} loading />
+        <HoliText size="small" style={styles.spaceTop} selectable loading />
 
         <HoliUserAvatarPile loading usersToShow={3} counter collapse style={styles.avatarPile} />
       </View>
@@ -73,17 +73,17 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
         />
 
         {!!insight.topic && (
-          <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle}>
+          <HoliHeading level="3" selectable size="xSmall" style={styles.topicTitle}>
             {insight.topic.title}
           </HoliHeading>
         )}
 
-        <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop}>
+        <HoliHeading level="2" selectable size="small" numberOfLines={3} style={styles.spaceTop}>
           {insight.title}
         </HoliHeading>
 
         {!!insight.creator && (
-          <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
+          <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable>
             {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
           </HoliText>
         )}

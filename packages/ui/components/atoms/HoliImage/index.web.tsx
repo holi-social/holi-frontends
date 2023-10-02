@@ -1,4 +1,5 @@
 import React from 'react'
+import { AccessibilityProps } from 'react-native'
 
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { ImageSource, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
@@ -35,6 +36,11 @@ const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover', onError 
   const srcSet = createSrcSet(source)
   const aspectRatio = style?.aspectRatio ? { aspectRatio: style?.aspectRatio.toString() } : {}
 
+  const accessibilityProps: AccessibilityProps = {
+    role: 'img',
+    'aria-label': label,
+  }
+
   // We use img tag instead of Image by react-native, as react-native-web does not yet
   // support multiple sources for image tag: https://github.com/necolas/react-native-web/issues/515
   return (
@@ -45,6 +51,7 @@ const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover', onError 
       sizes={sizes || (srcSet && `(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw`)}
       alt={label}
       onError={onError}
+      {...accessibilityProps}
       style={{ ...style, ...aspectRatio, objectFit: resizeMode }}
     />
   )

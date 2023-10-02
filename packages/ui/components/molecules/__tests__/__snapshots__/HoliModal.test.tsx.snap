@@ -3,7 +3,7 @@
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityViewIsModal={true}
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -16,7 +16,7 @@ exports[`renders correctly renders correctly when closed 1`] = `
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityViewIsModal={true}
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -87,9 +87,11 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="test-modal-backdrop"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             false,
             undefined,
           ]
@@ -211,9 +213,11 @@ exports[`renders correctly renders correctly when open 1`] = `
             testID="btn-to-close-test-modal"
           >
             <View
-              pointerEvents="none"
               style={
                 [
+                  {
+                    "pointerEvents": "none",
+                  },
                   false,
                   undefined,
                 ]

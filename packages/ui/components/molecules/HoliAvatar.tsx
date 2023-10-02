@@ -14,7 +14,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface BaseProps {
   imageSrc?: string
   imageBlurhash?: string
-  accessibilityLabel?: string
+  'aria-label'?: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   defaultColor?: string
   testID?: string
@@ -50,7 +50,7 @@ const HoliAvatar = ({
   imageBlurhash,
   initials,
   label,
-  accessibilityLabel,
+  'aria-label': ariaLabel,
   style,
   loading = false,
   ...props
@@ -63,8 +63,8 @@ const HoliAvatar = ({
 
   const accessibilityPropsInitials: AccessibilityProps = {
     accessible: false,
-    accessibilityLabel: label || accessibilityLabel || t('user.profileForm.avatar'),
-    accessibilityRole: 'image',
+    'aria-label': label || ariaLabel || t('user.profileForm.avatar'),
+    role: 'img',
   }
 
   return (

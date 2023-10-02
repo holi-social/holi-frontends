@@ -31,7 +31,7 @@ const useStyleMixins = () => {
     container: {
       alignSelf: 'center',
       width: '100%',
-      maxWidth: vars.maxScreenWidth,
+      maxWidth: +vars.maxScreenWidth,
       paddingHorizontal: paddingHorizontal,
     },
   })

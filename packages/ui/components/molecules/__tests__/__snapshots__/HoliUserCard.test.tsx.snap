@@ -42,31 +42,30 @@ exports[`HoliUserCard renders correctly 1`] = `
   >
     <ViewManagerAdapter_ExpoImage
       accessibilityRole="image"
+      accessible={true}
+      aria-label="Dima Rosmait"
+      contentFit="cover"
+      contentPosition={
+        {
+          "left": "50%",
+          "top": "50%",
+        }
+      }
       height="100%"
       onError={[Function]}
       onLoad={[Function]}
       onLoadStart={[Function]}
       onProgress={[Function]}
-      proxiedProperties={
-        {
-          "accessibilityLabel": "Dima Rosmait",
-          "accessible": true,
-          "contentFit": "cover",
-          "contentPosition": {
-            "left": "50%",
-            "top": "50%",
+      placeholder={[]}
+      role="img"
+      source={
+        [
+          {
+            "height": 128,
+            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+            "width": 128,
           },
-          "placeholder": [],
-          "source": [
-            {
-              "height": 128,
-              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-              "width": 128,
-            },
-          ],
-          "tintColor": undefined,
-          "transition": null,
-        }
+        ]
       }
       style={
         {
@@ -74,6 +73,7 @@ exports[`HoliUserCard renders correctly 1`] = `
           "width": "100%",
         }
       }
+      transition={null}
       width="100%"
     />
   </View>
@@ -89,6 +89,7 @@ exports[`HoliUserCard renders correctly 1`] = `
         "lineHeight": 22.4,
         "marginVertical": 8,
         "textAlign": "center",
+        "userSelect": "auto",
       }
     }
   >
@@ -113,6 +114,7 @@ exports[`HoliUserCard renders correctly 1`] = `
           "fontWeight": "400",
           "lineHeight": 22.4,
           "textAlign": "center",
+          "userSelect": "auto",
         }
       }
     >
@@ -165,31 +167,30 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
     >
       <ViewManagerAdapter_ExpoImage
         accessibilityRole="image"
+        accessible={true}
+        aria-label="Dima Rosmait"
+        contentFit="cover"
+        contentPosition={
+          {
+            "left": "50%",
+            "top": "50%",
+          }
+        }
         height="100%"
         onError={[Function]}
         onLoad={[Function]}
         onLoadStart={[Function]}
         onProgress={[Function]}
-        proxiedProperties={
-          {
-            "accessibilityLabel": "Dima Rosmait",
-            "accessible": true,
-            "contentFit": "cover",
-            "contentPosition": {
-              "left": "50%",
-              "top": "50%",
+        placeholder={[]}
+        role="img"
+        source={
+          [
+            {
+              "height": 128,
+              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+              "width": 128,
             },
-            "placeholder": [],
-            "source": [
-              {
-                "height": 128,
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-                "width": 128,
-              },
-            ],
-            "tintColor": undefined,
-            "transition": null,
-          }
+          ]
         }
         style={
           {
@@ -197,6 +198,7 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
             "width": "100%",
           }
         }
+        transition={null}
         width="100%"
       />
     </View>
@@ -219,6 +221,7 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
           "fontWeight": "400",
           "lineHeight": 19.599999999999998,
           "textAlign": "center",
+          "userSelect": "auto",
         }
       }
     >

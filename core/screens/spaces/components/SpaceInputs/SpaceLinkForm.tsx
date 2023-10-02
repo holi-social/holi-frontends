@@ -38,7 +38,7 @@ const SpaceLinksForm: React.VFC<SpaceLinksFormProps> = ({
         validationErrorText={validationErrorTextUrl}
         value={url}
         onChange={onChangeUrl}
-        accessibilityLabel={t('spaces.input.publicLinks.url.label')}
+        aria-label={t('spaces.input.publicLinks.url.label')}
         testID="space-link-url"
         inputProps={{ autoFocus: true }}
         style={styles.input}
@@ -50,7 +50,7 @@ const SpaceLinksForm: React.VFC<SpaceLinksFormProps> = ({
         maxNoOfCharacters={100}
         value={name}
         onChange={onChangeName}
-        accessibilityLabel={t('spaces.input.publicLinks.name.label')}
+        aria-label={t('spaces.input.publicLinks.name.label')}
         testID="space-link-name"
         validationErrorText={validationErrorTextName}
         isRequired

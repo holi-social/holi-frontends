@@ -74,8 +74,8 @@ const HeaderAnimated = () => {
     <Animated.View
       style={[styles.headerOuter, { top: headerHideAnimation }]}
       accessible
-      accessibilityRole="navigation"
-      accessibilityLabel={t('navigation.topNavigation')}
+      role="navigation"
+      aria-label={t('navigation.topNavigation')}
     >
       <View
         style={[

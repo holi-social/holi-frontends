@@ -1,14 +1,13 @@
 import React, { ReactChild, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  AccessibilityProps,
   KeyboardTypeOptions,
   LayoutChangeEvent,
   NativeSyntheticEvent,
   Platform,
   StyleProp,
   StyleSheet,
-  TargetedEvent,
   TextInput,
+  TextInputFocusEventData,
   TextInputIOSProps,
   TextInputProps,
   TextStyle,
@@ -20,7 +19,7 @@ import {
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ErrorWarningFilled } from '@holi/icons/src/generated'
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -28,7 +27,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliTextInputProps {
   inputLabel?: string
-  accessibilityLabel: string
+  'aria-label': string
   value?: string
   placeholder?: string
   helperText?: string
@@ -48,9 +47,12 @@ export interface HoliTextInputProps {
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   testID?: string
-  onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-  onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  onFocus?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void
+  onBlur?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void
   onLayout?: (event: LayoutChangeEvent) => void
+  role?: AccessibilityRoleWeb
+  ariaExpanded?: boolean
+  ariaHasPopup?: AccessibilityPropsWeb['aria-haspopup']
   accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
   accessibilityControls?: string
   showCharacterCount?: boolean
@@ -111,24 +113,27 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
     const [isHovered, setHovered] = useState<boolean>(false)
     const hasValidationErrors = !!props?.validationErrorText
 
-    const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+    const accessibilityProps: AccessibilityPropsWeb = {
+      role: props.role,
+      'aria-expanded': props.ariaExpanded,
+      'aria-haspopup': props.ariaHasPopup,
       accessible: true,
-      accessibilityLabel: props.accessibilityLabel,
+      'aria-label': props['aria-label'],
       accessibilityAutoComplete: props.accessibilityAutoComplete || 'inline',
       accessibilityControls: props.accessibilityControls,
     }
 
     const handleFocus = useCallback(
-      (event: NativeSyntheticEvent<TargetedEvent>) => {
+      (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
         setFocused(true)
-        onFocus && onFocus(event)
+        onFocus?.(event)
       },
       [setFocused, onFocus]
     )
     const handleBlur = useCallback(
-      (event: NativeSyntheticEvent<TargetedEvent>) => {
+      (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
         setFocused(false)
-        onBlur && onBlur(event)
+        onBlur?.(event)
       },
       [setFocused, onBlur]
     )
@@ -213,7 +218,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               props?.disabled && styles.inputWrapperDisabled,
               hasValidationErrors && styles.inputWrapperHasValidationErrors,
             ]}
-            testID={isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
+            testID={isIOS ? `${props?.testID || 'holi-text'}-input` : 'holi-text-input-wrapper'}
           >
             <TextInput
               value={value}
@@ -244,7 +249,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               autoCorrect={false}
               {...accessibilityProps}
               {...props?.inputProps}
-              testID={!isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
+              testID={!isIOS ? `${props.testID || 'holi-text'}-input` : 'input'}
               ref={textAreaRef}
             />
             {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
