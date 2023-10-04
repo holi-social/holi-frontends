@@ -6,7 +6,7 @@ import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import type { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
-import { REGEX_URL, REGEX_USER_MENTIONS } from '@holi/ui/helper/richText'
+import { REGEX_URL, REGEX_USER_MENTIONS, isValidUrl } from '@holi/ui/helper/richText'
 
 export interface Props extends HoliTextProps {
   text: string
@@ -14,10 +14,11 @@ export interface Props extends HoliTextProps {
   links?: Link[]
   style?: StyleProp<TextStyle>
   mentionStyle?: StyleProp<ViewStyle>
+  allowAllLinks?: boolean
   testID?: string
 }
 
-const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, ...props }: Props) => {
+const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowAllLinks = false, ...props }: Props) => {
   /**
    * Replaces each @<USER-ID>
    * with the highlighted fullName
@@ -45,7 +46,20 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, ...pro
         if (typeof item !== 'string') return item
 
         return item.split(REGEX_URL).map((textPart) => {
-          const link = links.find(({ requestedUrl }) => textPart === requestedUrl)
+          let link = links.find(({ requestedUrl }) => textPart === requestedUrl)
+
+          if (!link && allowAllLinks && isValidUrl(textPart)) {
+            link = {
+              requestedUrl: textPart,
+              title: textPart,
+              url: '',
+              description: '',
+              type: '',
+              image: '',
+              siteName: '',
+              origin: '',
+            }
+          }
 
           return link ? (
             <HoliTextLink href={link.requestedUrl} label={link.title} key={link.requestedUrl} external>
