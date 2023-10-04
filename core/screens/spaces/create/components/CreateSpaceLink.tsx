@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { isValidUrl } from '@holi/core/helpers'
+import { urlRegex } from '@holi/core/helpers'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
 import { AddExternalLinkResponse, addExternalLinkMutation } from '@holi/core/screens/spaces/create/mutations'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
@@ -23,7 +23,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
   const [url, setUrl] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [type, setType] = useState<string>(SpaceLinkType.OTHER || '')
-  const [validationErrorTextUrl, setValidationErrorTextUrl] = useState('')
+  const [validationErrorTextUrl, setValidationErrorTextUrl] = useState<string | undefined>()
   const [validationErrorTextName, setValidationErrorTextName] = useState('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const { t } = useTranslation()
@@ -44,17 +44,12 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
   })
 
   useEffect(() => {
-    if (url.length > 0 && name.length > 0 && isValidUrl(url)) {
+    if (url.length > 0 && name.length > 0 && !validationErrorTextUrl) {
       setSaveButtonDisabled(false)
     } else {
       setSaveButtonDisabled(true)
     }
-    if (url.length > 0 && !isValidUrl(url)) {
-      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.invalid'))
-    } else {
-      setValidationErrorTextUrl('')
-    }
-  }, [name, url, t])
+  }, [name, url, t, validationErrorTextUrl])
 
   useEffect(() => {
     const linkTypes = Object.values(SpaceLinkType)
@@ -64,6 +59,15 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
       }
     })
   }, [url])
+
+  useEffect(() => {
+    // Check if the input URL is in a valid format
+    if (!urlRegex.test(url)) {
+      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.invalid'))
+    } else {
+      setValidationErrorTextUrl(undefined)
+    }
+  }, [t, url])
 
   const onSave = () => {
     if (!url) {
@@ -75,11 +79,13 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
       return
     }
 
+    const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
+
     addLinkToSpace({
       variables: {
         input: {
           spaceId: space.id,
-          url: url,
+          url: urlWithProtocol,
           name: name,
           type: type,
         },
