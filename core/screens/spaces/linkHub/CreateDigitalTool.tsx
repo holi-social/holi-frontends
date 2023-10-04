@@ -40,6 +40,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
+  const [urlError, setUrlError] = useState<string | undefined>()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState<string | undefined>()
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
@@ -72,11 +73,14 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
-  const onSave = () =>
+  const onSave = () => {
+    // Check if the URL already has a protocol
+    const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
+
     addCollaborationTool({
       variables: {
         input: {
-          url,
+          url: urlWithProtocol,
           spaceId: space?.id,
           title,
           description,
@@ -85,6 +89,18 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
         },
       },
     })
+  }
+
+  useEffect(() => {
+    // Check if the input URL is in a valid format
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/
+
+    if (!urlRegex.test(url)) {
+      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+    } else {
+      setUrlError(undefined)
+    }
+  }, [t, url])
 
   useLayoutEffect(() => {
     !loadingSpace &&
@@ -155,7 +171,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
           title={title}
           description={description}
           thumbnail={thumbnail}
-          fieldErrors={fieldErrors}
+          fieldErrors={urlError ? { url: [urlError] } : fieldErrors}
         />
       </SpaceFormScreenLayout>
     </PermissionsGuard>
