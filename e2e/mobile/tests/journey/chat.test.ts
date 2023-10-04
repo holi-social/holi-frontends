@@ -8,7 +8,7 @@ describe('@Chat', () => {
     await registerNewUser()
 
     // open profile of another user
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down')
+    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 8 })
     await tapOnElementWithTestId('user-card-suggestion-0')
 
     // at user profile
