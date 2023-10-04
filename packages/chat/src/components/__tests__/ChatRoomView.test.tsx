@@ -26,16 +26,9 @@ import {
 console.debug = jest.fn()
 
 const CHAT_SERVER_NAME = 'test.chat'
-const CHAT_SERVER_URL = 'http://test.chat'
-
-jest.mock('@holi/core/helpers/config', () => ({
-  chatServerName: CHAT_SERVER_NAME,
-  chatServerUrl: CHAT_SERVER_URL,
-  chatServerLoginUrl: CHAT_SERVER_URL,
-  chatPushGatewayUrl: 'some.push.gateway.url',
-}))
-
 let mockLoggedInUser: User | undefined = undefined
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let mockOrySessionInStorage: Record<string, string> | undefined
 
 interface MockLoggedInUserState {
   isLoggedIn: boolean
@@ -62,29 +55,6 @@ jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
     CHAT: 'CHAT',
   },
 }))
-
-let mockOrySessionInStorage: Record<string, string> | undefined = {
-  session_token: 'session_token_stub',
-}
-jest.mock('@holi/core/auth/helpers/auth', () => ({
-  getSessionFromStorage: () => {
-    return Promise.resolve(mockOrySessionInStorage)
-  },
-}))
-
-jest.mock('cross-fetch', () => (url: string) => {
-  if (`${CHAT_SERVER_URL}/_matrix/client/r0/login` === url) {
-    const mockMatrixResponse = {
-      user_id: '@someUserIdentity:test.chat',
-      access_token: 'syt_Z3JlZ29yMA_someAccessToken',
-      home_server: CHAT_SERVER_URL,
-      device_id: 'NGRTsomeDeviceId',
-    }
-    return Promise.resolve(new Response(JSON.stringify(mockMatrixResponse)))
-  }
-
-  throw new Error("cross-fetch mock didn't handle a call for: " + url)
-})
 
 let mockMatrixSessionInStorage: [string, boolean | string | undefined][]
 jest.mock('@react-native-async-storage/async-storage', () => {
@@ -272,6 +242,13 @@ jest.mock('matrix-js-sdk', () => ({
   createClient: (opts: ICreateClientOpts) => mockCreateClient({ mockMx, baseUrl: opts.baseUrl, userId: opts.userId! }),
 }))
 
+afterAll(() => {
+  mockOrySessionInStorage = undefined
+  mockLoggedInUser = undefined
+  mockLoggedInUserState = undefined
+  mockMatrixSessionInStorage = []
+})
+
 describe('ChatRoomView', () => {
   describe('with feature-enabled chat', () => {
     beforeEach(() => {
@@ -376,11 +353,4 @@ describe('ChatRoomView', () => {
       })
     })
   })
-})
-
-afterAll(() => {
-  mockOrySessionInStorage = undefined
-  mockLoggedInUser = undefined
-  mockLoggedInUserState = undefined
-  mockMatrixSessionInStorage = []
 })
