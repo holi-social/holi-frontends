@@ -44,6 +44,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
+  const [urlError, setUrlError] = useState<string | undefined>()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState<string | undefined>('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
@@ -90,12 +91,14 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     }
   )
 
-  const onSave = () =>
+  const onSave = () => {
+    const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
+
     updateCollaborationTool({
       variables: {
         input: {
           id: toolId,
-          url,
+          url: urlWithProtocol,
           title,
           description,
           collectionType: selectedCollection?.id,
@@ -103,6 +106,18 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         },
       },
     })
+  }
+
+  useEffect(() => {
+    // Check if the input URL is in a valid format
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/
+
+    if (!urlRegex.test(url)) {
+      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+    } else {
+      setUrlError(undefined)
+    }
+  }, [t, url])
 
   useLayoutEffect(() => {
     !loadingSpace &&
@@ -197,7 +212,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         description={description}
         thumbnail={thumbnail}
         thumbnailBlurhash={thumbnailBlurhash}
-        fieldErrors={fieldErrors}
+        fieldErrors={urlError ? { url: [urlError] } : fieldErrors}
         currentThumbnail={currentThumbnail}
       />
     </SpaceFormScreenLayout>

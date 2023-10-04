@@ -4,7 +4,6 @@ import { z } from 'zod'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 
 export const AddCollaborationToolSchema = z.object({
-  url: z.string().url().max(500).optional(),
   title: z.string().trim().min(3).max(50).optional(),
   description: z.string().trim().min(3).max(100).optional(),
   spaceId: z.string() /* UUID */,
@@ -33,7 +32,6 @@ export type AddCollaborationToolResponse = {
 
 export const UpdateCollaborationToolSchema = z.object({
   id: z.string() /* UUID */,
-  url: z.string().url().max(500).optional(),
   title: z.string().trim().min(3).max(50).optional(),
   description: z.string().trim().min(3).max(100).optional(),
   collectionType: z.string(),
