@@ -30,22 +30,9 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
   const skeletonItems = new Array(amount).fill(1).map((_, idx) => (
     <HoliGridCell key={idx}>
       <HoliSkeleton aspectRatio={327 / 214} borderRadius={24} height={'auto'} width={'100%'} />
-      <HoliHeading level="2" size="small" style={styles.topicTitle} loading skeletonOptions={{ width: '60%' }} />
       <HoliText size="extrasmall" style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
+      <HoliHeading level="2" size="small" style={styles.topicTitle} loading skeletonOptions={{ width: '60%' }} />
       <HoliText size="extrasmall" style={{ marginTop: 8 }} loading skeletonOptions={{ width: '100%' }} />
-    </HoliGridCell>
-  ))
-
-  const filteredSkeletonItems = new Array(amount).fill(1).map((_, idx) => (
-    <HoliGridCell key={idx}>
-      <View style={styles.container}>
-        <HoliSkeleton aspectRatio={1 / 1} borderRadius={20} height={104} width={104} />
-        <View style={styles.textContainer}>
-          <HoliHeading level="2" size="small" style={styles.heading} loading skeletonOptions={{ width: '100%' }} />
-          <HoliText size="extrasmall" style={styles.spaceTop} loading skeletonOptions={{ width: '100%' }} />
-          <HoliText size="extrasmall" style={styles.spaceTop} loading />
-        </View>
-      </View>
     </HoliGridCell>
   ))
 
@@ -64,12 +51,7 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
     <View style={styles.skeletonContainer} {...props}>
       <HoliBox padding={[0, 0, 24, 0]}>
         <>
-          <HoliHeading
-            level="1"
-            testID="donations-list-search-heading"
-            loading
-            skeletonOptions={{ width: isFiltering ? '60%' : '100%' }}
-          />
+          <HoliHeading level="1" testID="donations-list-search-heading" loading skeletonOptions={{ width: '100%' }} />
         </>
         <PartnerInfoRowSkeleton />
         {isFiltering && (
@@ -78,8 +60,8 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
           </>
         )}
       </HoliBox>
-      <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={isFiltering ? 16 : 32}>
-        {isFiltering ? filteredSkeletonItems : skeletonItems}
+      <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
+        {skeletonItems}
       </HoliGridWrapper>
     </View>
   )
@@ -90,10 +72,11 @@ export default withProfiler(DonationListingSkeleton, { name: 'DonationListingSke
 const styles = StyleSheet.create({
   topicTitle: {
     color: colors.brandColorB30,
-    marginTop: 16,
+    marginVertical: 8,
   },
   spaceTop: {
-    marginTop: 8,
+    marginTop: 16,
+
     width: '100%',
   },
   skeletonContainer: {

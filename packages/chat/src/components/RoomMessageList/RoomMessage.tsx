@@ -10,6 +10,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomMessageProps {
@@ -67,7 +68,7 @@ const RoomMessage = ({
               </HoliBox>
             )}
 
-            <HoliText>{content.body}</HoliText>
+            <HoliRichTextOutput text={content.body} allowAllLinks />
 
             <View style={styles.date}>
               <HoliText size="extrasmall" color="gray300">

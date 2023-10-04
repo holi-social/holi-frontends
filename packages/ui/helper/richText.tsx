@@ -71,3 +71,11 @@ export const findMentionMatches = (text: string): Mention | undefined => {
     }
   }
 }
+
+export const isValidUrl = (urlString: string) => {
+  try {
+    return Boolean(new URL(urlString))
+  } catch (e) {
+    return false
+  }
+}
