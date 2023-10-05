@@ -1,4 +1,4 @@
-import { ICreateClientOpts, Preset, Visibility } from 'matrix-js-sdk'
+import { ICreateClientOpts, Preset, RoomType, Visibility } from 'matrix-js-sdk'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { mockCreateMatrixClient, mockMx } from '@holi/chat/src/test-utils/matrix-mock-setup'
@@ -55,6 +55,27 @@ it('should call the creation of a private message room', async () => {
   }
 
   await client.createRoom(members, { isDirectMessage: isDM })
+  expect(mockMx.createRoom).toBeCalledTimes(1)
+  expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
+})
+
+it('should call the creation of a space', async () => {
+  const members = ['stephanie.gilmore', 'lakey.peterson']
+  const client = new ChatClient(clientOptions('syt_p'))
+  const spaceName = 'Surfers Paradise'
+
+  const result = {
+    invite: members,
+    is_direct: false,
+    preset: Preset.PrivateChat,
+    visibility: Visibility.Private,
+    name: spaceName,
+    creation_content: {
+      type: RoomType.Space,
+    },
+  }
+
+  await client.createSpace(members, spaceName)
   expect(mockMx.createRoom).toBeCalledTimes(1)
   expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
 })

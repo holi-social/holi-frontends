@@ -17,6 +17,7 @@ import {
   RoomMember,
   type RoomState,
   RoomStateEvent,
+  RoomType,
   Visibility,
   createClient,
 } from 'matrix-js-sdk'
@@ -146,6 +147,21 @@ export default class ChatClient {
     if (room) return { room_id: room.roomId }
 
     return this.createRoom(userIds, options)
+  }
+
+  public async createSpace(userIds: string[], name: string): Promise<RoomId> {
+    const options: ICreateRoomOpts = {
+      preset: Preset.PrivateChat,
+      visibility: Visibility.Private,
+      is_direct: false,
+      name: name,
+      invite: userIds,
+      creation_content: {
+        type: RoomType.Space,
+      },
+    }
+
+    return await this.mxClient.createRoom({ ...options, invite: userIds })
   }
 
   /**
