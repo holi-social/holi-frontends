@@ -3,7 +3,7 @@ import { ICreateClientOpts } from 'matrix-js-sdk/src/client'
 import React from 'react'
 
 import { createChatMemberFixture, createChatRoomFixture } from '@holi/chat/src/store'
-import { mockMx, setMatrixMock } from '@holi/chat/src/test-utils/matrix-mock-setup'
+import { CHAT_MOCK_USER_ID, mockMx, setMatrixMock } from '@holi/chat/src/test-utils/matrix-mock-setup'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 import { User } from '@holi/core/screens/userprofile/types'
 
@@ -60,7 +60,7 @@ jest.mock('matrix-js-sdk', () => ({
 
 describe('ChatRoomView', () => {
   beforeEach(() => {
-    setMatrixMock('someMatrixUserId')
+    setMatrixMock(CHAT_MOCK_USER_ID)
 
     mockChatFeatureToggle = {
       loading: false,
@@ -88,7 +88,7 @@ describe('ChatRoomView', () => {
 
     mockMatrixSessionInStorage = [
       ['mx_client_login', true], //fresh?
-      ['mx_user_id', 'someMatrixUserId'],
+      ['mx_user_id', CHAT_MOCK_USER_ID],
       ['mx_sso_token', 'someAccessToken'],
       ['mx_device', 'someDeviceId'],
     ]

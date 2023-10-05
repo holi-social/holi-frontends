@@ -9,7 +9,8 @@ import {
 } from '@holi/chat/src/components/__tests__/MatrixMockLogic.testutils'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const CHAT_SERVER_NAME_MOCK = 'test.chat'
+export const CHAT_SERVER_NAME_MOCK = 'chat.holi.social.mock'
+export const CHAT_MOCK_USER_ID = 'satoshi.nakamoto'
 
 export const mockMx = initMatrixMock()
 
