@@ -16,6 +16,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
+  authenticatedUserQuery,
   interestsQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
@@ -109,6 +110,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         setIsLoading(true)
         await registerUserNames({
           variables: { input: parseRegisterUserNamesInput(names) },
+          refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
           onCompleted: goNext,
         })
         setIsLoading(false)
@@ -130,6 +132,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         if (selectedInterestIds.length) {
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
+            refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
             onError: (error) =>
               displayError(error, 'Failed to update users interests', {
                 location: 'AccountSetup.handleNextPress.INTERESTS',
@@ -157,6 +160,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
+            refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
             onError: (error) =>
               displayError(error, 'Failed to update users location', {
                 location: 'AccountSetup.handleNextPress.LOCATION',

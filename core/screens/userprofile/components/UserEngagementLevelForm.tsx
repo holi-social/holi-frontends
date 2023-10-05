@@ -7,6 +7,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
+  authenticatedUserQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -54,7 +55,10 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       ...(engagementLevel && { engagementLevel }),
     }
 
-    const result = await updateUser({ variables: { input } })
+    const result = await updateUser({
+      variables: { input },
+      refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+    })
     if (!error && result.data && onSubmit) {
       onSubmit(result.data.updateAuthenticatedUser)
     }

@@ -7,6 +7,7 @@ import type { SelectableTerm } from '@holi/core/screens/userprofile/components/U
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
+  authenticatedUserQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { Term, User } from '@holi/core/screens/userprofile/types'
@@ -83,7 +84,10 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
     const input = {} as UpdateAuthenticatedUserInput
     input[keyInUserObject] = selectedTerms.map(({ id }: Term) => id)
 
-    const { data } = await updateUser({ variables: { input } })
+    const { data } = await updateUser({
+      variables: { input },
+      refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+    })
 
     if (data) {
       onSubmit?.(data.updateAuthenticatedUser)
