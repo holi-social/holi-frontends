@@ -69,7 +69,7 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
 
     await page.goto('/profile/' + userId)
     const testUserFullName = await page.textContent(byTestId('user-profile-full-name'))
-    const random = faker.random.alphaNumeric(5)
+    const random = faker.string.alphanumeric(5)
     const commentInput = `This is E2E test: ${random}! So, hey test user @${testUserFullName}`
     commentTextContent = commentInput.replace(new RegExp(`@${testUserFullName}`), `${testUserFullName}`) // remove the @ sign for matching the text later
 
