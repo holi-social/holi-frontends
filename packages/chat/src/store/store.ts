@@ -35,8 +35,6 @@ export const getChatClient = (): ChatClient => {
   return chatClient
 }
 
-export const isChatInitializedAtom = atom(false)
-
 /**
  * Room Producers
  *
