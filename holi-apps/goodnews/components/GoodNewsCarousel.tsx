@@ -36,7 +36,6 @@ const { useParam } = createParam<GoodNewsArticleParams>()
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel = () => {
   const { width, height } = useWindowDimensions()
-  // const styles = useMemo(() => getStyles(width, height), [width, height])
   const { i18n } = useTranslation()
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   const setScreenOptions = useSetScreenOptions()
