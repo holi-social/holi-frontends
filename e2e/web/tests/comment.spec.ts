@@ -18,7 +18,7 @@ test.describe('@Comment', () => {
 
       // create e2e comment and fill the textinput
       const input = await locateElementByTestId(page, 'post-comment-input')
-      const commentText = `e2e comment ${faker.random.alphaNumeric(5)}`
+      const commentText = `e2e comment ${faker.string.alphanumeric(5)}`
       await input.fill(commentText)
 
       // submit comment

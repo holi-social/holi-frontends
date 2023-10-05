@@ -2293,10 +2293,10 @@
     find-up "^5.0.0"
     js-yaml "^4.1.0"
 
-"@faker-js/faker@^8.0.2":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-8.0.2.tgz#bab698c5d3da9c52744e966e0e3eedb6c8b05c37"
-  integrity sha512-Uo3pGspElQW91PCvKSIAXoEgAUlRnH29sX2/p89kg7sP1m2PzCufHINd0FhTXQf6DYGiUlVncdSPa2F9wxed2A==
+"@faker-js/faker@^8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-8.1.0.tgz#e14896f1c57af2495e341dc4c7bf04125c8aeafd"
+  integrity sha512-38DT60rumHfBYynif3lmtxMqMqmsOQIxQgEuPZxCk2yUYN0eqWpTACgxi0VpidvsJB8CRxCpvP7B3anK85FjtQ==
 
 "@floating-ui/core@^1.4.1":
   version "1.4.1"
@@ -11662,10 +11662,10 @@ expo-updates-interface@~0.10.0:
   resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.10.1.tgz#cab075641cd381718ccd9264bf133dc393430a44"
   integrity sha512-I6JMR7EgjXwckrydDmrkBEX/iw750dcqpzQVsjznYWfi0HTEOxajLHB90fBFqQkUV5i5s4Fd3hYQ1Cn0oMzUbA==
 
-expo-updates@~0.18.14:
-  version "0.18.14"
-  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.18.14.tgz#dd67ef729a1d81ab5ca551a47dd2bf6254a49ce3"
-  integrity sha512-RHlo44Xo4mgXrLqhDK52s0xE1nOFdf0FAMfuQD5O5+uKLk6vbNqwwX8FejiIbrVLhlYTkldUPBPlTsp0G9vB8A==
+expo-updates@~0.18.15:
+  version "0.18.15"
+  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.18.15.tgz#b3d2831726e60aac10e7eb5ff63a940c93ca9378"
+  integrity sha512-H3IERMG7d2flvj1pknJyXhRaYrkDEz7HPNNX+LCWqoWkNBslbGfFednW3gAtSlqJoTS8AzZIn5gEMvgFgV8fuA==
   dependencies:
     "@expo/code-signing-certificates" "0.0.5"
     "@expo/config" "~8.1.0"
