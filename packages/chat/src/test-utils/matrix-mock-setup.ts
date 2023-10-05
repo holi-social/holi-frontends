@@ -197,6 +197,7 @@ export const setMatrixMock = (userId: string) => {
   })
 
   mockMx.createRoom = jest.fn(async ({ invite }) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const invitedUserId = invite![0]
     const roomId = `!roomId_${userId}_${invitedUserId}:${CHAT_SERVER_NAME_MOCK}`
     const room = mockedGetOrMakeRoom(roomId)

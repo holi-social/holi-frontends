@@ -262,7 +262,7 @@ export const roomAtomsRecorAtomForTesting = atom(
  * the Matrix server.
  */
 export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().createRoom(userIds)
+  return getChatClient().createRoom(userIds, { isDirectMessage: true })
 }
 /**
  * @name getOrCreateRoom (Client Helper)
@@ -270,7 +270,7 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
  * exists, or creates a new one.
  */
 export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds)
+  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true })
 }
 
 /**

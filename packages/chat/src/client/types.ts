@@ -2,6 +2,11 @@ import { NotificationCountType } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
 
+export interface CreateRoomOptions {
+  isDirectMessage: boolean
+  isPrivate?: boolean
+}
+
 export enum MembershipStatus {
   /**
    * The user is effectively joined to the room. For example, actually joined
