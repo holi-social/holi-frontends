@@ -1,6 +1,13 @@
 {
   "build": {
+    "base": {
+      "node": "18.14.0",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
     "development": {
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
       "env": {
@@ -16,12 +23,10 @@
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
         "ORY_BASE_URL": "https://dev-auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
-      },
-      "ios": {
-        "resourceClass": "m-medium"
       }
     },
     "development-simulator": {
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
       "env": {
@@ -39,11 +44,11 @@
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
       },
       "ios": {
-        "simulator": true,
-        "resourceClass": "m-medium"
+        "simulator": true
       }
     },
     "preview": {
+      "extends": "base",
       "distribution": "internal",
       "channel": "staging",
       "env": {
@@ -59,12 +64,10 @@
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
         "ORY_BASE_URL": "https://dev-auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
-      },
-      "ios": {
-        "resourceClass": "m-medium"
       }
     },
     "production": {
+      "extends": "base",
       "channel": "production",
       "env": {
         "ENVIRONMENT_ID": "production",
@@ -78,12 +81,10 @@
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
         "ORY_BASE_URL": "https://auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
-      },
-      "ios": {
-        "resourceClass": "m-medium"
       }
     },
     "simulator": {
+      "extends": "base",
       "env": {
         "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
         "ENVIRONMENT_ID": "staging",

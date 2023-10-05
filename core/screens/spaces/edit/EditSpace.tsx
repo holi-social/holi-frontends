@@ -38,6 +38,7 @@ import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
@@ -149,8 +150,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     })
   }, [hide, setScreenOptions, show, t, visible])
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space) {
+  if (loading) {
+    return <HoliLoader />
+  }
+
+  if (error || !space || !isAdmin) {
     return <></>
   }
 
