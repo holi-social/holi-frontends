@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
+import { SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Carousel from 'react-native-reanimated-carousel'
@@ -36,7 +36,7 @@ const { useParam } = createParam<GoodNewsArticleParams>()
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel = () => {
   const { width, height } = useWindowDimensions()
-  const styles = useMemo(() => getStyles(width, height), [width, height])
+  // const styles = useMemo(() => getStyles(width, height), [width, height])
   const { i18n } = useTranslation()
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   const setScreenOptions = useSetScreenOptions()
@@ -118,7 +118,7 @@ const GoodNewsCarousel = () => {
         />
       )
     },
-    [activeArticleIndex, memoizedFetchMore, styles.article]
+    [activeArticleIndex, memoizedFetchMore]
   )
 
   // Error and loading states are handled the same way and just hide the component
@@ -139,7 +139,7 @@ const GoodNewsCarousel = () => {
       {/* props documentation https://github.com/dohooo/react-native-reanimated-carousel/blob/HEAD/docs/props.md */}
       <Carousel
         width={width}
-        style={styles.carousel}
+        height={height}
         loop={false}
         data={carouselItems}
         defaultIndex={activeArticleIndex}
@@ -169,31 +169,21 @@ export default withProfiler(GoodNewsCarousel, { name: 'GoodNewsCarousel' })
 
 const paginationDotAreaHeight = 50
 
-const getStyles = (width: number, height: number) =>
-  StyleSheet.create({
-    article: {
-      paddingBottom: paginationDotAreaHeight,
-    },
-    carousel: {
-      width: width,
-      height: height,
-      ...Platform.select({
-        native: {
-          flex: 1,
-        },
-      }),
-    },
-    paginationDotArea: {
-      zIndex: -1,
-      backgroundColor: 'transparent',
-      bottom: 12,
-      minHeight: paginationDotAreaHeight,
-      position: 'absolute',
-      alignSelf: 'center',
-      flexDirection: 'row',
-    },
-    rootView: {
-      flex: 1,
-      justifyContent: 'space-between',
-    },
-  })
+const styles = StyleSheet.create({
+  article: {
+    paddingBottom: paginationDotAreaHeight,
+  },
+  paginationDotArea: {
+    zIndex: -1,
+    backgroundColor: 'transparent',
+    bottom: 12,
+    minHeight: paginationDotAreaHeight,
+    position: 'absolute',
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  rootView: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+})
