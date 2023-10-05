@@ -3,12 +3,15 @@ import { ICreateClientOpts } from 'matrix-js-sdk/src/client'
 import React from 'react'
 
 import { createChatMemberFixture, createChatRoomFixture } from '@holi/chat/src/store'
-import { CHAT_MOCK_USER_ID, mockMx, setMatrixMock } from '@holi/chat/src/test-utils/matrix-mock-setup'
+import { ChatMockProvider, queriesFor, storeForRoomAtoms } from '@holi/chat/src/test-utils/ChatMockProvider'
+import {
+  CHAT_MOCK_USER_ID,
+  mockCreateMatrixClient,
+  mockMx,
+  setMatrixMock,
+} from '@holi/chat/src/test-utils/matrix-mock-setup'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 import { User } from '@holi/core/screens/userprofile/types'
-
-import { ChatTestBed, queriesFor, storeForRoomAtoms } from './ChatTestBed'
-import { mockCreateClient } from './MatrixMockLogic.testutils'
 
 interface MockLoggedInUserState {
   isLoggedIn: boolean
@@ -55,7 +58,7 @@ jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
 
 jest.mock('matrix-js-sdk', () => ({
   ...jest.requireActual('matrix-js-sdk'),
-  createClient: (opts: ICreateClientOpts) => mockCreateClient({ mockMx, baseUrl: opts.baseUrl, userId: opts.userId! }),
+  createClient: (opts: ICreateClientOpts) => mockCreateMatrixClient(opts.userId ?? '', mockMx),
 }))
 
 describe('ChatRoomView', () => {
@@ -115,9 +118,9 @@ describe('ChatRoomView', () => {
     const rooms = [someRoom]
 
     render(
-      <ChatTestBed jotaiStore={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
+      <ChatMockProvider jotaiStore={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
         <ChatRoomView />
-      </ChatTestBed>
+      </ChatMockProvider>
     )
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('chat-room-loader'))
@@ -150,9 +153,9 @@ describe('ChatRoomView', () => {
     const rooms = [bobsRoom]
 
     render(
-      <ChatTestBed jotaiStore={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
+      <ChatMockProvider jotaiStore={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
         <ChatRoomView />
-      </ChatTestBed>
+      </ChatMockProvider>
     )
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('chat-room-loader'))
