@@ -6,7 +6,7 @@ import { delay } from './time'
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
 // https://webdriver.io/docs/selectors
-const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@resource-id='${testID}']`)
+const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `android=resourceId("${testID}")`)
 
 const byText = (text: string) => `*${text}`
 
