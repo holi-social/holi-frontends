@@ -21,12 +21,12 @@ describe('@ForgotPassword', () => {
     // validation message on invalid form
     await waitForElementWithTestId('ory-email-input')
     await fillFieldByTestId('ory-email-input', 'an-invalid-email')
-    await tapOnElementWithTestId('ory-submit-link')
+    await tapOnElementWithTestId('ory-submit-code')
     await waitForElementWithTestId('ory-email-input-error-message')
 
     // valid email input and submission
     await fillFieldByTestId('ory-email-input', 'valid@mail.de')
-    await tapOnElementWithTestId('ory-submit-link')
+    await tapOnElementWithTestId('ory-submit-code')
 
     // success view
     await waitForElementWithTestId('form-sent-headline')
