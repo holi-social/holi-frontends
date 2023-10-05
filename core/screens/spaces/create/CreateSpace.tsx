@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -119,43 +120,45 @@ const CreateSpace = () => {
   }
 
   return (
-    <SpaceTermContextProvider>
-      <View style={styles.wrapper}>
-        <View style={[mixins.container, styles.container]}>
-          <HoliWizard
-            isBackButtonAvailable={true}
-            submitButtonLabel={t('spaces.create.button')}
-            onNextPress={handleNextButtonPress}
-            onSubmit={handleSubmitButtonPress}
-          >
-            <CreateSpaceName
-              onChangeSpaceName={setSpaceName}
-              onChangeSpaceGoal={setSpaceGoal}
-              spaceName={spaceName}
-              spaceGoal={spaceGoal}
-              spaceNameErrors={fieldErrors.title}
-              spaceGoalErrors={fieldErrors.description}
-            />
-            <CreateSpaceTopics onSelectSpaceTopics={setSpaceTopics} selectedTopics={spaceTopics} />
-            <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
-          </HoliWizard>
+    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/spaces">
+      <SpaceTermContextProvider>
+        <View style={styles.wrapper}>
+          <View style={[mixins.container, styles.container]}>
+            <HoliWizard
+              isBackButtonAvailable={true}
+              submitButtonLabel={t('spaces.create.button')}
+              onNextPress={handleNextButtonPress}
+              onSubmit={handleSubmitButtonPress}
+            >
+              <CreateSpaceName
+                onChangeSpaceName={setSpaceName}
+                onChangeSpaceGoal={setSpaceGoal}
+                spaceName={spaceName}
+                spaceGoal={spaceGoal}
+                spaceNameErrors={fieldErrors.title}
+                spaceGoalErrors={fieldErrors.description}
+              />
+              <CreateSpaceTopics onSelectSpaceTopics={setSpaceTopics} selectedTopics={spaceTopics} />
+              <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
+            </HoliWizard>
+          </View>
         </View>
-      </View>
-      <HoliConfirmation
-        show={showConfirmationModal}
-        label={exitConfirmationTitle}
-        title={exitConfirmationTitle}
-        description={t('spaces.create.close.dialog.description')}
-        onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('spaces.create.close.dialog.dismiss')}
-        confirmText={t('spaces.create.close.dialog.confirm')}
-        testID="exit-space-creation-confirmation"
-        onConfirm={() => {
-          setShowConfirmationModal(false)
-          navigateBack()
-        }}
-      />
-    </SpaceTermContextProvider>
+        <HoliConfirmation
+          show={showConfirmationModal}
+          label={exitConfirmationTitle}
+          title={exitConfirmationTitle}
+          description={t('spaces.create.close.dialog.description')}
+          onDismiss={() => setShowConfirmationModal(false)}
+          dismissText={t('spaces.create.close.dialog.dismiss')}
+          confirmText={t('spaces.create.close.dialog.confirm')}
+          testID="exit-space-creation-confirmation"
+          onConfirm={() => {
+            setShowConfirmationModal(false)
+            navigateBack()
+          }}
+        />
+      </SpaceTermContextProvider>
+    </PermissionsGuard>
   )
 }
 

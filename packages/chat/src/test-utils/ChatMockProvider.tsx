@@ -12,7 +12,7 @@ interface Props {
   apolloMocks?: MockedResponse[]
 }
 
-export const ChatTestBed = ({ children, jotaiStore, apolloMocks = [] }: PropsWithChildren<Props>) => {
+export const ChatMockProvider = ({ children, jotaiStore, apolloMocks = [] }: PropsWithChildren<Props>) => {
   return (
     <ChatStoreInitializer store={jotaiStore}>
       <MockedProvider mocks={apolloMocks} addTypename={false}>

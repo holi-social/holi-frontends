@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -86,12 +87,16 @@ const CreateSpaceUpdate = () => {
       })
   }, [setScreenOptions, t, loading, isUpdate, isMember])
 
-  if (error || !space || !isMember) {
+  if (error || !space) {
     return <></>
   }
 
   return (
-    <>
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.MEMBER}
+    >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}
         saveButtonLoading={loading}
@@ -111,7 +116,7 @@ const CreateSpaceUpdate = () => {
           isAdmin={isAdmin}
         />
       </SpaceFormScreenLayout>
-    </>
+    </PermissionsGuard>
   )
 }
 

@@ -15,6 +15,7 @@ module.exports = {
   },
   setupFiles: [
     '<rootDir>/jest.setup.ts',
+    '<rootDir>/jest.setup.chat.ts',
     '<rootDir>/node_modules/jest-offline',
     '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js',
   ],

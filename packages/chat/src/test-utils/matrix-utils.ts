@@ -4,11 +4,11 @@ import { ChatRoom } from '@holi/chat/src/store'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export function fireMatrixEvent(
+export const fireMatrixEvent = (
   mockedMatrixOnFn: jest.Mock<typeof MatrixClient.prototype.on>,
   matrixClientEvent: ClientEvent,
   eventBody: any
-) {
+) => {
   mockedMatrixOnFn.mock.calls
     .filter((listener) => matrixClientEvent === listener[0])
     .map((eventListener) => eventListener[1])
@@ -17,7 +17,7 @@ export function fireMatrixEvent(
     })
 }
 
-export function matrixRoomFrom(chatRoom: ChatRoom): Room {
+export const matrixRoomFrom = (chatRoom: ChatRoom): Room => {
   return {
     roomId: chatRoom.id ?? 'testRoomId',
     name: chatRoom.name ?? 'testRoomName',
@@ -39,7 +39,7 @@ export function matrixRoomFrom(chatRoom: ChatRoom): Room {
   } as unknown as Room
 }
 
-export function matrixMessageEventChunkFrom(chatMessage: string, chatServerName: string) {
+export const matrixMessageEventChunkFrom = (chatMessage: string, chatServerName: string) => {
   return [
     {
       type: 'm.room.message',

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -40,7 +41,7 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [toolId] = useParam('toolIdOrName')
-  const { navigateBack, navigate } = useRouting()
+  const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
@@ -72,8 +73,6 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
-
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { handleGraphQLError } = useFieldErrors({
     handledFieldErrors: ['url', 'title', 'description'],
@@ -182,40 +181,42 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     }
   }, [description, selectedCollection?.id, space?.id, title, url])
 
-  if (!loadingSpace && !isMember) {
-    navigate(`/spaces/${spaceIdOrName}`)
-  }
-
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space || !isMember) {
+  if (loadingSpace || errorSpace || !space) {
     return <></>
   }
 
   return (
-    <SpaceFormScreenLayout
-      title={t('spaces.digitalTool.edit.title')}
-      saveButtonDisabled={saveButtonDisabled}
-      saveButtonLoading={loading}
-      toggleConfirmationModal={setShowConfirmationModal}
-      onSave={onSave}
-      showConfirmationModal={showConfirmationModal}
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.MEMBER}
     >
-      <DigitalToolInputForm
-        onChangeUrl={setUrl}
-        onChangeTitle={setTitle}
-        onChangeDescription={setDescription}
-        onSelectCollection={setSelectedCollection}
-        selectedCollection={selectedCollection}
-        onChangeThumbnail={setThumbnail}
-        url={url}
-        title={title}
-        description={description}
-        thumbnail={thumbnail}
-        thumbnailBlurhash={thumbnailBlurhash}
-        fieldErrors={urlError ? { url: [urlError] } : fieldErrors}
-        currentThumbnail={currentThumbnail}
-      />
-    </SpaceFormScreenLayout>
+      <SpaceFormScreenLayout
+        title={t('spaces.digitalTool.edit.title')}
+        saveButtonDisabled={saveButtonDisabled}
+        saveButtonLoading={loading}
+        toggleConfirmationModal={setShowConfirmationModal}
+        onSave={onSave}
+        showConfirmationModal={showConfirmationModal}
+      >
+        <DigitalToolInputForm
+          onChangeUrl={setUrl}
+          onChangeTitle={setTitle}
+          onChangeDescription={setDescription}
+          onSelectCollection={setSelectedCollection}
+          selectedCollection={selectedCollection}
+          onChangeThumbnail={setThumbnail}
+          url={url}
+          title={title}
+          description={description}
+          thumbnail={thumbnail}
+          thumbnailBlurhash={thumbnailBlurhash}
+          fieldErrors={urlError ? { url: [urlError] } : fieldErrors}
+          currentThumbnail={currentThumbnail}
+        />
+      </SpaceFormScreenLayout>
+    </PermissionsGuard>
   )
 }
 
