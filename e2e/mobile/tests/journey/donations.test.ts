@@ -52,7 +52,6 @@ const assertResetDonationsFilterFromList = async () => {
 
 const assertFilterDonationsByLocation = async () => {
   await filterForLocation('Germany')
-  await scrollToElementWithTestId('donations-list-search-heading-text', 'up')
   await waitForElementWithTestId('donations-list-search-reset')
 }
 
