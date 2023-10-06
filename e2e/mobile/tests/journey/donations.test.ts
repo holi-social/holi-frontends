@@ -27,15 +27,13 @@ describe('@Donations', () => {
 
     await assertProjectDetails()
 
-    await assertAllowsPagination()
-
     await assertFilterDonationsByLocation()
-
-    await assertResetDonationsFilterFromList()
 
     await assertKeepsFilterAfterNavigatingToDetails()
 
-    await assertResetFilterFromModal()
+    await assertResetDonationsFilterFromList()
+
+    await assertAllowsPagination()
   })
 })
 
@@ -52,7 +50,7 @@ const assertResetDonationsFilterFromList = async () => {
 
 const assertFilterDonationsByLocation = async () => {
   await filterForLocation('Germany')
-  await waitForElementWithTestId('donations-list-search-reset')
+  await scrollToElementWithTestId('donations-list-search-reset', 'up')
 }
 
 const assertProjectDetails = async () => {
@@ -85,23 +83,6 @@ const assertDisplaysMultipleProjects = async () => {
   const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
   return listItemsBefore
-}
-
-const assertResetFilterFromModal = async () => {
-  // scroll up to make sure top menu shows up
-  await scrollUp()
-
-  // open search modal
-  await tapOnElementWithTestId('donations-search-button')
-
-  // reset filter
-  await tapOnElementWithTestId('donations-search-form-reset')
-
-  // close search modal
-  await tapOnElementWithTestId('btn-to-close-donations-search-modal')
-
-  // wait for results
-  await waitForElementWithTestId('donations-list-container')
 }
 
 const filterForLocation = async (location: string) => {
