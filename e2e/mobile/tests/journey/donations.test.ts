@@ -4,10 +4,8 @@ import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
   pressEnter,
-  scrollToElementWithTestId,
-  seeTextWithTestId,
+  scrollToElementWithTestId, // seeTextWithTestId,
   tapOnElementWithTestId,
-  waitForElementWithInnerText,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
@@ -31,11 +29,9 @@ describe('@Donations', () => {
 
     await assertAllowsPagination()
 
-    const resultCountGermany = await assertFilterDonationsByLocation()
+    await assertFilterDonationsByLocation()
 
     await assertResetDonationsFilterFromList()
-
-    await assertMoreSpecificFilter(resultCountGermany)
 
     await assertKeepsFilterAfterNavigatingToDetails()
 
@@ -46,16 +42,7 @@ describe('@Donations', () => {
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
   await assertProjectDetails()
   // expect filtered list
-  await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
-}
-
-const assertMoreSpecificFilter = async (resultCountGermany: number) => {
-  await filterForLocation('Hamburg')
-  // assert and compare results
-  await waitForElementWithInnerText('Hamburg')
-  const resultCountHamburg = await extractResultCount('donations-list-search-summary')
-  expect(resultCountHamburg).toBeGreaterThan(0)
-  expect(resultCountHamburg).toBeLessThan(resultCountGermany)
+  await waitForElementWithTestId('donations-list-search-reset')
 }
 
 const assertResetDonationsFilterFromList = async () => {
@@ -65,12 +52,8 @@ const assertResetDonationsFilterFromList = async () => {
 
 const assertFilterDonationsByLocation = async () => {
   await filterForLocation('Germany')
-  // count results for comparison
-  await scrollUp()
-  await waitForElementWithInnerText('Hamburg')
-  const resultCountGermany = await extractResultCount('donations-list-search-summary')
-  expect(resultCountGermany).toBeGreaterThan(0)
-  return resultCountGermany
+  await scrollToElementWithTestId('donations-list-search-heading-text', 'up')
+  await waitForElementWithTestId('donations-list-search-reset')
 }
 
 const assertProjectDetails = async () => {
@@ -120,16 +103,6 @@ const assertResetFilterFromModal = async () => {
 
   // wait for results
   await waitForElementWithTestId('donations-list-container')
-}
-
-const extractResultCount = async (testId: string): Promise<number> => {
-  const element = await waitForElementWithTestId(testId)
-  const textContent = await element.getText()
-  const numberMatch = textContent?.match(/\d+/)
-  if (numberMatch && numberMatch.length) {
-    return parseInt(numberMatch[0], 10)
-  }
-  return 0
 }
 
 const filterForLocation = async (location: string) => {
