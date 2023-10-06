@@ -93,8 +93,8 @@ export const gotoFillAndSubmitRegistration = async (
 export const finishAccountSetup = async (
   page: Page,
   {
-    firstName = faker.name.firstName(),
-    lastName = faker.name.lastName(),
+    firstName = faker.person.firstName(),
+    lastName = faker.person.lastName(),
   }: {
     firstName?: string
     lastName?: string
@@ -207,7 +207,7 @@ export const sendConnectionRequest = async (page: Page) => {
 }
 
 export const newUserEmail = () => {
-  return `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+  return `${faker.internet.userName()}${faker.string.alphanumeric(4)}@e2etest.com`
 }
 
 export const randomPassword = () => {
