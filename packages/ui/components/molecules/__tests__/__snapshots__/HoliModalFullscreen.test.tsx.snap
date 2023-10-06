@@ -3,7 +3,7 @@
 exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityViewIsModal={true}
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -14,7 +14,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `
 exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityViewIsModal={true}
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -103,9 +103,11 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           testID="fullscreen-modal-close-btn"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 false,
                 undefined,
               ]
@@ -152,6 +154,12 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                 >
                   <RNSVGGroup
                     clipPath="close_svg__a"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
                   >
                     <RNSVGPath
                       d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95Z"
@@ -169,6 +177,12 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                   </RNSVGGroup>
                   <RNSVGDefs>
                     <RNSVGClipPath
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
                       name="close_svg__a"
                     >
                       <RNSVGPath

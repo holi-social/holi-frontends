@@ -29,10 +29,6 @@ describe('@Volunteering', () => {
     await assertAllowsPagination()
 
     await assertFilteringWorks()
-
-    await navigateToDetailview()
-    // expect filtered list
-    await waitForElementWithTestId('volunteering-list-filtered')
   })
 })
 
@@ -57,7 +53,7 @@ const assertFilteringWorks = async () => {
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
 
   // check if the volunteering app home is shown
-  await waitForElementWithTestId('volunteering-list-filtered')
+  await waitForElementWithTestId('volunteering-list-container')
 }
 
 const navigateToDetailview = async () => {

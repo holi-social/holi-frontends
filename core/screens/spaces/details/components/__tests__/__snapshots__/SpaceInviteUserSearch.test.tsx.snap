@@ -12,8 +12,20 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
   exiting={
     FadeOut {
       "build": [Function],
+      "callbackV": undefined,
+      "dampingV": undefined,
       "delayV": 300,
+      "durationV": undefined,
+      "easingV": undefined,
+      "initialValues": undefined,
+      "massV": undefined,
+      "overshootClampingV": undefined,
       "randomizeDelay": false,
+      "restDisplacementThresholdV": undefined,
+      "restSpeedThresholdV": undefined,
+      "rotateV": undefined,
+      "stiffnessV": undefined,
+      "type": undefined,
     }
   }
   style={
@@ -62,7 +74,6 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
         collapsable={false}
         colorFilters={[]}
         enableMergePathsAndroidForKitKatAndAbove={false}
-        forwardedRef={[Function]}
         loop={true}
         onAnimationFinish={[Function]}
         progress={0}

@@ -5,15 +5,16 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { replaceSpecialChars } from '@holi/core/helpers'
 import PlacesAutocomplete, {
   GeolocationLevel,
   GeolocationSuggestion,
-} from '@holi/core/location/components/PlacesAutocomplete'
+} from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { replaceSpecialChars } from '@holi/core/helpers'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserResponse,
+  authenticatedUserQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -98,6 +99,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     }
     await updateUser({
       variables: { input },
+      refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
       onCompleted: (data) => {
         if (onSubmit) {
           onSubmit(data.updateAuthenticatedUser)
@@ -193,7 +195,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
         <HoliTextInput
           value={firstName}
           inputLabel={t('user.profileForm.firstName')}
-          accessibilityLabel={t('user.profileForm.firstName')}
+          aria-label={t('user.profileForm.firstName')}
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
@@ -210,7 +212,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
         <HoliTextInput
           value={lastName}
           inputLabel={t('user.profileForm.lastName')}
-          accessibilityLabel={t('user.profileForm.lastName')}
+          aria-label={t('user.profileForm.lastName')}
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
@@ -225,7 +227,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
         <HoliTextInput
           value={aboutMe}
           inputLabel={t('user.profileForm.aboutMe')}
-          accessibilityLabel={t('user.profileForm.aboutMe')}
+          aria-label={t('user.profileForm.aboutMe')}
           placeholder={t('user.profileForm.aboutMePlaceholder')}
           validationErrorText={fieldErrors?.aboutMe?.join()}
           onChange={(text: string) => {
@@ -241,7 +243,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
         <HoliTextInput
           value={pronouns}
           inputLabel={t('user.profileForm.pronouns')}
-          accessibilityLabel={t('user.profileForm.pronouns')}
+          aria-label={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           validationErrorText={fieldErrors?.pronouns?.join()}
           onChange={(text: string) => {

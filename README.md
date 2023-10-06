@@ -244,19 +244,26 @@ To give an overview, the project contains the following workspaces (npm packages
   - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/__stories__`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
+  - `components` - shared components, e.g. layout that is used by multiple screens
   - `errors` - shared components, hooks and helpers for error handling
+  - `helpers` - various helper hooks, configuration and helper functions
+  - `hooks`* - various helper hooks used by screens
   - `i18n` - shared configuration for internationalization
     - `locales` - translations
+    - `helpers` - helper functions
+  - `location` - shared components and hooks for geolocation
   - `navigation` - shared components and helpers for navigation
-  - `RootProvider.tsx` - shared root provider
+  - `pagination` - shared components and hooks for pagination
+  - `providers` - shared providers
   - `screens` - all screens used in the core app
-    - `UserProfile` - exmplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
+    - `userprofile` - exmeplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
       - `components`
       - `hooks`
       - `providers`
       - `index.tsx`
       - `queries.ts`
       - `types.ts`
+  - `static`* - constants used by screens
 - `e2e` - end-to-end tests
   - `mobile` - end-to-end tests for the mobile app
   - `web` - end-to-end tests for the web site
@@ -264,11 +271,16 @@ To give an overview, the project contains the following workspaces (npm packages
   - `volunteering` - examplary for holi-apps in general, contains everything specific to this app, structurally equivalent to `screens` in `core`
 - `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm package
   - `api` - shared client-side code for the HOLI API
+  - `chat`* - components, store and utils for the matrix chat client
+  - `icons` - the HOLI icon library
   - `ui` - the HOLI component library
+- `scripts` - shared scripts, e.g. for pipelines
 - `terraform`
   - `common` - definitions for common infrastructure
   - `environments` - definitions for the specific platform environments (currently only necessary for web)
     - `web` - definitions for web environment
+
+*: Might be moved/spread out to other packages in the future
 
 Components in `packages/ui` and `screens` should use the following folder structure:
 
@@ -284,6 +296,28 @@ Components in `packages/ui` and `screens` should use the following folder struct
   - `__snapshots__`
     - `MyCompontent.test.tsx.snap`
     - `OtherComponent.test.tsx.snap`
+
+#### Package dependencies
+
+We would like to prevent cyclic dependencies and strive for a clear hierarchy from more complex and specialized logic and components down to more general and simpler ones that can be easily shared. In order to achieve this we try to reach the following dependency hierarchy:
+
+1. platform and build specific packages
+   - apps/storybook
+   - apps/mobile
+   - apps/web
+2. application logic and domain specific packages
+   - core
+   - holi-apps
+3. shared packages
+   - api
+   - ui
+   - icons
+
+Notes:
+
+- Packages may not depend on the packages listed above, but only to packages listed below. E.g. `packages/ui` may depend on `packages/icons`, but not vice versa. The same goes for `core` and `packages/ui`.
+- For the "shared packages" listed in 3. we like to imagine that these could be published as stand-alone `npm` packages. So ideally these should not include any domain or application specific logic or terminology.
+- Our code does currently not adhere to this structure, so we can not enforce this yet.
 
 ### Code conventions
 

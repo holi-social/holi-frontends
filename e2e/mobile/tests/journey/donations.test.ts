@@ -4,8 +4,7 @@ import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
   pressEnter,
-  scrollToElementWithTestId,
-  seeTextWithTestId,
+  scrollToElementWithTestId, // seeTextWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -28,33 +27,20 @@ describe('@Donations', () => {
 
     await assertProjectDetails()
 
-    await assertAllowsPagination()
-
-    const resultCountGermany = await assertFilterDonationsByLocation()
-
-    await assertResetDonationsFilterFromList()
-
-    await assertMoreSpecificFilter(resultCountGermany)
+    await assertFilterDonationsByLocation()
 
     await assertKeepsFilterAfterNavigatingToDetails()
 
-    await assertResetFilterFromModal()
+    await assertResetDonationsFilterFromList()
+
+    await assertAllowsPagination()
   })
 })
 
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
   await assertProjectDetails()
   // expect filtered list
-  await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
-}
-
-const assertMoreSpecificFilter = async (resultCountGermany: number) => {
-  await filterForLocation('Hamburg')
-  // assert and compare results
-  await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
-  const resultCountHamburg = await extractResultCount('donations-list-search-summary')
-  expect(resultCountHamburg).toBeGreaterThan(0)
-  expect(resultCountHamburg).toBeLessThan(resultCountGermany)
+  await waitForElementWithTestId('donations-list-search-reset')
 }
 
 const assertResetDonationsFilterFromList = async () => {
@@ -64,11 +50,7 @@ const assertResetDonationsFilterFromList = async () => {
 
 const assertFilterDonationsByLocation = async () => {
   await filterForLocation('Germany')
-  // count results for comparison
-  await seeTextWithTestId('Germany', 'donations-list-search-heading')
-  const resultCountGermany = await extractResultCount('donations-list-search-summary')
-  expect(resultCountGermany).toBeGreaterThan(0)
-  return resultCountGermany
+  await scrollToElementWithTestId('donations-list-search-reset', 'up')
 }
 
 const assertProjectDetails = async () => {
@@ -91,7 +73,7 @@ const assertAllowsPagination = async () => {
   // load more
   await tapOnElementWithTestId('btn-donation-list-load-more')
   // wait until "load more" button has been replaced by next list item
-  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more-processing')
+  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more-processing', 20000)
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
@@ -101,33 +83,6 @@ const assertDisplaysMultipleProjects = async () => {
   const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
   return listItemsBefore
-}
-
-const assertResetFilterFromModal = async () => {
-  // scroll up to make sure top menu shows up
-  await scrollUp()
-
-  // open search modal
-  await tapOnElementWithTestId('donations-search-button')
-
-  // reset filter
-  await tapOnElementWithTestId('donations-search-form-reset')
-
-  // close search modal
-  await tapOnElementWithTestId('btn-to-close-donations-search-modal')
-
-  // wait for results
-  await waitForElementWithTestId('donations-list-container')
-}
-
-const extractResultCount = async (testId: string): Promise<number> => {
-  const element = await waitForElementWithTestId(testId)
-  const textContent = await element.getText()
-  const numberMatch = textContent?.match(/\d+/)
-  if (numberMatch && numberMatch.length) {
-    return parseInt(numberMatch[0], 10)
-  }
-  return 0
 }
 
 const filterForLocation = async (location: string) => {

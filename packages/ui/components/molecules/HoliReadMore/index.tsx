@@ -90,6 +90,7 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
     </Text>
   )
 }
+
 function truncateTextByLines(
   textLines: TextLayoutLine[],
   numberOfLines: number,

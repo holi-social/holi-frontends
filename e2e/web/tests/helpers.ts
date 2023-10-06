@@ -93,8 +93,8 @@ export const gotoFillAndSubmitRegistration = async (
 export const finishAccountSetup = async (
   page: Page,
   {
-    firstName = faker.name.firstName(),
-    lastName = faker.name.lastName(),
+    firstName = faker.person.firstName(),
+    lastName = faker.person.lastName(),
   }: {
     firstName?: string
     lastName?: string
@@ -110,14 +110,14 @@ export const finishAccountSetup = async (
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
   // submit pre-success step
-  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step'))
+  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step-headline'))
   await clickElementByTestId(page, 'holi-wizard-next-btn')
   // skip interests step
-  await page.waitForSelector(byTestId('account-setup-interests-step'))
-  await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  await page.waitForSelector(byTestId('account-setup-interests-step-headline'))
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
   // skip location step
-  await page.waitForSelector(byTestId('account-setup-location-step'))
-  await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  await page.waitForSelector(byTestId('account-setup-location-step-headline'))
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
   // skip interests step
   await page.waitForSelector(byTestId('account-setup-success-step'))
   await clickElementByTestId(page, 'holi-wizard-next-btn')
@@ -207,7 +207,7 @@ export const sendConnectionRequest = async (page: Page) => {
 }
 
 export const newUserEmail = () => {
-  return `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+  return `${faker.internet.userName()}${faker.string.alphanumeric(4)}@e2etest.com`
 }
 
 export const randomPassword = () => {

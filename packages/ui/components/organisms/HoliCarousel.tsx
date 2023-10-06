@@ -99,7 +99,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
       )}
 
       {!isWeb && slides.length > 1 && (
-        <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
+        <View style={styles.slideButtonsContainer} role="tablist" accessibilityOrientation="horizontal">
           {
             /** FIXME: convert to VirtualizedList, FlatList or SectionList */
             slides.map((slide, slideIndex) => (
@@ -108,7 +108,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
                 style={styles.slideButton}
                 onPress={() => goToSlide(slideIndex)}
                 key={slideIndex}
-                accessibilitySelected={slideIndex === currentSlideIndex}
+                ariaSelected={slideIndex === currentSlideIndex}
                 testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
               >
                 <View

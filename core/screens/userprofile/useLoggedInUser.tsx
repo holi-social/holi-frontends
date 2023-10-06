@@ -18,7 +18,7 @@ export const useLoggedInUser = () => {
     refetch,
   } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !userId,
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'cache-first',
     onError: (error) => {
       if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
         logout({ redirectPath: '/' })
@@ -35,6 +35,7 @@ export const useLoggedInUser = () => {
 
   return {
     user,
+    // TODO: refactor all splaces and use `isLoggedIn` from `useAuth()` hook instead
     isLoggedIn: !!user,
     isLoading: loading,
     refetch,

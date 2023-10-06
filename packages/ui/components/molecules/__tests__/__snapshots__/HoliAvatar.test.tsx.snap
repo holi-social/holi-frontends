@@ -25,31 +25,30 @@ exports[`React tree renders correctly 1`] = `
 >
   <ViewManagerAdapter_ExpoImage
     accessibilityRole="image"
+    accessible={true}
+    aria-label="Uschi Meyer"
+    contentFit="cover"
+    contentPosition={
+      {
+        "left": "50%",
+        "top": "50%",
+      }
+    }
     height="100%"
     onError={[Function]}
     onLoad={[Function]}
     onLoadStart={[Function]}
     onProgress={[Function]}
-    proxiedProperties={
-      {
-        "accessibilityLabel": "Uschi Meyer",
-        "accessible": true,
-        "contentFit": "cover",
-        "contentPosition": {
-          "left": "50%",
-          "top": "50%",
+    placeholder={[]}
+    role="img"
+    source={
+      [
+        {
+          "height": 128,
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+          "width": 128,
         },
-        "placeholder": [],
-        "source": [
-          {
-            "height": 128,
-            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-            "width": 128,
-          },
-        ],
-        "tintColor": undefined,
-        "transition": null,
-      }
+      ]
     }
     style={
       {
@@ -57,6 +56,7 @@ exports[`React tree renders correctly 1`] = `
         "width": "100%",
       }
     }
+    transition={null}
     width="100%"
   />
 </View>
@@ -86,9 +86,9 @@ exports[`React tree renders the users initials, when given image prop is empty 1
   }
 >
   <Text
-    accessibilityLabel="Uschi Meyer"
-    accessibilityRole="image"
     accessible={false}
+    aria-label="Uschi Meyer"
+    role="img"
     selectable={true}
     style={
       {
@@ -98,6 +98,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
         "fontWeight": "bold",
         "lineHeight": 69.12,
         "textTransform": "uppercase",
+        "userSelect": "auto",
       }
     }
   >

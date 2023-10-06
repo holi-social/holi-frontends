@@ -7,7 +7,6 @@ import { stopChat } from '@holi/chat/src/client/chatSession'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logDebug } from '@holi/core/helpers/logging'
-import { ensureOAuth2Logout } from '@holi/core/helpers/oauth2'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -49,7 +48,6 @@ export const useLogout = () => {
             }
           })
           .then(() => client.clearStore())
-          .then(() => ensureOAuth2Logout())
           .then(() => setUserLoggedOut())
           .then(() => {
             logDebug('useLogout', 'logout successful')
@@ -63,8 +61,8 @@ export const useLogout = () => {
             }
           })
           .catch((e) => {
-            console.debug(e, '[Logout] logout failed, removing session from storage')
-            setUserLoggedOut() // will remove session info from storages
+            logDebug('useLogout', 'logout failed, removing session from storage', e)
+            setUserLoggedOut() // will remove session info from storage
             throw e // will be sent to Sentry so we're aware of it
             // not displaying any user-facing error messages as with the removal from the storage logout should be done
           })

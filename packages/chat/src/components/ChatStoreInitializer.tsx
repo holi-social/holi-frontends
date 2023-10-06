@@ -60,6 +60,7 @@ const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreIn
       <Suspense>
         <ChatDevTools chatConnected={chatConnected} />
       </Suspense>
+
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
       {chatConnected && <ChatStore />}
       {children}

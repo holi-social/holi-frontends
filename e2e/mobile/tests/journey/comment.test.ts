@@ -29,7 +29,7 @@ describe('@Comment', () => {
     await tapOnElementWithTestId('post-detail-footer', 30000)
 
     // create e2e comment and fill the textinput
-    const comment = `e2e comment ${faker.random.alphaNumeric(5)}`
+    const comment = `e2e comment ${faker.string.alphanumeric(5)}`
     await fillFieldByTestId('post-comment', comment)
 
     // submit comment

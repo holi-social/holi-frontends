@@ -28,25 +28,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         role="heading"
         selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            {
-              "fontSize": 28,
-              "lineHeight": 39.199999999999996,
-            },
-            [
-              {
-                "marginBottom": 16,
-                "marginHorizontal": 24,
-                "textAlign": "left",
-              },
-              undefined,
-            ],
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 28,
+            "fontWeight": "500",
+            "lineHeight": 39.199999999999996,
+            "marginBottom": 16,
+            "marginHorizontal": 24,
+            "textAlign": "left",
+            "userSelect": "auto",
+          }
         }
         testID="holi-modal-content-heading"
       >
@@ -107,7 +99,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               >
                 <View
                   accessibilityLabel="user.visitProfile"
-                  accessibilityRole="link"
                   accessibilityState={
                     {
                       "busy": undefined,
@@ -137,6 +128,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
+                  role="link"
                   testID="text-link"
                 >
                   <View
@@ -180,31 +172,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <ViewManagerAdapter_ExpoImage
                         accessibilityRole="image"
+                        accessible={true}
+                        aria-label="Dima Rosmait"
+                        contentFit="cover"
+                        contentPosition={
+                          {
+                            "left": "50%",
+                            "top": "50%",
+                          }
+                        }
                         height="100%"
                         onError={[Function]}
                         onLoad={[Function]}
                         onLoadStart={[Function]}
                         onProgress={[Function]}
-                        proxiedProperties={
-                          {
-                            "accessibilityLabel": "Dima Rosmait",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
+                        placeholder={[]}
+                        role="img"
+                        source={
+                          [
+                            {
+                              "height": 128,
+                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1",
+                              "width": 128,
                             },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "height": 128,
-                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
-                          }
+                          ]
                         }
                         style={
                           {
@@ -212,6 +203,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "width": "100%",
                           }
                         }
+                        transition={null}
                         width="100%"
                       />
                     </View>
@@ -227,6 +219,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "lineHeight": 22.4,
                           "marginVertical": 8,
                           "textAlign": "center",
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -251,6 +244,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "400",
                             "lineHeight": 22.4,
                             "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                       />
@@ -284,7 +278,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               >
                 <View
                   accessibilityLabel="user.visitProfile"
-                  accessibilityRole="link"
                   accessibilityState={
                     {
                       "busy": undefined,
@@ -314,6 +307,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
+                  role="link"
                   testID="text-link"
                 >
                   <View
@@ -356,9 +350,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Text
-                        accessibilityLabel="Max Mustermann"
-                        accessibilityRole="image"
                         accessible={false}
+                        aria-label="Max Mustermann"
+                        role="img"
                         selectable={true}
                         style={
                           {
@@ -368,6 +362,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "bold",
                             "lineHeight": 69.12,
                             "textTransform": "uppercase",
+                            "userSelect": "auto",
                           }
                         }
                       >
@@ -386,6 +381,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "lineHeight": 22.4,
                           "marginVertical": 8,
                           "textAlign": "center",
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -410,6 +406,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "400",
                             "lineHeight": 22.4,
                             "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                       />
@@ -443,7 +440,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               >
                 <View
                   accessibilityLabel="user.visitProfile"
-                  accessibilityRole="link"
                   accessibilityState={
                     {
                       "busy": undefined,
@@ -473,6 +469,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
+                  role="link"
                   testID="text-link"
                 >
                   <View
@@ -516,31 +513,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <ViewManagerAdapter_ExpoImage
                         accessibilityRole="image"
+                        accessible={true}
+                        aria-label="Thomas Mueller"
+                        contentFit="cover"
+                        contentPosition={
+                          {
+                            "left": "50%",
+                            "top": "50%",
+                          }
+                        }
                         height="100%"
                         onError={[Function]}
                         onLoad={[Function]}
                         onLoadStart={[Function]}
                         onProgress={[Function]}
-                        proxiedProperties={
-                          {
-                            "accessibilityLabel": "Thomas Mueller",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
+                        placeholder={[]}
+                        role="img"
+                        source={
+                          [
+                            {
+                              "height": 128,
+                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2",
+                              "width": 128,
                             },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "height": 128,
-                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
-                          }
+                          ]
                         }
                         style={
                           {
@@ -548,6 +544,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "width": "100%",
                           }
                         }
+                        transition={null}
                         width="100%"
                       />
                     </View>
@@ -563,6 +560,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "lineHeight": 22.4,
                           "marginVertical": 8,
                           "textAlign": "center",
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -587,6 +585,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "400",
                             "lineHeight": 22.4,
                             "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                       />
@@ -620,7 +619,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               >
                 <View
                   accessibilityLabel="user.visitProfile"
-                  accessibilityRole="link"
                   accessibilityState={
                     {
                       "busy": undefined,
@@ -650,6 +648,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
+                  role="link"
                   testID="text-link"
                 >
                   <View
@@ -692,9 +691,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Text
-                        accessibilityLabel="Sandra Kasandra"
-                        accessibilityRole="image"
                         accessible={false}
+                        aria-label="Sandra Kasandra"
+                        role="img"
                         selectable={true}
                         style={
                           {
@@ -704,6 +703,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "bold",
                             "lineHeight": 69.12,
                             "textTransform": "uppercase",
+                            "userSelect": "auto",
                           }
                         }
                       >
@@ -722,6 +722,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "lineHeight": 22.4,
                           "marginVertical": 8,
                           "textAlign": "center",
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -746,6 +747,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "400",
                             "lineHeight": 22.4,
                             "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                       />
@@ -779,7 +781,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               >
                 <View
                   accessibilityLabel="user.visitProfile"
-                  accessibilityRole="link"
                   accessibilityState={
                     {
                       "busy": undefined,
@@ -809,6 +810,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
+                  role="link"
                   testID="text-link"
                 >
                   <View
@@ -852,31 +854,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <ViewManagerAdapter_ExpoImage
                         accessibilityRole="image"
+                        accessible={true}
+                        aria-label="Peter Pan"
+                        contentFit="cover"
+                        contentPosition={
+                          {
+                            "left": "50%",
+                            "top": "50%",
+                          }
+                        }
                         height="100%"
                         onError={[Function]}
                         onLoad={[Function]}
                         onLoadStart={[Function]}
                         onProgress={[Function]}
-                        proxiedProperties={
-                          {
-                            "accessibilityLabel": "Peter Pan",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
+                        placeholder={[]}
+                        role="img"
+                        source={
+                          [
+                            {
+                              "height": 128,
+                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3",
+                              "width": 128,
                             },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "height": 128,
-                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
-                          }
+                          ]
                         }
                         style={
                           {
@@ -884,6 +885,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "width": "100%",
                           }
                         }
+                        transition={null}
                         width="100%"
                       />
                     </View>
@@ -899,6 +901,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "lineHeight": 22.4,
                           "marginVertical": 8,
                           "textAlign": "center",
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -923,6 +926,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "400",
                             "lineHeight": 22.4,
                             "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                       />
@@ -956,7 +960,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               >
                 <View
                   accessibilityLabel="user.visitProfile"
-                  accessibilityRole="link"
                   accessibilityState={
                     {
                       "busy": undefined,
@@ -986,6 +989,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
+                  role="link"
                   testID="text-link"
                 >
                   <View
@@ -1028,9 +1032,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Text
-                        accessibilityLabel="Donald Duck"
-                        accessibilityRole="image"
                         accessible={false}
+                        aria-label="Donald Duck"
+                        role="img"
                         selectable={true}
                         style={
                           {
@@ -1040,6 +1044,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "bold",
                             "lineHeight": 69.12,
                             "textTransform": "uppercase",
+                            "userSelect": "auto",
                           }
                         }
                       >
@@ -1058,6 +1063,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "lineHeight": 22.4,
                           "marginVertical": 8,
                           "textAlign": "center",
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -1082,6 +1088,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "400",
                             "lineHeight": 22.4,
                             "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                       />
@@ -1117,7 +1124,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               >
                 <View
                   accessibilityLabel="user.visitProfile"
-                  accessibilityRole="link"
                   accessibilityState={
                     {
                       "busy": undefined,
@@ -1147,6 +1153,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
+                  role="link"
                   testID="text-link"
                 >
                   <View
@@ -1190,31 +1197,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <ViewManagerAdapter_ExpoImage
                         accessibilityRole="image"
+                        accessible={true}
+                        aria-label="Lionel Messi"
+                        contentFit="cover"
+                        contentPosition={
+                          {
+                            "left": "50%",
+                            "top": "50%",
+                          }
+                        }
                         height="100%"
                         onError={[Function]}
                         onLoad={[Function]}
                         onLoadStart={[Function]}
                         onProgress={[Function]}
-                        proxiedProperties={
-                          {
-                            "accessibilityLabel": "Lionel Messi",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
+                        placeholder={[]}
+                        role="img"
+                        source={
+                          [
+                            {
+                              "height": 128,
+                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4",
+                              "width": 128,
                             },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "height": 128,
-                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
-                          }
+                          ]
                         }
                         style={
                           {
@@ -1222,6 +1228,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "width": "100%",
                           }
                         }
+                        transition={null}
                         width="100%"
                       />
                     </View>
@@ -1237,6 +1244,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "lineHeight": 22.4,
                           "marginVertical": 8,
                           "textAlign": "center",
+                          "userSelect": "auto",
                         }
                       }
                     >
@@ -1261,6 +1269,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "fontWeight": "400",
                             "lineHeight": 22.4,
                             "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                       />
@@ -1273,7 +1282,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         </RCTScrollView>
         <View
           accessibilityOrientation="horizontal"
-          accessibilityRole="tablist"
+          role="tablist"
           style={
             {
               "alignItems": "center",
@@ -1286,15 +1295,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         >
           <View
             accessibilityLabel="1"
-            accessibilityRole="tab"
-            accessibilitySelected={true}
             accessibilityState={
               {
                 "busy": undefined,
                 "checked": undefined,
                 "disabled": false,
                 "expanded": undefined,
-                "selected": undefined,
+                "selected": true,
               }
             }
             accessibilityValue={
@@ -1317,6 +1324,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            role="tab"
             style={
               [
                 {
@@ -1360,15 +1368,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           </View>
           <View
             accessibilityLabel="2"
-            accessibilityRole="tab"
-            accessibilitySelected={false}
             accessibilityState={
               {
                 "busy": undefined,
                 "checked": undefined,
                 "disabled": false,
                 "expanded": undefined,
-                "selected": undefined,
+                "selected": false,
               }
             }
             accessibilityValue={
@@ -1391,6 +1397,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            role="tab"
             style={
               [
                 {
@@ -1431,15 +1438,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           </View>
           <View
             accessibilityLabel="3"
-            accessibilityRole="tab"
-            accessibilitySelected={false}
             accessibilityState={
               {
                 "busy": undefined,
                 "checked": undefined,
                 "disabled": false,
                 "expanded": undefined,
-                "selected": undefined,
+                "selected": false,
               }
             }
             accessibilityValue={
@@ -1462,6 +1467,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            role="tab"
             style={
               [
                 {
@@ -1502,15 +1508,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           </View>
           <View
             accessibilityLabel="4"
-            accessibilityRole="tab"
-            accessibilitySelected={false}
             accessibilityState={
               {
                 "busy": undefined,
                 "checked": undefined,
                 "disabled": false,
                 "expanded": undefined,
-                "selected": undefined,
+                "selected": false,
               }
             }
             accessibilityValue={
@@ -1533,6 +1537,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            role="tab"
             style={
               [
                 {
@@ -1573,15 +1578,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           </View>
           <View
             accessibilityLabel="5"
-            accessibilityRole="tab"
-            accessibilitySelected={false}
             accessibilityState={
               {
                 "busy": undefined,
                 "checked": undefined,
                 "disabled": false,
                 "expanded": undefined,
-                "selected": undefined,
+                "selected": false,
               }
             }
             accessibilityValue={
@@ -1604,6 +1607,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            role="tab"
             style={
               [
                 {
@@ -1644,15 +1648,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           </View>
           <View
             accessibilityLabel="6"
-            accessibilityRole="tab"
-            accessibilitySelected={false}
             accessibilityState={
               {
                 "busy": undefined,
                 "checked": undefined,
                 "disabled": false,
                 "expanded": undefined,
-                "selected": undefined,
+                "selected": false,
               }
             }
             accessibilityValue={
@@ -1675,6 +1677,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            role="tab"
             style={
               [
                 {
@@ -1715,15 +1718,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           </View>
           <View
             accessibilityLabel="7"
-            accessibilityRole="tab"
-            accessibilitySelected={false}
             accessibilityState={
               {
                 "busy": undefined,
                 "checked": undefined,
                 "disabled": false,
                 "expanded": undefined,
-                "selected": undefined,
+                "selected": false,
               }
             }
             accessibilityValue={
@@ -1746,6 +1747,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            role="tab"
             style={
               [
                 {
@@ -1878,9 +1880,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       testID="holi-modal-content-close-btn"
     >
       <View
-        pointerEvents="none"
         style={
           [
+            {
+              "pointerEvents": "none",
+            },
             {
               "alignItems": "center",
               "flexDirection": "row",
@@ -1901,6 +1905,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "fontWeight": "500",
               "lineHeight": 22.4,
               "textAlign": "center",
+              "userSelect": "none",
             }
           }
         >

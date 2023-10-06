@@ -13,7 +13,6 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
   >
     <View
       accessibilityLabel="Foo"
-      accessibilityRole="link"
       accessibilityState={
         {
           "busy": undefined,
@@ -43,6 +42,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
+      role="link"
       testID="text-link"
     >
       <View
@@ -98,31 +98,30 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
           >
             <ViewManagerAdapter_ExpoImage
               accessibilityRole="image"
+              accessible={true}
+              aria-label="Foo"
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
               height="100%"
               onError={[Function]}
               onLoad={[Function]}
               onLoadStart={[Function]}
               onProgress={[Function]}
-              proxiedProperties={
-                {
-                  "accessibilityLabel": "Foo",
-                  "accessible": true,
-                  "contentFit": "cover",
-                  "contentPosition": {
-                    "left": "50%",
-                    "top": "50%",
+              placeholder={[]}
+              role="img"
+              source={
+                [
+                  {
+                    "height": 40,
+                    "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                    "width": 40,
                   },
-                  "placeholder": [],
-                  "source": [
-                    {
-                      "height": 40,
-                      "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
-                      "width": 40,
-                    },
-                  ],
-                  "tintColor": undefined,
-                  "transition": null,
-                }
+                ]
               }
               style={
                 {
@@ -130,6 +129,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                   "width": "100%",
                 }
               }
+              transition={null}
               width="100%"
             />
           </View>
@@ -154,6 +154,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                 "fontSize": 14,
                 "fontWeight": "400",
                 "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
               }
             }
           >
@@ -167,6 +168,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "400",
                   "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
                 }
               }
             />
@@ -182,6 +184,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
                 "marginTop": 4,
+                "userSelect": "auto",
               }
             }
           >
@@ -314,9 +317,11 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
           testID="ignore-connection-request-button"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -337,6 +342,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
@@ -419,9 +425,11 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
           testID="accept-connection-request-button"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -442,6 +450,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >

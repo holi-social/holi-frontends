@@ -44,8 +44,7 @@ export const Primary = ({ ...args }) => {
 
   return (
     <HoliAutocomplete
-      accessibilityLabel={args.accessibilityLabel}
-      debounce={args.debounce}
+      aria-label={args['aria-label']}
       id={args.id}
       {...args}
       onChange={onChange}
@@ -59,7 +58,7 @@ export const Primary = ({ ...args }) => {
 
 Primary.args = {
   inputLabel: 'Label',
-  accessibilityLabel: 'accessibility label',
+  'aria-label': 'accessibility label',
   placeholder: 'Start typing...',
   debounce: 500,
   trailingIcon: { Search },
@@ -67,7 +66,7 @@ Primary.args = {
 }
 const argTypes = {
   inputLabel: { description: 'Label', required: true, control: { type: 'text' } },
-  accessibilityLabel: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
+  'aria-label': { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   placeholder: { description: 'Placeholder', control: { type: 'text' } },
   debounce: { description: 'Delay after typing before search starts', control: { type: 'number' } },
   suggestions: { description: 'Suggestions', control: false },
@@ -77,18 +76,12 @@ const argTypes = {
 Primary.argTypes = argTypes
 
 export const WithError = ({ ...args }) => (
-  <HoliAutocomplete
-    accessibilityLabel={args.accessibilityLabel}
-    suggestions={args.suggestions}
-    debounce={args.debounce}
-    id={args.id}
-    {...args}
-  />
+  <HoliAutocomplete aria-label={args['aria-label']} suggestions={args.suggestions} id={args.id} {...args} />
 )
 
 WithError.args = {
   inputLabel: 'Label',
-  accessibilityLabel: 'accessibility label',
+  'aria-label': 'accessibility label',
   placeholder: 'Start typing...',
   helperText: 'No suggestions found',
   id: 'autocomplete-error',

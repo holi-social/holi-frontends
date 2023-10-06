@@ -3,11 +3,6 @@ import React, { useState } from 'react'
 
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
-jest.mock('react-native/Libraries/Utilities/Platform', () => ({
-  OS: 'web',
-  select: () => null,
-}))
-
 const initialOptions: HoliSelectOption[] = [
   {
     id: '1',
@@ -65,7 +60,7 @@ const SingleSelect = ({ ...args }) => {
   return (
     <HoliSelect
       id="singleselect"
-      accessibilityLabel="Accessibility label"
+      aria-label="Accessibility label"
       options={initialOptions.map((option) => ({ ...option, selected: option.id === selectedOption }))}
       onChange={toggleOptionSelect}
       {...args}
@@ -87,7 +82,7 @@ const MultiSelect = ({ ...args }) => {
       multiSelect
       id="multiselect"
       inputLabel="Label"
-      accessibilityLabel="Accessibility label"
+      aria-label="Accessibility label"
       options={options}
       onChange={toggleOptionSelection}
       {...args}
@@ -129,9 +124,7 @@ describe('SingleSelect', () => {
 
   it('calls onChange with selection', async () => {
     const onChange = jest.fn()
-    render(
-      <HoliSelect accessibilityLabel="test" id="test" options={initialOptions} testID="test" onChange={onChange} />
-    )
+    render(<HoliSelect aria-label="test" id="test" options={initialOptions} testID="test" onChange={onChange} />)
 
     await fireEvent.press(screen.getByTestId('test-toggle-menu'))
 
@@ -142,10 +135,11 @@ describe('SingleSelect', () => {
   it('clears text input', async () => {
     render(<SingleSelect testID="test" />)
     await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-    fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
-    expect(screen.getByTestId('test-input')).toHaveProp('value', 'di')
+    const input = screen.getByTestId('input')
+    fireEvent(input, 'onChange', { nativeEvent: { text: 'di' } })
+    expect(input).toHaveProp('value', 'di')
     await fireEvent.press(screen.getByTestId('test-clear-input'))
-    expect(screen.getByTestId('test-input')).toHaveProp('value', '')
+    expect(input).toHaveProp('value', '')
   })
 })
 

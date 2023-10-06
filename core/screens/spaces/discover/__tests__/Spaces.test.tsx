@@ -18,9 +18,7 @@ import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/Holi
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: () => ({ userId: '123' }),
-  setUserLoggedOut: async () => {
-    null
-  },
+  setUserLoggedOut: async () => null,
 }))
 
 jest.mock('@holi/core/helpers/useLogout', () => ({

@@ -68,8 +68,8 @@ const HoliHeading = ({
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
-      accessibilityRole: 'header',
-      accessibilityLevel: Number(level),
+      role: 'heading',
+      'aria-level': Number(level),
     },
     default: {
       role: 'heading',
@@ -80,8 +80,13 @@ const HoliHeading = ({
     <Text
       {...props}
       {...accessibilityProps}
-      selectable={selectable}
-      style={[styles.default, styles[size as keyof typeof styles], props?.style]}
+      selectable={Platform.OS !== 'web' ? selectable : undefined}
+      style={StyleSheet.flatten([
+        { userSelect: selectable ? 'auto' : 'none' },
+        styles.default,
+        styles[size as keyof typeof styles],
+        props?.style,
+      ])}
       testID={testID}
       numberOfLines={numberOfLines}
     >

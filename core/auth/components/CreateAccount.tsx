@@ -21,6 +21,7 @@ import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -97,20 +98,19 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           throw err
         }
 
-        console.debug('[Registration.tsx] registration was successful.')
+        logDebug('CreateAccount', 'registration was successful')
 
         const verificationFlowData = getVerificationFlow(data)
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
 
-        // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
-        await onRegister()
         // and only then load user
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
 
+        onRegister()
         redirect()
       } catch (err) {
         handleFormSubmitError(

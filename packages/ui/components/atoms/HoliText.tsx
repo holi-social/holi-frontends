@@ -54,11 +54,12 @@ const HoliText = ({
   return (
     <Text
       accessible={false}
-      selectable={selectable}
+      selectable={Platform.OS !== 'web' ? selectable : undefined}
       testID={testID}
       numberOfLines={numberOfLines}
       {...props}
       style={StyleSheet.flatten([
+        { userSelect: selectable ? 'auto' : 'none' },
         styles.base,
         styles[size],
         styles[color],

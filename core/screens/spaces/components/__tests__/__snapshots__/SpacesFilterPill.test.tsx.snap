@@ -46,9 +46,11 @@ exports[`SpacesFilterPill renders correctly 1`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -78,6 +80,7 @@ exports[`SpacesFilterPill renders correctly 1`] = `
           "fontSize": 16,
           "fontWeight": "400",
           "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >
@@ -133,9 +136,11 @@ exports[`SpacesFilterPill renders correctly 2`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -165,6 +170,7 @@ exports[`SpacesFilterPill renders correctly 2`] = `
           "fontSize": 16,
           "fontWeight": "400",
           "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >
@@ -220,9 +226,11 @@ exports[`SpacesFilterPill renders correctly 3`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -252,6 +260,7 @@ exports[`SpacesFilterPill renders correctly 3`] = `
           "fontSize": 16,
           "fontWeight": "400",
           "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >
@@ -307,9 +316,11 @@ exports[`SpacesFilterPill renders correctly 4`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -339,6 +350,7 @@ exports[`SpacesFilterPill renders correctly 4`] = `
           "fontSize": 16,
           "fontWeight": "400",
           "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >

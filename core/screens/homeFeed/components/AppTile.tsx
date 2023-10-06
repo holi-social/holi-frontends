@@ -69,7 +69,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
       </View>
 
       <HoliText
-        selectable={false}
+        selectable
         style={[styles.appName, isActive && !ftMaintenance ? { color: colors.foreground30 } : { marginTop: 4 }]}
         size={'extrasmall'}
       >

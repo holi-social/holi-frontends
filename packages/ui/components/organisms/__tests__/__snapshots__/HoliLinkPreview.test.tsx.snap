@@ -4,7 +4,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
 <View>
   <View
     accessibilityLabel="Donate to animals on betterplace.org"
-    accessibilityRole="link"
     accessibilityState={
       {
         "busy": undefined,
@@ -34,6 +33,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    role="link"
     testID="text-link"
   >
     <View
@@ -51,30 +51,29 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
     >
       <ViewManagerAdapter_ExpoImage
         accessibilityRole="image"
+        accessible={true}
+        aria-label="Donate to animals on betterplace.org"
         aspectRatio={1.9536423841059603}
         backgroundColor={4293651435}
+        contentFit="cover"
+        contentPosition={
+          {
+            "left": "50%",
+            "top": "50%",
+          }
+        }
         onError={[Function]}
         onLoad={[Function]}
         onLoadStart={[Function]}
         onProgress={[Function]}
-        proxiedProperties={
-          {
-            "accessibilityLabel": "Donate to animals on betterplace.org",
-            "accessible": true,
-            "contentFit": "cover",
-            "contentPosition": {
-              "left": "50%",
-              "top": "50%",
+        placeholder={[]}
+        role="img"
+        source={
+          [
+            {
+              "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fbetterplace-assets.betterplace.org%2Fuploads%2Fhomepage%2Fhomepage%2Fhero_image_desktop%2F000%2F000%2F001%2Fcc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
             },
-            "placeholder": [],
-            "source": [
-              {
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fbetterplace-assets.betterplace.org%2Fuploads%2Fhomepage%2Fhomepage%2Fhero_image_desktop%2F000%2F000%2F001%2Fcc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
-              },
-            ],
-            "tintColor": undefined,
-            "transition": null,
-          }
+          ]
         }
         style={
           {
@@ -84,6 +83,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           }
         }
         testID="link-preview-image"
+        transition={null}
         width="100%"
       />
       <View
@@ -108,20 +108,14 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             role="heading"
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "fontSize": 14,
-                  "lineHeight": 19.599999999999998,
-                },
-                {
-                  "color": "#787777",
-                },
-              ]
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
             }
           >
             Donate to animals on betterplace.org
@@ -138,6 +132,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
                 "marginTop": 8,
+                "userSelect": "auto",
               }
             }
           >
@@ -154,6 +149,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "fontWeight": "500",
                 "lineHeight": 16.799999999999997,
                 "marginTop": 8,
+                "userSelect": "auto",
               }
             }
           >
@@ -208,6 +204,12 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             >
               <RNSVGGroup
                 clipPath="share-box_svg__a"
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
               >
                 <RNSVGPath
                   d="M10 3v2H5v14h14v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6Zm7.586 2H13V3h8v8h-2V6.414l-7 7L10.586 12l7-7Z"
@@ -225,6 +227,12 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
               </RNSVGGroup>
               <RNSVGDefs>
                 <RNSVGClipPath
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
                   name="share-box_svg__a"
                 >
                   <RNSVGPath

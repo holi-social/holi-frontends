@@ -22,13 +22,7 @@ const HoliLink = ({
   const handleLinkPress = useLink({ href, external, onPress, mobileNavigateBackFirst })
 
   return (
-    <Pressable
-      accessibilityRole={'link'}
-      accessibilityLabel={label}
-      accessible
-      onPress={handleLinkPress}
-      testID={testID}
-    >
+    <Pressable role="link" aria-label={label} accessible onPress={handleLinkPress} testID={testID}>
       {children}
     </Pressable>
   )

@@ -19,8 +19,8 @@ export const useStoredOnboardingState = () => {
   const { userId } = useAuth()
 
   const storeOnboardingState = useCallback(async (value: OnboardingStateValue = 'finished') => {
-    onboardingStateVar(value)
     await AsyncStore.setItem(ONBOARDING_STATE_STORAGE_NAME, value)
+    onboardingStateVar(value)
   }, [])
 
   useEffect(() => {

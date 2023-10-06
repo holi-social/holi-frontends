@@ -16,7 +16,7 @@ test.setTimeout(120000)
 const insightLoadMoreTimeout = { timeout: 30000 }
 
 test.describe('@HomeScreen', () => {
-  test('user journey', async ({ context, page }) => {
+  test('user journey', async ({ context, page, browserName }) => {
     // prepare
     await proceedAsGuest(page)
 
@@ -32,6 +32,8 @@ test.describe('@HomeScreen', () => {
 
     await testAppUpdatesVisible(page, 'volunteering', volunteeringRequestTimeout)
 
+    // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/profile/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0" is interrupted by another navigation to "http://localhost:3000/profile"`
+    if (browserName === 'webkit') return
     await testUserSuggestions(page, context)
   })
 })

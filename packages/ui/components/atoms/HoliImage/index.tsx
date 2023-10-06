@@ -1,9 +1,7 @@
 import { Image as ExpoImage } from 'expo-image'
 import React from 'react'
-import { Image as ReactNativeImage } from 'react-native'
-import { AccessibilityProps } from 'react-native'
+import { AccessibilityProps, Image as ReactNativeImage } from 'react-native'
 
-import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
@@ -21,10 +19,11 @@ const HoliImage = ({
   onLayout,
   onError,
 }: MobileImageProps) => {
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+  const accessibilityProps: AccessibilityProps = {
     accessible: !!label,
+    role: 'img',
     accessibilityRole: 'image',
-    accessibilityLabel: label,
+    'aria-label': label,
   }
 
   const transformedSource = transformSourcesURL(source)

@@ -36,7 +36,7 @@ const HoliAutocompleteItem: React.VFC<AutocompleteItemProps> = ({
       inline
       transparent
       label={suggestion.label}
-      accessibilityRole="menuitem"
+      role="menuitem"
       style={[styles.listItem, isLast && styles.listItemLast]}
       testID={testID && `${testID}-item-${suggestion.id}`}
       onBlur={() => onBlur?.(suggestion)}
@@ -52,7 +52,7 @@ const HoliAutocompleteItem: React.VFC<AutocompleteItemProps> = ({
 
 export type HoliAutocompleteProps = {
   inputLabel?: string
-  accessibilityLabel: string
+  'aria-label': string
   value?: string
   placeholder?: string
   helperText?: string
@@ -75,7 +75,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
   (
     {
       style = {},
-      accessibilityLabel,
+      'aria-label': ariaLabel,
       value,
       inputLabel,
       placeholder,
@@ -175,14 +175,14 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
           inputLabel={inputLabel}
           value={searchText}
           placeholder={placeholder}
-          validationErrorText={!isOpened && validationErrorText} // hide it when opening the suggestions
+          validationErrorText={!isOpened ? validationErrorText : undefined} // hide it when opening the suggestions
           helperText={isOpened && suggestions.length ? undefined : helperText}
-          accessibilityLabel={accessibilityLabel}
+          aria-label={ariaLabel}
           accessibilityAutoComplete="list"
           accessibilityControls={`${id}-suggestions`}
-          accessibilityRole="combobox"
-          accessibilityExpanded={isOpened}
-          accessibilityHasPopup="menu"
+          role="combobox"
+          ariaExpanded={isOpened}
+          ariaHasPopup="menu"
           trailingComponent={trailingComponent}
           inputProps={{ ...inputProps, onSubmitEditing }}
           inputStyle={[
@@ -196,7 +196,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
           testID={testID}
           ref={ref}
         />
-        <View nativeID={`${id}-suggestions`} accessibilityRole="menu" style={suggestionsStyle}>
+        <View nativeID={`${id}-suggestions`} role="menu" style={suggestionsStyle}>
           {
             /** FIXME convert to VirtualizedList, FlatList or SectionList */
             isOpened ? (

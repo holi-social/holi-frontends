@@ -4,9 +4,9 @@
   "private": true,
   "description": "",
   "scripts": {
-    "test": "docker run -v $PWD:/tests -w /tests -e BASE_URL=$BASE_URL -e E2E_USER_USERNAME=$E2E_USER_USERNAME -e E2E_USER_PASSWORD=$E2E_USER_PASSWORD -e E2E_USER_ID=$E2E_USER_ID -e E2E_WEB_RETRIES=$E2E_WEB_RETRIES -e E2E_WEB_BROWSERS=$E2E_WEB_BROWSERS --rm -it --ipc=host mcr.microsoft.com/playwright:v1.30.0-focal yarn run playwright test",
+    "test": "docker run -v $PWD:/tests -w /tests -e BASE_URL=$BASE_URL -e E2E_USER_USERNAME=$E2E_USER_USERNAME -e E2E_USER_PASSWORD=$E2E_USER_PASSWORD -e E2E_USER_ID=$E2E_USER_ID -e E2E_WEB_RETRIES=$E2E_WEB_RETRIES -e E2E_WEB_BROWSERS=$E2E_WEB_BROWSERS --rm -it --ipc=host mcr.microsoft.com/playwright:v1.38.1-focal yarn run playwright test",
     "test:localhost": "BASE_URL=http://localhost:3000 yarn run playwright test",
-    "test:localhost:docker": "docker run -v $PWD:/tests -w /tests -e BASE_URL=http://host.docker.internal:3000 -e HEADLESS=true -e E2E_USER_USERNAME=$E2E_USER_USERNAME -e E2E_USER_PASSWORD=$E2E_USER_PASSWORD -e E2E_USER_ID=$E2E_USER_ID -e E2E_WEB_RETRIES=$E2E_WEB_RETRIES -e E2E_WEB_BROWSERS=$E2E_WEB_BROWSERS --rm -it --ipc=host --add-host=host.docker.internal:host-gateway --network=host mcr.microsoft.com/playwright:v1.30.0-focal yarn run playwright test",
+    "test:localhost:docker": "docker run -v $PWD:/tests -w /tests -e BASE_URL=http://host.docker.internal:3000 -e HEADLESS=true -e E2E_USER_USERNAME=$E2E_USER_USERNAME -e E2E_USER_PASSWORD=$E2E_USER_PASSWORD -e E2E_USER_ID=$E2E_USER_ID -e E2E_WEB_RETRIES=$E2E_WEB_RETRIES -e E2E_WEB_BROWSERS=$E2E_WEB_BROWSERS --rm -it --ipc=host --add-host=host.docker.internal:host-gateway --network=host mcr.microsoft.com/playwright:v1.38.1-focal yarn run playwright test",
     "test:localhost:debug": "BASE_URL=http://localhost:3000 yarn run playwright test --headed --debug",
     "test:localhost:headed": "BASE_URL=http://localhost:3000 yarn run playwright test --headed",
     "clean": "rimraf output",
@@ -16,12 +16,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.30.0",
-    "axe-playwright": "^1.1.12",
-    "dotenv": "^16.0.1",
-    "playwright-core": "^1.30.0"
+    "@playwright/test": "^1.38.1",
+    "axe-playwright": "^1.2.3",
+    "dotenv": "^16.3.1",
+    "playwright-core": "^1.38.1"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.6.0"
+    "@faker-js/faker": "^8.1.0"
   }
 }
