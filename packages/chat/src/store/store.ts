@@ -277,13 +277,13 @@ export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
 /**
  * @name createSpace
  * @description creates a space in Matrix and a room for it
- * and adds the room to the created space.
+ * and adds the default #general room to the created space.
  */
 export const createSpace = async (name: string, userIds: string[]): Promise<void> => {
   const client = getChatClient()
   try {
     const spaceId = await client.createSpace(name, userIds)
-    const roomId = await client.createRoom(userIds, { isDirectMessage: false })
+    const roomId = await client.createRoom(userIds, { isDirectMessage: false, name: '#general' })
     await client.addRoomToSpace(spaceId.room_id, roomId.room_id)
   } catch (err) {
     logError(err, 'Could not create a space in Matrix', { location: 'Chat-Store: createSpace' })

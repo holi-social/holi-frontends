@@ -5,6 +5,7 @@ export type MatrixId = `@${string}:${string}`
 export interface CreateRoomOptions {
   isDirectMessage: boolean
   isPrivate?: boolean
+  name?: string
 }
 
 export enum MembershipStatus {

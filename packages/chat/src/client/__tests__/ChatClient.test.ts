@@ -46,15 +46,17 @@ it('should call the creation of a private message room', async () => {
   const members = ['david.m.rosen', 'fusajiro.yamauchi']
   const client = new ChatClient(clientOptions('syt_p'))
   const isDM = false
+  const name = '#general'
 
   const result = {
     invite: members,
     is_direct: isDM,
     preset: Preset.PrivateChat,
     visibility: Visibility.Private,
+    name,
   }
 
-  await client.createRoom(members, { isDirectMessage: isDM })
+  await client.createRoom(members, { isDirectMessage: isDM, name })
   expect(mockMx.createRoom).toBeCalledTimes(1)
   expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
 })

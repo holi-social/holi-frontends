@@ -177,7 +177,7 @@ export default class ChatClient {
    **/
   public async createRoom(
     userIds: string[],
-    { isDirectMessage, isPrivate = true }: CreateRoomOptions
+    { isDirectMessage, isPrivate = true, name }: CreateRoomOptions
   ): Promise<RoomId> {
     const errMsg = 'Chat rooms should be created with at least one user'
     if (userIds.length < 1) {
@@ -198,6 +198,7 @@ export default class ChatClient {
       is_direct: isDirectMessage,
       preset: isPrivate ? Preset.PrivateChat : Preset.PublicChat,
       visibility: isPrivate ? Visibility.Private : Visibility.Public,
+      ...(name ? { name } : {}),
       ...(isDirectMessage ? { initial_state: dmInitialState } : {}),
     }
 
