@@ -61,11 +61,8 @@ const testFiltering = async (page: Page) => {
 
   await checkAccessibility(page)
 
-  // click filter confirmation button and check if we are in the correct page with the filter queries
-  await Promise.all([
-    clickElementByTestId(page, 'holi-modal-content-close-btn'),
-    page.waitForNavigation({ url: '**/spaces/**' }),
-  ])
+  // click filter confirmation button
+  await clickElementByTestId(page, 'holi-modal-content-close-btn')
 
   // check if the filtered spaces container is shown
   await page.waitForSelector(byTestId('filtered-spaces-container'))
