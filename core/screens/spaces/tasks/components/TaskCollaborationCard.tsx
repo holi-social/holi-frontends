@@ -20,11 +20,12 @@ interface TasksCardProps {
 const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const isMember = isAdmin || isCollaborator
 
   const cardProps = {
-    headerRightIcon: isAdmin ? Add : undefined,
-    onPressHeaderRight: isAdmin ? () => navigateToCreateTask() : undefined,
-    headerRightButtonLabel: isAdmin ? t('spaces.createTask.button') : undefined,
+    headerRightIcon: isMember ? Add : undefined,
+    onPressHeaderRight: isMember ? () => navigateToCreateTask() : undefined,
+    headerRightButtonLabel: isMember ? t('spaces.createTask.button') : undefined,
   }
 
   const navigateToCreateTask = () => navigate(`/spaces/${space.name}/tasks/create`)
@@ -61,7 +62,7 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space })
           <HoliText size={'small'} style={styles.emptyMessage}>
             {t('spaces.spaceDetails.tasks.empty.message.forCreators')}
           </HoliText>
-          {isAdmin && (
+          {isMember && (
             <HoliButton
               label={t('spaces.spaceDetails.tasks.empty.instruction')}
               transparent
