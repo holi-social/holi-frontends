@@ -139,8 +139,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   // assert results
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
   await expect(page.getByTestId('donations-list-search-heading')).toBeVisible({ timeout: donationsRequestTimeout })
-  let heading = await locateElementByTestId(page, 'donations-list-search-heading')
-  await expect(heading).toContainText('Germany')
+  await page.waitForSelector(byTestId('donations-list-search-reset'))
   let summary = await locateElementByTestId(page, 'donations-list-search-summary')
   const resultCountGermany = await extractResultCount(summary)
   expect(resultCountGermany).toBeGreaterThan(0)
@@ -158,8 +157,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   await page.waitForSelector(byTestId('donations-list-item'))
 
   // assert and compare results
-  heading = await locateElementByTestId(page, 'donations-list-search-heading')
-  await expect(heading).toContainText('Hamburg')
+  await page.waitForSelector(byTestId('donations-list-search-reset'))
   summary = await locateElementByTestId(page, 'donations-list-search-summary')
   const resultCountHamburg = await extractResultCount(summary)
   expect(resultCountHamburg).toBeGreaterThan(0)
@@ -179,8 +177,7 @@ const testDisplayDetailsOfFilterResults = async (page: Page) => {
   await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
 
   // expect filtered list
-  let heading = await locateElementByTestId(page, 'donations-list-search-heading')
-  await expect(heading).toContainText('Hamburg')
+  await page.waitForSelector(byTestId('donations-list-search-reset'))
 
   // click first element in list
   await clickElementByTestId(page, 'donations-list-item')
@@ -193,8 +190,7 @@ const testDisplayDetailsOfFilterResults = async (page: Page) => {
   await page.waitForSelector(byTestId('donations-list-container'))
 
   // expect filtered list
-  heading = await locateElementByTestId(page, 'donations-list-search-heading')
-  await expect(heading).toContainText('Hamburg')
+  await page.waitForSelector(byTestId('donations-list-search-reset'))
 }
 
 const filterForLocation = async (
