@@ -84,6 +84,9 @@ const browserStackCapabilities = () => {
         sessionName: 'undefined',
         idleTimeout: '60', // seconds, should be short in order to fail early and keep queue slots open
         networkLogs: 'true',
+        networkLogsOptions: {
+          captureContent: 'true',
+        },
         consoleLogs: 'info',
         disableAnimations: 'true',
       },
