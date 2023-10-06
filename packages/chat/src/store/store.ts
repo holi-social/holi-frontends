@@ -127,7 +127,8 @@ type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boo
 const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
   const { room, hasPendingInvitation, ignoredUsers } = args
   const chatRoom = createChatRoom(room, hasPendingInvitation)
-
+  // Space rooms are used as containers and not shown in the UI
+  if (room.isSpaceRoom()) return
   // We hide chat rooms with only ignored members from the user. We do an
   // early return not to include the chat room in the store.
   if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
