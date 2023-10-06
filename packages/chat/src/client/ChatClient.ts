@@ -7,6 +7,7 @@ import {
   HttpApiEvent,
   ICreateClientOpts,
   ICreateRoomOpts,
+  ISendEventResponse,
   IStartClientOpts,
   MatrixClient,
   MatrixEvent,
@@ -34,6 +35,7 @@ import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/u
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
+import { chatServerUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
 
 import { configurePusher } from './configurePusher'
@@ -149,12 +151,17 @@ export default class ChatClient {
     return this.createRoom(userIds, options)
   }
 
-  public async createSpace(userIds: string[], name: string): Promise<RoomId> {
+  public async addRoomToSpace(spaceId: string, roomId: string): Promise<ISendEventResponse> {
+    return await this.mxClient.sendStateEvent(spaceId, EventType.SpaceChild, { via: [chatServerUrl] }, roomId)
+  }
+
+  public async createSpace(name: string, userIds: string[]): Promise<RoomId> {
     const options: ICreateRoomOpts = {
+      name: name,
+      room_alias_name: name.toLowerCase().replace(' ', '.').trim(),
       preset: Preset.PrivateChat,
       visibility: Visibility.Private,
       is_direct: false,
-      name: name,
       invite: userIds,
       creation_content: {
         type: RoomType.Space,

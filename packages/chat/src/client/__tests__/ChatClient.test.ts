@@ -63,19 +63,21 @@ it('should call the creation of a space', async () => {
   const members = ['stephanie.gilmore', 'lakey.peterson']
   const client = new ChatClient(clientOptions('syt_p'))
   const spaceName = 'Surfers Paradise'
+  const spaceAlias = 'surfers.paradise'
 
   const result = {
     invite: members,
     is_direct: false,
     preset: Preset.PrivateChat,
     visibility: Visibility.Private,
+    room_alias_name: spaceAlias,
     name: spaceName,
     creation_content: {
       type: RoomType.Space,
     },
   }
 
-  await client.createSpace(members, spaceName)
+  await client.createSpace(spaceName, members)
   expect(mockMx.createRoom).toBeCalledTimes(1)
   expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
 })

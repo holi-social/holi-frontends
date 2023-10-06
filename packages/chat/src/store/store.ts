@@ -141,6 +141,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 
   const addRoomToStore = (room: Room, logPhase: string) => {
     const hasPendingInvitation = client.hasPendingInvitation(room)
+
     logDebug(`Chat.store [${logPhase}]`, `adding room ${room.roomId} to store`)
     setAtom({ room, hasPendingInvitation, ignoredUsers })
   }
@@ -150,7 +151,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 
   setChatInitialized(true)
 
-  // set litener for new rooms
+  // set listener for new rooms
   return client.subscribeToRooms((room) => {
     const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
 
@@ -271,6 +272,22 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
  */
 export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
   return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true })
+}
+
+/**
+ * @name createSpace
+ * @description creates a space in Matrix and a room for it
+ * and adds the room to the created space.
+ */
+export const createSpace = async (name: string, userIds: string[]): Promise<void> => {
+  const client = getChatClient()
+  try {
+    const spaceId = await client.createSpace(name, userIds)
+    const roomId = await client.createRoom(userIds, { isDirectMessage: false })
+    await client.addRoomToSpace(spaceId.room_id, roomId.room_id)
+  } catch (err) {
+    logError(err, 'Could not create a space in Matrix', { location: 'Chat-Store: createSpace' })
+  }
 }
 
 /**
