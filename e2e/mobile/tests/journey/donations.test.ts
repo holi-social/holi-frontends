@@ -1,9 +1,10 @@
 import { scrollUp } from '../../helpers/gestures'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
+  fillFieldByTestId,
   locateMultipleElementsWithTestId,
-  scrollToElementWithTestId,
-  seeTextWithTestId,
+  pressEnter,
+  scrollToElementWithTestId, // seeTextWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -26,25 +27,30 @@ describe('@Donations', () => {
 
     await assertProjectDetails()
 
-    await assertAllowsPagination()
-
-    await assertResetDonationsFilterFromList()
+    await assertFilterDonationsByLocation()
 
     await assertKeepsFilterAfterNavigatingToDetails()
 
-    await assertResetFilterFromModal()
+    await assertResetDonationsFilterFromList()
+
+    await assertAllowsPagination()
   })
 })
 
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
   await assertProjectDetails()
   // expect filtered list
-  await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
+  await waitForElementWithTestId('donations-list-search-reset')
 }
 
 const assertResetDonationsFilterFromList = async () => {
   await tapOnElementWithTestId('donations-list-search-reset')
   expect(await waitForElementWithTestId('donations-list-unfiltered'))
+}
+
+const assertFilterDonationsByLocation = async () => {
+  await filterForLocation('Germany')
+  await scrollToElementWithTestId('donations-list-search-reset', 'up')
 }
 
 const assertProjectDetails = async () => {
@@ -79,18 +85,20 @@ const assertDisplaysMultipleProjects = async () => {
   return listItemsBefore
 }
 
-const assertResetFilterFromModal = async () => {
+const filterForLocation = async (location: string) => {
   // scroll up to make sure top menu shows up
   await scrollUp()
 
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
 
-  // reset filter
-  await tapOnElementWithTestId('donations-search-form-reset')
+  // enter location
+  await fillFieldByTestId('donations-search-location-input', location)
 
-  // close search modal
-  await tapOnElementWithTestId('btn-to-close-donations-search-modal')
+  // submit form
+  // Not using suggestions here, as they can not be easily identified and selected
+  await pressEnter('donations-search-location-input')
+  await tapOnElementWithTestId('donations-search-modal-content-close-btn')
 
   // wait for results
   await waitForElementWithTestId('donations-list-container')
