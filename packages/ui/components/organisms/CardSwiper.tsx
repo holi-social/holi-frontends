@@ -2,6 +2,7 @@ import React, { RefObject, createRef } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 
+import { logDebug } from '@holi/core/helpers/logging'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2 } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -17,7 +18,7 @@ const CardSwiper = () => {
 
   const onSwipe = (index: number, direction: string) => {
     if (index === lastIndex) return
-    console.debug('*** onSwipe', index, direction)
+    logDebug('CardSwiper', 'onSwipe', index, direction)
     lastIndex = index
   }
 
@@ -28,7 +29,7 @@ const CardSwiper = () => {
       const swipeX = swiper.current.state.drag.x._value
       // @ts-ignore
       const swipeY = swiper.current.state.drag.y._value
-      console.debug('*** onSwiped end', swipeX, swipeY)
+      logDebug('CardSwiper', 'onSwiped end', swipeX, swipeY)
     }
   }
 

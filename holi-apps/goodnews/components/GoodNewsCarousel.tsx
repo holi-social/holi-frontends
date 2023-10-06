@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -126,7 +127,7 @@ const GoodNewsCarousel = () => {
   }
 
   if (!articles || !articles.length) {
-    console.debug('[GoodNewsCarousel.tsx] articles array is empty')
+    logDebug('GoodNewsCarousel', 'articles array is empty')
     return <></>
   }
   const carouselItems: CarouselItem[] = articles
