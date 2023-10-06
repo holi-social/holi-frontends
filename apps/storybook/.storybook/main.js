@@ -1,6 +1,7 @@
 const path = require('path')
 const uiPackageDir = '../../../packages/ui'
 const iconsPackageDir = '../../../packages/icons'
+const notificationsPackageDir = '../../../packages/notifications'
 module.exports = {
   staticDirs: ['../../web/public'],
   stories: [
@@ -8,6 +9,8 @@ module.exports = {
     `${uiPackageDir}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
     `${iconsPackageDir}/**/__stories__/**/*.stories.mdx`,
     `${iconsPackageDir}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
+    `${notificationsPackageDir}/**/__stories__/**/*.stories.mdx`,
+    `${notificationsPackageDir}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
     /*
      * Object path declarations
      */
