@@ -12,6 +12,7 @@ interface CollaboratorAreaCardProps {
   headerRightIcon?: HoliIconType
   headerRightButtonLabel?: string
   title?: string
+  disabled?: boolean
   children?: ReactNode
   style?: StyleProp<ViewStyle>
   onPressHeaderLeft?: () => void
@@ -23,6 +24,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   headerRightIcon,
   headerRightButtonLabel,
   title,
+  disabled,
   children,
   style,
   onPressHeaderLeft,
@@ -41,7 +43,12 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
         >
           <View style={styles.headerTitle}>
             {headerLeftIcon && (
-              <HoliIcon icon={headerLeftIcon} size={24} color={colors.brandColorB30} style={{ marginRight: 8 }} />
+              <HoliIcon
+                icon={headerLeftIcon}
+                size={24}
+                color={!disabled ? colors.brandColorB30 : colors.foreground20}
+                style={{ marginRight: 8 }}
+              />
             )}
             <HoliText>{title}</HoliText>
           </View>

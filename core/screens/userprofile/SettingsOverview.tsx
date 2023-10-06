@@ -6,11 +6,10 @@ import { StyleSheet, View } from 'react-native'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { AccountCircle, FolderLock, Help, Notification2 } from '@holi/icons/src/generated'
+import { AccountCircle, FolderLock, Help } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -33,9 +32,6 @@ const SettingsOverview = () => {
     setScreenOptions({ title: t('profile.settings.overview.title') })
   }, [setScreenOptions, t])
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
-
   return (
     <ScrollHeaderLayout.Default>
       <LoginProtection>
@@ -47,14 +43,6 @@ const SettingsOverview = () => {
             onPress={() => navigate('/profile/settings/account')}
             style={styles.settingsItem}
             testID="btn-your-account"
-          />
-          <MoreOptionItem
-            label={t('notifications.title')}
-            icon={Notification2}
-            iconRightStyle="arrow"
-            onPress={showFeatureNotImplementedToast}
-            tintColor={colors.foreground20}
-            style={styles.settingsItem}
           />
           <MoreOptionItem
             label={t('profile.settings.help.title')}

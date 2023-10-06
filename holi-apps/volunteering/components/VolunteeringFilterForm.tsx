@@ -4,8 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
@@ -16,28 +20,31 @@ type VolunteeringFilterFormProps = {
   filters?: VolunteeringFilters
   initialLocationSelection?: GeolocationSuggestion
   onSubmit: (filters?: VolunteeringFilters) => void
+  setFilters?: (filters: { location: GeolocationSuggestion | undefined; category: string | undefined }) => void
+  clearFilters?: () => void
 }
 
 const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
   onSubmit,
   filters = {},
   initialLocationSelection,
+  setFilters,
+  clearFilters,
 }: VolunteeringFilterFormProps) => {
   const { t } = useTranslation()
 
   const [category, setCategory] = useState(filters.category)
-  const [locationQuery, setLocationQuery] = useState(initialLocationSelection?.label || '')
-  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(initialLocationSelection)
+  const [locationQuery, setLocationQuery] = useState(filters.location ? initialLocationSelection?.label : '')
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
+    filters.location ? initialLocationSelection : undefined
+  )
 
-  const {
-    data: categoriesData,
-    loading,
-    error,
-  } = useQuery<VolunteeringCategoriesQueryResult>(VolunteeringCategoriesQuery)
-
-  if (error) {
-    logError(error, `[VolunteeringFilterForm.tsx] ${error.message}`)
-  }
+  const { data: categoriesData, loading } = useQuery<VolunteeringCategoriesQueryResult>(VolunteeringCategoriesQuery, {
+    onError: (error) =>
+      logError(error, 'Failed to load volunteering categories', {
+        location: 'VolunteeringFilterForm.VolunteeringCategoriesQuery',
+      }),
+  })
 
   const categories = categoriesData?.appVolunteering_categories.data || []
 
@@ -53,16 +60,24 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
   )
 
   const toggleLocationSelection = useCallback(() => {
-    setLocationQuery(initialLocationSelection?.label || '')
-    setSelectedLocation(initialLocationSelection)
-  }, [initialLocationSelection])
+    setLocationQuery(filters.location ? initialLocationSelection?.label : '')
+    setSelectedLocation(filters.location ? initialLocationSelection : undefined)
+  }, [initialLocationSelection, filters.location])
 
   const submit = useCallback(() => {
+    setFilters && setFilters({ location: selectedLocation, category })
     return onSubmit({
       location: selectedLocation?.id,
       category,
     })
-  }, [onSubmit, selectedLocation, category])
+  }, [onSubmit, selectedLocation, category, setFilters])
+
+  const resetForm = useCallback(() => {
+    setLocationQuery(undefined)
+    setSelectedLocation(undefined)
+    setCategory(undefined)
+    clearFilters && clearFilters()
+  }, [clearFilters])
 
   return (
     <HoliModalContentWrapper
@@ -76,7 +91,13 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
       hideFooterWhenKeyboardIsOpen={true}
     >
       <View style={styles.container}>
-        <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
+        <View style={styles.header}>
+          <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
+          <HoliButton label={t('global.reset')} inline onPress={resetForm} type="secondary" variant="small">
+            <HoliText>{t('global.reset')}</HoliText>
+            <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
+          </HoliButton>
+        </View>
         <PlacesAutocomplete
           label={t('volunteering:filter.location.label')}
           placeholder={t('volunteering:filter.location.placeholder')}
@@ -92,7 +113,7 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
         <HoliSelect
           options={topicOptions}
           inputLabel={t('volunteering:filter.category.label')}
-          accessibilityLabel={t('volunteering:filter.category.label')}
+          aria-label={t('volunteering:filter.category.label')}
           placeholder={t('volunteering:filter.category.placeholder')}
           style={[styles.filterOption, { zIndex: 0 }]}
           onChange={toggleTopicSelection}
@@ -117,5 +138,13 @@ const styles = StyleSheet.create({
   },
   modalWrapper: {
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  clearFilters: {
+    paddingLeft: 3,
   },
 })

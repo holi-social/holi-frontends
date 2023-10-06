@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback } from 'react'
+import React, { Suspense, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -40,6 +40,10 @@ const SpaceDetailView = ({ space, style, onChangeTab = () => null }: SpaceDetail
 
   const initialTabIndex = getInitialTabIndex()
 
+  useEffect(() => {
+    onChangeTab(initialTabIndex)
+  }, [initialTabIndex, onChangeTab])
+
   return (
     <View style={[styles.wrapper, style]} testID="space-details-container">
       <View style={styles.header}>
@@ -66,7 +70,7 @@ const SpaceDetailView = ({ space, style, onChangeTab = () => null }: SpaceDetail
             style: styles.tabStyle,
             children: (
               <Suspense fallback={<HoliLoader />}>
-                <SpaceUpdatesTabLazy space={space} />
+                <SpaceUpdatesTabLazy space={space} style={[mixins.container, styles.tabItem]} />
               </Suspense>
             ),
           },

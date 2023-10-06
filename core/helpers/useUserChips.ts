@@ -7,6 +7,7 @@ import type { SelectableTerm } from '@holi/core/screens/userprofile/components/U
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
+  authenticatedUserQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { Term, User } from '@holi/core/screens/userprofile/types'
@@ -48,7 +49,11 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
   onSubmit,
 }: UseUserChipsOptions) => {
   const { displayError } = useErrorHandling()
-  const { loading, data, error } = useQuery<T>(queryToUse, { skip: !user })
+  const { loading, data } = useQuery<T>(queryToUse, {
+    skip: !user,
+    onError: (error) =>
+      logError(error, 'Failed to load terms for user chips', { location: 'useUserChips', field: keyInUserObject }),
+  })
   const [updateUser, { loading: updateUserLoading, error: updateUserError }] =
     useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
 
@@ -79,19 +84,21 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
     const input = {} as UpdateAuthenticatedUserInput
     input[keyInUserObject] = selectedTerms.map(({ id }: Term) => id)
 
-    const { data } = await updateUser({ variables: { input } })
+    const { data } = await updateUser({
+      variables: { input },
+      refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+    })
 
     if (data) {
       onSubmit?.(data.updateAuthenticatedUser)
     }
   }, [keyInUserObject, onSubmit, selectedTerms, updateUser])
 
-  if (error) {
-    logError(error, `[UserChipLoader.tsx] ${error.message}`)
-  }
-
   if (updateUserError) {
-    displayError(updateUserError)
+    displayError(updateUserError, 'Failed to update user', {
+      location: 'useUserChips',
+      field: keyInUserObject,
+    })
   }
 
   return {

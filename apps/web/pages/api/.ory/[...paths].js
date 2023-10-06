@@ -11,4 +11,5 @@ export { config }
 export default createApiHandler({
   apiBaseUrlOverride: oryUrl,
   forceCookieSecure: environmentId !== 'development',
+  dontUseTldForCookieDomain: true,
 })

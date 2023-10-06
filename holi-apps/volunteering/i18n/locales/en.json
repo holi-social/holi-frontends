@@ -3,6 +3,7 @@
   "shared.partner.modal.close": "Got it",
   "app.name": "Volunteering",
   "app.subline": "via voltastics.com",
+  "maintenance.feature": "The volunteering app",
   "engagement.country": "Germany",
   "engagement.title": "{{title}} by {{organization}}",
   "engagementDetail.aboutEngagement": "About this volunteering",
@@ -16,9 +17,7 @@
   "filter.heading": "Filter opportunities",
   "filter.location.label": "Location",
   "filter.location.placeholder": "Address, district, city or country…",
-  "filter.notFound.description": "We couldn’t find any opportunity to match your filters.",
-  "filter.notFound.title": "No results yet",
-  "filter.reset": "Clear filter",
+  "filter.notFound.description": "We couldn't find any opportunity to match your filters.",
   "filter.result": "{{count}} opportunity",
   "filter.result_plural": "{{count}} opportunities",
   "filter.submitButton": "Show opportunities",
@@ -41,6 +40,5 @@
   "listing.partnerModal.GoVolunteer.headline": "Simply help",
   "listing.partnerModal.GoVolunteer.text": "GoVolunteer matches nonprofit projects with people who want to help.",
   "listing.partnerModal.GoVolunteer.buttonText": "Visit govolunteer.com",
-  "listing.loadMoreButton.text": "See more",
-  "listing.loading": "Loading volunteering opportunities…"
+  "listing.loadMoreButton.text": "See more"
 }

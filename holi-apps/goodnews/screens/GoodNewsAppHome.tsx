@@ -3,10 +3,11 @@ import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ArrowDownS } from '@holi/icons/src/generated'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
@@ -19,7 +20,7 @@ const GoodNewsAppHome = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
       headerTintColor: colors.background10,
@@ -31,19 +32,21 @@ const GoodNewsAppHome = () => {
   }, [setScreenOptions, t])
 
   return (
-    <View testID={'goodnews-app-home'}>
-      <StatusBar style="light" animated />
+    <FeatureToggleGuard toggleName={FeatureToggleName.APPS_GOODNEWS} featureNameKey="goodnews:maintenance.feature">
+      <View testID={'goodnews-app-home'}>
+        <StatusBar style="light" animated />
 
-      <ScrollHeaderLayout.Default
-        bounces={false}
-        headerOverlap
-        hasFooterTabBar={false}
-        style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.background30 }}
-        contentStyle={{ height: '100%' }}
-      >
-        <GoodNewsCarousel />
-      </ScrollHeaderLayout.Default>
-    </View>
+        <ScrollHeaderLayout.Default
+          bounces={false}
+          headerOverlap
+          hasFooterTabBar={false}
+          style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.background30 }}
+          contentStyle={{ height: '100%' }}
+        >
+          <GoodNewsCarousel />
+        </ScrollHeaderLayout.Default>
+      </View>
+    </FeatureToggleGuard>
   )
 }
 

@@ -1,14 +1,10 @@
 import { ApolloError } from '@apollo/client'
-import { makeVar, useReactiveVar } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import * as Sentry from '@sentry/nextjs'
 
+import { setUnauthorizedErrorStatus } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { isErrorOfType, isServerError, logError, logErrorLocal } from '@holi/core/errors/helpers'
-
-const unauthorizedErrorStatusVar = makeVar<boolean>(false)
-export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
-export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
+import { isErrorOfType, isUnauthorizedError, logError, logErrorLocal } from '@holi/core/errors/helpers'
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   // Do not log "not found" or "bad user input" errors
@@ -20,11 +16,11 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
       const errorMessage = `Message: ${graphQLError.message}, Location: ${graphQLError.locations}, Path: ${graphQLError.path}`
       const err = new HoliError(errorMessage)
       if (graphQLError instanceof ApolloError) {
-        logError(err, '[GraphQL Error]')
+        logError(err, 'GraphQL Error', { location: 'errorLink.web' })
         continue
       }
 
-      logErrorLocal(err, '[GraphQL Error]')
+      logErrorLocal(err, 'GraphQL Error', { location: 'errorLink.web' })
 
       Sentry.configureScope((scope: Sentry.Scope) => {
         scope.addBreadcrumb({
@@ -42,10 +38,10 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     }
   }
   if (networkError) {
-    if (isServerError(networkError) && networkError.statusCode === 401) {
+    if (isUnauthorizedError(networkError)) {
       setUnauthorizedErrorStatus(true)
     } else {
-      logError(networkError, '[Network error]')
+      logError(networkError, 'Network error', { location: 'errorLink.web' })
     }
   }
 })

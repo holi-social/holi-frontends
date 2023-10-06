@@ -118,45 +118,43 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           label={task.name}
           onPress={goToDetailView}
           disabled={showFullView}
-          style={styles.clickOverlay}
+          style={[styles.clickOverlay, { flex: 1 }]}
         >
           <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
             {task.name}
           </HoliText>
         </HoliButton>
         {showOptions && isAdmin && (
-          <View style={styles.innerClick}>
-            <HoliActionDrawer.Drawer
-              label={t('global.moreOptions')}
-              testID="btn-task-more-options"
-              buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
+          <HoliActionDrawer.Drawer
+            label={t('global.moreOptions')}
+            testID="btn-task-more-options"
+            buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
+          >
+            <HoliActionDrawer.Action
+              icon={Edit2}
+              title={t('global.edit')}
+              testID="btn-to-edit-task"
+              handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
+            />
+            <HoliActionDrawer.Action
+              isLoading={isLoadingDeleteTask}
+              icon={Delete}
+              title={t('spaces.digitalTool.delete.label')}
+              variant="danger"
+              testID="btn-to-delete-task"
+              showConfirmation
             >
-              <HoliActionDrawer.Action
-                icon={Edit2}
-                title={t('global.edit')}
-                testID="btn-to-edit-task"
-                handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
+              <HoliActionDrawer.Confirmation
+                title={t('spaces.tasks.delete.confirmation.title')}
+                description={t('spaces.tasks.delete.confirmation.description')}
+                testID="task-delete"
+                handleConfirmation={deleteTask}
+                buttonType="warning"
+                hasDismissBtn
+                requireLogin
               />
-              <HoliActionDrawer.Action
-                isLoading={isLoadingDeleteTask}
-                icon={Delete}
-                title={t('spaces.digitalTool.delete.label')}
-                variant="danger"
-                testID="btn-to-delete-task"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('spaces.tasks.delete.confirmation.title')}
-                  description={t('spaces.tasks.delete.confirmation.description')}
-                  testID="task-delete"
-                  handleConfirmation={deleteTask}
-                  buttonType="warning"
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
-            </HoliActionDrawer.Drawer>
-          </View>
+            </HoliActionDrawer.Action>
+          </HoliActionDrawer.Drawer>
         )}
       </View>
       <HoliButton
@@ -285,16 +283,11 @@ const styles = StyleSheet.create({
     position: 'relative',
     pointerEvents: 'auto',
   },
-  innerClick: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    pointerEvents: 'auto',
-  },
   detailContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flex: 1,
   },
   moreOptionsButton: {
     marginLeft: 16,
@@ -305,6 +298,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 8,
     height: 166,
+    justifyContent: 'center',
   },
   imageShowFullView: {
     borderRadius: 8,
@@ -332,6 +326,7 @@ const styles = StyleSheet.create({
   pill: {
     marginRight: 6,
     marginTop: 4,
+    flexShrink: 1,
   },
   iconsContainer: {
     marginTop: 4,
@@ -341,6 +336,7 @@ const styles = StyleSheet.create({
   iconGroupContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexShrink: 1,
   },
   iconGroupIcon: {
     marginRight: 4,

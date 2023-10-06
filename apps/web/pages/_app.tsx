@@ -30,8 +30,12 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   const { defaultProps = {} } = Component
 
   useEffect(() => {
-    // Init authencation
-    initAuth().catch((error) => logError(error, '[_app.tsx] Error initializing authentication'))
+    // Init authentication
+    initAuth().catch((error) =>
+      logError(error, 'Error initializing authentication', {
+        location: '_app.initAuth',
+      })
+    )
   }, [])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix

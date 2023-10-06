@@ -1,21 +1,28 @@
 import React, { useEffect, useMemo } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useBreakpointMatcher } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
+import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
-import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
+import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
+import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
@@ -49,9 +56,11 @@ const DONATIONS_IMG_SOURCES_MAPPING: {
 const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { navigate } = useRouting()
 
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
+  const postGridItemsInRow = useBreakpointMatcher()
 
   const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
@@ -60,35 +69,29 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   useEffect(() => {
     if (error) {
-      displayError(error, t('donations:donationListing.error'))
+      displayError(error, 'Failed to load donation projects', {
+        displayMessage: t('donations:donationListing.error'),
+        location: 'DonationListing.useEffect',
+        locationQuery,
+      })
     }
-  }, [error, displayError, t])
+  }, [error, displayError, t, locationQuery])
 
   if (loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations:donationListing.loading')}</HoliText>
-      </View>
-    )
+    return <DonationListingSkeleton isFiltering={isFiltering} amount={6} />
+  }
+
+  const handleCardPress = (project: Project) => {
+    navigate(`/apps/donations/project/${project.id}`)
   }
 
   return (
     <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
       {!!projects.length && (
         <HoliBox padding={[24, 0, 16, 0]}>
-          {isFiltering && (
-            <HoliHeading testID="donations-list-search-heading">
-              <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
-                <HoliText size="large" bold style={styles.searchQuery} />
-              </Trans>
-            </HoliHeading>
-          )}
-          {!isFiltering && (
-            <HoliHeading level="1" testID="donations-list-search-heading">
-              {t('donations:donationListing.heading')}
-            </HoliHeading>
-          )}
+          <HoliHeading level="1" testID="donations-list-search-heading">
+            {t('donations:donationListing.heading')}
+          </HoliHeading>
         </HoliBox>
       )}
       {!!projects.length && (
@@ -111,19 +114,19 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
       {isFiltering && !!projects.length && (
         <HoliBox padding={[16, 0, 0, 0]}>
           <View style={styles.searchFilter}>
-            <HoliText bold testID="donations-list-search-summary">
+            <HoliText bold testID="donations-list-search-summary" style={{ color: colors.foreground20 }}>
               {t('donations:donationListing.search.resultCount', { count: totalResults })}
             </HoliText>
             <HoliButton
-              transparent
               inline
               label={t('search.filter.reset')}
               onPress={resetSearch}
+              type="secondary"
+              variant="small"
               testID="donations-list-search-reset"
             >
-              <HoliText size="small" style={{ color: colors.foreground20 }}>
-                {t('search.filter.reset')}
-              </HoliText>
+              <HoliText>{t('global.reset')}</HoliText>
+              <HoliIcon icon={Close} size={20} style={styles.clearFilter} />
             </HoliButton>
           </View>
         </HoliBox>
@@ -151,38 +154,61 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             </HoliNoResults>
           </View>
         )}
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          projects
+        <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
+          {projects
             // FIX: duplication in projects after loading more
-            .map((project) =>
-              isFiltering ? (
-                <DonationListingItemFiltered key={project.id} project={project} />
-              ) : (
-                <DonationListingItem key={project.id} project={project} />
-              )
-            )
-        }
+            .map((project) => (
+              <HoliGridCell key={project.id}>
+                <HoliCard
+                  key={project.id}
+                  imageLabel={project.title ?? ''}
+                  imageUrl={project.picture[0].url}
+                  onCardPress={() => handleCardPress(project)}
+                  testID={'donations-list-item'}
+                  imageWidth={0}
+                >
+                  {!!project.categories[0] && (
+                    <>
+                      <HoliText size="small" style={{ color: colors.foreground20, marginTop: 8 }}>
+                        {t(`donations:category.${project.categories[0]}`)}
+                      </HoliText>
+                    </>
+                  )}
+                  <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
+                    {project.title}
+                  </HoliHeading>
+                  <DonationProgress
+                    category={project.categories[0]}
+                    progressPercentage={project.progressPercentage}
+                    openAmountInCents={project.openAmountInCents}
+                    style={styles.heading}
+                  />
+                </HoliCard>
+              </HoliGridCell>
+            ))}
+        </HoliGridWrapper>
       </HoliBox>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: 50,
-  },
   searchQuery: {
     color: colors.brandColorB30,
   },
   searchFilter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   noResultsMessage: {
     marginTop: 24,
+  },
+  clearFilter: {
+    paddingLeft: 3,
+  },
+  heading: {
+    marginTop: 8,
   },
 })
 

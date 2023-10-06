@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
@@ -9,17 +10,26 @@ import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.unmock('@holi/ui/components/molecules/HoliToastProvider')
 
-type ErrorComponentProps = { message?: string }
+const mockConsoleWarn = jest.fn()
+const mockConsoleError = jest.fn()
 
-const ErrorComponent: React.VFC<ErrorComponentProps> = ({ message }) => {
+global.console.warn = mockConsoleWarn
+global.console.error = mockConsoleError
+
+type ErrorComponentProps = { displayMessage?: string }
+
+const ErrorComponent: React.VFC<ErrorComponentProps> = ({ displayMessage }) => {
   const { displayError } = useErrorHandling()
 
-  displayError(new HoliError('Test Error'), message)
+  displayError(new HoliError('Test Error'), 'Test Error', {
+    displayMessage,
+    location: 'ErrorComponent',
+  })
 
   return <Text>Child Content</Text>
 }
 
-describe('displays errors correctly', () => {
+describe('useErrorHandling', () => {
   it('displays toast with global error message', async () => {
     render(
       <ToastProvider>
@@ -33,7 +43,7 @@ describe('displays errors correctly', () => {
   it('displays toast with custom error message', async () => {
     render(
       <ToastProvider>
-        <ErrorComponent message="Custom Error" />
+        <ErrorComponent displayMessage="Custom Error" />
       </ToastProvider>
     )
 
@@ -45,12 +55,12 @@ describe('displays errors correctly', () => {
     process.env.NODE_ENV = 'development'
     render(
       <ToastProvider>
-        <ErrorComponent message="Custom Error" />
+        <ErrorComponent displayMessage="Custom Error" />
       </ToastProvider>
     )
 
-    expect(console.error).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(console.error).toHaveBeenCalledWith('[ErrorComponent] Test Error', new HoliError('Test Error'), {})
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 
   it('warn logs and tracks error with sentry in production', () => {
@@ -58,11 +68,11 @@ describe('displays errors correctly', () => {
     process.env.NODE_ENV = 'production'
     render(
       <ToastProvider>
-        <ErrorComponent message="Custom Error" />
+        <ErrorComponent displayMessage="Custom Error" />
       </ToastProvider>
     )
 
-    expect(console.warn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(console.warn).toHaveBeenCalledWith('[ErrorComponent] Test Error', new HoliError('Test Error'), {})
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 })

@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -78,27 +78,55 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
       </View>
 
       <View style={styles.body}>
-        {userTopics.map((userTopic, index) => (
-          <ScrollBasedRender key={index}>
-            <SpacesGroupSlider
-              topic={userTopic}
-              pageSize={SPACES_GROUP_LIMIT}
-              style={styles.spacesGroup}
-              testID="discover-topics-slider-user-specific"
-            />
-          </ScrollBasedRender>
-        ))}
+        {userTopics.map((userTopic, index) => {
+          if (index < 2) {
+            // render the first two topics without ScrollBasedRender, to avoid an empty list after login
+            return (
+              <SpacesGroupSlider
+                key={index}
+                topic={userTopic}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-topics-slider-user-specific"
+              />
+            )
+          }
+          return (
+            <ScrollBasedRender key={index}>
+              <SpacesGroupSlider
+                topic={userTopic}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-topics-slider-user-specific"
+              />
+            </ScrollBasedRender>
+          )
+        })}
 
-        {userSkills.map((userSkill, index) => (
-          <ScrollBasedRender key={index}>
-            <SpacesGroupSlider
-              skill={userSkill}
-              pageSize={SPACES_GROUP_LIMIT}
-              style={styles.spacesGroup}
-              testID="discover-skills-slider-user-specific"
-            />
-          </ScrollBasedRender>
-        ))}
+        {userSkills.map((userSkill, index) => {
+          if (index < 2) {
+            // render the first two skills without ScrollBasedRender, to avoid an empty list after login
+            return (
+              <SpacesGroupSlider
+                key={index}
+                skill={userSkill}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-skills-slider-user-specific"
+              />
+            )
+          }
+          return (
+            <ScrollBasedRender key={index}>
+              <SpacesGroupSlider
+                skill={userSkill}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-skills-slider-user-specific"
+              />
+            </ScrollBasedRender>
+          )
+        })}
 
         {loading && <SpacesGroupSliderSkeletons />}
 
@@ -109,16 +137,30 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         )}
 
         {!loading &&
-          defaultTopics.map((defaultTopic, index) => (
-            <ScrollBasedRender key={index}>
-              <SpacesGroupSlider
-                topic={defaultTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topic-slider-others"
-              />
-            </ScrollBasedRender>
-          ))}
+          defaultTopics.map((defaultTopic, index) => {
+            // render the first two default topics without ScrollBasedRender, to avoid an empty list after login
+            if (index < 2) {
+              return (
+                <SpacesGroupSlider
+                  key={index}
+                  topic={defaultTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topic-slider-others"
+                />
+              )
+            }
+            return (
+              <ScrollBasedRender key={index}>
+                <SpacesGroupSlider
+                  topic={defaultTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topic-slider-others"
+                />
+              </ScrollBasedRender>
+            )
+          })}
 
         {/* Example how to do location based discovery: */}
         {/*<ScrollBasedRender>*/}

@@ -18,10 +18,17 @@ import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/Holi
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: () => ({ userId: '123' }),
-  setUserLoggedOut: async () => {
-    null
-  },
+  setUserLoggedOut: async () => null,
 }))
+
+jest.mock('@holi/core/helpers/useLogout', () => ({
+  useLogout: () => ({ logout: jest.fn() }),
+}))
+
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
 
 const mySpacesMock = { ...mySpacesWithEmptyResultMock, result: { data: { mySpaces } } }
 
@@ -90,7 +97,9 @@ describe('Spaces screen', () => {
   it('displays error toast if loading own spaces failed', async () => {
     renderSpaces([authenticatedUserMock, mySpacesErrorMock, locationDetailsMock])
 
-    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR))
+    await waitFor(() =>
+      expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
+    )
   })
 
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {

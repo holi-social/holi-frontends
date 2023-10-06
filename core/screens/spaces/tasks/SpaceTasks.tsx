@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -29,6 +29,8 @@ const SpaceTasks = () => {
   const { navigate } = useRouting()
 
   const [spaceIdOrName] = useParam('spaceIdOrName')
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
 
   const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
@@ -64,7 +66,7 @@ const SpaceTasks = () => {
           label={t('allTools.drawer.headline')}
           inline
           testID="space-resources-add-button"
-          style={styles.overlayButton}
+          style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
           onPress={navigateToCreateTask}
         >
           <HoliIcon icon={Add} size={24} />
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: 40,
-    right: 16,
+    right: '50%',
     justifyContent: 'center',
     borderWidth: 1,
     shadowColor: colors.foreground30,

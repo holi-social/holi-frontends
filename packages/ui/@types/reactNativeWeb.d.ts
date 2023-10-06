@@ -1,26 +1,15 @@
 // https://github.com/paularmstrong/build-tracker/blob/371e54ebf37f935a7efd1240894cdc0a45acf7ac/typings/react-native/index.d.ts#L1578
-import type { AccessibilityProps, AccessibilityRole, ViewStyle as ReactViewStyle } from 'react-native'
+import type { AccessibilityProps, ViewStyle as ReactViewStyle, Role } from 'react-native'
 
-export type AccessibilityRoleWeb =
-  | AccessibilityRole
-  | 'main'
-  | 'region'
-  | 'banner'
-  | 'navigation'
-  | 'heading'
-  | 'tabpanel'
-  | 'menuitemcheckbox'
-  | 'menuitemradio'
-  | 'dialog'
+export type AccessibilityRoleWeb = Role | 'menuitemcheckbox' | 'menuitemradio'
 
 interface AccessibilityPropsWeb extends AccessibilityProps {
-  accessibilityLevel?: number
-  accessibilityRole?: AccessibilityRoleWeb
+  'aria-level'?: number
+  role?: AccessibilityRoleWeb
   accessibilityPressed?: boolean
   accessibilityControls?: string
-  accessibilitySelected?: boolean
+  'aria-haspopup'?: 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog' | true
   accessibilityAutoComplete?: 'none' | 'inline' | 'list' | 'both'
-  accessibilityChecked?: boolean | 'mixed'
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)
@@ -38,8 +27,8 @@ declare module 'react-native' {
   }
 
   interface ViewProps extends ViewProps {
-    accessibilityRole?: string
-    accessibilityLabelledBy?: string
+    role?: string
+    'aria-labelledby'?: string | string[]
     accessibilityOrientation?: 'horizontal' | 'vertical'
     dataSet?: { [key: string]: string | number | boolean }
   }

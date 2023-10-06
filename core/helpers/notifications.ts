@@ -218,14 +218,9 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     return createAndroidRoomMessagePush(event)
   } else {
     // anonymized, or unknown event
-    // wording it like the notification is intentionally vague
-    return {
-      title: 'holi Chat',
-      body: 'You have a new message or invitation.',
-      data: {
-        room_id: 'room_id' in event ? event.room_id : undefined,
-      },
-    }
+    // since the relevance is not known, we don't display anything
+    // (e.g. badge update data push notifications are not worth pushing to the user)
+    return null
   }
 }
 

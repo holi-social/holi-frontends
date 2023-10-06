@@ -36,7 +36,6 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
     onCompleted: () => {
       openToast(t('spaces.input.publicLinks.delete.success'), HoliToastType.SUCCESS)
     },
-    onError: (error) => displayError(error, t('spaces.input.publicLinks.delete.error')),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
   })
 
@@ -55,6 +54,13 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
       variables: {
         id: linkId,
       },
+      onError: (error) =>
+        displayError(error, 'Failed to delete link', {
+          displayMessage: t('spaces.input.publicLinks.delete.error'),
+          location: 'EditSpaceLinks.onDelete',
+          spaceId: space.id,
+          linkId,
+        }),
     })
   }
 
@@ -115,7 +121,6 @@ const styles = StyleSheet.create({
   },
   modal: {
     backgroundColor: colors.background20,
-    paddingHorizontal: 16,
   },
   wrapper: {
     paddingBottom: Platform.OS === 'web' ? 0 : 100,

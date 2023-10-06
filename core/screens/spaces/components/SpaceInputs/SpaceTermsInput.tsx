@@ -85,7 +85,7 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
       </HoliText>
       <HoliText style={styles.subTitle}>{description}</HoliText>
       <HoliTextInput
-        accessibilityLabel={searchPlaceholder}
+        aria-label={searchPlaceholder}
         value={filterString}
         placeholder={searchPlaceholder}
         onChange={(text: string) => setFilterString(text)}

@@ -89,7 +89,10 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     //   // $getRoot().append(paragraph)
     //   // $getRoot().selectEnd()
     // },
-    logError,
+    onError: (error: unknown) =>
+      logError(error, 'Error in LexicalComposer', {
+        location: 'HoliRichTextInput.LexicalComposer.onError',
+      }),
   }
 
   return (

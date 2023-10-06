@@ -68,8 +68,8 @@ const HoliHeading = ({
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
-      accessibilityRole: 'header',
-      accessibilityLevel: Number(level),
+      role: 'heading',
+      'aria-level': Number(level),
     },
     default: {
       role: 'heading',
@@ -80,8 +80,13 @@ const HoliHeading = ({
     <Text
       {...props}
       {...accessibilityProps}
-      selectable={selectable}
-      style={[styles.default, styles[size as keyof typeof styles], props?.style]}
+      selectable={Platform.OS !== 'web' ? selectable : undefined}
+      style={StyleSheet.flatten([
+        { userSelect: selectable ? 'auto' : 'none' },
+        styles.default,
+        styles[size as keyof typeof styles],
+        props?.style,
+      ])}
       testID={testID}
       numberOfLines={numberOfLines}
     >
@@ -101,15 +106,15 @@ const getStyles = (theme: HoliTheme) =>
     },
     super: {
       fontSize: 36,
-      lineHeight: 36 * 1.2,
+      lineHeight: 36 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     large: {
       fontSize: 28,
-      lineHeight: 28 * 1.2,
+      lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     medium: {
       fontSize: 21,
-      lineHeight: 21 * 1.2,
+      lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     small: {
       fontSize: 16,

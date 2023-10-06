@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet } from 'react-native'
 
-import { useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Share as ShareIcon } from '@holi/icons/src/generated'
 
@@ -15,10 +15,9 @@ type SpaceShareIconProps = {
 const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ spaceIdOrName, title, color }: SpaceShareIconProps) => {
   const { t } = useTranslation()
   const [, shareLink] = useShareLink({
-    title: title ?? '',
     link: `/spaces/${spaceIdOrName}`,
-    createMessage: (url) =>
-      `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', { space: title })}\n${url}`,
+    linkType: LinkType.UNIVERSAL,
+    message: `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', { space: title })}`,
   })
 
   return (

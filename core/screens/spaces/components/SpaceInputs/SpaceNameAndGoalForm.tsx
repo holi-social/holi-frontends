@@ -40,6 +40,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       saveButtonDisabled={saveButtonDisabled}
       loading={loading}
       style={style}
+      scrollToInput={false}
       testID="space-edit-modal"
       showBottomBar
       renderProp={(scrollToPropsFor) => (
@@ -58,7 +59,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
             value={spaceName}
             onChange={onChangeSpaceName}
             helperText={t('spaces.input.name.description')}
-            accessibilityLabel={t('spaces.input.name.label')}
+            aria-label={t('spaces.input.name.label')}
             testID="space-name"
             {...scrollToPropsFor('name')}
           />
@@ -73,7 +74,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
             validationErrorText={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
             value={spaceGoal}
             onChange={onChangeSpaceGoal}
-            accessibilityLabel={t('spaces.input.goal.label')}
+            aria-label={t('spaces.input.goal.label')}
             testID="space-goal"
             inputProps={{ textAlignVertical: 'top' }}
             style={styles.goalInputContainer}

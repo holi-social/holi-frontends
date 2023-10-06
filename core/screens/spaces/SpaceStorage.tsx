@@ -1,18 +1,23 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
+import StorageOnboardModal from '@holi/core/screens/spaces/linkHub/components/StorageOnboardModal'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceStorageParams = {
@@ -28,10 +33,23 @@ const SpaceStorage: React.FC = () => {
   const styles = getStyles(deviceHeight)
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      !isNotFoundError(error) &&
+      logError(error, 'Failed to load space', { location: 'SpaceStorage.spaceByIdQuery', spaceIdOrName }),
   })
   const space = data?.spaceById
   const storageUrl = getUrlForSpaceStorage(space)
   const setScreenOptions = useSetScreenOptions()
+
+  const { visible, show, hide } = useModalState()
+
+  const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_storage_is_onboarded')
+
+  useEffect(() => {
+    if (!isOnboarded) {
+      show()
+    }
+  }, [show, isOnboarded])
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -50,9 +68,6 @@ const SpaceStorage: React.FC = () => {
       </DefaultLayout>
     )
   }
-  if (error) {
-    logError(error, `[SpaceStorage.tsx] ${error.message}`)
-  }
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !space) {
@@ -65,12 +80,26 @@ const SpaceStorage: React.FC = () => {
     return null
   }
 
+  const handleModalClose = () => {
+    setIsOnboarded().finally(hide)
+  }
+
   return (
     <DefaultLayout hasFooterTabBar={false}>
-      <HoliWebView style={styles.webView} uri={storageUrl} webViewProps={{ setSupportMultipleWindows: false }} />
+      <StorageOnboardModal visible={visible} handleModalClose={handleModalClose} />
+      <HoliWebView
+        style={styles.webView}
+        webViewProps={{ setSupportMultipleWindows: false, source: { uri: storageUrl } }}
+      />
     </DefaultLayout>
   )
 }
+
+const WrappedSpaceStorage = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.STORAGE} featureNameKey="spaces.storage.maintenance.feature">
+    <SpaceStorage />
+  </FeatureToggleGuard>
+)
 
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
@@ -91,4 +120,4 @@ const getStyles = (deviceHeight: number) =>
     },
   })
 
-export default withProfiler(SpaceStorage, { name: 'SpaceStorage' })
+export default withProfiler(WrappedSpaceStorage, { name: 'SpaceStorage' })

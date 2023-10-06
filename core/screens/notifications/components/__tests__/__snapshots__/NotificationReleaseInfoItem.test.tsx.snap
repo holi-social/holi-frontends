@@ -6,7 +6,6 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
 >
   <View
     accessibilityLabel="Someone trip loss government property like hold staff. School line three page single. Source lay popular."
-    accessibilityRole="link"
     accessibilityState={
       {
         "busy": undefined,
@@ -36,6 +35,7 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    role="link"
     testID="text-link"
   >
     <View
@@ -65,7 +65,8 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
               "fontFamily": "Circular Std Book",
               "fontSize": 14,
               "fontWeight": "400",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
         >
@@ -80,8 +81,9 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
               "fontFamily": "Circular Std Book",
               "fontSize": 12,
               "fontWeight": "400",
-              "lineHeight": 14.399999999999999,
+              "lineHeight": 16.799999999999997,
               "marginTop": 4,
+              "userSelect": "auto",
             }
           }
         >

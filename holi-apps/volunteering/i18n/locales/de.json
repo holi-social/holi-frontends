@@ -3,6 +3,7 @@
   "shared.partner.modal.close": "Okay",
   "app.name": "Engagement",
   "app.subline": "über voltastics.com",
+  "maintenance.feature": "Die Engagement App",
   "engagement.country": "Deutschland",
   "engagement.title": "{{title}} bei {{organization}}",
   "engagementDetail.aboutEngagement": "Über dieses Engagement",
@@ -16,9 +17,7 @@
   "filter.heading": "Projekte filtern",
   "filter.location.label": "Standort",
   "filter.location.placeholder": "Stadt auswählen",
-  "filter.notFound.description": "Adresse, Bezirk, Stadt oder Land…",
-  "filter.notFound.title": "Keine Ergebnisse gefunden",
-  "filter.reset": "Filter löschen",
+  "filter.notFound.description": "Wir konnten keine Ergebnisse finden, die zu deinen Filterkriterien passen.",
   "filter.result": "{{count}} Freiwilligenarbeit",
   "filter.result_plural": "{{count}} Freiwillenangebote",
   "filter.submitButton": "Freiwilligenarbeit anzeigen",
@@ -41,6 +40,5 @@
   "listing.partnerModal.GoVolunteer.headline": "Einfach helfen",
   "listing.partnerModal.GoVolunteer.text": "GoVolunteer bringt gemeinnützige Projekte mit Menschen zusammen, die helfen möchten.",
   "listing.partnerModal.GoVolunteer.buttonText": "Besuche govolunteer.com",
-  "listing.loadMoreButton.text": "Weitere Projekte",
-  "listing.loading": "Lädt Freiwilligenangebote…"
+  "listing.loadMoreButton.text": "Weitere Projekte"
 }

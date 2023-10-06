@@ -15,10 +15,11 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { PortalGate } from '@holi/core/provider/PortalProvider'
+import { PortalGate } from '@holi/core/providers/PortalProvider'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
@@ -62,19 +63,29 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { height: screenHeight } = useWindowDimensions()
   const setScreenOptions = useSetScreenOptions()
   const styles = useMemo(() => getStyles(screenHeight), [screenHeight])
+  const { displayError } = useErrorHandling()
 
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
+    onError: (error) => logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId }),
   })
 
-  const [createPostComment, { loading: createCommentLoading, error: createCommentError }] =
-    useMutation<CreatePostCommentResponse>(CreatePostCommentMutation, {
+  const [createPostComment, { loading: createCommentLoading }] = useMutation<CreatePostCommentResponse>(
+    CreatePostCommentMutation,
+    {
       onCompleted: () => {
         openToast(t('insights.posts.comments.success'), HoliToastType.SUCCESS)
         navigateBack()
       },
-      onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
-    })
+      onError: (error) =>
+        displayError(error, 'Failed to create post comment', {
+          location: 'CommentInputPage.createPostComment',
+          postId,
+          insightId,
+          spaceIdOrName,
+        }),
+    }
+  )
 
   useLayoutEffect(
     () =>
@@ -122,14 +133,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
     setMaxViewPortHeight(newScrollViewHeight)
   }, [])
-
-  if (createCommentError) {
-    logError(createCommentError, `[CommentInputPage.tsx] ${createCommentError.message}`)
-  }
-
-  if (error) {
-    logError(error, `[CommentInputPage.tsx] ${error.message}`)
-  }
 
   if (loading || error) {
     return <></>

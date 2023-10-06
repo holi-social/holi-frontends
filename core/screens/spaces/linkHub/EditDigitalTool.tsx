@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -39,11 +40,12 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [toolIdOrName] = useParam('toolIdOrName')
-  const { navigateBack, navigate } = useRouting()
+  const [toolId] = useParam('toolIdOrName')
+  const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
+  const [urlError, setUrlError] = useState<string | undefined>()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState<string | undefined>('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
@@ -62,11 +64,15 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     loading: loadingSpace,
   } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', {
+        location: 'EditDigitalTool.spaceByIdQuery',
+        spaceIdOrName,
+        toolId,
+      }),
   })
 
   const space = data?.spaceById
-
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { handleGraphQLError } = useFieldErrors({
     handledFieldErrors: ['url', 'title', 'description'],
@@ -84,12 +90,14 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     }
   )
 
-  const onSave = () =>
+  const onSave = () => {
+    const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
+
     updateCollaborationTool({
       variables: {
         input: {
-          id: toolIdOrName,
-          url,
+          id: toolId,
+          url: urlWithProtocol,
           title,
           description,
           collectionType: selectedCollection?.id,
@@ -97,6 +105,18 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         },
       },
     })
+  }
+
+  useEffect(() => {
+    // Check if the input URL is in a valid format
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/
+
+    if (!urlRegex.test(url)) {
+      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+    } else {
+      setUrlError(undefined)
+    }
+  }, [t, url])
 
   useLayoutEffect(() => {
     !loadingSpace &&
@@ -121,8 +141,8 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   useEffect(() => {
     if (space) {
       const collaborationTools = space ? space.collaborationTools : []
-      if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
-        const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
+      if (collaborationTools && collaborationTools.length > 0 && toolId) {
+        const digitalTool = collaborationTools.filter((tool) => tool.id === toolId)[0]
         const collectionType = COLLECTION_TYPES.filter(
           (collection_type) => collection_type === digitalTool.collectionType
         )[0]
@@ -139,7 +159,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         setCurrentThumbnailBlurhash(digitalTool.thumbnailBlurhash)
       }
     }
-  }, [space, toolIdOrName, t])
+  }, [space, toolId, t])
 
   useEffect(() => {
     const resultSchema = UpdateCollaborationToolSchema.safeParse({
@@ -161,44 +181,42 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     }
   }, [description, selectedCollection?.id, space?.id, title, url])
 
-  if (errorSpace) {
-    logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
-  }
-
-  if (!loadingSpace && !isMember) {
-    navigate(`/spaces/${spaceIdOrName}`)
-  }
-
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space || !isMember) {
+  if (loadingSpace || errorSpace || !space) {
     return <></>
   }
 
   return (
-    <SpaceFormScreenLayout
-      title={t('spaces.digitalTool.edit.title')}
-      saveButtonDisabled={saveButtonDisabled}
-      saveButtonLoading={loading}
-      toggleConfirmationModal={setShowConfirmationModal}
-      onSave={onSave}
-      showConfirmationModal={showConfirmationModal}
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.MEMBER}
     >
-      <DigitalToolInputForm
-        onChangeUrl={setUrl}
-        onChangeTitle={setTitle}
-        onChangeDescription={setDescription}
-        onSelectCollection={setSelectedCollection}
-        selectedCollection={selectedCollection}
-        onChangeThumbnail={setThumbnail}
-        url={url}
-        title={title}
-        description={description}
-        thumbnail={thumbnail}
-        thumbnailBlurhash={thumbnailBlurhash}
-        fieldErrors={fieldErrors}
-        currentThumbnail={currentThumbnail}
-      />
-    </SpaceFormScreenLayout>
+      <SpaceFormScreenLayout
+        title={t('spaces.digitalTool.edit.title')}
+        saveButtonDisabled={saveButtonDisabled}
+        saveButtonLoading={loading}
+        toggleConfirmationModal={setShowConfirmationModal}
+        onSave={onSave}
+        showConfirmationModal={showConfirmationModal}
+      >
+        <DigitalToolInputForm
+          onChangeUrl={setUrl}
+          onChangeTitle={setTitle}
+          onChangeDescription={setDescription}
+          onSelectCollection={setSelectedCollection}
+          selectedCollection={selectedCollection}
+          onChangeThumbnail={setThumbnail}
+          url={url}
+          title={title}
+          description={description}
+          thumbnail={thumbnail}
+          thumbnailBlurhash={thumbnailBlurhash}
+          fieldErrors={urlError ? { url: [urlError] } : fieldErrors}
+          currentThumbnail={currentThumbnail}
+        />
+      </SpaceFormScreenLayout>
+    </PermissionsGuard>
   )
 }
 

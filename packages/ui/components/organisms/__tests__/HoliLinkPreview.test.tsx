@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import { Link } from '@holi/core/screens/posts/types'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview/index.web'
@@ -20,15 +19,15 @@ const linkData: Link = {
 
 describe('HoliLinkPreview', () => {
   it('matches previous snapshot', () => {
-    const tree = renderer.create(<HoliLinkPreview previewData={linkData} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliLinkPreview previewData={linkData} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('renders correctly', () => {
     const { getByText, getByTestId } = render(<HoliLinkPreview previewData={linkData} />)
 
     const image = getByTestId('link-preview-image')
-    expect(image.props.proxiedProperties.accessibilityLabel).toMatch(new RegExp(linkData.title, 'gi'))
+    expect(image.props['aria-label']).toMatch(new RegExp(linkData.title, 'gi'))
 
     getByText(new RegExp(linkData.title, 'gi'))
 

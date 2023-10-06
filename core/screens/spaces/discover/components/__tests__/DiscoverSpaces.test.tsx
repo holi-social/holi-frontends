@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { cleanup, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import {
@@ -53,18 +53,19 @@ const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, discoverSpacesUserSpec
 
 // note: this test has been slimmed down since the component was refactored
 //       feel free to add more tests again (see history)
-describe('DiscoverSpaces', () => {
-  const renderDiscoverSpaces = (mocks: MockedResponse[]) =>
-    render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <ToastProvider>
-          <SpaceTermContextProvider>
-            <DiscoverSpaces user={authenticatedUser} />
-          </SpaceTermContextProvider>
-        </ToastProvider>
-      </MockedProvider>
-    )
 
+const renderDiscoverSpaces = (mocks: MockedResponse[]) =>
+  render(
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <ToastProvider>
+        <SpaceTermContextProvider>
+          <DiscoverSpaces user={authenticatedUser} />
+        </SpaceTermContextProvider>
+      </ToastProvider>
+    </MockedProvider>
+  )
+
+describe('DiscoverSpaces', () => {
   it('displays loading screen while loading', async () => {
     renderDiscoverSpaces(MOCKS)
 
@@ -76,4 +77,8 @@ describe('DiscoverSpaces', () => {
 
     expect(await screen.findByTestId('discover-spaces-header'))
   })
+
+  // solve act() wrap warning
+  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
+  afterEach(cleanup)
 })

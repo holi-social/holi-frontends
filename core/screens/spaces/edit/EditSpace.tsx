@@ -6,6 +6,7 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -14,6 +15,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
+import SpaceOnboardCard from '@holi/core/screens/spaces/components/SpaceOnboardCard'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import EditSpaceAvatar from '@holi/core/screens/spaces/edit/components/EditSpaceAvatar'
@@ -32,11 +34,11 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
@@ -66,6 +68,8 @@ type OnboardingCard = {
   image: StaticImageData
   description: string
   instruction: string
+  width: number
+  height: number
 }
 
 const onboardingContentList: Array<OnboardingCard> = [
@@ -73,16 +77,22 @@ const onboardingContentList: Array<OnboardingCard> = [
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg'),
     description: 'spaces.edit.onboarding.description',
     instruction: 'spaces.edit.onboarding.instruction',
+    width: 202,
+    height: 179,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.svg'),
     description: 'spaces.edit.onboarding.tip1',
     instruction: '',
+    width: 215,
+    height: 188,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.svg'),
     description: 'spaces.edit.onboarding.tip2',
     instruction: '',
+    width: 279,
+    height: 200,
   },
 ]
 
@@ -94,7 +104,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate, navigateBack, replaceRoute } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
   const statusBarHeight = Constants.statusBarHeight
@@ -102,15 +112,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', { location: 'EditSpace.spaceByIdQuery', spaceIdOrName }),
   })
 
   const space = data?.spaceById
-
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-
-  if (!loading && !isAdmin) {
-    navigate(`/spaces/${spaceIdOrName}`)
-  }
 
   const { visible, show, hide } = useModalState()
 
@@ -144,12 +150,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     })
   }, [hide, setScreenOptions, show, t, visible])
 
-  if (error) {
-    logError(error, `[EditSpace.tsx] ${error.message}`)
+  if (loading) {
+    return <HoliLoader />
   }
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space || !isAdmin) {
+  if (error || !space) {
     return <></>
   }
 
@@ -165,238 +170,224 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     hide()
   }
 
-  type OnboardCardProps = {
-    content: OnboardingCard
-  }
-
-  const OnboardCard = ({ content }: OnboardCardProps) => {
-    return (
-      <View style={styles.onboardCardContainer}>
-        <HoliLocalImage
-          imageSource={content.image}
-          width={202}
-          height={180}
-          label={''}
-          isSvg={true}
-          resizeMode="contain"
-          style={styles.illustration}
-        />
-        <HoliText style={styles.onboardingDescription}>{t(content.description)}</HoliText>
-        <HoliText bold style={styles.onboardingInstruction}>
-          {t(content.instruction)}
-        </HoliText>
-      </View>
-    )
-  }
-
   return (
-    <SpaceTermContextProvider>
-      <ScrollHeaderLayout.Default style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
-        <View style={styles.wrapper} testID="space-edit-container">
-          {/* Header */}
-          <View style={styles.header} testID="space-edit-header">
-            <SpaceAvatar space={space} testID="space-edit-avatar" />
-            <HoliButton
-              label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
-              type="secondary"
-              inline
-              style={[styles.editButton, styles.editAvatarButton]}
-              onPress={() => openEditModal(EditFields.AVATAR)}
-              testID="btn-space-edit-avatar"
-            >
-              <HoliText style={styles.editButtonText}>{t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}</HoliText>
-              <HoliIcon icon={Edit2} />
-            </HoliButton>
-            <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
-            <HoliHeading level="1" size="medium" style={styles.title} testID="space-edit-title">
-              {space.title}
-            </HoliHeading>
-            <HoliButton
-              label={t('spaces.edit.title')}
-              type="secondary"
-              inline
-              style={[styles.editButton, styles.editTitleButton]}
-              onPress={() => openEditModal(EditFields.NAME)}
-              testID="btn-space-edit-name"
-            >
-              <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
-              <HoliIcon icon={Edit2} />
-            </HoliButton>
-          </View>
-
-          {/* Body */}
-          <View style={styles.body}>
-            <View style={mixins.container}>
-              <SpaceMainImage
-                uri={space.cover}
-                label={space.title}
-                onPress={() => openEditModal(EditFields.COVER_IMAGE)}
-                editable
-              />
-
-              <SpaceSection
-                title={t('spaces.spaceDetails.goal')}
-                editable
-                style={styles.noBorderSection}
-                onPressEdit={() => openEditModal(EditFields.NAME)}
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+    >
+      <SpaceTermContextProvider>
+        <ScrollHeaderLayout.Default style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+          <View style={styles.wrapper} testID="space-edit-container">
+            {/* Header */}
+            <View style={styles.header} testID="space-edit-header">
+              <SpaceAvatar space={space} testID="space-edit-avatar" />
+              <HoliButton
+                label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
+                type="secondary"
+                inline
+                style={[styles.editButton, styles.editAvatarButton]}
+                onPress={() => openEditModal(EditFields.AVATAR)}
+                testID="btn-space-edit-avatar"
               >
-                {!!space.description && <HoliText testID="space-edit-goal">{space.description}</HoliText>}
-              </SpaceSection>
-
-              <SpaceSection
-                title={t('spaces.spaceDetails.topics')}
-                editable
-                onPressEdit={() => openEditModal(EditFields.TOPICS)}
-                testID="space-edit-topics"
+                <HoliText style={styles.editButtonText}>
+                  {t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
+                </HoliText>
+                <HoliIcon icon={Edit2} />
+              </HoliButton>
+              <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
+              <HoliHeading level="1" size="medium" style={styles.title} testID="space-edit-title">
+                {space.title}
+              </HoliHeading>
+              <HoliButton
+                label={t('spaces.edit.title')}
+                type="secondary"
+                inline
+                style={[styles.editButton, styles.editTitleButton]}
+                onPress={() => openEditModal(EditFields.NAME)}
+                testID="btn-space-edit-name"
               >
-                {!!space.topics?.length && (
-                  <View style={styles.listContainer}>
-                    {space.topics?.map((topic, index) => (
-                      <HoliChip
-                        key={`topic_${index}`}
-                        text={topic.title}
-                        label={topic.title}
-                        disabled
-                        style={styles.chip}
-                        testID="space-edit-topics-chip"
-                      />
-                    ))}
-                  </View>
-                )}
-              </SpaceSection>
+                <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
+                <HoliIcon icon={Edit2} />
+              </HoliButton>
+            </View>
 
-              <SpaceSection
-                title={t('spaces.spaceDetails.location')}
-                editable
-                onPressEdit={() => openEditModal(EditFields.LOCATION)}
-                testID="space-edit-location"
-              >
-                {space.location && <HoliText>{space.location}</HoliText>}
-              </SpaceSection>
+            {/* Body */}
+            <View style={styles.body}>
+              <View style={mixins.container}>
+                <SpaceMainImage
+                  uri={space.cover}
+                  label={space.title}
+                  onPress={() => openEditModal(EditFields.COVER_IMAGE)}
+                  editable
+                />
 
-              <SpaceSection
-                title={t('spaces.spaceDetails.sdgs')}
-                editable
-                onPressEdit={() => openEditModal(EditFields.SDGS)}
-                testID="space-edit-sdgs"
-              >
-                {!!space.sdgs?.length && (
-                  <View style={styles.listContainer}>
-                    {sdgs.map((sdg, index) => (
-                      <HoliChip
-                        key={`sdg_${index}`}
-                        text={`${sdg.number}. ${sdg.title}`}
-                        label={`${sdg.number}. ${sdg.title}`}
-                        disabled
-                        style={styles.chip}
-                        testID="space-edit-sdgs-chip"
-                      />
-                    ))}
-                  </View>
-                )}
-              </SpaceSection>
-              <SpaceSection
-                title={t('spaces.spaceDetails.contact')}
-                editable
-                onPressEdit={() => openEditModal(EditFields.CONTACT)}
-                testID="space-edit-contact"
-              >
-                {space.contactDescription || space.contactEmail || space.contactPhone ? (
-                  <View>
-                    <HoliText>{space.contactDescription}</HoliText>
-                    {space.contactEmail && (
-                      <View style={styles.contactContainer}>
-                        <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
+                <SpaceSection
+                  title={t('spaces.spaceDetails.goal')}
+                  editable
+                  style={styles.noBorderSection}
+                  onPressEdit={() => openEditModal(EditFields.NAME)}
+                >
+                  {!!space.description && <HoliText testID="space-edit-goal">{space.description}</HoliText>}
+                </SpaceSection>
 
-                        <HoliText size="small" bold>
-                          {space.contactEmail}
-                        </HoliText>
-                      </View>
-                    )}
-                    {space.contactPhone && (
-                      <View style={styles.contactContainer}>
-                        <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
+                <SpaceSection
+                  title={t('spaces.spaceDetails.topics')}
+                  editable
+                  onPressEdit={() => openEditModal(EditFields.TOPICS)}
+                  testID="space-edit-topics"
+                >
+                  {!!space.topics?.length && (
+                    <View style={styles.listContainer}>
+                      {space.topics?.map((topic, index) => (
+                        <HoliChip
+                          key={`topic_${index}`}
+                          text={topic.title}
+                          label={topic.title}
+                          disabled
+                          style={styles.chip}
+                          testID="space-edit-topics-chip"
+                        />
+                      ))}
+                    </View>
+                  )}
+                </SpaceSection>
 
-                        <HoliText size="small" bold>
-                          {space.contactPhone}
-                        </HoliText>
-                      </View>
-                    )}
-                  </View>
-                ) : null}
-              </SpaceSection>
-              <SpaceSection
-                title={t('spaces.spaceDetails.publicLinks')}
-                editable
-                onPressEdit={() => openEditModal(EditFields.LINKS)}
-                testID="space-edit-links"
-              >
-                {!!space.links?.length && (
-                  <View style={styles.listContainer}>
-                    {space.links.map((link, index) => (
-                      <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
-                    ))}
-                  </View>
-                )}
-              </SpaceSection>
+                <SpaceSection
+                  title={t('spaces.spaceDetails.location')}
+                  editable
+                  onPressEdit={() => openEditModal(EditFields.LOCATION)}
+                  testID="space-edit-location"
+                >
+                  {space.location && <HoliText>{space.location}</HoliText>}
+                </SpaceSection>
+
+                <SpaceSection
+                  title={t('spaces.spaceDetails.sdgs')}
+                  editable
+                  onPressEdit={() => openEditModal(EditFields.SDGS)}
+                  testID="space-edit-sdgs"
+                >
+                  {!!space.sdgs?.length && (
+                    <View style={styles.listContainer}>
+                      {sdgs.map((sdg, index) => (
+                        <HoliChip
+                          key={`sdg_${index}`}
+                          text={`${sdg.number}. ${sdg.title}`}
+                          label={`${sdg.number}. ${sdg.title}`}
+                          disabled
+                          style={styles.chip}
+                          testID="space-edit-sdgs-chip"
+                        />
+                      ))}
+                    </View>
+                  )}
+                </SpaceSection>
+                <SpaceSection
+                  title={t('spaces.spaceDetails.contact')}
+                  editable
+                  onPressEdit={() => openEditModal(EditFields.CONTACT)}
+                  testID="space-edit-contact"
+                >
+                  {space.contactDescription || space.contactEmail || space.contactPhone ? (
+                    <View>
+                      <HoliText>{space.contactDescription}</HoliText>
+                      {space.contactEmail && (
+                        <View style={styles.contactContainer}>
+                          <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
+
+                          <HoliText size="small" bold>
+                            {space.contactEmail}
+                          </HoliText>
+                        </View>
+                      )}
+                      {space.contactPhone && (
+                        <View style={styles.contactContainer}>
+                          <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
+
+                          <HoliText size="small" bold>
+                            {space.contactPhone}
+                          </HoliText>
+                        </View>
+                      )}
+                    </View>
+                  ) : null}
+                </SpaceSection>
+                <SpaceSection
+                  title={t('spaces.spaceDetails.publicLinks')}
+                  editable
+                  onPressEdit={() => openEditModal(EditFields.LINKS)}
+                  testID="space-edit-links"
+                >
+                  {!!space.links?.length && (
+                    <View style={styles.listContainer}>
+                      {space.links.map((link, index) => (
+                        <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
+                      ))}
+                    </View>
+                  )}
+                </SpaceSection>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollHeaderLayout.Default>
+        </ScrollHeaderLayout.Default>
 
-      <View style={styles.overlayContainer}>
-        <HoliButton
-          label={t('spaces.edit.close')}
-          onPress={() => navigateBack()}
-          style={styles.overlayButton}
-          testID="space-edit-close"
-        >
-          {t('spaces.edit.close')}
-        </HoliButton>
-      </View>
-      <HoliModal
-        show={visible}
-        label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
-        onDismiss={handleModalClose}
-        relativeHeight={isEdit ? 1 : undefined}
-        autoHeight={isEdit ? false : true}
-        headerStyle={styles.modalHeader}
-        testID="space-chips-modal"
-      >
-        {isEdit && (
-          <>
-            {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
-            {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
-            {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
-            {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
-            {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
-            {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
-            {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
-            {editField === EditFields.LINKS && <EditSpaceLinks space={space} onDismiss={hide} />}
-          </>
-        )}
-        {isOnboarding && !isEdit && (
-          <HoliModalContentWrapper
-            actionButtonText={t('spaces.edit.onboarding.modal.close')}
-            onActionButtonPress={handleModalClose}
-            headlineText={t('spaces.edit.onboarding.header')}
-            testID={'space-onboard-content'}
-            style={[styles.modalContentWrapper]}
+        <View style={styles.overlayContainer}>
+          <HoliButton
+            label={t('spaces.edit.close')}
+            onPress={() => navigateBack()}
+            style={styles.overlayButton}
+            testID="space-edit-close"
           >
-            <HoliCarousel
-              marginHorizontal={20}
-              slides={onboardingContentList.map((content: OnboardingCard) => ({
-                children: (
-                  <View style={styles.carouselContainer}>
-                    <OnboardCard content={content} />
-                  </View>
-                ),
-              }))}
-            />
-          </HoliModalContentWrapper>
-        )}
-      </HoliModal>
-    </SpaceTermContextProvider>
+            {t('spaces.edit.close')}
+          </HoliButton>
+        </View>
+        <HoliModal
+          show={visible}
+          label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
+          onDismiss={handleModalClose}
+          relativeHeight={isEdit ? 1 : undefined}
+          autoHeight={isEdit ? false : true}
+          headerStyle={styles.modalHeader}
+          testID="space-chips-modal"
+          style={isOnboarding && !isEdit ? styles.modal : undefined}
+        >
+          {isEdit && (
+            <>
+              {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
+              {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
+              {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
+              {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
+              {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
+              {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
+              {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
+              {editField === EditFields.LINKS && <EditSpaceLinks space={space} onDismiss={hide} />}
+            </>
+          )}
+          {isOnboarding && !isEdit && (
+            <HoliModalContentWrapper
+              actionButtonText={t('spaces.edit.onboarding.modal.close')}
+              onActionButtonPress={handleModalClose}
+              headlineText={t('spaces.edit.onboarding.header')}
+              testID={'space-onboard-content'}
+              style={[styles.modalContentWrapper]}
+            >
+              <HoliCarousel
+                style={styles.carouselContainer}
+                marginHorizontal={20}
+                slides={onboardingContentList.map((content: OnboardingCard) => ({
+                  children: (
+                    <View style={styles.carouselContainer}>
+                      <SpaceOnboardCard content={content} imgWidth={content.width} imgHeight={content.height} />
+                    </View>
+                  ),
+                }))}
+              />
+            </HoliModalContentWrapper>
+          )}
+        </HoliModal>
+      </SpaceTermContextProvider>
+    </PermissionsGuard>
   )
 }
 
@@ -421,7 +412,7 @@ const getStyles = (statusBarHeight: number) =>
       paddingTop: vars.topBarHeight + statusBarHeight,
     },
     modalHeader: {
-      backgroundColor: colors.background20,
+      backgroundColor: colors.background30,
     },
     header: {
       alignItems: 'center',
@@ -502,6 +493,8 @@ const getStyles = (statusBarHeight: number) =>
     },
     carouselContainer: {
       width: '100%',
+      display: 'flex',
+      flex: 1,
       marginBottom: Platform.OS === 'web' ? 54 : 0,
     },
     onboardCardContainer: {
@@ -512,13 +505,17 @@ const getStyles = (statusBarHeight: number) =>
       alignItems: 'center',
       alignContent: 'center',
       backgroundColor: colors.background20,
-      height: '100%',
+      flex: 1,
     },
     onboardingDescription: {
       marginTop: 24,
     },
     onboardingInstruction: {
       marginTop: 12,
+    },
+    modal: {
+      backgroundColor: colors.background30,
+      height: Platform.OS === 'web' ? '100%' : '75%',
     },
   })
 

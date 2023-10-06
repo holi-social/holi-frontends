@@ -95,8 +95,8 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   const styles = createStyles(screenWidth, smallDeviceWidth, isSmallDevice)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
-    accessibilityLabel: label,
+    ...(Platform.OS === 'web' ? { 'aria-modal': true } : {}),
+    'aria-label': label,
   }
 
   return (

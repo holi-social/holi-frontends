@@ -18,7 +18,7 @@ import React from 'react'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
-import { usePortals } from '@holi/core/provider/PortalProvider'
+import { usePortals } from '@holi/core/providers/PortalProvider'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
@@ -50,7 +50,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     findUsersByName(keyword)
       .then(setSafeResult)
       .catch((error) => {
-        logError(error, '[HoliMentionsPlugin] Error finding users')
+        logError(error, 'Error finding users', { location: 'HoliMentionsPlugin.findUsersByName' })
         setSafeResult([])
       })
       .finally(() => setSelectedOptionIndex(0))

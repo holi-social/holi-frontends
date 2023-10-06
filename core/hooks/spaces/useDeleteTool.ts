@@ -30,7 +30,13 @@ const useDeleteTool = ({ id, spaceIdOrName, successMsg, handleDelete }: UseDelet
       openToast(successMsg, HoliToastType.SUCCESS)
       handleDelete?.()
     },
-    onError: (error) => displayError(error, t('spaces.digitalTool.delete.error')),
+    onError: (error) =>
+      displayError(error, 'Failed to delete tool', {
+        displayMessage: t('spaces.digitalTool.delete.error'),
+        location: 'useDeleteTool',
+        toolId: id,
+        spaceIdOrName,
+      }),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 

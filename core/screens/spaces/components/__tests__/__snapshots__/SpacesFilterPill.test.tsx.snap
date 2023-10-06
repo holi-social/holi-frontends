@@ -46,9 +46,11 @@ exports[`SpacesFilterPill renders correctly 1`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -77,7 +79,8 @@ exports[`SpacesFilterPill renders correctly 1`] = `
           "fontFamily": "Circular Std Book",
           "fontSize": 16,
           "fontWeight": "400",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >
@@ -133,9 +136,11 @@ exports[`SpacesFilterPill renders correctly 2`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -164,7 +169,8 @@ exports[`SpacesFilterPill renders correctly 2`] = `
           "fontFamily": "Circular Std Book",
           "fontSize": 16,
           "fontWeight": "400",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >
@@ -220,9 +226,11 @@ exports[`SpacesFilterPill renders correctly 3`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -251,7 +259,8 @@ exports[`SpacesFilterPill renders correctly 3`] = `
           "fontFamily": "Circular Std Book",
           "fontSize": 16,
           "fontWeight": "400",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >
@@ -307,9 +316,11 @@ exports[`SpacesFilterPill renders correctly 4`] = `
   testID="spaces-filter-pill"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         false,
         [
           {
@@ -338,7 +349,8 @@ exports[`SpacesFilterPill renders correctly 4`] = `
           "fontFamily": "Circular Std Book",
           "fontSize": 16,
           "fontWeight": "400",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
+          "userSelect": "auto",
         }
       }
     >

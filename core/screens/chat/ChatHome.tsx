@@ -3,6 +3,7 @@ import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
+import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -10,7 +11,6 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import ChatHomeContent from '@holi/core/screens/chat/ChatHomeContent'
 import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
 import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -47,7 +47,7 @@ const ChatHome = () => {
     })
   }, [navigate, setScreenOptions, t, title])
   if (ftLoading) {
-    return <HoliLoader style={{ backgroundColor: colors.background10 }} />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   } else if (ftMaintenance) {
     return <ChatMaintenance />
   } else if (!ftLoading && ftEnabled) {

@@ -8,8 +8,7 @@ export const SPACE_ONBOARDING_STATE_STORAGE_NAME = 'space_onboarding_state_value
 
 enum spaceOnboardingValues {
   SpaceJoinIsOnboarded = 'space_join_is_onboarded',
-  SpaceEditing = 'space_is_edited',
-  SpaceCreation = 'space_is_created',
+  SpaceStorageIsOnboarded = 'space_storage_is_onboarded',
 }
 export type SpaceOnboardingStateValue = (typeof spaceOnboardingValues)[keyof typeof spaceOnboardingValues]
 

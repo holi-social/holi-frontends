@@ -57,7 +57,9 @@ export const storeSessionCredentials = async (credentials: StoredCredentials): P
     [CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, `${credentials.fresh_login}`],
   ]
 
-  await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
+  await AsyncStore.multiSet(multiSetCreds).catch((err) =>
+    logError(err, 'Could not store session credentials', { location: 'storage.storeSessionCredentials' })
+  )
   return credentials
 }
 

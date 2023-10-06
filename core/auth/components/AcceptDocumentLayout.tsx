@@ -65,9 +65,12 @@ const AcceptDocumentLayout = ({
   const onDocumentLoadError = (err?: Error | number) => {
     hideModal()
     if (err instanceof HoliBadRequestError) {
-      openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR, 3000)
+      openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR)
     } else {
-      displayError(err, t('auth.login.error.initialization'))
+      displayError(err, 'Failed to load document', {
+        location: 'AcceptDocumentLayout.onDocumentLoadError',
+        docUrl,
+      })
     }
   }
 
@@ -84,7 +87,7 @@ const AcceptDocumentLayout = ({
         onSelect={onAgreementChange}
         style={styles.checkbox}
         testID={`${testID}-checkbox`}
-        accessibilityLabel={checkboxLabelTranslation}
+        aria-label={checkboxLabelTranslation}
       >
         <HoliText size="small">
           <Trans t={t} i18nKey={checkboxLabelTranslation}>
@@ -119,12 +122,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     maxWidth: '100%',
     alignSelf: 'center',
-  },
-  labelLink: {
-    fontSize: 14,
-    lineHeight: 14 * 1.2,
-    fontWeight: '700',
-    color: colors.foreground30,
   },
   buttonContainer: {
     bottom: 0,

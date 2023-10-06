@@ -3,15 +3,13 @@
 exports[`renders correctly renders correctly when disabled is 'false', disableFocusability is 'false' 1`] = `
 <View
   accessibilityLabel="test"
-  accessibilityRole="tab"
-  accessibilitySelected={false}
   accessibilityState={
     {
       "busy": undefined,
       "checked": undefined,
       "disabled": false,
       "expanded": undefined,
-      "selected": undefined,
+      "selected": false,
     }
   }
   accessibilityValue={
@@ -34,6 +32,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  role="tab"
   style={
     [
       undefined,
@@ -60,7 +59,8 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
+          "userSelect": "none",
         }
       }
     >
@@ -73,15 +73,13 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
 exports[`renders correctly renders correctly when disabled is 'false', disableFocusability is 'true' 1`] = `
 <View
   accessibilityLabel="test"
-  accessibilityRole="tab"
-  accessibilitySelected={false}
   accessibilityState={
     {
       "busy": undefined,
       "checked": undefined,
       "disabled": false,
       "expanded": undefined,
-      "selected": undefined,
+      "selected": false,
     }
   }
   accessibilityValue={
@@ -104,6 +102,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  role="tab"
   style={
     [
       undefined,
@@ -130,7 +129,8 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
+          "userSelect": "none",
         }
       }
     >
@@ -143,15 +143,13 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
 exports[`renders correctly renders correctly when disabled is 'true', disableFocusability is 'false' 1`] = `
 <View
   accessibilityLabel="test"
-  accessibilityRole="tab"
-  accessibilitySelected={false}
   accessibilityState={
     {
       "busy": undefined,
       "checked": undefined,
       "disabled": true,
       "expanded": undefined,
-      "selected": undefined,
+      "selected": false,
     }
   }
   accessibilityValue={
@@ -174,6 +172,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  role="tab"
   style={
     [
       undefined,
@@ -200,7 +199,8 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
+          "userSelect": "none",
         }
       }
     >
@@ -213,15 +213,13 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
 exports[`renders correctly renders correctly when disabled is 'true', disableFocusability is 'true' 1`] = `
 <View
   accessibilityLabel="test"
-  accessibilityRole="tab"
-  accessibilitySelected={false}
   accessibilityState={
     {
       "busy": undefined,
       "checked": undefined,
       "disabled": true,
       "expanded": undefined,
-      "selected": undefined,
+      "selected": false,
     }
   }
   accessibilityValue={
@@ -244,6 +242,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  role="tab"
   style={
     [
       undefined,
@@ -270,7 +269,8 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
+          "userSelect": "none",
         }
       }
     >

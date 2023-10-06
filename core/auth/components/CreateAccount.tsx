@@ -65,8 +65,13 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
       .then(({ data: flow }) => {
         safeSetFlow(flow)
       })
-      .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t, userId, displayError])
+      .catch((error) =>
+        displayError(error, 'Failed to initialize registration flow', {
+          displayMessage: t('auth.registration.error.initialization'),
+          location: 'CreateAccount.initRegistrationFlow',
+        })
+      )
+  }, [userId, t, safeSetFlow, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => {
@@ -99,20 +104,23 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
 
-        // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
-        await onRegister()
         // and only then load user
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
 
+        onRegister()
         redirect()
       } catch (err) {
         handleFormSubmitError(
           setFlow,
           initializeFlow,
-          (error) => displayError(error, t('auth.registration.error.registration')),
+          (error) =>
+            displayError(error, 'Failed to submit form', {
+              displayMessage: t('auth.registration.error.registration'),
+              location: 'CreateAccount.onSubmit',
+            }),
           err
         )
       } finally {

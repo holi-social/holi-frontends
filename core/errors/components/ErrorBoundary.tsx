@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ErrorInfo } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
 import i18n from '@holi/core/i18n'
@@ -19,8 +19,11 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     return { error }
   }
 
-  componentDidCatch(error: Error, errorInfo: { componentStack: string }) {
-    logError(error, '[ErrorBoundary.tsx]', errorInfo.componentStack)
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    logError(error, 'Failed to render component', {
+      location: 'ErrorBoundary.componentDidCatch',
+      ...errorInfo,
+    })
     this.setState({ error })
   }
 

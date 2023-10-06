@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpaceInviteUserButton from '@holi/core/screens/spaces/details/components/SpaceInviteUserButton'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
@@ -14,8 +15,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceInviteUserSearchResultProps = {
   spaceId: string
-  loading: boolean
-  users: User[]
   onInviteHandled: () => void
 }
 
@@ -28,20 +27,17 @@ const SPACE_CONNECTION_STATUS_PRIORITY = [
 const getMostRelevantSpaceConnectionStatus = (statusList: SpaceConnectionType[] = []) =>
   SPACE_CONNECTION_STATUS_PRIORITY.find((connectionType) => statusList.includes(connectionType))
 
-const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = ({
-  spaceId,
-  loading,
-  users,
-  onInviteHandled,
-}) => {
+const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = ({ spaceId, onInviteHandled }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const navigateToUser = useCallback((user: User) => navigate(`/profile/${user.id}`), [navigate])
 
+  const { loading, data: users } = usePaginationContext<User>()
+
   if (loading) {
     return <HoliLoader style={styles.loader} />
   }
-  if (!users.length) {
+  if (!users?.length) {
     return <HoliText>{t('spaces.invite.user.notFound')}</HoliText>
   }
   return (
@@ -64,7 +60,7 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
                 imageSrc={user.avatar}
                 imageBlurhash={user.avatarBlurhash}
                 label=""
-                accessibilityLabel={user.fullName || t('user.profileView.anonymous')}
+                aria-label={user.fullName || t('user.profileView.anonymous')}
                 initials={user.avatarLabel}
                 defaultColor={user.avatarDefaultColor}
                 size="medium"
@@ -103,7 +99,8 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
 
 const styles = StyleSheet.create({
   loader: {
-    marginTop: 350,
+    marginVertical: 24,
+    position: 'relative',
   },
   list: {
     paddingVertical: 20,

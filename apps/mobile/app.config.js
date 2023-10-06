@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.5.1', // user-facing value visible in stores
-  iosBuildNumber: '1.5.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 23, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.7.6', // user-facing value visible in stores
+  iosBuildNumber: '1.7.6', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 31, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -33,7 +33,11 @@ export default {
       backgroundColor: '#F5F5F5',
     },
     updates: {
+      url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
       fallbackToCacheTimeout: 0,
+    },
+    runtimeVersion: {
+      policy: 'sdkVersion', // needed for EAS updates
     },
     assetBundlePatterns: ['**/*'],
     ios: {
@@ -60,6 +64,7 @@ export default {
       googleServicesFile: './google-services.json',
     },
     plugins: [
+      'expo-localization',
       ['sentry-expo'],
       [
         'expo-image-picker',
@@ -114,10 +119,10 @@ export default {
         url: requiredEnvVar('JITSI_URL'),
       },
       eas: {
-        projectId: requiredEnvVar('EXPO_PROJECT_ID'),
+        projectId: process.env.EXPO_PROJECT_ID,
       },
       e2e: {
-        userId: requiredEnvVar('E2E_USER_ID'),
+        userId: process.env.E2E_USER_ID, // not required as not used in production
       },
     },
   },

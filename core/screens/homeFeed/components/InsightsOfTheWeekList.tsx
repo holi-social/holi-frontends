@@ -41,7 +41,7 @@ const InsightsOfTheWeekList: React.FC = () => {
   const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
 
   if (error) {
-    logError(error, `[InsightsOfTheWeekList.tsx] ${error.message}`)
+    logError(error, 'Failed to load insights', { location: 'InsightsOfTheWeekList' })
     return <></>
   }
 

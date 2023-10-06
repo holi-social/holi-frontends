@@ -11,7 +11,7 @@ export type NumberOfItems = {
 export const userSuggestionsQuery = gql`
   ${FullUserAvatarFragment}
 
-  query UserSuggestions($limit: Int!) {
+  query UserSuggestions($limit: Int! = 10) {
     userSuggestions(limit: $limit) {
       data {
         ...FullUserAvatar

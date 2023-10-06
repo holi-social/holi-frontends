@@ -15,9 +15,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import { confirmOAuth2Login } from '@holi/core/helpers/oauth2'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -28,26 +26,17 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
-export type LoginParams = {
-  return_to?: string
-}
-
-const { useParam } = createParam<LoginParams>()
-
 const Login = () => {
-  const { userId } = useAuth()
+  const { isLoggedOut } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
-  const [return_to] = useParam('return_to', singleParamConfig)
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
-
-  const isLoggedIn = !!userId
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -61,24 +50,20 @@ const Login = () => {
     })
   }, [setScreenOptions, t])
 
-  useLayoutEffect(() => {
-    // OAuth2 needs initial redirect
-    // see: See apps/web/pages/oauth2/login.tsx
-    if (Platform.OS === 'web' && isLoggedIn && return_to) {
-      confirmOAuth2Login()
-      window.location.href = return_to
-    }
-  }, [return_to, isLoggedIn])
-
   const initializeFlow = useCallback(() => {
     initLoginFlow()
       .then(safeSetFlow)
-      .catch((error) => displayError(error, t('auth.login.error.initialization')))
+      .catch((error) =>
+        displayError(error, 'Failed to initialize login flow', {
+          displayMessage: t('auth.login.error.initialization'),
+          location: 'Login.initializeFlow',
+        })
+      )
   }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
-    !isLoggedIn && !flow && initializeFlow()
-  }, [isLoggedIn, initializeFlow, flow])
+    isLoggedOut && !flow && initializeFlow()
+  }, [isLoggedOut, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {
     if (!flow) return
@@ -86,29 +71,29 @@ const Login = () => {
     showLoader()
 
     try {
-      const { data } = await submitLoginFlow(flow, payload, undefined)
+      const { data } = (await submitLoginFlow(flow, payload, undefined)) as { data: OrySessionContext }
       await client.clearStore()
-      await setUserLoggedIn(data as OrySessionContext)
+      await setUserLoggedIn(data)
       await storeOnboardingState('finished')
-      confirmOAuth2Login()
 
-      if (Platform.OS === 'web' && return_to) {
-        // server side redirect, see: See apps/web/pages/oauth2/login.tsx
-        window.location.href = return_to
-      } else {
-        redirect()
-      }
+      redirect()
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
         await storeOnboardingState('emailVerification')
 
-        navigate('/')
-        if (Platform.OS !== 'web') {
-          navigate('/onboarding')
-        }
+        Platform.OS === 'web' ? navigate('/') : navigate('/onboarding')
       } else {
-        handleFormSubmitError(safeSetFlow, initializeFlow, (err) => displayError(err, t('auth.login.error.login')), err)
+        handleFormSubmitError(
+          safeSetFlow,
+          initializeFlow,
+          (err) =>
+            displayError(err, 'Failed to login user', {
+              displayMessage: t('auth.login.error.login'),
+              location: 'Login.performLogin',
+            }),
+          err
+        )
       }
     } finally {
       hideLoader()
@@ -119,7 +104,7 @@ const Login = () => {
     <DefaultLayout headerOverlap={true} keyboardShouldPersistTaps="always">
       <HoliBox padding={[0, 24]}>
         <LoginRegistrationContainer>
-          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
+          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
           <View style={styles.formItemContainer}>
             <HoliTextLink
@@ -159,8 +144,5 @@ const styles = StyleSheet.create({
   },
   headline2: {
     marginTop: 40,
-  },
-  headline3: {
-    marginTop: 16,
   },
 })

@@ -9,6 +9,11 @@ import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/s
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const spaceId = 'space1'
 const user: User = {
   id: 'user1',
@@ -112,12 +117,7 @@ describe('SpaceInviteUserButton', () => {
     fireEvent.press(screen.getByTestId('btn-to-invite'))
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
+    expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
   })
 
   it('displays button if the user already requested membership', () => {
@@ -149,11 +149,6 @@ describe('SpaceInviteUserButton', () => {
     fireEvent.press(screen.getByTestId('btn-to-invite'))
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
+    expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
   })
 })

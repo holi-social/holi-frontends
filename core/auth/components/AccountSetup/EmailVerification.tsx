@@ -58,7 +58,9 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
       getOrCreateVerificationFlow(verificationFlowData)
         .then(setFlow)
         .catch((error) => {
-          displayError(error, t('auth.login.error.login'))
+          displayError(error, 'Failed to retrieve email verification flow', {
+            location: 'EmailVerification.getOrCreateVerificationFlow',
+          })
           isLoggedIn && logout({ redirectPath: '/' })
           onDismiss()
         })
@@ -79,7 +81,10 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
       await submitVerificationFlow({ flow, email })
       openToast(t('registration.emailVerification.message.emailResent'), HoliToastType.SUCCESS)
     } catch (error) {
-      displayError(error, t('registration.emailVerification.message.emailResent.error'))
+      displayError(error, 'Failed to resend email for verification flow', {
+        displayMessage: t('registration.emailVerification.message.emailResent.error'),
+        location: 'EmailVerification.resendEmail',
+      })
     }
 
     // prevent HoliTextLink default behaviour
@@ -144,7 +149,9 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
         setCode('')
       }
     } catch (error) {
-      displayError(error, t('auth.login.error.login'))
+      displayError(error, 'Failed to submit email verification flow', {
+        location: 'EmailVerification.verifyEmail',
+      })
     } finally {
       hideLoader()
     }
@@ -167,7 +174,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           value={code}
           onChange={setCode}
           placeholder={t('registration.emailVerification.inputPlaceholder')}
-          accessibilityLabel={t('registration.emailVerification.inputLabel')}
+          aria-label={t('registration.emailVerification.inputLabel')}
           maxNoOfCharacters={CODE_MAX_COUNT}
           showCharacterCount
           inputProps={{
@@ -229,7 +236,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
 const styles = StyleSheet.create({
   inner: {
     alignItems: 'center',
-    maxWidth: vars.breakpointL,
+    maxWidth: +vars.breakpointL,
   },
   imageContainer: {
     alignItems: 'center',
@@ -245,7 +252,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   limitedBox: {
-    maxWidth: vars.breakpointS,
+    maxWidth: +vars.breakpointS,
     width: '100%',
   },
 })

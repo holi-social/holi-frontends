@@ -22,12 +22,10 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName, style }:
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
-  const {
-    data,
-    error: errorSpace,
-    loading: loadingSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data, loading: loadingSpace } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', { location: 'VideoCallLinks.spaceByIdQuery', spaceIdOrName }),
   })
 
   const space = data?.spaceById
@@ -35,10 +33,6 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName, style }:
   const isCollaborator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { videoCallLinks } = useVideoCallLinkStorage(space?.name)
-
-  if (errorSpace) {
-    logError(errorSpace, `[VideoCallLinks.tsx] ${errorSpace.message}`)
-  }
 
   if (!loadingSpace && !isAdmin && !isCollaborator) {
     navigate(`/spaces/${spaceIdOrName}`)

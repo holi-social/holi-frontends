@@ -54,7 +54,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
         >
@@ -92,8 +93,10 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="autocomplete-primary-suggestions"
-          accessibilityLabel="accessibility label"
           accessible={true}
+          aria-expanded={false}
+          aria-haspopup="menu"
+          aria-label="accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -110,6 +113,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
           placeholderTextColor="#bfbebe"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -126,11 +130,11 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 "width": "100%",
               },
               {
-                "height": 31,
+                "height": 22,
               },
             ]
           }
-          testID=""
+          testID="input"
           value=""
         />
         <View
@@ -173,7 +177,14 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 width={22}
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <RNSVGGroup>
+                <RNSVGGroup
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
                   <RNSVGPath
                     d="M0 0h24v24H0z"
                     fill={null}
@@ -212,8 +223,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
     </View>
   </View>
   <View
-    accessibilityRole="menu"
     nativeID="autocomplete-primary-suggestions"
+    role="menu"
     style={{}}
   />
 </View>
@@ -273,7 +284,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
             }
           }
         >
@@ -313,8 +325,10 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         <TextInput
           accessibilityAutoComplete="list"
           accessibilityControls="autocomplete-error-suggestions"
-          accessibilityLabel="accessibility label"
           accessible={true}
+          aria-expanded={false}
+          aria-haspopup="menu"
+          aria-label="accessibility label"
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -331,6 +345,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
           placeholderTextColor="#bfbebe"
+          role="combobox"
           secureTextEntry={false}
           style={
             [
@@ -347,11 +362,11 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "width": "100%",
               },
               {
-                "height": 31,
+                "height": 22,
               },
             ]
           }
-          testID=""
+          testID="input"
           value=""
         />
         <View
@@ -450,7 +465,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 12,
                 "fontWeight": "400",
-                "lineHeight": 14.399999999999999,
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
               }
             }
             testID=""
@@ -462,8 +478,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
     </View>
   </View>
   <View
-    accessibilityRole="menu"
     nativeID="autocomplete-error-suggestions"
+    role="menu"
     style={{}}
   />
 </View>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import { Image as ReactNativeImage } from 'react-native'
 
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
@@ -28,7 +28,6 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   instructions,
   onUploadImage,
   image,
-  blurhash,
   currentImageUri,
   style,
   previewVariant = 'default',
@@ -47,10 +46,11 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         {((image || uri) && (
           <>
             <View style={styles.imageContainer}>
-              <HoliImage
+              {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
+              <ReactNativeImage
                 source={{ uri: image ? image.uri : uri }}
-                blurhash={blurhash}
-                label={t('spaces.input.coverImage.label')}
+                resizeMode="cover"
+                aria-label={t('spaces.input.coverImage.label')}
                 style={{
                   aspectRatio: 1.5,
                   borderRadius: 8,
@@ -60,7 +60,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             </View>
             <View style={styles.uploadButtonContainer}>
               <HoliImagePicker
-                maxFileSizeInMB={8}
+                maxFileSizeInMB={10}
                 buttonProps={{
                   label: t('spaces.input.coverImage.change.button.label'),
                   testID: 'space-upload-image-btn',
@@ -86,7 +86,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         )) || (
           <View style={styles.uploadButtonContainer}>
             <HoliImagePicker
-              maxFileSizeInMB={8}
+              maxFileSizeInMB={10}
               buttonProps={{
                 label: t('spaces.input.coverImage.upload.button.label'),
                 testID: 'space-upload-image-btn',
@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingBottom: 16,
+    width: '100%',
   },
   imageUploader: {
     justifyContent: 'center',

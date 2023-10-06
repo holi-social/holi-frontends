@@ -31,3 +31,14 @@ export const isServerError = (error: unknown): error is ServerError => {
     typeof (error as ServerError).statusCode === 'number'
   )
 }
+
+export const isUnauthorizedError = (error: unknown): boolean => {
+  return (
+    (isServerError(error) && error.statusCode === 401) ||
+    (typeof error === 'object' &&
+      error !== null &&
+      'networkError' in error &&
+      isServerError(error.networkError) &&
+      error.networkError.statusCode === 401)
+  )
+}

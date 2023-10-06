@@ -42,12 +42,13 @@ const InsightDetailPage = () => {
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const {
     data: { insightById: insight } = {},
-    error,
     loading: loadingInsight,
     refetch,
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
     notifyOnNetworkStatusChange: true,
+    onError: (error) =>
+      logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId }),
   })
   const initLoading = loadingInsight && !insight
   const setScreenOptions = useSetScreenOptions()
@@ -65,8 +66,6 @@ const InsightDetailPage = () => {
       },
     })
   }, [t, insight?.title, setScreenOptions])
-
-  if (error) logError(error, `[InsightDetailPage.tsx] ${error.message}`)
 
   if (!loadingInsight && !insight) {
     return (
@@ -95,14 +94,14 @@ const InsightDetailPage = () => {
       >
         {/* Image section */}
         {initLoading ? (
-          <View style={styles.insightBackgroundImage}>
+          <View style={[mixins.container, styles.insightBackgroundImage]}>
             <HoliSkeleton height="100%" width="100%" borderRadius={0} />
           </View>
         ) : (
           <ImageBackground
             source={{ uri: insight?.headerImage }}
             resizeMode="cover"
-            style={styles.insightBackgroundImage}
+            style={[mixins.container, styles.insightBackgroundImage]}
             imageStyle={styles.insightImage}
           />
         )}
@@ -204,6 +203,7 @@ const styles = StyleSheet.create({
     ...Platform.select({ web: { flex: 1 } }),
   },
   insightBackgroundImage: {
+    paddingHorizontal: 0,
     height: Platform.OS === 'web' ? 680 : 340,
     ...Platform.select({
       web: {

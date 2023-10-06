@@ -26,7 +26,7 @@ const SpaceNameInput: React.VFC<SpaceNameInputProps> = ({
       onChange={onChange}
       {...props}
       helperText={t('spaces.input.name.description')}
-      accessibilityLabel={t('spaces.input.name.label')}
+      aria-label={t('spaces.input.name.label')}
       testID="space-name"
     />
   )

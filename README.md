@@ -1,68 +1,70 @@
 # holi-frontends
 
 <!-- TOC -->
-
-- [holi-frontends](#holi-frontends)
-  - [Development](#development)
-    - [Prerequisites](#prerequisites)
-      - [Android emulator](#android-emulator)
-      - [iOS simulator (if you have a Mac)](#ios-simulator-if-you-have-a-mac)
-      - [Docker (optional)](#docker-optional)
-    - [Running](#running)
-    - [Automated Testing](#automated-testing)
-      - [Unit tests](#unit-tests)
-        - [Execution](#execution)
-        - [Local Execution](#local-execution)
-        - [Conventions](#conventions)
-      - [Web e2e tests](#web-e2e-tests)
-      - [Mobile e2e tests](#mobile-e2e-tests)
-  - [Monorepo - and why](#monorepo---and-why)
-    - [Yarn Workspaces](#yarn-workspaces)
-    - [Workspaces / Package Structure](#workspaces--package-structure)
-    - [Code conventions](#code-conventions)
-      - [Code style](#code-style)
-    - [Dependencies](#dependencies)
-      - [Dependencies and Yarn Workspaces](#dependencies-and-yarn-workspaces)
-    - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
-    - [Clean up](#clean-up)
-    - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
-    - [Navigation](#navigation)
-      - [core](#core)
-      - [web](#web)
-      - [mobile](#mobile)
-      - [conclusion](#conclusion)
-      - [notes](#notes)
-    - [I18n (Internationalization)](#i18n-internationalization)
-      - [Usage example](#usage-example)
-      - [VS Code extension](#vs-code-extension)
-    - [Error handling and validation](#error-handling-and-validation)
-  - [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
-    - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
-    - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
-      - [Configure the page/screen component to use SSR or SSG](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
-        - [`core/screens/Quote.tsx`](#corescreensquotetsx)
-      - [In the web app, in the file corresponding to the page using SSR or SSG](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
-        - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
-  - [Authentication](#authentication)
-    - [Mobile](#mobile-1)
-    - [Web](#web-1)
-    - [OAuth2](#oauth2)
-  - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
-  - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
-    - [Feature Branches \& Environments](#feature-branches--environments)
-    - [Skipping parts of CI](#skipping-parts-of-ci)
-      - [noenv Branches](#noenv-branches)
-      - [noweb / nomobile Branches](#noweb--nomobile-branches)
-    - [Staging and Production Environments](#staging-and-production-environments)
-    - [Environment variables](#environment-variables)
-      - [Local execution and general usage](#local-execution-and-general-usage)
-      - [Configuration for web client](#configuration-for-web-client)
-      - [Configuration for web deployment](#configuration-for-web-deployment)
-      - [Usage for mobile](#usage-for-mobile)
-      - [Configuration for mobile builds](#configuration-for-mobile-builds)
-  - [sentry.io logging/tracing](#sentryio-loggingtracing)
-  - [Accessibility testing](#accessibility-testing)
-  <!-- /TOC -->
+- [Development](#development)
+  - [Prerequisites](#prerequisites)
+    - [Android emulator](#android-emulator)
+    - [iOS simulator (if you have a Mac)](#ios-simulator-if-you-have-a-mac)
+    - [Docker (optional)](#docker-optional)
+  - [Running](#running)
+  - [Automated Testing](#automated-testing)
+    - [Unit tests](#unit-tests)
+      - [Execution](#execution)
+      - [Local Execution](#local-execution)
+      - [Conventions](#conventions)
+    - [Web e2e tests](#web-e2e-tests)
+    - [Mobile e2e tests](#mobile-e2e-tests)
+- [Monorepo - and why](#monorepo---and-why)
+  - [Yarn Workspaces](#yarn-workspaces)
+  - [Workspaces / Package Structure](#workspaces--package-structure)
+  - [Code conventions](#code-conventions)
+    - [Code style](#code-style)
+  - [Dependencies](#dependencies)
+    - [Dependencies and Yarn Workspaces](#dependencies-and-yarn-workspaces)
+  - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
+  - [Clean up](#clean-up)
+  - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
+  - [Navigation](#navigation)
+    - [core](#core)
+    - [web](#web)
+    - [mobile](#mobile)
+    - [conclusion](#conclusion)
+    - [notes](#notes)
+  - [I18n (Internationalization)](#i18n-internationalization)
+    - [Usage example](#usage-example)
+    - [VS Code extension](#vs-code-extension)
+  - [Error handling and reporting](#error-handling-and-reporting)
+  - [Form validation](#form-validation)
+- [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
+  - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
+  - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
+    - [Configure the page/screen component to use SSR or SSG](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
+      - [`core/screens/Quote.tsx`](#corescreensquotetsx)
+    - [In the web app, in the file corresponding to the page using SSR or SSG](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
+      - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
+- [Authentication](#authentication)
+  - [Mobile](#mobile)
+  - [Web](#web)
+  - [OAuth2](#oauth2)
+- [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
+  - [Linting and Autocomplete](#linting-and-autocomplete)
+  - [Code Generation](#code-generation)
+- [Continuous Integration and Deployment](#continuous-integration-and-deployment)
+  - [Feature Branches & Environments](#feature-branches--environments)
+  - [Skipping parts of CI](#skipping-parts-of-ci)
+    - [noenv Branches](#noenv-branches)
+    - [noweb / nomobile Branches](#noweb--nomobile-branches)
+  - [Staging and Production Environments](#staging-and-production-environments)
+  - [Environment variables](#environment-variables)
+    - [Local execution and general usage](#local-execution-and-general-usage)
+    - [Configuration for web client](#configuration-for-web-client)
+    - [Configuration for web deployment](#configuration-for-web-deployment)
+    - [Usage for mobile](#usage-for-mobile)
+    - [Configuration for mobile builds](#configuration-for-mobile-builds)
+- [sentry.io logging/tracing](#sentryio-loggingtracing)
+- [Accessibility testing](#accessibility-testing)
+- [Supported By](#supported-by)
+<!-- /TOC -->
 
 ## Development
 
@@ -242,19 +244,26 @@ To give an overview, the project contains the following workspaces (npm packages
   - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/__stories__`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
+  - `components` - shared components, e.g. layout that is used by multiple screens
   - `errors` - shared components, hooks and helpers for error handling
+  - `helpers` - various helper hooks, configuration and helper functions
+  - `hooks`* - various helper hooks used by screens
   - `i18n` - shared configuration for internationalization
     - `locales` - translations
+    - `helpers` - helper functions
+  - `location` - shared components and hooks for geolocation
   - `navigation` - shared components and helpers for navigation
-  - `RootProvider.tsx` - shared root provider
+  - `pagination` - shared components and hooks for pagination
+  - `providers` - shared providers
   - `screens` - all screens used in the core app
-    - `UserProfile` - exmplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
+    - `userprofile` - exmeplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
       - `components`
       - `hooks`
       - `providers`
       - `index.tsx`
       - `queries.ts`
       - `types.ts`
+  - `static`* - constants used by screens
 - `e2e` - end-to-end tests
   - `mobile` - end-to-end tests for the mobile app
   - `web` - end-to-end tests for the web site
@@ -262,11 +271,16 @@ To give an overview, the project contains the following workspaces (npm packages
   - `volunteering` - examplary for holi-apps in general, contains everything specific to this app, structurally equivalent to `screens` in `core`
 - `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm package
   - `api` - shared client-side code for the HOLI API
+  - `chat`* - components, store and utils for the matrix chat client
+  - `icons` - the HOLI icon library
   - `ui` - the HOLI component library
+- `scripts` - shared scripts, e.g. for pipelines
 - `terraform`
   - `common` - definitions for common infrastructure
   - `environments` - definitions for the specific platform environments (currently only necessary for web)
     - `web` - definitions for web environment
+
+*: Might be moved/spread out to other packages in the future
 
 Components in `packages/ui` and `screens` should use the following folder structure:
 
@@ -282,6 +296,28 @@ Components in `packages/ui` and `screens` should use the following folder struct
   - `__snapshots__`
     - `MyCompontent.test.tsx.snap`
     - `OtherComponent.test.tsx.snap`
+
+#### Package dependencies
+
+We would like to prevent cyclic dependencies and strive for a clear hierarchy from more complex and specialized logic and components down to more general and simpler ones that can be easily shared. In order to achieve this we try to reach the following dependency hierarchy:
+
+1. platform and build specific packages
+   - apps/storybook
+   - apps/mobile
+   - apps/web
+2. application logic and domain specific packages
+   - core
+   - holi-apps
+3. shared packages
+   - api
+   - ui
+   - icons
+
+Notes:
+
+- Packages may not depend on the packages listed above, but only to packages listed below. E.g. `packages/ui` may depend on `packages/icons`, but not vice versa. The same goes for `core` and `packages/ui`.
+- For the "shared packages" listed in 3. we like to imagine that these could be published as stand-alone `npm` packages. So ideally these should not include any domain or application specific logic or terminology.
+- Our code does currently not adhere to this structure, so we can not enforce this yet.
 
 ### Code conventions
 
@@ -531,14 +567,32 @@ See `holi-apps/donations/components/DonationProgress.tsx` for an example for num
 [i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
 translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
 
-### Error handling and validation
+### Error handling and reporting
+
+There are several utils and hooks in `core/errors` to facilitate error handling and deal with displaying, logging and reporting errors.
+
+- `logErrorLocal`: If the error is not relevant enough to be reported, e.g. because it was caused by "bad user input", this function can be used to log it locally, which might be helpful during development.
+- `logError`: This function will not only log the error locally, but also report it to [Sentry.io](#sentryio-loggingtracing). You can pass a custom error message as well as some information about the error context that might be helpful for future analysis. We also require the error "location" to facilitate finding the occurrence in the code, usually in the form of `<file/component name>.<method>`.
+
+    **Warning:** The error, message and context information is passed to Sentry.io as well and we have to make sure to never include any user identifiable data!
+- `displayError`: This method is provided by the `useErrorHandling` hook and is the most thorough way of handling errors:
+  - The error is displayed to the user in form of a toast
+  - If the error was caused by "bad user input", we only log the error locally (using `logErrorLocal`, see above)
+  - Otherwise we log and report the error using `logError` (see above)
+- `openToast`: If you only want to inform the user about an error, without logging or reporting it, you can use `openToast` (provided by the `useToast` hook).
+
+Note: Some types of errors are filtered before being logged or displayed, e.g. network errors.
+
+### Form validation
 
 We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
-You can find several utils and hooks in `core/errors` to handle and display errors.
+When dealing with form validation errors, that are usually caused by invalid user input, the most noteworthy hooks are the following:
 
-- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
-- and `useErrorHandling` provides a function to display error messages as toasts.
+- `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
+- `openToast` (provided by the `useToast` hook) can be used to display more general errors that can not be assigned to text input fields.
+
+Other forms of error handling are described [above](#error-handling-and-reporting).
 
 For more details see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
 
@@ -756,7 +810,7 @@ On mobile builds, environment variables are evaluated at build time and the valu
 ```ts
 import Constants from 'expo-constants'
 
-export const holiApiUrl = Constants.manifest?.extra?.holi_api.url
+export const holiApiUrl = Constants.expoConfig?.extra?.holi_api.url
 ```
 
 #### Configuration for mobile builds
@@ -777,3 +831,7 @@ In order to test the output of screen readers on the different platforms, you ca
   - [Installation on emulators](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator)
 - [VoiceOver](https://support.apple.com/en-us/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) on iOS
 - [Accessibility Inspector](https://developer.apple.com/library/archive/documentation/Accessibility/Conceptual/AccessibilityMacOSX/OSXAXTestingApps.html) (preinstalled on MacOS): It let's you inspect and e.g. read out loud all accessibilty props on all applications, including our application running within the iOS simulator
+
+## Supported By
+
+This project is tested with [BrowserStack](https://www.browserstack.com).

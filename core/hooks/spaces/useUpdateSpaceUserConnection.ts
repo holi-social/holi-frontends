@@ -30,7 +30,14 @@ const useUpdateSpaceUserConnection = (
       onCompleted: () => {
         openToast(t('spaces.leave.success', { space: spaceName }), HoliToastType.SUCCESS)
       },
-      onError: (error) => displayError(error, t('spaces.leave.error')),
+      onError: (error) =>
+        displayError(error, 'Failed to update space user connection', {
+          displayMessage: t('spaces.leave.error'),
+          location: 'useUpdateSpaceUserConnection',
+          spaceId,
+          connectionType,
+          connectAction,
+        }),
       refetchQueries: [{ query: mySpaceQuery }],
     }
   )

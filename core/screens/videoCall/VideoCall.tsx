@@ -61,12 +61,16 @@ const VideoCall: React.FC = () => {
               setWebViewUrl(res.url)
             })
             .catch((error) => {
-              logError(error, '[VideoCall.tsx]: Error fetching video call api')
+              logError(error, 'Error fetching video call api', {
+                location: 'VideoCall.createAuthorizationHeaders',
+              })
               setWebViewUrl(fallbackUrl)
             })
         )
         .catch((error) => {
-          logError(error, '[VideoCall.tsx]: Error creating authorization headers')
+          logError(error, 'Error creating authorization headers', {
+            location: 'VideoCall.createAuthorizationHeaders',
+          })
           setWebViewUrl(fallbackUrl)
         })
     }
@@ -78,6 +82,7 @@ const VideoCall: React.FC = () => {
 
   // Webview props for video call in webview, found on https://docs.whereby.com/embedding-rooms/in-a-mobile-app/in-react-native via https://github.com/react-native-webview/react-native-webview/issues/508
   const webViewProps = {
+    source: { uri: webViewUrl },
     mediaPlaybackRequiresUserAction: false,
     allowsInlineMediaPlayback: true,
     javaScriptEnabled: true,
@@ -87,7 +92,7 @@ const VideoCall: React.FC = () => {
   }
   return (
     <DefaultLayout hasFooterTabBar={false}>
-      <HoliWebView style={styles.webView} uri={webViewUrl} webViewProps={webViewProps} />
+      <HoliWebView style={styles.webView} webViewProps={webViewProps} />
     </DefaultLayout>
   )
 }

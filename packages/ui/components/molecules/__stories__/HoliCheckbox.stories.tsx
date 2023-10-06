@@ -25,7 +25,7 @@ export const Primary: ComponentStory<typeof HoliCheckbox> = Template.bind({})
 
 Primary.argTypes = {
   label: { description: 'Label', control: { type: 'text' } },
-  accessibilityLabel: { description: 'A11y Label', control: { type: 'text' } },
+  'aria-label': { description: 'A11y Label', control: { type: 'text' } },
   disabled: { description: 'Disables interaction', type: 'boolean', control: { type: 'boolean' } },
   errorMessage: { description: 'Error message', control: { type: 'text' } },
   shape: { description: 'Outer shape', type: 'string', control: { type: 'select', options: ['square', 'round'] } },
@@ -33,7 +33,7 @@ Primary.argTypes = {
 
 Primary.args = {
   label: 'Hello Checkbox',
-  accessibilityLabel: 'Hello Checkbox',
+  'aria-label': 'Hello Checkbox',
   disabled: false,
   shape: 'square',
   errorMessage: '',

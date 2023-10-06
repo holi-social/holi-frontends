@@ -1,23 +1,18 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import SpaceInviteUserSearchResult from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearchResult'
+import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
-import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
-import { UserByNameResponse } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { useDebounce } from '@holi/ui/helper'
-import { colors } from '@holi/ui/styles/globalVars'
-
-const USER_SEARCH_DEBOUNCE = 400
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
@@ -30,7 +25,6 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
-  const { isLoaderShown, showLoader, hideLoader } = useLoader()
 
   const clearInput = useCallback(() => setSearchValue(''), [])
 
@@ -42,25 +36,13 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
         clearInput()
       },
       onError(error) {
-        displayError(error, t('global.technicalError'))
+        displayError(error, 'Failed to invite user to space by e-mail', {
+          location: 'SpaceInviteView.inviteToSpaceByEmail',
+          spaceId,
+        })
       },
     }
   )
-
-  const [findUsersByNameWithSpaceConnection, { data: userSearchResult }] = useLazyQuery<UserByNameResponse>(
-    usersByNameWithSpaceConnectionQuery,
-    {
-      onError: (error) => {
-        displayError(error, t('global.technicalError'))
-        hideLoader()
-      },
-      onCompleted: () => {
-        hideLoader()
-      },
-      fetchPolicy: 'cache-and-network',
-    }
-  )
-  const debouncedUserSearch = useDebounce(findUsersByNameWithSpaceConnection, USER_SEARCH_DEBOUNCE)
 
   const searchValueIsEmail = isEmail(searchValue)
 
@@ -74,26 +56,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
     }
   }, [searchValueIsEmail, sendInvitationEmail])
 
-  const onSearchInput = useCallback(
-    (input: string) => {
-      if (input && !isEmail(input)) {
-        showLoader()
-        // TODO(SF) pagination, const for limit
-        debouncedUserSearch({
-          variables: {
-            substring: input,
-            spaceId,
-            offset: 0,
-            limit: 10,
-          },
-        })
-      }
-      setSearchValue(input)
-    },
-    [debouncedUserSearch, showLoader, spaceId]
-  )
-
-  const users = userSearchResult?.userByName.data || []
+  const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
   return (
     <FormWrapper
@@ -105,6 +68,8 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       buttonLabel={t('spaces.invite.btn.send')}
       scrollToInput={false}
       initialOffsetTop={0}
+      keyboardShouldPersistTaps="handled"
+      {...throttledScrollEventProps}
       renderProp={() => (
         <>
           <View style={styles.whom}>
@@ -117,9 +82,9 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
             <HoliTextInput
               placeholder={t('spaces.invite.search.input')}
               value={searchValue}
-              onChange={onSearchInput}
+              onChange={setSearchValue}
               style={styles.input}
-              accessibilityLabel={t('spaces.invite.search.input')}
+              aria-label={t('spaces.invite.search.input')}
               inputProps={{ onSubmitEditing }}
               testID="space-invite-user"
             />
@@ -128,12 +93,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
             </HoliText>
           </View>
           {!!searchValue && !searchValueIsEmail && (
-            <SpaceInviteUserSearchResult
-              spaceId={spaceId}
-              loading={isLoaderShown}
-              users={users}
-              onInviteHandled={clearInput}
-            />
+            <SpaceInviteUserSearch spaceId={spaceId} searchValue={searchValue} onInviteHandled={clearInput} />
           )}
         </>
       )}
@@ -148,7 +108,14 @@ const styles = StyleSheet.create({
   },
   whom: {
     display: 'flex',
-    paddingVertical: 24,
+    ...Platform.select({
+      native: {
+        paddingTop: +vars.topBarHeight + 52,
+      },
+      web: {
+        paddingTop: +vars.topBarHeight + 24,
+      },
+    }),
     paddingBottom: 8,
     flexDirection: 'column',
     alignItems: 'flex-start',

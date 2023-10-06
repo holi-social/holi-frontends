@@ -9,6 +9,7 @@ import { ContentType } from '@holi/core/queries'
 import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
@@ -25,12 +26,14 @@ export interface CommentProps extends ViewProps {
 }
 
 const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
+  const { user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const [isLoadingReport, reportContent] = useReportContent({
     id: comment.id,
     contentType: ContentType.POST_COMMENT,
     successMsg: t('global.report.successMessage'),
   })
+  const isCurrentUserCommentCreator = comment.creator.id === loggedInUser?.id
   const [isLoadingDeleteComment, deleteComment] = useDeleteComment(comment.id, postId)
 
   const { creator } = comment
@@ -48,41 +51,48 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
         <HoliColumn>
           <SafeAreaProvider>
             <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="comment-three-dot-menu-button">
-              <HoliActionDrawer.Action
-                isLoading={isLoadingReport}
-                icon={Flag}
-                title={t('global.report')}
-                testID="report-comment-button"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('insights.posts.comment.report.confirmation.title')}
-                  description={t('insights.posts.comment.report.confirmation.description')}
-                  testID="space-report"
-                  handleConfirmation={reportContent}
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
-              <HoliActionDrawer.Action
-                isLoading={isLoadingDeleteComment}
-                icon={Delete}
-                title={t('global.delete')}
-                variant="danger"
-                testID="delete-comment-button"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('insights.posts.comment.delete')}
-                  description={t('insights.posts.comment.delete.confirm.text')}
-                  confirmText={t('insights.posts.comment.delete.confirm.text')}
-                  testID="delete-comment"
-                  handleConfirmation={deleteComment}
-                  buttonType="warning"
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
+              {/* reporting own content makes no sense, so we hide this option */}
+              {!isCurrentUserCommentCreator && (
+                <HoliActionDrawer.Action
+                  isLoading={isLoadingReport}
+                  icon={Flag}
+                  title={t('global.report')}
+                  testID="report-comment-button"
+                  showConfirmation
+                >
+                  <HoliActionDrawer.Confirmation
+                    title={t('insights.posts.comment.report.confirmation.title')}
+                    description={t('insights.posts.comment.report.confirmation.description')}
+                    testID="space-report"
+                    handleConfirmation={reportContent}
+                    hasDismissBtn
+                    requireLogin
+                  />
+                </HoliActionDrawer.Action>
+              )}
+              {/* deleting only allowed for own content */}
+              {isCurrentUserCommentCreator && (
+                <HoliActionDrawer.Action
+                  isLoading={isLoadingDeleteComment}
+                  icon={Delete}
+                  title={t('insights.posts.comment.delete.title')}
+                  variant="danger"
+                  testID="delete-comment-button"
+                  showConfirmation
+                >
+                  <HoliActionDrawer.Confirmation
+                    title={t('insights.posts.comment.delete.title')}
+                    description={t('insights.posts.comment.delete.confirmation.description')}
+                    dismissText={t('insights.posts.comment.delete.confirmation.dismiss')}
+                    confirmText={t('insights.posts.comment.delete.confirmation.confirm')}
+                    testID="delete-comment"
+                    handleConfirmation={deleteComment}
+                    buttonType="warning"
+                    hasDismissBtn
+                    requireLogin
+                  />
+                </HoliActionDrawer.Action>
+              )}
             </HoliActionDrawer.Drawer>
           </SafeAreaProvider>
         </HoliColumn>
@@ -119,7 +129,6 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    lineHeight: 20,
     marginLeft: 15,
   },
   commentConnector: {

@@ -5,14 +5,28 @@ import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from
 
 export enum FeatureToggleName {
   CHAT = 'CHAT',
+  STORAGE = 'STORAGE',
+  VIDEOCALL = 'VIDEOCALL',
+  APPS_DONATIONS = 'APPS_DONATIONS',
+  APPS_GOODNEWS = 'APPS_GOODNEWS',
+  APPS_VOLUNTEERING = 'APPS_VOLUNTEERING',
 }
 
-export const useFeatureToggle = (name: FeatureToggleName) => {
+export type FeatureToggleState = {
+  loading: boolean
+  status?: FeatureToggleStatus
+  enabled?: boolean
+}
+
+export const useFeatureToggle = (name?: FeatureToggleName) => {
   const { displayError } = useErrorHandling()
   const { loading, error, data } = useQuery<FeatureTogglesResponse>(featureTogglesQuery, {
     fetchPolicy: 'cache-first', // answer query directly from cache, it will be refetched in background in handleAppStateChange
     onError: (error) => {
-      displayError(error)
+      displayError(error, 'Failed to load feature toggle', {
+        location: 'useFeatureToggle',
+        feature: name,
+      })
     },
   })
 

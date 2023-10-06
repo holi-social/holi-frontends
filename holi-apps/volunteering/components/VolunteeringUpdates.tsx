@@ -25,17 +25,17 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, error, loading } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
+  const { data, loading } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
     variables: {
       offset: 0,
       limit: ENGAGEMENT_PAGE_SIZE,
     },
     fetchPolicy: 'cache-and-network',
+    onError: (error) =>
+      logError(error, 'Failed to load volunteering engagements', {
+        location: 'VolunteeringUpdates.VolunteeringEngagementsQuery',
+      }),
   })
-
-  if (error) {
-    logError(error, t('volunteering:listing.error'))
-  }
 
   const { data: engagements = [] } = data?.appVolunteering_engagementOpportunities || {}
 

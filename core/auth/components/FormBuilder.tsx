@@ -23,8 +23,9 @@ import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 type NodeId = string
 
 interface Props<T> {
-  flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   onSubmit: (payload: T) => Promise<void>
+  isSignin?: boolean
+  flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
   scrollToInputWithId?: (id: string) => ScrollToProps
@@ -40,8 +41,9 @@ interface FlowData<T> {
 }
 
 const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody>({
-  flow,
   onSubmit,
+  isSignin,
+  flow,
   only,
   textInputOverride,
   scrollToInputWithId,
@@ -125,7 +127,7 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
       const messageKey = `auth.login.message.${message.id}`
       const someGeneralText = t('auth.login.message.default')
       const messageText = i18n.exists(messageKey) ? t(messageKey) : someGeneralText
-      openToast(messageText, HoliToastType.ERROR, 5000, `message-${message.id}`)
+      openToast(messageText, HoliToastType.ERROR, { testID: `message-${message.id}` })
     })
   }, [flow, only, i18n, openToast, t])
 
@@ -146,7 +148,6 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
       {!flow ? (
         <HoliLoader />
       ) : (
-        /** FIXME convert to VirtualizedList, FlatList or SectionList */
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
           return (
@@ -161,6 +162,7 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
               style={{ marginTop: 30 }}
+              isSignin={isSignin}
             />
           )
         })

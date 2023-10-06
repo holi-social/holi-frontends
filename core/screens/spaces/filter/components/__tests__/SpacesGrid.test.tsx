@@ -15,8 +15,7 @@ describe('SpacesGrid', () => {
     expect(images.length).toBe(6)
     const [coverImage, avatarImage] = images
 
-    let proxiedImgProps = coverImage.props.proxiedProperties
-    expect(proxiedImgProps.source).toStrictEqual([
+    expect(coverImage.props.source).toStrictEqual([
       {
         height: 240,
         uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:718:480/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace1.jpg',
@@ -24,8 +23,7 @@ describe('SpacesGrid', () => {
       },
     ])
 
-    proxiedImgProps = avatarImage.props.proxiedProperties
-    expect(proxiedImgProps.source).toStrictEqual([
+    expect(avatarImage.props.source).toStrictEqual([
       {
         height: 24,
         uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg',

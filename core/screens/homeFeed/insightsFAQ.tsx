@@ -23,9 +23,12 @@ const InsightsFAQ: React.VFC<InsightsFAQProps> = ({ onDismiss }: InsightsFAQProp
 
   const onDocumentLoadError = (err?: Error) => {
     if (err instanceof HoliBadRequestError) {
-      openToast(t('homeFeed.insights.error.notFound'), HoliToastType.ERROR, 3000)
+      openToast(t('homeFeed.insights.error.notFound'), HoliToastType.ERROR)
     } else {
-      displayError(err, t('global.technicalError'))
+      displayError(err, 'Failed to load document', {
+        location: 'InsightsFAQ.onDocumentLoadError',
+        url,
+      })
     }
     onDismiss()
   }

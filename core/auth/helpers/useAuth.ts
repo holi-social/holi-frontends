@@ -26,5 +26,10 @@ export const setUserLoggedOut = async () => {
 
 export const useAuth = () => {
   const userId = useReactiveVar(loggedInUserIdVar)
-  return { userId }
+  return {
+    userId,
+    isLoggedIn: !!userId,
+    isLoggedOut: userId === null,
+    isLoading: userId === undefined,
+  }
 }

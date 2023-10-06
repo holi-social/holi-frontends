@@ -1,13 +1,15 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
-import React, { memo, useEffect, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -17,6 +19,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -45,11 +48,17 @@ const DonationsAppProjectDetail = () => {
 
   const { windowHeight, imageWidth } = useWindowDimensionsWithImageScaling()
 
-  const { loading, data, error, refetch } = useQuery<AppDonationsProjectByIdResponse>(projectByIdQuery, {
+  const { loading, data, refetch } = useQuery<AppDonationsProjectByIdResponse>(projectByIdQuery, {
     variables: {
       id: Number(projectId),
     },
     skip: !projectId,
+    onError: (error) =>
+      displayError(error, 'Failed to load donation project', {
+        displayMessage: t('donations:donationListing.error'),
+        location: 'DonationsAppProjectDetail.projectByIdQuery',
+        projectId,
+      }),
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -59,21 +68,8 @@ const DonationsAppProjectDetail = () => {
     setScreenOptions({ title: t('donations:app.name') })
   }, [setScreenOptions, t])
 
-  useEffect(() => {
-    if (error) {
-      displayError(error, t('donations:donationListing.error'))
-    }
-  }, [error, displayError, t])
-
   if (!projectId || loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <DefaultLayout>
-        <View style={[mixins.container, styles.messageContainer]}>
-          <HoliText>{t('donations:donationListing.loading')}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
+    return <HoliLoader />
   }
 
   if (!project) {
@@ -145,7 +141,13 @@ const DonationsAppProjectDetail = () => {
   )
 }
 
-export default withProfiler(memo(DonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
+const WrappedDonationsAppProjectDetail = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.APPS_DONATIONS} featureNameKey="donations:maintenance.feature">
+    <DonationsAppProjectDetail />
+  </FeatureToggleGuard>
+)
+
+export default withProfiler(memo(WrappedDonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
 
 const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({

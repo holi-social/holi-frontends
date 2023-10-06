@@ -1,7 +1,16 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import {
+  Keyboard,
+  LayoutChangeEvent,
+  Platform,
+  type StyleProp,
+  StyleSheet,
+  type TextInputProps,
+  View,
+  type ViewStyle,
+} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -20,7 +29,7 @@ export type HoliSelectOption = {
 
 export interface HoliSelectProps {
   inputLabel?: string
-  accessibilityLabel: string
+  'aria-label': string
   placeholder?: string
   helperText?: string
   validationErrorText?: string
@@ -38,7 +47,7 @@ export interface HoliSelectProps {
 const HoliSelect = ({
   style = {},
   multiSelect = false,
-  accessibilityLabel,
+  'aria-label': ariaLabel,
   inputLabel,
   placeholder,
   helperText,
@@ -57,11 +66,19 @@ const HoliSelect = ({
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
   const [textInputHeight, setTextInputHeight] = useState(0)
+  const isScrolling = useRef(false)
+
+  const setIsScrolling = useCallback(
+    (newIsScrolling: boolean) => () => {
+      isScrolling.current = newIsScrolling
+    },
+    []
+  )
 
   const styles = useMemo(() => getStyles(textInputHeight), [textInputHeight])
 
   const determineTextInputHeight = useCallback(
-    (event) => setTextInputHeight(event.nativeEvent.layout.height),
+    (event: LayoutChangeEvent) => setTextInputHeight(event.nativeEvent.layout.height),
     [setTextInputHeight]
   )
 
@@ -74,13 +91,18 @@ const HoliSelect = ({
   )
 
   const clearFocus = useCallback(
-    (focusToClear) => {
+    (focusToClear: string) => {
       // without the timeout the dropdown closes upon selecting an item
       // we should first wait if another element is focused in the meantime
       const timer = setTimeout(() => {
         setFocusedItem((currentlyFocusedItem) => {
           // always close when clicking on the toggle button on mobile
           if (Platform.OS !== 'web' && focusToClear === 'toggle') return null
+          // On iOS the input field's focus gets lost during scrolling, if a
+          // previous scroll interaction did not run out of momentum yet.
+          // We can not prevent the input from losing focus, but we ignore
+          // changing the `focusedItem` so the dropdown stays open.
+          if (Platform.OS === 'ios' && isScrolling.current) return currentlyFocusedItem
           return currentlyFocusedItem === focusToClear ? null : currentlyFocusedItem
         })
       }, 0)
@@ -99,7 +121,7 @@ const HoliSelect = ({
   }, [focusedItem, setIsOpened, setSearchText])
 
   const setFocusAndOpen = useCallback(
-    (focusId) => {
+    (focusId: string) => {
       setIsOpened(true)
       setFocusedItem(focusId)
     },
@@ -107,7 +129,7 @@ const HoliSelect = ({
   )
 
   const onSelect = useCallback(
-    (option) => {
+    (option: HoliSelectOption) => {
       onChange(option)
       if (!multiSelect) {
         setIsOpened(false)
@@ -127,13 +149,13 @@ const HoliSelect = ({
   }, [isOpened, clearFocus, setFocusAndOpen])
 
   const renderItem = useCallback(
-    ({ item }) => (
+    ({ item }: { item: HoliSelectOption }) => (
       <HoliButton
         inline
         transparent
         key={item.id}
-        label={item.title}
-        accessibilityRole={Platform.select({
+        label={item.title ?? ''}
+        role={Platform.select({
           web: multiSelect ? 'menuitemcheckbox' : 'menuitemradio',
           native: 'menuitem',
         })}
@@ -143,7 +165,7 @@ const HoliSelect = ({
         onFocus={() => setFocusAndOpen('option-' + item.id)}
         onPress={() => onSelect(item)}
         testID={testID && `${testID}-item`}
-        accessibilityChecked={item.selected}
+        ariaChecked={item.selected}
         accessibilityState={{ checked: item.selected }}
       >
         <HoliText selectable={false} numberOfLines={2}>
@@ -237,12 +259,12 @@ const HoliSelect = ({
         placeholder={selectedText || placeholder}
         validationErrorText={validationErrorText}
         helperText={isOpened && options.length ? undefined : helperText}
-        accessibilityLabel={accessibilityLabel}
+        aria-label={ariaLabel}
         accessibilityAutoComplete="list"
         accessibilityControls={isOpened ? `${id}-options` : undefined}
-        accessibilityRole="combobox"
-        accessibilityExpanded={isOpened}
-        accessibilityHasPopup="menu"
+        role="combobox"
+        ariaExpanded={isOpened}
+        ariaHasPopup="menu"
         trailingComponent={trailingComponent}
         inputProps={{ ...inputProps, placeholderTextColor }}
         inputStyle={isOpened ? styles.textInputOpened : {}}
@@ -262,11 +284,13 @@ const HoliSelect = ({
           keyExtractor={(option) => option.id}
           style={styles.optionsMenu}
           nativeID={`${id}-options`}
-          accessibilityRole="menu"
+          role="menu"
           keyboardShouldPersistTaps="always"
           persistentScrollbar={true}
-          accessibilityLabel={t('multiselect.options')}
+          aria-label={t('multiselect.options')}
           accessibilityState={{ expanded: true }}
+          onMomentumScrollBegin={setIsScrolling(true)}
+          onMomentumScrollEnd={setIsScrolling(false)}
         />
       )}
     </View>

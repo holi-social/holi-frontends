@@ -17,14 +17,12 @@ export interface SpacesTabProps {
 }
 
 const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) => {
-  const { data, error } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
+  const { data } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
     variables: { memberId },
     fetchPolicy: 'network-only',
+    onError: (error) =>
+      logError(error, 'Failed to load spaces for user', { location: 'SpacesTab.spacesByMemberIdQuery' }),
   })
-
-  if (error) {
-    logError(error, `[SpacesTab.tsx] ${error.message}`)
-  }
 
   if (!data) return null
   const spaces = data.spaces

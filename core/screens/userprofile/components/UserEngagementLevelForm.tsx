@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,6 +7,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
+  authenticatedUserQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -35,7 +36,12 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   user,
   buttonsRelativeHeight = 0.35,
 }) => {
-  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
+  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation, {
+    onError: (error) =>
+      displayError(error, 'Failed to update user', {
+        location: 'UserEngagementLevelForm.updateUser',
+      }),
+  })
   const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
@@ -49,7 +55,10 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       ...(engagementLevel && { engagementLevel }),
     }
 
-    const result = await updateUser({ variables: { input } })
+    const result = await updateUser({
+      variables: { input },
+      refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+    })
     if (!error && result.data && onSubmit) {
       onSubmit(result.data.updateAuthenticatedUser)
     }
@@ -64,12 +73,6 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       </View>
     )
   }
-
-  useEffect(() => {
-    if (error) {
-      displayError(error)
-    }
-  }, [error, displayError])
 
   const ActiveButtonIcon = (
     <View style={styles.activeButtonIcon}>

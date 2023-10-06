@@ -12,6 +12,11 @@ import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/d
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const spaceId = 'space1'
 const userId = 'user1'
 const userSearchRequest = {
@@ -42,10 +47,6 @@ const userSearchSuccessMock = {
       },
     },
   },
-}
-const userSearchErrorMock = {
-  request: userSearchRequest,
-  error: new HoliError('Test error'),
 }
 const emailInviteRequest = {
   query: inviteToSpaceByEmailMutation,
@@ -113,20 +114,6 @@ describe('SpaceInviteView', () => {
     expect(emailInviteButton).not.toBeDisabled()
   })
 
-  it('handles error during user search', async () => {
-    renderComponent([userSearchErrorMock])
-
-    enterSearchTerm('foobar')
-    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
-
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
-  })
-
   it('clears input after user invite', async () => {
     renderComponent([userSearchSuccessMock, inviteMutationSuccessMock])
 
@@ -158,11 +145,6 @@ describe('SpaceInviteView', () => {
     fireEvent.press(screen.getByTestId('space-invite-form-save-btn'))
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
+    expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
   })
 })

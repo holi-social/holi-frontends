@@ -27,7 +27,6 @@ import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -56,11 +55,10 @@ const UserProfile = () => {
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
-  const { userId: authenticatedUserId } = useAuth()
-  const { isLoggedIn } = useLoggedInUser()
+  const { userId: authenticatedUserId, isLoggedIn } = useAuth()
   const [userId = ''] = useParam('userId')
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isLoggedIn && userId === authenticatedUserId) {
       replaceRoute('/profile')
     }
@@ -69,6 +67,13 @@ const UserProfile = () => {
   const [fetchUser, { loading, error, data, refetch: refetchUser }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
+    onError: (error) => {
+      if (error && !isNotFoundError(error)) {
+        displayError(error, 'Failed to load user', {
+          location: 'UserProfile.fetchUser',
+        })
+      }
+    },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetchUser)
 
@@ -83,19 +88,16 @@ const UserProfile = () => {
     successMsg: t('global.report.successMessage'),
   })
 
-  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
-    insightsByUserIdTotalResultsQuery,
-    {
-      variables: { userId },
-      skip: !userId, // userId is empty for initial page load
-    }
-  )
+  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
+    variables: { userId },
+    skip: !userId, // userId is empty for initial page load
+    onError: (error) =>
+      logError(error, 'Failed to load insights for user', {
+        location: 'UserProfile.insightsByUserIdTotalResultsQuery',
+      }),
+  })
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
-
-  if (errorInsights) {
-    logError(errorInsights, `[UserProfile.tsx] ${errorInsights.message}`)
-  }
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -137,10 +139,7 @@ const UserProfile = () => {
   // see https://github.com/nandorojo/solito/issues/100
   useEffect(() => {
     if (userId && !loading && !user) {
-      fetchUser().catch((e) => logError(e))
-    }
-    if (error && !isNotFoundError(error)) {
-      displayError(error)
+      fetchUser()
     }
   }, [fetchUser, userId, loading, user, error, displayError])
 

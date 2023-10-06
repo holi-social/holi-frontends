@@ -1,19 +1,21 @@
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
 import client from '@holi/api/graphql/client'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
+import { Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -81,7 +83,7 @@ const DonationsAppHome = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () =>
         Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
@@ -92,6 +94,7 @@ const DonationsAppHome = () => {
       refreshableProps={{ isLoading: refreshing, onRefresh }}
       keyboardShouldPersistTaps="always"
       headerOverlap
+      style={styles.defaultLayout}
     >
       <HoliModal
         show={showSearchModal}
@@ -115,4 +118,18 @@ const DonationsAppHome = () => {
   )
 }
 
-export default memo(DonationsAppHome)
+const WrappedDonationsAppHome = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.APPS_DONATIONS} featureNameKey="donations:maintenance.feature">
+    <DonationsAppHome />
+  </FeatureToggleGuard>
+)
+
+export default memo(WrappedDonationsAppHome)
+
+const styles = StyleSheet.create({
+  defaultLayout: {
+    backgroundColor: colors.background20,
+    paddingBottom: 0,
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
+})

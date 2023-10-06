@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
@@ -45,7 +45,8 @@ const SpaceDetails = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   // On initial page load on web `spaceIdOrName` is undefined
@@ -55,6 +56,9 @@ const SpaceDetails = () => {
     variables: { idOrName: spaceIdOrName || '' },
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
     skip: !spaceIdOrName,
+    onError: (error) =>
+      !isNotFoundError(error) &&
+      logError(error, 'Failed to load space', { location: 'SpaceDetails.spaceByIdQuery', spaceIdOrName }),
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -103,7 +107,7 @@ const SpaceDetails = () => {
 
   const deleteConfirmationAction = useCallback(() => {
     navigate('/spaces')
-    deleteSpace().catch((e) => logError(e))
+    deleteSpace()
   }, [deleteSpace, navigate])
 
   const manageCollaboratorsAction = useCallback(() => {
@@ -234,7 +238,7 @@ const SpaceDetails = () => {
       <HoliButton
         label={t('spaces.toolKit.add.button.label')}
         testID="space-add-post-button"
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={onUpdateButtonPress}
       >
         <HoliIcon icon={Pencil} size={20} />
@@ -248,9 +252,6 @@ const SpaceDetails = () => {
         <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
       </DefaultLayout>
     )
-  }
-  if (error) {
-    logError(error, `[SpaceDetails.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
@@ -329,9 +330,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0,
     bottom: vars.topBarHeight,
-    right: 24,
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',
+    right: '50%',
   },
   headerRight: {
     flexDirection: 'row',

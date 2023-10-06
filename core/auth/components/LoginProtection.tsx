@@ -12,8 +12,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { vars } from '@holi/ui/styles/globalVars'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { userId } = useAuth()
-  const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
+  const { isLoggedIn, isLoading: isUserIDLoading } = useAuth()
+  const { isLoading: isUserLoading } = useLoggedInUser()
   const navigation = useNavigation()
   const [onboardingKey, setOnboardingKey] = useState(Date.now().toString())
   const { storedOnboardingState } = useStoredOnboardingState()
@@ -35,7 +35,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
     return unsubscribe
   }, [navigation, isLoggedIn])
 
-  if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader />
+  if (isUserIDLoading || isUserLoading) return <HoliLoader />
 
   return isOnboardingFinished && isLoggedIn ? (
     <>{children}</>

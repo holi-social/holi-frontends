@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -26,6 +26,8 @@ const LinkHub = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -48,7 +50,7 @@ const LinkHub = () => {
       <HoliButton
         label={t('spaces.toolKit.add.button.label')}
         testID="space-add-tool-button"
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={onAddButtonPress}
       >
         <HoliIcon icon={Add} size={20} />
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0,
     bottom: vars.topBarHeight,
-    right: 24,
+    right: '50%',
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',
   },

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import {
   AccessibilityProps,
-  AccessibilityRole,
   Animated,
   GestureResponderEvent,
   NativeSyntheticEvent,
   Pressable,
+  Role,
   StyleProp,
   StyleSheet,
   TargetedEvent,
@@ -15,7 +15,7 @@ import {
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check } from '@holi/icons/src/generated'
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -24,8 +24,8 @@ export type HoliCheckboxShape = 'square' | 'round' | 'box'
 export type HoliCheckboxProps = {
   label?: string
   shape?: HoliCheckboxShape
-  accessibilityLabel: string
-  accessibilityRole?: AccessibilityRole
+  'aria-label': string
+  role?: AccessibilityRoleWeb
   checked?: boolean
   errorMessage?: string
   onSelect?: (checked: boolean, event: GestureResponderEvent) => void
@@ -40,9 +40,9 @@ export type HoliCheckboxProps = {
 const HoliCheckbox = ({
   children,
   label,
-  accessibilityLabel,
+  'aria-label': ariaLabel,
   shape = 'box',
-  accessibilityRole = 'checkbox',
+  role = 'checkbox',
   checked = false,
   errorMessage,
   onSelect = () => null,
@@ -63,11 +63,11 @@ const HoliCheckbox = ({
 
   // https://www.w3.org/WAI/ARIA/apg/example-index/checkbox/checkbox.html
   // https://www.w3.org/WAI/ARIA/apg/example-index/radio/radio-rating.html
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+  const accessibilityProps: AccessibilityPropsWeb = {
     accessible: !disabled,
-    accessibilityRole: disabled ? 'none' : accessibilityRole,
-    accessibilityLabel: accessibilityLabel,
-    accessibilityChecked: disabled ? false : checked,
+    role: disabled ? 'none' : (role as Role),
+    'aria-label': ariaLabel,
+    'aria-checked': disabled ? false : checked,
   }
 
   const onPress = useCallback(
@@ -98,7 +98,7 @@ const HoliCheckbox = ({
     <View style={style}>
       <View style={styles.checkboxContainer}>
         <Pressable
-          {...accessibilityProps}
+          {...(accessibilityProps as AccessibilityProps)}
           ref={checkboxRef}
           disabled={disabled}
           onFocus={onFocus}

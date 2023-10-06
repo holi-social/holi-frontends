@@ -1,13 +1,14 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { Platform, ScrollView, StyleSheet } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
 import LocationStep, { useLocationStep } from '@holi/core/auth/components/AccountSetup/LocationStep'
 import NamesStep, { useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { UserChipTypes, useUserChips } from '@holi/core/helpers/useUserChips'
 import { useRegisterUserNames } from '@holi/core/hooks/useRegisterUserNames'
@@ -15,6 +16,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
+  authenticatedUserQuery,
   interestsQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
@@ -67,6 +69,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { user } = useLoggedInUser()
+  const { isLoggedOut } = useAuth()
   const mixins = useStyleMixins()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
@@ -107,6 +110,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         setIsLoading(true)
         await registerUserNames({
           variables: { input: parseRegisterUserNamesInput(names) },
+          refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
           onCompleted: goNext,
         })
         setIsLoading(false)
@@ -128,7 +132,12 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         if (selectedInterestIds.length) {
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
-            onError: (error) => displayError(error),
+            refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+            onError: (error) =>
+              displayError(error, 'Failed to update users interests', {
+                location: 'AccountSetup.handleNextPress.INTERESTS',
+                currentStep,
+              }),
           })
         }
         setIsLoading(false)
@@ -151,7 +160,12 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
-            onError: (error) => displayError(error),
+            refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+            onError: (error) =>
+              displayError(error, 'Failed to update users location', {
+                location: 'AccountSetup.handleNextPress.LOCATION',
+                currentStep,
+              }),
           })
         }
         setIsLoading(false)
@@ -163,7 +177,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.SUCCESS:
         // wait for AsyncStorage to be set
         await onFinish()
-        navigate('/')
+        Platform.OS !== 'web' && navigate('/')
         break
 
       default:
@@ -172,11 +186,11 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   }
 
   useEffect(() => {
-    if (user === null) {
+    if (isLoggedOut) {
       onFinish()
       navigate('/')
     }
-  }, [user, onFinish, navigate])
+  }, [isLoggedOut, onFinish, navigate])
 
   const getSubmitButtonLabel = useCallback(
     (stepNumber: number) =>
@@ -219,6 +233,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               headlineText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
               descriptionText={t('registration.accountSetup.firstSuccess.description')}
               contentStyle={styles.stepContainer}
+              testID="account-setup-pre-registration-success-step"
             />
           </ScrollView>,
           // Interests step

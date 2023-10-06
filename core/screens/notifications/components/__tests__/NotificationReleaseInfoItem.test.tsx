@@ -1,5 +1,5 @@
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
 import { NotificationReleaseInfo, NotificationType } from '@holi/core/screens/notifications/components/types'
@@ -12,6 +12,7 @@ const releaseInfoNotification: NotificationReleaseInfo = {
     avatarLabel: 'foo',
     avatarDefaultColor: 'red',
     fullName: 'Karsten',
+    identity: 'karsten',
   },
   created: '2023-03-23T10:30:53.608640+00:00',
   read: true,
@@ -21,7 +22,7 @@ const releaseInfoNotification: NotificationReleaseInfo = {
       title:
         'Someone trip loss government property like hold staff. School line three page single. Source lay popular.',
       text: '',
-      creator: { id: '123', avatarLabel: 'foo', avatarDefaultColor: 'red', fullName: 'Peter' },
+      creator: { id: '123', avatarLabel: 'foo', avatarDefaultColor: 'red', fullName: 'Peter', identity: 'peter' },
       numberOfComments: 0,
       commenters: { totalResults: 0, data: [] },
       myReaction: { HEART: 1 },
@@ -34,7 +35,7 @@ describe('NotificationReleaseInfoItem.tsx', () => {
   it('matches snapshot', () => {
     jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
-    const tree = renderer.create(<NotificationReleaseInfoItem notification={releaseInfoNotification} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<NotificationReleaseInfoItem notification={releaseInfoNotification} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 })

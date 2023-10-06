@@ -14,7 +14,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
 >
   <View
     accessibilityOrientation="horizontal"
-    accessibilityRole="tablist"
+    role="tablist"
     style={
       {
         "borderBottomColor": "#ebebeb",
@@ -29,8 +29,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "flex-start",
-          "maxWidth": 1200,
-          "paddingHorizontal": 20,
+          "maxWidth": 840,
+          "paddingHorizontal": 32,
           "width": "100%",
         }
       }
@@ -38,15 +38,13 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
       <View
         accessibilityControls="test-tabs-panel-0"
         accessibilityLabel="Profile"
-        accessibilityRole="tab"
-        accessibilitySelected={true}
         accessibilityState={
           {
             "busy": undefined,
             "checked": undefined,
             "disabled": false,
             "expanded": undefined,
-            "selected": undefined,
+            "selected": true,
           }
         }
         accessibilityValue={
@@ -70,6 +68,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        role="tab"
         style={
           [
             {
@@ -106,7 +105,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 "fontFamily": "Circular Std Medium",
                 "fontSize": 16,
                 "fontWeight": "500",
-                "lineHeight": 19.2,
+                "lineHeight": 22.4,
+                "userSelect": "auto",
               }
             }
           >
@@ -117,15 +117,13 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
       <View
         accessibilityControls="test-tabs-panel-1"
         accessibilityLabel="Insights"
-        accessibilityRole="tab"
-        accessibilitySelected={false}
         accessibilityState={
           {
             "busy": undefined,
             "checked": undefined,
             "disabled": false,
             "expanded": undefined,
-            "selected": undefined,
+            "selected": false,
           }
         }
         accessibilityValue={
@@ -149,6 +147,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        role="tab"
         style={
           [
             {
@@ -185,7 +184,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
-                "lineHeight": 19.2,
+                "lineHeight": 22.4,
+                "userSelect": "auto",
               }
             }
           >
@@ -196,15 +196,13 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
       <View
         accessibilityControls="test-tabs-panel-2"
         accessibilityLabel="Spaces"
-        accessibilityRole="tab"
-        accessibilitySelected={false}
         accessibilityState={
           {
             "busy": undefined,
             "checked": undefined,
             "disabled": false,
             "expanded": undefined,
-            "selected": undefined,
+            "selected": false,
           }
         }
         accessibilityValue={
@@ -228,6 +226,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        role="tab"
         style={
           [
             {
@@ -264,7 +263,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
-                "lineHeight": 19.2,
+                "lineHeight": 22.4,
+                "userSelect": "auto",
               }
             }
           >
@@ -319,7 +319,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         testID="stepper-step"
       >
         <View
-          accessibilityLabelledBy="test-tabs-tab-0"
+          aria-labelledby="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
         >
           <View
@@ -334,7 +334,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
                 }
               }
               testID="profileTab"
@@ -355,7 +356,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         testID="stepper-step"
       >
         <View
-          accessibilityLabelledBy="test-tabs-tab-1"
+          aria-labelledby="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
         >
           <View
@@ -370,7 +371,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
                 }
               }
               testID="InsightsTab"
@@ -391,7 +393,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         testID="stepper-step"
       >
         <View
-          accessibilityLabelledBy="test-tabs-tab-2"
+          aria-labelledby="test-tabs-tab-2"
           nativeID="test-tabs-panel-2"
         >
           <View
@@ -406,7 +408,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
                 }
               }
               testID="SpacesTab"

@@ -4,12 +4,12 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
-import RootProvider from '@holi/core/RootProvider'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { initNotifications } from '@holi/core/helpers/notifications'
 import { initI18n } from '@holi/core/i18n'
+import RootProvider from '@holi/core/providers/RootProvider'
 import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
@@ -46,7 +46,7 @@ const App = () => {
     try {
       await Promise.all([initI18n(), initAuth(), initNotifications()])
     } catch (error) {
-      logError(error, '[App.tsx]: Error initializing the app')
+      logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
       setInitDone(true)
     }

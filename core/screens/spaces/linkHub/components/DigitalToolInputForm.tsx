@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Image as ReactNativeImage, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
@@ -42,7 +41,6 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   description,
   selectedCollection,
   thumbnail,
-  thumbnailBlurhash,
   fieldErrors = {},
   currentThumbnail,
 }: DigitalToolInputFormProps) => {
@@ -91,7 +89,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         validationErrorText={urlError}
         value={url}
         onChange={onChangeUrl}
-        accessibilityLabel={t('spaces.input.digitalTool.url.label')}
+        aria-label={t('spaces.input.digitalTool.url.label')}
         testID="tool-url"
         isRequired={true}
         maxNoOfCharacters={500}
@@ -102,7 +100,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         validationErrorText={titleError}
         value={title}
         onChange={onChangeTitle}
-        accessibilityLabel={t('spaces.input.digitalTool.title.label')}
+        aria-label={t('spaces.input.digitalTool.title.label')}
         testID="tool-title"
         style={{ marginTop: 16 }}
         isRequired={true}
@@ -125,7 +123,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         validationErrorText={descriptionError}
         value={description}
         onChange={onChangeDescription}
-        accessibilityLabel={t('spaces.input.digitalTool.description.label')}
+        aria-label={t('spaces.input.digitalTool.description.label')}
         testID="tool-description"
         style={{ marginTop: 16 }}
         maxNoOfCharacters={100}
@@ -134,11 +132,12 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
 
       {/* ThumbnailUploader */}
       <View style={styles.thumbnailContainer}>
+        {/*// TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
         {thumbnailUri ? (
-          <HoliImage
+          <ReactNativeImage
             source={{ uri: thumbnailUri }}
-            blurhash={thumbnailBlurhash}
-            label={t('spaces.input.digitalTool.thumbnail.label')}
+            resizeMode="cover"
+            aria-label={t('spaces.input.coverImage.label')}
             style={styles.thumbnail}
           />
         ) : (
@@ -148,7 +147,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         )}
         <View style={styles.uploadButtonContainer}>
           <HoliImagePicker
-            maxFileSizeInMB={8}
+            maxFileSizeInMB={10}
             buttonProps={{
               label: t('spaces.input.digitalTool.upload.button.label'),
               style: styles.imageUploadButton,

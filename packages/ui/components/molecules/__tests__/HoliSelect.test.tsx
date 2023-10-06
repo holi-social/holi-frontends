@@ -3,11 +3,6 @@ import React, { useState } from 'react'
 
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
-jest.mock('react-native/Libraries/Utilities/Platform', () => ({
-  OS: 'web',
-  select: () => null,
-}))
-
 const initialOptions: HoliSelectOption[] = [
   {
     id: '1',
@@ -65,7 +60,7 @@ const SingleSelect = ({ ...args }) => {
   return (
     <HoliSelect
       id="singleselect"
-      accessibilityLabel="Accessibility label"
+      aria-label="Accessibility label"
       options={initialOptions.map((option) => ({ ...option, selected: option.id === selectedOption }))}
       onChange={toggleOptionSelect}
       {...args}
@@ -87,7 +82,7 @@ const MultiSelect = ({ ...args }) => {
       multiSelect
       id="multiselect"
       inputLabel="Label"
-      accessibilityLabel="Accessibility label"
+      aria-label="Accessibility label"
       options={options}
       onChange={toggleOptionSelection}
       {...args}
@@ -95,83 +90,85 @@ const MultiSelect = ({ ...args }) => {
   )
 }
 
-describe('HoliSelect', () => {
-  describe('SingleSelect', () => {
-    it('renders correctly when closed', () => {
-      render(<SingleSelect />)
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
+// apparently the Flatlist component within the Select is lazy-loading a module,
+// in a way to slow for jest, leading to
+// "You are trying to `import` a file after the Jest environment has been torn down."
+jest.useFakeTimers()
 
-    it('renders correctly when opened', async () => {
-      render(<SingleSelect testID="test" />)
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
-
-    it('correctly filters options', async () => {
-      render(<SingleSelect testID="test" />)
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
-
-    it('renders correctly after selection', async () => {
-      render(<SingleSelect testID="test" />)
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      await fireEvent.press(screen.getAllByTestId('test-item')[1])
-      expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
-
-    it('calls onChange with selection', async () => {
-      const onChange = jest.fn()
-      render(
-        <HoliSelect accessibilityLabel="test" id="test" options={initialOptions} testID="test" onChange={onChange} />
-      )
-
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-
-      await fireEvent.press(screen.getAllByTestId('test-item')[1])
-      expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ id: '2' }))
-    })
-
-    it('clears text input', async () => {
-      render(<SingleSelect testID="test" />)
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
-      expect(screen.getByTestId('test-input')).toHaveProp('value', 'di')
-      await fireEvent.press(screen.getByTestId('test-clear-input'))
-      expect(screen.getByTestId('test-input')).toHaveProp('value', '')
-    })
+describe('SingleSelect', () => {
+  it('renders correctly when closed', () => {
+    render(<SingleSelect />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  describe('MultiSelect', () => {
-    it('renders correctly when closed', () => {
-      render(<MultiSelect />)
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
+  it('renders correctly when opened', async () => {
+    render(<SingleSelect testID="test" />)
+    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
 
-    it('renders correctly when opened', async () => {
-      render(<MultiSelect testID="test" />)
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
+  it('correctly filters options', async () => {
+    render(<SingleSelect testID="test" />)
+    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    await fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
 
-    it('renders correctly after single selection', async () => {
-      render(<MultiSelect testID="test" />)
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      await fireEvent.press(screen.getAllByTestId('test-item')[1])
-      expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
+  it('renders correctly after selection', async () => {
+    render(<SingleSelect testID="test" />)
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent.press(screen.getAllByTestId('test-item')[1])
+    expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
 
-    it('renders correctly after multiple selections', async () => {
-      render(<MultiSelect testID="test" />)
-      await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      await fireEvent.press(screen.getAllByTestId('test-item')[1])
-      await fireEvent.press(screen.getAllByTestId('test-item')[2])
-      expect(screen.getByPlaceholderText('Label · 2')).toBeDefined()
-      expect(screen.toJSON()).toMatchSnapshot()
-    })
+  it('calls onChange with selection', async () => {
+    const onChange = jest.fn()
+    render(<HoliSelect aria-label="test" id="test" options={initialOptions} testID="test" onChange={onChange} />)
+
+    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+
+    await fireEvent.press(screen.getAllByTestId('test-item')[1])
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ id: '2' }))
+  })
+
+  it('clears text input', async () => {
+    render(<SingleSelect testID="test" />)
+    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    const input = screen.getByTestId('input')
+    fireEvent(input, 'onChange', { nativeEvent: { text: 'di' } })
+    expect(input).toHaveProp('value', 'di')
+    await fireEvent.press(screen.getByTestId('test-clear-input'))
+    expect(input).toHaveProp('value', '')
+  })
+})
+
+describe('MultiSelect', () => {
+  it('renders correctly when closed', () => {
+    render(<MultiSelect />)
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
+
+  it('renders correctly when opened', async () => {
+    render(<MultiSelect testID="test" />)
+    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
+
+  it('renders correctly after single selection', async () => {
+    render(<MultiSelect testID="test" />)
+    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    await fireEvent.press(screen.getAllByTestId('test-item')[1])
+    expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
+
+  it('renders correctly after multiple selections', async () => {
+    render(<MultiSelect testID="test" />)
+    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    await fireEvent.press(screen.getAllByTestId('test-item')[1])
+    await fireEvent.press(screen.getAllByTestId('test-item')[2])
+    expect(screen.getByPlaceholderText('Label · 2')).toBeDefined()
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 })

@@ -8,7 +8,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { Space, VisibilityType } from '@holi/core/screens/spaces/types'
+import { Space, VisibilityFilter, VisibilityType } from '@holi/core/screens/spaces/types'
 import {
   CreateSpacePostMutationResponse,
   UpdateSpacePostMutationResponse,
@@ -57,7 +57,10 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     variables: { idOrName: spaceIdOrName },
     onError: (error) => {
       navigateBack()
-      displayError(error, error.message)
+      displayError(error, 'Failed to load space', {
+        location: 'useCreateOrUpdateSpacePost.spaceByIdQuery',
+        spaceIdOrName,
+      })
     },
   })
   const space = spaceQueryData?.spaceById
@@ -71,7 +74,11 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     skip: !postId,
     onError: (error) => {
       navigateBack()
-      displayError(error, error.message)
+      displayError(error, 'Failed to load space post', {
+        location: 'useCreateOrUpdateSpacePost.PostById',
+        spaceIdOrName,
+        postId,
+      })
     },
   })
   const postToUpdate = postQueryData?.postById
@@ -90,8 +97,22 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     createSpacePostMutation,
     {
       onCompleted: () => navigateBack(),
-      onError: (error) => displayError(error, error.message),
-      refetchQueries: [spacePostsQuery],
+      onError: (error) =>
+        displayError(error, 'Failed to create space post', {
+          location: 'useCreateOrUpdateSpacePost.createSpacePost',
+          spaceIdOrName,
+        }),
+      // refetch first page of both the current visibility filter and the ALL filter
+      refetchQueries: [
+        {
+          query: spacePostsQuery,
+          variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: visibility },
+        },
+        {
+          query: spacePostsQuery,
+          variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
+        },
+      ],
     }
   )
 
@@ -99,7 +120,12 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     updateSpacePostMutation,
     {
       onCompleted: () => navigateBack(),
-      onError: (error) => displayError(error, error.message),
+      onError: (error) =>
+        displayError(error, 'Failed to update space post', {
+          location: 'useCreateOrUpdateSpacePost.updateSpacePost',
+          spaceIdOrName,
+          postId,
+        }),
       refetchQueries: [spacePostsQuery],
     }
   )

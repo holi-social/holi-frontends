@@ -11,7 +11,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -35,7 +35,7 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
     try {
       await joinRoom(roomId)
     } catch (e) {
-      openToast(t('chat.offline'))
+      openToast(t('global.offline.description'), HoliToastType.SUCCESS)
     }
   }
 
@@ -70,7 +70,12 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
             <HoliButton inline label={t('chat.invitation.reject')} type="secondary" onPress={handleRejectRoom}>
               {t('chat.invitation.reject')}
             </HoliButton>
-            <HoliButton inline label={t('chat.invitation.accept')} onPress={handleJoin}>
+            <HoliButton
+              inline
+              label={t('chat.invitation.accept')}
+              testID={'chat-invitation-accept'}
+              onPress={handleJoin}
+            >
               {t('chat.invitation.accept')}
             </HoliButton>
           </View>

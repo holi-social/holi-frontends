@@ -8,7 +8,7 @@ import PlacesAutocomplete, {
   GeolocationLevel,
   GeolocationSuggestion,
   PlacesAutocompleteProps,
-} from '@holi/core/location/components/PlacesAutocomplete'
+} from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -74,7 +74,7 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
 
   return (
     <View testID={testID}>
-      <HoliHeading level="1" size="large" testID="headline">
+      <HoliHeading level="1" size="large" testID="account-setup-location-step-headline">
         {t('registration.accountSetup.location.heading')}
       </HoliHeading>
 

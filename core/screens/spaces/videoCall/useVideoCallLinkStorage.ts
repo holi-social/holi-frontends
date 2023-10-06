@@ -25,7 +25,9 @@ export const useVideoCallLinkStorage = (spaceName?: string): UseVideoCallLinkSto
           const links = value ? JSON.parse(value) : []
           videoCallLinksVar(links)
         } catch (error) {
-          logError(error, '[space/videoCall/storage.ts] Could not parse stored video call links')
+          logError(error, 'Could not parse stored video call links', {
+            location: 'useVideoCallLinkStorage.useEffect',
+          })
         }
       })
     }

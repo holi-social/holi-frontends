@@ -4,16 +4,17 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { onScreenScrollY } from '@holi/core/helpers'
-import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
-import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
+import { Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -62,7 +63,7 @@ const VolunteeringAppHome = () => {
     [updateParams, closeModal]
   )
 
-  const clearFilters = useCallback(
+  const clearFiltersFromUrl = useCallback(
     () =>
       updateParams({
         location: undefined,
@@ -71,10 +72,26 @@ const VolunteeringAppHome = () => {
     [updateParams]
   )
 
-  const { navigate } = useRouting()
-  const filters = { location: initialLocationSelection, category }
+  const clearFilters = useCallback(() => {
+    setFilters({ location: undefined, category: undefined })
+    clearFiltersFromUrl()
+    setIsFiltering(false)
+  }, [clearFiltersFromUrl])
 
-  const isFiltering = !!(location || category)
+  const { navigate } = useRouting()
+  const [filters, setFilters] = useState({ location: initialLocationSelection, category })
+  const [isFiltering, setIsFiltering] = useState(!!(location || category))
+
+  useEffect(() => {
+    if (location || category) {
+      setIsFiltering(true)
+      setFilters({ location: filters.location, category })
+    } else {
+      setIsFiltering(false)
+      setFilters({ location: undefined, category: undefined })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, category])
 
   useLayoutEffect(() => {
     const filterButton = (
@@ -103,16 +120,20 @@ const VolunteeringAppHome = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
 
   useEffect(() => {
     if (geolocationError) {
-      displayError(geolocationError, t('volunteering:listing.error'))
+      displayError(geolocationError, 'Failed to load geolocation details', {
+        displayMessage: t('volunteering:listing.error'),
+        location: 'VolunteeringAppHome.useEffect',
+        locationId: location,
+      })
     }
-  }, [displayError, geolocationError, t])
+  }, [displayError, geolocationError, location, t])
 
   if (geolocationError) {
     return <></>
@@ -122,7 +143,7 @@ const VolunteeringAppHome = () => {
     <SafeAreaProvider>
       <DefaultLayout
         style={styles.defaultLayout}
-        scrollable={false}
+        scrollable={true}
         testID={'volunteering-list-container'}
         keyboardShouldPersistTaps="handled"
         hasFooterTabBar={false}
@@ -135,20 +156,35 @@ const VolunteeringAppHome = () => {
           autoHeight={false}
           relativeHeight={1}
         >
-          <VolunteeringFilterForm onSubmit={submit} filters={filters} />
+          <VolunteeringFilterForm
+            onSubmit={submit}
+            filters={filters}
+            setFilters={setFilters}
+            clearFilters={clearFilters}
+            initialLocationSelection={initialLocationSelection}
+          />
         </HoliModal>
 
-        <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} isFiltering={isFiltering} />
       </DefaultLayout>
     </SafeAreaProvider>
   )
 }
 
-export default memo(VolunteeringAppHome)
+const WrappedVolunteeringAppHome = () => (
+  <FeatureToggleGuard
+    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+    featureNameKey="volunteering:maintenance.feature"
+  >
+    <VolunteeringAppHome />
+  </FeatureToggleGuard>
+)
+
+export default memo(WrappedVolunteeringAppHome)
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
     paddingBottom: 0,
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },

@@ -62,7 +62,10 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
         userId: user.id,
       },
       onError(error) {
-        displayError(error)
+        displayError(error, 'Failed to update space user connection', {
+          location: 'SpacePermissions.updateSpaceUserConnection',
+          spaceId: space.id,
+        })
       },
       onCompleted() {
         hidePermissions()

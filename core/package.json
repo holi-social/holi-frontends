@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@graphql-eslint/eslint-plugin": "^3.18.0",
-    "@types/react": "~18.0.27",
+    "@types/react": "~18.2.14",
     "@types/tinycolor2": "1.4.3",
     "graphql-config": "^4.5.0",
     "jest-offline": "^1.0.1",
@@ -26,11 +26,11 @@
   "peerDependencies": {
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
-    "expo-image-picker": "~14.1.1",
-    "expo-linking": "~3.2.4",
+    "expo-image-picker": "~14.3.2",
+    "expo-linking": "~5.0.2",
     "react": "18.2.0",
-    "react-native": "0.71.6",
-    "react-native-svg": "12.3.0",
+    "react-native": "0.72.5",
+    "react-native-svg": "13.9.0",
     "react-zoom-pan-pinch": "^2.1.3"
   },
   "scripts": {

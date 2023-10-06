@@ -2,22 +2,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { getOrCreateRoom } from '@holi/chat/src/store'
-import { logError } from '@holi/core/errors/helpers'
-import { chatServerName } from '@holi/core/helpers/config'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface UserProfileViewProps {
@@ -27,37 +19,8 @@ interface UserProfileViewProps {
 
 const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps) => {
   const { t } = useTranslation()
-  const { openToast } = useToast()
-  const { navigate } = useRouting()
-  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
   const fullName = user.fullName || t('user.profileView.anonymous')
-
-  const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
-
-  const handleChat = async () => {
-    if (!isLoggedIn) return openLoginModal()
-
-    // TODO:  the correct Matrix identity should come from Okuna
-    const identity = user.identity
-    if (!identity) {
-      logError('Can not create a chat with out an user identity')
-      return
-    }
-
-    try {
-      const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
-      if (!room_id) {
-        openToast(t('chat.offline'))
-        return
-      }
-
-      navigate('/chat/rooms/' + room_id)
-    } catch (e) {
-      openToast(t('chat.offline'))
-    }
-  }
 
   return (
     <View style={styles.header}>
@@ -91,18 +54,8 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
       )}
       {contactPossible && (
         <View style={styles.profileButtonWrapper}>
-          <UserConnectionButtons style={styles.profileButton} user={user} />
-          <HoliButton
-            type="secondary"
-            inline
-            disabled={ftLoading || !ftEnabled}
-            label={t('user.profileView.message')}
-            style={styles.profileButton}
-            onPress={handleChat}
-            testID="user-profile-open-chat"
-          >
-            {t('user.profileView.message')}
-          </HoliButton>
+          <UserConnectionButtons user={user} />
+          <StartChatButton user={user} label={t('user.profileView.message')} type="secondary" inline />
         </View>
       )}
     </View>
@@ -122,10 +75,8 @@ const styles = StyleSheet.create({
   profileButtonWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-  profileButton: {
+    columnGap: 8,
     marginTop: 16,
-    marginRight: 8,
   },
   nameContainer: {
     marginTop: 8,

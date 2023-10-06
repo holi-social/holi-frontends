@@ -2,9 +2,10 @@
 
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
-  accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityLabel=""
+  accessibilityViewIsModal={true}
   animationType="fade"
+  aria-label="Test"
   hardwareAccelerated={false}
   testID="holi-confirmation-dialog"
   transparent={true}
@@ -14,9 +15,10 @@ exports[`renders correctly renders correctly when closed 1`] = `
 
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
-  accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityLabel=""
+  accessibilityViewIsModal={true}
   animationType="fade"
+  aria-label="Test"
   hardwareAccelerated={false}
   testID="holi-confirmation-dialog"
   transparent={true}
@@ -99,18 +101,14 @@ exports[`renders correctly renders correctly when open 1`] = `
         role="heading"
         selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            {
-              "fontSize": 16,
-              "lineHeight": 22.4,
-            },
-            undefined,
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "userSelect": "auto",
+          }
         }
       >
         Test Title
@@ -124,8 +122,9 @@ exports[`renders correctly renders correctly when open 1`] = `
             "fontFamily": "Circular Std Book",
             "fontSize": 16,
             "fontWeight": "400",
-            "lineHeight": 19.2,
+            "lineHeight": 22.4,
             "marginTop": 8,
+            "userSelect": "auto",
           }
         }
         testID="holi-confirmation-description"
@@ -204,9 +203,11 @@ exports[`renders correctly renders correctly when open 1`] = `
           testID="holi-confirmation-dismiss"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -225,8 +226,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Medium",
                   "fontSize": 16,
                   "fontWeight": "500",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
@@ -298,9 +300,11 @@ exports[`renders correctly renders correctly when open 1`] = `
           testID="holi-confirmation-confirm"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -319,8 +323,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Medium",
                   "fontSize": 16,
                   "fontWeight": "500",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
@@ -336,9 +341,10 @@ exports[`renders correctly renders correctly when open 1`] = `
 
 exports[`renders correctly renders correctly when open and confirmationButtonType is danger 1`] = `
 <Modal
-  accessibilityLabel="Test"
-  accessibilityRole="dialog"
+  accessibilityLabel=""
+  accessibilityViewIsModal={true}
   animationType="fade"
+  aria-label="Test"
   hardwareAccelerated={false}
   testID="holi-confirmation-dialog"
   transparent={true}
@@ -421,18 +427,14 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         role="heading"
         selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            {
-              "fontSize": 16,
-              "lineHeight": 22.4,
-            },
-            undefined,
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "userSelect": "auto",
+          }
         }
       >
         Test Title
@@ -446,8 +448,9 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
             "fontFamily": "Circular Std Book",
             "fontSize": 16,
             "fontWeight": "400",
-            "lineHeight": 19.2,
+            "lineHeight": 22.4,
             "marginTop": 8,
+            "userSelect": "auto",
           }
         }
         testID="holi-confirmation-description"
@@ -526,9 +529,11 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           testID="holi-confirmation-dismiss"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -547,8 +552,9 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                   "fontFamily": "Circular Std Medium",
                   "fontSize": 16,
                   "fontWeight": "500",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
@@ -617,9 +623,11 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           testID="holi-confirmation-confirm"
         >
           <View
-            pointerEvents="none"
             style={
               [
+                {
+                  "pointerEvents": "none",
+                },
                 {
                   "alignItems": "center",
                   "flexDirection": "row",
@@ -638,8 +646,9 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                   "fontFamily": "Circular Std Medium",
                   "fontSize": 16,
                   "fontWeight": "500",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                   "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >

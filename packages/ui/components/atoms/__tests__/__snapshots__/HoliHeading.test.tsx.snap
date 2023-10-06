@@ -5,18 +5,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '1',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -28,18 +24,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '1',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -51,18 +43,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '2',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -74,18 +62,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '2',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -97,18 +81,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '3',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -120,18 +100,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '3',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -143,18 +119,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '4',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -166,18 +138,14 @@ exports[`renders correctly renders correctly when size is 'large', level is '4',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 39.199999999999996,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -189,18 +157,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '1'
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -212,18 +176,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '1'
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -235,18 +195,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '2'
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -258,18 +214,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '2'
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -281,18 +233,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '3'
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -304,18 +252,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '3'
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -327,18 +271,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '4'
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -350,18 +290,14 @@ exports[`renders correctly renders correctly when size is 'medium', level is '4'
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 29.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -373,18 +309,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '1',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -396,18 +328,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '1',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -419,18 +347,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '2',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -442,18 +366,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '2',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -465,18 +385,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '3',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -488,18 +404,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '3',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -511,18 +423,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '4',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -534,18 +442,14 @@ exports[`renders correctly renders correctly when size is 'small', level is '4',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 22.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -557,18 +461,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '1',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -580,18 +480,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '1',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -603,18 +499,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '2',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -626,18 +518,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '2',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -649,18 +537,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '3',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -672,18 +556,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '3',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test
@@ -695,18 +575,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '4',
   role="heading"
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "none",
+    }
   }
 >
   Test
@@ -718,18 +594,14 @@ exports[`renders correctly renders correctly when size is 'super', level is '4',
   role="heading"
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      {
-        "fontSize": 36,
-        "lineHeight": 43.199999999999996,
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 36,
+      "fontWeight": "500",
+      "lineHeight": 50.4,
+      "userSelect": "auto",
+    }
   }
 >
   Test

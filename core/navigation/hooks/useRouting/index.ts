@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { getActionFromState, getStateFromPath } from '@react-navigation/core'
-import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native'
+import { type NavigationState, StackActions, useLinkTo, useNavigation } from '@react-navigation/native'
 
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 import type { RoutingState } from '@holi/core/navigation/hooks/useRouting/types'
@@ -34,31 +34,39 @@ const useRouting = (): RoutingState => {
 
   // based on https://github.com/react-navigation/react-navigation/discussions/10517
   const replaceRoute = useCallback(
-    (routeName: string) => {
+    async (routeName: string) => {
       const state = getStateFromPath(routeName, linkingConfig)
-      if (state) {
-        const action = getActionFromState(state)
+      const action = state ? getActionFromState(state) : null
 
-        switch (action?.type) {
-          case 'NAVIGATE': {
-            const { name, params } = action.payload
-            name ? dispatch(StackActions.replace(name, params)) : dispatch(action)
-            break
-          }
-          case 'GO_BACK':
-          case 'RESET':
-          case 'SET_PARAMS':
-            dispatch(action)
-            break
-          case undefined:
-          default:
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            reset(state as any)
-        }
-      } else {
+      if (!action) {
         linkTo(routeName)
+        return false
       }
-      return Promise.resolve(true)
+
+      switch (action.type) {
+        case 'NAVIGATE': {
+          const { name, params } = action.payload
+          name ? dispatch(StackActions.replace(name, params)) : dispatch(action)
+          break
+        }
+        case 'RESET': {
+          // We need to get `name` and `params` from 'RESET' action to make correct replacement
+          const { index = -1, routes } = (action.payload ?? {}) as NavigationState
+          const { name, params } = routes?.[index]?.state?.routes?.[0] ?? {}
+          name ? dispatch(StackActions.replace(name, params)) : dispatch(action)
+          break
+        }
+        case 'GO_BACK':
+        case 'SET_PARAMS':
+          dispatch(action)
+          break
+        case undefined:
+        default:
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          reset(state as any)
+      }
+
+      return true
     },
     [dispatch, linkTo, reset]
   )

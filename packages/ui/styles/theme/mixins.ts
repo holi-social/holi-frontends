@@ -1,5 +1,6 @@
-import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { vars } from '@holi/ui/styles/globalVars'
 
 const staticStyles = StyleSheet.create({
@@ -20,14 +21,18 @@ const staticStyles = StyleSheet.create({
 })
 
 const useStyleMixins = () => {
-  const { width: screenWidth } = useWindowDimensions()
+  const paddingHorizontal = useBreakpointMatcher([
+    [0, 16],
+    [+vars.breakpointS, 32],
+    [+vars.breakpointL, 64],
+  ])
 
   const dynamicStyles = StyleSheet.create({
     container: {
       alignSelf: 'center',
       width: '100%',
-      maxWidth: vars.maxScreenWidth,
-      paddingHorizontal: screenWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20,
+      maxWidth: +vars.maxScreenWidth,
+      paddingHorizontal: paddingHorizontal,
     },
   })
 

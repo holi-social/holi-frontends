@@ -7,13 +7,18 @@ module.exports = {
       '<rootDir>/jestFileTransformer.cjs',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  modulePathIgnorePatterns: ['e2e', 'testData', 'mocks.ts'],
+  modulePathIgnorePatterns: ['e2e', 'testData', 'mocks.ts', 'TestBed.tsx', 'testutils.ts'],
   moduleNameMapper: {
     '\\.(css|scss)$': '<rootDir>/jest.styleMock.cjs',
     // Force module uuid to resolve with the CJS entry point, because Jest does not support package.json.exports. See https://github.com/uuidjs/uuid/issues/451
     uuid: require.resolve('uuid'),
   },
-  setupFiles: ['<rootDir>/jest.setup.ts', '<rootDir>/node_modules/jest-offline'],
+  setupFiles: [
+    '<rootDir>/jest.setup.ts',
+    '<rootDir>/jest.setup.chat.ts',
+    '<rootDir>/node_modules/jest-offline',
+    '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js',
+  ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*)',

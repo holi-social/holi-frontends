@@ -1,9 +1,10 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
+import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
-import fetch from 'cross-fetch'
+import crossFetch from 'cross-fetch'
 import { concat, mergeDeepWith, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -15,19 +16,62 @@ import headerLink from './headerLink'
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
-const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const timeoutLink: ApolloLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const unauthorizedErrorStatusVar = makeVar<boolean>(false)
 export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
 export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
 
-// There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
-const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
+const setOperationNameParam = (uri: string, operationName: string): RequestInfo | URL => {
+  if (uri === '/api/graphql') {
+    // web, uses relative url
+    // appending operation manually, because we want the same (relative) request
+    // (URL standard doesn't know how to transform relative urls)
+    return uri + '?op=' + operationName
+  } else if (!uri.startsWith('/')) {
+    // mobile, or any non-relative url (which can be parsed by URL)
+    try {
+      const url = new URL(uri)
+      url.searchParams.set('op', operationName)
+      return url
+    } catch (e) {
+      // should not happen, but if it does, we need to see it
+      // eslint-disable-next-line no-console
+      console.error('unable to set operation name', e)
+      return uri
+    }
+  } else {
+    return uri
+  }
+}
 
-// Web authentication works using http-only cookies that are transparently added to requests by the Browser
-// Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
-// For mobile it is also necessary to explicitly set the Accept-Language header.
-// `headerLink` is therefore only needed on Mobile (i.e. when defined)
-const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
+const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
+  if (typeof uri === 'string' && typeof options?.body === 'string') {
+    const body = JSON.parse(options.body)
+    const operationName: string | undefined =
+      'operationName' in body && typeof body.operationName === 'string' ? body.operationName : undefined
+
+    if (operationName) {
+      // using custom uri for easier debugging, logging, and sentry span creation config
+      // e.g. /api/graphql?op=hasNewNotifications (web)
+      // e.g. https://staging.unified.apis.holi.social/graphql?op=hasNewNotifications (mobile)
+      return fetch(setOperationNameParam(uri, operationName), options)
+    } else {
+      return fetch(uri, options)
+    }
+  } else {
+    return fetch(uri, options)
+  }
+}
+
+// types don't match unfortunately, this seems to be a minor issue with the library
+// the library includes its own node_modules with a dependency to apollo/client ^3.7.0
+// must be last in chain, because it handles the actual call to the server
+// (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
+const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
+  uri: holiApiUrl,
+  credentials: 'include',
+  fetch: customFetch,
+})
 
 export const createCache = () =>
   new InMemoryCache({
@@ -41,11 +85,6 @@ export const createCache = () =>
         },
       },
       InsightPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
-      PostPaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
         },
@@ -77,6 +116,9 @@ export const createCache = () =>
           topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
+          posts: {
+            keyArgs: ['idOrName', 'visibility'],
+          },
         },
       },
       SpacePaged: {
@@ -86,7 +128,24 @@ export const createCache = () =>
       },
       SpaceMemberPaged: {
         fields: {
+          // Only allow pagination on the space detail screen, recognizable by `idOrName`
           data: nestedPaginationPolicy(['idOrName']),
+        },
+      },
+      UserPaged: {
+        fields: {
+          // Only allow pagination when searching for users by `substring`
+          data: nestedPaginationPolicy(['substring']),
+        },
+      },
+      PostPaged: {
+        fields: {
+          data: {
+            ...indexAwareOffsetLimitPagination(),
+            // Use Apollo's default offsetLimitPagination's read method for Posts, since the limit
+            // is always the same in this case (no screens asking for different limits for Posts)
+            read: offsetLimitPagination().read,
+          },
         },
       },
       Query: {
@@ -109,11 +168,12 @@ export const createCache = () =>
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             keyArgs: (args: Record<string, any> | null) => {
               // reminder: keep in sync with parameters of `spaces` in `Query`, always exclude offset and limit
-              const { topicSlug, geolocation, skillSlugs } = args || {}
+              const { topicSlug, geolocation, skillSlugs, memberId } = args || {}
               return JSON.stringify({
                 topicSlug,
                 geolocation: geolocation?.properties?.place_id,
                 skillSlugs,
+                memberId,
               })
             },
           },
@@ -129,6 +189,9 @@ export const createCache = () =>
               })
             },
           },
+          userByName: {
+            keyArgs: ['substring'],
+          },
         },
       },
     },
@@ -141,12 +204,20 @@ interface ApolloCreateClientOptions {
 const isSSR = typeof window === 'undefined'
 
 const API_URL = process.env.HOLI_API_URL
-const httpLink = new HttpLink({ uri: API_URL, fetch })
+const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
+
+const cache = createCache()
+
+// Web authentication works using http-only cookies that are transparently added to requests by the Browser
+// Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
+// For mobile it is also necessary to explicitly set the Accept-Language header.
+// `headerLink` is therefore only needed on Mobile (i.e. when defined)
+const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTerminatingLink].filter((link) => !!link))
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
-  const clientLink = isSSR ? from([errorLink, httpLink]) : link
+  const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
 
-  return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
+  return new ApolloClient({ ssrMode, link: clientLink, cache })
 }
 
 // Web

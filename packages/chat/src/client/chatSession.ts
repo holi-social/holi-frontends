@@ -1,3 +1,4 @@
+import { makeVar, useReactiveVar } from '@apollo/client'
 import fetch from 'cross-fetch'
 // The Matrix SDK uses the TextEncoder internally.
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
@@ -20,6 +21,7 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError, logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatServerLoginUrl } from '@holi/core/helpers/config'
 import { chatServerUrl } from '@holi/core/helpers/config'
+import { logDebug } from '@holi/core/helpers/logging'
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -36,6 +38,32 @@ interface MatrixLoginResponse {
 let chatClient: ChatClient | undefined = undefined
 let isStarting = false
 let isStopping = false
+
+const chatConnected = makeVar(false)
+const chatReloadCounter = makeVar(0)
+const chatInitialized = makeVar(false)
+
+export const setChatConnected = (value: boolean) => {
+  logDebug('chatSession.setChatConnected', 'setting value', value)
+  chatConnected(value)
+}
+
+export const useChatConnected = () => {
+  return useReactiveVar(chatConnected)
+}
+
+export const useChatReloadCounter = () => {
+  return useReactiveVar(chatReloadCounter)
+}
+
+export const setChatInitialized = (value: boolean) => {
+  logDebug('chatSession.setChatInitialized', 'setting value', value)
+  chatInitialized(value)
+}
+
+export const useChatInitialized = () => {
+  return useReactiveVar(chatInitialized)
+}
 
 const unknownTokenHandler = async (): Promise<void> => {
   if (!isStopping) {
@@ -54,6 +82,7 @@ export const startChat = async (): Promise<void> => {
   if (isStarting || isStopping || chatClient?.isRunning()) return
 
   isStarting = true
+  logDebug('chatSession.startChat', 'isStarting')
 
   try {
     // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
@@ -78,11 +107,11 @@ export const startChat = async (): Promise<void> => {
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
     await chatClient.start(unknownTokenHandler)
-    await chatClient.configurePusher().catch((e) => {
-      logError(e, 'Could not set up push notifications for chat')
-    })
-
     initChatClient(chatClient)
+    await chatClient.configurePusher().catch((e) => {
+      logError(e, 'Could not set up push notifications for chat', { location: 'chatSession.startChat.configurePusher' })
+    })
+    setChatConnected(true)
   } finally {
     isStarting = false
   }
@@ -92,6 +121,11 @@ export const stopChat = async () => {
   if (!chatClient || isStopping) return // chatClient never started or already stopping
 
   isStopping = true
+  isStarting = false // stopping has priority over starting. This is particularly important for re-connecting in case of startup failures
+  logDebug('chatSession.stopChat', 'isStopping')
+  setChatInitialized(false)
+  setChatConnected(false)
+  chatReloadCounter(chatReloadCounter() + 1)
 
   try {
     await logoutChat()
@@ -114,7 +148,7 @@ const deviceName: MatrixDeviceName = `holi-${Platform.OS}`
  * user for the first time on each session.
  */
 
-const ensureChatLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+const ensureChatLoggedIn = async (orySessionToken?: string, freshLogin = true): Promise<SessionCredentials> => {
   // fetch only if no Matrix session data found
   const storedSessionCredentials = await loadSessionCredentials()
   if (storedSessionCredentials?.access_token) {
@@ -124,7 +158,7 @@ const ensureChatLoggedIn = async (orySessionToken: string, freshLogin = true): P
   }
 }
 
-const loginChat = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+const loginChat = async (orySessionToken?: string, freshLogin = true): Promise<SessionCredentials> => {
   const response = await fetch(serverLoginUrl, {
     headers: {
       accept: 'application/json',

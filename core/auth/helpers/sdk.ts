@@ -3,13 +3,18 @@ import axiosFactory from 'axios'
 
 import { resilience } from '@holi/core/auth/helpers/axios'
 import { oryUrl } from '@holi/core/auth/helpers/config'
-import { baseOptions } from '@holi/core/auth/helpers/sharedConfig'
 
 export type OrySessionToken = string
 
 export type OrySessionContext = {
-  session_token: OrySessionToken
+  // `session_token` is only set for native clients
+  session_token?: OrySessionToken
   session: KratosSession
+}
+
+const baseOptions = {
+  // setting `withCredentials: false` is crucial in the mobile app. Otherwise we get problems with cookies sent in the request.
+  withCredentials: false,
 }
 
 const axios = axiosFactory.create()

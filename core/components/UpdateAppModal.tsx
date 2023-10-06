@@ -10,36 +10,35 @@ import { logError } from '@holi/core/errors/helpers'
 import { CheckAppVersionResponse, NeedUpdateType, checkAppVersionQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
+const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
+const BUILD_NUMBER =
+  Platform.OS === 'ios'
+    ? Constants.expoConfig?.ios?.buildNumber
+    : Platform.OS === 'android'
+    ? Constants.expoConfig?.android?.versionCode?.toString()
+    : null
+
 const UpdateAppModal = () => {
   const { t } = useTranslation()
-  const ANDROID_PACKAGE_NAME = Constants.manifest?.android?.package
-  const BUILD_NUMBER =
-    Platform.OS === 'ios'
-      ? Constants.manifest?.ios?.buildNumber
-      : Platform.OS === 'android'
-      ? Constants.manifest?.android?.versionCode?.toString()
-      : null
-
   const { error, data, refetch } = useQuery<CheckAppVersionResponse>(checkAppVersionQuery, {
-    variables: { version: Constants.manifest?.version, buildNumber: BUILD_NUMBER },
+    variables: { version: Constants.expoConfig?.version, buildNumber: BUILD_NUMBER },
+    onError: (error) =>
+      logError(error, 'Failed to check app version', { location: 'UpdateAppModal.checkAppVersionQuery' }),
   })
   const [showModal, setShowModal] = useState(false)
 
   const updateApp = () => {
+    const openStoreUrl = (url: string) => {
+      Linking.openURL(url).catch((error) => {
+        logError(error, 'Error opening url on ' + Platform.OS, { location: 'UpdateAppModal.updateApp', url })
+      })
+    }
     switch (Platform.OS) {
       case 'ios':
-        Linking.openURL(data?.checkAppVersion?.appStoreUrl ?? 'itms-apps://apps.apple.com/id6446693757').catch(
-          (error) => {
-            logError(error, `[UpdateAppModal.tsx] ${error.message}`)
-          }
-        )
+        openStoreUrl(data?.checkAppVersion?.appStoreUrl ?? 'itms-apps://apps.apple.com/id6446693757')
         break
       case 'android':
-        Linking.openURL(data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${ANDROID_PACKAGE_NAME}`).catch(
-          (error) => {
-            logError(error, `[UpdateAppModal.tsx] ${error.message}`)
-          }
-        )
+        openStoreUrl(data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${ANDROID_PACKAGE_NAME}`)
         break
       default:
         break
@@ -67,11 +66,6 @@ const UpdateAppModal = () => {
   }, [refetch])
 
   useEffect(() => {
-    if (error) {
-      logError(error, `[UpdateAppModal.tsx] ${error.message}`)
-      return
-    }
-
     if (data?.checkAppVersion?.needUpdate === NeedUpdateType.MANDATORY) {
       setShowModal(true)
       return

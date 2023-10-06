@@ -1,29 +1,29 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FooterTabBar = () => {
-  const { width } = useWindowDimensions()
-  const styles = getStyles(width)
   const { navigate } = useRouting()
   const pathname = usePathname()
   const { t } = useTranslation()
-  const { isLoggedIn } = useLoggedInUser()
+  const mixins = useStyleMixins()
+  const { isLoggedIn } = useAuth()
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
   const isSpaces = pathname.startsWith('/spaces')
-  const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
+  const isProfileLoginRegistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
     pathname.startsWith(path)
   )
 
@@ -31,10 +31,10 @@ const FooterTabBar = () => {
     <View
       style={styles.fullWidthContainer}
       accessible={true}
-      accessibilityRole="navigation"
-      accessibilityLabel={t('navigation.bottomNavigation')}
+      role="navigation"
+      aria-label={t('navigation.bottomNavigation')}
     >
-      <View style={styles.buttonContainer}>
+      <View style={[mixins.container, styles.buttonContainer]}>
         <HoliButton
           label={t('navigation.home')}
           inline
@@ -80,6 +80,7 @@ const FooterTabBar = () => {
           inline
           transparent
           onPress={() => navigate('/chat')}
+          testID="btn-to-chat-view"
           contentStyle={styles.button}
         >
           <HoliIcon
@@ -94,12 +95,12 @@ const FooterTabBar = () => {
           </HoliText>
         </HoliButton>
 
-        <LoginProfileButton focused={isProfileLoginRefistrationForgotPassword} style={styles.button}>
+        <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
           <HoliText
             size="extrasmall"
             style={[
               styles.buttonLabel,
-              isProfileLoginRefistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
+              isProfileLoginRegistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
             ]}
           >
             {isLoggedIn ? t('profile.title') : t('auth.login')}
@@ -112,38 +113,37 @@ const FooterTabBar = () => {
 
 export default FooterTabBar
 
-const getStyles = (screenWidth: number) =>
-  StyleSheet.create({
-    fullWidthContainer: {
-      alignItems: 'center',
-      backgroundColor: colors.background10,
-      borderTopWidth: 1,
-      borderTopColor: colors.background30,
-      paddingHorizontal: screenWidth > +vars.breakpointL ? 20 : 10,
-      height: vars.bottomBarHeight,
-      maxHeight: vars.bottomBarHeight,
-    },
-    buttonContainer: {
-      flex: 1,
-      width: '100%',
-      maxWidth: vars.maxScreenWidth,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: vars.bottomBarHeight,
-      maxHeight: vars.bottomBarHeight,
-    },
-    button: {
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      alignItems: 'center',
-    },
-    activeTintColor: {
-      color: colors.foreground30,
-    },
-    inactiveTintColor: {
-      color: colors.foreground20,
-    },
-    buttonLabel: {
-      paddingTop: 8,
-    },
-  })
+const styles = StyleSheet.create({
+  fullWidthContainer: {
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: colors.background10,
+    borderTopWidth: 1,
+    borderTopColor: colors.background30,
+    height: vars.bottomBarHeight,
+    maxHeight: vars.bottomBarHeight,
+  },
+  buttonContainer: {
+    flex: 1,
+    width: '100%',
+    maxWidth: vars.maxScreenWidth,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: vars.bottomBarHeight,
+    maxHeight: vars.bottomBarHeight,
+  },
+  button: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  activeTintColor: {
+    color: colors.foreground30,
+  },
+  inactiveTintColor: {
+    color: colors.foreground20,
+  },
+  buttonLabel: {
+    paddingTop: 8,
+  },
+})

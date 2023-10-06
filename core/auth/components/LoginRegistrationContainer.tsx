@@ -2,6 +2,7 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,13 +13,14 @@ interface LoginRegistrationContainerProps {
 }
 
 const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
-  const { isLoggedIn, isLoading } = useLoggedInUser()
+  const { isLoggedIn } = useAuth()
+  const { isLoading } = useLoggedInUser()
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { replaceRoute } = useRouting()
 
   useLayoutEffect(() => {
-    isLoggedIn && navigate('/profile')
-  }, [isLoggedIn, navigate])
+    isLoggedIn && replaceRoute('/profile')
+  }, [isLoggedIn, replaceRoute])
 
   if (isLoading) return <HoliLoader />
 

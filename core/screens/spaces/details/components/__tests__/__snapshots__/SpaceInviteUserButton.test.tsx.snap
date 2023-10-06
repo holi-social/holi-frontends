@@ -61,9 +61,11 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
   testID="btn-to-invite"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         {
           "alignItems": "center",
           "flexDirection": "row",
@@ -195,9 +197,11 @@ exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = 
   testID="btn-to-invite"
 >
   <View
-    pointerEvents="none"
     style={
       [
+        {
+          "pointerEvents": "none",
+        },
         {
           "alignItems": "center",
           "flexDirection": "row",
@@ -280,7 +284,8 @@ exports[`SpaceInviteUserButton displays status if the user is already invited 1`
       "fontFamily": "Circular Std Book",
       "fontSize": 14,
       "fontWeight": "400",
-      "lineHeight": 16.8,
+      "lineHeight": 19.599999999999998,
+      "userSelect": "auto",
     }
   }
 >

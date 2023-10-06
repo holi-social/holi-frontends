@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, waitFor } from '@testing-library/react-native'
+import { cleanup, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
@@ -36,16 +36,16 @@ const spaceTermContext: SpaceTermContextResult = {
   sdgs,
 }
 
-describe('FilteredSpacesHeading', () => {
-  const renderHeading = (props: SpaceFilter, contextProps: Partial<SpaceTermContextResult> = {}) =>
-    render(
-      <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
-        <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
-          <FilteredSpacesHeading {...props} />
-        </SpaceTermContext.Provider>
-      </MockedProvider>
-    )
+const renderHeading = (props: SpaceFilter, contextProps: Partial<SpaceTermContextResult> = {}) =>
+  render(
+    <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
+      <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
+        <FilteredSpacesHeading {...props} />
+      </SpaceTermContext.Provider>
+    </MockedProvider>
+  )
 
+describe('FilteredSpacesHeading', () => {
   it('applies correct title when filtering for location only', async () => {
     renderHeading({ locationId })
 
@@ -89,4 +89,8 @@ describe('FilteredSpacesHeading', () => {
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })
+
+  // solve act() wrap warning
+  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
+  afterEach(cleanup)
 })

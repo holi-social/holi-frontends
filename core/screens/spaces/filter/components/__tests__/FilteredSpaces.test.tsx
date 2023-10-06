@@ -4,7 +4,7 @@ import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
+import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { createSpaceList, locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
@@ -12,9 +12,12 @@ import FilteredSpaces, { SPACES_PAGE_SIZE } from '@holi/core/screens/spaces/filt
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-jest.useFakeTimers()
-
 jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => Date.now())
+
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
 
 const createSpacesMock = (variables = {}) => ({
   request: {
@@ -119,12 +122,9 @@ describe('FilteredSpaces', () => {
     renderFilteredSpaces([spacesErrorMock])
 
     await waitFor(() =>
-      expect(global.mockOpenToast).toHaveBeenCalledWith(
-        'spaces.spaceListing.error',
-        HoliToastType.ERROR,
-        undefined,
-        'test-error'
-      )
+      expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
+        testID: 'test-error',
+      })
     )
   })
 
@@ -168,12 +168,9 @@ describe('FilteredSpaces', () => {
     renderFilteredSpaces([locationDetailsErrorMock], { locationId })
 
     await waitFor(() =>
-      expect(global.mockOpenToast).toHaveBeenCalledWith(
-        'spaces.spaceListing.error',
-        HoliToastType.ERROR,
-        undefined,
-        'test-error'
-      )
+      expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
+        testID: 'test-error',
+      })
     )
   })
 
