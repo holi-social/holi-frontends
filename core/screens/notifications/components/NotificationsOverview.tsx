@@ -28,47 +28,6 @@ interface NotificationGroup {
   data: Notification[]
 }
 
-const containsNotifications = (notifications?: Notification[]) => {
-  if (!notifications) return false
-  return notifications.some((notification) => {
-    return SHOWN_NOTIFICATIONS.includes(notification.notificationType)
-  })
-}
-
-const groupByDate = (notifications?: Notification[]) => {
-  if (!notifications) return []
-  return notifications
-    .reduce(
-      (acc, notification) => {
-        const { created } = notification
-        if (isThisWeek(notification.created)) {
-          acc[0].data.push(notification)
-        } else if (isLastWeek(created)) {
-          acc[1].data.push(notification)
-        } else {
-          acc[2].data.push(notification)
-        }
-
-        return acc
-      },
-      [
-        {
-          title: i18n.t('notifications.created.thisWeek'),
-          data: [],
-        },
-        {
-          title: i18n.t('notifications.created.lastWeek'),
-          data: [],
-        },
-        {
-          title: i18n.t('notifications.created.older'),
-          data: [],
-        },
-      ] as [NotificationGroup, NotificationGroup, NotificationGroup]
-    )
-    .filter(({ data }) => data.length)
-}
-
 const NotificationsOverview = () => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
@@ -212,3 +171,44 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
 })
+
+function containsNotifications(notifications?: Notification[]) {
+  if (!notifications) return false
+  return notifications.some((notification) => {
+    return SHOWN_NOTIFICATIONS.includes(notification.notificationType)
+  })
+}
+
+function groupByDate(notifications?: Notification[]) {
+  if (!notifications) return []
+  return notifications
+    .reduce(
+      (acc, notification) => {
+        const { created } = notification
+        if (isThisWeek(notification.created)) {
+          acc[0].data.push(notification)
+        } else if (isLastWeek(created)) {
+          acc[1].data.push(notification)
+        } else {
+          acc[2].data.push(notification)
+        }
+
+        return acc
+      },
+      [
+        {
+          title: i18n.t('notifications.created.thisWeek'),
+          data: [],
+        },
+        {
+          title: i18n.t('notifications.created.lastWeek'),
+          data: [],
+        },
+        {
+          title: i18n.t('notifications.created.older'),
+          data: [],
+        },
+      ] as [NotificationGroup, NotificationGroup, NotificationGroup]
+    )
+    .filter(({ data }) => data.length)
+}
