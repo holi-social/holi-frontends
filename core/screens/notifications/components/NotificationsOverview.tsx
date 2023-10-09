@@ -1,32 +1,34 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SectionList, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { isLastWeek, isThisWeek, onScreenScrollY } from '@holi/core/helpers'
+import { isLastWeek, isThisWeek } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
+import { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
+import {
+  NotificationGroup,
+  NotificationsSectionList,
+} from '@holi/core/screens/notifications/components/NotificationsSectionList'
 import { Notification } from '@holi/core/screens/notifications/components/types'
-import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
-import { LastSeenNotificationMutation, lastSeenNotificationResponse } from '@holi/core/screens/notifications/queries'
+import {
+  LastSeenNotificationMutation,
+  NotificationsResponse,
+  lastSeenNotificationResponse,
+  notificationsQuery,
+} from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-interface NotificationGroup {
-  title: string
-  data: Notification[]
-}
 
 const NotificationsOverview = () => {
   const { t } = useTranslation()
@@ -123,50 +125,12 @@ const NotificationsOverview = () => {
 
   const groupedNotifications = groupByDate(data?.notifications?.data)
 
-  return (
-    <SectionList
-      sections={groupedNotifications}
-      keyExtractor={({ id }) => id}
-      renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
-      renderSectionHeader={({ section }) => (
-        <HoliHeading size="small" style={styles.groupTitle}>
-          {section.title}
-        </HoliHeading>
-      )}
-      renderSectionFooter={({ section }) =>
-        section === groupedNotifications[groupedNotifications.length - 1] ? (
-          <View style={styles.lastSectionFooter} />
-        ) : null
-      }
-      // use ListHeaderComponent to add padding bottom for HeaderAnimated
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      onScroll={onScreenScrollY}
-      scrollEventThrottle={200}
-      stickySectionHeadersEnabled={false}
-      style={[mixins.container, styles.sectionList]}
-      testID="notification-list"
-    />
-  )
+  return <NotificationsSectionList notifications={groupedNotifications} />
 }
 
 export default NotificationsOverview
 
 const styles = StyleSheet.create({
-  sectionList: {
-    overflow: 'visible',
-  },
-  listHeaderSpacer: {
-    height: vars.topBarHeight,
-  },
-  groupTitle: {
-    paddingVertical: 12,
-  },
-  lastSectionFooter: {
-    marginBottom: vars.bottomBarHeight,
-  },
-  notification: {
-    paddingVertical: 12,
-  },
   noResultsMessage: {
     marginTop: 24,
   },
