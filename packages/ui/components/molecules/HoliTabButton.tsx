@@ -1,6 +1,6 @@
 import React from 'react'
 import type { PropsWithChildren } from 'react'
-import { GestureResponderEvent, Platform, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -9,7 +9,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface Props {
   label: string
   id?: string
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  style: StyleProp<ViewStyle>
   disabled?: boolean
   disableFocusability?: boolean
   ariaSelected?: boolean

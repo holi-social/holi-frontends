@@ -119,6 +119,41 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
   })
 })
 
+/**
+ * Derived atom that holds record with spaces ids as keys and array of all space's related room atoms as value
+ */
+export const spaceRoomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom[]>> = atom((get) => {
+  const client = getChatClient()
+  const roomAtomsRecord = get(_roomAtomsRecordAtom)
+  const roomIds = Object.keys(roomAtomsRecord)
+  const allMxRooms = client.getRooms()
+
+  return roomIds.reduce<Record<ChatRoomId, ChatRoomAtom[]>>((acc, roomId) => {
+    const mxRoom = client.getRoom(roomId)
+    // Process only Space Rooms
+    // TODO: use !mxRoom?.isSpaceRoom() after adding real space rooms
+    if (!mxRoom || mxRoom?.isSpaceRoom()) return acc
+
+    const spaceRoomMembers = mxRoom.getMembers()
+    const siblingRoomsAtoms = allMxRooms.reduce<ChatRoomAtom[]>((acc, siblingMxRoom) => {
+      if (siblingMxRoom.roomId === roomId) return [...acc, roomAtomsRecord[roomId]]
+      if (siblingMxRoom.isSpaceRoom()) return acc
+
+      const siblingRoomMembers = siblingMxRoom.getMembers()
+      const areMembersOfTheSpaceRoom = siblingRoomMembers.every((member) =>
+        spaceRoomMembers.some((spaceMember) => spaceMember.userId === member.userId)
+      )
+
+      return areMembersOfTheSpaceRoom ? [...acc, roomAtomsRecord[siblingMxRoom.roomId]] : acc
+    }, [])
+
+    return {
+      ...acc,
+      [roomId]: siblingRoomsAtoms,
+    }
+  }, {})
+})
+
 type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boolean; ignoredUsers: MatrixId[] }
 
 /**
