@@ -13,8 +13,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
 import {
   NotificationGroup,
-  NotificationsSectionList,
-} from '@holi/core/screens/notifications/components/NotificationsSectionList'
+  NotificationSectionList,
+} from '@holi/core/screens/notifications/components/NotificationSectionList'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import {
   LastSeenNotificationMutation,
@@ -125,7 +125,7 @@ const NotificationsOverview = () => {
 
   const groupedNotifications = groupByDate(data?.notifications?.data)
 
-  return <NotificationsSectionList notifications={groupedNotifications} />
+  return <NotificationSectionList notifications={groupedNotifications} />
 }
 
 export default NotificationsOverview

@@ -3,8 +3,8 @@ import React from 'react'
 
 import {
   NotificationGroup,
-  NotificationsSectionList,
-} from '@holi/core/screens/notifications/components/NotificationsSectionList'
+  NotificationSectionList,
+} from '@holi/core/screens/notifications/components/NotificationSectionList'
 import {
   communityMembershipRequest,
   connectionConfirmed,
@@ -13,11 +13,11 @@ import {
 } from '@holi/core/screens/notifications/components/seedData'
 
 export default {
-  title: 'Organisms/NotificationsOverview',
+  title: 'Organisms/NotificationSectionList',
   parameters: {
     docs: {
       description: {
-        component: 'Holi - notifications .',
+        component: 'Holi - notifications list',
       },
     },
   },
@@ -40,7 +40,7 @@ export function All() {
   return (
     // mock the apollo dependency in the rather-coupled notification item components
     <MockedProvider>
-      <NotificationsSectionList notifications={notifications} />
+      <NotificationSectionList notifications={notifications} />
     </MockedProvider>
   )
 }

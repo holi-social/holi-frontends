@@ -1,4 +1,4 @@
-import { NotificationGroup } from '@holi/core/screens/notifications/components/NotificationsSectionList'
+import { NotificationGroup } from '@holi/core/screens/notifications/components/NotificationSectionList'
 import {
   NotificationConnection,
   NotificationSpaceConnection,

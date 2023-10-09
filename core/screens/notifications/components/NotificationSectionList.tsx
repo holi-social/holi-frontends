@@ -13,7 +13,7 @@ export interface NotificationGroup {
   data: Notification[]
 }
 
-export const NotificationsSectionList: React.FC<{ notifications: NotificationGroup[] }> = (props) => {
+export const NotificationSectionList: React.FC<{ notifications: NotificationGroup[] }> = (props) => {
   const mixins = useStyleMixins()
 
   const styles = StyleSheet.create({
