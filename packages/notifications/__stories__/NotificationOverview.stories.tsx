@@ -6,6 +6,8 @@ import {
   NotificationsSectionList,
 } from '@holi/core/screens/notifications/components/NotificationsSectionList'
 import {
+  communityMembershipRequest,
+  connectionConfirmed,
   notificationConnectionRequest,
   notificationSpaceConnectionRequest,
 } from '@holi/core/screens/notifications/components/seedData'
@@ -23,10 +25,16 @@ export default {
 
 const notifications: NotificationGroup[] = [
   {
-    data: [notificationConnectionRequest, notificationSpaceConnectionRequest],
-    title: 'Title',
+    data: [connectionConfirmed],
+    title: 'Basic',
+  },
+  {
+    data: [communityMembershipRequest, notificationConnectionRequest, notificationSpaceConnectionRequest],
+    title: 'Interactive',
   },
 ]
+
+//todo gregor: this file should live next to its implementation which currently is in core, but should be in packages/ui
 
 export function All() {
   return (
