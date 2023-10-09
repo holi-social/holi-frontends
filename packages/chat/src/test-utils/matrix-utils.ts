@@ -17,7 +17,7 @@ export const fireMatrixEvent = (
     })
 }
 
-export const matrixRoomFrom = (chatRoom: ChatRoom): Room => {
+export const matrixRoomFrom = (chatRoom: ChatRoom, isSpaceRoom = false): Room => {
   return {
     roomId: chatRoom.id ?? 'testRoomId',
     name: chatRoom.name ?? 'testRoomName',
@@ -34,6 +34,7 @@ export const matrixRoomFrom = (chatRoom: ChatRoom): Room => {
           getStateEvents: () => ({ getTs: () => 0 }),
         }),
       } as any),
+    isSpaceRoom: () => isSpaceRoom,
     on: () => ({} as Room),
     off: () => ({}),
   } as unknown as Room

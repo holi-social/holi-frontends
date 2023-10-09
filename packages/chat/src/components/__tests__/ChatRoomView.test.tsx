@@ -2,8 +2,8 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import { ICreateClientOpts } from 'matrix-js-sdk/src/client'
 import React from 'react'
 
-import { createChatMemberFixture, createChatRoomFixture } from '@holi/chat/src/store'
 import { ChatMockProvider, queriesFor, storeForRoomAtoms } from '@holi/chat/src/test-utils/ChatMockProvider'
+import { createChatMemberFixture, createChatRoomFixture } from '@holi/chat/src/test-utils/matrix-fixtures'
 import {
   CHAT_MOCK_USER_ID,
   mockCreateMatrixClient,
