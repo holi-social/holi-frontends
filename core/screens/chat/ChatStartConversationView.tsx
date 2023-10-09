@@ -3,10 +3,9 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, Pressable, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
@@ -35,19 +34,12 @@ const isWeb = Platform.OS === 'web'
 const ChatStartConversationView = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
 
   const [searchUserInputValue, setSearchUserInputValue] = useState('')
   const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const initialInput = useRef(true)
-
-  // if user is not logged in, redirect to home
-  const { userId } = useAuth()
-  useEffect(() => {
-    if (userId === null) navigate('/')
-  }, [navigate, userId])
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -109,82 +101,84 @@ const ChatStartConversationView = () => {
   }, [loading])
 
   return (
-    <KeyboardAvoidingViewWrapper
-      renderProp={() => (
-        <SafeAreaView style={styles.wrapper}>
-          <View style={[styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
-            <HoliTextInput
-              value={searchUserInputValue}
-              placeholder={t('chat.start.input.label')}
-              aria-label={t('chat.start.input.label')}
-              trailingComponent={trailingComponent}
-              onChange={onSearchUserInputChange}
-              validationErrorText={
-                !initialInput.current && searchUserInputValue.length < MIN_USER_NAME_CHARACTERS
-                  ? t('chat.start.input.error', { count: MIN_USER_NAME_CHARACTERS })
-                  : ''
-              }
-              style={mixins.container}
-            />
+    <PermissionsGuard permissionType={PermissionsType.AUTH}>
+      <KeyboardAvoidingViewWrapper
+        renderProp={() => (
+          <SafeAreaView style={styles.wrapper}>
+            <View style={[styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
+              <HoliTextInput
+                value={searchUserInputValue}
+                placeholder={t('chat.start.input.label')}
+                aria-label={t('chat.start.input.label')}
+                trailingComponent={trailingComponent}
+                onChange={onSearchUserInputChange}
+                validationErrorText={
+                  !initialInput.current && searchUserInputValue.length < MIN_USER_NAME_CHARACTERS
+                    ? t('chat.start.input.error', { count: MIN_USER_NAME_CHARACTERS })
+                    : ''
+                }
+                style={mixins.container}
+              />
 
-            {users.length ? (
-              <FlatList
-                data={users}
-                renderItem={({ item: user }) => {
-                  return (
-                    <Pressable style={[styles.flexRow, styles.userItem]} onPress={() => onUserSelect(user)}>
-                      <View style={[styles.flexRow, styles.userItemContent]}>
-                        <HoliBox padding={[0, 16, 0, 0]}>
-                          <HoliAvatar
-                            imageSrc={user.avatar}
-                            imageBlurhash={user.avatarBlurhash}
-                            label={user.avatarLabel}
-                            initials={user.avatarLabel}
-                            defaultColor={user.avatarDefaultColor}
-                            size="medium"
+              {users.length ? (
+                <FlatList
+                  data={users}
+                  renderItem={({ item: user }) => {
+                    return (
+                      <Pressable style={[styles.flexRow, styles.userItem]} onPress={() => onUserSelect(user)}>
+                        <View style={[styles.flexRow, styles.userItemContent]}>
+                          <HoliBox padding={[0, 16, 0, 0]}>
+                            <HoliAvatar
+                              imageSrc={user.avatar}
+                              imageBlurhash={user.avatarBlurhash}
+                              label={user.avatarLabel}
+                              initials={user.avatarLabel}
+                              defaultColor={user.avatarDefaultColor}
+                              size="medium"
+                            />
+                          </HoliBox>
+
+                          <HoliText>{user.fullName}</HoliText>
+                        </View>
+
+                        <HoliBox padding={[0, 0, 0, 16]}>
+                          <HoliCheckbox
+                            shape="round"
+                            checked={user.id === selectedUser?.id}
+                            autofocus={false}
+                            aria-label={t('chat.start.userItem.checkbox.label', { user: user.fullName })}
+                            onSelect={() => onUserSelect(user)}
                           />
                         </HoliBox>
+                      </Pressable>
+                    )
+                  }}
+                  keyExtractor={(item) => item.id}
+                  ListFooterComponent={() => <View style={{ height: 98 }} />}
+                  getItemLayout={(_, index) => ({
+                    length: USER_ITEM_HEIGHT,
+                    offset: (USER_ITEM_HEIGHT + USER_ITEM_VERTICAL_PADDING * 2) * index,
+                    index,
+                  })}
+                  style={[mixins.container, styles.list]}
+                  keyboardShouldPersistTaps="handled"
+                />
+              ) : (
+                <View style={[mixins.container, styles.listDesctiption]}>
+                  <HoliHeading level="3" style={styles.listDesctiptionText}>
+                    {t('chat.start.description')}
+                  </HoliHeading>
+                </View>
+              )}
 
-                        <HoliText>{user.fullName}</HoliText>
-                      </View>
-
-                      <HoliBox padding={[0, 0, 0, 16]}>
-                        <HoliCheckbox
-                          shape="round"
-                          checked={user.id === selectedUser?.id}
-                          autofocus={false}
-                          aria-label={t('chat.start.userItem.checkbox.label', { user: user.fullName })}
-                          onSelect={() => onUserSelect(user)}
-                        />
-                      </HoliBox>
-                    </Pressable>
-                  )
-                }}
-                keyExtractor={(item) => item.id}
-                ListFooterComponent={() => <View style={{ height: 98 }} />}
-                getItemLayout={(_, index) => ({
-                  length: USER_ITEM_HEIGHT,
-                  offset: (USER_ITEM_HEIGHT + USER_ITEM_VERTICAL_PADDING * 2) * index,
-                  index,
-                })}
-                style={[mixins.container, styles.list]}
-                keyboardShouldPersistTaps="handled"
-              />
-            ) : (
-              <View style={[mixins.container, styles.listDesctiption]}>
-                <HoliHeading level="3" style={styles.listDesctiptionText}>
-                  {t('chat.start.description')}
-                </HoliHeading>
+              <View style={[mixins.container, styles.overlayButtonWrapper]}>
+                <StartChatButton user={selectedUser} label={t('chat.start.button.label')} doReplaceRoute={true} />
               </View>
-            )}
-
-            <View style={[mixins.container, styles.overlayButtonWrapper]}>
-              <StartChatButton user={selectedUser} label={t('chat.start.button.label')} doReplaceRoute={true} />
             </View>
-          </View>
-        </SafeAreaView>
-      )}
-    />
+          </SafeAreaView>
+        )}
+      />
+    </PermissionsGuard>
   )
 }
 
