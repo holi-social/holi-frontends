@@ -1,9 +1,10 @@
-import { EmittedEvents, MatrixClient } from 'matrix-js-sdk'
+import { EmittedEvents, ICreateRoomOpts, MatrixClient } from 'matrix-js-sdk'
 
 import { matrixMessageEventChunkFrom } from '@holi/chat/src/test-utils/matrix-utils'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const CHAT_SERVER_NAME_MOCK = 'chat.holi.social.mock'
+export const CHAT_ROOM_NAME_MOCK = '!hackers-avenue:chat.holi.social.mock'
 export const CHAT_MOCK_USER_ID = 'satoshi.nakamoto'
 
 export const mockedMatrixUsers: {
@@ -26,6 +27,7 @@ export const mockedRooms: {
     getCanonicalAlias: () => string | null | undefined
     getAliases: () => string[]
     currentState: { setStateEvents: (state: any) => void }
+    isSpaceRoom: () => boolean
   }
 } = {}
 
@@ -81,6 +83,9 @@ export const mockedGetOrMakeRoom = (roomId: string) => {
       },
       members: {},
       aliases: [],
+      isSpaceRoom() {
+        return false
+      },
       getMember(userId) {
         if (!(userId in this.members)) return null
         return { membership: this.members[userId], roomId, userId }
@@ -196,15 +201,6 @@ export const setMatrixMock = (userId: string) => {
     })
   })
 
-  mockMx.createRoom = jest.fn(async ({ invite }) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const invitedUserId = invite![0]
-    const roomId = `!roomId_${userId}_${invitedUserId}:${CHAT_SERVER_NAME_MOCK}`
-    const room = mockedGetOrMakeRoom(roomId)
-    room.members[userId] = 'join'
-    return room
-  })
-
   mockMx.getRoom = jest.fn((roomId: string | undefined) => {
     if (!roomId) return null
     if (!(roomId in mockedRooms) || !(userId in mockedRooms[roomId].members)) return null
@@ -297,7 +293,14 @@ export const mockCreateMatrixClient = (userId: string, mockMx: any) => {
     setDisplayName: (...args: any) => mockMx.setDisplayName(...args),
     setAvatarUrl: (...args: any) => mockMx.setAvatarUrl(...args),
     setPresence: (...args: any) => mockMx.setPresence(...args),
-    createRoom: (...args: any) => mockMx.createRoom(...args),
+    createRoom: (options: ICreateRoomOpts) => {
+      mockMx.createRoom(options)
+      const roomId = CHAT_ROOM_NAME_MOCK
+      const room = mockedGetOrMakeRoom(roomId)
+      room.members[userId] = 'join'
+      room.isSpaceRoom()
+      return { room_id: roomId }
+    },
     getRoom: (...args: any) => mockMx.getRoom(...args),
     getRooms: (...args: any) => mockMx.getRooms(...args),
     joinRoom: (...args: any) => mockMx.joinRoom(...args),

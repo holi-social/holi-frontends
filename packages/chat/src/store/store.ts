@@ -331,17 +331,6 @@ export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
   }
 }
 
-export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): ChatRoomMember {
-  const identity = overrides?.name ? overrides.name + 'Identity' : 'defaultUserIdentity'
-
-  const defaultChatMember: ChatRoomMember = {
-    name: 'defaultUserName',
-    id: `@${identity}:test.chat`,
-    membership: MembershipStatus.Joined,
-  }
-  return { ...defaultChatMember, ...overrides }
-}
-
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   const lastLiveEvent = room.getLastLiveEvent()?.event
   const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
@@ -362,24 +351,6 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
         ? room.getLastActiveTimestamp()
         : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
   }
-}
-
-export function createChatRoomFixture(overrides?: Partial<ChatRoom>): ChatRoom {
-  const creator = overrides?.creator ? overrides.creator : createChatMemberFixture()
-
-  const defaultRoom: ChatRoom = {
-    id: 'defaultRoomId',
-    name: 'defaultRoomName',
-    hasInvitation: true,
-    notificationCount: 0,
-    lastMessage: undefined,
-    creator: creator,
-    members: [creator],
-    senderId: 'defaultSenderId',
-    timestamp: new Date().getTime(),
-  }
-
-  return { ...defaultRoom, ...overrides }
 }
 
 /**
@@ -530,46 +501,6 @@ export function createChatMessage(roomId: string, event: IRoomEvent): ChatMessag
     room_id: roomId,
     sender: event.sender,
   }
-}
-
-export function createChatMessageFixture(
-  overrides?: Partial<ChatMessage> | string,
-  sender?: ChatRoomMember,
-  room?: ChatRoom
-): ChatMessage {
-  const defaultMessage: ChatMessage = {
-    id: 'defaultMessageId',
-    content: {
-      body: 'Default chat message',
-      msgtype: 'm.text',
-    },
-    timestamp: new Date().getTime(),
-    room_id: 'defaultRoomId',
-    sender: 'defaultSenderId',
-  }
-
-  let fixture = { ...defaultMessage }
-
-  if (typeof overrides === 'string') {
-    fixture.content.body = overrides
-  } else {
-    fixture = { ...fixture, ...overrides }
-
-    const bodyContentOverride = overrides?.content?.body
-    if (bodyContentOverride) {
-      defaultMessage.content.body = bodyContentOverride
-    }
-  }
-
-  if (room) {
-    fixture.room_id = room.id
-  }
-
-  if (sender) {
-    fixture.sender = sender.id
-  }
-
-  return fixture
 }
 
 /**
