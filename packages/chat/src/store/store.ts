@@ -5,7 +5,14 @@ import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatSession'
-import { ChatRoomMember, MatrixId, MembershipStatus, NotificationCount, RoomId } from '@holi/chat/src/client/types'
+import {
+  ChatRoomMember,
+  CreateSpaceOptions,
+  MatrixId,
+  MembershipStatus,
+  NotificationCount,
+  RoomId,
+} from '@holi/chat/src/client/types'
 import type {
   ChatMessage,
   ChatMessageContent,
@@ -280,12 +287,12 @@ export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
  * @description creates a space in Matrix and a room for it
  * and adds the default #general room to the created space.
  */
-export const createSpace = async (name: string, userIds: string[]): Promise<void> => {
+export const createSpace = async (userIds: string[], options: CreateSpaceOptions): Promise<void> => {
   const client = getChatClient()
   try {
-    const spaceId = await client.createSpace(name, userIds)
-    const roomId = await client.createRoom(userIds, { isDirectMessage: false, name: '#general' })
-    await client.addRoomToSpace(spaceId.room_id, roomId.room_id)
+    const { spaceId, spaceName } = await client.createSpace(userIds, options)
+    const { room_id } = await client.createRoom(userIds, { isDirectMessage: false, name: '#general' })
+    await client.addRoomToSpace(spaceId, spaceName, room_id)
   } catch (err) {
     logError(err, 'Could not create a space in Matrix', { location: 'Chat-Store: createSpace' })
   }

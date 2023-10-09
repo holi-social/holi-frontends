@@ -1,10 +1,11 @@
 import { EmittedEvents, ICreateRoomOpts, MatrixClient } from 'matrix-js-sdk'
 
+import { ChatRoomEvent } from '@holi/chat/src/client/types'
 import { matrixMessageEventChunkFrom } from '@holi/chat/src/test-utils/matrix-utils'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const CHAT_SERVER_NAME_MOCK = 'chat.holi.social.mock'
-export const CHAT_ROOM_NAME_MOCK = '!hackers-avenue:chat.holi.social.mock'
+export const CHAT_ROOM_NAME_MOCK = '!ethical-hackers-avenue:chat.holi.social.mock'
 export const CHAT_MOCK_USER_ID = 'satoshi.nakamoto'
 
 export const mockedMatrixUsers: {
@@ -69,6 +70,10 @@ export const mockMx = {
   setPusher: jest.fn(),
   setIgnoredUsers: jest.fn(),
   getIgnoredUsers: jest.fn(),
+  setRoomAccountData: jest
+    .fn()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .mockImplementation((roomId: string, eventType: ChatRoomEvent, content: Record<string, any>) => undefined),
   createMessagesRequest: jest.fn(),
   forget: jest.fn(),
   store: jest.fn(),
@@ -316,6 +321,8 @@ export const mockCreateMatrixClient = (userId: string, mockMx: any) => {
     setMaxListeners: (...args: any) => mockMx.setMaxListeners(...args),
     setNotifTimelineSet: (...args: any) => mockMx.setNotifTimelineSet(...args),
     setGuest: (...args: any) => mockMx.setGuest(...args),
+    setRoomAccountData: (roomId: string, eventType: ChatRoomEvent, content: Record<string, any>) =>
+      mockMx.setRoomAccountData(roomId, eventType, content),
     clientRunning: (...args: any) => mockMx.clientRunning(...args),
     sendReadReceipt: (...args: any) => mockMx.sendReadReceipt(...args),
     removePusher: (...args: any) => mockMx.removePusher(...args),

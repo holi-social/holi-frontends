@@ -8,6 +8,11 @@ export interface CreateRoomOptions {
   name?: string
 }
 
+export interface CreateSpaceOptions {
+  name: string
+  holiSpaceId: string
+}
+
 export enum MembershipStatus {
   /**
    * The user is effectively joined to the room. For example, actually joined
@@ -40,4 +45,8 @@ export interface ChatRoomMember {
   id: MatrixId // the matrix ID (e.g. '@otto:holi.social')
   name: string
   membership?: MembershipStatus
+}
+
+export enum ChatRoomEvent {
+  AccountData = 'holi.room.account.data',
 }
