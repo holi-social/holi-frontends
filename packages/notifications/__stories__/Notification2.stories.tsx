@@ -8,7 +8,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'HoliIcon - notifications thingie.',
+        component: 'Holi- notifications playground',
       },
     },
   },
