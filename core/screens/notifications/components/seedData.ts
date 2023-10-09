@@ -65,7 +65,7 @@ export const notificationSpaceConnectionRequest: NotificationSpaceConnection = {
       members: { totalResults: 0, data: [] },
       connectionStatusToMyself: [],
     },
-    message: 'message',
+    message: '',
   },
 }
 const someDate = new Date(0).toISOString()
