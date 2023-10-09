@@ -91,8 +91,9 @@ export default class ChatClient {
 
     return new Promise<void>((resolve) => {
       // TODO: Implement soft logout and reconnect
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
-        console.debug({ state, lastState })
+        logDebug('ChatClient', 'received sync event', { state, lastState })
         if (state === SyncState.Prepared) {
           resolve()
         }

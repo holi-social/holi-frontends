@@ -58,6 +58,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
+  const isMember = isAdmin || isCollaborator
 
   const handlePlaceholder = useCallback(() => {
     setShowPlaceholder(imageError || !task.thumbnail)
@@ -124,7 +125,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             {task.name}
           </HoliText>
         </HoliButton>
-        {showOptions && isAdmin && (
+        {showOptions && isMember && (
           <HoliActionDrawer.Drawer
             label={t('global.moreOptions')}
             testID="btn-task-more-options"

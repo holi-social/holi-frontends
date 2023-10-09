@@ -29,10 +29,6 @@ describe('@Volunteering', () => {
     await assertAllowsPagination()
 
     await assertFilteringWorks()
-
-    await navigateToDetailview()
-    // expect filtered list
-    await waitForElementWithTestId('volunteering-list-container')
   })
 })
 

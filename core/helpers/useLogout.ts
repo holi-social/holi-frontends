@@ -61,8 +61,8 @@ export const useLogout = () => {
             }
           })
           .catch((e) => {
-            console.debug(e, '[Logout] logout failed, removing session from storage')
-            setUserLoggedOut() // will remove session info from storages
+            logDebug('useLogout', 'logout failed, removing session from storage', e)
+            setUserLoggedOut() // will remove session info from storage
             throw e // will be sent to Sentry so we're aware of it
             // not displaying any user-facing error messages as with the removal from the storage logout should be done
           })

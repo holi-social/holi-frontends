@@ -154,7 +154,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     return <HoliLoader />
   }
 
-  if (error || !space || !isAdmin) {
+  if (error || !space) {
     return <></>
   }
 

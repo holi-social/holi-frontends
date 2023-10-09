@@ -24,12 +24,23 @@ export const getSessionFromStorage = async () => {
   if (typeof window !== 'undefined') {
     try {
       const resp = await AsyncStore.getItem(userSessionName)
-      return resp ? (JSON.parse(resp) as OrySessionContext) : null
+      if (resp) return JSON.parse(resp) as OrySessionContext
+      // We don't have a session in storage, but we could still have a valid Ory session cookie, so we try to restore the session
+      try {
+        const session = await newKratosSdk().toSession()
+        if (session && session.data) {
+          const orySession = { session: session.data } as OrySessionContext
+          await setSessionInStorage(orySession)
+          return orySession
+        }
+      } catch (e) {
+        // we could not recover a session from Ory, so we are sure there is none
+      }
+      return null
     } catch (_) {
       return null
     }
   }
-
   return null
 }
 

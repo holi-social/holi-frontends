@@ -74,6 +74,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { displayError } = useErrorHandling()
 
@@ -160,7 +161,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => {
     !loadingSpace &&
-      isAdmin &&
+      isMember &&
       setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
@@ -175,7 +176,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isAdmin, setScreenOptions])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     if (
@@ -235,6 +236,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           onChangeContactPhone={setContactPhone}
           onChangeSelectedLocation={setSelectedLocation}
           fieldErrors={fieldErrors}
+          isAdmin={isAdmin}
         />
       </SpaceFormScreenLayout>
     </PermissionsGuard>

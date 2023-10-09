@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 
 const REQUEST_TIMEOUT_IN_MS = 10000
 const RETRY_COUNT = 10
@@ -21,7 +22,7 @@ export const resilience = (axios: AxiosInstance) => {
         error.response &&
         (error.response.status == 400 || error.response.status == 401 || error.response.status == 403)
       ) {
-        console.debug('[auth] Network request failed but this is ok', {
+        logDebug('auth', 'network request failed but this is ok', {
           error,
         })
         return Promise.reject(error)
@@ -53,7 +54,7 @@ export const resilience = (axios: AxiosInstance) => {
         return Promise.reject(err)
       }
 
-      console.debug('[auth] Retrying due to network error', {
+      logDebug('auth', 'retrying due to network error', {
         count: error.config.count,
         error,
       })

@@ -207,7 +207,7 @@ export const sendConnectionRequest = async (page: Page) => {
 }
 
 export const newUserEmail = () => {
-  return `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
+  return `${faker.internet.userName()}${faker.string.alphanumeric(4)}@e2etest.com`
 }
 
 export const randomPassword = () => {

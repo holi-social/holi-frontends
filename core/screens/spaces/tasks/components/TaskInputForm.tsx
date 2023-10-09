@@ -12,7 +12,7 @@ import {
   REGULARITY_OPTIONS,
   VISIBILITY_TYPE_OPTIONS,
 } from '@holi/core/screens/spaces/tasks/consts'
-import { LocationType } from '@holi/core/screens/spaces/types'
+import { LocationType, VisibilityType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -59,6 +59,7 @@ export interface TaskInputFormProps {
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
+  isAdmin?: boolean
 }
 
 const TaskInputForm: React.VFC<TaskInputFormProps> = ({
@@ -85,6 +86,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   onChangeSelectedLocation,
   isEdit = false,
   fieldErrors = {},
+  isAdmin,
 }: TaskInputFormProps) => {
   const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
   const [locationTypeOptions, setLocationTypeOptions] = useState<HoliModalSelectOption[]>(LOCATION_TYPE_OPTIONS)
@@ -110,6 +112,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         ...option,
         title: t(`spaces.input.task.visibility.${option.id}.title`),
         description: t(`spaces.input.task.visibility.${option.id}.description`),
+        disabled: !isAdmin && option.id === VisibilityType.PUBLIC ? true : false,
       }))
     )
 
@@ -126,7 +129,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         title: t(`spaces.input.task.regularity.${option.id}.title`),
       }))
     )
-  }, [t, setVisibilityOptions, setLocationTypeOptions, setRegularityOptions])
+  }, [t, setVisibilityOptions, setLocationTypeOptions, setRegularityOptions, isAdmin])
 
   useEffect(() => {
     setNameError(fieldErrors?.name?.length ? fieldErrors.name[0] : undefined)
