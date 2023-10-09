@@ -1,10 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
@@ -15,6 +12,8 @@ import {
   NotificationGroup,
   NotificationSectionList,
 } from '@holi/core/screens/notifications/components/NotificationSectionList'
+import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
+import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import {
   LastSeenNotificationMutation,
@@ -23,18 +22,11 @@ import {
   notificationsQuery,
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const NotificationsOverview = () => {
-  const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
-  const mixins = useStyleMixins()
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -70,58 +62,16 @@ const NotificationsOverview = () => {
 
   if (!isLoggedIn) {
     return (
-      <ScrollHeaderLayout.Default backgroundColor={colors.background30}>
-        <View style={mixins.container}>
-          <HoliNoResults
-            firstText={t('loginRedirect.title')}
-            media={
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
-                width={152}
-                height={152}
-                label=""
-                isSvg
-              />
-            }
-            secondText={t('loginRedirect.text')}
-            style={styles.noResultsMessage}
-          >
-            <HoliButton
-              label={t('loginRedirect.btnConfirm')}
-              onPress={() => {
-                setPathToRedirect('/notifications')
-                navigate('/login')
-              }}
-            >
-              {t('loginRedirect.btnConfirm')}
-            </HoliButton>
-          </HoliNoResults>
-        </View>
-      </ScrollHeaderLayout.Default>
+      <NotificationsNotLoggedInHint
+        onPress={() => {
+          setPathToRedirect('/notifications')
+          navigate('/login')
+        }}
+      />
     )
   }
 
-  if (!containsNotifications(data?.notifications?.data))
-    return (
-      <ScrollHeaderLayout.Default backgroundColor={colors.background30}>
-        <View style={mixins.container}>
-          <HoliNoResults
-            firstText={t('notifications.display.empty.text1')}
-            media={
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
-                width={152}
-                height={152}
-                label=""
-                isSvg
-              />
-            }
-            secondText={t('notifications.display.empty.text2')}
-            style={styles.noResultsMessage}
-          />
-        </View>
-      </ScrollHeaderLayout.Default>
-    )
+  if (!containsNotifications(data?.notifications?.data)) return <NotificationsEmptyPlaceholder />
 
   const groupedNotifications = groupByDate(data?.notifications?.data)
 
@@ -129,12 +79,6 @@ const NotificationsOverview = () => {
 }
 
 export default NotificationsOverview
-
-const styles = StyleSheet.create({
-  noResultsMessage: {
-    marginTop: 24,
-  },
-})
 
 function containsNotifications(notifications?: Notification[]) {
   if (!notifications) return false
