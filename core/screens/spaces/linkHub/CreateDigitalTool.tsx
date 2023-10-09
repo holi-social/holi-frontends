@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { urlRegex } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -93,9 +94,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
 
   useEffect(() => {
     // Check if the input URL is in a valid format
-    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/
-
-    if (!urlRegex.test(url)) {
+    if (!urlRegex.test(url) && url.length > 0) {
       setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
     } else {
       setUrlError(undefined)
