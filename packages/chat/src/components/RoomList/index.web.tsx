@@ -17,8 +17,6 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
       renderItem={({ item: roomAtom }) => {
         return <RoomItem roomAtom={roomAtom} loggedInUser={loggedInUser} />
       }}
-      // use ListHeaderComponent to add the List space above for HeaderAnimated
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
       ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
       keyExtractor={(item) => item.toString()}
@@ -40,11 +38,8 @@ const styles = StyleSheet.create({
   list: {
     height: '100%',
   },
-  listHeaderSpacer: {
-    height: vars.topBarHeight,
-  },
   listFooterSpacer: {
-    height: vars.bottomBarHeight,
+    height: +vars.bottomBarHeight,
   },
   listItemSeparator: {
     borderColor: colors.background30,

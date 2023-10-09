@@ -9,6 +9,7 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceImageFormProps = {
   title?: string
@@ -34,6 +35,8 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
 }: SpaceImageFormProps) => {
   const { t } = useTranslation()
   const [uri, setImageUri] = useState<string | undefined>(currentImageUri)
+
+  const mixins = useStyleMixins()
 
   const removeImage = () => {
     onUploadImage(undefined)
@@ -124,7 +127,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
       <HoliTabs
         id="upload-image-tabs"
         style={styles.holiTabs}
-        tabBarStyle={styles.tabBar}
+        tabBarStyle={mixins.container}
         tabs={[
           {
             title: t('spaces.input.coverImage.tab.upload.title'),
@@ -214,8 +217,5 @@ const styles = StyleSheet.create({
     gap: 8,
     minHeight: 48,
     flexWrap: 'wrap',
-  },
-  tabBar: {
-    paddingLeft: 24,
   },
 })

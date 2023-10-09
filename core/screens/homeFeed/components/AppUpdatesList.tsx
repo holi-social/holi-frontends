@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginRight: 11,
   },
   listHeader: {
-    paddingTop: vars.topBarHeight + 24,
+    paddingTop: +vars.topBarHeight + 24,
     paddingBottom: 32,
   },
 })

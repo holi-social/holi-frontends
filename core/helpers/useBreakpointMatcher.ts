@@ -12,13 +12,12 @@ const defaultBreakpointGridValues: [number, number][] = [
 
   First value in tuple is breakpoint value (e.g. 768 | 1024 | 1280)
   Second value in tuple could be some possible value for Style prop or even a complete Style object
-  For now we just use numbers; adapt this, if you need anything else
 
   useBreakpointMatcher() finds the highest suitable breakpoint and returns its value (second element in tuple)
 */
-export const useBreakpointMatcher = (
-  breakpointValues: [number, number][] = defaultBreakpointGridValues
-): number | undefined => {
+export const useBreakpointMatcher = <T = number>(
+  breakpointValues: [number, T][] = defaultBreakpointGridValues as [number, T][]
+): T | undefined => {
   // useWindowDimensions causes more renders than just the breakpoint jumps,
   // but that's ok! don't try to debounce this via useEffect, it doesn't work!
   const { width: windowWidth } = useWindowDimensions()

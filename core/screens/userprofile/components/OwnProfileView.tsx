@@ -3,11 +3,12 @@ import { withProfiler } from '@sentry/react'
 import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import { logError } from '@holi/core/errors/helpers'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
@@ -19,6 +20,7 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
@@ -37,6 +39,8 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
+  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
     variables: { userId: user.id },
     onError: (error) =>
@@ -54,6 +58,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
       </View>
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
+        tabBarStyle={Platform.OS === 'web' && tabBarStyle}
         id="profile-tabs"
         tabs={[
           {
