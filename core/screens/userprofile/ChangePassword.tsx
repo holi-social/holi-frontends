@@ -18,13 +18,15 @@ import {
   submitReauthFlow,
   submitSettingsFlow,
 } from '@holi/core/auth/helpers/auth'
+import { getSettingsFlow } from '@holi/core/auth/helpers/auth/helpers.web'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -33,13 +35,24 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const ChangePassword = () => {
+export interface ChangePasswordProps {
+  forgotPasswordFlow?: boolean
+}
+
+export type ChangePasswordParams = {
+  flow: string
+}
+
+const { useParam } = createParam<ChangePasswordParams>()
+
+const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
+  const [flow] = useParam('flow')
   const { t, i18n } = useTranslation()
   const [oldPwdNode, setOldPwdNode] = useState<UiNode>()
   const [newPwdNode, setNewPwdNode] = useState<UiNode>()
   const [oldPwd, setOldPwd] = useState<string>('')
   const [newPwd, setNewPwd] = useState<string>('')
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
@@ -57,19 +70,29 @@ const ChangePassword = () => {
       const session = await getSessionFromStorage()
       if (session) {
         setSessionToken(session.session_token)
-        initReauthFlow(session.session_token)
-          .then(({ data: reauthFlow }) => safeSetReauthFlow(reauthFlow))
-          .catch((error: Error) =>
-            displayError(error, 'Failed to initialize reauth flow', { location: 'ChangePassword.initReauthFlow' })
-          )
-        initSettingsFlow(session.session_token)
-          .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
-          .catch((error: Error) =>
-            displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.initSettingsFlow' })
-          )
+        if (!forgotPasswordFlow) {
+          initReauthFlow(session.session_token)
+            .then(({ data: reauthFlow }) => safeSetReauthFlow(reauthFlow))
+            .catch((error: Error) =>
+              displayError(error, 'Failed to initialize reauth flow', { location: 'ChangePassword.initReauthFlow' })
+            )
+        }
+        if (flow) {
+          getSettingsFlow(flow, session.session_token)
+            .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
+            .catch((error: Error) =>
+              displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.initSettingsFlow' })
+            )
+        } else {
+          initSettingsFlow(session.session_token)
+            .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
+            .catch((error: Error) =>
+              displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.initSettingsFlow' })
+            )
+        }
       }
     }
-  }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError])
+  }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow])
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -84,11 +107,12 @@ const ChangePassword = () => {
   }, [initForm, setScreenOptions, t])
 
   const performPasswordChange = async () => {
-    if (reauthFlow && settingsFlow) {
+    if ((reauthFlow || forgotPasswordFlow) && settingsFlow) {
       try {
-        await submitReauthFlow(reauthFlow, oldPwd, sessionToken)
-        setOldPwdNode(undefined)
-
+        if (!forgotPasswordFlow && reauthFlow) {
+          await submitReauthFlow(reauthFlow, oldPwd, sessionToken)
+          setOldPwdNode(undefined)
+        }
         try {
           await submitSettingsFlow(settingsFlow, newPwd, sessionToken)
 
@@ -141,22 +165,24 @@ const ChangePassword = () => {
   return (
     <DefaultLayout keyboardShouldPersistTaps="always" style={styles.layout}>
       <View style={[mixins.container, styles.formContainer]}>
-        {!(reauthFlow && settingsFlow) ? (
+        {!((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
           <HoliLoader />
         ) : (
           <>
-            <HoliTextInput
-              inputLabel={t('auth.changePassword.input.label-OldPassword')}
-              aria-label={t('auth.changePassword.input.label-OldPassword')}
-              placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
-              validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-              inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
-              maxNoOfCharacters={200}
-              onChange={setOldPwd}
-              type="password"
-              style={styles.formField}
-              testID={'old-password'}
-            />
+            {!forgotPasswordFlow && (
+              <HoliTextInput
+                inputLabel={t('auth.changePassword.input.label-OldPassword')}
+                aria-label={t('auth.changePassword.input.label-OldPassword')}
+                placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
+                validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+                inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
+                maxNoOfCharacters={200}
+                onChange={setOldPwd}
+                type="password"
+                style={styles.formField}
+                testID={'old-password'}
+              />
+            )}
             <HoliTextInput
               inputLabel={t('auth.changePassword.input.label-NewPassword')}
               aria-label={t('auth.changePassword.input.label-NewPassword')}
@@ -169,6 +195,20 @@ const ChangePassword = () => {
               style={styles.formField}
               testID={'new-password'}
             />
+            {!!forgotPasswordFlow && (
+              <HoliTextInput
+                inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
+                aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
+                placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
+                validationErrorText={newPwdNode && getValidationErrorText(newPwdNode, i18n)}
+                inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
+                maxNoOfCharacters={200}
+                onChange={setNewPwd}
+                type="password"
+                style={styles.formField}
+                testID={'new-password-retype'}
+              />
+            )}
             <HoliButton
               label={t('auth.changePassword.input.label-Save')}
               onPress={performPasswordChange}

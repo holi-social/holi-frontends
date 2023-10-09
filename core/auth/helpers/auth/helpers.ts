@@ -91,6 +91,11 @@ export const initSettingsFlow = async (sessionToken?: string) =>
     .createNativeSettingsFlow({ xSessionToken: sessionToken })
     .catch(handleKratosSdkError('createNativeSettingsFlow'))
 
+export const getSettingsFlow = (flowId: string, sessionToken?: string): AxiosPromise<SettingsFlow> =>
+  newKratosSdk()
+    .getSettingsFlow({ id: flowId, xSessionToken: sessionToken })
+    .catch(handleKratosSdkError('getSettingsFlow'))
+
 export const submitSettingsFlow = async (flow: SettingsFlow, password: string, sessionToken?: string) =>
   newKratosSdk()
     .updateSettingsFlow(

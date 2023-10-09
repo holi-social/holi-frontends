@@ -112,6 +112,9 @@ export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> =>
 export const initSettingsFlow = (): AxiosPromise<SettingsFlow> =>
   newKratosSdk().createBrowserSettingsFlow().catch(handleKratosSdkError('createBrowserSettingsFlow'))
 
+export const getSettingsFlow = (flowId: string): AxiosPromise<SettingsFlow> =>
+  newKratosSdk().getSettingsFlow({ id: flowId }).catch(handleKratosSdkError('getSettingsFlow'))
+
 export const submitSettingsFlow = (flow: SettingsFlow, password: string): AxiosPromise<SettingsFlow> => {
   const csrf_token = extractValue(flow, 'csrf_token')
   return newKratosSdk()
