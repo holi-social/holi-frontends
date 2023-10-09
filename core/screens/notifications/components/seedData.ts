@@ -30,7 +30,7 @@ export const notificationConnectionRequest: NotificationConnection = {
 }
 
 export const notificationSpaceConnectionRequest: NotificationSpaceConnection = {
-  id: '0809f4a0-04c8-43ae-a291-4f7bfce1ba7d',
+  id: '0809f4a0-04c8-43ae-a291-4f7bfce1b123',
   notificationType: NotificationType.COMMUNITY_MEMBERSHIP_REQUEST,
   owner: {
     id: '0009ab1e-4b30-42da-8429-79b5f4061cb9',
