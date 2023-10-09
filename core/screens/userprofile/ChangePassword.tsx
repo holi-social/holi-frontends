@@ -52,6 +52,8 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   const [newPwdNode, setNewPwdNode] = useState<UiNode>()
   const [oldPwd, setOldPwd] = useState<string>('')
   const [newPwd, setNewPwd] = useState<string>('')
+  const [newPwdRetype, setNewPwdRetype] = useState<string>('')
+  const [retypeError, setRetypeError] = useState<string>()
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -107,7 +109,12 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   }, [initForm, setScreenOptions, t])
 
   const performPasswordChange = async () => {
+    setRetypeError(undefined)
     if ((reauthFlow || forgotPasswordFlow) && settingsFlow) {
+      if (forgotPasswordFlow && newPwdRetype !== newPwd) {
+        setRetypeError(t('auth.changePassword.input.dont-match'))
+        return
+      }
       try {
         if (!forgotPasswordFlow && reauthFlow) {
           await submitReauthFlow(reauthFlow, oldPwd, sessionToken)
@@ -187,7 +194,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
               inputLabel={t('auth.changePassword.input.label-NewPassword')}
               aria-label={t('auth.changePassword.input.label-NewPassword')}
               placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
-              validationErrorText={newPwdNode && getValidationErrorText(newPwdNode, i18n)}
+              validationErrorText={retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)}
               inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
               maxNoOfCharacters={200}
               onChange={setNewPwd}
@@ -200,10 +207,10 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                 inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
                 aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
                 placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
-                validationErrorText={newPwdNode && getValidationErrorText(newPwdNode, i18n)}
+                validationErrorText={retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)}
                 inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
                 maxNoOfCharacters={200}
-                onChange={setNewPwd}
+                onChange={setNewPwdRetype}
                 type="password"
                 style={styles.formField}
                 testID={'new-password-retype'}

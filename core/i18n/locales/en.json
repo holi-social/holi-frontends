@@ -18,6 +18,7 @@
   "auth.changePassword.input.placeholder-NewPassword": "Your new password…",
   "auth.changePassword.input.placeholder-NewPassword-retype": "Repeat new password",
   "auth.changePassword.input.placeholder-OldPassword": "Your old password…",
+  "auth.changePassword.input.dont-match": "Passwords don't match",
   "auth.changePassword.success": "Noted! Please use the new password from now on",
   "auth.forgotPassword": "Forgot password",
   "auth.forgotPassword.success.button": "Back to startpage",
