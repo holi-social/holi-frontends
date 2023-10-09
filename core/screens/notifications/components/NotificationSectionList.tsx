@@ -49,7 +49,6 @@ export const NotificationSectionList: React.FC<{ notifications: NotificationGrou
           <View style={styles.lastSectionFooter} />
         ) : null
       }
-      // use ListHeaderComponent to add padding bottom for HeaderAnimated
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       onScroll={onScreenScrollY}
       scrollEventThrottle={200}
