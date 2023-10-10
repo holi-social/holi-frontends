@@ -1,4 +1,4 @@
-import { HeadlessService } from '@novu/headless'
+import { HeadlessService, IFeedId } from '@novu/headless'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -116,7 +116,7 @@ export const useNotifications = (subscriberId?: string) => {
     })
   }, [fetchNotifications, subscriberId])
 
-  const markAllNotificationsAsRead = (feedId: string) => {
+  const markAllNotificationsAsRead = (feedId?: IFeedId) => {
     const headlessService = headlessServiceRef.current
 
     if (headlessService) {
@@ -129,7 +129,7 @@ export const useNotifications = (subscriberId?: string) => {
           logError(error, 'Error marking all notifications as read', {
             location: 'useNotifications.markAllMessagesAsRead',
           }),
-        feedId: feedId, // Pass the feed ID here, it can be an array or a single ID
+        feedId,
       })
     }
   }
