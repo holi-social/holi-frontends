@@ -15,6 +15,7 @@ import {
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
+import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 import {
   LastSeenNotificationMutation,
   NotificationsResponse,
@@ -25,8 +26,10 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const NotificationsOverview = () => {
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn, user } = useLoggedInUser()
   const { navigate } = useRouting()
+
+  const { notifications } = useNotifications(user?.id)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -73,7 +76,9 @@ const NotificationsOverview = () => {
 
   if (!containsNotifications(data?.notifications?.data)) return <NotificationsEmptyPlaceholder />
 
-  const groupedNotifications = groupByDate(data?.notifications?.data)
+  const allNotifications = [...(data?.notifications?.data ?? []), ...notifications]
+
+  const groupedNotifications = groupByDate(allNotifications)
 
   return <NotificationSectionList notifications={groupedNotifications} />
 }

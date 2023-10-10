@@ -1,1 +1,1 @@
-export const novuApplicationIdentifier = ''
+export const novuApplicationIdentifier = '5iyqPuYIgjbO'
