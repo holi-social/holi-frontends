@@ -107,6 +107,16 @@ export const initRegistrationFlow = (): AxiosPromise<RegistrationFlow> =>
 export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> =>
   newKratosSdk().createBrowserRecoveryFlow().catch(handleKratosSdkError('createBrowserRecoveryFlow'))
 
+export const updatePasswordRecoveryFlowEmail = async (flow: RecoveryFlow, email: string) => {
+  const csrf_token = extractValue(flow, 'csrf_token')
+  newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: { method: 'code', email, csrf_token } })
+}
+
+export const updatePasswordRecoveryFlowCode = async (flow: RecoveryFlow, code: string) => {
+  const csrf_token = extractValue(flow, 'csrf_token')
+  newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: { method: 'code', code, csrf_token } })
+}
+
 // Change Password
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
 export const initSettingsFlow = (): AxiosPromise<SettingsFlow> =>

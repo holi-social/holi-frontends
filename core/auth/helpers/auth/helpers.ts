@@ -2,6 +2,7 @@
 import {
   LoginFlow,
   PerformNativeLogoutBody,
+  RecoveryFlow,
   SettingsFlow,
   UpdateLoginFlowBody,
   VerificationFlow,
@@ -83,6 +84,12 @@ export const initRegistrationFlow = async () =>
 // Forgot Password
 export const initPasswordRecoveryFlow = async () =>
   newKratosSdk().createNativeRecoveryFlow().catch(handleKratosSdkError('createNativeRecoveryFlow'))
+
+export const updatePasswordRecoveryFlowEmail = async (flow: RecoveryFlow, email: string) =>
+  newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: { method: 'code', email } })
+
+export const updatePasswordRecoveryFlowCode = async (flow: RecoveryFlow, code: string) =>
+  newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: { method: 'code', code } })
 
 // Change Password
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow

@@ -1,4 +1,4 @@
-import { RecoveryFlow, UpdateRecoveryFlowWithLinkMethod } from '@ory/kratos-client'
+import { RecoveryFlow, UpdateRecoveryFlowWithCodeMethod } from '@ory/kratos-client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
@@ -6,19 +6,18 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
-import { initPasswordRecoveryFlow } from '@holi/core/auth/helpers/auth'
+import { initPasswordRecoveryFlow, updatePasswordRecoveryFlowEmail } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 export type RecoverPasswordFormProps = {
-  onSubmit?: (success: boolean) => void
+  onSubmit?: (success: boolean, flow?: RecoveryFlow, email?: string) => void
   style?: ViewStyle | ViewStyle[]
 }
 
-const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: RecoverPasswordFormProps) => {
+const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
@@ -40,11 +39,11 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
 
   useEffect(() => initializeFlow(), [initializeFlow])
 
-  const requestPasswordRecovery = async (payload: UpdateRecoveryFlowWithLinkMethod): Promise<void> => {
-    if (flow) {
+  const requestPasswordRecovery = async (payload: UpdateRecoveryFlowWithCodeMethod): Promise<void> => {
+    if (flow && payload?.email) {
       try {
-        await newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: payload })
-        props.onSubmit?.(true)
+        await updatePasswordRecoveryFlowEmail(flow, payload.email)
+        props.onSubmit?.(true, flow, payload.email)
       } catch (err) {
         handleFormSubmitError(
           setFlow,
