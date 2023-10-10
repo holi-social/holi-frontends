@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
@@ -79,10 +80,12 @@ const EditTask: React.VFC<ScreenProps> = () => {
       }),
   })
 
+  const { userId } = useAuth()
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const task = (space?.tasks || []).find((t) => t.id === taskId)
+  const isTaskOwner = task?.creator.id === userId
 
   const { displayError } = useErrorHandling()
 
@@ -243,6 +246,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       permissionType={PermissionsType.SPACES}
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
+      forceRestrict={!isAdmin && !isTaskOwner}
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}
