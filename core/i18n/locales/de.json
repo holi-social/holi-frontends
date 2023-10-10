@@ -30,6 +30,7 @@
   "auth.forgotPassword.message.submitCode": "Code abschicken",
   "auth.forgotPassword.message.emailResent": "E-Mail erneut gesendet",
   "auth.forgotPassword.message.emailResent.error": "E-Mail kann nicht erneut gesendet werden. Bitte versuche es erneut.",
+  "auth.forgotPassword.message.submitCode.error": "Der Code konnte nicht verifiziert werden. Bitte versuche es erneut.",
   "auth.loggingOut": "Deine Session ist ungültig. Du wirst ausgeloggt.",
   "auth.login": "Anmelden",
   "auth.login.alreadyLoggedIn": "Du bist bereits angemeldet",

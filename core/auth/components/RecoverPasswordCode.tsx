@@ -1,4 +1,5 @@
 import { RecoveryFlow } from '@ory/kratos-client'
+import { AxiosError } from 'axios'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -6,7 +7,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { updatePasswordRecoveryFlowCode, updatePasswordRecoveryFlowEmail } from '@holi/core/auth/helpers/auth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-// import useRouting from '@holi/core/navigation/hooks/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -19,6 +20,10 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const CODE_MAX_COUNT = 6
 
+const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
+  return !!(err as AxiosError).response
+}
+
 export type RecoverPasswordCodeProps = {
   email: string
   flow?: RecoveryFlow
@@ -28,7 +33,7 @@ export type RecoverPasswordCodeProps = {
 
 const RecoverPasswordCode = ({ email, flow }: RecoverPasswordCodeProps) => {
   const { t } = useTranslation()
-  // const { navigate } = useRouting()
+  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
 
@@ -58,12 +63,22 @@ const RecoverPasswordCode = ({ email, flow }: RecoverPasswordCodeProps) => {
 
     try {
       await updatePasswordRecoveryFlowCode(flow, code)
-      // navigate('/')
     } catch (error) {
-      displayError(error, 'Failed to resend code for password recovery', {
-        displayMessage: t('auth.forgotPassword.message.emailResent.error'),
-        location: 'RecoverPasswordCode.submitCode',
-      })
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422 && error.response?.data?.error?.id === 'browser_location_change_required') {
+          navigate(error.response?.data?.redirect_browser_to)
+        } else {
+          displayError(error, 'Failed to recover with code for password recovery', {
+            displayMessage: t('auth.forgotPassword.message.submitCode.error'),
+            location: 'RecoverPasswordCode.submitCode.axisError',
+          })
+        }
+      } else {
+        displayError(error, 'Failed to recover with code for password recovery', {
+          displayMessage: t('auth.forgotPassword.message.submitCode.error'),
+          location: 'RecoverPasswordCode.submitCode',
+        })
+      }
     }
 
     // prevent HoliTextLink default behaviour
