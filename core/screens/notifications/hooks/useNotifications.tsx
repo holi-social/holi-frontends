@@ -1,6 +1,7 @@
 import { HeadlessService } from '@novu/headless'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { logError } from '@holi/core/errors/helpers'
 import { Notification, NotificationType } from '@holi/core/screens/notifications/components/types'
 import { novuApplicationIdentifier } from '@holi/core/screens/notifications/config'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
@@ -11,7 +12,7 @@ export const useNotifications = (subscriberId?: string) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [isFetching, setIsFetching] = useState(false)
 
-  const headlessServiceRef = useRef<HeadlessService>(null)
+  const headlessServiceRef = useRef<HeadlessService | null>(null)
 
   const fetchNotifications = useCallback(() => {
     const headlessService = headlessServiceRef.current
@@ -79,9 +80,10 @@ export const useNotifications = (subscriberId?: string) => {
 
           setNotifications(notifications)
         },
-        onError: (error) => {
-          console.log('fetchNotifications error:', error)
-        },
+        onError: (error) =>
+          logError(error, 'Error fetching notifications', {
+            location: 'useNotifications.fetchNotifications',
+          }),
         page: NOVU_NOTIFICATIONS_PAGE_TO_FETCH,
       })
     }
@@ -107,9 +109,10 @@ export const useNotifications = (subscriberId?: string) => {
 
         fetchNotifications()
       },
-      onError: (error) => {
-        console.log('initializeSession error:', error)
-      },
+      onError: (error) =>
+        logError(error, 'Error initializing notifications session', {
+          location: 'useNotifications.initializeSession',
+        }),
     })
   }, [fetchNotifications, subscriberId])
 
@@ -122,9 +125,10 @@ export const useNotifications = (subscriberId?: string) => {
           console.log('markNotificationsAsRead listener', JSON.stringify(result, null, 2))
           // Handle the result of marking all messages as read
         },
-        onError: (error) => {
-          console.error('Error marking all messages as read:', error)
-        },
+        onError: (error) =>
+          logError(error, 'Error marking all notifications as read', {
+            location: 'useNotifications.markAllMessagesAsRead',
+          }),
         feedId: feedId, // Pass the feed ID here, it can be an array or a single ID
       })
     }
