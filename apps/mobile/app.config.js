@@ -92,6 +92,9 @@ export default {
       ],
     },
     extra: {
+      notifications: {
+        applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
+      },
       chat: {
         serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),
         serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',

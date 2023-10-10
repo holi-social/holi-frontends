@@ -40,7 +40,12 @@ export interface HoliE2EConfig {
   userId: string | undefined
 }
 
+export interface HoliNovuConfig {
+  applicationIdentifier: string
+}
+
 export interface HoliConfig {
+  notifications: HoliNovuConfig
   chat: HoliChatConfig
   ory: HoliOryConfig
   holi_api: HoliApiConfig
@@ -54,6 +59,9 @@ export interface HoliConfig {
 }
 
 export const config: HoliConfig = {
+  notifications: {
+    applicationIdentifier: Constants.expoConfig?.extra?.notifications.applicationIdentifier,
+  },
   chat: {
     serverName: Constants.expoConfig?.extra?.chat.serverName,
     serverLoginUrl: Constants.expoConfig?.extra?.chat.serverLoginUrl,
