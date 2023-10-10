@@ -3,6 +3,8 @@ import { EmittedEvents, ICreateRoomOpts, MatrixClient } from 'matrix-js-sdk'
 import { ChatRoomEvent } from '@holi/chat/src/client/types'
 import { matrixMessageEventChunkFrom } from '@holi/chat/src/test-utils/matrix-utils'
 
+import { createChatRoomFixture } from './matrix-fixtures'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const CHAT_SERVER_NAME_MOCK = 'chat.holi.social.mock'
 export const CHAT_ROOM_NAME_MOCK = '!ethical-hackers-avenue:chat.holi.social.mock'
@@ -212,10 +214,6 @@ export const setMatrixMock = (userId: string) => {
     return mockedRooms[roomId] as any
   })
 
-  mockMx.getRooms = jest.fn(() => {
-    return Object.values(mockedRooms).filter((room) => userId in room.members) as any
-  })
-
   mockMx.joinRoom = jest.fn(async (roomName: string) => {
     const roomId = `!${roomName}:${CHAT_SERVER_NAME_MOCK}`
     if (!(roomId in mockedRooms)) mockedGetOrMakeRoom(roomId)
@@ -307,7 +305,11 @@ export const mockCreateMatrixClient = (userId: string, mockMx: any) => {
       return { room_id: roomId }
     },
     getRoom: (...args: any) => mockMx.getRoom(...args),
-    getRooms: (...args: any) => mockMx.getRooms(...args),
+    getRooms: () => {
+      const initialRooms = Object.values(mockedRooms).filter((room) => userId in room.members)
+
+      return initialRooms.length > 0 ? initialRooms : createChatRoomFixture()
+    },
     joinRoom: (...args: any) => mockMx.joinRoom(...args),
     getHomeserverUrl: (...args: any) => mockMx.getHomeserverUrl(...args),
     invite: (...args: any) => mockMx.invite(...args),

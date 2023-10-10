@@ -22,12 +22,21 @@ export const ChatMockProvider = ({ children, jotaiStore, apolloMocks = [] }: Pro
   )
 }
 
-export const storeForRoomAtoms = (rooms: ChatRoom[]) => {
-  const store = createStore()
+export const addRoomAtomsToStore = (
+  store: ReturnType<typeof createStore>,
+  rooms: ChatRoom[]
+): ReturnType<typeof createStore> => {
   rooms.forEach((room) => {
     const prevroomAtomsRecord = store.get(roomAtomsRecorAtomForTesting)
     store.set(roomAtomsRecorAtomForTesting, { ...prevroomAtomsRecord, [room.id]: atom(room) })
   })
+
+  return store
+}
+
+export const storeForRoomAtoms = (rooms: ChatRoom[]) => {
+  const store = createStore()
+  addRoomAtomsToStore(store, rooms)
 
   return store
 }

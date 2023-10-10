@@ -154,7 +154,11 @@ export const spaceRoomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom[]>> 
   }, {})
 })
 
-type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boolean; ignoredUsers: MatrixId[] }
+interface RoomAtomsRecordAtomSubscriberArgs {
+  room: Room
+  hasPendingInvitation: boolean
+  ignoredUsers: MatrixId[]
+}
 
 /**
  * @name _roomAtomsRecordAtomSubscriber (Write-Only)
