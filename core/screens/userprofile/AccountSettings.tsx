@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -24,23 +25,25 @@ const AccountSettings = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default>
-      <LoginProtection>
-        <View style={[mixins.container, styles.accountSettings]}>
-          <MoreOptionItem
-            label={t('profile.edit.changePassword')}
-            icon={Key2}
-            onPress={() => navigate('/profile/settings/changePassword')}
-            style={styles.settingsItem}
-            testID="btn-change-password"
-          />
-        </View>
-        <View style={styles.separator} />
-        <View style={[mixins.container, styles.accountSettings]}>
-          <DeleteAccountButton style={styles.settingsItem} />
-        </View>
-      </LoginProtection>
-    </ScrollHeaderLayout.Default>
+    <PermissionsGuard permissionType={PermissionsType.AUTH}>
+      <ScrollHeaderLayout.Default>
+        <LoginProtection>
+          <View style={[mixins.container, styles.accountSettings]}>
+            <MoreOptionItem
+              label={t('profile.edit.changePassword')}
+              icon={Key2}
+              onPress={() => navigate('/profile/settings/changePassword')}
+              style={styles.settingsItem}
+              testID="btn-change-password"
+            />
+          </View>
+          <View style={styles.separator} />
+          <View style={[mixins.container, styles.accountSettings]}>
+            <DeleteAccountButton style={styles.settingsItem} />
+          </View>
+        </LoginProtection>
+      </ScrollHeaderLayout.Default>
+    </PermissionsGuard>
   )
 }
 

@@ -18,8 +18,8 @@ import {
   useRoomById,
 } from '@holi/chat/src/store'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -56,8 +56,6 @@ const ChatRoomView = () => {
   const chatPartner = loggedInUser && room && getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
 
-  const { userId } = useAuth()
-  const notLoggedIn = userId === null
   const { openToast } = useToast()
 
   const handleBackPress = useCallback(async () => {
@@ -84,15 +82,6 @@ const ChatRoomView = () => {
   }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId])
 
   useEffect(() => {
-    // redirect not logged in user to Chat screen
-    if (notLoggedIn) {
-      replaceRoute('/chat').catch((error) =>
-        logError(error, 'Could not redirect not logged in user to /chat', {
-          location: 'ChatRoomView.useEffect',
-        })
-      )
-      return
-    }
     // redirect logged in user to Chat screen if room not found
     if (chatInitialized && !room) {
       openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -102,7 +91,7 @@ const ChatRoomView = () => {
         })
       )
     }
-  }, [chatInitialized, notLoggedIn, openToast, replaceRoute, room, t])
+  }, [chatInitialized, openToast, replaceRoute, room, t])
 
   // request initial chunk of room messages
   useEffect(() => {
@@ -114,38 +103,40 @@ const ChatRoomView = () => {
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
   return (
-    <KeyboardAvoidingViewWrapper
-      renderProp={() => (
-        <View style={styles.container}>
-          <View style={styles.listContainer}>
-            {room.hasInvitation ? (
-              <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
-            ) : (
-              <RoomMessageList
-                messages={messages || []}
-                matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-                starter={
-                  amIRoomCreator &&
-                  chatPartnerHoliUser && (
-                    <View style={styles.listStage}>
-                      <RoomMessageListStart chatPartnerHoliUser={chatPartnerHoliUser} />
-                    </View>
-                  )
-                }
-                onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                  const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
-
-                  if (needToLoad) {
-                    requestMessages(roomId, false)
+    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
+      <KeyboardAvoidingViewWrapper
+        renderProp={() => (
+          <View style={styles.container}>
+            <View style={styles.listContainer}>
+              {room.hasInvitation ? (
+                <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
+              ) : (
+                <RoomMessageList
+                  messages={messages || []}
+                  matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+                  starter={
+                    amIRoomCreator &&
+                    chatPartnerHoliUser && (
+                      <View style={styles.listStage}>
+                        <RoomMessageListStart chatPartnerHoliUser={chatPartnerHoliUser} />
+                      </View>
+                    )
                   }
-                }}
-              />
-            )}
+                  onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                    const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+
+                    if (needToLoad) {
+                      requestMessages(roomId, false)
+                    }
+                  }}
+                />
+              )}
+            </View>
+            <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
           </View>
-          <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
-        </View>
-      )}
-    />
+        )}
+      />
+    </PermissionsGuard>
   )
 }
 
