@@ -1,6 +1,6 @@
-import React from 'react'
-import type { StyleProp, ViewStyle } from 'react-native'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import React, { useCallback, useRef } from 'react'
+import type { LayoutChangeEvent, ScrollView, StyleProp, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
@@ -25,6 +25,9 @@ export interface TabListProps {
   tabBarStyle?: StyleProp<ViewStyle>
 }
 
+const isWeb = Platform.OS === 'web'
+const TAB_SPACING = 20
+
 const HoliTabBar: React.FC<TabListProps> = ({
   id,
   testID,
@@ -35,12 +38,27 @@ const HoliTabBar: React.FC<TabListProps> = ({
   onPress,
 }) => {
   const { width: screenWidth } = useWindowDimensions()
+  const scrollViewRef = useRef<ScrollView | null>(null)
+  // tab button width can be maximum 66% of the screen width
+  const MAX_TAB_WIDTH = Math.min(screenWidth * 0.66, 320)
+
+  const scrollIntoView = useCallback((event: LayoutChangeEvent) => {
+    const { x } = event.nativeEvent.layout
+    const { target } = event.nativeEvent as unknown as { target: HTMLElement }
+
+    isWeb
+      ? target.scrollIntoView()
+      : scrollViewRef.current?.scrollTo({
+          x: Math.max(x - TAB_SPACING, 0),
+          animated: true,
+        })
+  }, [])
 
   return (
     <View style={{ width: '100%' }}>
       <View style={styles.botomLineSeperator} />
       <View style={tabBarStyle}>
-        <HoliHorizontalScrollContainer hideWebScrollbars>
+        <HoliHorizontalScrollContainer hideWebScrollbars ref={scrollViewRef}>
           <View
             style={StyleSheet.flatten([
               styles.tabButtonsContainer,
@@ -58,16 +76,22 @@ const HoliTabBar: React.FC<TabListProps> = ({
                     styles.tabButton,
                     isActive && styles.activeTabButton,
                     {
-                      // tab button width can be maximum 66% of the screen width
-                      maxWidth: Math.min(screenWidth * 0.66, 320),
-                      marginLeft: index === 0 ? 20 : 0,
+                      maxWidth: MAX_TAB_WIDTH,
+                      marginLeft: index === 0 ? TAB_SPACING : 0,
                     },
                   ] as StyleProp<ViewStyle>)}
-                  onPress={() => onPress?.(tabId)}
+                  onPress={(event) => {
+                    if (isWeb) {
+                      const { target } = event.nativeEvent as unknown as { target: HTMLElement }
+                      target.scrollIntoView()
+                    }
+                    onPress?.(tabId)
+                  }}
                   ariaSelected={isActive}
                   accessibilityControls={`${id}-panel-${tabId}`}
                   key={tabId}
                   testID={`${testID}-button-${tabId}-${isActive ? 'active' : 'inactive'}`}
+                  onLayout={isActive ? scrollIntoView : undefined}
                 >
                   {!!tab.titleIcons && (
                     <HoliIcon
@@ -108,7 +132,7 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     paddingVertical: 12,
-    marginRight: 20,
+    marginRight: TAB_SPACING,
     justifyContent: 'center',
     alignItems: 'center',
     width: 'auto',

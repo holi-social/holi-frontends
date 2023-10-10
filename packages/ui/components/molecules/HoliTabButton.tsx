@@ -1,6 +1,15 @@
 import React from 'react'
 import type { PropsWithChildren } from 'react'
-import { GestureResponderEvent, Platform, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  GestureResponderEvent,
+  LayoutChangeEvent,
+  Platform,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -16,49 +25,50 @@ interface Props {
   accessibilityControls?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
+  onLayout?: (event: LayoutChangeEvent) => void
 }
 
-const HoliTabButton = ({
-  disabled = false,
-  disableFocusability = false,
-  ariaSelected = false,
-  accessibilityControls,
-  ...props
-}: PropsWithChildren<Props>) => {
-  const accessibilityProps: AccessibilityPropsWeb = {
-    accessible: !disableFocusability,
-    role: 'tab',
-    'aria-label': props.label,
-    accessibilityControls,
-    'aria-selected': ariaSelected,
-  }
+const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
+  ({ disabled = false, disableFocusability = false, ariaSelected = false, accessibilityControls, ...props }, ref) => {
+    const accessibilityProps: AccessibilityPropsWeb = {
+      accessible: !disableFocusability,
+      role: 'tab',
+      'aria-label': props.label,
+      accessibilityControls,
+      'aria-selected': ariaSelected,
+    }
 
-  const content =
-    typeof props.children === 'string' ? (
-      <HoliText style={disabled ? styles.textDisabled : {}} size={'large'} bold={true} selectable={false}>
-        {props.children}
-      </HoliText>
-    ) : (
-      props.children
+    const content =
+      typeof props.children === 'string' ? (
+        <HoliText style={disabled ? styles.textDisabled : {}} size={'large'} bold={true} selectable={false}>
+          {props.children}
+        </HoliText>
+      ) : (
+        props.children
+      )
+
+    return (
+      <Pressable
+        {...accessibilityProps}
+        nativeID={props.id}
+        testID={props.testID}
+        disabled={disabled}
+        onPress={(event) => {
+          !disabled && props.onPress && props.onPress(event)
+        }}
+        onLayout={props.onLayout}
+        style={[props.style, styles.base]}
+        ref={ref}
+      >
+        <View pointerEvents="none" style={styles.content}>
+          {content}
+        </View>
+      </Pressable>
     )
+  }
+)
 
-  return (
-    <Pressable
-      {...accessibilityProps}
-      nativeID={props.id}
-      testID={props.testID}
-      disabled={disabled}
-      onPress={(event) => {
-        !disabled && props.onPress && props.onPress(event)
-      }}
-      style={[props.style, styles.base]}
-    >
-      <View pointerEvents="none" style={styles.content}>
-        {content}
-      </View>
-    </Pressable>
-  )
-}
+HoliTabButton.displayName = 'HoliTabButton'
 
 const styles = StyleSheet.create({
   base: {
