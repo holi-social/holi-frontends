@@ -1,4 +1,4 @@
-import { NotificationCountType } from 'matrix-js-sdk'
+import { NotificationCountType, Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
 
@@ -11,6 +11,13 @@ export interface CreateRoomOptions {
 export interface CreateSpaceOptions {
   name: string
   holiSpaceId: string
+}
+
+export interface RoomWithAccountData {
+  room: Room
+  holiSpaceId?: string
+  spaceId?: string
+  spaceName?: string
 }
 
 export enum MembershipStatus {

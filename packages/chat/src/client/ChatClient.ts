@@ -32,6 +32,8 @@ import {
   type MatrixId,
   MembershipStatus,
   type NotificationCount,
+  type RoomId,
+  type RoomWithAccountData,
 } from '@holi/chat/src/client/types'
 import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
@@ -41,7 +43,6 @@ import { chatServerUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
 
 import { configurePusher } from './configurePusher'
-import { RoomId } from './types'
 
 // TODO: make the client accessible to window for development.
 
@@ -219,8 +220,18 @@ export default class ChatClient {
     return this.mxClient.getRoom(id)
   }
 
-  public getRooms = (): Room[] => {
-    return this.mxClient.getRooms()
+  public getRooms = (): RoomWithAccountData[] => {
+    const rooms = this.mxClient.getRooms()
+    const roomsWithAccountData: RoomWithAccountData[] = rooms.map((room) => {
+      const accountData = room.getAccountData(ChatRoomEvent.AccountData)
+      return {
+        room,
+        holiSpaceId: accountData?.event.content?.holiSpaceId,
+        spaceId: accountData?.event.content?.spaceId,
+        spaceName: accountData?.event.content?.spaceName,
+      }
+    })
+    return roomsWithAccountData
   }
 
   public getUserId = (): string | null => {
@@ -347,9 +358,18 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToRooms(callback: (room: Room, hasPendingInvitation: boolean) => void): () => void {
+  public subscribeToRooms(
+    callback: (roomWithAccountData: RoomWithAccountData, hasPendingInvitation: boolean) => void
+  ): () => void {
     const roomEventHandler = (room: Room) => {
-      callback(room, this.hasPendingInvitation(room))
+      const roomWithAccountData: RoomWithAccountData = {
+        room,
+        // TODO: fix me!
+        holiSpaceId: undefined,
+        spaceId: undefined,
+        spaceName: undefined,
+      }
+      callback(roomWithAccountData, this.hasPendingInvitation(room))
     }
 
     this.mxClient.on(ClientEvent.Room, roomEventHandler)

@@ -21,6 +21,9 @@ export interface ChatRoom {
   members: ChatRoomMember[]
   senderId?: string
   timestamp: number | undefined
+  holiSpaceId?: string
+  spaceId?: string
+  spaceName?: string
 }
 
 export type ChatContentType = 'm.text'

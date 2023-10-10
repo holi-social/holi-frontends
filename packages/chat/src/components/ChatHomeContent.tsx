@@ -5,7 +5,7 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatSession'
 import RoomList from '@holi/chat/src/components/RoomList'
-import { ChatRoomAtom, roomAtomsSortedByDateAtom, spaceRoomAtomsRecordAtom } from '@holi/chat/src/store'
+import { ChatRoomAtom, createSpace, roomAtomsSortedByDateAtom, spaceRoomAtomsRecordAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
@@ -179,7 +179,19 @@ const ChatHomeContent = () => {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
-  return <ChatHomeRoomList loggedInUser={loggedInUser} />
+  return (
+    <>
+      <ChatHomeRoomList loggedInUser={loggedInUser} />
+      <HoliButton
+        label={'teststststtstss'}
+        inline
+        style={styles.overlayButton}
+        onPress={() =>
+          createSpace(['@chris1:local.chat.holi.social'], { name: 'Surfers Paradise', holiSpaceId: 'surfers' })
+        }
+      />
+    </>
+  )
 }
 
 export default memo(ChatHomeContent)
