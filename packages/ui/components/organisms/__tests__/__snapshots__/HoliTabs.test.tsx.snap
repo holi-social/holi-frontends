@@ -73,6 +73,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onLayout={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
