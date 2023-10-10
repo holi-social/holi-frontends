@@ -136,7 +136,7 @@ const TaskDetails = () => {
         headerOverlap
       >
         <View style={mixins.container}>
-          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView showOptions />
+          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
         </View>
       </ScrollHeaderLayout.Refreshable>
     </>

@@ -32,7 +32,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceTaskTileProps = {
   task: Task
   space: Space
-  showOptions?: boolean
   isAdmin?: boolean
   isCollaborator?: boolean
   showFullView?: boolean
@@ -43,7 +42,6 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
-  showOptions = false,
   isAdmin,
   isCollaborator,
   showFullView = true,
@@ -127,7 +125,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             {task.name}
           </HoliText>
         </HoliButton>
-        {showOptions && (isAdmin || isTaskOwner) && (
+        {(isAdmin || isTaskOwner) && (
           <HoliActionDrawer.Drawer
             label={t('global.moreOptions')}
             testID="btn-task-more-options"
