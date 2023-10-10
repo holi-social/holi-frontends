@@ -2,6 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
@@ -31,7 +32,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceTaskTileProps = {
   task: Task
   space: Space
-  showOptions?: boolean
   isAdmin?: boolean
   isCollaborator?: boolean
   showFullView?: boolean
@@ -42,13 +42,13 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
-  showOptions = false,
   isAdmin,
   isCollaborator,
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { userId } = useAuth()
   const [imageError, setImageError] = useState(false)
   const [showPlaceholder, setShowPlaceholder] = useState(true)
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
@@ -58,7 +58,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
-  const isMember = isAdmin || isCollaborator
+  const isTaskOwner = task?.creator.id === userId
 
   const handlePlaceholder = useCallback(() => {
     setShowPlaceholder(imageError || !task.thumbnail)
@@ -125,7 +125,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             {task.name}
           </HoliText>
         </HoliButton>
-        {showOptions && isMember && (
+        {(isAdmin || isTaskOwner) && (
           <HoliActionDrawer.Drawer
             label={t('global.moreOptions')}
             testID="btn-task-more-options"

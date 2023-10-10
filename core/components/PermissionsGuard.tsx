@@ -14,6 +14,7 @@ interface PermissionsGuardProps {
   redirectRoute?: string
   spaceConnectionType?: SpaceConnectionType
   space?: Space
+  forceRestrict?: boolean // for any extra logic made on a component level to indicate it should restrict the page
 }
 
 const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>> = ({
@@ -21,6 +22,7 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   spaceConnectionType = SpaceConnectionType.MEMBER,
   redirectRoute,
   space,
+  forceRestrict,
   children,
 }) => {
   const { navigate } = useRouting()
@@ -28,6 +30,11 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   // "undefined" is used when we do not know yet, if user is logged in (loading state)
   // "null" is used when we are SURE there is no logged in user
   const { userId } = useAuth()
+
+  if (forceRestrict) {
+    navigate(redirectRoute || '/')
+    return <></>
+  }
 
   if (permissionType === PermissionsType.AUTH && userId === null) {
     navigate(redirectRoute || '/')
