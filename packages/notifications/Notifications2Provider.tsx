@@ -6,7 +6,6 @@ type Notification2ContextType = {
   notifications: IMessage[]
   markNotificationsAsRead: (messageIds: string[]) => void
   markAllMessagesAsRead: (feedId: string) => void
-  deleteNotification: (messageId: string) => void
   pageNum: number
   setPageNum: (num: number) => void
   fetchNotifications: () => void
@@ -94,22 +93,6 @@ const Notification2Provider: React.FC<
     }
   }
 
-  const deleteNotification = (messageId: string) => {
-    const headlessService = headlessServiceRef.current
-
-    if (headlessService) {
-      headlessService.removeNotification({
-        messageId: messageId,
-        listener: function (result) {},
-        onSuccess: function (message) {},
-        onError: function (error) {
-          console.error(error)
-        },
-        messageIds: 'messageOne',
-      })
-    }
-  }
-
   const markAllMessagesAsRead = (feedId: string) => {
     const headlessService = headlessServiceRef.current
 
@@ -135,7 +118,6 @@ const Notification2Provider: React.FC<
         notifications,
         markNotificationsAsRead,
         markAllMessagesAsRead,
-        deleteNotification,
         pageNum,
         setPageNum,
         fetchNotifications,
