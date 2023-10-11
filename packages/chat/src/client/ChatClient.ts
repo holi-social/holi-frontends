@@ -157,7 +157,7 @@ export default class ChatClient {
   public async addRoomToSpace(spaceId: string, spaceName: string, roomId: string): Promise<ISendEventResponse> {
     await this.mxClient.sendStateEvent(roomId, RoomStateEvent.Update, { spaceId, spaceName })
 
-    return await this.mxClient.sendStateEvent(spaceId, RoomStateEvent.Update, { via: [chatServerUrl] }, roomId)
+    return await this.mxClient.sendStateEvent(spaceId, EventType.SpaceChild, { via: [chatServerUrl] }, roomId)
   }
 
   public async createSpace(
