@@ -35,7 +35,6 @@ const notifications: NotificationGroup[] = [
 ]
 
 //todo gregor: this file should live next to its implementation which currently is in core, but should be in packages/ui
-
 export function All() {
   return (
     // mock the apollo dependency in the rather-coupled notification item components
