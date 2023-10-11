@@ -83,7 +83,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
           getSettingsFlow(flow, session.session_token)
             .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
             .catch((error: Error) =>
-              displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.initSettingsFlow' })
+              displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.getSettingsFlow' })
             )
         } else {
           initSettingsFlow(session.session_token)
@@ -93,14 +93,6 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
             )
         }
       }
-    } else if (flow) {
-      const session = await getSessionFromStorage()
-      if (session) setUserLoggedIn(session)
-      getSettingsFlow(flow, session?.session_token)
-        .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
-        .catch((error: Error) =>
-          displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.initSettingsFlow' })
-        )
     }
   }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow])
 
@@ -115,8 +107,14 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   }, [setScreenOptions, t])
 
   useEffect(() => {
-    initForm()
-  }, [initForm])
+    if (isLoggedIn) {
+      initForm()
+    } else if (flow) {
+      getSessionFromStorage().then((session) => {
+        if (session) setUserLoggedIn(session)
+      })
+    }
+  }, [initForm, isLoggedIn, flow])
 
   const performPasswordChange = async () => {
     setRetypeError(undefined)

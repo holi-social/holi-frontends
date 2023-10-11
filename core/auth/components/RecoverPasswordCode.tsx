@@ -66,8 +66,7 @@ const RecoverPasswordCode = ({ email, flow }: RecoverPasswordCodeProps) => {
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422 && error.response?.data?.error?.id === 'browser_location_change_required') {
-          const urlObj = new URL(error.response?.data?.redirect_browser_to)
-          navigate(urlObj.pathname + urlObj.search)
+          navigate(error.response?.data?.redirect_browser_to)
         } else {
           displayError(error, 'Failed to recover with code for password recovery', {
             displayMessage: t('auth.forgotPassword.message.submitCode.error'),
