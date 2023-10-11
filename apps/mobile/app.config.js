@@ -92,8 +92,10 @@ export default {
       ],
     },
     extra: {
-      notifications: {
+      novu: {
         applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
+        backendUrl: requiredEnvVar('NOVU_BACKEND_URL'),
+        socketUrl: requiredEnvVar('NOVU_SOCKET_URL'),
       },
       chat: {
         serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),

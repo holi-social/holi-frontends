@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
 import { Notification, NotificationType } from '@holi/core/screens/notifications/components/types'
-import { novuApplicationIdentifier } from '@holi/core/screens/notifications/config'
+import { novuApplicationIdentifier, novuBackendUrl, novuSocketUrl } from '@holi/core/screens/notifications/config'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 const NOVU_NOTIFICATIONS_PAGE_TO_FETCH = 0
@@ -41,6 +41,8 @@ export const useNotifications = (subscriberId?: string) => {
 
     const headlessService = new HeadlessService({
       applicationIdentifier: novuApplicationIdentifier,
+      backendUrl: novuBackendUrl,
+      socketUrl: novuSocketUrl,
       subscriberId: subscriberId,
     })
 

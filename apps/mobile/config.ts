@@ -42,10 +42,12 @@ export interface HoliE2EConfig {
 
 export interface HoliNovuConfig {
   applicationIdentifier: string
+  backendUrl: string
+  socketUrl: string
 }
 
 export interface HoliConfig {
-  notifications: HoliNovuConfig
+  novu: HoliNovuConfig
   chat: HoliChatConfig
   ory: HoliOryConfig
   holi_api: HoliApiConfig
@@ -59,8 +61,10 @@ export interface HoliConfig {
 }
 
 export const config: HoliConfig = {
-  notifications: {
-    applicationIdentifier: Constants.expoConfig?.extra?.notifications.applicationIdentifier,
+  novu: {
+    applicationIdentifier: Constants.expoConfig?.extra?.novu.applicationIdentifier,
+    backendUrl: Constants.expoConfig?.extra?.novu.backendUrl,
+    socketUrl: Constants.expoConfig?.extra?.novu.socketUrl,
   },
   chat: {
     serverName: Constants.expoConfig?.extra?.chat.serverName,
