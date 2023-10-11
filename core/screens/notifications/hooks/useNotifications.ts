@@ -20,13 +20,9 @@ export const useNotifications = (subscriberId?: string) => {
     if (headlessService) {
       headlessService.fetchNotifications({
         listener: (result) => {
-          console.log('fetchNotifications listener', JSON.stringify(result, null, 2))
-          // Handle the state of the fetching process and errors here.
           setIsFetching(result.isFetching)
         },
         onSuccess: (response) => {
-          console.log('fetchNotifications onSuccess', JSON.stringify(response, null, 2))
-
           const notifications: Notification[] = response.data.map((message) => ({
             notificationType: NotificationType.CONNECTION_ACCEPTED,
             created: message.createdAt,
@@ -100,13 +96,9 @@ export const useNotifications = (subscriberId?: string) => {
     headlessServiceRef.current = headlessService
 
     return headlessService.initializeSession({
-      listener: (result) => {
-        console.log('initializeSession listener', JSON.stringify(result, null, 2))
-      },
-      onSuccess: (session) => {
-        console.log('initializeSession onSuccess', JSON.stringify(session, null, 2))
+      listener: () => ({}),
+      onSuccess: () => {
         headlessServiceRef.current = headlessService
-
         fetchNotifications()
       },
       onError: (error) =>
@@ -121,10 +113,7 @@ export const useNotifications = (subscriberId?: string) => {
 
     if (headlessService) {
       headlessService.markAllMessagesAsRead({
-        listener: (result) => {
-          console.log('markNotificationsAsRead listener', JSON.stringify(result, null, 2))
-          // Handle the result of marking all messages as read
-        },
+        listener: () => ({}),
         onError: (error) =>
           logError(error, 'Error marking all notifications as read', {
             location: 'useNotifications.markAllMessagesAsRead',
