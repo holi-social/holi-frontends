@@ -26,7 +26,7 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import {
-  // ChatRoomEvent,
+  ChatRoomEvent,
   type CreateRoomOptions,
   CreateSpaceOptions,
   type MatrixId,
@@ -155,7 +155,7 @@ export default class ChatClient {
   }
 
   public async addRoomToSpace(spaceId: string, spaceName: string, roomId: string): Promise<ISendEventResponse> {
-    await this.mxClient.sendStateEvent(roomId, RoomStateEvent.Update, { spaceId, spaceName })
+    await this.mxClient.sendStateEvent(roomId, ChatRoomEvent.SharedData, { spaceId, spaceName })
 
     return await this.mxClient.sendStateEvent(spaceId, EventType.SpaceChild, { via: [chatServerUrl] }, roomId)
   }
@@ -177,7 +177,7 @@ export default class ChatClient {
     }
 
     const { room_id } = await this.mxClient.createRoom(options)
-    await this.mxClient.sendStateEvent(room_id, RoomStateEvent.Update, { holiSpaceId })
+    await this.mxClient.sendStateEvent(room_id, ChatRoomEvent.SharedData, { holiSpaceId })
 
     return { spaceName: name, spaceId: room_id }
   }
@@ -220,19 +220,15 @@ export default class ChatClient {
     return this.mxClient.getRoom(id)
   }
 
-  // for reloading
+  // This are the rooms on initial loading
   public getRooms = async (): Promise<RoomWithSharedData[]> => {
     const rooms = this.mxClient.getRooms()
-    const roomsWithAccountData: Promise<RoomWithSharedData>[] = rooms.map(async (room) => {
-      const sharedData = await this.mxClient.getStateEvent(room.roomId, RoomStateEvent.Update, '')
-
+    const roomsWithSharedData: Promise<RoomWithSharedData>[] = rooms.map(async (room) => {
       return {
         room,
-        ...(sharedData ?? {}),
       }
     })
-
-    return Promise.all(roomsWithAccountData)
+    return Promise.all(roomsWithSharedData)
   }
 
   public getUserId = (): string | null => {
@@ -376,6 +372,29 @@ export default class ChatClient {
 
   public createMessagesRequest(roomId: string, fromToken: string | null = null) {
     return this.mxClient.createMessagesRequest(roomId, fromToken, 30, Direction.Backward)
+  }
+
+  public subscribeToRoomSharedData(callback: (event: RoomWithSharedData) => void): () => void {
+    const client = this.mxClient
+    const rooms = client.getRooms()
+
+    // The handler to attach for each room listening
+    const handleSharedData = (room: Room) => (event: MatrixEvent) => {
+      const { event: { content = {} } = {} } = event
+      if (event.getType() !== ChatRoomEvent.SharedData) return
+
+      callback({ room, ...content })
+    }
+
+    // Partially pass the arguments we need in order to set the listeners.
+    const sharedDataListener = addRoomEventListener(RoomEvent.Timeline, handleSharedData)
+    // Collects and set listeners for existing and incoming rooms.
+    return setRoomsListeners({
+      client,
+      rooms,
+      roomEvent: RoomEvent.Timeline,
+      createListener: sharedDataListener,
+    })
   }
 
   public subscribeToRoomMessages(callback: (event: MatrixEvent) => void): () => void {

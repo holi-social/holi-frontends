@@ -196,7 +196,6 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 
   // get current rooms from ChatClient and store them to Atoms
   client.getRooms().then((rooms) => {
-    // console.log(rooms, 'initial load')
     rooms.forEach((room) => {
       addRoomToStore(room, 'init')
     })
@@ -204,9 +203,12 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   setChatInitialized(true)
 
   // set listener for new rooms
-  return client.subscribeToRooms((roomWithSharedata) => {
+  const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
+    addRoomToStore(roomWithSharedData, 'subscription')
+  })
+
+  const unsubscribeFromRooms = client.subscribeToRooms((roomWithSharedData) => {
     const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
-    // console.log(roomWithSharedata, 'initial load')
     /**
      * @name waitForCorrectRoomName
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
@@ -215,8 +217,8 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      * @param timestamp `number` represents timestamp limit till function postponds setting the atom
      */
     const waitForCorrectRoomName = (timestamp: number) => {
-      if (!hasRoomEmptyName(roomWithSharedata.room) || Date.now() > timestamp) {
-        addRoomToStore(roomWithSharedata, 'subscription')
+      if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
+        addRoomToStore(roomWithSharedData, 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -224,12 +226,17 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       }
     }
 
-    if (hasRoomEmptyName(roomWithSharedata.room)) {
+    if (hasRoomEmptyName(roomWithSharedData.room)) {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomToStore(roomWithSharedata, 'subscription')
+    addRoomToStore(roomWithSharedData, 'subscription')
   })
+
+  return () => {
+    unsubscribeFromRoomSharedData()
+    unsubscribeFromRooms()
+  }
 }
 
 /**
