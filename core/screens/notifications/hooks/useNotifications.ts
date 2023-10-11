@@ -1,4 +1,5 @@
 import { HeadlessService, IFeedId } from '@novu/headless'
+import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -23,57 +24,7 @@ export const useNotifications = (subscriberId?: string) => {
           setIsFetching(result.isFetching)
         },
         onSuccess: (response) => {
-          const notifications: Notification[] = response.data.map((message) => ({
-            notificationType: NotificationType.CONNECTION_ACCEPTED,
-            created: message.createdAt,
-            id: message._id,
-            owner: {
-              aboutMe: '',
-              avatar: '',
-              avatarBlurhash: '',
-              avatarDefaultColor: '',
-              avatarLabel: '',
-              connectionStatusToMyself: UserConnectionStatus.CONNECTED,
-              connectionStatusToSpace: [],
-              engagementLevel: '',
-              firstName: '',
-              fullName: '',
-              geolocationId: '',
-              id: '',
-              identity: '',
-              interests: [],
-              lastName: '',
-              location: '',
-              pronouns: '',
-              sdgs: [],
-              skills: [],
-            },
-            read: message.read,
-            options: {
-              user: {
-                aboutMe: '',
-                avatar: '',
-                avatarBlurhash: '',
-                avatarDefaultColor: '',
-                avatarLabel: '',
-                connectionStatusToMyself: UserConnectionStatus.CONNECTED,
-                connectionStatusToSpace: [],
-                engagementLevel: '',
-                firstName: '',
-                fullName: message.content.toString(),
-                geolocationId: '',
-                id: '',
-                identity: '',
-                interests: [],
-                lastName: '',
-                location: '',
-                pronouns: '',
-                sdgs: [],
-                skills: [],
-              },
-            },
-          }))
-
+          const notifications = mapToNotifications(response)
           setNotifications(notifications)
         },
         onError: (error) =>
@@ -124,4 +75,58 @@ export const useNotifications = (subscriberId?: string) => {
   }
 
   return { notifications, markAllNotificationsAsRead, isFetching }
+}
+
+function mapToNotifications(response: IPaginatedResponse<IMessage>) {
+  const notifications: Notification[] = response.data.map((message) => ({
+    notificationType: NotificationType.CONNECTION_ACCEPTED,
+    created: message.createdAt,
+    id: message._id,
+    owner: {
+      aboutMe: '',
+      avatar: '',
+      avatarBlurhash: '',
+      avatarDefaultColor: '',
+      avatarLabel: '',
+      connectionStatusToMyself: UserConnectionStatus.CONNECTED,
+      connectionStatusToSpace: [],
+      engagementLevel: '',
+      firstName: '',
+      fullName: '',
+      geolocationId: '',
+      id: '',
+      identity: '',
+      interests: [],
+      lastName: '',
+      location: '',
+      pronouns: '',
+      sdgs: [],
+      skills: [],
+    },
+    read: message.read,
+    options: {
+      user: {
+        aboutMe: '',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '',
+        avatarLabel: '',
+        connectionStatusToMyself: UserConnectionStatus.CONNECTED,
+        connectionStatusToSpace: [],
+        engagementLevel: '',
+        firstName: '',
+        fullName: message.content.toString(),
+        geolocationId: '',
+        id: '',
+        identity: '',
+        interests: [],
+        lastName: '',
+        location: '',
+        pronouns: '',
+        sdgs: [],
+        skills: [],
+      },
+    },
+  }))
+  return notifications
 }
