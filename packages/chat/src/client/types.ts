@@ -60,14 +60,3 @@ export interface ChatRoomMember {
 export enum ChatRoomEvent {
   SharedData = 'holi.room.shared.data',
 }
-
-// export interface SharedDataContent {
-//   holiSpaceId?: string
-//   spaceId?: string
-//   spaceName?: string
-// }
-
-// export interface SharedRoomData {
-//   room: Room
-//   content: SharedDataContent
-// }
