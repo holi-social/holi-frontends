@@ -78,6 +78,7 @@ export const useNotifications = (subscriberId?: string) => {
 }
 
 function mapToNotifications(response: IPaginatedResponse<IMessage>) {
+  // todo gregor: map notifications correctly and don't just use a wrong static type
   const notifications: Notification[] = response.data.map((message) => ({
     notificationType: NotificationType.CONNECTION_ACCEPTED,
     created: message.createdAt,
