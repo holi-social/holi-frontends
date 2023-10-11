@@ -44,6 +44,21 @@ export const useNotifications = (subscriberId?: string) => {
       backendUrl: novuBackendUrl,
       socketUrl: novuSocketUrl,
       subscriberId: subscriberId,
+      tokenStorage: {
+        //todo gregor - use localStorage default for web and only provide this hack for mobile
+        getItem: () => {
+          // @ts-ignore:next-line
+          return global.novuToken ?? null
+        },
+        removeItem: () => {
+          // @ts-ignore:next-line
+          delete global.novuToken
+        },
+        setItem: (_, value) => {
+          // @ts-ignore:next-line
+          global.novuToken = value
+        },
+      },
     })
 
     headlessServiceRef.current = headlessService
