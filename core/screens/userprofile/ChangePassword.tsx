@@ -1,5 +1,5 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
@@ -20,7 +20,7 @@ import {
 } from '@holi/core/auth/helpers/auth'
 import { getSettingsFlow } from '@holi/core/auth/helpers/auth/helpers.web'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -93,6 +93,14 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
             )
         }
       }
+    } else if (flow) {
+      const session = await getSessionFromStorage()
+      if (session) setUserLoggedIn(session)
+      getSettingsFlow(flow, session?.session_token)
+        .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
+        .catch((error: Error) =>
+          displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.initSettingsFlow' })
+        )
     }
   }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow])
 
@@ -104,9 +112,11 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
         </HoliHeading>
       ),
     })
+  }, [setScreenOptions, t])
 
+  useEffect(() => {
     initForm()
-  }, [initForm, setScreenOptions, t])
+  }, [initForm])
 
   const performPasswordChange = async () => {
     setRetypeError(undefined)
