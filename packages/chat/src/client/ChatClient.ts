@@ -1,4 +1,3 @@
-import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room, RoomMember } from 'matrix-js-sdk'
 import {
   ClientEvent,
   Direction,
@@ -6,23 +5,39 @@ import {
   EventTimelineSet,
   EventType,
   HttpApiEvent,
+  ICreateClientOpts,
+  ICreateRoomOpts,
+  ISendEventResponse,
+  IStartClientOpts,
   MatrixClient,
+  MatrixEvent,
   MatrixScheduler,
   Preset,
+  Room,
   RoomEvent,
+  RoomMember,
   type RoomState,
   RoomStateEvent,
+  RoomType,
   Visibility,
   createClient,
 } from 'matrix-js-sdk'
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
-import { MatrixId, MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
+import {
+  ChatRoomEvent,
+  type CreateRoomOptions,
+  CreateSpaceOptions,
+  type MatrixId,
+  MembershipStatus,
+  type NotificationCount,
+} from '@holi/chat/src/client/types'
 import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
-import type { ChatCredentials } from '@holi/chat/src/utils/types'
+import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
+import { chatServerUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
 
 import { configurePusher } from './configurePusher'
@@ -123,7 +138,7 @@ export default class ChatClient {
   }
 
   /** Rooms */
-  public getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
+  public getOrCreateRoom = async (userIds: string[], options: CreateRoomOptions): Promise<RoomId> => {
     const room = this.mxClient.getRooms().find((room) => {
       return (
         // look for a room that has all the requested userIds and is not a space room
@@ -135,34 +150,69 @@ export default class ChatClient {
 
     if (room) return { room_id: room.roomId }
 
-    return this.createRoom(userIds)
+    return this.createRoom(userIds, options)
   }
 
-  public createRoom = async (userIds: string[]): Promise<RoomId> => {
+  public async addRoomToSpace(spaceId: string, spaceName: string, roomId: string): Promise<ISendEventResponse> {
+    await this.mxClient.setRoomAccountData(roomId, ChatRoomEvent.AccountData, { spaceId, spaceName })
+
+    return await this.mxClient.sendStateEvent(spaceId, EventType.SpaceChild, { via: [chatServerUrl] }, roomId)
+  }
+
+  public async createSpace(
+    userIds: string[],
+    { name, holiSpaceId }: CreateSpaceOptions
+  ): Promise<{ spaceId: string; spaceName: string }> {
+    const options: ICreateRoomOpts = {
+      name: name,
+      room_alias_name: name.toLowerCase().replace(' ', '.').trim(),
+      preset: Preset.PrivateChat,
+      visibility: Visibility.Private,
+      is_direct: false,
+      invite: userIds,
+      creation_content: {
+        type: RoomType.Space,
+      },
+    }
+
+    const { room_id } = await this.mxClient.createRoom(options)
+    await this.mxClient.setRoomAccountData(room_id, ChatRoomEvent.AccountData, { holiSpaceId })
+
+    return { spaceName: name, spaceId: room_id }
+  }
+
+  /**
+   * @description Create a chat room that contains a message timeline. You can
+   * either create a DM room or a public room for spaces.
+   **/
+  public async createRoom(
+    userIds: string[],
+    { isDirectMessage, isPrivate = true, name }: CreateRoomOptions
+  ): Promise<RoomId> {
     const errMsg = 'Chat rooms should be created with at least one user'
     if (userIds.length < 1) {
       logError(Error(errMsg), 'Failed to create room', { location: 'ChatClient.createRoom' })
     }
 
-    // Initially its ok if we hardcode the options.
-    const dmRoomOptions: ICreateRoomOpts = {
-      is_direct: true,
-      // TODO: validate if we neeed a server name
-      // name: 'test',
-      preset: Preset.PrivateChat,
-      visibility: Visibility.Private,
-      initial_state: [
-        {
-          type: 'm.room.guest_access',
-          state_key: 'dm_room',
-          content: {
-            guest_access: 'can_join',
-          },
+    const dmInitialState = [
+      {
+        type: 'm.room.guest_access',
+        state_key: 'dm_room',
+        content: {
+          guest_access: 'can_join',
         },
-      ],
+      },
+    ]
+
+    const options: ICreateRoomOpts = {
+      is_direct: isDirectMessage,
+      preset: isPrivate ? Preset.PrivateChat : Preset.PublicChat,
+      visibility: isPrivate ? Visibility.Private : Visibility.Public,
+      ...(name ? { name } : {}),
+      ...(isDirectMessage ? { initial_state: dmInitialState } : {}),
     }
 
-    return await this.mxClient.createRoom({ ...dmRoomOptions, invite: userIds })
+    return await this.mxClient.createRoom({ ...options, invite: userIds })
   }
 
   public getRoom = (id: string) => {

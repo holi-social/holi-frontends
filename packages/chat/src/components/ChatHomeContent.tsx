@@ -5,19 +5,27 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatSession'
 import RoomList from '@holi/chat/src/components/RoomList'
-import { ChatRoomAtom, roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
+import { ChatRoomAtom, roomAtomsSortedByDateAtom, spaceRoomAtomsRecordAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
+import HoliTabBar, { Tab } from '@holi/ui/components/organisms/HoliTabBar'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+const isWeb = Platform.OS === 'web'
 
 const ChatHomeNeedToLogin = () => {
   const { t } = useTranslation()
@@ -81,20 +89,68 @@ const ChatHomeNoExistingRooms = () => {
   )
 }
 
-const ChatHomeRoomList = ({
-  loggedInUser,
-  sortedRoomAtoms,
-}: {
+interface ChatHomeRoomListProps {
   loggedInUser: User
-  sortedRoomAtoms: ChatRoomAtom[]
-}) => {
+}
+
+// TODO: remove after finishing the story: https://holi.atlassian.net/browse/HOLI-5130
+const IS_CHAT_TAB_BAR_ENABLED = false
+
+type ChatHomeContentParams = {
+  activeTab: string
+}
+
+const { useParam } = createParam<ChatHomeContentParams>()
+
+const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
+  const [selectedTabId = 'all'] = useParam('activeTab')
+
+  const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
+  const { navigate, setParams, replaceRoute } = useRouting()
+
+  const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
+  const spaceRoomAtomsRecord = useAtomValue(spaceRoomAtomsRecordAtom)
+
+  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+
+  if (!sortedRoomAtoms.length) {
+    return <ChatHomeNoExistingRooms />
+  }
+
+  const tabs: Tab[] = [
+    {
+      id: 'all',
+      title: 'All',
+    },
+    // TODO: provide a way to have real space room name
+    ...Object.keys(spaceRoomAtomsRecord).map((roomId) => ({
+      id: roomId,
+      title: roomId,
+    })),
+  ]
+
+  const tabRoomAtoms: Record<string, ChatRoomAtom[]> = {
+    ...spaceRoomAtomsRecord,
+    all: sortedRoomAtoms,
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <RoomList roomAtoms={sortedRoomAtoms} loggedInUser={loggedInUser} />
+      <HoliBox padding={[+vars.topBarHeight + (Platform.OS === 'android' ? safeAreaInsetTop : 0), 0, 0, 0]}>
+        {IS_CHAT_TAB_BAR_ENABLED && (
+          <HoliTabBar
+            id="chat-bar"
+            tabs={tabs}
+            selectedTabId={selectedTabId}
+            onPress={(tabId) => (isWeb ? replaceRoute('/chat?activeTab=' + tabId) : setParams({ activeTab: tabId }))}
+            tabBarStyle={isWeb && tabBarStyle}
+          />
+        )}
+      </HoliBox>
+
+      <RoomList roomAtoms={tabRoomAtoms[selectedTabId]} loggedInUser={loggedInUser} />
 
       <View style={[mixins.container, styles.overlayButtonWrapper]}>
         <HoliButton
@@ -114,7 +170,6 @@ const ChatHomeRoomList = ({
 const ChatHomeContent = () => {
   const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
   const chatInitialized = useChatInitialized()
-  const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
 
   if (!isLoading && !isLoggedIn) {
     return <ChatHomeNeedToLogin />
@@ -124,11 +179,7 @@ const ChatHomeContent = () => {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
-  if (!sortedRoomAtoms.length) {
-    return <ChatHomeNoExistingRooms />
-  }
-
-  return <ChatHomeRoomList loggedInUser={loggedInUser} sortedRoomAtoms={sortedRoomAtoms} />
+  return <ChatHomeRoomList loggedInUser={loggedInUser} />
 }
 
 export default memo(ChatHomeContent)
@@ -147,12 +198,12 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   overlayButtonWrapper: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    position: isWeb ? 'fixed' : 'absolute',
     bottom: 0,
   },
   overlayButton: {
     position: 'absolute',
-    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 12,
+    bottom: (isWeb ? +vars.bottomBarHeight : 0) + 12,
     right: 12,
     borderWidth: 1,
     paddingVertical: 16,

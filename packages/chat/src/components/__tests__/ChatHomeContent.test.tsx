@@ -5,8 +5,12 @@ import React from 'react'
 
 import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
-import { createChatMemberFixture, createChatMessageFixture, createChatRoomFixture } from '@holi/chat/src/store'
 import { ChatMockProvider, queriesFor, storeForRoomAtoms } from '@holi/chat/src/test-utils/ChatMockProvider'
+import {
+  createChatMemberFixture,
+  createChatMessageFixture,
+  createChatRoomFixture,
+} from '@holi/chat/src/test-utils/matrix-fixtures'
 import {
   CHAT_MOCK_USER_ID,
   mockCreateMatrixClient,

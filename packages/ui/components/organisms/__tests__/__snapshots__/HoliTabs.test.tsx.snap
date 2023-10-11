@@ -13,12 +13,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
   testID="tabs-module"
 >
   <View
-    accessibilityOrientation="horizontal"
-    role="tablist"
     style={
       {
-        "borderBottomColor": "#ebebeb",
-        "borderBottomWidth": 2,
         "width": "100%",
       }
     }
@@ -26,252 +22,280 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
     <View
       style={
         {
-          "alignSelf": "center",
-          "flexDirection": "row",
-          "justifyContent": "flex-start",
-          "maxWidth": 840,
-          "paddingHorizontal": 32,
+          "borderBottomColor": "#ebebeb",
+          "borderBottomWidth": 2,
+          "bottom": 0,
+          "position": "absolute",
           "width": "100%",
         }
       }
-    >
-      <View
-        accessibilityControls="test-tabs-panel-0"
-        accessibilityLabel="Profile"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": true,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        nativeID="test-tabs-tab-0"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        role="tab"
-        style={
-          [
-            {
-              "alignItems": "center",
-              "borderBottomColor": "#262424",
-              "borderBottomWidth": 2,
-              "justifyContent": "center",
-              "marginRight": 20,
-              "paddingVertical": 12,
-              "top": 2,
-              "width": "auto",
-            },
-            {
-              "width": "auto",
-            },
-          ]
-        }
-        testID="tabs-module-button-0-active"
+    />
+    <View>
+      <RCTScrollView
+        accessibilityOrientation="horizontal"
+        hideWebScrollbars={true}
+        horizontal={true}
+        role="tablist"
       >
-        <View
-          pointerEvents="none"
-          style={
-            {
-              "flexDirection": "row",
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            selectable={true}
+        <View>
+          <View
             style={
               {
-                "color": "#262424",
-                "fontFamily": "Circular Std Medium",
-                "fontSize": 16,
-                "fontWeight": "500",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
               }
             }
           >
-            Profile
-          </Text>
-        </View>
-      </View>
-      <View
-        accessibilityControls="test-tabs-panel-1"
-        accessibilityLabel="Insights"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        nativeID="test-tabs-tab-1"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        role="tab"
-        style={
-          [
-            {
-              "alignItems": "center",
-              "borderBottomColor": "transparent",
-              "borderBottomWidth": 2,
-              "justifyContent": "center",
-              "marginRight": 20,
-              "paddingVertical": 12,
-              "top": 2,
-              "width": "auto",
-            },
-            {
-              "width": "auto",
-            },
-          ]
-        }
-        testID="tabs-module-button-1-inactive"
-      >
-        <View
-          pointerEvents="none"
-          style={
-            {
-              "flexDirection": "row",
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            selectable={true}
-            style={
-              {
-                "color": "#787777",
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
+            <View
+              accessibilityControls="test-tabs-panel-0"
+              accessibilityLabel="Profile"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": true,
+                }
               }
-            }
-          >
-            Insights
-          </Text>
-        </View>
-      </View>
-      <View
-        accessibilityControls="test-tabs-panel-2"
-        accessibilityLabel="Spaces"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        nativeID="test-tabs-tab-2"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        role="tab"
-        style={
-          [
-            {
-              "alignItems": "center",
-              "borderBottomColor": "transparent",
-              "borderBottomWidth": 2,
-              "justifyContent": "center",
-              "marginRight": 20,
-              "paddingVertical": 12,
-              "top": 2,
-              "width": "auto",
-            },
-            {
-              "width": "auto",
-            },
-          ]
-        }
-        testID="tabs-module-button-2-inactive"
-      >
-        <View
-          pointerEvents="none"
-          style={
-            {
-              "flexDirection": "row",
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            selectable={true}
-            style={
-              {
-                "color": "#787777",
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
               }
-            }
-          >
-            Spaces
-          </Text>
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              nativeID="test-tabs-tab-0"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onLayout={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              role="tab"
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderBottomColor": "#262424",
+                    "borderBottomWidth": 2,
+                    "justifyContent": "center",
+                    "marginLeft": 20,
+                    "marginRight": 20,
+                    "maxWidth": 320,
+                    "paddingVertical": 12,
+                    "width": "auto",
+                  },
+                  {
+                    "width": "auto",
+                  },
+                ]
+              }
+              testID="tabs-module-button-0-active"
+            >
+              <View
+                pointerEvents="none"
+                style={
+                  {
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#262424",
+                      "fontFamily": "Circular Std Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  Profile
+                </Text>
+              </View>
+            </View>
+            <View
+              accessibilityControls="test-tabs-panel-1"
+              accessibilityLabel="Insights"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": false,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              nativeID="test-tabs-tab-1"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              role="tab"
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderBottomColor": "transparent",
+                    "borderBottomWidth": 2,
+                    "justifyContent": "center",
+                    "marginLeft": 0,
+                    "marginRight": 20,
+                    "maxWidth": 320,
+                    "paddingVertical": 12,
+                    "width": "auto",
+                  },
+                  {
+                    "width": "auto",
+                  },
+                ]
+              }
+              testID="tabs-module-button-1-inactive"
+            >
+              <View
+                pointerEvents="none"
+                style={
+                  {
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "Circular Std Book",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  Insights
+                </Text>
+              </View>
+            </View>
+            <View
+              accessibilityControls="test-tabs-panel-2"
+              accessibilityLabel="Spaces"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": false,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              nativeID="test-tabs-tab-2"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              role="tab"
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "borderBottomColor": "transparent",
+                    "borderBottomWidth": 2,
+                    "justifyContent": "center",
+                    "marginLeft": 0,
+                    "marginRight": 20,
+                    "maxWidth": 320,
+                    "paddingVertical": 12,
+                    "width": "auto",
+                  },
+                  {
+                    "width": "auto",
+                  },
+                ]
+              }
+              testID="tabs-module-button-2-inactive"
+            >
+              <View
+                pointerEvents="none"
+                style={
+                  {
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "Circular Std Book",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  Spaces
+                </Text>
+              </View>
+            </View>
+          </View>
         </View>
-      </View>
+      </RCTScrollView>
     </View>
   </View>
   <RCTScrollView

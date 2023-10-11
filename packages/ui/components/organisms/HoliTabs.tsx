@@ -2,25 +2,18 @@ import React, { useMemo } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import HoliTabBar, { type Tab, TabListProps } from '@holi/ui/components/organisms/HoliTabBar'
 
-interface Tab {
-  title: string
+interface TabItem extends Tab {
   children: React.ReactNode
-  titleIcons?: [HoliIconType, HoliIconType]
   style?: StyleProp<ViewStyle>
 }
 
 interface Props {
   id: string
   initialStep?: number
-  tabs: Tab[]
+  tabs: TabItem[]
   centeredButtons?: boolean
   onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
@@ -33,56 +26,9 @@ interface Props {
   lazy?: boolean
 }
 
-interface TabListProps {
-  id: string
-  testID?: string
-  tabs: Tab[]
-  centeredButtons?: boolean
-  tabBarStyle?: StyleProp<ViewStyle>
-}
-
-const TabList: React.FC<TabListProps> = ({ id, testID, tabs, centeredButtons, tabBarStyle }) => {
-  const mixins = useStyleMixins()
-  const styles = getStyles(centeredButtons)
-
+const Tabs = (props: TabListProps) => {
   const { setStep, currentStep } = useStepper()
-
-  return (
-    <View style={styles.headerContainer} role="tablist" accessibilityOrientation="horizontal">
-      <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
-        {tabs.map((tab, index) => {
-          const isActive = currentStep === index
-          return (
-            <HoliTabButton
-              label={tab.title}
-              id={`${id}-tab-${index}`}
-              style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
-              onPress={() => setStep(index)}
-              key={index}
-              ariaSelected={isActive}
-              accessibilityControls={`${id}-panel-${index}`}
-              testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
-            >
-              {!!tab.titleIcons && (
-                <HoliIcon
-                  icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
-                  size={22}
-                  color={isActive ? colors.foreground30 : colors.foreground20}
-                  style={styles.tabButtonIcon}
-                />
-              )}
-              <HoliText
-                bold={isActive}
-                style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}
-              >
-                {tab.title}
-              </HoliText>
-            </HoliTabButton>
-          )
-        })}
-      </View>
-    </View>
-  )
+  return <HoliTabBar {...props} selectedTabId={currentStep} onPress={(tabId) => setStep(+tabId)} />
 }
 
 const HoliTabs = ({
@@ -98,8 +44,6 @@ const HoliTabs = ({
   scrollEnabled = true,
   lazy = false,
 }: Props) => {
-  const styles = getStyles(centeredButtons)
-
   const renderedTabContents = useMemo(
     () =>
       tabs.map((tab, i) => (
@@ -120,7 +64,7 @@ const HoliTabs = ({
   return (
     <HoliStepperController stepCount={renderedTabContents.length} initialStep={initialStep} onChangeTab={onChangeTab}>
       <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
-        <TabList id={id} testID={testID} tabs={tabs} tabBarStyle={tabBarStyle} centeredButtons={centeredButtons} />
+        <Tabs id={id} testID={testID} tabs={tabs} tabBarStyle={tabBarStyle} centeredButtons={centeredButtons} />
 
         <HoliStepper
           steps={renderedTabContents}
@@ -133,50 +77,16 @@ const HoliTabs = ({
   )
 }
 
-const getStyles = (centeredButtons = false) =>
-  StyleSheet.create({
-    holiTabs: {
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      alignContent: 'center',
-      width: '100%',
-    },
-    headerContainer: {
-      width: '100%',
-      borderBottomColor: colors.background30,
-      borderBottomWidth: 2,
-    },
-    tabButtonsContainer: {
-      flexDirection: 'row',
-      justifyContent: centeredButtons ? 'center' : 'flex-start',
-    },
-    tabButton: {
-      paddingVertical: 12,
-      marginRight: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: 'auto',
-      borderBottomWidth: 2,
-      top: 2, // must be the same value as the tabButtonsContainer borderWidth
-      borderBottomColor: 'transparent',
-    },
-    tabButtonIcon: {
-      marginRight: 8,
-    },
-    tabButtonText: {
-      fontSize: 16,
-      color: colors.foreground20,
-    },
-    activeTabButton: {
-      borderBottomColor: colors.foreground30,
-    },
-    activeTabButtonText: {
-      color: colors.foreground30,
-      fontWeight: '500',
-    },
-    stepperStyle: {
-      alignItems: 'flex-start',
-    },
-  })
+const styles = StyleSheet.create({
+  holiTabs: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    alignContent: 'center',
+    width: '100%',
+  },
+  stepperStyle: {
+    alignItems: 'flex-start',
+  },
+})
 
 export default HoliTabs

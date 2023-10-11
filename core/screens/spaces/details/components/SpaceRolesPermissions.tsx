@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       android: {
-        paddingTop: vars.topBarHeight,
+        paddingTop: +vars.topBarHeight,
       },
     }),
   },
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {
