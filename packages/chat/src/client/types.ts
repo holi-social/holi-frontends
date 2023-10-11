@@ -13,7 +13,7 @@ export interface CreateSpaceOptions {
   holiSpaceId: string
 }
 
-export interface RoomWithAccountData {
+export interface RoomWithSharedData {
   room: Room
   holiSpaceId?: string
   spaceId?: string
@@ -55,5 +55,5 @@ export interface ChatRoomMember {
 }
 
 export enum ChatRoomEvent {
-  AccountData = 'holi.room.account.data',
+  SharedData = 'holi.room.shared.data',
 }

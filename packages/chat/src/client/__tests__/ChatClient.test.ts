@@ -88,8 +88,8 @@ it('should call the creation of a space', async () => {
 
   expect(mockMx.createRoom).toBeCalledTimes(1)
   expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
-  expect(mockMx.setRoomAccountData).toBeCalledTimes(1)
-  expect(mockMx.setRoomAccountData).toHaveBeenLastCalledWith(CHAT_ROOM_NAME_MOCK, ChatRoomEvent.AccountData, {
+  expect(mockMx.sendStateEvent).toBeCalledTimes(1)
+  expect(mockMx.sendStateEvent).toHaveBeenLastCalledWith(CHAT_ROOM_NAME_MOCK, ChatRoomEvent.SharedData, {
     holiSpaceId: 'holi-surfers-uuid',
   })
 })

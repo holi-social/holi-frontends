@@ -26,14 +26,14 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import {
-  ChatRoomEvent,
+  // ChatRoomEvent,
   type CreateRoomOptions,
   CreateSpaceOptions,
   type MatrixId,
   MembershipStatus,
   type NotificationCount,
   type RoomId,
-  type RoomWithAccountData,
+  type RoomWithSharedData,
 } from '@holi/chat/src/client/types'
 import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
@@ -155,9 +155,9 @@ export default class ChatClient {
   }
 
   public async addRoomToSpace(spaceId: string, spaceName: string, roomId: string): Promise<ISendEventResponse> {
-    await this.mxClient.setRoomAccountData(roomId, ChatRoomEvent.AccountData, { spaceId, spaceName })
+    await this.mxClient.sendStateEvent(roomId, RoomStateEvent.Update, { spaceId, spaceName })
 
-    return await this.mxClient.sendStateEvent(spaceId, EventType.SpaceChild, { via: [chatServerUrl] }, roomId)
+    return await this.mxClient.sendStateEvent(spaceId, RoomStateEvent.Update, { via: [chatServerUrl] }, roomId)
   }
 
   public async createSpace(
@@ -177,7 +177,7 @@ export default class ChatClient {
     }
 
     const { room_id } = await this.mxClient.createRoom(options)
-    await this.mxClient.setRoomAccountData(room_id, ChatRoomEvent.AccountData, { holiSpaceId })
+    await this.mxClient.sendStateEvent(room_id, RoomStateEvent.Update, { holiSpaceId })
 
     return { spaceName: name, spaceId: room_id }
   }
@@ -220,18 +220,19 @@ export default class ChatClient {
     return this.mxClient.getRoom(id)
   }
 
-  public getRooms = (): RoomWithAccountData[] => {
+  // for reloading
+  public getRooms = async (): Promise<RoomWithSharedData[]> => {
     const rooms = this.mxClient.getRooms()
-    const roomsWithAccountData: RoomWithAccountData[] = rooms.map((room) => {
-      const accountData = room.getAccountData(ChatRoomEvent.AccountData)
+    const roomsWithAccountData: Promise<RoomWithSharedData>[] = rooms.map(async (room) => {
+      const sharedData = await this.mxClient.getStateEvent(room.roomId, RoomStateEvent.Update, '')
+
       return {
         room,
-        holiSpaceId: accountData?.event.content?.holiSpaceId,
-        spaceId: accountData?.event.content?.spaceId,
-        spaceName: accountData?.event.content?.spaceName,
+        ...(sharedData ?? {}),
       }
     })
-    return roomsWithAccountData
+
+    return Promise.all(roomsWithAccountData)
   }
 
   public getUserId = (): string | null => {
@@ -359,17 +360,11 @@ export default class ChatClient {
   }
 
   public subscribeToRooms(
-    callback: (roomWithAccountData: RoomWithAccountData, hasPendingInvitation: boolean) => void
+    callback: (roomWithSharedData: RoomWithSharedData, hasPendingInvitation: boolean) => void
   ): () => void {
-    const roomEventHandler = (room: Room) => {
-      const roomWithAccountData: RoomWithAccountData = {
-        room,
-        // TODO: fix me!
-        holiSpaceId: undefined,
-        spaceId: undefined,
-        spaceName: undefined,
-      }
-      callback(roomWithAccountData, this.hasPendingInvitation(room))
+    const roomEventHandler = async (room: Room) => {
+      const roomWithSharedData: RoomWithSharedData = { room }
+      callback(roomWithSharedData, this.hasPendingInvitation(room))
     }
 
     this.mxClient.on(ClientEvent.Room, roomEventHandler)

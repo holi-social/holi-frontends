@@ -77,6 +77,7 @@ export const mockMx = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .mockImplementation((roomId: string, eventType: ChatRoomEvent, content: Record<string, any>) => undefined),
   createMessagesRequest: jest.fn(),
+  sendStateEvent: jest.fn(),
   forget: jest.fn(),
   store: jest.fn(),
 }
@@ -325,6 +326,7 @@ export const mockCreateMatrixClient = (userId: string, mockMx: any) => {
     setGuest: (...args: any) => mockMx.setGuest(...args),
     setRoomAccountData: (roomId: string, eventType: ChatRoomEvent, content: Record<string, any>) =>
       mockMx.setRoomAccountData(roomId, eventType, content),
+    sendStateEvent: (...args: any) => mockMx.sendStateEvent(...args),
     clientRunning: (...args: any) => mockMx.clientRunning(...args),
     sendReadReceipt: (...args: any) => mockMx.sendReadReceipt(...args),
     removePusher: (...args: any) => mockMx.removePusher(...args),

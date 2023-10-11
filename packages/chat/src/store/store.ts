@@ -12,7 +12,7 @@ import {
   MembershipStatus,
   NotificationCount,
   RoomId,
-  RoomWithAccountData,
+  RoomWithSharedData,
 } from '@holi/chat/src/client/types'
 import type {
   ChatMessage,
@@ -123,11 +123,11 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
 /**
  * Derived atom that holds record with spaces ids as keys and array of all space's related room atoms as value
  */
-export const spaceRoomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom[]>> = atom((get) => {
+export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomAtom[]>>> = atom(async (get) => {
   const client = getChatClient()
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
   const roomIds = Object.keys(roomAtomsRecord)
-  const allMxRooms = client.getRooms()
+  const allMxRooms = await client.getRooms()
 
   return roomIds.reduce<Record<ChatRoomId, ChatRoomAtom[]>>((acc, roomId) => {
     const mxRoom = client.getRoom(roomId)
@@ -156,7 +156,7 @@ export const spaceRoomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom[]>> 
 })
 
 interface RoomAtomsRecordAtomSubscriberArgs {
-  room: RoomWithAccountData
+  room: RoomWithSharedData
   hasPendingInvitation: boolean
   ignoredUsers: MatrixId[]
 }
@@ -187,23 +187,26 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
   const ignoredUsers = client.getIgnoredUsers()
 
-  const addRoomToStore = (roomWithAccountData: RoomWithAccountData, logPhase: string) => {
-    const hasPendingInvitation = client.hasPendingInvitation(roomWithAccountData.room)
+  const addRoomToStore = (roomWithSharedData: RoomWithSharedData, logPhase: string) => {
+    const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
 
-    logDebug(`Chat.store [${logPhase}]`, `adding room ${roomWithAccountData.room.roomId} to store`)
-    setAtom({ room: roomWithAccountData, hasPendingInvitation, ignoredUsers })
+    logDebug(`Chat.store [${logPhase}]`, `adding room ${roomWithSharedData.room.roomId} to store`)
+    setAtom({ room: roomWithSharedData, hasPendingInvitation, ignoredUsers })
   }
 
   // get current rooms from ChatClient and store them to Atoms
-  client.getRooms().forEach((room) => {
-    addRoomToStore(room, 'init')
+  client.getRooms().then((rooms) => {
+    // console.log(rooms, 'initial load')
+    rooms.forEach((room) => {
+      addRoomToStore(room, 'init')
+    })
   })
   setChatInitialized(true)
 
   // set listener for new rooms
-  return client.subscribeToRooms((roomWithAccountData) => {
+  return client.subscribeToRooms((roomWithSharedata) => {
     const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
-
+    // console.log(roomWithSharedata, 'initial load')
     /**
      * @name waitForCorrectRoomName
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
@@ -212,8 +215,8 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      * @param timestamp `number` represents timestamp limit till function postponds setting the atom
      */
     const waitForCorrectRoomName = (timestamp: number) => {
-      if (!hasRoomEmptyName(roomWithAccountData.room) || Date.now() > timestamp) {
-        addRoomToStore(roomWithAccountData, 'subscription')
+      if (!hasRoomEmptyName(roomWithSharedata.room) || Date.now() > timestamp) {
+        addRoomToStore(roomWithSharedata, 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -221,11 +224,11 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       }
     }
 
-    if (hasRoomEmptyName(roomWithAccountData.room)) {
+    if (hasRoomEmptyName(roomWithSharedata.room)) {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomToStore(roomWithAccountData, 'subscription')
+    addRoomToStore(roomWithSharedata, 'subscription')
   })
 }
 
@@ -379,31 +382,30 @@ export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
   }
 }
 
-export function createChatRoom(roomWithAccountData: RoomWithAccountData, hasInvitation = false): ChatRoom {
-  const lastLiveEvent = roomWithAccountData.room.getLastLiveEvent()?.event
+export function createChatRoom(roomWithSharedData: RoomWithSharedData, hasInvitation = false): ChatRoom {
+  const lastLiveEvent = roomWithSharedData.room.getLastLiveEvent()?.event
   const lastMessage = isRoomMessageEvent(lastLiveEvent)
-    ? createChatMessage(roomWithAccountData.room.roomId, lastLiveEvent)
+    ? createChatMessage(roomWithSharedData.room.roomId, lastLiveEvent)
     : undefined
 
-  const roomMxCreatorId = roomWithAccountData.room.getCreator()
-  const roomMxCreator = roomMxCreatorId ? roomWithAccountData.room.getMember(roomMxCreatorId) : null
+  const roomMxCreatorId = roomWithSharedData.room.getCreator()
+  const roomMxCreator = roomMxCreatorId ? roomWithSharedData.room.getMember(roomMxCreatorId) : null
 
-  // TODO: Make sure all is set!
   return {
     hasInvitation,
-    id: roomWithAccountData.room.roomId,
-    notificationCount: roomWithAccountData.room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
-    name: roomWithAccountData.room.name,
+    id: roomWithSharedData.room.roomId,
+    notificationCount: roomWithSharedData.room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
+    name: roomWithSharedData.room.name,
     lastMessage: lastMessage,
     creator: roomMxCreator && createChatMember(roomMxCreator),
-    members: roomWithAccountData.room.getMembers().map(createChatMember),
-    holiSpaceId: roomWithAccountData.holiSpaceId,
-    spaceId: roomWithAccountData.spaceId,
-    spaceName: roomWithAccountData.spaceName,
+    members: roomWithSharedData.room.getMembers().map(createChatMember),
+    holiSpaceId: roomWithSharedData.holiSpaceId,
+    spaceId: roomWithSharedData.spaceId,
+    spaceName: roomWithSharedData.spaceName,
     timestamp:
-      roomWithAccountData.room.getLastActiveTimestamp() > 0
-        ? roomWithAccountData.room.getLastActiveTimestamp()
-        : roomWithAccountData.room
+      roomWithSharedData.room.getLastActiveTimestamp() > 0
+        ? roomWithSharedData.room.getLastActiveTimestamp()
+        : roomWithSharedData.room
             .getLiveTimeline()
             .getState(EventTimeline.FORWARDS)
             ?.getStateEvents(EventType.RoomCreate, '')
