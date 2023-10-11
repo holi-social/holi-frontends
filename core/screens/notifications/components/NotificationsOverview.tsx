@@ -15,6 +15,7 @@ import {
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
+import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 import {
   LastSeenNotificationMutation,
   NotificationsResponse,
@@ -25,15 +26,10 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const NotificationsOverview = () => {
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn, user } = useLoggedInUser()
   const { navigate } = useRouting()
 
-  // Skip using Novu in-app notifications for now
-  // useNotification is using the HeadlessService from @novu/headless,
-  // and it doesn't work on react-native as it uses localStorage
-  // https://github.com/novuhq/novu/blob/4e462d06c5ce9b1eb4e3d38e64dcf904b53f8cdb/packages/headless/src/lib/headless.service.ts#L50
-  // const { notifications } = useNotifications(user?.id)
-  const notifications: Notification[] = []
+  const { notifications } = useNotifications(user?.id)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
