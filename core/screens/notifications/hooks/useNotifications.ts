@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { logError } from '@holi/core/errors/helpers'
 import { Notification, NotificationType } from '@holi/core/screens/notifications/components/types'
 import { novuApplicationIdentifier, novuBackendUrl, novuSocketUrl } from '@holi/core/screens/notifications/config'
+import { novuTokenStorage } from '@holi/core/screens/notifications/hooks/novuTokenStorage'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 const NOVU_NOTIFICATIONS_PAGE_TO_FETCH = 0
@@ -44,21 +45,7 @@ export const useNotifications = (subscriberId?: string) => {
       backendUrl: novuBackendUrl,
       socketUrl: novuSocketUrl,
       subscriberId: subscriberId,
-      tokenStorage: {
-        //todo gregor - use localStorage default for web and only provide this hack for mobile
-        getItem: () => {
-          // @ts-ignore:next-line
-          return global.novuToken ?? null
-        },
-        removeItem: () => {
-          // @ts-ignore:next-line
-          delete global.novuToken
-        },
-        setItem: (_, value) => {
-          // @ts-ignore:next-line
-          global.novuToken = value
-        },
-      },
+      tokenStorage: novuTokenStorage,
     })
 
     headlessServiceRef.current = headlessService
