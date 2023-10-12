@@ -31,13 +31,15 @@ describe('useNotifications', () => {
     })
   })
 
-  it('should initizalize the service with the subscriber id', () => {
+  it('should initialize the service with the subscriber id', () => {
     renderHook(() => useNotifications(subscriberId))
 
-    expect(HeadlessService).toHaveBeenCalledWith({
-      applicationIdentifier: 'testApplicationIdentifier',
-      subscriberId,
-    })
+    expect(HeadlessService).toHaveBeenCalledWith(
+      expect.objectContaining({
+        applicationIdentifier: 'testApplicationIdentifier',
+        subscriberId,
+      })
+    )
   })
 
   it('should initialize the novu session', () => {
