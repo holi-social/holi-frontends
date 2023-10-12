@@ -2,7 +2,6 @@ import { TextProps, TextStyle, ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export type ReadMoreButtonState = 'readMore' | 'readLess' | 'hidden'
 
@@ -18,15 +17,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   readMoreWeb: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    paddingLeft: 34,
-    paddingRight: 20,
-    backgroundImage: `linear-gradient(to right, transparent , ${colors.background10} 15%)`,
-  },
-  readLessWeb: {
-    width: 'fit-content',
     marginTop: 1.5,
   },
 })
