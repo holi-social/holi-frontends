@@ -20,6 +20,8 @@
   "auth.changePassword.input.placeholder-OldPassword": "Your old password…",
   "auth.changePassword.input.dont-match": "Passwords don't match",
   "auth.changePassword.success": "Noted! Please use the new password from now on",
+  "auth.changePasswordDone.heading": "Password changed",
+  "auth.changePasswordDone.description": "Please go back and log in with your new password",
   "auth.forgotPassword": "Forgot password",
   "auth.forgotPassword.success.button": "Back to startpage",
   "auth.forgotPassword.success.headline": "Help is on the way!",

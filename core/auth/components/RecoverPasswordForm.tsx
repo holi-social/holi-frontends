@@ -14,6 +14,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 export type RecoverPasswordFormProps = {
   onSubmit?: (success: boolean, flow?: RecoveryFlow, email?: string) => void
+  webview: boolean
   style?: ViewStyle | ViewStyle[]
 }
 
@@ -62,14 +63,15 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
   return (
     <View style={[styles.viewContainer, props.style]}>
       <FormBuilder flow={flow} onSubmit={requestPasswordRecovery} style={styles.recoverPasswordForm} />
-
-      <AlreadyHaveAccountText mobileNavigateBackFirst style={styles.loginHeadline} />
-
-      <HoliHeading level="2" style={styles.headline2}>
-        {t('auth.login.signUp.link.headline')}
-      </HoliHeading>
-
-      <RegistrationButton style={styles.button} />
+      {!props.webview && (
+        <>
+          <AlreadyHaveAccountText mobileNavigateBackFirst style={styles.loginHeadline} />
+          <HoliHeading level="2" style={styles.headline2}>
+            {t('auth.login.signUp.link.headline')}
+          </HoliHeading>
+          <RegistrationButton style={styles.button} />
+        </>
+      )}
     </View>
   )
 }

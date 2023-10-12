@@ -41,12 +41,14 @@ export interface ChangePasswordProps {
 
 export type ChangePasswordParams = {
   flow: string
+  webview: string
 }
 
 const { useParam } = createParam<ChangePasswordParams>()
 
 const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
   const [flow] = useParam('flow')
+  const [webview] = useParam('webview')
   const { t, i18n } = useTranslation()
   const [oldPwdNode, setOldPwdNode] = useState<UiNode>()
   const [newPwdNode, setNewPwdNode] = useState<UiNode>()
@@ -97,14 +99,26 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow])
 
   useLayoutEffect(() => {
-    setScreenOptions({
-      headerTitle: () => (
-        <HoliHeading level="1" size="small">
-          {t('auth.changePassword.heading')}
-        </HoliHeading>
-      ),
-    })
-  }, [setScreenOptions, t])
+    if (webview)
+      setScreenOptions({
+        headerLeft: () => null,
+        headerRight: () => null,
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      })
+    else
+      setScreenOptions({
+        headerTitle: () => (
+          <HoliHeading level="1" size="small">
+            {t('auth.changePassword.heading')}
+          </HoliHeading>
+        ),
+        navigationCustomOptions: {
+          footerShown: !forgotPasswordFlow,
+        },
+      })
+  }, [setScreenOptions, t, forgotPasswordFlow, webview])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -132,7 +146,8 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
           await submitSettingsFlow(settingsFlow, newPwd, sessionToken)
 
           openToast(t('auth.changePassword.success'), HoliToastType.SUCCESS)
-          navigate('/profile')
+          if (webview) navigate('/profile/settings/changePasswordDone')
+          else navigate('/profile')
         } catch (err) {
           handleFormSubmitError(
             (flow) => {

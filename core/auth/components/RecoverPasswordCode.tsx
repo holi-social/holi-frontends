@@ -27,11 +27,12 @@ const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
 export type RecoverPasswordCodeProps = {
   email: string
   flow?: RecoveryFlow
+  webview: boolean
   onDismiss?: () => void
   onSuccess?: () => void
 }
 
-const RecoverPasswordCode = ({ email, flow }: RecoverPasswordCodeProps) => {
+const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
@@ -66,7 +67,11 @@ const RecoverPasswordCode = ({ email, flow }: RecoverPasswordCodeProps) => {
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422 && error.response?.data?.error?.id === 'browser_location_change_required') {
-          navigate(error.response?.data?.redirect_browser_to)
+          navigate(
+            webview
+              ? error.response?.data?.redirect_browser_to + '&webview=true'
+              : error.response?.data?.redirect_browser_to
+          )
         } else {
           displayError(error, 'Failed to recover with code for password recovery', {
             displayMessage: t('auth.forgotPassword.message.submitCode.error'),
