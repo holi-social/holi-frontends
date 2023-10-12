@@ -22,7 +22,10 @@
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
         "ORY_BASE_URL": "https://dev-auth.holi.social",
-        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
+        "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
+        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
       }
     },
     "development-simulator": {
@@ -41,7 +44,10 @@
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
         "ORY_BASE_URL": "https://dev-auth.holi.social",
-        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
+        "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
+        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
       },
       "ios": {
         "simulator": true
@@ -63,7 +69,10 @@
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
         "ORY_BASE_URL": "https://dev-auth.holi.social",
-        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
+        "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
+        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
       }
     },
     "production": {
@@ -80,7 +89,10 @@
         "JITSI_URL": "https://meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
         "ORY_BASE_URL": "https://auth.holi.social",
-        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
+        "NOVU_APPLICATION_IDENTIFIER": "unwXQBqcNfF1",
+        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
       }
     },
     "simulator": {
@@ -97,7 +109,10 @@
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
         "ORY_BASE_URL": "https://dev-auth.holi.social",
-        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
+        "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
+        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
       },
       "ios": {
         "simulator": true
