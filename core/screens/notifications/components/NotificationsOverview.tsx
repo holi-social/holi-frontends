@@ -4,6 +4,7 @@ import { string } from 'zod'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -29,7 +30,8 @@ const NotificationsOverview = () => {
   const { isLoggedIn, user } = useLoggedInUser()
   const { navigate } = useRouting()
 
-  const { notifications } = useNotifications(user?.id)
+  const { enabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
+  const { notifications } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -80,7 +82,11 @@ const NotificationsOverview = () => {
 
   const groupedNotifications = groupByDate(allNotifications)
 
-  return <NotificationSectionList notifications={groupedNotifications} />
+  return (
+    <>
+      <NotificationSectionList notifications={groupedNotifications} />
+    </>
+  )
 }
 
 export default NotificationsOverview
