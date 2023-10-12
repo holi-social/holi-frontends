@@ -8,6 +8,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { logDebug } from '@holi/core/helpers/logging'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { usePushNotificationDeviceToken } from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./ChatDevTools'))
@@ -34,6 +35,7 @@ interface ChatStoreInitializer {
 const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreInitializer>) => {
   const reloadCount = useChatReloadCounter()
   const chatConnected = useChatConnected()
+  const { deviceToken, deviceTokenInitialized } = usePushNotificationDeviceToken()
 
   const { user } = useLoggedInUser()
   const identity = user?.identity
@@ -42,15 +44,15 @@ const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreIn
 
   useEffect(() => {
     if (!ftLoading && ftEnabled) {
-      if (identity) {
-        startChat().catch((error) =>
+      if (identity && deviceTokenInitialized) {
+        startChat(deviceToken).catch((error) =>
           displayError(error, 'Failed to start chat', {
             location: 'ChatStoreInitializer.startChat',
           })
         )
       }
     }
-  }, [displayError, identity, ftLoading, ftEnabled])
+  }, [displayError, identity, ftLoading, ftEnabled, deviceTokenInitialized, deviceToken])
 
   logDebug('ChatStoreInitializer', 'reloadCount', reloadCount)
 

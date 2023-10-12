@@ -13,6 +13,7 @@ import { Platform } from 'react-native'
 
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
+import { initPushNotificationDeviceToken } from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
@@ -23,6 +24,7 @@ export const initNotifications = async () => {
   } else {
     logDebug('initNotifications', 'initializing notifications')
     let response = await Notifications.getPermissionsAsync()
+    logDebug('initNotifications', 'permission response', response.status)
 
     if (response.status === PermissionStatus.UNDETERMINED) {
       response = await Notifications.requestPermissionsAsync()
@@ -30,7 +32,10 @@ export const initNotifications = async () => {
 
     // iOS also has PROVISIONAL and EPHEMERAL, but we don't request those, so we are fine
     if (response.status === PermissionStatus.GRANTED) {
-      logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler')
+      logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler and device token')
+
+      initPushNotificationDeviceToken()
+
       // permanent, no de-registration needed
       registerHandleNotificationsWhenAppIsInForeground()
       // permanent, no de-registration needed
