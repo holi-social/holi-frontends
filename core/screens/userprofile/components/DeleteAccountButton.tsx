@@ -9,6 +9,8 @@ import {
   DeleteAuthenticatedUserResponse,
   deleteAuthenticatedUserMutation,
 } from '@holi/core/screens/userprofile/queries'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Delete } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -46,10 +48,12 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
         inline
         transparent
         style={style}
+        contentStyle={styles.buttonContent}
         disabled={loading}
         onPress={() => setShowConfirmationModal(true)}
         testID="btn-delete-account"
       >
+        <HoliIcon icon={Delete} color={colors.error30} />
         <HoliText style={[styles.text]}>{label}</HoliText>
       </HoliButton>
       <HoliConfirmation
@@ -76,6 +80,11 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
 export default DeleteAccountButton
 
 const styles = StyleSheet.create({
+  buttonContent: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
   text: {
     color: colors.error30,
   },
