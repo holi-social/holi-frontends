@@ -1,14 +1,15 @@
+let token: string | null = null
+
+// gregor: novu uses localStorage internally,
+// i think we don't need to persist the token,
+// they are fine to live in memory
+// also localStorage doesn't work for mobile
 export const novuTokenStorage = {
-  getItem: () => {
-    // @ts-ignore:next-line
-    return global.novuToken ?? null
-  },
+  getItem: () => token,
   removeItem: () => {
-    // @ts-ignore:next-line
-    delete global.novuToken
+    token = null
   },
   setItem: (_: string, value: string) => {
-    // @ts-ignore:next-line
-    global.novuToken = value
+    token = value
   },
 }
