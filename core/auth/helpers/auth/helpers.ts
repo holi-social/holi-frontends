@@ -14,6 +14,10 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
 
+export const syncUserSessionFromOrySession = async () => {
+  // nothing to do on mobile
+}
+
 // getAuthenticatedSession returns a promise with the session of the authenticated user, if the
 // user is authenticated or null is the user is not authenticated.
 //

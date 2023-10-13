@@ -19,7 +19,7 @@ import {
   submitSettingsFlow,
 } from '@holi/core/auth/helpers/auth'
 import { getSettingsFlow } from '@holi/core/auth/helpers/auth/helpers'
-import { syncUserSessionFromOrySession } from '@holi/core/auth/helpers/auth/helpers.web'
+import { syncUserSessionFromOrySession } from '@holi/core/auth/helpers/auth/helpers'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
