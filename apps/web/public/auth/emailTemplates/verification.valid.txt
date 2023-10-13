@@ -7,7 +7,7 @@ Please activate your account by entering the code below.
 {{ .VerificationCode }}
 
 The code is only valid 15 minutes and will be invalidated afterwards.
-If it's expired, just resend a new code from the input screen.
+If it's expired, just resend a new code from the input screen or restart the flow.
 
 If it wasn't you to sign up for an account, please ignore this email.
 We'll delete the account automatically after 30 days.

@@ -104,8 +104,8 @@
                                   style="padding:0;margin:0;padding-top:64px;padding-bottom:16px;padding-left:16px;font-size:0">
                                 <img
                                   src="https://ik.imagekit.io/holi/holi_logo_xj_2AHHau.png"
-                                  alt="holi workmark" width="72"
-                                  title="holi workmark" height="40"
+                                  alt="holi wordmark" width="72"
+                                  title="holi wordmark" height="40"
                                   style="display:block;font-size:14px;border:0;outline:none;text-decoration:none">
                               </td>
                             </tr>
@@ -146,28 +146,13 @@
                             <tr>
                               <td align="left" style="padding:0;margin:0">
                                 <p style="margin-bottom: 0 !important;">
-                                  Need a new password? No worries!<br/>Please use the button below and follow the instructions there.
+                                  Need a new password? No worries!<br/>Please enter the code below on the screen you were redirected to and follow the instructions there.
                                 </p>
-                                <div style="padding:0;margin:0;padding-top:24px;padding-bottom:24px">
-                                  <!--[if mso]>
-                                  <a href="{{ .RecoveryURL }}" target="_blank" hidden>
-                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
-                                                 xmlns:w="urn:schemas-microsoft-com:office:word"
-                                                 esdevVmlButton href="{{ .RecoveryURL }}"
-                                                 style="v-text-anchor:middle"
-                                                 arcsize="50%" strokecolor="#262424"
-                                                 strokeweight="1px" fillcolor="#FDFD80">
-                                      <w:anchorlock></w:anchorlock>
-                                      <center>Reset password</center>
-                                    </v:roundrect>
-                                  </a>
-                                  <![endif]-->
-                                  <!--[if !mso]-->
-                                  <a href="{{ .RecoveryURL }}" class="button" target="_blank">Reset password</a>
-                                  <!--<![endif]-->
-                                </div>
+                                <h2 style="color: #262424 !important;letter-spacing: .5em !important;margin: 24px 0 !important;">
+                                  {{ .RecoveryCode }}
+                                </h2>
                                 <p>
-                                  The button is only valid 15 minutes and will be invalidated afterwards.
+                                  The code is only valid 15 minutes and will be invalidated afterwards.<br />If it's expired, just resend a new code from the input screen or restart the flow.
                                 </p>
                                 <p>
                                   If you didn't ask for a new password, please ignore this email.
