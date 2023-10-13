@@ -54,7 +54,7 @@ const App = () => {
 
   useEffect(() => {
     init()
-  })
+  }, [])
 
   useEffect(() => {
     if (fontsLoaded && initDone) {

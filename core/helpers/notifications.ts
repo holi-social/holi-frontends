@@ -1,3 +1,4 @@
+import AsyncStore from '@react-native-async-storage/async-storage'
 import { PermissionStatus } from 'expo-modules-core'
 import * as Notifications from 'expo-notifications'
 import {
@@ -20,6 +21,27 @@ import {
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
+const permissionRequestedStorageKey = 'notification_permission_requested'
+
+const getOrRequestNotificationPermission = async (): Promise<PermissionStatus> => {
+  let response = await Notifications.getPermissionsAsync()
+  if (response.status === PermissionStatus.GRANTED) {
+    return response.status
+  }
+
+  const alreadyRequestedPermission = await AsyncStore.getItem(permissionRequestedStorageKey)?.then(
+    (storedValue) => !!storedValue
+  )
+
+  // Make sure to request the permission at least once, if it's denied initially
+  if (response.status === PermissionStatus.UNDETERMINED || !alreadyRequestedPermission) {
+    response = await Notifications.requestPermissionsAsync()
+    AsyncStore.setItem(permissionRequestedStorageKey, 'true')
+  }
+
+  return response.status
+}
+
 export const initNotifications = async () => {
   if (!isDevice()) {
     // doesn't work on android emulator (and also possibly not on iOS simulator)
@@ -27,15 +49,11 @@ export const initNotifications = async () => {
     return Promise.resolve()
   } else {
     logDebug('initNotifications', 'initializing notifications')
-    let response = await Notifications.getPermissionsAsync()
-    logDebug('initNotifications', 'permission response', response.status)
-
-    if (response.status === PermissionStatus.UNDETERMINED) {
-      response = await Notifications.requestPermissionsAsync()
-    }
+    const responseStatus = await getOrRequestNotificationPermission()
+    logDebug('initNotifications', 'permission response', responseStatus)
 
     // iOS also has PROVISIONAL and EPHEMERAL, but we don't request those, so we are fine
-    if (response.status === PermissionStatus.GRANTED) {
+    if (responseStatus === PermissionStatus.GRANTED) {
       logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler and device token')
 
       initPushNotificationDeviceToken()
