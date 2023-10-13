@@ -16,6 +16,22 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
 
+export const syncUserSessionFromOrySession = async () => {
+  try {
+    const session = await newKratosSdk().toSession()
+    if (session && session.data) {
+      const orySession = { session: session.data } as OrySessionContext
+      await setSessionInStorage(orySession)
+      return orySession
+    } else {
+      removeSessionFromStorage()
+    }
+  } catch (e) {
+    // we could not recover a session from Ory, so we are sure there is none
+  }
+  return null
+}
+
 // getAuthenticatedSession returns a promise with the session of the authenticated user, if the
 // user is authenticated or null is the user is not authenticated.
 //
@@ -26,17 +42,7 @@ export const getSessionFromStorage = async () => {
       const resp = await AsyncStore.getItem(userSessionName)
       if (resp) return JSON.parse(resp) as OrySessionContext
       // We don't have a session in storage, but we could still have a valid Ory session cookie, so we try to restore the session
-      try {
-        const session = await newKratosSdk().toSession()
-        if (session && session.data) {
-          const orySession = { session: session.data } as OrySessionContext
-          await setSessionInStorage(orySession)
-          return orySession
-        }
-      } catch (e) {
-        // we could not recover a session from Ory, so we are sure there is none
-      }
-      return null
+      return await syncUserSessionFromOrySession()
     } catch (_) {
       return null
     }

@@ -19,6 +19,7 @@ import {
   submitSettingsFlow,
 } from '@holi/core/auth/helpers/auth'
 import { getSettingsFlow } from '@holi/core/auth/helpers/auth/helpers'
+import { syncUserSessionFromOrySession } from '@holi/core/auth/helpers/auth/helpers.web'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
@@ -129,7 +130,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
     if (isLoggedIn) {
       initForm()
     } else if (flow) {
-      getSessionFromStorage().then((session) => {
+      syncUserSessionFromOrySession().then((session) => {
         if (session) setUserLoggedIn(session)
       })
     }
