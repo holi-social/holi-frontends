@@ -75,19 +75,24 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
       if (session) {
         setSessionToken(session.session_token)
         if (!forgotPasswordFlow) {
+          // we are in a normale change password dialog, so we start a new reauth flow
+          // reauth is needed, because setting sensitive information needs a new reauth
           initReauthFlow(session.session_token)
             .then(({ data: reauthFlow }) => safeSetReauthFlow(reauthFlow))
             .catch((error: Error) =>
               displayError(error, 'Failed to initialize reauth flow', { location: 'ChangePassword.initReauthFlow' })
             )
         }
-        if (flow) {
+        if (forgotPasswordFlow && flow) {
+          // we are in a forgot password recovery flow, where the flow Id was passed as parameter
+          // we just authentiated, so we don't need a reauth. We are getting the existing flow object from Ory to continue
           getSettingsFlow(flow, session.session_token)
             .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
             .catch((error: Error) =>
               displayError(error, 'Failed to initialize settings flow', { location: 'ChangePassword.getSettingsFlow' })
             )
         } else {
+          // fallback to initialize a settings flow
           initSettingsFlow(session.session_token)
             .then(({ data: settingsFlow }) => safeSetSettingsFlow(settingsFlow))
             .catch((error: Error) =>
