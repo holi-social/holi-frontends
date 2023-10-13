@@ -1,4 +1,4 @@
 import * as Notifications from 'expo-notifications'
 
-export const getPushNotificationDeviceToken = async (): Promise<string | null> =>
+export const getDeviceToken = async (): Promise<string | null> =>
   Notifications.getDevicePushTokenAsync().then((token) => token.data)

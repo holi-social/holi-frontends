@@ -8,7 +8,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { logDebug } from '@holi/core/helpers/logging'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
-import { usePushNotificationDeviceToken } from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
+import { useDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./ChatDevTools'))
@@ -35,7 +35,7 @@ interface ChatStoreInitializer {
 const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreInitializer>) => {
   const reloadCount = useChatReloadCounter()
   const chatConnected = useChatConnected()
-  const { deviceToken, deviceTokenInitialized } = usePushNotificationDeviceToken()
+  const { deviceToken, deviceTokenInitialized } = useDeviceToken()
 
   const { user } = useLoggedInUser()
   const identity = user?.identity

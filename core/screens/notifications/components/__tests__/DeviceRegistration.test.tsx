@@ -3,22 +3,22 @@ import { act, render } from '@testing-library/react-native'
 import React from 'react'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import PushNotificationDeviceRegistration from '@holi/core/screens/notifications/components/PushNotificationDeviceRegistration'
-import { getPushNotificationDeviceToken } from '@holi/core/screens/notifications/helpers/getPushNotificationDeviceToken'
-import { initPushNotificationDeviceToken } from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
+import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
+import { getDeviceToken } from '@holi/core/screens/notifications/helpers/getDeviceToken'
+import { initDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { registerDeviceMutation } from '@holi/core/screens/notifications/mutations'
 
 const loggedIn = () => ({ isLoggedIn: true })
 const loggedOut = () => ({ isLoggedIn: false })
 const useAuthMock = useAuth as jest.Mock
 
-const mockGetPushNotificationDeviceToken = getPushNotificationDeviceToken as jest.Mock
+const mockGetDeviceToken = getDeviceToken as jest.Mock
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: jest.fn(),
 }))
-jest.mock('@holi/core/screens/notifications/helpers/getPushNotificationDeviceToken', () => ({
-  getPushNotificationDeviceToken: jest.fn(),
+jest.mock('@holi/core/screens/notifications/helpers/getDeviceToken', () => ({
+  getDeviceToken: jest.fn(),
 }))
 
 const testDeviceToken = 'some_token'
@@ -43,10 +43,10 @@ const registerDeviceRequest = {
 }
 const MOCKS = [registerDeviceRequest]
 
-describe('PushNotificationDeviceRegistration', () => {
+describe('DeviceRegistration', () => {
   beforeEach(async () => {
-    mockGetPushNotificationDeviceToken.mockResolvedValue(testDeviceToken)
-    await initPushNotificationDeviceToken()
+    mockGetDeviceToken.mockResolvedValue(testDeviceToken)
+    await initDeviceToken()
   })
 
   it('should do nothing if no user is logged in', () => {
@@ -54,7 +54,7 @@ describe('PushNotificationDeviceRegistration', () => {
 
     const { toJSON } = render(
       <MockedProvider mocks={[]} addTypename={false}>
-        <PushNotificationDeviceRegistration />
+        <DeviceRegistration />
       </MockedProvider>
     )
 
@@ -67,7 +67,7 @@ describe('PushNotificationDeviceRegistration', () => {
 
     const { toJSON } = render(
       <MockedProvider mocks={MOCKS} addTypename={false}>
-        <PushNotificationDeviceRegistration />
+        <DeviceRegistration />
       </MockedProvider>
     )
 

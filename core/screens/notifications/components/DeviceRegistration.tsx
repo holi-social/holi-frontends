@@ -5,16 +5,16 @@ import { Platform } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
-import { usePushNotificationDeviceToken } from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
+import { useDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { RegisterDeviceResponse, registerDeviceMutation } from '@holi/core/screens/notifications/mutations'
 
-const PushNotificationDeviceRegistration = () => {
+const DeviceRegistration = () => {
   const { isLoggedIn } = useAuth()
-  const { deviceToken } = usePushNotificationDeviceToken()
+  const { deviceToken } = useDeviceToken()
   const [registerDevice] = useMutation<RegisterDeviceResponse>(registerDeviceMutation, {
     onError: (error) =>
       logError(error, 'Failed to register device', {
-        location: 'PushNotificationDeviceRegistration.registerDeviceMutation',
+        location: 'DeviceRegistration.registerDeviceMutation',
       }),
   })
 
@@ -34,4 +34,4 @@ const PushNotificationDeviceRegistration = () => {
   return null
 }
 
-export default withProfiler(PushNotificationDeviceRegistration, { name: 'PushNotificationDeviceRegistration' })
+export default withProfiler(DeviceRegistration, { name: 'DeviceRegistration' })

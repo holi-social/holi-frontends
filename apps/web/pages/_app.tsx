@@ -8,7 +8,7 @@ import React, { ReactElement, ReactNode, useEffect } from 'react'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
-import { markPushNotificationDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
+import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { featureFlag } from '@holi/web/environment'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
@@ -38,7 +38,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
       })
     )
     // Currently we do not support push notifications for web
-    markPushNotificationDeviceTokenAsInitialized()
+    markDeviceTokenAsInitialized()
   }, [])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
