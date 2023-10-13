@@ -32,6 +32,7 @@ let mockRequestPermissionsAsync: jest.Mock | undefined
 let mockSetNotificationHandler: jest.Mock | undefined
 let mockRegisterTaskAsync: jest.Mock | undefined
 let mockScheduleNotificationAsync: jest.Mock | undefined
+let mockGetDevicePushTokenAsync: jest.Mock | undefined
 
 jest.mock('expo-notifications', () => ({
   getPermissionsAsync: () => mockGetPermissionsAsync?.(),
@@ -39,6 +40,7 @@ jest.mock('expo-notifications', () => ({
   setNotificationHandler: (handler: NotificationHandler) => mockSetNotificationHandler?.(handler),
   registerTaskAsync: () => mockRegisterTaskAsync?.(),
   scheduleNotificationAsync: (input: NotificationRequestInput) => mockScheduleNotificationAsync?.(input),
+  getDevicePushTokenAsync: () => mockGetDevicePushTokenAsync?.(),
 }))
 
 function setNotificationMocks(
@@ -50,6 +52,7 @@ function setNotificationMocks(
   mockSetNotificationHandler = jest.fn()
   mockRegisterTaskAsync = jest.fn()
   mockScheduleNotificationAsync = jest.fn()
+  mockGetDevicePushTokenAsync = jest.fn().mockResolvedValue({ data: 'some token', type: 'ios' })
 }
 
 describe('initNotifications', () => {
@@ -63,6 +66,7 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(1)
     // expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1) // not needed right now
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
   })
 
   it('should not do anything in simulator', async () => {
@@ -77,6 +81,7 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(0)
     expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(0)
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
   })
 
   it('should not request permission if already granted', async () => {
@@ -89,6 +94,7 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(1)
     // expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1) // not needed right now
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
   })
 
   it('should not request permission if it is already declined', async () => {
@@ -101,6 +107,7 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(0)
     expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(0)
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
   })
 
   describe('foreground handling', () => {

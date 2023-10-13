@@ -1,5 +1,6 @@
 import { ClientEvent } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
+import { Platform } from 'react-native'
 
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 
@@ -10,6 +11,7 @@ import { StoredCredentials } from '../utils'
 
 let mockSetPusher: jest.Mock | undefined
 let mockRemovePusher: jest.Mock | undefined
+const mockPlatformOS = jest.fn()
 
 // prevent matrix-sdk-internal logging noise
 console.debug = jest.fn()
@@ -74,26 +76,37 @@ jest.mock('@holi/chat/src/utils/storage', () => ({
     }),
 }))
 
-let mockGetDevicePushTokenAsync: jest.Mock | undefined
-
-jest.mock('expo-notifications', () => ({
-  getDevicePushTokenAsync: () => mockGetDevicePushTokenAsync?.(),
-}))
-
 describe('startChat', () => {
+  const testToken = 'some pushkey'
+  const originalOS = Platform.OS
+
+  beforeAll(() => {
+    Object.defineProperty(Platform, 'OS', {
+      get: mockPlatformOS,
+    })
+  })
+
+  afterAll(() => {
+    Object.defineProperty(Platform, 'OS', {
+      get: () => originalOS,
+    })
+  })
+
   describe('Android', () => {
+    beforeEach(() => {
+      mockPlatformOS.mockReturnValue('android')
+    })
+
     it('should call configure pusher, which removes correct pusher and sets new one', async () => {
-      mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'android', data: 'some pushkey' })
       mockRemovePusher = jest.fn()
       mockSetPusher = jest.fn()
 
-      await startChat()
+      await startChat(testToken)
 
-      expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
       expect(mockRemovePusher).toHaveBeenCalledTimes(1)
       expect(mockSetPusher).toHaveBeenCalledTimes(1)
 
-      expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
+      expect(mockRemovePusher.mock.lastCall).toEqual([testToken, 'our app id'])
 
       const pusher = mockSetPusher.mock.lastCall[0]
       expect(pusher).toEqual({
@@ -114,24 +127,26 @@ describe('startChat', () => {
         kind: 'http',
         lang: 'en',
         profile_tag: 'override',
-        pushkey: 'some pushkey',
+        pushkey: testToken,
       })
     })
   })
 
   describe('iOS', () => {
+    beforeEach(() => {
+      mockPlatformOS.mockReturnValue('ios')
+    })
+
     it('should call configure pusher, which removes correct pusher and sets new one', async () => {
-      mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'ios', data: 'some pushkey' })
       mockRemovePusher = jest.fn()
       mockSetPusher = jest.fn()
 
-      await startChat()
+      await startChat(testToken)
 
-      expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
       expect(mockRemovePusher).toHaveBeenCalledTimes(1)
       expect(mockSetPusher).toHaveBeenCalledTimes(1)
 
-      expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
+      expect(mockRemovePusher.mock.lastCall).toEqual([testToken, 'our app id'])
 
       const pusher = mockSetPusher.mock.lastCall[0]
       expect(pusher).toEqual({
@@ -155,7 +170,7 @@ describe('startChat', () => {
         kind: 'http',
         lang: 'en',
         profile_tag: 'override',
-        pushkey: 'some pushkey',
+        pushkey: testToken,
       })
     })
   })

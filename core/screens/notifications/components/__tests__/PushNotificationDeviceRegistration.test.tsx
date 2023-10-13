@@ -58,6 +58,7 @@ describe('PushNotificationDeviceRegistration', () => {
       </MockedProvider>
     )
 
+    // TODO: check that mutation was really not called
     expect(toJSON()).toBeNull()
   })
 
@@ -70,6 +71,7 @@ describe('PushNotificationDeviceRegistration', () => {
       </MockedProvider>
     )
 
+    // TODO: check that mutation was actually called
     await act(() => expect(toJSON()).toBeNull())
   })
 })

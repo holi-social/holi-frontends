@@ -13,13 +13,17 @@ import { Platform } from 'react-native'
 
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
-import { initPushNotificationDeviceToken } from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
+import {
+  initPushNotificationDeviceToken,
+  markPushNotificationDeviceTokenAsInitialized,
+} from '@holi/core/screens/notifications/helpers/usePushNotificationDeviceToken'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export const initNotifications = async () => {
   if (!isDevice()) {
     // doesn't work on android emulator (and also possibly not on iOS simulator)
+    markPushNotificationDeviceTokenAsInitialized()
     return Promise.resolve()
   } else {
     logDebug('initNotifications', 'initializing notifications')
@@ -40,6 +44,8 @@ export const initNotifications = async () => {
       registerHandleNotificationsWhenAppIsInForeground()
       // permanent, no de-registration needed
       await registerHandleNotificationsWhenAppIsInBackground()
+    } else {
+      markPushNotificationDeviceTokenAsInitialized()
     }
   }
 }
