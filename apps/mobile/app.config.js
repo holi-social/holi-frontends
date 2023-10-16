@@ -64,6 +64,7 @@ export default {
       googleServicesFile: './google-services.json',
       adaptiveIcon: {
         foregroundImage: './assets/icon_android.png',
+        monochromeImage: './assets/icon_android_monochromatic.png',
         backgroundColor: '#fdfd80',
       },
     },
