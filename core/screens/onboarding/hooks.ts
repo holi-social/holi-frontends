@@ -34,6 +34,13 @@ export const useStoredOnboardingState = () => {
 
       switch (value) {
         case 'onboarding':
+          if (isLoggedIn) {
+            await storeOnboardingState('finished')
+            onboardingStateVar('finished')
+          } else {
+            onboardingStateVar(value)
+          }
+          break
         case 'emailVerification':
         case 'finished':
           onboardingStateVar(value)
