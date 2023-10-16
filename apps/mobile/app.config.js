@@ -62,6 +62,11 @@ export default {
       versionCode: versions.androidVersionCode,
       // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
       googleServicesFile: './google-services.json',
+      adaptiveIcon: {
+        foregroundImage: './assets/icon_android.png',
+        monochromeImage: './assets/icon_android_monochromatic.png',
+        backgroundColor: '#fdfd80',
+      },
     },
     plugins: [
       'expo-localization',
