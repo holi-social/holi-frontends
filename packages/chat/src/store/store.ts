@@ -176,6 +176,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
   const chatRoom = createChatRoom(room, hasPendingInvitation)
   // Space rooms are used as containers and not shown in the UI
   if (room.room.isSpaceRoom()) return
+
   // We hide chat rooms with only ignored members from the user. We do an
   // early return not to include the chat room in the store.
   if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
@@ -195,8 +196,13 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   }
 
   // get current rooms from ChatClient and store them to Atoms
-  client.getRooms().then((rooms) => {
-    rooms.forEach((room) => {
+  client.getRooms().then(async (rooms) => {
+    rooms.forEach(async (room) => {
+      // TODO: accept invitation only for JOINED HOLI SPACES !!!
+      // automatically accept general space room invitations
+      if (room.room.name === '#general' && room.room.getMyMembership().toUpperCase() === MembershipStatus.Invited) {
+        await client.joinRoom(room.room.roomId)
+      }
       addRoomToStore(room, 'init')
     })
   })
