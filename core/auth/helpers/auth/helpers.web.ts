@@ -16,6 +16,22 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
 
+export const syncUserSessionFromOrySession = async () => {
+  try {
+    const session = await newKratosSdk().toSession()
+    if (session && session.data) {
+      const orySession = { session: session.data } as OrySessionContext
+      await setSessionInStorage(orySession)
+      return orySession
+    } else {
+      removeSessionFromStorage()
+    }
+  } catch (e) {
+    // we could not recover a session from Ory, so we are sure there is none
+  }
+  return null
+}
+
 // getAuthenticatedSession returns a promise with the session of the authenticated user, if the
 // user is authenticated or null is the user is not authenticated.
 //
@@ -26,17 +42,7 @@ export const getSessionFromStorage = async () => {
       const resp = await AsyncStore.getItem(userSessionName)
       if (resp) return JSON.parse(resp) as OrySessionContext
       // We don't have a session in storage, but we could still have a valid Ory session cookie, so we try to restore the session
-      try {
-        const session = await newKratosSdk().toSession()
-        if (session && session.data) {
-          const orySession = { session: session.data } as OrySessionContext
-          await setSessionInStorage(orySession)
-          return orySession
-        }
-      } catch (e) {
-        // we could not recover a session from Ory, so we are sure there is none
-      }
-      return null
+      return await syncUserSessionFromOrySession()
     } catch (_) {
       return null
     }
@@ -107,10 +113,29 @@ export const initRegistrationFlow = (): AxiosPromise<RegistrationFlow> =>
 export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> =>
   newKratosSdk().createBrowserRecoveryFlow().catch(handleKratosSdkError('createBrowserRecoveryFlow'))
 
+export const updatePasswordRecoveryFlowEmail = async (flow: RecoveryFlow, email: string) => {
+  const csrf_token = extractValue(flow, 'csrf_token')
+  return newKratosSdk().updateRecoveryFlow({
+    flow: flow.id,
+    updateRecoveryFlowBody: { method: 'code', email, csrf_token },
+  })
+}
+
+export const updatePasswordRecoveryFlowCode = async (flow: RecoveryFlow, code: string) => {
+  const csrf_token = extractValue(flow, 'csrf_token')
+  return newKratosSdk().updateRecoveryFlow({
+    flow: flow.id,
+    updateRecoveryFlowBody: { method: 'code', code, csrf_token },
+  })
+}
+
 // Change Password
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
 export const initSettingsFlow = (): AxiosPromise<SettingsFlow> =>
   newKratosSdk().createBrowserSettingsFlow().catch(handleKratosSdkError('createBrowserSettingsFlow'))
+
+export const getSettingsFlow = (flowId: string): AxiosPromise<SettingsFlow> =>
+  newKratosSdk().getSettingsFlow({ id: flowId }).catch(handleKratosSdkError('getSettingsFlow'))
 
 export const submitSettingsFlow = (flow: SettingsFlow, password: string): AxiosPromise<SettingsFlow> => {
   const csrf_token = extractValue(flow, 'csrf_token')

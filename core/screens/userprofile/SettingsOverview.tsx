@@ -9,7 +9,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { AccountCircle, FolderLock, Help } from '@holi/icons/src/generated'
+import { AccountCircle, FolderLock, Help, LogoutBox } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -66,6 +66,7 @@ const SettingsOverview = () => {
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
             label={t('profile.logout')}
+            icon={LogoutBox}
             onPress={() => setShowLogoutConfirmation(true)}
             contentStyle={styles.settingsItem}
             testID="btn-to-logout"

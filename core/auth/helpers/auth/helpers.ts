@@ -2,6 +2,7 @@
 import {
   LoginFlow,
   PerformNativeLogoutBody,
+  RecoveryFlow,
   SettingsFlow,
   UpdateLoginFlowBody,
   VerificationFlow,
@@ -12,6 +13,10 @@ import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/help
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
+
+export const syncUserSessionFromOrySession = async () => {
+  // nothing to do on mobile
+}
 
 // getAuthenticatedSession returns a promise with the session of the authenticated user, if the
 // user is authenticated or null is the user is not authenticated.
@@ -84,12 +89,23 @@ export const initRegistrationFlow = async () =>
 export const initPasswordRecoveryFlow = async () =>
   newKratosSdk().createNativeRecoveryFlow().catch(handleKratosSdkError('createNativeRecoveryFlow'))
 
+export const updatePasswordRecoveryFlowEmail = async (flow: RecoveryFlow, email: string) =>
+  newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: { method: 'code', email } })
+
+export const updatePasswordRecoveryFlowCode = async (flow: RecoveryFlow, code: string) =>
+  newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: { method: 'code', code } })
+
 // Change Password
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
 export const initSettingsFlow = async (sessionToken?: string) =>
   newKratosSdk()
     .createNativeSettingsFlow({ xSessionToken: sessionToken })
     .catch(handleKratosSdkError('createNativeSettingsFlow'))
+
+export const getSettingsFlow = (flowId: string, sessionToken?: string): AxiosPromise<SettingsFlow> =>
+  newKratosSdk()
+    .getSettingsFlow({ id: flowId, xSessionToken: sessionToken })
+    .catch(handleKratosSdkError('getSettingsFlow'))
 
 export const submitSettingsFlow = async (flow: SettingsFlow, password: string, sessionToken?: string) =>
   newKratosSdk()

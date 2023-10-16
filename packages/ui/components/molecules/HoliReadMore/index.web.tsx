@@ -64,10 +64,9 @@ const HoliReadMore = ({ children, numberOfLines = 3, ...textProps }: PropsWithCh
         </HoliText>
       </Text>
       {buttonState !== 'hidden' && (
-        <View style={[buttonState === 'readMore' ? styles.readMoreWeb : styles.readLessWeb]}>
+        <View style={[styles.readMoreWeb]}>
           <HoliButton label={buttonLabel} onPress={toggleButtonState} transparent>
-            <HoliText color="black300" bold>
-              {buttonState === 'readMore' ? '...' : ''}
+            <HoliText color="black300" bold align="right">
               {buttonLabel}
             </HoliText>
           </HoliButton>
