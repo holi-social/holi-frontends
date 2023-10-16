@@ -7,7 +7,6 @@ import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatSession'
 import {
   ChatRoomMember,
-  CreateSpaceOptions,
   MatrixId,
   MembershipStatus,
   NotificationCount,
@@ -174,8 +173,10 @@ interface RoomAtomsRecordAtomSubscriberArgs {
 const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
   const { room, hasPendingInvitation, ignoredUsers } = args
   const chatRoom = createChatRoom(room, hasPendingInvitation)
+
   // Space rooms are used as containers and not shown in the UI
   if (room.room.isSpaceRoom()) return
+
   // We hide chat rooms with only ignored members from the user. We do an
   // early return not to include the chat room in the store.
   if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
@@ -187,6 +188,12 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
   const ignoredUsers = client.getIgnoredUsers()
 
+  const joinGeneralSpaceRoom = async ({ room }: RoomWithSharedData) => {
+    if (room.name === '#general' && room.getMyMembership().toUpperCase() === MembershipStatus.Invited) {
+      await client.joinRoom(room.roomId)
+    }
+  }
+
   const addRoomToStore = (roomWithSharedData: RoomWithSharedData, logPhase: string) => {
     const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
 
@@ -195,9 +202,12 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   }
 
   // get current rooms from ChatClient and store them to Atoms
-  client.getRooms().then((rooms) => {
-    rooms.forEach((room) => {
-      addRoomToStore(room, 'init')
+  client.getRooms().then(async (rooms) => {
+    rooms.forEach(async (roomWithSharedData) => {
+      addRoomToStore(roomWithSharedData, 'init')
+      // TODO: accept invitation only for JOINED HOLI SPACES !!!
+      // automatically accept general space room invitations
+      await joinGeneralSpaceRoom(roomWithSharedData)
     })
   })
   setChatInitialized(true)
@@ -231,6 +241,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     }
 
     addRoomToStore(roomWithSharedData, 'subscription')
+    joinGeneralSpaceRoom(roomWithSharedData)
   })
 
   return () => {
@@ -333,21 +344,23 @@ export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
   return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true })
 }
 
-/**
- * @name createSpace
- * @description creates a space in Matrix and a room for it
- * and adds the default #general room to the created space.
- */
-export const createSpace = async (userIds: string[], options: CreateSpaceOptions): Promise<void> => {
-  const client = getChatClient()
-  try {
-    const { spaceId, spaceName } = await client.createSpace(userIds, options)
-    const { room_id } = await client.createRoom(userIds, { isDirectMessage: false, name: '#general' })
-    await client.addRoomToSpace(spaceId, spaceName, room_id)
-  } catch (err) {
-    logError(err, 'Could not create a space in Matrix', { location: 'Chat-Store: createSpace' })
-  }
-}
+// eslint-disable-next-line no-console
+console.log('TODO: remove')
+// /**
+//  * @name createSpace
+//  * @description creates a space in Matrix and a room for it
+//  * and adds the default #general room to the created space.
+//  */
+// export const createSpace = async (userIds: string[], options: CreateSpaceOptions): Promise<void> => {
+//   const client = getChatClient()
+//   try {
+//     const { spaceId, spaceName } = await client.createSpace(userIds, options)
+//     const { room_id } = await client.createRoom(userIds, { isDirectMessage: false, name: '#general' })
+//     await client.addRoomToSpace(spaceId, spaceName, room_id)
+//   } catch (err) {
+//     logError(err, 'Could not create a space in Matrix', { location: 'Chat-Store: createSpace' })
+//   }
+// }
 
 /**
  * @name joinRoom
