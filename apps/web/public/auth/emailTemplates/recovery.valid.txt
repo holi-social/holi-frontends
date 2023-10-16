@@ -1,11 +1,12 @@
 Hey there,
 
 Need a new password? No worries!
-Please click the link below and follow the instructions there.
+Please enter the code below on the screen you were redirected to and follow the instructions there.
 
-{{ .RecoveryURL }}
+{{ .RecoveryCode }}
 
-The link is only valid 15 minutes and will be invalidated afterwards.
+The code is only valid 15 minutes and will be invalidated afterwards.
+If it's expired, just resend a new code from the input screen or restart the flow.
 
 If you didn't ask for a new password, please ignore this email.
 

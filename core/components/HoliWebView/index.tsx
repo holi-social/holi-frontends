@@ -110,6 +110,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigate
       onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
       {...webViewProps}
       source={addHeadersIfSourceUri(webViewProps.source, currentUri)}
+      testID="web-view"
     />
   )
 }
