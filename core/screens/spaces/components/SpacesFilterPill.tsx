@@ -6,7 +6,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type FilterType = 'generic' | 'topic' | 'skill' | 'location'
+type FilterType = 'generic' | 'topic' | 'skill' | 'location' | 'planned'
 
 interface BaseProps {
   label: string
@@ -75,7 +75,7 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
         />
       )}
       {small ? (
-        <HoliText size="small" numberOfLines={1}>
+        <HoliText size={filterType === 'planned' ? 'extrasmall' : 'small'} numberOfLines={1}>
           {label}
         </HoliText>
       ) : (
@@ -98,6 +98,9 @@ const getStyles = (small: boolean) =>
     },
     topic: {
       backgroundColor: colors.brandColorC20,
+    },
+    planned: {
+      backgroundColor: colors.brandColorD10,
     },
     buttonContent: {
       borderColor: colors.foreground30,

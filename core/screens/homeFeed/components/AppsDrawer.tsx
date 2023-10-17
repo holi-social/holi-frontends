@@ -6,8 +6,9 @@ import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HoliApp } from '@holi/core/screens/homeFeed/components/AppTile'
 import AppTile from '@holi/core/screens/homeFeed/components/AppTile'
+import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Apps } from '@holi/icons/src/generated'
+import { Apps, ArrowRightS } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -65,12 +66,19 @@ const AppsDrawer: React.FC = () => {
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
+          <HoliHeading level="1">{t('apps.drawer.headline')}</HoliHeading>
           <View style={styles.listContents}>
             {APP_SWIPER_APPS.map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </View>
+          <HoliButton inline transparent style={styles.appsHubButton} label={''}>
+            <View style={styles.appsHubContainer}>
+              <HoliHeading size="small">Apps Hub</HoliHeading>
+              <SpacesFilterPill label="Planned" filterType="planned" small />
+              <HoliIcon icon={ArrowRightS} size={24} color={colors.foreground30} />
+            </View>
+          </HoliButton>
         </View>
       </HoliModal>
     </>
@@ -99,13 +107,22 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   modalContent: {
-    paddingHorizontal: 10,
+    gap: 16,
   },
   listContents: {
-    gap: 12,
+    gap: 8,
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 48,
+    marginTop: 24,
+  },
+  appsHubButton: {
+    marginVertical: 16,
+    marginHorizontal: 12,
+    marginBottom: 36,
+  },
+  appsHubContainer: {
+    gap: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })

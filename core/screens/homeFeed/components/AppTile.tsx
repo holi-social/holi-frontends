@@ -55,7 +55,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
         {!!appData.icon && (
           <HoliIcon
             icon={appData.icon}
-            size={30}
+            size={24}
             color={isActive && !ftMaintenance ? colors.foreground30 : colors.foreground10}
           />
         )}
@@ -70,6 +70,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
 
       <HoliText
         selectable
+        bold
         style={[styles.appName, isActive && !ftMaintenance ? { color: colors.foreground30 } : { marginTop: 4 }]}
         size={'extrasmall'}
       >
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     height: tileWidth,
   },
   appName: {
-    paddingTop: 4,
+    paddingTop: 8,
     alignSelf: 'center',
     textAlign: 'center',
     color: colors.foreground20,
