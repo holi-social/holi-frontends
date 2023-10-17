@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -25,6 +25,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
     space.location ? { label: space.location, id: '', coordinates: space.geolocation } : undefined
   )
   const [validationErrorText, setValidationErrorText] = useState('')
+  const [locationQuery, setLocationQuery] = useState(space?.location || '')
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
@@ -41,24 +42,48 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   }, [selectedLocation])
 
   const { t } = useTranslation()
+
   const onSave = () => {
-    if (!selectedLocation) {
+    if (!selectedLocation && locationQuery.length) {
       setValidationErrorText(t('spaces.input.location.validation.helper'))
       return
     }
+
+    const locationUpdate =
+      !!locationQuery && locationQuery !== space.location
+        ? {
+            location: selectedLocation?.label,
+            geolocation: {
+              latitude: selectedLocation?.coordinates?.latitude,
+              longitude: selectedLocation?.coordinates?.longitude,
+            },
+          }
+        : {
+            location: '',
+          }
+
     updateSpace({
       variables: {
         input: {
           id: space.id,
-          location: selectedLocation?.label,
-          geolocation: {
-            latitude: selectedLocation?.coordinates?.latitude,
-            longitude: selectedLocation?.coordinates?.longitude,
-          },
+          ...locationUpdate,
         },
       },
     })
   }
+
+  const onLocationClose = useCallback(
+    (selectedSuggestion?: GeolocationSuggestion) => {
+      setSelectedLocation(selectedSuggestion)
+
+      if (!selectedSuggestion && locationQuery.length) {
+        setValidationErrorText(t('spaces.input.location.validation.helper'))
+      } else {
+        setValidationErrorText('')
+      }
+    },
+    [locationQuery.length, t]
+  )
 
   return (
     <DefaultLayout
@@ -70,7 +95,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
       <FormWrapper
         isModal={true}
         onSave={onSave}
-        saveButtonDisabled={loading || !selectedLocation}
+        saveButtonDisabled={loading}
         loading={loading}
         keyboardShouldPersistTaps="handled"
         testID="space-edit-modal"
@@ -82,6 +107,9 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
             onChange={setSelectedLocation}
             location={selectedLocation}
             validationErrorText={validationErrorText}
+            onLocationClose={onLocationClose}
+            onChangeText={setLocationQuery}
+            fetchDetailsOnClose
           />
         )}
       />

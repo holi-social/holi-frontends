@@ -12,6 +12,8 @@ export interface SpaceLocationInputProps extends Partial<PlacesAutocompleteProps
   description: string
   validationErrorText?: string
   onChange: (selected: GeolocationSuggestion) => void
+  onLocationClose?: () => void
+  onChangeText?: (text: string) => void
   location?: GeolocationSuggestion
 }
 
@@ -20,6 +22,8 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
   description,
   validationErrorText,
   onChange,
+  onLocationClose,
+  onChangeText,
   location,
 }: SpaceLocationInputProps) => {
   const { t } = useTranslation()
@@ -39,11 +43,14 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         testID="spaces-location"
         onChange={onChange}
         onSubmit={onChange}
+        onClose={onLocationClose}
+        onChangeText={onChangeText}
         style={[styles.input, { zIndex: 2 }]}
-        inputProps={{ autoFocus: true }}
+        inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
         validationErrorText={validationErrorText}
         helperText={location ? undefined : t('spaces.input.location.validation.helper')}
         suggestionsStyle={styles.suggestionsContainer}
+        fetchDetailsOnClose
       />
     </View>
   )
