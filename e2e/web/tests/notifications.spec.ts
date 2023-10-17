@@ -39,30 +39,19 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // notifications currently can take a while to load, therefore we're setting a long timeout here
-  await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 60000 })
+  await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 10000 })
   await page.waitForSelector(byTestId('connection-notification-item'))
 
   // ignore first CONNECTION_REQUEST
-  // run the following actions in parallel
-  await Promise.all([
-    // wait for ignoring the connection request
-    page.waitForResponse('/api/graphql'),
-    // ignore the connection request
-    clickElementByTestId(page, 'ignore-connection-request-button'),
-  ])
+  await clickElementByTestId(page, 'ignore-connection-request-button')
 
   // accept second CONNECTION_REQUEST
-  // run the following actions in parallel
-  await Promise.all([
-    // Waits for accepting the connection request
-    page.waitForResponse('/api/graphql'),
-    // accept the connection request
-    clickElementByTestId(page, 'accept-connection-request-button'),
-  ])
+  await clickElementByTestId(page, 'accept-connection-request-button')
 }
 
 const testUserMentionInPostComment = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
   let commentTextContent = ''
+
   const createCommentWithE2EUserMention = async (page: Page) => {
     const userId = process.env.E2E_USER_ID
     expect(userId?.length).toBe(36)
