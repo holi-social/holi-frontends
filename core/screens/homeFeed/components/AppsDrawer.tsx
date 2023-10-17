@@ -66,7 +66,7 @@ const AppsDrawer: React.FC = () => {
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="1">{t('apps.drawer.headline')}</HoliHeading>
+          <HoliHeading level="1">Apps</HoliHeading>
           <View style={styles.listContents}>
             {APP_SWIPER_APPS.map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
@@ -75,7 +75,7 @@ const AppsDrawer: React.FC = () => {
           <HoliButton inline transparent style={styles.appsHubButton} label={''}>
             <View style={styles.appsHubContainer}>
               <HoliHeading size="small">Apps Hub</HoliHeading>
-              <SpacesFilterPill label="Planned" filterType="planned" small />
+              <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
               <HoliIcon icon={ArrowRightS} size={24} color={colors.foreground30} />
             </View>
           </HoliButton>

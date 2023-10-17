@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
     borderColor: colors.background30,
     borderRadius: 16,
-    borderWidth: 2,
+    borderWidth: 1,
     width: tileWidth,
     height: tileWidth,
   },
