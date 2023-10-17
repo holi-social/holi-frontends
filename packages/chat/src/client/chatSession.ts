@@ -65,7 +65,7 @@ export const useChatInitialized = () => {
   return useReactiveVar(chatInitialized)
 }
 
-const unknownTokenHandler = async (): Promise<void> => {
+const unknownTokenHandler = async (deviceToken?: string): Promise<void> => {
   if (!isStopping) {
     logInfoMsg('[chatSession] chat client has an invalid token: reconnecting')
     try {
@@ -73,12 +73,12 @@ const unknownTokenHandler = async (): Promise<void> => {
     } catch (e) {
       logInfo(e, '[chatSession] could not stop chatClient. This is expected.')
     } finally {
-      await startChat()
+      await startChat(deviceToken)
     }
   }
 }
 
-export const startChat = async (): Promise<void> => {
+export const startChat = async (deviceToken?: string): Promise<void> => {
   if (isStarting || isStopping || chatClient?.isRunning()) return
 
   isStarting = true
@@ -100,13 +100,14 @@ export const startChat = async (): Promise<void> => {
           deviceId: credentials.device_id,
           userId: credentials.user_id,
           freshLogin: credentials.fresh_login,
+          deviceToken,
         })
       })
 
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
-    await chatClient.start(unknownTokenHandler)
+    await chatClient.start(() => unknownTokenHandler(deviceToken))
     initChatClient(chatClient)
     await chatClient.configurePusher().catch((e) => {
       logError(e, 'Could not set up push notifications for chat', { location: 'chatSession.startChat.configurePusher' })

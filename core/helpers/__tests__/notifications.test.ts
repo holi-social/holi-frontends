@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { PermissionStatus } from 'expo-modules-core'
 import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
 
@@ -27,11 +28,21 @@ jest.mock('@holi/core/helpers/isDevice', () => ({
   isDevice: () => mockIsDevice?.() ?? true, // default = true
 }))
 
+const mockGetStorage = AsyncStorage.getItem as jest.Mock
+const mockWriteStorage = AsyncStorage.setItem as jest.Mock
+jest.mock('@react-native-async-storage/async-storage', () => {
+  return {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  }
+})
+
 let mockGetPermissionsAsync: jest.Mock | undefined
 let mockRequestPermissionsAsync: jest.Mock | undefined
 let mockSetNotificationHandler: jest.Mock | undefined
 let mockRegisterTaskAsync: jest.Mock | undefined
 let mockScheduleNotificationAsync: jest.Mock | undefined
+let mockGetDevicePushTokenAsync: jest.Mock | undefined
 
 jest.mock('expo-notifications', () => ({
   getPermissionsAsync: () => mockGetPermissionsAsync?.(),
@@ -39,20 +50,26 @@ jest.mock('expo-notifications', () => ({
   setNotificationHandler: (handler: NotificationHandler) => mockSetNotificationHandler?.(handler),
   registerTaskAsync: () => mockRegisterTaskAsync?.(),
   scheduleNotificationAsync: (input: NotificationRequestInput) => mockScheduleNotificationAsync?.(input),
+  getDevicePushTokenAsync: () => mockGetDevicePushTokenAsync?.(),
 }))
 
 function setNotificationMocks(
   getStatus: PermissionStatus = PermissionStatus.UNDETERMINED,
-  requestStatus: PermissionStatus = PermissionStatus.GRANTED
+  requestStatus: PermissionStatus = PermissionStatus.GRANTED,
+  alreadyRequestedPermission = false
 ) {
   mockGetPermissionsAsync = jest.fn().mockReturnValue({ status: getStatus })
   mockRequestPermissionsAsync = jest.fn().mockReturnValue({ status: requestStatus })
   mockSetNotificationHandler = jest.fn()
   mockRegisterTaskAsync = jest.fn()
   mockScheduleNotificationAsync = jest.fn()
+  mockGetDevicePushTokenAsync = jest.fn().mockResolvedValue({ data: 'some token', type: 'ios' })
+  mockGetStorage.mockResolvedValue(alreadyRequestedPermission || undefined)
 }
 
 describe('initNotifications', () => {
+  const permissionRequestedStorageKey = 'notification_permission_requested'
+
   it('should request permissions and set foreground and background handlers', async () => {
     setNotificationMocks()
 
@@ -63,6 +80,9 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(1)
     // expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1) // not needed right now
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
+    expect(mockGetStorage).toHaveBeenCalledWith(permissionRequestedStorageKey)
+    expect(mockWriteStorage).toHaveBeenCalledWith(permissionRequestedStorageKey, 'true')
   })
 
   it('should not do anything in simulator', async () => {
@@ -77,6 +97,9 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(0)
     expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(0)
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetStorage).toHaveBeenCalledTimes(0)
+    expect(mockWriteStorage).toHaveBeenCalledTimes(0)
   })
 
   it('should not request permission if already granted', async () => {
@@ -89,10 +112,28 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(1)
     // expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1) // not needed right now
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
+    expect(mockGetStorage).toHaveBeenCalledTimes(0)
+    expect(mockWriteStorage).toHaveBeenCalledTimes(0)
   })
 
-  it('should not request permission if it is already declined', async () => {
-    setNotificationMocks(PermissionStatus.DENIED, PermissionStatus.DENIED)
+  it('should request permission if initially declined but never requested before', async () => {
+    setNotificationMocks(PermissionStatus.DENIED, PermissionStatus.DENIED, false)
+
+    await initNotifications()
+
+    expect(mockGetPermissionsAsync).toHaveBeenCalledTimes(1)
+    expect(mockRequestPermissionsAsync).toHaveBeenCalledTimes(1)
+    expect(mockSetNotificationHandler).toHaveBeenCalledTimes(0)
+    expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(0)
+    expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetStorage).toHaveBeenCalledWith(permissionRequestedStorageKey)
+    expect(mockWriteStorage).toHaveBeenCalledWith(permissionRequestedStorageKey, 'true')
+  })
+
+  it('should not request permission if previous request got declined', async () => {
+    setNotificationMocks(PermissionStatus.DENIED, PermissionStatus.DENIED, true)
 
     await initNotifications()
 
@@ -101,6 +142,9 @@ describe('initNotifications', () => {
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(0)
     expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(0)
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
+    expect(mockGetStorage).toHaveBeenCalledWith(permissionRequestedStorageKey)
+    expect(mockWriteStorage).toHaveBeenCalledTimes(0)
   })
 
   describe('foreground handling', () => {
