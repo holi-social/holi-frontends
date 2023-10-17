@@ -44,6 +44,11 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   const { t } = useTranslation()
 
   const onSave = () => {
+    if (!selectedLocation && locationQuery.length) {
+      setValidationErrorText(t('spaces.input.location.validation.helper'))
+      return
+    }
+
     const locationUpdate =
       !!locationQuery && locationQuery !== space.location
         ? {
@@ -54,8 +59,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
             },
           }
         : {
-            location: null,
-            geolocation: null,
+            location: '',
           }
 
     updateSpace({
