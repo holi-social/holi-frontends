@@ -72,7 +72,7 @@ const AppsDrawer: React.FC = () => {
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </View>
-          <HoliButton inline transparent style={styles.appsHubButton} label={''}>
+          <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigate('appsHub')}>
             <View style={styles.appsHubContainer}>
               <HoliHeading size="small">Apps Hub</HoliHeading>
               <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
