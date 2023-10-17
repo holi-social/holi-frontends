@@ -3,8 +3,8 @@ import { BrowserContext, Page, expect } from '@playwright/test'
 import {
   byTestId,
   checkAccessibility,
-  clickElement,
   clickElementByTestId,
+  clickFirstElement,
   locateElementByTestId,
   proceedAsGuest,
   waitForAnimationEnd,
@@ -57,7 +57,7 @@ const testFiltering = async (page: Page) => {
   // select first suggestion for "Hamburg"
   let locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
   await locationInput.fill('Hamburg')
-  await clickElement(page.locator('[role="menuitem"]'))
+  await clickFirstElement(page.locator('[role="menuitem"]'))
 
   await checkAccessibility(page)
 
@@ -191,7 +191,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await inputSpaceLocation(page, editedLocation)
 
     // expect suggestions
-    await clickElement(page.locator('[role="menuitem"]'))
+    await clickFirstElement(page.locator('[role="menuitem"]'))
     await saveAndWaitForModalClosed(page)
 
     // edit space sdgs
