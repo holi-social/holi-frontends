@@ -238,7 +238,6 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               onContentSizeChange={(event) =>
                 seInputHeight(clamp(event.nativeEvent.contentSize.height, noOfVisibleLines, maxNoOfVisibleLines))
               }
-              clearButtonMode="always"
               keyboardType={keyboardType}
               textContentType={textContentType}
               maxLength={maxNoOfCharacters}

@@ -45,7 +45,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
 
   const onSave = () => {
     const locationUpdate =
-      locationQuery !== space.location
+      !!locationQuery && locationQuery !== space.location
         ? {
             location: selectedLocation?.label,
             geolocation: {
@@ -53,7 +53,10 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
               longitude: selectedLocation?.coordinates?.longitude,
             },
           }
-        : {}
+        : {
+            location: null,
+            geolocation: null,
+          }
 
     updateSpace({
       variables: {
