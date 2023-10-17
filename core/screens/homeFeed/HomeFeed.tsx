@@ -46,12 +46,14 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 const chatClient = createClient({
   baseUrl: chatServerUrl,
   accessToken: 'admin-token',
-  userId: '@dimachat:local.chat.holi.social',
+  userId: '@chat:local.chat.holi.social',
 })
 
 const createSpace = async (name: string, holiSpaceId: string, inviteUsers: string[]) => {
-  // create space wrapper
-  const { room_id: spaceRoomId } = await chatClient.createRoom({
+  /*
+    create space room (used as invisible wrapper for all current space related rooms)
+  */
+  const { room_id: containerSpaceRoomId } = await chatClient.createRoom({
     name: name,
     room_alias_name: name.toLowerCase().replaceAll(' ', '.').trim(),
     preset: Preset.PrivateChat,
@@ -63,10 +65,12 @@ const createSpace = async (name: string, holiSpaceId: string, inviteUsers: strin
     invite: inviteUsers,
   })
 
-  await chatClient.sendStateEvent(spaceRoomId, ChatRoomEvent.SharedData, { holiSpaceId })
+  await chatClient.sendStateEvent(containerSpaceRoomId, ChatRoomEvent.SharedData, { holiSpaceId })
 
-  // create space general room
-  const { room_id: spaceGeneralRoomId } = await chatClient.createRoom({
+  /*
+    create space general room
+  */
+  const { room_id: generalSpaceRoomId } = await chatClient.createRoom({
     is_direct: false,
     preset: Preset.PrivateChat,
     visibility: Visibility.Private,
@@ -74,17 +78,22 @@ const createSpace = async (name: string, holiSpaceId: string, inviteUsers: strin
     invite: inviteUsers,
   })
 
-  // connect space wrapper with general space room
-  await chatClient.sendStateEvent(spaceGeneralRoomId, ChatRoomEvent.SharedData, {
-    spaceId: spaceRoomId,
+  /*
+    Connect space wrapper with general space room
+  */
+  // 1. add custom data into general room
+  await chatClient.sendStateEvent(generalSpaceRoomId, ChatRoomEvent.SharedData, {
+    holiSpaceId,
+    parrentSpaceRoomId: containerSpaceRoomId,
     spaceName: name,
   })
 
+  // 2. connect add general room into space room
   return await chatClient.sendStateEvent(
-    spaceRoomId,
+    containerSpaceRoomId,
     EventType.SpaceChild,
     { via: [chatServerUrl] },
-    spaceGeneralRoomId
+    generalSpaceRoomId
   )
 }
 
