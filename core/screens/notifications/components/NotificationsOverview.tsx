@@ -1,79 +1,37 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { SectionList, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { isLastWeek, isThisWeek, onScreenScrollY } from '@holi/core/helpers'
+import { isLastWeek, isThisWeek } from '@holi/core/helpers'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
+import { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
+import {
+  NotificationGroup,
+  NotificationSectionList,
+} from '@holi/core/screens/notifications/components/NotificationSectionList'
+import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
+import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
-import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
-import { LastSeenNotificationMutation, lastSeenNotificationResponse } from '@holi/core/screens/notifications/queries'
+import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
+import {
+  LastSeenNotificationMutation,
+  NotificationsResponse,
+  lastSeenNotificationResponse,
+  notificationsQuery,
+} from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-interface NotificationGroup {
-  title: string
-  data: Notification[]
-}
-
-const containsNotifications = (notifications?: Notification[]) => {
-  if (!notifications) return false
-  return notifications.some((notification) => {
-    return SHOWN_NOTIFICATIONS.includes(notification.notificationType)
-  })
-}
-
-const groupByDate = (notifications?: Notification[]) => {
-  if (!notifications) return []
-  return notifications
-    .reduce(
-      (acc, notification) => {
-        const { created } = notification
-        if (isThisWeek(notification.created)) {
-          acc[0].data.push(notification)
-        } else if (isLastWeek(created)) {
-          acc[1].data.push(notification)
-        } else {
-          acc[2].data.push(notification)
-        }
-
-        return acc
-      },
-      [
-        {
-          title: i18n.t('notifications.created.thisWeek'),
-          data: [],
-        },
-        {
-          title: i18n.t('notifications.created.lastWeek'),
-          data: [],
-        },
-        {
-          title: i18n.t('notifications.created.older'),
-          data: [],
-        },
-      ] as [NotificationGroup, NotificationGroup, NotificationGroup]
-    )
-    .filter(({ data }) => data.length)
-}
 
 const NotificationsOverview = () => {
-  const { t } = useTranslation()
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn, user } = useLoggedInUser()
   const { navigate } = useRouting()
-  const mixins = useStyleMixins()
+
+  const { enabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
+  const { notifications } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -109,106 +67,67 @@ const NotificationsOverview = () => {
 
   if (!isLoggedIn) {
     return (
-      <ScrollHeaderLayout.Default backgroundColor={colors.background30}>
-        <View style={mixins.container}>
-          <HoliNoResults
-            firstText={t('loginRedirect.title')}
-            media={
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
-                width={152}
-                height={152}
-                label=""
-                isSvg
-              />
-            }
-            secondText={t('loginRedirect.text')}
-            style={styles.noResultsMessage}
-          >
-            <HoliButton
-              label={t('loginRedirect.btnConfirm')}
-              onPress={() => {
-                setPathToRedirect('/notifications')
-                navigate('/login')
-              }}
-            >
-              {t('loginRedirect.btnConfirm')}
-            </HoliButton>
-          </HoliNoResults>
-        </View>
-      </ScrollHeaderLayout.Default>
+      <NotificationsNotLoggedInHint
+        onPress={() => {
+          setPathToRedirect('/notifications')
+          navigate('/login')
+        }}
+      />
     )
   }
 
-  if (!containsNotifications(data?.notifications?.data))
-    return (
-      <ScrollHeaderLayout.Default backgroundColor={colors.background30}>
-        <View style={mixins.container}>
-          <HoliNoResults
-            firstText={t('notifications.display.empty.text1')}
-            media={
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
-                width={152}
-                height={152}
-                label=""
-                isSvg
-              />
-            }
-            secondText={t('notifications.display.empty.text2')}
-            style={styles.noResultsMessage}
-          />
-        </View>
-      </ScrollHeaderLayout.Default>
-    )
+  if (!containsNotifications(data?.notifications?.data)) return <NotificationsEmptyPlaceholder />
 
-  const groupedNotifications = groupByDate(data?.notifications?.data)
+  const allNotifications = [...(data?.notifications?.data ?? []), ...notifications]
+
+  const groupedNotifications = groupByDate(allNotifications)
 
   return (
-    <SectionList
-      sections={groupedNotifications}
-      keyExtractor={({ id }) => id}
-      renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
-      renderSectionHeader={({ section }) => (
-        <HoliHeading size="small" style={styles.groupTitle}>
-          {section.title}
-        </HoliHeading>
-      )}
-      renderSectionFooter={({ section }) =>
-        section === groupedNotifications[groupedNotifications.length - 1] ? (
-          <View style={styles.lastSectionFooter} />
-        ) : null
-      }
-      // use ListHeaderComponent to add padding bottom for HeaderAnimated
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      onScroll={onScreenScrollY}
-      scrollEventThrottle={200}
-      stickySectionHeadersEnabled={false}
-      style={[mixins.container, styles.sectionList]}
-      testID="notification-list"
-    />
+    <>
+      <NotificationSectionList notifications={groupedNotifications} />
+    </>
   )
 }
 
 export default NotificationsOverview
 
-const styles = StyleSheet.create({
-  sectionList: {
-    overflow: 'visible',
-  },
-  listHeaderSpacer: {
-    height: vars.topBarHeight,
-  },
-  groupTitle: {
-    paddingVertical: 12,
-  },
-  lastSectionFooter: {
-    marginBottom: vars.bottomBarHeight,
-  },
-  notification: {
-    paddingVertical: 12,
-  },
-  noResultsMessage: {
-    marginTop: 24,
-  },
-})
+function containsNotifications(notifications?: Notification[]) {
+  if (!notifications) return false
+  return notifications.some((notification) => {
+    return SHOWN_NOTIFICATIONS.includes(notification.notificationType)
+  })
+}
+
+function groupByDate(notifications?: Notification[]) {
+  if (!notifications) return []
+  return notifications
+    .reduce(
+      (acc, notification) => {
+        const { created } = notification
+        if (isThisWeek(notification.created)) {
+          acc[0].data.push(notification)
+        } else if (isLastWeek(created)) {
+          acc[1].data.push(notification)
+        } else {
+          acc[2].data.push(notification)
+        }
+
+        return acc
+      },
+      [
+        {
+          title: i18n.t('notifications.created.thisWeek'),
+          data: [],
+        },
+        {
+          title: i18n.t('notifications.created.lastWeek'),
+          data: [],
+        },
+        {
+          title: i18n.t('notifications.created.older'),
+          data: [],
+        },
+      ] as [NotificationGroup, NotificationGroup, NotificationGroup]
+    )
+    .filter(({ data }) => data.length)
+}
