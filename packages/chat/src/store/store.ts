@@ -189,7 +189,8 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const ignoredUsers = client.getIgnoredUsers()
 
   const joinGeneralSpaceRoom = async ({ room }: RoomWithSharedData) => {
-    if (room.name === '#general' && room.getMyMembership().toUpperCase() === MembershipStatus.Invited) {
+    const isSpaceRoom = room.isSpaceRoom() || room.name === '#general'
+    if (isSpaceRoom && client.hasPendingInvitation(room)) {
       await client.joinRoom(room.roomId)
     }
   }
@@ -344,24 +345,6 @@ export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
   return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true })
 }
 
-// eslint-disable-next-line no-console
-console.log('TODO: remove')
-// /**
-//  * @name createSpace
-//  * @description creates a space in Matrix and a room for it
-//  * and adds the default #general room to the created space.
-//  */
-// export const createSpace = async (userIds: string[], options: CreateSpaceOptions): Promise<void> => {
-//   const client = getChatClient()
-//   try {
-//     const { spaceId, spaceName } = await client.createSpace(userIds, options)
-//     const { room_id } = await client.createRoom(userIds, { isDirectMessage: false, name: '#general' })
-//     await client.addRoomToSpace(spaceId, spaceName, room_id)
-//   } catch (err) {
-//     logError(err, 'Could not create a space in Matrix', { location: 'Chat-Store: createSpace' })
-//   }
-// }
-
 /**
  * @name joinRoom
  * @description Join a Matrix room by accepting the invitation. If you have
@@ -402,34 +385,26 @@ export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
   }
 }
 
-export function createChatRoom(roomWithSharedData: RoomWithSharedData, hasInvitation = false): ChatRoom {
-  const lastLiveEvent = roomWithSharedData.room.getLastLiveEvent()?.event
-  const lastMessage = isRoomMessageEvent(lastLiveEvent)
-    ? createChatMessage(roomWithSharedData.room.roomId, lastLiveEvent)
-    : undefined
+export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitation = false): ChatRoom {
+  const lastLiveEvent = room.getLastLiveEvent()?.event
+  const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
 
-  const roomMxCreatorId = roomWithSharedData.room.getCreator()
-  const roomMxCreator = roomMxCreatorId ? roomWithSharedData.room.getMember(roomMxCreatorId) : null
+  const roomMxCreatorId = room.getCreator()
+  const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
 
   return {
+    ...data,
     hasInvitation,
-    id: roomWithSharedData.room.roomId,
-    notificationCount: roomWithSharedData.room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
-    name: roomWithSharedData.room.name,
+    id: room.roomId,
+    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
+    name: room.name,
     lastMessage: lastMessage,
     creator: roomMxCreator && createChatMember(roomMxCreator),
-    members: roomWithSharedData.room.getMembers().map(createChatMember),
-    holiSpaceId: roomWithSharedData.holiSpaceId,
-    spaceId: roomWithSharedData.spaceId,
-    spaceName: roomWithSharedData.spaceName,
+    members: room.getMembers().map(createChatMember),
     timestamp:
-      roomWithSharedData.room.getLastActiveTimestamp() > 0
-        ? roomWithSharedData.room.getLastActiveTimestamp()
-        : roomWithSharedData.room
-            .getLiveTimeline()
-            .getState(EventTimeline.FORWARDS)
-            ?.getStateEvents(EventType.RoomCreate, '')
-            ?.getTs(),
+      room.getLastActiveTimestamp() > 0
+        ? room.getLastActiveTimestamp()
+        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
   }
 }
 
