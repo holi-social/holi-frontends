@@ -526,7 +526,7 @@
   "spaces.input.location.placeholder": "Address, district, city or country…",
   "spaces.input.location.preferences.label": "Location and remote preferences",
   "spaces.input.location.title": "Space Location",
-  "spaces.input.location.validation.helper": "Select a valid location in the dropdown",
+  "spaces.input.location.validation.helper": "Select a valid location in the dropdown or leave empty",
   "spaces.input.name.description": "Keep the name short, clear and to the point",
   "spaces.input.name.label": "Space Name",
   "spaces.input.name.placeholder": "Our name is…",

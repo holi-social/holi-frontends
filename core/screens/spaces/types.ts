@@ -75,7 +75,7 @@ export interface Space {
   contactPhone?: string
   cover: string
   coverBlurhash?: string
-  location: string
+  location?: string
   geolocation?: GeolocationPoint
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
