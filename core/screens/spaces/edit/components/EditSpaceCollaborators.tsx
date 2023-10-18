@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -15,7 +15,9 @@ import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -88,19 +90,38 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 
   return (
     <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
-      <View style={styles.tabWrapper}>
-        <View style={styles.tabStyle}>
-          <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
-            <Pagination
-              query={spaceMembersQuery}
-              queryOptions={queryOptions}
-              fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-            >
-              {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
-            </Pagination>
-          </ScrollView>
-        </View>
-      </View>
+      <HoliTabs
+        id="collaborator-tabs"
+        style={styles.tabWrapper}
+        tabs={[
+          {
+            title: t('spaces.collaborators.manage.tabs.all'),
+            style: styles.tabStyle,
+            children: (
+              <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+                <Pagination
+                  query={spaceMembersQuery}
+                  queryOptions={queryOptions}
+                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                >
+                  {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
+                </Pagination>
+              </ScrollView>
+            ),
+          },
+          {
+            title: t('spaces.collaborators.manage.tabs.pending'),
+            style: styles.tabStyle,
+            children: (
+              <ScrollHeaderLayout.Default style={[mixins.container]} headerOverlap>
+                <View>
+                  <HoliText>{t('global.comingSoon')}</HoliText>
+                </View>
+              </ScrollHeaderLayout.Default>
+            ),
+          },
+        ]}
+      />
       {selectedMember && !!space && (
         <SpacePermissions
           space={space}
@@ -118,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       native: {
-        paddingTop: vars.topBarHeight,
+        paddingTop: +vars.topBarHeight,
       },
     }),
   },
@@ -131,7 +152,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {
@@ -141,14 +162,11 @@ const styles = StyleSheet.create({
   },
   tabStyle: {
     backgroundColor: colors.background20,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
+    ...(Platform.select({
       native: {
         height: '100%',
       },
-    }),
+    }) as ViewStyle),
   },
   all: {
     paddingTop: 16,
