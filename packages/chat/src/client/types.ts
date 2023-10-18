@@ -8,20 +8,49 @@ export interface CreateRoomOptions {
   name?: string
 }
 
-export interface CreateSpaceOptions {
-  name: string
+interface SpaceSharedDataContent {
   holiSpaceId: string
 }
 
-export interface SharedDataContent {
-  holiSpaceId?: string
-  spaceId?: string
-  spaceName?: string
+interface SpaceGeneralRoomSharedDataContent extends SpaceSharedDataContent {
+  spaceName: string
+  parentSpaceRoomId: string
 }
 
-export interface RoomWithSharedData extends SharedDataContent {
+export type SharedDataContent = SpaceSharedDataContent | SpaceGeneralRoomSharedDataContent
+
+export const isSpaceGeneralRoomSharedDataContent = (
+  content: SharedDataContent
+): content is SpaceGeneralRoomSharedDataContent => {
+  return !!content && 'parentSpaceRoomId' in content
+}
+
+export type RoomType = 'private' | 'space' | 'space-general-room'
+
+interface BaseRoomWithSharedData {
+  type: RoomType
   room: Room
 }
+
+export interface PrivateRoomBase {
+  type: 'private'
+}
+
+export interface SpaceRoomBase {
+  type: 'space'
+  content: SpaceSharedDataContent
+}
+
+export interface SpaceGeneralRoomBase {
+  type: 'space-general-room'
+  content: SpaceGeneralRoomSharedDataContent
+}
+
+export type PrivateRoomWithSharedData = BaseRoomWithSharedData & PrivateRoomBase
+export type SpaceWithSharedData = BaseRoomWithSharedData & SpaceRoomBase
+export type SpaceGeneralRoomWithSharedData = BaseRoomWithSharedData & SpaceGeneralRoomBase
+
+export type RoomWithSharedData = PrivateRoomWithSharedData | SpaceWithSharedData | SpaceGeneralRoomWithSharedData
 
 export enum MembershipStatus {
   /**
