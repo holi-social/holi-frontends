@@ -1,12 +1,6 @@
 import type { Atom, PrimitiveAtom } from 'jotai'
 
-import {
-  ChatRoomMember,
-  PrivateRoomBase,
-  RoomType,
-  SpaceGeneralRoomBase,
-  SpaceRoomBase,
-} from '@holi/chat/src/client/types'
+import { ChatRoomMember, PrivateRoomBase, SpaceGeneralRoomBase, SpaceRoomBase } from '@holi/chat/src/client/types'
 
 export type HoliIdentity = string
 export type ChatRoomId = string
@@ -18,7 +12,6 @@ export type MessageAtomsByRoomId = Record<ChatRoomId, ChatMessagesAtom>
 export type AtomRecordGetter = <T>(atom: Atom<Record<string, T>>) => Record<string, T>
 
 interface BaseChatRoom {
-  type: RoomType
   id: string
   name: string
   hasInvitation: boolean
@@ -33,11 +26,14 @@ interface BaseChatRoom {
   spaceName?: string
 }
 
-type PrivateChatRoom = BaseChatRoom & PrivateRoomBase
-type SpaceChatRoom = BaseChatRoom & SpaceRoomBase
-type SpaceGeneralChatRoom = BaseChatRoom & SpaceGeneralRoomBase
+interface PrivateChatRoom extends BaseChatRoom, PrivateRoomBase {}
+interface SpaceChatRoom extends BaseChatRoom, SpaceRoomBase {}
+interface SpaceGeneralChatRoom extends BaseChatRoom, SpaceGeneralRoomBase {}
 
 export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceGeneralChatRoom
+
+export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom =>
+  room.type === 'space-general-room'
 
 export type ChatContentType = 'm.text'
 

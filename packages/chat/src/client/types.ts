@@ -14,6 +14,7 @@ interface SpaceSharedDataContent {
 
 interface SpaceGeneralRoomSharedDataContent extends SpaceSharedDataContent {
   spaceName: string
+  avatarDefaultColor: string
   parentSpaceRoomId: string
 }
 
@@ -28,7 +29,6 @@ export const isSpaceGeneralRoomSharedDataContent = (
 export type RoomType = 'private' | 'space' | 'space-general-room'
 
 interface BaseRoomWithSharedData {
-  type: RoomType
   room: Room
 }
 
@@ -46,9 +46,9 @@ export interface SpaceGeneralRoomBase {
   content: SpaceGeneralRoomSharedDataContent
 }
 
-export type PrivateRoomWithSharedData = BaseRoomWithSharedData & PrivateRoomBase
-export type SpaceWithSharedData = BaseRoomWithSharedData & SpaceRoomBase
-export type SpaceGeneralRoomWithSharedData = BaseRoomWithSharedData & SpaceGeneralRoomBase
+export interface PrivateRoomWithSharedData extends BaseRoomWithSharedData, PrivateRoomBase {}
+export interface SpaceWithSharedData extends BaseRoomWithSharedData, SpaceRoomBase {}
+export interface SpaceGeneralRoomWithSharedData extends BaseRoomWithSharedData, SpaceGeneralRoomBase {}
 
 export type RoomWithSharedData = PrivateRoomWithSharedData | SpaceWithSharedData | SpaceGeneralRoomWithSharedData
 

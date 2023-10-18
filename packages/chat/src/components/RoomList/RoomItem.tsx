@@ -3,7 +3,13 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomAtom, getChatPartner, getHoliUserForChatMember, setLatestMessagesAsRead } from '@holi/chat/src/store'
+import {
+  ChatRoomAtom,
+  getChatPartner,
+  getHoliUserForChatMember,
+  isSpaceGeneralChatRoom,
+  setLatestMessagesAsRead,
+} from '@holi/chat/src/store'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -33,6 +39,8 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
+  const isSpaceRoom = isSpaceGeneralChatRoom(room)
+  const roomName = isSpaceRoom ? room.content.spaceName : chatPartnerHoliUser?.fullName ?? ''
 
   const handleOnPress = async () => {
     await setLatestMessagesAsRead(roomId)
@@ -61,18 +69,26 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
   }
 
   return (
-    <HoliLink href={`/chat/rooms/${roomId}`} label={chatPartnerHoliUser?.fullName ?? ''} onPress={handleOnPress}>
+    <HoliLink href={`/chat/rooms/${roomId}`} label={roomName} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}
           <View>
-            {chatPartnerHoliUser !== null ? (
+            {isSpaceRoom ? (
               <HoliAvatar
+                label={roomName}
+                initials={roomName}
+                defaultColor={room.content.avatarDefaultColor}
+                shape="square"
+                size="medium"
+              />
+            ) : chatPartner ? (
+              <HoliAvatar
+                label={roomName}
                 imageSrc={chatPartnerHoliUser?.avatar}
                 imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
-                label={name}
-                initials={chatPartnerHoliUser?.avatarLabel || ''}
-                defaultColor={chatPartnerHoliUser?.avatarDefaultColor || ''}
+                initials={chatPartnerHoliUser?.avatarLabel ?? ''}
+                defaultColor={chatPartnerHoliUser?.avatarDefaultColor ?? ''}
                 size="medium"
               />
             ) : null}
@@ -89,7 +105,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
           <View style={styles.content}>
             <View style={[styles.rowWrapper, styles.nameDateRaw]}>
               <View style={{ flexShrink: 1 }}>
-                <HoliText bold>{chatPartnerHoliUser?.fullName}</HoliText>
+                <HoliText bold>{roomName}</HoliText>
               </View>
 
               {!!timestamp && (
