@@ -72,7 +72,7 @@ const AppsDrawer: React.FC = () => {
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </View>
-          <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigate('appsHub')}>
+          <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigate('/appsHub')}>
             <View style={styles.appsHubContainer}>
               <HoliHeading size="small">Apps Hub</HoliHeading>
               <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   appsHubButton: {
     marginVertical: 16,
     marginHorizontal: 12,
-    marginBottom: 36,
+    paddingBottom: Platform.OS === 'web' ? 36 : +vars.bottomBarHeight,
   },
   appsHubContainer: {
     gap: 8,
