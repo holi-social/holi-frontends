@@ -1,6 +1,5 @@
 import { DocumentNode } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import { EventType, Preset, RoomType, Visibility, createClient } from 'matrix-js-sdk'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -8,10 +7,8 @@ import { StyleSheet } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import client from '@holi/api/graphql/client'
-import { ChatRoomEvent } from '@holi/chat/src/client/types'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { chatServerUrl } from '@holi/core/helpers/config'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -41,60 +38,6 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
   else if (hours >= 14 && hours < 18) return t('homeFeed.headerTitle.goodAfternoon')
   else if (hours >= 18 && hours < 23) return t('homeFeed.headerTitle.goodEvening')
   else return t('homeFeed.headerTitle.goodNight')
-}
-
-const chatClient = createClient({
-  baseUrl: chatServerUrl,
-  accessToken: 'admin-token',
-  userId: '@chat:local.chat.holi.social',
-})
-
-const createSpace = async (name: string, holiSpaceId: string, inviteUsers: string[]) => {
-  /*
-    create space room (used as invisible wrapper for all current space related rooms)
-  */
-  const { room_id: containerSpaceRoomId } = await chatClient.createRoom({
-    name: name,
-    room_alias_name: name.toLowerCase().replaceAll(' ', '.').trim(),
-    preset: Preset.PrivateChat,
-    visibility: Visibility.Private,
-    is_direct: false,
-    creation_content: {
-      type: RoomType.Space,
-    },
-    invite: inviteUsers,
-  })
-
-  await chatClient.sendStateEvent(containerSpaceRoomId, ChatRoomEvent.SharedData, { holiSpaceId })
-
-  /*
-    create space general room
-  */
-  const { room_id: generalSpaceRoomId } = await chatClient.createRoom({
-    is_direct: false,
-    preset: Preset.PrivateChat,
-    visibility: Visibility.Private,
-    name: '#general',
-    invite: inviteUsers,
-  })
-
-  /*
-    Connect space wrapper with general space room
-  */
-  // 1. add custom data into general room
-  await chatClient.sendStateEvent(generalSpaceRoomId, ChatRoomEvent.SharedData, {
-    holiSpaceId,
-    parrentSpaceRoomId: containerSpaceRoomId,
-    spaceName: name,
-  })
-
-  // 2. connect add general room into space room
-  return await chatClient.sendStateEvent(
-    containerSpaceRoomId,
-    EventType.SpaceChild,
-    { via: [chatServerUrl] },
-    generalSpaceRoomId
-  )
 }
 
 const HomeFeed = () => {
@@ -165,19 +108,6 @@ const HomeFeed = () => {
           <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
 
           <UpdatesOfYourApps style={styles.updatesOfYourApps} />
-
-          <HoliButton
-            label=""
-            onPress={() => {
-              const id = Math.floor(Math.random() * (1000 - 1 + 1) + 1)
-              createSpace('TEST space name ' + id, 'holi-space-dummy-id-' + id, [
-                '@dimachat_1:local.chat.holi.social',
-                '@dimachat:local.chat.holi.social',
-              ])
-            }}
-          >
-            CREATE SPACE
-          </HoliButton>
 
           {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
         </>
