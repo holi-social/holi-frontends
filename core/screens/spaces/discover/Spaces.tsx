@@ -8,6 +8,7 @@ import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -25,6 +26,7 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Spaces = () => {
@@ -62,6 +64,8 @@ const Spaces = () => {
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
   }, [isLoggedIn, navigate, openLoginModal])
+
+  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -148,6 +152,7 @@ const Spaces = () => {
             id="space-tabs"
             onChangeTab={onChangeTab}
             style={styles.holiTabs}
+            tabBarStyle={Platform.OS === 'web' && tabBarStyle}
             backgroundColor={colors.background20}
             scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
             tabs={[
@@ -188,7 +193,7 @@ const styles = StyleSheet.create({
   discoverSpacesContainer: {
     flex: 1,
     paddingTop: 24,
-    paddingBottom: vars.bottomBarHeight,
+    paddingBottom: +vars.bottomBarHeight,
   },
   holiTabs: {
     flex: 1,
