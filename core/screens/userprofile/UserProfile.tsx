@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
+    marginTop: +vars.topBarHeight + 50,
   },
   chipRowContainer: {
     marginTop: 24,
