@@ -34,6 +34,11 @@ const AppsDrawer: React.FC = () => {
     [navigate]
   )
 
+  const navigateToAppsHub = useCallback(() => {
+    setModalIsVisible(false)
+    navigate('/appsHub')
+  }, [navigate])
+
   return (
     <>
       {/* Floating apps button */}
@@ -72,7 +77,7 @@ const AppsDrawer: React.FC = () => {
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </View>
-          <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigate('/appsHub')}>
+          <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigateToAppsHub()}>
             <View style={styles.appsHubContainer}>
               <HoliHeading size="small">Apps Hub</HoliHeading>
               <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
