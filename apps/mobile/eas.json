@@ -24,8 +24,8 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
-        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
+        "NOVU_BACKEND_URL": "https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
       }
     },
     "development-simulator": {
@@ -46,8 +46,8 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
-        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
+        "NOVU_BACKEND_URL": "https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
       },
       "ios": {
         "simulator": true
@@ -71,8 +71,8 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
-        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
+        "NOVU_BACKEND_URL": "https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
       }
     },
     "production": {
@@ -91,8 +91,8 @@
         "ORY_BASE_URL": "https://auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "unwXQBqcNfF1",
-        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
+        "NOVU_BACKEND_URL": "https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
       }
     },
     "simulator": {
@@ -111,8 +111,8 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social",
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
-        "NOVU_BACKEND_URL": " https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": " wss://eu.ws.novu.co"
+        "NOVU_BACKEND_URL": "https://eu.api.novu.co",
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
       },
       "ios": {
         "simulator": true
