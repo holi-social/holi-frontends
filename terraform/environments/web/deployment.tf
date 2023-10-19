@@ -76,21 +76,6 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
         }
 
-        env {
-          name  = "NEXT_PUBLIC_NOVU_APPLICATION_IDENTIFIER"
-          value = local.environment == "production" ? "unwXQBqcNfF1" : "U6haJNi73bg8"
-        }
-
-        env {
-          name  = "NEXT_PUBLIC_NOVU_BACKEND_URL"
-          value = "https://eu.api.novu.co"
-        }
-
-        env {
-          name  = "NEXT_PUBLIC_NOVU_SOCKET_URL"
-          value = "wss://eu.ws.novu.co"
-        }
-
         resources {
           limits = {
             # cpu can only be scaled down to 1000m as long as container_concurrency is set to != 1

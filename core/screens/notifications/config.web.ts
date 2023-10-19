@@ -1,3 +1,6 @@
-export const novuApplicationIdentifier = process.env.NEXT_PUBLIC_NOVU_APPLICATION_IDENTIFIER
-export const novuBackendUrl = process.env.NEXT_PUBLIC_NOVU_BACKEND_URL
-export const novuSocketUrl = process.env.NEXT_PUBLIC_NOVU_SOCKET_URL
+import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+import { environmentId } from '@holi/web/environment'
+
+export const novuApplicationIdentifier = environmentId === EnvironmentId.PRODUCTION ? 'unwXQBqcNfF1' : 'U6haJNi73bg8'
+export const novuBackendUrl = 'https://eu.api.novu.co'
+export const novuSocketUrl = 'wss://eu.ws.novu.co'
