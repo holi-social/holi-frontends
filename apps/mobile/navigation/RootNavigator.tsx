@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
+import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
@@ -36,6 +37,8 @@ export type RootStackScreens = {
   [RouteName.VolunteeringApp]: undefined
 
   [RouteName.VideoCall]: VideoCallParams
+
+  [RouteName.AppsHub]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -62,6 +65,18 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.VideoCall}
         component={VideoCall}
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: colors.background10,
+          },
+        }}
+      />
+
+      <RootStack.Screen
+        name={RouteName.AppsHub}
+        component={AppsHub}
         options={{
           headerShown: true,
           headerTransparent: true,
