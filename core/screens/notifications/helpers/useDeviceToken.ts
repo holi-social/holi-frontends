@@ -2,7 +2,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
-import { getDeviceToken } from '@holi/core/screens/notifications/helpers/getDeviceToken'
+import { getDeviceToken, registerDeviceTokenListener } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 
 const deviceTokenVar = makeVar<string | undefined>(undefined)
 const deviceTokenInitializedVar = makeVar(false)
@@ -21,6 +21,12 @@ export const initDeviceToken = () =>
     })
     .catch((error) => logError(error, 'Error retrieving device token', { location: 'initDeviceToken' }))
     .finally(markDeviceTokenAsInitialized)
+
+export const subscribeToDeviceTokenChanges = () =>
+  registerDeviceTokenListener((token) => {
+    logDebug('subscribeToDeviceTokenChanges', 'got device token', token)
+    deviceTokenVar(token)
+  })
 
 export const useDeviceToken = () => {
   const deviceToken = useReactiveVar(deviceTokenVar)

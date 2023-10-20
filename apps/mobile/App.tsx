@@ -10,6 +10,7 @@ import { logDebug } from '@holi/core/helpers/logging'
 import { initNotifications } from '@holi/core/helpers/notifications'
 import { initI18n } from '@holi/core/i18n'
 import RootProvider from '@holi/core/providers/RootProvider'
+import { subscribeToDeviceTokenChanges } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
@@ -54,6 +55,8 @@ const App = () => {
 
   useEffect(() => {
     init()
+
+    return subscribeToDeviceTokenChanges()
   }, [])
 
   useEffect(() => {

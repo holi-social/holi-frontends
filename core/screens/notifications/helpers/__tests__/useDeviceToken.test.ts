@@ -1,11 +1,17 @@
 import { act, renderHook } from '@testing-library/react-native'
-import { getDevicePushTokenAsync } from 'expo-notifications'
+import { addPushTokenListener, getDevicePushTokenAsync } from 'expo-notifications'
 
-import { initDeviceToken, useDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
+import {
+  initDeviceToken,
+  subscribeToDeviceTokenChanges,
+  useDeviceToken,
+} from '@holi/core/screens/notifications/helpers/useDeviceToken'
 
 const mockGetDevicePushTokenAsync = getDevicePushTokenAsync as jest.Mock
+const mockAddPushTokenListener = addPushTokenListener as jest.Mock
 jest.mock('expo-notifications', () => ({
   getDevicePushTokenAsync: jest.fn(),
+  addPushTokenListener: jest.fn(),
 }))
 
 const mockConsoleWarn = jest.fn()
@@ -42,5 +48,22 @@ describe('useDeviceToken', () => {
 
     expect(result.current.deviceToken).toEqual(testDeviceToken)
     expect(result.current.deviceTokenInitialized).toBeTruthy()
+  })
+
+  it('should subscribe to device token changes', async () => {
+    const newDeviceToken = 'new_token'
+    mockGetDevicePushTokenAsync.mockResolvedValue({ data: testDeviceToken })
+    mockAddPushTokenListener.mockImplementation((listener) => listener({ data: newDeviceToken }))
+    const { result } = renderHook(useDeviceToken)
+
+    await act(initDeviceToken)
+
+    expect(result.current.deviceToken).toEqual(testDeviceToken)
+
+    await act(() => {
+      subscribeToDeviceTokenChanges()
+    })
+
+    expect(result.current.deviceToken).toEqual(newDeviceToken)
   })
 })
