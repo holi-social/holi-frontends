@@ -95,7 +95,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
       <FormWrapper
         isModal={true}
         onSave={onSave}
-        saveButtonDisabled={loading}
+        saveButtonDisabled={loading || (!selectedLocation && !!locationQuery)}
         loading={loading}
         keyboardShouldPersistTaps="handled"
         testID="space-edit-modal"
