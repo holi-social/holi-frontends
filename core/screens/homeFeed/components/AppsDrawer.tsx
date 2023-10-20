@@ -64,14 +64,14 @@ const AppsDrawer: React.FC = () => {
 
       {/* Apps modal (drawer) */}
       <HoliModal
-        label={t('apps.drawer.title')}
+        label={t('apps.drawer.label')}
         show={modalIsVisible}
         onDismiss={() => setModalIsVisible(false)}
         style={{ backgroundColor: colors.background20 }}
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="1">Apps</HoliHeading>
+          <HoliHeading level="1">{t('apps.drawer.title')}</HoliHeading>
           <View style={styles.listContents}>
             {APP_SWIPER_APPS.map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
