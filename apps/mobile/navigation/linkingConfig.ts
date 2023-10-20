@@ -88,6 +88,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
 
+    [RouteName.AppsHub]: {
+      screens: {
+        [RouteName.AppsHub]: 'appsHub',
+      },
+    },
+
     // Modals
     [RouteName.Notifications]: 'notifications',
     [RouteName.Onboarding]: 'onboarding',
