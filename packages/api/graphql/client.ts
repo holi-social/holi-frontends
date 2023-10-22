@@ -111,6 +111,7 @@ export const createCache = () =>
       Space: {
         fields: {
           members: alwaysReplacePolicy,
+          membershipRequests: alwaysReplacePolicy,
           tasks: alwaysReplacePolicy,
           sdgs: alwaysReplacePolicy,
           topics: alwaysReplacePolicy,
@@ -127,6 +128,12 @@ export const createCache = () =>
         },
       },
       SpaceMemberPaged: {
+        fields: {
+          // Only allow pagination on the space detail screen, recognizable by `idOrName`
+          data: nestedPaginationPolicy(['idOrName']),
+        },
+      },
+      SpaceMembershipRequestPaged: {
         fields: {
           // Only allow pagination on the space detail screen, recognizable by `idOrName`
           data: nestedPaginationPolicy(['idOrName']),

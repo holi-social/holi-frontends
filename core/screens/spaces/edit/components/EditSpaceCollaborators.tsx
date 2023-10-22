@@ -13,7 +13,7 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
-import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
+import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -27,7 +27,7 @@ export type EditSpaceCollaboratorsParams = {
   spaceIdOrName: string
 }
 
-const SPACE_MEMBER_PAGE_SIZE = 10
+const PAGE_SIZE = 10
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
 
 const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
@@ -59,9 +59,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const space = data?.spaceById
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const queryOptions: PaginationQueryHookOptions = {
-    pageSize: SPACE_MEMBER_PAGE_SIZE,
-    queryPath: 'spaceById.members',
+  const queryOptions: Omit<PaginationQueryHookOptions, 'queryPath'> = {
+    pageSize: PAGE_SIZE,
     variables: {
       idOrName: spaceIdOrName,
     },
@@ -105,7 +104,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
               <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceMembersQuery}
-                  queryOptions={queryOptions}
+                  queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                 >
                   {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
@@ -119,11 +118,11 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
             children: (
               <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
                 <Pagination
-                  query={spaceMembersQuery}
-                  queryOptions={queryOptions}
+                  query={spaceMembershipRequestsQuery}
+                  queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                 >
-                  {!!space && <SpacePendingRequestsList space={space} onSelectMember={onSelectMember} />}
+                  {!!space && <SpacePendingRequestsList space={space} />}
                 </Pagination>
               </ScrollView>
             ),
