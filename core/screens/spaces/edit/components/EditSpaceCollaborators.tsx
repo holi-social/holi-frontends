@@ -1,24 +1,26 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
+import { DimensionValue, Platform, ScrollView, StyleSheet } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
+import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditSpaceCollaboratorsParams = {
@@ -37,6 +39,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
+  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -89,10 +92,11 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   )
 
   return (
-    <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
+    <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
       <HoliTabs
         id="collaborator-tabs"
         style={styles.tabWrapper}
+        tabBarStyle={tabBarStyle}
         tabs={[
           {
             title: t('spaces.collaborators.manage.tabs.all'),
@@ -113,11 +117,15 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
             title: t('spaces.collaborators.manage.tabs.pending'),
             style: styles.tabStyle,
             children: (
-              <ScrollHeaderLayout.Default style={[mixins.container]} headerOverlap>
-                <View>
-                  <HoliText>{t('global.comingSoon')}</HoliText>
-                </View>
-              </ScrollHeaderLayout.Default>
+              <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+                <Pagination
+                  query={spaceMembersQuery}
+                  queryOptions={queryOptions}
+                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                >
+                  {!!space && <SpacePendingRequestsList space={space} onSelectMember={onSelectMember} />}
+                </Pagination>
+              </ScrollView>
             ),
           },
         ]}
@@ -136,41 +144,27 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
+    backgroundColor: colors.background20,
+    minHeight: '100%',
     ...Platform.select({
       native: {
         paddingTop: +vars.topBarHeight,
       },
-    }),
-  },
-  wrapper: {
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      native: {
-        height: '100%',
+      web: {
+        minHeight: '100vh' as DimensionValue,
       },
     }),
   },
   tabWrapper: {
     paddingTop: +vars.topBarHeight,
     backgroundColor: colors.background10,
-    ...Platform.select({
-      native: {
-        height: '100%',
-      },
-    }),
   },
   tabStyle: {
     backgroundColor: colors.background20,
-    ...(Platform.select({
-      native: {
-        height: '100%',
-      },
-    }) as ViewStyle),
   },
   all: {
     paddingTop: 16,
-    backgroundColor: colors.background20,
   },
 })
 
