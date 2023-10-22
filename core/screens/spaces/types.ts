@@ -10,6 +10,12 @@ export interface SpaceMember {
   created: string
 }
 
+export interface SpaceMembershipRequest {
+  id: string
+  user: User
+  message?: string
+}
+
 export enum SpaceLinkType {
   DISCORD = 'DISCORD',
   FACEBOOK = 'FACEBOOK',
@@ -79,6 +85,7 @@ export interface Space {
   geolocation?: GeolocationPoint
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
+  membershipRequests: Paged<SpaceMembershipRequest>
   avatarDefaultColor: string
   name: string
   links?: SpaceLink[]

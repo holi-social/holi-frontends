@@ -18,10 +18,25 @@ export const FullSpaceMemberFragment = gql`
   }
 `
 
+export const FullSpaceMembershipRequestFragment = gql`
+  ${FullUserAvatarFragment}
+  fragment FullSpaceMembershipRequest on SpaceMembershipRequestPaged {
+    totalResults
+    data {
+      id
+      message
+      user {
+        ...FullUserAvatar
+      }
+    }
+  }
+`
+
 // We only need 3 members for avatar pile
 export const FullSpaceFragment = gql`
   ${FullSpaceMemberFragment}
   ${FullUserFragment}
+  ${FullSpaceMembershipRequestFragment}
   fragment FullSpace on Space {
     id
     title
@@ -65,6 +80,9 @@ export const FullSpaceFragment = gql`
     }
     members(limit: 3) {
       ...FullSpaceMember
+    }
+    membershipRequests(limit: 3) {
+      ...FullSpaceMembershipRequest
     }
     tasks {
       id
