@@ -1,9 +1,11 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
@@ -17,6 +19,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -33,9 +36,23 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
   const { openToast } = useToast()
   const [connectionStatus, setConnectionStatus] = useState<'PENDING' | 'ACCEPTED' | 'DECLINED'>('PENDING')
 
+  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
+  const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
+  const handleNavigation = useCallback(
+    (id: string) => {
+      hidePermissions()
+      setTimeout(() => {
+        navigate('/profile/' + id)
+      })
+    },
+    [navigate, hidePermissions]
+  )
 
-  const requestorName = membershipRequest.user.fullName || t('user.profileView.anonymous')
+  const requestorName = useMemo(
+    () => membershipRequest.user.fullName || t('user.profileView.anonymous'),
+    [membershipRequest, t]
+  )
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
@@ -67,7 +84,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
     }
   )
 
-  const approveConnectionRequest = () => {
+  const approveConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
@@ -77,9 +94,9 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
       openToast(t('spaces.invite.user.request.accepted', { user: requestorName }), HoliToastType.SUCCESS)
       setConnectionStatus('ACCEPTED')
     })
-  }
+  }, [updateSpaceUserConnection, openToast, setConnectionStatus, t, requestorName])
 
-  const rejectConnectionRequest = () => {
+  const declineConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
@@ -89,7 +106,19 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
       openToast(t('spaces.invite.user.request.declined', { user: requestorName }), HoliToastType.SUCCESS)
       setConnectionStatus('DECLINED')
     })
-  }
+  }, [updateSpaceUserConnection, openToast, setConnectionStatus, t, requestorName])
+
+  const handleJoinRequest = useCallback(
+    (accept: boolean) => {
+      if (accept) {
+        approveConnectionRequest()
+      } else {
+        declineConnectionRequest()
+      }
+      hidePermissions()
+    },
+    [hidePermissions, approveConnectionRequest, declineConnectionRequest]
+  )
 
   return (
     <View key={membershipRequest.user.id} testID={'space-pending-request-item'} style={styles.wrapper}>
@@ -99,6 +128,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
         label={requestorName}
         style={styles.userButton}
         contentStyle={styles.userButtonContent}
+        onPress={showPermissions}
       >
         <HoliAvatar
           imageSrc={membershipRequest.user.avatar}
@@ -129,7 +159,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
             type="secondary"
             variant="small"
             label={t('notifications.connection.ignore')}
-            onPress={rejectConnectionRequest}
+            onPress={declineConnectionRequest}
             disabled={loading}
             testID="ignore-connection-request-button"
             style={styles.button}
@@ -150,6 +180,16 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
           </HoliButton>
         </HoliHorizontalRow>
       )}
+      <SpacePermissions
+        space={space}
+        user={membershipRequest.user}
+        isAdministrator={false}
+        isMember={connectionStatus === 'ACCEPTED'}
+        handleNavigation={handleNavigation}
+        permissionsVisible={permissionsVisible}
+        hidePermissions={hidePermissions}
+        handleJoinRequest={handleJoinRequest}
+      />
     </View>
   )
 }

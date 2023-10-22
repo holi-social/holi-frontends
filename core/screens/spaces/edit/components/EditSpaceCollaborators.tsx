@@ -132,7 +132,9 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       {selectedMember && !!space && (
         <SpacePermissions
           space={space}
-          member={selectedMember}
+          user={selectedMember.user}
+          isMember
+          isAdministrator={selectedMember.isAdministrator}
           handleNavigation={handleNavigation}
           permissionsVisible={permissionsVisible}
           hidePermissions={hidePermissions}
