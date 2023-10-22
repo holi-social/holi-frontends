@@ -8,8 +8,8 @@ import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appC
 import { logError } from '@holi/core/errors/helpers'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
-import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesList'
+import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
+import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
 import { Newspaper } from '@holi/icons/src/generated'
 
 import { GoodNewsArticlesQuery, GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'

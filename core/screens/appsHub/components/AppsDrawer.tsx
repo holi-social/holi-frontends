@@ -4,10 +4,11 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { HoliApp } from '@holi/core/screens/homeFeed/components/AppTile'
-import AppTile from '@holi/core/screens/homeFeed/components/AppTile'
+import type { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
+import AppTile from '@holi/core/screens/appsHub/components/AppTile'
+import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Apps } from '@holi/icons/src/generated'
+import { Apps, ArrowRightS } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -32,6 +33,11 @@ const AppsDrawer: React.FC = () => {
     },
     [navigate]
   )
+
+  const navigateToAppsHub = useCallback(() => {
+    setModalIsVisible(false)
+    navigate('/appsHub')
+  }, [navigate])
 
   return (
     <>
@@ -58,19 +64,26 @@ const AppsDrawer: React.FC = () => {
 
       {/* Apps modal (drawer) */}
       <HoliModal
-        label={t('apps.drawer.title')}
+        label={t('apps.drawer.label')}
         show={modalIsVisible}
         onDismiss={() => setModalIsVisible(false)}
         style={{ backgroundColor: colors.background20 }}
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
+          <HoliHeading level="1">{t('apps.drawer.title')}</HoliHeading>
           <View style={styles.listContents}>
             {APP_SWIPER_APPS.map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </View>
+          <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigateToAppsHub()}>
+            <View style={styles.appsHubContainer}>
+              <HoliHeading size="small">{t('apps.drawer.appsHub')}</HoliHeading>
+              <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
+              <HoliIcon icon={ArrowRightS} size={24} color={colors.foreground30} />
+            </View>
+          </HoliButton>
         </View>
       </HoliModal>
     </>
@@ -99,13 +112,22 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   modalContent: {
-    paddingHorizontal: 10,
+    gap: 16,
   },
   listContents: {
-    gap: 12,
+    gap: 8,
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 48,
+    marginTop: 24,
+  },
+  appsHubButton: {
+    marginVertical: 16,
+    marginHorizontal: 12,
+    paddingBottom: Platform.OS === 'web' ? 36 : +vars.bottomBarHeight,
+  },
+  appsHubContainer: {
+    gap: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
