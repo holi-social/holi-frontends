@@ -16,6 +16,7 @@ const userSessionName = 'user_session'
 
 export const syncUserSessionFromOrySession = async () => {
   // nothing to do on mobile
+  return null
 }
 
 // getAuthenticatedSession returns a promise with the session of the authenticated user, if the
