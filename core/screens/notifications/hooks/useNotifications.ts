@@ -16,7 +16,7 @@ export const useNotifications = (subscriberId?: string) => {
 
   const headlessServiceRef = useRef<HeadlessService | null>(null)
 
-  const fetchNotifications = useCallback(() => {
+  const fetchNotificationsInitially = useCallback(() => {
     const headlessService = headlessServiceRef.current
 
     if (headlessService) {
@@ -33,6 +33,20 @@ export const useNotifications = (subscriberId?: string) => {
             location: 'useNotifications.fetchNotifications',
           }),
         page: NOVU_NOTIFICATIONS_PAGE_TO_FETCH,
+      })
+    }
+  }, [])
+
+  const startListeningForNotifications = useCallback(() => {
+    const headlessService = headlessServiceRef.current
+
+    if (headlessService) {
+      headlessService.listenNotificationReceive({
+        listener: (message: IMessage) => {
+          setNotifications((currentNotifications) => {
+            return [...currentNotifications, mapToNotification(message)]
+          })
+        },
       })
     }
   }, [])
@@ -54,14 +68,15 @@ export const useNotifications = (subscriberId?: string) => {
       listener: () => ({}),
       onSuccess: () => {
         headlessServiceRef.current = headlessService
-        fetchNotifications()
+        fetchNotificationsInitially()
+        startListeningForNotifications()
       },
       onError: (error) =>
         logError(error, 'Error initializing notifications session', {
           location: 'useNotifications.initializeSession',
         }),
     })
-  }, [fetchNotifications, subscriberId])
+  }, [fetchNotificationsInitially, startListeningForNotifications, subscriberId])
 
   const markAllNotificationsAsRead = (feedId?: IFeedId) => {
     const headlessService = headlessServiceRef.current
@@ -81,9 +96,9 @@ export const useNotifications = (subscriberId?: string) => {
   return { notifications, markAllNotificationsAsRead, isFetching }
 }
 
-function mapToNotifications(response: IPaginatedResponse<IMessage>) {
+function mapToNotification(message: IMessage): Notification {
   // todo gregor: map notifications correctly and don't just use a wrong static type
-  const notifications: Notification[] = response.data.map((message) => ({
+  return {
     notificationType: NotificationType.CONNECTION_ACCEPTED,
     created: message.createdAt,
     id: message._id,
@@ -132,6 +147,11 @@ function mapToNotifications(response: IPaginatedResponse<IMessage>) {
         skills: [],
       },
     },
-  }))
+  }
+}
+
+function mapToNotifications(response: IPaginatedResponse<IMessage>) {
+  const notifications: Notification[] = response.data.map((message) => mapToNotification(message))
+
   return notifications
 }
