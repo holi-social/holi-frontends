@@ -192,7 +192,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
         handleNavigation={handleNavigation}
         permissionsVisible={permissionsVisible}
         hidePermissions={hidePermissions}
-        handleJoinRequest={handleJoinRequest}
+        handleJoinRequest={connectionStatus === 'PENDING' ? handleJoinRequest : undefined}
       />
     </View>
   )
