@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, ScrollView, StyleSheet } from 'react-native'
+import { Platform, ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -40,6 +40,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
   const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const { height: screenHeight } = useWindowDimensions()
+  const styles = createStyles(screenHeight)
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -144,29 +146,35 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-    minHeight: '100%',
-    ...Platform.select({
-      native: {
-        paddingTop: +vars.topBarHeight,
-      },
-      web: {
-        minHeight: '100vh' as DimensionValue,
-      },
-    }),
-  },
-  tabWrapper: {
-    paddingTop: +vars.topBarHeight,
-    backgroundColor: colors.background10,
-  },
-  tabStyle: {
-    backgroundColor: colors.background20,
-  },
-  all: {
-    paddingTop: 16,
-  },
-})
+const createStyles = (screenHeight: number) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: colors.background20,
+      minHeight: '100%',
+      ...Platform.select({
+        native: {
+          paddingTop: +vars.topBarHeight,
+        },
+      }),
+    },
+    tabWrapper: {
+      paddingTop: +vars.topBarHeight,
+      backgroundColor: colors.background10,
+    },
+    tabStyle: {
+      backgroundColor: colors.background20,
+    },
+    all: {
+      paddingTop: 16,
+      ...Platform.select({
+        web: {
+          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
+        },
+        native: {
+          minHeight: screenHeight,
+        },
+      }),
+    },
+  })
 
 export default EditSpaceCollaborators

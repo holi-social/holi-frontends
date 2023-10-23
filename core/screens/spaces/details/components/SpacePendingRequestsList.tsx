@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   heading: {
-    marginTop: 12,
+    marginTop: 8,
   },
   list: {
     marginTop: 12,
