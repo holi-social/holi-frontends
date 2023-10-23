@@ -1,5 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
+import { View } from 'react-native'
 import { string } from 'zod'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -24,6 +25,7 @@ import {
   notificationsQuery,
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const NotificationsOverview = () => {
@@ -31,7 +33,9 @@ const NotificationsOverview = () => {
   const { navigate } = useRouting()
 
   const { enabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
-  const { notifications: novuNotifications } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
+  const { notifications: novuNotifications, markAllNotificationsAsRead } = useNotifications(
+    isNotificationFeatureEnabled ? user?.id : undefined
+  )
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -82,7 +86,14 @@ const NotificationsOverview = () => {
 
   const groupedNotifications = groupByDate(allNotifications)
 
-  return <NotificationSectionList notifications={groupedNotifications} />
+  return (
+    <View style={{ top: 52 }}>
+      <HoliButton label={'Mark all read'} variant={'small'} onPress={() => markAllNotificationsAsRead()}>
+        Mark all read
+      </HoliButton>
+      <NotificationSectionList notifications={groupedNotifications} />
+    </View>
+  )
 }
 
 export default NotificationsOverview
