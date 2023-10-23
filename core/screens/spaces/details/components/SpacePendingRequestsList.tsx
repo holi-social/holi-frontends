@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -17,8 +17,15 @@ type SpacePendingRequestsProps = {
 
 const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }) => {
   const { t } = useTranslation()
+  const [spaceMembershipRequests, setSpaceMembershipRequests] = useState<SpaceMembershipRequest[]>([])
 
-  const { data: spaceMembershipRequests } = usePaginationContext<SpaceMembershipRequest>()
+  const { data } = usePaginationContext<SpaceMembershipRequest>()
+
+  useEffect(() => {
+    if (data.length > spaceMembershipRequests.length) {
+      setSpaceMembershipRequests(data)
+    }
+  }, [data, spaceMembershipRequests.length])
 
   return (
     <ScrollView>

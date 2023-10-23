@@ -154,14 +154,14 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             defaultColor={user.avatarDefaultColor}
             style={[styles.avatar, styles.avatar]}
           />
-          <HoliText style={{ marginBottom: 4 }}>{user.fullName || t('user.profileView.anonymous')}</HoliText>
-          <HoliText size="small" style={{ color: colors.foreground20 }}>
+          <HoliText>{user.fullName || t('user.profileView.anonymous')}</HoliText>
+          <HoliText size="small" style={styles.details}>
             {user.pronouns || ''}
-            {user.pronouns && <> &#183; </>}
-            {isAdministrator
-              ? t('spaces.collaborators.permissions.role.admin')
-              : t('spaces.collaborators.permissions.role.member')}
+            {user.pronouns && (isAdministrator || isMember) && <> &#183; </>}
+            {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
+            {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
           </HoliText>
+          {!!user.aboutMe && <HoliText style={styles.aboutMe}>{user.aboutMe}</HoliText>}
 
           <View style={styles.actions}>
             {!isMember && !!handleJoinRequest && (
@@ -342,6 +342,13 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginBottom: 16,
+  },
+  details: {
+    marginTop: 6,
+    color: colors.foreground20,
+  },
+  aboutMe: {
+    marginTop: 12,
   },
   actions: {
     marginTop: 8,

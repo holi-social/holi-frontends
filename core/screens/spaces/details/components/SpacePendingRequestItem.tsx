@@ -61,6 +61,14 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
         spaceId: space.id,
         userId: membershipRequest.user.id,
       },
+      onCompleted() {
+        if (connectionStatus === 'ACCEPTED') {
+          openToast(t('spaces.invite.user.request.accepted', { user: requestorName }), HoliToastType.SUCCESS)
+        }
+        if (connectionStatus === 'DECLINED') {
+          openToast(t('spaces.invite.user.request.declined', { user: requestorName }), HoliToastType.SUCCESS)
+        }
+      },
       onError(error) {
         setConnectionStatus('PENDING')
 
@@ -85,28 +93,24 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
   )
 
   const approveConnectionRequest = useCallback(() => {
+    setConnectionStatus('ACCEPTED')
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBER,
       },
-    }).then(() => {
-      openToast(t('spaces.invite.user.request.accepted', { user: requestorName }), HoliToastType.SUCCESS)
-      setConnectionStatus('ACCEPTED')
     })
-  }, [updateSpaceUserConnection, openToast, setConnectionStatus, t, requestorName])
+  }, [updateSpaceUserConnection, setConnectionStatus])
 
   const declineConnectionRequest = useCallback(() => {
+    setConnectionStatus('DECLINED')
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
       },
-    }).then(() => {
-      openToast(t('spaces.invite.user.request.declined', { user: requestorName }), HoliToastType.SUCCESS)
-      setConnectionStatus('DECLINED')
     })
-  }, [updateSpaceUserConnection, openToast, setConnectionStatus, t, requestorName])
+  }, [updateSpaceUserConnection, setConnectionStatus])
 
   const handleJoinRequest = useCallback(
     (accept: boolean) => {
@@ -146,13 +150,13 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
           </HoliText>
         </View>
       </HoliButton>
-      {connectionStatus === 'ACCEPTED' && (
+      {!loading && connectionStatus === 'ACCEPTED' && (
         <HoliText style={styles.muted}>{t('spaces.collaborators.pending.requests.accepted')}</HoliText>
       )}
-      {connectionStatus === 'DECLINED' && (
+      {!loading && connectionStatus === 'DECLINED' && (
         <HoliText style={styles.muted}>{t('spaces.collaborators.pending.requests.declined')}</HoliText>
       )}
-      {connectionStatus === 'PENDING' && (
+      {(loading || connectionStatus === 'PENDING') && (
         <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
           <HoliButton
             key="decline"

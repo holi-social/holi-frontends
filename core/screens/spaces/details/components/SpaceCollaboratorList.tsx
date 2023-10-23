@@ -27,48 +27,45 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
 
   return (
     <ScrollView>
-      {
-        /** FIXME convert to VirtualizedList, FlatList or SectionList */
-        spaceMembers.map((member) => {
-          const collaborator = member.user
-          return (
-            <HoliButton
-              contentStyle={styles.collaborators}
-              inline
-              transparent
-              label={
-                isSpaceAdmin && loggedInUser?.id !== collaborator.id
-                  ? t('spaces.collaborators.permissions.label')
-                  : t('user.visitProfile', { name: collaborator.fullName })
-              }
-              onPress={() => onSelectMember(member)}
-              key={collaborator.id}
-              testID={'spaces-collaborators-item'}
-            >
-              <HoliAvatar
-                imageSrc={collaborator.avatar}
-                imageBlurhash={collaborator.avatarBlurhash}
-                label={collaborator.fullName}
-                aria-label={collaborator.fullName || t('user.profileView.anonymous')}
-                initials={collaborator.avatarLabel}
-                defaultColor={collaborator.avatarDefaultColor}
-                size="small"
-                style={styles.avatar}
-              />
-              <View style={styles.titleContainer}>
-                <HoliText ellipsizeMode="tail" numberOfLines={1}>
-                  {collaborator.fullName || t('user.profileView.anonymous')}
-                </HoliText>
-              </View>
-              {member.isAdministrator && (
-                <HoliText size="extrasmall" style={styles.admin}>
-                  {t('spaces.collaborators.isAdmin')}
-                </HoliText>
-              )}
-            </HoliButton>
-          )
-        })
-      }
+      {spaceMembers.map((member) => {
+        const collaborator = member.user
+        return (
+          <HoliButton
+            contentStyle={styles.collaborators}
+            inline
+            transparent
+            label={
+              isSpaceAdmin && loggedInUser?.id !== collaborator.id
+                ? t('spaces.collaborators.permissions.label')
+                : t('user.visitProfile', { name: collaborator.fullName })
+            }
+            onPress={() => onSelectMember(member)}
+            key={collaborator.id}
+            testID={'spaces-collaborators-item'}
+          >
+            <HoliAvatar
+              imageSrc={collaborator.avatar}
+              imageBlurhash={collaborator.avatarBlurhash}
+              label={collaborator.fullName}
+              aria-label={collaborator.fullName || t('user.profileView.anonymous')}
+              initials={collaborator.avatarLabel}
+              defaultColor={collaborator.avatarDefaultColor}
+              size="small"
+              style={styles.avatar}
+            />
+            <View style={styles.titleContainer}>
+              <HoliText ellipsizeMode="tail" numberOfLines={1}>
+                {collaborator.fullName || t('user.profileView.anonymous')}
+              </HoliText>
+            </View>
+            {member.isAdministrator && (
+              <HoliText size="extrasmall" style={styles.admin}>
+                {t('spaces.collaborators.isAdmin')}
+              </HoliText>
+            )}
+          </HoliButton>
+        )
+      })}
     </ScrollView>
   )
 }
