@@ -107,6 +107,8 @@
   "chat.offline": "Du bist gerade offline. Bitte versuche es nochmal, wenn du wieder online bist.",
   "chat.room.error.noRoom": "Der Chatraum konnte nicht gefunden werden.",
   "chat.room.input.placeholder": "Schreibe {{fullName}}",
+  "chat.room.sendButton.label": "Absenden",
+  "chat.room.start.description": "Dies ist der Beginn deines Direkt-Chats mit <0>{{fullName}}</0>. Nur ihr beide seht diese Unterhaltung.",
   "chat.start.button.label": "Schreiben",
   "chat.start.description": "Tippe den Namen der Person ein, mit der du einen Chat starten möchtest.",
   "chat.start.input.error": "Der Name der Person muss mindestens {{count}} Buchstaben haben.",

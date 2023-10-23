@@ -5,6 +5,7 @@ import { View } from 'react-native'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -18,18 +19,23 @@ const RoomMessageListStart = ({ chatPartnerHoliUser }: RoomMessageListStartProps
 
   return (
     <View>
-      <HoliAvatar
-        imageSrc={chatPartnerHoliUser.avatar}
-        imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
-        label={chatPartnerHoliUser.fullName}
-        initials={chatPartnerHoliUser.avatarLabel}
-        defaultColor={chatPartnerHoliUser.avatarDefaultColor}
-        size="large"
-      />
+      <HoliLink
+        href={`/profile/${chatPartnerHoliUser.id}`}
+        label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
+      >
+        <HoliAvatar
+          imageSrc={chatPartnerHoliUser.avatar}
+          imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
+          label={chatPartnerHoliUser.fullName}
+          initials={chatPartnerHoliUser.avatarLabel}
+          defaultColor={chatPartnerHoliUser.avatarDefaultColor}
+          size="large"
+        />
 
-      <HoliBox padding={[8, 0, 0, 0]}>
-        <HoliHeading level="2">{chatPartnerHoliUser.fullName}</HoliHeading>
-      </HoliBox>
+        <HoliBox padding={[8, 0, 0, 0]}>
+          <HoliHeading level="2">{chatPartnerHoliUser.fullName}</HoliHeading>
+        </HoliBox>
+      </HoliLink>
 
       <HoliBox padding={[16, 0, 0, 0]}>
         <HoliText>
