@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, RefreshControl, ScrollView, View } from 'react-native'
+import { Platform, RefreshControl, ScrollView } from 'react-native'
 
 import Default from '@holi/core/components/ScrollHeaderLayout/Default'
 import { RefreshableScrollHeaderLayoutProps } from '@holi/core/components/ScrollHeaderLayout/types'
@@ -16,9 +16,7 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
         {...defaultLayoutProps}
         refreshControl={
           Platform.OS === 'ios' ? (
-            <View style={{ top: additionalOffset, zIndex: 10 }}>
-              <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
-            </View>
+            <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
           ) : (
             <RefreshControl refreshing={isLoading} onRefresh={onRefresh} progressViewOffset={additionalOffset} />
           )
