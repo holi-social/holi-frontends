@@ -13,7 +13,6 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
   (
     {
       refreshableProps: {
-        Loader,
         isLoading,
         onRefresh,
         refreshHeight = +vars.topBarHeight + +vars.loaderHeight,
@@ -23,9 +22,6 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     },
     ref
   ) => {
-    const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset }} />
-    Loader = defaultLoader || Loader
-
     const startPointRef = useRef(0)
     const [pullChange, setPullChange] = useState(0)
     const isPullInProgress = pullChange > 0
@@ -95,7 +91,7 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
               transform: `translateY(${(pullChange / refreshHeight) * 200})`,
             }}
           >
-            <Loader />
+            <HoliLoader style={{ top: loaderTopOffset }} />
           </div>
         )}
         <Default {...defaultLayoutProps} ref={ref} />
