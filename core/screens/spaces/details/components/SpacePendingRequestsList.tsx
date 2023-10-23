@@ -4,9 +4,12 @@ import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { Space, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, ArrowUpS } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -18,6 +21,7 @@ type SpacePendingRequestsProps = {
 }
 
 const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }) => {
+  const [listVisible, setListVisible] = useState(true)
   const { t } = useTranslation()
 
   // local state created in order to keep the items in the list even after accepting/declining requests
@@ -38,9 +42,18 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
   return (
     <ScrollView>
       {!!spaceMembershipRequests.length && (
-        <HoliHeading level="3" style={styles.heading}>
-          {t('spaces.collaborators.pending.requests')}
-        </HoliHeading>
+        <HoliButton
+          inline
+          transparent
+          contentStyle={styles.headerButton}
+          label={t('spaces.collaborators.pending.requests')}
+          onPress={() => setListVisible((visible) => !visible)}
+        >
+          <HoliHeading level="3" style={styles.heading}>
+            {t('spaces.collaborators.pending.requests')}
+          </HoliHeading>
+          <HoliIcon icon={listVisible ? ArrowDownS : ArrowUpS} />
+        </HoliButton>
       )}
       {!spaceMembershipRequests.length && (
         <View style={[mixins.container, styles.emptyContainer]}>
@@ -61,7 +74,7 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
         </View>
       )}
       {!!spaceMembershipRequests.length && (
-        <View style={styles.list}>
+        <View style={[styles.list, !listVisible && styles.hideList]}>
           {spaceMembershipRequests.map((request) => (
             <SpacePendingRequestsItem membershipRequest={request} space={space} key={request.id} />
           ))}
@@ -72,6 +85,11 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
 }
 
 const styles = StyleSheet.create({
+  headerButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
   emptyContainer: {
     padding: 24,
     marginTop: 8,
@@ -95,6 +113,9 @@ const styles = StyleSheet.create({
   },
   list: {
     marginTop: 12,
+  },
+  hideList: {
+    display: 'none', // display none instead of conditional rendering in order to keep the state of the list items
   },
 })
 
