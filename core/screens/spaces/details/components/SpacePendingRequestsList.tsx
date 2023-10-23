@@ -17,11 +17,15 @@ type SpacePendingRequestsProps = {
 
 const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }) => {
   const { t } = useTranslation()
+
+  // local state created in order to keep the items in the list even after accepting/declining requests
+  // (if we use the data from the context directly, a refetch will clear the accepted/declined users from the list)
   const [spaceMembershipRequests, setSpaceMembershipRequests] = useState<SpaceMembershipRequest[]>([])
 
   const { data } = usePaginationContext<SpaceMembershipRequest>()
 
   useEffect(() => {
+    // only update the list if there are new requests (e.g. page changed)
     if (data.length > spaceMembershipRequests.length) {
       setSpaceMembershipRequests(data)
     }
