@@ -5,8 +5,10 @@ import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { Space, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import SpacePendingRequestsItem from './SpacePendingRequestItem'
 
@@ -24,6 +26,8 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
 
   const { data } = usePaginationContext<SpaceMembershipRequest>()
 
+  const mixins = useStyleMixins()
+
   useEffect(() => {
     // only update the list if there are new requests (e.g. page changed)
     if (data.length > spaceMembershipRequests.length) {
@@ -33,31 +37,64 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
 
   return (
     <ScrollView>
-      <HoliHeading level="3" style={styles.heading}>
-        {t('spaces.collaborators.pending.requests')}
-      </HoliHeading>
-      <View style={styles.list}>
-        {!spaceMembershipRequests.length && (
-          <HoliText style={styles.muted}>{t('spaces.collaborators.pending.requests.empty')}</HoliText>
-        )}
-        {!!spaceMembershipRequests.length &&
-          spaceMembershipRequests.map((request) => (
+      {!!spaceMembershipRequests.length && (
+        <HoliHeading level="3" style={styles.heading}>
+          {t('spaces.collaborators.pending.requests')}
+        </HoliHeading>
+      )}
+      {!spaceMembershipRequests.length && (
+        <View style={[mixins.container, styles.emptyContainer]}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_manage_collaborators_empty.svg')}
+            width={250}
+            height={180}
+            label={t('spaces.collaborators.pending.requests.empty.title')}
+            isSvg={true}
+            resizeMode="contain"
+          />
+          <HoliText size={'small'} style={styles.emptyTitle}>
+            {t('spaces.collaborators.pending.requests.empty.title')}
+          </HoliText>
+          <HoliText size={'large'} style={styles.emptyDescription}>
+            {t('spaces.collaborators.pending.requests.empty.description')}
+          </HoliText>
+        </View>
+      )}
+      {!!spaceMembershipRequests.length && (
+        <View style={styles.list}>
+          {spaceMembershipRequests.map((request) => (
             <SpacePendingRequestsItem membershipRequest={request} space={space} key={request.id} />
           ))}
-      </View>
+        </View>
+      )}
     </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
+  emptyContainer: {
+    padding: 24,
+    marginTop: 8,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.background30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background10,
+  },
+  emptyTitle: {
+    marginTop: 24,
+    textAlign: 'center',
+  },
+  emptyDescription: {
+    marginTop: 8,
+    textAlign: 'center',
+  },
   heading: {
     marginTop: 12,
   },
   list: {
     marginTop: 12,
-  },
-  muted: {
-    color: colors.foreground20,
   },
 })
 
