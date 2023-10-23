@@ -11,9 +11,10 @@ import {
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { Space, SpaceConnectionAction, SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Flag, ShieldMinus, ShieldPlus, User, UserUnfollow } from '@holi/icons/src/generated'
+import { Check, Close, Flag, ShieldMinus, ShieldPlus, User as UserIcon, UserUnfollow } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -25,18 +26,24 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpacePermissionsProps = {
   space: Space
-  member: SpaceMember
+  user: User
   handleNavigation: (id: string) => void
   permissionsVisible: boolean
   hidePermissions: () => void
+  handleJoinRequest?: (accept: boolean) => void
+  isAdministrator?: boolean
+  isMember?: boolean
 }
 
 const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   space,
-  member,
+  user,
   handleNavigation,
   permissionsVisible,
   hidePermissions,
+  handleJoinRequest,
+  isAdministrator,
+  isMember,
 }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -47,7 +54,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   const [showReportMemberConfirmationModal, setShowReportMemberConfirmationModal] = useState(false)
   const { openToast } = useToast()
 
-  const { user } = member
   const [isLoadingReport, reportContent] = useReportContent({
     id: user.id,
     contentType: ContentType.USER,
@@ -148,17 +154,49 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             defaultColor={user.avatarDefaultColor}
             style={[styles.avatar, styles.avatar]}
           />
-          <HoliText style={{ marginBottom: 4 }}>{user.fullName || t('user.profileView.anonymous')}</HoliText>
-          <HoliText size="small" style={{ color: colors.foreground20 }}>
+          <HoliText>{user.fullName || t('user.profileView.anonymous')}</HoliText>
+          <HoliText size="small" style={styles.details}>
             {user.pronouns || ''}
-            {user.pronouns && <> &#183; </>}
-            {member.isAdministrator
-              ? t('spaces.collaborators.permissions.role.admin')
-              : t('spaces.collaborators.permissions.role.member')}
+            {user.pronouns && (isAdministrator || isMember) && <> &#183; </>}
+            {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
+            {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
           </HoliText>
+          {!!user.aboutMe && <HoliText style={styles.aboutMe}>{user.aboutMe}</HoliText>}
 
           <View style={styles.actions}>
-            {member.isAdministrator ? (
+            {!isMember && !!handleJoinRequest && (
+              <HoliButton
+                contentStyle={styles.actionsItem}
+                inline
+                transparent
+                disabled={loading}
+                label={t('spaces.collaborators.pending.requests.accept.detailed')}
+                onPress={() => handleJoinRequest(true)}
+              >
+                <HoliIcon icon={Check} color={styles.acceptRequestIcon.color} />
+                <HoliText style={styles.actionsItemText}>
+                  {t('spaces.collaborators.pending.requests.accept.detailed')}{' '}
+                </HoliText>
+              </HoliButton>
+            )}
+
+            {!isMember && !!handleJoinRequest && (
+              <HoliButton
+                contentStyle={styles.actionsItem}
+                inline
+                transparent
+                disabled={loading}
+                label={t('spaces.collaborators.pending.requests.decline.detailed')}
+                onPress={() => handleJoinRequest(false)}
+              >
+                <HoliIcon icon={Close} color={styles.declineRequestIcon.color} />
+                <HoliText style={styles.actionsItemText}>
+                  {t('spaces.collaborators.pending.requests.decline.detailed')}{' '}
+                </HoliText>
+              </HoliButton>
+            )}
+
+            {isAdministrator && (
               <HoliButton
                 contentStyle={styles.actionsItem}
                 inline
@@ -173,7 +211,9 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                   {t('spaces.collaborators.permissions.revokeAdmin.label')}{' '}
                 </HoliText>
               </HoliButton>
-            ) : (
+            )}
+
+            {!isAdministrator && isMember && (
               <HoliButton
                 contentStyle={styles.actionsItem}
                 inline
@@ -190,19 +230,34 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               </HoliButton>
             )}
 
+            {isMember && (
+              <HoliButton
+                contentStyle={styles.actionsItem}
+                inline
+                transparent
+                disabled={loading}
+                label={t('spaces.collaborators.permissions.remove.user.label')}
+                onPress={() => setShowRemoveMemberConfirmationModal(true)}
+                testID={'spaces-collaborators-remove-user-btn'}
+              >
+                <HoliIcon icon={UserUnfollow} color={styles.actionsItemIcon.color} />
+                <HoliText style={styles.actionsItemText}>
+                  {t('spaces.collaborators.permissions.remove.user.label')}
+                </HoliText>
+              </HoliButton>
+            )}
+
             <HoliButton
               contentStyle={styles.actionsItem}
               inline
               transparent
               disabled={loading}
-              label={t('spaces.collaborators.permissions.remove.user.label')}
-              onPress={() => setShowRemoveMemberConfirmationModal(true)}
-              testID={'spaces-collaborators-remove-user-btn'}
+              label={t('spaces.collaborators.permissions.viewProfile')}
+              onPress={() => handleNavigation(user.id)}
+              testID={'spaces-collaborators-view-profile-btn'}
             >
-              <HoliIcon icon={UserUnfollow} color={styles.actionsItemIcon.color} />
-              <HoliText style={styles.actionsItemText}>
-                {t('spaces.collaborators.permissions.remove.user.label')}
-              </HoliText>
+              <HoliIcon icon={UserIcon} color={styles.actionsItemIcon.color} />
+              <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
             </HoliButton>
 
             <HoliButton
@@ -216,19 +271,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             >
               <HoliIcon icon={Flag} color={styles.actionsItemIcon.color} />
               <HoliText style={styles.actionsItemText}>{t('global.report')}</HoliText>
-            </HoliButton>
-
-            <HoliButton
-              contentStyle={styles.actionsItem}
-              inline
-              transparent
-              disabled={loading}
-              label={t('spaces.collaborators.permissions.viewProfile')}
-              onPress={() => handleNavigation(user.id)}
-              testID={'spaces-collaborators-view-profile-btn'}
-            >
-              <HoliIcon icon={User} color={styles.actionsItemIcon.color} />
-              <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
             </HoliButton>
           </View>
 
@@ -301,6 +343,13 @@ const styles = StyleSheet.create({
   avatar: {
     marginBottom: 16,
   },
+  details: {
+    marginTop: 6,
+    color: colors.foreground20,
+  },
+  aboutMe: {
+    marginTop: 12,
+  },
   actions: {
     marginTop: 8,
     paddingTop: 24,
@@ -318,6 +367,12 @@ const styles = StyleSheet.create({
   },
   actionsItemIcon: {
     color: colors.foreground30,
+  },
+  acceptRequestIcon: {
+    color: colors.brandColorC30,
+  },
+  declineRequestIcon: {
+    color: colors.error30,
   },
 })
 

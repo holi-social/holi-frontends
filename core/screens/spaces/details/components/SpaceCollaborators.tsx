@@ -90,7 +90,9 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
         {selectedMember && (
           <SpacePermissions
             space={space}
-            member={selectedMember}
+            user={selectedMember.user}
+            isMember
+            isAdministrator={selectedMember.isAdministrator}
             handleNavigation={handleNavigation}
             permissionsVisible={permissionsVisible}
             hidePermissions={hidePermissions}
