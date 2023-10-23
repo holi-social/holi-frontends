@@ -1,11 +1,12 @@
 import { HeadlessService } from '@novu/headless'
-import { renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { NotificationType } from '@holi/core/screens/notifications/components/types'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
 const mockInitializeSession = jest.fn()
 const mockFetchNotifications = jest.fn()
+const mockListenNotificationReceive = jest.fn()
 const mockMarkAllMessagesAsRead = jest.fn()
 
 jest.useFakeTimers()
@@ -26,6 +27,7 @@ describe('useNotifications', () => {
       return {
         initializeSession: mockInitializeSession,
         fetchNotifications: mockFetchNotifications,
+        listenNotificationReceive: mockListenNotificationReceive,
         markAllMessagesAsRead: mockMarkAllMessagesAsRead,
       }
     })
@@ -48,40 +50,38 @@ describe('useNotifications', () => {
     expect(mockInitializeSession).toHaveBeenCalled()
   })
 
-  it('should fetch and return notifications', async () => {
-    const testDate = new Date().toISOString()
+  it('should fetch and return notifications initially', async () => {
     const testNotificationId = 'notificationId'
     const testContent = 'Test content'
-    const testResponse = {
-      data: [
-        {
-          createdAt: testDate,
-          _id: testNotificationId,
-          read: false,
-          content: testContent,
-        },
-      ],
-    }
-    const expectedNotification = {
-      notificationType: NotificationType.CONNECTION_ACCEPTED,
-      created: testDate,
-      id: testNotificationId,
-      owner: expect.any(Object),
-      read: false,
-      options: expect.objectContaining({
-        user: expect.objectContaining({
-          fullName: testContent,
-        }),
-      }),
-    }
+    const testResponse = { data: [novuMessageFixture(testNotificationId, testContent)] }
+    const expectedNotification = notificationFixture(testNotificationId, testContent)
+
     mockInitializeSession.mockImplementation(({ onSuccess }) => onSuccess(testSession))
     mockFetchNotifications.mockImplementation(({ onSuccess }) => setTimeout(() => onSuccess(testResponse), 0))
+    mockListenNotificationReceive.mockImplementation(() => ({}))
 
     const { result } = renderHook(() => useNotifications(subscriberId))
 
     expect(result.current.notifications).toEqual([])
 
-    expect(mockFetchNotifications).toHaveBeenCalled()
+    await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
+  })
+
+  it('should listen to new notifications', async () => {
+    const testNotificationId = 'notificationId'
+    const testContent = 'Test content'
+    const newMessage = novuMessageFixture(testNotificationId, testContent)
+    const expectedNotification = notificationFixture(testNotificationId, testContent)
+
+    mockInitializeSession.mockImplementation(({ onSuccess }) => onSuccess(testSession))
+    mockFetchNotifications.mockImplementation(() => [])
+
+    const { result } = renderHook(() => useNotifications(subscriberId))
+    expect(result.current.notifications).toEqual([])
+
+    act(() => {
+      mockListenNotificationReceive.mock.calls[0][0].listener(newMessage)
+    })
 
     await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
   })
@@ -118,3 +118,30 @@ describe('useNotifications', () => {
     expect(mockInitializeSession).not.toHaveBeenCalled()
   })
 })
+
+const aDate = new Date().toISOString()
+
+function novuMessageFixture(testNotificationId: string, testContent: string) {
+  return {
+    createdAt: aDate,
+    _id: testNotificationId,
+    read: false,
+    content: testContent,
+  }
+}
+
+function notificationFixture(testNotificationId: string, testContent: string) {
+  // todo gregor: map notifications correctly and don't just use a wrong static type
+  return {
+    notificationType: NotificationType.CONNECTION_ACCEPTED,
+    created: aDate,
+    id: testNotificationId,
+    owner: expect.any(Object),
+    read: false,
+    options: expect.objectContaining({
+      user: expect.objectContaining({
+        fullName: testContent,
+      }),
+    }),
+  }
+}
