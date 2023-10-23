@@ -37,7 +37,7 @@ const AppsHub = () => {
   }, [setScreenOptions])
 
   return (
-    <DefaultLayout style={styles.container} backgroundColor={colors.background20} headerOverlap>
+    <DefaultLayout style={styles.container} backgroundColor={colors.background20} headerOverlap scrollEnabled={false}>
       <View style={styles.content}>
         <HoliText>
           <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small style={{ width: 'auto' }} />
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
+    height: Platform.OS === 'web' ? '100vh' : '100%',
     paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
     paddingBottom: 48,
   },
