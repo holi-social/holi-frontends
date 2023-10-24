@@ -156,7 +156,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
                   showCharacterCount
                   inputLabel={t('spaces.collaborate.onboarding.input.label')}
                   maxNoOfVisibleLines={5}
-                  maxNoOfCharacters={1000}
+                  maxNoOfCharacters={240}
                   isRequired={false}
                   value={message}
                   onChange={setMessage}

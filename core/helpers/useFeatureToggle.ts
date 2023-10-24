@@ -10,6 +10,7 @@ export enum FeatureToggleName {
   APPS_DONATIONS = 'APPS_DONATIONS',
   APPS_GOODNEWS = 'APPS_GOODNEWS',
   APPS_VOLUNTEERING = 'APPS_VOLUNTEERING',
+  NOTIFICATIONS = 'NOTIFICATIONS',
 }
 
 export type FeatureToggleState = {

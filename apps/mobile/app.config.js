@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.7.6', // user-facing value visible in stores
-  iosBuildNumber: '1.7.6', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 31, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.8.0', // user-facing value visible in stores
+  iosBuildNumber: '1.8.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 32, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -62,6 +62,11 @@ export default {
       versionCode: versions.androidVersionCode,
       // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
       googleServicesFile: './google-services.json',
+      adaptiveIcon: {
+        foregroundImage: './assets/icon_android.png',
+        monochromeImage: './assets/icon_android_monochromatic.png',
+        backgroundColor: '#fdfd80',
+      },
     },
     plugins: [
       'expo-localization',
@@ -92,6 +97,11 @@ export default {
       ],
     },
     extra: {
+      novu: {
+        applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
+        backendUrl: requiredEnvVar('NOVU_BACKEND_URL'),
+        socketUrl: requiredEnvVar('NOVU_SOCKET_URL'),
+      },
       chat: {
         serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),
         serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',

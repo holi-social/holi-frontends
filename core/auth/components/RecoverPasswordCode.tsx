@@ -1,0 +1,177 @@
+import { RecoveryFlow } from '@ory/kratos-client'
+import { AxiosError } from 'axios'
+import React, { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ScrollView, StyleSheet } from 'react-native'
+
+import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
+import { updatePasswordRecoveryFlowCode, updatePasswordRecoveryFlowEmail } from '@holi/core/auth/helpers/auth'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+// import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+
+const CODE_MAX_COUNT = 6
+
+const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
+  return !!(err as AxiosError).response
+}
+
+export type RecoverPasswordCodeProps = {
+  email: string
+  flow?: RecoveryFlow
+  webview: boolean
+  onDismiss?: () => void
+  onSuccess?: () => void
+}
+
+const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps) => {
+  const { t } = useTranslation()
+  const { navigate } = useRouting()
+  const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
+
+  const [code, setCode] = useState('')
+  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+
+  const resendEmail = async () => {
+    if (!flow) return false
+
+    try {
+      await updatePasswordRecoveryFlowEmail(flow, email)
+      openToast(t('auth.forgotPassword.message.emailResent'), HoliToastType.SUCCESS)
+    } catch (error) {
+      displayError(error, 'Failed to resend email for password recovery', {
+        displayMessage: t('auth.forgotPassword.message.emailResent.error'),
+        location: 'RecoverPasswordCode.resendEmail',
+      })
+    }
+
+    // prevent HoliTextLink default behaviour
+    return false
+  }
+
+  const submitCode = async () => {
+    if (!flow) return false
+
+    try {
+      await updatePasswordRecoveryFlowCode(flow, code)
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422 && error.response?.data?.error?.id === 'browser_location_change_required') {
+          navigate(
+            webview
+              ? error.response?.data?.redirect_browser_to + '&webview=true'
+              : error.response?.data?.redirect_browser_to
+          )
+        } else {
+          displayError(error, 'Failed to recover with code for password recovery', {
+            displayMessage: t('auth.forgotPassword.message.submitCode.error'),
+            location: 'RecoverPasswordCode.submitCode.axisError',
+          })
+        }
+      } else {
+        displayError(error, 'Failed to recover with code for password recovery', {
+          displayMessage: t('auth.forgotPassword.message.submitCode.error'),
+          location: 'RecoverPasswordCode.submitCode',
+        })
+      }
+    }
+
+    // prevent HoliTextLink default behaviour
+    return false
+  }
+
+  if (!flow) return null
+
+  return (
+    <HoliKeyboardSaveView>
+      <CenteredImageHeadlineDescriptionLayout
+        imageSource={require('@holi/ui/assets/img/illustrations/registration_email_verification.svg')}
+        imageLabelText={t('auth.forgotPassword.image-label')}
+        headlineText={t('auth.forgotPassword.heading')}
+        descriptionText={t('auth.forgotPassword.description')}
+        testID="email-verification"
+        ref={scrollViewRef}
+      >
+        <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
+        <HoliTextInput
+          value={code}
+          onChange={setCode}
+          placeholder={t('registration.emailVerification.inputPlaceholder')}
+          aria-label={t('registration.emailVerification.inputLabel')}
+          maxNoOfCharacters={CODE_MAX_COUNT}
+          showCharacterCount
+          inputProps={{
+            keyboardType: 'number-pad',
+            inputMode: 'decimal',
+            autoComplete: 'one-time-code',
+          }}
+          style={[styles.limitedBox, { alignSelf: 'center' }]}
+          testID="email-verification-code"
+          {...scrollToInputWithId('code')}
+        />
+
+        <HoliBox padding={[16, 0, 0, 0]}>
+          <HoliTextLink
+            label={t('registration.emailVerification.resendEmail')}
+            href="/"
+            onPress={resendEmail}
+            variant="secondary"
+            size="small"
+          >
+            {t('registration.emailVerification.resendEmail')}
+          </HoliTextLink>
+        </HoliBox>
+
+        <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
+          <HoliButton
+            label={t('auth.forgotPassword.message.submitCode')}
+            disabled={code.length !== CODE_MAX_COUNT}
+            onPress={submitCode}
+            type="primary"
+            testID="btn-submit-code"
+          >
+            {t('auth.forgotPassword.message.submitCode')}
+          </HoliButton>
+        </HoliBox>
+
+        {/* {isLoaderShown && <HoliLoader />} */}
+      </CenteredImageHeadlineDescriptionLayout>
+    </HoliKeyboardSaveView>
+  )
+}
+
+export default RecoverPasswordCode
+
+const styles = StyleSheet.create({
+  inner: {
+    alignItems: 'center',
+    maxWidth: +vars.breakpointL,
+  },
+  imageContainer: {
+    alignItems: 'center',
+  },
+  headline: {
+    fontWeight: '400',
+    textAlign: 'center',
+    marginTop: 64,
+  },
+  description: {
+    color: colors.foreground20,
+    marginTop: 16,
+    textAlign: 'center',
+  },
+  limitedBox: {
+    maxWidth: +vars.breakpointS,
+    width: '100%',
+  },
+})

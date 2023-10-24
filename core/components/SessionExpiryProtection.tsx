@@ -28,7 +28,7 @@ const SessionExpiryProtection = ({ children }: React.PropsWithChildren<unknown>)
     if (isError && !isLoggingOut && !isProcessingUnauthorizedLogout) {
       isProcessingUnauthorizedLogout = true
       if (Platform.OS === 'web') {
-        navigate('/forceLogout')
+        navigate('/forceLogoutDomain')
       } else {
         logout({ message: t('auth.loggingOut'), skipLogoutFlow: true }).finally(clearProcessingUnauthorizedLogout)
       }

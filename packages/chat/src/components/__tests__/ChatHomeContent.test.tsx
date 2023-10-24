@@ -18,6 +18,7 @@ import {
   setMatrixMock,
 } from '@holi/chat/src/test-utils/matrix-mock-setup'
 import { fireMatrixEvent, matrixRoomFrom } from '@holi/chat/src/test-utils/matrix-utils'
+import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { User } from '@holi/core/screens/userprofile/types'
 
 interface MockLoggedInUserState {
@@ -65,6 +66,7 @@ jest.mock('matrix-js-sdk', () => ({
 
 describe('ChatHome', () => {
   beforeEach(() => {
+    markDeviceTokenAsInitialized()
     mockChatFeatureToggle = {
       loading: false,
       error: false,

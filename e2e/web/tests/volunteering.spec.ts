@@ -3,8 +3,8 @@ import { BrowserContext, Page, expect } from '@playwright/test'
 import {
   byTestId,
   checkAccessibility,
-  clickElement,
   clickElementByTestId,
+  clickFirstElement,
   locateElementByTestId,
   proceedAsGuest,
   volunteeringRequestTimeout,
@@ -97,7 +97,7 @@ const testFilteringByLocation = async (page: Page) => {
   const locationInput = await locateElementByTestId(page, 'volunteering-filter-location-input')
   await locationInput.fill('Hamburg')
 
-  await clickElement(page.locator('[role="menuitem"]'))
+  await clickFirstElement(page.locator('[role="menuitem"]'))
 
   await checkAccessibility(page)
 

@@ -55,6 +55,7 @@ const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in val
  */
 export default class ChatClient {
   private readonly mxClient: MatrixClient
+  private readonly deviceToken: string | undefined
 
   public constructor(credentials: ChatCredentials) {
     if (
@@ -77,6 +78,7 @@ export default class ChatClient {
 
     this.mxClient = createClient(options)
     this.mxClient.setGuest(false)
+    this.deviceToken = credentials.deviceToken
 
     const notifTimelineSet = new EventTimelineSet(undefined, {
       timelineSupport: true,
@@ -126,8 +128,10 @@ export default class ChatClient {
    * @returns a successful promise if succeed
    */
   public configurePusher = async (): Promise<void> => {
-    // delegate to Platform-specific implementation (currently no-op for Web)
-    return configurePusher(this.mxClient)
+    if (this.deviceToken) {
+      // delegate to Platform-specific implementation (currently no-op for Web)
+      return configurePusher(this.mxClient, this.deviceToken)
+    }
   }
 
   public stop = async () => {

@@ -1,5 +1,4 @@
 import * as Device from 'expo-device'
-import * as Notifications from 'expo-notifications'
 import { IPusher, IPusherRequest, MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
@@ -11,10 +10,8 @@ import { logDebug } from '@holi/core/helpers/logging'
  *
  * @returns a successful promise if succeed
  */
-export const configurePusher = async (mxClient: MatrixClient): Promise<void> => {
-  const token = await Notifications.getDevicePushTokenAsync()
-  logDebug('ChatClient.configurePusher', 'got token', JSON.stringify(token))
-  const pushkey = token.data
+export const configurePusher = async (mxClient: MatrixClient, pushkey: string): Promise<void> => {
+  const tokenType = Platform.OS
 
   const pushers: { pushers: IPusher[] } = await mxClient.getPushers()
   await Promise.all(
@@ -34,10 +31,10 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
     logDebug('ChatClient.configurePusher', 'existing push rules', JSON.stringify(rules))
   })
 
-  if (token.type === 'android' || token.type === 'ios') {
-    const app_id = token.type === 'ios' ? 'social.holi.ios' : 'social.holi'
+  if (tokenType === 'android' || tokenType === 'ios') {
+    const app_id = tokenType === 'ios' ? 'social.holi.ios' : 'social.holi'
     let default_payload
-    if (token.type === 'android') {
+    if (tokenType === 'android') {
       // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
       default_payload = {
         title: 'holi Chat',
@@ -48,7 +45,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         experienceId: '@holistic-foundation/projectholi', // correct
         scopeKey: '@holistic-foundation/projectholi', // correct
       }
-    } else if (token.type === 'ios') {
+    } else if (tokenType === 'ios') {
       // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
       default_payload = {
         aps: {
@@ -79,7 +76,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         // "type", and "sender_display_name" from notification data
         // for now we don't want that because it helps to know this for easier notification display
       },
-      device_display_name: Platform.OS == 'web' ? 'Web Browser' : Device.brand + ' ' + Device.modelName,
+      device_display_name: Device.brand + ' ' + Device.modelName,
       kind: 'http',
       lang: 'en', // TODO use correct language https://holi.atlassian.net/browse/HOLI-5421
       profile_tag: 'override', // TODO double check what should go here https://holi.atlassian.net/browse/HOLI-5422

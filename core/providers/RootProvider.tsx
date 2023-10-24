@@ -12,6 +12,7 @@ import UpdateAppModal from '@holi/core/components/UpdateAppModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
+import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -46,6 +47,7 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
               <PortalProvider>
                 <SessionExpiryProtection>
                   <FeatureTogglesFetcher />
+                  {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
                   {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
                   <LoginModalProvider>
                     <ChatStoreInitializer>{children}</ChatStoreInitializer>

@@ -21,13 +21,12 @@ export const locateElementByTestId = async (page: Page, testId: string, nth?: nu
   return page.locator(byTestId(testId, nth))
 }
 
-export const clickElement = async (locator: Locator): Promise<void> => {
-  // potentially there are multiple matches, so we ensure to only click the first element
+export const clickFirstElement = async (locator: Locator): Promise<void> => {
   await locator.first().click()
 }
 
 export const clickElementByTestId = async (page: Page, testId: string, nth?: number): Promise<void> => {
-  return clickElement(await locateElementByTestId(page, testId, nth))
+  return clickFirstElement(await locateElementByTestId(page, testId, nth))
 }
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {

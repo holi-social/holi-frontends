@@ -3,8 +3,8 @@ import { BrowserContext, Locator, Page, expect } from '@playwright/test'
 import {
   byTestId,
   checkAccessibility,
-  clickElement,
   clickElementByTestId,
+  clickFirstElement,
   donationsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
@@ -213,7 +213,7 @@ const filterForLocation = async (
 
   // expect suggestions
   if (useSuggestion) {
-    await clickElement(page.locator('[role="menuitem"]'))
+    await clickFirstElement(page.locator('[role="menuitem"]'))
   } else {
     // at least wait for the suggestions to pop up, fixes race condition
     // FIXME: if we don't, it's flaky. We weren't able to find the issue in the app yet.

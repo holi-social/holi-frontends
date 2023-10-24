@@ -43,21 +43,20 @@ it('should display truncated and full text from children', async () => {
   const el = screen.queryByTestId(containerTestId) as ReactTestInstance
   fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
 
-  const btn = await screen.findByRole('button')
-  const [readMorePath] = btn.children
-  expect(readMorePath).toBe('component.readMore.readMore')
+  const readMoreBtn = await screen.findByText('component.readMore.readMore')
+  expect(readMoreBtn).toBeTruthy()
 
   const textView = screen.queryByTestId(textViewTestId)
   const [text] = textView?.children ?? ''
   expect(text).toMatchInlineSnapshot(
     // eslint-disable-next-line quotes
-    `"Infinite Scroll. Swipe, swipe, scroll down. Endless feeds without a frown .Likes and hearts and retweets to. Endless scrolling, what to do? A world of data, at our fingertips. Information flows, never skips. The internet,a boundless space. A virtual world we can embrace. From screens to apps, to cloud and more. Technology opens up the door. To new ideas, new ways to connect. A futu... "`
+    `"Infinite Scroll. Swipe, swipe, scroll down. Endless feeds without a frown .Likes and hearts and retweets to. Endless scrolling, what to do? A world of data, at our fingertips. Information flows, never skips. The internet,a boundless space. A virtual world we can embrace. From screens to apps, to cloud and more. Technology opens up the door. To new ideas, new ways to connect. A future we can’t yet predict. But in this world of endless ..."`
   )
 
-  await fireEvent.press(btn)
-  const [readLessPath] = btn.children
+  await fireEvent.press(readMoreBtn)
+  const readLessBtn = await screen.findByText('component.readMore.readLess')
   fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
-  expect(readLessPath).toBe('component.readMore.readLess')
+  expect(readLessBtn).toBeTruthy()
 
   const textViewFull = screen.queryByTestId(textViewTestId)
   const [textViewFullText] = textViewFull?.children ?? ''

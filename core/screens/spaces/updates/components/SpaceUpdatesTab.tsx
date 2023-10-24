@@ -48,19 +48,20 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const headline = isMember ? t('spaces.updates.noResults.headline.member') : t('spaces.updates.noResults.headline')
 
-  const hasPosts = space.hasPrivatePosts || space.hasPublicPosts
+  const hasPosts = (isMember && space.hasPrivatePosts) || space.hasPublicPosts
   const hasPostFilter = isMember && space.hasPrivatePosts && space.hasPublicPosts
 
   const isFilterAll = filter === VisibilityFilter.ALL
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
+  const showNoResults = !hasPosts || (!isMember && !space.hasPublicPosts)
 
   const setButtonStyles = (isSelected: boolean) =>
     StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
 
   return (
     <View style={style}>
-      {!hasPosts && (
+      {showNoResults && (
         <HoliNoResults
           firstText={t('spaces.updates.noResults.tagline')}
           secondText={headline}

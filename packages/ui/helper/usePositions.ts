@@ -3,30 +3,6 @@ import { LayoutChangeEvent, View } from 'react-native'
 
 import { useRefList } from './useRefList'
 
-/**
- * Generates component-props which
- * - add a generic ref
- * - store the x- and y-position of each element
- * - return the element's position onFocus and onBlur
- * @Usage:
- * ```
-  const someComponent = () => {
-    const { getScrollToProps } = usePositions()
-    onst propsFor = (id: string) => getScrollToProps(id, onFocus)
-
-    const onFocus = (pos: Position, ref: View, id: string) => {
-      console.log('Focus on', id, ' with position:', pos)
-    }
-
-    return (<>
-      <View {...propsFor('one')} />
-      <View {...propsFor('two')} />
-    </>)
-
-  }
-  ```
- */
-
 export type Position = {
   x: number
   y: number
