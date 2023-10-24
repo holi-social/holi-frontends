@@ -20,7 +20,6 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -148,198 +147,192 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
         style={styles.wrapper}
         testID="space-collaborators-permissions-modal"
       >
-        <ScrollView style={[styles.modalContent, mixins.container]}>
-          <HoliAvatar
-            imageSrc={user.avatar}
-            imageBlurhash={user.avatarBlurhash}
-            label={user.fullName || t('user.profileView.anonymous')}
-            initials={user.avatarLabel}
-            defaultColor={user.avatarDefaultColor}
-            style={[styles.avatar, styles.avatar]}
-          />
-          <HoliText>{user.fullName || t('user.profileView.anonymous')}</HoliText>
-          <HoliText size="small" style={styles.details}>
-            {user.pronouns || ''}
-            {user.pronouns && (isAdministrator || isMember) && <> &#183; </>}
-            {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
-            {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
-          </HoliText>
+        <ScrollView>
+          <View style={[styles.modalContent, mixins.container]}>
+            <HoliAvatar
+              imageSrc={user.avatar}
+              imageBlurhash={user.avatarBlurhash}
+              label={user.fullName || t('user.profileView.anonymous')}
+              initials={user.avatarLabel}
+              defaultColor={user.avatarDefaultColor}
+              style={[styles.avatar, styles.avatar]}
+            />
+            <HoliText>{user.fullName || t('user.profileView.anonymous')}</HoliText>
+            <HoliText size="small" style={styles.details}>
+              {user.pronouns || ''}
+              {user.pronouns && (isAdministrator || isMember) && <> &#183; </>}
+              {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
+              {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
+            </HoliText>
 
-          {isMember && !!user.aboutMe && (
-            <HoliReadMore numberOfLines={5} style={styles.description}>
-              {user.aboutMe}
-            </HoliReadMore>
-          )}
-          {!isMember && !!extraDescription && (
-            <HoliReadMore numberOfLines={4} style={styles.description}>
-              {extraDescription}
-            </HoliReadMore>
-          )}
+            {isMember && !!user.aboutMe && <HoliText style={styles.description}>{user.aboutMe}</HoliText>}
+            {!isMember && !!extraDescription && <HoliText style={styles.description}>{extraDescription}</HoliText>}
 
-          <View style={styles.actions}>
-            {!isMember && !!handleJoinRequest && (
+            <View style={styles.actions}>
+              {!isMember && !!handleJoinRequest && (
+                <HoliButton
+                  contentStyle={styles.actionsItem}
+                  inline
+                  transparent
+                  disabled={loading}
+                  label={t('spaces.collaborators.pending.requests.accept.detailed')}
+                  onPress={() => handleJoinRequest(true)}
+                >
+                  <HoliIcon icon={Check} color={styles.acceptRequestIcon.color} />
+                  <HoliText style={styles.actionsItemText}>
+                    {t('spaces.collaborators.pending.requests.accept.detailed')}{' '}
+                  </HoliText>
+                </HoliButton>
+              )}
+
+              {!isMember && !!handleJoinRequest && (
+                <HoliButton
+                  contentStyle={styles.actionsItem}
+                  inline
+                  transparent
+                  disabled={loading}
+                  label={t('spaces.collaborators.pending.requests.decline.detailed')}
+                  onPress={() => handleJoinRequest(false)}
+                >
+                  <HoliIcon icon={Close} color={styles.declineRequestIcon.color} />
+                  <HoliText style={styles.actionsItemText}>
+                    {t('spaces.collaborators.pending.requests.decline.detailed')}{' '}
+                  </HoliText>
+                </HoliButton>
+              )}
+
+              {isAdministrator && (
+                <HoliButton
+                  contentStyle={styles.actionsItem}
+                  inline
+                  transparent
+                  disabled={loading}
+                  label={t('spaces.collaborators.permissions.revokeAdmin.label')}
+                  onPress={() => setshowRevokeAdminConfirmationModal(true)}
+                  testID={'spaces-collaborators-revoke-admin-btn'}
+                >
+                  <HoliIcon icon={ShieldMinus} color={styles.actionsItemIcon.color} />
+                  <HoliText style={styles.actionsItemText}>
+                    {t('spaces.collaborators.permissions.revokeAdmin.label')}{' '}
+                  </HoliText>
+                </HoliButton>
+              )}
+
+              {!isAdministrator && isMember && (
+                <HoliButton
+                  contentStyle={styles.actionsItem}
+                  inline
+                  transparent
+                  disabled={loading}
+                  label={t('spaces.collaborators.permissions.grantAdmin.label')}
+                  onPress={() => setShowGrantAdminConfirmationModal(true)}
+                  testID={'spaces-collaborators-grant-admin-btn'}
+                >
+                  <HoliIcon icon={ShieldPlus} color={styles.actionsItemIcon.color} />
+                  <HoliText style={styles.actionsItemText}>
+                    {t('spaces.collaborators.permissions.grantAdmin.label')}
+                  </HoliText>
+                </HoliButton>
+              )}
+
+              {isMember && (
+                <HoliButton
+                  contentStyle={styles.actionsItem}
+                  inline
+                  transparent
+                  disabled={loading}
+                  label={t('spaces.collaborators.permissions.remove.user.label')}
+                  onPress={() => setShowRemoveMemberConfirmationModal(true)}
+                  testID={'spaces-collaborators-remove-user-btn'}
+                >
+                  <HoliIcon icon={UserUnfollow} color={styles.actionsItemIcon.color} />
+                  <HoliText style={styles.actionsItemText}>
+                    {t('spaces.collaborators.permissions.remove.user.label')}
+                  </HoliText>
+                </HoliButton>
+              )}
+
               <HoliButton
                 contentStyle={styles.actionsItem}
                 inline
                 transparent
                 disabled={loading}
-                label={t('spaces.collaborators.pending.requests.accept.detailed')}
-                onPress={() => handleJoinRequest(true)}
+                label={t('spaces.collaborators.permissions.viewProfile')}
+                onPress={() => handleNavigation(user.id)}
+                testID={'spaces-collaborators-view-profile-btn'}
               >
-                <HoliIcon icon={Check} color={styles.acceptRequestIcon.color} />
-                <HoliText style={styles.actionsItemText}>
-                  {t('spaces.collaborators.pending.requests.accept.detailed')}{' '}
-                </HoliText>
+                <HoliIcon icon={UserIcon} color={styles.actionsItemIcon.color} />
+                <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
               </HoliButton>
-            )}
 
-            {!isMember && !!handleJoinRequest && (
               <HoliButton
                 contentStyle={styles.actionsItem}
                 inline
                 transparent
-                disabled={loading}
-                label={t('spaces.collaborators.pending.requests.decline.detailed')}
-                onPress={() => handleJoinRequest(false)}
+                disabled={isLoadingReport}
+                label={t('global.report')}
+                onPress={() => setShowReportMemberConfirmationModal(true)}
+                testID="report-user-button"
               >
-                <HoliIcon icon={Close} color={styles.declineRequestIcon.color} />
-                <HoliText style={styles.actionsItemText}>
-                  {t('spaces.collaborators.pending.requests.decline.detailed')}{' '}
-                </HoliText>
+                <HoliIcon icon={Flag} color={styles.actionsItemIcon.color} />
+                <HoliText style={styles.actionsItemText}>{t('global.report')}</HoliText>
               </HoliButton>
-            )}
+            </View>
 
-            {isAdministrator && (
-              <HoliButton
-                contentStyle={styles.actionsItem}
-                inline
-                transparent
-                disabled={loading}
-                label={t('spaces.collaborators.permissions.revokeAdmin.label')}
-                onPress={() => setshowRevokeAdminConfirmationModal(true)}
-                testID={'spaces-collaborators-revoke-admin-btn'}
-              >
-                <HoliIcon icon={ShieldMinus} color={styles.actionsItemIcon.color} />
-                <HoliText style={styles.actionsItemText}>
-                  {t('spaces.collaborators.permissions.revokeAdmin.label')}{' '}
-                </HoliText>
-              </HoliButton>
-            )}
+            <HoliConfirmation
+              show={showGrantAdminConfirmationModal}
+              label={t('spaces.collaborators.permissions.grantAdmin.label')}
+              title={t('spaces.collaborators.permissions.grantAdmin.label')}
+              description={t('spaces.collaborators.permissions.grantAdmin.confirm', {
+                user: user.fullName || t('user.profileView.anonymous'),
+              })}
+              onDismiss={() => setShowGrantAdminConfirmationModal(false)}
+              dismissText={t('spaces.collaborators.permissions.confirm.no')}
+              confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+              testID="spaces-collaborators-grant-admin-confirmation"
+              onConfirm={grantAdminRights}
+            />
 
-            {!isAdministrator && isMember && (
-              <HoliButton
-                contentStyle={styles.actionsItem}
-                inline
-                transparent
-                disabled={loading}
-                label={t('spaces.collaborators.permissions.grantAdmin.label')}
-                onPress={() => setShowGrantAdminConfirmationModal(true)}
-                testID={'spaces-collaborators-grant-admin-btn'}
-              >
-                <HoliIcon icon={ShieldPlus} color={styles.actionsItemIcon.color} />
-                <HoliText style={styles.actionsItemText}>
-                  {t('spaces.collaborators.permissions.grantAdmin.label')}
-                </HoliText>
-              </HoliButton>
-            )}
+            <HoliConfirmation
+              show={showRevokeAdminConfirmationModal}
+              label={t('spaces.collaborators.permissions.revokeAdmin.label')}
+              title={t('spaces.collaborators.permissions.revokeAdmin.label')}
+              description={t('spaces.collaborators.permissions.revokeAdmin.confirm', {
+                user: user.fullName || t('user.profileView.anonymous'),
+              })}
+              onDismiss={() => setshowRevokeAdminConfirmationModal(false)}
+              dismissText={t('spaces.collaborators.permissions.confirm.no')}
+              confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+              testID="spaces-collaborators-revoke-admin-confirmation"
+              onConfirm={revokeAdminRights}
+            />
 
-            {isMember && (
-              <HoliButton
-                contentStyle={styles.actionsItem}
-                inline
-                transparent
-                disabled={loading}
-                label={t('spaces.collaborators.permissions.remove.user.label')}
-                onPress={() => setShowRemoveMemberConfirmationModal(true)}
-                testID={'spaces-collaborators-remove-user-btn'}
-              >
-                <HoliIcon icon={UserUnfollow} color={styles.actionsItemIcon.color} />
-                <HoliText style={styles.actionsItemText}>
-                  {t('spaces.collaborators.permissions.remove.user.label')}
-                </HoliText>
-              </HoliButton>
-            )}
+            <HoliConfirmation
+              show={showRemoveMemberConfirmationModal}
+              label={t('spaces.collaborators.permissions.remove.user.label')}
+              title={t('spaces.collaborators.permissions.remove.user.label')}
+              description={t('spaces.collaborators.permissions.remove.user.confirm', {
+                user: user.fullName || t('user.profileView.anonymous'),
+              })}
+              onDismiss={() => setShowRemoveMemberConfirmationModal(false)}
+              dismissText={t('spaces.collaborators.permissions.confirm.no')}
+              confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+              testID="spaces-collaborators-remove-user-confirmation"
+              onConfirm={removeMember}
+            />
 
-            <HoliButton
-              contentStyle={styles.actionsItem}
-              inline
-              transparent
-              disabled={loading}
-              label={t('spaces.collaborators.permissions.viewProfile')}
-              onPress={() => handleNavigation(user.id)}
-              testID={'spaces-collaborators-view-profile-btn'}
-            >
-              <HoliIcon icon={UserIcon} color={styles.actionsItemIcon.color} />
-              <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
-            </HoliButton>
-
-            <HoliButton
-              contentStyle={styles.actionsItem}
-              inline
-              transparent
-              disabled={isLoadingReport}
-              label={t('global.report')}
-              onPress={() => setShowReportMemberConfirmationModal(true)}
-              testID="report-user-button"
-            >
-              <HoliIcon icon={Flag} color={styles.actionsItemIcon.color} />
-              <HoliText style={styles.actionsItemText}>{t('global.report')}</HoliText>
-            </HoliButton>
+            <HoliConfirmation
+              show={showReportMemberConfirmationModal}
+              label={t('user.profileView.report.confirmation.title', { name: user.fullName })}
+              title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
+              description={t('user.profileView.report.confirmation.description', {
+                name: user.fullName || t('user.profileView.anonymous'),
+              })}
+              onDismiss={() => setShowReportMemberConfirmationModal(false)}
+              testID="spaces-collaborators-report-user-confirmation"
+              onConfirm={reportMember}
+            />
           </View>
-
-          <HoliConfirmation
-            show={showGrantAdminConfirmationModal}
-            label={t('spaces.collaborators.permissions.grantAdmin.label')}
-            title={t('spaces.collaborators.permissions.grantAdmin.label')}
-            description={t('spaces.collaborators.permissions.grantAdmin.confirm', {
-              user: user.fullName || t('user.profileView.anonymous'),
-            })}
-            onDismiss={() => setShowGrantAdminConfirmationModal(false)}
-            dismissText={t('spaces.collaborators.permissions.confirm.no')}
-            confirmText={t('spaces.collaborators.permissions.confirm.yes')}
-            testID="spaces-collaborators-grant-admin-confirmation"
-            onConfirm={grantAdminRights}
-          />
-
-          <HoliConfirmation
-            show={showRevokeAdminConfirmationModal}
-            label={t('spaces.collaborators.permissions.revokeAdmin.label')}
-            title={t('spaces.collaborators.permissions.revokeAdmin.label')}
-            description={t('spaces.collaborators.permissions.revokeAdmin.confirm', {
-              user: user.fullName || t('user.profileView.anonymous'),
-            })}
-            onDismiss={() => setshowRevokeAdminConfirmationModal(false)}
-            dismissText={t('spaces.collaborators.permissions.confirm.no')}
-            confirmText={t('spaces.collaborators.permissions.confirm.yes')}
-            testID="spaces-collaborators-revoke-admin-confirmation"
-            onConfirm={revokeAdminRights}
-          />
-
-          <HoliConfirmation
-            show={showRemoveMemberConfirmationModal}
-            label={t('spaces.collaborators.permissions.remove.user.label')}
-            title={t('spaces.collaborators.permissions.remove.user.label')}
-            description={t('spaces.collaborators.permissions.remove.user.confirm', {
-              user: user.fullName || t('user.profileView.anonymous'),
-            })}
-            onDismiss={() => setShowRemoveMemberConfirmationModal(false)}
-            dismissText={t('spaces.collaborators.permissions.confirm.no')}
-            confirmText={t('spaces.collaborators.permissions.confirm.yes')}
-            testID="spaces-collaborators-remove-user-confirmation"
-            onConfirm={removeMember}
-          />
-
-          <HoliConfirmation
-            show={showReportMemberConfirmationModal}
-            label={t('user.profileView.report.confirmation.title', { name: user.fullName })}
-            title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
-            description={t('user.profileView.report.confirmation.description', {
-              name: user.fullName || t('user.profileView.anonymous'),
-            })}
-            onDismiss={() => setShowReportMemberConfirmationModal(false)}
-            testID="spaces-collaborators-report-user-confirmation"
-            onConfirm={reportMember}
-          />
         </ScrollView>
       </HoliModal>
     </>
