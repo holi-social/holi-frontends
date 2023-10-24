@@ -94,7 +94,7 @@ interface ChatHomeRoomListProps {
 }
 
 // TODO: remove after finishing the story: https://holi.atlassian.net/browse/HOLI-5130
-const IS_CHAT_TAB_BAR_ENABLED = false
+const IS_CHAT_TAB_BAR_ENABLED = true
 
 type ChatHomeContentParams = {
   activeTab: string

@@ -199,8 +199,12 @@ export default class ChatClient {
   }
 
   // This are the rooms on initial loading
-  public getRooms = (): Promise<RoomWithSharedData[]> => {
-    const rooms = this.mxClient.getRooms()
+  public getRooms = (): Room[] => {
+    return this.mxClient.getRooms()
+  }
+
+  public getRoomsWithSharedData = (): Promise<RoomWithSharedData[]> => {
+    const rooms = this.getRooms()
     return Promise.all(rooms.map((room) => this.getRoomWithSharedData(room)))
   }
 
@@ -370,6 +374,14 @@ export default class ChatClient {
 
     return () => {
       this.mxClient.off(ClientEvent.Room, roomEventHandler)
+    }
+  }
+
+  public subscribeToRoomDeletion(callback: (roomId: string) => void): () => void {
+    this.mxClient.on(ClientEvent.DeleteRoom, callback)
+
+    return () => {
+      this.mxClient.off(ClientEvent.DeleteRoom, callback)
     }
   }
 
