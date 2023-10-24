@@ -18,7 +18,7 @@ const intFromEnvOrDefault = (value: string | undefined, defaultValue: number): n
     try {
       return parseInt(value)
     } catch (e) {
-      console.error(`Can't parse value '${value}' for number of test retries, continuing with value '${defaultValue}'.`)
+      console.warn(`Can't parse value '${value}' for number of test retries, continuing with value '${defaultValue}'.`)
     }
   }
   return defaultValue
