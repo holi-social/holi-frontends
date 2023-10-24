@@ -54,13 +54,14 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const isFilterAll = filter === VisibilityFilter.ALL
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
+  const showNoResults = !hasPosts || (!isMember && !space.hasPublicPosts)
 
   const setButtonStyles = (isSelected: boolean) =>
     StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
 
   return (
     <View style={style}>
-      {isMember && (
+      {showNoResults && (
         <HoliNoResults
           firstText={t('spaces.updates.noResults.tagline')}
           secondText={headline}
