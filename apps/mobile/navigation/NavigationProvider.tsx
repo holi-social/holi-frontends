@@ -8,6 +8,7 @@ import { DefaultTheme, NavigationContainer, createNavigationContainerRef } from 
 import { logDebug } from '@holi/core/helpers/logging'
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
+import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
 import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
 import { colors } from '@holi/ui/styles/globalVars'
 import defaultHoliTheme from '@holi/ui/styles/theme'
@@ -22,30 +23,6 @@ const navigationTheme: Theme = {
     background: colors.background10,
   },
   dark: defaultHoliTheme.dark,
-}
-
-const transformPushInteractionToUrl = (response: Notifications.NotificationResponse) => {
-  const request: Partial<Notifications.NotificationRequest> = response.notification.request
-  let data: Record<string, unknown> = {}
-
-  if (request.trigger?.type === 'push') {
-    // background or closed app push
-    const trigger = request.trigger as Partial<Notifications.PushNotificationTrigger>
-    const triggerData = trigger?.remoteMessage?.data ?? trigger.payload // android ?? ios
-    if (triggerData) {
-      data = triggerData
-    }
-  } else if (request?.content?.data) {
-    // active app push
-    data = request?.content?.data
-  }
-
-  const roomId = data.room_id
-  if (roomId && typeof roomId === 'string') {
-    logDebug('transformPushInteractionToUrl', 'navigating to room', roomId)
-    return 'https://app.holi.social/chat/rooms/' + roomId
-  }
-  return null
 }
 
 // linking is done to configure deep linking (e.g. to get https://staging.dev.holi.social/profiles/dieter

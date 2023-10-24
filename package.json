@@ -26,7 +26,7 @@
     "mobile:preview": "yarn workspace @holi/mobile preview",
     "mobile:build_all": "yarn workspace @holi/mobile build_all",
     "mobile:build_android": "yarn workspace @holi/mobile build_android",
-    "mobile:build_android_apk": "yarn workspace @holi/mobile build_android_apk",
+    "mobile:build_android_preview": "yarn workspace @holi/mobile build_android_preview",
     "mobile:build_ios": "yarn workspace @holi/mobile build_ios",
     "mobile:build_ios_sim": "yarn workspace @holi/mobile build_ios_sim",
     "mobile:build_ios_dev_sim": "yarn workspace @holi/mobile build_ios_dev_sim",
