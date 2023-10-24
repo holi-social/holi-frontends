@@ -33,6 +33,7 @@ type SpacePermissionsProps = {
   handleJoinRequest?: (accept: boolean) => void
   isAdministrator?: boolean
   isMember?: boolean
+  extraDescription?: string
 }
 
 const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
@@ -44,6 +45,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   handleJoinRequest,
   isAdministrator,
   isMember,
+  extraDescription,
 }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -161,7 +163,9 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
             {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
           </HoliText>
-          {!!user.aboutMe && <HoliText style={styles.aboutMe}>{user.aboutMe}</HoliText>}
+
+          {isMember && !!user.aboutMe && <HoliText style={styles.description}>{user.aboutMe}</HoliText>}
+          {!isMember && !!extraDescription && <HoliText style={styles.description}>{extraDescription}</HoliText>}
 
           <View style={styles.actions}>
             {!isMember && !!handleJoinRequest && (
@@ -347,7 +351,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     color: colors.foreground20,
   },
-  aboutMe: {
+  description: {
     marginTop: 12,
   },
   actions: {
