@@ -37,7 +37,7 @@ const AppsHub = () => {
   }, [setScreenOptions])
 
   return (
-    <DefaultLayout style={styles.container} backgroundColor={colors.background20}>
+    <DefaultLayout style={styles.container} backgroundColor={colors.background20} headerOverlap>
       <View style={styles.content}>
         <HoliText>
           <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small style={{ width: 'auto' }} />
@@ -53,11 +53,11 @@ const AppsHub = () => {
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/appsHub/apps_hub_preview.svg')}
           style={styles.image}
-          isSvg
           resizeMode="contain"
+          isSvg
           label={''}
           width={327}
-          height={382}
+          height={390}
         />
       </View>
       <HoliText size="small" style={{ alignSelf: 'center' }}>
@@ -80,9 +80,13 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
+    paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
+    paddingBottom: 48,
   },
   image: {
-    alignSelf: 'center',
+    alignItems: 'center',
+    // if web sharpen the edges of the svg
+    ...Platform.select({ web: { imageRendering: 'sharp-edges' } }),
   },
   imageContainer: {
     alignItems: 'center',

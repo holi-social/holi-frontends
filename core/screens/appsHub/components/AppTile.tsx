@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     wordBreak: 'break-word',
     padding: 0,
+    alignSelf: 'baseline',
   },
   appTile: {
     alignSelf: 'center',
