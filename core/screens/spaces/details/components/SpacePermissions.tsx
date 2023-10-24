@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useReportContent from '@holi/core/hooks/useReportContent'
@@ -20,6 +20,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -147,7 +148,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
         style={styles.wrapper}
         testID="space-collaborators-permissions-modal"
       >
-        <View style={[styles.modalContent, mixins.container]}>
+        <ScrollView style={[styles.modalContent, mixins.container]}>
           <HoliAvatar
             imageSrc={user.avatar}
             imageBlurhash={user.avatarBlurhash}
@@ -164,8 +165,16 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
           </HoliText>
 
-          {isMember && !!user.aboutMe && <HoliText style={styles.description}>{user.aboutMe}</HoliText>}
-          {!isMember && !!extraDescription && <HoliText style={styles.description}>{extraDescription}</HoliText>}
+          {isMember && !!user.aboutMe && (
+            <HoliReadMore numberOfLines={5} style={styles.description}>
+              {user.aboutMe}
+            </HoliReadMore>
+          )}
+          {!isMember && !!extraDescription && (
+            <HoliReadMore numberOfLines={4} style={styles.description}>
+              {extraDescription}
+            </HoliReadMore>
+          )}
 
           <View style={styles.actions}>
             {!isMember && !!handleJoinRequest && (
@@ -331,7 +340,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             testID="spaces-collaborators-report-user-confirmation"
             onConfirm={reportMember}
           />
-        </View>
+        </ScrollView>
       </HoliModal>
     </>
   )
