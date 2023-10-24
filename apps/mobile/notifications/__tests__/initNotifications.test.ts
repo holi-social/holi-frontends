@@ -10,7 +10,7 @@ import {
   handleNotificationForRemoteMessageTriggerAndroidMock,
   handleNotificationForRemoteMessageTriggerIosMock,
 } from '@holi/core/helpers/__tests__/mocks'
-import { initNotifications } from '@holi/core/helpers/notifications'
+import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
 

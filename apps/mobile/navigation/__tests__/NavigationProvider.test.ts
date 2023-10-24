@@ -195,9 +195,7 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
-        )
+        expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
 
@@ -206,9 +204,7 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
-        )
+        expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
     })
@@ -219,9 +215,7 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
-        )
+        expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
 
@@ -230,9 +224,7 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
-        )
+        expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
     })
@@ -269,7 +261,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForRemoteTriggerAndroidMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+          'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
 
         urlResultCatcher.mockClear()
@@ -277,7 +269,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForLocalTriggerAndroidMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+          'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
       })
     })
@@ -295,7 +287,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForRemoteTriggerIosMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+          'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
 
         urlResultCatcher.mockClear()
@@ -303,7 +295,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForLocalTriggerIosMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+          'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
       })
     })

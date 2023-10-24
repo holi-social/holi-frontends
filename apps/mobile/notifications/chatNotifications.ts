@@ -1,69 +1,10 @@
-import AsyncStore from '@react-native-async-storage/async-storage'
-import { PermissionStatus } from 'expo-modules-core'
 import * as Notifications from 'expo-notifications'
-import {
-  Notification,
-  NotificationBehavior,
-  NotificationContentInput,
-  NotificationRequest,
-  PushNotificationTrigger,
-} from 'expo-notifications'
-import * as TaskManager from 'expo-task-manager'
-import { TaskManagerTaskBody } from 'expo-task-manager'
-import { Platform } from 'react-native'
+import type { NotificationContentInput } from 'expo-notifications'
 
-import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
-import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-
-const permissionRequestedStorageKey = 'notification_permission_requested'
-
-const getOrRequestNotificationPermission = async (): Promise<PermissionStatus> => {
-  let response = await Notifications.getPermissionsAsync()
-  if (response.status === PermissionStatus.GRANTED) {
-    return response.status
-  }
-
-  const alreadyRequestedPermission = await AsyncStore.getItem(permissionRequestedStorageKey)?.then(
-    (storedValue) => !!storedValue
-  )
-
-  // Make sure to request the permission at least once, if it's denied initially
-  if (response.status === PermissionStatus.UNDETERMINED || !alreadyRequestedPermission) {
-    response = await Notifications.requestPermissionsAsync()
-    AsyncStore.setItem(permissionRequestedStorageKey, 'true')
-  }
-
-  return response.status
-}
-
-export const initNotifications = async () => {
-  if (!isDevice()) {
-    // doesn't work on android emulator (and also possibly not on iOS simulator)
-    markDeviceTokenAsInitialized()
-    return Promise.resolve()
-  } else {
-    logDebug('initNotifications', 'initializing notifications')
-    const responseStatus = await getOrRequestNotificationPermission()
-    logDebug('initNotifications', 'permission response', responseStatus)
-
-    // iOS also has PROVISIONAL and EPHEMERAL, but we don't request those, so we are fine
-    if (responseStatus === PermissionStatus.GRANTED) {
-      logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler and device token')
-
-      initDeviceToken()
-
-      // permanent, no de-registration needed
-      registerHandleNotificationsWhenAppIsInForeground()
-      // permanent, no de-registration needed
-      await registerHandleNotificationsWhenAppIsInBackground()
-    } else {
-      markDeviceTokenAsInitialized()
-    }
-  }
-}
+import { NotificationPayload } from '@holi/mobile/notifications'
 
 interface AndroidUnknownMessageContent {
   msgtype: string | undefined
@@ -250,80 +191,26 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
   }
 }
 
-const handleNewDataPush = async (data: { [key: string]: unknown } | undefined) => {
+export const isChatNotification = (data: NotificationPayload | undefined) => !data?.notification_type
+
+export const handleForegroundChatMessage = async (data: NotificationPayload | undefined) => {
   const event = parseToSygnalEvent(data)
-  logDebug('handleNewDataPush', 'using sygnal event', JSON.stringify(event))
+  logDebug('handleForegroundChatMessage', 'using sygnal event', JSON.stringify(event))
   if (event && navigationStateAllowsPushDisplayFor(event.room_id)) {
     const content = generateNotificationContent(event)
     if (content) {
-      logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
+      logDebug('handleForegroundChatMessage', 'scheduling notification', JSON.stringify(content))
       await Notifications.scheduleNotificationAsync({
         content,
         // Android:
         // - automatically uses a notification channel that supports pop over screen and sound
+        // TODO(SF) check this in HOLI-6190
         // - Disclaimer: last time we checked, providing a (valid) notification channel id
         //   caused an error "Failed to schedule notification" and we don't know why
         trigger: null, // `null` means to schedule directly
       })
     } else {
-      logDebug('handleNewDataPush', 'skipping push notification')
+      logDebug('handleForegroundChatMessage', 'skipping push notification')
     }
-  }
-}
-
-const registerHandleNotificationsWhenAppIsInForeground = () => {
-  // see https://docs.expo.dev/versions/latest/sdk/notifications/#setnotificationhandlerhandler
-  Notifications.setNotificationHandler({
-    handleNotification: async (notification: Notification): Promise<NotificationBehavior> => {
-      logDebug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
-      // defensive programming, since types don't show all null-possibilities
-      const request: Partial<NotificationRequest> = notification.request
-      if (request.trigger?.type === 'push') {
-        const trigger = request.trigger as Partial<PushNotificationTrigger>
-        await handleNewDataPush(trigger.remoteMessage?.data ?? trigger.payload) // android ?? ios
-        return {
-          shouldShowAlert: false,
-          shouldPlaySound: false,
-          shouldSetBadge: false,
-        }
-      }
-      // Android: only with `shouldPlaySound: true`, the notification pops over the screen
-      return {
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: false,
-      }
-    },
-    handleSuccess: async (notificationId) => {
-      // could be used for tracking
-      logDebug('foregroundNotificationHandler', 'notification success', notificationId)
-    },
-    handleError: async (notificationId, error) => {
-      // could be used for custom sentry events
-      logDebug('foregroundNotificationHandler', 'notification error', notificationId, error)
-    },
-  })
-}
-
-const registerHandleNotificationsWhenAppIsInBackground = async () => {
-  if (Platform.OS === 'android') {
-    // since we don't really need it, we can skip the hassle for ios right now
-
-    // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
-    const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
-    TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
-      try {
-        // we know it's a chat notification update
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const notification = (body as any).data.notification
-        logDebug('backgroundNotificationHandler', 'received background notification', JSON.stringify(notification))
-        // This is just left in to demonstrate how to receive notifications in the background.
-        // We can't prevent background notifications from appearing when they have a valid notification payload.
-        // But we need this payload for closed app notifications, so we should not send another notification here.
-      } catch (e) {
-        logDebug('backgroundNotificationHandler', 'error while processing', e)
-      }
-    })
-    await Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
   }
 }
