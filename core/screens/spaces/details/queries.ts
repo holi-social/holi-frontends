@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-import { FullSpaceMemberFragment } from '@holi/core/screens/spaces/queries'
+import { FullSpaceMemberFragment, FullSpaceMembershipRequestFragment } from '@holi/core/screens/spaces/queries'
 import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const spaceMembersQuery = gql`
@@ -11,6 +11,19 @@ export const spaceMembersQuery = gql`
       id
       members(limit: $limit, offset: $offset) {
         ...FullSpaceMember
+      }
+    }
+  }
+`
+
+export const spaceMembershipRequestsQuery = gql`
+  ${FullSpaceMembershipRequestFragment}
+
+  query SpaceMembershipRequestsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 10) {
+    spaceById(idOrName: $idOrName) {
+      id
+      membershipRequests(limit: $limit, offset: $offset) {
+        ...FullSpaceMembershipRequest
       }
     }
   }
