@@ -163,9 +163,9 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
             {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
           </HoliText>
-          {(!!extraDescription || !!user.aboutMe) && (
-            <HoliText style={styles.aboutMe}>{extraDescription || user.aboutMe}</HoliText>
-          )}
+
+          {isMember && !!user.aboutMe && <HoliText style={styles.description}>{user.aboutMe}</HoliText>}
+          {!isMember && !!extraDescription && <HoliText style={styles.description}>{extraDescription}</HoliText>}
 
           <View style={styles.actions}>
             {!isMember && !!handleJoinRequest && (
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     color: colors.foreground20,
   },
-  aboutMe: {
+  description: {
     marginTop: 12,
   },
   actions: {
