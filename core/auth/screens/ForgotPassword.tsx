@@ -15,7 +15,7 @@ import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 export interface ForgotPasswordProps {
-  webview: boolean
+  webview?: boolean
 }
 
 const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
