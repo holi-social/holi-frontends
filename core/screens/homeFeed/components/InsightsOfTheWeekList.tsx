@@ -14,7 +14,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const InsightsOfTheWeekList: React.FC = () => {
   const { t } = useTranslation()
@@ -25,8 +24,6 @@ const InsightsOfTheWeekList: React.FC = () => {
 
   const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
 
-  const mixins = useStyleMixins()
-
   if (error) {
     logError(error, 'Failed to load insights', { location: 'InsightsOfTheWeekList' })
     return <></>
@@ -35,43 +32,41 @@ const InsightsOfTheWeekList: React.FC = () => {
   if (!loading && !totalResults) return <></>
 
   return (
-    <HoliBox padding={[32, 0, 0, 0]}>
-      <View style={mixins.container}>
-        {/* Headline */}
-        <HoliBox padding={[0, 0, 8, 0]}>
-          <HoliHeading size="large">{t('homeFeed.insights.heading')}</HoliHeading>
-        </HoliBox>
+    <>
+      {/* Headline */}
+      <HoliBox padding={[0, 0, 8, 0]}>
+        <HoliHeading size="large">{t('homeFeed.insights.heading')}</HoliHeading>
+      </HoliBox>
 
-        {/* Curators with popup */}
-        <HoliBox padding={[8, 0]}>
-          <HoliButton
-            label={t('insights.editors.modal.title')}
-            transparent
-            onPress={showEditorsModal}
-            testID="avatar-pile-open-modal-button"
-            inline
-          >
-            <View style={styles.editorsButtonContent}>
-              <HoliUserAvatarPile users={insightsCreators} collapse loading={!!loading} />
-              <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
-                {t('insights.editors.editedBy')}
-              </HoliText>
-            </View>
-          </HoliButton>
-        </HoliBox>
+      {/* Curators with popup */}
+      <HoliBox padding={[8, 0]}>
+        <HoliButton
+          label={t('insights.editors.modal.title')}
+          transparent
+          onPress={showEditorsModal}
+          testID="avatar-pile-open-modal-button"
+          inline
+        >
+          <View style={styles.editorsButtonContent}>
+            <HoliUserAvatarPile users={insightsCreators} collapse loading={!!loading} />
+            <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
+              {t('insights.editors.editedBy')}
+            </HoliText>
+          </View>
+        </HoliButton>
+      </HoliBox>
 
-        <HoliModal label={t('insights.editors.modal.title')} {...editorsModalProps} testID="insight-editors-modal">
-          <HoliUserCardsModalContent
-            title={t('insights.editors.modal.title')}
-            users={insightsCreators}
-            onDismiss={hideEditorsModal}
-            testID="insight-editors"
-          />
-        </HoliModal>
+      <HoliModal label={t('insights.editors.modal.title')} {...editorsModalProps} testID="insight-editors-modal">
+        <HoliUserCardsModalContent
+          title={t('insights.editors.modal.title')}
+          users={insightsCreators}
+          onDismiss={hideEditorsModal}
+          testID="insight-editors"
+        />
+      </HoliModal>
 
-        <InsightList style={styles.insightList} loading={!!loading} insights={insights} />
-      </View>
-    </HoliBox>
+      <InsightList style={styles.insightList} loading={!!loading} insights={insights} />
+    </>
   )
 }
 

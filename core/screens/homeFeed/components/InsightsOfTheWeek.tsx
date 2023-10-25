@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import { Pagination } from '@holi/core/pagination/Pagination'
 import InsightsOfTheWeekList from '@holi/core/screens/homeFeed/components/InsightsOfTheWeekList'
@@ -19,18 +20,20 @@ const InsightsOfTheWeek: React.FC = () => {
   }
 
   return (
-    <Pagination
-      query={lastInsightsQuery}
-      queryOptions={queryOptions}
-      fetchMoreButtonProps={{
-        type: 'secondary',
-        style: mixins.moreButton,
-        testID: 'btn-insights-list-load-more',
-      }}
-      fetchMoreButtonLabel={t('homeFeed.insights.loadMoreText')}
-    >
-      <InsightsOfTheWeekList />
-    </Pagination>
+    <View style={mixins.container}>
+      <Pagination
+        query={lastInsightsQuery}
+        queryOptions={queryOptions}
+        fetchMoreButtonProps={{
+          type: 'secondary',
+          style: mixins.moreButton,
+          testID: 'btn-insights-list-load-more',
+        }}
+        fetchMoreButtonLabel={t('homeFeed.insights.loadMoreText')}
+      >
+        <InsightsOfTheWeekList />
+      </Pagination>
+    </View>
   )
 }
 
