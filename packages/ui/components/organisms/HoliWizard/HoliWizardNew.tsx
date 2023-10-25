@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -28,7 +28,6 @@ export interface HoliWizardCurrentStepOptions {
 
 export interface NextPressHandlerOptions {
   currentStep: number
-  setIsLoading: (value: boolean) => void
   goNext: () => void
 }
 type NextPressHandler = (options: NextPressHandlerOptions) => void
@@ -44,8 +43,6 @@ export interface HoliWizardProps {
 }
 
 interface HoliWizardContextType {
-  isLoading: boolean
-  setIsLoading: (value: boolean) => void
   currentStepOptions: HoliWizardCurrentStepOptions
   onNextPress: () => void
   onBackPress: () => void
@@ -64,12 +61,10 @@ const HoliWizardContextProvider: React.FC<React.PropsWithChildren<HoliWizardCont
   children,
   handleNextPress,
 }) => {
-  const [isLoading, setIsLoading] = useState(false)
   const { currentStep, goBack, goNext } = useStepper()
   const onNextPress = keyboardDismissWrapper(() =>
     handleNextPress({
       currentStep,
-      setIsLoading,
       goNext,
     })
   )
@@ -77,8 +72,6 @@ const HoliWizardContextProvider: React.FC<React.PropsWithChildren<HoliWizardCont
   const onSkipPress = keyboardDismissWrapper(goNext)
 
   const context = {
-    isLoading,
-    setIsLoading,
     currentStepOptions: stepOptions[currentStep],
     onNextPress,
     onBackPress,
@@ -136,7 +129,7 @@ interface HoliWizardFooterProps {
   isNextButtonEnabled: boolean
 }
 const HoliWizardFooter: React.FC<HoliWizardFooterProps> = ({ getSubmitButtonLabel, isNextButtonEnabled }) => {
-  const { onNextPress, onBackPress, isLoading, currentStepOptions } = useWizard()
+  const { onNextPress, onBackPress, currentStepOptions } = useWizard()
   const { currentStep, stepCount } = useStepper()
   const { isBackButtonAvailable } = currentStepOptions
   const submitButtonLabel = getSubmitButtonLabel(currentStep)
@@ -149,7 +142,6 @@ const HoliWizardFooter: React.FC<HoliWizardFooterProps> = ({ getSubmitButtonLabe
       isBackButtonAvailable={isBackButtonAvailable && !!currentStep}
       isNextButtonEnabled={isNextButtonEnabled}
       isLastStep={currentStep === stepCount - 1}
-      isLoading={isLoading}
       style={styles.buttonContainer}
     />
   )

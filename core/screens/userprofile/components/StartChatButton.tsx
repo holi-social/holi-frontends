@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatSession'
@@ -11,7 +11,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -35,8 +34,6 @@ export function StartChatButton({
   const { openToast } = useToast()
   const { replaceRoute, navigate } = useRouting()
 
-  const [isChatOpening, setChatOpening] = useState(false)
-
   const identity = user?.identity
 
   const handleChat = async () => {
@@ -49,11 +46,7 @@ export function StartChatButton({
       return
     }
 
-    if (isChatOpening) return
-
     try {
-      setChatOpening(true)
-
       // TODO: the correct Matrix identity should come from Okuna
       const fullIdentity = '@' + identity + ':' + chatServerName
       const { room_id } = await getOrCreateRoom([fullIdentity])
@@ -69,15 +62,11 @@ export function StartChatButton({
       }
     } catch (e) {
       openToast(t('global.offline.description'), HoliToastType.SUCCESS)
-    } finally {
-      setChatOpening(false)
     }
   }
 
   return (
     <HoliButtonLoading
-      icon={isChatOpening ? Loader : undefined}
-      iconSpinning={isChatOpening}
       disabled={ftLoading || !ftEnabled || !isChatInitialized || !identity}
       label={label}
       onPress={handleChat}

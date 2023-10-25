@@ -29,7 +29,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -245,14 +245,14 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                 testID={'new-password-retype'}
               />
             )}
-            <HoliButton
+            <HoliButtonLoading
               label={t('auth.changePassword.input.label-Save')}
               onPress={performPasswordChange}
               testID={'btn-submit-change-password'}
               style={styles.formButton}
             >
               {t('auth.changePassword.input.label-Save')}
-            </HoliButton>
+            </HoliButtonLoading>
           </>
         )}
       </View>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft, Loader } from '@holi/icons/src/generated'
+import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -34,7 +34,6 @@ const HoliWizardNavigationButtons = ({
   isBackButtonAvailable = true,
   isNextButtonEnabled = true,
   isLastStep = false,
-  isLoading = false,
   style,
   testID,
 }: React.PropsWithChildren<HoliWizardNavigationButtonsProps>) => {
@@ -57,13 +56,12 @@ const HoliWizardNavigationButtons = ({
 
       <View style={{ flex: 1 }}>
         <HoliButtonLoading
-          disabled={!isNextButtonEnabled || isLoading}
-          label={isLoading ? t('global.loading') : isLastStep ? submitButtonLabel : t('global.next')}
+          disabled={!isNextButtonEnabled}
+          label={isLastStep ? submitButtonLabel : t('global.next')}
+          loadingLabel={t('global.loading')}
           onPress={onNextPress}
           testID={testID ? `${testID}-next-btn` : 'holi-wizard-next-btn'}
           style={styles.nextButton}
-          icon={isLoading ? Loader : undefined}
-          iconSpinning={isLoading}
         />
       </View>
     </View>

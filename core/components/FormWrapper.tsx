@@ -11,7 +11,6 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
@@ -124,12 +123,12 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
               <HoliButtonLoading
                 inline
                 variant="medium"
-                disabled={loading || saveButtonDisabled}
-                label={loading ? t('global.loading') : label}
+                disabled={saveButtonDisabled}
+                label={label}
+                loadingLabel={t('global.loading')}
                 onPress={onSave}
                 testID={`${testID}-save-btn`}
-                icon={loading ? Loader : undefined}
-                iconSpinning={saveButtonDisabled}
+                loading={loading}
                 style={styles.button}
               >
                 {t('global.save')}

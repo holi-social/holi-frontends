@@ -14,7 +14,7 @@ import {
   oryNodeIsText,
 } from '@holi/core/auth/helpers/form'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 
@@ -65,7 +65,7 @@ const FormNode = (props: Props) => {
   if (oryNodeIsSubmit(node.attributes)) {
     const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTitle(node)}`)
     return (
-      <HoliButton
+      <HoliButtonLoading
         label={fieldLabel}
         disabled={node.attributes.disabled}
         style={props.style}
@@ -73,7 +73,7 @@ const FormNode = (props: Props) => {
         testID={`ory-submit-${fieldName}`}
       >
         {fieldLabel}
-      </HoliButton>
+      </HoliButtonLoading>
     )
   }
 

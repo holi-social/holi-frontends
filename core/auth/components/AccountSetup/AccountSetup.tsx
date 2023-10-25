@@ -104,16 +104,14 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   } = useLocationStep(user)
 
   // HoliWizard event handlers
-  const handleNextPress = async ({ currentStep, setIsLoading, goNext }: NextPressHandlerOptions) => {
+  const handleNextPress = async ({ currentStep, goNext }: NextPressHandlerOptions) => {
     switch (currentStep) {
       case AccountSetupStep.NAMES: {
-        setIsLoading(true)
         await registerUserNames({
           variables: { input: parseRegisterUserNamesInput(names) },
           refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
           onCompleted: goNext,
         })
-        setIsLoading(false)
         break
       }
 
@@ -122,8 +120,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         break
 
       case AccountSetupStep.INTERESTS: {
-        setIsLoading(true)
-
         const selectedInterestIds = terms.reduce(
           (acc: string[], { id, selected }) => (selected ? [...acc, id] : acc),
           []
@@ -140,15 +136,12 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               }),
           })
         }
-        setIsLoading(false)
         goNext()
 
         break
       }
 
       case AccountSetupStep.LOCATION: {
-        setIsLoading(true)
-
         if (selectedLocation?.geolocation) {
           const geolocation = selectedLocation?.geolocation
           const locationLabel = selectedLocation?.label || locationQuery
@@ -168,7 +161,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               }),
           })
         }
-        setIsLoading(false)
         goNext()
 
         break

@@ -9,7 +9,6 @@ import { createUUID } from '@holi/core/helpers'
 import { generateSpaceVideoCallUrl } from '@holi/core/screens/spaces/helpers/urls'
 import { Space } from '@holi/core/screens/spaces/types'
 import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
-import { Loader } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -26,7 +25,6 @@ const AddVideoCallLinkSchema = z.object({
 const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: AddVideoCallLinkProps) => {
   const { t } = useTranslation()
   const [roomName, setRoomName] = useState('')
-  const [loading, setLoading] = useState(false)
   const [inputValid, setInputValid] = useState(false)
   const { addVideoCallLink } = useVideoCallLinkStorage(space.name)
   const { translateFieldErrors } = useFieldErrors({
@@ -36,7 +34,6 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: Add
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
   const createLink = useCallback(async () => {
-    setLoading(true)
     const url = generateSpaceVideoCallUrl(space, roomName)
     return addVideoCallLink({
       id: createUUID(),
@@ -44,7 +41,6 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: Add
       roomName,
       created: new Date().toISOString(),
     }).finally(() => {
-      setLoading(false)
       setRoomName('')
       Keyboard.dismiss()
     })
@@ -77,13 +73,12 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: Add
         />
       </HoliBox>
       <HoliButtonLoading
-        disabled={loading || !inputValid}
-        label={loading ? t('spaces.input.videoCallLink.loading') : t('spaces.input.videoCallLink.generate')}
+        disabled={!inputValid}
+        label={t('spaces.input.videoCallLink.generate')}
+        loadingLabel={t('spaces.input.videoCallLink.loading')}
         variant={'small'}
         onPress={createLink}
         testID="video-call-link-generate-btn"
-        icon={loading ? Loader : undefined}
-        iconSpinning={loading}
       />
     </View>
   )
