@@ -134,9 +134,9 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   useEffect(() => {
     setNameError(fieldErrors?.name?.length ? fieldErrors.name[0] : undefined)
     setDescriptionError(fieldErrors?.description?.length ? fieldErrors.description[0] : undefined)
-    setContactEmailError(fieldErrors?.contactEmail?.length ? fieldErrors.contactEmail[0] : undefined)
+    setContactEmailError(fieldErrors?.contactEmail?.length ? t('global.validation.email.invalid') : undefined)
     setContactPhoneError(fieldErrors?.contactPhone?.length ? fieldErrors.contactPhone[0] : undefined)
-  }, [fieldErrors])
+  }, [fieldErrors, t])
 
   useEffect(() => {
     if (visibility) {

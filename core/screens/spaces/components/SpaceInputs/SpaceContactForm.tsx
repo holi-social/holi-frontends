@@ -68,7 +68,7 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
             <SpaceContactEmailInput
               value={contactEmail}
               onChange={onChangeContactEmail}
-              errorMessage={contactEmailErrors?.length ? contactEmailErrors[0] : undefined}
+              errorMessage={contactEmailErrors?.length ? t('global.validation.email.invalid') : undefined}
             />
           </View>
           <View style={styles.inputContainer}>
