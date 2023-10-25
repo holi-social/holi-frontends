@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import SpacePendingRequestsItem from '@holi/core/screens/spaces/details/components/SpacePendingRequestItem'
 import { Space, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowDownS, ArrowUpS } from '@holi/icons/src/generated'
@@ -12,8 +13,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import SpacePendingRequestsItem from './SpacePendingRequestItem'
 
 type SpacePendingRequestsProps = {
   space: Space
