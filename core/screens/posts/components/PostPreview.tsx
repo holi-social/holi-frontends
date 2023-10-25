@@ -276,7 +276,8 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    border: `1px solid ${colors.background30}`,
+    borderWidth: 1,
+    borderColor: colors.background30,
     borderRadius: 12,
     backgroundColor: colors.background10,
   },
