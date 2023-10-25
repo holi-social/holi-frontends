@@ -21,6 +21,7 @@ import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
+import { getInitials } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -74,12 +75,42 @@ const ChatRoomView = () => {
           />
         ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
-      headerTitle: () => !!chatPartnerHoliUser && <ChatRoomHeaderTitle user={chatPartnerHoliUser} />,
+      headerTitle: () => {
+        switch (room?.type) {
+          case 'private':
+            return (
+              !!chatPartnerHoliUser && (
+                <ChatRoomHeaderTitle
+                  href={'/profile/' + chatPartnerHoliUser.id}
+                  name={chatPartnerHoliUser.fullName}
+                  imageSrc={chatPartnerHoliUser.avatar}
+                  imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
+                  initials={chatPartnerHoliUser.avatarLabel}
+                  defaultColor={chatPartnerHoliUser.avatarDefaultColor}
+                />
+              )
+            )
+
+          case 'space-general-room':
+            return (
+              <ChatRoomHeaderTitle
+                href={'/spaces/' + room.content.holiSpaceId}
+                name={room.content.spaceName}
+                initials={getInitials(room.content.spaceName)}
+                defaultColor={room.content.avatarDefaultColor}
+                shape="square"
+              />
+            )
+
+          default:
+            return null
+        }
+      },
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId])
+  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room])
 
   useEffect(() => {
     // redirect logged in user to Chat screen if room not found
@@ -152,7 +183,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     minHeight: '100%',
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
     backgroundColor: colors.background20,
   },
   listContainer: {
@@ -163,6 +194,6 @@ const styles = StyleSheet.create({
   listStage: {
     alignSelf: 'center',
     paddingHorizontal: 16,
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: +vars.maxScreenWidth,
   },
 })

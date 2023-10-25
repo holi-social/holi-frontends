@@ -11,8 +11,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
 
-type AvatarSize = 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
-type AvatarShape = 'circle' | 'square'
+export type AvatarSize = 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
+export type AvatarShape = 'circle' | 'square'
 
 interface BaseProps {
   imageSrc?: string
