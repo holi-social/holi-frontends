@@ -2,7 +2,7 @@ import { DocumentNode, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
@@ -53,6 +53,7 @@ const Spaces = () => {
       displayError(mySpacesError, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
   })
   const mySpaces = mySpacesData?.mySpaces || []
+
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
@@ -187,7 +188,14 @@ const Spaces = () => {
 
 const styles = StyleSheet.create({
   layout: {
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+    ...(Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+      native: {
+        minHeight: '100%',
+      },
+    }) as ViewStyle),
     backgroundColor: colors.background20,
   },
   discoverSpacesContainer: {
