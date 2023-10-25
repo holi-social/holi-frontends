@@ -86,8 +86,8 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
           style={style}
-          disabled={isUserLoading || loading}
-          iconSpinning={loading}
+          disabled={isUserLoading}
+          loading={loading}
           testID="follow-btn"
         />
       )}
@@ -100,8 +100,8 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
           label={t('spaces.follow.btn.following')}
           onPress={() => setUnfollowDialogIsOpen(true)}
           style={style}
-          disabled={isUserLoading || loading}
-          iconSpinning={loading}
+          disabled={isUserLoading}
+          loading={loading}
           testID="unfollow-btn"
         />
       )}

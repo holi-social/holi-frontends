@@ -8,7 +8,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
-import { Loader } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -61,7 +60,6 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
     totalResults,
     fetchNextPage,
     canFetchMore,
-    isFetchingMore,
   } = usePaginationQuery<VolunteeringEngagement>(VolunteeringEngagementsQuery, {
     queryPath: 'appVolunteering_engagementOpportunities',
     pageSize: ENGAGEMENT_PAGE_SIZE,
@@ -75,8 +73,6 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
         location: 'VolunteeringListing.VolunteeringEngagementsQuery',
       }),
   })
-
-  const fetchMoreButtonText = isFetchingMore ? t('global.loading') : t('volunteering:listing.loadMoreButton.text')
 
   if (error) {
     return <HoliText>{t('volunteering:listing.error')}</HoliText>
@@ -93,10 +89,8 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
   const listFooter = canFetchMore ? (
     <HoliButtonLoading
       type="primary"
-      label={fetchMoreButtonText}
-      disabled={isFetchingMore}
-      icon={isFetchingMore ? Loader : undefined}
-      iconSpinning={isFetchingMore}
+      label={t('volunteering:listing.loadMoreButton.text')}
+      loadingLabel={t('global.loading')}
       onPress={fetchNextPage}
       style={[styles.loadMoreButton]}
       testID="btn-volunteering-list-load-more"

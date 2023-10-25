@@ -36,7 +36,6 @@ export const useStoredOnboardingState = () => {
         case 'onboarding':
           if (isLoggedIn) {
             await storeOnboardingState('finished')
-            onboardingStateVar('finished')
           } else {
             onboardingStateVar(value)
           }

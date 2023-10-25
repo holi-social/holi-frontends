@@ -58,7 +58,7 @@ export const getValidationErrorText = (
   if ('type' in attributes && id === OryErrorCode.EMAIL_OR_PASSWORD_MISSING) {
     const { name } = attributes as { name: string }
     // `identifier` or `traits.email` is used for email field
-    const emailNames = ['identifier', 'traits.email']
+    const emailNames = ['identifier', 'traits.email', 'email']
     const passwordNames = ['password']
     const possibleNames = [emailNames, passwordNames]
     const modifier = possibleNames.findIndex((namesArr) => namesArr.includes(name))

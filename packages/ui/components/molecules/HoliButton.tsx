@@ -35,7 +35,7 @@ export interface HoliButtonProps {
   disabled?: boolean
   disableFocusability?: boolean
   testID?: string
-  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
+  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onMouseEnter?: (event: NativeSyntheticEvent<NativeMouseEvent>) => void

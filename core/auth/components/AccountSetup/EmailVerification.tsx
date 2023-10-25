@@ -16,7 +16,7 @@ import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
@@ -110,9 +110,8 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   const verifyEmail = async () => {
     if (!flow) return
 
-    showLoader()
-
     try {
+      showLoader()
       const {
         ui: { messages },
         state,
@@ -200,7 +199,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
         </HoliBox>
 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-          <HoliButton
+          <HoliButtonLoading
             label={t('registration.emailVerification.activateAccount')}
             disabled={code.length !== CODE_MAX_COUNT}
             onPress={verifyEmail}
@@ -208,11 +207,11 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
             testID="btn-submit-code"
           >
             {t('registration.emailVerification.activateAccount')}
-          </HoliButton>
+          </HoliButtonLoading>
         </HoliBox>
 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-          <HoliButton
+          <HoliButtonLoading
             label={t('auth.loginProtection.continueAsGuest')}
             onPress={async () => {
               isLoggedIn && (await logout({ redirectPath: '/' }).catch(() => null)) // ignore logout error
@@ -224,7 +223,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
             testID="btn-to-continue-as-guest"
           >
             {t('auth.loginProtection.continueAsGuest')}
-          </HoliButton>
+          </HoliButtonLoading>
         </HoliBox>
 
         {isLoaderShown && <HoliLoader />}
