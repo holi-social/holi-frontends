@@ -20,7 +20,7 @@ describe('@HoliModal', () => {
 
     await tapOnElementWithTestId('insight-editors-close-btn')
 
-    // modal should be closed again
-    await waitForHomeScreen()
+    // now the editors should be visible again
+    await waitForElementWithTestId('insight-editors-heading')
   })
 })
