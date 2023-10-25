@@ -7,11 +7,11 @@ import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatSession'
 import {
   ChatRoomMember,
-  CreateSpaceOptions,
   MatrixId,
   MembershipStatus,
   NotificationCount,
   RoomId,
+  RoomWithSharedData,
 } from '@holi/chat/src/client/types'
 import type {
   ChatMessage,
@@ -25,6 +25,7 @@ import type {
 } from '@holi/chat/src/store/types'
 import { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import type { User as HoliUser } from '@holi/core/screens/userprofile/types'
@@ -82,6 +83,10 @@ const addOrUpdateChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, ro
   }
 })
 
+const deleteChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roomId: string) => {
+  if (roomId in roomAtoms) delete roomAtoms[roomId]
+})
+
 /**
  * Room Atoms
  *
@@ -122,7 +127,7 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
 /**
  * Derived atom that holds record with spaces ids as keys and array of all space's related room atoms as value
  */
-export const spaceRoomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom[]>> = atom((get) => {
+export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomAtom[]>>> = atom(async (get) => {
   const client = getChatClient()
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
   const roomIds = Object.keys(roomAtomsRecord)
@@ -154,7 +159,27 @@ export const spaceRoomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom[]>> 
   }, {})
 })
 
-type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boolean; ignoredUsers: MatrixId[] }
+enum RoomAtomsActionType {
+  'CREATE',
+  'UPDATE',
+  'DELETE',
+}
+
+interface CreateUpdateRoomArgs {
+  type: RoomAtomsActionType.CREATE | RoomAtomsActionType.UPDATE
+  room: RoomWithSharedData
+  hasPendingInvitation: boolean
+  ignoredUsers: MatrixId[]
+}
+
+interface DeleteRoomArgs {
+  type: RoomAtomsActionType.DELETE
+  roomId: string
+}
+
+type RoomAtomsRecordAtomSubscriberArgs = CreateUpdateRoomArgs | DeleteRoomArgs
+
+// const isDeleteRoomArgs = (args: RoomAtomsRecordAtomSubscriberArgs): args is DeleteRoomArgs => args.type === 'DELETE'
 
 /**
  * @name _roomAtomsRecordAtomSubscriber (Write-Only)
@@ -167,37 +192,76 @@ type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boo
  * IMPORTANT! Do not use this atom to read/access rooms.
  */
 const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
-  const { room, hasPendingInvitation, ignoredUsers } = args
-  const chatRoom = createChatRoom(room, hasPendingInvitation)
-  // Space rooms are used as containers and not shown in the UI
-  if (room.isSpaceRoom()) return
-  // We hide chat rooms with only ignored members from the user. We do an
-  // early return not to include the chat room in the store.
-  if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
+  switch (args.type) {
+    case RoomAtomsActionType.CREATE:
+    case RoomAtomsActionType.UPDATE: {
+      const { room, hasPendingInvitation, ignoredUsers } = args
+      const chatRoom = createChatRoom(room, hasPendingInvitation)
+      // Space rooms are used as containers and not shown in the UI
+      if (room.room.isSpaceRoom()) return
 
-  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, chatRoom, get))
+      // We hide chat rooms with only ignored members from the user. We do an
+      // early return not to include the chat room in the store.
+      if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
+
+      set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, chatRoom, get))
+      break
+    }
+
+    case RoomAtomsActionType.DELETE:
+      set(_roomAtomsRecordAtom, (prevRoomAtoms) => deleteChatRoom(prevRoomAtoms, args.roomId))
+      break
+
+    default:
+      throw new HoliError('roomAtomsRecordAtomSubscriber got a wrong action type')
+  }
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
   const ignoredUsers = client.getIgnoredUsers()
 
-  const addRoomToStore = (room: Room, logPhase: string) => {
-    const hasPendingInvitation = client.hasPendingInvitation(room)
+  const joinGeneralSpaceRoom = async ({ room }: RoomWithSharedData) => {
+    const isSpaceRoom = room.isSpaceRoom() || room.name === '#general'
+    if (isSpaceRoom && client.hasPendingInvitation(room)) {
+      await client.joinRoom(room.roomId)
+    }
+  }
 
-    logDebug(`Chat.store [${logPhase}]`, `adding room ${room.roomId} to store`)
-    setAtom({ room, hasPendingInvitation, ignoredUsers })
+  const addRoomToStore = (
+    type: RoomAtomsActionType.CREATE | RoomAtomsActionType.UPDATE,
+    roomWithSharedData: RoomWithSharedData,
+    logPhase: string
+  ) => {
+    const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
+
+    logDebug(`Chat.store [${logPhase}]`, `adding room ${roomWithSharedData.room.roomId} to store`)
+    setAtom({ type, room: roomWithSharedData, hasPendingInvitation, ignoredUsers })
+  }
+
+  const deleteRoomFromStore = (roomId: string) => {
+    logDebug('Chat.store', `deleting room ${roomId} from store`)
+    setAtom({ type: RoomAtomsActionType.DELETE, roomId })
   }
 
   // get current rooms from ChatClient and store them to Atoms
-  client.getRooms().forEach((room) => addRoomToStore(room, 'init'))
-
+  client.getRoomsWithSharedData().then(async (rooms) => {
+    rooms.forEach(async (roomWithSharedData) => {
+      addRoomToStore(RoomAtomsActionType.CREATE, roomWithSharedData, 'init')
+      // TODO: accept invitation only for JOINED HOLI SPACES !!!
+      // automatically accept general space room invitations
+      await joinGeneralSpaceRoom(roomWithSharedData).catch((err) => err)
+    })
+  })
   setChatInitialized(true)
 
   // set listener for new rooms
-  return client.subscribeToRooms((room) => {
-    const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
+  const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
+    addRoomToStore(RoomAtomsActionType.UPDATE, roomWithSharedData, 'subscription')
+  })
 
+  const unsubscribeFromRooms = client.subscribeToRooms((roomWithSharedData) => {
+    const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
     /**
      * @name waitForCorrectRoomName
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
@@ -206,8 +270,8 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      * @param timestamp `number` represents timestamp limit till function postponds setting the atom
      */
     const waitForCorrectRoomName = (timestamp: number) => {
-      if (!hasRoomEmptyName(room) || Date.now() > timestamp) {
-        addRoomToStore(room, 'subscription')
+      if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
+        addRoomToStore(RoomAtomsActionType.CREATE, roomWithSharedData, 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -215,12 +279,21 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       }
     }
 
-    if (hasRoomEmptyName(room)) {
+    if (hasRoomEmptyName(roomWithSharedData.room)) {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomToStore(room, 'subscription')
+    addRoomToStore(RoomAtomsActionType.CREATE, roomWithSharedData, 'subscription')
+    joinGeneralSpaceRoom(roomWithSharedData)
   })
+
+  const unsubscribeFromRoomDeletion = client.subscribeToRoomDeletion(deleteRoomFromStore)
+
+  return () => {
+    unsubscribeFromRoomSharedData()
+    unsubscribeFromRooms()
+    unsubscribeFromRoomDeletion()
+  }
 }
 
 /**
@@ -318,22 +391,6 @@ export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
 }
 
 /**
- * @name createSpace
- * @description creates a space in Matrix and a room for it
- * and adds the default #general room to the created space.
- */
-export const createSpace = async (userIds: string[], options: CreateSpaceOptions): Promise<void> => {
-  const client = getChatClient()
-  try {
-    const { spaceId, spaceName } = await client.createSpace(userIds, options)
-    const { room_id } = await client.createRoom(userIds, { isDirectMessage: false, name: '#general' })
-    await client.addRoomToSpace(spaceId, spaceName, room_id)
-  } catch (err) {
-    logError(err, 'Could not create a space in Matrix', { location: 'Chat-Store: createSpace' })
-  }
-}
-
-/**
  * @name joinRoom
  * @description Join a Matrix room by accepting the invitation. If you have
  * already joined the room, this will be a no-op.
@@ -373,7 +430,7 @@ export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
   }
 }
 
-export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
+export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitation = false): ChatRoom {
   const lastLiveEvent = room.getLastLiveEvent()?.event
   const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
 
@@ -381,6 +438,7 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
 
   return {
+    ...data,
     hasInvitation,
     id: room.roomId,
     notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),

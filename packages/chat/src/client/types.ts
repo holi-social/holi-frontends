@@ -1,4 +1,4 @@
-import { NotificationCountType } from 'matrix-js-sdk'
+import { NotificationCountType, Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
 
@@ -8,10 +8,49 @@ export interface CreateRoomOptions {
   name?: string
 }
 
-export interface CreateSpaceOptions {
-  name: string
+interface SpaceSharedDataContent {
   holiSpaceId: string
 }
+
+interface SpaceGeneralRoomSharedDataContent extends SpaceSharedDataContent {
+  spaceName: string
+  avatarDefaultColor: string
+  parentSpaceRoomId: string
+}
+
+export type SharedDataContent = SpaceSharedDataContent | SpaceGeneralRoomSharedDataContent
+
+export const isSpaceGeneralRoomSharedDataContent = (
+  content: SharedDataContent
+): content is SpaceGeneralRoomSharedDataContent => {
+  return !!content && 'parentSpaceRoomId' in content
+}
+
+export type RoomType = 'private' | 'space' | 'space-general-room'
+
+interface BaseRoomWithSharedData {
+  room: Room
+}
+
+export interface PrivateRoomBase {
+  type: 'private'
+}
+
+export interface SpaceRoomBase {
+  type: 'space'
+  content: SpaceSharedDataContent
+}
+
+export interface SpaceGeneralRoomBase {
+  type: 'space-general-room'
+  content: SpaceGeneralRoomSharedDataContent
+}
+
+export interface PrivateRoomWithSharedData extends BaseRoomWithSharedData, PrivateRoomBase {}
+export interface SpaceWithSharedData extends BaseRoomWithSharedData, SpaceRoomBase {}
+export interface SpaceGeneralRoomWithSharedData extends BaseRoomWithSharedData, SpaceGeneralRoomBase {}
+
+export type RoomWithSharedData = PrivateRoomWithSharedData | SpaceWithSharedData | SpaceGeneralRoomWithSharedData
 
 export enum MembershipStatus {
   /**
@@ -48,5 +87,5 @@ export interface ChatRoomMember {
 }
 
 export enum ChatRoomEvent {
-  AccountData = 'holi.room.account.data',
+  SharedData = 'holi.room.shared.data',
 }

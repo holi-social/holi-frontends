@@ -5,16 +5,17 @@ import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
 
 export function createChatRoomFixture(overrides?: Partial<ChatRoom>): ChatRoom {
   const creator = overrides?.creator ? overrides.creator : createChatMemberFixture()
+  const hasMembers = Boolean(overrides?.members) && Array.isArray(overrides?.members)
 
   const defaultRoom: ChatRoom = {
-    id: CHAT_ROOM_NAME_MOCK,
-    name: 'defaultRoomName',
+    id: overrides?.id ?? CHAT_ROOM_NAME_MOCK,
+    name: overrides?.name ?? 'defaultRoomName',
     hasInvitation: true,
     notificationCount: 0,
     lastMessage: undefined,
     creator: creator,
-    members: [creator],
-    senderId: 'defaultSenderId',
+    members: [creator, ...(hasMembers ? (overrides?.members as ChatRoomMember[]) : [])],
+    senderId: creator.id ?? 'defaultSenderId',
     timestamp: new Date().getTime(),
   }
 
@@ -25,7 +26,7 @@ export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): Ch
   const identity = overrides?.name ? overrides.name + 'Identity' : 'defaultUserIdentity'
 
   const defaultChatMember: ChatRoomMember = {
-    name: 'defaultUserName',
+    name: overrides?.name ?? 'defaultUserName',
     id: `@${identity}:test.chat`,
     membership: MembershipStatus.Joined,
   }
