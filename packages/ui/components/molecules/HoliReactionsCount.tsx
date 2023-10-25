@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HandHeartThin, HandHeartThinFilledColored } from '@holi/icons/src/generated'
@@ -76,12 +76,7 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
       >
         {count}
       </HoliText>
-      <View style={!active && !hovered ? styles.visuallyHidden : null}>
-        <HoliIcon icon={HandHeartThinFilledColored} />
-      </View>
-      <View style={active || hovered ? styles.visuallyHidden : null}>
-        <HoliIcon icon={HandHeartThin} />
-      </View>
+      <HoliIcon icon={active || hovered ? HandHeartThinFilledColored : HandHeartThin} />
     </HoliButton>
   )
 }
