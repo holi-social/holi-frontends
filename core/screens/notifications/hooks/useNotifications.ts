@@ -1,99 +1,88 @@
-import { HeadlessService, IFeedId } from '@novu/headless'
+import { ApiService } from '@novu/client'
 import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { logError } from '@holi/core/errors/helpers'
 import { Notification, NotificationType } from '@holi/core/screens/notifications/components/types'
-import { novuApplicationIdentifier, novuBackendUrl, novuSocketUrl } from '@holi/core/screens/notifications/config'
-import { novuTokenStorage } from '@holi/core/screens/notifications/hooks/novuTokenStorage'
+import { novuApplicationIdentifier, novuBackendUrl } from '@holi/core/screens/notifications/config'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 const NOVU_NOTIFICATIONS_PAGE_TO_FETCH = 0
+const DEFAULT_REFETCH_INTERVAL_IN_MILLIS = 10000
 
-export const useNotifications = (subscriberId?: string) => {
+export const useNotifications = (
+  subscriberId?: string,
+  refetchInterval: number | undefined = DEFAULT_REFETCH_INTERVAL_IN_MILLIS
+) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
-  const [isFetching, setIsFetching] = useState(false)
 
-  const headlessServiceRef = useRef<HeadlessService | null>(null)
+  const novuServiceRef = useRef<ApiService | null>(null)
+  const fetchIntervalIdRef = useRef<number | null>(null)
 
-  const fetchNotificationsInitially = useCallback(() => {
-    const headlessService = headlessServiceRef.current
+  const shouldRerender = useCallback(
+    (newNotifications: Notification[]) => {
+      const hashA = notifications.map((n) => n.id).join('')
+      const hashB = newNotifications.map((n) => n.id).join('')
+      return hashA !== hashB
+    },
+    [notifications]
+  )
 
-    if (headlessService) {
-      headlessService.fetchNotifications({
-        listener: (result) => {
-          setIsFetching(result.isFetching)
-        },
-        onSuccess: (response) => {
-          const notifications = mapToNotifications(response)
-          setNotifications(notifications)
-        },
-        onError: (error) =>
-          logError(error, 'Error fetching notifications', {
-            location: 'useNotifications.fetchNotifications',
-          }),
-        page: NOVU_NOTIFICATIONS_PAGE_TO_FETCH,
-      })
+  const handleMessagesResponse = useCallback(
+    (response: IPaginatedResponse<IMessage>) => {
+      const notifications = mapToNotifications(response)
+      if (shouldRerender(notifications)) {
+        setNotifications(notifications)
+      }
+    },
+    [shouldRerender]
+  )
+
+  const fetchNotifications = useCallback(() => {
+    const novu = novuServiceRef.current
+    if (novu) {
+      novu.getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH).then(handleMessagesResponse)
     }
-  }, [])
+  }, [handleMessagesResponse])
 
-  const startListeningForNotifications = useCallback(() => {
-    const headlessService = headlessServiceRef.current
+  const fetchNotificationsContinually = useCallback(() => {
+    // @ts-ignore
+    // return type inference for setInterval is wrong in Pycharm Pro
+    fetchIntervalIdRef.current = setInterval(() => {
+      fetchNotifications()
+    }, refetchInterval)
+  }, [fetchNotifications, refetchInterval])
 
-    if (headlessService) {
-      headlessService.listenNotificationReceive({
-        listener: (message: IMessage) => {
-          setNotifications((currentNotifications) => {
-            return [...currentNotifications, mapToNotification(message)]
-          })
-        },
-      })
+  const markAllNotificationsAsRead = useCallback(() => {
+    const novu = novuServiceRef.current
+    if (novu) {
+      //all feeds
+      const feedId = undefined
+      novu.markAllMessagesAsRead(feedId)
     }
   }, [])
 
   useEffect(() => {
-    if (!subscriberId) return () => ({})
+    if (subscriberId) {
+      const novuService = new ApiService(novuBackendUrl)
+      novuService.initializeSession(novuApplicationIdentifier, subscriberId).then((session) => {
+        novuService.setAuthorizationToken(session.token)
+        novuServiceRef.current = novuService
 
-    const headlessService = new HeadlessService({
-      applicationIdentifier: novuApplicationIdentifier,
-      backendUrl: novuBackendUrl,
-      socketUrl: novuSocketUrl,
-      subscriberId: subscriberId,
-      tokenStorage: novuTokenStorage,
-    })
-
-    headlessServiceRef.current = headlessService
-
-    return headlessService.initializeSession({
-      listener: () => ({}),
-      onSuccess: () => {
-        headlessServiceRef.current = headlessService
-        fetchNotificationsInitially()
-        startListeningForNotifications()
-      },
-      onError: (error) =>
-        logError(error, 'Error initializing notifications session', {
-          location: 'useNotifications.initializeSession',
-        }),
-    })
-  }, [fetchNotificationsInitially, startListeningForNotifications, subscriberId])
-
-  const markAllNotificationsAsRead = (feedId?: IFeedId) => {
-    const headlessService = headlessServiceRef.current
-
-    if (headlessService) {
-      headlessService.markAllMessagesAsRead({
-        listener: () => ({}),
-        onError: (error) =>
-          logError(error, 'Error marking all notifications as read', {
-            location: 'useNotifications.markAllMessagesAsRead',
-          }),
-        feedId,
+        fetchNotifications()
+        fetchNotificationsContinually()
       })
-    }
-  }
 
-  return { notifications, markAllNotificationsAsRead, isFetching }
+      return () => {
+        if (fetchIntervalIdRef.current) {
+          clearInterval(fetchIntervalIdRef.current)
+        }
+      }
+    }
+
+    return () => ({})
+  }, [fetchNotifications, subscriberId, fetchNotificationsContinually, markAllNotificationsAsRead])
+
+  return { notifications, markAllNotificationsAsRead }
 }
 
 function mapToNotification(message: IMessage): Notification {

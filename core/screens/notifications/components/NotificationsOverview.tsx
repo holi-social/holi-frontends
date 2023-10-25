@@ -25,7 +25,6 @@ import {
   notificationsQuery,
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const NotificationsOverview = () => {
@@ -33,9 +32,7 @@ const NotificationsOverview = () => {
   const { navigate } = useRouting()
 
   const { enabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
-  const { notifications: novuNotifications, markAllNotificationsAsRead } = useNotifications(
-    isNotificationFeatureEnabled ? user?.id : undefined
-  )
+  const { notifications: novuNotifications } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -82,15 +79,12 @@ const NotificationsOverview = () => {
 
   if (!containsNotifications(data?.notifications?.data)) return <NotificationsEmptyPlaceholder />
 
-  const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications]
+  const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications.values()]
 
   const groupedNotifications = groupByDate(allNotifications)
 
   return (
     <View style={{ top: 52 }}>
-      <HoliButton label={'Mark all read'} variant={'small'} onPress={() => markAllNotificationsAsRead()}>
-        Mark all read
-      </HoliButton>
       <NotificationSectionList notifications={groupedNotifications} />
     </View>
   )
