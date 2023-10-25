@@ -21,7 +21,6 @@ const InspirationPostsList = () => {
   const postGridItemsInRow = useBreakpointMatcher()
   const mixins = useStyleMixins()
 
-  //TODO: FIX PAGINATION
   if (!loading && !totalResults) return <></>
 
   return (
