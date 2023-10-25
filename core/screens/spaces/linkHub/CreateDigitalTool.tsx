@@ -68,7 +68,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     handledFieldErrors: ['url', 'title', 'description'],
   })
 
-  const [addCollaborationTool, { loading }] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
+  const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
@@ -78,7 +78,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     // Check if the URL already has a protocol
     const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
 
-    addCollaborationTool({
+    return addCollaborationTool({
       variables: {
         input: {
           url: urlWithProtocol,
@@ -154,7 +154,6 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
         title={t('spaces.digitalTool.add.title')}
         description={t('spaces.digitalTool.add.description')}
         saveButtonDisabled={saveButtonDisabled}
-        saveButtonLoading={loading}
         toggleConfirmationModal={setShowConfirmationModal}
         onSave={onSave}
         showConfirmationModal={showConfirmationModal}

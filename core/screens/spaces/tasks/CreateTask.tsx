@@ -78,7 +78,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const { displayError } = useErrorHandling()
 
-  const [createTask, { loading }] = useMutation<CreateTaskResponse>(createTaskMutation, {
+  const [createTask] = useMutation<CreateTaskResponse>(createTaskMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) =>
       displayError(error, 'Failed to create task', {
@@ -205,7 +205,6 @@ const CreateTask: React.VFC<ScreenProps> = () => {
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}
-        saveButtonLoading={loading}
         toggleConfirmationModal={setShowConfirmationModal}
         onSave={onSave}
         showConfirmationModal={showConfirmationModal}

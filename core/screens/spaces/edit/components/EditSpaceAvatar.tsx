@@ -24,7 +24,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
     setAvatar(image)
   }
 
-  const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
@@ -38,7 +38,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
   const onSave = () => updateSpace({ variables: { input: { id: space.id, avatar: avatar?.blob ?? null } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading} loading={loading}>
+    <EditSpaceModal onDismiss={onDismiss} onSave={onSave}>
       <SpaceImageForm
         title={t('spaces.edit.avatar')}
         onUploadImage={handleImageUpload}

@@ -20,11 +20,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
-  onSave: () => void
+  onSave: () => Promise<unknown>
   scrollToInput?: boolean
   initialOffsetTop?: number
   saveButtonDisabled?: boolean
-  loading?: boolean
   isModal?: boolean
   buttonLabel?: string
   showBottomBar?: boolean
@@ -40,7 +39,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       onSave,
       initialOffsetTop,
       saveButtonDisabled,
-      loading,
       isModal = false,
       buttonLabel,
       showBottomBar = false,
@@ -128,7 +126,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                 loadingLabel={t('global.loading')}
                 onPress={onSave}
                 testID={`${testID}-save-btn`}
-                loading={loading}
                 style={styles.button}
               >
                 {t('global.save')}

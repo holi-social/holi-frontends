@@ -39,7 +39,7 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
   })
 
-  const onSave = () => {
+  const onSave = async () => {
     openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
     onDismiss()
   }

@@ -78,22 +78,19 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     handledFieldErrors: ['url', 'title', 'description'],
   })
 
-  const [updateCollaborationTool, { loading }] = useMutation<UpdateCollaborationToolResponse>(
-    updateCollaborationToolMutation,
-    {
-      onCompleted: () => {
-        openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
-        navigateBack()
-      },
-      onError: (error) => setFieldErrors(handleGraphQLError(error)),
-      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
-    }
-  )
+  const [updateCollaborationTool] = useMutation<UpdateCollaborationToolResponse>(updateCollaborationToolMutation, {
+    onCompleted: () => {
+      openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
+      navigateBack()
+    },
+    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+  })
 
   const onSave = () => {
     const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
 
-    updateCollaborationTool({
+    return updateCollaborationTool({
       variables: {
         input: {
           id: toolId,
@@ -195,7 +192,6 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
       <SpaceFormScreenLayout
         title={t('spaces.digitalTool.edit.title')}
         saveButtonDisabled={saveButtonDisabled}
-        saveButtonLoading={loading}
         toggleConfirmationModal={setShowConfirmationModal}
         onSave={onSave}
         showConfirmationModal={showConfirmationModal}

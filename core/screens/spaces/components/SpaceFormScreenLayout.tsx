@@ -17,11 +17,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 interface SpaceFormScreenLayoutProps {
   title?: string
   description?: string
-  onSave: () => void
+  onSave: () => Promise<unknown>
   toggleConfirmationModal: (showConfirmation: boolean) => void
   showConfirmationModal: boolean
   saveButtonDisabled: boolean
-  saveButtonLoading: boolean
   children: React.ReactNode
 }
 
@@ -31,7 +30,6 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   toggleConfirmationModal,
   onSave,
   saveButtonDisabled,
-  saveButtonLoading,
   showConfirmationModal,
   children,
 }) => {
@@ -79,7 +77,6 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
             </HoliButton>
             <HoliButtonLoading
               disabled={saveButtonDisabled}
-              loading={saveButtonLoading}
               label={t('global.save')}
               onPress={onSave}
               testID="form-modal-save-btn"
