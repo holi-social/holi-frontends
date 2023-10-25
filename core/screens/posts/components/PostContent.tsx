@@ -69,7 +69,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                 </HoliColumns>
               ) : null}
 
-              <HoliHeading level="1" size="medium" style={styles.header}>
+              <HoliHeading level="1" size="medium" style={styles.header} testID="post-heading">
                 {post.title}
               </HoliHeading>
             </HoliColumn>

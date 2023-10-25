@@ -21,7 +21,7 @@ test.describe('@Reactions', () => {
 
       // open first post
       await clickElementByTestId(page, 'btn-to-post')
-      await page.waitForSelector(byTestId('post-image'))
+      await page.waitForSelector(byTestId('post-heading'))
 
       // TODO assure a comment by commenting ourselves, otherwise if no comment, the test fails
 
