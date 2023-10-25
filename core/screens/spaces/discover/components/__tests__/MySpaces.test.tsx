@@ -1,3 +1,4 @@
+import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
@@ -6,7 +7,11 @@ import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 
 describe('MySpaces', () => {
   it('MySpaces shows all spaces of a user sorted by type (MEMBER, FOLLOWER, CREATOR)', () => {
-    render(<MySpaces mySpaces={mySpaces} />)
+    render(
+      <MockedProvider>
+        <MySpaces mySpaces={mySpaces} />
+      </MockedProvider>
+    )
 
     mySpaces.forEach((space) => {
       expect(screen.getByTestId(`section-headline-${space.section.toUpperCase()}`)).toBeVisible()
