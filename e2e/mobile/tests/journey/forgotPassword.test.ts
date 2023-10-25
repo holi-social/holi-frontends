@@ -1,8 +1,9 @@
+import { itif } from '@holi/e2e-mobile/helpers/platform'
+
 import { tapOnElementWithTestId, tapOnLoginLinkInText, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@ForgotPassword', () => {
-  // fails on ios: Couldn't tap on element with testID: ory-submit-password
-  it('validates and submits the form', async () => {
+  itif(platform === 'ios', 'validates and submits the form', async () => {
     await tapOnElementWithTestId('btn-to-profile-view', 10000)
     await tapOnLoginLinkInText()
     await tapOnElementWithTestId('btn-to-forgot-password-form')
