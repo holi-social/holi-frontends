@@ -3,6 +3,7 @@ import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { INSIGHT_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -23,7 +24,7 @@ const InsightList: React.VFC<InsightsProps> = (props) => {
       {/* insights */}
       <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
         {loading
-          ? new Array(4).fill(1).map((_, idx) => (
+          ? new Array(INSIGHT_PAGE_SIZE).fill(1).map((_, idx) => (
               <HoliGridCell key={idx}>
                 <InsightPreviewBox style={styles.insight} loading />
               </HoliGridCell>
