@@ -19,7 +19,7 @@ const SpaceContactEmailInput: React.VFC<SpaceContactEmailInputProps> = ({
 
   return (
     <HoliTextInput
-      placeholder={'Email …'}
+      placeholder={t('spaces.input.contact.email.placeholder')}
       inputLabel={t('spaces.input.contact.email.label')}
       type={'email'}
       validationErrorText={errorMessage}

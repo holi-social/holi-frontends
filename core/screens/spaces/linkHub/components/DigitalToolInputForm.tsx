@@ -84,7 +84,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   return (
     <>
       <HoliTextInput
-        placeholder={'https://...'}
+        placeholder={t('spaces.input.digitalTool.url.placeholder')}
         inputLabel={t('spaces.input.digitalTool.url.label')}
         validationErrorText={urlError}
         value={url}

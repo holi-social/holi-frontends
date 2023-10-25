@@ -16,11 +16,11 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
-type SpaveInviteViewProps = {
+type SpaceInviteViewProps = {
   spaceId: string
 }
 
-const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
+const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId }) => {
   const [searchValue, setSearchValue] = useState('')
   const { t } = useTranslation()
   const { openToast } = useToast()
