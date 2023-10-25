@@ -12,10 +12,10 @@ import HoliWizardNavigationButtons, {
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const keyboardDismissWrapper = (fn?: () => void) => {
+const keyboardDismissWrapper = (fn: () => void | Promise<void>) => {
   return () => {
     Keyboard.dismiss()
-    fn?.()
+    return fn()
   }
 }
 
