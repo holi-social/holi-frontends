@@ -1,11 +1,12 @@
 import { waitForHomeScreen } from '../../helpers/navigation'
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@HoliModal', () => {
   it('find selectors', async () => {
     await waitForHomeScreen()
 
     // open editors modal
+    await scrollToElementWithTestId('avatar-pile-open-modal-button', 'down')
     await tapOnElementWithTestId('avatar-pile-open-modal-button')
 
     // inspect modal content
