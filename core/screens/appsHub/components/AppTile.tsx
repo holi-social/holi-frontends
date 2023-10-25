@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { FeatureToggleName, FeatureToggleState, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
@@ -90,7 +90,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     wordBreak: 'break-word',
     padding: 0,
-    alignSelf: 'baseline',
+    ...Platform.select({
+      web: {
+        alignSelf: 'baseline',
+      },
+    }),
   },
   appTile: {
     alignSelf: 'center',
