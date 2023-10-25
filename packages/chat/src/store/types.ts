@@ -21,9 +21,6 @@ interface BaseChatRoom {
   members: ChatRoomMember[]
   senderId?: string
   timestamp: number | undefined
-  holiSpaceId?: string
-  spaceId?: string
-  spaceName?: string
 }
 
 interface PrivateChatRoom extends BaseChatRoom, PrivateRoomBase {}
@@ -31,6 +28,7 @@ interface SpaceChatRoom extends BaseChatRoom, SpaceRoomBase {}
 interface SpaceGeneralChatRoom extends BaseChatRoom, SpaceGeneralRoomBase {}
 
 export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceGeneralChatRoom
+export type SpaceChatTab = SpaceGeneralRoomBase & Pick<ChatRoom, 'id' | 'members'>
 
 export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom =>
   room.type === 'space-general-room'

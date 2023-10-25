@@ -11,6 +11,7 @@ import {
   setLatestMessagesAsRead,
 } from '@holi/chat/src/store'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
+import { getInitials } from '@holi/core/helpers'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -77,7 +78,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
             {isSpaceRoom ? (
               <HoliAvatar
                 label={roomName}
-                initials={roomName}
+                initials={getInitials(room.content.spaceName)}
                 defaultColor={room.content.avatarDefaultColor}
                 shape="square"
                 size="medium"
