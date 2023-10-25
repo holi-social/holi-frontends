@@ -1,21 +1,31 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { getSizes, getTransformedImageUri, useContainerSizeForImage } from '@holi/core/helpers'
 import ImagePanZoom from '@holi/core/screens/posts/components/ImagePanZoom'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type PostImageProps = {
+interface BaseProps {
+  style?: StyleProp<ViewStyle>
+}
+interface SkeletonProps extends BaseProps {
+  loading: true
+  uri?: string
+}
+interface Props extends BaseProps {
+  loading?: false
   uri: string
   imageBlurhash?: string
   height: number
   width: number
   postTitle: string
 }
+export type PostImageProps = SkeletonProps | Props
 
 const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   {
@@ -40,7 +50,7 @@ const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   },
 ]
 
-const PostImage: React.VFC<PostImageProps> = ({ uri, imageBlurhash, width, height, postTitle }) => {
+const PostImage: React.VFC<PostImageProps> = ({ loading, uri, imageBlurhash, width, height, postTitle }) => {
   const { t } = useTranslation()
   const [showFullscreenImage, setShowFullscreenImage] = useState(false)
   const imageSrcSet = POST_IMAGE_SIZES.map((transformSize) =>
@@ -61,6 +71,8 @@ const PostImage: React.VFC<PostImageProps> = ({ uri, imageBlurhash, width, heigh
   const hideFullscreenImage = useCallback(() => {
     setShowFullscreenImage(false)
   }, [setShowFullscreenImage])
+
+  if (loading) return <HoliSkeleton aspectRatio={343 / 236} borderRadius={16} height={'auto'} width={'100%'} />
 
   return (
     <>

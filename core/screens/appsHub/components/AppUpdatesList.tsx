@@ -89,7 +89,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     gap: 12,
   },
-  headerContainer: { alignSelf: 'flex-start' },
+  headerContainer: {
+    alignSelf: 'flex-start',
+    paddingBottom: 24,
+  },
   iconContainer: {
     padding: 13,
     borderRadius: 12,
@@ -98,7 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background20,
   },
   itemsContainer: {
-    paddingVertical: 24,
+    paddingBottom: 12,
     marginHorizontal: -20,
     paddingLeft: 24,
   },

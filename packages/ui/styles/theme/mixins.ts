@@ -14,7 +14,7 @@ const staticStyles = StyleSheet.create({
     transform: [{ translateY: Platform.select({ ios: 3, android: 5, default: 0 }) }],
   },
   moreButton: {
-    marginTop: 50,
+    marginVertical: 24,
     maxWidth: vars.maxButtonWidth,
     alignSelf: 'center',
   },
