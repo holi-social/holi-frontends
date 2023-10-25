@@ -52,7 +52,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
         description: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
       })
     }
-    followSpace({
+    return followSpace({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.FOLLOWER,
@@ -87,7 +87,6 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
           onPress={sendFollowRequest}
           style={style}
           disabled={isUserLoading}
-          loading={loading}
           testID="follow-btn"
         />
       )}

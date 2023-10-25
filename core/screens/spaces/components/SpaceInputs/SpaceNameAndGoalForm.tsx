@@ -1,22 +1,19 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import FormWrapper, { FormWrapperProps } from '@holi/core/components/FormWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
-export interface SpaceNameAndGoalFormProps extends Partial<FormWrapperProps> {
+export interface SpaceNameAndGoalFormProps extends Omit<FormWrapperProps, 'renderProp'> {
   onChangeSpaceName: (name: string) => void
   onChangeSpaceGoal: (goal: string) => void
   spaceName: string
   spaceGoal: string
-  onSave: () => void
   spaceNameErrors?: string[]
   spaceGoalErrors?: string[]
   title: string
-  style?: StyleProp<ViewStyle>
-  contentStyle?: StyleProp<ViewStyle>
 }
 
 const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
@@ -24,7 +21,6 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   onChangeSpaceGoal,
   onSave,
   saveButtonDisabled,
-  loading,
   spaceName,
   spaceGoal,
   spaceNameErrors,
@@ -38,7 +34,6 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       isModal={true}
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled}
-      loading={loading}
       style={style}
       scrollToInput={false}
       testID="space-edit-modal"

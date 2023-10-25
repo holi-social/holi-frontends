@@ -44,7 +44,7 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
     }
   }, [contactDescription, contactEmail, contactPhone, space.id, setInputValid])
 
-  const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
@@ -54,7 +54,7 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
 
   const { t } = useTranslation()
 
-  const onSave = () => {
+  const onSave = () =>
     updateSpace({
       variables: {
         input: {
@@ -65,7 +65,6 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
         },
       },
     })
-  }
 
   return (
     <DefaultLayout
@@ -86,8 +85,7 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
         contactEmailErrors={fieldErrors.contactEmail}
         contactPhoneErrors={fieldErrors.contactPhone}
         onSave={onSave}
-        saveButtonDisabled={loading || !inputValid}
-        loading={loading}
+        saveButtonDisabled={!inputValid}
       />
     </DefaultLayout>
   )

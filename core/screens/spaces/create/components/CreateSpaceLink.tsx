@@ -28,7 +28,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const { t } = useTranslation()
 
-  const [addLinkToSpace, { loading }] = useMutation<AddExternalLinkResponse>(addExternalLinkMutation, {
+  const [addLinkToSpace] = useMutation<AddExternalLinkResponse>(addExternalLinkMutation, {
     onCompleted: () => {
       openToast(t('spaces.input.publicLinks.add.success'), HoliToastType.SUCCESS)
       onDismiss()
@@ -69,7 +69,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
     }
   }, [t, url])
 
-  const onSave = () => {
+  const onSave = async () => {
     if (!url) {
       setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.mandatory'))
       return
@@ -81,7 +81,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
 
     const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
 
-    addLinkToSpace({
+    return addLinkToSpace({
       variables: {
         input: {
           spaceId: space.id,
@@ -101,9 +101,8 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
             <EditSpaceModal
               onDismiss={onDismiss}
               onSave={onSave}
-              saveButtonDisabled={saveButtonDisabled || loading}
+              saveButtonDisabled={saveButtonDisabled}
               scrollable={false}
-              loading={loading}
               persistFooter={true}
             >
               <SpaceLinksForm

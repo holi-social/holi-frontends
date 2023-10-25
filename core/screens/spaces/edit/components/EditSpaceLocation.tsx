@@ -27,7 +27,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   const [validationErrorText, setValidationErrorText] = useState('')
   const [locationQuery, setLocationQuery] = useState(space?.location || '')
 
-  const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
@@ -43,7 +43,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
 
   const { t } = useTranslation()
 
-  const onSave = () => {
+  const onSave = async () => {
     if (!selectedLocation && locationQuery.length) {
       setValidationErrorText(t('spaces.input.location.validation.helper'))
       return
@@ -62,7 +62,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
             location: '',
           }
 
-    updateSpace({
+    return updateSpace({
       variables: {
         input: {
           id: space.id,
@@ -95,8 +95,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
       <FormWrapper
         isModal={true}
         onSave={onSave}
-        saveButtonDisabled={loading || (!selectedLocation && !!locationQuery)}
-        loading={loading}
+        saveButtonDisabled={!selectedLocation && !!locationQuery}
         keyboardShouldPersistTaps="handled"
         testID="space-edit-modal"
         showBottomBar

@@ -22,7 +22,7 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
 
   const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
+  const [updateSpaceUserConnection] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
@@ -41,7 +41,7 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
       },
     }
   )
-  const approveConnectionRequest = () => {
+  const approveConnectionRequest = () =>
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
@@ -51,13 +51,11 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
         openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
       },
     })
-  }
 
   return (
     <>
       {isInvited ? (
         <HoliButtonLoading
-          loading={loading}
           inline
           variant="small"
           label={t('spaces.invite.btn.accept')}

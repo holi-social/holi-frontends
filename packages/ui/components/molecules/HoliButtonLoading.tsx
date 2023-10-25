@@ -44,17 +44,17 @@ const HoliButtonLoading = ({
   }
 
   const isSpinning = loading || isProcessing
-  const iconToShow = icon ? icon : Loader
+  const iconToShow = isSpinning ? Loader : icon
   const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
 
   return (
     <HoliButton label={label} disabled={disabled || isSpinning} onPress={onPressWrapper} testID={testID} {...props}>
       <HoliText style={disabled && styles.textDisabled}>{labelToShow}</HoliText>
 
-      {(isSpinning || icon) && (
+      {iconToShow && (
         <View style={styles.icon} testID={testID + (isSpinning ? '-processing' : '-idle')}>
           <SpinningIconContainer spinning={isSpinning}>
-            <HoliIcon icon={isSpinning ? Loader : iconToShow} size={16} />
+            <HoliIcon icon={iconToShow} size={16} />
           </SpinningIconContainer>
         </View>
       )}

@@ -99,7 +99,6 @@ const CreateSpaceUpdate = () => {
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}
-        saveButtonLoading={loading}
         toggleConfirmationModal={setShowConfirmationModal}
         onSave={saveSpacePost}
         showConfirmationModal={showConfirmationModal}

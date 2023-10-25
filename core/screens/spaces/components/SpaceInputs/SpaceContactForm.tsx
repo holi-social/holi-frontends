@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import FormWrapper, { FormWrapperProps } from '@holi/core/components/FormWrapper'
 import SpaceContactDescriptionInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactDescriptionInput'
@@ -11,19 +11,17 @@ import { Global } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface SpaceContactFormProps extends Partial<FormWrapperProps> {
+export interface SpaceContactFormProps extends Omit<FormWrapperProps, 'renderProp'> {
   onChangeContactDescription: (contactDescription: string) => void
   onChangeContactEmail: (contactEmail: string) => void
   onChangeContactPhone: (contactPhone: string) => void
   contactDescription: string
   contactEmail: string
   contactPhone: string
-  onSave: () => void
   contactDescriptionErrors?: string[]
   contactEmailErrors?: string[]
   contactPhoneErrors?: string[]
   title: string
-  style?: StyleProp<ViewStyle>
 }
 const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
   onChangeContactDescription,
@@ -34,7 +32,6 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
   contactPhone,
   onSave,
   saveButtonDisabled,
-  loading,
   contactDescriptionErrors,
   contactEmailErrors,
   contactPhoneErrors,
@@ -47,7 +44,6 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
       isModal={true}
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled}
-      loading={loading}
       testID="space-edit-modal"
       showBottomBar
       renderProp={() => (
