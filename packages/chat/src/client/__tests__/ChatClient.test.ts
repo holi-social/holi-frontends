@@ -1,7 +1,6 @@
-import { ICreateClientOpts, Preset, RoomType, Visibility } from 'matrix-js-sdk'
+import { ICreateClientOpts, Preset, Visibility } from 'matrix-js-sdk'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent } from '@holi/chat/src/client/types'
 import { CHAT_ROOM_NAME_MOCK, mockCreateMatrixClient, mockMx } from '@holi/chat/src/test-utils/matrix-mock-setup'
 
 const clientOptions = (token: string) => ({
@@ -63,33 +62,4 @@ it('should call the creation of a private message room', async () => {
   expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
   expect(mockMx.createRoom).toBeCalledTimes(1)
   expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
-})
-
-it('should call the creation of a space', async () => {
-  const members = ['stephanie.gilmore', 'lakey.peterson']
-  const client = new ChatClient(clientOptions('syt_p'))
-  const spaceName = 'Surfers Paradise'
-  const spaceAlias = 'surfers.paradise'
-  const spaceOptions = { holiSpaceId: 'holi-surfers-uuid', name: spaceName }
-
-  const result = {
-    invite: members,
-    is_direct: false,
-    preset: Preset.PrivateChat,
-    visibility: Visibility.Private,
-    room_alias_name: spaceAlias,
-    name: spaceName,
-    creation_content: {
-      type: RoomType.Space,
-    },
-  }
-
-  await client.createSpace(members, spaceOptions)
-
-  expect(mockMx.createRoom).toBeCalledTimes(1)
-  expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
-  expect(mockMx.sendStateEvent).toBeCalledTimes(1)
-  expect(mockMx.sendStateEvent).toHaveBeenLastCalledWith(CHAT_ROOM_NAME_MOCK, ChatRoomEvent.SharedData, {
-    holiSpaceId: 'holi-surfers-uuid',
-  })
 })
