@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, StyleSheet, View, ViewStyle } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
@@ -10,16 +10,13 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import { User } from '@holi/core/screens/userprofile/types'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type UserSuggestionsProps = {
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-}
-
-const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestionsProps) => {
+const UserSuggestions: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -60,21 +57,24 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
   }
 
   return (
-    <View style={[mixins.container, props.style]} testID="user-suggestions">
-      <HoliHeading level="2" size="large">
-        {t('homeFeed.userSuggestions.title')}
-      </HoliHeading>
+    <HoliBox padding={[32, 0, 0, 0]}>
+      <View style={mixins.container} testID="user-suggestions">
+        {/* Headline */}
+        <HoliHeading level="2" size="large">
+          {t('homeFeed.userSuggestions.title')}
+        </HoliHeading>
 
-      <FlatList
-        horizontal
-        style={styles.itemsContainer}
-        data={userSuggestions}
-        renderItem={renderItem}
-        ListFooterComponent={
-          <SeeMore loading={loading} onPress={showFeatureNotImplementedToast} style={styles.listItem} />
-        }
-      />
-    </View>
+        <FlatList
+          horizontal
+          style={styles.itemsContainer}
+          data={userSuggestions}
+          renderItem={renderItem}
+          ListFooterComponent={
+            <SeeMore loading={loading} onPress={showFeatureNotImplementedToast} style={styles.listItem} />
+          }
+        />
+      </View>
+    </HoliBox>
   )
 }
 
