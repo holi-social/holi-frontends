@@ -16,7 +16,6 @@ export const useNotifications = (
   const [notifications, setNotifications] = useState<Notification[]>([])
 
   const novuServiceRef = useRef<ApiService | null>(null)
-  const fetchIntervalIdRef = useRef<number | null>(null)
 
   const shouldRerender = useCallback(
     (newNotifications: Notification[]) => {
@@ -44,14 +43,6 @@ export const useNotifications = (
     }
   }, [processMessagesResponse])
 
-  const fetchMessagesContinually = useCallback(() => {
-    // @ts-ignore
-    // return type inference for setInterval is wrong in Pycharm Pro
-    fetchIntervalIdRef.current = setInterval(() => {
-      fetchMessages()
-    }, refetchInterval)
-  }, [fetchMessages, refetchInterval])
-
   const markAllNotificationsAsRead = useCallback(() => {
     const novu = novuServiceRef.current
     if (novu) {
@@ -62,6 +53,16 @@ export const useNotifications = (
   }, [])
 
   useEffect(() => {
+    let fetchIntervalId: number | null = null
+
+    const fetchMessagesContinually = () => {
+      // @ts-ignore
+      // return type inference for setInterval is wrong in Pycharm Pro
+      fetchIntervalId = setInterval(() => {
+        fetchMessages()
+      }, refetchInterval)
+    }
+
     if (subscriberId) {
       const novuService = new ApiService(novuBackendUrl)
       novuService.initializeSession(novuApplicationIdentifier, subscriberId).then((session) => {
@@ -73,14 +74,14 @@ export const useNotifications = (
       })
 
       return () => {
-        if (fetchIntervalIdRef.current) {
-          clearInterval(fetchIntervalIdRef.current)
+        if (fetchIntervalId) {
+          clearInterval(fetchIntervalId)
         }
       }
     }
 
     return () => ({})
-  }, [fetchMessages, subscriberId, fetchMessagesContinually, markAllNotificationsAsRead])
+  }, [fetchMessages, subscriberId, refetchInterval, markAllNotificationsAsRead])
 
   return { notifications, markAllNotificationsAsRead }
 }
