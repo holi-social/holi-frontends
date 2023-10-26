@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
   },
   mySpacesContainer: {
     paddingBottom: 24,
+    flex: 1,
   },
 })
 
