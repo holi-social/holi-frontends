@@ -93,28 +93,28 @@ const SpaceMineTile = ({ space, sectionType }: SpaceMineTileProps) => {
             <HoliButtonLoading
               type="secondary"
               variant="small"
-              label={t('notifications.space.invite.accept')}
-              onPress={acceptConnectionRequest}
-              style={styles.button}
-              testID="accept-connection-request-button"
-              disabled={loading}
-              icon={loading && connectionRequestType === 'ACCEPT' ? Loader : undefined}
-              iconSpinning={loading && connectionRequestType === 'ACCEPT'}
-            >
-              {t('notifications.space.invite.accept')}
-            </HoliButtonLoading>
-            <HoliButtonLoading
-              type="primary"
-              variant="small"
               label={t('notifications.space.invite.ignore')}
               onPress={declineConnectionRequest}
               style={styles.button}
               testID="decline-connection-request-button"
               disabled={loading}
               icon={loading && connectionRequestType === 'DECLINE' ? Loader : undefined}
-              iconSpinning={loading && connectionRequestType === 'DECLINE'}
+              loading={loading && connectionRequestType === 'DECLINE'}
             >
               {t('notifications.space.invite.ignore')}
+            </HoliButtonLoading>
+            <HoliButtonLoading
+              type="primary"
+              variant="small"
+              label={t('notifications.space.invite.accept')}
+              onPress={acceptConnectionRequest}
+              style={styles.button}
+              testID="accept-connection-request-button"
+              disabled={loading}
+              icon={loading && connectionRequestType === 'ACCEPT' ? Loader : undefined}
+              loading={loading && connectionRequestType === 'ACCEPT'}
+            >
+              {t('notifications.space.invite.accept')}
             </HoliButtonLoading>
           </HoliHorizontalRow>
         )}
