@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HandHeartThin, HandHeartThinFilledColored } from '@holi/icons/src/generated'
+import { HandHeartThin, HandHeartThinFilledDarker, HandHeartThinFilledRaised } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -58,6 +58,14 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
     [onMouseOut, setHovered]
   )
 
+  const icon = active
+    ? hovered
+      ? HandHeartThinFilledRaised // active and hovered
+      : HandHeartThinFilledDarker // active and !hovered
+    : hovered
+    ? HandHeartThinFilledDarker // !active and hovered
+    : HandHeartThin // !active and !hovered
+
   return (
     <HoliButton
       label={labelText}
@@ -76,7 +84,7 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
       >
         {count}
       </HoliText>
-      <HoliIcon icon={active || hovered ? HandHeartThinFilledColored : HandHeartThin} />
+      <HoliIcon icon={icon} />
     </HoliButton>
   )
 }
