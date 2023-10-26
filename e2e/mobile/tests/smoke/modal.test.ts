@@ -21,6 +21,6 @@ describe('@HoliModal', () => {
     await tapOnElementWithTestId('insight-editors-close-btn')
 
     // now the editors should be visible again
-    await waitForElementWithTestId('insight-editors-heading')
+    await waitForElementWithTestId('avatar-pile-open-modal-button')
   })
 })
