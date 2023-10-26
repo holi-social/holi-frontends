@@ -64,6 +64,27 @@ describe('useNotifications', () => {
     await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
   })
 
+  it('should cleanup the interval timer after unmount', async () => {
+    jest.useFakeTimers()
+
+    const testResponse = { data: [] }
+
+    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
+    mockGetNotificationsList.mockResolvedValue(testResponse)
+    mockSetAuthorizationToken.mockImplementation(() => ({}))
+
+    const { unmount } = renderHook(() => useNotifications(subscriberId))
+
+    await waitFor(() => expect(jest.getTimerCount()).toStrictEqual(1))
+
+    unmount()
+
+    expect(jest.getTimerCount()).toStrictEqual(0)
+
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers()
+  })
+
   it('should not initialize the novu service and session without subscriber id', () => {
     renderHook(() => useNotifications())
 
