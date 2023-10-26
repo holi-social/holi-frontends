@@ -1,6 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
-import { View } from 'react-native'
 import { string } from 'zod'
 
 import { logError } from '@holi/core/errors/helpers'
