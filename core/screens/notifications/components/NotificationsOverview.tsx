@@ -83,11 +83,7 @@ const NotificationsOverview = () => {
 
   const groupedNotifications = groupByDate(allNotifications)
 
-  return (
-    <View style={{ top: 52 }}>
-      <NotificationSectionList notifications={groupedNotifications} />
-    </View>
-  )
+  return <NotificationSectionList notifications={groupedNotifications} />
 }
 
 export default NotificationsOverview
