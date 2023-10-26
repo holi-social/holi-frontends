@@ -27,7 +27,7 @@ export const useNotifications = (
     [notifications]
   )
 
-  const handleMessagesResponse = useCallback(
+  const processMessagesResponse = useCallback(
     (response: IPaginatedResponse<IMessage>) => {
       const notifications = mapToNotifications(response)
       if (shouldRerender(notifications)) {
@@ -37,20 +37,20 @@ export const useNotifications = (
     [shouldRerender]
   )
 
-  const fetchNotifications = useCallback(() => {
+  const fetchMessages = useCallback(() => {
     const novu = novuServiceRef.current
     if (novu) {
-      novu.getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH).then(handleMessagesResponse)
+      novu.getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH).then(processMessagesResponse)
     }
-  }, [handleMessagesResponse])
+  }, [processMessagesResponse])
 
-  const fetchNotificationsContinually = useCallback(() => {
+  const fetchMessagesContinually = useCallback(() => {
     // @ts-ignore
     // return type inference for setInterval is wrong in Pycharm Pro
     fetchIntervalIdRef.current = setInterval(() => {
-      fetchNotifications()
+      fetchMessages()
     }, refetchInterval)
-  }, [fetchNotifications, refetchInterval])
+  }, [fetchMessages, refetchInterval])
 
   const markAllNotificationsAsRead = useCallback(() => {
     const novu = novuServiceRef.current
@@ -68,8 +68,8 @@ export const useNotifications = (
         novuService.setAuthorizationToken(session.token)
         novuServiceRef.current = novuService
 
-        fetchNotifications()
-        fetchNotificationsContinually()
+        fetchMessages()
+        fetchMessagesContinually()
       })
 
       return () => {
@@ -80,7 +80,7 @@ export const useNotifications = (
     }
 
     return () => ({})
-  }, [fetchNotifications, subscriberId, fetchNotificationsContinually, markAllNotificationsAsRead])
+  }, [fetchMessages, subscriberId, fetchMessagesContinually, markAllNotificationsAsRead])
 
   return { notifications, markAllNotificationsAsRead }
 }
