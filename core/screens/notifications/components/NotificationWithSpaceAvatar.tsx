@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
-import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
+import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
@@ -59,7 +59,7 @@ const NotificationWithSpaceAvatar = ({
             )}
           </View>
 
-          <NotificationBadge visible={!read} backgroundColor={colors.background30} style={styles.readStatus} />
+          <NotificationBellBadge visible={!read} backgroundColor={colors.background30} style={styles.readStatus} />
         </View>
       </HoliLink>
 

@@ -271,9 +271,13 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   }
 
   const joinGeneralSpaceRoom = async ({ room }: RoomWithSharedData) => {
-    const isSpaceRoom = room.isSpaceRoom() || room.name === '#general'
-    if (isSpaceRoom && client.hasPendingInvitation(room)) {
-      await client.joinRoom(room.roomId)
+    try {
+      const isSpaceRoom = room.isSpaceRoom() || room.name === '#general'
+      if (isSpaceRoom && client.hasPendingInvitation(room)) {
+        await client.joinRoom(room.roomId)
+      }
+    } catch (err) {
+      console.debug(`Probably the space room with ID "${room.roomId}" was deleted`, err)
     }
   }
 
@@ -727,8 +731,12 @@ const _membershipSubscriberAtom = atom(
 
     // If the creator of the room is the last one we forget (delete) entirely the room
     if (isLastMemberCreator(roomState, member)) {
-      await client.leaveRoom(roomState.roomId)
-      await client.forgetRoom(roomState.roomId, true)
+      try {
+        await client.leaveRoom(roomState.roomId)
+        await client.forgetRoom(roomState.roomId, true)
+      } catch (err) {
+        console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err)
+      }
     }
 
     set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) =>
