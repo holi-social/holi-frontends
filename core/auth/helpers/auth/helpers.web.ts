@@ -115,18 +115,22 @@ export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> =>
 
 export const updatePasswordRecoveryFlowEmail = async (flow: RecoveryFlow, email: string) => {
   const csrf_token = extractValue(flow, 'csrf_token')
-  return newKratosSdk().updateRecoveryFlow({
-    flow: flow.id,
-    updateRecoveryFlowBody: { method: 'code', email, csrf_token },
-  })
+  return newKratosSdk()
+    .updateRecoveryFlow({
+      flow: flow.id,
+      updateRecoveryFlowBody: { method: 'code', email, csrf_token },
+    })
+    .catch(handleKratosSdkError('updateRecoveryFlowEmail'))
 }
 
 export const updatePasswordRecoveryFlowCode = async (flow: RecoveryFlow, code: string) => {
   const csrf_token = extractValue(flow, 'csrf_token')
-  return newKratosSdk().updateRecoveryFlow({
-    flow: flow.id,
-    updateRecoveryFlowBody: { method: 'code', code, csrf_token },
-  })
+  return newKratosSdk()
+    .updateRecoveryFlow({
+      flow: flow.id,
+      updateRecoveryFlowBody: { method: 'code', code, csrf_token },
+    })
+    .catch(handleKratosSdkError('updateRecoveryFlowCode'))
 }
 
 // Change Password

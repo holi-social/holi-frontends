@@ -22,7 +22,7 @@ const EditSpaceSDGs: React.VFC<EditSpaceSDGsProps> = ({ space, onDismiss }: Edit
   const { sdgs: allSdgs } = useContext(SpaceTermContext)
   const { displayError } = useErrorHandling()
 
-  const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
@@ -39,7 +39,7 @@ const EditSpaceSDGs: React.VFC<EditSpaceSDGsProps> = ({ space, onDismiss }: Edit
   const onSave = () => updateSpace({ variables: { input: { id: space.id, sdgs: sdgs.map((sdg) => sdg.id) } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading} loading={loading}>
+    <EditSpaceModal onDismiss={onDismiss} onSave={onSave}>
       <SpaceTermsInput
         title={t('spaces.input.sdgs.title')}
         description={t('spaces.input.sdgs.description')}

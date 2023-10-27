@@ -1,6 +1,6 @@
 import { Page, expect } from '@playwright/test'
 
-import { clickElementByTestId, locateElementByTestId } from './helpers'
+import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -14,12 +14,14 @@ test.describe('@Reactions', () => {
 
       // click first insight image link
       await clickElementByTestId(page, 'feed-insight-image-link')
+      await page.waitForSelector(byTestId('insight-headline'))
 
       // check reactions on first post
       await assertReactions(page, 'btn-react-to-post-HEART')
 
       // open first post
       await clickElementByTestId(page, 'btn-to-post')
+      await page.waitForSelector(byTestId('post-heading'))
 
       // TODO assure a comment by commenting ourselves, otherwise if no comment, the test fails
 
@@ -30,15 +32,14 @@ test.describe('@Reactions', () => {
 })
 
 const assertReactions = async (page: Page, testIdPrefix: string) => {
-  const counter = await locateElementByTestId(page, testIdPrefix + '-counter')
-  const countBefore = await counter.first().textContent()
+  const counter = (await locateElementByTestId(page, testIdPrefix + '-counter')).first()
+  const countBefore = await counter.textContent()
   expect(countBefore).not.toBeNull()
   if (countBefore) {
     const cBefore = parseInt(countBefore)
     await clickElementByTestId(page, testIdPrefix)
     const getReactionCount = async () => {
-      const counterElement = await locateElementByTestId(page, testIdPrefix + '-counter')
-      const after = await counterElement.first().textContent()
+      const after = await counter.textContent()
       if (after) {
         return parseInt(after)
       }

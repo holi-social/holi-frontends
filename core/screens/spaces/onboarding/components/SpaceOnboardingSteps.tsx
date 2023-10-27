@@ -77,7 +77,7 @@ const SpaceOnboardingSteps = () => {
     })
   }, [setScreenOptions, t])
 
-  const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
       navigate(`/spaces/${spaceIdOrName}`)
@@ -114,9 +114,7 @@ const SpaceOnboardingSteps = () => {
     [stepsList]
   )
 
-  const saveSteps = () => {
-    updateSpace({ variables: { input: { id: space?.id, onboardingSteps: stepsList } } })
-  }
+  const saveSteps = () => updateSpace({ variables: { input: { id: space?.id, onboardingSteps: stepsList } } })
 
   const exampleSteps = [
     { text: t('spaces.collaborate.onboarding.info.text1') },
@@ -136,8 +134,7 @@ const SpaceOnboardingSteps = () => {
       contentStyle={styles.contentStyle}
     >
       <FormWrapper
-        saveButtonDisabled={loading || fetchingSpace || hasEmptySteps}
-        loading={loading}
+        saveButtonDisabled={fetchingSpace || hasEmptySteps}
         style={styles.formWrapper}
         buttonLabel={t('global.save')}
         onSave={saveSteps}

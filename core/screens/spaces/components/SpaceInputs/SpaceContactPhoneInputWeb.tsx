@@ -21,7 +21,7 @@ const SpaceContactPhoneInputWeb: React.VFC<SpaceContactPhoneInputWebProps> = ({
   return (
     <>
       <HoliTextInput
-        placeholder={'+49'}
+        placeholder={t('spaces.input.contact.phone.placeholder')}
         inputLabel={t('spaces.input.contact.phone.label')}
         validationErrorText={errorMessage}
         value={value}

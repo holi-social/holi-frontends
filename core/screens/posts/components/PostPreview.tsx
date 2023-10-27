@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
@@ -10,7 +10,8 @@ import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
-import { Post } from '@holi/core/screens/posts/types'
+import { Link, Post } from '@holi/core/screens/posts/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
@@ -28,39 +29,47 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type PostPreviewProps = {
+interface BaseProps {
+  style?: StyleProp<ViewStyle>
+}
+interface SkeletonProps extends BaseProps {
+  loading: true
+  post?: Post
+}
+interface Props extends BaseProps {
+  loading?: false
   post: Post
   insightId?: string
   spaceIdOrName?: string
   hasVisibilityIcon?: boolean
 }
+export type PostPreviewProps = SkeletonProps | Props
 
-const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: PostPreviewProps) => {
-  const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
+const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loading }: PostPreviewProps) => {
   const { t } = useTranslation()
+  const commenters = post?.commenters.data
+  const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { navigate } = useRouting()
   const [isLoadingReport, reportContent] = useReportContent({
-    id: post.id,
+    id: post?.id || '',
     contentType: ContentType.POST,
     successMsg: t('global.report.successMessage'),
   })
 
-  const { deletePost, isLoadingPostDeletion } = useDeletePost(post, spaceIdOrName)
+  const { deletePost, isLoadingPostDeletion } = useDeletePost(post || ({} as Post), spaceIdOrName)
 
-  const commenters = post.commenters.data
+  const visibilityIcon = post?.isPublic ? GlobalFilled : LockFilled
+  const visibilityIconText = post?.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
 
-  const visibilityIcon = post.isPublic ? GlobalFilled : LockFilled
-  const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
-
-  const postUrl = getPostUrl(post.id, insightId, spaceIdOrName)
+  const postUrl = getPostUrl(post?.id, insightId, spaceIdOrName)
   const commentUrl = postUrl + '/comment'
 
   const editAction = useCallback(() => {
     navigate(postUrl + '/edit')
   }, [navigate, postUrl])
 
-  const isCurrentUserPostCreator = post.creator.id === loggedInUser?.id
+  const isCurrentUserPostCreator = post?.creator.id === loggedInUser?.id
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
@@ -69,6 +78,44 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
       return false
     }
   }
+
+  if (loading)
+    return (
+      <View style={styles.container}>
+        {/* Post Author */}
+        <HoliColumns>
+          <HoliColumn flex={2}>
+            <HoliMediaHeader title={post?.creator?.fullName} date={post?.created} boldTitle loading />
+          </HoliColumn>
+        </HoliColumns>
+
+        {/* Post Title */}
+        <View style={styles.postTitleLink}>
+          <HoliHeading level="3" size="small" loading>
+            {post?.title}
+          </HoliHeading>
+        </View>
+
+        {/* Post Text */}
+        <HoliText
+          text={post?.text}
+          users={post?.mentions}
+          links={post?.links}
+          loading
+          skeletonOptions={{ numberOfLines: 10, borderRadius: 16 }}
+        >
+          {post?.text}
+        </HoliText>
+
+        <View style={styles.reactionsBar}>
+          <View style={styles.reactionsLink}>
+            <HoliUserAvatarPile users={commenters || []} usersToShow={3} collapse loading>
+              {t('insights.post.response', { count: post?.numberOfComments })}
+            </HoliUserAvatarPile>
+          </View>
+        </View>
+      </View>
+    )
 
   return (
     <View style={styles.container}>
@@ -84,11 +131,16 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
       <HoliColumns>
         <HoliColumn flex={2}>
           <HoliLink
-            href={`/profile/${post.creator.id}`}
-            label={post.creator.fullName}
+            href={`/profile/${post?.creator.id}`}
+            label={post?.creator.fullName || ''}
             testID="btn-to-post-creator-profile"
           >
-            <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} boldTitle />
+            <HoliMediaHeader
+              title={post?.creator.fullName}
+              author={post?.creator || ({} as User)}
+              date={post?.created}
+              boldTitle
+            />
           </HoliLink>
         </HoliColumn>
         <HoliColumn>
@@ -146,39 +198,58 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
         </HoliColumn>
       </HoliColumns>
 
-      {!!post.title && (
+      {!!post?.title && (
         <View style={styles.postTitleLink}>
-          <HoliLink href={getPostUrl(post.id, insightId, spaceIdOrName)} label={post.title} testID="btn-to-post">
+          <HoliLink
+            href={getPostUrl(post?.id, insightId, spaceIdOrName)}
+            label={post?.title || ''}
+            testID="btn-to-post"
+          >
             <HoliHeading level="3" size="small">
-              {post.title}
+              {post?.title}
             </HoliHeading>
           </HoliLink>
         </View>
       )}
 
       <HoliReadMore numberOfLines={10} color="gray300" bold={false}>
-        <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="default" color="gray300" />
+        <HoliRichTextOutput
+          text={post?.text || ''}
+          users={post?.mentions || []}
+          links={post?.links || []}
+          size="default"
+          color="gray300"
+        />
       </HoliReadMore>
 
-      {post.image && (
-        <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
+      {post?.image && (
+        <PostImage
+          uri={post?.image.url || ''}
+          height={post?.image.height}
+          width={post?.image.width}
+          postTitle={post?.title}
+        />
       )}
 
-      {!!post.links?.length && (
+      {!!post?.links?.length && (
         <HoliBox padding={[0, 24]}>
-          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+          <HoliLinkPreview
+            style={styles.linkPreview}
+            previewData={post?.links[0] || ({} as Link)}
+            label={post?.links[0].title || ''}
+          />
         </HoliBox>
       )}
 
       <View style={styles.reactionsBar}>
-        {post.numberOfComments > 0 ? (
+        {post?.numberOfComments > 0 ? (
           <View style={styles.reactionsLink}>
             <HoliLink
-              href={`${getPostUrl(post.id, insightId, spaceIdOrName)}?commentId=first`}
+              href={`${getPostUrl(post?.id, insightId, spaceIdOrName)}?commentId=first`}
               label={t('insights.posts.comments.link')}
             >
-              <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-                {t('insights.post.response', { count: post.numberOfComments })}
+              <HoliUserAvatarPile users={commenters || []} usersToShow={3} collapse>
+                {t('insights.post.response', { count: post?.numberOfComments })}
               </HoliUserAvatarPile>
             </HoliLink>
           </View>
@@ -196,7 +267,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
           </View>
         )}
 
-        <PostReactions post={post} />
+        <PostReactions post={post || ({} as Post)} />
       </View>
     </View>
   )
@@ -205,7 +276,8 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    border: `1px solid ${colors.background30}`,
+    borderWidth: 1,
+    borderColor: colors.background30,
     borderRadius: 12,
     backgroundColor: colors.background10,
   },

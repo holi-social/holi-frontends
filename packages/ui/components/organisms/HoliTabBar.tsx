@@ -64,6 +64,7 @@ const HoliTabBar: React.FC<TabListProps> = ({
               styles.tabButtonsContainer,
               { justifyContent: centeredButtons ? 'center' : 'flex-start' },
             ])}
+            role="tablist"
           >
             {tabs.map((tab, index) => {
               const tabId = tab.id ?? index

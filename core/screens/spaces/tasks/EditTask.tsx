@@ -89,7 +89,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
 
   const { displayError } = useErrorHandling()
 
-  const [updateTask, { loading }] = useMutation<UpdateTaskResponse>(updateTaskMutation, {
+  const [updateTask] = useMutation<UpdateTaskResponse>(updateTaskMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) =>
       displayError(error, 'Failed to update task', {
@@ -250,7 +250,6 @@ const EditTask: React.VFC<ScreenProps> = () => {
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}
-        saveButtonLoading={loading}
         toggleConfirmationModal={setShowConfirmationModal}
         onSave={onSave}
         showConfirmationModal={showConfirmationModal}

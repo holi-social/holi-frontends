@@ -18,6 +18,7 @@ describe('@Comment', () => {
     await navigateBackToHomeScreenDeeper()
 
     // click first insight image link
+    await scrollToElementWithTestId('feed-insight-image-link', 'down')
     await tapOnElementWithTestId('feed-insight-image-link')
 
     // click first post within the insight

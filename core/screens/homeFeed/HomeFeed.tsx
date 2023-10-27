@@ -2,7 +2,7 @@ import { DocumentNode } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -16,7 +16,9 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
+import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
+import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { FeatureToggleStatus, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
@@ -104,13 +106,17 @@ const HomeFeed = () => {
         }}
         style={styles.layout}
       >
-        <>
-          <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
+        <View style={styles.sections}>
+          <HomeFeedHeader />
 
-          <UpdatesOfYourApps style={styles.updatesOfYourApps} />
+          <InspirationPosts />
 
-          {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
-        </>
+          <InsightsOfTheWeek />
+
+          <UpdatesOfYourApps />
+
+          {isLoggedIn && <UserSuggestions />}
+        </View>
       </ScrollHeaderLayout.Refreshable>
 
       {/* AppsDrawer needs to be outside of the Layout */}
@@ -123,19 +129,8 @@ const styles = StyleSheet.create({
   layout: {
     paddingBottom: 80,
   },
-  view: {
-    alignItems: 'center',
-    maxWidth: '100%',
-    marginTop: 5,
-  },
-  insightsOfTheWeek: {
-    marginTop: 32,
-  },
-  updatesOfYourApps: {
-    marginTop: 100,
-  },
-  userSuggestionsContainer: {
-    marginTop: 64,
+  sections: {
+    gap: 32,
   },
 })
 

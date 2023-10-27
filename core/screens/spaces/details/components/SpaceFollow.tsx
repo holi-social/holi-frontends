@@ -52,7 +52,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
         description: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
       })
     }
-    followSpace({
+    return followSpace({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.FOLLOWER,
@@ -86,8 +86,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
           style={style}
-          disabled={isUserLoading || loading}
-          iconSpinning={loading}
+          disabled={isUserLoading}
           testID="follow-btn"
         />
       )}
@@ -100,8 +99,8 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
           label={t('spaces.follow.btn.following')}
           onPress={() => setUnfollowDialogIsOpen(true)}
           style={style}
-          disabled={isUserLoading || loading}
-          iconSpinning={loading}
+          disabled={isUserLoading}
+          loading={loading}
           testID="unfollow-btn"
         />
       )}

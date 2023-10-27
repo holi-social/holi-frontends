@@ -1,7 +1,6 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
-import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
@@ -111,6 +110,7 @@ export const createCache = () =>
       Space: {
         fields: {
           members: alwaysReplacePolicy,
+          membershipRequests: alwaysReplacePolicy,
           tasks: alwaysReplacePolicy,
           sdgs: alwaysReplacePolicy,
           topics: alwaysReplacePolicy,
@@ -132,6 +132,12 @@ export const createCache = () =>
           data: nestedPaginationPolicy(['idOrName']),
         },
       },
+      SpaceMembershipRequestPaged: {
+        fields: {
+          // Only allow pagination on the space detail screen, recognizable by `idOrName`
+          data: nestedPaginationPolicy(['idOrName']),
+        },
+      },
       UserPaged: {
         fields: {
           // Only allow pagination when searching for users by `substring`
@@ -140,12 +146,7 @@ export const createCache = () =>
       },
       PostPaged: {
         fields: {
-          data: {
-            ...indexAwareOffsetLimitPagination(),
-            // Use Apollo's default offsetLimitPagination's read method for Posts, since the limit
-            // is always the same in this case (no screens asking for different limits for Posts)
-            read: offsetLimitPagination().read,
-          },
+          data: indexAwareOffsetLimitPagination(),
         },
       },
       Query: {
@@ -153,6 +154,9 @@ export const createCache = () =>
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           lastInsights: {
+            keyArgs: [],
+          },
+          inspirationPosts: {
             keyArgs: [],
           },
           appDonations_projects: {

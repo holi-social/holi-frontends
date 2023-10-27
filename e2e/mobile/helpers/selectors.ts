@@ -140,7 +140,7 @@ const scrollElementToCenter = async (element: Element<'async'>, direction: Scrol
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: ScrollDirection,
-  { timeout = 1000, maxAttempts = 7 }: { timeout?: number; maxAttempts?: number } = {}
+  { timeout = 1000, maxAttempts = 12 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
   return withImplicitTimeout(timeout, async () => {
     const element = await scrollElementIntoView(testId, direction, maxAttempts)

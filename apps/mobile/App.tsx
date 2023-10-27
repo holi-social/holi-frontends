@@ -7,15 +7,24 @@ import { Platform } from 'react-native'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
-import { initNotifications } from '@holi/core/helpers/notifications'
 import { initI18n } from '@holi/core/i18n'
 import RootProvider from '@holi/core/providers/RootProvider'
 import { subscribeToDeviceTokenChanges } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
+import {
+  initNotifications,
+  registerHandleNotificationsWhenAppIsInBackground,
+} from '@holi/mobile/notifications/initNotifications'
 
 SplashScreen.preventAutoHideAsync()
+
+registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
+  logError(error, 'Failed to register notifications backgound task', {
+    location: 'App.registerHandleNotificationsWhenAppIsInBackground',
+  })
+)
 
 logDebug('App', 'starting app with config', config)
 

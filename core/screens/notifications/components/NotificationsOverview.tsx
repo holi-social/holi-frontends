@@ -68,7 +68,6 @@ const NotificationsOverview = () => {
   }, [data, reportLastSeenNotification])
 
   useEffect(() => {
-    // TODO(SF) check for unseen messages only
     if (novuNotifications.length > 0) {
       markAllNotificationsAsSeen()
     }

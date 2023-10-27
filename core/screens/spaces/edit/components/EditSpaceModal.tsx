@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import { Loader } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
@@ -12,10 +11,9 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type EditSpaceModalProps = {
   onDismiss: () => void
-  onSave: () => void
+  onSave: () => Promise<unknown>
   children: ReactNode
   saveButtonDisabled?: boolean
-  loading?: boolean
   scrollable?: boolean
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   persistFooter?: boolean
@@ -25,7 +23,6 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   onDismiss,
   onSave,
   saveButtonDisabled = false,
-  loading = false,
   children,
   scrollable = true,
   keyboardShouldPersistTaps = 'always',
@@ -61,13 +58,11 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
             {t('global.dismiss')}
           </HoliButton>
           <HoliButtonLoading
-            disabled={loading || saveButtonDisabled}
-            label={loading ? t('global.loading') : t('global.save')}
+            disabled={saveButtonDisabled}
+            label={t('global.save')}
             onPress={onSave}
             testID="space-edit-modal-save-btn"
             style={styles.footerButton}
-            icon={loading ? Loader : undefined}
-            iconSpinning={loading}
           />
         </View>
       )}

@@ -8,17 +8,27 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface Props {
+interface BaseProps {
+  style?: StyleProp<ViewStyle>
+  testID?: string
+}
+interface SkeletonProps extends BaseProps {
+  loading: true
+  author?: User
+}
+interface HoliMediaHeaderProps extends BaseProps {
+  loading?: false
   title: string
   author: User
   boldTitle?: boolean
   date?: string
-  style?: StyleProp<ViewStyle>
-  testID?: string
 }
+type Props = SkeletonProps | HoliMediaHeaderProps
 
-const HoliMediaHeader = ({ title, author, boldTitle, date, style, testID }: Props) => {
+const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testID }: Props) => {
   const { t, i18n } = useTranslation()
+
+  const authorName = author?.fullName || t('user.profileView.anonymous')
 
   const formattedDate = useMemo(() => {
     if (!date) return undefined
@@ -26,7 +36,28 @@ const HoliMediaHeader = ({ title, author, boldTitle, date, style, testID }: Prop
     return dateString.charAt(0).toUpperCase() + dateString.slice(1)
   }, [date, i18n.language])
 
-  const authorName = author.fullName || t('user.profileView.anonymous')
+  if (loading) {
+    return (
+      <View style={[styles.row, style]} testID={testID}>
+        <HoliAvatar
+          imageSrc={author?.avatar || ''}
+          imageBlurhash={author?.avatarBlurhash || ''}
+          label={authorName}
+          initials={author?.avatarLabel || ''}
+          defaultColor={author?.avatarDefaultColor || ''}
+          size="small"
+          loading
+        />
+
+        <View style={[styles.titleContainer]}>
+          <HoliText bold={boldTitle} loading>
+            {title}
+          </HoliText>
+          <HoliText size="small" style={styles.date} loading />
+        </View>
+      </View>
+    )
+  }
 
   return (
     <View style={[styles.row, style]} testID={testID}>

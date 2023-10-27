@@ -22,12 +22,6 @@ jest.mock('@holi/core/auth/helpers/auth', () => ({
   },
 }))
 
-jest.mock('@holi/core/auth/helpers/auth', () => ({
-  getSessionFromStorage: () => {
-    return Promise.resolve(mockOrySessionInStorage)
-  },
-}))
-
 jest.mock('cross-fetch', () => (url: string) => {
   if (`${CHAT_SERVER_URL}/_matrix/client/r0/login` === url) {
     const mockMatrixResponse = {

@@ -16,11 +16,11 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
-type SpaveInviteViewProps = {
+type SpaceInviteViewProps = {
   spaceId: string
 }
 
-const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
+const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId }) => {
   const [searchValue, setSearchValue] = useState('')
   const { t } = useTranslation()
   const { openToast } = useToast()
@@ -28,21 +28,18 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
 
   const clearInput = useCallback(() => setSearchValue(''), [])
 
-  const [inviteToSpaceByEmail, { loading: loadingInvite }] = useMutation<InviteToSpaceByEmailResponse>(
-    inviteToSpaceByEmailMutation,
-    {
-      onCompleted() {
-        openToast(t('spaces.invite.success'), HoliToastType.SUCCESS)
-        clearInput()
-      },
-      onError(error) {
-        displayError(error, 'Failed to invite user to space by e-mail', {
-          location: 'SpaceInviteView.inviteToSpaceByEmail',
-          spaceId,
-        })
-      },
-    }
-  )
+  const [inviteToSpaceByEmail] = useMutation<InviteToSpaceByEmailResponse>(inviteToSpaceByEmailMutation, {
+    onCompleted() {
+      openToast(t('spaces.invite.success'), HoliToastType.SUCCESS)
+      clearInput()
+    },
+    onError(error) {
+      displayError(error, 'Failed to invite user to space by e-mail', {
+        location: 'SpaceInviteView.inviteToSpaceByEmail',
+        spaceId,
+      })
+    },
+  })
 
   const searchValueIsEmail = isEmail(searchValue)
 
@@ -61,8 +58,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
   return (
     <FormWrapper
       onSave={sendInvitationEmail}
-      loading={loadingInvite}
-      saveButtonDisabled={!searchValue || !searchValueIsEmail || loadingInvite}
+      saveButtonDisabled={!searchValue || !searchValueIsEmail}
       style={styles.wrapper}
       testID="space-invite-form"
       buttonLabel={t('spaces.invite.btn.send')}

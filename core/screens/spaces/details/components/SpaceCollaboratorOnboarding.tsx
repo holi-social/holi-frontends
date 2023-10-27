@@ -47,7 +47,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
+  const [updateSpaceUserConnection] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
@@ -76,13 +76,13 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
     }
   )
 
-  const submitJoinRequest = () => {
+  const submitJoinRequest = async () => {
     if (!isLoggedIn) {
       return openLoginModal({
         description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
       })
     }
-    updateSpaceUserConnection({
+    return updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
@@ -107,9 +107,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         style={styles.modal}
       >
         <FormWrapper
-          onSave={onboarding ? hideOnboarding : submitJoinRequest}
-          saveButtonDisabled={loading}
-          loading={loading}
+          onSave={onboarding ? async () => hideOnboarding() : submitJoinRequest}
           buttonLabel={onboarding ? t('spaces.join.overlay.button') : t('spaces.collaborate.onboarding.request')}
           testID="space-join-request-modal"
           showBottomBar
@@ -156,7 +154,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
                   showCharacterCount
                   inputLabel={t('spaces.collaborate.onboarding.input.label')}
                   maxNoOfVisibleLines={5}
-                  maxNoOfCharacters={1000}
+                  maxNoOfCharacters={240}
                   isRequired={false}
                   value={message}
                   onChange={setMessage}

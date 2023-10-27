@@ -34,6 +34,7 @@ const assertShowsInsights = async () => {
   await waitForElementWithTestId('home-feed-insights-heading')
 
   // go to insight screen
+  await scrollToElementWithTestId('feed-insight-image-link', 'down')
   await tapOnElementWithTestId('feed-insight-image-link')
 
   await waitForElementWithTestId('insight-headline')

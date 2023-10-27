@@ -25,7 +25,6 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const { t } = useTranslation()
     const [currentStep, setCurrentStep] = useState(0)
     const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
     const mixins = useStyleMixins()
 
     const { isKeyboardOpen } = useKeyboard()
@@ -44,19 +43,14 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     }
 
     const handleNextButtonPress = async () => {
-      try {
-        setIsLoading(true)
-        if (currentStep < stepCount - 1) {
-          const success = await onNextPress(currentStep)
-          if (success) {
-            setIsNextButtonEnabled(false)
-            setCurrentStep(currentStep + 1)
-          }
-        } else {
-          await onSubmit()
+      if (currentStep < stepCount - 1) {
+        const success = await onNextPress(currentStep)
+        if (success) {
+          setIsNextButtonEnabled(false)
+          setCurrentStep(currentStep + 1)
         }
-      } finally {
-        setIsLoading(false)
+      } else {
+        await onSubmit()
       }
     }
 
@@ -100,7 +94,6 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
               isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
               isNextButtonEnabled={isNextButtonEnabled}
               isLastStep={currentStep === stepCount - 1}
-              isLoading={isLoading}
               style={styles.buttonContainer}
             />
           )}

@@ -51,9 +51,7 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
 
   const { t } = useTranslation()
 
-  const onSave = () => {
-    updateSpace({ variables: { input: { id: space.id, title: spaceName, description: spaceGoal } } })
-  }
+  const onSave = () => updateSpace({ variables: { input: { id: space.id, title: spaceName, description: spaceGoal } } })
 
   return (
     <DefaultLayout
@@ -70,7 +68,6 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
         spaceName={spaceName}
         spaceNameErrors={fieldErrors.title}
         spaceGoalErrors={fieldErrors.description}
-        loading={loading}
         onSave={onSave}
         saveButtonDisabled={loading || !inputValid}
       />

@@ -11,11 +11,15 @@ import { colors } from '@holi/ui/styles/globalVars'
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
 
+export type AvatarSize = 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
+export type AvatarShape = 'circle' | 'square'
+
 interface BaseProps {
   imageSrc?: string
   imageBlurhash?: string
   'aria-label'?: string
-  size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
+  size?: AvatarSize
+  shape?: AvatarShape
   defaultColor?: string
   testID?: string
   style?: StyleProp<ViewStyle>
@@ -45,6 +49,7 @@ export const sizes = {
 
 const HoliAvatar = ({
   size = 'medium',
+  shape = 'circle',
   defaultColor = colors.background20,
   imageSrc,
   imageBlurhash,
@@ -58,7 +63,7 @@ const HoliAvatar = ({
   const { t } = useTranslation()
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
-  const styles = getStyles(width, defaultColor, hasImage)
+  const styles = getStyles(shape, width, defaultColor, hasImage)
   const sizeClass = size || 'medium'
 
   const accessibilityPropsInitials: AccessibilityProps = {
@@ -98,11 +103,12 @@ const HoliAvatar = ({
 
 export default React.memo(HoliAvatar)
 
-const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolean) => {
+const getStyles = (shape: AvatarShape, width: number, defaultColor: string, imageIsAvailable: boolean) => {
   const initialsFontSize = (width / 10) * 4.5
+
   return StyleSheet.create({
     wrapper: {
-      borderRadius: width / 2,
+      borderRadius: shape === 'circle' ? width / 2 : width * 0.15,
       backgroundColor: imageIsAvailable ? colors.background20 : defaultColor,
       alignItems: 'center',
       justifyContent: 'center',
@@ -119,6 +125,7 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
     medium: {
       width,
       height: width,
+      borderWidth: 1,
     },
     large: {
       width,

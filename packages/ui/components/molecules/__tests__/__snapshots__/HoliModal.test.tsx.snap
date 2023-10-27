@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly renders correctly when closed 1`] = `
+exports[`HoliModal renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
   accessibilityViewIsModal={true}
@@ -13,7 +13,7 @@ exports[`renders correctly renders correctly when closed 1`] = `
 />
 `;
 
-exports[`renders correctly renders correctly when open 1`] = `
+exports[`HoliModal renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
   accessibilityViewIsModal={true}

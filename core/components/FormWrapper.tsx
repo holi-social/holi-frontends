@@ -11,7 +11,6 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
@@ -21,11 +20,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
-  onSave: () => void
+  onSave: () => Promise<unknown>
   scrollToInput?: boolean
   initialOffsetTop?: number
   saveButtonDisabled?: boolean
-  loading?: boolean
   isModal?: boolean
   buttonLabel?: string
   showBottomBar?: boolean
@@ -41,7 +39,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       onSave,
       initialOffsetTop,
       saveButtonDisabled,
-      loading,
       isModal = false,
       buttonLabel,
       showBottomBar = false,
@@ -124,12 +121,11 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
               <HoliButtonLoading
                 inline
                 variant="medium"
-                disabled={loading || saveButtonDisabled}
-                label={loading ? t('global.loading') : label}
+                disabled={saveButtonDisabled}
+                label={label}
+                loadingLabel={t('global.loading')}
                 onPress={onSave}
                 testID={`${testID}-save-btn`}
-                icon={loading ? Loader : undefined}
-                iconSpinning={saveButtonDisabled}
                 style={styles.button}
               >
                 {t('global.save')}

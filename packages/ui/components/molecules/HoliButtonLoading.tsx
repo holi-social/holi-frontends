@@ -1,45 +1,60 @@
-import React from 'react'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import React, { useState } from 'react'
+import { GestureResponderEvent, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
+import { Loader } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface HoliButtonLoadingProps extends HoliButtonProps {
   icon?: HoliIconType
-  iconSpinning?: boolean
-  label: string
-  bold?: boolean
-  disabled?: boolean
-  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
-  style?: StyleProp<ViewStyle>
-  testID?: string
+  loading?: boolean
+  loadingLabel?: string
 }
 
+/** @description
+ * A button that automatically shows a spinning loading indicator and is disabled, while the onPress handler is processed.
+ * The loading state can be extended by passing in a loading property value "true", but it can't be shortened.
+ * When an icon is passed, the icon is shown while not loading and is replaced by the loading indicator during the loading state.
+ */
 const HoliButtonLoading = ({
-  iconSpinning = false,
+  loading = false,
   disabled = false,
   label,
+  loadingLabel,
   onPress,
   testID = 'loader-btn',
-  bold,
   icon,
-  style,
   ...props
 }: React.PropsWithChildren<HoliButtonLoadingProps & HoliButtonProps>) => {
-  return (
-    <HoliButton label={label} disabled={disabled} onPress={onPress} testID={testID} style={style} {...props}>
-      <HoliText bold={bold} style={disabled && styles.textDisabled}>
-        {label}
-      </HoliText>
+  const [isProcessing, setProcessing] = useState(false)
 
-      {!!icon && (
-        <View style={styles.icon} testID={testID + (iconSpinning ? '-processing' : '-idle')}>
-          <SpinningIconContainer spinning={iconSpinning}>
-            <HoliIcon icon={icon} size={16} />
+  const onPressWrapper = async (event: React.SyntheticEvent | GestureResponderEvent) => {
+    if (onPress) {
+      setProcessing(true)
+      try {
+        return await onPress(event)
+      } finally {
+        setProcessing(false)
+      }
+    }
+  }
+
+  const isSpinning = loading || isProcessing
+  const iconToShow = isSpinning ? Loader : icon
+  const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
+
+  return (
+    <HoliButton label={label} disabled={disabled || isSpinning} onPress={onPressWrapper} testID={testID} {...props}>
+      <HoliText style={disabled && styles.textDisabled}>{labelToShow}</HoliText>
+
+      {iconToShow && (
+        <View style={styles.icon} testID={testID + (isSpinning ? '-processing' : '-idle')}>
+          <SpinningIconContainer spinning={isSpinning}>
+            <HoliIcon icon={iconToShow} size={16} />
           </SpinningIconContainer>
         </View>
       )}

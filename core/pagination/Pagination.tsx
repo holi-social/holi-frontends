@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export interface PaginationContextType<T> {
@@ -45,12 +44,9 @@ export function Pagination({
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
 
-  const { loading, data, error, totalResults, fetchNextPage, canFetchMore, isFetchingMore } = usePaginationQuery(
-    query,
-    queryOptions
-  )
+  const { loading, data, error, totalResults, fetchNextPage, canFetchMore } = usePaginationQuery(query, queryOptions)
 
-  const fetchMoreButtonText = isFetchingMore ? t('global.loading') : fetchMoreButtonLabel || t('global.seeMore')
+  const fetchMoreButtonText = fetchMoreButtonLabel || t('global.seeMore')
 
   const contextValue = {
     loading,
@@ -67,15 +63,13 @@ export function Pagination({
         <HoliButtonLoading
           type="primary"
           label={fetchMoreButtonText}
-          disabled={isFetchingMore}
-          icon={isFetchingMore ? Loader : undefined}
-          iconSpinning={isFetchingMore}
+          loadingLabel={t('global.loading')}
           onPress={fetchNextPage}
           testID="btn-fetch-more"
           {...fetchMoreButtonProps}
         />
       ),
-    [fetchMoreButtonProps, fetchMoreButtonText, fetchNextPage, isFetchingMore, loadMoreOnScroll, scrollPlaceholder]
+    [fetchMoreButtonProps, fetchMoreButtonText, fetchNextPage, loadMoreOnScroll, scrollPlaceholder, t]
   )
 
   return (

@@ -11,6 +11,7 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type RecoverPasswordFormProps = {
   onSubmit?: (success: boolean, flow?: RecoveryFlow, email?: string) => void
@@ -21,6 +22,7 @@ export type RecoverPasswordFormProps = {
 const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
 
   const [flow, setFlow] = useState<RecoveryFlow>()
 
@@ -41,9 +43,9 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
   useEffect(() => initializeFlow(), [initializeFlow])
 
   const requestPasswordRecovery = async (payload: UpdateRecoveryFlowWithCodeMethod): Promise<void> => {
-    if (flow && payload?.email) {
+    if (flow) {
       try {
-        await updatePasswordRecoveryFlowEmail(flow, payload.email)
+        await updatePasswordRecoveryFlowEmail(flow, payload?.email ? payload.email : '')
         props.onSubmit?.(true, flow, payload.email)
       } catch (err) {
         handleFormSubmitError(
@@ -57,6 +59,8 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
         )
         props.onSubmit?.(false)
       }
+    } else {
+      openToast(t('auth.forgotPassword.message.submitCode.error'), HoliToastType.ERROR)
     }
   }
 

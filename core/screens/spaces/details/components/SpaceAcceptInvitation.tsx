@@ -8,7 +8,6 @@ import {
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -23,7 +22,7 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
 
   const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
+  const [updateSpaceUserConnection] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
@@ -42,7 +41,7 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
       },
     }
   )
-  const approveConnectionRequest = () => {
+  const approveConnectionRequest = () =>
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
@@ -52,19 +51,15 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
         openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
       },
     })
-  }
 
   return (
     <>
       {isInvited ? (
         <HoliButtonLoading
-          iconSpinning={loading}
-          disabled={loading}
           inline
           variant="small"
           label={t('spaces.invite.btn.accept')}
           onPress={approveConnectionRequest}
-          icon={loading ? Loader : undefined}
         />
       ) : null}
     </>

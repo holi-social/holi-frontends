@@ -10,7 +10,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 // import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -63,7 +63,16 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
     if (!flow) return false
 
     try {
-      await updatePasswordRecoveryFlowCode(flow, code)
+      const {
+        data: {
+          ui: { messages },
+          state,
+        },
+      } = await updatePasswordRecoveryFlowCode(flow, code)
+      if (state === 'sent_email' && messages?.length) {
+        openToast(t('auth.forgotPassword.message.submitCode.error'), HoliToastType.ERROR)
+        setCode('')
+      }
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422 && error.response?.data?.error?.id === 'browser_location_change_required') {
@@ -107,7 +116,7 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
           value={code}
           onChange={setCode}
           placeholder={t('registration.emailVerification.inputPlaceholder')}
-          aria-label={t('registration.emailVerification.inputLabel')}
+          aria-label={t('auth.forgotPassword.inputLabel')}
           maxNoOfCharacters={CODE_MAX_COUNT}
           showCharacterCount
           inputProps={{
@@ -133,7 +142,7 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
         </HoliBox>
 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-          <HoliButton
+          <HoliButtonLoading
             label={t('auth.forgotPassword.message.submitCode')}
             disabled={code.length !== CODE_MAX_COUNT}
             onPress={submitCode}
@@ -141,7 +150,7 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
             testID="btn-submit-code"
           >
             {t('auth.forgotPassword.message.submitCode')}
-          </HoliButton>
+          </HoliButtonLoading>
         </HoliBox>
 
         {/* {isLoaderShown && <HoliLoader />} */}
