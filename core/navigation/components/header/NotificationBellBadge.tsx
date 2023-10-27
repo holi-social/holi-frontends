@@ -10,7 +10,7 @@ export interface NotificationBadgeProps {
   testID?: string
 }
 
-const NotificationBadge = ({
+const NotificationBellBadge = ({
   visible,
   backgroundColor = colors.background10,
   style,
@@ -34,7 +34,7 @@ const NotificationBadge = ({
   )
 }
 
-export default NotificationBadge
+export default NotificationBellBadge
 
 const BADGE_SIZE = 12
 

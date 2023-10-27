@@ -1,120 +1,121 @@
-import { HeadlessService } from '@novu/headless'
+import { ApiService } from '@novu/client'
 import { renderHook, waitFor } from '@testing-library/react-native'
 
 import { NotificationType } from '@holi/core/screens/notifications/components/types'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
 const mockInitializeSession = jest.fn()
-const mockFetchNotifications = jest.fn()
+const mockGetNotificationsList = jest.fn()
+const mockSetAuthorizationToken = jest.fn()
 const mockMarkAllMessagesAsRead = jest.fn()
-
-jest.useFakeTimers()
 
 jest.mock('@holi/core/screens/notifications/config', () => ({
   novuApplicationIdentifier: 'testApplicationIdentifier',
 }))
 
-jest.mock('@novu/headless')
+jest.mock('@novu/client')
 
 describe('useNotifications', () => {
   const subscriberId = 'testSubscriberId'
-  const testSession = {}
 
   beforeEach(() => {
     // @ts-ignore
-    jest.mocked(HeadlessService).mockImplementation(() => {
-      return {
-        initializeSession: mockInitializeSession,
-        fetchNotifications: mockFetchNotifications,
-        markAllMessagesAsRead: mockMarkAllMessagesAsRead,
-      }
-    })
+    jest.mocked(ApiService).mockImplementation(() => ({
+      initializeSession: mockInitializeSession,
+      setAuthorizationToken: mockSetAuthorizationToken,
+      getNotificationsList: mockGetNotificationsList,
+      markAllMessagesAsRead: mockMarkAllMessagesAsRead,
+    }))
   })
 
-  it('should initialize the service with the subscriber id', () => {
-    renderHook(() => useNotifications(subscriberId))
-
-    expect(HeadlessService).toHaveBeenCalledWith(
-      expect.objectContaining({
-        applicationIdentifier: 'testApplicationIdentifier',
-        subscriberId,
-      })
-    )
-  })
-
-  it('should initialize the novu session', () => {
-    renderHook(() => useNotifications(subscriberId))
-
-    expect(mockInitializeSession).toHaveBeenCalled()
-  })
-
-  it('should fetch and return notifications', async () => {
-    const testDate = new Date().toISOString()
+  it('should fetch and return notifications initially', async () => {
     const testNotificationId = 'notificationId'
     const testContent = 'Test content'
-    const testResponse = {
-      data: [
-        {
-          createdAt: testDate,
-          _id: testNotificationId,
-          read: false,
-          content: testContent,
-        },
-      ],
-    }
-    const expectedNotification = {
-      notificationType: NotificationType.CONNECTION_ACCEPTED,
-      created: testDate,
-      id: testNotificationId,
-      owner: expect.any(Object),
-      read: false,
-      options: expect.objectContaining({
-        user: expect.objectContaining({
-          fullName: testContent,
-        }),
-      }),
-    }
-    mockInitializeSession.mockImplementation(({ onSuccess }) => onSuccess(testSession))
-    mockFetchNotifications.mockImplementation(({ onSuccess }) => setTimeout(() => onSuccess(testResponse), 0))
+    const testResponse = { data: [novuMessageFixture(testNotificationId, testContent)] }
+    const expectedNotification = notificationFixture(testNotificationId, testContent)
+
+    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
+    mockGetNotificationsList.mockResolvedValue(testResponse)
+    mockSetAuthorizationToken.mockImplementation(() => ({}))
 
     const { result } = renderHook(() => useNotifications(subscriberId))
 
     expect(result.current.notifications).toEqual([])
 
-    expect(mockFetchNotifications).toHaveBeenCalled()
+    await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
+  })
+
+  it('should refetch notifications', async () => {
+    const TEST_REFETCH_INTERVAL_IN_MILLIS = 100
+
+    const testNotificationId = 'notificationId'
+    const testContent = 'Test content'
+    const newMessage = novuMessageFixture(testNotificationId, testContent)
+    const expectedNotification = notificationFixture(testNotificationId, testContent)
+
+    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
+    mockGetNotificationsList.mockResolvedValueOnce({ data: [] })
+    mockGetNotificationsList.mockResolvedValue({ data: [newMessage] })
+
+    const { result } = renderHook(() => useNotifications(subscriberId, TEST_REFETCH_INTERVAL_IN_MILLIS))
+
+    expect(result.current.notifications).toEqual([])
 
     await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
   })
 
-  it('should expose flag if it is fetching', async () => {
-    mockInitializeSession.mockImplementation(({ onSuccess }) => onSuccess(testSession))
-    mockFetchNotifications.mockImplementation(({ listener }) =>
-      setTimeout(() => {
-        listener({ isFetching: true })
-        setTimeout(() => listener({ isFetching: false }), 0)
-      }, 0)
-    )
+  it('should cleanup the interval timer after unmount', async () => {
+    jest.useFakeTimers()
 
-    const { result } = renderHook(() => useNotifications(subscriberId))
+    const testResponse = { data: [] }
 
-    expect(result.current.isFetching).toBeFalsy()
+    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
+    mockGetNotificationsList.mockResolvedValue(testResponse)
+    mockSetAuthorizationToken.mockImplementation(() => ({}))
 
-    await waitFor(() => expect(result.current.isFetching).toBeTruthy())
-    await waitFor(() => expect(result.current.isFetching).toBeFalsy())
-  })
+    const { unmount } = renderHook(() => useNotifications(subscriberId))
 
-  it('should mark all messages as read', () => {
-    const { result } = renderHook(() => useNotifications(subscriberId))
+    await waitFor(() => expect(jest.getTimerCount()).toStrictEqual(1))
 
-    result.current.markAllNotificationsAsRead()
+    unmount()
 
-    expect(mockMarkAllMessagesAsRead).toHaveBeenCalled()
+    expect(jest.getTimerCount()).toStrictEqual(0)
+
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers()
   })
 
   it('should not initialize the novu service and session without subscriber id', () => {
     renderHook(() => useNotifications())
 
-    expect(HeadlessService).not.toHaveBeenCalled()
+    expect(ApiService).not.toHaveBeenCalled()
     expect(mockInitializeSession).not.toHaveBeenCalled()
   })
 })
+
+const aDate = new Date().toISOString()
+
+function novuMessageFixture(testNotificationId: string, testContent: string) {
+  return {
+    createdAt: aDate,
+    _id: testNotificationId,
+    read: false,
+    content: testContent,
+  }
+}
+
+function notificationFixture(testNotificationId: string, testContent: string) {
+  // todo gregor: map notifications correctly and don't just use a wrong static type
+  return {
+    notificationType: NotificationType.CONNECTION_ACCEPTED,
+    created: aDate,
+    id: testNotificationId,
+    owner: expect.any(Object),
+    read: false,
+    options: expect.objectContaining({
+      user: expect.objectContaining({
+        fullName: testContent,
+      }),
+    }),
+  }
+}

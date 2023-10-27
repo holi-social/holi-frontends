@@ -12,7 +12,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
+import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
@@ -85,7 +85,7 @@ const Spaces = () => {
       headerRight: (props) => (
         <HoliHorizontalRow>
           <CreateSpaceButton onPress={handleCreateSpaceButtonPress} {...props} />
-          <NotificationSearchButtons {...props} />
+          <NotificationAndSearchHeader {...props} />
         </HoliHorizontalRow>
       ),
     })
