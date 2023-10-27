@@ -2,8 +2,7 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { FeatureToggleName, FeatureToggleState, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
-import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -33,9 +32,7 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
   const { t } = useTranslation()
   const name = t(resourceCategoryData.translationKey)
   const isActive = !!resourceCategoryData.path
-  const ftState: FeatureToggleState | undefined = useFeatureToggle(resourceCategoryData.featureToggleName)
-  const ftOff = ftState.status === FeatureToggleStatus.OFF
-  const ftMaintenance = ftState.status === FeatureToggleStatus.MAINTENANCE
+  const { ftOff, ftMaintenance } = useFeatureToggle(resourceCategoryData.featureToggleName)
 
   const onTilePress = useCallback(() => {
     if (isActive) {

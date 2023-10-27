@@ -23,7 +23,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
-import { projectsQuery } from '@holi-apps/donations/queries'
+import { donationProjectsQuery } from '@holi-apps/donations/queries'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -57,7 +57,7 @@ const DonationsAppHome = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
-  const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [projectsQuery] }))
+  const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [donationProjectsQuery] }))
 
   useLayoutEffect(() => {
     const searchButton = (

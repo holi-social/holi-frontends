@@ -40,7 +40,7 @@ const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreIn
   const { user } = useLoggedInUser()
   const identity = user?.identity
   const { displayError } = useErrorHandling()
-  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const { ftLoading, ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
   useEffect(() => {
     if (!ftLoading && ftEnabled) {
