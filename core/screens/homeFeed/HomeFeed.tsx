@@ -21,16 +21,16 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
-import { FeatureToggleStatus, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { projectsQuery } from '@holi-apps/donations/queries'
-import { GoodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+import { donationProjectsQuery } from '@holi-apps/donations/queries'
+import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 
 export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
 
@@ -50,9 +50,15 @@ const HomeFeed = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
-  const { status: ftDonationsStatus } = useFeatureToggle(FeatureToggleName.APPS_DONATIONS)
-  const { status: ftGoodnewsStatus } = useFeatureToggle(FeatureToggleName.APPS_GOODNEWS)
-  const { status: ftVolunteeringStatus } = useFeatureToggle(FeatureToggleName.APPS_VOLUNTEERING)
+  const { ftEnabled: ftEnabledDonations, ftPreview: ftPreviewDonations } = useFeatureToggle(
+    FeatureToggleName.APPS_DONATIONS
+  )
+  const { ftEnabled: ftEnabledGoodnews, ftPreview: ftPreviewGoodnews } = useFeatureToggle(
+    FeatureToggleName.APPS_GOODNEWS
+  )
+  const { ftEnabled: ftEnabledVolunteering, ftPreview: ftPreviewVolunteering } = useFeatureToggle(
+    FeatureToggleName.APPS_VOLUNTEERING
+  )
 
   // TODO: when SSR is enabled we need to lazy load the header
   // because it can only be rendered on the client.
@@ -83,15 +89,9 @@ const HomeFeed = () => {
     client.refetchQueries({
       include: [
         lastInsightsQuery,
-        ftDonationsStatus === FeatureToggleStatus.PRODUCTION || ftDonationsStatus === FeatureToggleStatus.PREVIEW
-          ? projectsQuery
-          : undefined,
-        ftGoodnewsStatus === FeatureToggleStatus.PRODUCTION || ftGoodnewsStatus === FeatureToggleStatus.PREVIEW
-          ? GoodNewsArticlesQuery
-          : undefined,
-        ftVolunteeringStatus === FeatureToggleStatus.PRODUCTION || ftVolunteeringStatus === FeatureToggleStatus.PREVIEW
-          ? VolunteeringEngagementsQuery
-          : undefined,
+        ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
+        ftEnabledGoodnews || ftPreviewGoodnews ? goodNewsArticlesQuery : undefined,
+        ftEnabledVolunteering || ftPreviewVolunteering ? volunteeringEngagementsQuery : undefined,
         isLoggedIn ? userSuggestionsQuery : undefined,
       ].filter((q) => q !== undefined) as DocumentNode[],
     })

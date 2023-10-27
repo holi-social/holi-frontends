@@ -4,7 +4,6 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
-import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import { Zzz } from '@holi/icons/src/generated'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
@@ -29,9 +28,7 @@ const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardPro
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { loading: ftLoading, status } = useFeatureToggle(toggleName)
-  const ftOff = status === FeatureToggleStatus.OFF
-  const ftMaintenance = status === FeatureToggleStatus.MAINTENANCE
+  const { ftLoading, ftOff, ftMaintenance } = useFeatureToggle(toggleName)
 
   if (ftLoading) {
     const content = (

@@ -12,7 +12,6 @@ import NotificationSearchButtons from '@holi/core/navigation/components/Notifica
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
-import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -26,8 +25,7 @@ const ChatHome = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const { loading: ftLoading, enabled: ftEnabled, status } = useFeatureToggle(FeatureToggleName.CHAT)
-  const ftMaintenance = status === FeatureToggleStatus.MAINTENANCE
+  const { ftLoading, ftEnabled, ftMaintenance } = useFeatureToggle(FeatureToggleName.CHAT)
 
   useToastForNotAvailableFeature(!ftLoading && !ftEnabled && !ftMaintenance)
 
