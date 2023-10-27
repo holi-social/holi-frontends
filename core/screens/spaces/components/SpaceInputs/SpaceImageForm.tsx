@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
     }),
   },
   uploadButtonContainer: {
+    flex: 1,
     ...Platform.select({
       web: {
         flexDirection: 'row',
