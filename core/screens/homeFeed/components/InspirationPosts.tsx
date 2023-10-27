@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import InspirationPostsList from '@holi/core/screens/homeFeed/components/InspirationPostsList'
@@ -13,6 +14,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export const POSTS_PAGE_SIZE = 4
 
 const InspirationPosts = () => {
+  const { ftEnabled } = useFeatureToggle(FeatureToggleName.FEED_DAILY_INSPIRATION)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const mixins = useStyleMixins()
@@ -27,6 +29,8 @@ const InspirationPosts = () => {
     },
     fetchPolicy: 'cache-first',
   }
+
+  if (!ftEnabled) return <></>
 
   return (
     <View style={mixins.container}>

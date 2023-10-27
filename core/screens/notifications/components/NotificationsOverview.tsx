@@ -30,8 +30,8 @@ const NotificationsOverview = () => {
   const { isLoggedIn, user } = useLoggedInUser()
   const { navigate } = useRouting()
 
-  const { enabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
-  const { notifications: novuNotifications } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
+  const { ftEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
+  const { notifications: novuNotifications } = useNotifications(ftEnabled ? user?.id : undefined)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,

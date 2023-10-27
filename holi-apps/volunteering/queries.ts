@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { VolunteeringEngagement } from './types'
 
-export const FullEngagementFragment = gql`
+export const fullEngagementFragment = gql`
   fragment FullEngagement on AppVolunteering_Engagement {
     id
     title
@@ -28,8 +28,8 @@ export type VolunteeringEngagementsQueryResponse = {
   }
 }
 
-export const VolunteeringEngagementsQuery = gql`
-  ${FullEngagementFragment}
+export const volunteeringEngagementsQuery = gql`
+  ${fullEngagementFragment}
 
   query VolunteeringEngagements(
     $location: AppVolunteering_GeoJSON
@@ -47,7 +47,7 @@ export const VolunteeringEngagementsQuery = gql`
 `
 
 export const engagementByIdQuery = gql`
-  ${FullEngagementFragment}
+  ${fullEngagementFragment}
 
   query EngagementById($id: String!) {
     appVolunteering_engagement(id: $id) {
@@ -67,7 +67,7 @@ export const trackEngagementViewMutation = gql`
   }
 `
 
-export const VolunteeringCategoriesQuery = gql`
+export const volunteeringCategoriesQuery = gql`
   query VolunteeringCategories {
     appVolunteering_categories {
       data {

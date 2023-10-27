@@ -28,7 +28,7 @@ import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
-import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/volunteering/types'
 
@@ -60,7 +60,7 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
     totalResults,
     fetchNextPage,
     canFetchMore,
-  } = usePaginationQuery<VolunteeringEngagement>(VolunteeringEngagementsQuery, {
+  } = usePaginationQuery<VolunteeringEngagement>(volunteeringEngagementsQuery, {
     queryPath: 'appVolunteering_engagementOpportunities',
     pageSize: ENGAGEMENT_PAGE_SIZE,
     variables: {

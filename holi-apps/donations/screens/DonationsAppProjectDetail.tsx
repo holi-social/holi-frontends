@@ -28,7 +28,7 @@ import DonationImage from '@holi-apps/donations/components/DonationImage'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationNews from '@holi-apps/donations/components/DonationNews'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
-import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
+import { AppDonationsProjectByIdResponse, donationProjectByIdQuery } from '@holi-apps/donations/queries'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -48,7 +48,7 @@ const DonationsAppProjectDetail = () => {
 
   const { windowHeight, imageWidth } = useWindowDimensionsWithImageScaling()
 
-  const { loading, data, refetch } = useQuery<AppDonationsProjectByIdResponse>(projectByIdQuery, {
+  const { loading, data, refetch } = useQuery<AppDonationsProjectByIdResponse>(donationProjectByIdQuery, {
     variables: {
       id: Number(projectId),
     },

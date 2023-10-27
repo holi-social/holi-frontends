@@ -12,7 +12,7 @@ import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList
 import { HandHeart } from '@holi/icons/src/generated'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
-import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
+import { AppDonationsProjectsResponse, donationProjectsQuery } from '@holi-apps/donations/queries'
 import { Project } from '@holi-apps/donations/typings'
 
 export const PROJECT_PAGE_SIZE = 5
@@ -26,7 +26,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
+  const { data, loading } = useQuery<AppDonationsProjectsResponse>(donationProjectsQuery, {
     variables: {
       limit: PROJECT_PAGE_SIZE,
       offset: 0,
