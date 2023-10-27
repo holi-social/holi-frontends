@@ -15,9 +15,9 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { colors } from '@holi/ui/styles/globalVars'
 
 import {
-  GoodNewsArticlesQuery,
   GoodNewsArticlesQueryArgs,
   GoodNewsArticlesQueryResponse,
+  goodNewsArticlesQuery,
 } from '@holi-apps/goodnews/queries'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
@@ -42,7 +42,7 @@ const GoodNewsCarousel = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
-    GoodNewsArticlesQuery,
+    goodNewsArticlesQuery,
     {
       variables: {
         lastDate: undefined,

@@ -30,7 +30,7 @@ const NotificationsOverview = () => {
   const { isLoggedIn, user } = useLoggedInUser()
   const { navigate } = useRouting()
 
-  const { enabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
+  const { ftEnabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
   const {
     notifications: novuNotifications,
     isLoading: loadingNovuNotifications,

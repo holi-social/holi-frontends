@@ -11,7 +11,7 @@ import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
 import { Hearts } from '@holi/icons/src/generated'
 
-import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
+import { VolunteeringEngagementsQueryResponse, volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 export const ENGAGEMENT_PAGE_SIZE = 5
@@ -25,7 +25,7 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, loading } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
+  const { data, loading } = useQuery<VolunteeringEngagementsQueryResponse>(volunteeringEngagementsQuery, {
     variables: {
       offset: 0,
       limit: ENGAGEMENT_PAGE_SIZE,

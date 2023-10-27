@@ -12,7 +12,7 @@ import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
 import { Newspaper } from '@holi/icons/src/generated'
 
-import { GoodNewsArticlesQuery, GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
+import { GoodNewsArticlesQueryResponse, goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 export const GOOD_NEWS_PAGE_SIZE = 5
@@ -26,7 +26,7 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, loading } = useQuery<GoodNewsArticlesQueryResponse>(GoodNewsArticlesQuery, {
+  const { data, loading } = useQuery<GoodNewsArticlesQueryResponse>(goodNewsArticlesQuery, {
     fetchPolicy: 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load good news articles', {

@@ -11,6 +11,7 @@ export enum FeatureToggleName {
   APPS_GOODNEWS = 'APPS_GOODNEWS',
   APPS_VOLUNTEERING = 'APPS_VOLUNTEERING',
   NOTIFICATIONS = 'NOTIFICATIONS',
+  FEED_DAILY_INSPIRATION = 'FEED_DAILY_INSPIRATION',
 }
 
 export type FeatureToggleState = {
@@ -34,9 +35,12 @@ export const useFeatureToggle = (name?: FeatureToggleName) => {
   const status = data?.featureToggles.find((toggle) => toggle.name === name)?.status
 
   return {
-    loading,
-    error,
-    status: status,
-    enabled: loading ? undefined : status === FeatureToggleStatus.PRODUCTION,
+    ftLoading: loading,
+    ftError: error,
+    ftStatus: status,
+    ftEnabled: loading ? undefined : status === FeatureToggleStatus.PRODUCTION,
+    ftMaintenance: loading ? undefined : status === FeatureToggleStatus.MAINTENANCE,
+    ftPreview: loading ? undefined : status === FeatureToggleStatus.PREVIEW,
+    ftOff: loading ? undefined : status === FeatureToggleStatus.OFF,
   }
 }

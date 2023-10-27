@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { GoodNewsArticle } from './types'
 
-export const FullArticleFragment = gql`
+export const fullArticleFragment = gql`
   fragment FullArticle on AppGoodNews_GoodNewsArticle {
     id
     date
@@ -29,8 +29,8 @@ export type GoodNewsArticlesQueryResponse = {
   }
 }
 
-export const GoodNewsArticlesQuery = gql`
-  ${FullArticleFragment}
+export const goodNewsArticlesQuery = gql`
+  ${fullArticleFragment}
 
   query GoodNewsArticles($lastDate: String) {
     appGoodNews_articles(lastDate: $lastDate) {
