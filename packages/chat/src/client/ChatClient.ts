@@ -209,7 +209,21 @@ export default class ChatClient {
 
   public getRoomsWithSharedData = (): Promise<RoomWithSharedData[]> => {
     const rooms = this.getRooms()
-    return Promise.all(rooms.map((room) => this.getRoomWithSharedData(room)))
+
+    // we get from Matrix store alredy deleted rooms
+    // we use `reduce` to filter out deleted rooms, that fails to fetch shared data
+    return rooms.reduce<Promise<RoomWithSharedData[]>>(async (accPromise, room) => {
+      const acc = await accPromise
+
+      try {
+        const roomWithSharedData = await this.getRoomWithSharedData(room)
+        acc.push(roomWithSharedData)
+      } catch (err) {
+        console.debug('Error getting room shared data', err)
+      }
+
+      return acc
+    }, Promise.resolve([]))
   }
 
   public getRoomSharedData = async (roomId: string): Promise<SharedDataContent> => {
