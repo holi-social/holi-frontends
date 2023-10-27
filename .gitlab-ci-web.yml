@@ -1,5 +1,5 @@
 variables:
-  UI_DOMAIN_PATH: "$CI_PROJECT_DIR/ui_domain"
+  UI_DOMAIN_PATH: '$CI_PROJECT_DIR/ui_domain'
 
 default:
   before_script:
@@ -12,17 +12,17 @@ default:
   image: 
     name: 'hashicorp/terraform:1.6.1'
     # default entrypoint is terraform command, but we want to run shell scripts
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
   variables:
     ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
-      - "terraform/environments/web/scripts/crash.log" # optional, only available in case of a crash/panic
-      - "terraform/environments/web/scripts/terraform-*.log" # separate log for every step/command
+      - 'terraform/environments/web/scripts/crash.log' # optional, only available in case of a crash/panic
+      - 'terraform/environments/web/scripts/terraform-*.log' # separate log for every step/command
       - $UI_DOMAIN_PATH
-    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
+    name: '${CI_JOB_NAME}_${CI_JOB_ID}'
     when: always
     expire_in: 1 month
   script:
@@ -34,7 +34,7 @@ default:
 
 .web_e2e:
   image: 'mcr.microsoft.com/playwright:v1.38.1-focal'
-  dependencies: [ ] # explicitly disable artifact usage
+  dependencies: [] # explicitly disable artifact usage
   artifacts:
     name: 'web e2e test report'
     expose_as: 'web e2e test report'
@@ -98,7 +98,7 @@ storybook_publish:
     changes:
       - apps/storybook/*
       - packages/ui/*
-      - "**/*.stories.tsx"
+      - '**/*.stories.tsx'
 
 web_build_docker:
   needs: ['web_build']
@@ -112,7 +112,7 @@ web_build_docker:
     # this could be fetched via terraform output ("gcr_location" in infra project), but then we would need an extra job for terraform
     GCR_IMAGE: europe-north1-docker.pkg.dev/holi-shared/docker/holi-frontends-web
     # https://about.gitlab.com/blog/2019/07/31/docker-in-docker-with-docker-19-dot-03/
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   before_script:
     - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://europe-north1-docker.pkg.dev
   script:
@@ -158,7 +158,7 @@ web_review_destroy:
   image:
     name: 'hashicorp/terraform:1.6.1'
     # default entrypoint is terraform command, but we want to run shell scripts
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
   variables:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
@@ -221,4 +221,4 @@ web_production_deploy:
     ENVIRONMENT_ID: production
   only:
     - production
-
+  when: manual
