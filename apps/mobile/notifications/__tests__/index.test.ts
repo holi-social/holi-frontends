@@ -89,7 +89,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification on Android', () => {
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
-        notification_type: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: JSON.stringify({
           space: { name: 'space1' },
           user: { id: '123' },
@@ -102,7 +102,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification on iOS', () => {
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
-        notification_type: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: {
           space: { name: 'space1' },
           user: { id: '123' },
@@ -115,7 +115,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification if user id is missing on Android', () => {
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
-        notification_type: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: JSON.stringify({
           space: { name: 'space1' },
         }),
@@ -127,7 +127,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification if user id is missing on iOS', () => {
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
-        notification_type: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: {
           space: { name: 'space1' },
         },
@@ -139,7 +139,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should not create url for space membership request notification if space name is missing on Android', () => {
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
-        notification_type: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
       })
     )
     expect(url).toBeFalsy()
@@ -148,7 +148,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should not create url for space membership request notification if space name is missing on iOS', () => {
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
-        notification_type: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
       })
     )
     expect(url).toBeFalsy()
