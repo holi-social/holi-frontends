@@ -2,7 +2,7 @@ import { ApiService } from '@novu/client'
 import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { logError } from '@holi/core/errors/helpers'
+import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { Notification, NotificationType } from '@holi/core/screens/notifications/components/types'
 import { novuApplicationIdentifier, novuBackendUrl } from '@holi/core/screens/notifications/config'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
@@ -38,19 +38,22 @@ export const useNotifications = (
     [shouldRerender]
   )
 
-  const fetchMessages = useCallback(() => {
-    const novu = novuServiceRef.current
-    if (novu) {
-      return novu
-        .getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH)
-        .then(processMessagesResponse)
-        .catch((error) =>
-          logError(error, 'Error fetching notifications from novu', {
-            location: 'useNotifications.fetchMessages',
-          })
-        )
-    }
-  }, [processMessagesResponse])
+  const fetchMessages = useCallback(
+    (logFunction = logError) => {
+      const novu = novuServiceRef.current
+      if (novu) {
+        return novu
+          .getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH)
+          .then(processMessagesResponse)
+          .catch((error) =>
+            logFunction(error, 'Error fetching notifications from novu', {
+              location: 'useNotifications.fetchMessages',
+            })
+          )
+      }
+    },
+    [processMessagesResponse]
+  )
 
   const markAllNotificationsAsSeen = useCallback(async () => {
     const novu = novuServiceRef.current
@@ -72,7 +75,8 @@ export const useNotifications = (
       // @ts-ignore
       // return type inference for setInterval is wrong in Pycharm Pro
       fetchIntervalId = setInterval(() => {
-        fetchMessages()
+        // Only log errors locally without sending sentry reports
+        fetchMessages(logErrorLocal)
       }, refetchInterval)
     }
 
