@@ -8,7 +8,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
+import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
@@ -43,7 +43,7 @@ const ChatHome = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: (props) => <NotificationSearchButtons {...props} />,
+      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
   }, [navigate, setScreenOptions, t, title])
   if (ftLoading) {

@@ -31,7 +31,7 @@ const NotificationsOverview = () => {
   const { navigate } = useRouting()
 
   const { enabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
-  const { notifications } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
+  const { notifications: novuNotifications } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -78,7 +78,7 @@ const NotificationsOverview = () => {
 
   if (!containsNotifications(data?.notifications?.data)) return <NotificationsEmptyPlaceholder />
 
-  const allNotifications = [...(data?.notifications?.data ?? []), ...notifications]
+  const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications.values()]
 
   const groupedNotifications = groupByDate(allNotifications)
 

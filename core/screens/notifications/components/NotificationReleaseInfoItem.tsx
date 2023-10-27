@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
-import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
+import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import { NotificationProps, NotificationReleaseInfo } from '@holi/core/screens/notifications/components/types'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -42,7 +42,7 @@ const NotificationReleaseInfoItem: React.VFC<NotificationProps<NotificationRelea
             </HoliText>
           </View>
 
-          <NotificationBadge visible={!read} backgroundColor={colors.background30} style={styles.readStatus} />
+          <NotificationBellBadge visible={!read} backgroundColor={colors.background30} style={styles.readStatus} />
         </View>
       </HoliLink>
     </View>

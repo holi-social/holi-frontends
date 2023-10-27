@@ -12,7 +12,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
+import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
@@ -75,7 +75,7 @@ const HomeFeed = () => {
           />
         </HoliButton>
       ),
-      headerRight: (props) => <NotificationSearchButtons {...props} />,
+      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
   }, [navigate, t, headerTitle, setScreenOptions])
 
