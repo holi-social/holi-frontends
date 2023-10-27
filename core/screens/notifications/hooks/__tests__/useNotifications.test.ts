@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ApiService } from '@novu/client'
 import { renderHook, waitFor } from '@testing-library/react-native'
 
@@ -7,7 +8,9 @@ import { useNotifications } from '@holi/core/screens/notifications/hooks/useNoti
 const mockInitializeSession = jest.fn()
 const mockGetNotificationsList = jest.fn()
 const mockSetAuthorizationToken = jest.fn()
-const mockMarkAllMessagesAsRead = jest.fn()
+const mockMarkAllMessagesAsSeen = jest.fn()
+
+jest.useFakeTimers()
 
 jest.mock('@holi/core/screens/notifications/config', () => ({
   novuApplicationIdentifier: 'testApplicationIdentifier',
@@ -15,28 +18,34 @@ jest.mock('@holi/core/screens/notifications/config', () => ({
 
 jest.mock('@novu/client')
 
+const mockConsoleWarn = jest.fn()
+global.console.warn = mockConsoleWarn
+
+const TEST_REFETCH_INTERVAL_IN_MILLIS = 100
+
 describe('useNotifications', () => {
   const subscriberId = 'testSubscriberId'
+  const testNotificationId = 'notificationId'
+  const testContent = 'Test content'
+  const novuMessage = novuMessageFixture(testNotificationId, testContent)
+  const expectedNotification = notificationFixture(testNotificationId, testContent)
+  const testResponse = { data: [novuMessage] }
+  const emptyTestResponse = { data: [] }
+  const testError = new Error('test')
 
   beforeEach(() => {
+    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
     // @ts-ignore
     jest.mocked(ApiService).mockImplementation(() => ({
       initializeSession: mockInitializeSession,
       setAuthorizationToken: mockSetAuthorizationToken,
       getNotificationsList: mockGetNotificationsList,
-      markAllMessagesAsRead: mockMarkAllMessagesAsRead,
+      markAllMessagesAsSeen: mockMarkAllMessagesAsSeen,
     }))
   })
 
   it('should fetch and return notifications initially', async () => {
-    const testNotificationId = 'notificationId'
-    const testContent = 'Test content'
-    const testResponse = { data: [novuMessageFixture(testNotificationId, testContent)] }
-    const expectedNotification = notificationFixture(testNotificationId, testContent)
-
-    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
     mockGetNotificationsList.mockResolvedValue(testResponse)
-    mockSetAuthorizationToken.mockImplementation(() => ({}))
 
     const { result } = renderHook(() => useNotifications(subscriberId))
 
@@ -45,17 +54,35 @@ describe('useNotifications', () => {
     await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
   })
 
+  it('should expose loading flag while initializing', async () => {
+    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
+
+    const { result } = renderHook(() => useNotifications(subscriberId))
+
+    expect(result.current.isLoading).toBeTruthy()
+
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+  })
+
+  it('should handle error when fetching notifications failed', async () => {
+    mockGetNotificationsList.mockRejectedValue(testError)
+
+    const { result } = renderHook(() => useNotifications(subscriberId))
+
+    expect(result.current.isLoading).toBeTruthy()
+
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+    expect(result.current.notifications).toEqual([])
+    expect(console.warn).toHaveBeenCalledWith(
+      '[useNotifications.fetchMessages] Error fetching notifications from novu',
+      testError,
+      {}
+    )
+  })
+
   it('should refetch notifications', async () => {
-    const TEST_REFETCH_INTERVAL_IN_MILLIS = 100
-
-    const testNotificationId = 'notificationId'
-    const testContent = 'Test content'
-    const newMessage = novuMessageFixture(testNotificationId, testContent)
-    const expectedNotification = notificationFixture(testNotificationId, testContent)
-
-    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
-    mockGetNotificationsList.mockResolvedValueOnce({ data: [] })
-    mockGetNotificationsList.mockResolvedValue({ data: [newMessage] })
+    mockGetNotificationsList.mockResolvedValueOnce(emptyTestResponse)
+    mockGetNotificationsList.mockResolvedValue(testResponse)
 
     const { result } = renderHook(() => useNotifications(subscriberId, TEST_REFETCH_INTERVAL_IN_MILLIS))
 
@@ -64,14 +91,29 @@ describe('useNotifications', () => {
     await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
   })
 
-  it('should cleanup the interval timer after unmount', async () => {
-    jest.useFakeTimers()
-
-    const testResponse = { data: [] }
-
-    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
+  it('should handle errors when refetching notifications', async () => {
+    // initial fetch
+    mockGetNotificationsList.mockResolvedValueOnce(emptyTestResponse)
+    // failed refetch
+    mockGetNotificationsList.mockRejectedValueOnce(testError)
+    // successful refetch to wait for
     mockGetNotificationsList.mockResolvedValue(testResponse)
-    mockSetAuthorizationToken.mockImplementation(() => ({}))
+
+    const { result } = renderHook(() => useNotifications(subscriberId, TEST_REFETCH_INTERVAL_IN_MILLIS))
+
+    expect(result.current.notifications).toEqual([])
+
+    await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
+
+    expect(console.warn).toHaveBeenCalledWith(
+      '[useNotifications.fetchMessages] Error fetching notifications from novu',
+      testError,
+      {}
+    )
+  })
+
+  it('should cleanup the interval timer after unmount', async () => {
+    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
 
     const { unmount } = renderHook(() => useNotifications(subscriberId))
 
@@ -82,14 +124,42 @@ describe('useNotifications', () => {
     expect(jest.getTimerCount()).toStrictEqual(0)
 
     jest.runOnlyPendingTimers()
-    jest.useRealTimers()
   })
 
   it('should not initialize the novu service and session without subscriber id', () => {
-    renderHook(() => useNotifications())
+    const { result } = renderHook(() => useNotifications())
 
     expect(ApiService).not.toHaveBeenCalled()
     expect(mockInitializeSession).not.toHaveBeenCalled()
+    expect(result.current.isLoading).toBeFalsy()
+  })
+
+  it('should mark all messages as seen', async () => {
+    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
+    mockMarkAllMessagesAsSeen.mockResolvedValue(undefined)
+    const { result } = renderHook(() => useNotifications(subscriberId))
+
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+
+    await result.current.markAllNotificationsAsSeen()
+
+    expect(mockMarkAllMessagesAsSeen).toHaveBeenCalled()
+  })
+
+  it('should handle error when marking messages as seen failed', async () => {
+    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
+    mockMarkAllMessagesAsSeen.mockRejectedValue(testError)
+    const { result } = renderHook(() => useNotifications(subscriberId))
+
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+
+    await result.current.markAllNotificationsAsSeen()
+
+    expect(console.warn).toHaveBeenCalledWith(
+      '[useNotifications.markAllNotificationsAsSeen] Error marking novu notifications as seen',
+      testError,
+      {}
+    )
   })
 })
 

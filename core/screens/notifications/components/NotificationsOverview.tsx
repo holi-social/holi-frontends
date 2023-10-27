@@ -30,8 +30,12 @@ const NotificationsOverview = () => {
   const { isLoggedIn, user } = useLoggedInUser()
   const { navigate } = useRouting()
 
-  const { ftEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
-  const { notifications: novuNotifications } = useNotifications(ftEnabled ? user?.id : undefined)
+  const { ftEnabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
+  const {
+    notifications: novuNotifications,
+    isLoading: loadingNovuNotifications,
+    markAllNotificationsAsSeen,
+  } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
@@ -63,7 +67,14 @@ const NotificationsOverview = () => {
     }
   }, [data, reportLastSeenNotification])
 
-  if (loading || notificationsQueryError) return <HoliLoader style={{ height: 300 }} testID="loader" />
+  useEffect(() => {
+    if (novuNotifications.length > 0) {
+      markAllNotificationsAsSeen()
+    }
+  }, [markAllNotificationsAsSeen, novuNotifications])
+
+  if (loading || loadingNovuNotifications || notificationsQueryError)
+    return <HoliLoader style={{ height: 300 }} testID="loader" />
 
   if (!isLoggedIn) {
     return (
