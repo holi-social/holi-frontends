@@ -1,12 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -24,32 +28,50 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
   preview,
 }: SpaceTaskListProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
+
+  const navigateToTasks = () => navigate(`/spaces/${space.name}/tasks`)
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
-    [+vars.breakpointM, 2],
-    [+vars.breakpointL, 3],
+    [+vars.breakpointS, 2],
+    [+vars.breakpointM, 3],
     [+vars.breakpointXxl, 4],
   ])
 
-  const tasks = preview ? space?.tasks?.slice(-2) : space?.tasks
+  const tasks = preview ? space?.tasks?.slice(-itemsInRow) : space?.tasks
 
   return (
     <>
       {space?.tasks?.length ? (
-        <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
-          {(tasks || []).map((task) => (
-            <HoliGridCell key={task.id}>
-              <SpaceTaskTile
-                task={task}
-                showFullView={false}
-                isAdmin={isAdmin}
-                space={space}
-                isCollaborator={isCollaborator}
-              />
-            </HoliGridCell>
-          ))}
-        </HoliGridWrapper>
+        <>
+          <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+            {(tasks || []).map((task) => (
+              <HoliGridCell key={task.id}>
+                <SpaceTaskTile
+                  task={task}
+                  showFullView={false}
+                  isAdmin={isAdmin}
+                  space={space}
+                  isCollaborator={isCollaborator}
+                />
+              </HoliGridCell>
+            ))}
+          </HoliGridWrapper>
+          {preview && space.tasks?.length > itemsInRow && (
+            <View style={styles.seeAllButtonContainer}>
+              <HoliButton
+                label={t('spaces.spaceDetails.tasks.seeAllButton.label')}
+                onPress={() => navigateToTasks()}
+                style={styles.seeAllButton}
+                inline
+                type="secondary"
+              >
+                <HoliText>{t('spaces.spaceDetails.tasks.seeAllButton.label')}</HoliText>
+              </HoliButton>
+            </View>
+          )}
+        </>
       ) : (
         <HoliNoResults
           firstText={t('spaces.spaceDetails.tasks.empty.title.forNonMembers')}
@@ -68,5 +90,18 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  seeAllButtonContainer: {
+    alignItems: 'center',
+  },
+  seeAllButton: {
+    bottom: 0,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    marginTop: 16,
+    marginBottom: 8,
+  },
+})
 
 export default SpaceTaskList
