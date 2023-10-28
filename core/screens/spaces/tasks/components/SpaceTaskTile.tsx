@@ -125,7 +125,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             {task.name}
           </HoliText>
         </HoliButton>
-        {(isAdmin || isTaskOwner) && (
+        {(isAdmin || isTaskOwner) && !showFullView && (
           <HoliActionDrawer.Drawer
             label={t('global.moreOptions')}
             testID="btn-task-more-options"

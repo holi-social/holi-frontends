@@ -29,7 +29,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             undefined,
             {
               "padding": 8,
-              "width": "100%",
+              "width": "50%",
             },
           ]
         }
@@ -851,7 +851,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             undefined,
             {
               "padding": 8,
-              "width": "100%",
+              "width": "50%",
             },
           ]
         }

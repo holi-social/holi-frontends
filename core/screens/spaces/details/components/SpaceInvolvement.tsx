@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
@@ -15,7 +14,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface SpaceInvolvementProps {
@@ -24,13 +22,10 @@ interface SpaceInvolvementProps {
 }
 
 const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => {
-  const { navigate } = useRouting()
   const { t } = useTranslation()
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
-
-  const navigateToTasks = () => navigate(`/spaces/${space.name}/tasks`)
 
   return (
     <>
@@ -58,19 +53,6 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
               />
             )}
             <SpaceTaskList isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} preview />
-            {space.tasks && space.tasks.length > 2 && (
-              <View style={styles.seeAllButtonContainer}>
-                <HoliButton
-                  label={t('spaces.spaceDetails.tasks.seeAllButton.label')}
-                  onPress={() => navigateToTasks()}
-                  style={styles.seeAllButton}
-                  inline
-                  type="secondary"
-                >
-                  <HoliText>{t('spaces.spaceDetails.tasks.seeAllButton.label')}</HoliText>
-                </HoliButton>
-              </View>
-            )}
           </>
         )}
         {isCollaborator && <NewToolsTeaser />}
