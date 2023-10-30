@@ -293,7 +293,19 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   )
   // ask for async shared data for space related rooms and update atoms
   client.getRoomsWithSharedData().then(async (rooms) => {
-    addRoomToStore(RoomAtomsActionType.CREATE, rooms, 'init')
+    const [roomsJoined, roomsLeft] = rooms.reduce<[RoomWithSharedData[], RoomWithSharedData[]]>(
+      ([joined, left], room) => {
+        const myMembership = room.room.getMyMembership()
+        if (['leave', 'ban', 'block'].some((membership) => membership === myMembership)) {
+          return [joined, [...left, room]]
+        } else {
+          return [[...joined, room], left]
+        }
+      },
+      [[], []]
+    )
+    addRoomToStore(RoomAtomsActionType.CREATE, roomsJoined, 'init')
+    roomsLeft.forEach(({ room }) => deleteRoomFromStore(room.roomId))
 
     rooms.forEach(async (roomWithSharedData) => {
       // automatically accept general space room invitations
@@ -727,6 +739,7 @@ _myMembershipSubscriberAtom.onMount = (setAtom) => {
 const _membershipSubscriberAtom = atom(
   null,
   async (_get, set, event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+    // console.info('*-*-*-*-*-*-', event, roomState)
     const client = getChatClient()
 
     // If the creator of the room is the last one we forget (delete) entirely the room
@@ -817,10 +830,10 @@ export interface MemberEventOptions {
 }
 
 export const leaveRoomUpdate = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, options: MemberEventOptions) => {
-  const { event, roomState, member } = options
+  const { roomState, member } = options
 
   if (member.membership !== 'leave') return
-  if (event.getSender() !== member.userId) return
+  // if (event.getSender() !== member.userId) return
 
   delete roomAtomsRecord[roomState.roomId]
 })
