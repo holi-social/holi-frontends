@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 
 type SpaceWelcomeProps = {
   space: Space
@@ -20,9 +20,12 @@ const SpaceWelcome: React.VFC<SpaceWelcomeProps> = ({ space, style }) => {
       <HoliHeading level="2" style={styles.headline}>
         {t('spaces.spaceDetails.goal')}
       </HoliHeading>
-      <HoliText style={styles.description} testID="space-description">
-        {space.description}
-      </HoliText>
+      <HoliRichTextOutput
+        text={space.description}
+        style={styles.description}
+        allowAllLinks
+        testID="space-description"
+      />
     </View>
   )
 }
