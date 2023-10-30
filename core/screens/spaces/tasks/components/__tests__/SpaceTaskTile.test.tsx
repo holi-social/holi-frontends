@@ -8,14 +8,14 @@ import { Space } from '@holi/core/screens/spaces/types'
 
 describe('SpaceTaskTile', () => {
   it('renders correctly', () => {
-    const { getByText, getAllByRole } = render(
+    const { getByTestId, getByText, getAllByRole } = render(
       <MockedProvider>
         <SpaceTaskTile task={task} isAdmin={false} space={{} as Space} />
       </MockedProvider>
     )
 
     expect(getByText('Task title')).toBeDefined()
-    expect(getByText('Task description')).toBeDefined()
+    expect(getByTestId('task-description')).toHaveTextContent('Task description')
     expect(getByText('Hamburg, Germany')).toBeDefined()
     expect(getByText('Communication skills')).toBeDefined()
     expect(getByText('Creativity')).toBeDefined()
