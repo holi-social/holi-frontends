@@ -31,6 +31,8 @@ const NotificationWithSpaceAvatar = ({
   const { id, title } = notification.options.space
   href = href || `/spaces/${id}`
 
+  const message = notification.options.message ?? notification.options.requestMessage
+
   return (
     <View style={style} testID={testID}>
       <HoliLink href={href} label={title} mobileNavigateBackFirst>
@@ -50,9 +52,9 @@ const NotificationWithSpaceAvatar = ({
                 <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
                   {getRelativeDateString(created, i18n.language)}
                 </HoliText>
-                {notification.options.message && (
+                {message && (
                   <HoliText size="small" style={[styles.fontColorGray, styles.message]}>
-                    {notification.options.message}
+                    {message}
                   </HoliText>
                 )}
               </>

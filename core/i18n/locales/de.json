@@ -253,7 +253,7 @@
   "notifications.connection.accept": "Akzeptieren",
   "notifications.connection.accepted.message": "Du hast die Kontaktanfrage von <0>{{name}}</0> akzeptiert",
   "notifications.connection.confirmation.message": "<0>{{name}}</0> hat deine Kontaktanfrage akzeptiert",
-  "notifications.connection.ignore": "Ignorieren",
+  "notifications.connection.ignore": "Ablehnen",
   "notifications.connection.ignored.message": "Du hast die Kontaktanfrage von <0>{{name}}</0> ignoriert",
   "notifications.connection.message": "<0>{{name}}</0> möchte sich mit dir verbinden",
   "notifications.created.lastWeek": "Letzte Woche",
