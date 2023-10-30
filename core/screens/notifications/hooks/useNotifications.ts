@@ -1,23 +1,19 @@
-import { ApiService } from '@novu/client'
 import { IMessage, IPaginatedResponse } from '@novu/shared'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { Notification, NotificationType } from '@holi/core/screens/notifications/components/types'
-import { novuApplicationIdentifier, novuBackendUrl } from '@holi/core/screens/notifications/config'
+import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
+import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 const NOVU_NOTIFICATIONS_PAGE_TO_FETCH = 0
-const DEFAULT_REFETCH_INTERVAL_IN_MILLIS = 10000
 
-export const useNotifications = (
-  subscriberId?: string,
-  refetchInterval: number | undefined = DEFAULT_REFETCH_INTERVAL_IN_MILLIS
-) => {
+export const useNotifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const novuServiceRef = useRef<ApiService | null>(null)
+  const { novuService, isInitializing } = useNotificationService()
 
   const shouldRerender = useCallback(
     (newNotifications: Notification[]) => {
@@ -39,60 +35,42 @@ export const useNotifications = (
   )
 
   const fetchMessages = useCallback(
-    (logFunction = logError) => {
-      const novu = novuServiceRef.current
-      if (novu) {
-        return novu
-          .getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH)
-          .then(processMessagesResponse)
-          .catch((error) =>
-            logFunction(error, 'Error fetching notifications from novu', {
-              location: 'useNotifications.fetchMessages',
-            })
-          )
-      }
-    },
-    [processMessagesResponse]
+    async (logFunction = logError) =>
+      novuService
+        ?.getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH)
+        .then(processMessagesResponse)
+        .catch((error) =>
+          logFunction(error, 'Error fetching notifications from novu', {
+            location: 'useNotifications.fetchMessages',
+          })
+        ),
+    [novuService, processMessagesResponse]
   )
 
   const markAllNotificationsAsSeen = useCallback(async () => {
-    const novu = novuServiceRef.current
-    if (novu) {
-      //all feeds
-      const feedId = undefined
-      return novu.markAllMessagesAsSeen(feedId).catch((error) =>
-        logError(error, 'Error marking novu notifications as seen', {
-          location: 'useNotifications.markAllNotificationsAsSeen',
-        })
-      )
-    }
-  }, [])
+    //all feeds
+    const feedId = undefined
+    return novuService?.markAllMessagesAsSeen(feedId).catch((error) =>
+      logError(error, 'Error marking novu notifications as seen', {
+        location: 'useNotifications.markAllNotificationsAsSeen',
+      })
+    )
+  }, [novuService])
 
   useEffect(() => {
-    let fetchIntervalId: number | null = null
+    let fetchIntervalId: NodeJS.Timer | null = null
 
     const fetchMessagesContinually = () => {
-      // @ts-ignore
-      // return type inference for setInterval is wrong in Pycharm Pro
       fetchIntervalId = setInterval(() => {
         // Only log errors locally without sending sentry reports
         fetchMessages(logErrorLocal)
-      }, refetchInterval)
+      }, notificationPollingInterval)
     }
 
-    if (subscriberId) {
+    if (novuService) {
       setIsLoading(true)
-      const novuService = new ApiService(novuBackendUrl)
-      novuService
-        .initializeSession(novuApplicationIdentifier, subscriberId)
-        .then((session) => {
-          novuService.setAuthorizationToken(session.token)
-          novuServiceRef.current = novuService
-
-          fetchMessagesContinually()
-          return fetchMessages()
-        })
-        .finally(() => setIsLoading(false))
+      fetchMessages().finally(() => setIsLoading(false))
+      fetchMessagesContinually()
 
       return () => {
         if (fetchIntervalId) {
@@ -100,9 +78,9 @@ export const useNotifications = (
         }
       }
     }
-  }, [fetchMessages, subscriberId, refetchInterval, markAllNotificationsAsSeen])
+  }, [fetchMessages, novuService])
 
-  return { notifications, isLoading, markAllNotificationsAsSeen }
+  return { notifications, isLoading: isLoading || isInitializing, markAllNotificationsAsSeen }
 }
 
 function mapToNotification(message: IMessage): Notification {
