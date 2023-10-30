@@ -8,7 +8,6 @@ import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { initChatClient } from '@holi/chat/src/store'
-import { StoredCredentials } from '@holi/chat/src/utils'
 import type { MatrixDeviceName } from '@holi/chat/src/utils/constants'
 import {
   StoredCredentials as SessionCredentials,
@@ -86,23 +85,19 @@ export const startChat = async (deviceToken?: string): Promise<void> => {
 
   try {
     // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
-    chatClient = await getSessionFromStorage()
-      .then((orySession) => {
-        if (!orySession) {
-          throw new HoliError('[ChatLogin]: Can not start chat without Ory session token')
-        }
-        return ensureChatLoggedIn(orySession.session_token)
-      })
-      .then((credentials: StoredCredentials) => {
-        return new ChatClient({
-          baseUrl: chatServerUrl,
-          accessToken: credentials.access_token,
-          deviceId: credentials.device_id,
-          userId: credentials.user_id,
-          freshLogin: credentials.fresh_login,
-          deviceToken,
-        })
-      })
+    const orySession = await getSessionFromStorage()
+    if (!orySession) {
+      throw new HoliError('[ChatLogin]: Can not start chat without Ory session token')
+    }
+    const credentials = await ensureChatLoggedIn(orySession.session_token)
+    chatClient = new ChatClient({
+      baseUrl: chatServerUrl,
+      accessToken: credentials.access_token,
+      deviceId: credentials.device_id,
+      userId: credentials.user_id,
+      freshLogin: credentials.fresh_login,
+      deviceToken,
+    })
 
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
