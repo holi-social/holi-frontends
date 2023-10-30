@@ -2,10 +2,10 @@ import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useState } from 'react'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
-import { Notification, NotificationType } from '@holi/core/screens/notifications/components/types'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
+import { Notification, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
-import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 const NOVU_NOTIFICATIONS_PAGE_TO_FETCH = 0
 
@@ -83,58 +83,19 @@ export const useNotifications = () => {
   return { notifications, isLoading: isLoading || isInitializing, markAllNotificationsAsSeen }
 }
 
-function mapToNotification(message: IMessage): Notification {
-  // todo gregor: map notifications correctly and don't just use a wrong static type
-  return {
-    notificationType: NotificationType.CONNECTION_ACCEPTED,
-    created: message.createdAt,
-    id: message._id,
-    owner: {
-      aboutMe: '',
-      avatar: '',
-      avatarBlurhash: '',
-      avatarDefaultColor: '',
-      avatarLabel: '',
-      connectionStatusToMyself: UserConnectionStatus.CONNECTED,
-      connectionStatusToSpace: [],
-      engagementLevel: '',
-      firstName: '',
-      fullName: '',
-      geolocationId: '',
-      id: '',
-      identity: '',
-      interests: [],
-      lastName: '',
-      location: '',
-      pronouns: '',
-      sdgs: [],
-      skills: [],
-    },
-    read: message.read,
-    options: {
-      user: {
-        aboutMe: '',
-        avatar: '',
-        avatarBlurhash: '',
-        avatarDefaultColor: '',
-        avatarLabel: '',
-        connectionStatusToMyself: UserConnectionStatus.CONNECTED,
-        connectionStatusToSpace: [],
-        engagementLevel: '',
-        firstName: '',
-        fullName: message.content.toString(),
-        geolocationId: '',
-        id: '',
-        identity: '',
-        interests: [],
-        lastName: '',
-        location: '',
-        pronouns: '',
-        sdgs: [],
-        skills: [],
-      },
-    },
+function mapToNotification(message: IMessage): NotificationSpaceConnection {
+  if (message.payload.data) {
+    const data = message.payload.data
+
+    return {
+      id: message._id,
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+      created: message.createdAt,
+      read: message.seen,
+      options: data as NotificationSpaceConnection['options'],
+    }
   }
+  throw new Error("Couldn't map novu message")
 }
 
 function mapToNotifications(response: IPaginatedResponse<IMessage>) {

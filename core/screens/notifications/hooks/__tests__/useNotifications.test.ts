@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import { renderHook, waitFor } from '@testing-library/react-native'
 
-import { NotificationType } from '@holi/core/screens/notifications/components/types'
+import { aMessage, aMessageListPage } from '@holi/core/screens/notifications/components/novu/testData'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
 const mockGetNotificationsList = jest.fn()
@@ -23,11 +24,11 @@ const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
 
 describe('useNotifications', () => {
+  const aDateString = new Date().toISOString()
   const testNotificationId = 'notificationId'
   const testContent = 'Test content'
-  const novuMessage = novuMessageFixture(testNotificationId, testContent)
-  const expectedNotification = notificationFixture(testNotificationId, testContent)
-  const testResponse = { data: [novuMessage] }
+  const expectedNotification = aNotification(testNotificationId, testContent, aDateString)
+  const testResponse = aNotificationsResponse(testNotificationId, testContent, aDateString)
   const emptyTestResponse = { data: [] }
   const testError = new Error('test')
 
@@ -152,29 +153,18 @@ describe('useNotifications', () => {
   })
 })
 
-const aDate = new Date().toISOString()
-
-function novuMessageFixture(testNotificationId: string, testContent: string) {
-  return {
-    createdAt: aDate,
-    _id: testNotificationId,
-    read: false,
-    content: testContent,
-  }
+function aNotificationsResponse(notificationId: string, notificationContent: string, notificationCreated: string) {
+  return aMessageListPage(aMessage(notificationId, notificationContent, notificationCreated))
 }
 
-function notificationFixture(testNotificationId: string, testContent: string) {
-  // todo gregor: map notifications correctly and don't just use a wrong static type
+function aNotification(id: string, content: string, created: string) {
   return {
-    notificationType: NotificationType.CONNECTION_ACCEPTED,
-    created: aDate,
-    id: testNotificationId,
-    owner: expect.any(Object),
+    notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+    created: created,
+    id: id,
     read: false,
     options: expect.objectContaining({
-      user: expect.objectContaining({
-        fullName: testContent,
-      }),
+      requestMessage: content,
     }),
   }
 }

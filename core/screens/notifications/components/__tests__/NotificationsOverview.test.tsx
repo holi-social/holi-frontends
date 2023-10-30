@@ -210,4 +210,16 @@ describe('Notifications.tsx', () => {
     expect(await screen.findByTestId('release-info'))
     expect(await screen.findByTestId('space-post'))
   })
+
+  it('lists notifications in groups based on created date', async () => {
+    useAuthMock.mockImplementation(loggedIn)
+
+    render(
+      <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+        <Notifications />
+      </MockedProvider>
+    )
+
+    expect(await screen.findByTestId('post-comment-mention'))
+  })
 })

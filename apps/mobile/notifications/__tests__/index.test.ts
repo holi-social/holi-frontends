@@ -1,6 +1,7 @@
 import { NotificationResponse } from 'expo-notifications'
 
-import { NotificationType, transformPushInteractionToUrl } from '@holi/mobile/notifications'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
+import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
 
 describe('transformPushInteractionToUrl', () => {
   const createAndroidNotificationResponse = (
@@ -89,7 +90,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification on Android', () => {
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
-        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: JSON.stringify({
           space: { name: 'space1' },
           user: { id: '123' },
@@ -102,7 +103,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification on iOS', () => {
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
-        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: {
           space: { name: 'space1' },
           user: { id: '123' },
@@ -115,7 +116,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification if user id is missing on Android', () => {
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
-        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: JSON.stringify({
           space: { name: 'space1' },
         }),
@@ -127,7 +128,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should create correct url for space membership request notification if user id is missing on iOS', () => {
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
-        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
         data: {
           space: { name: 'space1' },
         },
@@ -139,7 +140,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should not create url for space membership request notification if space name is missing on Android', () => {
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
-        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
       })
     )
     expect(url).toBeFalsy()
@@ -148,7 +149,7 @@ describe('transformPushInteractionToUrl', () => {
   it('should not create url for space membership request notification if space name is missing on iOS', () => {
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
-        notificationType: NotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
       })
     )
     expect(url).toBeFalsy()
