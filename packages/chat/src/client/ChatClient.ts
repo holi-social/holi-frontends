@@ -353,10 +353,39 @@ export default class ChatClient {
   public subscribeToMembership(
     callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
   ): (() => void) | void {
+    function throttle(callback: (event: MatrixEvent, roomState: RoomState, member: RoomMember) => void, time: number) {
+      let isThrottled = false
+      const savedRoomEventArgsMap: Map<string, [MatrixEvent, RoomState, RoomMember][]> = new Map()
+
+      return function wrapper(event: MatrixEvent, roomState: RoomState, member: RoomMember) {
+        const roomId = roomState.roomId
+
+        if (isThrottled) {
+          const roomEventArgs = savedRoomEventArgsMap.get(roomId) ?? []
+          savedRoomEventArgsMap.set(roomId, [...roomEventArgs, [event, roomState, member]])
+          return
+        }
+
+        callback(event, roomState, member)
+        isThrottled = true
+
+        setTimeout(() => {
+          isThrottled = false // (3)
+          const roomEventArgs = savedRoomEventArgsMap.get(roomId) ?? []
+          const lastRoomEventArgs = [...roomEventArgs].pop()
+          if (lastRoomEventArgs) {
+            wrapper(...lastRoomEventArgs)
+            savedRoomEventArgsMap.delete(roomId)
+          }
+        }, time)
+      }
+    }
+
+    const throttledCallback = throttle(callback, 300)
     const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
 
-      callback(event, roomState, member)
+      throttledCallback(event, roomState, member)
     }
 
     this.mxClient.on(RoomStateEvent.Members, handler)
