@@ -42,6 +42,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -228,7 +229,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                   style={styles.noBorderSection}
                   onPressEdit={() => openEditModal(EditFields.NAME)}
                 >
-                  {!!space.description && <HoliText testID="space-edit-goal">{space.description}</HoliText>}
+                  {!!space.description && (
+                    <HoliRichTextOutput text={space.description} allowAllLinks testID="space-edit-goal" />
+                  )}
                 </SpaceSection>
 
                 <SpaceSection

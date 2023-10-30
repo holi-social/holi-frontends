@@ -825,7 +825,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               >
                 <Text
                   accessible={false}
-                  numberOfLines={3}
                   selectable={true}
                   style={
                     {
@@ -837,6 +836,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "userSelect": "auto",
                     }
                   }
+                  testID="task-description"
                 >
                   Task description
                 </Text>
@@ -1647,7 +1647,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               >
                 <Text
                   accessible={false}
-                  numberOfLines={3}
                   selectable={true}
                   style={
                     {
@@ -1659,6 +1658,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       "userSelect": "auto",
                     }
                   }
+                  testID="task-description"
                 >
                   Task description
                 </Text>

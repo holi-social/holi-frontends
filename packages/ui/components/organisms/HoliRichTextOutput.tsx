@@ -19,6 +19,8 @@ export interface Props extends HoliTextProps {
 }
 
 const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowAllLinks = false, ...props }: Props) => {
+  const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'default' : size
+
   /**
    * Replaces each @<USER-ID>
    * with the highlighted fullName
@@ -31,7 +33,6 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowA
         const foundId = textPart.slice(1)
         const user = users?.find((user) => user.id === foundId)
         const replaced = user ? textPart.replace(REGEX_USER_MENTIONS, user.fullName) : undefined
-        const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'default' : size
 
         return user && replaced ? (
           <HoliTextLink label={user.fullName ?? ''} href={`/profile/${user.id}`} key={index} size={linkSize}>
@@ -62,7 +63,7 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowA
           }
 
           return link ? (
-            <HoliTextLink href={link.requestedUrl} label={link.title} key={link.requestedUrl} external>
+            <HoliTextLink href={link.requestedUrl} label={link.title} size={linkSize} key={link.requestedUrl} external>
               {link.title}
             </HoliTextLink>
           ) : (
