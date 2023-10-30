@@ -25,7 +25,7 @@ export function StartChatButton({
   doReplaceRoute?: boolean
 }) {
   const { t } = useTranslation()
-  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const { ftLoading, ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
   const isChatInitialized = useChatInitialized()
 
   const { isLoggedIn } = useLoggedInUser()

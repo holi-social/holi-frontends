@@ -15,6 +15,6 @@ describe('isChatNotification', () => {
   })
 
   it('should recognize non-chat notification', () => {
-    expect(isChatNotification({ notification_type: 'FOOBAR' })).toBeFalsy()
+    expect(isChatNotification({ notificationType: 'FOOBAR' })).toBeFalsy()
   })
 })

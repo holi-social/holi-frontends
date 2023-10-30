@@ -191,7 +191,7 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
   }
 }
 
-export const isChatNotification = (data: NotificationPayload | undefined) => !data?.notification_type
+export const isChatNotification = (data: NotificationPayload | undefined) => !data?.notificationType
 
 export const handleForegroundChatMessage = async (data: NotificationPayload | undefined) => {
   const event = parseToSygnalEvent(data)

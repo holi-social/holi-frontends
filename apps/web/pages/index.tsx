@@ -7,9 +7,9 @@ import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { featureFlag } from '@holi/web/environment'
 
-import { projectsQuery } from '@holi-apps/donations/queries'
-import { GoodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+import { donationProjectsQuery } from '@holi-apps/donations/queries'
+import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 
 const PROJECT_PAGE_SIZE = 5
 const ENGAGEMENT_PAGE_SIZE = 5
@@ -33,20 +33,20 @@ export const getServerSideProps = async () => {
 
   Promise.allSettled([
     client.query({
-      query: projectsQuery,
+      query: donationProjectsQuery,
       variables: {
         limit: PROJECT_PAGE_SIZE,
         offset: 0,
       },
     }),
     client.query({
-      query: GoodNewsArticlesQuery,
+      query: goodNewsArticlesQuery,
       variables: {
         lastDate: undefined,
       },
     }),
     client.query({
-      query: VolunteeringEngagementsQuery,
+      query: volunteeringEngagementsQuery,
       variables: {
         limit: ENGAGEMENT_PAGE_SIZE,
         offset: 0,

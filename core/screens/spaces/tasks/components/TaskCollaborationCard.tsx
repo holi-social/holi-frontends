@@ -43,19 +43,6 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space })
       {space.tasks?.length ? (
         <View style={styles.tasksListContainer}>
           <SpaceTaskList space={space} isAdmin={isAdmin} isCollaborator={isCollaborator} preview />
-          {space.tasks && space.tasks.length > 2 && (
-            <View style={styles.seeAllButtonContainer}>
-              <HoliButton
-                label={t('spaces.spaceDetails.tasks.seeAll')}
-                onPress={() => navigateToTasks()}
-                style={styles.seeAllButton}
-                inline
-                type="secondary"
-              >
-                <HoliText>{t('spaces.spaceDetails.tasks.seeAllButton.label')}</HoliText>
-              </HoliButton>
-            </View>
-          )}
         </View>
       ) : (
         <View style={styles.empty}>

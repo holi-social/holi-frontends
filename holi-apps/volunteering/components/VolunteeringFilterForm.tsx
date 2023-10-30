@@ -13,7 +13,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
-import { VolunteeringCategoriesQuery, VolunteeringCategoriesQueryResult } from '@holi-apps/volunteering/queries'
+import { VolunteeringCategoriesQueryResult, volunteeringCategoriesQuery } from '@holi-apps/volunteering/queries'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringFilterFormProps = {
@@ -39,7 +39,7 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
     filters.location ? initialLocationSelection : undefined
   )
 
-  const { data: categoriesData, loading } = useQuery<VolunteeringCategoriesQueryResult>(VolunteeringCategoriesQuery, {
+  const { data: categoriesData, loading } = useQuery<VolunteeringCategoriesQueryResult>(volunteeringCategoriesQuery, {
     onError: (error) =>
       logError(error, 'Failed to load volunteering categories', {
         location: 'VolunteeringFilterForm.VolunteeringCategoriesQuery',

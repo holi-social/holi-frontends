@@ -16,7 +16,7 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { More } from '@holi/icons/src/generated'
+import { Delete, More } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -77,6 +77,7 @@ const TaskDetails = () => {
             />
             <HoliActionDrawer.Action
               isLoading={isLoadingDeleteTask}
+              icon={Delete}
               action="delete"
               title={t('spaces.digitalTool.delete.label')}
               variant="danger"

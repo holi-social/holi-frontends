@@ -69,7 +69,7 @@ export const fullProjectFragment = gql`
   }
 `
 
-export const projectsQuery = gql`
+export const donationProjectsQuery = gql`
   ${projectFragment}
 
   query Projects($offset: Int = 0, $limit: Int = 10, $location: String) {
@@ -86,7 +86,7 @@ export type AppDonationsProjectsResponse = {
   appDonations_projects: ProjectsResponse
 }
 
-export const projectByIdQuery = gql`
+export const donationProjectByIdQuery = gql`
   ${fullProjectFragment}
 
   query ProjectById($id: Int!) {

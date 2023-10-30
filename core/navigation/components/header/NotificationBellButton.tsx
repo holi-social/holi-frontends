@@ -3,15 +3,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
+import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
+import { useUnseenNotificationsCount } from '@holi/core/screens/notifications/hooks/useUnseenNotificationsCount'
 import { HasNewNotificationsQuery, HasNewNotificationsResponse } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Notification2 } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-
-const NOTIFICATION_POLLING_INTERVAL = process.env.NOTIFICATION_POLLING_INTERVAL
-  ? parseInt(process.env.NOTIFICATION_POLLING_INTERVAL, 10)
-  : 5000
 
 export const NotificationBellButton: React.FC<{
   onPress: () => void
@@ -23,10 +21,12 @@ export const NotificationBellButton: React.FC<{
   const { data } = useQuery<HasNewNotificationsResponse>(HasNewNotificationsQuery, {
     skip: !isLoggedIn,
     fetchPolicy: 'network-only',
-    pollInterval: NOTIFICATION_POLLING_INTERVAL,
+    pollInterval: notificationPollingInterval,
   })
 
-  const hasNewNotifications = !!data?.hasNewNotifications?.status
+  const { hasUnseenNotifications: hasUnseenNovuNotifications } = useUnseenNotificationsCount()
+
+  const hasNewNotifications = !!data?.hasNewNotifications?.status || hasUnseenNovuNotifications
 
   return (
     <NotificationBellBadge visible={hasNewNotifications}>

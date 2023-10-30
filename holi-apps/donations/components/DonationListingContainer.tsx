@@ -7,7 +7,7 @@ import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
-import { projectsQuery } from '@holi-apps/donations/queries'
+import { donationProjectsQuery } from '@holi-apps/donations/queries'
 
 const PROJECT_PAGE_SIZE = 10
 
@@ -33,7 +33,7 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
 
   return (
     <Pagination
-      query={projectsQuery}
+      query={donationProjectsQuery}
       queryOptions={queryOptions}
       fetchMoreButtonProps={{
         style: styles.loadMoreButton,

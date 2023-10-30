@@ -34,6 +34,7 @@ type SpacePermissionsProps = {
   isAdministrator?: boolean
   isMember?: boolean
   extraDescription?: string
+  displayMemberActions?: boolean // set to false if no "Set as Admin" or "Remove from space" actions should be present
 }
 
 const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
@@ -46,6 +47,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   isAdministrator,
   isMember,
   extraDescription,
+  displayMemberActions = true,
 }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -201,7 +203,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 </HoliButton>
               )}
 
-              {isAdministrator && (
+              {displayMemberActions && isAdministrator && (
                 <HoliButton
                   contentStyle={styles.actionsItem}
                   inline
@@ -218,7 +220,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 </HoliButton>
               )}
 
-              {!isAdministrator && isMember && (
+              {displayMemberActions && !isAdministrator && isMember && (
                 <HoliButton
                   contentStyle={styles.actionsItem}
                   inline
@@ -235,7 +237,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 </HoliButton>
               )}
 
-              {isMember && (
+              {displayMemberActions && isMember && (
                 <HoliButton
                   contentStyle={styles.actionsItem}
                   inline

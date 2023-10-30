@@ -55,7 +55,7 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
   if (!payload) {
     return null
   }
-  switch (payload.notification_type) {
+  switch (payload.notificationType) {
     case NotificationType.SPACE_MEMBERSHIP_REQUEST:
       return createUrlFromSpaceMembershipNotification(payload)
     default:

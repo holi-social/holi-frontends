@@ -194,6 +194,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
         hidePermissions={hidePermissions}
         handleJoinRequest={connectionStatus === 'PENDING' ? handleJoinRequest : undefined}
         extraDescription={membershipRequest.message}
+        displayMemberActions={false}
       />
     </View>
   )
