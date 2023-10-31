@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceAcceptInvitation from '@holi/core/screens/spaces/details/components/SpaceAcceptInvitation'
 import SpaceCollaborators from '@holi/core/screens/spaces/details/components/SpaceCollaborators'
@@ -11,7 +12,7 @@ import SpaceInvite from '@holi/core/screens/spaces/details/components/SpaceInvit
 import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
 import SpaceMoreActions from '@holi/core/screens/spaces/details/components/SpaceMoreActions'
 import SpaceShare from '@holi/core/screens/spaces/details/components/SpaceShare'
-import { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -38,10 +39,17 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const openModal = useCallback(() => {
-    setModalVisible(true)
-  }, [setModalVisible])
+  const { navigate } = useRouting()
+
+  const showMember = useCallback(() => {
+    if (isAdmin) {
+      navigate(`/spaces/${space.id}/collaborators/manage`)
+    } else {
+      setModalVisible(true)
+    }
+  }, [isAdmin, navigate, space.id])
 
   return (
     <View style={[styles.container, style]} testID="space-header">
@@ -55,7 +63,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           label={t('spaces.collaborators.showModal')}
           transparent
           inline
-          onPress={openModal}
+          onPress={showMember}
           testID="btn-to-open-space-collaborators-modal"
         >
           <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
