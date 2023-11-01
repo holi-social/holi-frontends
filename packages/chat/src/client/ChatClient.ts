@@ -57,6 +57,13 @@ export default class ChatClient {
   private readonly mxClient: MatrixClient
   private readonly deviceToken: string | undefined
 
+  private isLastDmMember(roomState: RoomState, member: RoomMember): boolean {
+    const members = roomState.getMembers()
+    const creator = members.find((m) => m.powerLevel === 100)
+
+    return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
+  }
+
   public constructor(credentials: ChatCredentials) {
     if (
       !credentials ||
@@ -353,39 +360,18 @@ export default class ChatClient {
   public subscribeToMembership(
     callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
   ): (() => void) | void {
-    function throttle(callback: (event: MatrixEvent, roomState: RoomState, member: RoomMember) => void, time: number) {
-      let isThrottled = false
-      const savedRoomEventArgsMap: Map<string, [MatrixEvent, RoomState, RoomMember][]> = new Map()
-
-      return function wrapper(event: MatrixEvent, roomState: RoomState, member: RoomMember) {
-        const roomId = roomState.roomId
-
-        if (isThrottled) {
-          const roomEventArgs = savedRoomEventArgsMap.get(roomId) ?? []
-          savedRoomEventArgsMap.set(roomId, [...roomEventArgs, [event, roomState, member]])
-          return
-        }
-
-        callback(event, roomState, member)
-        isThrottled = true
-
-        setTimeout(() => {
-          isThrottled = false // (3)
-          const roomEventArgs = savedRoomEventArgsMap.get(roomId) ?? []
-          const lastRoomEventArgs = [...roomEventArgs].pop()
-          if (lastRoomEventArgs) {
-            wrapper(...lastRoomEventArgs)
-            savedRoomEventArgsMap.delete(roomId)
-          }
-        }, time)
-      }
-    }
-
-    const throttledCallback = throttle(callback, 300)
-    const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+    const handler = async (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
 
-      throttledCallback(event, roomState, member)
+      // If the creator of the DM room is the last one we forget (delete) entirely the room
+      // Example usage when the invited member in a two people DM rejects an invitation.
+      if (this.isLastDmMember(roomState, member)) {
+        this.leaveRoom(roomState.roomId)
+          .then(() => this.forgetRoom(roomState.roomId, true))
+          .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
+      }
+
+      callback(event, roomState, member)
     }
 
     this.mxClient.on(RoomStateEvent.Members, handler)
