@@ -17,6 +17,7 @@ import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/scre
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -54,7 +55,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -92,12 +93,17 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
+  if (loading) {
+    return <HoliLoader />
+  }
+
   return (
     <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
       <HoliTabs
         id="collaborator-tabs"
         style={styles.tabWrapper}
         tabBarStyle={tabBarStyle}
+        initialStep={space?.membershipRequests?.totalResults ? 1 : 0}
         tabs={[
           {
             title: t('spaces.collaborators.manage.tabs.all'),
