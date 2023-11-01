@@ -4,7 +4,7 @@ import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, Ro
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { setChatInitialized } from '@holi/chat/src/client/chatSession'
+import { setChatInitialized } from '@holi/chat/src/client/chatState'
 import {
   ChatRoomMember,
   MatrixId,

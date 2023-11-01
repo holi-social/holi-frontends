@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
-import { setUnauthorizedErrorStatus, useUnauthorizedErrorStatusVar } from '@holi/api/graphql/client'
+import { setUnauthorizedErrorStatus, useUnauthorizedErrorStatusVar } from '@holi/api/graphql/state'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { useLogout } from '@holi/core/helpers'
 import { useIsOnline } from '@holi/core/helpers/useIsOnline'
