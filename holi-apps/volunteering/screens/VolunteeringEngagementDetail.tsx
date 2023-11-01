@@ -205,13 +205,10 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   }
 
   return (
-    <View
-      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
-      testID="volunteering-detailview-container"
-    >
+    <View style={styles.wrapper} testID="volunteering-detailview-container">
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ isLoading: refreshing, onRefresh }}
-        style={{ backgroundColor: colors.background30 }}
+        style={styles.header}
         headerOverlap
       >
         {engagement && (
@@ -256,6 +253,14 @@ const getStyles = (statusBarHeight: number) =>
     messageContainer: {
       alignItems: 'center',
       marginTop: vars.topBarHeight + 50,
+    },
+    wrapper: {
+      alignItems: 'center',
+      flex: 1,
+      backgroundColor: colors.background30,
+    },
+    header: {
+      backgroundColor: colors.background30,
     },
     container: {
       paddingBottom: 132,

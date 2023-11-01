@@ -43,7 +43,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 
   const { navigate } = useRouting()
 
-  const showMember = useCallback(() => {
+  const showMembers = useCallback(() => {
     if (isAdmin) {
       navigate(`/spaces/${space.id}/collaborators/manage`)
     } else {
@@ -63,7 +63,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           label={t('spaces.collaborators.showModal')}
           transparent
           inline
-          onPress={showMember}
+          onPress={showMembers}
           testID="btn-to-open-space-collaborators-modal"
         >
           <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
