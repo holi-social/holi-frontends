@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import { renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { aMessage, aMessageListPage } from '@holi/core/screens/notifications/components/novu/testData'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
+import { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
 const mockGetNotificationsList = jest.fn()
@@ -29,6 +30,7 @@ describe('useNotifications', () => {
   const testContent = 'Test content'
   const expectedNotification = aNotification(testNotificationId, testContent, aDateString)
   const testResponse = aNotificationsResponse(testNotificationId, testContent, aDateString)
+  const longTestResponse = aLongNotificationsResponse(testContent, aDateString)
   const emptyTestResponse = { data: [] }
   const testError = new Error('test')
 
@@ -42,7 +44,7 @@ describe('useNotifications', () => {
     })
   })
 
-  it.only('should fetch and return notifications initially', async () => {
+  it('should fetch and return notifications initially', async () => {
     mockGetNotificationsList.mockResolvedValue(testResponse)
 
     const { result } = renderHook(() => useNotifications())
@@ -151,10 +153,77 @@ describe('useNotifications', () => {
       {}
     )
   })
+
+  it('should expose a flag if more messages can be fetched', async () => {
+    mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
+    mockGetNotificationsList.mockResolvedValue(testResponse)
+    const { result } = renderHook(() => useNotifications())
+
+    expect(result.current.canFetchMore).toBeTruthy()
+
+    await act(() => result.current.fetchNextPage())
+
+    expect(result.current.canFetchMore).toBeFalsy()
+  })
+
+  it('should fetch more pages and update message list', async () => {
+    mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
+    mockGetNotificationsList.mockResolvedValue(testResponse)
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(10))
+
+    await act(() => result.current.fetchNextPage())
+
+    expect(result.current.notifications.length).toEqual(11)
+
+    // Could be more due to refreshes
+    expect(mockGetNotificationsList.mock.calls.length).toBeGreaterThanOrEqual(2)
+    expect(mockGetNotificationsList).toHaveBeenCalledWith(0, { limit: 10 })
+    expect(mockGetNotificationsList).toHaveBeenCalledWith(1, { limit: 10 })
+  })
+
+  it('should ignore duplicate messages', async () => {
+    mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
+    mockGetNotificationsList.mockResolvedValue(longTestResponse)
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(10))
+
+    await act(() => result.current.fetchNextPage())
+
+    expect(result.current.notifications.length).toEqual(10)
+  })
+
+  it('should update existing messages', async () => {
+    const updatedContent = 'new content'
+    const newTestResponse = aNotificationsResponse(testNotificationId, updatedContent, aDateString)
+    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
+    mockGetNotificationsList.mockResolvedValue(newTestResponse)
+
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(1))
+    expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).toEqual(testContent)
+
+    await waitFor(() =>
+      expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).toEqual(
+        updatedContent
+      )
+    )
+    expect(result.current.notifications.length).toEqual(1)
+  })
 })
 
 function aNotificationsResponse(notificationId: string, notificationContent: string, notificationCreated: string) {
-  return aMessageListPage(aMessage(notificationId, notificationContent, notificationCreated))
+  return aMessageListPage([aMessage(notificationId, notificationContent, notificationCreated)])
+}
+
+function aLongNotificationsResponse(notificationContent: string, notificationCreated: string) {
+  return aMessageListPage(
+    Array.from({ length: 10 }, (_, index) => aMessage(index.toString(), notificationContent, notificationCreated)),
+    { hasMore: true }
+  )
 }
 
 function aNotification(id: string, content: string, created: string) {

@@ -1,11 +1,12 @@
 import { IMessage } from '@novu/shared'
 
-export const aMessageListPage = (data: IMessage) => ({
-  data: [data],
-  totalCount: 1,
+export const aMessageListPage = (data: IMessage[], overrides = {}) => ({
+  data,
+  totalCount: data.length,
   hasMore: false,
   pageSize: 10,
   page: 0,
+  ...overrides,
 })
 
 export const aMessage = (

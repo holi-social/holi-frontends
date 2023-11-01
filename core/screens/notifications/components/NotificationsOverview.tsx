@@ -1,7 +1,9 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
+import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
@@ -34,6 +36,8 @@ const NotificationsOverview = () => {
     notifications: novuNotifications,
     isLoading: loadingNovuNotifications,
     markAllNotificationsAsSeen,
+    canFetchMore,
+    fetchNextPage,
   } = useNotifications()
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
@@ -86,14 +90,36 @@ const NotificationsOverview = () => {
     )
   }
 
-  if (!containsNotifications(data?.notifications?.data)) return <NotificationsEmptyPlaceholder />
+  if (!containsNotifications(data?.notifications?.data) && !novuNotifications.length)
+    return <NotificationsEmptyPlaceholder />
 
-  const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications.values()]
+  const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications]
 
   const groupedNotifications = groupByDate(allNotifications)
 
-  return <NotificationSectionList notifications={groupedNotifications} />
+  // TODO(SF) useMemo?
+  const loadMoreComponent = (
+    <ScrollBasedCallbackInvocation
+      callback={fetchNextPage}
+      placeholder={<HoliLoader style={styles.loaderBottom} testID="fetch-more-loader" />}
+    />
+  )
+
+  return (
+    <View>
+      <NotificationSectionList notifications={groupedNotifications} />
+      {canFetchMore && loadMoreComponent}
+    </View>
+  )
 }
+
+// TODO(SF) required? maybe adjust style
+const styles = StyleSheet.create({
+  loaderBottom: {
+    marginBottom: 24,
+    position: 'relative',
+  },
+})
 
 export default NotificationsOverview
 

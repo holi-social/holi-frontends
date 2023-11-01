@@ -2,43 +2,54 @@ import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useState } from 'react'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { Notification, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
-const NOVU_NOTIFICATIONS_PAGE_TO_FETCH = 0
+const NOVU_NOTIFICATIONS_PAGE_SIZE = 10
 
 export const useNotifications = () => {
-  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [notifications, setNotifications] = useState<{ [key: string]: Notification }>({})
   const [isLoading, setIsLoading] = useState(false)
+  // TODO(SF) necessary?
+  const [isFetchingMore, setIsFetchingMore] = useState(false)
+  const [canFetchMore, setCanFetchMore] = useState(true)
+  const [nextPage, setNextPage] = useState(1)
 
   const { novuService, isInitializing } = useNotificationService()
 
-  const shouldRerender = useCallback(
-    (newNotifications: Notification[]) => {
-      const hashA = notifications.map((n) => n.id).join('')
-      const hashB = newNotifications.map((n) => n.id).join('')
-      return hashA !== hashB
-    },
-    [notifications]
-  )
-
   const processMessagesResponse = useCallback(
-    (response: IPaginatedResponse<IMessage>) => {
-      const notifications = mapToNotifications(response)
-      if (shouldRerender(notifications)) {
-        setNotifications(notifications)
-      }
-    },
-    [shouldRerender]
+    (response: IPaginatedResponse<IMessage>) =>
+      setNotifications((notificationMap) => {
+        return response.data
+          .map((message) => mapToNotification(message))
+          .reduce((previousMap, notification) => {
+            if (notification) {
+              return {
+                ...previousMap,
+                [notification.id]: notification,
+              }
+            }
+            return previousMap
+          }, notificationMap)
+      }),
+    []
   )
 
   const fetchMessages = useCallback(
-    async (logFunction = logError) =>
+    async (pageToFetch = 0, logFunction = logError) =>
       novuService
-        ?.getNotificationsList(NOVU_NOTIFICATIONS_PAGE_TO_FETCH)
-        .then(processMessagesResponse)
+        ?.getNotificationsList(pageToFetch, {
+          limit: NOVU_NOTIFICATIONS_PAGE_SIZE,
+        })
+        .then((response) => {
+          if (!response.hasMore) {
+            setCanFetchMore(false)
+          }
+          processMessagesResponse(response)
+        })
         .catch((error) =>
           logFunction(error, 'Error fetching notifications from novu', {
             location: 'useNotifications.fetchMessages',
@@ -47,7 +58,20 @@ export const useNotifications = () => {
     [novuService, processMessagesResponse]
   )
 
+  const fetchNextPage = useCallback(async () => {
+    if (!novuService || isFetchingMore) {
+      return
+    }
+    logDebug('useNotifications.fetchNextPage', 'start to fetch page', nextPage)
+    setIsFetchingMore(true)
+    return fetchMessages(nextPage).finally(() => {
+      setIsFetchingMore(false)
+      setNextPage((currentState) => currentState + 1)
+    })
+  }, [fetchMessages, isFetchingMore, nextPage, novuService])
+
   const markAllNotificationsAsSeen = useCallback(async () => {
+    // TODO(SF) only mark notifications as seen that were already fetched
     //all feeds
     const feedId = undefined
     return novuService?.markAllMessagesAsSeen(feedId).catch((error) =>
@@ -62,8 +86,11 @@ export const useNotifications = () => {
 
     const fetchMessagesContinually = () => {
       fetchIntervalId = setInterval(() => {
+        // TODO(SF) filter for unseen? maybe even with limit 100?
+        // TODO(SF) only append to list, do not replace => do not use fetchMessages
+        // TODO(SF) how to handle deleted messages? => maybe only compare first page? but what about invalid messages? :/
         // Only log errors locally without sending sentry reports
-        fetchMessages(logErrorLocal)
+        fetchMessages(0, logErrorLocal)
       }, notificationPollingInterval)
     }
 
@@ -80,10 +107,16 @@ export const useNotifications = () => {
     }
   }, [fetchMessages, novuService])
 
-  return { notifications, isLoading: isLoading || isInitializing, markAllNotificationsAsSeen }
+  return {
+    notifications: Object.values(notifications),
+    isLoading: isLoading || isInitializing,
+    markAllNotificationsAsSeen,
+    canFetchMore,
+    fetchNextPage,
+  }
 }
 
-function mapToNotification(message: IMessage): NotificationSpaceConnection {
+function mapToNotification(message: IMessage): NotificationSpaceConnection | undefined {
   if (message.payload.data) {
     const data = message.payload.data
 
@@ -95,11 +128,8 @@ function mapToNotification(message: IMessage): NotificationSpaceConnection {
       options: data as NotificationSpaceConnection['options'],
     }
   }
-  throw new Error("Couldn't map novu message")
-}
-
-function mapToNotifications(response: IPaginatedResponse<IMessage>) {
-  const notifications: Notification[] = response.data.map((message) => mapToNotification(message))
-
-  return notifications
+  logErrorLocal(new Error("Couldn't map novu message"), 'Failed to map novu notification', {
+    location: 'useNotifications.mapToNotification',
+    message,
+  })
 }
