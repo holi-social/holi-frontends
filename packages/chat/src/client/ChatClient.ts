@@ -243,7 +243,7 @@ export default class ChatClient {
     }, [])[0]
   }
 
-  private getRoomWithSharedData = async (room: Room, content?: SharedDataContent): Promise<RoomWithSharedData> => {
+  public getRoomWithSharedData = async (room: Room, content?: SharedDataContent): Promise<RoomWithSharedData> => {
     content ??= await this.getRoomSharedData(room.roomId)
 
     if (content) {

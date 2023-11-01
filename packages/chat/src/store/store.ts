@@ -24,7 +24,7 @@ import type {
   RoomAtomByRoomId,
   SpaceChatTab,
 } from '@holi/chat/src/store/types'
-import { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
+import { MessageAtomsByRoomId, isSpaceGeneralChatRoom } from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
@@ -48,13 +48,13 @@ export const getChatClient = (): ChatClient => {
  * Room Producers
  *
  **/
-export interface UpdateInvitationOptions {
+export interface MyMembershipOptions {
   room: Room
   membership: string
   prevMembership?: string
 }
 
-const updateRoomInvitation = produce((chatRoom: ChatRoom, { membership, prevMembership }: UpdateInvitationOptions) => {
+const updateRoomInvitation = produce((chatRoom: ChatRoom, { membership, prevMembership }: MyMembershipOptions) => {
   const hasJoined = prevMembership === 'invite' && membership === 'join'
   if (!hasJoined) return
 
@@ -68,6 +68,10 @@ const updateRoomUnreadNotifications = produce((chatRoom: ChatRoom, count: number
 const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
   room.lastMessage = message
   room.timestamp = message.timestamp
+})
+
+const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, chatRoom: ChatRoom) => {
+  roomAtoms[chatRoom.id] = atom(chatRoom)
 })
 
 const addOrUpdateChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, rooms: ChatRoom[], get: Getter) => {
@@ -465,9 +469,8 @@ export const joinRoom = async (roomId: string): Promise<Room | null> => {
 }
 
 /**
- * @name joinRoom
- * @description Join a Matrix room by accepting the invitation. If you have
- * already joined the room, this will be a no-op.
+ * @name leaveRoom
+ * @description Leave a Matrix room.
  */
 export const leaveRoom = async (roomId: string): Promise<void> => {
   await getChatClient().leaveRoom(roomId)
@@ -716,19 +719,31 @@ export const useRequestRoomMessages = () => {
  * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
  * the user joins a room, we update the room has an invitation.
  */
-const _myMembershipSubscriberAtom = atom(null, (get, set, options: UpdateInvitationOptions) => {
+const _myMembershipSubscriberAtom = atom(null, async (get, set, options: MyMembershipOptions) => {
+  const client = getChatClient()
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[options.room.roomId]
 
-  if (!roomAtom) return
-
   switch (options.membership) {
-    case 'join':
+    case 'join': {
+      if (!roomAtom) {
+        const roomWithShareData = await client.getRoomWithSharedData(options.room)
+        const chatRoom = createChatRoom(roomWithShareData)
+        if (!isSpaceGeneralChatRoom(chatRoom)) return
+
+        set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => addChatRoom(prevRoomAtomsRecord, chatRoom))
+        return
+      }
+
       set(roomAtom, (room) => updateRoomInvitation(room, options))
       break
-    case 'leave':
+    }
+    case 'leave': {
+      if (!roomAtom) return
+
       set(_roomAtomsRecordAtom, (roomAtomsRecord) => deleteChatRoom(roomAtomsRecord, options.room.roomId))
       break
+    }
   }
 })
 
