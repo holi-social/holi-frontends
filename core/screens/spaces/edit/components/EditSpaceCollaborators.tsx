@@ -54,11 +54,11 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data: spaceData } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
-  const space = data?.spaceById
+  const space = spaceData?.spaceById
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const queryOptions: Omit<PaginationQueryHookOptions, 'queryPath'> = {
@@ -92,23 +92,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  const getInitialTabIndex = useCallback(() => {
-    if (!isSpaceAdmin) {
-      return 0
-    } else {
-      return 1
-    }
-  }, [isSpaceAdmin])
-
-  const initialTabIndex = getInitialTabIndex()
-
   return (
     <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
       <HoliTabs
         id="collaborator-tabs"
         style={styles.tabWrapper}
         tabBarStyle={tabBarStyle}
-        initialStep={initialTabIndex}
+        initialStep={space?.membershipRequests?.totalResults ? 1 : 0}
         tabs={[
           {
             title: t('spaces.collaborators.manage.tabs.all'),
