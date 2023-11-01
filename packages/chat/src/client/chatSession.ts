@@ -1,4 +1,3 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import fetch from 'cross-fetch'
 // The Matrix SDK uses the TextEncoder internally.
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
@@ -23,6 +22,8 @@ import { chatServerLoginUrl } from '@holi/core/helpers/config'
 import { chatServerUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
 
+import { chatReloadCounter, setChatConnected, setChatInitialized } from './chatState'
+
 export enum SSOAction {
   LOGIN = 'login',
   REGISTER = 'register',
@@ -38,32 +39,6 @@ interface MatrixLoginResponse {
 let chatClient: ChatClient | undefined = undefined
 let isStarting = false
 let isStopping = false
-
-const chatConnected = makeVar(false)
-const chatReloadCounter = makeVar(0)
-const chatInitialized = makeVar(false)
-
-export const setChatConnected = (value: boolean) => {
-  logDebug('chatSession.setChatConnected', 'setting value', value)
-  chatConnected(value)
-}
-
-export const useChatConnected = () => {
-  return useReactiveVar(chatConnected)
-}
-
-export const useChatReloadCounter = () => {
-  return useReactiveVar(chatReloadCounter)
-}
-
-export const setChatInitialized = (value: boolean) => {
-  logDebug('chatSession.setChatInitialized', 'setting value', value)
-  chatInitialized(value)
-}
-
-export const useChatInitialized = () => {
-  return useReactiveVar(chatInitialized)
-}
 
 const unknownTokenHandler = async (deviceToken?: string): Promise<void> => {
   if (!isStopping) {

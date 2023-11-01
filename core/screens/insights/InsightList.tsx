@@ -3,11 +3,12 @@ import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { INSIGHT_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
+
+export const INSIGHT_PAGE_SIZE = 4
 
 export type InsightsProps = {
   insights: Insight[]

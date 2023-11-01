@@ -1,6 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
-import { makeVar, useReactiveVar } from '@apollo/client'
 import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
@@ -17,9 +16,6 @@ import headerLink from './headerLink'
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink: ApolloLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
-const unauthorizedErrorStatusVar = makeVar<boolean>(false)
-export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
-export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
 
 const setOperationNameParam = (uri: string, operationName: string): RequestInfo | URL => {
   if (uri === '/api/graphql') {

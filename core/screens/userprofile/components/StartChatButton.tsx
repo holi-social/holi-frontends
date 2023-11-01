@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useChatInitialized } from '@holi/chat/src/client/chatSession'
+import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { getOrCreateRoom } from '@holi/chat/src/store'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
