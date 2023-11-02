@@ -241,7 +241,9 @@ describe('NotificationsOverview', () => {
     const loaderTextContent = 'loginRedirect.title'
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
-    expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
+    await waitFor(async () =>
+      expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
+    )
   })
 
   it('does not show an empty message when proper notifications are given', async () => {
@@ -270,7 +272,11 @@ describe('NotificationsOverview', () => {
       </MockedProvider>
     )
 
-    expect(await screen.findByTestId('post-comment-mention'))
+    // wait for user to be loaded
+    const loaderTextContent = 'loginRedirect.title'
+    await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
+
+    await waitFor(async () => expect(await screen.findByTestId('post-comment-mention')))
     expect(await screen.findByTestId('release-info'))
     expect(await screen.findByTestId('space-post'))
     expect(await screen.findByTestId('space-connection'))
