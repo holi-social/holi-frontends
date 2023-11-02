@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -205,14 +205,14 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   }
 
   return (
-    <View style={styles.container} testID="volunteering-detailview-container">
+    <View style={styles.wrapper} testID="volunteering-detailview-container">
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ isLoading: refreshing, onRefresh }}
-        style={[mixins.container, styles.container]}
+        style={styles.header}
         headerOverlap
       >
         {engagement && (
-          <ScrollView contentContainerStyle={[styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
+          <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
@@ -221,7 +221,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
               name={'Voltastics'}
               partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
             />
-          </ScrollView>
+          </View>
         )}
       </ScrollHeaderLayout.Refreshable>
 
@@ -254,13 +254,15 @@ const getStyles = (statusBarHeight: number) =>
       alignItems: 'center',
       marginTop: vars.topBarHeight + 50,
     },
-    container: {
+    wrapper: {
       alignItems: 'center',
       flex: 1,
-      backgroundColor: colors.background20,
-      paddingHorizontal: 0,
+      backgroundColor: colors.background30,
     },
-    wrapper: {
+    header: {
+      backgroundColor: colors.background30,
+    },
+    container: {
       paddingBottom: 132,
       paddingHorizontal: 0,
       ...Platform.select({
@@ -269,7 +271,7 @@ const getStyles = (statusBarHeight: number) =>
           paddingTop: vars.topBarHeight + 40,
         },
         web: {
-          paddingTop: vars.topBarHeight + statusBarHeight,
+          paddingTop: statusBarHeight + vars.topBarHeight,
         },
       }),
     },
