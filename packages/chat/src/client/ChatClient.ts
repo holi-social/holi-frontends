@@ -57,6 +57,13 @@ export default class ChatClient {
   private readonly mxClient: MatrixClient
   private readonly deviceToken: string | undefined
 
+  private isLastDmMember(roomState: RoomState, member: RoomMember): boolean {
+    const members = roomState.getMembers()
+    const creator = members.find((m) => m.powerLevel === 100)
+
+    return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
+  }
+
   public constructor(credentials: ChatCredentials) {
     if (
       !credentials ||
@@ -236,7 +243,7 @@ export default class ChatClient {
     }, [])[0]
   }
 
-  private getRoomWithSharedData = async (room: Room, content?: SharedDataContent): Promise<RoomWithSharedData> => {
+  public getRoomWithSharedData = async (room: Room, content?: SharedDataContent): Promise<RoomWithSharedData> => {
     content ??= await this.getRoomSharedData(room.roomId)
 
     if (content) {
@@ -355,6 +362,14 @@ export default class ChatClient {
   ): (() => void) | void {
     const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
+
+      // If the creator of the DM room is the last one we forget (delete) entirely the room
+      // Example usage when the invited member in a two people DM rejects an invitation.
+      if (this.isLastDmMember(roomState, member)) {
+        this.leaveRoom(roomState.roomId)
+          .then(() => this.forgetRoom(roomState.roomId, true))
+          .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
+      }
 
       callback(event, roomState, member)
     }
