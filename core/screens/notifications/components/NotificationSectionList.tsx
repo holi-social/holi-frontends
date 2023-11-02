@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionList, StyleSheet, View } from 'react-native'
 
-import { onScreenScrollY } from '@holi/core/helpers'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -18,6 +18,7 @@ export const NotificationSectionList: React.FC<{
   footer?: React.ReactElement | null
 }> = (props) => {
   const mixins = useStyleMixins()
+  const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
   const styles = StyleSheet.create({
     sectionList: {
@@ -53,11 +54,10 @@ export const NotificationSectionList: React.FC<{
           : null
       }
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      onScroll={onScreenScrollY}
-      scrollEventThrottle={200}
       stickySectionHeadersEnabled={false}
       style={[mixins.container, styles.sectionList]}
       testID="notification-list"
+      {...throttledScrollEventProps}
     />
   )
 }
