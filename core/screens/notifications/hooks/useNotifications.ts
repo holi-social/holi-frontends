@@ -13,7 +13,6 @@ const NOVU_NOTIFICATIONS_PAGE_SIZE = 10
 export const useNotifications = () => {
   const [notifications, setNotifications] = useState<{ [key: string]: Notification }>({})
   const [isLoading, setIsLoading] = useState(false)
-  // TODO(SF) necessary?
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   const [canFetchMore, setCanFetchMore] = useState(true)
   const [nextPage, setNextPage] = useState(1)
@@ -23,17 +22,23 @@ export const useNotifications = () => {
   const processMessagesResponse = useCallback(
     (response: IPaginatedResponse<IMessage>) =>
       setNotifications((notificationMap) => {
-        return response.data
-          .map((message) => mapToNotification(message))
-          .reduce((previousMap, notification) => {
-            if (notification) {
-              return {
-                ...previousMap,
-                [notification.id]: notification,
-              }
+        const notifications = response.data.map((message) => mapToNotification(message))
+        const hasNewNotifications = notifications.some(
+          (notification) => notification && !notificationMap[notification.id]
+        )
+        // Do not rerender when there are no new notifications
+        if (!hasNewNotifications) {
+          return notificationMap
+        }
+        return notifications.reduce((previousMap, notification) => {
+          if (notification) {
+            return {
+              ...previousMap,
+              [notification.id]: notification,
             }
-            return previousMap
-          }, notificationMap)
+          }
+          return previousMap
+        }, notificationMap)
       }),
     []
   )
@@ -71,24 +76,25 @@ export const useNotifications = () => {
   }, [fetchMessages, isFetchingMore, nextPage, novuService])
 
   const markAllNotificationsAsSeen = useCallback(async () => {
-    // TODO(SF) only mark notifications as seen that were already fetched
-    //all feeds
-    const feedId = undefined
-    return novuService?.markAllMessagesAsSeen(feedId).catch((error) =>
+    const messageIds = Object.values(notifications)
+      .filter((notification) => !notification.read)
+      .map(({ id }) => id)
+    if (!messageIds.length) {
+      return
+    }
+    return novuService?.markMessageAs(messageIds, { seen: true }).catch((error) =>
       logError(error, 'Error marking novu notifications as seen', {
         location: 'useNotifications.markAllNotificationsAsSeen',
+        messageIds,
       })
     )
-  }, [novuService])
+  }, [notifications, novuService])
 
   useEffect(() => {
     let fetchIntervalId: NodeJS.Timer | null = null
 
     const fetchMessagesContinually = () => {
       fetchIntervalId = setInterval(() => {
-        // TODO(SF) filter for unseen? maybe even with limit 100?
-        // TODO(SF) only append to list, do not replace => do not use fetchMessages
-        // TODO(SF) how to handle deleted messages? => maybe only compare first page? but what about invalid messages? :/
         // Only log errors locally without sending sentry reports
         fetchMessages(0, logErrorLocal)
       }, notificationPollingInterval)

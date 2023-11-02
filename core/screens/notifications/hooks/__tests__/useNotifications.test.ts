@@ -7,7 +7,7 @@ import { NotificationSpaceConnection } from '@holi/core/screens/notifications/co
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
 const mockGetNotificationsList = jest.fn()
-const mockMarkAllMessagesAsSeen = jest.fn()
+const mockMarkMessageAs = jest.fn()
 const mockUseNotificationService = jest.fn()
 
 jest.useFakeTimers()
@@ -38,7 +38,7 @@ describe('useNotifications', () => {
     mockUseNotificationService.mockReturnValue({
       novuService: {
         getNotificationsList: mockGetNotificationsList,
-        markAllMessagesAsSeen: mockMarkAllMessagesAsSeen,
+        markMessageAs: mockMarkMessageAs,
       },
       isInitializing: false,
     })
@@ -126,21 +126,39 @@ describe('useNotifications', () => {
     jest.runOnlyPendingTimers()
   })
 
-  it('should mark all messages as seen', async () => {
-    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
-    mockMarkAllMessagesAsSeen.mockResolvedValue(undefined)
+  it('should mark all unread messages as seen', async () => {
+    const messageResponse = aMessageListPage([
+      aMessage('n1', testContent, aDateString),
+      aMessage('n2', testContent, aDateString, true),
+      aMessage('n3', testContent, aDateString),
+    ])
+    mockGetNotificationsList.mockResolvedValue(messageResponse)
+    mockMarkMessageAs.mockResolvedValue(undefined)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy())
 
     await result.current.markAllNotificationsAsSeen()
 
-    expect(mockMarkAllMessagesAsSeen).toHaveBeenCalled()
+    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n1', 'n3'], { seen: true })
+  })
+
+  it('should not mark messages as seen if there are none', async () => {
+    const messageResponse = aMessageListPage([aMessage(testNotificationId, testContent, aDateString, true)])
+    mockGetNotificationsList.mockResolvedValue(messageResponse)
+    mockMarkMessageAs.mockResolvedValue(undefined)
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+
+    await result.current.markAllNotificationsAsSeen()
+
+    expect(mockMarkMessageAs).not.toHaveBeenCalled()
   })
 
   it('should handle error when marking messages as seen failed', async () => {
-    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
-    mockMarkAllMessagesAsSeen.mockRejectedValue(testError)
+    mockGetNotificationsList.mockResolvedValue(testResponse)
+    mockMarkMessageAs.mockRejectedValue(testError)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy())
@@ -150,7 +168,9 @@ describe('useNotifications', () => {
     expect(console.warn).toHaveBeenCalledWith(
       '[useNotifications.markAllNotificationsAsSeen] Error marking novu notifications as seen',
       testError,
-      {}
+      {
+        messageIds: [testNotificationId],
+      }
     )
   })
 
@@ -195,7 +215,29 @@ describe('useNotifications', () => {
     expect(result.current.notifications.length).toEqual(10)
   })
 
-  it('should update existing messages', async () => {
+  it('should update existing messages if there are new messages', async () => {
+    const updatedContent = 'new content'
+    const newTestResponse = aMessageListPage([
+      aMessage(testNotificationId, updatedContent, aDateString),
+      aMessage('newId', updatedContent, new Date().toISOString()),
+    ])
+    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
+    mockGetNotificationsList.mockResolvedValue(newTestResponse)
+
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(1))
+    expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).toEqual(testContent)
+
+    await waitFor(() =>
+      expect((result.current.notifications[1] as NotificationSpaceConnection).options.requestMessage).toEqual(
+        updatedContent
+      )
+    )
+    expect(result.current.notifications.length).toEqual(2)
+  })
+
+  it('should not update existing messages and rerender if there are no new messages', async () => {
     const updatedContent = 'new content'
     const newTestResponse = aNotificationsResponse(testNotificationId, updatedContent, aDateString)
     mockGetNotificationsList.mockResolvedValueOnce(testResponse)
@@ -207,11 +249,10 @@ describe('useNotifications', () => {
     expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).toEqual(testContent)
 
     await waitFor(() =>
-      expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).toEqual(
+      expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).not.toEqual(
         updatedContent
       )
     )
-    expect(result.current.notifications.length).toEqual(1)
   })
 })
 

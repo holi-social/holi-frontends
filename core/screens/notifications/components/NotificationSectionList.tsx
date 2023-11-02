@@ -13,7 +13,10 @@ export interface NotificationGroup {
   data: Notification[]
 }
 
-export const NotificationSectionList: React.FC<{ notifications: NotificationGroup[] }> = (props) => {
+export const NotificationSectionList: React.FC<{
+  notifications: NotificationGroup[]
+  footer?: React.ReactElement | null
+}> = (props) => {
   const mixins = useStyleMixins()
 
   const styles = StyleSheet.create({
@@ -21,13 +24,13 @@ export const NotificationSectionList: React.FC<{ notifications: NotificationGrou
       overflow: 'visible',
     },
     listHeaderSpacer: {
-      height: vars.topBarHeight,
+      height: +vars.topBarHeight,
     },
     groupTitle: {
       paddingVertical: 12,
     },
     lastSectionFooter: {
-      marginBottom: vars.bottomBarHeight,
+      marginBottom: +vars.bottomBarHeight,
     },
     notification: {
       paddingVertical: 12,
@@ -45,9 +48,9 @@ export const NotificationSectionList: React.FC<{ notifications: NotificationGrou
         </HoliHeading>
       )}
       renderSectionFooter={({ section }) =>
-        section === props.notifications[props.notifications.length - 1] ? (
-          <View style={styles.lastSectionFooter} />
-        ) : null
+        section === props.notifications[props.notifications.length - 1]
+          ? props.footer || <View style={styles.lastSectionFooter} />
+          : null
       }
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       onScroll={onScreenScrollY}

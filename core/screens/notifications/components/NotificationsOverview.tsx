@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import React, { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useEffect, useMemo } from 'react'
+import { StyleSheet } from 'react-native'
 import { string } from 'zod'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
@@ -27,6 +27,7 @@ import {
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { vars } from '@holi/ui/styles/globalVars'
 
 const NotificationsOverview = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -76,6 +77,16 @@ const NotificationsOverview = () => {
     }
   }, [markAllNotificationsAsSeen, novuNotifications])
 
+  const loadMoreComponent = useMemo(
+    () => (
+      <ScrollBasedCallbackInvocation
+        callback={fetchNextPage}
+        placeholder={<HoliLoader style={styles.loaderBottom} testID="fetch-more-loader" />}
+      />
+    ),
+    [fetchNextPage]
+  )
+
   if (loading || loadingNovuNotifications || notificationsQueryError)
     return <HoliLoader style={{ height: 300 }} testID="loader" />
 
@@ -97,26 +108,14 @@ const NotificationsOverview = () => {
 
   const groupedNotifications = groupByDate(allNotifications)
 
-  // TODO(SF) useMemo?
-  const loadMoreComponent = (
-    <ScrollBasedCallbackInvocation
-      callback={fetchNextPage}
-      placeholder={<HoliLoader style={styles.loaderBottom} testID="fetch-more-loader" />}
-    />
-  )
-
   return (
-    <View>
-      <NotificationSectionList notifications={groupedNotifications} />
-      {canFetchMore && loadMoreComponent}
-    </View>
+    <NotificationSectionList notifications={groupedNotifications} footer={canFetchMore ? loadMoreComponent : null} />
   )
 }
 
-// TODO(SF) required? maybe adjust style
 const styles = StyleSheet.create({
   loaderBottom: {
-    marginBottom: 24,
+    marginBottom: +vars.bottomBarHeight,
     position: 'relative',
   },
 })
