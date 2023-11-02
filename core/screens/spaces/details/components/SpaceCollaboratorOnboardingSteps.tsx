@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { OnboardingStep } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -71,13 +71,17 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   textWrapper: {
-    flex: 1,
-    flexWrap: 'wrap',
     minHeight: 32,
     justifyContent: 'center',
+    ...Platform.select({
+      web: {
+        flex: 1,
+        flexWrap: 'wrap',
+      },
+    }),
   },
   text: {
-    lineHeight: '148%',
+    lineHeight: 32,
   },
 })
 
