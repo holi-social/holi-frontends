@@ -237,6 +237,19 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 </HoliButton>
               )}
 
+              <HoliButton
+                contentStyle={styles.actionsItem}
+                inline
+                transparent
+                disabled={loading}
+                label={t('spaces.collaborators.permissions.viewProfile')}
+                onPress={() => handleNavigation(user.id)}
+                testID={'spaces-collaborators-view-profile-btn'}
+              >
+                <HoliIcon icon={UserIcon} color={styles.actionsItemIcon.color} />
+                <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
+              </HoliButton>
+
               {displayMemberActions && isMember && (
                 <HoliButton
                   contentStyle={styles.actionsItem}
@@ -253,19 +266,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                   </HoliText>
                 </HoliButton>
               )}
-
-              <HoliButton
-                contentStyle={styles.actionsItem}
-                inline
-                transparent
-                disabled={loading}
-                label={t('spaces.collaborators.permissions.viewProfile')}
-                onPress={() => handleNavigation(user.id)}
-                testID={'spaces-collaborators-view-profile-btn'}
-              >
-                <HoliIcon icon={UserIcon} color={styles.actionsItemIcon.color} />
-                <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
-              </HoliButton>
 
               <HoliButton
                 contentStyle={styles.actionsItem}
