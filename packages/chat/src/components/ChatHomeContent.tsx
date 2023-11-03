@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { useChatInitialized } from '@holi/chat/src/client/chatSession'
+import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import RoomList from '@holi/chat/src/components/RoomList'
 import {
   ChatRoomAtom,

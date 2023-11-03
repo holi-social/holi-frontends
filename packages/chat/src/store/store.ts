@@ -4,7 +4,7 @@ import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, Ro
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { setChatInitialized } from '@holi/chat/src/client/chatSession'
+import { setChatInitialized } from '@holi/chat/src/client/chatState'
 import {
   ChatRoomMember,
   MatrixId,
@@ -24,7 +24,7 @@ import type {
   RoomAtomByRoomId,
   SpaceChatTab,
 } from '@holi/chat/src/store/types'
-import { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
+import { MessageAtomsByRoomId, isSpaceGeneralChatRoom } from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
@@ -48,13 +48,13 @@ export const getChatClient = (): ChatClient => {
  * Room Producers
  *
  **/
-export interface UpdateInvitationOptions {
+export interface MyMembershipOptions {
   room: Room
   membership: string
   prevMembership?: string
 }
 
-const updateRoomInvitation = produce((chatRoom: ChatRoom, { membership, prevMembership }: UpdateInvitationOptions) => {
+const updateRoomInvitation = produce((chatRoom: ChatRoom, { membership, prevMembership }: MyMembershipOptions) => {
   const hasJoined = prevMembership === 'invite' && membership === 'join'
   if (!hasJoined) return
 
@@ -68,6 +68,10 @@ const updateRoomUnreadNotifications = produce((chatRoom: ChatRoom, count: number
 const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
   room.lastMessage = message
   room.timestamp = message.timestamp
+})
+
+const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, chatRoom: ChatRoom) => {
+  roomAtoms[chatRoom.id] = atom(chatRoom)
 })
 
 const addOrUpdateChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, rooms: ChatRoom[], get: Getter) => {
@@ -291,15 +295,31 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     rooms.map((room) => ({ type: 'private', room })),
     'init'
   )
+
   // ask for async shared data for space related rooms and update atoms
   client.getRoomsWithSharedData().then(async (rooms) => {
-    addRoomToStore(RoomAtomsActionType.CREATE, rooms, 'init')
+    const [roomsJoined, roomsLeft] = rooms.reduce<[RoomWithSharedData[], RoomWithSharedData[]]>(
+      ([joined, left], room) => {
+        const myMembership = room.room.getMyMembership()
+
+        if (['leave', 'ban', 'block'].some((membership) => membership === myMembership)) {
+          return [joined, [...left, room]]
+        } else {
+          return [[...joined, room], left]
+        }
+      },
+      [[], []]
+    )
+
+    addRoomToStore(RoomAtomsActionType.CREATE, roomsJoined, 'init')
+    roomsLeft.forEach(({ room }) => deleteRoomFromStore(room.roomId))
 
     rooms.forEach(async (roomWithSharedData) => {
       // automatically accept general space room invitations
       await joinGeneralSpaceRoom(roomWithSharedData).catch((err) => err)
     })
   })
+
   setChatInitialized(true)
 
   /**
@@ -452,9 +472,8 @@ export const joinRoom = async (roomId: string): Promise<Room | null> => {
 }
 
 /**
- * @name joinRoom
- * @description Join a Matrix room by accepting the invitation. If you have
- * already joined the room, this will be a no-op.
+ * @name leaveRoom
+ * @description Leave a Matrix room.
  */
 export const leaveRoom = async (roomId: string): Promise<void> => {
   await getChatClient().leaveRoom(roomId)
@@ -703,12 +722,41 @@ export const useRequestRoomMessages = () => {
  * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
  * the user joins a room, we update the room has an invitation.
  */
-const _myMembershipSubscriberAtom = atom(null, (get, set, options: UpdateInvitationOptions) => {
+const _myMembershipSubscriberAtom = atom(null, async (get, set, options: MyMembershipOptions) => {
+  const client = getChatClient()
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[options.room.roomId]
-  if (!roomAtom) return null
 
-  set(roomAtom, (room) => updateRoomInvitation(room, options))
+  switch (options.membership) {
+    case 'join': {
+      if (!roomAtom) {
+        try {
+          const roomWithShareData = await client.getRoomWithSharedData(options.room)
+          const chatRoom = createChatRoom(roomWithShareData)
+          if (!isSpaceGeneralChatRoom(chatRoom)) return
+
+          set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => addChatRoom(prevRoomAtomsRecord, chatRoom))
+        } catch (err) {
+          logError(err, 'Failed to retrieve shared room data', { location: '_myMembershipSubscriberAtom' })
+        }
+        return
+      }
+
+      set(roomAtom, (room) => updateRoomInvitation(room, options))
+      break
+    }
+    case 'leave': {
+      if (!roomAtom) return
+
+      set(_roomAtomsRecordAtom, (roomAtomsRecord) => deleteChatRoom(roomAtomsRecord, options.room.roomId))
+      break
+    }
+    case 'invite':
+    case 'ban':
+    case 'knock':
+    default:
+      return
+  }
 })
 
 _myMembershipSubscriberAtom.onMount = (setAtom) => {
@@ -719,31 +767,14 @@ _myMembershipSubscriberAtom.onMount = (setAtom) => {
 
 /**
  * @name _membershipSubscriberAtom
- * @description The membership subscriber is used to listening to members
- * leaving rooms and eventually forgetting (deleting) a room in case the creator
- * is the only member available. You can extend when updating the store based on
- * membership events.
+ * @description The membership subscriber is used to listen to membership
+ * changes and eventually forgetting (deleting) a room in case the creator
+ * is the only member available. Currently it does not update state,
+ * but triggers client events that update state.
  */
-const _membershipSubscriberAtom = atom(
-  null,
-  async (_get, set, event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
-    const client = getChatClient()
-
-    // If the creator of the room is the last one we forget (delete) entirely the room
-    if (isLastMemberCreator(roomState, member)) {
-      try {
-        await client.leaveRoom(roomState.roomId)
-        await client.forgetRoom(roomState.roomId, true)
-      } catch (err) {
-        console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err)
-      }
-    }
-
-    set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) =>
-      leaveRoomUpdate(prevRoomAtomsRecord, { event, roomState, member })
-    )
-  }
-)
+const _membershipSubscriberAtom = atom(null, () => {
+  return
+})
 
 _membershipSubscriberAtom.onMount = (setAtom) => {
   return getChatClient().subscribeToMembership(setAtom)
@@ -817,20 +848,11 @@ export interface MemberEventOptions {
 }
 
 export const leaveRoomUpdate = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, options: MemberEventOptions) => {
-  const { event, roomState, member } = options
-
+  const { roomState, member } = options
   if (member.membership !== 'leave') return
-  if (event.getSender() !== member.userId) return
 
   delete roomAtomsRecord[roomState.roomId]
 })
-
-export const isLastMemberCreator = (roomState: RoomState, member: RoomMember) => {
-  const members = roomState.getMembers()
-  const creator = members.find((m) => m.powerLevel === 100)
-
-  return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
-}
 
 /**
  * Global Atoms

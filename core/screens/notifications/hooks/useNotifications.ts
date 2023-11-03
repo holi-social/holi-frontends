@@ -5,7 +5,6 @@ import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { Notification, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
-import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
 const NOVU_NOTIFICATIONS_PAGE_SIZE = 10
@@ -91,25 +90,9 @@ export const useNotifications = () => {
   }, [notifications, novuService])
 
   useEffect(() => {
-    let fetchIntervalId: NodeJS.Timer | null = null
-
-    const fetchMessagesContinually = () => {
-      fetchIntervalId = setInterval(() => {
-        // Only log errors locally without sending sentry reports
-        fetchMessages(0, logErrorLocal)
-      }, notificationPollingInterval)
-    }
-
     if (novuService) {
       setIsLoading(true)
       fetchMessages().finally(() => setIsLoading(false))
-      fetchMessagesContinually()
-
-      return () => {
-        if (fetchIntervalId) {
-          clearInterval(fetchIntervalId)
-        }
-      }
     }
   }, [fetchMessages, novuService])
 

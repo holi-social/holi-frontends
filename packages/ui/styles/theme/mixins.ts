@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from 'react-native'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
 import { vars } from '@holi/ui/styles/globalVars'
 
 const staticStyles = StyleSheet.create({

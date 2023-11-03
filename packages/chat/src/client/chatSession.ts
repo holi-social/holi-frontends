@@ -1,4 +1,3 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import fetch from 'cross-fetch'
 // The Matrix SDK uses the TextEncoder internally.
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
@@ -8,7 +7,6 @@ import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { initChatClient } from '@holi/chat/src/store'
-import { StoredCredentials } from '@holi/chat/src/utils'
 import type { MatrixDeviceName } from '@holi/chat/src/utils/constants'
 import {
   StoredCredentials as SessionCredentials,
@@ -22,6 +20,8 @@ import { logError, logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatServerLoginUrl } from '@holi/core/helpers/config'
 import { chatServerUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
+
+import { chatReloadCounter, setChatConnected, setChatInitialized } from './chatState'
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -38,32 +38,6 @@ interface MatrixLoginResponse {
 let chatClient: ChatClient | undefined = undefined
 let isStarting = false
 let isStopping = false
-
-const chatConnected = makeVar(false)
-const chatReloadCounter = makeVar(0)
-const chatInitialized = makeVar(false)
-
-export const setChatConnected = (value: boolean) => {
-  logDebug('chatSession.setChatConnected', 'setting value', value)
-  chatConnected(value)
-}
-
-export const useChatConnected = () => {
-  return useReactiveVar(chatConnected)
-}
-
-export const useChatReloadCounter = () => {
-  return useReactiveVar(chatReloadCounter)
-}
-
-export const setChatInitialized = (value: boolean) => {
-  logDebug('chatSession.setChatInitialized', 'setting value', value)
-  chatInitialized(value)
-}
-
-export const useChatInitialized = () => {
-  return useReactiveVar(chatInitialized)
-}
 
 const unknownTokenHandler = async (deviceToken?: string): Promise<void> => {
   if (!isStopping) {
@@ -86,23 +60,19 @@ export const startChat = async (deviceToken?: string): Promise<void> => {
 
   try {
     // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
-    chatClient = await getSessionFromStorage()
-      .then((orySession) => {
-        if (!orySession) {
-          throw new HoliError('[ChatLogin]: Can not start chat without Ory session token')
-        }
-        return ensureChatLoggedIn(orySession.session_token)
-      })
-      .then((credentials: StoredCredentials) => {
-        return new ChatClient({
-          baseUrl: chatServerUrl,
-          accessToken: credentials.access_token,
-          deviceId: credentials.device_id,
-          userId: credentials.user_id,
-          freshLogin: credentials.fresh_login,
-          deviceToken,
-        })
-      })
+    const orySession = await getSessionFromStorage()
+    if (!orySession) {
+      throw new HoliError('[ChatLogin]: Can not start chat without Ory session token')
+    }
+    const credentials = await ensureChatLoggedIn(orySession.session_token)
+    chatClient = new ChatClient({
+      baseUrl: chatServerUrl,
+      accessToken: credentials.access_token,
+      deviceId: credentials.device_id,
+      userId: credentials.user_id,
+      freshLogin: credentials.fresh_login,
+      deviceToken,
+    })
 
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')

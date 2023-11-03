@@ -1,7 +1,8 @@
 import { Provider, createStore } from 'jotai'
 import React, { type PropsWithChildren, Suspense, memo, useEffect } from 'react'
 
-import { startChat, useChatConnected, useChatReloadCounter } from '@holi/chat/src/client/chatSession'
+import { startChat } from '@holi/chat/src/client/chatSession'
+import { useChatConnected, useChatReloadCounter } from '@holi/chat/src/client/chatState'
 import { ChatDevToolsProps } from '@holi/chat/src/components/ChatDevTools/types'
 import { useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'

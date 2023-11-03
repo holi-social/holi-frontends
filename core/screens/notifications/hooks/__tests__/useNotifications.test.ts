@@ -3,7 +3,6 @@ import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { aMessage, aMessageListPage } from '@holi/core/screens/notifications/components/novu/testData'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
 const mockGetNotificationsList = jest.fn()
@@ -78,52 +77,6 @@ describe('useNotifications', () => {
       testError,
       {}
     )
-  })
-
-  it('should refetch notifications', async () => {
-    mockGetNotificationsList.mockResolvedValueOnce(emptyTestResponse)
-    mockGetNotificationsList.mockResolvedValue(testResponse)
-
-    const { result } = renderHook(() => useNotifications())
-
-    expect(result.current.notifications).toEqual([])
-
-    await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
-  })
-
-  it('should handle errors when refetching notifications', async () => {
-    // initial fetch
-    mockGetNotificationsList.mockResolvedValueOnce(emptyTestResponse)
-    // failed refetch
-    mockGetNotificationsList.mockRejectedValueOnce(testError)
-    // successful refetch to wait for
-    mockGetNotificationsList.mockResolvedValue(testResponse)
-
-    const { result } = renderHook(() => useNotifications())
-
-    expect(result.current.notifications).toEqual([])
-
-    await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
-
-    expect(console.warn).toHaveBeenCalledWith(
-      '[useNotifications.fetchMessages] Error fetching notifications from novu',
-      testError,
-      {}
-    )
-  })
-
-  it('should cleanup the interval timer after unmount', async () => {
-    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
-
-    const { unmount } = renderHook(() => useNotifications())
-
-    await waitFor(() => expect(jest.getTimerCount()).toStrictEqual(1))
-
-    unmount()
-
-    expect(jest.getTimerCount()).toStrictEqual(0)
-
-    jest.runOnlyPendingTimers()
   })
 
   it('should mark all unread messages as seen', async () => {
@@ -213,46 +166,6 @@ describe('useNotifications', () => {
     await act(() => result.current.fetchNextPage())
 
     expect(result.current.notifications.length).toEqual(10)
-  })
-
-  it('should update existing messages if there are new messages', async () => {
-    const updatedContent = 'new content'
-    const newTestResponse = aMessageListPage([
-      aMessage(testNotificationId, updatedContent, aDateString),
-      aMessage('newId', updatedContent, new Date().toISOString()),
-    ])
-    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
-    mockGetNotificationsList.mockResolvedValue(newTestResponse)
-
-    const { result } = renderHook(() => useNotifications())
-
-    await waitFor(() => expect(result.current.notifications.length).toEqual(1))
-    expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).toEqual(testContent)
-
-    await waitFor(() =>
-      expect((result.current.notifications[1] as NotificationSpaceConnection).options.requestMessage).toEqual(
-        updatedContent
-      )
-    )
-    expect(result.current.notifications.length).toEqual(2)
-  })
-
-  it('should not update existing messages and rerender if there are no new messages', async () => {
-    const updatedContent = 'new content'
-    const newTestResponse = aNotificationsResponse(testNotificationId, updatedContent, aDateString)
-    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
-    mockGetNotificationsList.mockResolvedValue(newTestResponse)
-
-    const { result } = renderHook(() => useNotifications())
-
-    await waitFor(() => expect(result.current.notifications.length).toEqual(1))
-    expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).toEqual(testContent)
-
-    await waitFor(() =>
-      expect((result.current.notifications[0] as NotificationSpaceConnection).options.requestMessage).not.toEqual(
-        updatedContent
-      )
-    )
   })
 })
 

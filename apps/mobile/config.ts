@@ -44,6 +44,7 @@ export interface HoliNovuConfig {
   applicationIdentifier: string
   backendUrl: string
   socketUrl: string
+  credentialsUrl: string
 }
 
 export interface HoliConfig {
@@ -65,6 +66,7 @@ export const config: HoliConfig = {
     applicationIdentifier: Constants.expoConfig?.extra?.novu.applicationIdentifier,
     backendUrl: Constants.expoConfig?.extra?.novu.backendUrl,
     socketUrl: Constants.expoConfig?.extra?.novu.socketUrl,
+    credentialsUrl: Constants.expoConfig?.extra?.novu.credentialsUrl,
   },
   chat: {
     serverName: Constants.expoConfig?.extra?.chat.serverName,

@@ -5,3 +5,4 @@ export const novuApplicationIdentifier = environmentId === EnvironmentId.PRODUCT
 export const novuBackendUrl = 'https://eu.api.novu.co'
 export const novuSocketUrl = 'wss://eu.ws.novu.co'
 export const notificationPollingInterval = 10000
+export const novuCredentialsUrl = '/api/novu/credentials'
