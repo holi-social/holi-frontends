@@ -49,6 +49,8 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper')
 
 jest.mock('react-native/Libraries/Network/RCTNetworking')
 
+jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
+
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
   const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
   return {

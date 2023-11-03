@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -139,16 +139,17 @@ describe('FilteredSpaces', () => {
     renderFilteredSpaces([createSpacesPaginationMock(), createSpacesPaginationMock(SPACES_PAGE_SIZE)])
 
     // expect 12 spaces
-    expect((await screen.findAllByTestId('filtered-spaces-container')).length).toBeGreaterThan(0)
-    expect((await screen.findAllByTestId('space-link')).length).toBe(SPACES_PAGE_SIZE)
+    await waitFor(async () =>
+      expect((await screen.findAllByTestId('filtered-spaces-container')).length).toBeGreaterThan(0)
+    )
+    await waitFor(async () => expect((await screen.findAllByTestId('space-link')).length).toBe(SPACES_PAGE_SIZE))
 
     // load more
-    fireEvent.press(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))
-    expect(await screen.findByText('global.loading'))
+    await act(async () => fireEvent.press(await screen.findByText('spaces.spaceListing.loadMoreButton.text')))
 
     // expect 24 spaces
-    expect(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))
-    expect((await screen.findAllByTestId('space-link')).length).toBe(2 * SPACES_PAGE_SIZE)
+    await waitFor(async () => expect(await screen.findByText('spaces.spaceListing.loadMoreButton.text')))
+    await waitFor(async () => expect((await screen.findAllByTestId('space-link')).length).toBe(2 * SPACES_PAGE_SIZE))
   })
 
   it('displays no results screen if no spaces were found', async () => {

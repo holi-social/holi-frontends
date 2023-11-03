@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionList, StyleSheet, View } from 'react-native'
 
-import { onScreenScrollY } from '@holi/core/helpers'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -13,21 +13,25 @@ export interface NotificationGroup {
   data: Notification[]
 }
 
-export const NotificationSectionList: React.FC<{ notifications: NotificationGroup[] }> = (props) => {
+export const NotificationSectionList: React.FC<{
+  notifications: NotificationGroup[]
+  footer?: React.ReactElement | null
+}> = (props) => {
   const mixins = useStyleMixins()
+  const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
   const styles = StyleSheet.create({
     sectionList: {
       overflow: 'visible',
     },
     listHeaderSpacer: {
-      height: vars.topBarHeight,
+      height: +vars.topBarHeight,
     },
     groupTitle: {
       paddingVertical: 12,
     },
     lastSectionFooter: {
-      marginBottom: vars.bottomBarHeight,
+      marginBottom: +vars.bottomBarHeight,
     },
     notification: {
       paddingVertical: 12,
@@ -45,16 +49,15 @@ export const NotificationSectionList: React.FC<{ notifications: NotificationGrou
         </HoliHeading>
       )}
       renderSectionFooter={({ section }) =>
-        section === props.notifications[props.notifications.length - 1] ? (
-          <View style={styles.lastSectionFooter} />
-        ) : null
+        section === props.notifications[props.notifications.length - 1]
+          ? props.footer || <View style={styles.lastSectionFooter} />
+          : null
       }
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      onScroll={onScreenScrollY}
-      scrollEventThrottle={200}
       stickySectionHeadersEnabled={false}
       style={[mixins.container, styles.sectionList]}
       testID="notification-list"
+      {...throttledScrollEventProps}
     />
   )
 }
