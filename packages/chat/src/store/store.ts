@@ -119,6 +119,13 @@ const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({})
  * @see _roomAtomsRecordAtom
  */
 export const roomAtomsRecordAtom: Atom<RoomAtomByRoomId> = atom((get) => get(_roomAtomsRecordAtom))
+
+/**
+ * @description A read-only atom to receive a record mapping room ids to derived room
+ * derived room has type SpaceChatTab | PrivateChatTab
+ *
+ * @see derivedRoomsRecordAtom
+ */
 export const derivedRoomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab | PrivateChatTab>> = atom((get) => {
   const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
   return roomAtoms.reduce<Record<ChatRoomId, SpaceChatTab | PrivateChatTab>>((acc, roomAtom) => {
@@ -145,6 +152,11 @@ export const derivedRoomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab | Priv
   }, {})
 })
 
+/**
+ * @description A read-only atom to receive a record mapping room ids to derived room of type SpaceChatTab only
+ *
+ * @see spaceTabRecordAtom
+ */
 export const spaceTabRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab>> = atom((get) => {
   return Object.entries(get(derivedRoomsRecordAtom)).reduce<Record<ChatRoomId, SpaceChatTab>>(
     (acc, [id, derivedRoom]) => {
@@ -172,7 +184,7 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
 })
 
 /**
- * Derived atom that holds record with spaces ids as keys and array of all space's related room atoms as value
+ * Derived atom that holds record with space ids as keys and array of all space's related room (ChatRoom) atoms as value
  */
 export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomAtom[]>>> = atom(async (get) => {
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
@@ -198,6 +210,17 @@ export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomA
     return {
       ...acc,
       [roomId]: siblingRoomsAtoms,
+    }
+  }, {})
+})
+
+export const spaceNotificationCountRecordAtom: Atom<Promise<Record<ChatRoomId, number>>> = atom(async (get) => {
+  const spaceRoomAtomsRecord = await get(spaceRoomAtomsRecordAtom)
+  return Object.entries(spaceRoomAtomsRecord).reduce<Record<ChatRoomId, number>>((acc, [spaceRoomId, roomAtoms]) => {
+    const spaceRelatedNotificationCount = roomAtoms.reduce((acc, roomAtom) => acc + get(roomAtom).notificationCount, 0)
+    return {
+      ...acc,
+      [spaceRoomId]: spaceRelatedNotificationCount,
     }
   }, {})
 })
