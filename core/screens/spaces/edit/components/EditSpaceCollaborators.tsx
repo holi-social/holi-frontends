@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -55,7 +56,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -93,12 +94,22 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
+
   if (loading) {
     return <HoliLoader />
   }
 
   return (
-    <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
+    <ScrollHeaderLayout.Refreshable
+      headerOverlap
+      keyboardShouldPersistTaps="handled"
+      style={styles.wrapper}
+      refreshableProps={{
+        isLoading: refreshing,
+        onRefresh,
+      }}
+    >
       <HoliTabs
         id="collaborator-tabs"
         style={styles.tabWrapper}
@@ -109,30 +120,30 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
             title: t('spaces.collaborators.manage.tabs.all'),
             style: styles.tabStyle,
             children: (
-              <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+              <View style={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceMembersQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
-                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
                 >
                   {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
                 </Pagination>
-              </ScrollView>
+              </View>
             ),
           },
           {
             title: t('spaces.collaborators.manage.tabs.pending'),
             style: styles.tabStyle,
             children: (
-              <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+              <View style={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceMembershipRequestsQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
-                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
                 >
                   {!!space && <SpacePendingRequestsList space={space} />}
                 </Pagination>
-              </ScrollView>
+              </View>
             ),
           },
         ]}
@@ -148,14 +159,14 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
           hidePermissions={hidePermissions}
         />
       )}
-    </ScrollHeaderLayout.Default>
+    </ScrollHeaderLayout.Refreshable>
   )
 }
 
 const createStyles = (screenHeight: number) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: colors.background20,
+      backgroundColor: Platform.OS === 'web' ? colors.background20 : colors.background10,
       minHeight: '100%',
       ...Platform.select({
         native: {
@@ -174,7 +185,7 @@ const createStyles = (screenHeight: number) =>
       paddingTop: 16,
       ...Platform.select({
         web: {
-          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
+          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight,
         },
         native: {
           minHeight: screenHeight,

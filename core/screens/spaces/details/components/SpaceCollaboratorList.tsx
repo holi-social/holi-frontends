@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
@@ -26,7 +26,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   return (
-    <ScrollView>
+    <View style={{ flex: 1 }}>
       {spaceMembers.map((member) => {
         const collaborator = member.user
         return (
@@ -66,7 +66,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
           </HoliButton>
         )
       })}
-    </ScrollView>
+    </View>
   )
 }
 

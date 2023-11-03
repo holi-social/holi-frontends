@@ -78,12 +78,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
     >
       <ToastProvider>
         <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
-          <Pagination
-            query={spaceMembersQuery}
-            queryOptions={queryOptions}
-            fetchMoreButtonProps={{ style: styles.buttonContainer }}
-            fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-          >
+          <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
             <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
           </Pagination>
         </ScrollView>

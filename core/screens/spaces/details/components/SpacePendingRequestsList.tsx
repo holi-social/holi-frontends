@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpacePendingRequestsItem from '@holi/core/screens/spaces/details/components/SpacePendingRequestItem'
@@ -39,7 +39,7 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
   }, [data, spaceMembershipRequests.length])
 
   return (
-    <ScrollView>
+    <View>
       {!!spaceMembershipRequests.length && (
         <HoliButton
           inline
@@ -79,7 +79,7 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
           ))}
         </View>
       )}
-    </ScrollView>
+    </View>
   )
 }
 
