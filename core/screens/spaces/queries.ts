@@ -124,6 +124,97 @@ export const FullSpaceFragment = gql`
   }
 `
 
+export const FullSpaceDetailsFragment = gql`
+  ${FullSpaceMemberFragment}
+  ${FullUserFragment}
+  ${FullSpaceMembershipRequestFragment}
+  fragment FullSpace on Space {
+    id
+    title
+    description
+    contactEmail
+    contactPhone
+    contactDescription
+    created
+    creator {
+      ...FullUser
+    }
+    avatar
+    avatarBlurhash
+    cover
+    coverBlurhash
+    name
+    avatarDefaultColor
+    location
+    hasPublicPosts
+    hasPrivatePosts
+    geolocation {
+      latitude
+      longitude
+    }
+    connectionStatusToMyself
+    links {
+      id
+      type
+      url
+      name
+    }
+    collaborationTools {
+      id
+      domain
+      url
+      description
+      title
+      collectionType
+      thumbnail
+      thumbnailBlurhash
+    }
+    members(limit: 10) {
+      ...FullSpaceMember
+    }
+    membershipRequests(limit: 10) {
+      ...FullSpaceMembershipRequest
+    }
+    tasks {
+      id
+      name
+      description
+      slotsAvailable
+      slotsTaken
+      location
+      regularity
+      visibility
+      locationType
+      contactEmail
+      contactPhone
+      thumbnail
+      thumbnailBlurhash
+      creator {
+        ...FullUserAvatar
+      }
+      skills {
+        id
+        title
+        slug
+      }
+    }
+    topics {
+      id
+      title
+    }
+    sdgs {
+      id
+      title
+      number
+    }
+    onboarding {
+      steps {
+        text
+      }
+    }
+  }
+`
+
 // We only need 3 members for avatar pile
 export const SpaceOverviewFragment = gql`
   fragment SpaceOverview on Space {
@@ -182,6 +273,16 @@ export const sdgsQuery = gql`
 
 export const spaceByIdQuery = gql`
   ${FullSpaceFragment}
+
+  query SpaceById($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
+      ...FullSpace
+    }
+  }
+`
+
+export const spaceDetailsByIdQuery = gql`
+  ${FullSpaceDetailsFragment}
 
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {

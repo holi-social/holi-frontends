@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,9 +10,11 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
+import { SpaceByIdResponse, spaceDetailsByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -33,6 +36,12 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
+
+  const { data, loading } = useQuery<SpaceByIdResponse>(spaceDetailsByIdQuery, {
+    variables: { idOrName: space.id },
+  })
+
+  const newSpace = data?.spaceById || space
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: SPACE_MEMBER_PAGE_SIZE,
@@ -78,9 +87,13 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
     >
       <ToastProvider>
         <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
-          <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
-            <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
-          </Pagination>
+          {loading ? (
+            <HoliLoader />
+          ) : (
+            <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
+              <SpaceCollaboratorList space={newSpace} onSelectMember={onSelectMember} />
+            </Pagination>
+          )}
         </ScrollView>
         {selectedMember && (
           <SpacePermissions
