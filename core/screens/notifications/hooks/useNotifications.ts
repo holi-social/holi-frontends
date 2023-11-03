@@ -21,23 +21,22 @@ export const useNotifications = () => {
   const processMessagesResponse = useCallback(
     (response: IPaginatedResponse<IMessage>) =>
       setNotifications((notificationMap) => {
-        const notifications = response.data.map((message) => mapToNotification(message))
-        const hasNewNotifications = notifications.some(
-          (notification) => notification && !notificationMap[notification.id]
+        const notifications = response.data
+          .map(mapToNotification)
+          .filter((notification) => !!notification) as Notification[]
+        const newNotifications = Object.fromEntries(
+          notifications.map((notification) => [notification.id, notification])
         )
+        const hasNewNotifications = Object.keys(newNotifications).some((id) => !notificationMap[id])
+
         // Do not rerender when there are no new notifications
         if (!hasNewNotifications) {
           return notificationMap
         }
-        return notifications.reduce((previousMap, notification) => {
-          if (notification) {
-            return {
-              ...previousMap,
-              [notification.id]: notification,
-            }
-          }
-          return previousMap
-        }, notificationMap)
+        return {
+          ...notificationMap,
+          ...newNotifications,
+        }
       }),
     []
   )
@@ -70,7 +69,7 @@ export const useNotifications = () => {
     setIsFetchingMore(true)
     return fetchMessages(nextPage).finally(() => {
       setIsFetchingMore(false)
-      setNextPage((currentState) => currentState + 1)
+      setNextPage((currentPage) => currentPage + 1)
     })
   }, [fetchMessages, isFetchingMore, nextPage, novuService])
 
