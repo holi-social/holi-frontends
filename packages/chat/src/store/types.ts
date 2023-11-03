@@ -29,6 +29,7 @@ interface SpaceGeneralChatRoom extends BaseChatRoom, SpaceGeneralRoomBase {}
 
 export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceGeneralChatRoom
 export type SpaceChatTab = SpaceGeneralRoomBase & Pick<ChatRoom, 'id' | 'members'>
+export type PrivateChatTab = PrivateRoomBase & Pick<ChatRoom, 'id' | 'members'>
 
 export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom =>
   room.type === 'space-general-room'
