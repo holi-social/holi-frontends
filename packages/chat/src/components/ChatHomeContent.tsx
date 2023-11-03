@@ -8,8 +8,8 @@ import RoomList from '@holi/chat/src/components/RoomList'
 import {
   ChatRoomAtom,
   roomAtomsSortedByDateAtom,
-  roomTabAtomsRecordAtom,
   spaceRoomAtomsRecordAtom,
+  spaceTabRecordAtom,
 } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -114,7 +114,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
   const spaceRoomAtomsRecord = useAtomValue(spaceRoomAtomsRecordAtom)
-  const roomTabAtomsRecord = useAtomValue(roomTabAtomsRecordAtom)
+  const roomTabAtomsRecord = useAtomValue(spaceTabRecordAtom)
 
   const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
 
