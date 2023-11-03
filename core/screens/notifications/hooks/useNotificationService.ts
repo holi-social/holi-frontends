@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { logError } from '@holi/core/errors/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { novuApplicationIdentifier, novuBackendUrl } from '@holi/core/screens/notifications/config'
+import { useNovuCredentials } from '@holi/core/screens/notifications/hooks/useNovuCredentials'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const useNotificationService = () => {
@@ -14,12 +15,15 @@ export const useNotificationService = () => {
 
   const { ftEnabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
 
+  const { hmacHash } = useNovuCredentials(isNotificationFeatureEnabled ? user?.id : undefined)
+
   useEffect(() => {
-    if (isNotificationFeatureEnabled && user?.id) {
+    if (user?.id && hmacHash) {
       setIsInitializing(true)
+
       const novuService = new ApiService(novuBackendUrl)
       novuService
-        .initializeSession(novuApplicationIdentifier, user?.id)
+        .initializeSession(novuApplicationIdentifier, user?.id, hmacHash)
         .then((session) => {
           novuService.setAuthorizationToken(session.token)
           novuServiceRef.current = novuService
@@ -33,7 +37,7 @@ export const useNotificationService = () => {
     } else {
       novuServiceRef.current = null
     }
-  }, [isNotificationFeatureEnabled, user?.id])
+  }, [user?.id, hmacHash])
 
   return { novuService: novuServiceRef.current, isInitializing }
 }
