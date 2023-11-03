@@ -4,7 +4,6 @@ import { string } from 'zod'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -16,6 +15,7 @@ import {
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
+import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 import {
   LastSeenNotificationMutation,
@@ -27,22 +27,21 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const NotificationsOverview = () => {
-  const { isLoggedIn, user } = useLoggedInUser()
+  const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
 
-  const { ftEnabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
   const {
     notifications: novuNotifications,
     isLoading: loadingNovuNotifications,
     markAllNotificationsAsSeen,
-  } = useNotifications(isNotificationFeatureEnabled ? user?.id : undefined)
+  } = useNotifications()
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
     notificationsQuery,
     {
       variables: { offset: 0, limit: 100 },
       fetchPolicy: 'network-only',
-      pollInterval: 10000,
+      pollInterval: notificationPollingInterval,
     }
   )
 
@@ -108,6 +107,7 @@ function containsNotifications(notifications?: Notification[]) {
 function groupByDate(notifications?: Notification[]) {
   if (!notifications) return []
   return notifications
+    .sort(sortByCreatedNewestFirst)
     .reduce(
       (acc, notification) => {
         const { created } = notification
@@ -137,4 +137,8 @@ function groupByDate(notifications?: Notification[]) {
       ] as [NotificationGroup, NotificationGroup, NotificationGroup]
     )
     .filter(({ data }) => data.length)
+}
+
+function sortByCreatedNewestFirst(a: Notification, b: Notification) {
+  return b.created.localeCompare(a.created)
 }

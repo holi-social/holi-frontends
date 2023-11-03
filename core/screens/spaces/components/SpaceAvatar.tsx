@@ -7,7 +7,7 @@ import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvata
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export interface SpaceAvatarProps {
-  space: Space
+  space: Pick<Space, 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title'>
   size?: AvatarProps['size']
   style?: AvatarProps['style']
   testID?: string

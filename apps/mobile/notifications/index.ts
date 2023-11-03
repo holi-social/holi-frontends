@@ -2,10 +2,7 @@ import type { NotificationResponse, PushNotificationTrigger } from 'expo-notific
 
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
-
-export enum NotificationType {
-  SPACE_MEMBERSHIP_REQUEST = 'SPACE_MEMBERSHIP_REQUEST',
-}
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 
 export type NotificationPayload = Record<string, unknown>
 
@@ -56,7 +53,7 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
     return null
   }
   switch (payload.notificationType) {
-    case NotificationType.SPACE_MEMBERSHIP_REQUEST:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
       return createUrlFromSpaceMembershipNotification(payload)
     default:
       // Default is chat notification

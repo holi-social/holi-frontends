@@ -7,6 +7,7 @@ import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/co
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
 import NotificationSpacePermissionsItem from '@holi/core/screens/notifications/components/NotificationSpacePermissionsItem'
 import NotificationSpacePostItem from '@holi/core/screens/notifications/components/NotificationSpacePostItem'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
 
 /**
@@ -29,6 +30,7 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED,
   NotificationType.COMMUNITY_INVITE,
   NotificationType.COMMUNITY_INVITE_DECLINED,
+  NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -44,6 +46,7 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.COMMUNITY_MEMBERSHIP_REQUEST:
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
     case NotificationType.COMMUNITY_MEMBERSHIP_REVOKED:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
       return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
     case NotificationType.COMMUNITY_INVITE:
     case NotificationType.COMMUNITY_INVITE_DECLINED:

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useChatInitialized } from '@holi/chat/src/client/chatSession'
+import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import ChatRoomActionDrawer from '@holi/chat/src/components/ChatRoomActionDrawer'
 import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'

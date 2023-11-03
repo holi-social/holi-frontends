@@ -1,0 +1,3 @@
+export enum NovuNotificationType {
+  SPACE_MEMBERSHIP_REQUEST = 'SPACE_MEMBERSHIP_REQUEST',
+}

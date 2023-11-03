@@ -46,6 +46,10 @@ export interface SpaceGeneralRoomBase {
   content: SpaceGeneralRoomSharedDataContent
 }
 
+export const memberships = ['invite', 'join', 'leave', 'ban', 'knock'] as const
+export type Memberships = typeof memberships
+export type Membership = Memberships[number]
+
 export interface PrivateRoomWithSharedData extends BaseRoomWithSharedData, PrivateRoomBase {}
 export interface SpaceWithSharedData extends BaseRoomWithSharedData, SpaceRoomBase {}
 export interface SpaceGeneralRoomWithSharedData extends BaseRoomWithSharedData, SpaceGeneralRoomBase {}
@@ -73,7 +77,6 @@ export enum MembershipStatus {
   Left = 'LEFT',
 }
 
-export type Membership = Lowercase<MembershipStatus>
 export type NotificationCount = Partial<Record<NotificationCountType, number>>
 
 export interface RoomId {

@@ -1,5 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { Post } from '@holi/core/screens/posts/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -32,8 +33,7 @@ export enum NotificationType {
 // interface all Notifications extend
 export interface NotificationBase {
   id: string
-  notificationType: NotificationType
-  owner: User
+  notificationType: NotificationType | NovuNotificationType
   read: boolean
   created: string
 }
@@ -83,10 +83,15 @@ export interface NotificationSpaceConnection extends NotificationBase {
     | NotificationType.COMMUNITY_MEMBERSHIP_REVOKED
     | NotificationType.COMMUNITY_INVITE
     | NotificationType.COMMUNITY_INVITE_DECLINED
+    | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST
   options: {
-    user: User
-    space: Space
-    message: string
+    user: Pick<
+      User,
+      'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'
+    >
+    space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+    message?: string
+    requestMessage?: string
   }
 }
 

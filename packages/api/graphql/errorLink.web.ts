@@ -2,7 +2,7 @@ import { ApolloError } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import * as Sentry from '@sentry/nextjs'
 
-import { setUnauthorizedErrorStatus } from '@holi/api/graphql/client'
+import { setUnauthorizedErrorStatus } from '@holi/api/graphql/state'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { isErrorOfType, isUnauthorizedError, logError, logErrorLocal } from '@holi/core/errors/helpers'
 

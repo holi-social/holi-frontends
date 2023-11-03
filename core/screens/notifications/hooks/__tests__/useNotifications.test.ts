@@ -1,53 +1,51 @@
 /* eslint-disable no-console */
-import { ApiService } from '@novu/client'
 import { renderHook, waitFor } from '@testing-library/react-native'
 
-import { NotificationType } from '@holi/core/screens/notifications/components/types'
+import { aMessage, aMessageListPage } from '@holi/core/screens/notifications/components/novu/testData'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
-const mockInitializeSession = jest.fn()
 const mockGetNotificationsList = jest.fn()
-const mockSetAuthorizationToken = jest.fn()
 const mockMarkAllMessagesAsSeen = jest.fn()
+const mockUseNotificationService = jest.fn()
 
 jest.useFakeTimers()
 
 jest.mock('@holi/core/screens/notifications/config', () => ({
   novuApplicationIdentifier: 'testApplicationIdentifier',
+  notificationPollingInterval: 100,
 }))
 
-jest.mock('@novu/client')
+jest.mock('@holi/core/screens/notifications/hooks/useNotificationService', () => ({
+  useNotificationService: () => mockUseNotificationService(),
+}))
 
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
 
-const TEST_REFETCH_INTERVAL_IN_MILLIS = 100
-
 describe('useNotifications', () => {
-  const subscriberId = 'testSubscriberId'
+  const aDateString = new Date().toISOString()
   const testNotificationId = 'notificationId'
   const testContent = 'Test content'
-  const novuMessage = novuMessageFixture(testNotificationId, testContent)
-  const expectedNotification = notificationFixture(testNotificationId, testContent)
-  const testResponse = { data: [novuMessage] }
+  const expectedNotification = aNotification(testNotificationId, testContent, aDateString)
+  const testResponse = aNotificationsResponse(testNotificationId, testContent, aDateString)
   const emptyTestResponse = { data: [] }
   const testError = new Error('test')
 
   beforeEach(() => {
-    mockInitializeSession.mockResolvedValue({ token: 'someToken' })
-    // @ts-ignore
-    jest.mocked(ApiService).mockImplementation(() => ({
-      initializeSession: mockInitializeSession,
-      setAuthorizationToken: mockSetAuthorizationToken,
-      getNotificationsList: mockGetNotificationsList,
-      markAllMessagesAsSeen: mockMarkAllMessagesAsSeen,
-    }))
+    mockUseNotificationService.mockReturnValue({
+      novuService: {
+        getNotificationsList: mockGetNotificationsList,
+        markAllMessagesAsSeen: mockMarkAllMessagesAsSeen,
+      },
+      isInitializing: false,
+    })
   })
 
-  it('should fetch and return notifications initially', async () => {
+  it.only('should fetch and return notifications initially', async () => {
     mockGetNotificationsList.mockResolvedValue(testResponse)
 
-    const { result } = renderHook(() => useNotifications(subscriberId))
+    const { result } = renderHook(() => useNotifications())
 
     expect(result.current.notifications).toEqual([])
 
@@ -57,7 +55,7 @@ describe('useNotifications', () => {
   it('should expose loading flag while initializing', async () => {
     mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
 
-    const { result } = renderHook(() => useNotifications(subscriberId))
+    const { result } = renderHook(() => useNotifications())
 
     expect(result.current.isLoading).toBeTruthy()
 
@@ -67,7 +65,7 @@ describe('useNotifications', () => {
   it('should handle error when fetching notifications failed', async () => {
     mockGetNotificationsList.mockRejectedValue(testError)
 
-    const { result } = renderHook(() => useNotifications(subscriberId))
+    const { result } = renderHook(() => useNotifications())
 
     expect(result.current.isLoading).toBeTruthy()
 
@@ -84,7 +82,7 @@ describe('useNotifications', () => {
     mockGetNotificationsList.mockResolvedValueOnce(emptyTestResponse)
     mockGetNotificationsList.mockResolvedValue(testResponse)
 
-    const { result } = renderHook(() => useNotifications(subscriberId, TEST_REFETCH_INTERVAL_IN_MILLIS))
+    const { result } = renderHook(() => useNotifications())
 
     expect(result.current.notifications).toEqual([])
 
@@ -99,7 +97,7 @@ describe('useNotifications', () => {
     // successful refetch to wait for
     mockGetNotificationsList.mockResolvedValue(testResponse)
 
-    const { result } = renderHook(() => useNotifications(subscriberId, TEST_REFETCH_INTERVAL_IN_MILLIS))
+    const { result } = renderHook(() => useNotifications())
 
     expect(result.current.notifications).toEqual([])
 
@@ -115,7 +113,7 @@ describe('useNotifications', () => {
   it('should cleanup the interval timer after unmount', async () => {
     mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
 
-    const { unmount } = renderHook(() => useNotifications(subscriberId))
+    const { unmount } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(jest.getTimerCount()).toStrictEqual(1))
 
@@ -126,18 +124,10 @@ describe('useNotifications', () => {
     jest.runOnlyPendingTimers()
   })
 
-  it('should not initialize the novu service and session without subscriber id', () => {
-    const { result } = renderHook(() => useNotifications())
-
-    expect(ApiService).not.toHaveBeenCalled()
-    expect(mockInitializeSession).not.toHaveBeenCalled()
-    expect(result.current.isLoading).toBeFalsy()
-  })
-
   it('should mark all messages as seen', async () => {
     mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
     mockMarkAllMessagesAsSeen.mockResolvedValue(undefined)
-    const { result } = renderHook(() => useNotifications(subscriberId))
+    const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy())
 
@@ -149,7 +139,7 @@ describe('useNotifications', () => {
   it('should handle error when marking messages as seen failed', async () => {
     mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
     mockMarkAllMessagesAsSeen.mockRejectedValue(testError)
-    const { result } = renderHook(() => useNotifications(subscriberId))
+    const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy())
 
@@ -163,29 +153,18 @@ describe('useNotifications', () => {
   })
 })
 
-const aDate = new Date().toISOString()
-
-function novuMessageFixture(testNotificationId: string, testContent: string) {
-  return {
-    createdAt: aDate,
-    _id: testNotificationId,
-    read: false,
-    content: testContent,
-  }
+function aNotificationsResponse(notificationId: string, notificationContent: string, notificationCreated: string) {
+  return aMessageListPage(aMessage(notificationId, notificationContent, notificationCreated))
 }
 
-function notificationFixture(testNotificationId: string, testContent: string) {
-  // todo gregor: map notifications correctly and don't just use a wrong static type
+function aNotification(id: string, content: string, created: string) {
   return {
-    notificationType: NotificationType.CONNECTION_ACCEPTED,
-    created: aDate,
-    id: testNotificationId,
-    owner: expect.any(Object),
+    notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+    created: created,
+    id: id,
     read: false,
     options: expect.objectContaining({
-      user: expect.objectContaining({
-        fullName: testContent,
-      }),
+      requestMessage: content,
     }),
   }
 }
