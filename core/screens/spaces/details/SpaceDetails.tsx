@@ -1,10 +1,12 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import { useAtomValue } from 'jotai'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import { SpaceChatTab, spaceNotificationCountRecordAtom, spaceTabRecordAtom } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -26,9 +28,10 @@ import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
+import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -207,6 +210,11 @@ const SpaceDetails = () => {
     ]
   )
 
+  const spaceTabRooms: SpaceChatTab[] = Object.values(useAtomValue(spaceTabRecordAtom))
+  const spaceGeneralTabRoom: SpaceChatTab | undefined = spaceTabRooms.find(({ content }) => content.holiSpaceId === id)
+  const spaceRelatedNotificationCountRecord = useAtomValue(spaceNotificationCountRecordAtom)
+  const spaceNotificationCount = spaceGeneralTabRoom ? spaceRelatedNotificationCountRecord[spaceGeneralTabRoom.id] : 0
+
   useEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
@@ -216,7 +224,18 @@ const SpaceDetails = () => {
       headerTitle: () => null,
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
-        <View style={!isMember || !isAdmin ? styles.headerRight : null}>
+        <View style={styles.headerRight}>
+          {(isMember || isAdmin) && spaceGeneralTabRoom && (
+            <HoliButtonBell
+              label={t('spaces.actions.chat', { spaceNmae: space?.name })}
+              icon={Chat3}
+              showBell={spaceNotificationCount > 0}
+              onPress={() => {
+                navigate(`/chat?activeTab=${spaceGeneralTabRoom.id}`)
+              }}
+              color={props.tintColor}
+            />
+          )}
           {!isMember || !isAdmin ? (
             <SpaceShareIcon {...props} spaceIdOrName={space?.name || spaceIdOrName} title={space?.title} />
           ) : null}
@@ -227,7 +246,20 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [id, isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceIdOrName, t])
+  }, [
+    id,
+    isAdmin,
+    isMember,
+    isWeb,
+    navigate,
+    renderActionDrawer,
+    setScreenOptions,
+    space,
+    spaceGeneralTabRoom,
+    spaceIdOrName,
+    spaceNotificationCount,
+    t,
+  ])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
@@ -283,7 +315,7 @@ const SpaceDetails = () => {
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingBottom: 0,
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
 
     ...Platform.select({
       web: {
@@ -297,7 +329,7 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
     minHeight: '100%',
   },
   spaceDetailView: {
@@ -311,7 +343,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
+    marginTop: +vars.topBarHeight + 50,
   },
   overlayContainer: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
@@ -329,7 +361,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingHorizontal: 0,
     paddingVertical: 0,
-    bottom: vars.topBarHeight,
+    bottom: +vars.topBarHeight,
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',
     right: '50%',
