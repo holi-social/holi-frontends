@@ -4,3 +4,4 @@ export const novuApplicationIdentifier = config.novu.applicationIdentifier
 export const novuBackendUrl = config.novu.backendUrl
 export const novuSocketUrl = config.novu.socketUrl
 export const notificationPollingInterval = 10000
+export const novuCredentialsUrl = config.novu.credentialsUrl
