@@ -78,52 +78,6 @@ describe('useNotifications', () => {
     )
   })
 
-  it('should refetch notifications', async () => {
-    mockGetNotificationsList.mockResolvedValueOnce(emptyTestResponse)
-    mockGetNotificationsList.mockResolvedValue(testResponse)
-
-    const { result } = renderHook(() => useNotifications())
-
-    expect(result.current.notifications).toEqual([])
-
-    await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
-  })
-
-  it('should handle errors when refetching notifications', async () => {
-    // initial fetch
-    mockGetNotificationsList.mockResolvedValueOnce(emptyTestResponse)
-    // failed refetch
-    mockGetNotificationsList.mockRejectedValueOnce(testError)
-    // successful refetch to wait for
-    mockGetNotificationsList.mockResolvedValue(testResponse)
-
-    const { result } = renderHook(() => useNotifications())
-
-    expect(result.current.notifications).toEqual([])
-
-    await waitFor(() => expect(result.current.notifications).toEqual([expectedNotification]))
-
-    expect(console.warn).toHaveBeenCalledWith(
-      '[useNotifications.fetchMessages] Error fetching notifications from novu',
-      testError,
-      {}
-    )
-  })
-
-  it('should cleanup the interval timer after unmount', async () => {
-    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
-
-    const { unmount } = renderHook(() => useNotifications())
-
-    await waitFor(() => expect(jest.getTimerCount()).toStrictEqual(1))
-
-    unmount()
-
-    expect(jest.getTimerCount()).toStrictEqual(0)
-
-    jest.runOnlyPendingTimers()
-  })
-
   it('should mark all messages as seen', async () => {
     mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
     mockMarkAllMessagesAsSeen.mockResolvedValue(undefined)
