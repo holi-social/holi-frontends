@@ -232,15 +232,14 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
         />
       )}
 
-      {!!post?.links?.length && (
-        <HoliBox padding={[0, 24]}>
-          <HoliLinkPreview
-            style={styles.linkPreview}
-            previewData={post?.links[0] || ({} as Link)}
-            label={post?.links[0].title || ''}
-          />
-        </HoliBox>
-      )}
+      {!!post?.links?.length &&
+        post.links.map((link, index) => {
+          return (
+            <HoliBox padding={[0, 24]} key={index}>
+              <HoliLinkPreview style={styles.linkPreview} previewData={link || ({} as Link)} label={link.title || ''} />
+            </HoliBox>
+          )
+        })}
 
       <View style={styles.reactionsBar}>
         {post?.numberOfComments > 0 ? (

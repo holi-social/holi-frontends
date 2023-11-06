@@ -137,11 +137,14 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
         />
       )}
 
-      {!!post.links?.length && (
-        <View style={styles.paddingHorizontal}>
-          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
-        </View>
-      )}
+      {!!post.links?.length &&
+        post.links.map((link, index) => {
+          return (
+            <View style={styles.paddingHorizontal} key={index}>
+              <HoliLinkPreview style={styles.linkPreview} previewData={link} label={link.title} />
+            </View>
+          )
+        })}
 
       <View style={[styles.reactionsBar]}>
         {post.numberOfComments > 0 && (
