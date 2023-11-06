@@ -21,6 +21,7 @@ import type {
   ChatRoomAtom,
   ChatRoomId,
   CreateMessage,
+  PrivateChatTab,
   RoomAtomByRoomId,
   SpaceChatTab,
 } from '@holi/chat/src/store/types'
@@ -118,24 +119,56 @@ const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({})
  * @see _roomAtomsRecordAtom
  */
 export const roomAtomsRecordAtom: Atom<RoomAtomByRoomId> = atom((get) => get(_roomAtomsRecordAtom))
-export const roomTabAtomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab>> = atom((get) => {
-  const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
-  return roomAtoms.reduce<Record<ChatRoomId, SpaceChatTab>>((acc, roomAtom) => {
-    const room = get(roomAtom)
-    if (room.type !== 'space-general-room') return acc
 
-    const { id, type, members, content } = room
+/**
+ * @description A read-only atom to receive a record mapping room ids to derived room
+ * derived room has type SpaceChatTab | PrivateChatTab
+ *
+ * @see derivedRoomsRecordAtom
+ */
+export const derivedRoomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab | PrivateChatTab>> = atom((get) => {
+  const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
+  return roomAtoms.reduce<Record<ChatRoomId, SpaceChatTab | PrivateChatTab>>((acc, roomAtom) => {
+    const room = get(roomAtom)
+    if (room.type === 'space') return acc
+
+    const derivedRoom: SpaceChatTab | PrivateChatTab = isSpaceGeneralChatRoom(room)
+      ? {
+          id: room.id,
+          type: room.type,
+          members: room.members,
+          content: room.content,
+        }
+      : {
+          id: room.id,
+          type: room.type,
+          members: room.members,
+        }
 
     return {
       ...acc,
-      [id]: {
-        id,
-        type,
-        members,
-        content,
-      },
+      [room.id]: derivedRoom,
     }
   }, {})
+})
+
+/**
+ * @description A read-only atom to receive a record mapping room ids to derived room of type SpaceChatTab only
+ *
+ * @see spaceTabRecordAtom
+ */
+export const spaceTabRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab>> = atom((get) => {
+  return Object.entries(get(derivedRoomsRecordAtom)).reduce<Record<ChatRoomId, SpaceChatTab>>(
+    (acc, [id, derivedRoom]) => {
+      if (derivedRoom.type !== 'space-general-room') return acc
+
+      return {
+        ...acc,
+        [id]: derivedRoom,
+      }
+    },
+    {}
+  )
 })
 
 /**
@@ -151,36 +184,43 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
 })
 
 /**
- * Derived atom that holds record with spaces ids as keys and array of all space's related room atoms as value
+ * Derived atom that holds record with space ids as keys and array of all space's related room (ChatRoom) atoms as value
  */
 export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomAtom[]>>> = atom(async (get) => {
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
-  const roomIds = Object.keys(roomAtomsRecord)
-  const roomTabsRecord = get(roomTabAtomsRecordAtom)
+  const spaceTabsRecord = get(spaceTabRecordAtom)
+  const derivedRoomsRecord = get(derivedRoomsRecordAtom)
 
-  return roomIds.reduce<Record<ChatRoomId, ChatRoomAtom[]>>((acc, roomId) => {
-    const currentRoomTab = roomTabsRecord[roomId]
+  return Object.entries(spaceTabsRecord).reduce<Record<ChatRoomId, ChatRoomAtom[]>>((acc, [roomId, spaceTabRoom]) => {
+    const currentRoomMembers = spaceTabRoom.members
 
-    // Process only Space Rooms
-    // TODO: use !mxRoom?.isSpaceRoom() after adding real space rooms
-    if (!currentRoomTab || currentRoomTab.type !== 'space-general-room') return acc
-
-    const spaceRoomMembers = currentRoomTab.members
-    const siblingRoomsAtoms = Object.values(roomTabsRecord).reduce<ChatRoomAtom[]>((acc, siblingRoomTab) => {
+    const siblingRoomsAtoms = Object.values(derivedRoomsRecord).reduce<ChatRoomAtom[]>((acc, siblingRoomTab) => {
       if (siblingRoomTab.id === roomId) return [...acc, roomAtomsRecord[roomId]]
-      if (['space', 'space-general-room'].some((value) => siblingRoomTab.type === value)) return acc
+      if (siblingRoomTab.type !== 'private') return acc
 
+      // add private space related rooms
       const siblingRoomMembers = siblingRoomTab.members
-      const areMembersOfTheSpaceRoom = siblingRoomMembers.every((member) =>
-        spaceRoomMembers.some((spaceMember) => spaceMember.id === member.id)
+      const hasSpaceMembers = siblingRoomMembers.every((member) =>
+        currentRoomMembers.some((spaceMember) => spaceMember.id === member.id)
       )
 
-      return areMembersOfTheSpaceRoom ? [...acc, roomAtomsRecord[siblingRoomTab.id]] : acc
+      return hasSpaceMembers ? [...acc, roomAtomsRecord[siblingRoomTab.id]] : acc
     }, [])
 
     return {
       ...acc,
       [roomId]: siblingRoomsAtoms,
+    }
+  }, {})
+})
+
+export const spaceNotificationCountRecordAtom: Atom<Promise<Record<ChatRoomId, number>>> = atom(async (get) => {
+  const spaceRoomAtomsRecord = await get(spaceRoomAtomsRecordAtom)
+  return Object.entries(spaceRoomAtomsRecord).reduce<Record<ChatRoomId, number>>((acc, [spaceRoomId, roomAtoms]) => {
+    const spaceRelatedNotificationCount = roomAtoms.reduce((acc, roomAtom) => acc + get(roomAtom).notificationCount, 0)
+    return {
+      ...acc,
+      [spaceRoomId]: spaceRelatedNotificationCount,
     }
   }, {})
 })

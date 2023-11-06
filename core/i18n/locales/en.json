@@ -388,6 +388,7 @@
   "space.userConnection.MEMBER": "Collaborator",
   "space.userConnection.MEMBERSHIP_INVITEE": "Invited",
   "spaces.actions.more": "More",
+  "spaces.actions.chat": "Go to {{spaceNmae}} chats",
   "spaces.collaborate.onboarding.active": "How to get active",
   "spaces.collaborate.onboarding.desc": "Let the Space's admin know a bit about yourself and why you are interested in joining.",
   "spaces.collaborate.onboarding.header": "Collaborate",

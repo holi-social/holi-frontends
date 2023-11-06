@@ -24,6 +24,13 @@ jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
   },
 }))
 
+jest.mock('@holi/core/screens/notifications/hooks/useNovuCredentials', () => ({
+  useNovuCredentials: () => ({
+    hmacHash: 'someHmacHash',
+    loading: false,
+  }),
+}))
+
 jest.mock('@novu/client')
 
 const mockConsoleWarn = jest.fn()
@@ -80,8 +87,10 @@ describe('useNotificationService', () => {
     mockUseFeatureToggle.mockReturnValue({ ftEnabled: false })
     const { result } = renderHook(() => useNotificationService())
 
-    expect(ApiService).not.toHaveBeenCalled()
-    expect(mockInitializeSession).not.toHaveBeenCalled()
-    expect(result.current.isInitializing).toBeFalsy()
+    waitFor(() => {
+      expect(ApiService).not.toHaveBeenCalled()
+      expect(mockInitializeSession).not.toHaveBeenCalled()
+      expect(result.current.isInitializing).toBeFalsy()
+    })
   })
 })

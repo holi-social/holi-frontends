@@ -1,17 +1,19 @@
 import { IMessage } from '@novu/shared'
 
-export const aMessageListPage = (data: IMessage) => ({
-  data: [data],
-  totalCount: 1,
+export const aMessageListPage = (data: IMessage[], overrides = {}) => ({
+  data,
+  totalCount: data.length,
   hasMore: false,
   pageSize: 10,
   page: 0,
+  ...overrides,
 })
 
 export const aMessage = (
   id: string | undefined = '653b5fd60b10b5b80522a230',
   content: string | undefined = 'Mandy wants to join SomeSpace\nHello please let me help!',
-  created: string | undefined = "2024-10-26T06:59:34.250Z'"
+  created: string | undefined = "2024-10-26T06:59:34.250Z'",
+  seen = false
 ): IMessage => ({
   cta: {
     action: {
@@ -35,7 +37,7 @@ export const aMessage = (
   content: 'Some user wants to join space: ' + content,
   providerId: 'novu',
   deviceTokens: [],
-  seen: false,
+  seen,
   read: false,
   status: 'sent',
   transactionId: 'abdc9df5-c678-47ff-b9ad-9d7ba0c28caa',

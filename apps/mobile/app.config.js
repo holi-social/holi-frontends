@@ -101,6 +101,7 @@ export default {
         applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
         backendUrl: requiredEnvVar('NOVU_BACKEND_URL'),
         socketUrl: requiredEnvVar('NOVU_SOCKET_URL'),
+        credentialsUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/novu/credentials',
       },
       chat: {
         serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),
