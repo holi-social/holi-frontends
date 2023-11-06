@@ -7,6 +7,7 @@ function isError(error: unknown): error is Error {
   return (error as Error).message !== undefined
 }
 
-export const isNetworkConnectionError = (error: unknown): boolean => {
+export const isNetworkConnectionError = (error: unknown, forceTrue = false): boolean => {
+  if (forceTrue) return true
   return isError(error) && (error?.message === 'Failed to fetch' || error?.message === 'Network request failed')
 }
