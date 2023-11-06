@@ -32,10 +32,15 @@ import {
   type NotificationCount,
   type RoomId,
   type RoomWithSharedData,
-  SharedDataContent,
-  isSpaceGeneralRoomSharedDataContent,
+  type SharedDataContent,
 } from '@holi/chat/src/client/types'
-import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
+import {
+  addRoomEventListener,
+  isEventWithSharedData,
+  isSharedDataContent,
+  isSpaceGeneralRoomContent,
+  setRoomsListeners,
+} from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -233,21 +238,36 @@ export default class ChatClient {
     }, Promise.resolve([]))
   }
 
-  public getRoomSharedData = async (roomId: string): Promise<SharedDataContent> => {
+  public getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
     const stateEventList = await this.mxClient.roomState(roomId)
-    return stateEventList.reduce<SharedDataContent[]>((acc, event) => {
-      if (event.type === ChatRoomEvent.SharedData) {
-        acc.push(event.content as SharedDataContent)
-      }
-      return acc
-    }, [])[0]
+
+    const sharedDataEvent = stateEventList.find(isEventWithSharedData)
+    if (!sharedDataEvent) return null
+
+    const eventContent = sharedDataEvent.content
+    if (!isSharedDataContent(eventContent)) return null
+
+    return {
+      roomId: sharedDataEvent.room_id,
+      holiSpaceId: eventContent.holiSpaceId,
+      ...(isSpaceGeneralRoomContent(eventContent)
+        ? {
+            spaceName: eventContent.spaceName,
+            avatarDefaultColor: eventContent.avatarDefaultColor,
+            parentSpaceRoomId: eventContent.parentSpaceRoomId,
+          }
+        : {}),
+    }
   }
 
-  public getRoomWithSharedData = async (room: Room, content?: SharedDataContent): Promise<RoomWithSharedData> => {
+  public getRoomWithSharedData = async (
+    room: Room,
+    content?: SharedDataContent | null
+  ): Promise<RoomWithSharedData> => {
     content ??= await this.getRoomSharedData(room.roomId)
 
     if (content) {
-      return isSpaceGeneralRoomSharedDataContent(content)
+      return isSpaceGeneralRoomContent(content)
         ? {
             type: 'space-general-room',
             room,
