@@ -10,7 +10,7 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { SpaceByIdResponse, spaceDetailsByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -37,7 +37,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
 
-  const { data, loading } = useQuery<SpaceByIdResponse>(spaceDetailsByIdQuery, {
+  const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: space.id },
   })
 

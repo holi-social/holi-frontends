@@ -15,7 +15,7 @@ import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/
 import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
-import { SpaceByIdResponse, spaceDetailsByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -56,7 +56,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceDetailsByIdQuery, {
+  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
