@@ -217,7 +217,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
           text={post?.text || ''}
           users={post?.mentions || []}
           links={post?.links || []}
-          allowAllLinks={spaceIdOrName} /* render inline links only if post is displayed in space */
+          allowAllLinks
           size="default"
           color="gray300"
         />

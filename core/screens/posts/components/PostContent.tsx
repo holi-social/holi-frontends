@@ -123,7 +123,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
           users={post.mentions}
           links={post.links}
           style={styles.description}
-          allowAllLinks={spaceIdOrName} /* render inline links only if post is displayed in space */
+          allowAllLinks
         />
       </View>
 
