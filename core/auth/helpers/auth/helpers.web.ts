@@ -65,7 +65,7 @@ export const removeSessionFromStorage = (): Promise<void> => {
 export const initLoginFlow = (): AxiosPromise<LoginFlow> =>
   newKratosSdk()
     .createBrowserLoginFlow({ refresh: true })
-    .then(({ data }) => data)
+    .then((res) => res?.data)
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
 
 export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody): AxiosPromise<SuccessfulNativeLogin> =>
