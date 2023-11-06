@@ -1,6 +1,31 @@
-import { ClientEvent, type Listener, type ListenerMap, MatrixClient, type Room, RoomEvent } from 'matrix-js-sdk'
+import {
+  ClientEvent,
+  type IContent,
+  type IStateEventWithRoomId,
+  type Listener,
+  type ListenerMap,
+  MatrixClient,
+  type Room,
+  RoomEvent,
+} from 'matrix-js-sdk'
+
+import {
+  ChatRoomEvent,
+  type SharedDataContent,
+  type SpaceGeneralRoomSharedDataContent,
+} from '@holi/chat/src/client/types'
 
 type RoomListener = Listener<RoomEvent, ListenerMap<RoomEvent>, RoomEvent>
+
+export const isEventWithSharedData = (event: IStateEventWithRoomId): boolean => event.type === ChatRoomEvent.SharedData
+
+export const isSharedDataContent = (content: IContent): content is SharedDataContent => {
+  return !!content && content?.holiSpaceId
+}
+
+export const isSpaceGeneralRoomContent = (content: SharedDataContent): content is SpaceGeneralRoomSharedDataContent => {
+  return !!content && 'parentSpaceRoomId' in content
+}
 
 /**
  *

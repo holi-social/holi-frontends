@@ -3,13 +3,12 @@ import { Atom } from 'jotai'
 import { EventType, IEvent, IRoomEvent } from 'matrix-js-sdk'
 
 import type { MatrixId } from '@holi/chat/src/client/types'
-import type { AtomRecordGetter, HoliIdentity } from '@holi/chat/src/store/types'
+import type { AtomRecordGetter, ChatRoom, HoliIdentity, SpaceGeneralChatRoom } from '@holi/chat/src/store/types'
 import { chatServerName } from '@holi/core/helpers/config'
 
 /**
  * Identity
- *
- **/
+ */
 
 /**
  * Converts a Matrix ID (e.g. `@otto:holi.social`) to a Holi identity (e.g. `otto`).
@@ -53,3 +52,12 @@ export type AtomRecipe<T> = (draft: Draft<T>) => void
 export function isAtomRecipe<T>(recipe: AtomRecipe<T> | T): recipe is AtomRecipe<T> {
   return typeof recipe === 'function'
 }
+
+export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom => {
+  return room.type === 'space-general-room'
+}
+
+/**
+ * Selectors
+ */
+export const roomContentSelector = (room: SpaceGeneralChatRoom) => room.content

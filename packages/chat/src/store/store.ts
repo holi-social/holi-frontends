@@ -6,12 +6,13 @@ import { useCallback, useMemo, useRef } from 'react'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatState'
 import {
-  ChatRoomMember,
-  MatrixId,
+  type ChatRoomMember,
+  type MatrixId,
   MembershipStatus,
-  NotificationCount,
-  RoomId,
-  RoomWithSharedData,
+  type NotificationCount,
+  type RoomId,
+  type RoomWithSharedData,
+  type SpaceGeneralRoomSharedDataContent,
 } from '@holi/chat/src/client/types'
 import type {
   ChatMessage,
@@ -21,11 +22,14 @@ import type {
   ChatRoomAtom,
   ChatRoomId,
   CreateMessage,
+  MyMembershipOptions,
   PrivateChatTab,
   RoomAtomByRoomId,
+  RoomAtomsRecordAtomSubscriberArgs,
   SpaceChatTab,
+  SpaceGeneralChatRoomAtom,
 } from '@holi/chat/src/store/types'
-import { MessageAtomsByRoomId, isSpaceGeneralChatRoom } from '@holi/chat/src/store/types'
+import { MessageAtomsByRoomId, RoomAtomsActionType, isSpaceGeneralChatRoom } from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
@@ -49,11 +53,6 @@ export const getChatClient = (): ChatClient => {
  * Room Producers
  *
  **/
-export interface MyMembershipOptions {
-  room: Room
-  membership: string
-  prevMembership?: string
-}
 
 const updateRoomInvitation = produce((chatRoom: ChatRoom, { membership, prevMembership }: MyMembershipOptions) => {
   const hasJoined = prevMembership === 'invite' && membership === 'join'
@@ -96,9 +95,8 @@ const deleteChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roomId:
 })
 
 /**
- * Room Atoms
- *
- **/
+ * Room Atoms -(Read-Only)
+ */
 
 /**
  * Internal
@@ -111,6 +109,12 @@ const deleteChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roomId:
 const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({})
 
 /**
+ * @description: A read-only array of all the users chat room atoms to use internally.
+ * @see _roomAtomsRecordAtom
+ */
+const _roomAtoms = atom<ChatRoomAtom[]>((get) => Object.values(get(_roomAtomsRecordAtom)))
+
+/**
  * @description A read-only atom to receive a record mapping room ids to room atoms.
  * Each atom contains the room (conversation) of the logged-in user. To get the room
  * information, you must pass the single room to a const `room = useAtomValue(roomAtom)`
@@ -119,6 +123,34 @@ const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({})
  * @see _roomAtomsRecordAtom
  */
 export const roomAtomsRecordAtom: Atom<RoomAtomByRoomId> = atom((get) => get(_roomAtomsRecordAtom))
+
+/**
+ * Derived atom that holds all room atoms sorted by date of last message in descending order
+ */
+export const roomAtomsSortedByDateAtom = atom((get) => {
+  const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
+  return roomAtoms.sort((rA, rB) => {
+    const tsA = get(rA).timestamp ?? Infinity
+    const tsB = get(rB).timestamp ?? Infinity
+    return tsA < tsB ? 1 : -1
+  })
+})
+
+/**
+ * @description This derived read-only atom contains a array with all the general Space Room Atoms.
+ * @see _roomAtoms
+ */
+export const spaceGeneralRoomAtoms = atom<SpaceGeneralChatRoomAtom[]>((get) => {
+  return get(_roomAtoms).filter((roomAtom) => isSpaceGeneralChatRoom(get(roomAtom))) as SpaceGeneralChatRoomAtom[]
+})
+
+/**
+ * @description This derived read-only atom contains a array with all the spaceRoomAtoms.
+ * @see spaceGeneralRoomAtoms
+ */
+export const spaceGeneralRoomContentAtoms: Atom<SpaceGeneralRoomSharedDataContent[]> = atom((get) => {
+  return get(spaceGeneralRoomAtoms).map((roomAtom) => get(roomAtom).content)
+})
 
 /**
  * @description A read-only atom to receive a record mapping room ids to derived room
@@ -138,13 +170,11 @@ export const derivedRoomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab | Priv
           type: room.type,
           members: room.members,
           content: room.content,
-          timestamp: room.timestamp,
         }
       : {
           id: room.id,
           type: room.type,
           members: room.members,
-          timestamp: room.timestamp,
         }
 
     return {
@@ -174,18 +204,6 @@ export const spaceTabRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab>> = atom((
 })
 
 /**
- * Derived atom that holds all room atoms sorted by date of last message in descending order
- */
-export const roomAtomsSortedByDateAtom = atom((get) => {
-  const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
-  return roomAtoms.sort((rA, rB) => {
-    const tsA = get(rA).timestamp ?? Infinity
-    const tsB = get(rB).timestamp ?? Infinity
-    return tsA < tsB ? 1 : -1
-  })
-})
-
-/**
  * Derived atom that holds record with space ids as keys and array of all space's related room (ChatRoom) atoms as value
  */
 export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomAtom[]>>> = atom(async (get) => {
@@ -196,27 +214,22 @@ export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomA
   return Object.entries(spaceTabsRecord).reduce<Record<ChatRoomId, ChatRoomAtom[]>>((acc, [roomId, spaceTabRoom]) => {
     const currentRoomMembers = spaceTabRoom.members
 
-    const siblingRoomIds = Object.values(derivedRoomsRecord).reduce<ChatRoomId[]>((acc, siblingRoomTab) => {
-      if (siblingRoomTab.id === roomId) return [...acc, roomId]
+    const siblingRoomsAtoms = Object.values(derivedRoomsRecord).reduce<ChatRoomAtom[]>((acc, siblingRoomTab) => {
+      if (siblingRoomTab.id === roomId) return [...acc, roomAtomsRecord[roomId]]
       if (siblingRoomTab.type !== 'private') return acc
 
-      // find private space related rooms
+      // add private space related rooms
       const siblingRoomMembers = siblingRoomTab.members
       const hasSpaceMembers = siblingRoomMembers.every((member) =>
         currentRoomMembers.some((spaceMember) => spaceMember.id === member.id)
       )
 
-      return hasSpaceMembers ? [...acc, siblingRoomTab.id] : acc
+      return hasSpaceMembers ? [...acc, roomAtomsRecord[siblingRoomTab.id]] : acc
     }, [])
-
-    const sortedSiblingRoomIds = siblingRoomIds.sort((rIdA, rIdB) =>
-      (derivedRoomsRecord[rIdA].timestamp ?? 0) < (derivedRoomsRecord[rIdB].timestamp ?? 0) ? 1 : -1
-    )
-    const siblingRoomAtoms = sortedSiblingRoomIds.map((roomId) => roomAtomsRecord[roomId])
 
     return {
       ...acc,
-      [roomId]: siblingRoomAtoms,
+      [roomId]: siblingRoomsAtoms,
     }
   }, {})
 })
@@ -232,31 +245,28 @@ export const spaceNotificationCountRecordAtom: Atom<Promise<Record<ChatRoomId, n
   }, {})
 })
 
-enum RoomAtomsActionType {
-  'CREATE',
-  'UPDATE',
-  'DELETE',
-}
+/**
+ * Room Atoms -(Write-Only)
+ */
 
-interface RoomUserData {
-  room: RoomWithSharedData
-  hasPendingInvitation: boolean
-  ignoredUsers: MatrixId[]
-}
+/**
+ * @name _removeRoomAtom (Write-Only)
+ * @description Removes a room from the Jōtai store but not from the Matrix
+ * client. We do this, for example, when we ignore users and don't want to
+ * display a room if there are only two members, one of them being the one
+ * ignored (blocked). Exported is only the helper hook below `useRemoveRoomAtom`
+ */
+const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
+  const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+  if (!roomAtom) return
+  if (get(roomAtom).members.length > 2) return
 
-interface CreateUpdateRoomArgs {
-  type: RoomAtomsActionType.CREATE | RoomAtomsActionType.UPDATE
-  roomList: RoomUserData[]
-}
+  const removeRoom = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, roomId: string) => {
+    delete roomAtomsRecord[roomId]
+  })
 
-interface DeleteRoomArgs {
-  type: RoomAtomsActionType.DELETE
-  roomId: string
-}
-
-type RoomAtomsRecordAtomSubscriberArgs = CreateUpdateRoomArgs | DeleteRoomArgs
-
-// const isDeleteRoomArgs = (args: RoomAtomsRecordAtomSubscriberArgs): args is DeleteRoomArgs => args.type === 'DELETE'
+  set(_roomAtomsRecordAtom, (prevAtomRecord) => removeRoom(prevAtomRecord, roomId))
+})
 
 /**
  * @name _roomAtomsRecordAtomSubscriber (Write-Only)
@@ -437,31 +447,11 @@ _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
   return getChatClient().subscribeToUnreadRoomsNotifications(setAtom)
 }
 
-/**
- * @name _removeRoomAtom (Write-Only)
- * @description Removes a room from the Jōtai store but not from the Matrix
- * client. We do this, for example, when we ignore users and don't want to
- * display a room if there are only two members, one of them being the one
- * ignored (blocked). Exported is only the helper hook below `useRemoveRoomAtom`
- */
-const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
-  const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
-  if (!roomAtom) return
-  if (get(roomAtom).members.length > 2) return
-
-  const removeRoom = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, roomId: string) => {
-    delete roomAtomsRecord[roomId]
-  })
-
-  set(_roomAtomsRecordAtom, (prevAtomRecord) => removeRoom(prevAtomRecord, roomId))
-})
-
 export const useSetRemoveRoomAtom = () => {
   return useSetAtom(_removeRoomAtom)
 }
 
 /**
- * @name messagesByRoomIdAtomCreator (Write-Only)
  * @description A function that creates a `ChatRoom` atom based on the passed room id.
  */
 const roomByIdAtomCreator = (roomId: string) => {
@@ -479,6 +469,7 @@ const roomByIdAtomCreator = (roomId: string) => {
  * @description Use this read-write atom for unit testing purposes; for example,
  * initialize the Jōtai store in the `TestBed.tsx` component.
  */
+// TODO: move to testing directory
 export const roomAtomsRecorAtomForTesting = atom(
   (get) => get(_roomAtomsRecordAtom),
   (_get, set, roomAtomsRecord: RoomAtomByRoomId) => {
@@ -572,7 +563,7 @@ export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitat
 }
 
 /**
- * Messages
+ * Messages Actions
  *
  **/
 
@@ -585,22 +576,11 @@ export const sendMessage = async (message: CreateMessage): Promise<string> => {
 }
 
 const _messagesAtomsRecordAtom = atom<MessageAtomsByRoomId>({})
-export const messagesAtomsRecordInitializationAtom = atom(
-  null,
-  (get, set, chatMessagesByRoomId: MessageAtomsByRoomId) => {
-    if (Object.keys(get(_messagesAtomsRecordAtom)).length > 0) {
-      return
-    }
-    set(_messagesAtomsRecordAtom, () => chatMessagesByRoomId)
-  }
-)
 
 /**
- * @description A read-only atom containing records to look up `Atom<ChatMessage[]>` by room ID.
- */
-export const messagesAtomsRecordAtom: Atom<Record<ChatRoomId, ChatMessagesAtom>> = atom((get) =>
-  get(_messagesAtomsRecordAtom)
-)
+ * Messages Atoms
+ *
+ **/
 
 /**
  * @name _messageBunchAtomSetter

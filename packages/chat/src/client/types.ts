@@ -9,22 +9,17 @@ export interface CreateRoomOptions {
 }
 
 interface SpaceSharedDataContent {
+  roomId: string
   holiSpaceId: string
 }
 
-interface SpaceGeneralRoomSharedDataContent extends SpaceSharedDataContent {
+export interface SpaceGeneralRoomSharedDataContent extends SpaceSharedDataContent {
   spaceName: string
   avatarDefaultColor: string
   parentSpaceRoomId: string
 }
 
 export type SharedDataContent = SpaceSharedDataContent | SpaceGeneralRoomSharedDataContent
-
-export const isSpaceGeneralRoomSharedDataContent = (
-  content: SharedDataContent
-): content is SpaceGeneralRoomSharedDataContent => {
-  return !!content && 'parentSpaceRoomId' in content
-}
 
 export type RoomType = 'private' | 'space' | 'space-general-room'
 
