@@ -36,6 +36,7 @@ interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | '
 }
 
 enum OryErrorCode {
+  EMAIL_OR_PASSWORD_WRONG = 4000001,
   EMAIL_OR_PASSWORD_MISSING = 4000002,
   INVALID_PASSWORD = 4000005,
 }
@@ -55,7 +56,10 @@ export const getValidationErrorText = (
   const messageKey = `auth.login.input.message.${id}`
 
   // if email or password are missing
-  if ('type' in attributes && id === OryErrorCode.EMAIL_OR_PASSWORD_MISSING) {
+  if (
+    'type' in attributes &&
+    (id === OryErrorCode.EMAIL_OR_PASSWORD_MISSING || id === OryErrorCode.EMAIL_OR_PASSWORD_WRONG)
+  ) {
     const { name } = attributes as { name: string }
     // `identifier` or `traits.email` is used for email field
     const emailNames = ['identifier', 'traits.email', 'email']
@@ -64,7 +68,7 @@ export const getValidationErrorText = (
     const modifier = possibleNames.findIndex((namesArr) => namesArr.includes(name))
     const messageKeyModifier = `${messageKey}-${modifier}`
 
-    return i18n.exists(messageKeyModifier) ? i18n.t(messageKeyModifier) : text
+    return i18n.t(messageKeyModifier, text)
   }
 
   // if password is not valid
@@ -75,10 +79,10 @@ export const getValidationErrorText = (
     const modifier = possibleReasons.findIndex((str) => reason.includes(str))
     const messageKeyModifier = `${messageKey}-${modifier}`
 
-    return i18n.exists(messageKeyModifier) ? i18n.t(messageKeyModifier) : text
+    return i18n.t(messageKeyModifier, text)
   }
 
-  return i18n.exists(messageKey) ? i18n.t(messageKey) : text
+  return i18n.t(messageKey, text)
 }
 
 const guessVariant = ({ attributes }: UiNode) => {

@@ -7,6 +7,7 @@ import {
   UpdateLoginFlowBody,
   VerificationFlow,
 } from '@ory/kratos-client'
+import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
@@ -115,6 +116,15 @@ export const submitSettingsFlow = async (flow: SettingsFlow, password: string, s
       { withCredentials: false }
     )
     .catch(handleKratosSdkError('updateSettingsFlow'))
+
+export const submitSettingsFlowProfile = (flow: SettingsFlow, traits: object, sessionToken?: string) => {
+  return newKratosSdk()
+    .updateSettingsFlow(
+      { flow: flow.id, xSessionToken: sessionToken, updateSettingsFlowBody: { method: 'profile', traits } },
+      { withCredentials: true }
+    )
+    .catch(handleKratosSdkError('updateSettingsFlowEmail'))
+}
 
 // Email verification flow
 export const initVerificationFlow = async () =>

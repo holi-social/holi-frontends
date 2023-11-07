@@ -56,7 +56,7 @@ const BottomTabsNavigator = () => {
           },
           tabBarLabel: ({ focused }) => (
             <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
-              Home
+              {t('navigation.home')}
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',
@@ -92,7 +92,7 @@ const BottomTabsNavigator = () => {
           },
           tabBarLabel: ({ focused }) => (
             <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
-              Chat
+              {t('chat.title')}
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',
