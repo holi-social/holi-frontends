@@ -13,7 +13,6 @@ import type { AxiosPromise } from 'axios'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { logError } from '@holi/core/errors/helpers'
 
 const userSessionName = 'user_session'
 
@@ -67,12 +66,7 @@ export const initLoginFlow = (): AxiosPromise<LoginFlow> =>
   newKratosSdk()
     .createBrowserLoginFlow({ refresh: true })
     .then(({ data }) => data)
-    .catch((error) => {
-      logError(error, `Error from kratosSdk (initLoginFlow): ${JSON.stringify(error)}`, {
-        location: 'handleKratosSdkError',
-        method: 'kratosSdk.createBrowserLoginFlow',
-      })
-    })
+    .catch(handleKratosSdkError('createBrowserLoginFlow'))
 
 export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody): AxiosPromise<SuccessfulNativeLogin> =>
   newKratosSdk()
@@ -81,14 +75,7 @@ export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody): 
 
 // Re-Auth
 export const initReauthFlow = (): AxiosPromise<LoginFlow> => {
-  return newKratosSdk()
-    .createBrowserLoginFlow({ refresh: true })
-    .catch((error) => {
-      logError(error, `Error from kratosSdk (initLoginFlow): ${JSON.stringify(error)}`, {
-        location: 'handleKratosSdkError',
-        method: 'kratosSdk.initReauthFlow',
-      })
-    })
+  return newKratosSdk().createBrowserLoginFlow({ refresh: true }).catch(handleKratosSdkError('initReauthFlow'))
 }
 
 export const submitReauthFlow = (flow: LoginFlow, password: string): AxiosPromise<SuccessfulNativeLogin> => {
