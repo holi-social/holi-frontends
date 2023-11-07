@@ -26,10 +26,10 @@ global.console.warn = mockConsoleWarn
 describe('useNotifications', () => {
   const aDateString = new Date().toISOString()
   const testNotificationId = 'notificationId'
-  const testContent = 'Test content'
-  const expectedNotification = aNotification(testNotificationId, testContent, aDateString)
-  const testResponse = aNotificationsResponse(testNotificationId, testContent, aDateString)
-  const longTestResponse = aLongNotificationsResponse(testContent, aDateString)
+  const testMessage = 'Test message'
+  const expectedNotification = aNotification(testNotificationId, testMessage, aDateString)
+  const testResponse = aNotificationsResponse(testNotificationId, testMessage, aDateString)
+  const longTestResponse = aLongNotificationsResponse(testMessage, aDateString)
   const emptyTestResponse = { data: [] }
   const testError = new Error('test')
 
@@ -81,9 +81,9 @@ describe('useNotifications', () => {
 
   it('should mark all unread messages as seen', async () => {
     const messageResponse = aMessageListPage([
-      aMessage('n1', testContent, aDateString),
-      aMessage('n2', testContent, aDateString, true),
-      aMessage('n3', testContent, aDateString),
+      aMessage('n1', testMessage, aDateString),
+      aMessage('n2', testMessage, aDateString, true),
+      aMessage('n3', testMessage, aDateString),
     ])
     mockGetNotificationsList.mockResolvedValue(messageResponse)
     mockMarkMessageAs.mockResolvedValue(undefined)
@@ -97,7 +97,7 @@ describe('useNotifications', () => {
   })
 
   it('should not mark messages as seen if there are none', async () => {
-    const messageResponse = aMessageListPage([aMessage(testNotificationId, testContent, aDateString, true)])
+    const messageResponse = aMessageListPage([aMessage(testNotificationId, testMessage, aDateString, true)])
     mockGetNotificationsList.mockResolvedValue(messageResponse)
     mockMarkMessageAs.mockResolvedValue(undefined)
     const { result } = renderHook(() => useNotifications())
@@ -180,14 +180,15 @@ function aLongNotificationsResponse(notificationContent: string, notificationCre
   )
 }
 
-function aNotification(id: string, content: string, created: string) {
+function aNotification(id: string, requestMessage: string, created: string) {
   return {
     notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
     created: created,
     id: id,
     read: false,
     options: expect.objectContaining({
-      requestMessage: content,
+      requestMessage,
     }),
+    content: 'Some user wants to join space: ' + requestMessage,
   }
 }

@@ -227,7 +227,7 @@ const SpaceDetails = () => {
         <View style={styles.headerRight}>
           {(isMember || isAdmin) && spaceGeneralTabRoom && (
             <HoliButtonBell
-              label={t('spaces.actions.chat', { spaceNmae: space?.name })}
+              label={t('spaces.actions.chat', { spaceName: space?.name })}
               icon={Chat3}
               showBell={spaceNotificationCount > 0}
               onPress={() => {

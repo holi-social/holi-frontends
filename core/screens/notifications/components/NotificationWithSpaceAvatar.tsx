@@ -12,7 +12,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 interface NotificationWithSpaceAvatarProps extends NotificationProps<NotificationSpaceConnection> {
   href?: string
-  content?: React.ReactNode
+  content?: string
   i18nKey?: string
 }
 
@@ -41,24 +41,26 @@ const NotificationWithSpaceAvatar = ({
             <SpaceAvatar space={notification.options.space} size="small" style={{ borderColor: 'transparent' }} />
           </View>
           <View style={styles.content}>
-            {content || (
-              <>
-                <HoliText size="small" style={styles.fontColorGray}>
+            <>
+              <HoliText size="small" style={styles.fontColorGray}>
+                {i18nKey ? (
                   <Trans t={t} i18nKey={i18nKey} values={{ user: fullName, space: title }}>
                     <HoliText size="small" />
                   </Trans>
-                </HoliText>
-
-                <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
-                  {getRelativeDateString(created, i18n.language)}
-                </HoliText>
-                {message && (
-                  <HoliText size="small" style={[styles.fontColorGray, styles.message]}>
-                    {message}
-                  </HoliText>
+                ) : (
+                  content
                 )}
-              </>
-            )}
+              </HoliText>
+
+              <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
+                {getRelativeDateString(created, i18n.language)}
+              </HoliText>
+              {message && !content && (
+                <HoliText size="small" style={[styles.fontColorGray, styles.message]}>
+                  {message}
+                </HoliText>
+              )}
+            </>
           </View>
 
           <NotificationBellBadge visible={!read} backgroundColor={colors.background30} style={styles.readStatus} />

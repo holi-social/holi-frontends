@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
   Notification,
   NotificationProps,
@@ -27,6 +28,11 @@ const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
 const isNotificationConnectionRevoked = ({ notificationType }: Notification) =>
   notificationType === NotificationType.COMMUNITY_MEMBERSHIP_REVOKED
 
+const notificationHasInteraction = ({ notificationType }: Notification) =>
+  [NotificationType.COMMUNITY_MEMBERSHIP_REQUEST, NovuNotificationType.SPACE_MEMBERSHIP_REQUEST].includes(
+    notificationType
+  )
+
 const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationSpaceConnection>> = ({
   notification,
   style,
@@ -34,7 +40,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
 }) => {
   const { t } = useTranslation()
   // if 'connectionAccepted' is 'true', user accepted the connection
-  // if 'connectionAccepted' is null, it's not accepted and the user did not interact. Is set to false, when the connection is ignored.
+  // if 'connectionAccepted' is null, it's not accepted and the user did not interact. Is set to false, when the connection is declined.
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )
@@ -80,7 +86,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
     }).then(() => setConnectionAccepted(true))
   }
 
-  const rejectConnectionRequest = () => {
+  const declineConnectionRequest = () => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
@@ -91,7 +97,13 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
 
   const { userId } = useAuth()
 
-  const getI18Key = () => {
+  const showButtons = connectionAccepted === null && notificationHasInteraction(notification)
+
+  const getI18nKey = () => {
+    // Use content from notification if no interaction is possible or has not taken place yet
+    if (notification.content && (!notificationHasInteraction(notification) || showButtons)) {
+      return
+    }
     // this message is for 'CONNECTION_REVOKED' notification
     if (connectionRevoked === true) return 'notifications.space.connection.revoked.message'
 
@@ -107,8 +119,8 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
         ? 'notifications.space.connection.accepted.message'
         : 'notifications.space.connection.joined.message'
     } else {
-      // this message is for 'CONNECTION_REQUEST' notification after user ignored connection
-      return 'notifications.space.connection.ignored.message'
+      // this message is for 'CONNECTION_REQUEST' notification after user declined connection
+      return 'notifications.space.connection.declined.message'
     }
   }
 
@@ -118,10 +130,10 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       type="secondary"
       variant="small"
       label={t('notifications.connection.ignore')}
-      onPress={rejectConnectionRequest}
+      onPress={declineConnectionRequest}
       disabled={loading}
       style={styles.button}
-      testID="ignore-connection-request-button"
+      testID="decline-connection-request-button"
     >
       {t('notifications.connection.ignore')}
     </HoliButton>,
@@ -143,11 +155,12 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
     <View testID={testID}>
       <NotificationWithSpaceAvatar
         notification={notification}
-        i18nKey={getI18Key()}
+        i18nKey={getI18nKey()}
         style={[style, loading && styles.notificationProcessing]}
         testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
+        content={notification.content}
       >
-        {!connectionRevoked && connectionAccepted === null && (
+        {showButtons && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
             {buttons}
           </HoliHorizontalRow>
