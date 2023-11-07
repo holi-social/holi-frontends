@@ -41,7 +41,9 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     if (isUnauthorizedError(networkError)) {
       setUnauthorizedErrorStatus(true)
     } else {
-      logError(networkError, `Network error ${JSON.stringify(networkError)}`, { location: 'errorLink.web' })
+      logError(networkError, `Network error ${JSON.stringify(networkError)} ${JSON.stringify(graphQLErrors)}`, {
+        location: 'errorLink.web',
+      })
     }
   }
 })
