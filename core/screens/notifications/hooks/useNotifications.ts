@@ -105,16 +105,20 @@ export const useNotifications = () => {
 }
 
 function mapToNotification(message: IMessage): NotificationSpaceConnection | undefined {
-  if (message.payload.data) {
-    const data = message.payload.data
-
-    return {
-      id: message._id,
-      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
-      created: message.createdAt,
-      read: message.seen,
-      options: data as NotificationSpaceConnection['options'],
-    }
+  const { data, notificationType } = message.payload
+  switch (notificationType) {
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
+      return {
+        id: message._id,
+        notificationType,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationSpaceConnection['options'],
+        content: message.content.toString(),
+      }
   }
   logErrorLocal(new Error("Couldn't map novu message"), 'Failed to map novu notification', {
     location: 'useNotifications.mapToNotification',

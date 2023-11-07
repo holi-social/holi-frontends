@@ -36,6 +36,7 @@ export interface NotificationBase {
   notificationType: NotificationType | NovuNotificationType
   read: boolean
   created: string
+  content?: string
 }
 
 export interface NotificationConnection extends NotificationBase {
@@ -91,6 +92,9 @@ export interface NotificationSpaceConnection extends NotificationBase {
     | NotificationType.COMMUNITY_INVITE
     | NotificationType.COMMUNITY_INVITE_DECLINED
     | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST
+    | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER
+    | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER
+    | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN
   options: SpaceMembershipNotificationData
 }
 
