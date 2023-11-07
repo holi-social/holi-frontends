@@ -6,7 +6,7 @@ import {
 } from '@holi/core/screens/notifications/components/types'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
-const dummyUser = {
+export const dummyUser = {
   id: '77d695d7-fea0-4b20-a2a4-d641e63fb25b',
   avatar: '',
   avatarLabel: 'SU',

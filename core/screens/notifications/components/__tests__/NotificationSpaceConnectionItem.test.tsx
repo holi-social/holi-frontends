@@ -4,7 +4,8 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
-import { notificationSpaceConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
+import { dummyUser, notificationSpaceConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -44,53 +45,177 @@ const declineRequest = {
 
 const MOCKS = [acceptRequest, declineRequest]
 
-describe('NotificationSpaceConnectionItem.tsx', () => {
+describe('NotificationSpaceConnectionItem', () => {
   beforeEach(() => {
     jest.useRealTimers()
   })
 
-  it('matches snapshot', () => {
-    jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+  describe('with legacy notifications', () => {
+    const notification = notificationSpaceConnectionRequest
 
-    const tree = renderer
-      .create(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
-          <NotificationSpaceConnectionItem notification={notificationSpaceConnectionRequest} />
-        </MockedProvider>
+    it('matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={notification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
+
+    it('renders loader after declining a connection request', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
       )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+
+      fireEvent(getByTestId('decline-connection-request-button'), 'click')
+      expect(declineRequest.newData).toHaveBeenCalled()
+      expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
+
+      await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
+    })
+
+    it('renders loader after accepting a connection request', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
+      )
+
+      fireEvent(getByTestId('accept-connection-request-button'), 'click')
+      expect(acceptRequest.newData).toHaveBeenCalled()
+      expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
+
+      await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
+    })
   })
 
-  it('renders loader after ignoring a connection request', async () => {
-    const { getByTestId } = render(
-      <ToastProvider>
-        <MockedProvider mocks={MOCKS} addTypename={false}>
-          <NotificationSpaceConnectionItem notification={notificationSpaceConnectionRequest} />
-        </MockedProvider>
-      </ToastProvider>
-    )
+  describe('with novu notifications', () => {
+    const notification = {
+      id: '0809f4a0-04c8-43ae-a291-4f7bfce1b123',
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+      created: '2022-12-21T11:11:38.978527+00:00',
+      read: false,
+      options: {
+        user: dummyUser,
+        space: {
+          id: '9cbe7f41-acb6-400d-b765-c106a4f6f5f8',
+          title: 'Foo',
+          avatar: 'https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg',
+          name: 'foo',
+          avatarDefaultColor: '#78EDA8',
+        },
+        message: 'I would like to join!',
+      },
+      content: 'Some User wants to join the Space Foo\nI would like to join!',
+    }
 
-    fireEvent(getByTestId('ignore-connection-request-button'), 'click')
-    expect(declineRequest.newData).toHaveBeenCalled()
-    expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
+    it('notification for membership request matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
-    await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
-  })
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={notification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
 
-  it('renders loader after accepting a connection request', async () => {
-    const { getByTestId } = render(
-      <ToastProvider>
-        <MockedProvider mocks={MOCKS} addTypename={false}>
-          <NotificationSpaceConnectionItem notification={notificationSpaceConnectionRequest} />
-        </MockedProvider>
-      </ToastProvider>
-    )
+    it('renders loader after declining a connection request', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
+      )
 
-    fireEvent(getByTestId('accept-connection-request-button'), 'click')
-    expect(acceptRequest.newData).toHaveBeenCalled()
-    expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
+      fireEvent(getByTestId('decline-connection-request-button'), 'click')
+      expect(declineRequest.newData).toHaveBeenCalled()
+      expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
-    await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
+      await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
+    })
+
+    it('renders loader after accepting a connection request', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
+      )
+
+      fireEvent(getByTestId('accept-connection-request-button'), 'click')
+      expect(acceptRequest.newData).toHaveBeenCalled()
+      expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
+
+      await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
+    })
+
+    it('notification for declined membership request to user matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+      const declineNotification = {
+        ...notification,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER,
+        content: 'Your request to join the Space Foo was declined.',
+      }
+
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={declineNotification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
+
+    it('notification for declined membership request to admin matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+      const declineNotification = {
+        ...notification,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN,
+        content: 'Some User was declined by Some Admin to join the Space Foo.',
+      }
+
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={declineNotification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
+
+    it('notification for accepted membership request to user matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+      const declineNotification = {
+        ...notification,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
+        content: 'Your request to join the Space Foo was accepted by Some Admin.',
+      }
+
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={declineNotification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
   })
 })

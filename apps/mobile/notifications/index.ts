@@ -3,6 +3,7 @@ import type { NotificationResponse, PushNotificationTrigger } from 'expo-notific
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
+import { SpaceMembershipPushNotification } from '@holi/mobile/notifications/spacePushNotifications'
 
 export type NotificationPayload = Record<string, unknown>
 
@@ -29,16 +30,31 @@ const createUrlFromChatNotification = (data: NotificationPayload) => {
   }
 }
 
-const createUrlFromSpaceMembershipNotification = (data: NotificationPayload) => {
+const toSpacePendingCollaboratorsManagementUrl = (notification: SpaceMembershipPushNotification): string => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const { space, user } = parsedData
+  const spaceCollaboratorsUrl = `holi://spaces/${space.name}/collaborators/manage?tab=pending`
+  const userParameter = user?.id ? `&userId=${user?.id}` : ''
+  return spaceCollaboratorsUrl + userParameter
+}
+
+const toSpaceUrl = (notification: SpaceMembershipPushNotification): string => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const { space } = parsedData
+  return `holi://spaces/${space.name}/`
+}
+
+const spaceMemberShipUrlFrom = (notification: SpaceMembershipPushNotification) => {
   try {
-    const parsedData = typeof data?.data === 'string' ? JSON.parse(data.data) : data.data || data
-    const { space, user } = parsedData
-    if (space?.name) {
-      const spaceCollaboratorsUrl = `holi://spaces/${space.name}/collaborators/manage?tab=pending`
-      const userParameter = user?.id ? `&userId=${user?.id}` : ''
-      const url = spaceCollaboratorsUrl + userParameter
-      logDebug('notifications.createUrlFromSpaceMembershipNotification', 'created url', url)
-      return url
+    switch (notification.notificationType) {
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
+        return toSpacePendingCollaboratorsManagementUrl(notification)
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
+        return toSpaceUrl(notification)
     }
   } catch (error) {
     logError(error, 'Failed to create url for space membership notification', {
@@ -48,13 +64,16 @@ const createUrlFromSpaceMembershipNotification = (data: NotificationPayload) => 
 }
 
 export const transformPushInteractionToUrl = (response: Partial<NotificationResponse>) => {
-  const payload = extractPayloadFromNotification(response)
+  const payload: NotificationPayload | undefined = extractPayloadFromNotification(response)
   if (!payload) {
     return null
   }
   switch (payload.notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
-      return createUrlFromSpaceMembershipNotification(payload)
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
+      return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
     default:
       // Default is chat notification
       return createUrlFromChatNotification(payload)

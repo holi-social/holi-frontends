@@ -16,11 +16,11 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
       const errorMessage = `Message: ${graphQLError.message}, Location: ${graphQLError.locations}, Path: ${graphQLError.path}`
       const err = new HoliError(errorMessage)
       if (graphQLError instanceof ApolloError) {
-        logError(err, 'GraphQL Error', { location: 'errorLink.web' })
+        logError(err, `GraphQL Error (ApolloError) ${JSON.stringify(graphQLError)}`, { location: 'errorLink.web' })
         continue
       }
 
-      logErrorLocal(err, 'GraphQL Error', { location: 'errorLink.web' })
+      logErrorLocal(err, `GraphQL Error ${JSON.stringify(graphQLError)}`, { location: 'errorLink.web' })
 
       Sentry.configureScope((scope: Sentry.Scope) => {
         scope.addBreadcrumb({
@@ -41,7 +41,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     if (isUnauthorizedError(networkError)) {
       setUnauthorizedErrorStatus(true)
     } else {
-      logError(networkError, 'Network error', { location: 'errorLink.web' })
+      logError(networkError, `Network error ${JSON.stringify(networkError)}`, { location: 'errorLink.web' })
     }
   }
 })

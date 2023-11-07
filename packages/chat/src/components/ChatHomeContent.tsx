@@ -4,15 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
+import ChatTabBar, { DEFAULT_TAB_ID } from '@holi/chat/src/components/ChatTabsBar'
 import RoomList from '@holi/chat/src/components/RoomList'
-import {
-  ChatRoomAtom,
-  roomAtomsSortedByDateAtom,
-  spaceRoomAtomsRecordAtom,
-  spaceTabRecordAtom,
-} from '@holi/chat/src/store'
+import { ChatRoomAtom, roomAtomsSortedByDateAtom, spaceRoomAtomsRecordAtom } from '@holi/chat/src/store'
+import { isWeb } from '@holi/chat/src/utils'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -25,12 +21,8 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import HoliTabBar, { Tab } from '@holi/ui/components/organisms/HoliTabBar'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-const isWeb = Platform.OS === 'web'
 
 const ChatHomeNeedToLogin = () => {
   const { t } = useTranslation()
@@ -101,41 +93,23 @@ interface ChatHomeRoomListProps {
 type ChatHomeContentParams = {
   activeTab: string
 }
-const TAB_ALL = 'all'
+
 const { useParam } = createParam<ChatHomeContentParams>()
 
 const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
-  const [selectedTabId = TAB_ALL] = useParam('activeTab')
+  const [selectedTabId = DEFAULT_TAB_ID] = useParam('activeTab')
 
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate, setParams, replaceRoute } = useRouting()
+  const { navigate } = useRouting()
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
   const spaceRoomAtomsRecord = useAtomValue(spaceRoomAtomsRecordAtom)
-  const roomTabAtomsRecord = useAtomValue(spaceTabRecordAtom)
-
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
 
   if (!sortedRoomAtoms.length) {
     return <ChatHomeNoExistingRooms />
   }
-
-  const tabs: Tab[] = [
-    {
-      id: TAB_ALL,
-      title: t('chat.tab.all'),
-    },
-
-    ...Object.keys(spaceRoomAtomsRecord).map((roomId) => {
-      const roomTab = roomTabAtomsRecord[roomId]
-      return {
-        id: roomId,
-        title: roomTab.content.spaceName,
-      }
-    }),
-  ]
 
   const tabRoomAtomsRecord: Record<string, ChatRoomAtom[]> = {
     ...spaceRoomAtomsRecord,
@@ -145,13 +119,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <HoliBox padding={[+vars.topBarHeight + (Platform.OS === 'android' ? safeAreaInsetTop : 0), 0, 0, 0]}>
-        <HoliTabBar
-          id="chat-bar"
-          tabs={tabs}
-          selectedTabId={selectedTabId}
-          onPress={(tabId) => (isWeb ? replaceRoute('/chat?activeTab=' + tabId) : setParams({ activeTab: tabId }))}
-          tabBarStyle={isWeb && tabBarStyle}
-        />
+        <ChatTabBar selectedTabId={selectedTabId} />
       </HoliBox>
 
       <RoomList roomAtoms={tabRoomAtomsRecord[selectedTabId]} loggedInUser={loggedInUser} />

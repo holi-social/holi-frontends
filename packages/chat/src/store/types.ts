@@ -1,10 +1,23 @@
 import type { Atom, PrimitiveAtom } from 'jotai'
+import type { Room } from 'matrix-js-sdk'
 
-import { ChatRoomMember, PrivateRoomBase, SpaceGeneralRoomBase, SpaceRoomBase } from '@holi/chat/src/client/types'
+import type {
+  ChatRoomMember,
+  MatrixId,
+  PrivateRoomBase,
+  RoomWithSharedData,
+  SpaceGeneralRoomBase,
+  SpaceRoomBase,
+} from '@holi/chat/src/client/types'
+
+/**
+ * Room
+ */
 
 export type HoliIdentity = string
 export type ChatRoomId = string
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
+export type SpaceGeneralChatRoomAtom = PrimitiveAtom<SpaceGeneralChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
 export type RoomAtomByRoomId = Record<ChatRoomId, ChatRoomAtom>
 export type MessageAtomsByRoomId = Record<ChatRoomId, ChatMessagesAtom>
@@ -23,16 +36,44 @@ interface BaseChatRoom {
   timestamp: number | undefined
 }
 
-interface PrivateChatRoom extends BaseChatRoom, PrivateRoomBase {}
-interface SpaceChatRoom extends BaseChatRoom, SpaceRoomBase {}
-interface SpaceGeneralChatRoom extends BaseChatRoom, SpaceGeneralRoomBase {}
+export interface PrivateChatRoom extends BaseChatRoom, PrivateRoomBase {}
+export interface SpaceChatRoom extends BaseChatRoom, SpaceRoomBase {}
+export interface SpaceGeneralChatRoom extends BaseChatRoom, SpaceGeneralRoomBase {}
 
 export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceGeneralChatRoom
-export type SpaceChatTab = SpaceGeneralRoomBase & Pick<ChatRoom, 'id' | 'members'>
-export type PrivateChatTab = PrivateRoomBase & Pick<ChatRoom, 'id' | 'members'>
+export type SpaceChatTab = SpaceGeneralRoomBase & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
+export type PrivateChatTab = PrivateRoomBase & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
+
+export enum RoomAtomsActionType {
+  'CREATE',
+  'UPDATE',
+  'DELETE',
+}
+
+export interface RoomUserData {
+  room: RoomWithSharedData
+  hasPendingInvitation: boolean
+  ignoredUsers: MatrixId[]
+}
+
+export interface CreateUpdateRoomArgs {
+  type: RoomAtomsActionType.CREATE | RoomAtomsActionType.UPDATE
+  roomList: RoomUserData[]
+}
+
+export interface DeleteRoomArgs {
+  type: RoomAtomsActionType.DELETE
+  roomId: string
+}
+
+export type RoomAtomsRecordAtomSubscriberArgs = CreateUpdateRoomArgs | DeleteRoomArgs
 
 export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom =>
   room.type === 'space-general-room'
+
+/**
+ * Message
+ */
 
 export type ChatContentType = 'm.text'
 
@@ -52,4 +93,13 @@ export interface ChatMessage {
 export interface CreateMessage {
   roomId: string
   text: string
+}
+
+/**
+ * Member
+ */
+export interface MyMembershipOptions {
+  room: Room
+  membership: string
+  prevMembership?: string
 }

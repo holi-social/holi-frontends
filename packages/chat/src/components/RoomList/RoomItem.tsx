@@ -34,14 +34,17 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
+  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
   const chatPartner = getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
-  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceGeneralChatRoom(room)
   const roomName = isSpaceRoom ? room.content.spaceName : chatPartnerHoliUser?.fullName ?? ''
+
+  const lastMessageMember = room.members.find(({ id }) => id === lastMessage?.sender)
+  const lastMessageHoliUser = getHoliUserForChatMember(lastMessageMember, matrixIdToHoliUserRecord)
 
   const handleOnPress = async () => {
     await setLatestMessagesAsRead(roomId)
@@ -123,6 +126,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
             )}
             {lastMessage && (
               <HoliText numberOfLines={1} color="gray300">
+                {isSpaceRoom && lastMessageHoliUser && `${lastMessageHoliUser?.fullName}: `}
                 {lastMessage.content.body}
               </HoliText>
             )}

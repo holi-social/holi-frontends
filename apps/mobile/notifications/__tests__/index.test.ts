@@ -154,4 +154,30 @@ describe('transformPushInteractionToUrl', () => {
     )
     expect(url).toBeFalsy()
   })
+
+  it('should create correct url for space membership request approval notification on Android', () => {
+    const url = transformPushInteractionToUrl(
+      createAndroidNotificationResponse({
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
+        data: JSON.stringify({
+          space: { name: 'space1' },
+          user: { id: '123' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://spaces/space1/')
+  })
+
+  it('should create correct url for space membership request approval notification on iOS', () => {
+    const url = transformPushInteractionToUrl(
+      createIOSNotificationResponse({
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
+        data: {
+          space: { name: 'space1' },
+          user: { id: '123' },
+        },
+      })
+    )
+    expect(url).toEqual('holi://spaces/space1/')
+  })
 })

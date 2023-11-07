@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
+exports[`NotificationSpaceConnectionItem with legacy notifications matches snapshot 1`] = `
 <View>
   <View
     style={
@@ -314,7 +314,1122 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
               },
             ]
           }
-          testID="ignore-connection-request-button"
+          testID="decline-connection-request-button"
+        >
+          <View
+            style={
+              [
+                {
+                  "pointerEvents": "none",
+                },
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 19.599999999999998,
+                  "textAlign": "center",
+                  "userSelect": "none",
+                }
+              }
+            >
+              notifications.connection.ignore
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.accept"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#262424",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "display": "flex",
+                  "elevation": 0,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+                {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
+                {
+                  "backgroundColor": "#f5ef3f",
+                },
+              ],
+              {
+                "marginTop": 12,
+              },
+            ]
+          }
+          testID="accept-connection-request-button"
+        >
+          <View
+            style={
+              [
+                {
+                  "pointerEvents": "none",
+                },
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 19.599999999999998,
+                  "textAlign": "center",
+                  "userSelect": "none",
+                }
+              }
+            >
+              notifications.connection.accept
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`NotificationSpaceConnectionItem with novu notifications notification for accepted membership request to user matches snapshot 1`] = `
+<View>
+  <View
+    style={
+      [
+        undefined,
+        false,
+      ]
+    }
+    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+  >
+    <View
+      accessibilityLabel="Foo"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      role="link"
+      testID="text-link"
+    >
+      <View
+        style={
+          {
+            "display": "flex",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "height": 40,
+              "position": "relative",
+              "width": 40,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#f5f5f5",
+                  "borderRadius": 20,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                },
+                false,
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#262424",
+                    "borderRadius": 8,
+                    "borderWidth": 2,
+                    "justifyContent": "center",
+                    "maxHeight": 128,
+                    "maxWidth": 128,
+                    "overflow": "hidden",
+                  },
+                  {
+                    "borderColor": "transparent",
+                  },
+                ],
+                {
+                  "height": 40,
+                  "width": 40,
+                },
+              ]
+            }
+            testID="space-avatar"
+          >
+            <ViewManagerAdapter_ExpoImage
+              accessibilityRole="image"
+              accessible={true}
+              aria-label="Foo"
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
+              height="100%"
+              onError={[Function]}
+              onLoad={[Function]}
+              onLoadStart={[Function]}
+              onProgress={[Function]}
+              placeholder={[]}
+              role="img"
+              source={
+                [
+                  {
+                    "height": 40,
+                    "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                    "width": 40,
+                  },
+                ]
+              }
+              style={
+                {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+              transition={null}
+              width="100%"
+            />
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "flexBasis": "100%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
+            }
+          >
+            Your request to join the Space Foo was accepted by Some Admin.
+          </Text>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "marginTop": 4,
+                "userSelect": "auto",
+              }
+            }
+          >
+            2 weeks ago
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "minWidth": 12,
+                "position": "relative",
+              },
+              {
+                "marginLeft": 12,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#6267e7",
+                  "borderRadius": 6,
+                  "borderWidth": 2,
+                  "height": 12,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 12,
+                },
+                {
+                  "top": 4,
+                },
+                {
+                  "borderColor": "#ebebeb",
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`NotificationSpaceConnectionItem with novu notifications notification for declined membership request to admin matches snapshot 1`] = `
+<View>
+  <View
+    style={
+      [
+        undefined,
+        false,
+      ]
+    }
+    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+  >
+    <View
+      accessibilityLabel="Foo"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      role="link"
+      testID="text-link"
+    >
+      <View
+        style={
+          {
+            "display": "flex",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "height": 40,
+              "position": "relative",
+              "width": 40,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#f5f5f5",
+                  "borderRadius": 20,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                },
+                false,
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#262424",
+                    "borderRadius": 8,
+                    "borderWidth": 2,
+                    "justifyContent": "center",
+                    "maxHeight": 128,
+                    "maxWidth": 128,
+                    "overflow": "hidden",
+                  },
+                  {
+                    "borderColor": "transparent",
+                  },
+                ],
+                {
+                  "height": 40,
+                  "width": 40,
+                },
+              ]
+            }
+            testID="space-avatar"
+          >
+            <ViewManagerAdapter_ExpoImage
+              accessibilityRole="image"
+              accessible={true}
+              aria-label="Foo"
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
+              height="100%"
+              onError={[Function]}
+              onLoad={[Function]}
+              onLoadStart={[Function]}
+              onProgress={[Function]}
+              placeholder={[]}
+              role="img"
+              source={
+                [
+                  {
+                    "height": 40,
+                    "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                    "width": 40,
+                  },
+                ]
+              }
+              style={
+                {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+              transition={null}
+              width="100%"
+            />
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "flexBasis": "100%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
+            }
+          >
+            Some User was declined by Some Admin to join the Space Foo.
+          </Text>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "marginTop": 4,
+                "userSelect": "auto",
+              }
+            }
+          >
+            2 weeks ago
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "minWidth": 12,
+                "position": "relative",
+              },
+              {
+                "marginLeft": 12,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#6267e7",
+                  "borderRadius": 6,
+                  "borderWidth": 2,
+                  "height": 12,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 12,
+                },
+                {
+                  "top": 4,
+                },
+                {
+                  "borderColor": "#ebebeb",
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`NotificationSpaceConnectionItem with novu notifications notification for declined membership request to user matches snapshot 1`] = `
+<View>
+  <View
+    style={
+      [
+        undefined,
+        false,
+      ]
+    }
+    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+  >
+    <View
+      accessibilityLabel="Foo"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      role="link"
+      testID="text-link"
+    >
+      <View
+        style={
+          {
+            "display": "flex",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "height": 40,
+              "position": "relative",
+              "width": 40,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#f5f5f5",
+                  "borderRadius": 20,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                },
+                false,
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#262424",
+                    "borderRadius": 8,
+                    "borderWidth": 2,
+                    "justifyContent": "center",
+                    "maxHeight": 128,
+                    "maxWidth": 128,
+                    "overflow": "hidden",
+                  },
+                  {
+                    "borderColor": "transparent",
+                  },
+                ],
+                {
+                  "height": 40,
+                  "width": 40,
+                },
+              ]
+            }
+            testID="space-avatar"
+          >
+            <ViewManagerAdapter_ExpoImage
+              accessibilityRole="image"
+              accessible={true}
+              aria-label="Foo"
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
+              height="100%"
+              onError={[Function]}
+              onLoad={[Function]}
+              onLoadStart={[Function]}
+              onProgress={[Function]}
+              placeholder={[]}
+              role="img"
+              source={
+                [
+                  {
+                    "height": 40,
+                    "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                    "width": 40,
+                  },
+                ]
+              }
+              style={
+                {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+              transition={null}
+              width="100%"
+            />
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "flexBasis": "100%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
+            }
+          >
+            Your request to join the Space Foo was declined.
+          </Text>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "marginTop": 4,
+                "userSelect": "auto",
+              }
+            }
+          >
+            2 weeks ago
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "minWidth": 12,
+                "position": "relative",
+              },
+              {
+                "marginLeft": 12,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#6267e7",
+                  "borderRadius": 6,
+                  "borderWidth": 2,
+                  "height": 12,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 12,
+                },
+                {
+                  "top": 4,
+                },
+                {
+                  "borderColor": "#ebebeb",
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`NotificationSpaceConnectionItem with novu notifications notification for membership request matches snapshot 1`] = `
+<View>
+  <View
+    style={
+      [
+        undefined,
+        false,
+      ]
+    }
+    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+  >
+    <View
+      accessibilityLabel="Foo"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      role="link"
+      testID="text-link"
+    >
+      <View
+        style={
+          {
+            "display": "flex",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "height": 40,
+              "position": "relative",
+              "width": 40,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#f5f5f5",
+                  "borderRadius": 20,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                },
+                false,
+                [
+                  {
+                    "alignItems": "center",
+                    "borderColor": "#262424",
+                    "borderRadius": 8,
+                    "borderWidth": 2,
+                    "justifyContent": "center",
+                    "maxHeight": 128,
+                    "maxWidth": 128,
+                    "overflow": "hidden",
+                  },
+                  {
+                    "borderColor": "transparent",
+                  },
+                ],
+                {
+                  "height": 40,
+                  "width": 40,
+                },
+              ]
+            }
+            testID="space-avatar"
+          >
+            <ViewManagerAdapter_ExpoImage
+              accessibilityRole="image"
+              accessible={true}
+              aria-label="Foo"
+              contentFit="cover"
+              contentPosition={
+                {
+                  "left": "50%",
+                  "top": "50%",
+                }
+              }
+              height="100%"
+              onError={[Function]}
+              onLoad={[Function]}
+              onLoadStart={[Function]}
+              onProgress={[Function]}
+              placeholder={[]}
+              role="img"
+              source={
+                [
+                  {
+                    "height": 40,
+                    "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                    "width": 40,
+                  },
+                ]
+              }
+              style={
+                {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+              transition={null}
+              width="100%"
+            />
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "flexBasis": "100%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
+            }
+          >
+            Some User wants to join the Space Foo
+I would like to join!
+          </Text>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "marginTop": 4,
+                "userSelect": "auto",
+              }
+            }
+          >
+            2 weeks ago
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "minWidth": 12,
+                "position": "relative",
+              },
+              {
+                "marginLeft": 12,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#6267e7",
+                  "borderRadius": 6,
+                  "borderWidth": 2,
+                  "height": 12,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 12,
+                },
+                {
+                  "top": 4,
+                },
+                {
+                  "borderColor": "#ebebeb",
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "paddingLeft": 48,
+          },
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          },
+          {
+            "marginHorizontal": -4,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.ignore"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#262424",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "display": "flex",
+                  "elevation": 0,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+                {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
+              ],
+              {
+                "marginTop": 12,
+              },
+            ]
+          }
+          testID="decline-connection-request-button"
         >
           <View
             style={

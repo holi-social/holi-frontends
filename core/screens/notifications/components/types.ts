@@ -36,6 +36,7 @@ export interface NotificationBase {
   notificationType: NotificationType | NovuNotificationType
   read: boolean
   created: string
+  content?: string
 }
 
 export interface NotificationConnection extends NotificationBase {
@@ -76,6 +77,13 @@ export interface NotificationPost extends NotificationBase {
   }
 }
 
+export interface SpaceMembershipNotificationData {
+  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
+  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+  message?: string
+  requestMessage?: string
+}
+
 export interface NotificationSpaceConnection extends NotificationBase {
   notificationType:
     | NotificationType.COMMUNITY_MEMBERSHIP_APPROVED
@@ -84,15 +92,10 @@ export interface NotificationSpaceConnection extends NotificationBase {
     | NotificationType.COMMUNITY_INVITE
     | NotificationType.COMMUNITY_INVITE_DECLINED
     | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST
-  options: {
-    user: Pick<
-      User,
-      'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'
-    >
-    space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
-    message?: string
-    requestMessage?: string
-  }
+    | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER
+    | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER
+    | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN
+  options: SpaceMembershipNotificationData
 }
 
 export interface NotificationSpacePost extends NotificationBase {
