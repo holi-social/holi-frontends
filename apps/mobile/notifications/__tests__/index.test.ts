@@ -180,4 +180,30 @@ describe('transformPushInteractionToUrl', () => {
     )
     expect(url).toEqual('holi://spaces/space1/')
   })
+
+  it('should create correct url for space membership invite notification on Android', () => {
+    const url = transformPushInteractionToUrl(
+      createAndroidNotificationResponse({
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
+        data: JSON.stringify({
+          space: { name: 'space1' },
+          user: { id: '123' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://spaces/space1/')
+  })
+
+  it('should create correct url for space membership invite notification on iOS', () => {
+    const url = transformPushInteractionToUrl(
+      createIOSNotificationResponse({
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
+        data: {
+          space: { name: 'space1' },
+          user: { id: '123' },
+        },
+      })
+    )
+    expect(url).toEqual('holi://spaces/space1/')
+  })
 })

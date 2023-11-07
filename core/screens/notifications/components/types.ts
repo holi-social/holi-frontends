@@ -96,6 +96,7 @@ export interface NotificationSpaceConnection extends NotificationBase {
     | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN
     | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER
     | NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN
+    | NovuNotificationType.SPACE_MEMBERSHIP_INVITE
   options: SpaceMembershipNotificationData
 }
 
