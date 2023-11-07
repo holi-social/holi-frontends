@@ -18,7 +18,7 @@ export const useLoggedInUser = () => {
     refetch,
   } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !userId,
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'cache-and-network',
     onError: (error) => {
       if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
         logout({ redirectPath: '/' })
