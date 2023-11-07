@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { handleKratosSdkError } from '@holi/core/auth/helpers/helper'
+import { handleKratosSdkError, handleKratosSdkErrorIgnoringCodes } from '@holi/core/auth/helpers/helper'
 
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
@@ -34,9 +34,7 @@ const generalError = {
 
 describe('handleKratosSdkError', () => {
   const errorHandler = handleKratosSdkError('createBrowserLogoutFlow')
-  const errorHandlerIgnoringCodes = handleKratosSdkError('createBrowserLogoutFlow', {
-    errorCodesToIgnore: ['session_inactive'],
-  })
+  const errorHandlerIgnoringCodes = handleKratosSdkErrorIgnoringCodes('createBrowserLogoutFlow', ['session_inactive'])
 
   it('adds context information to log message', () => {
     expect(() => errorHandler(errorResponse)).toThrow()

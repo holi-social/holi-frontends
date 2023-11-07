@@ -11,7 +11,7 @@ import type {
 import AsyncStore from '@react-native-async-storage/async-storage'
 import type { AxiosPromise } from 'axios'
 
-import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
+import { extractValue, handleKratosSdkError, handleKratosSdkErrorIgnoringCodes } from '@holi/core/auth/helpers/helper'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
@@ -62,7 +62,7 @@ export const removeSessionFromStorage = (): Promise<void> => {
   return AsyncStore.removeItem(userSessionName)
 }
 
-export const initLoginFlow = (): AxiosPromise<LoginFlow> =>
+export const initLoginFlow = () =>
   newKratosSdk()
     .createBrowserLoginFlow({ refresh: true })
     .then(({ data }) => data)
@@ -93,17 +93,17 @@ export const submitReauthFlow = (flow: LoginFlow, password: string): AxiosPromis
 }
 
 // Logout
-export const submitLogoutFlow = (): AxiosPromise<void> =>
+export const submitLogoutFlow = () =>
   newKratosSdk()
     .createBrowserLogoutFlow()
-    .catch(handleKratosSdkError('createBrowserLogoutFlow', { errorCodesToIgnore: ['session_inactive'] }))
+    .catch(handleKratosSdkErrorIgnoringCodes('createBrowserLogoutFlow', ['session_inactive']))
     .then((response) => {
       const token = response?.data?.logout_token
       if (token) {
         return newKratosSdk().updateLogoutFlow({ token })
       }
     })
-    .catch(handleKratosSdkError('updateLogoutFlow', { errorCodesToIgnore: ['session_inactive'] }))
+    .catch(handleKratosSdkErrorIgnoringCodes('updateLogoutFlow', ['session_inactive']))
 
 // Registration
 export const initRegistrationFlow = (): AxiosPromise<RegistrationFlow> =>
@@ -149,6 +149,16 @@ export const submitSettingsFlow = (flow: SettingsFlow, password: string): AxiosP
       { withCredentials: true }
     )
     .catch(handleKratosSdkError('updateSettingsFlow'))
+}
+
+export const submitSettingsFlowProfile = (flow: SettingsFlow, traits: object): AxiosPromise<SettingsFlow> => {
+  const csrf_token = extractValue(flow, 'csrf_token')
+  return newKratosSdk()
+    .updateSettingsFlow(
+      { flow: flow.id, updateSettingsFlowBody: { method: 'profile', traits, csrf_token } },
+      { withCredentials: true }
+    )
+    .catch(handleKratosSdkError('updateSettingsFlowEmail'))
 }
 
 export const initVerificationFlow = async () =>
