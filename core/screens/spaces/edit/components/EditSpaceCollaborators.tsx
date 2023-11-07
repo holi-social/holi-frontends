@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -29,7 +29,7 @@ export type EditSpaceCollaboratorsParams = {
   spaceIdOrName: string
 }
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
 
 const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
@@ -56,8 +56,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: spaceIdOrName },
+  const { data, loading, refetch, fetchMore } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
 
   const space = data?.spaceById
@@ -93,6 +93,17 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     },
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
+
+  useEffect(() => {
+    if (data) {
+      fetchMore({
+        variables: {
+          offset: data.spaceById.members.totalResults,
+          limit: PAGE_SIZE,
+        },
+      })
+    }
+  }, [data, fetchMore])
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 

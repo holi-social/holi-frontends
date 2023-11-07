@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -10,7 +10,7 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -27,7 +27,7 @@ type SpaceCollaboratorsProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SPACE_MEMBER_PAGE_SIZE = 10
+const SPACE_MEMBER_PAGE_SIZE = 20
 
 const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
@@ -37,19 +37,29 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
 
-  const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: space.id },
+  const { data, loading, fetchMore } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    variables: { idOrName: space.id, limit: SPACE_MEMBER_PAGE_SIZE },
   })
 
   const newSpace = data?.spaceById || space
 
-  const queryOptions: PaginationQueryHookOptions = {
+  const queryOptions: Omit<PaginationQueryHookOptions, 'queryPath'> = {
     pageSize: SPACE_MEMBER_PAGE_SIZE,
-    queryPath: 'spaceById.members',
     variables: {
-      idOrName: space.name,
+      idOrName: space.id,
     },
   }
+
+  useEffect(() => {
+    if (data) {
+      fetchMore({
+        variables: {
+          offset: data.spaceById.members.totalResults,
+          limit: SPACE_MEMBER_PAGE_SIZE,
+        },
+      })
+    }
+  }, [data, fetchMore])
 
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
@@ -90,7 +100,11 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
           {loading ? (
             <HoliLoader />
           ) : (
-            <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
+            <Pagination
+              query={spaceMembersQuery}
+              queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
+              loadMoreOnScroll
+            >
               <SpaceCollaboratorList space={newSpace} onSelectMember={onSelectMember} />
             </Pagination>
           )}
