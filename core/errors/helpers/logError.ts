@@ -39,5 +39,5 @@ export const logErrorLocal = (error: unknown, logMessage: string, { location, ..
   // eslint-disable-next-line no-console
   const consoleLog = isDevEnvironment ? console.error : console.warn
 
-  consoleLog(`[${location}] [${process.env.NODE_ENV}]` + logMessage, error, context)
+  consoleLog(`[${location}]` + logMessage, error, context)
 }
