@@ -40,16 +40,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     }
   })
 
-  // we redirect to also delete the cookie with the full domain to ensure new cookies are also removed.
-  // TODO This page (forceLogoutDomain) should be removed in the future and forceLogout should be accessed directly in SessionExpiryProtection.tsx.
-  res.writeHead(302, {
-    Location: '/forceLogout',
-  })
-
-  res.end()
-
   return {
-    props: {},
+    // we redirect to also delete the cookie with the full domain to ensure new cookies are also removed.
+    // TODO: This page (forceLogoutDomain) should be removed in the future and forceLogout should be accessed directly in SessionExpiryProtection.tsx.
+    redirect: {
+      destination: '/forceLogout',
+      permanent: true,
+    },
   }
 }
 
