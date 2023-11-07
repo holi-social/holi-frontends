@@ -21,7 +21,7 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
-import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -88,6 +88,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
+        inspirationPostsQuery,
         lastInsightsQuery,
         ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
         ftEnabledGoodnews || ftPreviewGoodnews ? goodNewsArticlesQuery : undefined,

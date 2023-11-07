@@ -20,13 +20,13 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const POSTS_PAGE_SIZE = 4
 
 const InspirationPostsList = () => {
-  const { loading, data: posts, totalResults } = usePaginationContext<Post>()
-
   const { t } = useTranslation()
-
   const postGridItemsInRow = useBreakpointMatcher()
 
-  if (!loading && !totalResults) return <></>
+  const { loading, data: posts, totalResults } = usePaginationContext<Post>()
+  if (!loading && !totalResults) {
+    return <></>
+  }
 
   return (
     <>
@@ -50,14 +50,7 @@ const InspirationPostsList = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  item: {
-    flex: 1,
-  },
-})
-
 const InspirationPosts = () => {
-  const { ftEnabled } = useFeatureToggle(FeatureToggleName.FEED_DAILY_INSPIRATION)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const mixins = useStyleMixins()
@@ -73,7 +66,10 @@ const InspirationPosts = () => {
     fetchPolicy: 'cache-first',
   }
 
-  if (!ftEnabled) return <></>
+  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.FEED_DAILY_INSPIRATION)
+  if (!ftLoading && !ftEnabled) {
+    return <></>
+  }
 
   return (
     <View style={mixins.container}>
@@ -92,5 +88,11 @@ const InspirationPosts = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  item: {
+    flex: 1,
+  },
+})
 
 export default withProfiler(InspirationPosts, { name: 'InspirationPosts' })
