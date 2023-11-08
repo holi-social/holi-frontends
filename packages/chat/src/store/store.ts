@@ -214,22 +214,27 @@ export const spaceRoomAtomsRecordAtom = atom<Record<ChatRoomId, ChatRoomAtom[]>>
   return Object.entries(spaceTabsRecord).reduce<Record<ChatRoomId, ChatRoomAtom[]>>((acc, [roomId, spaceTabRoom]) => {
     const currentRoomMembers = spaceTabRoom.members
 
-    const siblingRoomsAtoms = Object.values(derivedRoomsRecord).reduce<ChatRoomAtom[]>((acc, siblingRoomTab) => {
-      if (siblingRoomTab.id === roomId) return [...acc, roomAtomsRecord[roomId]]
+    const siblingRoomIds = Object.values(derivedRoomsRecord).reduce<ChatRoomId[]>((acc, siblingRoomTab) => {
+      if (siblingRoomTab.id === roomId) return [...acc, roomId]
       if (siblingRoomTab.type !== 'private') return acc
 
-      // add private space related rooms
+      // find private space related rooms
       const siblingRoomMembers = siblingRoomTab.members
       const hasSpaceMembers = siblingRoomMembers.every((member) =>
         currentRoomMembers.some((spaceMember) => spaceMember.id === member.id)
       )
 
-      return hasSpaceMembers ? [...acc, roomAtomsRecord[siblingRoomTab.id]] : acc
+      return hasSpaceMembers ? [...acc, siblingRoomTab.id] : acc
     }, [])
+
+    const sortedSiblingRoomIds = siblingRoomIds.sort((rIdA, rIdB) =>
+      (derivedRoomsRecord[rIdA].timestamp ?? 0) < (derivedRoomsRecord[rIdB].timestamp ?? 0) ? 1 : -1
+    )
+    const siblingRoomAtoms = sortedSiblingRoomIds.map((roomId) => roomAtomsRecord[roomId])
 
     return {
       ...acc,
-      [roomId]: siblingRoomsAtoms,
+      [roomId]: siblingRoomAtoms,
     }
   }, {})
 })
@@ -548,9 +553,19 @@ export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
   }
 }
 
+export const getLastRoomMessageEvent = (room: Room) =>
+  room
+    .getLiveTimeline()
+    .getEvents()
+    .sort((eA, eB) => (eA.localTimestamp > eB.localTimestamp ? 1 : -1))
+    .find((event) => event.getType() === EventType.RoomMessage)?.event
+
 export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitation = false): ChatRoom {
-  const lastLiveEvent = room.getLastLiveEvent()?.event
-  const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
+  const lastMessageEvent = getLastRoomMessageEvent(room)
+
+  const lastMessage = isRoomMessageEvent(lastMessageEvent)
+    ? createChatMessage(room.roomId, lastMessageEvent)
+    : undefined
 
   const roomMxCreatorId = room.getCreator()
   const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
@@ -564,7 +579,7 @@ export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitat
     avatar,
     notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     hasInvitation,
-    lastMessage: lastMessage,
+    lastMessage,
     creator: roomMxCreator && createChatMember(roomMxCreator),
     members: room.getMembers().map(createChatMember),
     timestamp:
