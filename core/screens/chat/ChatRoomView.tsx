@@ -13,6 +13,7 @@ import {
   getChatPartner,
   getHoliUserForChatMember,
   isRoomCreator,
+  isSpaceGeneralChatRoom,
   setLatestMessagesAsRead,
   useRequestRoomMessages,
   useRoomById,
@@ -57,6 +58,8 @@ const ChatRoomView = () => {
   const chatPartner = loggedInUser && room && getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
 
+  const isSpaceRoom = room && isSpaceGeneralChatRoom(room)
+
   const { openToast } = useToast()
 
   const handleBackPress = useCallback(async () => {
@@ -67,7 +70,8 @@ const ChatRoomView = () => {
   useEffect(() => {
     setScreenOptions({
       headerRight: () =>
-        !!chatPartner && (
+        !!chatPartner &&
+        !isSpaceRoom && (
           <ChatRoomActionDrawer
             roomId={roomId}
             chatPartner={chatPartner}
@@ -111,7 +115,7 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room])
+  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom])
 
   useEffect(() => {
     // redirect logged in user to Chat screen if room not found
