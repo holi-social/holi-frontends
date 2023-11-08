@@ -4,7 +4,8 @@ import { ICreateClientOpts } from 'matrix-js-sdk/src/client'
 import React from 'react'
 
 import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
-import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
+import ChatProvider from '@holi/chat/src/components/ChatProvider'
+import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import { ChatMockProvider, queriesFor, storeForRoomAtoms } from '@holi/chat/src/test-utils/ChatMockProvider'
 import {
   createChatMemberFixture,
@@ -100,9 +101,11 @@ describe('ChatHome', () => {
 
     it('shows login hint', async () => {
       render(
-        <ChatStoreInitializer>
-          <ChatHomeContent />
-        </ChatStoreInitializer>
+        <ChatSessionInitializer>
+          <ChatProvider>
+            <ChatHomeContent />
+          </ChatProvider>
+        </ChatSessionInitializer>
       )
 
       await screen.findAllByText('loginRedirect.title')
@@ -141,9 +144,11 @@ describe('ChatHome', () => {
       // it doesn't need any mocks
 
       render(
-        <ChatStoreInitializer>
-          <ChatHomeContent />
-        </ChatStoreInitializer>
+        <ChatSessionInitializer>
+          <ChatProvider>
+            <ChatHomeContent />
+          </ChatProvider>
+        </ChatSessionInitializer>
       )
 
       await screen.findAllByText('chat.empty.tagline')
