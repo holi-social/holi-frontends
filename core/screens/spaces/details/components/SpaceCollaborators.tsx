@@ -39,24 +39,25 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const { user: loggedInUser } = useLoggedInUser()
 
   const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: space.id, limit: SPACE_MEMBER_PAGE_SIZE },
+    variables: { idOrName: space.name, limit: SPACE_MEMBER_PAGE_SIZE },
   })
 
   useEffect(() => {
     if (data) {
       refetch({
-        idOrName: space.id,
+        idOrName: space.name,
         limit: SPACE_MEMBER_PAGE_SIZE,
       })
     }
-  }, [data, refetch, space.id])
+  }, [data, refetch, space.name])
 
   const newSpace = data?.spaceById || space
 
-  const queryOptions: Omit<PaginationQueryHookOptions, 'queryPath'> = {
+  const queryOptions: PaginationQueryHookOptions = {
     pageSize: SPACE_MEMBER_PAGE_SIZE,
+    queryPath: 'spaceById.members',
     variables: {
-      idOrName: space.id,
+      idOrName: space.name,
     },
   }
 
@@ -104,11 +105,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
             contentContainerStyle={[mixins.container, styles.wrapper]}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           >
-            <Pagination
-              query={spaceMembersQuery}
-              queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
-              loadMoreOnScroll
-            >
+            <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
               <SpaceCollaboratorList space={newSpace} onSelectMember={onSelectMember} />
             </Pagination>
           </ScrollView>
