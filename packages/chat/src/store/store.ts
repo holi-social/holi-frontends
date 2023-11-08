@@ -548,9 +548,19 @@ export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
   }
 }
 
+export const getLastRoomMessageEvent = (room: Room) =>
+  room
+    .getLiveTimeline()
+    .getEvents()
+    .sort((eA, eB) => (eA.localTimestamp > eB.localTimestamp ? 1 : -1))
+    .find((event) => event.getType() === EventType.RoomMessage)?.event
+
 export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitation = false): ChatRoom {
-  const lastLiveEvent = room.getLastLiveEvent()?.event
-  const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
+  const lastMessageEvent = getLastRoomMessageEvent(room)
+
+  const lastMessage = isRoomMessageEvent(lastMessageEvent)
+    ? createChatMessage(room.roomId, lastMessageEvent)
+    : undefined
 
   const roomMxCreatorId = room.getCreator()
   const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
@@ -564,7 +574,7 @@ export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitat
     avatar,
     notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     hasInvitation,
-    lastMessage: lastMessage,
+    lastMessage,
     creator: roomMxCreator && createChatMember(roomMxCreator),
     members: room.getMembers().map(createChatMember),
     timestamp:
