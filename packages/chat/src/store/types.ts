@@ -27,6 +27,7 @@ export type AtomRecordGetter = <T>(atom: Atom<Record<string, T>>) => Record<stri
 interface BaseChatRoom {
   id: string
   name: string
+  avatar?: string
   hasInvitation: boolean
   notificationCount: number
   lastMessage: ChatMessage | undefined
@@ -56,17 +57,22 @@ export interface RoomUserData {
   ignoredUsers: MatrixId[]
 }
 
-export interface CreateUpdateRoomArgs {
-  type: RoomAtomsActionType.CREATE | RoomAtomsActionType.UPDATE
+interface CreateRoomArgs {
+  type: RoomAtomsActionType.CREATE
   roomList: RoomUserData[]
 }
 
-export interface DeleteRoomArgs {
+interface UpdateRoomArgs {
+  type: RoomAtomsActionType.UPDATE
+  chatRoomList: ChatRoom[]
+}
+
+interface DeleteRoomArgs {
   type: RoomAtomsActionType.DELETE
   roomId: string
 }
 
-export type RoomAtomsRecordAtomSubscriberArgs = CreateUpdateRoomArgs | DeleteRoomArgs
+export type RoomAtomsRecordAtomSubscriberArgs = CreateRoomArgs | UpdateRoomArgs | DeleteRoomArgs
 
 export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom =>
   room.type === 'space-general-room'
