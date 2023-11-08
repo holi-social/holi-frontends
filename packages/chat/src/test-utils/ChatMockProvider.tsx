@@ -3,7 +3,8 @@ import { atom, createStore } from 'jotai'
 import React, { PropsWithChildren } from 'react'
 
 import { ChatRoomMember } from '@holi/chat/src/client/types'
-import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
+import ChatProvider from '@holi/chat/src/components/ChatProvider'
+import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import { type ChatRoom, roomAtomsRecorAtomForTesting } from '@holi/chat/src/store'
 import { usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
 
@@ -14,11 +15,13 @@ interface Props {
 
 export const ChatMockProvider = ({ children, jotaiStore, apolloMocks = [] }: PropsWithChildren<Props>) => {
   return (
-    <ChatStoreInitializer store={jotaiStore}>
-      <MockedProvider mocks={apolloMocks} addTypename={false}>
-        {children}
-      </MockedProvider>
-    </ChatStoreInitializer>
+    <ChatSessionInitializer>
+      <ChatProvider store={jotaiStore}>
+        <MockedProvider mocks={apolloMocks} addTypename={false}>
+          {children}
+        </MockedProvider>
+      </ChatProvider>
+    </ChatSessionInitializer>
   )
 }
 
