@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         minHeight: '100%',
       },
     }) as ViewStyle),
-    backgroundColor: colors.background20,
+    backgroundColor: Platform.OS === 'web' ? colors.background20 : colors.background10,
   },
   discoverSpacesContainer: {
     flex: 1,
