@@ -32,6 +32,7 @@ import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@h
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -286,9 +287,13 @@ const SpaceDetails = () => {
     )
   }
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space) {
+  // Error states are handled the same way and just hide the component
+  if (error) {
     return <></>
+  }
+
+  if (loading || !space) {
+    return <HoliLoader />
   }
 
   return (

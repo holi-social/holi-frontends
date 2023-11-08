@@ -2,8 +2,9 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { RefreshControl, ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -37,9 +38,18 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
 
-  const { data, loading, fetchMore } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
     variables: { idOrName: space.id, limit: SPACE_MEMBER_PAGE_SIZE },
   })
+
+  useEffect(() => {
+    if (data) {
+      refetch({
+        idOrName: space.id,
+        limit: SPACE_MEMBER_PAGE_SIZE,
+      })
+    }
+  }, [data, refetch, space.id])
 
   const newSpace = data?.spaceById || space
 
@@ -49,17 +59,6 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
       idOrName: space.id,
     },
   }
-
-  useEffect(() => {
-    if (data) {
-      fetchMore({
-        variables: {
-          offset: data.spaceById.members.totalResults,
-          limit: SPACE_MEMBER_PAGE_SIZE,
-        },
-      })
-    }
-  }, [data, fetchMore])
 
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
@@ -85,6 +84,8 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
+
   return (
     <HoliModal
       show={show}
@@ -95,11 +96,14 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
       relativeHeight={1}
       autoHeight={false}
     >
-      <ToastProvider>
-        <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
-          {loading ? (
-            <HoliLoader />
-          ) : (
+      {loading ? (
+        <HoliLoader />
+      ) : (
+        <ToastProvider>
+          <ScrollView
+            contentContainerStyle={[mixins.container, styles.wrapper]}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          >
             <Pagination
               query={spaceMembersQuery}
               queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
@@ -107,20 +111,20 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
             >
               <SpaceCollaboratorList space={newSpace} onSelectMember={onSelectMember} />
             </Pagination>
+          </ScrollView>
+          {selectedMember && (
+            <SpacePermissions
+              space={space}
+              user={selectedMember.user}
+              isMember
+              isAdministrator={selectedMember.isAdministrator}
+              handleNavigation={handleNavigation}
+              permissionsVisible={permissionsVisible}
+              hidePermissions={hidePermissions}
+            />
           )}
-        </ScrollView>
-        {selectedMember && (
-          <SpacePermissions
-            space={space}
-            user={selectedMember.user}
-            isMember
-            isAdministrator={selectedMember.isAdministrator}
-            handleNavigation={handleNavigation}
-            permissionsVisible={permissionsVisible}
-            hidePermissions={hidePermissions}
-          />
-        )}
-      </ToastProvider>
+        </ToastProvider>
+      )}
     </HoliModal>
   )
 }

@@ -45,6 +45,10 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
+  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
+  })
+
   useLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.collaborators'),
@@ -56,9 +60,14 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { data, loading, refetch, fetchMore } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
-  })
+  useEffect(() => {
+    if (data) {
+      refetch({
+        idOrName: spaceIdOrName,
+        limit: PAGE_SIZE,
+      })
+    }
+  }, [data, refetch, spaceIdOrName])
 
   const space = data?.spaceById
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -94,17 +103,6 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  useEffect(() => {
-    if (data) {
-      fetchMore({
-        variables: {
-          offset: data.spaceById.members.totalResults,
-          limit: PAGE_SIZE,
-        },
-      })
-    }
-  }, [data, fetchMore])
-
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   if (loading) {
@@ -121,44 +119,48 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
         onRefresh,
       }}
     >
-      <HoliTabs
-        id="collaborator-tabs"
-        style={styles.tabWrapper}
-        tabBarStyle={tabBarStyle}
-        initialStep={space?.membershipRequests?.totalResults ? 1 : 0}
-        tabs={[
-          {
-            title: t('spaces.collaborators.manage.tabs.all'),
-            style: styles.tabStyle,
-            children: (
-              <View style={[mixins.container, styles.all]}>
-                <Pagination
-                  query={spaceMembersQuery}
-                  queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
-                  loadMoreOnScroll
-                >
-                  {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
-                </Pagination>
-              </View>
-            ),
-          },
-          {
-            title: t('spaces.collaborators.manage.tabs.pending'),
-            style: styles.tabStyle,
-            children: (
-              <View style={[mixins.container, styles.all]}>
-                <Pagination
-                  query={spaceMembershipRequestsQuery}
-                  queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
-                  loadMoreOnScroll
-                >
-                  {!!space && <SpacePendingRequestsList space={space} />}
-                </Pagination>
-              </View>
-            ),
-          },
-        ]}
-      />
+      {loading ? (
+        <HoliLoader />
+      ) : (
+        <HoliTabs
+          id="collaborator-tabs"
+          style={styles.tabWrapper}
+          tabBarStyle={tabBarStyle}
+          initialStep={space?.membershipRequests?.totalResults ? 1 : 0}
+          tabs={[
+            {
+              title: t('spaces.collaborators.manage.tabs.all'),
+              style: styles.tabStyle,
+              children: (
+                <View style={[mixins.container, styles.all]}>
+                  <Pagination
+                    query={spaceMembersQuery}
+                    queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
+                    loadMoreOnScroll
+                  >
+                    {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
+                  </Pagination>
+                </View>
+              ),
+            },
+            {
+              title: t('spaces.collaborators.manage.tabs.pending'),
+              style: styles.tabStyle,
+              children: (
+                <View style={[mixins.container, styles.all]}>
+                  <Pagination
+                    query={spaceMembershipRequestsQuery}
+                    queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
+                    loadMoreOnScroll
+                  >
+                    {!!space && <SpacePendingRequestsList space={space} />}
+                  </Pagination>
+                </View>
+              ),
+            },
+          ]}
+        />
+      )}
       {selectedMember && !!space && (
         <SpacePermissions
           space={space}
