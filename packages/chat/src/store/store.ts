@@ -214,22 +214,27 @@ export const spaceRoomAtomsRecordAtom = atom<Record<ChatRoomId, ChatRoomAtom[]>>
   return Object.entries(spaceTabsRecord).reduce<Record<ChatRoomId, ChatRoomAtom[]>>((acc, [roomId, spaceTabRoom]) => {
     const currentRoomMembers = spaceTabRoom.members
 
-    const siblingRoomsAtoms = Object.values(derivedRoomsRecord).reduce<ChatRoomAtom[]>((acc, siblingRoomTab) => {
-      if (siblingRoomTab.id === roomId) return [...acc, roomAtomsRecord[roomId]]
+    const siblingRoomIds = Object.values(derivedRoomsRecord).reduce<ChatRoomId[]>((acc, siblingRoomTab) => {
+      if (siblingRoomTab.id === roomId) return [...acc, roomId]
       if (siblingRoomTab.type !== 'private') return acc
 
-      // add private space related rooms
+      // find private space related rooms
       const siblingRoomMembers = siblingRoomTab.members
       const hasSpaceMembers = siblingRoomMembers.every((member) =>
         currentRoomMembers.some((spaceMember) => spaceMember.id === member.id)
       )
 
-      return hasSpaceMembers ? [...acc, roomAtomsRecord[siblingRoomTab.id]] : acc
+      return hasSpaceMembers ? [...acc, siblingRoomTab.id] : acc
     }, [])
+
+    const sortedSiblingRoomIds = siblingRoomIds.sort((rIdA, rIdB) =>
+      (derivedRoomsRecord[rIdA].timestamp ?? 0) < (derivedRoomsRecord[rIdB].timestamp ?? 0) ? 1 : -1
+    )
+    const siblingRoomAtoms = sortedSiblingRoomIds.map((roomId) => roomAtomsRecord[roomId])
 
     return {
       ...acc,
-      [roomId]: siblingRoomsAtoms,
+      [roomId]: siblingRoomAtoms,
     }
   }, {})
 })
