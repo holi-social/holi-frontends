@@ -206,7 +206,7 @@ export const spaceTabRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab>> = atom((
 /**
  * Derived atom that holds record with space ids as keys and array of all space's related room (ChatRoom) atoms as value
  */
-export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomAtom[]>>> = atom(async (get) => {
+export const spaceRoomAtomsRecordAtom = atom<Record<ChatRoomId, ChatRoomAtom[]>>((get) => {
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
   const spaceTabsRecord = get(spaceTabRecordAtom)
   const derivedRoomsRecord = get(derivedRoomsRecordAtom)
@@ -234,8 +234,8 @@ export const spaceRoomAtomsRecordAtom: Atom<Promise<Record<ChatRoomId, ChatRoomA
   }, {})
 })
 
-export const spaceNotificationCountRecordAtom: Atom<Promise<Record<ChatRoomId, number>>> = atom(async (get) => {
-  const spaceRoomAtomsRecord = await get(spaceRoomAtomsRecordAtom)
+export const spaceNotificationCountRecordAtom = atom<Record<ChatRoomId, number>>((get) => {
+  const spaceRoomAtomsRecord = get(spaceRoomAtomsRecordAtom)
   return Object.entries(spaceRoomAtomsRecord).reduce<Record<ChatRoomId, number>>((acc, [spaceRoomId, roomAtoms]) => {
     const spaceRelatedNotificationCount = roomAtoms.reduce((acc, roomAtom) => acc + get(roomAtom).notificationCount, 0)
     return {

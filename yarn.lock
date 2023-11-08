@@ -3612,43 +3612,43 @@
   dependencies:
     "@lexical/offset" "0.6.5"
 
-"@mantine/core@^6.0.19":
-  version "6.0.19"
-  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-6.0.19.tgz#612413f0e8eb117e6a39068a625c6ccf2ae2ccdd"
-  integrity sha512-SvMZCOgCc315SIg6hkuLM0ZnBaAac4VFDHZ0BM5LIE4MPJUpe4QOLsg/5RGxOa5s7JRCtu/dawH3/9frvfDrhw==
+"@mantine/core@^6.0.21":
+  version "6.0.21"
+  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-6.0.21.tgz#6e3a1b8d0f6869518a644d5f5e3d55a5db7e1e51"
+  integrity sha512-Kx4RrRfv0I+cOCIcsq/UA2aWcYLyXgW3aluAuW870OdXnbII6qg7RW28D+r9D76SHPxWFKwIKwmcucAG08Divg==
   dependencies:
     "@floating-ui/react" "^0.19.1"
-    "@mantine/styles" "6.0.19"
-    "@mantine/utils" "6.0.19"
+    "@mantine/styles" "6.0.21"
+    "@mantine/utils" "6.0.21"
     "@radix-ui/react-scroll-area" "1.0.2"
     react-remove-scroll "^2.5.5"
     react-textarea-autosize "8.3.4"
 
-"@mantine/hooks@^6.0.19":
-  version "6.0.19"
-  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-6.0.19.tgz#39f61434304f687d3ba7bf0040c5adf380c7c4b3"
-  integrity sha512-YkmuB6kmoenU1PVuE8tLBA+6RJIY9hIsGyIQG1yuPAy6SLWNFT8g2T9YvI/psqsUbVIYGaNEXg8zq42xbxnD8Q==
+"@mantine/hooks@^6.0.21":
+  version "6.0.21"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-6.0.21.tgz#bc009d8380ad18455b90f3ddaf484de16a13da95"
+  integrity sha512-sYwt5wai25W6VnqHbS5eamey30/HD5dNXaZuaVEAJ2i2bBv8C0cCiczygMDpAFiSYdXoSMRr/SZ2CrrPTzeNew==
 
-"@mantine/prism@^6.0.19":
-  version "6.0.19"
-  resolved "https://registry.yarnpkg.com/@mantine/prism/-/prism-6.0.19.tgz#6d8525d5e8e63acba2a9853b62be6cc60e1e1366"
-  integrity sha512-IsXPeNtoPuns+zB5kI3gY5ioEMmzFWcogWoUIOwaZpNMj5nn6OM6ihKPYpsEmHFiGIyR2qzFRF/VPMDhv9m7pg==
+"@mantine/prism@^6.0.21":
+  version "6.0.21"
+  resolved "https://registry.yarnpkg.com/@mantine/prism/-/prism-6.0.21.tgz#ad209ecee3d5a92443cf4373a6405ba9bb32bf43"
+  integrity sha512-M9hDUAuuxiINI7f07V0qlX532UXlOTpBqNcG1WWm80t6C0fHjzkTvFj77QpnGS73+MI88mV8ru458y10bQjTBA==
   dependencies:
-    "@mantine/utils" "6.0.19"
+    "@mantine/utils" "6.0.21"
     prism-react-renderer "^1.2.1"
 
-"@mantine/styles@6.0.19":
-  version "6.0.19"
-  resolved "https://registry.yarnpkg.com/@mantine/styles/-/styles-6.0.19.tgz#7d9a6f2c2a9b345dfd9d12f8fd66af3976d67ab2"
-  integrity sha512-0tg3Dvv/kxCc1mbQVFhZaIhlSbSbV1F/3xG0NRlP2DF23mw9088o5KaIXGKM6XkXU6OEt/f99nDCUHBk2ixtUg==
+"@mantine/styles@6.0.21":
+  version "6.0.21"
+  resolved "https://registry.yarnpkg.com/@mantine/styles/-/styles-6.0.21.tgz#8ea097fc76cbb3ed55f5cfd719d2f910aff5031b"
+  integrity sha512-PVtL7XHUiD/B5/kZ/QvZOZZQQOj12QcRs3Q6nPoqaoPcOX5+S7bMZLMH0iLtcGq5OODYk0uxlvuJkOZGoPj8Mg==
   dependencies:
     clsx "1.1.1"
     csstype "3.0.9"
 
-"@mantine/utils@6.0.19":
-  version "6.0.19"
-  resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-6.0.19.tgz#0197fccc5649259787d5468228139f8815909803"
-  integrity sha512-duvtnaW1gDR2gnvUqnWhl6DMW7sN0HEWqS8Z/BbwaMi75U+Xp17Q72R9JtiIrxQbzsq+KvH9L9B/pxMVwbLirg==
+"@mantine/utils@6.0.21":
+  version "6.0.21"
+  resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-6.0.21.tgz#6185506e91cba3e308aaa8ea9ababc8e767995d6"
+  integrity sha512-33RVDRop5jiWFao3HKd3Yp7A9mEq4HAJxJPTuYm1NkdqX6aTKOQK7wT8v8itVodBp+sb4cJK6ZVdD1UurK/txQ==
 
 "@matrix-org/matrix-sdk-crypto-wasm@^2.0.0":
   version "2.2.0"
@@ -15131,14 +15131,14 @@ jose@^4.11.4:
   resolved "https://registry.npmjs.org/jose/-/jose-4.14.4.tgz"
   integrity sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==
 
-jotai-devtools@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/jotai-devtools/-/jotai-devtools-0.6.2.tgz#eaea2c7cadde552a5f6a6e77075c3139adc64e26"
-  integrity sha512-iHKYt8V2T2Gh2DtGRpvpv2daVoFoHRJXqk5/LHnhFkJy9rMQuIGo4XgVu/v1ZMSvMzwDXdU3hDOQkfQWlDErUQ==
+jotai-devtools@0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/jotai-devtools/-/jotai-devtools-0.7.0.tgz#487432c1da58838a98bd275f0d96844765ed5420"
+  integrity sha512-rMcNusiJ3YtvbVkUF6RrUa1mJZbcH7Cs6MGULHllTQ/+4/kKtWtEPXUMdwxyJ33Sdx/L0Al8b0g0NpLOPUr0zA==
   dependencies:
-    "@mantine/core" "^6.0.19"
-    "@mantine/hooks" "^6.0.19"
-    "@mantine/prism" "^6.0.19"
+    "@mantine/core" "^6.0.21"
+    "@mantine/hooks" "^6.0.21"
+    "@mantine/prism" "^6.0.21"
     "@redux-devtools/extension" "^3.2.5"
     javascript-stringify "^2.1.0"
     jsondiffpatch "^0.5.0"
@@ -15146,10 +15146,10 @@ jotai-devtools@^0.6.2:
     react-json-tree "^0.18.0"
     react-resizable-panels "^0.0.54"
 
-jotai@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.4.0.tgz#3f0b30fa54dfb4b4bb22141264512bccca5f5149"
-  integrity sha512-NUHJdAJe3C8Prf0DD6EzezCATjkNvfCNI7pgkaX7bCPPsqE0oK8L9RzZsEhz/UxFoGRayXwacTvAli0VEYKkqQ==
+jotai@2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.4.3.tgz#a8eff8ca6de968d6a04616329dd1335ce52e70f3"
+  integrity sha512-CSAHX9LqWG5WCrU8OgBoZbBJ+Bo9rQU0mPusEF4e0CZ/SNFgurG26vb3UpgvCSJZgYVcUQNiUBM5q86PA8rstQ==
 
 js-cookie@^2.2.1:
   version "2.2.1"
