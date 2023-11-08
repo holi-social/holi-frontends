@@ -109,8 +109,10 @@ function mapToNotification(message: IMessage): NotificationSpaceConnection | und
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
       return {
         id: message._id,
         notificationType,

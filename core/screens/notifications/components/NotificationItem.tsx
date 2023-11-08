@@ -32,8 +32,10 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.COMMUNITY_INVITE_DECLINED,
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
+  NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN,
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER,
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN,
+  NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -51,8 +53,10 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.COMMUNITY_MEMBERSHIP_REVOKED:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
       return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
     case NotificationType.COMMUNITY_INVITE:
     case NotificationType.COMMUNITY_INVITE_DECLINED:

@@ -71,17 +71,17 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   textWrapper: {
+    flex: 1,
     minHeight: 32,
     justifyContent: 'center',
     ...Platform.select({
       web: {
-        flex: 1,
         flexWrap: 'wrap',
       },
     }),
   },
   text: {
-    lineHeight: 32,
+    lineHeight: 24,
   },
 })
 

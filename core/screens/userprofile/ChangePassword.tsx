@@ -1,6 +1,6 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
   Platform,
@@ -29,6 +29,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -205,51 +206,55 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
           <HoliLoader />
         ) : (
           <>
-            {!forgotPasswordFlow && (
+            <HoliText>
+              <Trans t={t} i18nKey="auth.changePassword.description" />
+            </HoliText>
+            <View style={styles.inputFieldsContainer}>
+              {!forgotPasswordFlow && (
+                <HoliTextInput
+                  inputLabel={t('auth.changePassword.input.label-OldPassword')}
+                  aria-label={t('auth.changePassword.input.label-OldPassword')}
+                  placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
+                  validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+                  inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
+                  maxNoOfCharacters={200}
+                  onChange={setOldPwd}
+                  type="password"
+                  testID={'old-password'}
+                />
+              )}
               <HoliTextInput
-                inputLabel={t('auth.changePassword.input.label-OldPassword')}
-                aria-label={t('auth.changePassword.input.label-OldPassword')}
-                placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
-                validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-                inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
-                maxNoOfCharacters={200}
-                onChange={setOldPwd}
-                type="password"
-                style={styles.formField}
-                testID={'old-password'}
-              />
-            )}
-            <HoliTextInput
-              inputLabel={t('auth.changePassword.input.label-NewPassword')}
-              aria-label={t('auth.changePassword.input.label-NewPassword')}
-              placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
-              validationErrorText={retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)}
-              inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
-              maxNoOfCharacters={200}
-              onChange={setNewPwd}
-              type="password"
-              style={styles.formField}
-              testID={'new-password'}
-            />
-            {!!forgotPasswordFlow && (
-              <HoliTextInput
-                inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
-                aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
-                placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
+                inputLabel={t('auth.changePassword.input.label-NewPassword')}
+                aria-label={t('auth.changePassword.input.label-NewPassword')}
+                placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
                 validationErrorText={retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)}
+                helperText={t('auth.changePassword.input.helper-NewPassword')}
                 inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
                 maxNoOfCharacters={200}
-                onChange={setNewPwdRetype}
+                onChange={setNewPwd}
                 type="password"
-                style={styles.formField}
-                testID={'new-password-retype'}
+                testID={'new-password'}
               />
-            )}
+              {!!forgotPasswordFlow && (
+                <HoliTextInput
+                  inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
+                  aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
+                  placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
+                  validationErrorText={
+                    retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
+                  }
+                  inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
+                  maxNoOfCharacters={200}
+                  onChange={setNewPwdRetype}
+                  type="password"
+                  testID={'new-password-retype'}
+                />
+              )}
+            </View>
             <HoliButtonLoading
               label={t('auth.changePassword.input.label-Save')}
               onPress={performPasswordChange}
               testID={'btn-submit-change-password'}
-              style={styles.formButton}
             >
               {t('auth.changePassword.input.label-Save')}
             </HoliButtonLoading>
@@ -265,17 +270,14 @@ export default ChangePassword
 const styles = StyleSheet.create({
   layout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    paddingTop: +vars.topBarHeight,
-    justifyContent: 'center',
   },
   formContainer: {
     maxWidth: +vars.maxButtonWidth,
-    paddingBottom: +vars.topBarHeight,
+    paddingTop: 16,
   },
-  formField: {
-    marginTop: 10,
-  },
-  formButton: {
-    marginTop: 30,
+  inputFieldsContainer: {
+    paddingTop: 24,
+    gap: 16,
+    paddingBottom: 24,
   },
 })

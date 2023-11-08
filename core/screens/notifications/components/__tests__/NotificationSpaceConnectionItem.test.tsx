@@ -202,7 +202,7 @@ describe('NotificationSpaceConnectionItem', () => {
 
     it('notification for accepted membership request to user matches snapshot', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
-      const declineNotification = {
+      const acceptNotification = {
         ...notification,
         notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
         content: 'Your request to join the Space Foo was accepted by Some Admin.',
@@ -211,7 +211,25 @@ describe('NotificationSpaceConnectionItem', () => {
       const tree = renderer
         .create(
           <MockedProvider mocks={MOCKS} addTypename={false}>
-            <NotificationSpaceConnectionItem notification={declineNotification} />
+            <NotificationSpaceConnectionItem notification={acceptNotification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
+
+    it('notification for accepted membership request to admin matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+      const acceptNotification = {
+        ...notification,
+        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN,
+        content: 'Some User is a collaborator in Space Foo now.',
+      }
+
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceConnectionItem notification={acceptNotification} />
           </MockedProvider>
         )
         .toJSON()
