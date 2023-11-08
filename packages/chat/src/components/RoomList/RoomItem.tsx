@@ -82,6 +82,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
               <HoliAvatar
                 label={roomName}
                 initials={getInitials(room.content.spaceName)}
+                imageSrc={room.avatar}
                 defaultColor={room.content.avatarDefaultColor}
                 shape="square"
                 size="medium"

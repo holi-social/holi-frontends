@@ -75,17 +75,15 @@ const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, chatRoom: 
 })
 
 const addOrUpdateChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, rooms: ChatRoom[], get: Getter) => {
-  rooms.forEach((room) => {
-    const roomId = room.id
-
-    const hasRoom = roomId in roomAtoms
+  rooms.forEach((roomUpdate) => {
+    const roomId = roomUpdate.id
     const roomAtom = roomAtoms[roomId]
 
-    if (hasRoom && roomAtom) {
+    if (roomAtom) {
       const prevRoom = get(roomAtom)
-      roomAtoms[roomId] = atom({ ...prevRoom, ...room })
+      roomAtoms[roomId] = atom({ ...prevRoom, ...roomUpdate })
     } else {
-      roomAtoms[roomId] = atom(room)
+      roomAtoms[roomId] = atom(roomUpdate)
     }
   })
 })
@@ -170,11 +168,13 @@ export const derivedRoomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab | Priv
           type: room.type,
           members: room.members,
           content: room.content,
+          timestamp: room.timestamp,
         }
       : {
           id: room.id,
           type: room.type,
           members: room.members,
+          timestamp: room.timestamp,
         }
 
     return {
@@ -280,8 +280,7 @@ const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
  */
 const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
   switch (args.type) {
-    case RoomAtomsActionType.CREATE:
-    case RoomAtomsActionType.UPDATE: {
+    case RoomAtomsActionType.CREATE: {
       const chatRoomList = args.roomList.reduce<ChatRoom[]>((acc, { room, hasPendingInvitation, ignoredUsers }) => {
         const chatRoom = createChatRoom(room, hasPendingInvitation)
         // Space rooms are used as containers and not shown in the UI
@@ -298,6 +297,11 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
       break
     }
 
+    case RoomAtomsActionType.UPDATE: {
+      set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, args.chatRoomList, get))
+      break
+    }
+
     case RoomAtomsActionType.DELETE:
       set(_roomAtomsRecordAtom, (prevRoomAtoms) => deleteChatRoom(prevRoomAtoms, args.roomId))
       break
@@ -311,11 +315,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
   const ignoredUsers = client.getIgnoredUsers()
 
-  const addRoomToStore = (
-    type: RoomAtomsActionType.CREATE | RoomAtomsActionType.UPDATE,
-    roomListWithSharedData: RoomWithSharedData[],
-    logPhase: string
-  ) => {
+  const addRoomToStore = (roomListWithSharedData: RoomWithSharedData[], logPhase: string) => {
     const roomList = roomListWithSharedData.map((roomWithSharedData) => {
       const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
 
@@ -323,7 +323,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       return { room: roomWithSharedData, hasPendingInvitation, ignoredUsers }
     })
 
-    setAtom({ type, roomList })
+    setAtom({ type: RoomAtomsActionType.CREATE, roomList })
   }
 
   const deleteRoomFromStore = (roomId: string) => {
@@ -342,13 +342,16 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     }
   }
 
+  const updateInStore = (chatRoomList: ChatRoom[]) => {
+    setAtom({ type: RoomAtomsActionType.UPDATE, chatRoomList })
+  }
+
   /**
    * Initial load
    */
   // get current rooms from ChatClient and store them to Atoms directly
   const rooms = client.getRooms()
   addRoomToStore(
-    RoomAtomsActionType.CREATE,
     rooms.map((room) => ({ type: 'private', room })),
     'init'
   )
@@ -368,7 +371,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       [[], []]
     )
 
-    addRoomToStore(RoomAtomsActionType.CREATE, roomsJoined, 'init')
+    addRoomToStore(roomsJoined, 'init')
     roomsLeft.forEach(({ room }) => deleteRoomFromStore(room.roomId))
 
     rooms.forEach(async (roomWithSharedData) => {
@@ -383,7 +386,12 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
    * Listen to just created rooms
    */
   const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
-    addRoomToStore(RoomAtomsActionType.UPDATE, [roomWithSharedData], 'subscription')
+    addRoomToStore([roomWithSharedData], 'subscription')
+  })
+
+  const unsubscribeFromRoomAvatar = client.subscribeToRoomAvatar((roomId, avatar) => {
+    const chatRoomUpdate = { id: roomId, avatar } as ChatRoom
+    updateInStore([chatRoomUpdate])
   })
 
   const unsubscribeFromRooms = client.subscribeToRooms((roomWithSharedData) => {
@@ -397,7 +405,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
-        addRoomToStore(RoomAtomsActionType.CREATE, [roomWithSharedData], 'subscription')
+        addRoomToStore([roomWithSharedData], 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -409,7 +417,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomToStore(RoomAtomsActionType.CREATE, [roomWithSharedData], 'subscription')
+    addRoomToStore([roomWithSharedData], 'subscription')
     joinGeneralSpaceRoom(roomWithSharedData)
   })
 
@@ -421,6 +429,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   return () => {
     unsubscribeFromRoomSharedData()
     unsubscribeFromRooms()
+    unsubscribeFromRoomAvatar()
     unsubscribeFromRoomDeletion()
   }
 }
@@ -546,12 +555,15 @@ export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitat
   const roomMxCreatorId = room.getCreator()
   const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
 
+  const avatar = room.getMxcAvatarUrl() ?? undefined
+
   return {
     ...data,
-    hasInvitation,
     id: room.roomId,
-    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     name: room.name,
+    avatar,
+    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
+    hasInvitation,
     lastMessage: lastMessage,
     creator: roomMxCreator && createChatMember(roomMxCreator),
     members: room.getMembers().map(createChatMember),

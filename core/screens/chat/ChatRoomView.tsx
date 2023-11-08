@@ -97,6 +97,7 @@ const ChatRoomView = () => {
                 href={'/spaces/' + room.content.holiSpaceId}
                 name={room.content.spaceName}
                 initials={getInitials(room.content.spaceName)}
+                imageSrc={room.avatar}
                 defaultColor={room.content.avatarDefaultColor}
                 shape="square"
               />
