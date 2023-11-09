@@ -17,9 +17,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 type SpacePendingRequestsProps = {
   space: Space
   style?: StyleProp<ViewStyle>
+  initiallySelectedUserId?: string
 }
 
-const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }) => {
+const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space, initiallySelectedUserId }) => {
   const [listVisible, setListVisible] = useState(true)
   const { t } = useTranslation()
 
@@ -75,7 +76,12 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
       {!!spaceMembershipRequests.length && (
         <View style={[styles.list, !listVisible && styles.hideList]}>
           {spaceMembershipRequests.map((request) => (
-            <SpacePendingRequestsItem membershipRequest={request} space={space} key={request.id} />
+            <SpacePendingRequestsItem
+              membershipRequest={request}
+              space={space}
+              key={request.id}
+              initiallyOpen={request.user.id === initiallySelectedUserId}
+            />
           ))}
         </View>
       )}
