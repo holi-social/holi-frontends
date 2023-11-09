@@ -26,15 +26,21 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditSpaceCollaboratorsParams = {
   spaceIdOrName: string
+  tab?: string
+  userId?: string
 }
 
 const PAGE_SIZE = 10
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
+const TAB_COLLABORATORS = 0
+const TAB_PENDING = 1
 
 const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [spaceIdOrName] = useParam('spaceIdOrName')
+  const [selectedTab] = useParam('tab')
+  const [selectedUserId] = useParam('userId')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember | null>()
   const { navigate } = useRouting()
@@ -61,6 +67,9 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 
   const space = data?.spaceById
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  const initialTab =
+    selectedTab === 'pending' || space?.membershipRequests?.totalResults ? TAB_PENDING : TAB_COLLABORATORS
 
   const queryOptions: Omit<PaginationQueryHookOptions, 'queryPath'> = {
     pageSize: PAGE_SIZE,
@@ -103,7 +112,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
         id="collaborator-tabs"
         style={styles.tabWrapper}
         tabBarStyle={tabBarStyle}
-        initialStep={space?.membershipRequests?.totalResults ? 1 : 0}
+        initialStep={initialTab}
         tabs={[
           {
             title: t('spaces.collaborators.manage.tabs.all'),
@@ -130,7 +139,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                 >
-                  {!!space && <SpacePendingRequestsList space={space} />}
+                  {!!space && <SpacePendingRequestsList space={space} initiallySelectedUserId={selectedUserId} />}
                 </Pagination>
               </ScrollView>
             ),

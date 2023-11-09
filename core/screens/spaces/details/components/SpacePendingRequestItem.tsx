@@ -29,16 +29,21 @@ type SpacePendingRequestsProps = {
   space: Space
   membershipRequest: SpaceMembershipRequest
   style?: StyleProp<ViewStyle>
+  initiallyOpen?: boolean
 }
 
-const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, membershipRequest }) => {
+const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, membershipRequest, initiallyOpen }) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const [connectionStatus, setConnectionStatus] = useState<'PENDING' | 'ACCEPTED' | 'DECLINED'>('PENDING')
 
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
-  const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
+  const {
+    visible: permissionsVisible,
+    show: showPermissions,
+    hide: hidePermissions,
+  } = useModalState({ visible: initiallyOpen })
   const handleNavigation = useCallback(
     (id: string) => {
       hidePermissions()

@@ -3,6 +3,9 @@ import { NotificationResponse } from 'expo-notifications'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
 
+const mockConsoleWarn = jest.fn()
+global.console.warn = mockConsoleWarn
+
 describe('transformPushInteractionToUrl', () => {
   const createAndroidNotificationResponse = (
     payload: { [key: string]: string },
@@ -144,6 +147,7 @@ describe('transformPushInteractionToUrl', () => {
       })
     )
     expect(url).toBeFalsy()
+    expect(mockConsoleWarn).toHaveBeenCalled()
   })
 
   it('should not create url for space membership request notification if space name is missing on iOS', () => {
@@ -153,6 +157,7 @@ describe('transformPushInteractionToUrl', () => {
       })
     )
     expect(url).toBeFalsy()
+    expect(mockConsoleWarn).toHaveBeenCalled()
   })
 
   it('should create correct url for space membership request approval notification on Android', () => {
