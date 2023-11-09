@@ -1,5 +1,5 @@
 import { ApolloError, DocumentNode } from '@apollo/client'
-import React, { PropsWithChildren, createContext, useContext, useMemo } from 'react'
+import React, { PropsWithChildren, createContext, useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
@@ -20,6 +20,7 @@ export interface PaginationProps {
   fetchMoreButtonLabel?: string
   loadMoreOnScroll?: boolean
   scrollPlaceholder?: React.ReactNode
+  refresh?: boolean
 }
 
 export const PaginationContext = createContext<PaginationContextType<unknown>>({} as PaginationContextType<unknown>)
@@ -41,10 +42,25 @@ export function Pagination({
   fetchMoreButtonProps = {},
   loadMoreOnScroll = false,
   scrollPlaceholder,
-}: PropsWithChildren<PaginationProps>) {
+  refresh,
+}: PropsWithChildren<PaginationProps & { refresh?: boolean }>) {
   const { t } = useTranslation()
 
-  const { loading, data, error, totalResults, fetchNextPage, canFetchMore } = usePaginationQuery(query, queryOptions)
+  const {
+    loading,
+    data,
+    error,
+    totalResults,
+    fetchNextPage,
+    canFetchMore,
+    refresh: refreshData,
+  } = usePaginationQuery(query, queryOptions)
+
+  useEffect(() => {
+    if (refresh) {
+      refreshData()
+    }
+  }, [refresh, refreshData])
 
   const fetchMoreButtonText = fetchMoreButtonLabel || t('global.seeMore')
 
@@ -53,6 +69,7 @@ export function Pagination({
     data,
     error,
     totalResults,
+    refresh,
   }
 
   const loadMoreComponent = useMemo(

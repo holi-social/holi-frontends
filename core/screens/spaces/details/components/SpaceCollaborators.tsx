@@ -1,21 +1,17 @@
-import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { SpaceByIdResponse } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -28,7 +24,7 @@ type SpaceCollaboratorsProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SPACE_MEMBER_PAGE_SIZE = 20
+const SPACE_MEMBER_PAGE_SIZE = 7
 
 const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
@@ -38,21 +34,6 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
 
-  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: space.name, limit: SPACE_MEMBER_PAGE_SIZE },
-  })
-
-  useEffect(() => {
-    if (data) {
-      refetch({
-        idOrName: space.name,
-        limit: SPACE_MEMBER_PAGE_SIZE,
-      })
-    }
-  }, [data, refetch, space.name])
-
-  const newSpace = data?.spaceById || space
-
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: SPACE_MEMBER_PAGE_SIZE,
     queryPath: 'spaceById.members',
@@ -61,7 +42,15 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
     },
   }
 
+  const [refresh, setRefresh] = useState(false)
+
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  useEffect(() => {
+    if (space) {
+      setRefresh(true)
+    }
+  }, [space])
 
   const handleNavigation = useCallback(
     (id: string) => {
@@ -85,8 +74,6 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
-
   return (
     <HoliModal
       show={show}
@@ -97,31 +84,24 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
       relativeHeight={1}
       autoHeight={false}
     >
-      {loading ? (
-        <HoliLoader />
-      ) : (
-        <ToastProvider>
-          <ScrollView
-            contentContainerStyle={[mixins.container, styles.wrapper]}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          >
-            <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
-              <SpaceCollaboratorList space={newSpace} onSelectMember={onSelectMember} />
-            </Pagination>
-          </ScrollView>
-          {selectedMember && (
-            <SpacePermissions
-              space={space}
-              user={selectedMember.user}
-              isMember
-              isAdministrator={selectedMember.isAdministrator}
-              handleNavigation={handleNavigation}
-              permissionsVisible={permissionsVisible}
-              hidePermissions={hidePermissions}
-            />
-          )}
-        </ToastProvider>
-      )}
+      <ToastProvider>
+        <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
+          <Pagination query={spaceMembersQuery} queryOptions={queryOptions} refresh={refresh}>
+            <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
+          </Pagination>
+        </ScrollView>
+        {selectedMember && (
+          <SpacePermissions
+            space={space}
+            user={selectedMember.user}
+            isMember
+            isAdministrator={selectedMember.isAdministrator}
+            handleNavigation={handleNavigation}
+            permissionsVisible={permissionsVisible}
+            hidePermissions={hidePermissions}
+          />
+        )}
+      </ToastProvider>
     </HoliModal>
   )
 }

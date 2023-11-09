@@ -27,6 +27,7 @@ interface PaginationQueryResult<TData, TFetchData> extends Partial<QueryResult<T
   totalResults: number
   canFetchMore: boolean
   fetchNextPage: () => Promise<TFetchData | void>
+  refresh: () => void
 }
 
 function usePaginationQuery<TData>(
@@ -35,17 +36,19 @@ function usePaginationQuery<TData>(
 ): PaginationQueryResult<TData[], ApolloQueryResult<PagedResponse<TData, string>>> {
   const { pageSize, queryPath, variables, ...remainingOptions } = options
   const [isFetchingMore, setIsFetchingMore] = useState(false)
+  const [offset, setOffset] = useState(0)
 
   const {
     loading,
     data: pagedData,
     error,
     fetchMore,
+    refetch,
   } = useQuery<PagedResponse<TData, string>>(query, {
     variables: {
       ...variables,
       limit: pageSize,
-      offset: 0,
+      offset: offset,
     },
     ...remainingOptions,
     onCompleted: (data) => {
@@ -65,16 +68,23 @@ function usePaginationQuery<TData>(
       return
     }
     setIsFetchingMore(true)
+    setOffset(data.length)
     return fetchMore({
       variables: {
-        offset: data.length,
+        offset: offset,
       },
     }).catch((error) =>
       logError(error, 'Failed to fetch more', {
         location: 'usePaginationQuery.memoizedFetchMore',
       })
     )
-  }, [isFetchingMore, fetchMore, data.length])
+  }, [isFetchingMore, fetchMore, data.length, offset])
+
+  const refresh = useCallback(() => {
+    // Add this block
+    setOffset(0)
+    refetch()
+  }, [refetch])
 
   return {
     // Sometimes there is a delay between setting loading to false and filling the pagedData/error
@@ -85,6 +95,7 @@ function usePaginationQuery<TData>(
     isFetchingMore,
     canFetchMore,
     fetchNextPage: memoizedFetchMore,
+    refresh,
   }
 }
 
