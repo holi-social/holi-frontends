@@ -31,6 +31,7 @@
   "auth.changePassword.heading": "Change password",
   "auth.changePassword.input.dont-match": "Passwords don't match",
   "auth.changePassword.input.helper-NewPassword": "Use at least 8 characters, feel free to use more!",
+  "auth.changePassword.description-forgotflow": "Enter the new password you want to use.",
   "auth.changePassword.input.label-NewPassword": "New password",
   "auth.changePassword.input.label-NewPassword-retype": "Repeat new password",
   "auth.changePassword.input.label-OldPassword": "Old password",

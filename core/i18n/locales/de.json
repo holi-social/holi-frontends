@@ -31,6 +31,7 @@
   "auth.changePassword.heading": "Passwort ändern",
   "auth.changePassword.input.dont-match": "Passwörter stimmen nicht überein",
   "auth.changePassword.input.helper-NewPassword": "Benutze mindestens 8 Zeichen, gern auch mehr!",
+  "auth.changePassword.description-forgotflow": "Geben Sie das neue Passwort ein, das Sie verwenden möchten.",
   "auth.changePassword.input.label-NewPassword": "Neues Passwort",
   "auth.changePassword.input.label-NewPassword-retype": "Neues Passwort wiederholen",
   "auth.changePassword.input.label-OldPassword": "Altes Passwort",
