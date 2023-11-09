@@ -285,7 +285,7 @@
   "notifications.space.connection.requested.message": "<0>{{user}}<0> möchte {{space}} beitreten",
   "notifications.space.connection.revoked.message": "Du wurdest aus dem Space {{space}} entfernt",
   "notifications.space.invite.accept": "Annehmen",
-  "notifications.space.invite.accepted.message": "Du hast die Einladung zum Space <0>{{space}}</0> angenommen",
+  "notifications.space.invite.accepted.message": "Du bist jetzt Mitwirkende:r in <0>{{space}}</0>",
   "notifications.space.invite.declined.message": "<0>{{user}}</0> hat deine Einladung abgelehnt, {{space}} beizutreten.",
   "notifications.space.invite.ignore": "Ablehnen",
   "notifications.space.invite.ignored.message": "Du hast die Einladung abgelehnt, <0>{{space}}</0> beizutreten.",
