@@ -27,7 +27,7 @@ const FIND_USER_BY_NAME_LIMIT = 30
 const MIN_USER_NAME_CHARACTERS = 2
 
 const USER_ITEM_HEIGHT = 48
-const USER_ITEM_VERTICAL_PADDING = 8
+const USER_ITEM_GAP = 16
 
 const isWeb = Platform.OS === 'web'
 
@@ -157,15 +157,16 @@ const ChatStartConversationView = () => {
                   ListFooterComponent={() => <View style={{ height: 98 }} />}
                   getItemLayout={(_, index) => ({
                     length: USER_ITEM_HEIGHT,
-                    offset: (USER_ITEM_HEIGHT + USER_ITEM_VERTICAL_PADDING * 2) * index,
+                    offset: USER_ITEM_HEIGHT * index,
                     index,
                   })}
+                  ItemSeparatorComponent={() => <View style={{ height: USER_ITEM_GAP }} />}
                   style={[mixins.container, styles.list]}
                   keyboardShouldPersistTaps="handled"
                 />
               ) : (
-                <View style={[mixins.container, styles.listDesctiption]}>
-                  <HoliHeading level="3" style={styles.listDesctiptionText}>
+                <View style={[mixins.container, styles.listDescription]}>
+                  <HoliHeading level="3" style={styles.listDescriptionText}>
                     {t('chat.start.description')}
                   </HoliHeading>
                 </View>
@@ -204,16 +205,15 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 24,
   },
-  listDesctiption: {
+  listDescription: {
     flex: 1,
     justifyContent: 'center',
   },
-  listDesctiptionText: {
+  listDescriptionText: {
     textAlign: 'center',
   },
   userItem: {
     justifyContent: 'space-between',
-    padding: USER_ITEM_VERTICAL_PADDING,
   },
   userItemContent: {
     flexShrink: 1,

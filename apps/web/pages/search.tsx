@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import Search from '@holi/core/screens/Search'
+import Search from '@holi/core/screens/search/Search'
 
 const SearchPage: NextPage = () => <Search />
 
