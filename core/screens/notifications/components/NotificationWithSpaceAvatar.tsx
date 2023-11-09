@@ -12,13 +12,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 interface NotificationWithSpaceAvatarProps extends NotificationProps<NotificationSpaceConnection> {
   href?: string
-  content?: string
   i18nKey?: string
 }
 
 const NotificationWithSpaceAvatar = ({
   notification,
-  content,
   children,
   href,
   i18nKey,
@@ -48,14 +46,14 @@ const NotificationWithSpaceAvatar = ({
                     <HoliText size="small" />
                   </Trans>
                 ) : (
-                  content
+                  notification.content
                 )}
               </HoliText>
 
               <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
                 {getRelativeDateString(created, i18n.language)}
               </HoliText>
-              {message && !content && (
+              {message && !notification.content && (
                 <HoliText size="small" style={[styles.fontColorGray, styles.message]}>
                   {message}
                 </HoliText>

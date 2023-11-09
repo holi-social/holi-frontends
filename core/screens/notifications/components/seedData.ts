@@ -68,6 +68,12 @@ export const notificationSpaceConnectionRequest: NotificationSpaceConnection = {
     message: '',
   },
 }
+
+export const notificationSpaceInvite: NotificationSpaceConnection = {
+  ...notificationSpaceConnectionRequest,
+  notificationType: NotificationType.COMMUNITY_INVITE,
+}
+
 const someDate = new Date(0).toISOString()
 export const connectionConfirmed: NotificationGroup['data'][0] = {
   created: someDate,
