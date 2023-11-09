@@ -7,6 +7,7 @@ import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/co
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
 import NotificationSpacePermissionsItem from '@holi/core/screens/notifications/components/NotificationSpacePermissionsItem'
 import NotificationSpacePostItem from '@holi/core/screens/notifications/components/NotificationSpacePostItem'
+import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
 
@@ -52,15 +53,20 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
     case NotificationType.COMMUNITY_MEMBERSHIP_REVOKED:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
+      return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
+    case NotificationType.COMMUNITY_INVITE:
+    case NotificationType.COMMUNITY_INVITE_DECLINED:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
+      return <NotificationSpaceInviteItem notification={notification} {...props} testID="space-invite" />
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
-      return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
-    case NotificationType.COMMUNITY_INVITE:
-    case NotificationType.COMMUNITY_INVITE_DECLINED:
-      return <NotificationSpaceInviteItem notification={notification} {...props} testID="space-invite" />
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
+      return <NotificationWithSpaceAvatar notification={notification} {...props} />
     case NotificationType.COMMUNITY_NEW_POST:
       return <NotificationSpacePostItem notification={notification} {...props} testID="space-post" />
     case NotificationType.RELEASE_INFO:

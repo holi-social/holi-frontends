@@ -5,7 +5,8 @@ import React, { Suspense } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
+import ChatProvider from '@holi/chat/src/components/ChatProvider'
+import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import UpdateAppModal from '@holi/core/components/UpdateAppModal'
@@ -17,17 +18,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    height: '100%',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    position: 'relative',
-    marginTop: 100,
-  },
-})
 
 const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
   return (
@@ -50,7 +40,9 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
                   {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
                   {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
                   <LoginModalProvider>
-                    <ChatStoreInitializer>{children}</ChatStoreInitializer>
+                    <ChatSessionInitializer>
+                      <ChatProvider>{children}</ChatProvider>
+                    </ChatSessionInitializer>
                   </LoginModalProvider>
                 </SessionExpiryProtection>
               </PortalProvider>
@@ -63,3 +55,14 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
 }
 
 export default withProfiler(RootProvider, { name: 'RootProvider' })
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
+    marginTop: 100,
+  },
+})
