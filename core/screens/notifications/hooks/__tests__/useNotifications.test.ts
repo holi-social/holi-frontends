@@ -96,6 +96,32 @@ describe('useNotifications', () => {
     expect(mockMarkMessageAs).toHaveBeenCalledWith(['n1', 'n3'], { seen: true })
   })
 
+  it('should mark unread messages as seen only once per message', async () => {
+    const messagePage1 = aMessageListPage([
+      aMessage('n1', testMessage, aDateString),
+      aMessage('n2', testMessage, aDateString, true),
+      aMessage('n3', testMessage, aDateString),
+    ])
+    const messagePage2 = aMessageListPage([aMessage('n4', testMessage, aDateString)])
+    mockGetNotificationsList.mockResolvedValueOnce(messagePage1)
+    mockGetNotificationsList.mockResolvedValue(messagePage2)
+    mockMarkMessageAs.mockResolvedValue(undefined)
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+
+    await result.current.markAllNotificationsAsSeen()
+
+    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n1', 'n3'], { seen: true })
+
+    await act(() => result.current.fetchNextPage())
+
+    await result.current.markAllNotificationsAsSeen()
+
+    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n4'], { seen: true })
+    expect(mockMarkMessageAs).toHaveBeenCalledTimes(2)
+  })
+
   it('should not mark messages as seen if there are none', async () => {
     const messageResponse = aMessageListPage([aMessage(testNotificationId, testMessage, aDateString, true)])
     mockGetNotificationsList.mockResolvedValue(messageResponse)

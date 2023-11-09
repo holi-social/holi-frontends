@@ -1,5 +1,5 @@
 import { IMessage, IPaginatedResponse } from '@novu/shared'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
@@ -15,8 +15,8 @@ export const useNotifications = () => {
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   const [canFetchMore, setCanFetchMore] = useState(true)
   const [nextPage, setNextPage] = useState(1)
-
   const { novuService, isInitializing } = useNotificationService()
+  const notificationsMarkedAsSeen = useRef<string[]>([])
 
   const processMessagesResponse = useCallback(
     (response: IPaginatedResponse<IMessage>) =>
@@ -75,17 +75,22 @@ export const useNotifications = () => {
 
   const markAllNotificationsAsSeen = useCallback(async () => {
     const messageIds = Object.values(notifications)
-      .filter((notification) => !notification.read)
+      .filter((notification) => !notification.read && !notificationsMarkedAsSeen.current.includes(notification.id))
       .map(({ id }) => id)
     if (!messageIds.length) {
       return
     }
-    return novuService?.markMessageAs(messageIds, { seen: true }).catch((error) =>
-      logError(error, 'Error marking novu notifications as seen', {
-        location: 'useNotifications.markAllNotificationsAsSeen',
-        messageIds,
+    return novuService
+      ?.markMessageAs(messageIds, { seen: true })
+      .catch((error) =>
+        logError(error, 'Error marking novu notifications as seen', {
+          location: 'useNotifications.markAllNotificationsAsSeen',
+          messageIds,
+        })
+      )
+      .finally(() => {
+        notificationsMarkedAsSeen.current = notificationsMarkedAsSeen.current.concat(messageIds)
       })
-    )
   }, [notifications, novuService])
 
   useEffect(() => {
