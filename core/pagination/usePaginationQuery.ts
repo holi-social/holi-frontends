@@ -81,7 +81,6 @@ function usePaginationQuery<TData>(
   }, [isFetchingMore, fetchMore, data.length, offset])
 
   const refresh = useCallback(() => {
-    // Add this block
     setOffset(0)
     refetch()
   }, [refetch])
