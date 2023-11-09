@@ -109,6 +109,7 @@ export const userByNameQuery = gql`
       data {
         ...FullUserAvatar
       }
+      totalResults
     }
   }
 `
