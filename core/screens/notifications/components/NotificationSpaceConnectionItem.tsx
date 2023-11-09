@@ -129,7 +129,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       key="decline"
       type="secondary"
       variant="small"
-      label={t('notifications.connection.ignore')}
+      label={t('notifications.space.connection.decline')}
       onPress={declineConnectionRequest}
       disabled={loading}
       style={styles.button}
@@ -141,7 +141,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       key="accept"
       type="primary"
       variant="small"
-      label={t('notifications.connection.accept')}
+      label={t('notifications.space.connection.accept')}
       onPress={approveConnectionRequest}
       disabled={loading}
       style={styles.button}

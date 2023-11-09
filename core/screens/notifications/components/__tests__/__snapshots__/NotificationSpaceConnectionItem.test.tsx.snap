@@ -254,7 +254,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
         }
       >
         <View
-          accessibilityLabel="notifications.connection.ignore"
+          accessibilityLabel="notifications.space.connection.decline"
           accessibilityRole="button"
           accessibilityState={
             {
@@ -359,7 +359,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
         }
       >
         <View
-          accessibilityLabel="notifications.connection.accept"
+          accessibilityLabel="notifications.space.connection.accept"
           accessibilityRole="button"
           accessibilityState={
             {
@@ -706,7 +706,7 @@ I would like to join!
         }
       >
         <View
-          accessibilityLabel="notifications.connection.ignore"
+          accessibilityLabel="notifications.space.connection.decline"
           accessibilityRole="button"
           accessibilityState={
             {
@@ -811,7 +811,7 @@ I would like to join!
         }
       >
         <View
-          accessibilityLabel="notifications.connection.accept"
+          accessibilityLabel="notifications.space.connection.accept"
           accessibilityRole="button"
           accessibilityState={
             {
