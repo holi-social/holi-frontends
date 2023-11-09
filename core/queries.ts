@@ -41,6 +41,9 @@ export const memberSpacesFragment = gql`
     data {
       id
       title
+      avatar
+      avatarBlurhash
+      avatarDefaultColor
       cover
       coverBlurhash
       name
