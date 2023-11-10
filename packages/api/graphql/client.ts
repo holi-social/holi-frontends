@@ -122,10 +122,18 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
+      SpaceMember: {
+        fields: {
+          user: alwaysReplacePolicy,
+          isAdministrator: alwaysReplacePolicy,
+        },
+      },
       SpaceMemberPaged: {
         fields: {
           // Only allow pagination on the space detail or subordinated screens, recognizable by `idOrName`
-          data: nestedPaginationPolicy(['idOrName']),
+          data: {
+            merge: nestedPaginationPolicy(['idOrName']).merge,
+          },
         },
       },
       SpaceMembershipRequestPaged: {

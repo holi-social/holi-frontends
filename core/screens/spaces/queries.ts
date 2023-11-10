@@ -10,6 +10,7 @@ export const FullSpaceMemberFragment = gql`
   fragment FullSpaceMember on SpaceMemberPaged {
     totalResults
     data {
+      id
       user {
         ...FullUserAvatar
       }
