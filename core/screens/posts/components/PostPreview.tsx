@@ -7,6 +7,7 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
+import InspirationPostMediaHeader from '@holi/core/screens/posts/components/InspirationPostMediaHeader'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
@@ -35,6 +36,9 @@ interface BaseProps {
 interface SkeletonProps extends BaseProps {
   loading: true
   post?: Post
+  insightId?: string
+  spaceIdOrName?: string
+  hasVisibilityIcon?: boolean
 }
 interface Props extends BaseProps {
   loading?: false
@@ -79,7 +83,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
     }
   }
 
-  if (loading)
+  if (loading) {
     return (
       <View style={styles.container}>
         {/* Post Author */}
@@ -107,6 +111,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
           {post?.text}
         </HoliText>
 
+        {/* Reaction bar with comments and likes */}
         <View style={styles.reactionsBar}>
           <View style={styles.reactionsLink}>
             <HoliUserAvatarPile users={commenters || []} usersToShow={3} collapse loading>
@@ -116,9 +121,11 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
         </View>
       </View>
     )
+  }
 
   return (
     <View style={styles.container}>
+      {/* Visibility for space update posts */}
       {hasVisibilityIcon ? (
         <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
           <HoliIcon icon={visibilityIcon} size={14} />
@@ -128,76 +135,89 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
         </HoliColumns>
       ) : null}
 
-      <HoliColumns>
-        <HoliColumn flex={2}>
-          <HoliLink
-            href={`/profile/${post?.creator.id}`}
-            label={post?.creator.fullName || ''}
-            testID="btn-to-post-creator-profile"
-          >
-            <HoliMediaHeader
-              title={post?.creator.fullName}
-              author={post?.creator || ({} as User)}
-              date={post?.created}
-              boldTitle
-            />
-          </HoliLink>
-        </HoliColumn>
-        <HoliColumn>
-          <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-            {/* reporting own content makes no sense, so we hide this option */}
-            {!isCurrentUserPostCreator && (
-              <HoliActionDrawer.Action
-                isLoading={isLoadingReport}
-                icon={Flag}
-                title={t('global.report')}
-                testID="report-comment-button"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('insights.post.report.confirmation.title')}
-                  description={t('insights.post.report.confirmation.description')}
-                  handleConfirmation={reportContent}
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
-            )}
-            {/* editing only allowed for own content */}
-            {spaceIdOrName && isCurrentUserPostCreator && (
-              <HoliActionDrawer.Action
-                icon={Edit2}
-                title={t('spaces.updates.edit')}
-                testID="edit-update"
-                handleAction={editAction}
+      {/* Author row with author, post date and three dot menu */}
+      {/* As of v1.10.0: We don't show the author row when it is a daily inspiration post */}
+      {!post?.inspirationPostCategory?.title && (
+        <HoliColumns>
+          {/* Author */}
+          <HoliColumn flex={2}>
+            <HoliLink
+              href={`/profile/${post?.creator.id}`}
+              label={post?.creator.fullName || ''}
+              testID="btn-to-post-creator-profile"
+            >
+              <HoliMediaHeader
+                title={post?.creator.fullName}
+                author={post?.creator || ({} as User)}
+                date={post?.created}
+                boldTitle
               />
-            )}
-            {/* deleting only allowed for own content */}
-            {isCurrentUserPostCreator && (
-              <HoliActionDrawer.Action
-                isLoading={isLoadingPostDeletion}
-                icon={Delete}
-                title={t('insights.post.delete.confirmation.title')}
-                testID="delete-post-button"
-                showConfirmation
-                variant="danger"
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('insights.post.delete.confirmation.title')}
-                  description={t('insights.post.delete.confirmation.description')}
-                  confirmText={t('confirmation.delete')}
-                  dismissText={t('global.dismiss')}
-                  handleConfirmation={deletePost}
-                  buttonType="warning"
-                  hasDismissBtn
-                  requireLogin
+            </HoliLink>
+          </HoliColumn>
+          {/* Action drawer (three dot menu) */}
+          <HoliColumn>
+            <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+              {/* Report Action */}
+              {/* reporting own content makes no sense, so we hide this option */}
+              {!isCurrentUserPostCreator && (
+                <HoliActionDrawer.Action
+                  isLoading={isLoadingReport}
+                  icon={Flag}
+                  title={t('global.report')}
+                  testID="report-comment-button"
+                  showConfirmation
+                >
+                  <HoliActionDrawer.Confirmation
+                    title={t('insights.post.report.confirmation.title')}
+                    description={t('insights.post.report.confirmation.description')}
+                    handleConfirmation={reportContent}
+                    hasDismissBtn
+                    requireLogin
+                  />
+                </HoliActionDrawer.Action>
+              )}
+              {/* Edit Action */}
+              {/* editing only allowed for own content */}
+              {spaceIdOrName && isCurrentUserPostCreator && (
+                <HoliActionDrawer.Action
+                  icon={Edit2}
+                  title={t('spaces.updates.edit')}
+                  testID="edit-update"
+                  handleAction={editAction}
                 />
-              </HoliActionDrawer.Action>
-            )}
-          </HoliActionDrawer.Drawer>
-        </HoliColumn>
-      </HoliColumns>
+              )}
+              {/* Delete Action */}
+              {/* deleting only allowed for own content */}
+              {isCurrentUserPostCreator && (
+                <HoliActionDrawer.Action
+                  isLoading={isLoadingPostDeletion}
+                  icon={Delete}
+                  title={t('insights.post.delete.confirmation.title')}
+                  testID="delete-post-button"
+                  showConfirmation
+                  variant="danger"
+                >
+                  <HoliActionDrawer.Confirmation
+                    title={t('insights.post.delete.confirmation.title')}
+                    description={t('insights.post.delete.confirmation.description')}
+                    confirmText={t('confirmation.delete')}
+                    dismissText={t('global.dismiss')}
+                    handleConfirmation={deletePost}
+                    buttonType="warning"
+                    hasDismissBtn
+                    requireLogin
+                  />
+                </HoliActionDrawer.Action>
+              )}
+            </HoliActionDrawer.Drawer>
+          </HoliColumn>
+        </HoliColumns>
+      )}
 
+      {/* Inspiration posts media header */}
+      <InspirationPostMediaHeader post={post} />
+
+      {/* Post title */}
       {!!post?.title && (
         <View style={styles.postTitleLink}>
           <HoliLink
@@ -212,6 +232,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
         </View>
       )}
 
+      {/* Post content */}
       <HoliReadMore numberOfLines={10} color="gray300" bold={false}>
         <HoliRichTextOutput
           text={post?.text || ''}
@@ -223,6 +244,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
         />
       </HoliReadMore>
 
+      {/* Post image */}
       {post?.image && (
         <PostImage
           uri={post?.image.url || ''}
@@ -232,6 +254,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
         />
       )}
 
+      {/* Post link previews */}
       {!!post?.links?.length &&
         post.links.map((link, index) => {
           return (
@@ -241,7 +264,9 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
           )
         })}
 
+      {/* Reaction bar with comments and likes */}
       <View style={styles.reactionsBar}>
+        {/* Comments */}
         {post?.numberOfComments > 0 ? (
           <View style={styles.reactionsLink}>
             <HoliLink
@@ -267,6 +292,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
           </View>
         )}
 
+        {/* Reactions */}
         <PostReactions post={post || ({} as Post)} />
       </View>
     </View>
@@ -282,7 +308,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
   },
   postTitleLink: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
   imageContainer: {
     width: '100%',

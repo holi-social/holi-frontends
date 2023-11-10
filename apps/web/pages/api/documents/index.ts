@@ -5,7 +5,7 @@ import path from 'path'
 
 import { sanitizeBuffer } from '@holi/web/utils'
 
-const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'insightsFAQ', 'openSource'] as const
+const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'openSource'] as const
 
 export type DocType = (typeof docTypes)[number]
 
