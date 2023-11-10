@@ -52,13 +52,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const styles = createStyles(screenHeight)
 
   const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
   const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
   const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
 
   useLayoutEffect(() => {
