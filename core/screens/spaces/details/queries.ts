@@ -9,6 +9,8 @@ export const spaceMembersQuery = gql`
   query SpaceMembersBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
     spaceById(idOrName: $idOrName) {
       id
+      name
+      connectionStatusToMyself
       members(limit: $limit, offset: $offset) {
         ...FullSpaceMember
       }
@@ -19,7 +21,7 @@ export const spaceMembersQuery = gql`
 export const spaceMembershipRequestsQuery = gql`
   ${FullSpaceMembershipRequestFragment}
 
-  query SpaceMembershipRequestsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 10) {
+  query SpaceMembershipRequestsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
     spaceById(idOrName: $idOrName) {
       id
       membershipRequests(limit: $limit, offset: $offset) {

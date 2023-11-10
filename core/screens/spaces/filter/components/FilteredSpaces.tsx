@@ -96,6 +96,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
               queryOptions={queryOptions}
               fetchMoreButtonProps={{ style: styles.buttonContainer }}
               fetchMoreButtonLabel={t('spaces.spaceListing.loadMoreButton.text')}
+              loadMoreOnScroll
             >
               <FilteredSpacesList pageSize={SPACES_PAGE_SIZE} />
             </Pagination>

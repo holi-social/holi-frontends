@@ -31,7 +31,7 @@ export type EditSpaceCollaboratorsParams = {
   userId?: string
 }
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 4
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
 const TAB_COLLABORATORS = 0
 const TAB_PENDING = 1
@@ -52,7 +52,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const styles = createStyles(screenHeight)
 
   const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: spaceIdOrName, pageSize: PAGE_SIZE },
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
 
   useLayoutEffect(() => {
@@ -76,6 +76,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     pageSize: PAGE_SIZE,
     variables: {
       idOrName: spaceIdOrName,
+      limit: PAGE_SIZE,
     },
   }
 
@@ -196,7 +197,7 @@ const createStyles = (screenHeight: number) =>
       backgroundColor: colors.background20,
     },
     all: {
-      paddingTop: 16,
+      paddingVertical: 16,
       ...Platform.select({
         web: {
           minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
