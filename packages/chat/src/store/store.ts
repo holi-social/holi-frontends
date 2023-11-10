@@ -888,7 +888,9 @@ export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: M
 
 export const getChatPartner = (holiUser: HoliUser, room: ChatRoom): ChatRoomMember | undefined => {
   // TODO this will have to be changed once we support multiple users per room
-  return room.members.find((member) => member.id !== toMatrixIdentity(holiUser.identity))
+  return room.type === 'private'
+    ? room.members.find((member) => member.id !== toMatrixIdentity(holiUser.identity))
+    : undefined
 }
 
 export const isRoomCreator = (user: HoliUser, room: ChatRoom): boolean | undefined => {
