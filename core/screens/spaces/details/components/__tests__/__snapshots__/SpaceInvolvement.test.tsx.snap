@@ -141,7 +141,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   source={
                     [
                       {
-                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
                       },
                     ]
                   }
@@ -963,7 +963,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   source={
                     [
                       {
-                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
                       },
                     ]
                   }

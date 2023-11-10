@@ -326,7 +326,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 [
                   {
                     "height": 40,
-                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg",
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
                     "width": 40,
                   },
                 ]
@@ -845,7 +845,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 [
                   {
                     "height": 40,
-                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg",
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
                     "width": 40,
                   },
                 ]
@@ -1364,7 +1364,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 [
                   {
                     "height": 40,
-                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg",
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
                     "width": 40,
                   },
                 ]
