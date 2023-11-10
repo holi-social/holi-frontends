@@ -88,13 +88,29 @@ export interface ChatMessageContent {
   msgtype: ChatContentType
 }
 
-export interface ChatMessage {
-  content: ChatMessageContent
+export interface ChatMembershipContent {
+  displayname: string
+  membership: 'join' | 'leave'
+}
+
+export interface ChatMessageBase {
   timestamp?: number
   room_id: string
   id: string
   sender: string | undefined
 }
+
+export interface ChatTextMessage extends ChatMessageBase {
+  type: 'message'
+  content: ChatMessageContent
+}
+
+export interface ChaMembershipMessage extends ChatMessageBase {
+  type: 'membership'
+  content: ChatMembershipContent
+}
+
+export type ChatMessage = ChatTextMessage | ChaMembershipMessage
 
 export interface CreateMessage {
   roomId: string

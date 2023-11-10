@@ -17,6 +17,7 @@ export interface HoliTextProps extends TextProps {
   align?: TextStyle['textAlign']
   color?: HoliTextColor
   bold?: boolean
+  italic?: boolean
   size?: HoliTextSize
   selectable?: boolean
   style?: StyleProp<TextStyle>
@@ -29,6 +30,7 @@ export interface HoliTextProps extends TextProps {
 const HoliText = ({
   children,
   bold,
+  italic,
   testID,
   align,
   color = 'black300',
@@ -65,6 +67,7 @@ const HoliText = ({
         styles[color],
         !!align && alignStyles.align,
         !!bold && styles.bold,
+        !!italic && styles.italic,
         props.style,
       ])}
     >
@@ -126,6 +129,9 @@ const getStyles = (theme: HoliTheme) =>
     bold: {
       fontWeight: '500',
       fontFamily: theme.fontFamily.default('Medium'),
+    },
+    italic: {
+      fontStyle: 'italic',
     },
   })
 
