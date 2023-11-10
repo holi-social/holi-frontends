@@ -51,7 +51,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
-  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+  const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+  const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -103,7 +109,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchMembers(), refetchPendingRequests()]))
 
   if (loading) {
     return <HoliLoader />

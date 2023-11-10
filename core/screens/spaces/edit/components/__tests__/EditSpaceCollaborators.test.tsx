@@ -57,7 +57,14 @@ const createMocksForSpace = (spaceById = space) => {
     },
   }
 
-  return [spaceByIdRequest, spaceMembersBySpaceIdRequest, spaceMembershipRequestsBySpaceIdRequest]
+  // Space members and membership requests are queried twice
+  return [
+    spaceByIdRequest,
+    spaceMembersBySpaceIdRequest,
+    spaceMembersBySpaceIdRequest,
+    spaceMembershipRequestsBySpaceIdRequest,
+    spaceMembershipRequestsBySpaceIdRequest,
+  ]
 }
 
 const mockUseParam = jest.fn()
