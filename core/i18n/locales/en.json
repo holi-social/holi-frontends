@@ -136,6 +136,8 @@
   "chat.start.userItem.checkbox.label": "Select {{user}}",
   "chat.tab.all": "All",
   "chat.title": "Chat",
+  "chat.message.membership.join": "<0>{{user}}</0> joined the room",
+  "chat.message.membership.leave": "<0>{{user}}</0> left the room",
   "chat.user.block": "Block {{user}}",
   "chat.user.unblock": "Unblock {{user}}",
   "comment.suggestionItem.label": "Select {{item}}",
