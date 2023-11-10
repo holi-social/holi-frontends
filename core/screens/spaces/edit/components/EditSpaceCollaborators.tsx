@@ -143,6 +143,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
                   fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
                 >
                   {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
                 </Pagination>
@@ -159,6 +160,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
                   fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
                 >
                   {!!space && <SpacePendingRequestsList space={space} initiallySelectedUserId={selectedUserId} />}
                 </Pagination>
