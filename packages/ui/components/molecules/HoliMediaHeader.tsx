@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import { type i18n } from 'i18next'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -15,6 +16,9 @@ interface BaseProps {
 interface SkeletonProps extends BaseProps {
   loading: true
   author?: User
+  title?: string
+  date?: string
+  boldTitle?: boolean
 }
 interface HoliMediaHeaderProps extends BaseProps {
   loading?: false
@@ -25,16 +29,21 @@ interface HoliMediaHeaderProps extends BaseProps {
 }
 type Props = SkeletonProps | HoliMediaHeaderProps
 
+export const getFormattedDate = (date: string | undefined, i18n: i18n) => {
+  if (!date) return undefined
+  const dateString = getRelativeDateString(date, i18n.language)
+  return dateString.charAt(0).toUpperCase() + dateString.slice(1)
+}
+
 const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testID }: Props) => {
   const { t, i18n } = useTranslation()
+  /*
+    converting given timestamp to a date first (with '00:00:00' as time)
+    to show the real days instead of exact timestamp calculations
+  */
+  const formattedDate = getFormattedDate(new Date(date + '').toDateString(), i18n)
 
   const authorName = author?.fullName || t('user.profileView.anonymous')
-
-  const formattedDate = useMemo(() => {
-    if (!date) return undefined
-    const dateString = getRelativeDateString(date, i18n.language)
-    return dateString.charAt(0).toUpperCase() + dateString.slice(1)
-  }, [date, i18n.language])
 
   if (loading) {
     return (
@@ -50,7 +59,7 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testI
         />
 
         <View style={[styles.titleContainer]}>
-          <HoliText bold={boldTitle} loading>
+          <HoliText bold={!!boldTitle} loading>
             {title}
           </HoliText>
           <HoliText size="small" style={styles.date} loading />
@@ -62,11 +71,11 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testI
   return (
     <View style={[styles.row, style]} testID={testID}>
       <HoliAvatar
-        imageSrc={author.avatar}
-        imageBlurhash={author.avatarBlurhash}
+        imageSrc={author?.avatar ?? ''}
+        imageBlurhash={author?.avatarBlurhash ?? ''}
         label={authorName}
-        initials={author.avatarLabel || ''}
-        defaultColor={author.avatarDefaultColor || ''}
+        initials={author?.avatarLabel ?? ''}
+        defaultColor={author?.avatarDefaultColor ?? ''}
         size="small"
       />
 
