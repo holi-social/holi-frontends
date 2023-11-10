@@ -6,22 +6,50 @@ import {
   SpaceLink,
   SpaceLinkType,
   SpaceMember,
+  SpaceMembershipRequest,
   Task,
   VisibilityType,
 } from '@holi/core/screens/spaces/types'
 import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
-import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
+import { Skill, Topic, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export const locationId = '123'
+const geolocation = {
+  latitude: 0,
+  longitude: 0,
+  __typename: 'GeolocationPoint',
+}
 
 export const topics: Topic[] = [
-  { id: 'ANIMAL_WELFARE', title: 'Animal Welfare', slug: 'animal-welfare', isDiscoverSpacesDefault: true },
+  {
+    id: 'ANIMAL_WELFARE',
+    title: 'Animal Welfare',
+    slug: 'animal-welfare',
+    isDiscoverSpacesDefault: true,
+    __typename: 'Topic',
+  },
   {
     id: 'ENVIRONMENTAL_PROTECTION',
     title: 'Environmental Protection',
     slug: 'environmental-protection',
     isDiscoverSpacesDefault: false,
+    __typename: 'Topic',
+  },
+]
+
+const skills: Skill[] = [
+  {
+    id: 'COMMUNICATION_SKILLS',
+    title: 'Communication skills',
+    slug: 'communication-skills',
+    __typename: 'Skill',
+  },
+  {
+    id: 'CREATIVITY',
+    title: 'Creativity',
+    slug: 'creativity',
+    __typename: 'Skill',
   },
 ]
 
@@ -30,12 +58,21 @@ export const user: User = {
   firstName: 'Some',
   lastName: 'Body',
   fullName: 'Some Body',
-  avatar: 'https://www.example.com/avatar.jpg',
+  avatar: 'https://www.example.com/user-avatar.jpg',
   avatarBlurhash: '',
   avatarLabel: 'SB',
   avatarDefaultColor: '#FFFFFF',
   interests: topics,
   identity: 'some',
+  aboutMe: '',
+  pronouns: '',
+  location: '',
+  geolocationId: '',
+  engagementLevel: 'INTERESTED',
+  sdgs: [],
+  skills,
+  connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
+  __typename: 'User',
 }
 
 export const authenticatedUser = {
@@ -56,6 +93,7 @@ export const membership: SpaceMember = {
   user,
   isAdministrator: false,
   created: '2022-11-21T12:34:56Z',
+  __typename: 'SpaceMember',
 }
 
 export const userWithLocation = {
@@ -67,12 +105,38 @@ export const userWithLocation = {
 const members = [1, 2, 3].map((id) => ({
   ...membership,
   id: `membership-${id}`,
-  __typename: 'SpaceMember',
+  user: {
+    ...membership.user,
+    id: `user-${id}`,
+  },
 }))
 
-const pagedMembers: Paged<SpaceMember> = {
-  totalResults: 3,
+export const pagedMembers: Paged<SpaceMember> = {
+  totalResults: members.length,
   data: members,
+  __typename: 'SpaceMemberPaged',
+}
+
+const membershipRequests = [1, 2, 3].map((id) => ({
+  id: `membership-request-id-${id}`,
+  user: {
+    ...user,
+    id: `requesting-user-${id}`,
+  },
+  message: 'Hi',
+  __typename: 'SpaceMembershipRequest',
+}))
+
+export const pagedMembershipRequests: Paged<SpaceMembershipRequest> = {
+  totalResults: membershipRequests.length,
+  data: membershipRequests,
+  __typename: 'SpaceMembershipRequestPaged',
+}
+
+const emptyPagedMembershipRequests: Paged<SpaceMembershipRequest> = {
+  totalResults: 0,
+  data: [],
+  __typename: 'SpaceMembershipRequestPaged',
 }
 
 export const task: Task = {
@@ -87,12 +151,12 @@ export const task: Task = {
   regularity: Regularity.PROJECT_BASED,
   visibility: VisibilityType.PUBLIC,
   contactEmail: 'test@email.com',
-  thumbnail: 'https://www.example.com/avatar.jpg?tr=w-48',
+  contactPhone: '',
+  thumbnail: 'https://www.example.com/task-thumbnail.jpg?tr=w-48',
   thumbnailBlurhash: '',
-  skills: [
-    { id: 'COMMUNICATION_SKILLS', title: 'Communication skills', slug: 'communication-skills' },
-    { id: 'CREATIVITY', title: 'Creativity', slug: 'creativity' },
-  ],
+  skills,
+  geolocation,
+  __typename: 'Task',
 }
 
 const tasks = [1, 2, 3].map((id) => ({
@@ -106,12 +170,14 @@ export const links: SpaceLink[] = [
     type: SpaceLinkType.FACEBOOK,
     id: '1',
     name: 'Facebook',
+    __typename: 'ExternalLink',
   },
   {
     url: 'https://www.twitter.com',
     type: SpaceLinkType.TWITTER,
     id: '2',
     name: 'Twitter',
+    __typename: 'ExternalLink',
   },
 ]
 
@@ -119,7 +185,7 @@ export const space: Space = {
   id: '1',
   title: 'Space title',
   description: 'Space description',
-  cover: 'https://www.example.com/space1.jpg',
+  cover: 'https://www.example.com/space-cover.jpg',
   coverBlurhash: '',
   members: pagedMembers,
   creator: user,
@@ -133,6 +199,25 @@ export const space: Space = {
   avatarBlurhash: '',
   avatarDefaultColor: '#000',
   name: 'space-title',
+  membershipRequests: emptyPagedMembershipRequests,
+  sdgs: [],
+  onboarding: {
+    steps: [],
+    __typename: 'Onboarding',
+  },
+  contactPhone: '',
+  contactDescription: '',
+  contactEmail: '',
+  collaborationTools: [],
+  geolocation,
+  hasPrivatePosts: false,
+  hasPublicPosts: false,
+  posts: {
+    totalResults: 0,
+    data: [],
+    __typename: 'PostPaged',
+  },
+  __typename: 'Space',
 }
 
 export const createSpaceList = (length = 3) =>
@@ -190,6 +275,7 @@ export const mySpaces: SpaceSection[] = [
     section: 'Member',
     type: SpaceSectionType.MEMBER,
     spaces: {
+      totalResults: 2,
       data: [
         {
           ...space,
@@ -208,6 +294,7 @@ export const mySpaces: SpaceSection[] = [
     section: 'Creator',
     type: SpaceSectionType.CREATOR,
     spaces: {
+      totalResults: 2,
       data: [
         {
           ...space,
@@ -226,6 +313,7 @@ export const mySpaces: SpaceSection[] = [
     section: 'Follower',
     type: SpaceSectionType.FOLLOWER,
     spaces: {
+      totalResults: 2,
       data: [
         {
           ...space,
