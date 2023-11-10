@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -14,7 +15,7 @@ import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/
 import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -30,7 +31,7 @@ export type EditSpaceCollaboratorsParams = {
   userId?: string
 }
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
 const TAB_COLLABORATORS = 0
 const TAB_PENDING = 1
@@ -50,6 +51,10 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
+  const { data, loading, refetch } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    variables: { idOrName: spaceIdOrName, pageSize: PAGE_SIZE },
+  })
+
   useLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.collaborators'),
@@ -60,10 +65,6 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       },
     })
   }, [setScreenOptions, t])
-
-  const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-  })
 
   const space = data?.spaceById
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -102,12 +103,22 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
+
   if (loading) {
     return <HoliLoader />
   }
 
   return (
-    <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
+    <ScrollHeaderLayout.Refreshable
+      headerOverlap
+      keyboardShouldPersistTaps="handled"
+      style={styles.wrapper}
+      refreshableProps={{
+        isLoading: refreshing,
+        onRefresh,
+      }}
+    >
       <HoliTabs
         id="collaborator-tabs"
         style={styles.tabWrapper}
@@ -118,30 +129,32 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
             title: t('spaces.collaborators.manage.tabs.all'),
             style: styles.tabStyle,
             children: (
-              <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+              <View style={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceMembersQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
+                  fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                 >
                   {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
                 </Pagination>
-              </ScrollView>
+              </View>
             ),
           },
           {
             title: t('spaces.collaborators.manage.tabs.pending'),
             style: styles.tabStyle,
             children: (
-              <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+              <View style={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceMembershipRequestsQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
+                  fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                 >
                   {!!space && <SpacePendingRequestsList space={space} initiallySelectedUserId={selectedUserId} />}
                 </Pagination>
-              </ScrollView>
+              </View>
             ),
           },
         ]}
@@ -157,18 +170,21 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
           hidePermissions={hidePermissions}
         />
       )}
-    </ScrollHeaderLayout.Default>
+    </ScrollHeaderLayout.Refreshable>
   )
 }
 
 const createStyles = (screenHeight: number) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: colors.background20,
+      backgroundColor: Platform.OS === 'web' ? colors.background20 : colors.background10,
       minHeight: '100%',
       ...Platform.select({
         native: {
           paddingTop: +vars.topBarHeight,
+        },
+        web: {
+          minHeight: '100vh' as DimensionValue,
         },
       }),
     },
@@ -186,10 +202,12 @@ const createStyles = (screenHeight: number) =>
           minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
         },
         native: {
-          minHeight: screenHeight,
+          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 80,
         },
       }),
     },
+    buttonContainer: {
+      marginTop: 20,
+    },
   })
-
 export default EditSpaceCollaborators
