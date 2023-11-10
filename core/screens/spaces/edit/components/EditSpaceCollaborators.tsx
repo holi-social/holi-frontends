@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -29,6 +29,7 @@ export type EditSpaceCollaboratorsParams = {
   spaceIdOrName: string
   tab?: string
   userId?: string
+  refresh?: string
 }
 
 const PAGE_SIZE = 20
@@ -42,6 +43,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [selectedTab] = useParam('tab')
   const [selectedUserId] = useParam('userId')
+  const [refreshParam, setRefreshParam] = useParam('refresh')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember | null>()
   const { navigate } = useRouting()
@@ -51,14 +53,14 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
-  const { data, loading } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
-    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
+  const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
+    variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
+    variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
-    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
+    variables: { idOrName: spaceIdOrName },
   })
 
   useLayoutEffect(() => {
@@ -111,6 +113,15 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   )
 
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchMembers(), refetchPendingRequests()]))
+
+  useEffect(() => {
+    if (called && refreshParam) {
+      onRefresh()
+      setRefreshParam(undefined)
+    }
+    // Only refresh if refreshData was set to true after the query was fetched initially
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshParam])
 
   if (loading) {
     return <HoliLoader />

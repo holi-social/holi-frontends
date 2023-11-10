@@ -38,6 +38,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
   spaceIdOrName: string
+  refresh?: string
 }
 
 const { useParam } = createParam<SpaceDetailsParams>()
@@ -51,11 +52,12 @@ const SpaceDetails = () => {
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const [refreshParam, setRefreshParam] = useParam('refresh')
 
   // On initial page load on web `spaceIdOrName` is undefined
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
-  const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { loading, error, data, refetch, called } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
     skip: !spaceIdOrName,
@@ -93,6 +95,15 @@ const SpaceDetails = () => {
   const { userId } = useAuth()
 
   const isCreator = space?.creator?.id === userId
+
+  useEffect(() => {
+    if (called && refreshParam) {
+      onRefresh()
+      setRefreshParam(undefined)
+    }
+    // Only refresh if refreshData was set to true after the query was fetched initially
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshParam])
 
   useEffect(() => {
     if (!isOnboarded && !isCreator && isMember) {
