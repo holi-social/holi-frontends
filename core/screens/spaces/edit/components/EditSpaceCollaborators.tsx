@@ -31,7 +31,7 @@ export type EditSpaceCollaboratorsParams = {
   userId?: string
 }
 
-const PAGE_SIZE = 4
+const PAGE_SIZE = 20
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
 const TAB_COLLABORATORS = 0
 const TAB_PENDING = 1
