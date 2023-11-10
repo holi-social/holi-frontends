@@ -34,6 +34,8 @@ const RoomTextMessage = ({
 
   const { content, timestamp } = message
 
+  if (!content || !content.body) return
+
   const paddingBottom = isNextMessageFromSameUser ? 2 : 8
   const paddingTop = isPrevMessageFromSameUser ? 2 : 8
 
