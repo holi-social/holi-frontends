@@ -56,7 +56,6 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const onSelectMember = useCallback(
     (member: SpaceMember) => {
       const userId = member.user.id
-
       if (isSpaceAdmin && loggedInUser?.id !== userId) {
         setSelectedMember(member)
         showPermissions()
