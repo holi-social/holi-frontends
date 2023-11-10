@@ -46,6 +46,9 @@ export const getAtomFromRecordId = <T>(
 export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
   return event?.type === EventType.RoomMessage
 }
+export const isRoomMemberEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
+  return event?.type === EventType.RoomMember && ['join', 'leave'].some((m) => m === event.content?.membership)
+}
 
 export type AtomRecipe<T> = (draft: Draft<T>) => void
 

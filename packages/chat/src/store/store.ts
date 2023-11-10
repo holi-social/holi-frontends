@@ -1,6 +1,15 @@
 import { produce } from 'immer'
 import { type Atom, Getter, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
+import {
+  EventTimeline,
+  EventType,
+  IRoomEvent,
+  IStateEvent,
+  MatrixEvent,
+  Room,
+  RoomMember,
+  RoomState,
+} from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
@@ -15,6 +24,7 @@ import {
   type SpaceGeneralRoomSharedDataContent,
 } from '@holi/chat/src/client/types'
 import type {
+  ChatMembershipContent,
   ChatMessage,
   ChatMessageContent,
   ChatMessagesAtom,
@@ -30,7 +40,12 @@ import type {
   SpaceGeneralChatRoomAtom,
 } from '@holi/chat/src/store/types'
 import { MessageAtomsByRoomId, RoomAtomsActionType, isSpaceGeneralChatRoom } from '@holi/chat/src/store/types'
-import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
+import {
+  getAtomFromRecordId,
+  isRoomMemberEvent,
+  isRoomMessageEvent,
+  toMatrixIdentity,
+} from '@holi/chat/src/store/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
@@ -553,16 +568,13 @@ export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
   }
 }
 
-export const getLastRoomMessageEvent = (room: Room) =>
-  room
-    .getLiveTimeline()
-    .getEvents()
-    .sort((eA, eB) => (eA.localTimestamp > eB.localTimestamp ? 1 : -1))
-    .find((event) => event.getType() === EventType.RoomMessage)?.event
+export const getLastRoomMessageEvent = (room: Room) => {
+  const timelineEvents = room.getLiveTimeline().getEvents()
+  return [...timelineEvents].reverse().find((event) => event.getType() === EventType.RoomMessage)?.event
+}
 
 export function createChatRoom({ room, ...data }: RoomWithSharedData, hasInvitation = false): ChatRoom {
   const lastMessageEvent = getLastRoomMessageEvent(room)
-
   const lastMessage = isRoomMessageEvent(lastMessageEvent)
     ? createChatMessage(room.roomId, lastMessageEvent)
     : undefined
@@ -631,7 +643,7 @@ const _messageBunchAtomSetter = atom(null, (_get, set, roomId: string, events: I
         // the list of messages must have `Backward` direction - from older to newer messages
         // it is why we reverse `requestedMessages`
         const requestedMessages = roomEvents
-          .filter(isRoomMessageEvent)
+          .filter((event) => isRoomMessageEvent(event) || isRoomMemberEvent(event))
           .reverse()
           .map((event) => createChatMessage(roomId, event))
 
@@ -717,14 +729,33 @@ export const updateMessages = produce((thread: ChatMessage[], newMessage: ChatMe
   Object.assign(dupMessage, newMessage)
 })
 
-export function createChatMessage(roomId: string, event: IRoomEvent): ChatMessage {
-  // TODO: handle empty strings fallback
-  return {
+const isIStateEvent = (event: IRoomEvent | IStateEvent): event is IStateEvent => 'state_key' in event
+
+export function createChatMessage(roomId: string, event: IRoomEvent | IStateEvent): ChatMessage {
+  const base = {
     id: event.event_id,
-    content: event.content as ChatMessageContent,
     timestamp: event.origin_server_ts,
     room_id: roomId,
-    sender: event.sender,
+  }
+
+  switch (event.type) {
+    case EventType.RoomMessage:
+      return {
+        ...base,
+        type: 'message',
+        content: event.content as ChatMessageContent,
+        sender: event.sender,
+      }
+    case EventType.RoomMember:
+      return {
+        ...base,
+        type: 'membership',
+        content: event.content as ChatMembershipContent,
+        sender: isIStateEvent(event) ? event.state_key : event.sender,
+      }
+
+    default:
+      throw new HoliError('Unexpected RoomEvent: only EventType.RoomMessage and EventType.RoomMember are supported')
   }
 }
 
