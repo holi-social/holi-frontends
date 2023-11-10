@@ -70,6 +70,11 @@ const mockParams = (params: EditSpaceCollaboratorsParams = { spaceIdOrName: spac
   mockUseParam.mockImplementation((paramName: keyof EditSpaceCollaboratorsParams) => [params[paramName]])
 
 describe('EditSpaceCollaborators', () => {
+  const spaceWithMembershipRequests = {
+    ...space,
+    membershipRequests: pagedMembershipRequests,
+  }
+
   it('renders correctly', async () => {
     mockParams()
     render(
@@ -83,10 +88,6 @@ describe('EditSpaceCollaborators', () => {
 
   it('renders correctly with pending requests', async () => {
     mockParams()
-    const spaceWithMembershipRequests = {
-      ...space,
-      membershipRequests: pagedMembershipRequests,
-    }
     render(
       <MockedProvider mocks={createMocksForSpace(spaceWithMembershipRequests)} cache={createCache()}>
         <EditSpaceCollaborators spaceIdOrName={space.name} />
@@ -94,5 +95,48 @@ describe('EditSpaceCollaborators', () => {
     )
     await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
     expect(screen.toJSON()).toMatchSnapshot()
+  })
+
+  it('selects the pending tab if the corresponding query parameter is passed', async () => {
+    mockParams({
+      spaceIdOrName: space.name,
+      tab: 'pending',
+    })
+    render(
+      <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
+        <EditSpaceCollaborators spaceIdOrName={space.name} />
+      </MockedProvider>
+    )
+    await waitFor(() => screen.getByTestId('collaborator-tabs-button-1-active'))
+  })
+
+  it('opens the modal for a user request if the corresponding parameter is passed', async () => {
+    mockParams({
+      spaceIdOrName: space.name,
+      tab: 'pending',
+      userId: 'requesting-user-1',
+    })
+    render(
+      <MockedProvider mocks={createMocksForSpace(spaceWithMembershipRequests)} cache={createCache()}>
+        <EditSpaceCollaborators spaceIdOrName={space.name} />
+      </MockedProvider>
+    )
+    await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
+    await waitFor(() => screen.getByTestId('space-collaborators-permissions-modal-backdrop'))
+  })
+
+  it('does not open the modal for an unknown user', async () => {
+    mockParams({
+      spaceIdOrName: space.name,
+      tab: 'pending',
+      userId: 'unknown-user',
+    })
+    render(
+      <MockedProvider mocks={createMocksForSpace(spaceWithMembershipRequests)} cache={createCache()}>
+        <EditSpaceCollaborators spaceIdOrName={space.name} />
+      </MockedProvider>
+    )
+    await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
+    expect(screen.queryByTestId('space-collaborators-permissions-modal-backdrop')).toBeFalsy()
   })
 })
