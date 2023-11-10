@@ -4,21 +4,6 @@ import { Pressable, Text, View } from 'react-native'
 
 import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
-beforeEach(() => {
-  jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
-    const time = Date.now()
-    cb(time)
-
-    return time
-  })
-})
-
-afterEach(() => {
-  // @ts-ignore
-  window.requestAnimationFrame.mockRestore()
-  jest.clearAllTimers()
-})
-
 type TestSteps = [string, number][]
 
 const steps: TestSteps = [
@@ -54,25 +39,62 @@ const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: b
   )
 }
 
-test.each(steps)('should only render %p', (stepID, idx) => {
-  render(<TestStepper initialStep={idx} lazy />)
-  expect(screen.getByTestId(stepID)).toBeDefined()
-})
+describe('HoliStepper', () => {
+  beforeEach(() => {
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      const time = Date.now()
+      cb(time)
 
-test.each(steps)('should render the %p and the next step on press', async (stepID, idx) => {
-  const { rerender } = render(<TestStepper initialStep={idx} lazy />)
-  const currentStep = screen.getByTestId(stepID)
-  expect(currentStep).toBeDefined()
+      return time
+    })
+  })
 
-  const next = idx + 1
-  if (steps[next] === undefined) return
+  afterEach(() => {
+    // @ts-ignore
+    window.requestAnimationFrame.mockRestore()
+    jest.clearAllTimers()
+  })
 
-  const [nextStepId] = steps[next]
-  expect(() => screen.getByTestId(nextStepId)).toThrow()
+  test.each(steps)('should only render %p', (stepID, idx) => {
+    render(<TestStepper initialStep={idx} lazy />)
+    expect(screen.getByTestId(stepID)).toBeDefined()
+  })
 
-  await fireEvent.press(currentStep)
-  expect(screen.getByTestId(nextStepId)).toBeDefined()
+  test.each(steps)('should render the %p and the next step on press', (stepID, idx) => {
+    const { rerender } = render(<TestStepper initialStep={idx} lazy />)
+    const currentStep = screen.getByTestId(stepID)
+    expect(currentStep).toBeDefined()
 
-  rerender(<TestStepper initialStep={idx} lazy />)
-  expect(screen.getByTestId(nextStepId)).toBeDefined()
+    const next = idx + 1
+    if (steps[next] === undefined) return
+
+    const [nextStepId] = steps[next]
+    expect(() => screen.getByTestId(nextStepId)).toThrow()
+
+    fireEvent.press(currentStep)
+    expect(screen.getByTestId(nextStepId)).toBeDefined()
+
+    rerender(<TestStepper initialStep={idx} lazy />)
+    expect(screen.getByTestId(nextStepId)).toBeDefined()
+  })
+
+  it('should switch to the initial tab if the initial tab changes', () => {
+    const idx = 0
+    const [stepID] = steps[idx]
+    const { rerender } = render(<TestStepper initialStep={idx} lazy />)
+    const currentStep = screen.getByTestId(stepID)
+    expect(currentStep).toBeDefined()
+
+    const [nextStepId, next] = steps[idx + 1]
+    expect(() => screen.getByTestId(nextStepId)).toThrow()
+
+    fireEvent.press(currentStep)
+    expect(screen.getByTestId(nextStepId)).toBeDefined()
+
+    const [secondNextStepId, secondNext] = steps[next + 1]
+    rerender(<TestStepper initialStep={secondNext} lazy />)
+
+    expect(() => screen.getByTestId(nextStepId)).toThrow()
+    expect(screen.getByTestId(secondNextStepId)).toBeDefined()
+  })
 })

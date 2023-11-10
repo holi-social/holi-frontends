@@ -52,6 +52,15 @@ export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
   )
   const goBack = useCallback(() => setStep(currentStep - 1), [currentStep, setStep])
   const goNext = useCallback(() => setStep(currentStep + 1), [currentStep, setStep])
+
+  useEffect(() => {
+    if (currentStep !== initialStep) {
+      setStep(initialStep)
+    }
+    // Apply effect _only_ if the initial step changed!
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialStep])
+
   const stepperContext = {
     stepCount,
     currentStep,
