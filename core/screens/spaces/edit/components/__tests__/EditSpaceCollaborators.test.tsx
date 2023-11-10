@@ -82,7 +82,7 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators spaceIdOrName={space.name} />
       </MockedProvider>
     )
-    await waitFor(() => screen.getByTestId('collaborator-tabs'))
+    await waitFor(() => screen.getAllByTestId('spaces-collaborators-item'))
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -93,6 +93,7 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators spaceIdOrName={space.name} />
       </MockedProvider>
     )
+    await waitFor(() => screen.getAllByTestId('spaces-collaborators-item'))
     await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
     expect(screen.toJSON()).toMatchSnapshot()
   })

@@ -45,11 +45,11 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 
   const showMembers = useCallback(() => {
     if (isAdmin) {
-      navigate(`/spaces/${space.id}/collaborators/manage`)
+      navigate(`/spaces/${space.name}/collaborators/manage`)
     } else {
       setModalVisible(true)
     }
-  }, [isAdmin, navigate, space.id])
+  }, [isAdmin, navigate, space.name])
 
   return (
     <View style={[styles.container, style]} testID="space-header">
