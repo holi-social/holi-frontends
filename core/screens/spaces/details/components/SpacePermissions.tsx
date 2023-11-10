@@ -35,7 +35,6 @@ type SpacePermissionsProps = {
   isMember?: boolean
   extraDescription?: string
   displayMemberActions?: boolean // set to false if no "Set as Admin" or "Remove from space" actions should be present
-  initiallyOpen?: boolean
 }
 
 const SpacePermissions: React.VFC<SpacePermissionsProps> = ({

@@ -122,6 +122,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     >
       <HoliTabs
         id="collaborator-tabs"
+        testID="collaborator-tabs"
         style={styles.tabWrapper}
         tabBarStyle={tabBarStyle}
         initialStep={initialTab}

@@ -36,7 +36,6 @@ export const FullSpaceMembershipRequestFragment = gql`
 export const FullSpaceFragment = gql`
   ${FullSpaceMemberFragment}
   ${FullUserFragment}
-  ${FullSpaceMembershipRequestFragment}
   fragment FullSpace on Space {
     id
     title
@@ -81,8 +80,8 @@ export const FullSpaceFragment = gql`
     members(limit: 3) {
       ...FullSpaceMember
     }
-    membershipRequests(limit: 3) {
-      ...FullSpaceMembershipRequest
+    membershipRequests(limit: 0) {
+      totalResults
     }
     tasks {
       id
