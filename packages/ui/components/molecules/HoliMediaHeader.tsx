@@ -41,7 +41,7 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testI
     converting given timestamp to a date first (with '00:00:00' as time)
     to show the real days instead of exact timestamp calculations
   */
-  const formattedDate = getFormattedDate(new Date(date + '').toDateString(), i18n)
+  const formattedDate = date ? getFormattedDate(new Date(date).toDateString(), i18n) : undefined
 
   const authorName = author?.fullName || t('user.profileView.anonymous')
 
