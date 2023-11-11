@@ -92,6 +92,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                   "height": 40,
                   "width": 40,
                 },
+                false,
               ]
             }
             testID="space-avatar"
@@ -556,6 +557,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                   "height": 40,
                   "width": 40,
                 },
+                false,
               ]
             }
             testID="space-avatar"
