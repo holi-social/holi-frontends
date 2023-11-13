@@ -116,10 +116,9 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 
   useEffect(() => {
     if (called && refreshParam) {
-      onRefresh()
-      setRefreshParam(undefined)
+      onRefresh().finally(() => setRefreshParam(undefined))
     }
-    // Only refresh if refreshData was set to true after the query was fetched initially
+    // Only refresh if refreshParam was set to true after the query was fetched initially
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshParam])
 
