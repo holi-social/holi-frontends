@@ -80,6 +80,7 @@ const HoliAvatar = ({
         (size === 'large' || size === 'extralarge') && { borderColor: colors.foreground30 },
         style,
         styles[sizeClass],
+        loading && { borderWidth: 0 },
       ]}
     >
       {loading && <HoliSkeleton height={'100%'} width={'100%'} borderRadius={0} />}

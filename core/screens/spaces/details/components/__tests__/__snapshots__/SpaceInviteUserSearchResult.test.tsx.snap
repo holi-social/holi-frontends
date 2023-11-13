@@ -214,6 +214,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "height": 52,
                 "width": 52,
               },
+              false,
             ]
           }
         >
@@ -493,6 +494,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "height": 52,
                 "width": 52,
               },
+              false,
             ]
           }
         >
@@ -789,6 +791,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "height": 52,
                 "width": 52,
               },
+              false,
             ]
           }
         >
@@ -984,6 +987,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "height": 52,
                 "width": 52,
               },
+              false,
             ]
           }
         >
@@ -1280,6 +1284,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "height": 52,
                 "width": 52,
               },
+              false,
             ]
           }
         >
@@ -1443,6 +1448,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "height": 52,
                 "width": 52,
               },
+              false,
             ]
           }
         >

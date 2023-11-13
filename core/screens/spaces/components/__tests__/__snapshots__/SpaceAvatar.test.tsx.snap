@@ -32,6 +32,7 @@ exports[`React tree renders correctly 1`] = `
         "height": 64,
         "width": 64,
       },
+      false,
     ]
   }
   testID="space-avatar"
@@ -113,6 +114,7 @@ exports[`React tree renders initials with colored background, when given image p
         "height": 64,
         "width": 64,
       },
+      false,
     ]
   }
   testID="space-avatar"

@@ -84,6 +84,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "height": 128,
                   "width": 128,
                 },
+                false,
               ]
             }
           >
@@ -223,6 +224,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "height": 128,
                   "width": 128,
                 },
+                false,
               ]
             }
           >
@@ -345,6 +347,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "height": 128,
                   "width": 128,
                 },
+                false,
               ]
             }
           >
@@ -484,6 +487,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "height": 128,
                   "width": 128,
                 },
+                false,
               ]
             }
           >
@@ -606,6 +610,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "height": 128,
                   "width": 128,
                 },
+                false,
               ]
             }
           >
@@ -745,6 +750,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "height": 128,
                   "width": 128,
                 },
+                false,
               ]
             }
           >
@@ -869,6 +875,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "height": 128,
                   "width": 128,
                 },
+                false,
               ]
             }
           >

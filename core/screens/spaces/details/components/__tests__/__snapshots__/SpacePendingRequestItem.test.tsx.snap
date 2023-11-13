@@ -88,6 +88,7 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
               "height": 40,
               "width": 40,
             },
+            false,
           ]
         }
       >
@@ -610,6 +611,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               "height": 40,
               "width": 40,
             },
+            false,
           ]
         }
       >
@@ -1297,6 +1299,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                       "height": 52,
                       "width": 52,
                     },
+                    false,
                   ]
                 }
               >

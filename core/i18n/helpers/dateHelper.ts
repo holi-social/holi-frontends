@@ -78,7 +78,7 @@ export const getDisplayDate = (locale: string, timestampOrDateStr?: number | str
  *
  * Intl.RelativeTimeFormat docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
  */
-export const getRelativeDateString = (dateStr = '', locale: string): string => {
+export const getRelativeDateString = (dateStr: string | undefined = '', locale: string): string => {
   // if no date is provided, return empty string
   if (!dateStr) return ''
 
