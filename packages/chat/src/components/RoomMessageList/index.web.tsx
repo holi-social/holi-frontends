@@ -17,6 +17,7 @@ import { RoomMessageListProps } from './types'
 interface MessageDateGroup {
   title: string
   data: ChatMessage[]
+  roomType: string
 }
 
 const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[] => {
@@ -46,7 +47,13 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[
   return Object.values(groupedMessages).reverse()
 }
 
-const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onScroll }: RoomMessageListProps) => {
+const RoomMessageList = ({
+  messages = [],
+  matrixIdToHoliUserRecord,
+  starter,
+  onScroll,
+  roomType,
+}: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
   const groupedMessages = groupByDate(messages, i18n.language)
@@ -72,6 +79,7 @@ const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onS
               showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
               isPrevMessageFromSameUser={isPrevMessageFromSameUser}
               isNextMessageFromSameUser={isNextMessageFromSameUser}
+              roomType={roomType}
             />
           </View>
         )
