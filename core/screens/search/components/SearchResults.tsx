@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, Platform, StyleSheet, View } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SearchSkeleton from '@holi/core/screens/search/components/SearchSkeleton'
@@ -84,7 +84,8 @@ const SearchResults = ({ searchString, setInputIsLoading }: SearchResultsProps) 
           index,
         })}
         ItemSeparatorComponent={() => <View style={{ height: USER_ITEM_GAP }} />}
-        scrollEnabled={false}
+        // fix scrolling for web on small devices
+        scrollEnabled={Platform.OS === 'web'}
         style={styles.flex}
         keyboardShouldPersistTaps="handled"
       />
