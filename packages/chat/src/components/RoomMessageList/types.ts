@@ -9,6 +9,7 @@ export interface RoomMessageListProps {
   matrixIdToHoliUserRecord: Record<string, User | undefined>
   starter?: React.ReactNode
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
+  roomType: string
 }
 
 export interface RoomMessageProps {

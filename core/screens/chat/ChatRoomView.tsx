@@ -148,6 +148,7 @@ const ChatRoomView = () => {
                 <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
               ) : (
                 <RoomMessageList
+                  roomType={room?.type}
                   messages={messages || []}
                   matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
                   starter={

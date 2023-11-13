@@ -11,14 +11,16 @@ interface RoomMessageProps {
   showAvatar?: boolean
   isPrevMessageFromSameUser?: boolean
   isNextMessageFromSameUser?: boolean
+  roomType: string
   testID?: string
 }
 
-const RoomMessage = ({ user, message, ...props }: RoomMessageProps) => {
+const RoomMessage = ({ user, message, roomType, ...props }: RoomMessageProps) => {
   switch (message.type) {
     case 'message':
       return <RoomTextMessage user={user} message={message} {...props} />
     case 'membership':
+      if (roomType === 'private') return
       return <RoomMembershipBadge user={user} message={message} />
   }
 }
