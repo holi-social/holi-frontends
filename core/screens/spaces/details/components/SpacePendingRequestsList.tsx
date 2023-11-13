@@ -33,11 +33,8 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space, 
   const mixins = useStyleMixins()
 
   useEffect(() => {
-    // only update the list if there are new requests (e.g. page changed)
-    if (data.length > spaceMembershipRequests.length) {
-      setSpaceMembershipRequests(data)
-    }
-  }, [data, spaceMembershipRequests.length])
+    setSpaceMembershipRequests(data)
+  }, [data])
 
   return (
     <View>
