@@ -10,7 +10,7 @@ import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
 import { Space, SpaceConnectionAction, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -93,7 +93,10 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
           })
         }
       },
-      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.name, pageSize: PAGE_SIZE } }],
+      refetchQueries: [
+        { query: spaceMembersQuery, variables: { idOrName: space.name, pageSize: PAGE_SIZE } },
+        { query: spaceMembershipRequestsQuery, variables: { idOrName: space.name, pageSize: PAGE_SIZE } },
+      ],
     }
   )
 
