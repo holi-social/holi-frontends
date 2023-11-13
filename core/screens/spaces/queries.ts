@@ -204,6 +204,18 @@ export const spaceByIdQuery = gql`
   }
 `
 
+export const spaceMembershipByIdQuery = gql`
+  query SpaceById($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
+      id
+      connectionStatusToMyself
+      membershipRequests(limit: 0) {
+        totalResults
+      }
+    }
+  }
+`
+
 export type SpaceByIdResponse = {
   spaceById: Space
 }

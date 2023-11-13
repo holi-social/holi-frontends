@@ -7,7 +7,7 @@ import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliAvatar, { sizes } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -31,6 +31,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
         const collaborator = member.user
         return (
           <HoliButton
+            style={styles.avatarButton}
             contentStyle={styles.collaborators}
             inline
             transparent
@@ -77,6 +78,9 @@ const styles = StyleSheet.create({
   },
   avatar: {
     borderWidth: 1,
+  },
+  avatarButton: {
+    minHeight: sizes.medium,
   },
   collaborators: {
     flex: 1,
