@@ -381,7 +381,9 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               "width": "auto",
                             },
                           ],
-                          undefined,
+                          {
+                            "minHeight": 52,
+                          },
                         ]
                       }
                       testID="spaces-collaborators-item"
@@ -536,7 +538,9 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               "width": "auto",
                             },
                           ],
-                          undefined,
+                          {
+                            "minHeight": 52,
+                          },
                         ]
                       }
                       testID="spaces-collaborators-item"
@@ -691,7 +695,9 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               "width": "auto",
                             },
                           ],
-                          undefined,
+                          {
+                            "minHeight": 52,
+                          },
                         ]
                       }
                       testID="spaces-collaborators-item"
@@ -1299,7 +1305,9 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               "width": "auto",
                             },
                           ],
-                          undefined,
+                          {
+                            "minHeight": 52,
+                          },
                         ]
                       }
                       testID="spaces-collaborators-item"
@@ -1454,7 +1462,9 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               "width": "auto",
                             },
                           ],
-                          undefined,
+                          {
+                            "minHeight": 52,
+                          },
                         ]
                       }
                       testID="spaces-collaborators-item"
@@ -1609,7 +1619,9 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               "width": "auto",
                             },
                           ],
-                          undefined,
+                          {
+                            "minHeight": 52,
+                          },
                         ]
                       }
                       testID="spaces-collaborators-item"

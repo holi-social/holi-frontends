@@ -8,12 +8,12 @@ import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/scre
 import EditSpaceCollaborators, {
   EditSpaceCollaboratorsParams,
 } from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 
 const createMocksForSpace = (spaceById = space) => {
   const spaceByIdRequest = {
     request: {
-      query: spaceByIdQuery,
+      query: spaceMembershipByIdQuery,
       variables: {
         idOrName: spaceById.name,
         limit: 20,
