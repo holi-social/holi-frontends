@@ -14,8 +14,6 @@ export const FullUserAvatarFragment = gql`
     avatarLabel
     avatarDefaultColor
     fullName
-    aboutMe
-    pronouns
   }
 `
 

@@ -12,6 +12,8 @@ export const FullSpaceMemberFragment = gql`
     data {
       id
       user {
+        pronouns
+        aboutMe
         ...FullUserAvatar
       }
       isAdministrator
@@ -84,13 +86,7 @@ export const FullSpaceFragment = gql`
         id
         isAdministrator
         user {
-          id
-          identity
-          avatar
-          avatarBlurhash
-          avatarDefaultColor
-          avatarLabel
-          fullName
+          ...FullUserAvatar
         }
       }
     }
