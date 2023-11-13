@@ -52,13 +52,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const styles = createStyles(screenHeight)
 
   const { data, loading } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
   const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
   const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
   })
 
   useLayoutEffect(() => {
@@ -82,6 +82,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     pageSize: PAGE_SIZE,
     variables: {
       idOrName: spaceIdOrName,
+      limit: PAGE_SIZE,
     },
   }
 
@@ -142,6 +143,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
                   fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
                 >
                   {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
                 </Pagination>
@@ -158,6 +160,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
                   fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
                 >
                   {!!space && <SpacePendingRequestsList space={space} initiallySelectedUserId={selectedUserId} />}
                 </Pagination>
@@ -203,7 +206,7 @@ const createStyles = (screenHeight: number) =>
       backgroundColor: colors.background20,
     },
     all: {
-      paddingTop: 16,
+      paddingVertical: 16,
       ...Platform.select({
         web: {
           minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,

@@ -125,7 +125,9 @@ export const createCache = () =>
       SpaceMemberPaged: {
         fields: {
           // Only allow pagination on the space detail or subordinated screens, recognizable by `idOrName`
-          data: nestedPaginationPolicy(['idOrName']),
+          data: {
+            merge: nestedPaginationPolicy(['idOrName']).merge,
+          },
         },
       },
       SpaceMembershipRequestPaged: {

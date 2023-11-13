@@ -16,6 +16,7 @@ const createMocksForSpace = (spaceById = space) => {
       query: spaceByIdQuery,
       variables: {
         idOrName: spaceById.name,
+        limit: 20,
       },
     },
     result: {

@@ -330,7 +330,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                       },
                       {
                         "minHeight": 1140,
-                        "paddingTop": 16,
+                        "paddingVertical": 16,
                       },
                     ]
                   }
@@ -841,7 +841,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                       },
                       {
                         "minHeight": 1140,
-                        "paddingTop": 16,
+                        "paddingVertical": 16,
                       },
                     ]
                   }
@@ -1248,7 +1248,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       },
                       {
                         "minHeight": 1140,
-                        "paddingTop": 16,
+                        "paddingVertical": 16,
                       },
                     ]
                   }
@@ -1759,7 +1759,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       },
                       {
                         "minHeight": 1140,
-                        "paddingTop": 16,
+                        "paddingVertical": 16,
                       },
                     ]
                   }

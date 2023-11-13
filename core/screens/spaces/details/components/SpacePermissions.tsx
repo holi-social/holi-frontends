@@ -10,7 +10,7 @@ import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -102,7 +102,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
           )
         }
       },
-      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.name } }],
+      refetchQueries: [{ query: spaceMembersQuery, variables: { idOrName: space.name } }],
     }
   )
 
