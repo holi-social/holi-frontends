@@ -208,6 +208,7 @@ export const spaceMembershipByIdQuery = gql`
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
       id
+      name
       connectionStatusToMyself
       membershipRequests(limit: 0) {
         totalResults
