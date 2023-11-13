@@ -60,38 +60,40 @@ const SearchContent = () => {
 
   return (
     <View style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
-      <HoliTextInput
-        value={searchString}
-        placeholder={t('chat.start.input.label')}
-        aria-label={t('chat.start.input.label')}
-        trailingComponent={trailingComponent}
-        onChange={onSearchUserInputChange}
-      />
       <HoliBox padding={[24, 0, 0, 0]}>
-        {searchString.length < MIN_SEARCH_TERM_CHARACTERS && <HoliText>{t('search.start.text')}</HoliText>}
-        {searchString.length >= MIN_SEARCH_TERM_CHARACTERS && (
-          <Pagination
-            query={userByNameQuery}
-            queryOptions={{
-              ...userSearchQueryOptions,
-              variables: {
-                substring: searchString,
-              },
-            }}
-            fetchMoreButtonProps={{
-              type: 'secondary',
-              style: mixins.moreButton,
-              testID: 'btn-search-users-load-more',
-            }}
-            fetchMoreButtonLabel={t('search.section.users.loadMore')}
-          >
-            {
-              // TODO: add query string to URL as q={string}
-              // TODO: make screen with arrow down top left
-            }
-            <SearchResults searchString={searchString} setInputIsLoading={setInputIsLoading} />
-          </Pagination>
-        )}
+        <HoliTextInput
+          value={searchString}
+          placeholder={t('chat.start.input.label')}
+          aria-label={t('chat.start.input.label')}
+          trailingComponent={trailingComponent}
+          onChange={onSearchUserInputChange}
+        />
+        <HoliBox padding={[24, 0, 0, 0]}>
+          {searchString.length < MIN_SEARCH_TERM_CHARACTERS && <HoliText>{t('search.start.text')}</HoliText>}
+          {searchString.length >= MIN_SEARCH_TERM_CHARACTERS && (
+            <Pagination
+              query={userByNameQuery}
+              queryOptions={{
+                ...userSearchQueryOptions,
+                variables: {
+                  substring: searchString,
+                },
+              }}
+              fetchMoreButtonProps={{
+                type: 'secondary',
+                style: mixins.moreButton,
+                testID: 'btn-search-users-load-more',
+              }}
+              fetchMoreButtonLabel={t('search.section.users.loadMore')}
+            >
+              {
+                // TODO: add query string to URL as q={string}
+                // TODO: make screen with arrow down top left
+              }
+              <SearchResults searchString={searchString} setInputIsLoading={setInputIsLoading} />
+            </Pagination>
+          )}
+        </HoliBox>
       </HoliBox>
     </View>
   )
@@ -102,9 +104,8 @@ export default memo(SearchContent)
 const styles = StyleSheet.create({
   inner: {
     flex: 1,
-    // 16 is space between the header and the input
     // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: +vars.topBarHeight + 16,
+    marginTop: +vars.topBarHeight,
     ...Platform.select({
       web: {
         paddingBottom: vars.bottomBarHeight,
