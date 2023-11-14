@@ -57,6 +57,11 @@ export const PostFragment = gql`
     title
     text
     created
+    modified
+    inspirationPostCategory {
+      slug
+      title
+    }
     creator {
       ...FullUserAvatar
     }
@@ -98,6 +103,11 @@ export const PostDetailsFragment = gql`
     title
     text
     created
+    modified
+    inspirationPostCategory {
+      slug
+      title
+    }
     creator {
       ...FullUserAvatar
     }

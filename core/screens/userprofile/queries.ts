@@ -27,7 +27,6 @@ export const FullUserFragment = gql`
     avatarBlurhash
     avatarDefaultColor
     avatarLabel
-    identity
     fullName
     firstName
     lastName
@@ -109,6 +108,7 @@ export const userByNameQuery = gql`
       data {
         ...FullUserAvatar
       }
+      totalResults
     }
   }
 `

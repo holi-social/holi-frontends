@@ -207,7 +207,12 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
         ) : (
           <>
             <HoliText>
-              <Trans t={t} i18nKey="auth.changePassword.description" />
+              <Trans
+                t={t}
+                i18nKey={
+                  forgotPasswordFlow ? 'auth.changePassword.description-forgotflow' : 'auth.changePassword.description'
+                }
+              />
             </HoliText>
             <View style={styles.inputFieldsContainer}>
               {!forgotPasswordFlow && (

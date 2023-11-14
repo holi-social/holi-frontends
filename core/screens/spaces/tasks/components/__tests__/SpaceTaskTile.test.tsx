@@ -25,7 +25,7 @@ describe('SpaceTaskTile', () => {
     expect(avatarImage.props.source).toStrictEqual([
       {
         height: 64,
-        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg',
+        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
         width: 64,
       },
     ])

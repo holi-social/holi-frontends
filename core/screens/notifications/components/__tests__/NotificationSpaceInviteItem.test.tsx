@@ -1,0 +1,164 @@
+import { MockedProvider } from '@apollo/client/testing'
+import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react-native'
+import React from 'react'
+import renderer from 'react-test-renderer'
+
+import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
+import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
+import { dummyUser, notificationSpaceInvite } from '@holi/core/screens/notifications/components/seedData'
+import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
+import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+
+// prevent warnings about incomplete apollo mocks,
+// which aren't used as we only test the loading indicator
+global.console.warn = jest.fn()
+
+const acceptInvite = {
+  request: {
+    query: updateSpaceUserConnectionMutation,
+    variables: {
+      connectAction: SpaceConnectionAction.CONNECT,
+      connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+      spaceId: notificationSpaceInvite.options.space.id,
+    },
+  },
+  newData: jest.fn(() => {
+    return {}
+  }),
+}
+const declineInvite = {
+  request: {
+    query: updateSpaceUserConnectionMutation,
+    variables: {
+      connectAction: SpaceConnectionAction.DISCONNECT,
+      connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+      spaceId: notificationSpaceInvite.options.space.id,
+    },
+  },
+  newData: jest.fn(() => {
+    return {}
+  }),
+}
+
+const MOCKS = [acceptInvite, declineInvite]
+
+describe('NotificationSpaceInviteItem', () => {
+  beforeEach(() => {
+    jest.useRealTimers()
+  })
+
+  describe('with legacy notifications', () => {
+    const notification = notificationSpaceInvite
+
+    it('matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceInviteItem notification={notification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
+
+    it('renders loader after declining an invite', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceInviteItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
+      )
+
+      fireEvent(getByTestId('decline-invite-button'), 'click')
+      expect(declineInvite.newData).toHaveBeenCalled()
+      expect(getByTestId('invite-loader-indicator')).toBeDefined()
+
+      await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
+    })
+
+    it('renders loader after accepting an invite', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceInviteItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
+      )
+
+      fireEvent(getByTestId('accept-invite-button'), 'click')
+      expect(acceptInvite.newData).toHaveBeenCalled()
+      expect(getByTestId('invite-loader-indicator')).toBeDefined()
+
+      await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
+    })
+  })
+
+  describe('with novu notifications', () => {
+    const notification = {
+      id: '0809f4a0-04c8-43ae-a291-4f7bfce1b123',
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
+      created: '2022-12-21T11:11:38.978527+00:00',
+      read: false,
+      options: {
+        user: dummyUser,
+        space: {
+          id: '9cbe7f41-acb6-400d-b765-c106a4f6f5f8',
+          title: 'Foo',
+          avatar: 'https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg',
+          name: 'foo',
+          avatarDefaultColor: '#78EDA8',
+        },
+      },
+      content: 'Some User is inviting you to join their Space Foo',
+    }
+
+    it('notification for membership request matches snapshot', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+
+      const tree = renderer
+        .create(
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceInviteItem notification={notification} />
+          </MockedProvider>
+        )
+        .toJSON()
+      expect(tree).toMatchSnapshot()
+    })
+
+    it('renders loader after declining an invite', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceInviteItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
+      )
+
+      fireEvent(getByTestId('decline-invite-button'), 'click')
+      expect(declineInvite.newData).toHaveBeenCalled()
+      expect(getByTestId('invite-loader-indicator')).toBeDefined()
+
+      await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
+    })
+
+    it('renders loader after accepting an invite', async () => {
+      const { getByTestId } = render(
+        <ToastProvider>
+          <MockedProvider mocks={MOCKS} addTypename={false}>
+            <NotificationSpaceInviteItem notification={notification} />
+          </MockedProvider>
+        </ToastProvider>
+      )
+
+      fireEvent(getByTestId('accept-invite-button'), 'click')
+      expect(acceptInvite.newData).toHaveBeenCalled()
+      expect(getByTestId('invite-loader-indicator')).toBeDefined()
+
+      await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
+    })
+  })
+})

@@ -6,7 +6,7 @@ import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 export const spaceMembersQuery = gql`
   ${FullSpaceMemberFragment}
 
-  query SpaceMembersBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 10) {
+  query SpaceMembersBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
     spaceById(idOrName: $idOrName) {
       id
       members(limit: $limit, offset: $offset) {
@@ -19,7 +19,7 @@ export const spaceMembersQuery = gql`
 export const spaceMembershipRequestsQuery = gql`
   ${FullSpaceMembershipRequestFragment}
 
-  query SpaceMembershipRequestsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 10) {
+  query SpaceMembershipRequestsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
     spaceById(idOrName: $idOrName) {
       id
       membershipRequests(limit: $limit, offset: $offset) {

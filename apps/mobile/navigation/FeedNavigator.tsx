@@ -2,8 +2,8 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import Search from '@holi/core/screens/Search'
 import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
+import Search from '@holi/core/screens/search/Search'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'

@@ -47,7 +47,8 @@ home `holi-url/chat.
 ### Debugging
 
 You can use the Jōtai `DevTools` to ease store debugging. Currently, it's only available in our **NextJS** app and
-within the boundary of the Chat Provider (aka `<ChatStoreInitializer />`). The provider is on the top of the component
+within the boundary of the Chat Provider (aka `<ChatSessionInitializer><ChatProvider/></ChatSessionInitializer>`). The
+provider is on the top of the component
 tree within the RootProvider, making the tools accessible in our entire app. That means you can use Jōtai, which can
 also make sense outside the chat app!
 

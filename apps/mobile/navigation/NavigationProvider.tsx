@@ -51,7 +51,11 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
         'received response from push interaction, while app was closed',
         JSON.stringify(response)
       )
-      return transformPushInteractionToUrl(response)
+      const url = transformPushInteractionToUrl(response)
+      if (url) {
+        logDebug('LinkingOptions.getInitialURL', 'navigate to deep link from push interaction', url)
+        return url
+      }
     }
   },
   subscribe: (listener) => {
@@ -66,6 +70,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
       logDebug('LinkingOptions.subscribe', 'received response from push interaction', JSON.stringify(response))
       const url = transformPushInteractionToUrl(response)
       if (url) {
+        logDebug('LinkingOptions.subscribe', 'navigate to deep link from push interaction', url)
         listener(url)
       }
     })

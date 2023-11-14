@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
+import { MessageListItem, isChatTextMessage, isMessageSection } from '@holi/chat/src/components/RoomMessageList/types'
 import { ChatMessage } from '@holi/chat/src/store'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
@@ -13,16 +14,6 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
 import { RoomMessageListProps } from './types'
-
-interface ListSectionHeader {
-  title: string
-}
-
-type MessageListItem = ChatMessage | ListSectionHeader
-
-const isMessageSection = (item: MessageListItem): item is ListSectionHeader => {
-  return 'title' in item
-}
 
 const groupByDate = (messages: ChatMessage[], locale: string): MessageListItem[] => {
   const groupedMessages: Record<string, MessageListItem[]> = {}
@@ -50,7 +41,13 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageListItem[]
   return Object.values(groupedMessages).reverse().flat()
 }
 
-const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onScroll }: RoomMessageListProps) => {
+const RoomMessageList = ({
+  messages = [],
+  matrixIdToHoliUserRecord,
+  starter,
+  onScroll,
+  roomType,
+}: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
   const groupedMessages = groupByDate(messages, i18n.language)
@@ -59,13 +56,13 @@ const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onS
     <FlashList
       data={groupedMessages}
       getItemType={(item) => (isMessageSection(item) ? 'sectionHeader' : 'row')}
-      renderItem={({ item, index }) => {
-        if (isMessageSection(item)) {
+      renderItem={({ item: message, index }) => {
+        if (isMessageSection(message)) {
           return (
             <HoliBox padding={[32, 0, 4, 0]}>
               <View style={{ alignItems: 'center' }}>
                 <HoliText size="extrasmall" color="gray300">
-                  {item.title}
+                  {message.title}
                 </HoliText>
               </View>
             </HoliBox>
@@ -75,18 +72,19 @@ const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onS
         const isFirstMessageInSection = index === 0
         const prevMessage = groupedMessages[index + 1]
         const isPrevMessageFromSameUser =
-          !!prevMessage && !isMessageSection(prevMessage) && prevMessage?.sender === item.sender
+          !!prevMessage && isChatTextMessage(prevMessage) && prevMessage?.sender === message.sender
         const nextMessage = groupedMessages[index - 1]
         const isNextMessageFromSameUser =
-          !!nextMessage && !isMessageSection(nextMessage) && nextMessage?.sender === item.sender
+          !!nextMessage && isChatTextMessage(nextMessage) && nextMessage?.sender === message.sender
 
         return (
           <RoomMessage
-            message={item}
-            user={matrixIdToHoliUserRecord[item.sender ?? '']}
+            message={message}
+            user={matrixIdToHoliUserRecord[message.sender ?? '']}
             showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
             isPrevMessageFromSameUser={isPrevMessageFromSameUser}
             isNextMessageFromSameUser={isNextMessageFromSameUser}
+            roomType={roomType}
           />
         )
       }}
@@ -109,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background20,
   },
   listFooterSpacer: {
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
   },
   listHeaderSpacer: {
     height: 20,

@@ -10,6 +10,7 @@ export const FullSpaceMemberFragment = gql`
   fragment FullSpaceMember on SpaceMemberPaged {
     totalResults
     data {
+      id
       user {
         ...FullUserAvatar
       }
@@ -32,11 +33,10 @@ export const FullSpaceMembershipRequestFragment = gql`
   }
 `
 
-// We only need 3 members for avatar pile
+// We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const FullSpaceFragment = gql`
-  ${FullSpaceMemberFragment}
   ${FullUserFragment}
-  ${FullSpaceMembershipRequestFragment}
+  ${FullUserAvatarFragment}
   fragment FullSpace on Space {
     id
     title
@@ -79,10 +79,23 @@ export const FullSpaceFragment = gql`
       thumbnailBlurhash
     }
     members(limit: 3) {
-      ...FullSpaceMember
+      totalResults
+      data {
+        id
+        isAdministrator
+        user {
+          id
+          identity
+          avatar
+          avatarBlurhash
+          avatarDefaultColor
+          avatarLabel
+          fullName
+        }
+      }
     }
-    membershipRequests(limit: 3) {
-      ...FullSpaceMembershipRequest
+    membershipRequests(limit: 0) {
+      totalResults
     }
     tasks {
       id
@@ -124,7 +137,7 @@ export const FullSpaceFragment = gql`
   }
 `
 
-// We only need 3 members for avatar pile
+// We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const SpaceOverviewFragment = gql`
   fragment SpaceOverview on Space {
     id
@@ -145,6 +158,7 @@ export const SpaceOverviewFragment = gql`
       data {
         user {
           id
+          identity
           avatar
           avatarBlurhash
           avatarLabel
@@ -186,6 +200,19 @@ export const spaceByIdQuery = gql`
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
       ...FullSpace
+    }
+  }
+`
+
+export const spaceMembershipByIdQuery = gql`
+  query SpaceById($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
+      id
+      name
+      connectionStatusToMyself
+      membershipRequests(limit: 0) {
+        totalResults
+      }
     }
   }
 `

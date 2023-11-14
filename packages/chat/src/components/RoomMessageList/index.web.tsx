@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { SectionList, View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
+import { isChatTextMessage } from '@holi/chat/src/components/RoomMessageList/types'
 import { ChatMessage } from '@holi/chat/src/store'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
@@ -16,6 +17,7 @@ import { RoomMessageListProps } from './types'
 interface MessageDateGroup {
   title: string
   data: ChatMessage[]
+  roomType: string
 }
 
 const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[] => {
@@ -45,7 +47,13 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[
   return Object.values(groupedMessages).reverse()
 }
 
-const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onScroll }: RoomMessageListProps) => {
+const RoomMessageList = ({
+  messages = [],
+  matrixIdToHoliUserRecord,
+  starter,
+  onScroll,
+  roomType,
+}: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
   const groupedMessages = groupByDate(messages, i18n.language)
@@ -57,9 +65,11 @@ const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onS
       renderItem={({ item: message, index, section: { data: list } }) => {
         const isFirstMessageInSection = index === 0
         const prevMessage = list[index + 1]
-        const isPrevMessageFromSameUser = prevMessage && prevMessage?.sender === message.sender
+        const isPrevMessageFromSameUser =
+          !!prevMessage && isChatTextMessage(prevMessage) && prevMessage?.sender === message.sender
         const nextMessage = list[index - 1]
-        const isNextMessageFromSameUser = nextMessage && nextMessage?.sender === message.sender
+        const isNextMessageFromSameUser =
+          !!nextMessage && isChatTextMessage(nextMessage) && nextMessage?.sender === message.sender
 
         return (
           <View style={styles.listItemContainer}>
@@ -69,6 +79,7 @@ const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onS
               showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
               isPrevMessageFromSameUser={isPrevMessageFromSameUser}
               isNextMessageFromSameUser={isNextMessageFromSameUser}
+              roomType={roomType}
             />
           </View>
         )
@@ -108,10 +119,10 @@ const styles = StyleSheet.create({
   listItemContainer: {
     alignSelf: 'center',
     width: '100%',
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: +vars.maxScreenWidth,
   },
   listFooterSpacer: {
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
   },
   listHeaderSpacer: {
     height: 20,

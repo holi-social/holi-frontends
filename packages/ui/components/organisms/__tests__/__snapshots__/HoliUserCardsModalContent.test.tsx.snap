@@ -167,6 +167,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "height": 128,
                             "width": 128,
                           },
+                          false,
                         ]
                       }
                     >
@@ -346,6 +347,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "height": 128,
                             "width": 128,
                           },
+                          false,
                         ]
                       }
                     >
@@ -508,6 +510,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "height": 128,
                             "width": 128,
                           },
+                          false,
                         ]
                       }
                     >
@@ -687,6 +690,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "height": 128,
                             "width": 128,
                           },
+                          false,
                         ]
                       }
                     >
@@ -849,6 +853,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "height": 128,
                             "width": 128,
                           },
+                          false,
                         ]
                       }
                     >
@@ -1028,6 +1033,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "height": 128,
                             "width": 128,
                           },
+                          false,
                         ]
                       }
                     >
@@ -1192,6 +1198,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "height": 128,
                             "width": 128,
                           },
+                          false,
                         ]
                       }
                     >

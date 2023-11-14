@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -77,23 +77,23 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
     }
   )
 
-  const approveConnectionRequest = () => {
+  const approveConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBER,
       },
     }).then(() => setConnectionAccepted(true))
-  }
+  }, [updateSpaceUserConnection])
 
-  const declineConnectionRequest = () => {
+  const declineConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
       },
     }).then(() => setConnectionAccepted(false))
-  }
+  }, [updateSpaceUserConnection])
 
   const { userId } = useAuth()
 
@@ -129,7 +129,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       key="decline"
       type="secondary"
       variant="small"
-      label={t('notifications.connection.ignore')}
+      label={t('notifications.space.connection.decline')}
       onPress={declineConnectionRequest}
       disabled={loading}
       style={styles.button}
@@ -141,7 +141,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       key="accept"
       type="primary"
       variant="small"
-      label={t('notifications.connection.accept')}
+      label={t('notifications.space.connection.accept')}
       onPress={approveConnectionRequest}
       disabled={loading}
       style={styles.button}
@@ -158,7 +158,6 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
         i18nKey={getI18nKey()}
         style={[style, loading && styles.notificationProcessing]}
         testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
-        content={notification.content}
       >
         {showButtons && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>

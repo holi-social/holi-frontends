@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpacePendingRequestsItem from '@holi/core/screens/spaces/details/components/SpacePendingRequestItem'
@@ -17,9 +17,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 type SpacePendingRequestsProps = {
   space: Space
   style?: StyleProp<ViewStyle>
+  initiallySelectedUserId?: string
 }
 
-const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }) => {
+const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space, initiallySelectedUserId }) => {
   const [listVisible, setListVisible] = useState(true)
   const { t } = useTranslation()
 
@@ -32,14 +33,11 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
   const mixins = useStyleMixins()
 
   useEffect(() => {
-    // only update the list if there are new requests (e.g. page changed)
-    if (data.length > spaceMembershipRequests.length) {
-      setSpaceMembershipRequests(data)
-    }
-  }, [data, spaceMembershipRequests.length])
+    setSpaceMembershipRequests(data)
+  }, [data])
 
   return (
-    <ScrollView>
+    <View>
       {!!spaceMembershipRequests.length && (
         <HoliButton
           inline
@@ -75,11 +73,16 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space }
       {!!spaceMembershipRequests.length && (
         <View style={[styles.list, !listVisible && styles.hideList]}>
           {spaceMembershipRequests.map((request) => (
-            <SpacePendingRequestsItem membershipRequest={request} space={space} key={request.id} />
+            <SpacePendingRequestsItem
+              membershipRequest={request}
+              space={space}
+              key={request.id}
+              initiallyOpen={request.user.id === initiallySelectedUserId}
+            />
           ))}
         </View>
       )}
-    </ScrollView>
+    </View>
   )
 }
 

@@ -1,6 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
-import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
@@ -125,10 +124,9 @@ export const createCache = () =>
       },
       SpaceMemberPaged: {
         fields: {
+          // Only allow pagination on the space detail or subordinated screens, recognizable by `idOrName`
           data: {
-            // requires updates even if length of results stays the same (should not use indexAwareOffsetLimitPagination's read method)
-            ...offsetLimitPagination(),
-            merge: indexAwareOffsetLimitPagination().merge,
+            merge: nestedPaginationPolicy(['idOrName']).merge,
           },
         },
       },

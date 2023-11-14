@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -19,6 +19,7 @@ import { discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/dis
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const isNotificationInvitationDeclined = ({ notificationType }: NotificationSpaceConnection) =>
   notificationType === NotificationType.COMMUNITY_INVITE_DECLINED
@@ -65,25 +66,31 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
     }
   )
 
-  const approveConnectionRequest = () => {
+  const acceptInvite = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
     }).then(() => setInviteAccepted(true))
-  }
+  }, [updateSpaceUserConnection])
 
-  const rejectConnectionRequest = () => {
+  const declineInvite = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
     }).then(() => setInviteDeclined(true))
-  }
+  }, [updateSpaceUserConnection])
+
+  const showButtons = !inviteDeclined && !inviteAccepted
 
   const getI18Key = () => {
+    // Use content from notification if no interaction has taken place yet
+    if (notification.content && showButtons) {
+      return
+    }
     if (inviteAccepted) return 'notifications.space.invite.accepted.message'
     if (inviteDeclined) {
       return !isInvitationDeclinedNotification || userId === notification.options.user.id
@@ -99,10 +106,10 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
       type="secondary"
       variant="small"
       label={t('notifications.space.invite.ignore')}
-      onPress={() => rejectConnectionRequest()}
+      onPress={declineInvite}
       disabled={loading}
       style={styles.button}
-      testID="ignore-invite-request-button"
+      testID="decline-invite-button"
     >
       {t('notifications.space.invite.ignore')}
     </HoliButton>,
@@ -111,10 +118,10 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
       type="primary"
       variant="small"
       label={t('notifications.space.invite.accept')}
-      onPress={() => approveConnectionRequest()}
+      onPress={acceptInvite}
       disabled={loading}
       style={styles.button}
-      testID="accept-invite-request-button"
+      testID="accept-invite-button"
     >
       {t('notifications.space.invite.accept')}
     </HoliButton>,
@@ -128,12 +135,13 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
         style={style}
         testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
       >
-        {!inviteDeclined && !inviteAccepted && (
+        {showButtons && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
             {buttons}
           </HoliHorizontalRow>
         )}
       </NotificationWithSpaceAvatar>
+      {loading && <HoliLoader testID="invite-loader-indicator" />}
     </View>
   )
 }

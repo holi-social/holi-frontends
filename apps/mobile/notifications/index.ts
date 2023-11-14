@@ -56,6 +56,10 @@ const spaceMemberShipUrlFrom = (notification: SpaceMembershipPushNotification) =
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
       case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
         return toSpaceUrl(notification)
     }
   } catch (error) {
@@ -77,6 +81,10 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
+    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
       return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
     default:
       // Default is chat notification
