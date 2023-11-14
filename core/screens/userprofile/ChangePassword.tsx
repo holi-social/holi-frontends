@@ -4,6 +4,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
   Platform,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
   TextInputKeyPressEventData,
   TextInputProps,
@@ -22,19 +24,21 @@ import { getSettingsFlow } from '@holi/core/auth/helpers/auth/helpers'
 import { syncUserSessionFromOrySession } from '@holi/core/auth/helpers/auth/helpers'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
-import DefaultLayout from '@holi/core/components/DefaultLayout'
+import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface ChangePasswordProps {
@@ -62,6 +66,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
+  const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { openToast } = useToast()
   const mixins = useStyleMixins()
 
@@ -200,89 +205,120 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   }
 
   return (
-    <DefaultLayout keyboardShouldPersistTaps="always" style={styles.layout}>
-      <View style={[mixins.container, styles.formContainer]}>
-        {!((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
-          <HoliLoader />
-        ) : (
-          <>
-            <HoliText>
-              <Trans
-                t={t}
-                i18nKey={
-                  forgotPasswordFlow ? 'auth.changePassword.description-forgotflow' : 'auth.changePassword.description'
-                }
-              />
-            </HoliText>
-            <View style={styles.inputFieldsContainer}>
-              {!forgotPasswordFlow && (
-                <HoliTextInput
-                  inputLabel={t('auth.changePassword.input.label-OldPassword')}
-                  aria-label={t('auth.changePassword.input.label-OldPassword')}
-                  placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
-                  validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-                  inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
-                  maxNoOfCharacters={200}
-                  onChange={setOldPwd}
-                  type="password"
-                  testID={'old-password'}
-                />
-              )}
-              <HoliTextInput
-                inputLabel={t('auth.changePassword.input.label-NewPassword')}
-                aria-label={t('auth.changePassword.input.label-NewPassword')}
-                placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
-                validationErrorText={retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)}
-                helperText={t('auth.changePassword.input.helper-NewPassword')}
-                inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
-                maxNoOfCharacters={200}
-                onChange={setNewPwd}
-                type="password"
-                testID={'new-password'}
-              />
-              {!!forgotPasswordFlow && (
-                <HoliTextInput
-                  inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
-                  aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
-                  placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
-                  validationErrorText={
-                    retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
-                  }
-                  inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
-                  maxNoOfCharacters={200}
-                  onChange={setNewPwdRetype}
-                  type="password"
-                  testID={'new-password-retype'}
-                />
-              )}
-            </View>
-            <HoliButtonLoading
-              label={t('auth.changePassword.input.label-Save')}
-              onPress={performPasswordChange}
-              testID={'btn-submit-change-password'}
+    <KeyboardAvoidingViewWrapper
+      renderProp={() => (
+        <SafeAreaView style={styles.wrapper}>
+          <ScrollView keyboardShouldPersistTaps="handled">
+            <View
+              style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}
             >
-              {t('auth.changePassword.input.label-Save')}
-            </HoliButtonLoading>
-          </>
-        )}
-      </View>
-    </DefaultLayout>
+              <HoliBox padding={[24, 0, 0, 0]}>
+                {!((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
+                  <HoliBox padding={16}>
+                    <HoliLoader />
+                  </HoliBox>
+                ) : (
+                  <>
+                    <HoliText>
+                      <Trans
+                        t={t}
+                        i18nKey={
+                          forgotPasswordFlow
+                            ? 'auth.changePassword.description-forgotflow'
+                            : 'auth.changePassword.description'
+                        }
+                      />
+                    </HoliText>
+                    <View style={styles.inputFieldsContainer}>
+                      {!forgotPasswordFlow && (
+                        <HoliTextInput
+                          inputLabel={t('auth.changePassword.input.label-OldPassword')}
+                          aria-label={t('auth.changePassword.input.label-OldPassword')}
+                          placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
+                          validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+                          inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
+                          maxNoOfCharacters={200}
+                          onChange={setOldPwd}
+                          type="password"
+                          testID={'old-password'}
+                        />
+                      )}
+                      <HoliTextInput
+                        inputLabel={t('auth.changePassword.input.label-NewPassword')}
+                        aria-label={t('auth.changePassword.input.label-NewPassword')}
+                        placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
+                        validationErrorText={
+                          retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
+                        }
+                        helperText={t('auth.changePassword.input.helper-NewPassword')}
+                        inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
+                        maxNoOfCharacters={200}
+                        onChange={setNewPwd}
+                        type="password"
+                        testID={'new-password'}
+                      />
+                      {!!forgotPasswordFlow && (
+                        <HoliTextInput
+                          inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
+                          aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
+                          placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
+                          validationErrorText={
+                            retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
+                          }
+                          inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
+                          maxNoOfCharacters={200}
+                          onChange={setNewPwdRetype}
+                          type="password"
+                          testID={'new-password-retype'}
+                        />
+                      )}
+                    </View>
+                    <HoliButtonLoading
+                      label={t('auth.changePassword.input.label-Save')}
+                      onPress={performPasswordChange}
+                      style={mixins.moreButton}
+                      testID={'btn-submit-change-password'}
+                    >
+                      {t('auth.changePassword.input.label-Save')}
+                    </HoliButtonLoading>
+                  </>
+                )}
+              </HoliBox>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      )}
+    />
   )
 }
 
 export default ChangePassword
 
 const styles = StyleSheet.create({
-  layout: {
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  wrapper: {
+    backgroundColor: colors.background20,
+    flex: 1,
+    ...Platform.select({
+      web: {
+        minHeight: '100%',
+      },
+    }),
   },
-  formContainer: {
-    maxWidth: +vars.maxButtonWidth,
-    paddingTop: 16,
+  inner: {
+    flex: 1,
+    // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
+    marginTop: +vars.topBarHeight,
+    ...Platform.select({
+      web: {
+        paddingBottom: vars.bottomBarHeight,
+      },
+      android: {
+        paddingBottom: vars.bottomBarHeight,
+      },
+    }),
   },
   inputFieldsContainer: {
     paddingTop: 24,
     gap: 16,
-    paddingBottom: 24,
   },
 })
