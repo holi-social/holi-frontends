@@ -7,6 +7,7 @@ import { SetStateAction } from 'react'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { PostImage } from '@holi/core/screens/posts/types'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, VisibilityFilter, VisibilityType } from '@holi/core/screens/spaces/types'
 import {
@@ -28,11 +29,12 @@ export interface UseCreateOrUpdateSpacePost {
   // Form State
   title: string
   content: string
-  image?: HoliImageInfo
+  image?: HoliImageInfo | null
+  currentImage?: PostImage
   visibility?: VisibilityType
   setTitle: Dispatch<SetStateAction<string>>
   setContent: Dispatch<SetStateAction<string>>
-  setImage: Dispatch<SetStateAction<HoliImageInfo | undefined>>
+  setImage: Dispatch<SetStateAction<HoliImageInfo | undefined | null>>
   setVisibility: Dispatch<SetStateAction<VisibilityType>>
   // interface
   saveSpacePost: () => Promise<FetchResult>
@@ -45,7 +47,8 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   //input fields
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
-  const [image, setImage] = useState<HoliImageInfo>()
+  const [image, setImage] = useState<HoliImageInfo | undefined | null>() // null is to remove the image
+  const [currentImage, setCurrentImage] = useState<PostImage>()
   const [visibility, setVisibility] = useState<VisibilityType>(VisibilityType.MEMBERS)
 
   // data fetch
@@ -88,6 +91,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
       postToUpdate.title && setTitle(postToUpdate.title)
       postToUpdate.text && setContent(postToUpdate.text)
       postToUpdate.image ?? setImage(postToUpdate.image)
+      setCurrentImage(postToUpdate.image)
       setVisibility(postToUpdate.isPublic ? VisibilityType.PUBLIC : VisibilityType.MEMBERS)
     }
   }, [postToUpdate])
@@ -134,7 +138,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     const input = {
       title: title.trim() && title.length > 0 ? title : undefined,
       text: content.trim(),
-      image: image?.blob,
+      image: image === null ? null : image?.blob, // null is to remove the image
       visibility: visibility || VisibilityType.MEMBERS,
     }
 
@@ -153,6 +157,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     title,
     content,
     image,
+    currentImage,
     visibility,
     setTitle,
     setContent,

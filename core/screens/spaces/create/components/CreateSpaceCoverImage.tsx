@@ -8,7 +8,7 @@ import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface CreateSpaceCoverImageProps {
-  onUploadImage: (image: HoliImageInfo | undefined) => void
+  onUploadImage: (image: HoliImageInfo | null) => void
   coverImage: HoliImageInfo | undefined
 }
 
