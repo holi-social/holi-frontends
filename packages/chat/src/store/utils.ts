@@ -1,9 +1,14 @@
-import { Draft } from 'immer'
 import { Atom } from 'jotai'
 import { EventType, IEvent, IRoomEvent } from 'matrix-js-sdk'
 
-import type { MatrixId } from '@holi/chat/src/client/types'
-import type { AtomRecordGetter, ChatRoom, HoliIdentity, SpaceGeneralChatRoom } from '@holi/chat/src/store/types'
+import type { MatrixId, SpaceSharedDataContent } from '@holi/chat/src/client/types'
+import type {
+  AtomRecordGetter,
+  ChatRoom,
+  HoliIdentity,
+  SpaceChatRoom,
+  SpaceChildChatRoom,
+} from '@holi/chat/src/store/types'
 import { chatServerName } from '@holi/core/helpers/config'
 
 /**
@@ -50,17 +55,18 @@ export const isRoomMemberEvent = (event: IRoomEvent | Partial<IEvent> | undefine
   return event?.type === EventType.RoomMember && ['join', 'leave'].some((m) => m === event.content?.membership)
 }
 
-export type AtomRecipe<T> = (draft: Draft<T>) => void
+export const hasSpaceContent = <T extends Record<keyof T, unknown>>(content: T | null): content is T =>
+  content !== null && 'holiSpaceId' in content
 
-export function isAtomRecipe<T>(recipe: AtomRecipe<T> | T): recipe is AtomRecipe<T> {
-  return typeof recipe === 'function'
+export const isSpaceChatRoom = (room: ChatRoom): room is SpaceChatRoom => {
+  return room.type === 'space' && hasSpaceContent<SpaceSharedDataContent>(room.content)
 }
 
-export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom => {
-  return room.type === 'space-general-room'
+export const isSpaceChildChatRoom = (room: ChatRoom): room is SpaceChildChatRoom => {
+  return room.type === 'space.child' && hasSpaceContent(room.content)
 }
 
 /**
  * Selectors
  */
-export const roomContentSelector = (room: SpaceGeneralChatRoom) => room.content
+export const roomContentSelector = (room: SpaceChildChatRoom) => room.content

@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from 'jotai'
 import React from 'react'
 
-import { spaceGeneralRoomContentAtoms } from '@holi/chat/src/store'
+import { spaceChildRoomContentAtoms } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
@@ -14,7 +14,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export const DEFAULT_TAB_ID = 'all' as const
 
 export const tabsAtom = atom<Tab[]>((get) => {
-  const tabs: Tab[] = get(spaceGeneralRoomContentAtoms).map((content) => ({
+  const tabs: Tab[] = get(spaceChildRoomContentAtoms).map((content) => ({
     id: content.roomId,
     title: content.spaceName,
   }))

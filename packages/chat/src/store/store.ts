@@ -21,7 +21,6 @@ import {
   type NotificationCount,
   type RoomId,
   type RoomWithSharedData,
-  type SpaceGeneralRoomSharedDataContent,
 } from '@holi/chat/src/client/types'
 import type {
   ChatMembershipContent,
@@ -32,18 +31,19 @@ import type {
   ChatRoomAtom,
   ChatRoomId,
   CreateMessage,
-  MyMembershipOptions,
   PrivateChatTab,
   RoomAtomByRoomId,
   RoomAtomsRecordAtomSubscriberArgs,
   SpaceChatTab,
-  SpaceGeneralChatRoomAtom,
+  SpaceChildRoomAtom,
 } from '@holi/chat/src/store/types'
-import { MessageAtomsByRoomId, RoomAtomsActionType, isSpaceGeneralChatRoom } from '@holi/chat/src/store/types'
+import { MessageAtomsByRoomId, RoomAtomsActionType } from '@holi/chat/src/store/types'
 import {
   getAtomFromRecordId,
   isRoomMemberEvent,
   isRoomMessageEvent,
+  isSpaceChatRoom,
+  isSpaceChildChatRoom,
   toMatrixIdentity,
 } from '@holi/chat/src/store/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -68,13 +68,19 @@ export const getChatClient = (): ChatClient => {
  * Room Producers
  *
  **/
+interface UpdateRoomInvitationOptions {
+  membership: string
+  prevMembership?: string
+}
 
-const updateRoomInvitation = produce((chatRoom: ChatRoom, { membership, prevMembership }: MyMembershipOptions) => {
-  const hasJoined = prevMembership === 'invite' && membership === 'join'
-  if (!hasJoined) return
+const updateRoomInvitation = produce(
+  (chatRoom: ChatRoom, { membership, prevMembership }: UpdateRoomInvitationOptions) => {
+    const hasJoined = prevMembership === 'invite' && membership === 'join'
+    if (!hasJoined) return
 
-  chatRoom.hasInvitation = !hasJoined
-})
+    chatRoom.hasInvitation = !hasJoined
+  }
+)
 
 const updateRoomUnreadNotifications = produce((chatRoom: ChatRoom, count: number) => {
   chatRoom.notificationCount = count
@@ -153,16 +159,16 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
  * @description This derived read-only atom contains a array with all the general Space Room Atoms.
  * @see _roomAtoms
  */
-export const spaceGeneralRoomAtoms = atom<SpaceGeneralChatRoomAtom[]>((get) => {
-  return get(_roomAtoms).filter((roomAtom) => isSpaceGeneralChatRoom(get(roomAtom))) as SpaceGeneralChatRoomAtom[]
+export const spaceChildRoomAtoms = atom<SpaceChildRoomAtom[]>((get) => {
+  return get(_roomAtoms).filter((roomAtom) => isSpaceChildChatRoom(get(roomAtom))) as SpaceChildRoomAtom[]
 })
 
 /**
  * @description This derived read-only atom contains a array with all the spaceRoomAtoms.
- * @see spaceGeneralRoomAtoms
+ * @see spaceChildRoomAtoms
  */
-export const spaceGeneralRoomContentAtoms: Atom<SpaceGeneralRoomSharedDataContent[]> = atom((get) => {
-  return get(spaceGeneralRoomAtoms).map((roomAtom) => get(roomAtom).content)
+export const spaceChildRoomContentAtoms = atom((get) => {
+  return get(spaceChildRoomAtoms).map((roomAtom) => get(roomAtom).content)
 })
 
 /**
@@ -177,7 +183,7 @@ export const derivedRoomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab | Priv
     const room = get(roomAtom)
     if (room.type === 'space') return acc
 
-    const derivedRoom: SpaceChatTab | PrivateChatTab = isSpaceGeneralChatRoom(room)
+    const derivedRoom: SpaceChatTab | PrivateChatTab = isSpaceChildChatRoom(room)
       ? {
           id: room.id,
           type: room.type,
@@ -207,7 +213,7 @@ export const derivedRoomsRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab | Priv
 export const spaceTabRecordAtom: Atom<Record<ChatRoomId, SpaceChatTab>> = atom((get) => {
   return Object.entries(get(derivedRoomsRecordAtom)).reduce<Record<ChatRoomId, SpaceChatTab>>(
     (acc, [id, derivedRoom]) => {
-      if (derivedRoom.type !== 'space-general-room') return acc
+      if (derivedRoom.type !== 'space.child') return acc
 
       return {
         ...acc,
@@ -351,17 +357,6 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     setAtom({ type: RoomAtomsActionType.DELETE, roomId })
   }
 
-  const joinGeneralSpaceRoom = async ({ room }: RoomWithSharedData) => {
-    try {
-      const isSpaceRoom = room.isSpaceRoom() || room.name === '#general'
-      if (isSpaceRoom && client.hasPendingInvitation(room)) {
-        await client.joinRoom(room.roomId)
-      }
-    } catch (err) {
-      console.debug(`Probably the space room with ID "${room.roomId}" was deleted`, err)
-    }
-  }
-
   const updateInStore = (chatRoomList: ChatRoom[]) => {
     setAtom({ type: RoomAtomsActionType.UPDATE, chatRoomList })
   }
@@ -369,36 +364,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   /**
    * Initial load
    */
-  // get current rooms from ChatClient and store them to Atoms directly
-  const rooms = client.getRooms()
-  addRoomToStore(
-    rooms.map((room) => ({ type: 'private', room })),
-    'init'
-  )
-
-  // ask for async shared data for space related rooms and update atoms
-  client.getRoomsWithSharedData().then(async (rooms) => {
-    const [roomsJoined, roomsLeft] = rooms.reduce<[RoomWithSharedData[], RoomWithSharedData[]]>(
-      ([joined, left], room) => {
-        const myMembership = room.room.getMyMembership()
-
-        if (['leave', 'ban', 'block'].some((membership) => membership === myMembership)) {
-          return [joined, [...left, room]]
-        } else {
-          return [[...joined, room], left]
-        }
-      },
-      [[], []]
-    )
-
-    addRoomToStore(roomsJoined, 'init')
-    roomsLeft.forEach(({ room }) => deleteRoomFromStore(room.roomId))
-
-    rooms.forEach(async (roomWithSharedData) => {
-      // automatically accept general space room invitations
-      await joinGeneralSpaceRoom(roomWithSharedData).catch((err) => err)
-    })
-  })
+  client.getJoinedRoomsWithSharedData().then((rooms) => addRoomToStore(rooms, 'init'))
 
   setChatInitialized(true)
 
@@ -438,12 +404,8 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     }
 
     addRoomToStore([roomWithSharedData], 'subscription')
-    joinGeneralSpaceRoom(roomWithSharedData)
   })
 
-  /**
-   * Listen to just deleted rooms
-   */
   const unsubscribeFromRoomDeletion = client.subscribeToRoomDeletion(deleteRoomFromStore)
 
   return () => {
@@ -802,53 +764,54 @@ export const useRequestRoomMessages = () => {
  **/
 
 /**
- * @name _myMembershipSubscriberAtom
  * @description Listens to event changes in my room membership when accepting a
  * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
  * the user joins a room, we update the room has an invitation.
  */
-const _myMembershipSubscriberAtom = atom(null, async (get, set, options: MyMembershipOptions) => {
-  const client = getChatClient()
-  const roomAtomsRecord = get(_roomAtomsRecordAtom)
-  const roomAtom = roomAtomsRecord[options.room.roomId]
+const _myMembershipSubscriberAtom = atom(
+  null,
+  async (get, set, room: Room, membership: string, prevMembership?: string) => {
+    const roomAtomsRecord = get(_roomAtomsRecordAtom)
+    const roomAtom = roomAtomsRecord[room.roomId]
 
-  switch (options.membership) {
-    case 'join': {
-      if (!roomAtom) {
-        try {
-          const roomWithShareData = await client.getRoomWithSharedData(options.room)
-          const chatRoom = createChatRoom(roomWithShareData)
-          if (!isSpaceGeneralChatRoom(chatRoom)) return
+    switch (membership) {
+      case 'join': {
+        if (!roomAtom) {
+          try {
+            const roomWithShareData = await getChatClient().getRoomWithSharedData(room)
+            const chatRoom = createChatRoom(roomWithShareData)
+            if (!isSpaceChatRoom(chatRoom) || !isSpaceChildChatRoom(chatRoom)) return
 
-          set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => addChatRoom(prevRoomAtomsRecord, chatRoom))
-        } catch (err) {
-          logError(err, 'Failed to retrieve shared room data', { location: '_myMembershipSubscriberAtom' })
+            set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => addChatRoom(prevRoomAtomsRecord, chatRoom))
+          } catch (err) {
+            logError(err, 'Failed to retrieve shared room data', { location: '_myMembershipSubscriberAtom' })
+          }
+
+          return
         }
-        return
+
+        set(roomAtom, (room) => updateRoomInvitation(room, { membership, prevMembership }))
+        break
+      }
+      case 'leave': {
+        if (!roomAtom) return
+
+        set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => deleteChatRoom(prevRoomAtomsRecord, room.roomId))
+        break
       }
 
-      set(roomAtom, (room) => updateRoomInvitation(room, options))
-      break
+      case 'invite': {
+        break
+      }
+      case 'ban':
+      case 'knock':
+      default:
+        return
     }
-    case 'leave': {
-      if (!roomAtom) return
-
-      set(_roomAtomsRecordAtom, (roomAtomsRecord) => deleteChatRoom(roomAtomsRecord, options.room.roomId))
-      break
-    }
-    case 'invite':
-    case 'ban':
-    case 'knock':
-    default:
-      return
   }
-})
+)
 
-_myMembershipSubscriberAtom.onMount = (setAtom) => {
-  return getChatClient().subscribeToMyMembership((room, membership, prevMembership) => {
-    setAtom({ room, membership, prevMembership })
-  })
-}
+_myMembershipSubscriberAtom.onMount = (setAtom) => getChatClient().subscribeToMyMembership(setAtom)
 
 /**
  * @name _membershipSubscriberAtom
