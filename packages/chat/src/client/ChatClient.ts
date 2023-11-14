@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch'
 import {
   ClientEvent,
   Direction,
@@ -87,6 +88,10 @@ export default class ChatClient {
       // TODO: implement roomNameGenerator
       // roomNameGenerator: (_: string, state: RoomNameState) => {}
       scheduler: new MatrixScheduler(),
+      fetchFn: async (url, request) => {
+        delete request?.headers?.Baggage
+        return fetch(url, request)
+      },
     }
 
     this.mxClient = createClient(options)
