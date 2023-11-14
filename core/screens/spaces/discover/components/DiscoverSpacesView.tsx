@@ -89,13 +89,13 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         testID="discover-spaces-learn-more-button"
         transparent
       >
-        <View style={styles.imageContainer}>
+        <View style={styles.compositionImageContainer}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
             resizeMode="contain"
             width={Platform.OS === 'web' ? width : 324 * 1.15}
             height={Platform.OS === 'web' ? height : 188 * 1.15}
-            style={{ aspectRatio: 324 / 188 }}
+            style={styles.compositionImage}
             label={t('profile.loggedOut.image')}
           />
 
@@ -231,7 +231,10 @@ const styles = StyleSheet.create({
   createSpaceButton: {
     borderWidth: 1,
   },
-  imageContainer: {
+  compositionImage: {
+    aspectRatio: 324 / 188,
+  },
+  compositionImageContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -249,7 +252,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: 18, // +4 to align with figma design
+    paddingHorizontal: 14,
     alignItems: 'center',
   },
 })
