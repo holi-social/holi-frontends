@@ -43,15 +43,13 @@ const HoliTabBar: React.FC<TabListProps> = ({
   const MAX_TAB_WIDTH = Math.min(screenWidth * 0.66, 320)
 
   const scrollIntoView = useCallback((event: LayoutChangeEvent) => {
+    if (isWeb) return
     const { x } = event.nativeEvent.layout
-    const { target } = event.nativeEvent as unknown as { target: HTMLElement }
 
-    isWeb
-      ? target.scrollIntoView()
-      : scrollViewRef.current?.scrollTo({
-          x: Math.max(x - TAB_SPACING, 0),
-          animated: true,
-        })
+    scrollViewRef.current?.scrollTo({
+      x: Math.max(x - TAB_SPACING, 0),
+      animated: true,
+    })
   }, [])
 
   return (
@@ -81,13 +79,7 @@ const HoliTabBar: React.FC<TabListProps> = ({
                       marginLeft: index === 0 ? TAB_SPACING : 0,
                     },
                   ] as StyleProp<ViewStyle>)}
-                  onPress={(event) => {
-                    if (isWeb) {
-                      const { target } = event.nativeEvent as unknown as { target: HTMLElement }
-                      target.scrollIntoView()
-                    }
-                    onPress?.(tabId)
-                  }}
+                  onPress={() => onPress?.(tabId)}
                   ariaSelected={isActive}
                   accessibilityControls={`${id}-panel-${tabId}`}
                   key={tabId}
