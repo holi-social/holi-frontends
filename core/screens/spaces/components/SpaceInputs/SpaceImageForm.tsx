@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
@@ -15,8 +15,8 @@ export type SpaceImageFormProps = {
   title?: string
   description?: string
   instructions?: string
-  onUploadImage: (image: HoliImageInfo | undefined) => void
-  image: HoliImageInfo | undefined
+  onUploadImage: (image: HoliImageInfo | null) => void
+  image: HoliImageInfo | undefined | null
   blurhash?: string | undefined
   currentImageUri?: string
   style?: ViewStyle
@@ -34,12 +34,16 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   previewVariant = 'default',
 }: SpaceImageFormProps) => {
   const { t } = useTranslation()
-  const [uri, setImageUri] = useState<string | undefined>(currentImageUri)
+  const [uri, setImageUri] = useState<string | undefined>()
 
   const mixins = useStyleMixins()
 
+  useEffect(() => {
+    setImageUri(currentImageUri)
+  }, [currentImageUri])
+
   const removeImage = () => {
-    onUploadImage(undefined)
+    onUploadImage(null)
     setImageUri(undefined)
   }
 
