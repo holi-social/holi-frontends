@@ -64,6 +64,15 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
     })
   }
 
+  // on web the modal should be fullscreen
+  const extraModalProps =
+    Platform.OS === 'web'
+      ? {
+          relativeHeight: 1,
+          autoHeight: false,
+        }
+      : {}
+
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} scrollable={false}>
       <HoliText style={styles.title} size="extralarge">
@@ -93,7 +102,9 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
         onDismiss={hideCreate}
         testID="more-options-modal"
         label={t('global.moreOptions')}
+        headerStyle={styles.header}
         style={styles.modal}
+        {...extraModalProps}
       >
         <CreateSpaceLinks space={space} onDismiss={hideCreate} />
       </HoliModal>
@@ -103,6 +114,8 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
         testID="more-options-modal"
         label={t('global.moreOptions')}
         style={styles.modal}
+        headerStyle={styles.header}
+        {...extraModalProps}
       >
         <EditSpaceLink space={space} link={selectedLink} onDismiss={hideEdit} />
       </HoliModal>
@@ -111,6 +124,9 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: colors.background20,
+  },
   title: {
     marginTop: 40,
   },
