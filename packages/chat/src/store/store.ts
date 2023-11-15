@@ -364,9 +364,12 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   /**
    * Initial load
    */
-  client.getJoinedRoomsWithSharedData().then((rooms) => addRoomToStore(rooms, 'init'))
-
-  setChatInitialized(true)
+  client
+    .getJoinedRoomsWithSharedData()
+    .then((rooms) => {
+      addRoomToStore(rooms, 'init')
+    })
+    .finally(() => setChatInitialized(true))
 
   /**
    * Listen to just created rooms
