@@ -4,7 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { Notification, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
+import {
+  Notification,
+  NotificationPost,
+  NotificationSpaceConnection,
+} from '@holi/core/screens/notifications/components/types'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
 const NOVU_NOTIFICATIONS_PAGE_SIZE = 10
@@ -109,7 +113,7 @@ export const useNotifications = () => {
   }
 }
 
-function mapToNotification(message: IMessage): NotificationSpaceConnection | undefined {
+function mapToNotification(message: IMessage): NotificationSpaceConnection | NotificationPost | undefined {
   const { data, notificationType } = message.payload
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
@@ -128,6 +132,15 @@ function mapToNotification(message: IMessage): NotificationSpaceConnection | und
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationSpaceConnection['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.POST_COMMENT_MENTION:
+      return {
+        id: message._id,
+        notificationType,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationPost['options'],
         content: message.content.toString(),
       }
   }

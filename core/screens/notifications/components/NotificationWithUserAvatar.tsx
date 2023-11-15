@@ -48,9 +48,13 @@ const NotificationWithUserAvatar = ({
             {content || (
               <>
                 <HoliText size="small" style={styles.fontColorGray}>
-                  <Trans t={t} i18nKey={i18nKey} values={{ name: userFullName }}>
-                    <HoliText size="small" />
-                  </Trans>
+                  {i18nKey ? (
+                    <Trans t={t} i18nKey={i18nKey} values={{ name: userFullName }}>
+                      <HoliText size="small" />
+                    </Trans>
+                  ) : (
+                    notification.content
+                  )}
                 </HoliText>
 
                 <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>

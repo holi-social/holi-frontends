@@ -5,14 +5,13 @@ import { NotificationPost, NotificationProps } from '@holi/core/screens/notifica
 
 const NotificationPostItem: React.VFC<NotificationProps<NotificationPost>> = ({ notification, style, testID }) => {
   const {
-    id: commentId,
+    comment: { id: commentId },
     post: { id: postId },
-  } = notification.options.postComment
+  } = notification.options
 
   return (
     <NotificationWithUserAvatar
       notification={notification}
-      i18nKey="notifications.post.mention.message"
       href={`/posts/${postId}?commentId=${commentId}`}
       style={style}
       testID={testID}
