@@ -14,6 +14,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
+import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -36,9 +37,8 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type SpaceDetailsParams = {
+export type SpaceDetailsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
-  refresh?: string
 }
 
 const { useParam } = createParam<SpaceDetailsParams>()
@@ -52,7 +52,6 @@ const SpaceDetails = () => {
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-  const [refreshParam, setRefreshParam] = useParam('refresh')
 
   // On initial page load on web `spaceIdOrName` is undefined
   // > will probably be solved with ssr
@@ -96,14 +95,7 @@ const SpaceDetails = () => {
 
   const isCreator = space?.creator?.id === userId
 
-  useEffect(() => {
-    if (called && refreshParam) {
-      onRefresh()
-      setRefreshParam(undefined)
-    }
-    // Only refresh if refreshData was set to true after the query was fetched initially
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshParam])
+  useRefreshOnNavigation({ initialized: called, onRefresh })
 
   useEffect(() => {
     if (!isOnboarded && !isCreator && isMember) {

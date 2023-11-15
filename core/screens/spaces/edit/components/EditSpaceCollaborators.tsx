@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -25,15 +26,15 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type EditSpaceCollaboratorsParams = {
+export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
   tab?: string
   userId?: string
-  refresh?: string
 }
 
-const PAGE_SIZE = 20
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
+
+const PAGE_SIZE = 20
 const TAB_COLLABORATORS = 0
 const TAB_PENDING = 1
 
@@ -43,7 +44,6 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [selectedTab] = useParam('tab')
   const [selectedUserId] = useParam('userId')
-  const [refreshParam, setRefreshParam] = useParam('refresh')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember | null>()
   const { navigate } = useRouting()
@@ -114,13 +114,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchMembers(), refetchPendingRequests()]))
 
-  useEffect(() => {
-    if (called && refreshParam) {
-      onRefresh().finally(() => setRefreshParam(undefined))
-    }
-    // Only refresh if refreshParam was set to true after the query was fetched initially
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshParam])
+  useRefreshOnNavigation({ initialized: called, onRefresh })
 
   if (loading) {
     return <HoliLoader />
