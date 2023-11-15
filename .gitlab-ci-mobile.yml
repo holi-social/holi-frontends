@@ -305,6 +305,9 @@ mobile_production_submit_android:
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
+    - source .env.production
+    - cd apps/mobile
+    - yarn install
     - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
     - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
@@ -318,6 +321,9 @@ mobile_production_submit_ios:
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
+    - source .env.production
+    - cd apps/mobile
+    - yarn install
     - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform ios --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
     - eas submit -p ios --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
