@@ -503,8 +503,11 @@ export default class ChatClient {
 
     // The handler to attach for each room listening
     const handleIncomingMessages = (room: Room) => (event: MatrixEvent) => {
-      if (event.getType() !== EventType.RoomMessage) return
       if (room.roomId !== event.getRoomId()) return
+      const eventType = event.getType()
+      if (eventType !== EventType.RoomMessage && eventType !== EventType.RoomMember) return
+      if (eventType === EventType.RoomMember && ['join', 'leave'].every((m) => m !== event.getContent().membership))
+        return
 
       callback(event)
     }
