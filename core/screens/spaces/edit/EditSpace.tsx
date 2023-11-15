@@ -415,7 +415,7 @@ const getStyles = (statusBarHeight: number) =>
       paddingTop: vars.topBarHeight + statusBarHeight,
     },
     modalHeader: {
-      backgroundColor: colors.background30,
+      backgroundColor: colors.background20,
     },
     header: {
       alignItems: 'center',
