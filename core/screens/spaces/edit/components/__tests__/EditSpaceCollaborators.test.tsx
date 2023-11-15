@@ -61,7 +61,6 @@ const createMocksForSpace = (spaceById = space) => {
   // Space membership requests are queried twice
   return [
     spaceByIdRequest,
-    // spaceMembersBySpaceIdRequest,
     spaceMembersBySpaceIdRequest,
     spaceMembershipRequestsBySpaceIdRequest,
     spaceMembershipRequestsBySpaceIdRequest,
