@@ -173,11 +173,13 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                     size="small"
                   />
                   <HoliRichTextInput
-                    placeholder={t('insights.posts.comments.placeholder')}
+                    placeholder={'helloooo'}
                     autofocus={true}
                     onChange={setText}
                     style={styles.textInput}
                     testID="post-comment"
+                    showCharacterCount={true}
+                    maxNoOfCharacters={1500}
                   />
                 </View>
               </View>

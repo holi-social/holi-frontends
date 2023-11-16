@@ -7,6 +7,7 @@ import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/providers/PortalProvider'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
 import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
@@ -26,6 +27,8 @@ export type HoliRichTextInputProps = {
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
   testID?: string
+  showCharacterCount?: boolean
+  maxNoOfCharacters?: number
 }
 
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
@@ -55,6 +58,8 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   const setKeywordDebounced = useDebounce(useSafeDispatch(setDebouncedKeyword), debounceDelay)
 
   const onChooseOptionRef = useRef<(suggestion: Suggestion) => void | null>(() => null)
+
+  const [characterCount, setCharacterCount] = useState(0)
 
   // on mount / unmount
   useEffect(() => {
@@ -116,11 +121,15 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   const onInputChange = useCallback(
     (text: string) => {
-      setValue(`${text}`)
-      const holiFormattedString = String(text).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
-      onChange?.(holiFormattedString)
+      const maxChars = props.maxNoOfCharacters || Infinity
+      if (text.length <= maxChars) {
+        setValue(`${text}`)
+        setCharacterCount(text.length)
+        const holiFormattedString = String(text).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
+        onChange?.(holiFormattedString)
+      }
     },
-    [onChange, setValue]
+    [onChange, setValue, props.maxNoOfCharacters]
   )
 
   const renderUserSuggestions = useCallback(
@@ -164,7 +173,13 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
       containerStyle={[styles.mentionsStyles, props.style]}
       style={styles.input}
       testID={props.testID || 'richtext-input'}
-    />
+    >
+      {/* {props.showCharacterCount && ( */}
+      <HoliText>
+        {characterCount} / {props.maxNoOfCharacters}
+        halloooo
+      </HoliText>
+    </MentionInput>
   )
 }
 
