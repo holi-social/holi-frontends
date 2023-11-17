@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, TextInput, View, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps, Suggestion } from 'react-native-controlled-mentions'
 
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -161,25 +161,27 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   })
 
   return (
-    <MentionInput
-      inputRef={inputRef}
-      value={value}
-      autoFocus={autofocus}
-      onChange={onInputChange}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      partTypes={suggestionConfig}
-      placeholder={placeholder}
-      containerStyle={[styles.mentionsStyles, props.style]}
-      style={styles.input}
-      testID={props.testID || 'richtext-input'}
-    >
-      {/* {props.showCharacterCount && ( */}
-      <HoliText>
-        {characterCount} / {props.maxNoOfCharacters}
-        halloooo
-      </HoliText>
-    </MentionInput>
+    <View style={props.style} testID={props.testID || 'richtext-component'}>
+      <MentionInput
+        inputRef={inputRef}
+        value={value}
+        autoFocus={autofocus}
+        onChange={onInputChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        partTypes={suggestionConfig}
+        placeholder={placeholder}
+        containerStyle={[styles.mentionsStyles, props.style]}
+        style={styles.input}
+      />
+      <View style={styles.charactorCountContainer}>
+        {props.showCharacterCount && (
+          <HoliText size="extrasmall" style={styles.charactorCountText}>
+            {characterCount} / {props.maxNoOfCharacters}
+          </HoliText>
+        )}
+      </View>
+    </View>
   )
 }
 
@@ -207,5 +209,13 @@ const styles = StyleSheet.create({
   },
   inlineUrl: {
     color: colors.foreground20,
+  },
+  charactorCountText: {
+    color: colors.foreground20,
+  },
+  charactorCountContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginTop: 6,
   },
 })

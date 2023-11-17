@@ -8,13 +8,14 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { EditorState, LexicalEditor } from 'lexical'
 // import { $createParagraphNode, $createTextNode, $getRoot, $getSelection } from 'lexical'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
 import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
 import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
@@ -32,6 +33,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   ...props
 }) => {
   const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
+  const [characterCount, setCharacterCount] = useState(0)
 
   const findUserMapped = useCallback(
     (substring: string): Promise<User[]> => {
@@ -52,12 +54,17 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   const onChange = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
-      // const root = $getRoot()
-      // const selection = $getSelection()
-      // const json = editorState.toJSON()
       const htmlString = $generateHtmlFromNodes(editor, null)
-      const pureText = $getPureTextFromHtml(htmlString)
+      const pureText = $getPureTextFromHtml(htmlString).trim()
       props.onChange?.(pureText)
+
+      // Update the character count
+      setCharacterCount(pureText.length)
+
+      // Check if the character count exceeds the max characters
+      if (props.maxNoOfCharacters && characterCount > props.maxNoOfCharacters) {
+        setIsInputDisabled(true)
+      }
     })
   }
 
@@ -110,6 +117,13 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
           placeholder={<span style={styles.placeholder}>{placeholder}</span>}
         />
         <OnChangePlugin onChange={onChange} />
+        <View style={styles.charactorCountContainer}>
+          {props.showCharacterCount && (
+            <HoliText size="extrasmall" style={styles.charactorCountText}>{`${characterCount ? characterCount : 0}/${
+              props.maxNoOfCharacters
+            }`}</HoliText>
+          )}
+        </View>
         <HistoryPlugin />
         <HoliFocusPlugin autofocus={autofocus} onFocus={props?.onFocus} onBlur={props?.onBlur} />
         <HoliMentionsPlugin
@@ -142,5 +156,13 @@ const styles = StyleSheet.create({
     userSelect: 'none',
     display: 'inline-block',
     pointerEvents: 'none',
+  },
+  charactorCountText: {
+    color: colors.foreground20,
+  },
+  charactorCountContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginTop: 6,
   },
 })
