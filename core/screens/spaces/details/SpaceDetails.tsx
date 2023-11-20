@@ -14,6 +14,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
+import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -36,7 +37,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type SpaceDetailsParams = {
+export type SpaceDetailsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
 }
 
@@ -55,7 +56,7 @@ const SpaceDetails = () => {
   // On initial page load on web `spaceIdOrName` is undefined
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
-  const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { loading, error, data, refetch, called } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
     skip: !spaceIdOrName,
@@ -93,6 +94,8 @@ const SpaceDetails = () => {
   const { userId } = useAuth()
 
   const isCreator = space?.creator?.id === userId
+
+  useRefreshOnNavigation({ initialized: called, onRefresh })
 
   useEffect(() => {
     if (!isOnboarded && !isCreator && isMember) {

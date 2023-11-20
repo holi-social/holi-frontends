@@ -6,6 +6,7 @@ import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -25,14 +26,15 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type EditSpaceCollaboratorsParams = {
+export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
   tab?: string
   userId?: string
 }
 
-const PAGE_SIZE = 20
 const { useParam } = createParam<EditSpaceCollaboratorsParams>()
+
+const PAGE_SIZE = 20
 const TAB_COLLABORATORS = 0
 const TAB_PENDING = 1
 
@@ -51,14 +53,14 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
-  const { data, loading } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
-    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
+  const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
+    variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
+    variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
-    variables: { idOrName: spaceIdOrName, limit: PAGE_SIZE },
+    variables: { idOrName: spaceIdOrName },
   })
 
   useLayoutEffect(() => {
@@ -111,6 +113,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   )
 
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchMembers(), refetchPendingRequests()]))
+
+  useRefreshOnNavigation({ initialized: called, onRefresh })
 
   if (loading) {
     return <HoliLoader />

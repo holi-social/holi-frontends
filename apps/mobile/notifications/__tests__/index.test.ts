@@ -90,30 +90,81 @@ describe('transformPushInteractionToUrl', () => {
     expect(url).toBeFalsy()
   })
 
-  it('should create correct url for space membership request notification on Android', () => {
+  const tests = [
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+      expectedUrl: 'holi://spaces/space1/collaborators/manage?tab=pending&userId=123&refresh=true',
+    },
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
+      expectedUrl: 'holi://spaces/space1?refresh=true',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN,
+      expectedUrl: 'holi://spaces/space1?refresh=true',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER,
+      expectedUrl: 'holi://spaces/space1',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN,
+      expectedUrl: 'holi://spaces/space1',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
+      expectedUrl: 'holi://spaces/space1',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER,
+      expectedUrl: 'holi://spaces/space1?refresh=true',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN,
+      expectedUrl: 'holi://spaces/space1?refresh=true',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER,
+      expectedUrl: 'holi://spaces/space1',
+    },
+
+    {
+      notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN,
+      expectedUrl: 'holi://spaces/space1',
+    },
+  ]
+
+  it.each(tests)('should create correct url for $notificationType on Android', ({ notificationType, expectedUrl }) => {
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
-        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType,
         data: JSON.stringify({
           space: { name: 'space1' },
           user: { id: '123' },
         }),
       })
     )
-    expect(url).toEqual('holi://spaces/space1/collaborators/manage?tab=pending&userId=123')
+    expect(url).toEqual(expectedUrl)
   })
 
-  it('should create correct url for space membership request notification on iOS', () => {
+  it.each(tests)('should create correct url for $notificationType on iOS', ({ notificationType, expectedUrl }) => {
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
-        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+        notificationType,
         data: {
           space: { name: 'space1' },
           user: { id: '123' },
         },
       })
     )
-    expect(url).toEqual('holi://spaces/space1/collaborators/manage?tab=pending&userId=123')
+    expect(url).toEqual(expectedUrl)
   })
 
   it('should create correct url for space membership request notification if user id is missing on Android', () => {
@@ -125,7 +176,7 @@ describe('transformPushInteractionToUrl', () => {
         }),
       })
     )
-    expect(url).toEqual('holi://spaces/space1/collaborators/manage?tab=pending')
+    expect(url).toEqual('holi://spaces/space1/collaborators/manage?tab=pending&refresh=true')
   })
 
   it('should create correct url for space membership request notification if user id is missing on iOS', () => {
@@ -137,7 +188,7 @@ describe('transformPushInteractionToUrl', () => {
         },
       })
     )
-    expect(url).toEqual('holi://spaces/space1/collaborators/manage?tab=pending')
+    expect(url).toEqual('holi://spaces/space1/collaborators/manage?tab=pending&refresh=true')
   })
 
   it('should not create url for space membership request notification if space name is missing on Android', () => {
@@ -158,58 +209,6 @@ describe('transformPushInteractionToUrl', () => {
     )
     expect(url).toBeFalsy()
     expect(mockConsoleWarn).toHaveBeenCalled()
-  })
-
-  it('should create correct url for space membership request approval notification on Android', () => {
-    const url = transformPushInteractionToUrl(
-      createAndroidNotificationResponse({
-        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
-        data: JSON.stringify({
-          space: { name: 'space1' },
-          user: { id: '123' },
-        }),
-      })
-    )
-    expect(url).toEqual('holi://spaces/space1/')
-  })
-
-  it('should create correct url for space membership request approval notification on iOS', () => {
-    const url = transformPushInteractionToUrl(
-      createIOSNotificationResponse({
-        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
-        data: {
-          space: { name: 'space1' },
-          user: { id: '123' },
-        },
-      })
-    )
-    expect(url).toEqual('holi://spaces/space1/')
-  })
-
-  it('should create correct url for space membership invite notification on Android', () => {
-    const url = transformPushInteractionToUrl(
-      createAndroidNotificationResponse({
-        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
-        data: JSON.stringify({
-          space: { name: 'space1' },
-          user: { id: '123' },
-        }),
-      })
-    )
-    expect(url).toEqual('holi://spaces/space1/')
-  })
-
-  it('should create correct url for space membership invite notification on iOS', () => {
-    const url = transformPushInteractionToUrl(
-      createIOSNotificationResponse({
-        notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
-        data: {
-          space: { name: 'space1' },
-          user: { id: '123' },
-        },
-      })
-    )
-    expect(url).toEqual('holi://spaces/space1/')
   })
 
   it('should create correct url for post comment mention notification on Android', () => {
