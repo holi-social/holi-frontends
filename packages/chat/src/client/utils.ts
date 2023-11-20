@@ -11,11 +11,16 @@ import {
 
 import {
   ChatRoomEvent,
+  type RoomType,
+  type RoomWithSharedData,
   type SharedDataContent,
-  type SpaceGeneralRoomSharedDataContent,
+  type SpaceChildRoom,
+  type SpaceChildSharedDataContent,
 } from '@holi/chat/src/client/types'
 
 type RoomListener = Listener<RoomEvent, ListenerMap<RoomEvent>, RoomEvent>
+
+export const isSpaceChildRoom = (room: RoomWithSharedData): room is SpaceChildRoom => room.type === 'space.child'
 
 export const isEventWithSharedData = (event: IStateEventWithRoomId): boolean => event.type === ChatRoomEvent.SharedData
 
@@ -23,9 +28,21 @@ export const isSharedDataContent = (content: IContent): content is SharedDataCon
   return !!content && content?.holiSpaceId
 }
 
-export const isSpaceGeneralRoomContent = (content: SharedDataContent): content is SpaceGeneralRoomSharedDataContent => {
+export const isSpaceGeneralRoomContent = (content: SharedDataContent): content is SpaceChildSharedDataContent => {
   return !!content && 'parentSpaceRoomId' in content
 }
+
+export const getRoomType = (room: Room): RoomType => {
+  if (room.isSpaceRoom()) return 'space'
+  // TODO: This predicate will only work for space rooms with only one child room
+  if (room.name === '#general') return 'space.child'
+  return 'private'
+}
+
+export const createInitialRoom = (room: Room): RoomWithSharedData => ({
+  type: 'private',
+  room: room,
+})
 
 /**
  *

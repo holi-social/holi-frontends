@@ -16,11 +16,11 @@ type EditSpaceAvatarProps = {
 }
 
 const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: EditSpaceAvatarProps) => {
-  const [avatar, setAvatar] = useState<HoliImageInfo | undefined>()
+  const [avatar, setAvatar] = useState<HoliImageInfo | null>()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
-  const handleImageUpload = (image: HoliImageInfo | undefined) => {
+  const handleImageUpload = (image: HoliImageInfo | null) => {
     setAvatar(image)
   }
 

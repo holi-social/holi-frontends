@@ -21,7 +21,6 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.CONNECTION_REQUEST,
   NotificationType.CONNECTION_ACCEPTED,
   NotificationType.CONNECTION_CONFIRMED,
-  NotificationType.POST_COMMENT_USER_MENTION,
   NotificationType.COMMUNITY_MEMBERSHIP_REQUEST,
   NotificationType.COMMUNITY_MEMBERSHIP_APPROVED,
   NotificationType.COMMUNITY_MEMBERSHIP_REVOKED,
@@ -37,6 +36,7 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER,
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN,
   NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
+  NovuNotificationType.POST_COMMENT_MENTION,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -47,7 +47,7 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.CONNECTION_ACCEPTED:
     case NotificationType.CONNECTION_CONFIRMED:
       return <NotificationConnectionItem notification={notification} {...props} testID="connection" />
-    case NotificationType.POST_COMMENT_USER_MENTION:
+    case NovuNotificationType.POST_COMMENT_MENTION:
       return <NotificationPostItem notification={notification} {...props} testID="post-comment-mention" />
     case NotificationType.COMMUNITY_MEMBERSHIP_REQUEST:
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:

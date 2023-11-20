@@ -210,4 +210,32 @@ describe('transformPushInteractionToUrl', () => {
     expect(url).toBeFalsy()
     expect(mockConsoleWarn).toHaveBeenCalled()
   })
+
+  it('should create correct url for post comment mention notification on Android', () => {
+    const url = transformPushInteractionToUrl(
+      createAndroidNotificationResponse({
+        notificationType: NovuNotificationType.POST_COMMENT_MENTION,
+        data: JSON.stringify({
+          user: { id: 'user_id' },
+          post: { id: 'post_id', title: 'post title' },
+          comment: { id: 'comment_id', text: 'comment text' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+  })
+
+  it('should create correct url for post comment mention notification on iOS', () => {
+    const url = transformPushInteractionToUrl(
+      createIOSNotificationResponse({
+        notificationType: NovuNotificationType.POST_COMMENT_MENTION,
+        data: JSON.stringify({
+          user: { id: 'user_id' },
+          post: { id: 'post_id', title: 'post title' },
+          comment: { id: 'comment_id', text: 'comment text' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+  })
 })

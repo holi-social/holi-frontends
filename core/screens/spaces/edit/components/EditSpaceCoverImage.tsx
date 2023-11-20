@@ -16,11 +16,11 @@ type EditSpaceCoverImageProps = {
 }
 
 const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
-  const [coverImage, setCoverImage] = useState<HoliImageInfo | undefined>()
+  const [coverImage, setCoverImage] = useState<HoliImageInfo | null>()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
-  const handleImageUpload = (image: HoliImageInfo | undefined) => {
+  const handleImageUpload = (image: HoliImageInfo | null) => {
     setCoverImage(image)
   }
 

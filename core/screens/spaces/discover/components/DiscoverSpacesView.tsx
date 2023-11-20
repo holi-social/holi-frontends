@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -10,9 +10,13 @@ import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilte
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowRightS } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface DiscoverSpacesViewProps {
   style?: StyleProp<ViewStyle>
@@ -59,6 +63,8 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
   }, [isLoggedIn, navigate, openLoginModal])
 
+  const { height, width } = useWindowDimensions()
+
   return (
     <View style={style} testID="spaces-container">
       <HoliHeading level="1" size="large" style={styles.headerTitle} testID="discover-spaces-header">
@@ -72,10 +78,33 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
           label={t('spaces.discover.create.button')}
           onPress={handleCreateSpaceButtonPress}
           testID="discover-spaces-create-button"
+          style={styles.createSpaceButton}
         >
           {t('spaces.discover.create.button')}
         </HoliButton>
       </View>
+      <HoliButton
+        label={t('spaces.discover.learnMore.button')}
+        onPress={() => navigate('/about-spaces/')}
+        testID="discover-spaces-about-button"
+        transparent
+      >
+        <View style={styles.compositionImageContainer}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
+            resizeMode="contain"
+            width={Platform.OS === 'web' ? width : 324 * 1.15}
+            height={Platform.OS === 'web' ? height : 188 * 1.15}
+            style={styles.compositionImage}
+            label={t('spaces.about.banner.title')}
+          />
+
+          <View style={styles.learnMoreDescription}>
+            <HoliHeading level="3">{t('spaces.about.banner.title')}</HoliHeading>
+            <HoliIcon icon={ArrowRightS} color={colors.foreground30} />
+          </View>
+        </View>
+      </HoliButton>
 
       <View style={styles.body}>
         {userTopics.map((userTopic, index) => {
@@ -185,7 +214,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   body: {
-    marginTop: 37,
+    marginTop: 32,
   },
   spacesGroup: {
     marginBottom: 30,
@@ -197,6 +226,35 @@ const styles = StyleSheet.create({
   createSpaceButtonContainer: {
     marginTop: 8,
     alignSelf: 'flex-start',
+    marginBottom: 32,
+  },
+  createSpaceButton: {
+    borderWidth: 1,
+  },
+  compositionImage: {
+    aspectRatio: 324 / 188,
+  },
+  compositionImageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    backgroundColor: colors.background10,
+    borderRadius: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 24,
+    gap: 20,
+    borderWidth: 1,
+    borderColor: colors.background30,
+  },
+  learnMoreDescription: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingLeft: 14,
+    paddingRight: 20,
+    alignItems: 'center',
   },
 })
 

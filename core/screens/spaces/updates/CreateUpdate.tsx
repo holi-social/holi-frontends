@@ -36,6 +36,7 @@ const CreateSpaceUpdate = () => {
     content,
     setContent,
     image,
+    currentImage,
     setImage,
     visibility,
     setVisibility,
@@ -68,7 +69,7 @@ const CreateSpaceUpdate = () => {
     setContent(content)
   }
 
-  const onChangeImage = (image: HoliImageInfo | undefined) => {
+  const onChangeImage = (image: HoliImageInfo | null) => {
     setImage(image)
   }
 
@@ -112,6 +113,7 @@ const CreateSpaceUpdate = () => {
           title={title}
           content={content}
           image={image}
+          currentImageUri={currentImage?.url}
           isAdmin={isAdmin}
         />
       </SpaceFormScreenLayout>

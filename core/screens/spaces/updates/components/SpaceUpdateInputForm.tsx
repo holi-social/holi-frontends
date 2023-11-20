@@ -13,13 +13,14 @@ export interface SpaceUpdateInputFormProps {
   onChangeVisibility: (_: VisibilityType) => void
   onChangeTitle: (title: string) => void
   onChangeContent: (title: string) => void
-  onUploadImage: (image: HoliImageInfo | undefined) => void
+  onUploadImage: (image: HoliImageInfo | null) => void
   visibility?: VisibilityType
   title: string
   content: string
-  image: HoliImageInfo | undefined
+  image: HoliImageInfo | undefined | null // null is to remove the image
   blurhash?: string
   isAdmin?: boolean
+  currentImageUri?: string
 }
 
 const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
@@ -33,6 +34,7 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
   image,
   blurhash,
   isAdmin,
+  currentImageUri,
 }) => {
   const { t } = useTranslation()
   const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption<VisibilityType>[]>(
@@ -109,6 +111,7 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
         onUploadImage={onUploadImage}
         image={image}
         blurhash={blurhash}
+        currentImageUri={currentImageUri}
         instructions={t('spaces.input.update.image.upload.hint')}
       />
     </>

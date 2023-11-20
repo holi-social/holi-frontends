@@ -3,7 +3,10 @@ import type { NotificationResponse, PushNotificationTrigger } from 'expo-notific
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { SpaceMembershipPushNotification } from '@holi/mobile/notifications/spacePushNotifications'
+import {
+  PostCommentPushNotification,
+  SpaceMembershipPushNotification,
+} from '@holi/mobile/notifications/spacePushNotifications'
 
 export type NotificationPayload = Record<string, unknown>
 
@@ -89,6 +92,26 @@ const spaceMemberShipUrlFrom = (notification: SpaceMembershipPushNotification) =
   }
 }
 
+const toPostCommentUrl = (notification: PostCommentPushNotification): string => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const { post, comment } = parsedData
+  return `holi://posts/${post.id}?commentId=${comment.id}`
+}
+
+const postCommentUrlFrom = (notification: PostCommentPushNotification) => {
+  try {
+    switch (notification.notificationType) {
+      case NovuNotificationType.POST_COMMENT_MENTION:
+        return toPostCommentUrl(notification)
+    }
+  } catch (error) {
+    logError(error, 'Failed to create url for post comment notification', {
+      location: 'notifications.postCommentUrlFrom',
+    })
+  }
+}
+
 export const transformPushInteractionToUrl = (response: Partial<NotificationResponse>) => {
   const payload: NotificationPayload | undefined = extractPayloadFromNotification(response)
   if (!payload) {
@@ -106,6 +129,8 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
       return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
+    case NovuNotificationType.POST_COMMENT_MENTION:
+      return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
     default:
       // Default is chat notification
       return createUrlFromChatNotification(payload)
