@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
+import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
 import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
@@ -40,15 +41,17 @@ const NotificationWithSpaceAvatar = ({
           </View>
           <View style={styles.content}>
             <>
-              <HoliText size="small" style={styles.fontColorGray}>
-                {i18nKey ? (
+              {i18nKey ? (
+                <HoliText size="small" style={styles.fontColorGray}>
                   <Trans t={t} i18nKey={i18nKey} values={{ user: fullName, space: title }}>
                     <HoliText size="small" />
                   </Trans>
-                ) : (
-                  notification.content
-                )}
-              </HoliText>
+                </HoliText>
+              ) : (
+                <NotificationContentText size="small" style={[styles.fontColorGray, styles.message]}>
+                  {notification.content}
+                </NotificationContentText>
+              )}
 
               <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
                 {getRelativeDateString(created, i18n.language)}
