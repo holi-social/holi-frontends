@@ -238,4 +238,32 @@ describe('transformPushInteractionToUrl', () => {
     )
     expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
   })
+
+  it('should create correct url for post comment author notification on Android', () => {
+    const url = transformPushInteractionToUrl(
+      createAndroidNotificationResponse({
+        notificationType: NovuNotificationType.POST_COMMENT_AUTHOR,
+        data: JSON.stringify({
+          user: { id: 'user_id' },
+          post: { id: 'post_id', title: 'post title' },
+          comment: { id: 'comment_id', text: 'comment text' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+  })
+
+  it('should create correct url for post comment author notification on iOS', () => {
+    const url = transformPushInteractionToUrl(
+      createIOSNotificationResponse({
+        notificationType: NovuNotificationType.POST_COMMENT_AUTHOR,
+        data: JSON.stringify({
+          user: { id: 'user_id' },
+          post: { id: 'post_id', title: 'post title' },
+          comment: { id: 'comment_id', text: 'comment text' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+  })
 })

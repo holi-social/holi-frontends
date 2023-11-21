@@ -135,6 +135,7 @@ function mapToNotification(message: IMessage): NotificationSpaceConnection | Not
         content: message.content.toString(),
       }
     case NovuNotificationType.POST_COMMENT_MENTION:
+    case NovuNotificationType.POST_COMMENT_AUTHOR:
       return {
         id: message._id,
         notificationType,
