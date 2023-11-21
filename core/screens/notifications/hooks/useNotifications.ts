@@ -1,7 +1,7 @@
 import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { logError, logErrorLocal } from '@holi/core/errors/helpers'
+import { LogFunction, logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
@@ -46,19 +46,22 @@ export const useNotifications = () => {
   )
 
   const fetchMessages = useCallback(
-    async (pageToFetch = 0, logFunction = logError) =>
+    async ({
+      pageToFetch,
+      logFunction,
+      onSuccess,
+    }: { pageToFetch?: number; logFunction?: LogFunction; onSuccess?: () => void } = {}) =>
       novuService
-        ?.getNotificationsList(pageToFetch, {
+        ?.getNotificationsList(pageToFetch || 0, {
           limit: NOVU_NOTIFICATIONS_PAGE_SIZE,
         })
         .then((response) => {
-          if (!response.hasMore) {
-            setCanFetchMore(false)
-          }
+          onSuccess && onSuccess()
+          setCanFetchMore(!!response.hasMore)
           processMessagesResponse(response)
         })
         .catch((error) =>
-          logFunction(error, 'Error fetching notifications from novu', {
+          (logFunction || logError)(error, 'Error fetching notifications from novu', {
             location: 'useNotifications.fetchMessages',
           })
         ),
@@ -71,7 +74,7 @@ export const useNotifications = () => {
     }
     logDebug('useNotifications.fetchNextPage', 'start to fetch page', nextPage)
     setIsFetchingMore(true)
-    return fetchMessages(nextPage).finally(() => {
+    return fetchMessages({ pageToFetch: nextPage, logFunction: logErrorLocal }).finally(() => {
       setIsFetchingMore(false)
       setNextPage((currentPage) => currentPage + 1)
     })
@@ -97,6 +100,16 @@ export const useNotifications = () => {
       })
   }, [notifications, novuService])
 
+  const refresh = useCallback(() => {
+    return fetchMessages({
+      onSuccess: () => {
+        // Reset current state to replace previous messages
+        setNotifications({})
+        setNextPage(1)
+      },
+    })
+  }, [fetchMessages])
+
   useEffect(() => {
     if (novuService) {
       setIsLoading(true)
@@ -110,6 +123,7 @@ export const useNotifications = () => {
     markAllNotificationsAsSeen,
     canFetchMore,
     fetchNextPage,
+    refresh,
   }
 }
 
