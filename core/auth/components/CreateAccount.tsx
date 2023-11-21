@@ -1,18 +1,11 @@
-import {
-  ContinueWith,
-  ContinueWithVerificationUi,
-  ContinueWithVerificationUiActionEnum,
-  RegistrationFlow,
-  SuccessfulNativeRegistration,
-  UpdateRegistrationFlowBody,
-} from '@ory/kratos-client'
+import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
-import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import { getVerificationFlowFromRegistration, initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
@@ -34,14 +27,6 @@ const isWeb = Platform.OS === 'web'
 
 interface CreateAccountProps {
   onRegister: () => void
-}
-
-const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith is ContinueWithVerificationUi => {
-  return continueWith.action === ContinueWithVerificationUiActionEnum.ShowVerificationUi
-}
-
-const getVerificationFlow = ({ continue_with }: SuccessfulNativeRegistration) => {
-  return continue_with?.find(isContinueWithVerificationUi)?.flow
 }
 
 const CreateAccount = ({ onRegister }: CreateAccountProps) => {
@@ -100,7 +85,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
         logDebug('CreateAccount', 'registration was successful')
 
-        const verificationFlowData = getVerificationFlow(data)
+        const verificationFlowData = getVerificationFlowFromRegistration(data)
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
 
