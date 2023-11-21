@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect, useMemo } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
@@ -40,6 +40,7 @@ const NotificationsOverview = () => {
     markAllNotificationsAsSeen,
     canFetchMore,
     fetchNextPage,
+    isFetchingMore,
     refresh,
   } = useNotifications()
 
@@ -79,20 +80,16 @@ const NotificationsOverview = () => {
     }
   }, [markAllNotificationsAsSeen, novuNotifications])
 
+  const footer = useMemo(() => <View style={styles.footer} />, [])
   const loadMoreComponent = useMemo(
-    () => (
-      <ScrollBasedCallbackInvocation
-        callback={fetchNextPage}
-        placeholder={<HoliLoader style={styles.loaderBottom} testID="fetch-more-loader" />}
-      />
-    ),
-    [fetchNextPage]
+    () => <ScrollBasedCallbackInvocation callback={fetchNextPage} placeholder={footer} />,
+    [fetchNextPage, footer]
   )
 
   const { refreshing, onRefresh } = useOnRefresh(refresh)
 
   if (loading || loadingNovuNotifications || notificationsQueryError)
-    return <HoliLoader style={{ height: 300 }} testID="loader" />
+    return <HoliLoader style={styles.loader} testID="loader" />
 
   if (!isLoggedIn) {
     return (
@@ -110,24 +107,30 @@ const NotificationsOverview = () => {
   const groupedNotifications = groupByDate(allNotifications)
 
   return (
-    <ScrollHeaderLayout.Refreshable
-      refreshableProps={{ refreshing, onRefresh }}
-      webWrapperStyle={styles.webWrapperStyle}
-      ScrollViewComponent={(props) => (
-        <NotificationSectionList
-          {...props}
-          notifications={groupedNotifications}
-          footer={canFetchMore ? loadMoreComponent : null}
-        />
-      )}
-    />
+    <>
+      {isFetchingMore ? <HoliLoader style={styles.loader} testID="fetch-more-loader" /> : null}
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{ refreshing, onRefresh }}
+        webWrapperStyle={styles.webWrapperStyle}
+        headerOverlap
+        ScrollViewComponent={(props) => (
+          <NotificationSectionList
+            {...props}
+            notifications={groupedNotifications}
+            footer={canFetchMore ? loadMoreComponent : footer}
+          />
+        )}
+      />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  loaderBottom: {
+  loader: {
+    height: 300,
+  },
+  footer: {
     marginBottom: +vars.bottomBarHeight,
-    position: 'relative',
   },
   webWrapperStyle: {
     backgroundColor: colors.background30,

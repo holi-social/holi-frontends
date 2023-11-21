@@ -69,7 +69,7 @@ export const useNotifications = () => {
   )
 
   const fetchNextPage = useCallback(async () => {
-    if (!novuService || isFetchingMore) {
+    if (!novuService || isFetchingMore || !canFetchMore) {
       return
     }
     logDebug('useNotifications.fetchNextPage', 'start to fetch page', nextPage)
@@ -78,7 +78,7 @@ export const useNotifications = () => {
       setIsFetchingMore(false)
       setNextPage((currentPage) => currentPage + 1)
     })
-  }, [fetchMessages, isFetchingMore, nextPage, novuService])
+  }, [canFetchMore, fetchMessages, isFetchingMore, nextPage, novuService])
 
   const markAllNotificationsAsSeen = useCallback(async () => {
     const messageIds = Object.values(notifications)
@@ -123,6 +123,7 @@ export const useNotifications = () => {
     markAllNotificationsAsSeen,
     canFetchMore,
     fetchNextPage,
+    isFetchingMore,
     refresh,
   }
 }

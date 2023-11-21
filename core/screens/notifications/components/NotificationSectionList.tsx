@@ -27,24 +27,6 @@ export const NotificationSectionList: React.FC<NotificationSectionList> = ({
   const mixins = useStyleMixins()
   const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
-  const styles = StyleSheet.create({
-    sectionList: {
-      overflow: 'visible',
-    },
-    listHeaderSpacer: {
-      height: +vars.topBarHeight,
-    },
-    groupTitle: {
-      paddingVertical: 12,
-    },
-    lastSectionFooter: {
-      marginBottom: +vars.bottomBarHeight,
-    },
-    notification: {
-      paddingVertical: 12,
-    },
-  })
-
   return (
     <SectionList
       sections={notifications}
@@ -55,16 +37,29 @@ export const NotificationSectionList: React.FC<NotificationSectionList> = ({
           {section.title}
         </HoliHeading>
       )}
-      renderSectionFooter={({ section }) =>
-        section === notifications[notifications.length - 1] ? footer || <View style={styles.lastSectionFooter} /> : null
-      }
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       stickySectionHeadersEnabled={false}
+      ListFooterComponent={footer}
+      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
+      ListEmptyComponent={<NotificationsEmptyPlaceholder />}
       style={[mixins.container, styles.sectionList]}
       testID="notification-list"
-      ListEmptyComponent={<NotificationsEmptyPlaceholder />}
       {...throttledScrollEventProps}
       {...scrollViewProps}
     />
   )
 }
+
+const styles = StyleSheet.create({
+  sectionList: {
+    overflow: 'visible',
+  },
+  listHeaderSpacer: {
+    height: +vars.topBarHeight,
+  },
+  groupTitle: {
+    paddingVertical: 12,
+  },
+  notification: {
+    paddingVertical: 12,
+  },
+})
