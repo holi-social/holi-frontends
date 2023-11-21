@@ -12,19 +12,15 @@ const PULL_DEVIDER = 2
 const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutProps>(
   (
     {
-      refreshableProps: {
-        Loader,
-        isLoading,
-        onRefresh,
-        refreshHeight = +vars.topBarHeight + +vars.loaderHeight,
-        loaderTopOffset = +vars.loaderHeight,
-      },
+      refreshableProps: { refreshing, onRefresh },
+      ScrollViewComponent = Default,
+      webWrapperStyle,
       ...defaultLayoutProps
     },
     ref
   ) => {
-    const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset }} />
-    Loader = defaultLoader || Loader
+    const refreshHeight = +vars.topBarHeight + +vars.loaderHeight
+    const loaderTopOffset = +vars.loaderHeight
 
     const startPointRef = useRef(0)
     const [pullChange, setPullChange] = useState(0)
@@ -49,7 +45,7 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
 
     const endPull = () => {
       if (pullChange >= refreshHeight) {
-        onRefresh()
+        onRefresh && onRefresh()
       }
 
       startPointRef.current = 0
@@ -69,22 +65,23 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     })
 
     useEffect(() => {
-      if (!isLoading) {
+      if (!refreshing) {
         setPullChange(0)
       }
-    }, [isLoading])
+    }, [refreshing])
 
     return (
       <div
         className="refreshable-wrapper"
         style={{
-          marginTop: isLoading ? refreshHeight : pullChange,
+          marginTop: refreshing ? refreshHeight : pullChange,
           overscrollBehaviorY: 'contain',
           // animate only on endPull
           transition: !isPullInProgress ? 'all .3s ease-out' : '',
+          ...webWrapperStyle,
         }}
       >
-        {(isPullInProgress || isLoading) && (
+        {(isPullInProgress || refreshing) && (
           <div
             style={{
               position: 'absolute',
@@ -95,10 +92,10 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
               transform: `translateY(${(pullChange / refreshHeight) * 200})`,
             }}
           >
-            <Loader />
+            <HoliLoader style={{ top: loaderTopOffset }} />
           </div>
         )}
-        <Default {...defaultLayoutProps} ref={ref} />
+        <ScrollViewComponent {...defaultLayoutProps} ref={ref} />
       </div>
     )
   }

@@ -7,20 +7,28 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { vars } from '@holi/ui/styles/globalVars'
 
 const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutProps>(
-  ({ refreshableProps: { isLoading, onRefresh }, headerOverlap, ...defaultLayoutProps }, ref) => {
+  (
+    {
+      refreshableProps: { refreshing, onRefresh },
+      headerOverlap,
+      ScrollViewComponent = Default,
+      ...defaultLayoutProps
+    },
+    ref
+  ) => {
     const { top } = useSafeAreaInsets()
     const additionalOffset = (headerOverlap ? top : 0) + +vars.topBarHeight
 
     return (
-      <Default
+      <ScrollViewComponent
         {...defaultLayoutProps}
         refreshControl={
           Platform.OS === 'ios' ? (
             <View style={{ top: additionalOffset, zIndex: 10 }}>
-              <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             </View>
           ) : (
-            <RefreshControl refreshing={isLoading} onRefresh={onRefresh} progressViewOffset={additionalOffset} />
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressViewOffset={additionalOffset} />
           )
         }
         headerOverlap={headerOverlap}

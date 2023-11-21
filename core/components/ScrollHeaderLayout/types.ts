@@ -1,13 +1,13 @@
-import { ComponentProps } from 'react'
-import type RefreshableWrapper from 'react-native-fresh-refresh'
+import { CSSProperties, ReactNode } from 'react'
+import { RefreshControlProps } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 
 type DefaultProps = Omit<LayoutProps, 'refreshControl'>
-type RefreshableWrapperProps = Omit<ComponentProps<typeof RefreshableWrapper>, 'children'> & {
-  loaderTopOffset?: number
-}
 
 export interface RefreshableScrollHeaderLayoutProps extends DefaultProps {
-  refreshableProps: RefreshableWrapperProps
+  refreshableProps: RefreshControlProps
+  headerOverlap?: boolean
+  webWrapperStyle?: CSSProperties
+  ScrollViewComponent?: (props: LayoutProps) => ReactNode
 }
