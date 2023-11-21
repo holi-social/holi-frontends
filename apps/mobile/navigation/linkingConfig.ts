@@ -35,6 +35,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.Profile]: 'profile',
             [RouteName.SettingsOverview]: 'profile/settings',
             [RouteName.AccountSettings]: 'profile/settings/account',
+            [RouteName.NotificationSettings]: 'profile/settings/notifications',
             [RouteName.ChangePassword]: 'profile/settings/changePassword',
             [RouteName.ChangeEmail]: 'profile/settings/changeEmail',
             [RouteName.LegalDocuments]: 'profile/settings/legalDocuments',

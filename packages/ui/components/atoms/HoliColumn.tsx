@@ -8,6 +8,7 @@ import { createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 interface Props {
   /** Override align items of parent */
   alignSelf?: FlexStyle['alignSelf']
+  alignItems?: FlexStyle['alignItems']
   /** The factor of remaining space should be given to this node */
   flex?: FlexStyle['flex']
   width?: FlexStyle['width']
