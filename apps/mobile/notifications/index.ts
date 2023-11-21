@@ -103,6 +103,7 @@ const postCommentUrlFrom = (notification: PostCommentPushNotification) => {
   try {
     switch (notification.notificationType) {
       case NovuNotificationType.POST_COMMENT_MENTION:
+      case NovuNotificationType.POST_COMMENT_AUTHOR:
         return toPostCommentUrl(notification)
     }
   } catch (error) {
@@ -130,6 +131,7 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
       return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
     case NovuNotificationType.POST_COMMENT_MENTION:
+    case NovuNotificationType.POST_COMMENT_AUTHOR:
       return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
     default:
       // Default is chat notification

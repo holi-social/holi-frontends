@@ -68,6 +68,7 @@ export interface NotificationPost extends NotificationBase {
     | NotificationType.POST_REACTION
     | NotificationType.POST_USER_MENTION
     | NovuNotificationType.POST_COMMENT_MENTION
+    | NovuNotificationType.POST_COMMENT_AUTHOR
   options: PostCommentNotificationData
 }
 
