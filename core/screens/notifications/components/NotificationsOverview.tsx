@@ -4,8 +4,10 @@ import { StyleSheet } from 'react-native'
 import { string } from 'zod'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,7 +16,6 @@ import {
   NotificationGroup,
   NotificationSectionList,
 } from '@holi/core/screens/notifications/components/NotificationSectionList'
-import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
@@ -27,7 +28,7 @@ import {
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const NotificationsOverview = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -39,6 +40,7 @@ const NotificationsOverview = () => {
     markAllNotificationsAsSeen,
     canFetchMore,
     fetchNextPage,
+    refresh,
   } = useNotifications()
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
@@ -87,6 +89,8 @@ const NotificationsOverview = () => {
     [fetchNextPage]
   )
 
+  const { refreshing, onRefresh } = useOnRefresh(refresh)
+
   if (loading || loadingNovuNotifications || notificationsQueryError)
     return <HoliLoader style={{ height: 300 }} testID="loader" />
 
@@ -101,15 +105,22 @@ const NotificationsOverview = () => {
     )
   }
 
-  if (!containsNotifications(data?.notifications?.data) && !novuNotifications.length)
-    return <NotificationsEmptyPlaceholder />
-
   const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications]
 
   const groupedNotifications = groupByDate(allNotifications)
 
   return (
-    <NotificationSectionList notifications={groupedNotifications} footer={canFetchMore ? loadMoreComponent : null} />
+    <ScrollHeaderLayout.Refreshable
+      refreshableProps={{ refreshing, onRefresh }}
+      webWrapperStyle={styles.webWrapperStyle}
+      ScrollViewComponent={(props) => (
+        <NotificationSectionList
+          {...props}
+          notifications={groupedNotifications}
+          footer={canFetchMore ? loadMoreComponent : null}
+        />
+      )}
+    />
   )
 }
 
@@ -117,6 +128,9 @@ const styles = StyleSheet.create({
   loaderBottom: {
     marginBottom: +vars.bottomBarHeight,
     position: 'relative',
+  },
+  webWrapperStyle: {
+    backgroundColor: colors.background30,
   },
 })
 

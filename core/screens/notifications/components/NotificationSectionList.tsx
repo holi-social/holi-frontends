@@ -1,8 +1,9 @@
 import React from 'react'
-import { SectionList, StyleSheet, View } from 'react-native'
+import { ScrollViewProps, SectionList, StyleSheet, View } from 'react-native'
 
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
+import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { vars } from '@holi/ui/styles/globalVars'
@@ -13,10 +14,16 @@ export interface NotificationGroup {
   data: Notification[]
 }
 
-export const NotificationSectionList: React.FC<{
+interface NotificationSectionList extends ScrollViewProps {
   notifications: NotificationGroup[]
   footer?: React.ReactElement | null
-}> = (props) => {
+}
+
+export const NotificationSectionList: React.FC<NotificationSectionList> = ({
+  notifications,
+  footer,
+  ...scrollViewProps
+}) => {
   const mixins = useStyleMixins()
   const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
@@ -40,7 +47,7 @@ export const NotificationSectionList: React.FC<{
 
   return (
     <SectionList
-      sections={props.notifications}
+      sections={notifications}
       keyExtractor={({ id }) => id}
       renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
       renderSectionHeader={({ section }) => (
@@ -49,15 +56,15 @@ export const NotificationSectionList: React.FC<{
         </HoliHeading>
       )}
       renderSectionFooter={({ section }) =>
-        section === props.notifications[props.notifications.length - 1]
-          ? props.footer || <View style={styles.lastSectionFooter} />
-          : null
+        section === notifications[notifications.length - 1] ? footer || <View style={styles.lastSectionFooter} /> : null
       }
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       stickySectionHeadersEnabled={false}
       style={[mixins.container, styles.sectionList]}
       testID="notification-list"
+      ListEmptyComponent={<NotificationsEmptyPlaceholder />}
       {...throttledScrollEventProps}
+      {...scrollViewProps}
     />
   )
 }
