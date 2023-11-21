@@ -131,7 +131,7 @@ const TaskDetails = () => {
   return (
     <>
       <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ isLoading: refreshing, onRefresh }}
+        refreshableProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap

@@ -126,7 +126,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       keyboardShouldPersistTaps="handled"
       style={styles.wrapper}
       refreshableProps={{
-        isLoading: refreshing,
+        refreshing,
         onRefresh,
       }}
     >

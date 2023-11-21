@@ -298,7 +298,7 @@ const SpaceDetails = () => {
     <SafeAreaProvider>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         style={styles.defaultLayout}

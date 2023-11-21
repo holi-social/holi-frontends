@@ -180,7 +180,7 @@ const UserProfile = () => {
   return (
     <ScrollHeaderLayout.Refreshable
       refreshableProps={{
-        isLoading: refreshing,
+        refreshing,
         onRefresh,
       }}
     >
