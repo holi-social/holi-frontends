@@ -417,15 +417,19 @@
   "space.userConnection.FOLLOWER": "Follower",
   "space.userConnection.MEMBER": "Mitwirkende:r",
   "space.userConnection.MEMBERSHIP_INVITEE": "Eingeladen",
-  "spaces.about.banner.title": "Erfahre, wie Spaces deine Gruppe unterstützen können",
-  "spaces.about.page.title": "Wie Spaces euch nützen können",
+
+  "spaces.about.banner.title": "Du fragst dich, ob du deinen eigenen Space eröffnen solltest?",
+  "spaces.about.banner.description": "Egal, ob du Teil einer gemeinnützigen Organisation oder einer Gruppe von Freunden bist, die sich für soziale oder ökologische Themen einsetzt...",
+  "spaces.about.banner.button.title": "Erfahre mehr über Spaces",
+
+  "spaces.about.page.title": "Erfahre mehr über Spaces",
   "spaces.about.page.section1.title": "Wandel erfordert Handeln.\nStarte mit Spaces!",
   "spaces.about.page.section1.description": "Egal, ob du Teil einer gemeinnützigen Organisation oder einer Gruppe von Freunden bist, die sich für soziale oder ökologische Themen einsetzt - Spaces bietet dir den Raum für Zusammenarbeit, um deine interne Arbeit effektiv zu organisieren, deine öffentliche Reichweite zu erhöhen und neue Unterstützer zu finden.",
   "spaces.about.page.section2.title": "Organisiere deine Arbeit\nmit Open-Source-Tools",
   "spaces.about.page.section2.description": "Spaces machen es einfach, Videoanrufe und Veranstaltungen zu planen, Wissen, Dokumente und Dateien zu speichern und gemeinsam zu nutzen, über Updates und Team-Chats zu kommunizieren und Aufgaben innerhalb deiner Gruppe zu koordinieren. Außerdem sind weitere coole Funktionen in der Entwicklung.",
   "spaces.about.page.section3.title": "Steigert eure Sichtbarkeit\nund finde neue Supporter",
   "spaces.about.page.section3.description": "Präsentiere deine Initiative über Spaces in der Öffentlichkeit mit deinem Profil und indem du wichtige Neuigkeiten und To-dos teilst, bei denen deine Gruppe Hilfe benötigt. Finde neue Leute, die dein Projekt aktiv unterstützen und binde sie nahtlos ein.",
-  "spaces.about.page.lastPhrase": "Verändere die Welt,\nindem du deine Ideen\nin die Tat umsetzt.",
+  "spaces.about.page.lastPhrase": "Verändere die Welt, indem du deine Ideen in die Tat umsetzt.",
   "spaces.about.page.button.primary": "Eröffne deinen Space",
   "spaces.about.page.button.secondary": "Entdecke Spaces",
 
