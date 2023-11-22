@@ -1,5 +1,5 @@
 import React from 'react'
-import { SectionList, StyleSheet, View } from 'react-native'
+import { Platform, SectionList, StyleSheet, View } from 'react-native'
 
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
@@ -29,6 +29,11 @@ export const NotificationSectionList: React.FC<{
     },
     groupTitle: {
       paddingVertical: 12,
+      ...Platform.select({
+        android: {
+          paddingTop: 28,
+        },
+      }),
     },
     lastSectionFooter: {
       marginBottom: +vars.bottomBarHeight,
