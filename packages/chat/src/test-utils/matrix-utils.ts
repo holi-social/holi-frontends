@@ -33,7 +33,9 @@ export const matrixRoomFrom = (chatRoom: ChatRoom, isSpaceRoom = false): Room =>
         getState: () => ({
           getStateEvents: () => ({ getTs: () => 0 }),
         }),
+        getEvents: () => [],
       } as any),
+    getMxcAvatarUrl: () => '',
     isSpaceRoom: () => isSpaceRoom,
     on: () => ({} as Room),
     off: () => ({}),
