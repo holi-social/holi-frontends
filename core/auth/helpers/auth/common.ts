@@ -1,5 +1,13 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import type { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/kratos-client'
+import {
+  type ContinueWith,
+  type ContinueWithVerificationUi,
+  ContinueWithVerificationUiActionEnum,
+  type LoginFlow,
+  SuccessfulNativeRegistration,
+  type UpdateLoginFlowBody,
+  type UpdateLoginFlowWithPasswordMethod,
+} from '@ory/kratos-client'
 
 import {
   getVerificationFlow,
@@ -15,6 +23,14 @@ export const hasIdentifier = (
   loginFlowBody: UpdateLoginFlowBody | VerificationFlowData
 ): loginFlowBody is UpdateLoginFlowWithPasswordMethod => {
   return 'identifier' in loginFlowBody
+}
+
+const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith is ContinueWithVerificationUi => {
+  return continueWith.action === ContinueWithVerificationUiActionEnum.ShowVerificationUi
+}
+
+export const getVerificationFlowFromRegistration = ({ continue_with }: SuccessfulNativeRegistration) => {
+  return continue_with?.find(isContinueWithVerificationUi)?.flow
 }
 
 interface LoginOptions {

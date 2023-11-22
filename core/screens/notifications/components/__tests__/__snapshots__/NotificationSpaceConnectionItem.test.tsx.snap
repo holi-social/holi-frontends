@@ -612,20 +612,43 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
         >
           <Text
             accessible={false}
+            ellipsizeMode="tail"
+            numberOfLines={3}
+            onTextLayout={[Function]}
             selectable={true}
             style={
               {
+                "alignContent": "flex-start",
                 "color": "#787777",
                 "fontFamily": "Circular Std Book",
-                "fontSize": 14,
+                "fontSize": 16,
                 "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
+                "justifyContent": "center",
+                "lineHeight": 22.4,
                 "userSelect": "auto",
               }
             }
           >
-            Some User wants to join the Space Foo
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "marginBottom": 4,
+                  "marginTop": 16,
+                  "userSelect": "auto",
+                }
+              }
+              testID="notification-content-text"
+            >
+              Some User wants to join the Space Foo
 I would like to join!
+            </Text>
           </Text>
           <Text
             accessible={false}

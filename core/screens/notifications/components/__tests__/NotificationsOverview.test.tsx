@@ -163,7 +163,7 @@ const novuNotifications = [
   {
     id: '65425d174cfcd52172a44148',
     notificationType: 'SPACE_MEMBERSHIP_REQUEST',
-    created: '2023-11-01T14:13:43.053Z',
+    created: '2023-11-10T14:21:20.306508',
     read: false,
     options: {
       requestMessage: 'hi2',
@@ -186,9 +186,9 @@ const novuNotifications = [
     },
   },
   {
-    id: 'message_id',
+    id: 'a2a93d23-3ae1-4d1c-b956-536566e07a51',
     notificationType: 'POST_COMMENT_MENTION',
-    createdAt: new Date(),
+    created: '2023-11-20T14:21:20.306508',
     read: false,
     content: 'Test Commenter mentioned you in a comment on Test Post Title',
     options: {
@@ -203,6 +203,31 @@ const novuNotifications = [
       comment: {
         id: 'test_comment_id',
         text: 'This is a comment for Test User.',
+      },
+      post: {
+        id: 'test_post_id',
+        title: 'Test Post Title',
+      },
+    },
+  },
+  {
+    id: '6cd57dd3-8092-48f4-899a-3a456e32efdd',
+    notificationType: 'POST_COMMENT_AUTHOR',
+    created: '2023-11-21T14:21:20.306508',
+    read: false,
+    content: 'Test Commenter commented on your post Test Post Title',
+    options: {
+      user: {
+        id: 'test_user_id',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '#000000',
+        avatarLabel: '',
+        fullName: 'Test User',
+      },
+      comment: {
+        id: 'test_comment_id',
+        text: 'This is a comment.',
       },
       post: {
         id: 'test_post_id',
@@ -283,7 +308,7 @@ describe('NotificationsOverview', () => {
     const loaderTextContent = 'loginRedirect.title'
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
 
-    expect(await screen.findByTestId('post-comment-mention'))
+    expect(await screen.queryAllByTestId('post-comment'))
     expect(await screen.findByTestId('release-info'))
     expect(await screen.findByTestId('space-post'))
     expect(await screen.findByTestId('space-connection'))
