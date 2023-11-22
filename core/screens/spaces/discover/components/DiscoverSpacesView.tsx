@@ -16,7 +16,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface DiscoverSpacesViewProps {
   style?: StyleProp<ViewStyle>
@@ -47,6 +47,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
   const { openLoginModal } = useLoginModal()
+  const { width: screenWidth } = useWindowDimensions()
 
   const { loadingTopics: loading, topics = [] } = useContext(SpaceTermContext)
 
@@ -63,7 +64,8 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
   }, [isLoggedIn, navigate, openLoginModal])
 
-  const { height, width } = useWindowDimensions()
+  const { width } = useWindowDimensions()
+  const aspectRatio = 188 / 324
 
   return (
     <View style={style} testID="spaces-container">
@@ -89,19 +91,34 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         testID="discover-spaces-about-button"
         transparent
       >
-        <View style={styles.compositionImageContainer}>
+        <View
+          style={screenWidth > +vars.breakpointS ? styles.compositionImageContainerL : styles.compositionImageContainer}
+        >
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
             resizeMode="contain"
-            width={Platform.OS === 'web' ? width : 324 * 1.15}
-            height={Platform.OS === 'web' ? height : 188 * 1.15}
+            width={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? width : 324}
+            height={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? aspectRatio * width : 188}
             style={styles.compositionImage}
-            label={t('spaces.about.banner.title')}
+            label={t('spaces.about.banner.button.title')}
           />
-
-          <View style={styles.learnMoreDescription}>
-            <HoliHeading level="3">{t('spaces.about.banner.title')}</HoliHeading>
-            <HoliIcon icon={ArrowRightS} color={colors.foreground30} />
+          <View style={styles.learnMoreDescriptionContainer}>
+            {screenWidth > +vars.breakpointS && (
+              <>
+                <HoliHeading level="2" style={{ fontWeight: '400' }}>
+                  {t('spaces.about.banner.title')}
+                </HoliHeading>
+                <HoliText style={{ color: colors.foreground20, lineHeight: 23.68 }}>
+                  {t('spaces.about.banner.description')}
+                </HoliText>
+              </>
+            )}
+            <View style={screenWidth > +vars.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}>
+              <HoliHeading level="3" style={{ paddingRight: 8 }}>
+                {t('spaces.about.banner.button.title')}
+              </HoliHeading>
+              <HoliIcon icon={ArrowRightS} color={colors.foreground30} />
+            </View>
           </View>
         </View>
       </HoliButton>
@@ -210,7 +227,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   headerDescription: {
-    marginTop: 8,
+    paddingVertical: 12,
     fontWeight: '400',
   },
   body: {
@@ -232,13 +249,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   compositionImage: {
-    aspectRatio: 324 / 188,
+    flex: 1,
+    alignSelf: 'center',
   },
   compositionImageContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignContent: 'center',
     alignSelf: 'stretch',
     backgroundColor: colors.background10,
     borderRadius: 16,
@@ -248,13 +266,36 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.background30,
   },
+  compositionImageContainerL: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    backgroundColor: colors.background10,
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 24,
+    gap: 32,
+    borderWidth: 1,
+    borderColor: colors.background30,
+  },
   learnMoreDescription: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     width: '100%',
-    paddingLeft: 14,
-    paddingRight: 20,
+    justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  learnMoreDescriptionS: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  learnMoreDescriptionContainer: {
+    flex: 1,
+    paddingHorizontal: 14,
+    gap: 16,
   },
 })
 
