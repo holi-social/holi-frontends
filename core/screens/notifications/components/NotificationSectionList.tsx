@@ -1,6 +1,7 @@
 import React from 'react'
-import { ScrollViewProps, SectionList, StyleSheet, View } from 'react-native'
+import { SectionList, StyleSheet, View } from 'react-native'
 
+import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
@@ -14,14 +15,15 @@ export interface NotificationGroup {
   data: Notification[]
 }
 
-interface NotificationSectionList extends ScrollViewProps {
+interface NotificationSectionListProps extends LayoutProps {
   notifications: NotificationGroup[]
   footer?: React.ReactElement | null
 }
 
-export const NotificationSectionList: React.FC<NotificationSectionList> = ({
+export const NotificationSectionList: React.FC<NotificationSectionListProps> = ({
   notifications,
   footer,
+  style,
   ...scrollViewProps
 }) => {
   const mixins = useStyleMixins()
@@ -41,7 +43,7 @@ export const NotificationSectionList: React.FC<NotificationSectionList> = ({
       ListFooterComponent={footer}
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       ListEmptyComponent={<NotificationsEmptyPlaceholder />}
-      style={[mixins.container, styles.sectionList]}
+      style={[mixins.container, styles.sectionList, style]}
       testID="notification-list"
       {...throttledScrollEventProps}
       {...scrollViewProps}

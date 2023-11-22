@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect, useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
@@ -80,16 +80,32 @@ const NotificationsOverview = () => {
     }
   }, [markAllNotificationsAsSeen, novuNotifications])
 
-  const footer = useMemo(() => <View style={styles.footer} />, [])
-  const loadMoreComponent = useMemo(
-    () => <ScrollBasedCallbackInvocation callback={fetchNextPage} placeholder={footer} />,
-    [fetchNextPage, footer]
-  )
-
   const { refreshing, onRefresh } = useOnRefresh(refresh)
 
-  if (loading || loadingNovuNotifications || notificationsQueryError)
-    return <HoliLoader style={styles.loader} testID="loader" />
+  const topLoader = useMemo(() => <HoliLoader style={styles.loader} testID="loader" />, [])
+  const bottomLoader = useMemo(() => <HoliLoader style={styles.bottomLoader} testID="fetch-more-loader" />, [])
+  const footer = useMemo(() => <View style={styles.footer} />, [])
+  const loadMoreComponent = useMemo(
+    () =>
+      canFetchMore && !refreshing ? (
+        <ScrollBasedCallbackInvocation
+          callback={fetchNextPage}
+          placeholder={Platform.OS === 'android' ? footer : bottomLoader}
+        />
+      ) : (
+        footer
+      ),
+    [bottomLoader, canFetchMore, fetchNextPage, footer, refreshing]
+  )
+
+  const allNotifications = useMemo(
+    () => [...(data?.notifications?.data ?? []), ...novuNotifications],
+    [data?.notifications?.data, novuNotifications]
+  )
+
+  const groupedNotifications = useMemo(() => groupByDate(allNotifications), [allNotifications])
+
+  if (loading || loadingNovuNotifications || notificationsQueryError) return topLoader
 
   if (!isLoggedIn) {
     return (
@@ -102,24 +118,17 @@ const NotificationsOverview = () => {
     )
   }
 
-  const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications]
-
-  const groupedNotifications = groupByDate(allNotifications)
-
   return (
     <>
-      {isFetchingMore ? <HoliLoader style={styles.loader} testID="fetch-more-loader" /> : null}
+      {Platform.OS === 'android' && isFetchingMore ? topLoader : null}
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ refreshing, onRefresh }}
         webWrapperStyle={styles.webWrapperStyle}
         headerOverlap
-        ScrollViewComponent={(props) => (
-          <NotificationSectionList
-            {...props}
-            notifications={groupedNotifications}
-            footer={canFetchMore ? loadMoreComponent : footer}
-          />
-        )}
+        ScrollViewComponent={NotificationSectionList}
+        notifications={groupedNotifications}
+        footer={loadMoreComponent}
+        style={styles.scrollView}
       />
     </>
   )
@@ -128,6 +137,17 @@ const NotificationsOverview = () => {
 const styles = StyleSheet.create({
   loader: {
     height: 300,
+  },
+  bottomLoader: {
+    position: 'relative',
+    marginBottom: +vars.bottomBarHeight,
+  },
+  scrollView: {
+    ...Platform.select({
+      android: {
+        marginTop: +vars.topBarHeight,
+      },
+    }),
   },
   footer: {
     marginBottom: +vars.bottomBarHeight,

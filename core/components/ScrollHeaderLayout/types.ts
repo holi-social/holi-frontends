@@ -3,11 +3,11 @@ import { RefreshControlProps } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 
-type DefaultProps = Omit<LayoutProps, 'refreshControl'>
+type DefaultProps<T extends LayoutProps> = Omit<T, 'refreshControl'>
 
-export interface RefreshableScrollHeaderLayoutProps extends DefaultProps {
+export type RefreshableScrollHeaderLayoutProps<T extends LayoutProps> = DefaultProps<T> & {
   refreshableProps: RefreshControlProps
   headerOverlap?: boolean
   webWrapperStyle?: CSSProperties
-  ScrollViewComponent?: (props: LayoutProps) => ReactNode
+  ScrollViewComponent?: (props: T) => ReactNode
 }
