@@ -4,7 +4,6 @@ exports[`renders correctly with long text 1`] = `
 <View>
   <Text
     ellipsizeMode="tail"
-    numberOfLines={3}
     onTextLayout={[Function]}
     style={
       {
@@ -39,7 +38,6 @@ exports[`renders correctly with short text 1`] = `
 <View>
   <Text
     ellipsizeMode="tail"
-    numberOfLines={3}
     onTextLayout={[Function]}
     style={
       {
