@@ -308,7 +308,7 @@ describe('NotificationsOverview', () => {
     const loaderTextContent = 'loginRedirect.title'
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
 
-    expect(await screen.queryAllByTestId('post-comment'))
+    expect(await screen.findAllByTestId('post-comment'))
     expect(await screen.findByTestId('release-info'))
     expect(await screen.findByTestId('space-post'))
     expect(await screen.findByTestId('space-connection'))
