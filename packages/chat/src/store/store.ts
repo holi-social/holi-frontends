@@ -91,6 +91,21 @@ const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage)
   room.timestamp = message.timestamp
 })
 
+/**
+ * @description: adds (for first members `join` event) or update (for follow up `join/leave` events) a member in the ChatRoom.
+ * @see addOrUpdateMemeberInChatRoom
+ */
+const addOrUpdateMemeberInChatRoom = produce((room: ChatRoom, member: RoomMember) => {
+  const memberIdx = room.members.findIndex(({ id }) => id === member.userId)
+  const roomMember = createChatMember(member)
+
+  if (memberIdx >= 0) {
+    room.members.splice(memberIdx, 1, roomMember)
+  } else {
+    room.members.push(roomMember)
+  }
+})
+
 const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, chatRoom: ChatRoom) => {
   roomAtoms[chatRoom.id] = atom(chatRoom)
 })
@@ -823,9 +838,29 @@ _myMembershipSubscriberAtom.onMount = (setAtom) => getChatClient().subscribeToMy
  * is the only member available. Currently it does not update state,
  * but triggers client events that update state.
  */
-const _membershipSubscriberAtom = atom(null, () => {
-  return
-})
+const _membershipSubscriberAtom = atom(
+  null,
+  async (get, set, event: MatrixEvent, state: RoomState, member: RoomMember) => {
+    const membership = event.getContent().membership
+    const roomAtomsRecord = get(_roomAtomsRecordAtom)
+    const roomAtom = roomAtomsRecord[state.roomId]
+    if (!roomAtom || !membership) return
+
+    switch (membership) {
+      case 'join':
+      case 'leave': {
+        set(roomAtom, (room) => addOrUpdateMemeberInChatRoom(room, member))
+        break
+      }
+
+      case 'invite':
+      case 'ban':
+      case 'knock':
+      default:
+        break
+    }
+  }
+)
 
 _membershipSubscriberAtom.onMount = (setAtom) => {
   return getChatClient().subscribeToMembership(setAtom)
