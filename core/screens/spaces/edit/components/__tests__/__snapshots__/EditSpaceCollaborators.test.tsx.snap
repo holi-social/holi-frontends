@@ -19,14 +19,33 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
   }
   keyboardShouldPersistTaps="handled"
   onScroll={[Function]}
-  refreshableProps={
-    {
-      "isLoading": false,
-      "onRefresh": [Function],
-    }
+  refreshControl={
+    <View
+      style={
+        {
+          "top": 52,
+          "zIndex": 10,
+        }
+      }
+    >
+      <RefreshControlMock
+        onRefresh={[Function]}
+        refreshing={false}
+      />
+    </View>
   }
   scrollEventThrottle={125}
 >
+  <View
+    style={
+      {
+        "top": 52,
+        "zIndex": 10,
+      }
+    }
+  >
+    <RCTRefreshControl />
+  </View>
   <View>
     <View
       style={
@@ -943,14 +962,33 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
   }
   keyboardShouldPersistTaps="handled"
   onScroll={[Function]}
-  refreshableProps={
-    {
-      "isLoading": false,
-      "onRefresh": [Function],
-    }
+  refreshControl={
+    <View
+      style={
+        {
+          "top": 52,
+          "zIndex": 10,
+        }
+      }
+    >
+      <RefreshControlMock
+        onRefresh={[Function]}
+        refreshing={false}
+      />
+    </View>
   }
   scrollEventThrottle={125}
 >
+  <View
+    style={
+      {
+        "top": 52,
+        "zIndex": 10,
+      }
+    }
+  >
+    <RCTRefreshControl />
+  </View>
   <View>
     <View
       style={
