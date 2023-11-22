@@ -105,8 +105,6 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
         isRequired={true}
         noOfVisibleLines={5}
         maxNoOfVisibleLines={10}
-        // showCharacterCount={true}
-        // maxNoOfCharacters={1500}
       />
 
       <SpaceImageForm
