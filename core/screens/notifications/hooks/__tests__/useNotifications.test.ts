@@ -97,12 +97,13 @@ describe('useNotifications', () => {
   })
 
   it('should mark unread messages as seen only once per message', async () => {
-    const messagePage1 = aMessageListPage([
-      aMessage('n1', testMessage, aDateString),
-      aMessage('n2', testMessage, aDateString, true),
-      aMessage('n3', testMessage, aDateString),
-    ])
-    const messagePage2 = aMessageListPage([aMessage('n4', testMessage, aDateString)])
+    const messagePage1 = aMessageListPage(
+      Array.from({ length: 10 }, (_, index) =>
+        aMessage('n' + index, testMessage, aDateString, ![1, 3].includes(index))
+      ),
+      { hasMore: true }
+    )
+    const messagePage2 = aMessageListPage([aMessage('n11', testMessage, aDateString)])
     mockGetNotificationsList.mockResolvedValueOnce(messagePage1)
     mockGetNotificationsList.mockResolvedValue(messagePage2)
     mockMarkMessageAs.mockResolvedValue(undefined)
@@ -118,7 +119,7 @@ describe('useNotifications', () => {
 
     await result.current.markAllNotificationsAsSeen()
 
-    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n4'], { seen: true })
+    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n11'], { seen: true })
     expect(mockMarkMessageAs).toHaveBeenCalledTimes(2)
   })
 
@@ -165,6 +166,24 @@ describe('useNotifications', () => {
     expect(result.current.canFetchMore).toBeFalsy()
   })
 
+  it('should expose a flag if more messages are being fetched', async () => {
+    mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
+    mockGetNotificationsList.mockImplementation(
+      () => new Promise((resolve) => setTimeout(() => resolve(testResponse), 100))
+    )
+    const { result } = renderHook(() => useNotifications())
+
+    expect(result.current.isFetchingMore).toBeFalsy()
+
+    await act(async () => {
+      const response = result.current.fetchNextPage()
+      await waitFor(() => expect(result.current.isFetchingMore).toBeTruthy())
+      return response
+    })
+
+    expect(result.current.isFetchingMore).toBeFalsy()
+  })
+
   it('should fetch more pages and update message list', async () => {
     mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
     mockGetNotificationsList.mockResolvedValue(testResponse)
@@ -192,6 +211,79 @@ describe('useNotifications', () => {
     await act(() => result.current.fetchNextPage())
 
     expect(result.current.notifications.length).toEqual(10)
+  })
+
+  it('should refresh messages', async () => {
+    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
+    mockGetNotificationsList.mockResolvedValue(longTestResponse)
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(1))
+
+    await act(() => result.current.refresh())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(10))
+  })
+
+  it('should replace messages during refresh', async () => {
+    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
+    mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(1))
+
+    await act(() => result.current.refresh())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(0))
+  })
+
+  it('should handle errors during refresh and keep previous messages', async () => {
+    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
+    mockGetNotificationsList.mockRejectedValue(testError)
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(1))
+
+    await act(() => result.current.refresh())
+
+    await expect(result.current.notifications.length).toEqual(1)
+
+    expect(console.warn).toHaveBeenCalledWith(
+      '[useNotifications.fetchMessages] Error fetching notifications from novu',
+      testError,
+      {}
+    )
+  })
+
+  it('should reset pagination during refresh', async () => {
+    // Fetch page 1 => expect 10
+    mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
+    // Fetch page 2 => expect 11
+    mockGetNotificationsList.mockResolvedValueOnce(testResponse)
+    // Refresh, i.e. fetch page 1 again => expect 10
+    mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
+    // Fetch page 2 => expect 11
+    mockGetNotificationsList.mockResolvedValue(testResponse)
+
+    const { result } = renderHook(() => useNotifications())
+
+    await waitFor(() => expect(result.current.notifications.length).toEqual(10))
+
+    await act(() => result.current.fetchNextPage())
+
+    expect(result.current.notifications.length).toEqual(11)
+
+    await act(() => result.current.refresh())
+
+    expect(result.current.notifications.length).toEqual(10)
+
+    await act(() => result.current.fetchNextPage())
+
+    expect(result.current.notifications.length).toEqual(11)
+
+    expect(mockGetNotificationsList).toHaveBeenCalledWith(0, { limit: 10 })
+    expect(mockGetNotificationsList).toHaveBeenCalledWith(1, { limit: 10 })
+    expect(mockGetNotificationsList).not.toHaveBeenCalledWith(2, { limit: 10 })
   })
 })
 
