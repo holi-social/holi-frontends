@@ -46,9 +46,8 @@ const ChatRoomView = () => {
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
 
-  const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(
-    room?.members.map((m) => m.id) || []
-  )
+  const roomMemberIds = room?.members.map((m) => m.id) ?? []
+  const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
 
   const { user: loggedInUser } = useLoggedInUser()
   const requestMessages = useRequestRoomMessages()
