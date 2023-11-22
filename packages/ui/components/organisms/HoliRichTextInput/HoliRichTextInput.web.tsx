@@ -55,16 +55,15 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   const onChange = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
       const htmlString = $generateHtmlFromNodes(editor, null)
-      const pureText = $getPureTextFromHtml(htmlString).trim()
+      const pureText = $getPureTextFromHtml(htmlString)
       props.onChange?.(pureText)
 
       // Update the character count
       setCharacterCount(pureText.length)
 
       // Check if the character count exceeds the max characters
-      if (props.maxNoOfCharacters && characterCount > props.maxNoOfCharacters) {
-        setIsInputDisabled(true)
-      }
+      // if (props.maxNoOfCharacters && characterCount > props.maxNoOfCharacters) {
+      // }
     })
   }
 
