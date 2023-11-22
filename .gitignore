@@ -21,3 +21,4 @@ coverage
 license-disclaimer.txt
 
 *.apk
+.fleet
