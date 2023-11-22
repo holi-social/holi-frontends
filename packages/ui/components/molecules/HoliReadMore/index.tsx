@@ -26,7 +26,7 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
   const readMoreButtonText = t('component.readMore.readMore')
 
   // render a custom ellipsis for the truncated text
-  const ellipsis = '...'
+  const ellipsis = '…'
 
   const handleTextLayoutEvent = ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
     if (!lines.length) return
@@ -59,7 +59,8 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
     <>
       <Text
         onTextLayout={handleTextLayoutEvent}
-        numberOfLines={buttonState !== 'readLess' ? numberOfLines : undefined}
+        // initially render whole text to know the total lines of the text
+        // and afterwards let onTextLayout handle truncating to the correct number of lines
         ellipsizeMode="tail"
         style={styles.textContainer}
         testID={testID}
