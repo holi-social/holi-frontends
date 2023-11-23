@@ -1,26 +1,30 @@
 import {
   ClientEvent,
+  EventType,
   type IContent,
+  type IEvent,
+  type IRoomEvent,
+  type IStateEvent,
   type IStateEventWithRoomId,
   type Listener,
   type ListenerMap,
   MatrixClient,
+  MatrixEvent,
   type Room,
   RoomEvent,
 } from 'matrix-js-sdk'
 
 import {
   ChatRoomEvent,
-  type RoomType,
   type RoomWithSharedData,
   type SharedDataContent,
-  type SpaceChildRoom,
   type SpaceChildSharedDataContent,
 } from '@holi/chat/src/client/types'
+import { CHAT_ADMIN_USER_ID } from '@holi/chat/src/utils'
 
 type RoomListener = Listener<RoomEvent, ListenerMap<RoomEvent>, RoomEvent>
 
-export const isSpaceChildRoom = (room: RoomWithSharedData): room is SpaceChildRoom => room.type === 'space.child'
+export const isSpaceRoom = (room: Room) => room.isSpaceRoom()
 
 export const isEventWithSharedData = (event: IStateEventWithRoomId): boolean => event.type === ChatRoomEvent.SharedData
 
@@ -32,11 +36,10 @@ export const isSpaceGeneralRoomContent = (content: SharedDataContent): content i
   return !!content && 'parentSpaceRoomId' in content
 }
 
-export const getRoomType = (room: Room): RoomType => {
-  if (room.isSpaceRoom()) return 'space'
-  // TODO: This predicate will only work for space rooms with only one child room
-  if (room.name === '#general') return 'space.child'
-  return 'private'
+export const isIStateEvent = (event: IRoomEvent | IStateEvent): event is IStateEvent => 'state_key' in event
+
+export const isAdminChangeToMembership = (event: MatrixEvent, userId: string, loggedInUserId: string | null) => {
+  return isMembershipEvent(event) && userId === loggedInUserId && event.getSender() === CHAT_ADMIN_USER_ID
 }
 
 export const createInitialRoom = (room: Room): RoomWithSharedData => ({
@@ -102,3 +105,12 @@ export const setRoomsListeners = ({ client, roomEvent, rooms, createListener }: 
     unsubscribers.forEach((func) => func())
   }
 }
+
+export const getLastMessageEvent = (room: Room): Partial<IEvent> | undefined => {
+  const timelineEvents = room.getLiveTimeline().getEvents()
+  return [...timelineEvents].reverse().find((event) => event.getType() === EventType.RoomMessage)?.event
+}
+
+export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === 'm.space.child'
+
+export const isMembershipEvent = (event: MatrixEvent) => event.getType() === 'm.room.member'

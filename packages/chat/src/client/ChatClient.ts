@@ -7,7 +7,6 @@ import {
   HttpApiEvent,
   ICreateClientOpts,
   ICreateRoomOpts,
-  ISendEventResponse,
   IStartClientOpts,
   MatrixClient,
   MatrixEvent,
@@ -37,15 +36,17 @@ import {
 import {
   addRoomEventListener,
   createInitialRoom,
+  isAdminChangeToMembership,
   isEventWithSharedData,
   isSharedDataContent,
+  isSpaceChildEvent,
   isSpaceGeneralRoomContent,
+  isSpaceRoom,
   setRoomsListeners,
 } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
-import { chatServerUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
 
 import { configurePusher } from './configurePusher'
@@ -68,6 +69,58 @@ export default class ChatClient {
     const creator = members.find((m) => m.powerLevel === 100)
 
     return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
+  }
+
+  private getSpaceChildEvents(): MatrixEvent[] {
+    const client = this.mxClient
+
+    return client.getRooms().reduce((spaceEvents: MatrixEvent[], room: Room) => {
+      if (!isSpaceRoom(room)) return spaceEvents
+      if (!room.hasMembershipState(this.getUserId() ?? '', 'join')) return spaceEvents
+
+      const spaceChildEvents = room.getLiveTimeline().getState(Direction.Forward)?.getStateEvents(EventType.SpaceChild)
+      if (!spaceChildEvents) return spaceEvents
+
+      return spaceEvents.concat(spaceChildEvents)
+    }, [])
+  }
+
+  /**
+   * @description We are using the `m.space.child` events to space room
+   * approach, the state events get sent into the space room, which is the
+   * parent to the room. The `state_key` for the event is the child room’s ID;
+   * the `room_id` is the ID of the space room.
+   */
+  private createSpaceIdToChildIds(spaceChildEvents: MatrixEvent[]): Record<string, string[]> {
+    const spaceIdToChildIdsMap = new Map<string, string[]>()
+
+    for (const event of spaceChildEvents) {
+      const { room_id, state_key } = event.getEffectiveEvent()
+
+      if (!room_id || !state_key) continue
+      if (!spaceIdToChildIdsMap.has(room_id)) {
+        spaceIdToChildIdsMap.set(room_id, [state_key])
+        continue
+      }
+
+      const prevChildIds = spaceIdToChildIdsMap.get(room_id)
+      if (!prevChildIds) continue
+
+      spaceIdToChildIdsMap.set(room_id, [...prevChildIds, state_key])
+    }
+
+    return Object.fromEntries(spaceIdToChildIdsMap.entries())
+  }
+
+  private joinRoomFromAdminInvite(event: MatrixEvent, userId: string, loggedInUserId: string | null): void {
+    if (!isAdminChangeToMembership(event, userId, loggedInUserId)) return
+
+    const { membership } = event.getContent()
+    if (membership !== 'invite') return
+
+    this.joinRoom(event.getRoomId() ?? '').catch((err) => {
+      logError(err, 'Joining Room from adming invitation error', { location: 'ChatClient.joinRoomFromAdminInvite' })
+    })
   }
 
   public constructor(credentials: ChatCredentials) {
@@ -171,10 +224,12 @@ export default class ChatClient {
     return this.createRoom(userIds, options)
   }
 
-  public async addRoomToSpace(spaceId: string, spaceName: string, roomId: string): Promise<ISendEventResponse> {
-    await this.mxClient.sendStateEvent(roomId, ChatRoomEvent.SharedData, { spaceId, spaceName })
-
-    return await this.mxClient.sendStateEvent(spaceId, EventType.SpaceChild, { via: [chatServerUrl] }, roomId)
+  /**
+   * @description Collect all the space children's events for spaces and create
+   * a record of space to children's IDs.
+   */
+  public getSpaceIdToChildIdsRecord(): Record<string, string[]> {
+    return this.createSpaceIdToChildIds(this.getSpaceChildEvents())
   }
 
   /**
@@ -215,12 +270,14 @@ export default class ChatClient {
     return this.mxClient.createMessagesRequest(roomId, fromToken, 30, Direction.Backward)
   }
 
-  public getRoom = (id: string) => {
-    return this.mxClient.getRoom(id)
+  public getRoomNotificationCount(id: string): number {
+    const room = this.mxClient.getRoom(id)
+    if (room === null) return 0
+    return room.getUnreadNotificationCount()
   }
 
   // This are the rooms on initial loading
-  public getRooms = (): Room[] => {
+  public getRooms(): Room[] {
     return this.mxClient.getRooms()
   }
 
@@ -277,7 +334,7 @@ export default class ChatClient {
     return createInitialRoom(room)
   }
 
-  public getUserId = (): string | null => {
+  public getUserId(): string | null {
     return this.mxClient.getUserId()
   }
 
@@ -359,7 +416,7 @@ export default class ChatClient {
 
   public subscribeToIgnoredUsers(callback: (event: MatrixEvent) => void): (() => void) | void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handler = (event: MatrixEvent, lastEvent: MatrixEvent | undefined) => {
+    const handler = (event: MatrixEvent, _lastEvent: MatrixEvent | undefined) => {
       if (event.getType() !== EventType.IgnoredUserList) return
       callback(event)
     }
@@ -376,7 +433,6 @@ export default class ChatClient {
   ): (() => void) | void {
     const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
-
       // If the creator of the DM room is the last one we forget (delete) entirely the room
       // Example usage when the invited member in a two people DM rejects an invitation.
       if (this.isLastDmMember(roomState, member)) {
@@ -399,12 +455,6 @@ export default class ChatClient {
     callback: (room: Room, membership: string, prevMembership?: string) => void
   ): () => void {
     const membershipHandler = async (room: Room, membership: string, prevMembership?: string) => {
-      // TODO: This will only work with a space with only a #general room
-      if ((room.isSpaceRoom() || room.name === '#general') && membership === 'invite') {
-        await this.mxClient.joinRoom(room.roomId)
-        return
-      }
-
       callback(room, membership, prevMembership)
     }
 
@@ -523,6 +573,27 @@ export default class ChatClient {
     })
   }
 
+  public subscribeToRoomTimeline(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
+    const client = this.mxClient
+
+    const timelineListener = (event: MatrixEvent) => {
+      // We automatically join a room if the `invite` event was
+      // initated from the space chat admin user `@admin:local.chat.holi.social`
+      const { state_key } = event.getEffectiveEvent()
+      if (state_key) this.joinRoomFromAdminInvite(event, state_key, this.getUserId())
+      // Currently we only process space -> child event relationships
+      // but it can be extened to other areas relevant to the timeline.
+      if (!isSpaceChildEvent(event)) return
+      callback(this.createSpaceIdToChildIds([event]))
+    }
+
+    client.on(RoomEvent.Timeline, timelineListener)
+
+    return () => {
+      client.off(RoomEvent.Timeline, timelineListener)
+    }
+  }
+
   public subscribeToUnreadRoomsNotifications(callback: (roomId: string, notificationCount: NotificationCount) => void) {
     const client = this.mxClient
     const rooms = client.getRooms()
@@ -530,6 +601,7 @@ export default class ChatClient {
     // The handler to attach for each room listening
     const handleUnreadNotifications = (room: Room) => (notificationCount?: NotificationCount) => {
       if (!notificationCount) return
+
       callback(room.roomId, notificationCount)
     }
 

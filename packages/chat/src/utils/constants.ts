@@ -15,3 +15,5 @@ export const CHAT_LOCAL_STORAGE_KEY_TOKEN = 'mx_sso_token'
 
 // stored for quicker login (no need to fetch /api/chatlogin first)
 export const CHAT_LOCAL_STORAGE_KEY_DEVICE_ID = 'mx_device'
+
+export const CHAT_ADMIN_USER_ID = '@admin:local.chat.holi.social'
