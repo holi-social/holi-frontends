@@ -1,4 +1,4 @@
-import { useAtomValue } from 'jotai'
+import { atom, useAtomValue } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
@@ -6,7 +6,15 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatTabBar, { DEFAULT_TAB_ID } from '@holi/chat/src/components/ChatTabsBar'
 import RoomList from '@holi/chat/src/components/RoomList'
-import { ChatRoomAtom, roomAtomsSortedByDateAtom, spaceRoomAtomsRecordAtom } from '@holi/chat/src/store'
+import {
+  type ChatRoomAtom,
+  loggedInMemberIdAtom,
+  privateRoomAtomsAtom,
+  roomAtomsAtom,
+  roomAtomsSortedByDateAtom,
+  sortRoomByTimestamp,
+  spaceRoomIdToChildRoomsAtom,
+} from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
@@ -96,6 +104,48 @@ type ChatHomeContentParams = {
 
 const { useParam } = createParam<ChatHomeContentParams>()
 
+const tabRoomAtomsRecordAtom = atom<Record<string, ChatRoomAtom[]>>((get) => {
+  const roomAtoms = get(roomAtomsAtom)
+  const privateRooms = get(privateRoomAtomsAtom)
+  const spaceIdToChildRoomAtoms = get(spaceRoomIdToChildRoomsAtom)
+
+  const loggedInMemberId = get(loggedInMemberIdAtom)
+  const tabRooms: Record<string, ChatRoomAtom[]> = {}
+
+  for (const id in spaceIdToChildRoomAtoms) {
+    if (!privateRooms) continue
+
+    const spaceChildRooms = spaceIdToChildRoomAtoms[id]
+
+    const sharedPrivateRooms = spaceChildRooms.reduce((sharedRoomAtoms: ChatRoomAtom[], spaceChildRoomAtom) => {
+      if (!spaceChildRoomAtom) return sharedRoomAtoms
+      const spaceChildRoom = get(spaceChildRoomAtom)
+      if (!spaceChildRoom) return sharedRoomAtoms
+
+      const sharedPrivateRooms = privateRooms.filter((privateRoomAtom) => {
+        const sharedMember = spaceChildRoom.members.find(({ id }) => {
+          const privateRoom = get(privateRoomAtom)
+          if (!privateRoom) return false
+
+          return privateRoom.members.find((member) => loggedInMemberId !== id && member.id === id)
+        })
+
+        return Boolean(sharedMember)
+      })
+
+      return sharedRoomAtoms.concat(sharedPrivateRooms)
+    }, [])
+
+    tabRooms[id] = spaceChildRooms
+      .concat(sharedPrivateRooms)
+      .sort((roomAtomA, roomAtomB) => sortRoomByTimestamp(get(roomAtomA), get(roomAtomB)))
+  }
+
+  tabRooms.all = roomAtoms.sort((roomAtomA, roomAtomB) => sortRoomByTimestamp(get(roomAtomA), get(roomAtomB)))
+
+  return tabRooms
+})
+
 const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const [selectedTabId = DEFAULT_TAB_ID] = useParam('activeTab')
 
@@ -105,15 +155,10 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const { navigate } = useRouting()
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
-  const spaceRoomAtomsRecord = useAtomValue(spaceRoomAtomsRecordAtom)
+  const tabRoomAtomsRecord = useAtomValue(tabRoomAtomsRecordAtom)
 
   if (!sortedRoomAtoms.length) {
     return <ChatHomeNoExistingRooms />
-  }
-
-  const tabRoomAtomsRecord: Record<string, ChatRoomAtom[]> = {
-    ...spaceRoomAtomsRecord,
-    all: sortedRoomAtoms,
   }
 
   return (
