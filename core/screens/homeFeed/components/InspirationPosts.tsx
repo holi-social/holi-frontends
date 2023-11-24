@@ -17,7 +17,8 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const POSTS_PAGE_SIZE = 4
+const POSTS_PAGE_SIZE = 2
+const POSTS_TEXT_LINES_SHOWN = 5
 
 const InspirationPostsList = () => {
   const { t } = useTranslation()
@@ -37,12 +38,12 @@ const InspirationPostsList = () => {
         {loading
           ? new Array(POSTS_PAGE_SIZE).fill(1).map((_, idx) => (
               <HoliGridCell key={idx}>
-                <PostPreview style={styles.item} loading />
+                <PostPreview style={styles.item} numberOfLines={POSTS_TEXT_LINES_SHOWN} loading />
               </HoliGridCell>
             ))
           : posts.map((post) => (
               <HoliGridCell key={post.id}>
-                <PostPreview post={post} />
+                <PostPreview post={post} numberOfLines={POSTS_TEXT_LINES_SHOWN} />
               </HoliGridCell>
             ))}
       </HoliGridWrapper>
