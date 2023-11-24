@@ -1,0 +1,194 @@
+import { useMutation } from '@apollo/client'
+import React, { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
+import {
+  UpdateSpaceUserConnectionResponse,
+  updateSpaceUserConnectionMutation,
+} from '@holi/core/screens/spaces/details/mutations'
+import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
+import { Space, SpaceConnectionAction, SpaceInvite } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Close } from '@holi/icons/src/generated'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors } from '@holi/ui/styles/globalVars'
+
+const PAGE_SIZE = 10
+
+type SpaceInviteProps = {
+  space: Space
+  invite: SpaceInvite
+  style?: StyleProp<ViewStyle>
+}
+
+const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
+  const { t } = useTranslation()
+  const { openToast } = useToast()
+  const [withdrawn, setWithdrawn] = useState(false)
+
+  const { navigate } = useRouting()
+  const { displayError } = useErrorHandling()
+  const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
+  const handleNavigation = useCallback(
+    (id: string) => {
+      hidePermissions()
+      setTimeout(() => {
+        navigate('/profile/' + id)
+      })
+    },
+    [navigate, hidePermissions]
+  )
+
+  const invitedName = useMemo(() => invite.invitedUser.fullName || t('user.profileView.anonymous'), [invite, t])
+
+  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
+    updateSpaceUserConnectionMutation,
+    {
+      variables: {
+        spaceId: space.id,
+        userId: invite.invitedUser.id,
+      },
+      onCompleted() {
+        openToast(t('spaces.invite.user.witdrawn', { user: invitedName }), HoliToastType.SUCCESS)
+      },
+      onError(error) {
+        setWithdrawn(false)
+
+        const context = {
+          location: 'SpaceInviteItem',
+          spaceId: space.id,
+        }
+
+        if (
+          error.graphQLErrors.length > 0 &&
+          error.graphQLErrors[0].extensions?.errors?.includes('No invite to withdraw.')
+        ) {
+          displayError(error, 'Failed to remove space invite - No invite to withdraw.', {
+            displayMessage: t('spaces.invite.update.not-invited'),
+            ...context,
+          })
+        } else {
+          displayError(error, 'Failed to remove space invite', {
+            displayMessage: t('spaces.invite.update.error'),
+            ...context,
+          })
+        }
+      },
+      refetchQueries: [{ query: spaceMembersQuery, variables: { idOrName: space.name, pageSize: PAGE_SIZE } }],
+    }
+  )
+
+  const withdrawInvite = useCallback(() => {
+    setWithdrawn(true)
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.DISCONNECT,
+        connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+      },
+    })
+  }, [updateSpaceUserConnection, setWithdrawn])
+
+  const handleWithdrawInvite = useCallback(() => {
+    withdrawInvite()
+    hidePermissions()
+  }, [hidePermissions, withdrawInvite])
+
+  return (
+    <View key={invite.invitedUser.id} testID={'space-invite-item'} style={styles.wrapper}>
+      <HoliButton
+        transparent
+        inline
+        label={invitedName}
+        style={styles.userButton}
+        contentStyle={styles.userButtonContent}
+        onPress={showPermissions}
+      >
+        <HoliAvatar
+          imageSrc={invite.invitedUser.avatar}
+          imageBlurhash={invite.invitedUser.avatarBlurhash}
+          label={invite.invitedUser.fullName}
+          aria-label={invitedName}
+          initials={invite.invitedUser.avatarLabel}
+          defaultColor={invite.invitedUser.avatarDefaultColor}
+          size="small"
+          style={styles.avatar}
+        />
+        <View style={styles.name}>
+          <HoliText ellipsizeMode="tail" numberOfLines={1}>
+            {invitedName}
+          </HoliText>
+        </View>
+      </HoliButton>
+      {!loading && withdrawn && (
+        <HoliText style={styles.muted}>{t('spaces.collaborators.pending.invites.withdrawn')}</HoliText>
+      )}
+      {(loading || !withdrawn) && (
+        <HoliButton
+          key="decline"
+          type="secondary"
+          variant="small"
+          label={t('notifications.connection.ignore')}
+          onPress={withdrawInvite}
+          disabled={loading}
+          testID="withdraw-invite-button"
+          style={styles.button}
+        >
+          <HoliIcon icon={Close} size={22} />
+        </HoliButton>
+      )}
+      <SpacePermissions
+        space={space}
+        user={invite.invitedUser}
+        handleNavigation={handleNavigation}
+        handleWithdrawInvite={withdrawn ? undefined : handleWithdrawInvite}
+        hidePermissions={hidePermissions}
+        permissionsVisible={permissionsVisible}
+        isMember={false}
+        isAdministrator={false}
+        displayMemberActions={false}
+      />
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+  },
+  userButton: {
+    flex: 1,
+  },
+  userButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    borderWidth: 1,
+  },
+  name: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  muted: {
+    color: colors.foreground20,
+    paddingLeft: 8,
+  },
+  button: {
+    borderRadius: 50,
+    width: 40,
+    zIndex: 4,
+  },
+})
+
+export default SpaceInviteItem

@@ -16,6 +16,12 @@ export interface SpaceMembershipRequest {
   message?: string
 }
 
+export interface SpaceInvite {
+  id: string
+  invitedUser: User
+  message?: string
+}
+
 export enum SpaceLinkType {
   DISCORD = 'DISCORD',
   FACEBOOK = 'FACEBOOK',

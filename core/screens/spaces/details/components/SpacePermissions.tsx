@@ -31,6 +31,7 @@ type SpacePermissionsProps = {
   permissionsVisible: boolean
   hidePermissions: () => void
   handleJoinRequest?: (accept: boolean) => void
+  handleWithdrawInvite?: () => void
   isAdministrator?: boolean
   isMember?: boolean
   extraDescription?: string
@@ -44,6 +45,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   permissionsVisible,
   hidePermissions,
   handleJoinRequest,
+  handleWithdrawInvite,
   isAdministrator,
   isMember,
   extraDescription,
@@ -196,9 +198,25 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                   label={t('spaces.collaborators.pending.requests.decline.detailed')}
                   onPress={() => handleJoinRequest(false)}
                 >
-                  <HoliIcon icon={Close} color={styles.declineRequestIcon.color} />
+                  <HoliIcon icon={Close} color={styles.declineIcon.color} />
                   <HoliText style={styles.actionsItemText}>
                     {t('spaces.collaborators.pending.requests.decline.detailed')}{' '}
+                  </HoliText>
+                </HoliButton>
+              )}
+
+              {!isMember && !!handleWithdrawInvite && (
+                <HoliButton
+                  contentStyle={styles.actionsItem}
+                  inline
+                  transparent
+                  disabled={loading}
+                  label={t('spaces.collaborators.pending.invites.withdraw')}
+                  onPress={() => handleWithdrawInvite()}
+                >
+                  <HoliIcon icon={Close} color={styles.declineIcon.color} />
+                  <HoliText style={styles.actionsItemText}>
+                    {t('spaces.collaborators.pending.invites.withdraw')}{' '}
                   </HoliText>
                 </HoliButton>
               )}
@@ -379,7 +397,7 @@ const styles = StyleSheet.create({
   acceptRequestIcon: {
     color: colors.brandColorC30,
   },
-  declineRequestIcon: {
+  declineIcon: {
     color: colors.error30,
   },
 })
