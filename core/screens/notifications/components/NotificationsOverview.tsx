@@ -80,21 +80,21 @@ const NotificationsOverview = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refresh)
 
-  const topLoader = useMemo(() => <HoliLoader style={styles.loader} testID="loader" />, [])
-  const bottomLoader = useMemo(() => <HoliLoader style={styles.bottomLoader} testID="fetch-more-loader" />, [])
-  const footer = useMemo(() => <View style={styles.footer} />, [])
-  const loadMoreComponent = useMemo(
-    () =>
-      canFetchMore && !refreshing ? (
+  const topLoader = <HoliLoader style={styles.loader} testID="loader" />
+  const loadMoreComponent = useMemo(() => {
+    const footer = <View style={styles.footer} />
+    if (canFetchMore && !refreshing) {
+      return (
         <ScrollBasedCallbackInvocation
           callback={fetchNextPage}
-          placeholder={Platform.OS === 'android' ? footer : bottomLoader}
+          placeholder={
+            Platform.OS === 'android' ? footer : <HoliLoader style={styles.bottomLoader} testID="fetch-more-loader" />
+          }
         />
-      ) : (
-        footer
-      ),
-    [bottomLoader, canFetchMore, fetchNextPage, footer, refreshing]
-  )
+      )
+    }
+    return footer
+  }, [canFetchMore, fetchNextPage, refreshing])
 
   const allNotifications = useMemo(
     () => [...(data?.notifications?.data ?? []), ...novuNotifications],
