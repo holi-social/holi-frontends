@@ -160,9 +160,7 @@ export function createSpaceChildChatRoom(
  */
 export function createBaseChatRoom(room: Room, hasInvitation = false): BaseChatRoom {
   const lastMessageEvent = getLastMessageEvent(room)
-  const lastMessage = isRoomMessageEvent(lastMessageEvent)
-    ? createChatMessage(room.roomId, lastMessageEvent)
-    : undefined
+  const lastMessage = lastMessageEvent && createChatMessage(room.roomId, lastMessageEvent)
 
   const roomMxCreatorId = room.getCreator()
   const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null

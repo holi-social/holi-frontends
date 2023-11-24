@@ -36,6 +36,8 @@ export const isSpaceGeneralRoomContent = (content: SharedDataContent): content i
   return !!content && 'parentSpaceRoomId' in content
 }
 
+export const isIRoomEvent = (event: IRoomEvent | Partial<IEvent>): event is IRoomEvent =>
+  ['event_id', 'sender', 'origin_server_ts'].every((key) => key in event)
 export const isIStateEvent = (event: IRoomEvent | IStateEvent): event is IStateEvent => 'state_key' in event
 
 export const isAdminChangeToMembership = (event: MatrixEvent, userId: string, loggedInUserId: string | null) => {
@@ -106,11 +108,18 @@ export const setRoomsListeners = ({ client, roomEvent, rooms, createListener }: 
   }
 }
 
-export const getLastMessageEvent = (room: Room): Partial<IEvent> | undefined => {
+export const getLastMessageEvent = (room: Room): IRoomEvent | undefined => {
   const timelineEvents = room.getLiveTimeline().getEvents()
-  return [...timelineEvents].reverse().find((event) => event.getType() === EventType.RoomMessage)?.event
+  const event = [...timelineEvents].findLast(
+    (event) => isMessageEvent(event) || (isMembershipEvent(event) && isJoinOrLeaveEvent(event))
+  )?.event
+  return event && isIRoomEvent(event) ? event : undefined
 }
 
-export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === 'm.space.child'
+export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === EventType.SpaceChild
 
-export const isMembershipEvent = (event: MatrixEvent) => event.getType() === 'm.room.member'
+export const isMembershipEvent = (event: MatrixEvent) => event.getType() === EventType.RoomMember
+export const isJoinOrLeaveEvent = (event: MatrixEvent) =>
+  ['join', 'leave'].some((m) => m === event.getContent().membership)
+
+export const isMessageEvent = (event: MatrixEvent) => event.getType() === EventType.RoomMessage

@@ -38,6 +38,9 @@ import {
   createInitialRoom,
   isAdminChangeToMembership,
   isEventWithSharedData,
+  isJoinOrLeaveEvent,
+  isMembershipEvent,
+  isMessageEvent,
   isSharedDataContent,
   isSpaceChildEvent,
   isSpaceGeneralRoomContent,
@@ -554,10 +557,8 @@ export default class ChatClient {
     // The handler to attach for each room listening
     const handleIncomingMessages = (room: Room) => (event: MatrixEvent) => {
       if (room.roomId !== event.getRoomId()) return
-      const eventType = event.getType()
-      if (eventType !== EventType.RoomMessage && eventType !== EventType.RoomMember) return
-      if (eventType === EventType.RoomMember && ['join', 'leave'].every((m) => m !== event.getContent().membership))
-        return
+      if (!isMessageEvent(event) && !isMembershipEvent(event)) return
+      if (isMembershipEvent(event) && !isJoinOrLeaveEvent(event)) return
 
       callback(event)
     }
