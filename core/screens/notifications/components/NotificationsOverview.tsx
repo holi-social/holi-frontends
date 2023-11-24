@@ -4,7 +4,6 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -12,9 +11,8 @@ import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
-import {
+import RefreshableNotificationSectionList, {
   NotificationGroup,
-  NotificationSectionList,
 } from '@holi/core/screens/notifications/components/NotificationSectionList'
 import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
@@ -121,11 +119,10 @@ const NotificationsOverview = () => {
   return (
     <>
       {Platform.OS === 'android' && isFetchingMore ? topLoader : null}
-      <ScrollHeaderLayout.Refreshable
+      <RefreshableNotificationSectionList
         refreshableProps={{ refreshing, onRefresh }}
         webWrapperStyle={styles.webWrapperStyle}
         headerOverlap
-        ScrollViewComponent={NotificationSectionList}
         notifications={groupedNotifications}
         footer={loadMoreComponent}
         style={styles.scrollView}

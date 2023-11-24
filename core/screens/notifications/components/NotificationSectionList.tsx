@@ -1,8 +1,9 @@
 import React from 'react'
-import { SectionList, StyleSheet, View } from 'react-native'
+import { ScrollView, SectionList, StyleSheet, View } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
+import { withRefreshControl } from '@holi/core/components/ScrollHeaderLayout/withRefreshControl'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { Notification } from '@holi/core/screens/notifications/components/types'
@@ -20,7 +21,7 @@ interface NotificationSectionListProps extends LayoutProps {
   footer?: React.ReactElement | null
 }
 
-export const NotificationSectionList: React.FC<NotificationSectionListProps> = ({
+const NotificationSectionList: React.FC<NotificationSectionListProps> = ({
   notifications,
   footer,
   style,
@@ -50,6 +51,14 @@ export const NotificationSectionList: React.FC<NotificationSectionListProps> = (
     />
   )
 }
+
+const RefreshableNotificationSectionList = withRefreshControl<NotificationSectionListProps, ScrollView>(
+  NotificationSectionList
+)
+
+RefreshableNotificationSectionList.displayName = 'NotificationSectionListProps'
+
+export default RefreshableNotificationSectionList
 
 const styles = StyleSheet.create({
   sectionList: {
