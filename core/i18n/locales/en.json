@@ -724,6 +724,7 @@
   "spaces.link.OTHER": "Andere",
   "spaces.link.TWITTER": "Twitter",
   "spaces.link.WHATSAPP": "WhatsApp",
+  "spaces.members.invite": "Invite new collaborators",
   "spaces.members.member": "{{count}} Collaborator",
   "spaces.members.member_plural": "{{count}} Collaborators",
   "spaces.membership.update.error": "The membership request could not be updated",
