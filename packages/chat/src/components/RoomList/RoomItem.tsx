@@ -3,7 +3,13 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomAtom, getChatPartner, getHoliUserForChatMember, setLatestMessagesAsRead } from '@holi/chat/src/store'
+import {
+  type ChatMessage,
+  type ChatRoomAtom,
+  getChatPartner,
+  getHoliUserForChatMember,
+  setLatestMessagesAsRead,
+} from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { getInitials } from '@holi/core/helpers'
@@ -67,6 +73,27 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
     )
   }
 
+  const getChatMessageText = (message: ChatMessage): string | null => {
+    switch (message.type) {
+      case 'message':
+        return message.content.body
+
+      case 'membership': {
+        switch (message.content.membership) {
+          case 'join':
+            return t('chat.room.lastMessage.membership.join')
+          case 'leave':
+            return t('chat.room.lastMessage.membership.leave')
+          default:
+            return null
+        }
+      }
+
+      default:
+        return null
+    }
+  }
+
   return (
     <HoliLink href={`/chat/rooms/${roomId}`} label={roomName} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
@@ -123,7 +150,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
             {lastMessage && (
               <HoliText numberOfLines={1} color="gray300">
                 {isSpaceRoom && lastMessageHoliUser && `${lastMessageHoliUser?.fullName}: `}
-                {lastMessage.content.body}
+                {getChatMessageText(lastMessage)}
               </HoliText>
             )}
           </View>
