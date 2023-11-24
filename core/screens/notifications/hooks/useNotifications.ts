@@ -1,7 +1,7 @@
 import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { LogFunction, logError, logErrorLocal } from '@holi/core/errors/helpers'
+import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
@@ -46,11 +46,7 @@ export const useNotifications = () => {
   )
 
   const fetchMessages = useCallback(
-    async ({
-      pageToFetch,
-      logFunction,
-      onSuccess,
-    }: { pageToFetch?: number; logFunction?: LogFunction; onSuccess?: () => void } = {}) =>
+    async ({ pageToFetch, onSuccess }: { pageToFetch?: number; onSuccess?: () => void } = {}) =>
       novuService
         ?.getNotificationsList(pageToFetch || 0, {
           limit: NOVU_NOTIFICATIONS_PAGE_SIZE,
@@ -61,7 +57,7 @@ export const useNotifications = () => {
           processMessagesResponse(response)
         })
         .catch((error) =>
-          (logFunction || logError)(error, 'Error fetching notifications from novu', {
+          logError(error, 'Error fetching notifications from novu', {
             location: 'useNotifications.fetchMessages',
           })
         ),
@@ -74,7 +70,7 @@ export const useNotifications = () => {
     }
     logDebug('useNotifications.fetchNextPage', 'start to fetch page', nextPage)
     setIsFetchingMore(true)
-    return fetchMessages({ pageToFetch: nextPage, logFunction: logErrorLocal }).finally(() => {
+    return fetchMessages({ pageToFetch: nextPage }).finally(() => {
       setIsFetchingMore(false)
       setNextPage((currentPage) => currentPage + 1)
     })
