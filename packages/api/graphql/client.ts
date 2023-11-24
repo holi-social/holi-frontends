@@ -136,6 +136,12 @@ export const createCache = () =>
           data: nestedPaginationPolicy(['idOrName']),
         },
       },
+      SpaceInvitesPaged: {
+        fields: {
+          // Only allow pagination on the space detail screen, recognizable by `idOrName`
+          data: nestedPaginationPolicy(['idOrName']),
+        },
+      },
       UserPaged: {
         fields: {
           // Only allow pagination when searching for users by `substring`
