@@ -61,14 +61,16 @@ const AboutSpaces = () => {
         </View>
       </View>
 
-      <View style={[screenWidth > +vars.breakpointS ? styles.contentLarge : styles.content, styles.greenCard]}>
-        <View style={styles.flexContainer}>
+      <View
+        style={[screenWidth > +vars.breakpointS ? styles.contentLarge : styles.content, styles.sectionTwoContainer]}
+      >
+        <View style={[styles.flexContainer, styles.sectionTwoContent]}>
           <HoliText size="extralarge" style={styles.title}>
             {t('spaces.about.page.section2.title')}
           </HoliText>
           <HoliText style={styles.description}>{t('spaces.about.page.section2.description')} </HoliText>
         </View>
-        <View style={[styles.imageContainer, styles.imageContainerPadding]}>
+        <View style={styles.imageContainer}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/about/second_composition.png')}
             resizeMode="contain"
@@ -81,7 +83,7 @@ const AboutSpaces = () => {
       <View
         style={[
           screenWidth > +vars.breakpointS ? [styles.contentLarge, styles.contentLargeDirection] : styles.content,
-          styles.blueCard,
+          styles.sectionThreeContainer,
         ]}
       >
         <View style={styles.flexContainer}>
@@ -90,7 +92,7 @@ const AboutSpaces = () => {
           </HoliText>
           <HoliText style={styles.description}>{t('spaces.about.page.section3.description')}</HoliText>
         </View>
-        <View style={[styles.imageContainer, styles.imageContainerPadding]}>
+        <View style={styles.imageContainer}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/about/third_composition.png')}
             resizeMode="contain"
@@ -136,7 +138,7 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
       width: 327,
       borderWidth: 1,
     },
-    blueCard: {
+    sectionThreeContainer: {
       backgroundColor: colors.brandColorD20,
       paddingBottom: 24,
     },
@@ -196,28 +198,28 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
       maxWidth: +vars.breakpointM,
       marginBottom: 48,
     },
-    greenCard: {
+    sectionTwoContainer: {
       backgroundColor: colors.brandColorC20,
       paddingBottom: 24,
       marginBottom: screenWidth > +vars.breakpointS ? 24 : 0,
       bottom: -1,
     },
-    imageContainer: {
-      alignItems: 'center',
-      paddingBottom: 16,
+    sectionTwoContent: {
+      paddingHorizontal: screenWidth > +vars.breakpointS ? 16 : 0,
     },
-    imageContainerPadding: {
-      paddingBottom: 16,
+    imageContainer: {
+      alignSelf: 'center',
+      paddingBottom: screenWidth < +vars.breakpointM ? 16 : 0,
     },
     title: {
-      marginTop: 8,
       lineHeight: 33.6,
     },
     transparentCard: {
       ...Platform.select({ android: { paddingTop: safeAreaInsetTop, marginTop: 24 } }),
+      paddingHorizontal: screenWidth > +vars.breakpointM ? 0 : 16,
       backgroundColor: colors.background20,
       borderWidth: 0,
-      paddingBottom: 40,
+      paddingBottom: screenWidth < +vars.breakpointM ? 24 : 48,
     },
     transparentCardWithPadding: {
       paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 24,
