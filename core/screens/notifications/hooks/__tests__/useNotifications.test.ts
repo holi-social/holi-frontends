@@ -213,38 +213,38 @@ describe('useNotifications', () => {
     expect(result.current.notifications.length).toEqual(10)
   })
 
-  it('should refresh messages', async () => {
+  it('should refetch messages', async () => {
     mockGetNotificationsList.mockResolvedValueOnce(testResponse)
     mockGetNotificationsList.mockResolvedValue(longTestResponse)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.notifications.length).toEqual(1))
 
-    await act(() => result.current.refresh())
+    await act(() => result.current.refetch())
 
     await waitFor(() => expect(result.current.notifications.length).toEqual(10))
   })
 
-  it('should replace messages during refresh', async () => {
+  it('should replace messages during refetch', async () => {
     mockGetNotificationsList.mockResolvedValueOnce(testResponse)
     mockGetNotificationsList.mockResolvedValue(emptyTestResponse)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.notifications.length).toEqual(1))
 
-    await act(() => result.current.refresh())
+    await act(() => result.current.refetch())
 
     await waitFor(() => expect(result.current.notifications.length).toEqual(0))
   })
 
-  it('should handle errors during refresh and keep previous messages', async () => {
+  it('should handle errors during refetch and keep previous messages', async () => {
     mockGetNotificationsList.mockResolvedValueOnce(testResponse)
     mockGetNotificationsList.mockRejectedValue(testError)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.notifications.length).toEqual(1))
 
-    await act(() => result.current.refresh())
+    await act(() => result.current.refetch())
 
     await expect(result.current.notifications.length).toEqual(1)
 
@@ -255,7 +255,7 @@ describe('useNotifications', () => {
     )
   })
 
-  it('should reset pagination during refresh', async () => {
+  it('should reset pagination during refetch', async () => {
     // Fetch page 1 => expect 10
     mockGetNotificationsList.mockResolvedValueOnce(longTestResponse)
     // Fetch page 2 => expect 11
@@ -273,7 +273,7 @@ describe('useNotifications', () => {
 
     expect(result.current.notifications.length).toEqual(11)
 
-    await act(() => result.current.refresh())
+    await act(() => result.current.refetch())
 
     expect(result.current.notifications.length).toEqual(10)
 

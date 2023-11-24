@@ -39,7 +39,7 @@ const NotificationsOverview = () => {
     canFetchMore,
     fetchNextPage,
     isFetchingMore,
-    refresh,
+    refetch,
   } = useNotifications()
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
@@ -78,7 +78,7 @@ const NotificationsOverview = () => {
     }
   }, [markAllNotificationsAsSeen, novuNotifications])
 
-  const { refreshing, onRefresh } = useOnRefresh(refresh)
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const topLoader = <HoliLoader style={styles.loader} testID="loader" />
   const loadMoreComponent = useMemo(() => {

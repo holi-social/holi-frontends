@@ -96,7 +96,7 @@ export const useNotifications = () => {
       })
   }, [notifications, novuService])
 
-  const refresh = useCallback(() => {
+  const refetch = useCallback(() => {
     return fetchMessages({
       onSuccess: () => {
         // Reset current state to replace previous messages
@@ -120,7 +120,7 @@ export const useNotifications = () => {
     canFetchMore,
     fetchNextPage,
     isFetchingMore,
-    refresh,
+    refetch,
   }
 }
 
