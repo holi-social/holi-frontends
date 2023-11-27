@@ -15,6 +15,7 @@ import {
 import { getValidationErrorText } from '@holi/core/auth/components/FormInputField'
 import {
   getSessionFromStorage,
+  getVerificationFlowFromRegistration,
   initReauthFlow,
   initSettingsFlow,
   submitReauthFlow,
@@ -22,6 +23,7 @@ import {
 } from '@holi/core/auth/helpers/auth'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -132,10 +134,17 @@ const ChangeEmail = () => {
     }
     try {
       const traits = { ...settingsFlow.identity.traits, email: newEmail }
-      await submitSettingsFlowProfile(settingsFlow, traits, sessionToken)
-
+      const { data } = await submitSettingsFlowProfile(settingsFlow, traits, sessionToken)
       openToast(t('auth.changeEmail.success'), HoliToastType.SUCCESS)
-      navigate('/profile')
+      const verificationFlowData = getVerificationFlowFromRegistration(data)
+      // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
+      if (verificationFlowData) {
+        setVerificationFlowData(verificationFlowData)
+        navigate('/profile/settings/changeEmailVerification')
+      } else {
+        setVerificationFlowData('verification-disabled')
+        navigate('/profile')
+      }
     } catch (err) {
       handleFormSubmitError(
         (flow) => {

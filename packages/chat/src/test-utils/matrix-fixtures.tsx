@@ -39,6 +39,7 @@ export function createChatMessageFixture(
   room?: ChatRoom
 ): ChatMessage {
   const defaultMessage: ChatMessage = {
+    type: 'message',
     id: 'defaultMessageId',
     content: {
       body: 'Default chat message',

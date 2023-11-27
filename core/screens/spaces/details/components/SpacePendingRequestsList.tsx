@@ -5,12 +5,8 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpacePendingRequestsItem from '@holi/core/screens/spaces/details/components/SpacePendingRequestItem'
 import { Space, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowDownS, ArrowUpS } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -21,7 +17,6 @@ type SpacePendingRequestsProps = {
 }
 
 const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space, initiallySelectedUserId }) => {
-  const [listVisible, setListVisible] = useState(true)
   const { t } = useTranslation()
 
   // local state created in order to keep the items in the list even after accepting/declining requests
@@ -38,60 +33,38 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space, 
 
   return (
     <View>
-      {!!spaceMembershipRequests.length && (
-        <HoliButton
-          inline
-          transparent
-          contentStyle={styles.headerButton}
-          label={t('spaces.collaborators.pending.requests')}
-          onPress={() => setListVisible((visible) => !visible)}
-        >
-          <HoliHeading level="3" style={styles.heading}>
-            {t('spaces.collaborators.pending.requests')}
-          </HoliHeading>
-          <HoliIcon icon={listVisible ? ArrowDownS : ArrowUpS} />
-        </HoliButton>
-      )}
       {!spaceMembershipRequests.length && (
         <View style={[mixins.container, styles.emptyContainer]}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_manage_collaborators_empty.svg')}
             width={250}
             height={180}
-            label={t('spaces.collaborators.pending.requests.empty.title')}
+            label={t('spaces.collaborators.pending.generic.empty.title')}
             isSvg={true}
             resizeMode="contain"
           />
           <HoliText size={'small'} style={styles.emptyTitle}>
-            {t('spaces.collaborators.pending.requests.empty.title')}
+            {t('spaces.collaborators.pending.generic.empty.title')}
           </HoliText>
           <HoliText size={'large'} style={styles.emptyDescription}>
-            {t('spaces.collaborators.pending.requests.empty.description')}
+            {t('spaces.collaborators.pending.generic.empty.description')}
           </HoliText>
         </View>
       )}
-      {!!spaceMembershipRequests.length && (
-        <View style={[styles.list, !listVisible && styles.hideList]}>
-          {spaceMembershipRequests.map((request) => (
-            <SpacePendingRequestsItem
-              membershipRequest={request}
-              space={space}
-              key={request.id}
-              initiallyOpen={request.user.id === initiallySelectedUserId}
-            />
-          ))}
-        </View>
-      )}
+      {!!spaceMembershipRequests.length &&
+        spaceMembershipRequests.map((request) => (
+          <SpacePendingRequestsItem
+            membershipRequest={request}
+            space={space}
+            key={request.id}
+            initiallyOpen={request.user.id === initiallySelectedUserId}
+          />
+        ))}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  headerButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
   emptyContainer: {
     padding: 24,
     marginTop: 8,
@@ -109,15 +82,6 @@ const styles = StyleSheet.create({
   emptyDescription: {
     marginTop: 8,
     textAlign: 'center',
-  },
-  heading: {
-    marginTop: 8,
-  },
-  list: {
-    marginTop: 12,
-  },
-  hideList: {
-    display: 'none', // display none instead of conditional rendering in order to keep the state of the list items
   },
 })
 

@@ -8,6 +8,7 @@ import type {
   SpaceChildRoom,
   SpaceChildSharedDataContent,
   SpaceRoom,
+  SpaceSharedDataContent,
 } from '@holi/chat/src/client/types'
 
 /**
@@ -17,6 +18,8 @@ import type {
 export type HoliIdentity = string
 export type ChatRoomId = string
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
+export type PrivateChatRoomAtom = PrimitiveAtom<PrivateChatRoom>
+export type SpaceRoomAtom = PrimitiveAtom<SpaceChatRoom>
 export type SpaceChildRoomAtom = PrimitiveAtom<SpaceChildChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
 export type RoomAtomByRoomId = Record<ChatRoomId, ChatRoomAtom>
@@ -24,7 +27,7 @@ export type MessageAtomsByRoomId = Record<ChatRoomId, ChatMessagesAtom>
 
 export type AtomRecordGetter = <T>(atom: Atom<Record<string, T>>) => Record<string, T>
 
-interface BaseChatRoom {
+export interface BaseChatRoom {
   id: string
   name: string
   avatar?: string
@@ -39,7 +42,7 @@ interface BaseChatRoom {
 
 export type PrivateChatRoom = BaseChatRoom & Omit<PrivateRoom, 'room'>
 export interface SpaceChatRoom extends BaseChatRoom, Omit<SpaceRoom, 'room'> {
-  content: SpaceChildSharedDataContent
+  content: SpaceSharedDataContent
 }
 export interface SpaceChildChatRoom extends BaseChatRoom, Omit<SpaceChildRoom, 'room'> {
   content: SpaceChildSharedDataContent

@@ -68,10 +68,10 @@ describe('ChatRoomView', () => {
     setMatrixMock(CHAT_MOCK_USER_ID)
 
     mockChatFeatureToggle = {
-      loading: false,
-      error: false,
-      status: 'FeatureToggleStatus.PRODUCTION',
-      enabled: true,
+      ftLoading: false,
+      ftError: false,
+      ftStatus: 'FeatureToggleStatus.PRODUCTION',
+      ftEnabled: true,
     }
 
     mockOrySessionInStorage = {
@@ -106,8 +106,7 @@ describe('ChatRoomView', () => {
     mockMatrixSessionInStorage = []
   })
 
-  // FIXME: tests are broken, ask Mau for testing them
-  it.skip('shows an invitation screen for a new room', async () => {
+  it('shows an invitation screen for a new room', async () => {
     const someMember = createChatMemberFixture({ name: 'defaultUserName' })
     const someRoom = createChatRoomFixture({
       // we use user identities as room names?
@@ -128,12 +127,12 @@ describe('ChatRoomView', () => {
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('chat-room-loader'))
 
-    await screen.findAllByText('chat.invitation.copy')
-    await screen.findAllByText('chat.invitation.accept')
-    await screen.findAllByText('chat.invitation.reject')
+    expect(await screen.findByText('chat.invitation.copy')).toBeOnTheScreen()
+    expect(await screen.findByText('chat.invitation.accept')).toBeOnTheScreen()
+    expect(await screen.findByText('chat.invitation.reject')).toBeOnTheScreen()
   })
 
-  it.skip('shows a complete room with message and input field', async () => {
+  it('shows a complete room with message and input field', async () => {
     const bob = createChatMemberFixture({ name: 'Bob' })
     const bobsRoom = createChatRoomFixture({
       id: 'bobsRoom',
@@ -165,9 +164,9 @@ describe('ChatRoomView', () => {
 
     // then it shows a message
     // the matrix sdk mock serves a canned message that is expected here
-    await screen.findAllByText('Hello all in bobsRoom')
+    expect(await screen.findByText('Hello all in bobsRoom')).toBeOnTheScreen()
 
     // and it shows the input field
-    await screen.findAllByTestId('chat-message-input-input')
+    expect(await screen.findByTestId('chat-message-input-input')).toBeOnTheScreen()
   })
 })

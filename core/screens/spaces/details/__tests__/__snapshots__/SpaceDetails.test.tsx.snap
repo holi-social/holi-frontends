@@ -693,6 +693,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                     undefined,
                   ]
                 }
+                testID="space-collaborate-button"
               >
                 <View
                   style={

@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { SpaceChatTab, spaceNotificationCountRecordAtom, spaceTabRecordAtom } from '@holi/chat/src/store'
+import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -213,10 +213,7 @@ const SpaceDetails = () => {
     ]
   )
 
-  const spaceTabRooms: SpaceChatTab[] = Object.values(useAtomValue(spaceTabRecordAtom))
-  const spaceGeneralTabRoom: SpaceChatTab | undefined = spaceTabRooms.find(({ content }) => content.holiSpaceId === id)
-  const spaceRelatedNotificationCountRecord = useAtomValue(spaceNotificationCountRecordAtom)
-  const spaceNotificationCount = spaceGeneralTabRoom ? spaceRelatedNotificationCountRecord[spaceGeneralTabRoom.id] : 0
+  const spaceRoom = useAtomValue(useMemo(() => spaceRoomAtomCreator(id), [id]))
 
   useEffect(() => {
     setScreenOptions({
@@ -228,13 +225,13 @@ const SpaceDetails = () => {
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
         <View style={styles.headerRight}>
-          {(isMember || isAdmin) && spaceGeneralTabRoom && (
+          {(isMember || isAdmin) && spaceRoom && (
             <HoliButtonBell
               label={t('spaces.actions.chat', { spaceName: space?.name })}
               icon={Chat3}
-              showBell={spaceNotificationCount > 0}
+              showBell={spaceRoom.notificationCount > 0}
               onPress={() => {
-                navigate(`/chat?activeTab=${spaceGeneralTabRoom.id}`)
+                navigate(`/chat?activeTab=${spaceRoom.id}`)
               }}
               color={props.tintColor}
             />
@@ -249,20 +246,7 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [
-    id,
-    isAdmin,
-    isMember,
-    isWeb,
-    navigate,
-    renderActionDrawer,
-    setScreenOptions,
-    space,
-    spaceGeneralTabRoom,
-    spaceIdOrName,
-    spaceNotificationCount,
-    t,
-  ])
+  }, [id, isAdmin, isMember, isWeb, navigate, renderActionDrawer, setScreenOptions, space, spaceRoom, spaceIdOrName, t])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)

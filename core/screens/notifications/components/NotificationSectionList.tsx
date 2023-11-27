@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, SectionList, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, SectionList, StyleSheet, View } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
@@ -69,6 +69,14 @@ const styles = StyleSheet.create({
   },
   groupTitle: {
     paddingVertical: 12,
+    ...Platform.select({
+      android: {
+        paddingTop: 28,
+      },
+    }),
+  },
+  lastSectionFooter: {
+    marginBottom: +vars.bottomBarHeight,
   },
   notification: {
     paddingVertical: 12,

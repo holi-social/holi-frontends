@@ -25,11 +25,11 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 const CODE_MAX_COUNT = 6
 
 export interface EmailVerificationProps {
-  onDismiss: () => void
+  onDismiss?: () => void
   onSuccess: () => void
 }
 
-const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => {
+const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificationProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()

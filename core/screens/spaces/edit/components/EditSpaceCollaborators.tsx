@@ -13,9 +13,14 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
+import SpaceInvitesList from '@holi/core/screens/spaces/details/components/SpaceInvitesList'
 import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
-import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
+import {
+  spaceInvitesQuery,
+  spaceMembersQuery,
+  spaceMembershipRequestsQuery,
+} from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -155,7 +160,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
             ),
           },
           {
-            title: t('spaces.collaborators.manage.tabs.pending'),
+            title: t('spaces.collaborators.manage.tabs.requests'),
             style: styles.tabStyle,
             children: (
               <View style={[mixins.container, styles.all]}>
@@ -167,6 +172,23 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                   loadMoreOnScroll
                 >
                   {!!space && <SpacePendingRequestsList space={space} initiallySelectedUserId={selectedUserId} />}
+                </Pagination>
+              </View>
+            ),
+          },
+          {
+            title: t('spaces.collaborators.manage.tabs.invites'),
+            style: styles.tabStyle,
+            children: (
+              <View style={[mixins.container, styles.all]}>
+                <Pagination
+                  query={spaceInvitesQuery}
+                  queryOptions={{ ...queryOptions, queryPath: 'spaceById.invites', fetchPolicy: 'cache-and-network' }}
+                  fetchMoreButtonProps={{ style: styles.buttonContainer }}
+                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
+                >
+                  {!!space && <SpaceInvitesList space={space} initiallySelectedUserId={selectedUserId} />}
                 </Pagination>
               </View>
             ),

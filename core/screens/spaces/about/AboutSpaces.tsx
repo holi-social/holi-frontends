@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -18,7 +18,9 @@ const AboutSpaces = () => {
   const { navigate, navigateBack } = useRouting()
   const { t } = useTranslation()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
-  const styles = getStyles(safeAreaInsetTop)
+  const { width: screenWidth } = useWindowDimensions()
+
+  const styles = getStyles(safeAreaInsetTop, screenWidth)
 
   useEffect(() => {
     setScreenOptions({
@@ -36,54 +38,67 @@ const AboutSpaces = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollView contentContainerStyle={styles.container} style={{ backgroundColor: colors.background20 }}>
+    <ScrollView contentContainerStyle={styles.container} style={styles.scrollViewBackground}>
       <View
         style={[
-          styles.content,
+          screenWidth > +vars.breakpointS ? styles.contentLarge : styles.content,
           styles.transparentCard,
-          { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 24 },
+          styles.transparentCardWithPadding,
         ]}
       >
-        <HoliText size="extralarge">{t('spaces.about.page.section1.title')}</HoliText>
-        <HoliText style={styles.description}>{t('spaces.about.page.section1.description')}</HoliText>
-        <View style={styles.imageContainer}>
+        <View style={styles.flexContainer}>
+          <HoliText size="extralarge">{t('spaces.about.page.section1.title')}</HoliText>
+          <HoliText style={styles.description}>{t('spaces.about.page.section1.description')}</HoliText>
+        </View>
+        <View style={[styles.imageContainer]}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/about/first_composition.png')}
             resizeMode="contain"
             label={t('spaces.about.page.section1.title')}
-            width={Platform.OS === 'web' ? 324 : 324 * 1.2}
-            height={Platform.OS === 'web' ? 188 : 188 * 1.2}
+            width={324}
+            height={188}
           />
         </View>
       </View>
 
-      <View style={[styles.content, styles.greenCard]}>
-        <HoliText size="extralarge" style={styles.title}>
-          {t('spaces.about.page.section2.title')}
-        </HoliText>
-        <HoliText style={styles.description}>{t('spaces.about.page.section2.description')}</HoliText>
+      <View
+        style={[screenWidth > +vars.breakpointS ? styles.contentLarge : styles.content, styles.sectionTwoContainer]}
+      >
+        <View style={[styles.flexContainer, styles.sectionTwoContent]}>
+          <HoliText size="extralarge" style={styles.title}>
+            {t('spaces.about.page.section2.title')}
+          </HoliText>
+          <HoliText style={styles.description}>{t('spaces.about.page.section2.description')} </HoliText>
+        </View>
         <View style={styles.imageContainer}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/about/second_composition.png')}
             resizeMode="contain"
             label={t('spaces.about.page.section2.title')}
-            width={Platform.OS === 'web' ? 343 : 343 * 1.15}
-            height={Platform.OS === 'web' ? 291 : 291 * 1.15}
+            width={343}
+            height={291}
           />
         </View>
       </View>
-      <View style={[styles.content, styles.blueCard]}>
-        <HoliText size="extralarge" style={styles.title}>
-          {t('spaces.about.page.section3.title')}
-        </HoliText>
-        <HoliText style={styles.description}>{t('spaces.about.page.section3.description')}</HoliText>
+      <View
+        style={[
+          screenWidth > +vars.breakpointS ? [styles.contentLarge, styles.contentLargeDirection] : styles.content,
+          styles.sectionThreeContainer,
+        ]}
+      >
+        <View style={styles.flexContainer}>
+          <HoliText size="extralarge" style={styles.title}>
+            {t('spaces.about.page.section3.title')}
+          </HoliText>
+          <HoliText style={styles.description}>{t('spaces.about.page.section3.description')}</HoliText>
+        </View>
         <View style={styles.imageContainer}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/about/third_composition.png')}
             resizeMode="contain"
             label={t('spaces.about.page.section3.title')}
-            width={Platform.OS === 'web' ? 345 : 345 * 1.15}
-            height={Platform.OS === 'web' ? 312 : 312 * 1.15}
+            width={345}
+            height={312}
           />
         </View>
       </View>
@@ -91,7 +106,7 @@ const AboutSpaces = () => {
         <HoliText size="extralarge" align="center" style={styles.title}>
           {t('spaces.about.page.lastPhrase')}
         </HoliText>
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer, styles.buttonContainerDirection]}>
           <HoliButton
             style={styles.actionButton}
             label="Create a Space"
@@ -117,28 +132,25 @@ const AboutSpaces = () => {
 
 export default AboutSpaces
 
-const getStyles = (safeAreaInsetTop: number) =>
+const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
   StyleSheet.create({
-    transparentCard: {
-      ...Platform.select({ android: { paddingTop: safeAreaInsetTop, marginTop: 24 } }),
-      backgroundColor: colors.background20,
-      borderWidth: 0,
-    },
-    content: {
-      paddingHorizontal: 16,
-      paddingTop: 40,
-      maxWidth: +vars.breakpointS,
-      borderRadius: 24,
+    actionButton: {
+      width: 327,
       borderWidth: 1,
-      paddingBottom: 8,
-      width: '100%',
     },
-    greenCard: {
-      backgroundColor: colors.brandColorC20,
-      bottom: -1,
-    },
-    blueCard: {
+    sectionThreeContainer: {
       backgroundColor: colors.brandColorD20,
+      paddingBottom: 24,
+    },
+    buttonContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 16,
+      paddingHorizontal: 16,
+    },
+    buttonContainerDirection: {
+      flexDirection: screenWidth > +vars.breakpointM ? 'row' : 'column',
     },
     container: {
       paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
@@ -146,41 +158,73 @@ const getStyles = (safeAreaInsetTop: number) =>
       paddingBottom: 48,
       alignItems: 'center',
     },
-    imageContainer: {
-      alignItems: 'center',
-      marginVertical: 32,
+    content: {
+      paddingHorizontal: 16,
+      paddingTop: 40,
+      justifyContent: 'center',
+      maxWidth: +vars.breakpointM,
+      borderRadius: 24,
+      borderWidth: 1,
+      paddingBottom: 8,
+      width: '100%',
+      gap: 32,
     },
-    insightImage: {
-      ...Platform.select({ web: { height: 'auto' } }),
+    contentLarge: {
+      flexDirection: 'row',
+      paddingHorizontal: screenWidth > +vars.breakpointS ? 24 : 16,
+      paddingTop: 40,
+      maxWidth: +vars.breakpointM,
+      borderRadius: 24,
+      borderWidth: 1,
+      gap: 32,
     },
-    title: {
-      marginTop: 8,
-      lineHeight: 33.6,
+    contentLargeDirection: {
+      flexDirection: screenWidth > +vars.breakpointS ? 'row-reverse' : 'column',
     },
     description: {
       marginTop: 16,
       lineHeight: 23.68,
     },
-    italic: {
-      fontStyle: 'italic',
+    flexContainer: {
+      flex: 1,
     },
     footerSection: {
       display: 'flex',
       paddingVertical: 40,
+      paddingHorizontal: 16,
       gap: 32,
       flexDirection: 'column',
       alignItems: 'center',
-      maxWidth: +vars.breakpointS,
+      maxWidth: +vars.breakpointM,
+      marginBottom: 48,
     },
-    actionButton: {
-      width: 327,
-      borderWidth: 1,
+    sectionTwoContainer: {
+      backgroundColor: colors.brandColorC20,
+      paddingBottom: 24,
+      marginBottom: screenWidth > +vars.breakpointS ? 24 : 0,
+      bottom: -1,
     },
-    buttonContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 16,
+    sectionTwoContent: {
+      paddingHorizontal: screenWidth > +vars.breakpointS ? 16 : 0,
+    },
+    imageContainer: {
+      alignSelf: 'center',
+      paddingBottom: screenWidth < +vars.breakpointM ? 16 : 0,
+    },
+    title: {
+      lineHeight: 33.6,
+    },
+    transparentCard: {
+      ...Platform.select({ android: { paddingTop: safeAreaInsetTop, marginTop: 24 } }),
+      paddingHorizontal: screenWidth > +vars.breakpointM ? 0 : 16,
+      backgroundColor: colors.background20,
+      borderWidth: 0,
+      paddingBottom: screenWidth < +vars.breakpointM ? 24 : 48,
+    },
+    transparentCardWithPadding: {
+      paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 24,
+    },
+    scrollViewBackground: {
+      backgroundColor: colors.background20,
     },
   })

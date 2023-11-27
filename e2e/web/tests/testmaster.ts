@@ -10,7 +10,11 @@ export class UserHandler {
     this.browser = browser
   }
 
-  public async asRandomUser(actions: (page: Page) => Promise<void>, email?: string, password?: string) {
+  public async asRandomUser(
+    actions: (page: Page, userId: string, userFullName: string) => Promise<void>,
+    email?: string,
+    password?: string
+  ) {
     this.sessions.push(await withRandomUserSession(this.browser, actions, email, password))
   }
 

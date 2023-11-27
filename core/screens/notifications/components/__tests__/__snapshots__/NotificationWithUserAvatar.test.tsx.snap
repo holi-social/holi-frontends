@@ -155,6 +155,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
             },
           ]
         }
+        testID="notification-bell"
       >
         <View
           style={
@@ -175,9 +176,9 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
               {
                 "borderColor": "#ebebeb",
               },
-              {},
             ]
           }
+          testID="notification-bell-with-badge"
         />
       </View>
     </View>
