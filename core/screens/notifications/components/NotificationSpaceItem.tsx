@@ -16,7 +16,7 @@ interface NotificationWithSpaceAvatarProps extends NotificationProps<Notificatio
   i18nKey?: string
 }
 
-const NotificationWithSpaceAvatar = ({
+const NotificationSpaceItem = ({
   notification,
   children,
   href,
@@ -108,4 +108,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NotificationWithSpaceAvatar
+export default NotificationSpaceItem
