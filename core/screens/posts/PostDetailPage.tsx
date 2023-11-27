@@ -136,7 +136,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         ref={scrollViewRef}

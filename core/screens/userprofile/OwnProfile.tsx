@@ -131,7 +131,7 @@ const OwnProfile = () => {
     <LoginProtection>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         keyboardShouldPersistTaps="handled"

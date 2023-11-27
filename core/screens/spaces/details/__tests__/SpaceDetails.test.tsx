@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
-import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -48,8 +47,6 @@ const createMocksForSpace = (spaceById = space) => {
 jest.useFakeTimers()
 
 const mockUseParam = jest.fn()
-
-jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
 
 jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: (paramName: string) => mockUseParam(paramName),

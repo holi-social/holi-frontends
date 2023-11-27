@@ -86,7 +86,7 @@ const InsightDetailPage = () => {
 
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         style={styles.wrapper}

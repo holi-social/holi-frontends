@@ -102,7 +102,7 @@ const HomeFeed = () => {
     <>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         style={styles.layout}

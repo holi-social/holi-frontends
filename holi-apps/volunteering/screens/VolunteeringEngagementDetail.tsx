@@ -206,11 +206,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
 
   return (
     <View style={styles.wrapper} testID="volunteering-detailview-container">
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ isLoading: refreshing, onRefresh }}
-        style={styles.header}
-        headerOverlap
-      >
+      <ScrollHeaderLayout.Refreshable refreshableProps={{ refreshing, onRefresh }} style={styles.header} headerOverlap>
         {engagement && (
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
