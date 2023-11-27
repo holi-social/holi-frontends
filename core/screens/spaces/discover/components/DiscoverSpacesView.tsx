@@ -86,7 +86,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         </HoliButton>
       </View>
       <HoliButton
-        label={t('spaces.discover.learnMore.button')}
+        label={t('spaces.about.banner.button.title')}
         onPress={() => navigate('/about-spaces/')}
         testID="discover-spaces-about-button"
         transparent
@@ -100,7 +100,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
             width={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? width : 324}
             height={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? aspectRatio * width : 188}
             style={styles.compositionImage}
-            label={t('spaces.about.banner.button.title')}
+            label=""
           />
           <View style={styles.learnMoreDescriptionContainer}>
             {screenWidth > +vars.breakpointS && (
@@ -114,9 +114,9 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
               </>
             )}
             <View style={screenWidth > +vars.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}>
-              <HoliHeading level="3" style={{ paddingRight: 8 }}>
+              <HoliText bold style={{ paddingRight: 8 }}>
                 {t('spaces.about.banner.button.title')}
-              </HoliHeading>
+              </HoliText>
               <HoliIcon icon={ArrowRightS} color={colors.foreground30} />
             </View>
           </View>
