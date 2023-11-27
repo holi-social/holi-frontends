@@ -8,7 +8,7 @@ import {
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { vars } from '@holi/ui/styles/globalVars'
 
-const PULL_DEVIDER = 2
+const PULL_DIVIDER = 2
 
 // DISCLAIMER: When changing anything here, also test horizontal scrolling on iOS Safari!
 export function withRefreshControl<P extends LayoutProps, T>(
@@ -45,7 +45,7 @@ export function withRefreshControl<P extends LayoutProps, T>(
         // if the start touch position is lesser than the current touch position, calculate the difference, which gives the `pullLength`
         // This tells us how much the user has pulled
         const pullLength = startPointRef.current < screenY ? Math.abs(screenY - startPointRef.current) : 0
-        setPullChange(pullLength / PULL_DEVIDER)
+        setPullChange(pullLength / PULL_DIVIDER)
       }
 
       const endPull = () => {
