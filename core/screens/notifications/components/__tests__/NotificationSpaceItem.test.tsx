@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
+import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser } from '@holi/core/screens/notifications/components/seedData'
 
@@ -13,7 +13,7 @@ jest.mock('react-i18next', () => {
   }
 })
 
-describe('NotificationWithSpaceAvatar', () => {
+describe('NotificationSpaceItem', () => {
   const notificationContent = 'You are now a collaborator in Space Foo'
   const requestMessage = 'Some message'
   const notification = {
@@ -37,21 +37,21 @@ describe('NotificationWithSpaceAvatar', () => {
 
   it('displays translated message', () => {
     const i18nKey = 'notifications.space.invite.accepted.message'
-    const { queryByText } = render(<NotificationWithSpaceAvatar notification={notification} i18nKey={i18nKey} />)
+    const { queryByText } = render(<NotificationSpaceItem notification={notification} i18nKey={i18nKey} />)
 
     expect(queryByText(i18nKey)).toBeTruthy()
     expect(queryByText(notificationContent)).toBeFalsy()
   })
 
   it('displays notification content if no i18n key was provided', () => {
-    const { queryByText } = render(<NotificationWithSpaceAvatar notification={notification} />)
+    const { queryByText } = render(<NotificationSpaceItem notification={notification} />)
 
     expect(queryByText(notificationContent)).toBeTruthy()
   })
 
   it('displays request message if no notification content is provided', () => {
     const { queryByText } = render(
-      <NotificationWithSpaceAvatar
+      <NotificationSpaceItem
         notification={{ ...notification, content: undefined }}
         i18nKey="notifications.space.invite.accepted.message"
       />
@@ -61,7 +61,7 @@ describe('NotificationWithSpaceAvatar', () => {
   })
 
   it('should not display request message if notification content is provided', () => {
-    const { queryByText } = render(<NotificationWithSpaceAvatar notification={notification} />)
+    const { queryByText } = render(<NotificationSpaceItem notification={notification} />)
 
     expect(queryByText(requestMessage)).toBeFalsy()
   })

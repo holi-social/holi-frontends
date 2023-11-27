@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
+import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
   Notification,
@@ -153,7 +153,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
 
   return (
     <View testID={testID}>
-      <NotificationWithSpaceAvatar
+      <NotificationSpaceItem
         notification={notification}
         i18nKey={getI18nKey()}
         style={[style, loading && styles.notificationProcessing]}
@@ -164,7 +164,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
             {buttons}
           </HoliHorizontalRow>
         )}
-      </NotificationWithSpaceAvatar>
+      </NotificationSpaceItem>
 
       {loading && <HoliLoader testID="connection-notification-loader-indicator" />}
     </View>

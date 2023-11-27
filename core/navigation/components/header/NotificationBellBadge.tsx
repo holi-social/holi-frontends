@@ -14,7 +14,7 @@ const NotificationBellBadge = ({
   visible,
   backgroundColor = colors.background10,
   style,
-  testID,
+  testID = 'notification-bell',
   children,
 }: React.PropsWithChildren<NotificationBadgeProps>) => {
   const hasChildren = !!children
@@ -22,14 +22,12 @@ const NotificationBellBadge = ({
   return (
     <View style={[styles.container, style]} testID={testID}>
       {children}
-      <View
-        style={[
-          styles.badge,
-          !hasChildren && styles.standAlone,
-          { borderColor: backgroundColor },
-          { ...(!visible && { display: 'none' }) },
-        ]}
-      />
+      {visible && (
+        <View
+          style={[styles.badge, !hasChildren && styles.standAlone, { borderColor: backgroundColor }]}
+          testID={testID + '-with-badge'}
+        />
+      )}
     </View>
   )
 }
