@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         minHeight: '100%',
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: +vars.bottomBarHeight,
       },
     }),
   },

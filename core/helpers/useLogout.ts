@@ -35,43 +35,45 @@ export const useLogout = () => {
         redirectPath = '/profile',
         redirectTimeout = undefined,
       }: LogoutOptions = {}) => {
+        const redirect = () => {
+          if (redirectTimeout) {
+            setTimeout(() => {
+              navigate(redirectPath)
+            }, redirectTimeout)
+          } else {
+            navigate(redirectPath)
+          }
+        }
+
         if (isProcessingLogout || isLoggingOut || userId === null) {
+          redirect()
           return
         }
         isProcessingLogout = true
         isLoggingOutVar(true)
 
-        await getSessionFromStorage()
-          .then((session) => {
-            if (!skipLogoutFlow) {
-              return submitLogoutFlow({ session_token: session?.session_token || '' })
-            }
+        try {
+          const session = await getSessionFromStorage()
+          if (!skipLogoutFlow) {
+            await submitLogoutFlow({ session_token: session?.session_token || '' })
+          }
+          await client.clearStore()
+          await setUserLoggedOut()
+
+          logDebug('useLogout', 'logout successful')
+          openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
+        } catch (err) {
+          logDebug('useLogout', 'logout failed, removing session from storage', err)
+          setUserLoggedOut() // will remove session info from storage
+          throw err // will be sent to Sentry so we're aware of it
+          // not displaying any user-facing error messages as with the removal from the storage logout should be done
+        } finally {
+          stopChat().finally(() => {
+            isLoggingOutVar(false)
+            isProcessingLogout = false
+            redirect()
           })
-          .then(() => client.clearStore())
-          .then(() => setUserLoggedOut())
-          .then(() => {
-            logDebug('useLogout', 'logout successful')
-            openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
-            if (redirectTimeout) {
-              setTimeout(() => {
-                navigate(redirectPath)
-              }, redirectTimeout)
-            } else {
-              navigate(redirectPath)
-            }
-          })
-          .catch((e) => {
-            logDebug('useLogout', 'logout failed, removing session from storage', e)
-            setUserLoggedOut() // will remove session info from storage
-            throw e // will be sent to Sentry so we're aware of it
-            // not displaying any user-facing error messages as with the removal from the storage logout should be done
-          })
-          .finally(() =>
-            stopChat().finally(() => {
-              isLoggingOutVar(false)
-              isProcessingLogout = false
-            })
-          )
+        }
       },
       [navigate, openToast, t, isLoggingOut, userId]
     ),
