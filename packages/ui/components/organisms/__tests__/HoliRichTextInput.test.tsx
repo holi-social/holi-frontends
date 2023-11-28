@@ -31,9 +31,16 @@ describe('HoliRichTextInput', () => {
   it.skip('placeholder and autofocus', () => {
     const testId = 'the-rich-text-input-element'
     const placeholderText = 'a test placeholder ...'
+    const maxNoOfCharacters = 100
     const { queryByPlaceholderText } = render(
       <MockedProvider mocks={MOCKS} addTypename={false}>
-        <HoliRichTextInput placeholder={placeholderText} autofocus testID={testId} />
+        <HoliRichTextInput
+          placeholder={placeholderText}
+          autofocus
+          testID={testId}
+          showCharacterCount
+          maxNoOfCharacters={maxNoOfCharacters}
+        />
       </MockedProvider>
     )
     const element = queryByPlaceholderText(placeholderText)

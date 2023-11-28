@@ -1,12 +1,13 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, TextInput, View, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps, Suggestion } from 'react-native-controlled-mentions'
 
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/providers/PortalProvider'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
 import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
@@ -26,6 +27,8 @@ export type HoliRichTextInputProps = {
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
   testID?: string
+  showCharacterCount?: boolean
+  maxNoOfCharacters?: number
 }
 
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
@@ -55,6 +58,9 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   const setKeywordDebounced = useDebounce(useSafeDispatch(setDebouncedKeyword), debounceDelay)
 
   const onChooseOptionRef = useRef<(suggestion: Suggestion) => void | null>(() => null)
+
+  const [characterCount, setCharacterCount] = useState(0)
+  const [disabled] = useState(false)
 
   // on mount / unmount
   useEffect(() => {
@@ -116,11 +122,18 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   const onInputChange = useCallback(
     (text: string) => {
-      setValue(`${text}`)
-      const holiFormattedString = String(text).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
-      onChange?.(holiFormattedString)
+      const maxChars = props.maxNoOfCharacters || Infinity
+      const currentCharacterCount = text.length
+
+      // Check if the new input is within the character limit
+      if (currentCharacterCount <= maxChars) {
+        setValue(text)
+        setCharacterCount(currentCharacterCount)
+        const holiFormattedString = String(text).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
+        onChange?.(holiFormattedString)
+      }
     },
-    [onChange, setValue]
+    [onChange, setValue, setCharacterCount, props.maxNoOfCharacters]
   )
 
   const renderUserSuggestions = useCallback(
@@ -151,20 +164,36 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     textStyle: styles.inlineUrl,
   })
 
+  const CharactersCount = () => {
+    return (
+      <View style={styles.charactorCountContainer}>
+        {props.showCharacterCount && (
+          <HoliText size="extrasmall" style={styles.charactorCountText}>
+            {characterCount} / {props.maxNoOfCharacters}
+          </HoliText>
+        )}
+      </View>
+    )
+  }
+
   return (
-    <MentionInput
-      inputRef={inputRef}
-      value={value}
-      autoFocus={autofocus}
-      onChange={onInputChange}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      partTypes={suggestionConfig}
-      placeholder={placeholder}
-      containerStyle={[styles.mentionsStyles, props.style]}
-      style={styles.input}
-      testID={props.testID || 'richtext-input'}
-    />
+    <View style={props.style} testID={props.testID || 'richtext-component'}>
+      <MentionInput
+        inputRef={inputRef}
+        value={value}
+        autoFocus={autofocus}
+        onChange={onInputChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        partTypes={suggestionConfig}
+        placeholder={placeholder}
+        containerStyle={[styles.mentionsStyles, props.style]}
+        style={styles.input}
+        editable={!disabled}
+        maxLength={props.maxNoOfCharacters}
+      />
+      <CharactersCount />
+    </View>
   )
 }
 
@@ -192,5 +221,13 @@ const styles = StyleSheet.create({
   },
   inlineUrl: {
     color: colors.foreground20,
+  },
+  charactorCountText: {
+    color: colors.foreground20,
+  },
+  charactorCountContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginTop: 6,
   },
 })
