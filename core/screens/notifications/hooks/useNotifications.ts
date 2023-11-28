@@ -7,6 +7,7 @@ import { NovuNotificationType } from '@holi/core/screens/notifications/component
 import {
   Notification,
   NotificationPost,
+  NotificationPostComment,
   NotificationSpaceConnection,
 } from '@holi/core/screens/notifications/components/types'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
@@ -124,7 +125,9 @@ export const useNotifications = () => {
   }
 }
 
-function mapToNotification(message: IMessage): NotificationSpaceConnection | NotificationPost | undefined {
+function mapToNotification(
+  message: IMessage
+): NotificationSpaceConnection | NotificationPostComment | NotificationPost | undefined {
   const { data, notificationType } = message.payload
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
@@ -147,6 +150,15 @@ function mapToNotification(message: IMessage): NotificationSpaceConnection | Not
       }
     case NovuNotificationType.POST_COMMENT_MENTION:
     case NovuNotificationType.POST_COMMENT_AUTHOR:
+      return {
+        id: message._id,
+        notificationType,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationPostComment['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.SPACE_NEW_POST:
       return {
         id: message._id,
         notificationType,

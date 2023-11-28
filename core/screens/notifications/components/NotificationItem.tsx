@@ -1,6 +1,7 @@
 import React from 'react'
 
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
+import NotificationPostCommentItem from '@holi/core/screens/notifications/components/NotificationPostCommentItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
@@ -38,6 +39,7 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
   NovuNotificationType.POST_COMMENT_MENTION,
   NovuNotificationType.POST_COMMENT_AUTHOR,
+  NovuNotificationType.SPACE_NEW_POST,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -50,7 +52,7 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
       return <NotificationConnectionItem notification={notification} {...props} testID="connection" />
     case NovuNotificationType.POST_COMMENT_MENTION:
     case NovuNotificationType.POST_COMMENT_AUTHOR:
-      return <NotificationPostItem notification={notification} {...props} testID="post-comment" />
+      return <NotificationPostCommentItem notification={notification} {...props} testID="post-comment" />
     case NotificationType.COMMUNITY_MEMBERSHIP_REQUEST:
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
     case NotificationType.COMMUNITY_MEMBERSHIP_REVOKED:
@@ -69,6 +71,8 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
       return <NotificationSpaceItem notification={notification} {...props} testID={'space-membership-item'} />
+    case NovuNotificationType.SPACE_NEW_POST:
+      return <NotificationPostItem notification={notification} {...props} />
     case NotificationType.COMMUNITY_NEW_POST:
       return <NotificationSpacePostItem notification={notification} {...props} testID="space-post" />
     case NotificationType.RELEASE_INFO:

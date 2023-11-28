@@ -1,6 +1,7 @@
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
   PostCommentNotificationData,
+  PostNotificationData,
   SpaceMembershipNotificationData,
 } from '@holi/core/screens/notifications/components/types'
 
@@ -19,6 +20,10 @@ export interface SpaceMembershipPushNotification extends PushNotificationBase {
   data: string /* Android */ | SpaceMembershipNotificationData
 }
 
+export interface PostPushNotification extends PushNotificationBase {
+  notificationType: NovuNotificationType
+  data: string /* Android */ | PostNotificationData
+}
 export interface PostCommentPushNotification extends PushNotificationBase {
   notificationType: NovuNotificationType
   data: string /* Android */ | PostCommentNotificationData

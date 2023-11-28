@@ -5,8 +5,9 @@ import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
   PostCommentPushNotification,
+  PostPushNotification,
   SpaceMembershipPushNotification,
-} from '@holi/mobile/notifications/spacePushNotifications'
+} from '@holi/mobile/notifications/pushNotifications'
 
 export type NotificationPayload = Record<string, unknown>
 
@@ -99,6 +100,13 @@ const toPostCommentUrl = (notification: PostCommentPushNotification): string => 
   return `holi://posts/${post.id}?commentId=${comment.id}`
 }
 
+const toPostUrl = (notification: PostPushNotification): string => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const { post } = parsedData
+  return `holi://posts/${post.id}`
+}
+
 const postCommentUrlFrom = (notification: PostCommentPushNotification) => {
   try {
     switch (notification.notificationType) {
@@ -109,6 +117,16 @@ const postCommentUrlFrom = (notification: PostCommentPushNotification) => {
   } catch (error) {
     logError(error, 'Failed to create url for post comment notification', {
       location: 'notifications.postCommentUrlFrom',
+    })
+  }
+}
+
+const postUrlFrom = (notification: PostPushNotification) => {
+  try {
+    return toPostUrl(notification)
+  } catch (error) {
+    logError(error, 'Failed to create url for post notification', {
+      location: 'notifications.postUrlFrom',
     })
   }
 }
@@ -133,6 +151,8 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
     case NovuNotificationType.POST_COMMENT_MENTION:
     case NovuNotificationType.POST_COMMENT_AUTHOR:
       return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
+    case NovuNotificationType.SPACE_NEW_POST:
+      return postUrlFrom(payload as unknown as PostPushNotification)
     default:
       // Default is chat notification
       return createUrlFromChatNotification(payload)

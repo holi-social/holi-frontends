@@ -60,7 +60,13 @@ export interface PostCommentNotificationData {
   post: Pick<Post, 'id' | 'title'>
 }
 
-export interface NotificationPost extends NotificationBase {
+export interface PostNotificationData {
+  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
+  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+  post: Pick<Post, 'id' | 'title'>
+}
+
+export interface NotificationPostComment extends NotificationBase {
   notificationType:
     | NotificationType.POST_COMMENT
     | NotificationType.POST_COMMENT_REACTION
@@ -70,6 +76,11 @@ export interface NotificationPost extends NotificationBase {
     | NovuNotificationType.POST_COMMENT_MENTION
     | NovuNotificationType.POST_COMMENT_AUTHOR
   options: PostCommentNotificationData
+}
+
+export interface NotificationPost extends NotificationBase {
+  notificationType: NovuNotificationType.SPACE_NEW_POST
+  options: PostNotificationData
 }
 
 export interface SpaceMembershipNotificationData {
@@ -121,6 +132,7 @@ export interface NotificationSpacePermissions extends NotificationBase {
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
 export type NotificationWithUser =
   | NotificationConnection
+  | NotificationPostComment
   | NotificationPost
   | NotificationSpaceConnection
   | NotificationSpacePermissions

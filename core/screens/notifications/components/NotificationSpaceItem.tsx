@@ -5,13 +5,17 @@ import { StyleSheet, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
-import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
+import {
+  NotificationPost,
+  NotificationProps,
+  NotificationSpaceConnection,
+} from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface NotificationWithSpaceAvatarProps extends NotificationProps<NotificationSpaceConnection> {
+interface NotificationSpaceItemProps extends NotificationProps<NotificationSpaceConnection | NotificationPost> {
   href?: string
   i18nKey?: string
 }
@@ -23,14 +27,15 @@ const NotificationSpaceItem = ({
   i18nKey,
   style,
   testID = '',
-}: React.PropsWithChildren<NotificationWithSpaceAvatarProps>) => {
+}: React.PropsWithChildren<NotificationSpaceItemProps>) => {
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const fullName = notification.options.user?.fullName || t('user.profileView.anonymous')
   const { id, title } = notification.options.space
   href = href || `/spaces/${id}`
 
-  const message = notification.options.message ?? notification.options.requestMessage
+  const spaceConnectionNotification = notification as NotificationSpaceConnection
+  const message = spaceConnectionNotification.options.message ?? spaceConnectionNotification.options.requestMessage
 
   return (
     <View style={style} testID={testID}>
