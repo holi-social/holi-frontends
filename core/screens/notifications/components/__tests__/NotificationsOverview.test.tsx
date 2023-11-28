@@ -235,6 +235,35 @@ const novuNotifications = [
       },
     },
   },
+  {
+    id: 'a805ed82-e10a-4420-8026-1c4643f2cd6d',
+    notificationType: 'SPACE_NEW_POST',
+    created: '2023-11-21T14:21:20.306508',
+    read: false,
+    content: 'New post in test',
+    options: {
+      user: {
+        id: 'test_user_id',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '#000000',
+        avatarLabel: '',
+        fullName: 'Test User',
+      },
+      space: {
+        id: 'acec5d45-f7d2-45dc-bd71-add6f352bfeb',
+        name: 'test',
+        title: 'test',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '#7BD7EA',
+      },
+      post: {
+        id: 'test_post_id',
+        title: 'Test Post Title',
+      },
+    },
+  },
 ]
 
 describe('NotificationsOverview', () => {
