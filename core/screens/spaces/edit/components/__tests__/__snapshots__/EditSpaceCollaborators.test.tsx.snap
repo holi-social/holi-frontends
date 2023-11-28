@@ -115,250 +115,276 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                   }
                 >
                   <View
-                    accessibilityControls="collaborator-tabs-panel-0"
-                    accessibilityLabel="spaces.collaborators.manage.tabs.all"
-                    accessibilityState={
-                      {
-                        "busy": undefined,
-                        "checked": undefined,
-                        "disabled": false,
-                        "expanded": undefined,
-                        "selected": true,
-                      }
-                    }
-                    accessibilityValue={
-                      {
-                        "max": undefined,
-                        "min": undefined,
-                        "now": undefined,
-                        "text": undefined,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    nativeID="collaborator-tabs-tab-0"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
                     onLayout={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    role="tab"
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "borderBottomColor": "#262424",
-                          "borderBottomWidth": 2,
-                          "justifyContent": "center",
-                          "marginLeft": 20,
-                          "marginRight": 20,
-                          "maxWidth": 320,
-                          "paddingVertical": 12,
-                          "width": "auto",
-                        },
-                        {
-                          "width": "auto",
-                        },
-                      ]
-                    }
-                    testID="collaborator-tabs-button-0-active"
                   >
                     <View
-                      pointerEvents="none"
                       style={
                         {
-                          "flexDirection": "row",
+                          "paddingLeft": 20,
+                          "paddingRight": 20,
                         }
                       }
                     >
-                      <Text
-                        accessible={false}
-                        ellipsizeMode="tail"
-                        numberOfLines={1}
-                        selectable={true}
-                        style={
+                      <View
+                        accessibilityControls="collaborator-tabs-panel-0"
+                        accessibilityLabel="spaces.collaborators.manage.tabs.all"
+                        accessibilityState={
                           {
-                            "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
-                            "fontSize": 16,
-                            "fontWeight": "500",
-                            "lineHeight": 22.4,
-                            "userSelect": "auto",
+                            "busy": undefined,
+                            "checked": undefined,
+                            "disabled": false,
+                            "expanded": undefined,
+                            "selected": true,
                           }
                         }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
+                          }
+                        }
+                        accessible={true}
+                        collapsable={false}
+                        focusable={true}
+                        nativeID="collaborator-tabs-tab-0"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        role="tab"
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "borderBottomColor": "#262424",
+                              "borderBottomWidth": 2,
+                              "justifyContent": "center",
+                              "maxWidth": 320,
+                              "paddingVertical": 12,
+                              "width": "auto",
+                            },
+                            {
+                              "width": "auto",
+                            },
+                          ]
+                        }
+                        testID="collaborator-tabs-button-0-active"
                       >
-                        spaces.collaborators.manage.tabs.all
-                      </Text>
+                        <View
+                          pointerEvents="none"
+                          style={
+                            {
+                              "flexDirection": "row",
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={false}
+                            ellipsizeMode="tail"
+                            numberOfLines={1}
+                            selectable={true}
+                            style={
+                              {
+                                "color": "#262424",
+                                "fontFamily": "Circular Std Medium",
+                                "fontSize": 16,
+                                "fontWeight": "500",
+                                "lineHeight": 22.4,
+                                "userSelect": "auto",
+                              }
+                            }
+                          >
+                            spaces.collaborators.manage.tabs.all
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
-                  <View
-                    accessibilityControls="collaborator-tabs-panel-1"
-                    accessibilityLabel="spaces.collaborators.manage.tabs.requests"
-                    accessibilityState={
-                      {
-                        "busy": undefined,
-                        "checked": undefined,
-                        "disabled": false,
-                        "expanded": undefined,
-                        "selected": false,
-                      }
-                    }
-                    accessibilityValue={
-                      {
-                        "max": undefined,
-                        "min": undefined,
-                        "now": undefined,
-                        "text": undefined,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    nativeID="collaborator-tabs-tab-1"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    role="tab"
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "borderBottomColor": "transparent",
-                          "borderBottomWidth": 2,
-                          "justifyContent": "center",
-                          "marginLeft": 0,
-                          "marginRight": 20,
-                          "maxWidth": 320,
-                          "paddingVertical": 12,
-                          "width": "auto",
-                        },
-                        {
-                          "width": "auto",
-                        },
-                      ]
-                    }
-                    testID="collaborator-tabs-button-1-inactive"
-                  >
+                  <View>
                     <View
-                      pointerEvents="none"
                       style={
                         {
-                          "flexDirection": "row",
+                          "paddingRight": 20,
                         }
                       }
                     >
-                      <Text
-                        accessible={false}
-                        ellipsizeMode="tail"
-                        numberOfLines={1}
-                        selectable={true}
-                        style={
+                      <View
+                        accessibilityControls="collaborator-tabs-panel-1"
+                        accessibilityLabel="spaces.collaborators.manage.tabs.requests"
+                        accessibilityState={
                           {
-                            "color": "#787777",
-                            "fontFamily": "Circular Std Book",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "userSelect": "auto",
+                            "busy": undefined,
+                            "checked": undefined,
+                            "disabled": false,
+                            "expanded": undefined,
+                            "selected": false,
                           }
                         }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
+                          }
+                        }
+                        accessible={true}
+                        collapsable={false}
+                        focusable={true}
+                        nativeID="collaborator-tabs-tab-1"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        role="tab"
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "borderBottomColor": "transparent",
+                              "borderBottomWidth": 2,
+                              "justifyContent": "center",
+                              "maxWidth": 320,
+                              "paddingVertical": 12,
+                              "width": "auto",
+                            },
+                            {
+                              "width": "auto",
+                            },
+                          ]
+                        }
+                        testID="collaborator-tabs-button-1-inactive"
                       >
-                        spaces.collaborators.manage.tabs.requests
-                      </Text>
+                        <View
+                          pointerEvents="none"
+                          style={
+                            {
+                              "flexDirection": "row",
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={false}
+                            ellipsizeMode="tail"
+                            numberOfLines={1}
+                            selectable={true}
+                            style={
+                              {
+                                "color": "#787777",
+                                "fontFamily": "Circular Std Book",
+                                "fontSize": 16,
+                                "fontWeight": "400",
+                                "lineHeight": 22.4,
+                                "userSelect": "auto",
+                              }
+                            }
+                          >
+                            spaces.collaborators.manage.tabs.requests
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
-                  <View
-                    accessibilityControls="collaborator-tabs-panel-2"
-                    accessibilityLabel="spaces.collaborators.manage.tabs.invites"
-                    accessibilityState={
-                      {
-                        "busy": undefined,
-                        "checked": undefined,
-                        "disabled": false,
-                        "expanded": undefined,
-                        "selected": false,
-                      }
-                    }
-                    accessibilityValue={
-                      {
-                        "max": undefined,
-                        "min": undefined,
-                        "now": undefined,
-                        "text": undefined,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    nativeID="collaborator-tabs-tab-2"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    role="tab"
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "borderBottomColor": "transparent",
-                          "borderBottomWidth": 2,
-                          "justifyContent": "center",
-                          "marginLeft": 0,
-                          "marginRight": 20,
-                          "maxWidth": 320,
-                          "paddingVertical": 12,
-                          "width": "auto",
-                        },
-                        {
-                          "width": "auto",
-                        },
-                      ]
-                    }
-                    testID="collaborator-tabs-button-2-inactive"
-                  >
+                  <View>
                     <View
-                      pointerEvents="none"
                       style={
                         {
-                          "flexDirection": "row",
+                          "paddingRight": 20,
                         }
                       }
                     >
-                      <Text
-                        accessible={false}
-                        ellipsizeMode="tail"
-                        numberOfLines={1}
-                        selectable={true}
-                        style={
+                      <View
+                        accessibilityControls="collaborator-tabs-panel-2"
+                        accessibilityLabel="spaces.collaborators.manage.tabs.invites"
+                        accessibilityState={
                           {
-                            "color": "#787777",
-                            "fontFamily": "Circular Std Book",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "userSelect": "auto",
+                            "busy": undefined,
+                            "checked": undefined,
+                            "disabled": false,
+                            "expanded": undefined,
+                            "selected": false,
                           }
                         }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
+                          }
+                        }
+                        accessible={true}
+                        collapsable={false}
+                        focusable={true}
+                        nativeID="collaborator-tabs-tab-2"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        role="tab"
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "borderBottomColor": "transparent",
+                              "borderBottomWidth": 2,
+                              "justifyContent": "center",
+                              "maxWidth": 320,
+                              "paddingVertical": 12,
+                              "width": "auto",
+                            },
+                            {
+                              "width": "auto",
+                            },
+                          ]
+                        }
+                        testID="collaborator-tabs-button-2-inactive"
                       >
-                        spaces.collaborators.manage.tabs.invites
-                      </Text>
+                        <View
+                          pointerEvents="none"
+                          style={
+                            {
+                              "flexDirection": "row",
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={false}
+                            ellipsizeMode="tail"
+                            numberOfLines={1}
+                            selectable={true}
+                            style={
+                              {
+                                "color": "#787777",
+                                "fontFamily": "Circular Std Book",
+                                "fontSize": 16,
+                                "fontWeight": "400",
+                                "lineHeight": 22.4,
+                                "userSelect": "auto",
+                              }
+                            }
+                          >
+                            spaces.collaborators.manage.tabs.invites
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -1238,251 +1264,277 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                     }
                   }
                 >
-                  <View
-                    accessibilityControls="collaborator-tabs-panel-0"
-                    accessibilityLabel="spaces.collaborators.manage.tabs.all"
-                    accessibilityState={
-                      {
-                        "busy": undefined,
-                        "checked": undefined,
-                        "disabled": false,
-                        "expanded": undefined,
-                        "selected": false,
-                      }
-                    }
-                    accessibilityValue={
-                      {
-                        "max": undefined,
-                        "min": undefined,
-                        "now": undefined,
-                        "text": undefined,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    nativeID="collaborator-tabs-tab-0"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    role="tab"
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "borderBottomColor": "transparent",
-                          "borderBottomWidth": 2,
-                          "justifyContent": "center",
-                          "marginLeft": 20,
-                          "marginRight": 20,
-                          "maxWidth": 320,
-                          "paddingVertical": 12,
-                          "width": "auto",
-                        },
-                        {
-                          "width": "auto",
-                        },
-                      ]
-                    }
-                    testID="collaborator-tabs-button-0-inactive"
-                  >
+                  <View>
                     <View
-                      pointerEvents="none"
                       style={
                         {
-                          "flexDirection": "row",
+                          "paddingLeft": 20,
+                          "paddingRight": 20,
                         }
                       }
                     >
-                      <Text
-                        accessible={false}
-                        ellipsizeMode="tail"
-                        numberOfLines={1}
-                        selectable={true}
-                        style={
+                      <View
+                        accessibilityControls="collaborator-tabs-panel-0"
+                        accessibilityLabel="spaces.collaborators.manage.tabs.all"
+                        accessibilityState={
                           {
-                            "color": "#787777",
-                            "fontFamily": "Circular Std Book",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "userSelect": "auto",
+                            "busy": undefined,
+                            "checked": undefined,
+                            "disabled": false,
+                            "expanded": undefined,
+                            "selected": false,
                           }
                         }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
+                          }
+                        }
+                        accessible={true}
+                        collapsable={false}
+                        focusable={true}
+                        nativeID="collaborator-tabs-tab-0"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        role="tab"
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "borderBottomColor": "transparent",
+                              "borderBottomWidth": 2,
+                              "justifyContent": "center",
+                              "maxWidth": 320,
+                              "paddingVertical": 12,
+                              "width": "auto",
+                            },
+                            {
+                              "width": "auto",
+                            },
+                          ]
+                        }
+                        testID="collaborator-tabs-button-0-inactive"
                       >
-                        spaces.collaborators.manage.tabs.all
-                      </Text>
+                        <View
+                          pointerEvents="none"
+                          style={
+                            {
+                              "flexDirection": "row",
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={false}
+                            ellipsizeMode="tail"
+                            numberOfLines={1}
+                            selectable={true}
+                            style={
+                              {
+                                "color": "#787777",
+                                "fontFamily": "Circular Std Book",
+                                "fontSize": 16,
+                                "fontWeight": "400",
+                                "lineHeight": 22.4,
+                                "userSelect": "auto",
+                              }
+                            }
+                          >
+                            spaces.collaborators.manage.tabs.all
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                   <View
-                    accessibilityControls="collaborator-tabs-panel-1"
-                    accessibilityLabel="spaces.collaborators.manage.tabs.requests"
-                    accessibilityState={
-                      {
-                        "busy": undefined,
-                        "checked": undefined,
-                        "disabled": false,
-                        "expanded": undefined,
-                        "selected": true,
-                      }
-                    }
-                    accessibilityValue={
-                      {
-                        "max": undefined,
-                        "min": undefined,
-                        "now": undefined,
-                        "text": undefined,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    nativeID="collaborator-tabs-tab-1"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
                     onLayout={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    role="tab"
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "borderBottomColor": "#262424",
-                          "borderBottomWidth": 2,
-                          "justifyContent": "center",
-                          "marginLeft": 0,
-                          "marginRight": 20,
-                          "maxWidth": 320,
-                          "paddingVertical": 12,
-                          "width": "auto",
-                        },
-                        {
-                          "width": "auto",
-                        },
-                      ]
-                    }
-                    testID="collaborator-tabs-button-1-active"
                   >
                     <View
-                      pointerEvents="none"
                       style={
                         {
-                          "flexDirection": "row",
+                          "paddingRight": 20,
                         }
                       }
                     >
-                      <Text
-                        accessible={false}
-                        ellipsizeMode="tail"
-                        numberOfLines={1}
-                        selectable={true}
-                        style={
+                      <View
+                        accessibilityControls="collaborator-tabs-panel-1"
+                        accessibilityLabel="spaces.collaborators.manage.tabs.requests"
+                        accessibilityState={
                           {
-                            "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
-                            "fontSize": 16,
-                            "fontWeight": "500",
-                            "lineHeight": 22.4,
-                            "userSelect": "auto",
+                            "busy": undefined,
+                            "checked": undefined,
+                            "disabled": false,
+                            "expanded": undefined,
+                            "selected": true,
                           }
                         }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
+                          }
+                        }
+                        accessible={true}
+                        collapsable={false}
+                        focusable={true}
+                        nativeID="collaborator-tabs-tab-1"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        role="tab"
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "borderBottomColor": "#262424",
+                              "borderBottomWidth": 2,
+                              "justifyContent": "center",
+                              "maxWidth": 320,
+                              "paddingVertical": 12,
+                              "width": "auto",
+                            },
+                            {
+                              "width": "auto",
+                            },
+                          ]
+                        }
+                        testID="collaborator-tabs-button-1-active"
                       >
-                        spaces.collaborators.manage.tabs.requests
-                      </Text>
+                        <View
+                          pointerEvents="none"
+                          style={
+                            {
+                              "flexDirection": "row",
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={false}
+                            ellipsizeMode="tail"
+                            numberOfLines={1}
+                            selectable={true}
+                            style={
+                              {
+                                "color": "#262424",
+                                "fontFamily": "Circular Std Medium",
+                                "fontSize": 16,
+                                "fontWeight": "500",
+                                "lineHeight": 22.4,
+                                "userSelect": "auto",
+                              }
+                            }
+                          >
+                            spaces.collaborators.manage.tabs.requests
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
-                  <View
-                    accessibilityControls="collaborator-tabs-panel-2"
-                    accessibilityLabel="spaces.collaborators.manage.tabs.invites"
-                    accessibilityState={
-                      {
-                        "busy": undefined,
-                        "checked": undefined,
-                        "disabled": false,
-                        "expanded": undefined,
-                        "selected": false,
-                      }
-                    }
-                    accessibilityValue={
-                      {
-                        "max": undefined,
-                        "min": undefined,
-                        "now": undefined,
-                        "text": undefined,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    nativeID="collaborator-tabs-tab-2"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    role="tab"
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "borderBottomColor": "transparent",
-                          "borderBottomWidth": 2,
-                          "justifyContent": "center",
-                          "marginLeft": 0,
-                          "marginRight": 20,
-                          "maxWidth": 320,
-                          "paddingVertical": 12,
-                          "width": "auto",
-                        },
-                        {
-                          "width": "auto",
-                        },
-                      ]
-                    }
-                    testID="collaborator-tabs-button-2-inactive"
-                  >
+                  <View>
                     <View
-                      pointerEvents="none"
                       style={
                         {
-                          "flexDirection": "row",
+                          "paddingRight": 20,
                         }
                       }
                     >
-                      <Text
-                        accessible={false}
-                        ellipsizeMode="tail"
-                        numberOfLines={1}
-                        selectable={true}
-                        style={
+                      <View
+                        accessibilityControls="collaborator-tabs-panel-2"
+                        accessibilityLabel="spaces.collaborators.manage.tabs.invites"
+                        accessibilityState={
                           {
-                            "color": "#787777",
-                            "fontFamily": "Circular Std Book",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "userSelect": "auto",
+                            "busy": undefined,
+                            "checked": undefined,
+                            "disabled": false,
+                            "expanded": undefined,
+                            "selected": false,
                           }
                         }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
+                          }
+                        }
+                        accessible={true}
+                        collapsable={false}
+                        focusable={true}
+                        nativeID="collaborator-tabs-tab-2"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        role="tab"
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "borderBottomColor": "transparent",
+                              "borderBottomWidth": 2,
+                              "justifyContent": "center",
+                              "maxWidth": 320,
+                              "paddingVertical": 12,
+                              "width": "auto",
+                            },
+                            {
+                              "width": "auto",
+                            },
+                          ]
+                        }
+                        testID="collaborator-tabs-button-2-inactive"
                       >
-                        spaces.collaborators.manage.tabs.invites
-                      </Text>
+                        <View
+                          pointerEvents="none"
+                          style={
+                            {
+                              "flexDirection": "row",
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={false}
+                            ellipsizeMode="tail"
+                            numberOfLines={1}
+                            selectable={true}
+                            style={
+                              {
+                                "color": "#787777",
+                                "fontFamily": "Circular Std Book",
+                                "fontSize": 16,
+                                "fontWeight": "400",
+                                "lineHeight": 22.4,
+                                "userSelect": "auto",
+                              }
+                            }
+                          >
+                            spaces.collaborators.manage.tabs.invites
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                 </View>
