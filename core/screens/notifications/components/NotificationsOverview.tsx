@@ -144,6 +144,9 @@ const styles = StyleSheet.create({
       android: {
         marginTop: +vars.topBarHeight,
       },
+      web: {
+        marginHorizontal: 'auto',
+      },
     }),
   },
   footer: {
