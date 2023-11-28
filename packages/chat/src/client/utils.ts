@@ -16,6 +16,7 @@ import {
 
 import {
   ChatRoomEvent,
+  RoomType,
   type RoomWithSharedData,
   type SharedDataContent,
   type SpaceChildSharedDataContent,
@@ -108,11 +109,28 @@ export const setRoomsListeners = ({ client, roomEvent, rooms, createListener }: 
   }
 }
 
-export const getLastMessageEvent = (room: Room): IRoomEvent | undefined => {
+/**
+ * @name getLastMessageEvent
+ * @description return an optional IRoomEvent for last supported message of the room.
+ * for rooms of type:
+ * - 'space' returns undefined, because we do not show rooms of this type
+ * - 'space.child' supports 'm.room.message' and 'm.room.membership' events
+ * - 'private' supports only 'm.room.message' events
+ * @argument room: `Room`
+ * @argument roomType: `RoomType`
+ */
+export const getLastMessageEvent = (room: Room, roomType: RoomType): IRoomEvent | undefined => {
+  if (roomType === 'space') return undefined
+
   const timelineEvents = room.getLiveTimeline().getEvents()
-  const event = [...timelineEvents].findLast(
-    (event) => isMessageEvent(event) || (isMembershipEvent(event) && isJoinOrLeaveEvent(event))
-  )?.event
+  const event = timelineEvents.findLast((event) => {
+    if (roomType === 'space.child') {
+      return isMessageEvent(event) || (isMembershipEvent(event) && isJoinOrLeaveEvent(event))
+    } else {
+      return isMessageEvent(event)
+    }
+  })?.event
+
   return event && isIRoomEvent(event) ? event : undefined
 }
 

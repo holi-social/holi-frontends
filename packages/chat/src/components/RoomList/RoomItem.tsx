@@ -73,17 +73,17 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
     )
   }
 
-  const getChatMessageText = (message: ChatMessage): string | null => {
+  const getChatMessageText = (message: ChatMessage, isSpaceRoom: boolean, userName = ''): string | null => {
     switch (message.type) {
       case 'message':
-        return message.content.body
+        return (isSpaceRoom ? `${userName}: ` : ' ') + message.content.body
 
       case 'membership': {
         switch (message.content.membership) {
           case 'join':
-            return t('chat.room.lastMessage.membership.join')
+            return t('chat.room.lastMessage.membership.join', { user: userName })
           case 'leave':
-            return t('chat.room.lastMessage.membership.leave')
+            return t('chat.room.lastMessage.membership.leave', { user: userName })
           default:
             return null
         }
@@ -149,8 +149,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
             )}
             {lastMessage && (
               <HoliText numberOfLines={1} color="gray300">
-                {isSpaceRoom && lastMessageHoliUser && `${lastMessageHoliUser?.fullName}: `}
-                {getChatMessageText(lastMessage)}
+                {getChatMessageText(lastMessage, isSpaceRoom, lastMessageHoliUser?.fullName)}
               </HoliText>
             )}
           </View>
