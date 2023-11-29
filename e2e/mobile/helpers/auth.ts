@@ -1,7 +1,5 @@
 import { faker } from '@faker-js/faker'
 
-import { delay } from '@holi/e2e-mobile/helpers/time'
-
 import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
   checkIfElementWithTestIdExists,
@@ -100,7 +98,6 @@ export const finishAccountSetup = async ({
   await tapOnElementWithTestId('holi-wizard-next-btn')
 
   await waitForHomeScreen()
-  delay(10)
 }
 
 export const logout = async () => {
