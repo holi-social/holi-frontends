@@ -165,13 +165,9 @@ export const seeTextWithTestId = async (expectedText: string, testId: string) =>
 
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/element/touchAction
-  try {
-    const element = await waitForElementWithTestId(testId, timeout)
-    await Appium.touchAction({ element, action: 'tap' })
-    return element
-  } catch (err) {
-    throw new Error("Couldn't tap on element with testID: " + testId)
-  }
+  const element = await waitForElementWithTestId(testId, timeout)
+  await Appium.touchAction({ element, action: 'tap' })
+  return element
 }
 
 export const tapOnLoginLinkInText = async (selector = 'already-have-account-text') => {
