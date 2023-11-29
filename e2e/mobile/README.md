@@ -21,6 +21,7 @@
     - [Can't find simctl SDKs](#cant-find-simctl-sdks)
     - [Espresso server can't be built / started](#espresso-server-cant-be-built--started)
     - [Can't find ANDROID_HOME nor ANDROID_SDK_ROOT](#cant-find-android_home-nor-android_sdk_root)
+    - [Password field doesn't work]
 
 ## Building via EAS
 
@@ -222,3 +223,7 @@ export ANDROID_HOME=/home/$(whoami)/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
 ```
+
+### iOS Password field doesn't work
+Make sure to disable Password autofill in your simulator device settings
+Settings -> Passwords -> Password options -> Disable "Autofill"
