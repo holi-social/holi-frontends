@@ -48,7 +48,7 @@ describe('@Notifications', () => {
     // then badge is displayed on the notification bell
     // and notification center has a notification for it
     await waitForElementWithTestId('btn-to-notifications-with-badge')
-    await tapOnElementWithTestId('btn-to-notifications-with-badge')
+    await tapOnElementWithTestId('btn-to-notifications')
     await waitForElementWithTestId('notification-list')
     await waitForElementWithTestId('post-comment')
 
