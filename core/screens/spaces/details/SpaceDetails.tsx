@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -16,6 +16,7 @@ import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import useTabNavigation, { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -23,7 +24,10 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType } from '@holi/core/queries'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
-import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
+import SpaceDetailView, {
+  SPACE_DETAILS_TABS_IN_ORDER,
+  SpaceDetailsTabs,
+} from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
@@ -37,15 +41,14 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type SpaceDetailsParams = RefreshOnNavigationParams & {
-  spaceIdOrName: string
-}
+export type SpaceDetailsParams = RefreshOnNavigationParams &
+  TabNavigationParams & {
+    spaceIdOrName: string
+  }
 
 const { useParam } = createParam<SpaceDetailsParams>()
 
 const SpaceDetails = () => {
-  const [currentTabIndex, setCurrentTabIndex] = useState<number>()
-
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -102,6 +105,28 @@ const SpaceDetails = () => {
       show()
     }
   }, [space, show, isOnboarded, userId, isCreator, isMember])
+
+  const determineInitialTab = useCallback(() => {
+    if (!space) {
+      return undefined
+    }
+    const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+    const { collaborationTools = [] } = space
+    const hasInvolvementContent = space?.tasks?.length !== 0 || collaborationTools?.length !== 0
+
+    if (!isMember) {
+      return SpaceDetailsTabs.INFO
+    }
+    if (hasInvolvementContent) {
+      return SpaceDetailsTabs.INVOLVEMENT
+    }
+    return SpaceDetailsTabs.UPDATES
+  }, [space])
+
+  const { initialTabIndex, currentTabName, selectTabWithIndex } = useTabNavigation({
+    tabNamesInOrder: SPACE_DETAILS_TABS_IN_ORDER,
+    determineInitialTab,
+  })
 
   const handleModalClose = () => {
     setIsOnboarded().finally(hide)
@@ -290,11 +315,16 @@ const SpaceDetails = () => {
         headerOverlap
         keyboardShouldPersistTaps="handled"
       >
-        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={setCurrentTabIndex} />
+        <SpaceDetailView
+          style={styles.spaceDetailView}
+          space={space}
+          onChangeTabIndex={selectTabWithIndex}
+          initialTabIndex={initialTabIndex}
+        />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout.Refreshable>
-      {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
-      {isMember && currentTabIndex === 1 && <UpdateButton />}
+      {isMember && currentTabName === SpaceDetailsTabs.INVOLVEMENT && <AddNewDrawer spaceIdOrName={space.name} />}
+      {isMember && currentTabName === SpaceDetailsTabs.UPDATES && <UpdateButton />}
     </SafeAreaProvider>
   )
 }
