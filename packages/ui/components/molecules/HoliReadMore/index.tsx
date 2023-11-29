@@ -82,22 +82,10 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
 }
 
 export function truncateTextByLines(textLines: TextLayoutLine[], numberOfLines: number, ellipsis: string): string {
-  return textLines
-    .map((line, index) => {
-      const { text } = line
-      // last line shown, but more lines in text
-      if (index === numberOfLines - 1) {
-        // add ellipsis (relatively) safely by replacing the last word (and leading whitespace) with the ellipsis
-        return text.replace(/\S*\W+$/, ellipsis)
-      } else if (index > numberOfLines - 1) {
-        // disconsider any lines beyond numberOfLines for the truncated text
-        return ''
-      } else {
-        // normal line, return full text
-        return text
-      }
-    })
-    .join('')
+  const shortTextLines = textLines.slice(0, numberOfLines)
+  const needsEllipsis = shortTextLines.length == numberOfLines
+  const shortText = shortTextLines.map((line) => line.text).join('')
+  return needsEllipsis ? shortText.replace(/\S*\W+$/, ellipsis) : shortText
 }
 
 export default HoliReadMore
