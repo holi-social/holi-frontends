@@ -17,7 +17,6 @@ export const delay = (time: number) =>
   test.expect(false, "don't use delays, they are hiding test issues that we should fix directly").toBeTruthy()
 
 export const locateElementByTestId = async (page: Page, testId: string, nth?: number): Promise<Locator> => {
-  await page.waitForSelector(byTestId(testId))
   return page.locator(byTestId(testId, nth))
 }
 
@@ -27,6 +26,13 @@ export const clickFirstElement = async (locator: Locator): Promise<void> => {
 
 export const clickElementByTestId = async (page: Page, testId: string, nth?: number): Promise<void> => {
   return clickFirstElement(await locateElementByTestId(page, testId, nth))
+}
+
+/*
+ * Only use for text that is provided by the test (fixture)
+ */
+export const clickButtonByText = async (page: Page, buttonText: string): Promise<void> => {
+  await page.click(`button:has-text("${buttonText}")`)
 }
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
@@ -53,40 +59,42 @@ export const gotoFillAndSubmitLogin = async (
   await clickElementByTestId(page, 'ory-submit-password')
 }
 
-export const gotoFillAndSubmitRegistration = async (
+export const registerUserAccount = async (
   context: BrowserContext,
   page: Page,
   email: string,
-  password: string,
-  withAccountSetup = true
+  password: string
+): Promise<{ id: string; fullName: string }> => {
+  await registerUser(context, page, email, password)
+  return await finishAccountSetup(page)
+}
+
+export const registerUser = async (
+  context: BrowserContext,
+  page: Page,
+  email: string,
+  password: string
 ): Promise<void> => {
-  await prepareForLoginOrRegistration(context, page)
+  await retry(async () => {
+    await prepareForLoginOrRegistration(context, page)
 
-  await clickElementByTestId(page, 'btn-to-registration-form')
-
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-
-  await clickElementByTestId(page, 'community-guidelines-checkbox')
-
-  await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
-
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-
-  await clickElementByTestId(page, 'privacy-policy-checkbox')
-
-  await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
-
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+    await clickElementByTestId(page, 'btn-to-registration-form')
+    await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+    await clickElementByTestId(page, 'community-guidelines-checkbox')
+    await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
+    await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+    await clickElementByTestId(page, 'privacy-policy-checkbox')
+    await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
+    await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+  })
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
-  await emailInput.fill(email)
-
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
+
+  await emailInput.fill(email)
   await passwordInput.fill(password)
 
   await clickElementByTestId(page, 'ory-submit-password')
-
-  if (withAccountSetup) await finishAccountSetup(page)
 }
 
 export const finishAccountSetup = async (
@@ -98,7 +106,24 @@ export const finishAccountSetup = async (
     firstName?: string
     lastName?: string
   } = {}
-) => {
+): Promise<{ id: string; fullName: string }> => {
+  let id
+  await page.route(
+    `${process.env.BASE_URL}/api/graphql?op=AuthenticatedUser`,
+    async (route) => {
+      try {
+        const response = await route.fetch()
+        const result = await response.json()
+        id = result.data.authenticatedUser.id
+      } finally {
+        await route.continue()
+      }
+    },
+    // as this route is called by a lot of the tested components
+    // only intercept the route once
+    { times: 1 }
+  )
+
   // go through account setup
   // provide user names
   const firstNameInput = await locateElementByTestId(page, 'first-name-input')
@@ -120,11 +145,16 @@ export const finishAccountSetup = async (
   // skip interests step
   await page.waitForSelector(byTestId('account-setup-success-step'))
   await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  if (!id) throw new Error("Wasn't able to intercept user id while finishing account setup flow")
+  return {
+    id,
+    fullName: firstName + ' ' + lastName,
+  }
 }
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
-  // click the button and wait for it to be detached
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
@@ -154,17 +184,18 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
   await page.waitForSelector(byTestId('user-profile-full-name'))
 }
 
-export const registerAsNewUser = async (
+export const registerNewUserAccount = async (
   context: BrowserContext,
   page: Page,
   email?: string,
   password?: string
-): Promise<void> => {
+): Promise<{ id: string; fullName: string }> => {
   const emailToUse = email || newUserEmail()
   const passwordToUse = password || newUserPassword
-  await gotoFillAndSubmitRegistration(context, page, emailToUse, passwordToUse)
+  const newAccount = await registerUserAccount(context, page, emailToUse, passwordToUse)
   // wait for home feed - registration succeeded
   await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  return newAccount
 }
 
 export const checkAccessibility = async (page: Page) => {
@@ -205,6 +236,10 @@ export const sendConnectionRequest = async (page: Page) => {
   await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
 }
 
+export const randomSpaceName = () => {
+  return faker.animal.type() + faker.number.int()
+}
+
 export const newUserEmail = () => {
   return `${faker.internet.userName()}${faker.string.alphanumeric(4)}@e2etest.com`
 }
@@ -216,18 +251,20 @@ export const newUserPassword = 'TheSamePassword4A11E2eUsers'
 
 export const withRandomUserSession = async (
   browser: Browser,
-  actions: (page: Page) => Promise<void>,
+  actions: (page: Page, userId: string, userFullName: string) => Promise<void>,
   email: string = newUserEmail(),
   password: string = randomPassword()
 ): Promise<() => Promise<void>> => {
   const context = await browser.newContext()
   const page = await context.newPage()
 
-  await registerAsNewUser(context, page, email, password)
+  const newAccount = await registerNewUserAccount(context, page, email, password)
   // goto profile to simulate old behaviour for now
   await page.goto('/profile')
   await page.waitForSelector(byTestId('user-profile-full-name'))
-  await actions(page)
+
+  await actions(page, newAccount.id, newAccount.fullName)
+
   return async () => {
     await deleteUser(page)
     await context.close()
@@ -235,13 +272,17 @@ export const withRandomUserSession = async (
 }
 
 const deleteUser = async (page: Page) => {
-  await page.goto('/profile')
-  await page.waitForSelector(byTestId('user-profile-full-name'))
-  await clickElementByTestId(page, 'btn-to-settings')
-  await clickElementByTestId(page, 'btn-your-account')
-  await clickElementByTestId(page, 'btn-delete-account')
-  await clickElementByTestIdAndWaitForToast(page, 'account-deletion-confirmation-confirmation-confirm', 'toast-SUCCESS')
-  await page.waitForSelector(byTestId('login-protection-heading'))
+  await retry(async () => {
+    await page.goto('/profile')
+    await clickElementByTestId(page, 'btn-to-settings')
+    await clickElementByTestId(page, 'btn-your-account')
+    await clickElementByTestId(page, 'btn-delete-account')
+    await clickElementByTestIdAndWaitForToast(
+      page,
+      'account-deletion-confirmation-confirmation-confirm',
+      'toast-SUCCESS'
+    )
+  })
 }
 
 export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {
@@ -259,5 +300,20 @@ export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elem
  * elements.
  */
 export const waitForAnimationEnd = async (page: Page, locatorString: string): Promise<void> => {
-  await (await page.waitForSelector(locatorString)).waitForElementState('stable')
+  const element = page.locator(locatorString)
+  await element.waitFor()
+}
+
+/*
+ * Wrap around expectations that rely on unpredictable background work
+ *
+ * Be aware that a test itself is also retried in CI
+ */
+export const retry = async (assertionsFn: () => Promise<void>) => {
+  await expect(async () => {
+    await assertionsFn()
+  }).toPass({
+    intervals: [1_000, 2_000],
+    timeout: 10_000,
+  })
 }

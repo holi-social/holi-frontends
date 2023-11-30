@@ -88,7 +88,7 @@ const DonationsAppProjectDetail = () => {
       testID="donations-detailview-container"
     >
       <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ isLoading: refreshing, onRefresh }}
+        refreshableProps={{ refreshing, onRefresh }}
         style={{ backgroundColor: colors.background30 }}
         headerOverlap
       >

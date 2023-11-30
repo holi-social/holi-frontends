@@ -145,7 +145,7 @@ export default memo(CreateAccount)
 
 const styles = StyleSheet.create({
   inner: {
-    maxWidth: vars.breakpointL,
+    maxWidth: +vars.breakpointL,
     width: '100%',
   },
   headline: {

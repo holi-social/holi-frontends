@@ -259,12 +259,12 @@ const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
   await page.waitForSelector(byTestId('btn-to-post'), { state: 'detached' })
 }
 
-const checkConfirmButtonIsDisabled = async (page: Page) => {
+export const checkConfirmButtonIsDisabled = async (page: Page) => {
   const nextButton = await locateElementByTestId(page, 'holi-wizard-next-btn')
   await nextButton.isDisabled()
 }
 
-const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => {
+export const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => {
   const nameInput = await locateElementByTestId(page, 'space-name-input')
   await nameInput.fill(name)
 
@@ -374,7 +374,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await clickElementByTestId(page, 'form-modal-save-btn')
 }
 
-const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
+export const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
   const locatorForAllTerms = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
   const locatorForSelectedTerms = page.locator(
     `${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`

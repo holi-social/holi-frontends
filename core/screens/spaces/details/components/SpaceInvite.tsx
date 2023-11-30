@@ -25,6 +25,7 @@ const SpaceInvite: React.VFC<SpaceInviteProps> = ({ space }) => {
           variant="small"
           label={t('spaces.invite.btn.invite')}
           icon={UserAdd}
+          testID={'btn-space-invite'}
           onPress={() => navigate(`/spaces/${space.name}/invite`)}
         />
       ) : null}

@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals'
 import { initReactI18next } from 'react-i18next'
+import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
 import i18n from '@holi/core/i18n'
 
@@ -49,6 +50,8 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper')
 
 jest.mock('react-native/Libraries/Network/RCTNetworking')
 
+jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
+
 jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
 
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
@@ -60,10 +63,6 @@ jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
     }),
   }
 })
-
-jest.mock('@holi/core/components/ScrollHeaderLayout/Refreshable', () =>
-  jest.requireActual('@holi/core/components/ScrollHeaderLayout/Default')
-)
 
 jest.mock('@holi/core/helpers/useSafeAreaInsets', () => ({
   useSafeAreaInsets: () => ({

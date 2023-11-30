@@ -198,6 +198,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               },
             ]
           }
+          testID="notification-bell"
         >
           <View
             style={
@@ -218,9 +219,9 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 {
                   "borderColor": "#ebebeb",
                 },
-                {},
               ]
             }
+            testID="notification-bell-with-badge"
           />
         </View>
       </View>
@@ -667,6 +668,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               },
             ]
           }
+          testID="notification-bell"
         >
           <View
             style={
@@ -687,9 +689,9 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 {
                   "borderColor": "#ebebeb",
                 },
-                {},
               ]
             }
+            testID="notification-bell-with-badge"
           />
         </View>
       </View>

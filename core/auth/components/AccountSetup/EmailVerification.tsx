@@ -54,6 +54,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
       // disabled verification in Ory: skip EmailVerification step
       onSuccess()
     } else {
+      showLoader()
       // enabled verification in Ory
       getOrCreateVerificationFlow(verificationFlowData)
         .then(setFlow)
@@ -64,6 +65,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
           isLoggedIn && logout({ redirectPath: '/' })
           onDismiss()
         })
+        .finally(hideLoader)
     }
     // do only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -156,7 +158,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
     }
   }
 
-  if (!flow) return null
+  if (!flow) return <HoliLoader />
 
   return (
     <HoliKeyboardSaveView>

@@ -14,6 +14,7 @@ import {
   type ChatRoomMember,
   type MatrixId,
   MembershipStatus,
+  RoomType,
   type RoomWithSharedData,
   type SpaceChildRoom,
   type SpaceRoom,
@@ -105,7 +106,7 @@ export const sortRoomByTimestamp = (roomA: ChatRoom, roomB: ChatRoom): number =>
  * Types: `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
  */
 export const createChatRoom = (roomWithSharedData: RoomWithSharedData, hasInvitation = false): ChatRoom => {
-  const baseChatRoom = createBaseChatRoom(roomWithSharedData.room, hasInvitation)
+  const baseChatRoom = createBaseChatRoom(roomWithSharedData.room, roomWithSharedData.type, hasInvitation)
 
   switch (roomWithSharedData.type) {
     case 'private':
@@ -158,8 +159,8 @@ export function createSpaceChildChatRoom(
  * @description It creates the base for all 3 (internal) types of chats rooms
  * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
  */
-export function createBaseChatRoom(room: Room, hasInvitation = false): BaseChatRoom {
-  const lastMessageEvent = getLastMessageEvent(room)
+export function createBaseChatRoom(room: Room, roomType: RoomType, hasInvitation = false): BaseChatRoom {
+  const lastMessageEvent = getLastMessageEvent(room, roomType)
   const lastMessage = lastMessageEvent && createChatMessage(room.roomId, lastMessageEvent)
 
   const roomMxCreatorId = room.getCreator()

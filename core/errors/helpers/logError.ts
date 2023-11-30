@@ -2,6 +2,8 @@ import * as Sentry from '@sentry/react-native'
 
 import { ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 
+export type LogFunction = (error: unknown, logMessage: string, context: ErrorContext) => void
+
 export const logInfo = (error: unknown, message?: string) => {
   const errorMessage = message ? ` ${message}:` : ''
   // eslint-disable-next-line no-console
@@ -21,7 +23,7 @@ export const logInfoMsg = (message: string) => {
  *
  * (!) Make sure to never log or pass any user identifiable data.
  */
-export const logError = (error: unknown, logMessage: string, context: ErrorContext) => {
+export const logError: LogFunction = (error: unknown, logMessage: string, context: ErrorContext) => {
   if (isNetworkConnectionError(error)) return
   logErrorLocal(error, logMessage, context)
   Sentry.captureException(error, (scope) => {
@@ -30,7 +32,11 @@ export const logError = (error: unknown, logMessage: string, context: ErrorConte
   })
 }
 
-export const logErrorLocal = (error: unknown, logMessage: string, { location, ...context }: ErrorContext) => {
+export const logErrorLocal: LogFunction = (
+  error: unknown,
+  logMessage: string,
+  { location, ...context }: ErrorContext
+) => {
   if (isNetworkConnectionError(error)) return
   const isDevEnvironment = process.env.NODE_ENV === 'development'
   // `console.error` is being thrown by React Native ExceptionManager in

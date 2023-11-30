@@ -67,6 +67,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
           variant="small"
           style={props.style}
           disabled={loading}
+          testID={'space-collaborate-button'}
         >
           <HoliText>{t('spaces.join.btnRequest')}</HoliText>
         </HoliButton>
@@ -80,6 +81,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
           onPress={() => setWithdrawDialogIsOpen(true)}
           style={props.style}
           disabled={loading}
+          testID={'space-collaborate-pending-button'}
         >
           <HoliText>{t('spaces.join.btnPending')}</HoliText>
           <HoliIcon icon={Time} style={[{ marginLeft: 5 }]} />
