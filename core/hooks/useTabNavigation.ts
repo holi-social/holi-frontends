@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 
 export type TabNavigationParams = {
   tab?: string
@@ -28,7 +28,10 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     [tabNamesInOrder]
   )
 
-  const [currentTabName, setCurrentTabName] = useParam('tab')
+  const [currentTabName, setCurrentTabName] = useParam('tab', {
+    ...singleParamConfig,
+    options: { web: { replace: true } },
+  })
   const [initialTabIndex, setInitialTabIndex] = useState<number | undefined>()
 
   const selectTabWithIndex = useCallback(
