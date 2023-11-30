@@ -232,7 +232,6 @@ const createStyles = (screenHeight: number) =>
       backgroundColor: colors.background20,
     },
     all: {
-      backgroundColor: colors.background20,
       paddingVertical: 16,
       ...Platform.select({
         web: {
