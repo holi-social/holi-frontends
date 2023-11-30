@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { DimensionValue, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import SpaceInviteButton from '@holi/core/screens/spaces/details/components/SpaceInviteButton'
 import SpaceInviteItem from '@holi/core/screens/spaces/details/components/SpaceInviteItem'
 import { Space, SpaceInvite } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -34,21 +35,24 @@ const SpaceInvitesList: React.FC<SpaceInvitesProps> = ({ space, style }) => {
     <View style={style}>
       {/* TODO: Include pending email invites on top (non-user invites) */}
       {!spaceInvites.length && (
-        <View style={[mixins.container, styles.emptyContainer]}>
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_manage_collaborators_empty.svg')}
-            width={250}
-            height={180}
-            label={t('spaces.collaborators.pending.generic.empty.title')}
-            isSvg={true}
-            resizeMode="contain"
-          />
-          <HoliText size={'small'} style={styles.emptyTitle}>
-            {t('spaces.collaborators.pending.generic.empty.title')}
-          </HoliText>
-          <HoliText size={'large'} style={styles.emptyDescription}>
-            {t('spaces.collaborators.pending.generic.empty.description')}
-          </HoliText>
+        <View style={styles.wrapper}>
+          <View style={[mixins.container, styles.emptyContainer]}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_manage_collaborators_empty.svg')}
+              width={250}
+              height={180}
+              label={t('spaces.collaborators.pending.generic.empty.title')}
+              isSvg={true}
+              resizeMode="contain"
+            />
+            <HoliText size={'small'} style={styles.emptyTitle}>
+              {t('spaces.collaborators.pending.generic.empty.title')}
+            </HoliText>
+            <HoliText size={'large'} style={styles.emptyDescription}>
+              {t('spaces.collaborators.pending.generic.empty.description')}
+            </HoliText>
+          </View>
+          <SpaceInviteButton />
         </View>
       )}
       {!!spaceInvites.length &&
@@ -75,6 +79,17 @@ const styles = StyleSheet.create({
   emptyDescription: {
     marginTop: 8,
     textAlign: 'center',
+  },
+  wrapper: {
+    flex: 1,
+    justifyContent: 'space-between',
+    minHeight: '100%',
+    backgroundColor: colors.background20,
+    ...Platform.select({
+      web: {
+        minHeight: '75vh' as DimensionValue,
+      },
+    }),
   },
 })
 

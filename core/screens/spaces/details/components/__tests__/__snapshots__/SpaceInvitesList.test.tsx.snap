@@ -4,62 +4,257 @@ exports[`SpaceInvitesList renders correctly if there are no pending invites 1`] 
 <View>
   <View
     style={
-      [
-        {
-          "alignSelf": "center",
-          "maxWidth": 840,
-          "paddingHorizontal": 32,
-          "width": "100%",
-        },
-        {
-          "alignItems": "center",
-          "backgroundColor": "#fff",
-          "borderColor": "#ebebeb",
-          "borderRadius": 16,
-          "borderWidth": 1,
-          "justifyContent": "center",
-          "marginTop": 8,
-          "padding": 24,
-        },
-      ]
+      {
+        "backgroundColor": "#f5f5f5",
+        "flex": 1,
+        "justifyContent": "space-between",
+        "minHeight": "100%",
+      }
     }
   >
-    <Text
-      accessible={false}
-      selectable={true}
+    <View
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "Circular Std Book",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 19.599999999999998,
-          "marginTop": 24,
-          "textAlign": "center",
-          "userSelect": "auto",
-        }
+        [
+          {
+            "alignSelf": "center",
+            "maxWidth": 840,
+            "paddingHorizontal": 32,
+            "width": "100%",
+          },
+          {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#ebebeb",
+            "borderRadius": 16,
+            "borderWidth": 1,
+            "justifyContent": "center",
+            "marginTop": 8,
+            "padding": 24,
+          },
+        ]
       }
     >
-      spaces.collaborators.pending.generic.empty.title
-    </Text>
-    <Text
-      accessible={false}
-      selectable={true}
-      style={
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Book",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginTop": 24,
+            "textAlign": "center",
+            "userSelect": "auto",
+          }
+        }
+      >
+        spaces.collaborators.pending.generic.empty.title
+      </Text>
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Book",
+            "fontSize": 21,
+            "fontWeight": "400",
+            "lineHeight": 29.4,
+            "marginTop": 8,
+            "textAlign": "center",
+            "userSelect": "auto",
+          }
+        }
+      >
+        spaces.collaborators.pending.generic.empty.description
+      </Text>
+    </View>
+    <View
+      accessibilityLabel="spaces.collaborators.manage.invite"
+      accessibilityRole="button"
+      accessibilityState={
         {
-          "color": "#262424",
-          "fontFamily": "Circular Std Book",
-          "fontSize": 21,
-          "fontWeight": "400",
-          "lineHeight": 29.4,
-          "marginTop": 8,
-          "textAlign": "center",
-          "userSelect": "auto",
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
         }
       }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "auto",
+            },
+            {
+              "backgroundColor": "#fff",
+              "borderColor": "#262424",
+              "borderRadius": 28,
+              "borderWidth": 2,
+              "display": "flex",
+              "elevation": 0,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "paddingHorizontal": 32,
+              "paddingVertical": 13,
+            },
+            {
+              "backgroundColor": "#f5ef3f",
+            },
+          ],
+          undefined,
+        ]
+      }
+      testID="btn-invite-to-space"
     >
-      spaces.collaborators.pending.generic.empty.description
-    </Text>
+      <View
+        style={
+          [
+            {
+              "pointerEvents": "none",
+            },
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "paddingRight": 6,
+              "userSelect": "auto",
+            }
+          }
+        >
+          spaces.collaborators.manage.invite
+        </Text>
+        <View>
+          <RNSVGSvgView
+            align="xMidYMid"
+            bbHeight="16"
+            bbWidth="16"
+            color="#262424"
+            fill="none"
+            focusable={false}
+            height={16}
+            meetOrSlice={0}
+            minX={0}
+            minY={0}
+            style={
+              [
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "flex": 0,
+                  "height": 16,
+                  "width": 16,
+                },
+              ]
+            }
+            tintColor="#262424"
+            vbHeight={24}
+            vbWidth={24}
+            width={16}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <RNSVGGroup
+              fill={null}
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            >
+              <RNSVGGroup
+                clipPath="user-add_svg__a"
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
+                <RNSVGPath
+                  d="M14 14.252v2.09A6 6 0 0 0 6 22l-2-.001a8 8 0 0 1 10-7.748v.001ZM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6Zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm6 6v-3h2v3h3v2h-3v3h-2v-3h-3v-2h3Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+              <RNSVGDefs>
+                <RNSVGClipPath
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                  name="user-add_svg__a"
+                >
+                  <RNSVGPath
+                    d="M0 0h24v24H0z"
+                    fill={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGClipPath>
+              </RNSVGDefs>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </View>
+      </View>
+    </View>
   </View>
 </View>
 `;
