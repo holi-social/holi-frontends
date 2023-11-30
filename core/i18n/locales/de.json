@@ -724,6 +724,7 @@
   "spaces.link.OTHER": "Andere",
   "spaces.link.TWITTER": "Twitter",
   "spaces.link.WHATSAPP": "WhatsApp",
+  "spaces.members.invite": "Neue Mitwirkende:r einladen",
   "spaces.members.member": "{{count}} Mitwirkende:r",
   "spaces.members.member_plural": "{{count}} Mitwirkende",
   "spaces.membership.update.error": "Die Anfrage konnte nicht bearbeitet werden",

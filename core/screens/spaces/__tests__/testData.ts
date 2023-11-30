@@ -134,7 +134,7 @@ const invites = [1, 2, 3].map((id) => ({
     ...user,
     id: `invited-user-${id}`,
   },
-  __typename: 'SpaceMembershipRequest',
+  __typename: 'SpaceInvite',
 }))
 
 export const pagedMembershipRequests: Paged<SpaceMembershipRequest> = {
