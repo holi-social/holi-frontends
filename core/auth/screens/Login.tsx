@@ -84,10 +84,15 @@ const Login = () => {
         setVerificationFlowData(payload)
         await storeOnboardingState('emailVerification')
 
-        if (!isWeb) {
+        if (isWeb) {
+          navigate('/')
+        } else {
+          // for Mobile we need first to close Loing modal
           navigateBack()
+          // and then navigate to onboarding
+          // timeout is used for correct animation of closing modal and navigating
+          setTimeout(() => navigate('/onboarding'), 300)
         }
-        navigate('/onboarding')
       } else {
         handleFormSubmitError(
           safeSetFlow,
