@@ -293,11 +293,18 @@ export default class ChatClient {
   }
 
   public async getJoinedRoomsWithSharedData(): Promise<RoomWithSharedData[]> {
-    const rooms = this.getRooms()
-      .filter((room) => room.getMyMembership() === 'join')
-      .map(async (room) => await this.getRoomWithSharedData(room))
+    return this.getRooms().reduce<Promise<RoomWithSharedData[]>>(async (acc, room) => {
+      const roomsList = await acc
 
-    return await Promise.all(rooms)
+      switch (room.getMyMembership()) {
+        case 'join':
+          return [...roomsList, await this.getRoomWithSharedData(room)]
+        case 'invite':
+          return [...roomsList, { type: 'private', room }]
+        default:
+          return roomsList
+      }
+    }, Promise.resolve([]))
   }
 
   public getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
