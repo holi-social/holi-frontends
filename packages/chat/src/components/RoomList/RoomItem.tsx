@@ -1,12 +1,12 @@
 import { useAtomValue } from 'jotai'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import {
   type ChatMessage,
   type ChatRoomAtom,
-  getChatPartner,
+  chatPartnerAtomCreator,
   getHoliUserForChatMember,
   setLatestMessagesAsRead,
 } from '@holi/chat/src/store'
@@ -36,9 +36,11 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
+  const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
+
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
-  const chatPartner = getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
+
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
@@ -112,7 +114,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
             ) : chatPartner ? (
               <HoliAvatar
                 label={roomName}
-                imageSrc={chatPartnerHoliUser?.avatar}
+                imageSrc={chatPartner?.avatar ?? ''}
                 imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
                 initials={chatPartnerHoliUser?.avatarLabel ?? ''}
                 defaultColor={chatPartnerHoliUser?.avatarDefaultColor ?? ''}

@@ -5,11 +5,11 @@ import {
   EventTimelineSet,
   EventType,
   HttpApiEvent,
-  ICreateClientOpts,
-  ICreateRoomOpts,
-  IStartClientOpts,
+  type ICreateClientOpts,
+  type ICreateRoomOpts,
+  type IStartClientOpts,
   MatrixClient,
-  MatrixEvent,
+  type MatrixEvent,
   MatrixScheduler,
   Preset,
   Room,
@@ -29,6 +29,7 @@ import {
   type CreateRoomOptions,
   type MatrixId,
   MembershipStatus,
+  MxMessagesResponse,
   type NotificationCount,
   type RoomId,
   type RoomWithSharedData,
@@ -37,6 +38,8 @@ import {
 import {
   addRoomEventListener,
   createInitialRoom,
+  filterMessagesChunk,
+  hasDuplicateMembershipEvent,
   isAdminChangeToMembership,
   isEventWithSharedData,
   isJoinOrLeaveEvent,
@@ -277,8 +280,10 @@ export default class ChatClient {
     return await this.mxClient.createRoom({ ...options, invite: userIds })
   }
 
-  public createMessagesRequest(roomId: string, fromToken: string | null = null) {
-    return this.mxClient.createMessagesRequest(roomId, fromToken, 30, Direction.Backward)
+  public async createMessagesRequest(roomId: string, fromToken: string | null = null): Promise<MxMessagesResponse> {
+    const { chunk, ...rest } = await this.mxClient.createMessagesRequest(roomId, fromToken, 40, Direction.Backward)
+
+    return { ...rest, chunk: filterMessagesChunk(chunk) }
   }
 
   public getRoomNotificationCount(id: string): number {
@@ -447,10 +452,11 @@ export default class ChatClient {
   }
 
   public subscribeToMembership(
-    callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
+    callback: (state: RoomState, member: RoomMember, membership?: string) => void
   ): (() => void) | void {
-    const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+    const membershipHandler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
+
       // If the creator of the DM room is the last one we forget (delete) entirely the room
       // Example usage when the invited member in a two people DM rejects an invitation.
       if (this.isLastDmMember(roomState, member)) {
@@ -459,13 +465,13 @@ export default class ChatClient {
           .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
       }
 
-      callback(event, roomState, member)
+      callback(roomState, member, event.getContent().membership)
     }
 
-    this.mxClient.on(RoomStateEvent.Members, handler)
+    this.mxClient.on(RoomStateEvent.Members, membershipHandler)
 
     return () => {
-      this.mxClient.off(RoomStateEvent.Members, handler)
+      this.mxClient.off(RoomStateEvent.Members, membershipHandler)
     }
   }
 
@@ -574,6 +580,7 @@ export default class ChatClient {
       if (room.roomId !== event.getRoomId()) return
       if (!isMessageEvent(event) && !isMembershipEvent(event)) return
       if (isMembershipEvent(event) && !isJoinOrLeaveEvent(event)) return
+      if (hasDuplicateMembershipEvent(room, event)) return
 
       callback(event)
     }

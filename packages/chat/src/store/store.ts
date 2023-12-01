@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import { type Atom, type Getter, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { type Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
@@ -13,6 +13,18 @@ import {
   type RoomId,
   type RoomWithSharedData,
 } from '@holi/chat/src/client/types'
+import {
+  addChatRoom,
+  addNotificationsCount,
+  addOrUpdateChatRoom,
+  addOrUpdateMemeberInChatRoom,
+  deleteChatRoom,
+  updateRoomAfterNewMessage,
+  updateRoomInvitation,
+  updateRoomUnreadNotifications,
+  updateSpaceIdToChildIds,
+  updateUserIdToMember,
+} from '@holi/chat/src/store/producers'
 import type {
   ChatMessage,
   ChatMessagesAtom,
@@ -26,13 +38,10 @@ import type {
 } from '@holi/chat/src/store/types'
 import { MessageAtomsByRoomId, RoomAtomsActionType } from '@holi/chat/src/store/types'
 import {
-  createChatMember,
   createChatMessage,
   createChatRoom,
   getAtomFromRecordId,
   isPrivateChatRoom,
-  isRoomMemberEvent,
-  isRoomMessageEvent,
   isSpaceChatRoom,
   isSpaceChildChatRoom,
   toMatrixIdentity,
@@ -55,92 +64,6 @@ export const getChatClient = (): ChatClient => {
     )
   return chatClient
 }
-
-/**
- * Room Producers
- *
- **/
-interface UpdateRoomInvitationOptions {
-  membership: string
-  prevMembership?: string
-}
-
-const updateRoomInvitation = produce(
-  (chatRoom: ChatRoom, { membership, prevMembership }: UpdateRoomInvitationOptions) => {
-    const hasJoined = prevMembership === 'invite' && membership === 'join'
-    if (!hasJoined) return
-
-    chatRoom.hasInvitation = !hasJoined
-  }
-)
-
-const updateRoomUnreadNotifications = produce((chatRoom: ChatRoom, count: number) => {
-  chatRoom.notificationCount = count
-})
-
-const addNotificationsCount = produce((chatRoom: ChatRoom, count: number) => {
-  chatRoom.notificationCount += count
-})
-
-const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
-  if (room.type === 'private' && message.type === 'membership') return
-
-  room.lastMessage = message
-  room.timestamp = message.timestamp
-})
-
-/**
- * @description: adds (for first members `join` event) or update (for follow up `join/leave` events) a member in the ChatRoom.
- * @see addOrUpdateMemeberInChatRoom
- */
-const addOrUpdateMemeberInChatRoom = produce((room: ChatRoom, member: RoomMember) => {
-  const memberIdx = room.members.findIndex(({ id }) => id === member.userId)
-  const roomMember = createChatMember(member)
-
-  if (memberIdx >= 0) {
-    room.members.splice(memberIdx, 1, roomMember)
-  } else {
-    room.members.push(roomMember)
-  }
-})
-
-const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, chatRoom: ChatRoom) => {
-  roomAtoms[chatRoom.id] = atom(chatRoom)
-})
-
-const addOrUpdateChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, rooms: ChatRoom[], get: Getter) => {
-  rooms.forEach((roomUpdate) => {
-    const roomId = roomUpdate.id
-    const roomAtom = roomAtoms[roomId]
-
-    if (roomAtom) {
-      const prevRoom = get(roomAtom)
-      roomAtoms[roomId] = atom({ ...prevRoom, ...roomUpdate })
-    } else {
-      roomAtoms[roomId] = atom(roomUpdate)
-    }
-  })
-})
-
-const deleteChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roomId: string) => {
-  if (roomId in roomAtoms) delete roomAtoms[roomId]
-})
-
-const updateSpaceIdToChildIds = produce(
-  (spaceIdToChildIds: Record<string, string[]>, newSpaceIdToChildIds: Record<string, string[]>) => {
-    for (const id in newSpaceIdToChildIds) {
-      if (!spaceIdToChildIds[id]) {
-        spaceIdToChildIds[id] = newSpaceIdToChildIds[id]
-        continue
-      }
-
-      const childIds = spaceIdToChildIds[id]
-      const incomingChildIds = newSpaceIdToChildIds[id]
-
-      spaceIdToChildIds[id] = childIds.concat(incomingChildIds)
-    }
-  }
-)
 
 /**
  * Room Atoms -(Read-Only)
@@ -465,7 +388,7 @@ const roomByIdAtomCreator = (roomId: string) => {
   return atom((get) => {
     const roomAtomsRecord = get(_roomAtomsRecordAtom)
     const roomAtom = roomAtomsRecord[roomId]
-    if (!roomAtom) return undefined
+    if (!roomAtom) return
 
     return get(roomAtom)
   })
@@ -565,12 +488,8 @@ const _messageBunchAtomSetter = atom(null, (_get, set, roomId: string, events: I
       set(threadsRecord[roomId], (existingMessages) => {
         // the list of messages must have `Backward` direction - from older to newer messages
         // it is why we reverse `requestedMessages`
-        const requestedMessages = roomEvents
-          .filter((event) => isRoomMessageEvent(event) || isRoomMemberEvent(event))
-          .reverse()
-          .map((event) => createChatMessage(roomId, event))
+        const requestedMessages = roomEvents.reverse().map((event) => createChatMessage(roomId, event))
 
-        // and put `requestedMessages` in the begining of the list
         return merge ? [...requestedMessages, ...existingMessages] : requestedMessages
       })
     }
@@ -674,6 +593,7 @@ export const useRequestRoomMessages = () => {
         tokenRef.current = { start: undefined, end: undefined }
         merge = false
       }
+
       client
         .createMessagesRequest(roomId, tokenRef.current.end)
         .then(async (resp) => {
@@ -695,12 +615,13 @@ export const useRequestRoomMessages = () => {
  **/
 
 /**
- * @description
+ * @description an atom containing the id of the currently loggedin user or null
+ * if not logged in.
  */
 export const loggedInMemberIdAtom = atom<string | null>(null)
 
 /**
- * @description
+ * @description an atom that writes the id of the currently logged in user.
  */
 const _setLoggedInMemberId = atom(null, (_get, set, id: string) => {
   set(loggedInMemberIdAtom, id)
@@ -764,7 +685,6 @@ const _myMembershipSubscriberAtom = atom(
 _myMembershipSubscriberAtom.onMount = (setAtom) => getChatClient().subscribeToMyMembership(setAtom)
 
 /**
- * @name _membershipSubscriberAtom
  * @description The membership subscriber is used to listen to membership
  * changes and eventually forgetting (deleting) a room in case the creator
  * is the only member available. Currently it does not update state,
@@ -772,10 +692,9 @@ _myMembershipSubscriberAtom.onMount = (setAtom) => getChatClient().subscribeToMy
  */
 const _membershipSubscriberAtom = atom(
   null,
-  async (get, set, event: MatrixEvent, state: RoomState, member: RoomMember) => {
-    const membership = event.getContent().membership
+  async (get, set, roomState: RoomState, member: RoomMember, membership?: string) => {
     const roomAtomsRecord = get(_roomAtomsRecordAtom)
-    const roomAtom = roomAtomsRecord[state.roomId]
+    const roomAtom = roomAtomsRecord[roomState.roomId]
     if (!roomAtom || !membership) return
 
     switch (membership) {
@@ -806,6 +725,39 @@ const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
 
 _ignoredUsersAtomSubscriber.onMount = (setAtom) => {
   getChatClient().subscribeToIgnoredUsers(setAtom)
+}
+
+/**
+ * @description An atom creator that gives you the partner member in a DM
+ * conversion between two people.
+ */
+export const chatPartnerAtomCreator = (roomId: string, holiUser?: HoliUser): Atom<ChatRoomMember | undefined> => {
+  return atom((get) => {
+    if (!holiUser) return
+
+    const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+    if (!roomAtom) return
+
+    const chatRoom = get(roomAtom)
+    return getChatPartner(holiUser, chatRoom)
+  })
+}
+
+/**
+ * @description An atom creator that returns a user ID record to a Chat room
+ * member for a given room.
+ */
+export const roomMembersAtomCreator = (roomId: string): Atom<Record<string, ChatRoomMember>> => {
+  return atom((get) => {
+    const userIdToMemberRecord: Record<string, ChatRoomMember> = {}
+    const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+    if (!roomAtom) return userIdToMemberRecord
+
+    const chatRoom = get(roomAtom)
+    if (!chatRoom) return userIdToMemberRecord
+
+    return chatRoom.members.reduce(updateUserIdToMember, userIdToMemberRecord)
+  })
 }
 
 export const useIgnoredUsersAtom = () => {
