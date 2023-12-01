@@ -3,7 +3,6 @@ import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -33,7 +32,7 @@ const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [taskId] = useParam('taskId')
   const setScreenOptions = useSetScreenOptions()
-  const { navigate } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -116,11 +115,8 @@ const TaskDetails = () => {
   }, [renderActionDrawer, setScreenOptions, t])
 
   if ((error && isNotFoundError(error)) || (!loading && !task)) {
-    return (
-      <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
-        <HoliText>{t('spaces.tasks.notFound', { taskId })}</HoliText>
-      </DefaultLayout>
-    )
+    replaceRoute('NotFound')
+    return null
   }
 
   // Error and loading states are handled the same way and just hide the component

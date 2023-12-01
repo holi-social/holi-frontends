@@ -82,6 +82,7 @@ export enum RouteName {
   DonationsApp = 'DonationsApp',
   GoodNewsApp = 'GoodNewsApp',
   VolunteeringApp = 'VolunteeringApp',
+  NotFound = 'NotFound',
 
   // Root Stack
   Notifications = 'Notifications',

@@ -270,6 +270,9 @@
   "navigation.search": "Search",
   "navigation.title": "holi - where ideas meet action",
   "navigation.topNavigation": "Top navigation",
+  "notFound.page.title": "holi moli...",
+  "notFound.page.text": "Sorry, we couldn’t find the page you’re looking for",
+  "notFound.page.button": "Back to home",
   "notifications.connection.accept": "Accept",
   "notifications.connection.accepted.message": "You accepted the contact request from <0>{{name}}</0>",
   "notifications.connection.confirmation.message": "<0>{{name}}</0> accepted your contact request",
@@ -419,11 +422,9 @@
   "space.userConnection.FOLLOWER": "Follower",
   "space.userConnection.MEMBER": "Collaborator",
   "space.userConnection.MEMBERSHIP_INVITEE": "Invited",
-
   "spaces.about.banner.title": "Be a changemaker: Create your Space at holi!",
   "spaces.about.banner.description": "Whether you are a part of an non-profit organisation, or a group of people tackling social or environmental issues...",
   "spaces.about.banner.button.title": "Learn more about Spaces",
-
   "spaces.about.page.title": "Learn more about Spaces",
   "spaces.about.page.section1.title": "Change requires action.\nStart with Spaces!",
   "spaces.about.page.section1.description": "Whether you are a part of an non-profit organisation, or a group of people tackling social or environmental issues, Spaces offer a collaboration workspace to organize your internal work effectively, and to increase your public reach and find new supporters.",
@@ -434,7 +435,6 @@
   "spaces.about.page.lastPhrase": "Transform the world by turning your ideas into action",
   "spaces.about.page.button.primary": "Create your Space",
   "spaces.about.page.button.secondary": "Discover Spaces",
-
   "spaces.actions.chat": "Go to {{spaceName}} chats",
   "spaces.actions.more": "More",
   "spaces.collaborate.onboarding.active": "How to get active",

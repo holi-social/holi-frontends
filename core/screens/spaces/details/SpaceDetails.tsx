@@ -8,7 +8,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -34,7 +33,6 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -50,7 +48,7 @@ const { useParam } = createParam<SpaceDetailsParams>()
 
 const SpaceDetails = () => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
@@ -291,11 +289,8 @@ const SpaceDetails = () => {
   }
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
-    return (
-      <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
-        <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
-      </DefaultLayout>
-    )
+    replaceRoute('/404')
+    return null
   }
 
   // Error and loading states are handled the same way and just hide the component
