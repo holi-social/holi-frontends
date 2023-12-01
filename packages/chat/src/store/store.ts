@@ -83,6 +83,8 @@ const addNotificationsCount = produce((chatRoom: ChatRoom, count: number) => {
 })
 
 const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
+  if (room.type === 'private' && message.type === 'membership') return
+
   room.lastMessage = message
   room.timestamp = message.timestamp
 })
