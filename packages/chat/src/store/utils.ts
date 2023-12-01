@@ -1,14 +1,6 @@
 import { produce } from 'immer'
 import { Atom } from 'jotai'
-import {
-  EventTimeline,
-  EventType,
-  type IEvent,
-  type IRoomEvent,
-  type IStateEvent,
-  Room,
-  RoomMember,
-} from 'matrix-js-sdk'
+import { EventTimeline, EventType, type IRoomEvent, type IStateEvent, Room, RoomMember } from 'matrix-js-sdk'
 
 import {
   type ChatRoomMember,
@@ -71,13 +63,6 @@ export const getAtomFromRecordId = <T>(
   if (!value) return null
 
   return value
-}
-
-export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
-  return event?.type === EventType.RoomMessage
-}
-export const isRoomMemberEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
-  return event?.type === EventType.RoomMember && ['join', 'leave'].some((m) => m === event.content?.membership)
 }
 
 export const hasSpaceContent = <T extends Record<keyof T, unknown>>(content: T | null): content is T =>
@@ -248,6 +233,7 @@ export function createChatMember(roomMember: RoomMember): ChatRoomMember {
   return {
     id,
     name,
+    avatar: roomMember.user?.avatarUrl,
     membership: getChatMembership(membership),
   }
 }

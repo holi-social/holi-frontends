@@ -7,30 +7,22 @@ import { User } from '@holi/core/screens/userprofile/types'
 export interface RoomMessageListProps {
   messages: ChatMessage[]
   matrixIdToHoliUserRecord: Record<string, User | undefined>
+  roomId: string
+  roomType: string
   starter?: React.ReactNode
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
-  roomType: string
 }
 
-export interface RoomMessageProps {
-  message: ChatMessage
-  user?: User
-  showAvatar?: boolean
-  isPrevMessageFromSameUser?: boolean
-  isNextMessageFromSameUser?: boolean
-  testID?: string
-}
-
-export interface ListSectionHeader {
+export interface MessageSection {
   title: string
 }
 
-export type MessageListItem = ChatMessage | ListSectionHeader
+export type MessageItem = ChatMessage | MessageSection
 
-export const isMessageSection = (item: MessageListItem): item is ListSectionHeader => {
+export const isMessageSection = (item: MessageItem): item is MessageSection => {
   return 'title' in item
 }
 
-export const isChatTextMessage = (item: MessageListItem): item is ChatTextMessage => {
+export const isChatTextMessage = (item: MessageItem): item is ChatTextMessage => {
   return 'type' in item && item.type === 'message'
 }

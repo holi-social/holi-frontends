@@ -2,21 +2,24 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { ChaMembershipMessage } from '@holi/chat/src/store'
-import { User } from '@holi/core/screens/userprofile/types'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomMembershipBadgeProps {
-  user?: User
   message: ChaMembershipMessage
+  member: ChatRoomMember | undefined
+  user?: User
   testID?: string
 }
 
 const RoomMembershipBadge = ({
   user,
+  member,
   message: {
     content: { membership },
   },
@@ -44,7 +47,7 @@ const RoomMembershipBadge = ({
             <View style={styles.content}>
               <HoliBox padding={[0, 6, 0, 0]}>
                 <HoliAvatar
-                  imageSrc={user?.avatar}
+                  imageSrc={member?.avatar}
                   imageBlurhash={user?.avatarBlurhash}
                   label={user?.fullName ?? ''}
                   initials={user?.avatarLabel ?? ''}

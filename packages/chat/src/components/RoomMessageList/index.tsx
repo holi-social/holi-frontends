@@ -4,19 +4,18 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
-import { MessageListItem, isChatTextMessage, isMessageSection } from '@holi/chat/src/components/RoomMessageList/types'
+import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
+import { MessageItem, isChatTextMessage, isMessageSection } from '@holi/chat/src/components/RoomMessageList/types'
 import { ChatMessage } from '@holi/chat/src/store'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
 import { RoomMessageListProps } from './types'
 
-const groupByDate = (messages: ChatMessage[], locale: string): MessageListItem[] => {
-  const groupedMessages: Record<string, MessageListItem[]> = {}
+const groupByDate = (messages: ChatMessage[], locale: string): MessageItem[] => {
+  const groupedMessages: Record<string, MessageItem[]> = {}
   locale = getLocale(locale)
 
   for (const message of messages) {
@@ -47,6 +46,7 @@ const RoomMessageList = ({
   starter,
   onScroll,
   roomType,
+  roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
@@ -57,17 +57,7 @@ const RoomMessageList = ({
       data={groupedMessages}
       getItemType={(item) => (isMessageSection(item) ? 'sectionHeader' : 'row')}
       renderItem={({ item: message, index }) => {
-        if (isMessageSection(message)) {
-          return (
-            <HoliBox padding={[32, 0, 4, 0]}>
-              <View style={{ alignItems: 'center' }}>
-                <HoliText size="extrasmall" color="gray300">
-                  {message.title}
-                </HoliText>
-              </View>
-            </HoliBox>
-          )
-        }
+        if (isMessageSection(message)) return <RoomMessageSection messageSection={message} />
 
         const isFirstMessageInSection = index === 0
         const prevMessage = groupedMessages[index + 1]
@@ -79,12 +69,13 @@ const RoomMessageList = ({
 
         return (
           <RoomMessage
+            roomId={roomId}
+            roomType={roomType}
             message={message}
-            user={matrixIdToHoliUserRecord[message.sender ?? '']}
+            holiUser={matrixIdToHoliUserRecord[message.sender ?? '']}
             showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
             isPrevMessageFromSameUser={isPrevMessageFromSameUser}
             isNextMessageFromSameUser={isNextMessageFromSameUser}
-            roomType={roomType}
           />
         )
       }}

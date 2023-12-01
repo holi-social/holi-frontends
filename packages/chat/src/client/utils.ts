@@ -23,6 +23,10 @@ import {
 } from '@holi/chat/src/client/types'
 import { CHAT_ADMIN_USER_ID } from '@holi/chat/src/utils'
 
+/**
+ * Rooms
+ */
+
 type RoomListener = Listener<RoomEvent, ListenerMap<RoomEvent>, RoomEvent>
 
 export const isSpaceRoom = (room: Room) => room.isSpaceRoom()
@@ -37,13 +41,12 @@ export const isSpaceGeneralRoomContent = (content: SharedDataContent): content i
   return !!content && 'parentSpaceRoomId' in content
 }
 
+export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === EventType.SpaceChild
+
 export const isIRoomEvent = (event: IRoomEvent | Partial<IEvent>): event is IRoomEvent =>
   ['event_id', 'sender', 'origin_server_ts'].every((key) => key in event)
-export const isIStateEvent = (event: IRoomEvent | IStateEvent): event is IStateEvent => 'state_key' in event
 
-export const isAdminChangeToMembership = (event: MatrixEvent, userId: string, loggedInUserId: string | null) => {
-  return isMembershipEvent(event) && userId === loggedInUserId && event.getSender() === CHAT_ADMIN_USER_ID
-}
+export const isIStateEvent = (event: IRoomEvent | IStateEvent): event is IStateEvent => 'state_key' in event
 
 export const createInitialRoom = (room: Room): RoomWithSharedData => ({
   type: 'private',
@@ -110,7 +113,50 @@ export const setRoomsListeners = ({ client, roomEvent, rooms, createListener }: 
 }
 
 /**
- * @name getLastMessageEvent
+ * Membership
+ */
+
+export const isMembershipEvent = (event: MatrixEvent): boolean => event.getType() === EventType.RoomMember
+
+export const isJoinOrLeaveEvent = (event: MatrixEvent) =>
+  ['join', 'leave'].some((m) => m === event.getContent().membership)
+
+export const isAdminChangeToMembership = (event: MatrixEvent, userId: string, loggedInUserId: string | null) => {
+  return isMembershipEvent(event) && userId === loggedInUserId && event.getSender() === CHAT_ADMIN_USER_ID
+}
+
+export const isRoomMemberEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
+  return event?.type === EventType.RoomMember && ['join', 'leave'].some((m) => m === event.content?.membership)
+}
+
+export const isMemberEventWithState = (event: IRoomEvent): event is IStateEvent => {
+  return event?.type === EventType.RoomMember && 'prev_content' in event
+}
+
+/**
+ * @description Whenever a room member changes their avatar or other member
+ * information, we receive timeline events for the message thread
+ * (`subscribeToRoomMessages`). We use these to show the chat messages and if a
+ * user joined or left a room. Here, we confirm that it is not a duplicate
+ * event. We consider a duplicate if it has the same membership as the current
+ * one. `"join" === "join" || "leave" === "leave"` .
+ */
+export const hasDuplicateMembershipEvent = (room: Room, event: MatrixEvent): boolean => {
+  if (!isMembershipEvent(event)) return false
+
+  // The state_key in a membership event is the id of the user that changed the state
+  const { state_key } = event.getEffectiveEvent()
+  const content = event.getContent()
+  const membership = room.getMember(state_key ?? '')?.membership
+
+  return content.membership === membership
+}
+
+/**
+ * Messages
+ */
+
+/**
  * @description return an optional IRoomEvent for last supported message of the room.
  * for rooms of type:
  * - 'space' returns undefined, because we do not show rooms of this type
@@ -134,10 +180,32 @@ export const getLastMessageEvent = (room: Room, roomType: RoomType): IRoomEvent 
   return event && isIRoomEvent(event) ? event : undefined
 }
 
-export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === EventType.SpaceChild
-
-export const isMembershipEvent = (event: MatrixEvent) => event.getType() === EventType.RoomMember
-export const isJoinOrLeaveEvent = (event: MatrixEvent) =>
-  ['join', 'leave'].some((m) => m === event.getContent().membership)
-
 export const isMessageEvent = (event: MatrixEvent) => event.getType() === EventType.RoomMessage
+
+export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
+  return event?.type === EventType.RoomMessage
+}
+
+/**
+ * @description It filters message events and member events messages. It also
+ * removes member event message duplication. For example, when a user changes
+ * their avatar or name, we don't want to provide a  new member event to the
+ * message timelin
+ */
+export const filterMessagesChunk = (chunk: IRoomEvent[]): IRoomEvent[] => {
+  return chunk.reduce((events: IRoomEvent[], event: IRoomEvent) => {
+    if (isRoomMemberEvent(event) && !isMemberEventWithState(event)) return [...events, event]
+    if (isRoomMemberEvent(event)) {
+      const prevMembership = event.prev_content?.membership
+      const { membership } = event.content
+
+      if (membership === prevMembership) return events
+
+      return [...events, event]
+    }
+
+    if (isRoomMessageEvent(event)) return [...events, event]
+
+    return events
+  }, [])
+}

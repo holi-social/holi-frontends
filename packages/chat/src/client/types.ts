@@ -1,4 +1,4 @@
-import { NotificationCountType, Room } from 'matrix-js-sdk'
+import { IRoomEvent, IStateEvent, NotificationCountType, Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
 
@@ -76,9 +76,17 @@ export interface RoomId {
 export interface ChatRoomMember {
   id: MatrixId // the matrix ID (e.g. '@otto:holi.social')
   name: string
+  avatar?: string
   membership?: MembershipStatus
 }
 
 export enum ChatRoomEvent {
   SharedData = 'holi.room.shared.data',
+}
+
+export interface MxMessagesResponse {
+  start?: string
+  end?: string
+  chunk: IRoomEvent[]
+  state?: IStateEvent[]
 }
