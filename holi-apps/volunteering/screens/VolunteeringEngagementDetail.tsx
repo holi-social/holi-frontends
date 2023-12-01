@@ -15,6 +15,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ShareBox } from '@holi/icons/src/generated'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
@@ -117,6 +118,7 @@ type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
+  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   useLayoutEffect(() => {
     setScreenOptions({ title: t('volunteering:app.name') })
@@ -163,7 +165,8 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   }
 
   if (!engagement) {
-    return <HoliText>{t('volunteering:engagementDetail.notFound', { engagementId })}</HoliText>
+    replaceRoute('/404')
+    return null
   }
 
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]

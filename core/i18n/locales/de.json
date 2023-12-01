@@ -270,6 +270,9 @@
   "navigation.search": "Suche",
   "navigation.title": "holi - where ideas meet action",
   "navigation.topNavigation": "Obere Navigation",
+  "notFound.page.title": "holi moli...",
+  "notFound.page.text": "Sorry, wir konnten die Seite leider nicht finden",
+  "notFound.page.button": "Zurück zu Home",
   "notifications.connection.accept": "Akzeptieren",
   "notifications.connection.accepted.message": "Du hast die Kontaktanfrage von <0>{{name}}</0> akzeptiert",
   "notifications.connection.confirmation.message": "<0>{{name}}</0> hat deine Kontaktanfrage akzeptiert",
@@ -419,11 +422,9 @@
   "space.userConnection.FOLLOWER": "Follower",
   "space.userConnection.MEMBER": "Mitwirkende:r",
   "space.userConnection.MEMBERSHIP_INVITEE": "Eingeladen",
-
   "spaces.about.banner.title": "Sei ein Changemaker: Eröffne einen Space auf holi",
   "spaces.about.banner.description": "Egal, ob du Teil einer gemeinnützigen Organisation oder einer Gruppe von Freunden bist, die sich für soziale oder ökologische Themen einsetzt...",
   "spaces.about.banner.button.title": "Erfahre mehr über Spaces",
-
   "spaces.about.page.title": "Erfahre mehr über Spaces",
   "spaces.about.page.section1.title": "Wandel erfordert Handeln.\nStarte mit Spaces!",
   "spaces.about.page.section1.description": "Egal, ob du Teil einer gemeinnützigen Organisation oder einer Gruppe von Freunden bist, die sich für soziale oder ökologische Themen einsetzt - Spaces bietet dir den Raum für Zusammenarbeit, um deine interne Arbeit effektiv zu organisieren, deine öffentliche Reichweite zu erhöhen und neue Unterstützer zu finden.",
@@ -434,7 +435,6 @@
   "spaces.about.page.lastPhrase": "Verändere die Welt, indem du deine Ideen in die Tat umsetzt.",
   "spaces.about.page.button.primary": "Eröffne deinen Space",
   "spaces.about.page.button.secondary": "Entdecke Spaces",
-
   "spaces.actions.chat": "Zu {{spaceName}} Chats",
   "spaces.actions.more": "Mehr",
   "spaces.collaborate.onboarding.active": "Wie kann ich mitmachen",

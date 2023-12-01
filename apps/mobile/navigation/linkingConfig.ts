@@ -15,6 +15,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.HomeFeed]: '',
             [RouteName.UserProfile]: 'profile/:userId',
             [RouteName.Search]: 'search',
+            [RouteName.NotFound]: '404',
           },
         },
         [RouteName.SpacesHomeStack]: {
