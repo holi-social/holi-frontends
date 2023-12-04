@@ -97,7 +97,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
     toastMessage: string = t('registration.emailVerification.message.activated')
   ) => {
     // if we came to Email Verification from Login page, login the user after successful activation
-    if (verificationFlowData && hasIdentifier(verificationFlowData)) {
+    if (!isLoggedIn && verificationFlowData && hasIdentifier(verificationFlowData)) {
       const session = await login({
         payload: verificationFlowData,
       })
