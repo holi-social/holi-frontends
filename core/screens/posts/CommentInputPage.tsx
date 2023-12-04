@@ -147,7 +147,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   if (!post) {
     replaceRoute('/404')
-    return null
+    return <></>
   }
 
   return (

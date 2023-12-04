@@ -70,7 +70,7 @@ const InsightDetailPage = () => {
 
   if (!loadingInsight && !insight) {
     replaceRoute('/404')
-    return null
+    return <></>
   }
 
   const posts: Post[] = insight?.posts || []

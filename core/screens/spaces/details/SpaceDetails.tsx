@@ -35,6 +35,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -275,6 +276,16 @@ const SpaceDetails = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
   }
 
+  if (called && ((error && isNotFoundError(error)) || (!loading && !space))) {
+    replaceRoute('/404')
+    return <></>
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error || !space) {
+    return <HoliLoader />
+  }
+
   const UpdateButton = () => {
     return (
       <HoliButton
@@ -286,16 +297,6 @@ const SpaceDetails = () => {
         <HoliIcon icon={Pencil} size={20} />
       </HoliButton>
     )
-  }
-
-  if ((error && isNotFoundError(error)) || (!loading && !space)) {
-    replaceRoute('/404')
-    return null
-  }
-
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space) {
-    return <></>
   }
 
   return (
