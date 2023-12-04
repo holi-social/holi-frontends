@@ -62,6 +62,10 @@ const ChangeEmail = () => {
   const safeSetSettingsFlow = useSafeDispatch(setSettingsFlow)
   const safeSetReauthFlow = useSafeDispatch(setReauthFlow)
 
+  const email = settingsFlow
+    ? findInputNodeByNameAndType('traits.email', 'email', settingsFlow)?.attributes?.value
+    : '...'
+
   const initForm = useCallback(async () => {
     if (isLoggedIn) {
       const session = await getSessionFromStorage()
@@ -119,7 +123,13 @@ const ChangeEmail = () => {
             if (passwordNode && flow.ui.messages && !passwordNode.messages?.length) {
               passwordNode.messages = flow.ui.messages
             }
-            setOldPwdNode(passwordNode)
+            if (passwordNode?.messages?.some((msg) => msg.id === 4000010)) {
+              openToast(t('auth.login.error.unverified'), HoliToastType.SUCCESS)
+              setVerificationFlowData({ identifier: email, method: '', password: '' })
+              navigate('/profile/settings/changeEmailVerification')
+            } else {
+              setOldPwdNode(passwordNode)
+            }
           },
           initForm,
           (error) =>
@@ -168,10 +178,6 @@ const ChangeEmail = () => {
       performEmailChange()
     }
   }
-
-  const email = settingsFlow
-    ? findInputNodeByNameAndType('traits.email', 'email', settingsFlow)?.attributes?.value
-    : '...'
 
   return (
     <KeyboardAvoidingViewWrapper
