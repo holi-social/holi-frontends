@@ -8,6 +8,7 @@ import {
   Notification,
   NotificationPost,
   NotificationSpaceConnection,
+  NotificationSpacePost,
 } from '@holi/core/screens/notifications/components/types'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
@@ -124,7 +125,9 @@ export const useNotifications = () => {
   }
 }
 
-function mapToNotification(message: IMessage): NotificationSpaceConnection | NotificationPost | undefined {
+function mapToNotification(
+  message: IMessage
+): NotificationSpaceConnection | NotificationPost | NotificationSpacePost | undefined {
   const { data, notificationType } = message.payload
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
@@ -155,7 +158,17 @@ function mapToNotification(message: IMessage): NotificationSpaceConnection | Not
         options: data as NotificationPost['options'],
         content: message.content.toString(),
       }
+    case NovuNotificationType.SPACE_NEW_POST:
+      return {
+        id: message._id,
+        notificationType,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationSpacePost['options'],
+        content: message.content.toString(),
+      }
   }
+
   logErrorLocal(new Error("Couldn't map novu message"), 'Failed to map novu notification', {
     location: 'useNotifications.mapToNotification',
     message,

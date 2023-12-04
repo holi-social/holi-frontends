@@ -6,6 +6,7 @@ import { NovuNotificationType } from '@holi/core/screens/notifications/component
 import {
   PostCommentPushNotification,
   SpaceMembershipPushNotification,
+  SpacePostPushNotification,
 } from '@holi/mobile/notifications/spacePushNotifications'
 
 export type NotificationPayload = Record<string, unknown>
@@ -113,6 +114,23 @@ const postCommentUrlFrom = (notification: PostCommentPushNotification) => {
   }
 }
 
+const toSpaceUpdatesUrl = (notification: SpacePostPushNotification): string => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const { space } = parsedData
+  return `holi://spaces/${space.name}?tab=updates`
+}
+
+const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
+  try {
+    return toSpaceUpdatesUrl(notification)
+  } catch (error) {
+    logError(error, 'Failed to create url for post notification', {
+      location: 'notifications.spaceUpdatesUrlFrom',
+    })
+  }
+}
+
 export const transformPushInteractionToUrl = (response: Partial<NotificationResponse>) => {
   const payload: NotificationPayload | undefined = extractPayloadFromNotification(response)
   if (!payload) {
@@ -133,6 +151,9 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
     case NovuNotificationType.POST_COMMENT_MENTION:
     case NovuNotificationType.POST_COMMENT_AUTHOR:
       return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
+    case NovuNotificationType.SPACE_NEW_POST:
+      return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
+
     default:
       // Default is chat notification
       return createUrlFromChatNotification(payload)
