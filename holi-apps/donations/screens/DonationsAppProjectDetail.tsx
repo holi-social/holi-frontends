@@ -75,7 +75,7 @@ const DonationsAppProjectDetail = () => {
 
   if (!project) {
     replaceRoute('/404')
-    return null
+    return <></>
   }
 
   return (

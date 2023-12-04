@@ -166,7 +166,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
 
   if (!engagement) {
     replaceRoute('/404')
-    return null
+    return <></>
   }
 
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
