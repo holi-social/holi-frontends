@@ -99,13 +99,14 @@ export interface NotificationSpaceConnection extends NotificationBase {
   options: SpaceMembershipNotificationData
 }
 
+export interface SpacePostNotificationData {
+  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
+  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+  post: Pick<Post, 'id' | 'title' | 'isPublic'>
+}
 export interface NotificationSpacePost extends NotificationBase {
-  notificationType: NotificationType.COMMUNITY_NEW_POST
-  options: {
-    space: Space
-    post: Post
-    teaser: string
-  }
+  notificationType: NotificationType.COMMUNITY_NEW_POST | NovuNotificationType.SPACE_NEW_POST
+  options: SpacePostNotificationData
 }
 
 export interface NotificationSpacePermissions extends NotificationBase {

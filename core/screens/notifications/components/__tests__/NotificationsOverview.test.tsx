@@ -127,10 +127,8 @@ const MOCKS_WITH_NOTIFICATIONS = [
             },
             {
               id: '93fab88d-7288-437d-89c1-c98239bf07be',
-              notificationType: 'CNP',
-              owner: {
-                id: 'b98ea673-9b33-49ab-bc3f-a60a543533c5',
-              },
+              notificationType: 'SPACE_NEW_POST',
+
               created: '2023-04-11T07:14:47.182499+00:00',
               read: true,
               options: {
@@ -138,18 +136,15 @@ const MOCKS_WITH_NOTIFICATIONS = [
                   id: '9f7b6baa-9987-43ed-8202-ee9a9f2b0c96',
                   title: '',
                   isPublic: true,
-                  creator: {
-                    id: '84727e70-2b1c-4b44-b7c3-3b6d08362ab7',
-                    fullName: 'Mr. Foo Bar',
-                  },
                 },
-                user: null,
-                postComment: null,
+                user: {
+                  id: '84727e70-2b1c-4b44-b7c3-3b6d08362ab7',
+                  fullName: 'Mr. Foo Bar',
+                },
                 space: {
                   id: '2a64b5ad-399c-42c9-bf10-19ab82c16591',
                   title: 'Test space',
                 },
-                teaser: 'Test space post...',
               },
             },
           ],
