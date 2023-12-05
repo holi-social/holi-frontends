@@ -8,6 +8,7 @@ import FormWrapper from '@holi/core/components/FormWrapper'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
+import SpaceInviteUserConnectionsList from '@holi/core/screens/spaces/details/components/UserConnectionsList'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
 import { spaceInvitesQuery } from '@holi/core/screens/spaces/details/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -94,6 +95,7 @@ const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId, idOrName }) 
           {!!searchValue && !searchValueIsEmail && (
             <SpaceInviteUserSearch spaceId={spaceId} searchValue={searchValue} onInviteHandled={clearInput} />
           )}
+          {!searchValue && <SpaceInviteUserConnectionsList spaceId={spaceId} onInviteHandled={clearInput} />}
         </>
       )}
     />

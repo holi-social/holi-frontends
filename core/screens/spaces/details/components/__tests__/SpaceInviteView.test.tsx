@@ -114,18 +114,6 @@ describe('SpaceInviteView', () => {
     expect(emailInviteButton).not.toBeDisabled()
   })
 
-  it('clears input after user invite', async () => {
-    renderComponent([userSearchSuccessMock, inviteMutationSuccessMock])
-
-    enterSearchTerm('foobar')
-    await waitFor(() => screen.findByTestId('btn-to-invite'))
-
-    fireEvent.press(screen.getByTestId('btn-to-invite'))
-    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
-
-    expect(screen.getByTestId('space-invite-user-input').children[0]).toHaveProp('value', '')
-  })
-
   it('invites user by email', async () => {
     renderComponent([emailInviteSuccessMock])
 

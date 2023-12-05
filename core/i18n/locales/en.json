@@ -704,6 +704,7 @@
   "spaces.invite.user.request.declined": "You declined {{user}} to be a collaborator",
   "spaces.invite.user.witdrawn": "You withdrew the invite to {{user}}",
   "spaces.invite.user.success": "{{user}} invited",
+  "spaces.invite.connections.header": "Your connections",
   "spaces.join.btnPending": "Waiting to join",
   "spaces.join.btnRequest": "Collaborate…",
   "spaces.join.error": "There was an error updating the connection with this Space. Please retry later",
