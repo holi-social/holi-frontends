@@ -17,7 +17,7 @@ import {
   addChatRoom,
   addNotificationsCount,
   addOrUpdateChatRoom,
-  addOrUpdateMemeberInChatRoom,
+  addOrUpdateMemberInChatRoom,
   deleteChatRoom,
   updateRoomAfterNewMessage,
   updateRoomInvitation,
@@ -692,15 +692,15 @@ _myMembershipSubscriberAtom.onMount = (setAtom) => getChatClient().subscribeToMy
  */
 const _membershipSubscriberAtom = atom(
   null,
-  async (get, set, roomState: RoomState, member: RoomMember, membership?: string) => {
+  async (get, set, roomId: string, member: ChatRoomMember, membership?: string) => {
     const roomAtomsRecord = get(_roomAtomsRecordAtom)
-    const roomAtom = roomAtomsRecord[roomState.roomId]
-    if (!roomAtom || !membership) return
+    const roomAtom = roomAtomsRecord[roomId]
+    if (!roomAtom) return
 
     switch (membership) {
       case 'join':
       case 'leave': {
-        set(roomAtom, (room) => addOrUpdateMemeberInChatRoom(room, member))
+        set(roomAtom, (room) => addOrUpdateMemberInChatRoom(room, member))
         break
       }
 
