@@ -8,7 +8,7 @@ import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { userConnectionsQuery } from '@holi/core/screens/spaces/details/queries'
+import { spaceInvitesQuery, userConnectionsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -69,10 +69,12 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
           spaceId: spaceId,
         })
       },
-      refetchQueries:
-        user.connectionStatusToMyself === UserConnectionStatus.CONNECTED
+      refetchQueries: [
+        { query: spaceInvitesQuery, variables: { idOrName: spaceId } },
+        ...(user.connectionStatusToMyself === UserConnectionStatus.CONNECTED
           ? [{ query: userConnectionsQuery, variables: { spaceId } }]
-          : [],
+          : []),
+      ],
     }
   )
 
