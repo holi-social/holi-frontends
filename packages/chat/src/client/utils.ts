@@ -21,7 +21,7 @@ import {
   type SharedDataContent,
   type SpaceChildSharedDataContent,
 } from '@holi/chat/src/client/types'
-import { CHAT_ADMIN_USER_ID } from '@holi/chat/src/utils'
+import { chatAdminUserId } from '@holi/core/helpers/config'
 
 /**
  * Rooms
@@ -122,7 +122,7 @@ export const isJoinOrLeaveEvent = (event: MatrixEvent) =>
   ['join', 'leave'].some((m) => m === event.getContent().membership)
 
 export const isAdminChangeToMembership = (event: MatrixEvent, userId: string, loggedInUserId: string | null) => {
-  return isMembershipEvent(event) && userId === loggedInUserId && event.getSender() === CHAT_ADMIN_USER_ID
+  return isMembershipEvent(event) && userId === loggedInUserId && event.getSender() === chatAdminUserId
 }
 
 export const isRoomMemberEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
