@@ -3,12 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { SectionList, View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
+import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
 import { isChatTextMessage } from '@holi/chat/src/components/RoomMessageList/types'
 import { ChatMessage } from '@holi/chat/src/store'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
@@ -53,6 +52,7 @@ const RoomMessageList = ({
   starter,
   onScroll,
   roomType,
+  roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
@@ -74,8 +74,9 @@ const RoomMessageList = ({
         return (
           <View style={styles.listItemContainer}>
             <RoomMessage
+              roomId={roomId}
               message={message}
-              user={matrixIdToHoliUserRecord[message.sender ?? '']}
+              holiUser={matrixIdToHoliUserRecord[message.sender ?? '']}
               showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
               isPrevMessageFromSameUser={isPrevMessageFromSameUser}
               isNextMessageFromSameUser={isNextMessageFromSameUser}
@@ -84,15 +85,7 @@ const RoomMessageList = ({
           </View>
         )
       }}
-      renderSectionFooter={({ section }) => (
-        <HoliBox padding={[32, 0, 4, 0]}>
-          <View style={{ alignItems: 'center' }}>
-            <HoliText size="extrasmall" color="gray300">
-              {section.title}
-            </HoliText>
-          </View>
-        </HoliBox>
-      )}
+      renderSectionFooter={({ section }) => <RoomMessageSection messageSection={section} />}
       // BE CAREFUL: this section list is inverted! So, ListHeaderComponent is shown bellow and ListFooterComponent above in the list
       // use ListFooterComponent to add padding bottom for HeaderAnimated
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}

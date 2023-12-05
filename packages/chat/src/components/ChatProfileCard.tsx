@@ -3,6 +3,7 @@ import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { joinRoom, leaveRoom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -17,11 +18,12 @@ import { vars } from '@holi/ui/styles/globalVars'
 
 interface Props {
   roomId: string
+  member: ChatRoomMember | undefined
   user?: User
   userIsLoading: boolean
 }
 
-const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
+const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { openToast } = useToast()
@@ -46,9 +48,9 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
           {user ? (
             <>
               <HoliAvatar
-                imageSrc={user?.avatar}
+                imageSrc={member?.avatar ?? user?.avatar}
                 imageBlurhash={user?.avatarBlurhash}
-                label={user.fullName || ''}
+                label={user.fullName || member?.name || ''}
                 initials={user?.avatarLabel || ''}
                 defaultColor={user?.avatarDefaultColor || ''}
                 size="large"

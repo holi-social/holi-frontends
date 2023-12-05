@@ -1,20 +1,21 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { SpaceChatTab, spaceNotificationCountRecordAtom, spaceTabRecordAtom } from '@holi/chat/src/store'
+import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
+import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import useTabNavigation, { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -22,31 +23,33 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType } from '@holi/core/queries'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
-import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
+import SpaceDetailView, {
+  SPACE_DETAILS_TABS_IN_ORDER,
+  SpaceDetailsTabs,
+} from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type SpaceDetailsParams = {
-  spaceIdOrName: string
-}
+export type SpaceDetailsParams = RefreshOnNavigationParams &
+  TabNavigationParams & {
+    spaceIdOrName: string
+  }
 
 const { useParam } = createParam<SpaceDetailsParams>()
 
 const SpaceDetails = () => {
-  const [currentTabIndex, setCurrentTabIndex] = useState<number>()
-
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
@@ -55,7 +58,7 @@ const SpaceDetails = () => {
   // On initial page load on web `spaceIdOrName` is undefined
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
-  const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { loading, error, data, refetch, called } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
     skip: !spaceIdOrName,
@@ -94,11 +97,35 @@ const SpaceDetails = () => {
 
   const isCreator = space?.creator?.id === userId
 
+  useRefreshOnNavigation({ initialized: called, onRefresh })
+
   useEffect(() => {
     if (!isOnboarded && !isCreator && isMember) {
       show()
     }
   }, [space, show, isOnboarded, userId, isCreator, isMember])
+
+  const determineInitialTab = useCallback(() => {
+    if (!space) {
+      return undefined
+    }
+    const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+    const { collaborationTools = [] } = space
+    const hasInvolvementContent = space?.tasks?.length !== 0 || collaborationTools?.length !== 0
+
+    if (!isMember) {
+      return SpaceDetailsTabs.INFO
+    }
+    if (hasInvolvementContent) {
+      return SpaceDetailsTabs.INVOLVEMENT
+    }
+    return SpaceDetailsTabs.UPDATES
+  }, [space])
+
+  const { initialTabIndex, currentTabName, selectTabWithIndex } = useTabNavigation({
+    tabNamesInOrder: SPACE_DETAILS_TABS_IN_ORDER,
+    determineInitialTab,
+  })
 
   const handleModalClose = () => {
     setIsOnboarded().finally(hide)
@@ -210,10 +237,7 @@ const SpaceDetails = () => {
     ]
   )
 
-  const spaceTabRooms: SpaceChatTab[] = Object.values(useAtomValue(spaceTabRecordAtom))
-  const spaceGeneralTabRoom: SpaceChatTab | undefined = spaceTabRooms.find(({ content }) => content.holiSpaceId === id)
-  const spaceRelatedNotificationCountRecord = useAtomValue(spaceNotificationCountRecordAtom)
-  const spaceNotificationCount = spaceGeneralTabRoom ? spaceRelatedNotificationCountRecord[spaceGeneralTabRoom.id] : 0
+  const spaceRoom = useAtomValue(useMemo(() => spaceRoomAtomCreator(id), [id]))
 
   useEffect(() => {
     setScreenOptions({
@@ -225,13 +249,13 @@ const SpaceDetails = () => {
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
         <View style={styles.headerRight}>
-          {(isMember || isAdmin) && spaceGeneralTabRoom && (
+          {(isMember || isAdmin) && spaceRoom && (
             <HoliButtonBell
               label={t('spaces.actions.chat', { spaceName: space?.name })}
               icon={Chat3}
-              showBell={spaceNotificationCount > 0}
+              showBell={spaceRoom.notificationCount > 0}
               onPress={() => {
-                navigate(`/chat?activeTab=${spaceGeneralTabRoom.id}`)
+                navigate(`/chat?activeTab=${spaceRoom.id}`)
               }}
               color={props.tintColor}
             />
@@ -246,23 +270,20 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [
-    id,
-    isAdmin,
-    isMember,
-    isWeb,
-    navigate,
-    renderActionDrawer,
-    setScreenOptions,
-    space,
-    spaceGeneralTabRoom,
-    spaceIdOrName,
-    spaceNotificationCount,
-    t,
-  ])
+  }, [id, isAdmin, isMember, isWeb, navigate, renderActionDrawer, setScreenOptions, space, spaceRoom, spaceIdOrName, t])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
+  }
+
+  if (called && ((error && isNotFoundError(error)) || (!loading && !space))) {
+    replaceRoute('/404')
+    return <></>
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error || !space) {
+    return <HoliLoader />
   }
 
   const UpdateButton = () => {
@@ -278,24 +299,11 @@ const SpaceDetails = () => {
     )
   }
 
-  if ((error && isNotFoundError(error)) || (!loading && !space)) {
-    return (
-      <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
-        <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
-      </DefaultLayout>
-    )
-  }
-
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space) {
-    return <></>
-  }
-
   return (
     <SafeAreaProvider>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         style={styles.defaultLayout}
@@ -303,11 +311,16 @@ const SpaceDetails = () => {
         headerOverlap
         keyboardShouldPersistTaps="handled"
       >
-        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={setCurrentTabIndex} />
+        <SpaceDetailView
+          style={styles.spaceDetailView}
+          space={space}
+          onChangeTabIndex={selectTabWithIndex}
+          initialTabIndex={initialTabIndex}
+        />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout.Refreshable>
-      {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
-      {isMember && currentTabIndex === 1 && <UpdateButton />}
+      {isMember && currentTabName === SpaceDetailsTabs.INVOLVEMENT && <AddNewDrawer spaceIdOrName={space.name} />}
+      {isMember && currentTabName === SpaceDetailsTabs.UPDATES && <UpdateButton />}
     </SafeAreaProvider>
   )
 }

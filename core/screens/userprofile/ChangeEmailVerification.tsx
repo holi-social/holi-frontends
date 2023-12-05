@@ -1,0 +1,25 @@
+import React, { useLayoutEffect } from 'react'
+
+// import { useTranslation } from 'react-i18next'
+import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+
+const ChangeEmailVerification = () => {
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
+
+  useLayoutEffect(() => {
+    setScreenOptions({
+      headerLeft: () => null,
+      headerRight: () => null,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions])
+
+  return <EmailVerification onSuccess={() => navigate('/profile')} />
+}
+
+export default ChangeEmailVerification

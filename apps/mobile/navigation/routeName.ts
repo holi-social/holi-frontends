@@ -33,6 +33,7 @@ export enum RouteName {
   SpaceOnboarding = 'SpaceOnboarding',
   SpaceOnboardingSteps = 'SpaceOnboardingSteps',
   SpaceTasks = 'SpaceTasks',
+  AboutSpaces = 'AboutSpaces',
 
   // Chat Stack
   ChatHome = 'ChatHome',
@@ -44,8 +45,10 @@ export enum RouteName {
   Profile = 'Profile',
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
+  NotificationSettings = 'NotificationSettings',
   ChangePassword = 'ChangePassword',
   ChangeEmail = 'ChangeEmail',
+  ChangeEmailVerification = 'ChangeEmailVerification',
   HelpSettings = 'HelpSettings',
   LegalDocuments = 'LegalDocuments',
   Document = 'Document',
@@ -79,6 +82,7 @@ export enum RouteName {
   DonationsApp = 'DonationsApp',
   GoodNewsApp = 'GoodNewsApp',
   VolunteeringApp = 'VolunteeringApp',
+  NotFound = 'NotFound',
 
   // Root Stack
   Notifications = 'Notifications',

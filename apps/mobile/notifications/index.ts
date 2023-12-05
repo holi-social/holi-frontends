@@ -3,7 +3,11 @@ import type { NotificationResponse, PushNotificationTrigger } from 'expo-notific
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { SpaceMembershipPushNotification } from '@holi/mobile/notifications/spacePushNotifications'
+import {
+  PostCommentPushNotification,
+  SpaceMembershipPushNotification,
+  SpacePostPushNotification,
+} from '@holi/mobile/notifications/spacePushNotifications'
 
 export type NotificationPayload = Record<string, unknown>
 
@@ -30,27 +34,47 @@ const createUrlFromChatNotification = (data: NotificationPayload) => {
   }
 }
 
-const toSpacePendingCollaboratorsManagementUrl = (notification: SpaceMembershipPushNotification): string => {
+const toSpacePendingCollaboratorsManagementUrl = (
+  notification: SpaceMembershipPushNotification,
+  refresh = false
+): string => {
   const parsedData =
     typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
   const { space, user } = parsedData
-  const spaceCollaboratorsUrl = `holi://spaces/${space.name}/collaborators/manage?tab=pending`
-  const userParameter = user?.id ? `&userId=${user?.id}` : ''
-  return spaceCollaboratorsUrl + userParameter
+  const url = new URL(`holi://spaces/${space.name}/collaborators/manage`)
+  url.searchParams.set('tab', 'pending')
+  if (user?.id) {
+    url.searchParams.set('userId', user?.id)
+  }
+  if (refresh) {
+    url.searchParams.set('refresh', 'true')
+  }
+  return url.toString()
 }
 
-const toSpaceUrl = (notification: SpaceMembershipPushNotification): string => {
+const toSpaceUrl = (notification: SpaceMembershipPushNotification, refresh = false): string => {
   const parsedData =
     typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
   const { space } = parsedData
-  return `holi://spaces/${space.name}/`
+  const url = new URL(`holi://spaces/${space.name}`)
+  if (refresh) {
+    url.searchParams.set('refresh', 'true')
+  }
+  return url.toString()
 }
 
 const spaceMemberShipUrlFrom = (notification: SpaceMembershipPushNotification) => {
+  const refresh = [
+    NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+    NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER,
+    NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN,
+    NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER,
+    NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN,
+  ].includes(notification.notificationType)
   try {
     switch (notification.notificationType) {
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
-        return toSpacePendingCollaboratorsManagementUrl(notification)
+        return toSpacePendingCollaboratorsManagementUrl(notification, refresh)
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
@@ -60,11 +84,49 @@ const spaceMemberShipUrlFrom = (notification: SpaceMembershipPushNotification) =
       case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
       case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
       case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
-        return toSpaceUrl(notification)
+        return toSpaceUrl(notification, refresh)
     }
   } catch (error) {
     logError(error, 'Failed to create url for space membership notification', {
       location: 'notifications.createUrlFromSpaceMembershipNotification',
+    })
+  }
+}
+
+const toPostCommentUrl = (notification: PostCommentPushNotification): string => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const { post, comment } = parsedData
+  return `holi://posts/${post.id}?commentId=${comment.id}`
+}
+
+const postCommentUrlFrom = (notification: PostCommentPushNotification) => {
+  try {
+    switch (notification.notificationType) {
+      case NovuNotificationType.POST_COMMENT_MENTION:
+      case NovuNotificationType.POST_COMMENT_AUTHOR:
+        return toPostCommentUrl(notification)
+    }
+  } catch (error) {
+    logError(error, 'Failed to create url for post comment notification', {
+      location: 'notifications.postCommentUrlFrom',
+    })
+  }
+}
+
+const toSpaceUpdatesUrl = (notification: SpacePostPushNotification): string => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const { space } = parsedData
+  return `holi://spaces/${space.name}?tab=updates`
+}
+
+const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
+  try {
+    return toSpaceUpdatesUrl(notification)
+  } catch (error) {
+    logError(error, 'Failed to create url for post notification', {
+      location: 'notifications.spaceUpdatesUrlFrom',
     })
   }
 }
@@ -86,6 +148,12 @@ export const transformPushInteractionToUrl = (response: Partial<NotificationResp
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
       return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
+    case NovuNotificationType.POST_COMMENT_MENTION:
+    case NovuNotificationType.POST_COMMENT_AUTHOR:
+      return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
+    case NovuNotificationType.SPACE_NEW_POST:
+      return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
+
     default:
       // Default is chat notification
       return createUrlFromChatNotification(payload)

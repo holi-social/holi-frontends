@@ -46,10 +46,18 @@ interface Props extends BaseProps {
   insightId?: string
   spaceIdOrName?: string
   hasVisibilityIcon?: boolean
+  numberOfLines?: number
 }
 export type PostPreviewProps = SkeletonProps | Props
 
-const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loading }: PostPreviewProps) => {
+const PostPreview = ({
+  hasVisibilityIcon,
+  insightId,
+  post,
+  spaceIdOrName,
+  numberOfLines = 10,
+  loading,
+}: PostPreviewProps) => {
   const { t } = useTranslation()
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
@@ -106,7 +114,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
           users={post?.mentions}
           links={post?.links}
           loading
-          skeletonOptions={{ numberOfLines: 10, borderRadius: 16 }}
+          skeletonOptions={{ numberOfLines: numberOfLines, borderRadius: 16 }}
         >
           {post?.text}
         </HoliText>
@@ -233,7 +241,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName, loadin
       )}
 
       {/* Post content */}
-      <HoliReadMore numberOfLines={10} color="gray300" bold={false}>
+      <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
         <HoliRichTextOutput
           text={post?.text || ''}
           users={post?.mentions || []}

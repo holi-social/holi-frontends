@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
+import AboutSpaces from '@holi/core/screens/spaces/about/AboutSpaces'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import SpaceCollaboratorsManage, {
@@ -58,6 +59,7 @@ export type SpacesScreens = {
   [RouteName.SpaceOnboarding]: SpaceOnboardingParams
   [RouteName.SpaceOnboardingSteps]: SpaceOnboardingStepsParams
   [RouteName.SpaceTasks]: SpaceTasksParams
+  [RouteName.AboutSpaces]: undefined
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -98,6 +100,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.SpaceOnboarding} component={SpaceOnboarding} />
       <SpacesStack.Screen name={RouteName.SpaceOnboardingSteps} component={SpaceOnboardingSteps} />
       <SpacesStack.Screen name={RouteName.SpaceTasks} component={SpaceTasks} />
+      <SpacesStack.Screen name={RouteName.AboutSpaces} component={AboutSpaces} />
     </SpacesStack.Navigator>
   )
 }

@@ -15,6 +15,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.HomeFeed]: '',
             [RouteName.UserProfile]: 'profile/:userId',
             [RouteName.Search]: 'search',
+            [RouteName.NotFound]: '404',
           },
         },
         [RouteName.SpacesHomeStack]: {
@@ -35,8 +36,10 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.Profile]: 'profile',
             [RouteName.SettingsOverview]: 'profile/settings',
             [RouteName.AccountSettings]: 'profile/settings/account',
+            [RouteName.NotificationSettings]: 'profile/settings/notifications',
             [RouteName.ChangePassword]: 'profile/settings/changePassword',
             [RouteName.ChangeEmail]: 'profile/settings/changeEmail',
+            [RouteName.ChangeEmailVerification]: 'profile/settings/changeEmailVerification',
             [RouteName.LegalDocuments]: 'profile/settings/legalDocuments',
             [RouteName.HelpSettings]: 'profile/settings/help',
             [RouteName.Document]: 'profile/settings/legalDocuments/document',
@@ -79,6 +82,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceOnboarding]: 'spaces/:spaceIdOrName/onboarding',
         [RouteName.SpaceOnboardingSteps]: 'spaces/:spaceIdOrName/onboarding/steps',
         [RouteName.SpaceTasks]: 'spaces/:spaceIdOrName/tasks',
+        [RouteName.AboutSpaces]: 'about-spaces',
       },
     },
 

@@ -1,6 +1,40 @@
-import { NotificationCountType, Room } from 'matrix-js-sdk'
+import { IRoomEvent, IStateEvent, NotificationCountType, Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
+
+export type RoomType = 'private' | 'space' | 'space.child'
+
+export type SharedDataContent = SpaceSharedDataContent | SpaceChildSharedDataContent
+
+export interface SpaceSharedDataContent {
+  roomId: string
+  holiSpaceId: string
+}
+
+export interface SpaceChildSharedDataContent extends SpaceSharedDataContent {
+  spaceName: string
+  avatarDefaultColor: string
+  parentSpaceRoomId: string
+}
+
+export interface PrivateRoom {
+  type: 'private'
+  room: Room
+}
+
+export interface SpaceRoom {
+  type: 'space'
+  content: SpaceSharedDataContent
+  room: Room
+}
+
+export interface SpaceChildRoom {
+  type: 'space.child'
+  content: SpaceChildSharedDataContent
+  room: Room
+}
+
+export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom
 
 export interface CreateRoomOptions {
   isDirectMessage: boolean
@@ -8,48 +42,9 @@ export interface CreateRoomOptions {
   name?: string
 }
 
-interface SpaceSharedDataContent {
-  roomId: string
-  holiSpaceId: string
-}
-
-export interface SpaceGeneralRoomSharedDataContent extends SpaceSharedDataContent {
-  spaceName: string
-  avatarDefaultColor: string
-  parentSpaceRoomId: string
-}
-
-export type SharedDataContent = SpaceSharedDataContent | SpaceGeneralRoomSharedDataContent
-
-export type RoomType = 'private' | 'space' | 'space-general-room'
-
-interface BaseRoomWithSharedData {
-  room: Room
-}
-
-export interface PrivateRoomBase {
-  type: 'private'
-}
-
-export interface SpaceRoomBase {
-  type: 'space'
-  content: SpaceSharedDataContent
-}
-
-export interface SpaceGeneralRoomBase {
-  type: 'space-general-room'
-  content: SpaceGeneralRoomSharedDataContent
-}
-
 export const memberships = ['invite', 'join', 'leave', 'ban', 'knock'] as const
 export type Memberships = typeof memberships
 export type Membership = Memberships[number]
-
-export interface PrivateRoomWithSharedData extends BaseRoomWithSharedData, PrivateRoomBase {}
-export interface SpaceWithSharedData extends BaseRoomWithSharedData, SpaceRoomBase {}
-export interface SpaceGeneralRoomWithSharedData extends BaseRoomWithSharedData, SpaceGeneralRoomBase {}
-
-export type RoomWithSharedData = PrivateRoomWithSharedData | SpaceWithSharedData | SpaceGeneralRoomWithSharedData
 
 export enum MembershipStatus {
   /**
@@ -81,9 +76,17 @@ export interface RoomId {
 export interface ChatRoomMember {
   id: MatrixId // the matrix ID (e.g. '@otto:holi.social')
   name: string
+  avatar?: string
   membership?: MembershipStatus
 }
 
 export enum ChatRoomEvent {
   SharedData = 'holi.room.shared.data',
+}
+
+export interface MxMessagesResponse {
+  start?: string
+  end?: string
+  chunk: IRoomEvent[]
+  state?: IStateEvent[]
 }

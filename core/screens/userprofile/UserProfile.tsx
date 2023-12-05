@@ -180,7 +180,7 @@ const UserProfile = () => {
   return (
     <ScrollHeaderLayout.Refreshable
       refreshableProps={{
-        isLoading: refreshing,
+        refreshing,
         onRefresh,
       }}
     >
@@ -189,7 +189,7 @@ const UserProfile = () => {
       </View>
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
-        tabBarStyle={Platform.OS === 'web' && tabBarStyle}
+        tabBarStyle={tabBarStyle}
         id="profile-tabs"
         tabs={[
           {

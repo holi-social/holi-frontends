@@ -33,6 +33,19 @@ export const FullSpaceMembershipRequestFragment = gql`
   }
 `
 
+export const FullSpaceInviteFragment = gql`
+  ${FullUserAvatarFragment}
+  fragment FullSpaceInvite on SpaceInvitePaged {
+    totalResults
+    data {
+      id
+      invitedUser {
+        ...FullUserAvatar
+      }
+    }
+  }
+`
+
 // We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const FullSpaceFragment = gql`
   ${FullUserFragment}

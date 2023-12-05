@@ -1,20 +1,19 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect, useMemo } from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
-import {
+import RefreshableNotificationSectionList, {
   NotificationGroup,
-  NotificationSectionList,
 } from '@holi/core/screens/notifications/components/NotificationSectionList'
-import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
@@ -27,7 +26,7 @@ import {
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const NotificationsOverview = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -39,6 +38,8 @@ const NotificationsOverview = () => {
     markAllNotificationsAsSeen,
     canFetchMore,
     fetchNextPage,
+    isFetchingMore,
+    refetch,
   } = useNotifications()
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
@@ -77,18 +78,32 @@ const NotificationsOverview = () => {
     }
   }, [markAllNotificationsAsSeen, novuNotifications])
 
-  const loadMoreComponent = useMemo(
-    () => (
-      <ScrollBasedCallbackInvocation
-        callback={fetchNextPage}
-        placeholder={<HoliLoader style={styles.loaderBottom} testID="fetch-more-loader" />}
-      />
-    ),
-    [fetchNextPage]
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
+
+  const topLoader = <HoliLoader style={styles.loader} testID="loader" />
+  const loadMoreComponent = useMemo(() => {
+    const footer = <View style={styles.footer} />
+    if (canFetchMore && !refreshing) {
+      return (
+        <ScrollBasedCallbackInvocation
+          callback={fetchNextPage}
+          placeholder={
+            Platform.OS === 'android' ? footer : <HoliLoader style={styles.bottomLoader} testID="fetch-more-loader" />
+          }
+        />
+      )
+    }
+    return footer
+  }, [canFetchMore, fetchNextPage, refreshing])
+
+  const allNotifications = useMemo(
+    () => [...(data?.notifications?.data ?? []), ...novuNotifications],
+    [data?.notifications?.data, novuNotifications]
   )
 
-  if (loading || loadingNovuNotifications || notificationsQueryError)
-    return <HoliLoader style={{ height: 300 }} testID="loader" />
+  const groupedNotifications = useMemo(() => groupByDate(allNotifications), [allNotifications])
+
+  if (loading || loadingNovuNotifications || notificationsQueryError) return topLoader
 
   if (!isLoggedIn) {
     return (
@@ -101,22 +116,44 @@ const NotificationsOverview = () => {
     )
   }
 
-  if (!containsNotifications(data?.notifications?.data) && !novuNotifications.length)
-    return <NotificationsEmptyPlaceholder />
-
-  const allNotifications = [...(data?.notifications?.data ?? []), ...novuNotifications]
-
-  const groupedNotifications = groupByDate(allNotifications)
-
   return (
-    <NotificationSectionList notifications={groupedNotifications} footer={canFetchMore ? loadMoreComponent : null} />
+    <>
+      {Platform.OS === 'android' && isFetchingMore ? topLoader : null}
+      <RefreshableNotificationSectionList
+        refreshableProps={{ refreshing, onRefresh }}
+        webWrapperStyle={styles.webWrapperStyle}
+        headerOverlap
+        notifications={groupedNotifications}
+        footer={loadMoreComponent}
+        style={styles.scrollView}
+      />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  loaderBottom: {
-    marginBottom: +vars.bottomBarHeight,
+  loader: {
+    height: 300,
+  },
+  bottomLoader: {
     position: 'relative',
+    marginBottom: +vars.bottomBarHeight,
+  },
+  scrollView: {
+    ...Platform.select({
+      android: {
+        marginTop: +vars.topBarHeight,
+      },
+      web: {
+        marginHorizontal: 'auto',
+      },
+    }),
+  },
+  footer: {
+    marginBottom: +vars.bottomBarHeight,
+  },
+  webWrapperStyle: {
+    backgroundColor: colors.background30,
   },
 })
 

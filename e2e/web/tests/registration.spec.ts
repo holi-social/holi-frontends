@@ -4,9 +4,9 @@ import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
-  gotoFillAndSubmitRegistration,
   proceedAsGuest,
   randomPassword,
+  registerUser,
   waitForAnimationEnd,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
@@ -56,21 +56,21 @@ const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Pa
   const validEmail = 'foobar@barbaz.de'
 
   // no password and email provided
-  await gotoFillAndSubmitRegistration(context, page, '', '', false)
+  await registerUser(context, page, '', '')
   await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
   await page.waitForSelector(byTestId('ory-password-input-error-message'))
   await checkAccessibility(page)
 
   // invalid email provided
-  await gotoFillAndSubmitRegistration(context, page, '!!!wrong@', validPassword, false)
+  await registerUser(context, page, '!!!wrong@', validPassword)
   await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
 
   // short password provided
-  await gotoFillAndSubmitRegistration(context, page, validEmail, 'Sh0rt', false)
+  await registerUser(context, page, validEmail, 'Sh0rt')
   await page.waitForSelector(byTestId('ory-password-input-error-message'))
 
   // weak password provided
-  await gotoFillAndSubmitRegistration(context, page, validEmail, '11111111', false)
+  await registerUser(context, page, validEmail, '11111111')
   await page.waitForSelector(byTestId('ory-password-input-error-message'))
 }
 

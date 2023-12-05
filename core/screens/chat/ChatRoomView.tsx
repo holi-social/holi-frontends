@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from 'react'
+import { useAtomValue } from 'jotai'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -10,14 +11,14 @@ import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import RoomMessageList from '@holi/chat/src/components/RoomMessageList'
 import RoomMessageListStart from '@holi/chat/src/components/RoomMessageList/RoomMessageListStart'
 import {
-  getChatPartner,
+  chatPartnerAtomCreator,
   getHoliUserForChatMember,
   isRoomCreator,
-  isSpaceGeneralChatRoom,
   setLatestMessagesAsRead,
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store'
+import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -45,20 +46,19 @@ const ChatRoomView = () => {
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
-
-  const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(
-    room?.members.map((m) => m.id) || []
-  )
-
   const { user: loggedInUser } = useLoggedInUser()
+  const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
+
   const requestMessages = useRequestRoomMessages()
   const setScreenOptions = useSetScreenOptions()
 
+  const roomMemberIds = room?.members.map((m) => m.id) ?? []
+  const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
+
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
-  const chatPartner = loggedInUser && room && getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
 
-  const isSpaceRoom = room && isSpaceGeneralChatRoom(room)
+  const isSpaceRoom = room && isSpaceChildChatRoom(room)
 
   const { openToast } = useToast()
 
@@ -83,11 +83,12 @@ const ChatRoomView = () => {
         switch (room?.type) {
           case 'private':
             return (
-              !!chatPartnerHoliUser && (
+              !!chatPartnerHoliUser &&
+              !!chatPartner && (
                 <ChatRoomHeaderTitle
                   href={'/profile/' + chatPartnerHoliUser.id}
-                  name={chatPartnerHoliUser.fullName}
-                  imageSrc={chatPartnerHoliUser.avatar}
+                  name={chatPartnerHoliUser.fullName ?? chatPartner.name}
+                  imageSrc={chatPartner.avatar}
                   imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
                   initials={chatPartnerHoliUser.avatarLabel}
                   defaultColor={chatPartnerHoliUser.avatarDefaultColor}
@@ -95,7 +96,7 @@ const ChatRoomView = () => {
               )
             )
 
-          case 'space-general-room':
+          case 'space.child':
             return (
               <ChatRoomHeaderTitle
                 href={'/spaces/' + room.content.holiSpaceId}
@@ -145,9 +146,15 @@ const ChatRoomView = () => {
           <View style={styles.container}>
             <View style={styles.listContainer}>
               {room.hasInvitation ? (
-                <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
+                <ChatProfileCard
+                  member={chatPartner}
+                  roomId={roomId}
+                  user={chatPartnerHoliUser}
+                  userIsLoading={loadingUsers}
+                />
               ) : (
                 <RoomMessageList
+                  roomId={room.id}
                   roomType={room?.type}
                   messages={messages || []}
                   matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
@@ -155,7 +162,7 @@ const ChatRoomView = () => {
                     amIRoomCreator &&
                     chatPartnerHoliUser && (
                       <View style={styles.listStage}>
-                        <RoomMessageListStart chatPartnerHoliUser={chatPartnerHoliUser} />
+                        <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
                       </View>
                     )
                   }

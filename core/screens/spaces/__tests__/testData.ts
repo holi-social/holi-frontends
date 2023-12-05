@@ -3,6 +3,7 @@ import {
   LocationType,
   Regularity,
   Space,
+  SpaceInvite,
   SpaceLink,
   SpaceLinkType,
   SpaceMember,
@@ -127,6 +128,15 @@ const membershipRequests = [1, 2, 3].map((id) => ({
   __typename: 'SpaceMembershipRequest',
 }))
 
+const invites = [1, 2, 3].map((id) => ({
+  id: `invite-id-${id}`,
+  invitedUser: {
+    ...user,
+    id: `invited-user-${id}`,
+  },
+  __typename: 'SpaceInvite',
+}))
+
 export const pagedMembershipRequests: Paged<SpaceMembershipRequest> = {
   totalResults: membershipRequests.length,
   data: membershipRequests,
@@ -137,6 +147,18 @@ const emptyPagedMembershipRequests: Paged<SpaceMembershipRequest> = {
   totalResults: 0,
   data: [],
   __typename: 'SpaceMembershipRequestPaged',
+}
+
+export const pagedInvites: Paged<SpaceInvite> = {
+  totalResults: invites.length,
+  data: invites,
+  __typename: 'SpaceInvitePaged',
+}
+
+const emptyPagedInvites: Paged<SpaceInvite> = {
+  totalResults: 0,
+  data: [],
+  __typename: 'SpaceInvitePaged',
 }
 
 export const task: Task = {
@@ -200,6 +222,7 @@ export const space: Space = {
   avatarDefaultColor: '#000',
   name: 'space-title',
   membershipRequests: emptyPagedMembershipRequests,
+  invites: emptyPagedInvites,
   sdgs: [],
   onboarding: {
     steps: [],

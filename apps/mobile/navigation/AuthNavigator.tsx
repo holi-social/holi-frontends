@@ -4,10 +4,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import ChangeEmail from '@holi/core/screens/userprofile/ChangeEmail'
+import ChangeEmailVerification from '@holi/core/screens/userprofile/ChangeEmailVerification'
 import ChangePassword from '@holi/core/screens/userprofile/ChangePassword'
 import HelpSettings from '@holi/core/screens/userprofile/HelpSettings'
 import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import LegalDocuments from '@holi/core/screens/userprofile/LegalDocuments'
+import NotificationSettings from '@holi/core/screens/userprofile/NotificationSettings'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
@@ -18,9 +20,11 @@ export type AuthStackScreensList = {
   Profile: undefined
   SettingsOverview: undefined
   AccountSettings: undefined
+  NotificationSettings: undefined
   HelpSettings: undefined
   ChangePassword: undefined
   ChangeEmail: undefined
+  ChangeEmailVerification: undefined
   LegalDocuments: undefined
   Document: undefined
 }
@@ -57,6 +61,14 @@ const AuthStackNavigator = () => {
         }}
       />
       <AuthStack.Screen
+        name={RouteName.NotificationSettings}
+        component={NotificationSettings}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
         name={RouteName.ChangePassword}
         component={ChangePassword}
         options={{
@@ -67,6 +79,14 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen
         name={RouteName.ChangeEmail}
         component={ChangeEmail}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
+        name={RouteName.ChangeEmailVerification}
+        component={ChangeEmailVerification}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,

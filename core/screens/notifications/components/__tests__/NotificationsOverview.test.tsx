@@ -107,28 +107,8 @@ const MOCKS_WITH_NOTIFICATIONS = [
     result: {
       data: {
         notifications: {
-          totalResults: 3,
+          totalResults: 2,
           data: [
-            {
-              id: 'a7aaf131-f1bc-42c3-be76-347afe854773',
-              notificationType: 'PCUM',
-              owner: {
-                id: 'b98ea673-9b33-49ab-bc3f-a60a543533c5',
-              },
-              created: '2023-01-02T15:35:58.163730+00:00',
-              read: false,
-              options: {
-                user: {
-                  id: 'b98ea673-9b33-49ab-bc3f-a60a543533c5',
-                },
-                postComment: {
-                  id: '111',
-                  post: {
-                    id: '333',
-                  },
-                },
-              },
-            },
             {
               id: 'e2bd2b4b-e996-4333-a5c9-0808c75f1a4e',
               notificationType: 'REL',
@@ -147,10 +127,8 @@ const MOCKS_WITH_NOTIFICATIONS = [
             },
             {
               id: '93fab88d-7288-437d-89c1-c98239bf07be',
-              notificationType: 'CNP',
-              owner: {
-                id: 'b98ea673-9b33-49ab-bc3f-a60a543533c5',
-              },
+              notificationType: 'SPACE_NEW_POST',
+
               created: '2023-04-11T07:14:47.182499+00:00',
               read: true,
               options: {
@@ -158,18 +136,15 @@ const MOCKS_WITH_NOTIFICATIONS = [
                   id: '9f7b6baa-9987-43ed-8202-ee9a9f2b0c96',
                   title: '',
                   isPublic: true,
-                  creator: {
-                    id: '84727e70-2b1c-4b44-b7c3-3b6d08362ab7',
-                    fullName: 'Mr. Foo Bar',
-                  },
                 },
-                user: null,
-                postComment: null,
+                user: {
+                  id: '84727e70-2b1c-4b44-b7c3-3b6d08362ab7',
+                  fullName: 'Mr. Foo Bar',
+                },
                 space: {
                   id: '2a64b5ad-399c-42c9-bf10-19ab82c16591',
                   title: 'Test space',
                 },
-                teaser: 'Test space post...',
               },
             },
           ],
@@ -179,31 +154,83 @@ const MOCKS_WITH_NOTIFICATIONS = [
   },
 ]
 
-const novuNotification = {
-  id: '65425d174cfcd52172a44148',
-  notificationType: 'SPACE_MEMBERSHIP_REQUEST',
-  created: '2023-11-01T14:13:43.053Z',
-  read: false,
-  options: {
-    requestMessage: 'hi2',
-    user: {
-      id: '48e6b3c4-f1c5-4cb7-802c-75f01b3c1d05',
-      fullName: 'Test SF',
-      avatar: '',
-      avatarBlurhash: '',
-      avatarDefaultColor: '#7BD7EA',
-      avatarLabel: 'TS',
-    },
-    space: {
-      id: 'acec5d45-f7d2-45dc-bd71-add6f352bfeb',
-      name: 'test',
-      title: 'test',
-      avatar: '',
-      avatarBlurhash: '',
-      avatarDefaultColor: '#7BD7EA',
+const novuNotifications = [
+  {
+    id: '65425d174cfcd52172a44148',
+    notificationType: 'SPACE_MEMBERSHIP_REQUEST',
+    created: '2023-11-10T14:21:20.306508',
+    read: false,
+    options: {
+      requestMessage: 'hi2',
+      user: {
+        id: '48e6b3c4-f1c5-4cb7-802c-75f01b3c1d05',
+        fullName: 'Test SF',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '#7BD7EA',
+        avatarLabel: 'TS',
+      },
+      space: {
+        id: 'acec5d45-f7d2-45dc-bd71-add6f352bfeb',
+        name: 'test',
+        title: 'test',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '#7BD7EA',
+      },
     },
   },
-}
+  {
+    id: 'a2a93d23-3ae1-4d1c-b956-536566e07a51',
+    notificationType: 'POST_COMMENT_MENTION',
+    created: '2023-11-20T14:21:20.306508',
+    read: false,
+    content: 'Test Commenter mentioned you in a comment on Test Post Title',
+    options: {
+      user: {
+        id: 'test_user_id',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '#000000',
+        avatarLabel: '',
+        fullName: 'Test User',
+      },
+      comment: {
+        id: 'test_comment_id',
+        text: 'This is a comment for Test User.',
+      },
+      post: {
+        id: 'test_post_id',
+        title: 'Test Post Title',
+      },
+    },
+  },
+  {
+    id: '6cd57dd3-8092-48f4-899a-3a456e32efdd',
+    notificationType: 'POST_COMMENT_AUTHOR',
+    created: '2023-11-21T14:21:20.306508',
+    read: false,
+    content: 'Test Commenter commented on your post Test Post Title',
+    options: {
+      user: {
+        id: 'test_user_id',
+        avatar: '',
+        avatarBlurhash: '',
+        avatarDefaultColor: '#000000',
+        avatarLabel: '',
+        fullName: 'Test User',
+      },
+      comment: {
+        id: 'test_comment_id',
+        text: 'This is a comment.',
+      },
+      post: {
+        id: 'test_post_id',
+        title: 'Test Post Title',
+      },
+    },
+  },
+]
 
 describe('NotificationsOverview', () => {
   beforeEach(() => {
@@ -257,9 +284,9 @@ describe('NotificationsOverview', () => {
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(emptyNotificationsMessage)
   })
 
-  it('renders a PostCommentMention, a SpacePost, a Release notification and SpaceConnection', async () => {
+  it('renders a PostCommentMention, a Release notification and SpaceConnection', async () => {
     mockUseNotifications.mockReturnValue({
-      notifications: [novuNotification],
+      notifications: novuNotifications,
       isLoading: false,
       markAllNotificationsAsSeen: jest.fn(),
       canFetchMore: false,
@@ -276,7 +303,7 @@ describe('NotificationsOverview', () => {
     const loaderTextContent = 'loginRedirect.title'
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
 
-    await waitFor(async () => expect(await screen.findByTestId('post-comment-mention')))
+    expect(await screen.findAllByTestId('post-comment'))
     expect(await screen.findByTestId('release-info'))
     expect(await screen.findByTestId('space-post'))
     expect(await screen.findByTestId('space-connection'))
@@ -300,7 +327,7 @@ describe('NotificationsOverview', () => {
   it('reports notifications as seen', () => {
     const mockMarkAllNotificationsAsSeen = jest.fn()
     mockUseNotifications.mockReturnValue({
-      notifications: [novuNotification],
+      notifications: novuNotifications,
       isLoading: false,
       markAllNotificationsAsSeen: mockMarkAllNotificationsAsSeen,
       canFetchMore: false,
@@ -338,7 +365,7 @@ describe('NotificationsOverview', () => {
   it('fetches more on scroll', async () => {
     const mockFetchNextPage = jest.fn()
     mockUseNotifications.mockReturnValue({
-      notifications: [novuNotification],
+      notifications: novuNotifications,
       isLoading: false,
       markAllNotificationsAsSeen: jest.fn(),
       canFetchMore: true,

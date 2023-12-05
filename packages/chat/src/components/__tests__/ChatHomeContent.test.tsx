@@ -69,10 +69,10 @@ describe('ChatHome', () => {
   beforeEach(() => {
     markDeviceTokenAsInitialized()
     mockChatFeatureToggle = {
-      loading: false,
-      error: false,
-      status: 'FeatureToggleStatus.PRODUCTION',
-      enabled: true,
+      ftLoading: false,
+      ftError: false,
+      ftStatus: 'FeatureToggleStatus.PRODUCTION',
+      ftEnabled: true,
     }
   })
 
@@ -108,13 +108,12 @@ describe('ChatHome', () => {
         </ChatSessionInitializer>
       )
 
-      await screen.findAllByText('loginRedirect.title')
-      await screen.findAllByText('loginRedirect.text')
+      expect(await screen.findByText('loginRedirect.title')).toBeOnTheScreen()
+      expect(await screen.findByText('loginRedirect.text')).toBeOnTheScreen()
     })
   })
 
-  // FIXME: tests are broken, ask Mau for testing them
-  describe.skip('for signed-in user', () => {
+  describe('for signed-in user', () => {
     beforeEach(() => {
       mockOrySessionInStorage = {
         session_token: 'session_token_stub',
@@ -136,13 +135,17 @@ describe('ChatHome', () => {
         ['mx_sso_token', 'someAccessToken'],
         ['mx_device', 'someDeviceId'],
       ]
+      mockChatFeatureToggle = {
+        ftLoading: false,
+        ftError: false,
+        ftStatus: 'FeatureToggleStatus.PRODUCTION',
+        ftEnabled: true,
+      }
 
       setMatrixMock(CHAT_MOCK_USER_ID)
     })
 
     it('shows empty home chat view', async () => {
-      // it doesn't need any mocks
-
       render(
         <ChatSessionInitializer>
           <ChatProvider>
@@ -151,13 +154,15 @@ describe('ChatHome', () => {
         </ChatSessionInitializer>
       )
 
-      await screen.findAllByText('chat.empty.tagline')
-      await screen.findAllByText('chat.empty.headline')
-      await screen.findAllByText('chat.empty.button.text')
+      await waitFor(() => {
+        expect(screen.getByText('chat.empty.tagline')).toBeOnTheScreen()
+        expect(screen.getByText('chat.empty.headline')).toBeOnTheScreen()
+        expect(screen.getByText('chat.empty.button.text')).toBeOnTheScreen()
+      })
     })
 
     it('shows an existing room', async () => {
-      // given bobs pre-existing room with a message
+      // GIVEN a pre-existing room with a message by bob
       const bob = createChatMemberFixture({ name: 'Bob' })
       const bobsRoom = createChatRoomFixture({
         // we use user identities as room names?
@@ -169,23 +174,24 @@ describe('ChatHome', () => {
       const members = [bob]
       const rooms = [bobsRoom]
 
-      // when rendering the chat home
+      // WHEN rendering the chat home
       render(
         <ChatMockProvider jotaiStore={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
           <ChatHomeContent />
         </ChatMockProvider>
       )
 
-      // then it shows the room list
-      await screen.findByTestId('chat-room-list')
+      // THEN it shows the room list
+      expect(await screen.findByTestId('chat-room-list')).toBeOnTheScreen()
 
-      // and it intermediately shows a skeleton for the room
-      await waitFor(() => screen.queryByTestId('room-item-BobIdentity-skeleton'))
-      await waitFor(() => !screen.queryByTestId('room-item-BobIdentity-skeleton'))
+      // THEN intermediately a skeleton for the room is shown
+      // TODO FIXME: this should test if a skeleton is shown. the way the test setup is though, the room get's rendered immediately as the store already contains the room
+      //expect(await screen.findByTestId('room-item-BobIdentity-skeleton')).toBeOnTheScreen()
+      //expect(await screen.findByTestId('room-item-BobIdentity-skeleton')).not.toBeOnTheScreen()
 
-      // then it shows bobs room in a list, with its last message
+      // THEN bobs room is shown in a list and the last message is displayed
       const listedRoom = await screen.findByTestId('room-item-BobIdentity')
-      expect(listedRoom).toHaveTextContent('Bob')
+      expect(listedRoom).toHaveTextContent('chat.invitation.newconversation')
       expect(listedRoom).toHaveTextContent('Moin!')
     })
 
@@ -201,12 +207,15 @@ describe('ChatHome', () => {
         </ChatMockProvider>
       )
 
+      // wait for chat to be initialized before firing an event
+      expect(await screen.findByText('chat.empty.tagline')).toBeOnTheScreen()
+
       act(() => {
         fireMatrixEvent(mockMx.on, ClientEvent.Room, matrixRoomFrom(aliceRoom))
       })
 
-      await screen.findByTestId('chat-room-list')
-      await screen.findByTestId('room-item-AliceIdentity')
+      expect(await screen.findByTestId('chat-room-list')).toBeOnTheScreen()
+      expect(await screen.findByTestId('room-item-AliceIdentity')).toBeOnTheScreen()
     })
   })
 })

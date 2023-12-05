@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -10,9 +10,13 @@ import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilte
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowRightS } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface DiscoverSpacesViewProps {
   style?: StyleProp<ViewStyle>
@@ -43,6 +47,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
   const { openLoginModal } = useLoginModal()
+  const { width: screenWidth } = useWindowDimensions()
 
   const { loadingTopics: loading, topics = [] } = useContext(SpaceTermContext)
 
@@ -59,6 +64,9 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
   }, [isLoggedIn, navigate, openLoginModal])
 
+  const { width } = useWindowDimensions()
+  const aspectRatio = 188 / 324
+
   return (
     <View style={style} testID="spaces-container">
       <HoliHeading level="1" size="large" style={styles.headerTitle} testID="discover-spaces-header">
@@ -72,10 +80,48 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
           label={t('spaces.discover.create.button')}
           onPress={handleCreateSpaceButtonPress}
           testID="discover-spaces-create-button"
+          style={styles.createSpaceButton}
         >
           {t('spaces.discover.create.button')}
         </HoliButton>
       </View>
+      <HoliButton
+        label={t('spaces.about.banner.button.title')}
+        onPress={() => navigate('/about-spaces/')}
+        testID="discover-spaces-about-button"
+        transparent
+      >
+        <View
+          style={screenWidth > +vars.breakpointS ? styles.compositionImageContainerL : styles.compositionImageContainer}
+        >
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
+            resizeMode="contain"
+            width={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? width : 324}
+            height={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? aspectRatio * width : 188}
+            style={styles.compositionImage}
+            label=""
+          />
+          <View style={styles.learnMoreDescriptionContainer}>
+            {screenWidth > +vars.breakpointS && (
+              <>
+                <HoliHeading level="2" style={{ fontWeight: '400' }}>
+                  {t('spaces.about.banner.title')}
+                </HoliHeading>
+                <HoliText style={{ color: colors.foreground20, lineHeight: 23.68 }}>
+                  {t('spaces.about.banner.description')}
+                </HoliText>
+              </>
+            )}
+            <View style={screenWidth > +vars.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}>
+              <HoliText bold style={{ paddingRight: 8 }}>
+                {t('spaces.about.banner.button.title')}
+              </HoliText>
+              <HoliIcon icon={ArrowRightS} color={colors.foreground30} />
+            </View>
+          </View>
+        </View>
+      </HoliButton>
 
       <View style={styles.body}>
         {userTopics.map((userTopic, index) => {
@@ -181,11 +227,11 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   headerDescription: {
-    marginTop: 8,
+    paddingVertical: 12,
     fontWeight: '400',
   },
   body: {
-    marginTop: 37,
+    marginTop: 32,
   },
   spacesGroup: {
     marginBottom: 30,
@@ -197,6 +243,59 @@ const styles = StyleSheet.create({
   createSpaceButtonContainer: {
     marginTop: 8,
     alignSelf: 'flex-start',
+    marginBottom: 32,
+  },
+  createSpaceButton: {
+    borderWidth: 1,
+  },
+  compositionImage: {
+    flex: 1,
+    alignSelf: 'center',
+  },
+  compositionImageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignSelf: 'stretch',
+    backgroundColor: colors.background10,
+    borderRadius: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 24,
+    gap: 20,
+    borderWidth: 1,
+    borderColor: colors.background30,
+  },
+  compositionImageContainerL: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    backgroundColor: colors.background10,
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 24,
+    gap: 32,
+    borderWidth: 1,
+    borderColor: colors.background30,
+  },
+  learnMoreDescription: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  learnMoreDescriptionS: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  learnMoreDescriptionContainer: {
+    flex: 1,
+    paddingHorizontal: 14,
+    gap: 16,
   },
 })
 

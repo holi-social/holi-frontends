@@ -1,13 +1,14 @@
 import type { Atom, PrimitiveAtom } from 'jotai'
-import type { Room } from 'matrix-js-sdk'
 
 import type {
   ChatRoomMember,
   MatrixId,
-  PrivateRoomBase,
+  PrivateRoom,
   RoomWithSharedData,
-  SpaceGeneralRoomBase,
-  SpaceRoomBase,
+  SpaceChildRoom,
+  SpaceChildSharedDataContent,
+  SpaceRoom,
+  SpaceSharedDataContent,
 } from '@holi/chat/src/client/types'
 
 /**
@@ -17,14 +18,16 @@ import type {
 export type HoliIdentity = string
 export type ChatRoomId = string
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
-export type SpaceGeneralChatRoomAtom = PrimitiveAtom<SpaceGeneralChatRoom>
+export type PrivateChatRoomAtom = PrimitiveAtom<PrivateChatRoom>
+export type SpaceRoomAtom = PrimitiveAtom<SpaceChatRoom>
+export type SpaceChildRoomAtom = PrimitiveAtom<SpaceChildChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
 export type RoomAtomByRoomId = Record<ChatRoomId, ChatRoomAtom>
 export type MessageAtomsByRoomId = Record<ChatRoomId, ChatMessagesAtom>
 
 export type AtomRecordGetter = <T>(atom: Atom<Record<string, T>>) => Record<string, T>
 
-interface BaseChatRoom {
+export interface BaseChatRoom {
   id: string
   name: string
   avatar?: string
@@ -37,13 +40,17 @@ interface BaseChatRoom {
   timestamp: number | undefined
 }
 
-export interface PrivateChatRoom extends BaseChatRoom, PrivateRoomBase {}
-export interface SpaceChatRoom extends BaseChatRoom, SpaceRoomBase {}
-export interface SpaceGeneralChatRoom extends BaseChatRoom, SpaceGeneralRoomBase {}
+export type PrivateChatRoom = BaseChatRoom & Omit<PrivateRoom, 'room'>
+export interface SpaceChatRoom extends BaseChatRoom, Omit<SpaceRoom, 'room'> {
+  content: SpaceSharedDataContent
+}
+export interface SpaceChildChatRoom extends BaseChatRoom, Omit<SpaceChildRoom, 'room'> {
+  content: SpaceChildSharedDataContent
+}
 
-export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceGeneralChatRoom
-export type SpaceChatTab = SpaceGeneralRoomBase & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
-export type PrivateChatTab = PrivateRoomBase & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
+export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceChildChatRoom
+export type SpaceChatTab = SpaceChildChatRoom & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
+export type PrivateChatTab = PrivateRoom & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
 
 export enum RoomAtomsActionType {
   'CREATE',
@@ -73,9 +80,6 @@ interface DeleteRoomArgs {
 }
 
 export type RoomAtomsRecordAtomSubscriberArgs = CreateRoomArgs | UpdateRoomArgs | DeleteRoomArgs
-
-export const isSpaceGeneralChatRoom = (room: ChatRoom): room is SpaceGeneralChatRoom =>
-  room.type === 'space-general-room'
 
 /**
  * Message
@@ -115,13 +119,4 @@ export type ChatMessage = ChatTextMessage | ChaMembershipMessage
 export interface CreateMessage {
   roomId: string
   text: string
-}
-
-/**
- * Member
- */
-export interface MyMembershipOptions {
-  room: Room
-  membership: string
-  prevMembership?: string
 }

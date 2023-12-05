@@ -81,7 +81,7 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
   )
 }
 
-function truncateTextByLines(textLines: TextLayoutLine[], numberOfLines: number, ellipsis: string): string {
+export function truncateTextByLines(textLines: TextLayoutLine[], numberOfLines: number, ellipsis: string): string {
   const shortTextLines = textLines.slice(0, numberOfLines)
   const needsEllipsis = shortTextLines.length == numberOfLines
   const shortText = shortTextLines.map((line) => line.text).join('')

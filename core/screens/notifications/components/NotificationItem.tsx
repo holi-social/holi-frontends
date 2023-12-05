@@ -5,9 +5,9 @@ import NotificationPostItem from '@holi/core/screens/notifications/components/No
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
+import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import NotificationSpacePermissionsItem from '@holi/core/screens/notifications/components/NotificationSpacePermissionsItem'
 import NotificationSpacePostItem from '@holi/core/screens/notifications/components/NotificationSpacePostItem'
-import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
 
@@ -21,11 +21,9 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.CONNECTION_REQUEST,
   NotificationType.CONNECTION_ACCEPTED,
   NotificationType.CONNECTION_CONFIRMED,
-  NotificationType.POST_COMMENT_USER_MENTION,
   NotificationType.COMMUNITY_MEMBERSHIP_REQUEST,
   NotificationType.COMMUNITY_MEMBERSHIP_APPROVED,
   NotificationType.COMMUNITY_MEMBERSHIP_REVOKED,
-  NotificationType.COMMUNITY_NEW_POST,
   NotificationType.RELEASE_INFO,
   NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED,
   NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED,
@@ -37,6 +35,9 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER,
   NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN,
   NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
+  NovuNotificationType.POST_COMMENT_MENTION,
+  NovuNotificationType.POST_COMMENT_AUTHOR,
+  NovuNotificationType.SPACE_NEW_POST,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -47,8 +48,9 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.CONNECTION_ACCEPTED:
     case NotificationType.CONNECTION_CONFIRMED:
       return <NotificationConnectionItem notification={notification} {...props} testID="connection" />
-    case NotificationType.POST_COMMENT_USER_MENTION:
-      return <NotificationPostItem notification={notification} {...props} testID="post-comment-mention" />
+    case NovuNotificationType.POST_COMMENT_MENTION:
+    case NovuNotificationType.POST_COMMENT_AUTHOR:
+      return <NotificationPostItem notification={notification} {...props} testID="post-comment" />
     case NotificationType.COMMUNITY_MEMBERSHIP_REQUEST:
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
     case NotificationType.COMMUNITY_MEMBERSHIP_REVOKED:
@@ -66,8 +68,8 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
-      return <NotificationWithSpaceAvatar notification={notification} {...props} />
-    case NotificationType.COMMUNITY_NEW_POST:
+      return <NotificationSpaceItem notification={notification} {...props} testID={'space-membership-item'} />
+    case NovuNotificationType.SPACE_NEW_POST:
       return <NotificationSpacePostItem notification={notification} {...props} testID="space-post" />
     case NotificationType.RELEASE_INFO:
       return <NotificationReleaseInfoItem notification={notification} {...props} testID="release-info" />

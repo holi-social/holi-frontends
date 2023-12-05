@@ -16,10 +16,10 @@ interface Props {
 
 export const HoliButtonBell = ({ label, icon, showBell = false, onPress, color, testID = 'bell-button' }: Props) => {
   return (
-    <NotificationBellBadge visible={showBell}>
-      <HoliButton label={label} inline testID={testID} transparent onPress={onPress}>
+    <HoliButton label={label} inline testID={testID} transparent onPress={onPress}>
+      <NotificationBellBadge visible={showBell} testID={testID}>
         <HoliIcon icon={icon} color={color} />
-      </HoliButton>
-    </NotificationBellBadge>
+      </NotificationBellBadge>
+    </HoliButton>
   )
 }

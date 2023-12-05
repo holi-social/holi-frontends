@@ -134,7 +134,7 @@ const Spaces = () => {
     <SpaceTermContextProvider>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         ref={pageViewRef}
@@ -153,7 +153,7 @@ const Spaces = () => {
             id="space-tabs"
             onChangeTab={onChangeTab}
             style={styles.holiTabs}
-            tabBarStyle={Platform.OS === 'web' && tabBarStyle}
+            tabBarStyle={tabBarStyle}
             backgroundColor={colors.background20}
             scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
             tabs={[

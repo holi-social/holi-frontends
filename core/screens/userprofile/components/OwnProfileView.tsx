@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
@@ -58,7 +58,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
       </View>
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
-        tabBarStyle={Platform.OS === 'web' && tabBarStyle}
+        tabBarStyle={tabBarStyle}
         id="profile-tabs"
         tabs={[
           {

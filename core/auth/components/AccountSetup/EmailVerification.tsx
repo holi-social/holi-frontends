@@ -25,11 +25,11 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 const CODE_MAX_COUNT = 6
 
 export interface EmailVerificationProps {
-  onDismiss: () => void
+  onDismiss?: () => void
   onSuccess: () => void
 }
 
-const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => {
+const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificationProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
@@ -54,6 +54,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
       // disabled verification in Ory: skip EmailVerification step
       onSuccess()
     } else {
+      showLoader()
       // enabled verification in Ory
       getOrCreateVerificationFlow(verificationFlowData)
         .then(setFlow)
@@ -64,6 +65,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           isLoggedIn && logout({ redirectPath: '/' })
           onDismiss()
         })
+        .finally(hideLoader)
     }
     // do only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,7 +97,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
     toastMessage: string = t('registration.emailVerification.message.activated')
   ) => {
     // if we came to Email Verification from Login page, login the user after successful activation
-    if (verificationFlowData && hasIdentifier(verificationFlowData)) {
+    if (!isLoggedIn && verificationFlowData && hasIdentifier(verificationFlowData)) {
       const session = await login({
         payload: verificationFlowData,
       })
@@ -156,7 +158,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
     }
   }
 
-  if (!flow) return null
+  if (!flow) return <HoliLoader />
 
   return (
     <HoliKeyboardSaveView>

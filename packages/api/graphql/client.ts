@@ -1,5 +1,6 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
@@ -136,10 +137,19 @@ export const createCache = () =>
           data: nestedPaginationPolicy(['idOrName']),
         },
       },
+      SpaceInvitesPaged: {
+        fields: {
+          // Only allow pagination on the space detail screen, recognizable by `idOrName`
+          data: nestedPaginationPolicy(['idOrName']),
+        },
+      },
       UserPaged: {
         fields: {
-          // Only allow pagination when searching for users by `substring`
-          data: nestedPaginationPolicy(['substring']),
+          data: {
+            keyArgs: ['substring'],
+            merge: indexAwareOffsetLimitPagination().merge,
+            read: offsetLimitPagination().read,
+          },
         },
       },
       PostPaged: {
@@ -193,6 +203,9 @@ export const createCache = () =>
           },
           userByName: {
             keyArgs: ['substring'],
+          },
+          connectedUsers: {
+            keyArgs: [],
           },
         },
       },

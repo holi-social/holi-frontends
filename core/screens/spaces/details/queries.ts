@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client'
 
-import { FullSpaceMemberFragment, FullSpaceMembershipRequestFragment } from '@holi/core/screens/spaces/queries'
+import {
+  FullSpaceInviteFragment,
+  FullSpaceMemberFragment,
+  FullSpaceMembershipRequestFragment,
+} from '@holi/core/screens/spaces/queries'
 import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const spaceMembersQuery = gql`
@@ -29,6 +33,19 @@ export const spaceMembershipRequestsQuery = gql`
   }
 `
 
+export const spaceInvitesQuery = gql`
+  ${FullSpaceInviteFragment}
+
+  query SpaceInvitessBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+    spaceById(idOrName: $idOrName) {
+      id
+      invites(limit: $limit, offset: $offset) {
+        ...FullSpaceInvite
+      }
+    }
+  }
+`
+
 export const usersByNameWithSpaceConnectionQuery = gql`
   ${FullUserAvatarFragment}
 
@@ -40,6 +57,21 @@ export const usersByNameWithSpaceConnectionQuery = gql`
         connectionStatusToSpace(spaceId: $spaceId)
       }
       totalResults
+    }
+  }
+`
+
+export const userConnectionsQuery = gql`
+  ${FullUserAvatarFragment}
+
+  query ConnectedUsersWithSpaceConnection($spaceId: UUID!, $offset: Int! = 0, $limit: Int! = 20) {
+    connectedUsers(limit: $limit, offset: $offset) {
+      totalResults
+      data {
+        ...FullUserAvatar
+        connectionStatusToSpace(spaceId: $spaceId)
+        connectionStatusToMyself
+      }
     }
   }
 `

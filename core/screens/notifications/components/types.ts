@@ -1,7 +1,7 @@
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { Post } from '@holi/core/screens/posts/types'
+import { Comment, Post } from '@holi/core/screens/posts/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 
@@ -19,7 +19,6 @@ export enum NotificationType {
   COMMUNITY_INVITE = 'CI',
   COMMUNITY_INVITE_DECLINED = 'CID',
   POST_USER_MENTION = 'PUM',
-  POST_COMMENT_USER_MENTION = 'PCUM',
   COMMUNITY_NEW_POST = 'CNP',
   USER_NEW_POST = 'UNP',
   COMMUNITY_MEMBERSHIP_REQUEST = 'CMR',
@@ -55,26 +54,22 @@ export interface NotificationReleaseInfo extends NotificationBase {
     post: Post
   }
 }
+export interface PostCommentNotificationData {
+  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
+  comment: Pick<Comment, 'id' | 'text'>
+  post: Pick<Post, 'id' | 'title'>
+}
 
 export interface NotificationPost extends NotificationBase {
   notificationType:
     | NotificationType.POST_COMMENT
     | NotificationType.POST_COMMENT_REACTION
     | NotificationType.POST_COMMENT_REPLY
-    | NotificationType.POST_COMMENT_USER_MENTION
     | NotificationType.POST_REACTION
     | NotificationType.POST_USER_MENTION
-  options: {
-    user: User
-
-    postComment: {
-      id: string
-      text: string
-      post: {
-        id: string
-      }
-    }
-  }
+    | NovuNotificationType.POST_COMMENT_MENTION
+    | NovuNotificationType.POST_COMMENT_AUTHOR
+  options: PostCommentNotificationData
 }
 
 export interface SpaceMembershipNotificationData {
@@ -104,13 +99,14 @@ export interface NotificationSpaceConnection extends NotificationBase {
   options: SpaceMembershipNotificationData
 }
 
+export interface SpacePostNotificationData {
+  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
+  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+  post: Pick<Post, 'id' | 'title' | 'isPublic'>
+}
 export interface NotificationSpacePost extends NotificationBase {
-  notificationType: NotificationType.COMMUNITY_NEW_POST
-  options: {
-    space: Space
-    post: Post
-    teaser: string
-  }
+  notificationType: NotificationType.COMMUNITY_NEW_POST | NovuNotificationType.SPACE_NEW_POST
+  options: SpacePostNotificationData
 }
 
 export interface NotificationSpacePermissions extends NotificationBase {

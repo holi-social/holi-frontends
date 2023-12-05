@@ -12,7 +12,8 @@ test.setTimeout(180000)
 test.describe('@Notifications', () => {
   test('user journey', async ({ context, page, userHandler, browserName }) => {
     // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/login" is interrupted by another navigation to "http://localhost:3000/profile"`
-    if (browserName == 'webkit') return
+    test.skip(browserName === 'webkit', 'FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug')
+
     await testIgnoringAndAcceptingConnectionRequests(context, page, userHandler)
     await testUserMentionInPostComment(context, page, userHandler)
   })
@@ -84,13 +85,13 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
 
   await loginAsE2EUser(context, page)
 
-  // go to notifications and click first one post-comment-mention-notification
+  // go to notifications and click first one post-comment-notification
 
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // FIXME: notifications take a long time to load when there is a lot of them
-  await expect(page.getByTestId('post-comment-mention').first()).toBeVisible({ timeout: 120_000 })
-  await clickElementByTestId(page, 'post-comment-mention')
+  await expect(page.getByTestId('post-comment').first()).toBeVisible({ timeout: 120_000 })
+  await clickElementByTestId(page, 'post-comment')
 
   // after clicking on notification we should go to post detail page and scroll to the comment
   // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between

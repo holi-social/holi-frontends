@@ -1,8 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
+import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import {
   NotificationProps,
   NotificationSpacePermissions,
@@ -15,8 +14,6 @@ const NotificationSpacePermissionsItem: React.VFC<NotificationProps<Notification
   style,
   testID,
 }) => {
-  const { userId } = useAuth()
-
   const getI18Key = () => {
     switch (notification.notificationType) {
       case NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED:
@@ -30,11 +27,11 @@ const NotificationSpacePermissionsItem: React.VFC<NotificationProps<Notification
 
   return (
     <View testID={testID}>
-      <NotificationWithSpaceAvatar
+      <NotificationSpaceItem
         notification={notification}
         i18nKey={getI18Key()}
         style={style}
-        testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
+        testID={`${testID ? testID + '-' : ''}notification-item_${notification.options.user.id}`}
       />
     </View>
   )

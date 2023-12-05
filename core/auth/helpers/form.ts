@@ -94,7 +94,7 @@ export const findInputNodeByNameAndType = (
   nodeType: string,
   flow: LoginFlow | SettingsFlow | RecoveryFlow
 ) => {
-  return flow.ui.nodes.find(
+  return flow?.ui?.nodes?.find(
     (node: UiNode) =>
       oryNodeIsInput(node.attributes) && node.attributes.name === nodeName && node.attributes.type === nodeType
   )
@@ -134,7 +134,11 @@ export const handleFormSubmitError = (
     switch (err.response?.status) {
       case 400: {
         if (typeof err.response.data.error === 'object') {
-          logErrorLocal(err.response, '400 error', { location: 'auth.helpers.form.handleFormSubmitError' })
+          if (err.response.data.error?.code === 500) {
+            return
+          } else {
+            logErrorLocal(err.response, '400 error', { location: 'auth.helpers.form.handleFormSubmitError' })
+          }
         }
 
         logDebug('auth/helpers/form.handleFormSubmitError', 'form validation failed')

@@ -8,7 +8,9 @@ import FormWrapper from '@holi/core/components/FormWrapper'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
+import SpaceInviteUserConnectionsList from '@holi/core/screens/spaces/details/components/UserConnectionsList'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
+import { spaceInvitesQuery } from '@holi/core/screens/spaces/details/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -18,9 +20,10 @@ const isEmail = (input: string) => z.string().email().safeParse(input).success
 
 type SpaceInviteViewProps = {
   spaceId: string
+  idOrName: string
 }
 
-const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId }) => {
+const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId, idOrName }) => {
   const [searchValue, setSearchValue] = useState('')
   const { t } = useTranslation()
   const { openToast } = useToast()
@@ -39,6 +42,7 @@ const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId }) => {
         spaceId,
       })
     },
+    refetchQueries: [{ query: spaceInvitesQuery, variables: { idOrName } }],
   })
 
   const searchValueIsEmail = isEmail(searchValue)
@@ -91,6 +95,7 @@ const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId }) => {
           {!!searchValue && !searchValueIsEmail && (
             <SpaceInviteUserSearch spaceId={spaceId} searchValue={searchValue} onInviteHandled={clearInput} />
           )}
+          {!searchValue && <SpaceInviteUserConnectionsList spaceId={spaceId} onInviteHandled={clearInput} />}
         </>
       )}
     />

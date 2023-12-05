@@ -51,10 +51,9 @@ const AppsHub = () => {
       </View>
       <View style={styles.imageContainer}>
         <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/appsHub/apps_hub_preview.svg')}
+          imageSource={require('@holi/ui/assets/img/appsHub/apps_hub_preview.png')}
           style={styles.image}
           resizeMode="contain"
-          isSvg
           label={''}
           width={327}
           height={390}

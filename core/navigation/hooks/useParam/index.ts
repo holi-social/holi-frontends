@@ -45,6 +45,7 @@ type Config<
   stringify?: (value: ParsedType) => string
   initial: InitialValue
   paramsToClearOnSetState?: (keyof Props)[]
+  options?: UpdateOptions
 }
 
 type Params<
@@ -113,6 +114,7 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
       initial,
       stringify = (value: ParsedType) => `${value}`,
       paramsToClearOnSetState,
+      options,
     } = maybeConfig || {}
     const nextRouter = useRouter()
     const nativeRoute = useRoute()
@@ -153,7 +155,7 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
 
         const willChangeExistingParam = query[name as string] && newQuery[name as string]
 
-        const action = willChangeExistingParam ? Router.replace : Router.push
+        const action = options?.web?.replace || willChangeExistingParam ? Router.replace : Router.push
 
         action(
           {
@@ -166,7 +168,7 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
           }
         )
       },
-      [name, stableStringify, stableParamsToClear]
+      [stableParamsToClear, name, options?.web?.replace, stableStringify]
     )
 
     const webParam = nextRouter?.query?.[name as string]
