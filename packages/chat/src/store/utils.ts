@@ -1,18 +1,16 @@
 import { produce } from 'immer'
 import { Atom } from 'jotai'
-import { EventTimeline, EventType, type IRoomEvent, type IStateEvent, Room, RoomMember } from 'matrix-js-sdk'
+import { EventTimeline, EventType, type IRoomEvent, type IStateEvent, type Room } from 'matrix-js-sdk'
 
 import {
-  type ChatRoomMember,
   type MatrixId,
-  MembershipStatus,
   RoomType,
   type RoomWithSharedData,
   type SpaceChildRoom,
   type SpaceRoom,
   type SpaceSharedDataContent,
 } from '@holi/chat/src/client/types'
-import { getLastMessageEvent, isIStateEvent } from '@holi/chat/src/client/utils'
+import { createChatMember, getLastMessageEvent, isIStateEvent } from '@holi/chat/src/client/utils'
 import type {
   AtomRecordGetter,
   BaseChatRoom,
@@ -160,8 +158,8 @@ export function createBaseChatRoom(room: Room, roomType: RoomType, hasInvitation
     notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     hasInvitation,
     lastMessage,
-    creator: roomMxCreator && createChatMember(roomMxCreator),
-    members: room.getMembers().map(createChatMember),
+    creator: roomMxCreator && createChatMember(roomMxCreator, null),
+    members: room.getMembers().map((member) => createChatMember(member, null)),
     timestamp:
       room.getLastActiveTimestamp() > 0
         ? room.getLastActiveTimestamp()
@@ -220,32 +218,6 @@ export function createChatMessage(roomId: string, event: IRoomEvent | IStateEven
 
     default:
       throw new HoliError('Unexpected RoomEvent: only EventType.RoomMessage and EventType.RoomMember are supported')
-  }
-}
-
-/**
- * Members
- */
-
-export function createChatMember(roomMember: RoomMember): ChatRoomMember {
-  const { userId, name, membership } = roomMember
-  const id = userId as MatrixId
-  return {
-    id,
-    name,
-    avatar: roomMember.user?.avatarUrl,
-    membership: getChatMembership(membership),
-  }
-}
-
-export function getChatMembership(membership?: string) {
-  switch (membership) {
-    case 'join':
-      return MembershipStatus.Joined
-    case 'invite':
-      return MembershipStatus.Invited
-    case 'leave':
-      return MembershipStatus.Left
   }
 }
 
