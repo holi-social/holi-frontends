@@ -701,6 +701,7 @@
   "spaces.invite.user.request.declined": "Du hast {{user}} als Mitwirkender:in abgelehnt",
   "spaces.invite.user.witdrawn": "Du hast die Einladung an {{user}} zurückgezogen",
   "spaces.invite.user.success": "{{user}} eingeladen",
+  "spaces.invite.connections.header": "Deine Verbindungen",
   "spaces.join.btnPending": "Anfrage ausstehend",
   "spaces.join.btnRequest": "Beitreten…",
   "spaces.join.error": "Es gab einen Fehler beim Beitritt zu diesem Space. Bitte probiere es später nochmal",
