@@ -1,7 +1,8 @@
-import { ClientEvent } from 'matrix-js-sdk'
+import { ClientEvent, IPushRule, PushRuleKind, RuleId } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 import { Platform } from 'react-native'
 
+import { IGNORE_CHAT_ADMIN_RULE_ID, ignoreChatAdminPushRule } from '@holi/chat/src/client/pusher'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 
 // eslint-disable-next-line no-restricted-imports
@@ -12,6 +13,18 @@ import { StoredCredentials } from '../utils'
 let mockSetPusher: jest.Mock | undefined
 let mockRemovePusher: jest.Mock | undefined
 const mockPlatformOS = jest.fn()
+const mockAddPushRule = jest.fn().mockImplementation(
+  (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    scope: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    kind: PushRuleKind,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ruleId: Exclude<string, RuleId>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    body: Pick<IPushRule, 'actions' | 'conditions' | 'pattern'>
+  ) => Promise.resolve()
+)
 
 // prevent matrix-sdk-internal logging noise
 console.debug = jest.fn()
@@ -28,7 +41,12 @@ jest.mock('matrix-js-sdk', () => {
           callback('PREPARED' as SyncState)
         }
       },
-      addPushRule: () => Promise.resolve(),
+      addPushRule: (
+        scope: string,
+        kind: PushRuleKind,
+        ruleId: Exclude<string, RuleId>,
+        body: Pick<IPushRule, 'actions' | 'conditions' | 'pattern'>
+      ) => mockAddPushRule(scope, kind, ruleId, body),
       getPushRules: () => Promise.resolve(),
       getPushers: () =>
         Promise.resolve({
@@ -91,6 +109,20 @@ describe('startChat', () => {
     Object.defineProperty(Platform, 'OS', {
       get: () => originalOS,
     })
+  })
+
+  it('should call the push rule configuration defining custom rules', async () => {
+    const irgnoreChatAdminRuleArgs = [
+      'global',
+      PushRuleKind.Override,
+      IGNORE_CHAT_ADMIN_RULE_ID,
+      ignoreChatAdminPushRule,
+    ]
+
+    await startChat(testToken)
+
+    expect(mockAddPushRule).toHaveBeenCalledTimes(1)
+    expect(mockAddPushRule).toHaveBeenCalledWith(...irgnoreChatAdminRuleArgs)
   })
 
   describe('Android', () => {

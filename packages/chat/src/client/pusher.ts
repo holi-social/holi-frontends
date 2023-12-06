@@ -106,16 +106,16 @@ export const configurePusher = async (client: MatrixClient, pushkey: string): Pr
   }
 }
 
-const IGNORE_CHAT_ADMIN_RULE_ID = 'm.rule.contains_admin'
+export const IGNORE_CHAT_ADMIN_RULE_ID = 'm.rule.contains_admin'
 
 /**
- * Register a push notification rule for Sygnal that ignores any event
- * notifications triggered by the chat admin in the chat integration. The idea
- * is to avoid redundant notifications; for example, when a user-space
+ * @description Register a push notification rule for Sygnal that ignores any
+ * event notifications triggered by the `chat-admin` in the chat integration.
+ * The idea is to avoid redundant notifications; for example, when a user-space
  * collaboration is accepted, we already send a background notification. Rules
  * work for both fore- and background notifications.
  */
-const ignoreChatAdminPushRule: Pick<IPushRule, 'actions' | 'conditions' | 'pattern'> = {
+export const ignoreChatAdminPushRule: Pick<IPushRule, 'actions' | 'conditions' | 'pattern'> = {
   actions: [PushRuleActionName.DontNotify],
   pattern: chatAdminName,
   conditions: [
@@ -127,7 +127,11 @@ const ignoreChatAdminPushRule: Pick<IPushRule, 'actions' | 'conditions' | 'patte
   ],
 }
 
+/**
+ * @description facilitate configuration for custom Sygnal Push Rules
+ */
 async function configurePushRules(client: MatrixClient): Promise<void> {
+  // Ignore `chat-admin` notifications
   await client.addPushRule('global', PushRuleKind.Override, IGNORE_CHAT_ADMIN_RULE_ID, ignoreChatAdminPushRule)
 
   const rules = await client.getPushRules()
