@@ -25,6 +25,7 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { logger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
+import { configurePusher } from '@holi/chat/src/client/pusher'
 import {
   ChatRoomEvent,
   type ChatRoomMember,
@@ -60,8 +61,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { environment } from '@holi/core/helpers/environment'
 import { logDebug } from '@holi/core/helpers/logging'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
-
-import { configurePusher } from './configurePusher'
 
 // Disable matrix-js-sdk logging for Staging and Production
 if ([EnvironmentId.PRODUCTION, EnvironmentId.STAGING].some((value) => value === environment)) {

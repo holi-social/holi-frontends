@@ -28,6 +28,7 @@ jest.mock('matrix-js-sdk', () => {
           callback('PREPARED' as SyncState)
         }
       },
+      addPushRule: () => Promise.resolve(),
       getPushRules: () => Promise.resolve(),
       getPushers: () =>
         Promise.resolve({
