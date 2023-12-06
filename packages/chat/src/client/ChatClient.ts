@@ -12,6 +12,7 @@ import {
   type MatrixEvent,
   MatrixScheduler,
   Preset,
+  PushRuleKind,
   Room,
   RoomEvent,
   RoomMember,
@@ -637,5 +638,11 @@ export default class ChatClient {
       roomEvent: RoomEvent.Timeline,
       createListener: unreadNotificationsListener,
     })
+  }
+
+  async togglePushNotifications(isEnabled: boolean) {
+    // enable this master push rule to disable push notifications
+    // https://spec.matrix.org/v1.8/client-server-api/#default-override-rules
+    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', !isEnabled)
   }
 }
