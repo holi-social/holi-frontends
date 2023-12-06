@@ -88,8 +88,17 @@ export const sortRoomByTimestamp = (roomA: ChatRoom, roomB: ChatRoom): number =>
  * on the type of the RoomWithSharedData.
  * Types: `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
  */
-export const createChatRoom = (roomWithSharedData: RoomWithSharedData, hasInvitation = false): ChatRoom => {
-  const baseChatRoom = createBaseChatRoom(roomWithSharedData.room, roomWithSharedData.type, hasInvitation)
+export const createChatRoom = (
+  roomWithSharedData: RoomWithSharedData,
+  homeserverUrl: string,
+  hasInvitation = false
+): ChatRoom => {
+  const baseChatRoom = createBaseChatRoom(
+    roomWithSharedData.room,
+    roomWithSharedData.type,
+    homeserverUrl,
+    hasInvitation
+  )
 
   switch (roomWithSharedData.type) {
     case 'private':
@@ -142,7 +151,12 @@ export function createSpaceChildChatRoom(
  * @description It creates the base for all 3 (internal) types of chats rooms
  * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
  */
-export function createBaseChatRoom(room: Room, roomType: RoomType, hasInvitation = false): BaseChatRoom {
+export function createBaseChatRoom(
+  room: Room,
+  roomType: RoomType,
+  homeserverUrl: string,
+  hasInvitation = false
+): BaseChatRoom {
   const lastMessageEvent = getLastMessageEvent(room, roomType)
   const lastMessage = lastMessageEvent && createChatMessage(room.roomId, lastMessageEvent)
 
@@ -158,8 +172,12 @@ export function createBaseChatRoom(room: Room, roomType: RoomType, hasInvitation
     notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     hasInvitation,
     lastMessage,
-    creator: roomMxCreator && createChatMember(roomMxCreator, null),
-    members: room.getMembers().map((member) => createChatMember(member, null)),
+    creator:
+      roomMxCreator &&
+      createChatMember(roomMxCreator, roomMxCreator.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true)),
+    members: room
+      .getMembers()
+      .map((member) => createChatMember(member, member.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true))),
     timestamp:
       room.getLastActiveTimestamp() > 0
         ? room.getLastActiveTimestamp()

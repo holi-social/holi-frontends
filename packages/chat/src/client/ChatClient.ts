@@ -217,12 +217,16 @@ export default class ChatClient {
     }
   }
 
-  public stop = async () => {
+  public async stop() {
     try {
       await this.mxClient?.logout(true)
     } finally {
       await this.mxClient?.clearStores()
     }
+  }
+
+  public getHomeserverUrl(): string {
+    return this.mxClient.getHomeserverUrl()
   }
 
   /** Rooms */

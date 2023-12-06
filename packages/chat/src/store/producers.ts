@@ -35,18 +35,18 @@ export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatM
 })
 
 /**
- * @description: adds (for first members `join` event) or update (for follow up `join/leave` events) a member in the ChatRoom.
- * @see addOrUpdateMemberInChatRoom
+ * @description: adds (for first members `join` event) or update (for follow up
+ * `join/leave` events) a member in the ChatRoom.
  */
-export const addOrUpdateMemberInChatRoom = produce((room: ChatRoom, roomMember: ChatRoomMember) => {
-  const memberIdx = room.members.findIndex(({ id }) => id === roomMember.id)
+export const addOrUpdateMemberInChatRoom = produce((room: ChatRoom, member: ChatRoomMember) => {
+  const memberIdx = room.members.findIndex(({ id }) => id === member.id)
 
   if (memberIdx < 0) {
-    room.members.push(roomMember)
+    room.members.push(member)
     return
   }
 
-  room.members.splice(memberIdx, 1, roomMember)
+  room.members.splice(memberIdx, 1, member)
 })
 
 export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, chatRoom: ChatRoom) => {

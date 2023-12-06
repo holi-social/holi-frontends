@@ -195,7 +195,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
     case RoomAtomsActionType.CREATE: {
       const chatRoomList = args.roomList.reduce<ChatRoom[]>(
         (chatRooms, { room, hasPendingInvitation, ignoredUsers }) => {
-          const chatRoom = createChatRoom(room, hasPendingInvitation)
+          const chatRoom = createChatRoom(room, args.homeserverUrl, hasPendingInvitation)
           // We hide chat rooms with only ignored members from the user. We do an
           // early return not to include the chat room in the store.
           if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return chatRooms
@@ -228,9 +228,10 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
+  const homeserverUrl = client.getHomeserverUrl()
   const ignoredUsers = client.getIgnoredUsers()
 
-  const addRoomToStore = (roomListWithSharedData: RoomWithSharedData[], logPhase: string) => {
+  const addRoomToStore = (roomListWithSharedData: RoomWithSharedData[], homeServerUrl: string, logPhase: string) => {
     const roomList = roomListWithSharedData.map((roomWithSharedData) => {
       const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
 
@@ -238,12 +239,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       return { room: roomWithSharedData, hasPendingInvitation, ignoredUsers }
     })
 
-    setAtom({ type: RoomAtomsActionType.CREATE, roomList })
-  }
-
-  const deleteRoomFromStore = (roomId: string) => {
-    logDebug('Chat.store', `deleting room ${roomId} from store`)
-    setAtom({ type: RoomAtomsActionType.DELETE, roomId })
+    setAtom({ type: RoomAtomsActionType.CREATE, roomList, homeserverUrl })
   }
 
   /**
@@ -251,16 +247,14 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
    */
   client
     .getJoinedRoomsWithSharedData()
-    .then((rooms) => {
-      addRoomToStore(rooms, 'init')
-    })
+    .then((rooms) => addRoomToStore(rooms, homeserverUrl, 'init'))
     .finally(() => setChatInitialized(true))
 
   /**
    * Listen to just created rooms
    */
   const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
-    addRoomToStore([roomWithSharedData], 'subscription')
+    addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
   })
 
   const unsubscribeFromRooms = client.subscribeToRooms((roomWithSharedData) => {
@@ -274,7 +268,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
-        addRoomToStore([roomWithSharedData], 'subscription')
+        addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -286,8 +280,13 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomToStore([roomWithSharedData], 'subscription')
+    addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
   })
+
+  const deleteRoomFromStore = (roomId: string) => {
+    logDebug('Chat.store', `deleting room ${roomId} from store`)
+    setAtom({ type: RoomAtomsActionType.DELETE, roomId, homeserverUrl })
+  }
 
   const unsubscribeFromRoomDeletion = client.subscribeToRoomDeletion(deleteRoomFromStore)
 
@@ -639,7 +638,7 @@ const _myMembershipSubscriberAtom = atom(
         if (!roomAtom) {
           try {
             const roomWithShareData = await getChatClient().getRoomWithSharedData(room)
-            const chatRoom = createChatRoom(roomWithShareData)
+            const chatRoom = createChatRoom(roomWithShareData, getChatClient().getHomeserverUrl())
 
             if (isSpaceChatRoom(chatRoom) || isSpaceChildChatRoom(chatRoom)) {
               set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => addChatRoom(prevRoomAtomsRecord, chatRoom))
