@@ -246,10 +246,6 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     setAtom({ type: RoomAtomsActionType.DELETE, roomId })
   }
 
-  const updateInStore = (chatRoomList: ChatRoom[]) => {
-    setAtom({ type: RoomAtomsActionType.UPDATE, chatRoomList })
-  }
-
   /**
    * Initial load
    */
@@ -265,11 +261,6 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
    */
   const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
     addRoomToStore([roomWithSharedData], 'subscription')
-  })
-
-  const unsubscribeFromRoomAvatar = client.subscribeToRoomAvatar((roomId, avatar) => {
-    const chatRoomUpdate = { id: roomId, avatar } as ChatRoom
-    updateInStore([chatRoomUpdate])
   })
 
   const unsubscribeFromRooms = client.subscribeToRooms((roomWithSharedData) => {
@@ -303,7 +294,6 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   return () => {
     unsubscribeFromRoomSharedData()
     unsubscribeFromRooms()
-    unsubscribeFromRoomAvatar()
     unsubscribeFromRoomDeletion()
   }
 }

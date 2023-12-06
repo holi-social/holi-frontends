@@ -527,32 +527,6 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToRoomAvatar(callback: (roomId: string, avatarUrl?: string) => void): () => void {
-    const client = this.mxClient
-    const rooms = client.getRooms()
-
-    // The handler to attach for each room listening
-    const handleNewAvatar = (room: Room) => async (event: MatrixEvent) => {
-      if (event.getType() !== EventType.RoomAvatar) return
-
-      const {
-        event: { content: { url } = {} },
-      } = event
-
-      callback(room.roomId, url)
-    }
-
-    // Partially pass the arguments we need in order to set the listeners.
-    const newAvatarListener = addRoomEventListener(RoomEvent.Timeline, handleNewAvatar)
-    // Collects and set listeners for existing and incoming rooms.
-    return setRoomsListeners({
-      client,
-      rooms,
-      roomEvent: RoomEvent.Timeline,
-      createListener: newAvatarListener,
-    })
-  }
-
   public subscribeToRoomSharedData(callback: (event: RoomWithSharedData) => void): () => void {
     const client = this.mxClient
     const rooms = client.getRooms()
