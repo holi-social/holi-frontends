@@ -4,6 +4,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 
 export enum FeatureToggleName {
+  APPOINTMENTS = 'APPOINTMENTS',
   CHAT = 'CHAT',
   STORAGE = 'STORAGE',
   VIDEOCALL = 'VIDEOCALL',
