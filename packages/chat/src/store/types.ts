@@ -67,16 +67,19 @@ export interface RoomUserData {
 interface CreateRoomArgs {
   type: RoomAtomsActionType.CREATE
   roomList: RoomUserData[]
+  homeserverUrl: string
 }
 
 interface UpdateRoomArgs {
   type: RoomAtomsActionType.UPDATE
   chatRoomList: ChatRoom[]
+  homeserverUrl: string
 }
 
 interface DeleteRoomArgs {
   type: RoomAtomsActionType.DELETE
   roomId: string
+  homeserverUrl: string
 }
 
 export type RoomAtomsRecordAtomSubscriberArgs = CreateRoomArgs | UpdateRoomArgs | DeleteRoomArgs

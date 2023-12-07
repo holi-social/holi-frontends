@@ -27,10 +27,11 @@ import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import {
   ChatRoomEvent,
+  type ChatRoomMember,
   type CreateRoomOptions,
   type MatrixId,
   MembershipStatus,
-  MxMessagesResponse,
+  type MxMessagesResponse,
   type NotificationCount,
   type RoomId,
   type RoomWithSharedData,
@@ -38,6 +39,7 @@ import {
 } from '@holi/chat/src/client/types'
 import {
   addRoomEventListener,
+  createChatMember,
   createInitialRoom,
   filterMessagesChunk,
   hasDuplicateMembershipEvent,
@@ -215,12 +217,16 @@ export default class ChatClient {
     }
   }
 
-  public stop = async () => {
+  public async stop() {
     try {
       await this.mxClient?.logout(true)
     } finally {
       await this.mxClient?.clearStores()
     }
+  }
+
+  public getHomeserverUrl(): string {
+    return this.mxClient.getHomeserverUrl()
   }
 
   /** Rooms */
@@ -453,10 +459,12 @@ export default class ChatClient {
   }
 
   public subscribeToMembership(
-    callback: (state: RoomState, member: RoomMember, membership?: string) => void
+    callback: (roomId: string, member: ChatRoomMember, membership?: string) => void
   ): (() => void) | void {
     const membershipHandler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
+      const client = this.mxClient
+      const avatarUrl = member.getAvatarUrl(client.getHomeserverUrl(), 500, 500, 'scale', true, true)
 
       // If the creator of the DM room is the last one we forget (delete) entirely the room
       // Example usage when the invited member in a two people DM rejects an invitation.
@@ -466,7 +474,7 @@ export default class ChatClient {
           .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
       }
 
-      callback(roomState, member, event.getContent().membership)
+      callback(roomState.roomId, createChatMember(member, avatarUrl), event.getContent().membership)
     }
 
     this.mxClient.on(RoomStateEvent.Members, membershipHandler)
@@ -521,32 +529,6 @@ export default class ChatClient {
     return () => {
       this.mxClient.off(ClientEvent.DeleteRoom, callback)
     }
-  }
-
-  public subscribeToRoomAvatar(callback: (roomId: string, avatarUrl?: string) => void): () => void {
-    const client = this.mxClient
-    const rooms = client.getRooms()
-
-    // The handler to attach for each room listening
-    const handleNewAvatar = (room: Room) => async (event: MatrixEvent) => {
-      if (event.getType() !== EventType.RoomAvatar) return
-
-      const {
-        event: { content: { url } = {} },
-      } = event
-
-      callback(room.roomId, url)
-    }
-
-    // Partially pass the arguments we need in order to set the listeners.
-    const newAvatarListener = addRoomEventListener(RoomEvent.Timeline, handleNewAvatar)
-    // Collects and set listeners for existing and incoming rooms.
-    return setRoomsListeners({
-      client,
-      rooms,
-      roomEvent: RoomEvent.Timeline,
-      createListener: newAvatarListener,
-    })
   }
 
   public subscribeToRoomSharedData(callback: (event: RoomWithSharedData) => void): () => void {

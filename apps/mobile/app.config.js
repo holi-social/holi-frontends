@@ -108,6 +108,7 @@ export default {
         serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',
         serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
         pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
+        adminUserId: requiredEnvVar('HOLI_CHAT_ADMIN_USER_ID'),
       },
       ory: {
         url: requiredEnvVar('ORY_BASE_URL'),

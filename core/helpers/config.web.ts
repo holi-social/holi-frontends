@@ -12,6 +12,10 @@ export const chatServerUrl = (() => {
   return process.env.NEXT_PUBLIC_HOLI_CHAT_SERVER_URL || baseUrl
 })()
 
+const backupChatAdminId =
+  environment === EnvironmentId.PRODUCTION ? '@chat-admin:chat.holi.social' : '@chat-admin:development-chat.holi.social'
+export const chatAdminUserId = process.env.NEXT_PUBLIC_HOLI_CHAT_ADMIN_USER_ID || backupChatAdminId
+
 export const chatServerLoginUrl = '/api/chatlogin'
 
 export const owncloudUrl = (() => {

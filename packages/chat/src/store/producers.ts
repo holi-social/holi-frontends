@@ -1,10 +1,8 @@
 import { produce } from 'immer'
 import { type Getter, atom } from 'jotai'
-import { type RoomMember } from 'matrix-js-sdk'
 
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
-import { createChatMember } from '@holi/chat/src/store/utils'
 
 /**
  * Room Producers
@@ -37,18 +35,18 @@ export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatM
 })
 
 /**
- * @description: adds (for first members `join` event) or update (for follow up `join/leave` events) a member in the ChatRoom.
- * @see addOrUpdateMemeberInChatRoom
+ * @description: adds (for first members `join` event) or update (for follow up
+ * `join/leave` events) a member in the ChatRoom.
  */
-export const addOrUpdateMemeberInChatRoom = produce((room: ChatRoom, member: RoomMember) => {
-  const memberIdx = room.members.findIndex(({ id }) => id === member.userId)
-  const roomMember = createChatMember(member)
+export const addOrUpdateMemberInChatRoom = produce((room: ChatRoom, member: ChatRoomMember) => {
+  const memberIdx = room.members.findIndex(({ id }) => id === member.id)
 
-  if (memberIdx >= 0) {
-    room.members.splice(memberIdx, 1, roomMember)
-  } else {
-    room.members.push(roomMember)
+  if (memberIdx < 0) {
+    room.members.push(member)
+    return
   }
+
+  room.members.splice(memberIdx, 1, member)
 })
 
 export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, chatRoom: ChatRoom) => {
