@@ -1,0 +1,871 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppointmentsWidget renders correctly if there are no appointments 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#fff",
+        "borderColor": "#ebebeb",
+        "borderRadius": 16,
+        "borderWidth": 1,
+      },
+      [
+        undefined,
+        {
+          "paddingBottom": 16,
+        },
+      ],
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 16,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      accessibilityLabel="spaces.appointments.title"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "100%",
+            },
+          ],
+          {
+            "flex": 4,
+            "justifyContent": "center",
+          },
+        ]
+      }
+      testID="btn-left-space-appointments-card"
+    >
+      <View
+        style={
+          [
+            {
+              "pointerEvents": "none",
+            },
+            false,
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "marginRight": 8,
+              }
+            }
+          >
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="24"
+              bbWidth="24"
+              color="#6267e7"
+              fill="none"
+              focusable={false}
+              height={24}
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+              tintColor="#6267e7"
+              vbHeight={24}
+              vbWidth={24}
+              width={24}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <RNSVGGroup
+                fill={null}
+                propList={
+                  [
+                    "fill",
+                  ]
+                }
+              >
+                <RNSVGGroup
+                  clipPath="link-m_svg__a"
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
+                  <RNSVGPath
+                    d="m17.657 14.828-1.414-1.414L17.657 12a3.998 3.998 0 0 0-1.298-6.524A4 4 0 0 0 12 6.343l-1.414 1.414-1.414-1.414 1.414-1.414a6 6 0 0 1 8.485 8.485l-1.414 1.414Zm-2.829 2.829-1.414 1.414a6 6 0 1 1-8.485-8.485l1.414-1.414 1.414 1.414L6.343 12A4 4 0 1 0 12 17.657l1.414-1.414 1.414 1.414Zm0-9.9 1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07v-.001Z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+                <RNSVGDefs>
+                  <RNSVGClipPath
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    name="link-m_svg__a"
+                  >
+                    <RNSVGPath
+                      d="M0 0h24v24H0z"
+                      fill={
+                        {
+                          "payload": 4294967295,
+                          "type": 0,
+                        }
+                      }
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGClipPath>
+                </RNSVGDefs>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
+              }
+            }
+          >
+            spaces.appointments.title
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View>
+      <View
+        accessibilityLabel="spaces.appointments.add.button.label"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            [
+              {
+                "width": "100%",
+              },
+            ],
+            {
+              "alignSelf": "flex-end",
+            },
+          ]
+        }
+        testID="btn-right-space-appointments-card"
+      >
+        <View
+          style={
+            [
+              {
+                "pointerEvents": "none",
+              },
+              false,
+              undefined,
+            ]
+          }
+        >
+          <View>
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="24"
+              bbWidth="24"
+              color="#262424"
+              fill="none"
+              focusable={false}
+              height={24}
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+              tintColor="#262424"
+              vbHeight={24}
+              vbWidth={24}
+              width={24}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <RNSVGGroup
+                fill={null}
+                propList={
+                  [
+                    "fill",
+                  ]
+                }
+              >
+                <RNSVGPath
+                  d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      accessibilityLabel="spaces.global.empty.instruction"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "100%",
+            },
+          ],
+          {
+            "flex": 1,
+            "marginTop": 24,
+            "paddingHorizontal": 8,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "pointerEvents": "none",
+            },
+            false,
+            undefined,
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 19.599999999999998,
+              "textAlign": "center",
+              "userSelect": "auto",
+            }
+          }
+        >
+          spaces.appointments.empty.description
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "alignSelf": "center",
+              "color": "#262424",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 19.599999999999998,
+              "marginTop": 12,
+              "userSelect": "auto",
+            }
+          }
+        >
+          spaces.global.empty.instruction
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`AppointmentsWidget renders correctly when there are appointments 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#fff",
+        "borderColor": "#ebebeb",
+        "borderRadius": 16,
+        "borderWidth": 1,
+      },
+      [
+        undefined,
+        {
+          "paddingBottom": 16,
+        },
+      ],
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 16,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      accessibilityLabel="spaces.appointments.title"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "100%",
+            },
+          ],
+          {
+            "flex": 4,
+            "justifyContent": "center",
+          },
+        ]
+      }
+      testID="btn-left-space-appointments-card"
+    >
+      <View
+        style={
+          [
+            {
+              "pointerEvents": "none",
+            },
+            false,
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "marginRight": 8,
+              }
+            }
+          >
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="24"
+              bbWidth="24"
+              color="#6267e7"
+              fill="none"
+              focusable={false}
+              height={24}
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+              tintColor="#6267e7"
+              vbHeight={24}
+              vbWidth={24}
+              width={24}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <RNSVGGroup
+                fill={null}
+                propList={
+                  [
+                    "fill",
+                  ]
+                }
+              >
+                <RNSVGGroup
+                  clipPath="link-m_svg__a"
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
+                  <RNSVGPath
+                    d="m17.657 14.828-1.414-1.414L17.657 12a3.998 3.998 0 0 0-1.298-6.524A4 4 0 0 0 12 6.343l-1.414 1.414-1.414-1.414 1.414-1.414a6 6 0 0 1 8.485 8.485l-1.414 1.414Zm-2.829 2.829-1.414 1.414a6 6 0 1 1-8.485-8.485l1.414-1.414 1.414 1.414L6.343 12A4 4 0 1 0 12 17.657l1.414-1.414 1.414 1.414Zm0-9.9 1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07v-.001Z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+                <RNSVGDefs>
+                  <RNSVGClipPath
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    name="link-m_svg__a"
+                  >
+                    <RNSVGPath
+                      d="M0 0h24v24H0z"
+                      fill={
+                        {
+                          "payload": 4294967295,
+                          "type": 0,
+                        }
+                      }
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGClipPath>
+                </RNSVGDefs>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
+              }
+            }
+          >
+            spaces.appointments.title
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View>
+      <View
+        accessibilityLabel="spaces.appointments.add.button.label"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            [
+              {
+                "width": "100%",
+              },
+            ],
+            {
+              "alignSelf": "flex-end",
+            },
+          ]
+        }
+        testID="btn-right-space-appointments-card"
+      >
+        <View
+          style={
+            [
+              {
+                "pointerEvents": "none",
+              },
+              false,
+              undefined,
+            ]
+          }
+        >
+          <View>
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="24"
+              bbWidth="24"
+              color="#262424"
+              fill="none"
+              focusable={false}
+              height={24}
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+              tintColor="#262424"
+              vbHeight={24}
+              vbWidth={24}
+              width={24}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <RNSVGGroup
+                fill={null}
+                propList={
+                  [
+                    "fill",
+                  ]
+                }
+              >
+                <RNSVGPath
+                  d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      accessibilityLabel="spaces.global.empty.instruction"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "100%",
+            },
+          ],
+          {
+            "flex": 1,
+            "marginTop": 24,
+            "paddingHorizontal": 8,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "pointerEvents": "none",
+            },
+            false,
+            undefined,
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 19.599999999999998,
+              "textAlign": "center",
+              "userSelect": "auto",
+            }
+          }
+        >
+          spaces.appointments.empty.description
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "alignSelf": "center",
+              "color": "#262424",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 19.599999999999998,
+              "marginTop": 12,
+              "userSelect": "auto",
+            }
+          }
+        >
+          spaces.global.empty.instruction
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
