@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import AppointmentsWidget from '@holi/core/screens/spaces/appointments/components/AppointmentsWidget'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
@@ -39,6 +40,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             </View>
           </HoliLink>
         )}
+        {isCollaborator && <AppointmentsWidget space={space} style={styles.card} />}
         {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
         {isCollaborator && <StorageWidget space={space} style={styles.card} />}
         {isCollaborator ? (
