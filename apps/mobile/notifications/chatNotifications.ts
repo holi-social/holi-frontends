@@ -1,8 +1,9 @@
 import * as Notifications from 'expo-notifications'
 import type { NotificationContentInput } from 'expo-notifications'
 
+import { type Route } from '@react-navigation/native'
+
 import { logDebug } from '@holi/core/helpers/logging'
-import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { NotificationPayload } from '@holi/mobile/notifications'
 
@@ -105,8 +106,10 @@ const parseToSygnalEvent = (
   }
 }
 
-const navigationStateAllowsPushDisplayFor = (pushRoomId: string | undefined): boolean => {
-  const currentRoute = navigationRef.current?.getCurrentRoute()
+const navigationStateAllowsPushDisplayFor = (
+  pushRoomId: string | undefined,
+  currentRoute: Route<string> | undefined
+): boolean => {
   const name = currentRoute?.name
   const params = currentRoute?.params
   const isInChatHome = name === RouteName.ChatHome
@@ -193,10 +196,14 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
 
 export const isChatNotification = (data: NotificationPayload | undefined) => !data?.notificationType
 
-export const handleForegroundChatMessage = async (data: NotificationPayload | undefined) => {
+export const handleForegroundChatMessage = async (
+  currentRoute: Route<string> | undefined,
+  data: NotificationPayload | undefined
+) => {
   const event = parseToSygnalEvent(data)
   logDebug('handleForegroundChatMessage', 'using sygnal event', JSON.stringify(event))
-  if (event && navigationStateAllowsPushDisplayFor(event.room_id)) {
+
+  if (event && navigationStateAllowsPushDisplayFor(event.room_id, currentRoute)) {
     const content = generateNotificationContent(event)
     if (content) {
       logDebug('handleForegroundChatMessage', 'scheduling notification', JSON.stringify(content))

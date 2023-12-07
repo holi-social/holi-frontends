@@ -18,6 +18,8 @@ export const chatAdminUserId = process.env.NEXT_PUBLIC_HOLI_CHAT_ADMIN_USER_ID |
 
 export const chatServerLoginUrl = '/api/chatlogin'
 
+export const chatAdminName = process.env.HOLI_CHAT_ADMIN_NAME || ''
+
 export const owncloudUrl = (() => {
   const baseUrl =
     environment === EnvironmentId.PRODUCTION

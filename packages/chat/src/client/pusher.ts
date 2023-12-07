@@ -1,8 +1,16 @@
 import * as Device from 'expo-device'
-import { IPusher, IPusherRequest, MatrixClient } from 'matrix-js-sdk'
+import {
+  ConditionKind,
+  type IPushRule,
+  type IPusher,
+  type IPusherRequest,
+  MatrixClient,
+  PushRuleActionName,
+  PushRuleKind,
+} from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import { chatPushGatewayUrl } from '@holi/core/helpers/config'
+import { chatAdminName, chatPushGatewayUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
 
 /**
@@ -16,7 +24,9 @@ export const configurePusher = async (mxClient: MatrixClient, pushkey: string): 
   const pushers: { pushers: IPusher[] } = await mxClient.getPushers()
   await Promise.all(
     pushers.pushers
-      .filter((pusher) => pusher.pushkey === pushkey)
+      .filter((pusher) => {
+        return pusher.pushkey === pushkey
+      })
       .map((pusher) => {
         logDebug(
           'ChatClient.configurePusher',
@@ -27,9 +37,8 @@ export const configurePusher = async (mxClient: MatrixClient, pushkey: string): 
         return mxClient.removePusher(pusher.pushkey, pusher.app_id)
       })
   )
-  await mxClient.getPushRules().then((rules) => {
-    logDebug('ChatClient.configurePusher', 'existing push rules', JSON.stringify(rules))
-  })
+
+  await configurePushRules(mxClient)
 
   if (tokenType === 'android' || tokenType === 'ios') {
     const app_id = tokenType === 'ios' ? 'social.holi.ios' : 'social.holi'
@@ -83,13 +92,48 @@ export const configurePusher = async (mxClient: MatrixClient, pushkey: string): 
       pushkey,
       enabled: true,
     }
+
     logDebug('ChatClient.configurePusher', 'configure sygnal pusher', JSON.stringify(pusherRequest))
+
     await mxClient?.setPusher(pusherRequest).catch((err) => {
       // TODO handle properly
       logDebug('ChatClient.configurePusher', 'error setting pusher', err)
     })
+
     logDebug('ChatClient.configurePusher', 'sygnal chat pusher successfully configured')
   } else {
     logDebug('ChatClient.configurePusher', 'not an ios or android token, skipping pusher configuration')
   }
+}
+
+export const IGNORE_CHAT_ADMIN_RULE_ID = 'm.rule.contains_admin'
+
+/**
+ * @description Register a push notification rule for Sygnal that ignores any
+ * event notifications triggered by the `chat-admin` in the chat integration.
+ * The idea is to avoid redundant notifications; for example, when a user-space
+ * collaboration is accepted, we already send a background notification. Rules
+ * work for both fore- and background notifications.
+ */
+export const ignoreChatAdminPushRule: Pick<IPushRule, 'actions' | 'conditions' | 'pattern'> = {
+  actions: [PushRuleActionName.DontNotify],
+  pattern: chatAdminName,
+  conditions: [
+    {
+      kind: ConditionKind.EventMatch,
+      key: 'type',
+      pattern: 'm.room.member',
+    },
+  ],
+}
+
+/**
+ * @description facilitate configuration for custom Sygnal Push Rules
+ */
+async function configurePushRules(mxClient: MatrixClient): Promise<void> {
+  // Ignore `chat-admin` notifications
+  await mxClient.addPushRule('global', PushRuleKind.Override, IGNORE_CHAT_ADMIN_RULE_ID, ignoreChatAdminPushRule)
+
+  const rules = await mxClient.getPushRules()
+  logDebug('ChatClient.configurePusher', 'existing push rules', JSON.stringify(rules))
 }
