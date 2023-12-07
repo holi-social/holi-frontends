@@ -2,6 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import AppointmentsWidget from '@holi/core/screens/spaces/appointments/components/AppointmentsWidget'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
@@ -23,6 +25,7 @@ interface SpaceInvolvementProps {
 
 const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => {
   const { t } = useTranslation()
+  const { ftEnabled: appointmentsFtEnabled } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
@@ -39,6 +42,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             </View>
           </HoliLink>
         )}
+        {isCollaborator && appointmentsFtEnabled && <AppointmentsWidget space={space} style={styles.card} />}
         {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
         {isCollaborator && <StorageWidget space={space} style={styles.card} />}
         {isCollaborator ? (

@@ -4112,7 +4112,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                       }
                     >
                       <View
-                        accessibilityLabel="spaces.spaceDetails.tasks.seeAllButton.label"
+                        accessibilityLabel="spaces.global.seeAllButton.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {
@@ -4201,7 +4201,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                               }
                             }
                           >
-                            spaces.spaceDetails.tasks.seeAllButton.label
+                            spaces.global.seeAllButton.label
                           </Text>
                         </View>
                       </View>
