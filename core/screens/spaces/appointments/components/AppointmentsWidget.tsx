@@ -7,7 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import { Space } from '@holi/core/screens/spaces/types'
-import { Add, LinkM } from '@holi/icons/src/generated'
+import { Add, CalendarEvent } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -62,7 +62,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
 
   return (
     <CollaboratorAreaCard
-      headerLeftIcon={LinkM}
+      headerLeftIcon={CalendarEvent}
       headerRightIcon={Add}
       headerRightButtonLabel={t('spaces.appointments.add.button.label')}
       title={t('spaces.appointments.title')}
