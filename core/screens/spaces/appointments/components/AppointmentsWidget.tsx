@@ -47,7 +47,8 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-  const { appointments = [] } = space
+  const { appointments: appointmentsResult } = space
+  const { data, totalResults } = appointmentsResult
 
   // TODO: create view space appointments screen
   const navigateToAppointmentsPage = useCallback(() => {
@@ -70,14 +71,14 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
       testID="space-appointments-card"
       style={[style, styles.container]}
     >
-      {(appointments.length > 0 &&
-        appointments.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item, index) => (
+      {(totalResults > 0 &&
+        data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item, index) => (
           // TODO: Create AppointmentCard component
           <View key={index}>
             <HoliText>{item.title}</HoliText>
           </View>
         ))) || <NoAppointmentsAvailable onPress={navigateToAddAppointmentPage} />}
-      {appointments.length > INITIAL_NUMBER_OF_ITEMS && (
+      {data.length > INITIAL_NUMBER_OF_ITEMS && (
         <View style={styles.seeAllButtonContainer}>
           <HoliButton
             label={t('spaces.global.seeAll.button.label')}

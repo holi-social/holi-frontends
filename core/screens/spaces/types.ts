@@ -93,9 +93,9 @@ export interface Space {
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   membershipRequests: Paged<SpaceMembershipRequest>
+  appointments: Paged<Appointment>
   avatarDefaultColor: string
   name: string
-  appointments?: Appointment[]
   links?: SpaceLink[]
   avatar?: string
   avatarBlurhash?: string
