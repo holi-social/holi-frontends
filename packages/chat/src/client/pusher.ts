@@ -18,10 +18,10 @@ import { logDebug } from '@holi/core/helpers/logging'
  *
  * @returns a successful promise if succeed
  */
-export const configurePusher = async (client: MatrixClient, pushkey: string): Promise<void> => {
+export const configurePusher = async (mxClient: MatrixClient, pushkey: string): Promise<void> => {
   const tokenType = Platform.OS
 
-  const pushers: { pushers: IPusher[] } = await client.getPushers()
+  const pushers: { pushers: IPusher[] } = await mxClient.getPushers()
   await Promise.all(
     pushers.pushers
       .filter((pusher) => {
@@ -34,11 +34,11 @@ export const configurePusher = async (client: MatrixClient, pushkey: string): Pr
           pushkey,
           JSON.stringify(pusher)
         )
-        return client.removePusher(pusher.pushkey, pusher.app_id)
+        return mxClient.removePusher(pusher.pushkey, pusher.app_id)
       })
   )
 
-  await configurePushRules(client)
+  await configurePushRules(mxClient)
 
   if (tokenType === 'android' || tokenType === 'ios') {
     const app_id = tokenType === 'ios' ? 'social.holi.ios' : 'social.holi'
@@ -95,7 +95,7 @@ export const configurePusher = async (client: MatrixClient, pushkey: string): Pr
 
     logDebug('ChatClient.configurePusher', 'configure sygnal pusher', JSON.stringify(pusherRequest))
 
-    await client?.setPusher(pusherRequest).catch((err) => {
+    await mxClient?.setPusher(pusherRequest).catch((err) => {
       // TODO handle properly
       logDebug('ChatClient.configurePusher', 'error setting pusher', err)
     })
@@ -130,10 +130,10 @@ export const ignoreChatAdminPushRule: Pick<IPushRule, 'actions' | 'conditions' |
 /**
  * @description facilitate configuration for custom Sygnal Push Rules
  */
-async function configurePushRules(client: MatrixClient): Promise<void> {
+async function configurePushRules(mxClient: MatrixClient): Promise<void> {
   // Ignore `chat-admin` notifications
-  await client.addPushRule('global', PushRuleKind.Override, IGNORE_CHAT_ADMIN_RULE_ID, ignoreChatAdminPushRule)
+  await mxClient.addPushRule('global', PushRuleKind.Override, IGNORE_CHAT_ADMIN_RULE_ID, ignoreChatAdminPushRule)
 
-  const rules = await client.getPushRules()
+  const rules = await mxClient.getPushRules()
   logDebug('ChatClient.configurePusher', 'existing push rules', JSON.stringify(rules))
 }
