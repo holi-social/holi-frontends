@@ -12,16 +12,20 @@ import {
   MatrixEvent,
   type Room,
   RoomEvent,
+  RoomMember,
 } from 'matrix-js-sdk'
 
 import {
   ChatRoomEvent,
+  ChatRoomMember,
+  MatrixId,
+  MembershipStatus,
   RoomType,
   type RoomWithSharedData,
   type SharedDataContent,
   type SpaceChildSharedDataContent,
 } from '@holi/chat/src/client/types'
-import { CHAT_ADMIN_USER_ID } from '@holi/chat/src/utils'
+import { chatAdminUserId } from '@holi/core/helpers/config'
 
 /**
  * Rooms
@@ -122,7 +126,7 @@ export const isJoinOrLeaveEvent = (event: MatrixEvent) =>
   ['join', 'leave'].some((m) => m === event.getContent().membership)
 
 export const isAdminChangeToMembership = (event: MatrixEvent, userId: string, loggedInUserId: string | null) => {
-  return isMembershipEvent(event) && userId === loggedInUserId && event.getSender() === CHAT_ADMIN_USER_ID
+  return isMembershipEvent(event) && userId === loggedInUserId && event.getSender() === chatAdminUserId
 }
 
 export const isRoomMemberEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
@@ -150,6 +154,28 @@ export const hasDuplicateMembershipEvent = (room: Room, event: MatrixEvent): boo
   const membership = room.getMember(state_key ?? '')?.membership
 
   return content.membership === membership
+}
+
+export const createChatMember = (member: RoomMember, avatarUrl: string | null): ChatRoomMember => {
+  const id = member.userId as MatrixId
+
+  return {
+    id,
+    name: member.name,
+    avatar: avatarUrl ?? member.user?.avatarUrl,
+    membership: getChatMembership(member.membership),
+  }
+}
+
+export function getChatMembership(membership?: string) {
+  switch (membership) {
+    case 'join':
+      return MembershipStatus.Joined
+    case 'invite':
+      return MembershipStatus.Invited
+    case 'leave':
+      return MembershipStatus.Left
+  }
 }
 
 /**
