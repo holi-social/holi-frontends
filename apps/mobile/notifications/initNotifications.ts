@@ -15,6 +15,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
 import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
+import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { handleForegroundChatMessage, isChatNotification } from '@holi/mobile/notifications/chatNotifications'
 
 const permissionRequestedStorageKey = 'notification_permission_requested'
@@ -70,7 +71,8 @@ const handleForegroundNotification = async (notification: Notification): Promise
     const payload = trigger.remoteMessage?.data ?? trigger.payload // android ?? ios
     // Only chat notifications might be displayed in the foreground
     if (isChatNotification(payload)) {
-      await handleForegroundChatMessage(payload)
+      const currentRoute = navigationRef.current?.getCurrentRoute()
+      await handleForegroundChatMessage(currentRoute, payload)
     }
     return {
       shouldShowAlert: false,
