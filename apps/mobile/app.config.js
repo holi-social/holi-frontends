@@ -109,6 +109,7 @@ export default {
         serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
         pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
         adminUserId: requiredEnvVar('HOLI_CHAT_ADMIN_USER_ID'),
+        adminName: requiredEnvVar('HOLI_CHAT_ADMIN_NAME'),
       },
       ory: {
         url: requiredEnvVar('ORY_BASE_URL'),
