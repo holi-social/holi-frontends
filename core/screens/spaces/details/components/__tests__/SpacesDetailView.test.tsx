@@ -55,7 +55,7 @@ describe('SpaceDetailView', () => {
     expect(getByText('Space description')).toBeDefined()
     // Only two tasks are displayed, but more are available
     expect(getAllByText('Task title').length).toBe(2)
-    expect(getByText('spaces.spaceDetails.tasks.seeAllButton.label')).toBeDefined()
+    expect(getByText('spaces.global.seeAllButton.label')).toBeDefined()
 
     cleanup()
   })

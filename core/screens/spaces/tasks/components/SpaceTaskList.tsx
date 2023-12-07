@@ -61,13 +61,13 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
           {preview && space.tasks?.length > itemsInRow && (
             <View style={styles.seeAllButtonContainer}>
               <HoliButton
-                label={t('spaces.spaceDetails.tasks.seeAllButton.label')}
+                label={t('spaces.global.seeAllButton.label')}
                 onPress={() => navigateToTasks()}
                 style={styles.seeAllButton}
                 inline
                 type="secondary"
               >
-                <HoliText>{t('spaces.spaceDetails.tasks.seeAllButton.label')}</HoliText>
+                <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
               </HoliButton>
             </View>
           )}
