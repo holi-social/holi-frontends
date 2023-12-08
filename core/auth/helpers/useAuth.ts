@@ -1,5 +1,6 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 
+import { ensureChatLoggedOut } from '@holi/chat/src/client/chatSession'
 import { removeSessionFromStorage, setSessionInStorage } from '@holi/core/auth/helpers/auth'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { logDebug } from '@holi/core/helpers/logging'
@@ -21,6 +22,7 @@ export const setUserLoggedIn = async (session: OrySessionContext): Promise<void>
 export const setUserLoggedOut = async () => {
   logDebug('auth', 'setUserLoggedOut')
   await removeSessionFromStorage()
+  await ensureChatLoggedOut()
   loggedInUserIdVar(null)
 }
 
