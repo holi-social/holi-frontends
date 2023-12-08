@@ -88,7 +88,7 @@ export const startChat = async (deviceToken?: string): Promise<void> => {
   }
 }
 
-export const stopChat = async () => {
+const stopChat = async () => {
   if (!chatClient || isStopping) return // chatClient never started or already stopping
 
   isStopping = true
@@ -126,6 +126,15 @@ const ensureChatLoggedIn = async (orySessionToken?: string, freshLogin = true): 
     return Promise.resolve(storedSessionCredentials)
   } else {
     return await storeSessionCredentials(await loginChat(orySessionToken, freshLogin))
+  }
+}
+
+export const ensureChatLoggedOut = async () => {
+  try {
+    if (chatClient) await stopChat()
+    else await logoutChat()
+  } catch (error) {
+    logError(error, 'Failed to logout chat', { location: 'chatSession.ensureChatLoggedOut' })
   }
 }
 
