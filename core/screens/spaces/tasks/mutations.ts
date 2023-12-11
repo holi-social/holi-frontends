@@ -10,7 +10,7 @@ export const CreateTaskSchema = z.object({
   description: z.string().trim().max(1200).optional(),
   locationType: z.string() /* LocationType */,
   regularity: z.string() /* Regularity */,
-  contactEmail: z.string().email().optional(),
+  contactEmail: z.string().email(),
   location: z.string().optional(),
   geolocation: z
     .object({
@@ -20,6 +20,9 @@ export const CreateTaskSchema = z.object({
     .optional(),
   contactPhone: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
+  slotsAvailable: z.number(),
+  slotsTaken: z.number().optional(),
+  skills: z.array(z.string()).optional(),
 })
 
 export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
@@ -62,6 +65,9 @@ export const UpdateTaskSchema = z.object({
     .optional(),
   contactPhone: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
+  slotsAvailable: z.number(),
+  slotsTaken: z.number().optional(),
+  skills: z.array(z.string()).optional(),
 })
 
 export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>
