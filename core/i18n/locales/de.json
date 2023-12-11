@@ -442,6 +442,8 @@
   "spaces.actions.more": "Mehr",
   "spaces.appointments.add.button.label": "Füge einen neuen Termin hinzu",
   "spaces.appointments.empty.description": "Starte die Planung eurer Meetings und Events",
+  "spaces.appointments.tabs.past": "Vergangene Termine",
+  "spaces.appointments.tabs.upcoming": "Anstehende Termine",
   "spaces.appointments.title": "Termine",
   "spaces.collaborate.onboarding.active": "Wie kann ich mitmachen",
   "spaces.collaborate.onboarding.desc": "Lass die Space Admins etwas über dich und deine Motivation wissen.",
