@@ -3,7 +3,6 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import client from '@holi/api/graphql/client'
-import { stopChat } from '@holi/chat/src/client/chatSession'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logDebug } from '@holi/core/helpers/logging'
@@ -68,11 +67,9 @@ export const useLogout = () => {
           throw err // will be sent to Sentry so we're aware of it
           // not displaying any user-facing error messages as with the removal from the storage logout should be done
         } finally {
-          stopChat().finally(() => {
-            isLoggingOutVar(false)
-            isProcessingLogout = false
-            redirect()
-          })
+          isLoggingOutVar(false)
+          isProcessingLogout = false
+          redirect()
         }
       },
       [navigate, openToast, t, isLoggingOut, userId]
