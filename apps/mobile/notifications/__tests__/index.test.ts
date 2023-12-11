@@ -266,4 +266,32 @@ describe('transformPushInteractionToUrl', () => {
     )
     expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
   })
+
+  it('should create correct url for space new post notification on Android', () => {
+    const url = transformPushInteractionToUrl(
+      createAndroidNotificationResponse({
+        notificationType: NovuNotificationType.SPACE_NEW_POST,
+        data: JSON.stringify({
+          user: { id: 'user_id' },
+          post: { id: 'post_id', title: 'post title', isPublic: true },
+          space: { name: 'space1' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://spaces/space1?tab=updates')
+  })
+
+  it('should create correct url for space new post notification on iOS', () => {
+    const url = transformPushInteractionToUrl(
+      createIOSNotificationResponse({
+        notificationType: NovuNotificationType.SPACE_NEW_POST,
+        data: JSON.stringify({
+          user: { id: 'user_id' },
+          post: { id: 'post_id', title: 'post title', isPublic: true },
+          space: { name: 'space1' },
+        }),
+      })
+    )
+    expect(url).toEqual('holi://spaces/space1?tab=updates')
+  })
 })

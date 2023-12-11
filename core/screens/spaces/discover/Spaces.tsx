@@ -134,7 +134,7 @@ const Spaces = () => {
     <SpaceTermContextProvider>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         ref={pageViewRef}

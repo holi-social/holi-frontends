@@ -60,3 +60,18 @@ export const usersByNameWithSpaceConnectionQuery = gql`
     }
   }
 `
+
+export const userConnectionsQuery = gql`
+  ${FullUserAvatarFragment}
+
+  query ConnectedUsersWithSpaceConnection($spaceId: UUID!, $offset: Int! = 0, $limit: Int! = 20) {
+    connectedUsers(limit: $limit, offset: $offset) {
+      totalResults
+      data {
+        ...FullUserAvatar
+        connectionStatusToSpace(spaceId: $spaceId)
+        connectionStatusToMyself
+      }
+    }
+  }
+`

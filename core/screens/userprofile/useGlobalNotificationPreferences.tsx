@@ -1,6 +1,7 @@
 import { ApiService, IUserGlobalPreferenceSettings } from '@novu/client'
 import { useCallback, useEffect, useState } from 'react'
 
+import { getChatClient } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
@@ -40,7 +41,7 @@ export const useGlobalNotificationPreferences = () => {
     }
   }, [novuService])
 
-  const updateChannelPreferences = useCallback(
+  const updateNovuChannelPreferences = useCallback(
     async (novuPerChannelPreferences: Parameters<typeof ApiService.prototype.updateSubscriberGlobalPreference>[0]) => {
       if (novuService) {
         setGlobalPreferencesUpdating(true)
@@ -68,19 +69,27 @@ export const useGlobalNotificationPreferences = () => {
   )
 
   const togglePushPreference = async (value: boolean) => {
-    if (value != globalPreferences?.push) {
-      await updateChannelPreferences([
-        { channelType: 'email', enabled: !!globalPreferences?.email },
+    if (globalPreferences && value != globalPreferences.push) {
+      try {
+        await getChatClient().togglePushNotifications(value)
+      } catch (e) {
+        logError(e, 'Error while updating chat push notification preferences', {
+          location: 'useGlobalNotificationPreferences.togglePushPreference',
+        })
+      }
+
+      await updateNovuChannelPreferences([
+        { channelType: 'email', enabled: globalPreferences.email },
         { channelType: 'push', enabled: value },
       ])
     }
   }
 
   const toggleEmailPreference = async (value: boolean) => {
-    if (value != globalPreferences?.email) {
-      await updateChannelPreferences([
+    if (globalPreferences && value != globalPreferences?.email) {
+      await updateNovuChannelPreferences([
         { channelType: 'email', enabled: value },
-        { channelType: 'push', enabled: !!globalPreferences?.push },
+        { channelType: 'push', enabled: globalPreferences.push },
       ])
     }
   }

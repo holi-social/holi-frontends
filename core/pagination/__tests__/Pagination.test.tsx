@@ -2,6 +2,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { cleanup, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
+import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
 import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -97,17 +98,21 @@ describe('PaginationContext', () => {
     // Fetch second page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
-    await waitFor(() => screen.getByText('global.loading'))
-    await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
-    expect(await screen.findByText('global.seeMore'))
-    expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
+    await act(async () => {
+      await waitFor(() => screen.getByText('global.loading'))
+      await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
+      expect(await screen.findByText('global.seeMore'))
+      expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
+    })
 
     // Fetch last page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
-    await waitFor(() => screen.getByText('global.loading'))
-    await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
-    expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
+    await act(async () => {
+      await waitFor(() => screen.getByText('global.loading'))
+      await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
+      expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
+    })
 
     // The button to fetch more should be hidden now
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()

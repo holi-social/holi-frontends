@@ -24,7 +24,6 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.COMMUNITY_MEMBERSHIP_REQUEST,
   NotificationType.COMMUNITY_MEMBERSHIP_APPROVED,
   NotificationType.COMMUNITY_MEMBERSHIP_REVOKED,
-  NotificationType.COMMUNITY_NEW_POST,
   NotificationType.RELEASE_INFO,
   NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED,
   NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED,
@@ -38,6 +37,7 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.SPACE_MEMBERSHIP_INVITE,
   NovuNotificationType.POST_COMMENT_MENTION,
   NovuNotificationType.POST_COMMENT_AUTHOR,
+  NovuNotificationType.SPACE_NEW_POST,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -69,7 +69,7 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
     case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
       return <NotificationSpaceItem notification={notification} {...props} testID={'space-membership-item'} />
-    case NotificationType.COMMUNITY_NEW_POST:
+    case NovuNotificationType.SPACE_NEW_POST:
       return <NotificationSpacePostItem notification={notification} {...props} testID="space-post" />
     case NotificationType.RELEASE_INFO:
       return <NotificationReleaseInfoItem notification={notification} {...props} testID="release-info" />

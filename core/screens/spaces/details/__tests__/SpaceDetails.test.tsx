@@ -1,13 +1,15 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
-import React from 'react'
-import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
+import React, { useState } from 'react'
 import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureToggleStatus, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 
 const createMocksForSpace = (spaceById = space) => {
@@ -42,26 +44,53 @@ const createMocksForSpace = (spaceById = space) => {
     },
   }
 
-  return [spaceByIdRequest, spacePostsRequest]
+  const featureTogglesRequest = {
+    request: {
+      query: featureTogglesQuery,
+    },
+    result: {
+      data: {
+        featureToggles: [
+          {
+            name: FeatureToggleName.STORAGE,
+            status: FeatureToggleStatus.PRODUCTION,
+            __typename: 'FeatureToggle',
+          },
+        ],
+      },
+    },
+  }
+
+  return [spaceByIdRequest, spacePostsRequest, featureTogglesRequest]
 }
 
 jest.useFakeTimers()
 
 const mockUseParam = jest.fn()
 
-jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
-
 jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: (paramName: string) => mockUseParam(paramName),
 }))
 
-const mockParams = (params: SpaceDetailsParams = { spaceIdOrName: space.name }, setParam = jest.fn()) =>
-  mockUseParam.mockImplementation((paramName: keyof SpaceDetailsParams) => [
-    params[paramName],
-    (value?: string) => setParam(paramName, value),
-  ])
+const mockParams = (params: SpaceDetailsParams = { spaceIdOrName: space.name }) => {
+  const setParamMocks = {
+    tab: jest.fn(),
+    refresh: jest.fn(),
+    spaceIdOrName: jest.fn(),
+  }
+  mockUseParam.mockImplementation((paramName: keyof SpaceDetailsParams) => {
+    const [param, setParam] = useState(params[paramName])
+    return [param, setParamMocks[paramName].mockImplementation(setParam)]
+  })
+  return setParamMocks
+}
 
 describe('SpaceDetails', () => {
+  const spaceForMember = {
+    ...space,
+    connectionStatusToMyself: [SpaceConnectionType.MEMBER],
+  }
+
   it('renders correctly', async () => {
     mockParams()
     render(
@@ -78,8 +107,59 @@ describe('SpaceDetails', () => {
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
+  it('selects info tab for non-members', async () => {
+    const setParamMocks = mockParams()
+    render(
+      <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
+        <SpaceDetails spaceIdOrName={space.name} />
+      </MockedProvider>
+    )
+
+    await act(async () => {
+      jest.runAllTimers()
+      await waitFor(() => screen.getByText(space.title))
+    })
+
+    expect(setParamMocks['tab']).toHaveBeenCalledWith('info')
+  })
+
+  it('selects involvement tab for members if involvement content exists', async () => {
+    const setParamMocks = mockParams()
+    render(
+      <MockedProvider mocks={createMocksForSpace(spaceForMember)} cache={createCache()}>
+        <SpaceDetails spaceIdOrName={space.name} />
+      </MockedProvider>
+    )
+
+    await act(async () => {
+      jest.runAllTimers()
+      await waitFor(() => screen.getByText(space.title))
+    })
+
+    expect(setParamMocks['tab']).toHaveBeenCalledWith('involvement')
+  })
+
+  it('selects updates tab for members if no involvement content exists', async () => {
+    const setParamMocks = mockParams()
+    const spaceForMemberWithoutInvolvement = {
+      ...spaceForMember,
+      tasks: [],
+    }
+    render(
+      <MockedProvider mocks={createMocksForSpace(spaceForMemberWithoutInvolvement)} cache={createCache()}>
+        <SpaceDetails spaceIdOrName={space.name} />
+      </MockedProvider>
+    )
+
+    await act(async () => {
+      jest.runAllTimers()
+      await waitFor(() => screen.getByText(space.title))
+    })
+
+    expect(setParamMocks['tab']).toHaveBeenCalledWith('updates')
+  })
+
   it('refreshes the space if the refresh parameter is passed', async () => {
-    const setParam = jest.fn()
     const cache = createCache()
 
     // Setup: send a different title after refresh
@@ -96,21 +176,21 @@ describe('SpaceDetails', () => {
     )
 
     // Initial render
-    mockParams({ spaceIdOrName: space.name }, setParam)
+    const setParamMocks = mockParams({ spaceIdOrName: space.name })
     const { rerender } = render(crateComponent())
 
     // Expect initial title
     await act(async () => {
       await waitFor(() => screen.getByText(space.title))
     })
-    expect(setParam).not.toHaveBeenCalled()
+    expect(setParamMocks['refresh']).not.toHaveBeenCalled()
 
     // Pass new params and force rerender
-    mockParams({ spaceIdOrName: space.name, refresh: 'true' }, setParam)
+    act(() => setParamMocks['refresh']('true'))
     rerender(crateComponent())
 
     // Expect parameter to have been reset after refresh
-    await waitFor(() => expect(setParam).toHaveBeenCalledWith('refresh', undefined))
+    await waitFor(() => expect(setParamMocks['refresh']).toHaveBeenCalledWith(undefined))
 
     // Expect a new title
     await act(async () => {

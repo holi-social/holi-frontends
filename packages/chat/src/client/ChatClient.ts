@@ -5,13 +5,14 @@ import {
   EventTimelineSet,
   EventType,
   HttpApiEvent,
-  ICreateClientOpts,
-  ICreateRoomOpts,
-  IStartClientOpts,
+  type ICreateClientOpts,
+  type ICreateRoomOpts,
+  type IStartClientOpts,
   MatrixClient,
-  MatrixEvent,
+  type MatrixEvent,
   MatrixScheduler,
   Preset,
+  PushRuleKind,
   Room,
   RoomEvent,
   RoomMember,
@@ -24,11 +25,14 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { logger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
+import { configurePusher } from '@holi/chat/src/client/pusher'
 import {
   ChatRoomEvent,
+  type ChatRoomMember,
   type CreateRoomOptions,
   type MatrixId,
   MembershipStatus,
+  type MxMessagesResponse,
   type NotificationCount,
   type RoomId,
   type RoomWithSharedData,
@@ -36,7 +40,10 @@ import {
 } from '@holi/chat/src/client/types'
 import {
   addRoomEventListener,
+  createChatMember,
   createInitialRoom,
+  filterMessagesChunk,
+  hasDuplicateMembershipEvent,
   isAdminChangeToMembership,
   isEventWithSharedData,
   isJoinOrLeaveEvent,
@@ -54,8 +61,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { environment } from '@holi/core/helpers/environment'
 import { logDebug } from '@holi/core/helpers/logging'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
-
-import { configurePusher } from './configurePusher'
 
 // Disable matrix-js-sdk logging for Staging and Production
 if ([EnvironmentId.PRODUCTION, EnvironmentId.STAGING].some((value) => value === environment)) {
@@ -211,12 +216,16 @@ export default class ChatClient {
     }
   }
 
-  public stop = async () => {
+  public async stop() {
     try {
       await this.mxClient?.logout(true)
     } finally {
       await this.mxClient?.clearStores()
     }
+  }
+
+  public getHomeserverUrl(): string {
+    return this.mxClient.getHomeserverUrl()
   }
 
   /** Rooms */
@@ -277,8 +286,10 @@ export default class ChatClient {
     return await this.mxClient.createRoom({ ...options, invite: userIds })
   }
 
-  public createMessagesRequest(roomId: string, fromToken: string | null = null) {
-    return this.mxClient.createMessagesRequest(roomId, fromToken, 30, Direction.Backward)
+  public async createMessagesRequest(roomId: string, fromToken: string | null = null): Promise<MxMessagesResponse> {
+    const { chunk, ...rest } = await this.mxClient.createMessagesRequest(roomId, fromToken, 40, Direction.Backward)
+
+    return { ...rest, chunk: filterMessagesChunk(chunk) }
   }
 
   public getRoomNotificationCount(id: string): number {
@@ -293,11 +304,18 @@ export default class ChatClient {
   }
 
   public async getJoinedRoomsWithSharedData(): Promise<RoomWithSharedData[]> {
-    const rooms = this.getRooms()
-      .filter((room) => room.getMyMembership() === 'join')
-      .map(async (room) => await this.getRoomWithSharedData(room))
+    return this.getRooms().reduce<Promise<RoomWithSharedData[]>>(async (acc, room) => {
+      const roomsList = await acc
 
-    return await Promise.all(rooms)
+      switch (room.getMyMembership()) {
+        case 'join':
+          return [...roomsList, await this.getRoomWithSharedData(room)]
+        case 'invite':
+          return [...roomsList, { type: 'private', room }]
+        default:
+          return roomsList
+      }
+    }, Promise.resolve([]))
   }
 
   public getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
@@ -440,10 +458,13 @@ export default class ChatClient {
   }
 
   public subscribeToMembership(
-    callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
+    callback: (roomId: string, member: ChatRoomMember, membership?: string) => void
   ): (() => void) | void {
-    const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+    const membershipHandler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
+      const client = this.mxClient
+      const avatarUrl = member.getAvatarUrl(client.getHomeserverUrl(), 500, 500, 'scale', true, true)
+
       // If the creator of the DM room is the last one we forget (delete) entirely the room
       // Example usage when the invited member in a two people DM rejects an invitation.
       if (this.isLastDmMember(roomState, member)) {
@@ -452,13 +473,13 @@ export default class ChatClient {
           .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
       }
 
-      callback(event, roomState, member)
+      callback(roomState.roomId, createChatMember(member, avatarUrl), event.getContent().membership)
     }
 
-    this.mxClient.on(RoomStateEvent.Members, handler)
+    this.mxClient.on(RoomStateEvent.Members, membershipHandler)
 
     return () => {
-      this.mxClient.off(RoomStateEvent.Members, handler)
+      this.mxClient.off(RoomStateEvent.Members, membershipHandler)
     }
   }
 
@@ -509,32 +530,6 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToRoomAvatar(callback: (roomId: string, avatarUrl?: string) => void): () => void {
-    const client = this.mxClient
-    const rooms = client.getRooms()
-
-    // The handler to attach for each room listening
-    const handleNewAvatar = (room: Room) => async (event: MatrixEvent) => {
-      if (event.getType() !== EventType.RoomAvatar) return
-
-      const {
-        event: { content: { url } = {} },
-      } = event
-
-      callback(room.roomId, url)
-    }
-
-    // Partially pass the arguments we need in order to set the listeners.
-    const newAvatarListener = addRoomEventListener(RoomEvent.Timeline, handleNewAvatar)
-    // Collects and set listeners for existing and incoming rooms.
-    return setRoomsListeners({
-      client,
-      rooms,
-      roomEvent: RoomEvent.Timeline,
-      createListener: newAvatarListener,
-    })
-  }
-
   public subscribeToRoomSharedData(callback: (event: RoomWithSharedData) => void): () => void {
     const client = this.mxClient
     const rooms = client.getRooms()
@@ -567,6 +562,7 @@ export default class ChatClient {
       if (room.roomId !== event.getRoomId()) return
       if (!isMessageEvent(event) && !isMembershipEvent(event)) return
       if (isMembershipEvent(event) && !isJoinOrLeaveEvent(event)) return
+      if (hasDuplicateMembershipEvent(room, event)) return
 
       callback(event)
     }
@@ -623,5 +619,11 @@ export default class ChatClient {
       roomEvent: RoomEvent.Timeline,
       createListener: unreadNotificationsListener,
     })
+  }
+
+  async togglePushNotifications(isEnabled: boolean) {
+    // enable this master push rule to disable push notifications
+    // https://spec.matrix.org/v1.8/client-server-api/#default-override-rules
+    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', !isEnabled)
   }
 }

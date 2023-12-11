@@ -1,12 +1,12 @@
 import { useAtomValue } from 'jotai'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import {
   type ChatMessage,
   type ChatRoomAtom,
-  getChatPartner,
+  chatPartnerAtomCreator,
   getHoliUserForChatMember,
   setLatestMessagesAsRead,
 } from '@holi/chat/src/store'
@@ -36,9 +36,11 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
+  const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
+
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
-  const chatPartner = getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
+
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
@@ -73,17 +75,17 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
     )
   }
 
-  const getChatMessageText = (message: ChatMessage): string | null => {
+  const getChatMessageText = (message: ChatMessage, isSpaceRoom: boolean, userName = ''): string | null => {
     switch (message.type) {
       case 'message':
-        return message.content.body
+        return (isSpaceRoom ? `${userName}: ` : ' ') + message.content.body
 
       case 'membership': {
         switch (message.content.membership) {
           case 'join':
-            return t('chat.room.lastMessage.membership.join')
+            return t('chat.room.lastMessage.membership.join', { user: userName })
           case 'leave':
-            return t('chat.room.lastMessage.membership.leave')
+            return t('chat.room.lastMessage.membership.leave', { user: userName })
           default:
             return null
         }
@@ -112,7 +114,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
             ) : chatPartner ? (
               <HoliAvatar
                 label={roomName}
-                imageSrc={chatPartnerHoliUser?.avatar}
+                imageSrc={chatPartner?.avatar ?? ''}
                 imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
                 initials={chatPartnerHoliUser?.avatarLabel ?? ''}
                 defaultColor={chatPartnerHoliUser?.avatarDefaultColor ?? ''}
@@ -149,8 +151,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
             )}
             {lastMessage && (
               <HoliText numberOfLines={1} color="gray300">
-                {isSpaceRoom && lastMessageHoliUser && `${lastMessageHoliUser?.fullName}: `}
-                {getChatMessageText(lastMessage)}
+                {getChatMessageText(lastMessage, isSpaceRoom, lastMessageHoliUser?.fullName)}
               </HoliText>
             )}
           </View>

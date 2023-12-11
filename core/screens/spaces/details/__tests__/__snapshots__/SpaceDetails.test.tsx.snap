@@ -19,14 +19,33 @@ exports[`SpaceDetails renders correctly 1`] = `
   }
   keyboardShouldPersistTaps="handled"
   onScroll={[Function]}
-  refreshableProps={
-    {
-      "isLoading": false,
-      "onRefresh": [Function],
-    }
+  refreshControl={
+    <View
+      style={
+        {
+          "top": 52,
+          "zIndex": 10,
+        }
+      }
+    >
+      <RefreshControlMock
+        onRefresh={[Function]}
+        refreshing={false}
+      />
+    </View>
   }
   scrollEventThrottle={125}
 >
+  <View
+    style={
+      {
+        "top": 52,
+        "zIndex": 10,
+      }
+    }
+  >
+    <RCTRefreshControl />
+  </View>
   <View>
     <View
       style={
@@ -779,303 +798,134 @@ exports[`SpaceDetails renders correctly 1`] = `
                     }
                   >
                     <View
-                      accessibilityControls="space-tabs-panel-0"
-                      accessibilityLabel="spaces.tab.info"
-                      accessibilityState={
-                        {
-                          "busy": undefined,
-                          "checked": undefined,
-                          "disabled": false,
-                          "expanded": undefined,
-                          "selected": true,
-                        }
-                      }
-                      accessibilityValue={
-                        {
-                          "max": undefined,
-                          "min": undefined,
-                          "now": undefined,
-                          "text": undefined,
-                        }
-                      }
-                      accessible={true}
-                      collapsable={false}
-                      focusable={true}
-                      nativeID="space-tabs-tab-0"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
                       onLayout={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
-                      role="tab"
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "borderBottomColor": "#262424",
-                            "borderBottomWidth": 2,
-                            "justifyContent": "center",
-                            "marginLeft": 20,
-                            "marginRight": 20,
-                            "maxWidth": 320,
-                            "paddingVertical": 12,
-                            "width": "auto",
-                          },
-                          {
-                            "width": "auto",
-                          },
-                        ]
-                      }
-                      testID="space-tabs-button-0-active"
                     >
                       <View
-                        pointerEvents="none"
                         style={
                           {
-                            "flexDirection": "row",
+                            "paddingLeft": 20,
+                            "paddingRight": 20,
                           }
                         }
                       >
                         <View
-                          style={
+                          accessibilityControls="space-tabs-panel-0"
+                          accessibilityLabel="spaces.tab.info"
+                          accessibilityState={
                             {
-                              "marginRight": 8,
+                              "busy": undefined,
+                              "checked": undefined,
+                              "disabled": false,
+                              "expanded": undefined,
+                              "selected": true,
                             }
                           }
-                        >
-                          <RNSVGSvgView
-                            align="xMidYMid"
-                            bbHeight="22"
-                            bbWidth="22"
-                            color="#262424"
-                            focusable={false}
-                            height={22}
-                            meetOrSlice={0}
-                            minX={0}
-                            minY={0}
-                            style={
-                              [
-                                {
-                                  "backgroundColor": "transparent",
-                                  "borderWidth": 0,
-                                },
-                                {
-                                  "flex": 0,
-                                  "height": 22,
-                                  "width": 22,
-                                },
-                              ]
+                          accessibilityValue={
+                            {
+                              "max": undefined,
+                              "min": undefined,
+                              "now": undefined,
+                              "text": undefined,
                             }
-                            tintColor="#262424"
-                            vbHeight={24}
-                            vbWidth={24}
-                            width={22}
-                            xmlns="http://www.w3.org/2000/svg"
+                          }
+                          accessible={true}
+                          collapsable={false}
+                          focusable={true}
+                          nativeID="space-tabs-tab-0"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          role="tab"
+                          style={
+                            [
+                              {
+                                "alignItems": "center",
+                                "borderBottomColor": "#262424",
+                                "borderBottomWidth": 2,
+                                "justifyContent": "center",
+                                "maxWidth": 320,
+                                "paddingVertical": 12,
+                                "width": "auto",
+                              },
+                              {
+                                "width": "auto",
+                              },
+                            ]
+                          }
+                          testID="space-tabs-button-0-active"
+                        >
+                          <View
+                            pointerEvents="none"
+                            style={
+                              {
+                                "flexDirection": "row",
+                              }
+                            }
                           >
-                            <RNSVGGroup
-                              fill={
+                            <View
+                              style={
                                 {
-                                  "payload": 4278190080,
-                                  "type": 0,
+                                  "marginRight": 8,
                                 }
                               }
                             >
-                              <RNSVGPath
-                                d="M0 0h24v24H0z"
-                                fill={null}
-                                propList={
+                              <RNSVGSvgView
+                                align="xMidYMid"
+                                bbHeight="22"
+                                bbWidth="22"
+                                color="#262424"
+                                focusable={false}
+                                height={22}
+                                meetOrSlice={0}
+                                minX={0}
+                                minY={0}
+                                style={
                                   [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                              <RNSVGPath
-                                d="m22.314 10.172-1.415 1.414-.707-.707-4.242 4.242-.707 3.536-1.415 1.414-4.242-4.243-4.95 4.95-1.414-1.414 4.95-4.95-4.243-4.242 1.414-1.415L8.88 8.05l4.242-4.242-.707-.707 1.414-1.415z"
-                                fill={
-                                  {
-                                    "type": 2,
-                                  }
-                                }
-                                propList={
-                                  [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                            </RNSVGGroup>
-                          </RNSVGSvgView>
-                        </View>
-                        <Text
-                          accessible={false}
-                          ellipsizeMode="tail"
-                          numberOfLines={1}
-                          selectable={true}
-                          style={
-                            {
-                              "color": "#262424",
-                              "fontFamily": "Circular Std Medium",
-                              "fontSize": 16,
-                              "fontWeight": "500",
-                              "lineHeight": 22.4,
-                              "userSelect": "auto",
-                            }
-                          }
-                        >
-                          spaces.tab.info
-                        </Text>
-                      </View>
-                    </View>
-                    <View
-                      accessibilityControls="space-tabs-panel-1"
-                      accessibilityLabel="spaces.tab.updates"
-                      accessibilityState={
-                        {
-                          "busy": undefined,
-                          "checked": undefined,
-                          "disabled": false,
-                          "expanded": undefined,
-                          "selected": false,
-                        }
-                      }
-                      accessibilityValue={
-                        {
-                          "max": undefined,
-                          "min": undefined,
-                          "now": undefined,
-                          "text": undefined,
-                        }
-                      }
-                      accessible={true}
-                      collapsable={false}
-                      focusable={true}
-                      nativeID="space-tabs-tab-1"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
-                      role="tab"
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "borderBottomColor": "transparent",
-                            "borderBottomWidth": 2,
-                            "justifyContent": "center",
-                            "marginLeft": 0,
-                            "marginRight": 20,
-                            "maxWidth": 320,
-                            "paddingVertical": 12,
-                            "width": "auto",
-                          },
-                          {
-                            "width": "auto",
-                          },
-                        ]
-                      }
-                      testID="space-tabs-button-1-inactive"
-                    >
-                      <View
-                        pointerEvents="none"
-                        style={
-                          {
-                            "flexDirection": "row",
-                          }
-                        }
-                      >
-                        <View
-                          style={
-                            {
-                              "marginRight": 8,
-                            }
-                          }
-                        >
-                          <RNSVGSvgView
-                            align="xMidYMid"
-                            bbHeight="22"
-                            bbWidth="22"
-                            color="#787777"
-                            fill="none"
-                            focusable={false}
-                            height={22}
-                            meetOrSlice={0}
-                            minX={0}
-                            minY={0}
-                            style={
-                              [
-                                {
-                                  "backgroundColor": "transparent",
-                                  "borderWidth": 0,
-                                },
-                                {
-                                  "flex": 0,
-                                  "height": 22,
-                                  "width": 22,
-                                },
-                              ]
-                            }
-                            tintColor="#787777"
-                            vbHeight={24}
-                            vbWidth={24}
-                            width={22}
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <RNSVGGroup
-                              fill={null}
-                              propList={
-                                [
-                                  "fill",
-                                ]
-                              }
-                            >
-                              <RNSVGGroup
-                                clipPath="flag-2_svg__a"
-                                fill={
-                                  {
-                                    "payload": 4278190080,
-                                    "type": 0,
-                                  }
-                                }
-                              >
-                                <RNSVGPath
-                                  d="M4 17v5H2V3h19.138a.5.5 0 0 1 .435.748L18 10l3.573 6.252a.499.499 0 0 1-.435.748H4ZM4 5v10h14.554l-2.858-5 2.858-5H4Z"
-                                  fill={
                                     {
-                                      "type": 2,
-                                    }
-                                  }
-                                  propList={
-                                    [
-                                      "fill",
-                                    ]
-                                  }
-                                />
-                              </RNSVGGroup>
-                              <RNSVGDefs>
-                                <RNSVGClipPath
+                                      "backgroundColor": "transparent",
+                                      "borderWidth": 0,
+                                    },
+                                    {
+                                      "flex": 0,
+                                      "height": 22,
+                                      "width": 22,
+                                    },
+                                  ]
+                                }
+                                tintColor="#262424"
+                                vbHeight={24}
+                                vbWidth={24}
+                                width={22}
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <RNSVGGroup
                                   fill={
                                     {
                                       "payload": 4278190080,
                                       "type": 0,
                                     }
                                   }
-                                  name="flag-2_svg__a"
                                 >
                                   <RNSVGPath
                                     d="M0 0h24v24H0z"
+                                    fill={null}
+                                    propList={
+                                      [
+                                        "fill",
+                                      ]
+                                    }
+                                  />
+                                  <RNSVGPath
+                                    d="m22.314 10.172-1.415 1.414-.707-.707-4.242 4.242-.707 3.536-1.415 1.414-4.242-4.243-4.95 4.95-1.414-1.414 4.95-4.95-4.243-4.242 1.414-1.415L8.88 8.05l4.242-4.242-.707-.707 1.414-1.415z"
                                     fill={
                                       {
-                                        "payload": 4294967295,
-                                        "type": 0,
+                                        "type": 2,
                                       }
                                     }
                                     propList={
@@ -1084,208 +934,403 @@ exports[`SpaceDetails renders correctly 1`] = `
                                       ]
                                     }
                                   />
-                                </RNSVGClipPath>
-                              </RNSVGDefs>
-                            </RNSVGGroup>
-                          </RNSVGSvgView>
+                                </RNSVGGroup>
+                              </RNSVGSvgView>
+                            </View>
+                            <Text
+                              accessible={false}
+                              ellipsizeMode="tail"
+                              numberOfLines={1}
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#262424",
+                                  "fontFamily": "Circular Std Medium",
+                                  "fontSize": 16,
+                                  "fontWeight": "500",
+                                  "lineHeight": 22.4,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              spaces.tab.info
+                            </Text>
+                          </View>
                         </View>
-                        <Text
-                          accessible={false}
-                          ellipsizeMode="tail"
-                          numberOfLines={1}
-                          selectable={true}
-                          style={
-                            {
-                              "color": "#787777",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 16,
-                              "fontWeight": "400",
-                              "lineHeight": 22.4,
-                              "userSelect": "auto",
-                            }
-                          }
-                        >
-                          spaces.tab.updates
-                        </Text>
                       </View>
                     </View>
-                    <View
-                      accessibilityControls="space-tabs-panel-2"
-                      accessibilityLabel="spaces.tab.action"
-                      accessibilityState={
-                        {
-                          "busy": undefined,
-                          "checked": undefined,
-                          "disabled": false,
-                          "expanded": undefined,
-                          "selected": false,
-                        }
-                      }
-                      accessibilityValue={
-                        {
-                          "max": undefined,
-                          "min": undefined,
-                          "now": undefined,
-                          "text": undefined,
-                        }
-                      }
-                      accessible={true}
-                      collapsable={false}
-                      focusable={true}
-                      nativeID="space-tabs-tab-2"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
-                      role="tab"
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "borderBottomColor": "transparent",
-                            "borderBottomWidth": 2,
-                            "justifyContent": "center",
-                            "marginLeft": 0,
-                            "marginRight": 20,
-                            "maxWidth": 320,
-                            "paddingVertical": 12,
-                            "width": "auto",
-                          },
-                          {
-                            "width": "auto",
-                          },
-                        ]
-                      }
-                      testID="space-tabs-button-2-inactive"
-                    >
+                    <View>
                       <View
-                        pointerEvents="none"
                         style={
                           {
-                            "flexDirection": "row",
+                            "paddingRight": 20,
                           }
                         }
                       >
                         <View
-                          style={
+                          accessibilityControls="space-tabs-panel-1"
+                          accessibilityLabel="spaces.tab.updates"
+                          accessibilityState={
                             {
-                              "marginRight": 8,
+                              "busy": undefined,
+                              "checked": undefined,
+                              "disabled": false,
+                              "expanded": undefined,
+                              "selected": false,
                             }
                           }
-                        >
-                          <RNSVGSvgView
-                            align="xMidYMid"
-                            bbHeight="22"
-                            bbWidth="22"
-                            color="#787777"
-                            fill="none"
-                            focusable={false}
-                            height={22}
-                            meetOrSlice={0}
-                            minX={0}
-                            minY={0}
-                            style={
-                              [
-                                {
-                                  "backgroundColor": "transparent",
-                                  "borderWidth": 0,
-                                },
-                                {
-                                  "flex": 0,
-                                  "height": 22,
-                                  "width": 22,
-                                },
-                              ]
+                          accessibilityValue={
+                            {
+                              "max": undefined,
+                              "min": undefined,
+                              "now": undefined,
+                              "text": undefined,
                             }
-                            tintColor="#787777"
-                            vbHeight={24}
-                            vbWidth={24}
-                            width={22}
-                            xmlns="http://www.w3.org/2000/svg"
+                          }
+                          accessible={true}
+                          collapsable={false}
+                          focusable={true}
+                          nativeID="space-tabs-tab-1"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          role="tab"
+                          style={
+                            [
+                              {
+                                "alignItems": "center",
+                                "borderBottomColor": "transparent",
+                                "borderBottomWidth": 2,
+                                "justifyContent": "center",
+                                "maxWidth": 320,
+                                "paddingVertical": 12,
+                                "width": "auto",
+                              },
+                              {
+                                "width": "auto",
+                              },
+                            ]
+                          }
+                          testID="space-tabs-button-1-inactive"
+                        >
+                          <View
+                            pointerEvents="none"
+                            style={
+                              {
+                                "flexDirection": "row",
+                              }
+                            }
                           >
-                            <RNSVGGroup
-                              fill={null}
-                              propList={
-                                [
-                                  "fill",
-                                ]
+                            <View
+                              style={
+                                {
+                                  "marginRight": 8,
+                                }
                               }
                             >
-                              <RNSVGGroup
-                                clipPath="sun_svg__a"
-                                fill={
-                                  {
-                                    "payload": 4278190080,
-                                    "type": 0,
-                                  }
-                                }
-                              >
-                                <RNSVGPath
-                                  d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM11 1h2v3h-2V1Zm0 19h2v3h-2v-3ZM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93v-.001ZM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121Zm2.121-14.85 1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121v-.001ZM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121ZM23 11v2h-3v-2h3ZM4 11v2H1v-2h3Z"
-                                  fill={
+                              <RNSVGSvgView
+                                align="xMidYMid"
+                                bbHeight="22"
+                                bbWidth="22"
+                                color="#787777"
+                                fill="none"
+                                focusable={false}
+                                height={22}
+                                meetOrSlice={0}
+                                minX={0}
+                                minY={0}
+                                style={
+                                  [
                                     {
-                                      "type": 2,
-                                    }
-                                  }
+                                      "backgroundColor": "transparent",
+                                      "borderWidth": 0,
+                                    },
+                                    {
+                                      "flex": 0,
+                                      "height": 22,
+                                      "width": 22,
+                                    },
+                                  ]
+                                }
+                                tintColor="#787777"
+                                vbHeight={24}
+                                vbWidth={24}
+                                width={22}
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <RNSVGGroup
+                                  fill={null}
                                   propList={
                                     [
                                       "fill",
                                     ]
                                   }
-                                />
-                              </RNSVGGroup>
-                              <RNSVGDefs>
-                                <RNSVGClipPath
-                                  fill={
-                                    {
-                                      "payload": 4278190080,
-                                      "type": 0,
-                                    }
-                                  }
-                                  name="sun_svg__a"
                                 >
-                                  <RNSVGPath
-                                    d="M0 0h24v24H0z"
+                                  <RNSVGGroup
+                                    clipPath="flag-2_svg__a"
                                     fill={
                                       {
-                                        "payload": 4294967295,
+                                        "payload": 4278190080,
                                         "type": 0,
                                       }
                                     }
-                                    propList={
-                                      [
-                                        "fill",
-                                      ]
-                                    }
-                                  />
-                                </RNSVGClipPath>
-                              </RNSVGDefs>
-                            </RNSVGGroup>
-                          </RNSVGSvgView>
+                                  >
+                                    <RNSVGPath
+                                      d="M4 17v5H2V3h19.138a.5.5 0 0 1 .435.748L18 10l3.573 6.252a.499.499 0 0 1-.435.748H4ZM4 5v10h14.554l-2.858-5 2.858-5H4Z"
+                                      fill={
+                                        {
+                                          "type": 2,
+                                        }
+                                      }
+                                      propList={
+                                        [
+                                          "fill",
+                                        ]
+                                      }
+                                    />
+                                  </RNSVGGroup>
+                                  <RNSVGDefs>
+                                    <RNSVGClipPath
+                                      fill={
+                                        {
+                                          "payload": 4278190080,
+                                          "type": 0,
+                                        }
+                                      }
+                                      name="flag-2_svg__a"
+                                    >
+                                      <RNSVGPath
+                                        d="M0 0h24v24H0z"
+                                        fill={
+                                          {
+                                            "payload": 4294967295,
+                                            "type": 0,
+                                          }
+                                        }
+                                        propList={
+                                          [
+                                            "fill",
+                                          ]
+                                        }
+                                      />
+                                    </RNSVGClipPath>
+                                  </RNSVGDefs>
+                                </RNSVGGroup>
+                              </RNSVGSvgView>
+                            </View>
+                            <Text
+                              accessible={false}
+                              ellipsizeMode="tail"
+                              numberOfLines={1}
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#787777",
+                                  "fontFamily": "Circular Std Book",
+                                  "fontSize": 16,
+                                  "fontWeight": "400",
+                                  "lineHeight": 22.4,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              spaces.tab.updates
+                            </Text>
+                          </View>
                         </View>
-                        <Text
-                          accessible={false}
-                          ellipsizeMode="tail"
-                          numberOfLines={1}
-                          selectable={true}
-                          style={
+                      </View>
+                    </View>
+                    <View>
+                      <View
+                        style={
+                          {
+                            "paddingRight": 20,
+                          }
+                        }
+                      >
+                        <View
+                          accessibilityControls="space-tabs-panel-2"
+                          accessibilityLabel="spaces.tab.action"
+                          accessibilityState={
                             {
-                              "color": "#787777",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 16,
-                              "fontWeight": "400",
-                              "lineHeight": 22.4,
-                              "userSelect": "auto",
+                              "busy": undefined,
+                              "checked": undefined,
+                              "disabled": false,
+                              "expanded": undefined,
+                              "selected": false,
                             }
                           }
+                          accessibilityValue={
+                            {
+                              "max": undefined,
+                              "min": undefined,
+                              "now": undefined,
+                              "text": undefined,
+                            }
+                          }
+                          accessible={true}
+                          collapsable={false}
+                          focusable={true}
+                          nativeID="space-tabs-tab-2"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          role="tab"
+                          style={
+                            [
+                              {
+                                "alignItems": "center",
+                                "borderBottomColor": "transparent",
+                                "borderBottomWidth": 2,
+                                "justifyContent": "center",
+                                "maxWidth": 320,
+                                "paddingVertical": 12,
+                                "width": "auto",
+                              },
+                              {
+                                "width": "auto",
+                              },
+                            ]
+                          }
+                          testID="space-tabs-button-2-inactive"
                         >
-                          spaces.tab.action
-                        </Text>
+                          <View
+                            pointerEvents="none"
+                            style={
+                              {
+                                "flexDirection": "row",
+                              }
+                            }
+                          >
+                            <View
+                              style={
+                                {
+                                  "marginRight": 8,
+                                }
+                              }
+                            >
+                              <RNSVGSvgView
+                                align="xMidYMid"
+                                bbHeight="22"
+                                bbWidth="22"
+                                color="#787777"
+                                fill="none"
+                                focusable={false}
+                                height={22}
+                                meetOrSlice={0}
+                                minX={0}
+                                minY={0}
+                                style={
+                                  [
+                                    {
+                                      "backgroundColor": "transparent",
+                                      "borderWidth": 0,
+                                    },
+                                    {
+                                      "flex": 0,
+                                      "height": 22,
+                                      "width": 22,
+                                    },
+                                  ]
+                                }
+                                tintColor="#787777"
+                                vbHeight={24}
+                                vbWidth={24}
+                                width={22}
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <RNSVGGroup
+                                  fill={null}
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                >
+                                  <RNSVGGroup
+                                    clipPath="sun_svg__a"
+                                    fill={
+                                      {
+                                        "payload": 4278190080,
+                                        "type": 0,
+                                      }
+                                    }
+                                  >
+                                    <RNSVGPath
+                                      d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM11 1h2v3h-2V1Zm0 19h2v3h-2v-3ZM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93v-.001ZM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121Zm2.121-14.85 1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121v-.001ZM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121ZM23 11v2h-3v-2h3ZM4 11v2H1v-2h3Z"
+                                      fill={
+                                        {
+                                          "type": 2,
+                                        }
+                                      }
+                                      propList={
+                                        [
+                                          "fill",
+                                        ]
+                                      }
+                                    />
+                                  </RNSVGGroup>
+                                  <RNSVGDefs>
+                                    <RNSVGClipPath
+                                      fill={
+                                        {
+                                          "payload": 4278190080,
+                                          "type": 0,
+                                        }
+                                      }
+                                      name="sun_svg__a"
+                                    >
+                                      <RNSVGPath
+                                        d="M0 0h24v24H0z"
+                                        fill={
+                                          {
+                                            "payload": 4294967295,
+                                            "type": 0,
+                                          }
+                                        }
+                                        propList={
+                                          [
+                                            "fill",
+                                          ]
+                                        }
+                                      />
+                                    </RNSVGClipPath>
+                                  </RNSVGDefs>
+                                </RNSVGGroup>
+                              </RNSVGSvgView>
+                            </View>
+                            <Text
+                              accessible={false}
+                              ellipsizeMode="tail"
+                              numberOfLines={1}
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#787777",
+                                  "fontFamily": "Circular Std Book",
+                                  "fontSize": 16,
+                                  "fontWeight": "400",
+                                  "lineHeight": 22.4,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              spaces.tab.action
+                            </Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
                   </View>
@@ -4067,7 +4112,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                       }
                     >
                       <View
-                        accessibilityLabel="spaces.spaceDetails.tasks.seeAllButton.label"
+                        accessibilityLabel="spaces.global.seeAllButton.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {
@@ -4156,7 +4201,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                               }
                             }
                           >
-                            spaces.spaceDetails.tasks.seeAllButton.label
+                            spaces.global.seeAllButton.label
                           </Text>
                         </View>
                       </View>

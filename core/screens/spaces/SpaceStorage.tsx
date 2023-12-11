@@ -10,13 +10,13 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import StorageOnboardModal from '@holi/core/screens/spaces/linkHub/components/StorageOnboardModal'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -29,6 +29,7 @@ const { useParam } = createParam<SpaceStorageParams>()
 const SpaceStorage: React.FC = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
+  const { replaceRoute } = useRouting()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
@@ -62,11 +63,8 @@ const SpaceStorage: React.FC = () => {
   }, [setScreenOptions, t])
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
-    return (
-      <DefaultLayout style={styles.defaultLayout} contentStyle={styles.messageContainer}>
-        <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
-      </DefaultLayout>
-    )
+    replaceRoute('NotFound')
+    return null
   }
 
   // Error and loading states are handled the same way and just hide the component
@@ -109,14 +107,6 @@ const getStyles = (deviceHeight: number) =>
     messageContainer: {
       alignItems: 'center',
       marginTop: vars.topBarHeight + 50,
-    },
-    defaultLayout: {
-      paddingBottom: 0,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh',
-        },
-      }),
     },
   })
 

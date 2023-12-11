@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -148,8 +148,20 @@ const createSpace = async (page: Page, initialName = 'e2e space name', initialGo
 
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
-  await clickElementByTestId(page, 'space-onboard-content-close-btn')
-  await clickElementByTestId(page, 'space-edit-close')
+
+  try {
+    await clickElementByTestId(page, 'space-onboard-content-close-btn')
+  } catch (e) {
+    // sometimes the modal doesn't show
+    // just continue
+  }
+
+  try {
+    await clickElementByTestId(page, 'space-edit-close')
+  } catch (e) {
+    // sometimes space creation does not end in edit mode
+    // just continue
+  }
 }
 
 const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => {

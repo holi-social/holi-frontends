@@ -1,25 +1,16 @@
 import { produce } from 'immer'
 import { Atom } from 'jotai'
-import {
-  EventTimeline,
-  EventType,
-  type IEvent,
-  type IRoomEvent,
-  type IStateEvent,
-  Room,
-  RoomMember,
-} from 'matrix-js-sdk'
+import { EventTimeline, EventType, type IRoomEvent, type IStateEvent, type Room } from 'matrix-js-sdk'
 
 import {
-  type ChatRoomMember,
   type MatrixId,
-  MembershipStatus,
+  RoomType,
   type RoomWithSharedData,
   type SpaceChildRoom,
   type SpaceRoom,
   type SpaceSharedDataContent,
 } from '@holi/chat/src/client/types'
-import { getLastMessageEvent, isIStateEvent } from '@holi/chat/src/client/utils'
+import { createChatMember, getLastMessageEvent, isIStateEvent } from '@holi/chat/src/client/utils'
 import type {
   AtomRecordGetter,
   BaseChatRoom,
@@ -72,13 +63,6 @@ export const getAtomFromRecordId = <T>(
   return value
 }
 
-export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
-  return event?.type === EventType.RoomMessage
-}
-export const isRoomMemberEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
-  return event?.type === EventType.RoomMember && ['join', 'leave'].some((m) => m === event.content?.membership)
-}
-
 export const hasSpaceContent = <T extends Record<keyof T, unknown>>(content: T | null): content is T =>
   content !== null && 'holiSpaceId' in content
 
@@ -104,8 +88,17 @@ export const sortRoomByTimestamp = (roomA: ChatRoom, roomB: ChatRoom): number =>
  * on the type of the RoomWithSharedData.
  * Types: `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
  */
-export const createChatRoom = (roomWithSharedData: RoomWithSharedData, hasInvitation = false): ChatRoom => {
-  const baseChatRoom = createBaseChatRoom(roomWithSharedData.room, hasInvitation)
+export const createChatRoom = (
+  roomWithSharedData: RoomWithSharedData,
+  homeserverUrl: string,
+  hasInvitation = false
+): ChatRoom => {
+  const baseChatRoom = createBaseChatRoom(
+    roomWithSharedData.room,
+    roomWithSharedData.type,
+    homeserverUrl,
+    hasInvitation
+  )
 
   switch (roomWithSharedData.type) {
     case 'private':
@@ -158,8 +151,13 @@ export function createSpaceChildChatRoom(
  * @description It creates the base for all 3 (internal) types of chats rooms
  * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
  */
-export function createBaseChatRoom(room: Room, hasInvitation = false): BaseChatRoom {
-  const lastMessageEvent = getLastMessageEvent(room)
+export function createBaseChatRoom(
+  room: Room,
+  roomType: RoomType,
+  homeserverUrl: string,
+  hasInvitation = false
+): BaseChatRoom {
+  const lastMessageEvent = getLastMessageEvent(room, roomType)
   const lastMessage = lastMessageEvent && createChatMessage(room.roomId, lastMessageEvent)
 
   const roomMxCreatorId = room.getCreator()
@@ -174,8 +172,12 @@ export function createBaseChatRoom(room: Room, hasInvitation = false): BaseChatR
     notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     hasInvitation,
     lastMessage,
-    creator: roomMxCreator && createChatMember(roomMxCreator),
-    members: room.getMembers().map(createChatMember),
+    creator:
+      roomMxCreator &&
+      createChatMember(roomMxCreator, roomMxCreator.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true)),
+    members: room
+      .getMembers()
+      .map((member) => createChatMember(member, member.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true))),
     timestamp:
       room.getLastActiveTimestamp() > 0
         ? room.getLastActiveTimestamp()
@@ -234,31 +236,6 @@ export function createChatMessage(roomId: string, event: IRoomEvent | IStateEven
 
     default:
       throw new HoliError('Unexpected RoomEvent: only EventType.RoomMessage and EventType.RoomMember are supported')
-  }
-}
-
-/**
- * Members
- */
-
-export function createChatMember(roomMember: RoomMember): ChatRoomMember {
-  const { userId, name, membership } = roomMember
-  const id = userId as MatrixId
-  return {
-    id,
-    name,
-    membership: getChatMembership(membership),
-  }
-}
-
-export function getChatMembership(membership?: string) {
-  switch (membership) {
-    case 'join':
-      return MembershipStatus.Joined
-    case 'invite':
-      return MembershipStatus.Invited
-    case 'leave':
-      return MembershipStatus.Left
   }
 }
 

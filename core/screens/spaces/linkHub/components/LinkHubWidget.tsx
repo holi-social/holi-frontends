@@ -28,7 +28,7 @@ const NoToolsAvailable: React.FC<NoToolsAvailableProps> = ({ onPress }) => {
   const { t } = useTranslation()
   return (
     <HoliButton
-      label={t('spaces.digitalToolKit.noData.instruction')}
+      label={t('spaces.global.empty.instruction')}
       transparent
       onPress={onPress}
       style={styles.noToolsDescriptionContainer}
@@ -37,7 +37,7 @@ const NoToolsAvailable: React.FC<NoToolsAvailableProps> = ({ onPress }) => {
         {t('spaces.digitalToolKit.noData.discription')}
       </HoliText>
       <HoliText size="small" style={styles.instruction}>
-        {t('spaces.digitalToolKit.noData.instruction')}
+        {t('spaces.global.empty.instruction')}
       </HoliText>
     </HoliButton>
   )
@@ -98,11 +98,11 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
       {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && (
         <View style={styles.seeAllButtonContainer}>
           <HoliButton
-            label={t('spaces.digitalToolKit.seeAll.button.label')}
+            label={t('spaces.global.seeAllButton.label')}
             style={styles.seeAllButton}
             onPress={navigateToLinkHubPage}
           >
-            <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
+            <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
           </HoliButton>
         </View>
       )}

@@ -2,6 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
+import { ChatRoomMember } from '@holi/chat/src/client/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -12,9 +13,10 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 
 interface RoomMessageListStartProps {
   chatPartnerHoliUser: User
+  member: ChatRoomMember | undefined
 }
 
-const RoomMessageListStart = ({ chatPartnerHoliUser }: RoomMessageListStartProps) => {
+const RoomMessageListStart = ({ chatPartnerHoliUser, member }: RoomMessageListStartProps) => {
   const { t } = useTranslation()
 
   return (
@@ -24,7 +26,7 @@ const RoomMessageListStart = ({ chatPartnerHoliUser }: RoomMessageListStartProps
         label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
       >
         <HoliAvatar
-          imageSrc={chatPartnerHoliUser.avatar}
+          imageSrc={member?.avatar}
           imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
           label={chatPartnerHoliUser.fullName}
           initials={chatPartnerHoliUser.avatarLabel}

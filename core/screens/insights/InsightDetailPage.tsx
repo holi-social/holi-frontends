@@ -10,12 +10,12 @@ import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -38,6 +38,7 @@ const InsightDetailPage = () => {
   const [insightId = ''] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const {
@@ -68,13 +69,8 @@ const InsightDetailPage = () => {
   }, [t, insight?.title, setScreenOptions])
 
   if (!loadingInsight && !insight) {
-    return (
-      <ScrollHeaderLayout.Default style={mixins.container}>
-        <HoliBox padding={[24, 0]}>
-          <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
-        </HoliBox>
-      </ScrollHeaderLayout.Default>
-    )
+    replaceRoute('/404')
+    return <></>
   }
 
   const posts: Post[] = insight?.posts || []
@@ -86,7 +82,7 @@ const InsightDetailPage = () => {
 
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
-          isLoading: refreshing,
+          refreshing,
           onRefresh,
         }}
         style={styles.wrapper}

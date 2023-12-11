@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.10.2', // user-facing value visible in stores
-  iosBuildNumber: '1.10.2', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 39, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.11.0', // user-facing value visible in stores
+  iosBuildNumber: '1.11.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 40, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -108,6 +108,8 @@ export default {
         serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',
         serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
         pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
+        adminUserId: requiredEnvVar('HOLI_CHAT_ADMIN_USER_ID'),
+        adminName: requiredEnvVar('HOLI_CHAT_ADMIN_NAME'),
       },
       ory: {
         url: requiredEnvVar('ORY_BASE_URL'),

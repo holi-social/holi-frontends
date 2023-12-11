@@ -1,13 +1,15 @@
-import React from 'react'
+import { useAtomValue } from 'jotai'
+import React, { useMemo } from 'react'
 
 import RoomMembershipBadge from '@holi/chat/src/components/RoomMessageList/RoomMembershipBadge'
 import RoomTextMessage from '@holi/chat/src/components/RoomMessageList/RoomTextMessage'
-import { ChatMessage } from '@holi/chat/src/store'
-import { User } from '@holi/core/screens/userprofile/types'
+import { type ChatMessage, roomMembersAtomCreator } from '@holi/chat/src/store'
+import type { User } from '@holi/core/screens/userprofile/types'
 
-interface RoomMessageProps {
+interface Props {
   message: ChatMessage
-  user?: User
+  roomId: string
+  holiUser?: User
   showAvatar?: boolean
   isPrevMessageFromSameUser?: boolean
   isNextMessageFromSameUser?: boolean
@@ -15,13 +17,16 @@ interface RoomMessageProps {
   testID?: string
 }
 
-const RoomMessage = ({ user, message, roomType, ...props }: RoomMessageProps) => {
+const RoomMessage = ({ holiUser, message, roomType, roomId, ...props }: Props) => {
+  const membersRecord = useAtomValue(useMemo(() => roomMembersAtomCreator(roomId), [roomId]))
+  const member = membersRecord[message.sender ?? '']
+
   switch (message.type) {
     case 'message':
-      return <RoomTextMessage user={user} message={message} {...props} />
+      return <RoomTextMessage member={member} holiUser={holiUser} message={message} {...props} />
     case 'membership':
       if (roomType === 'private') return
-      return <RoomMembershipBadge user={user} message={message} />
+      return <RoomMembershipBadge member={member} user={holiUser} message={message} />
   }
 }
 

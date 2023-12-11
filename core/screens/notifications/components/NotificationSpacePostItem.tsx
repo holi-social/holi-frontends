@@ -1,53 +1,31 @@
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
+import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
 import { NotificationProps, NotificationSpacePost } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const NotificationSpacePostItem = ({ notification, style, testID = '' }: NotificationProps<NotificationSpacePost>) => {
-  const { t, i18n } = useTranslation()
-  const { created, read } = notification
-  const { space, teaser, post } = notification.options
-
-  const { avatar, avatarBlurhash, avatarDefaultColor, avatarLabel, fullName } = notification.options.post.creator ?? {}
-  const userFullName = fullName || t('user.profileView.anonymous')
-
-  const getI18Key = () => {
-    if (post.isPublic) return 'notifications.space.post.public.created.message'
-
-    return 'notifications.space.post.private.created.message'
-  }
+  const { i18n } = useTranslation()
+  const { created, read, content } = notification
+  const { space } = notification.options
 
   return (
     <View style={style} testID={testID}>
-      <HoliLink href={`/posts/${post?.id}`} label={post?.title} mobileNavigateBackFirst>
+      <HoliLink href={`/spaces/${space.name}?tab=updates`} label={space.title} mobileNavigateBackFirst>
         <View style={styles.link}>
-          {post.isPublic ? (
-            <SpaceAvatar space={notification.options.space} size="small" style={{ borderColor: 'transparent' }} />
-          ) : (
-            <HoliAvatar
-              imageSrc={avatar}
-              imageBlurhash={avatarBlurhash}
-              label={userFullName}
-              initials={avatarLabel || ''}
-              defaultColor={avatarDefaultColor || ''}
-              size="small"
-            />
-          )}
+          <SpaceAvatar space={space} size="small" style={{ borderColor: 'transparent' }} />
 
           <View style={styles.content}>
-            <HoliText size="small" style={styles.fontColorGray}>
-              <Trans t={t} i18nKey={getI18Key()} values={{ user: userFullName, space: space?.title, post: teaser }}>
-                <HoliText size="small" />
-              </Trans>
-            </HoliText>
+            <NotificationContentText size="small" style={styles.fontColorGray}>
+              {content}
+            </NotificationContentText>
 
             <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
               {getRelativeDateString(created, i18n.language)}

@@ -5,13 +5,13 @@ import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, ShareBox } from '@holi/icons/src/generated'
@@ -42,6 +42,7 @@ const DonationsAppProjectDetail = () => {
   const { displayError } = useErrorHandling()
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
+  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
   const mixins = useStyleMixins()
@@ -73,13 +74,8 @@ const DonationsAppProjectDetail = () => {
   }
 
   if (!project) {
-    return (
-      <DefaultLayout>
-        <View style={[mixins.container, styles.messageContainer]}>
-          <HoliText>{t('donations:projectDetail.notFound', { projectId })}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
+    replaceRoute('/404')
+    return <></>
   }
 
   return (
@@ -88,7 +84,7 @@ const DonationsAppProjectDetail = () => {
       testID="donations-detailview-container"
     >
       <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ isLoading: refreshing, onRefresh }}
+        refreshableProps={{ refreshing, onRefresh }}
         style={{ backgroundColor: colors.background30 }}
         headerOverlap
       >

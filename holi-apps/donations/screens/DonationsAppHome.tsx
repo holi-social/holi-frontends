@@ -91,7 +91,7 @@ const DonationsAppHome = () => {
 
   return (
     <ScrollHeaderLayout.Refreshable
-      refreshableProps={{ isLoading: refreshing, onRefresh }}
+      refreshableProps={{ refreshing, onRefresh }}
       keyboardShouldPersistTaps="always"
       headerOverlap
       style={styles.defaultLayout}

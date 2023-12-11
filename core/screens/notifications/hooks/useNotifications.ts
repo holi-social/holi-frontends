@@ -8,6 +8,7 @@ import {
   Notification,
   NotificationPost,
   NotificationSpaceConnection,
+  NotificationSpacePost,
 } from '@holi/core/screens/notifications/components/types'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
@@ -46,19 +47,18 @@ export const useNotifications = () => {
   )
 
   const fetchMessages = useCallback(
-    async (pageToFetch = 0, logFunction = logError) =>
+    async ({ pageToFetch, onSuccess }: { pageToFetch?: number; onSuccess?: () => void } = {}) =>
       novuService
-        ?.getNotificationsList(pageToFetch, {
+        ?.getNotificationsList(pageToFetch || 0, {
           limit: NOVU_NOTIFICATIONS_PAGE_SIZE,
         })
         .then((response) => {
-          if (!response.hasMore) {
-            setCanFetchMore(false)
-          }
+          onSuccess && onSuccess()
+          setCanFetchMore(!!response.hasMore)
           processMessagesResponse(response)
         })
         .catch((error) =>
-          logFunction(error, 'Error fetching notifications from novu', {
+          logError(error, 'Error fetching notifications from novu', {
             location: 'useNotifications.fetchMessages',
           })
         ),
@@ -66,16 +66,16 @@ export const useNotifications = () => {
   )
 
   const fetchNextPage = useCallback(async () => {
-    if (!novuService || isFetchingMore) {
+    if (!novuService || isFetchingMore || !canFetchMore) {
       return
     }
     logDebug('useNotifications.fetchNextPage', 'start to fetch page', nextPage)
     setIsFetchingMore(true)
-    return fetchMessages(nextPage).finally(() => {
+    return fetchMessages({ pageToFetch: nextPage }).finally(() => {
       setIsFetchingMore(false)
       setNextPage((currentPage) => currentPage + 1)
     })
-  }, [fetchMessages, isFetchingMore, nextPage, novuService])
+  }, [canFetchMore, fetchMessages, isFetchingMore, nextPage, novuService])
 
   const markAllNotificationsAsSeen = useCallback(async () => {
     const messageIds = Object.values(notifications)
@@ -97,6 +97,16 @@ export const useNotifications = () => {
       })
   }, [notifications, novuService])
 
+  const refetch = useCallback(() => {
+    return fetchMessages({
+      onSuccess: () => {
+        // Reset current state to replace previous messages
+        setNotifications({})
+        setNextPage(1)
+      },
+    })
+  }, [fetchMessages])
+
   useEffect(() => {
     if (novuService) {
       setIsLoading(true)
@@ -110,10 +120,14 @@ export const useNotifications = () => {
     markAllNotificationsAsSeen,
     canFetchMore,
     fetchNextPage,
+    isFetchingMore,
+    refetch,
   }
 }
 
-function mapToNotification(message: IMessage): NotificationSpaceConnection | NotificationPost | undefined {
+function mapToNotification(
+  message: IMessage
+): NotificationSpaceConnection | NotificationPost | NotificationSpacePost | undefined {
   const { data, notificationType } = message.payload
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
@@ -144,7 +158,17 @@ function mapToNotification(message: IMessage): NotificationSpaceConnection | Not
         options: data as NotificationPost['options'],
         content: message.content.toString(),
       }
+    case NovuNotificationType.SPACE_NEW_POST:
+      return {
+        id: message._id,
+        notificationType,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationSpacePost['options'],
+        content: message.content.toString(),
+      }
   }
+
   logErrorLocal(new Error("Couldn't map novu message"), 'Failed to map novu notification', {
     location: 'useNotifications.mapToNotification',
     message,

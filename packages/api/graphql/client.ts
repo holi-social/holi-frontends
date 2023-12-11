@@ -1,5 +1,6 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
@@ -115,6 +116,15 @@ export const createCache = () =>
           posts: {
             keyArgs: ['idOrName', 'visibility'],
           },
+          // TODO: Remove mock after appointments are implemented
+          appointments: {
+            read() {
+              return {
+                totalResults: 0,
+                data: [],
+              }
+            },
+          },
         },
       },
       SpacePaged: {
@@ -144,8 +154,11 @@ export const createCache = () =>
       },
       UserPaged: {
         fields: {
-          // Only allow pagination when searching for users by `substring`
-          data: nestedPaginationPolicy(['substring']),
+          data: {
+            keyArgs: ['substring'],
+            merge: indexAwareOffsetLimitPagination().merge,
+            read: offsetLimitPagination().read,
+          },
         },
       },
       PostPaged: {
@@ -199,6 +212,9 @@ export const createCache = () =>
           },
           userByName: {
             keyArgs: ['substring'],
+          },
+          connectedUsers: {
+            keyArgs: [],
           },
         },
       },

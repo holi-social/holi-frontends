@@ -39,6 +39,8 @@ export type RootStackScreens = {
   [RouteName.VideoCall]: VideoCallParams
 
   [RouteName.AppsHub]: undefined
+
+  [RouteName.NotFound]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()

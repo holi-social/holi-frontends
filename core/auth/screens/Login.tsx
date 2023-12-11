@@ -31,12 +31,14 @@ const Login = () => {
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { navigate, navigateBack } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
+
+  const isWeb = Platform.OS === 'web'
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -45,10 +47,10 @@ const Login = () => {
           {t('auth.login')}
         </HoliHeading>
       ),
-      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
-      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
+      headerLeft: () => (isWeb ? null : <HeaderBackButton icon={ArrowDownS} />),
+      headerRight: () => (isWeb ? <HeaderBackButton icon={Close} /> : null),
     })
-  }, [setScreenOptions, t])
+  }, [isWeb, setScreenOptions, t])
 
   const initializeFlow = useCallback(() => {
     initLoginFlow()
@@ -71,7 +73,7 @@ const Login = () => {
     showLoader()
 
     try {
-      const { data } = (await submitLoginFlow(flow, payload, undefined)) as { data: OrySessionContext }
+      const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
       await setUserLoggedIn(data)
       await storeOnboardingState('finished')
@@ -82,7 +84,15 @@ const Login = () => {
         setVerificationFlowData(payload)
         await storeOnboardingState('emailVerification')
 
-        Platform.OS === 'web' ? navigate('/') : navigate('/onboarding')
+        if (isWeb) {
+          navigate('/')
+        } else {
+          // for Mobile we need first to close Loing modal
+          navigateBack()
+          // and then navigate to onboarding
+          // timeout is used for correct animation of closing modal and navigating
+          setTimeout(() => navigate('/onboarding'), 300)
+        }
       } else {
         handleFormSubmitError(
           safeSetFlow,

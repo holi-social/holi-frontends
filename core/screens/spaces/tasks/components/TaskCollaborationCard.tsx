@@ -50,13 +50,9 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space })
             {t('spaces.spaceDetails.tasks.empty.message.forCreators')}
           </HoliText>
           {isMember && (
-            <HoliButton
-              label={t('spaces.spaceDetails.tasks.empty.instruction')}
-              transparent
-              onPress={navigateToCreateTask}
-            >
+            <HoliButton label={t('spaces.global.empty.instruction')} transparent onPress={navigateToCreateTask}>
               <HoliText size="small" style={styles.instruction}>
-                {t('spaces.spaceDetails.tasks.empty.instruction')}
+                {t('spaces.global.empty.instruction')}
               </HoliText>
             </HoliButton>
           )}

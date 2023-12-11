@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHorizontalScrollContainer from '@holi/ui/components/atoms/HoliHorizontalScrollContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
@@ -68,41 +69,40 @@ const HoliTabBar: React.FC<TabListProps> = ({
               const tabId = tab.id ?? index
               const isActive = selectedTabId === tabId
               return (
-                <HoliTabButton
-                  label={tab.title}
-                  id={`${id}-tab-${tabId}`}
-                  style={StyleSheet.flatten([
-                    styles.tabButton,
-                    isActive && styles.activeTabButton,
-                    {
-                      maxWidth: MAX_TAB_WIDTH,
-                      marginLeft: index === 0 ? TAB_SPACING : 0,
-                    },
-                  ] as StyleProp<ViewStyle>)}
-                  onPress={() => onPress?.(tabId)}
-                  ariaSelected={isActive}
-                  accessibilityControls={`${id}-panel-${tabId}`}
-                  key={tabId}
-                  testID={`${testID}-button-${tabId}-${isActive ? 'active' : 'inactive'}`}
-                  onLayout={isActive ? scrollIntoView : undefined}
-                >
-                  {!!tab.titleIcons && (
-                    <HoliIcon
-                      icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
-                      size={22}
-                      color={isActive ? colors.foreground30 : colors.foreground20}
-                      style={styles.tabButtonIcon}
-                    />
-                  )}
-                  <HoliText
-                    bold={isActive}
-                    ellipsizeMode="tail"
-                    numberOfLines={1}
-                    style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}
-                  >
-                    {tab.title}
-                  </HoliText>
-                </HoliTabButton>
+                <View onLayout={isActive ? scrollIntoView : undefined} key={tabId}>
+                  <HoliBox padding={[0, TAB_SPACING, 0, index === 0 ? TAB_SPACING : 0]}>
+                    <HoliTabButton
+                      label={tab.title}
+                      id={`${id}-tab-${tabId}`}
+                      style={StyleSheet.flatten([
+                        styles.tabButton,
+                        isActive && styles.activeTabButton,
+                        { maxWidth: MAX_TAB_WIDTH },
+                      ] as StyleProp<ViewStyle>)}
+                      onPress={() => onPress?.(tabId)}
+                      ariaSelected={isActive}
+                      accessibilityControls={`${id}-panel-${tabId}`}
+                      testID={`${testID}-button-${tabId}-${isActive ? 'active' : 'inactive'}`}
+                    >
+                      {!!tab.titleIcons && (
+                        <HoliIcon
+                          icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
+                          size={22}
+                          color={isActive ? colors.foreground30 : colors.foreground20}
+                          style={styles.tabButtonIcon}
+                        />
+                      )}
+                      <HoliText
+                        bold={isActive}
+                        ellipsizeMode="tail"
+                        numberOfLines={1}
+                        style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}
+                      >
+                        {tab.title}
+                      </HoliText>
+                    </HoliTabButton>
+                  </HoliBox>
+                </View>
               )
             })}
           </View>
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     paddingVertical: 12,
-    marginRight: TAB_SPACING,
     justifyContent: 'center',
     alignItems: 'center',
     width: 'auto',

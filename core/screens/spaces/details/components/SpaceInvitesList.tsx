@@ -18,8 +18,8 @@ type SpaceInvitesProps = {
 const SpaceInvitesList: React.FC<SpaceInvitesProps> = ({ space, style }) => {
   const { t } = useTranslation()
 
-  // local state created in order to keep the items in the list even after accepting/declining requests
-  // (if we use the data from the context directly, a refetch will clear the accepted/declined users from the list)
+  // local state created in order to keep the items in the list even after taking an action
+  // (if we use the data from the context directly, a refetch will clear the withdrawn users from the list)
   const [spaceInvites, setSpaceInvites] = useState<SpaceInvite[]>([])
 
   const { data } = usePaginationContext<SpaceInvite>()

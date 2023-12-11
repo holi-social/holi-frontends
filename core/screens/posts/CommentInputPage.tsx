@@ -27,7 +27,6 @@ import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -47,6 +46,7 @@ type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CommentInputPageParams>()
+
   const [insightId = ''] = useParam('insightId')
   const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
@@ -54,7 +54,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
-  const { navigate, navigateBack } = useRouting()
+  const { navigate, navigateBack, replaceRoute } = useRouting()
   const { keyboardHeight } = useKeyboard()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -145,7 +145,10 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   const post = data?.postById
 
-  if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
+  if (!post) {
+    replaceRoute('/404')
+    return <></>
+  }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
@@ -178,6 +181,8 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                     onChange={setText}
                     style={styles.textInput}
                     testID="post-comment"
+                    showCharacterCount={true}
+                    maxNoOfCharacters={1500}
                   />
                 </View>
               </View>
