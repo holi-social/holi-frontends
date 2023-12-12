@@ -72,9 +72,12 @@ export const findMentionMatches = (text: string): Mention | undefined => {
   }
 }
 
+const whitespaceRegex = /\s+/ // to test whether a string contains whitespace
+
 export const isValidUrl = (urlString: string) => {
   try {
-    return Boolean(new URL(urlString))
+    const trimmed = urlString.trim()
+    return !whitespaceRegex.test(trimmed) && !!new URL(trimmed)
   } catch (e) {
     return false
   }
