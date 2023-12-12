@@ -1,0 +1,200 @@
+import { useQuery } from '@apollo/client'
+import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
+import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { Pagination } from '@holi/core/pagination/Pagination'
+import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
+import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Add } from '@holi/icons/src/generated'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import variables from '@holi/ui/styles/globalVars/variables'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+export type SpaceAppointmentsParams = RefreshOnNavigationParams & {
+  spaceIdOrName: string
+  tab?: string
+}
+
+const { useParam } = createParam<SpaceAppointmentsParams>()
+
+const PAGE_SIZE = 20
+const TAB_UPCOMING = 0
+const TAB_PAST = 1
+
+const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const [selectedTab] = useParam('tab')
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
+  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const { height: screenHeight, width: screenWidth } = useWindowDimensions()
+  const styles = createStyles(screenHeight)
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+
+  const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+
+  const { refetch: refetchUpcomingAppointments } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+
+  const { refetch: refetchPastAppointments } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+
+  useLayoutEffect(() => {
+    setScreenOptions({
+      title: t('spaces.appointments.title'),
+      headerTransparent: true,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
+
+  const space = data?.spaceById
+
+  const initialTab = selectedTab === 'pending' || space?.membershipRequests?.totalResults ? TAB_PAST : TAB_UPCOMING
+
+  // TODO: use upcoming spaceAppointmentsQuery (with filter by upcoming and past appointments)
+  const queryOptions: PaginationQueryHookOptions = {
+    pageSize: PAGE_SIZE,
+    queryPath: 'spaceById.appointments',
+    variables: {
+      idOrName: spaceIdOrName,
+      limit: PAGE_SIZE,
+    },
+  }
+
+  const { refreshing, onRefresh } = useOnRefresh(() =>
+    Promise.all([refetchUpcomingAppointments(), refetchPastAppointments()])
+  )
+
+  useRefreshOnNavigation({ initialized: called, onRefresh })
+
+  if (loading) {
+    return <HoliLoader />
+  }
+
+  return (
+    <>
+      <ScrollHeaderLayout.Refreshable
+        headerOverlap
+        keyboardShouldPersistTaps="handled"
+        style={styles.wrapper}
+        refreshableProps={{
+          refreshing,
+          onRefresh,
+        }}
+      >
+        <HoliTabs
+          id="appointments-tabs"
+          testID="appointments-tabs"
+          style={styles.tabWrapper}
+          tabBarStyle={[tabBarStyle, styles.tabBar]}
+          initialStep={initialTab}
+          tabs={[
+            {
+              title: t('spaces.appointments.tabs.upcoming'),
+              style: styles.tabStyle,
+              children: (
+                <View style={[mixins.container, styles.all]}>
+                  <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
+                    <HoliText>{t('spaces.appointments.tabs.upcoming')}</HoliText>
+                    {/* TODO: Include AppointmentsList component */}
+                  </Pagination>
+                </View>
+              ),
+            },
+            {
+              title: t('spaces.appointments.tabs.past'),
+              style: styles.tabStyle,
+              children: (
+                <View style={[mixins.container, styles.all]}>
+                  <Pagination query={spaceMembershipRequestsQuery} queryOptions={queryOptions} loadMoreOnScroll>
+                    <HoliText>{t('spaces.collaborators.loadMoreButton')}</HoliText>
+                    {/* TODO: Include AppointmentsList component */}
+                  </Pagination>
+                </View>
+              ),
+            },
+          ]}
+        />
+      </ScrollHeaderLayout.Refreshable>
+      <HoliButton
+        label={t('spaces.appointments.add.button.label')}
+        testID="btn-add-appointment"
+        inline
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
+        onPress={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+      >
+        <HoliIcon icon={Add} size={24} color={colors.foreground30} />
+      </HoliButton>
+    </>
+  )
+}
+
+const createStyles = (screenHeight: number) =>
+  StyleSheet.create({
+    wrapper: {
+      minHeight: '100%',
+      ...Platform.select({
+        native: {
+          paddingTop: +vars.topBarHeight + 24,
+        },
+        web: {
+          paddingTop: +vars.topBarHeight,
+          minHeight: '100vh' as DimensionValue,
+        },
+      }),
+    },
+    tabWrapper: {
+      height: '100%',
+    },
+    tabBar: {
+      paddingTop: 24,
+    },
+    tabStyle: {
+      flex: 1,
+      backgroundColor: colors.background20,
+      paddingBottom: 42,
+    },
+    all: {
+      paddingVertical: 16,
+      ...Platform.select({
+        web: {
+          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
+        },
+        native: {
+          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 80,
+        },
+      }),
+    },
+    overlayButton: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 32,
+      right: '50%',
+      justifyContent: 'center',
+      elevation: 4,
+      overflow: 'visible',
+      paddingHorizontal: 13,
+    },
+  })
+export default SpaceAppointments

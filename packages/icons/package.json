@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "yarn svgr -d ./src/generated ./assets",
-    "clean": "",
+    "clean": "echo 'nothing to be done'",
     "clean:all": "yarn clean"
   },
   "dependencies": {

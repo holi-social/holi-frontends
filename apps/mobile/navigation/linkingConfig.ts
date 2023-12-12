@@ -83,6 +83,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceOnboardingSteps]: 'spaces/:spaceIdOrName/onboarding/steps',
         [RouteName.SpaceTasks]: 'spaces/:spaceIdOrName/tasks',
         [RouteName.AboutSpaces]: 'about-spaces',
+        [RouteName.SpaceAppointments]: 'spaces/:spaceIdOrName/appointments',
       },
     },
 
