@@ -75,6 +75,27 @@ const MOCKS_EMPTY = [
     result: {
       data: {
         notifications: {
+          data: [],
+          totalResults: 0,
+        },
+      },
+    },
+  },
+]
+
+const MOCKS_UNSUPPORTED_NOTIFICATION = [
+  authenticatedUserRequest,
+  {
+    request: {
+      query: notificationsQuery,
+      variables: {
+        offset: 0,
+        limit: 100,
+      },
+    },
+    result: {
+      data: {
+        notifications: {
           data: [
             {
               id: 'a7aaf131-f1bc-42c3-be76-347afe854776',
@@ -257,7 +278,7 @@ describe('NotificationsOverview', () => {
     expect(await screen.findByText(notLoggedInMessage))
   })
 
-  it('shows empty message, when no proper notification is given', async () => {
+  it('shows empty message, when no notification present', async () => {
     render(
       <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
         <Notifications />
@@ -273,7 +294,23 @@ describe('NotificationsOverview', () => {
     )
   })
 
-  it('does not show an empty message when proper notifications are given', async () => {
+  it('shows empty message, when notification is unsupported', async () => {
+    render(
+      <MockedProvider mocks={MOCKS_UNSUPPORTED_NOTIFICATION} addTypename={false}>
+        <Notifications />
+      </MockedProvider>
+    )
+
+    // wait for user to be loaded
+    const loaderTextContent = 'loginRedirect.title'
+    await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
+    const emptyNotificationsMessage = 'notifications.display.empty.text2'
+    await waitFor(async () =>
+      expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
+    )
+  })
+
+  it('does not show an empty message when notifications present', async () => {
     render(
       <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
         <Notifications />
