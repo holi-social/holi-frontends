@@ -1,100 +1,133 @@
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import SearchResults from '@holi/core/screens/search/components/SearchResults'
-import { userByNameQuery } from '@holi/core/screens/userprofile/queries'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import SearchResultsList from '@holi/core/screens/search/components/SearchResultsList'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useDebounce } from '@holi/ui/helper'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const USER_SEARCH_DEBOUNCE = 400
+import { FilterType, filterTypes } from './types'
+import { FILTER_ALL_PAGE_SIZE, SEARCH_PAGE_SIZE, useUserSpaceSearchQuery } from './useUserSpaceSearchQuery'
+
 const MIN_SEARCH_TERM_CHARACTERS = 2
-const USER_SEARCH_RESULT_PAGE_SIZE = 5
+
+type SearchParams = {
+  query: string
+  filter: FilterType
+}
+
+const { useParam } = createParam<SearchParams>()
+
+interface SearchFilterButton {
+  label: string
+  onPress?: () => void
+  selected?: boolean
+  loading?: boolean
+}
+
+const FilterButton = ({ label, onPress, selected, loading }: SearchFilterButton) => {
+  return (
+    <HoliButtonLoading
+      type="secondary"
+      label={label}
+      loading={loading}
+      onPress={onPress}
+      color={selected ? 'white100' : 'black300'}
+      disabled={false}
+      style={[styles.filterButton, selected && styles.filterButtonSelected]}
+    />
+  )
+}
 
 const SearchContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { displayError } = useErrorHandling()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
-  const [searchString, setSearchString] = useState('')
+  const [query = '', setQueryParam] = useParam('query', singleParamConfig)
+  const [selectedFilter, setFilterParam] = useParam('filter', singleParamConfig)
+  const filter = (selectedFilter as FilterType) || 'all'
+  const itemsToLoad = useRef<number>(FILTER_ALL_PAGE_SIZE)
 
-  const onSearchUserInputChange = (value: string) => setSearchString(value)
-  const [inputIsLoading, setInputIsLoading] = useState(false)
+  const isQueryValid = query.length >= MIN_SEARCH_TERM_CHARACTERS
 
-  const trailingComponent = useMemo(() => {
-    const icon = inputIsLoading ? Loader : Search
-    return (
-      <SpinningIconContainer spinning={!!inputIsLoading}>
-        <HoliIcon icon={icon} size={22} />
-      </SpinningIconContainer>
-    )
-  }, [inputIsLoading])
+  const searchQueryResult = useUserSpaceSearchQuery(query.trim(), {
+    skip: !isQueryValid,
+    pageSize: itemsToLoad.current,
+  })
+  const { users, spaces } = searchQueryResult
 
-  const debouncedTriggerUserSearch = useDebounce(setSearchString, USER_SEARCH_DEBOUNCE)
+  const onSearchUserInputChange = (value: string) => {
+    if (value.toLowerCase() !== query.toLowerCase()) {
+      setQueryParam(value)
+    }
+  }
 
-  useEffect(() => {
-    debouncedTriggerUserSearch(searchString)
-  }, [debouncedTriggerUserSearch, searchString])
-
-  const userSearchQueryOptions: PaginationQueryHookOptions = {
-    pageSize: USER_SEARCH_RESULT_PAGE_SIZE,
-    queryPath: 'userByName',
-    onError: (error) => {
-      displayError(error, 'Failed to search for users by name', {
-        location: 'SearchLayout.userSearchQueryOptions',
-      })
-    },
-    fetchPolicy: 'cache-and-network',
+  const calcItemsToLoad = (event: LayoutChangeEvent) => {
+    itemsToLoad.current = Math.max(Math.ceil(event.nativeEvent.layout.height / 68), SEARCH_PAGE_SIZE)
   }
 
   return (
-    <View style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
-      <HoliBox padding={[24, 0, 0, 0]}>
+    <View
+      style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}
+      onLayout={calcItemsToLoad}
+    >
+      <HoliBox padding={16}>
         <HoliTextInput
-          value={searchString}
-          placeholder={t('chat.start.input.label')}
-          aria-label={t('chat.start.input.label')}
-          trailingComponent={trailingComponent}
+          value={query}
+          placeholder={t('search.start.input.placeholder')}
+          aria-label={t('search.start.input.placeholder')}
+          inputProps={{ autoFocus: true }}
+          trailingComponent={
+            <SpinningIconContainer spinning={!!(users?.loading || spaces?.loading)}>
+              <HoliIcon icon={users?.loading || spaces?.loading ? Loader : Search} size={22} />
+            </SpinningIconContainer>
+          }
           onChange={onSearchUserInputChange}
         />
-        <HoliBox padding={[24, 0, 0, 0]}>
-          {searchString.length < MIN_SEARCH_TERM_CHARACTERS && <HoliText>{t('search.start.text')}</HoliText>}
-          {searchString.length >= MIN_SEARCH_TERM_CHARACTERS && (
-            <Pagination
-              query={userByNameQuery}
-              queryOptions={{
-                ...userSearchQueryOptions,
-                variables: {
-                  substring: searchString,
-                },
-              }}
-              fetchMoreButtonProps={{
-                type: 'secondary',
-                style: mixins.moreButton,
-                testID: 'btn-search-users-load-more',
-              }}
-              fetchMoreButtonLabel={t('search.section.users.loadMore')}
-            >
-              {
-                // TODO: add query string to URL as q={string}
-                // TODO: make screen with arrow down top left
-              }
-              <SearchResults searchString={searchString} setInputIsLoading={setInputIsLoading} />
-            </Pagination>
-          )}
-        </HoliBox>
       </HoliBox>
+
+      {/* Filters */}
+      <ScrollView
+        horizontal
+        style={styles.buttonList}
+        contentContainerStyle={styles.buttonListContainer}
+        keyboardShouldPersistTaps="handled"
+      >
+        {filterTypes.map((filterType) => {
+          const isSelected = filter === filterType
+          const result = filterType !== 'all' ? searchQueryResult[filterType] : undefined
+
+          return (
+            <FilterButton
+              key={filterType}
+              label={`${t(`search.filter.${filterType}`)} ${
+                isQueryValid && result && !result.loading ? `(${result.totalResults})` : ''
+              }`}
+              selected={isSelected}
+              loading={result?.loading}
+              onPress={() => {
+                setFilterParam(filterType)
+              }}
+            />
+          )
+        })}
+      </ScrollView>
+
+      {/* Results */}
+      <SearchResultsList
+        query={query}
+        filter={filter}
+        setFilter={setFilterParam}
+        searchQueryResult={searchQueryResult}
+      />
     </View>
   )
 }
@@ -106,13 +139,39 @@ const styles = StyleSheet.create({
     flex: 1,
     // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
     marginTop: +vars.topBarHeight,
+    paddingLeft: 0,
+    paddingRight: 0,
     ...Platform.select({
       web: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: +vars.bottomBarHeight,
       },
       android: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: +vars.bottomBarHeight,
       },
     }),
+  },
+  buttonList: {
+    flexGrow: 0,
+    flexShrink: 0,
+  },
+  buttonListContainer: {
+    gap: 8,
+    marginHorizontal: 16,
+    marginVertical: 12,
+  },
+  filterButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    flexBasis: 1,
+    ...Platform.select({
+      web: {
+        minWidth: 'fit-content',
+        maxWidth: '33%',
+      },
+    }),
+  },
+  filterButtonSelected: {
+    backgroundColor: colors.foreground30,
+    borderColor: colors.foreground30,
   },
 })

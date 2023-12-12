@@ -45,6 +45,9 @@ export interface User {
   connectionStatusToSpace?: SpaceConnectionType[]
 }
 
+export const isHoliUser = (value: User | unknown): value is User =>
+  ['id', 'identity'].every((key) => value && typeof value === 'object' && key in value)
+
 export enum UserConnectionStatus {
   NOT_CONNECTED = 'NOT_CONNECTED',
   CONNECTED = 'CONNECTED',

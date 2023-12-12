@@ -28,13 +28,13 @@ interface BaseProps {
 interface Props extends BaseProps {
   label: string
   initials: string
-  loading?: false
+  loading?: boolean
 }
 
 interface SkeletonProps extends BaseProps {
   label?: string
   initials?: string
-  loading: true
+  loading: boolean
 }
 
 export type AvatarProps = Props | SkeletonProps
