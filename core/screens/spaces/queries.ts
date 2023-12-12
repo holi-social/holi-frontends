@@ -219,6 +219,10 @@ export const spaceByIdQuery = gql`
   }
 `
 
+export type SpaceByIdResponse = {
+  spaceById: Space
+}
+
 export const spaceMembershipByIdQuery = gql`
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
@@ -232,9 +236,18 @@ export const spaceMembershipByIdQuery = gql`
   }
 `
 
-export type SpaceByIdResponse = {
-  spaceById: Space
-}
+export const spacesByNameQuery = gql`
+  ${SpaceOverviewFragment}
+
+  query SpacesByName($substring: String!, $limit: Int!, $offset: Int!) {
+    spacesByName(substring: $substring, limit: $limit, offset: $offset) {
+      data {
+        ...SpaceOverview
+      }
+      totalResults
+    }
+  }
+`
 
 export interface SpacesByMemberIdResponse {
   spaces: MemberSpaces

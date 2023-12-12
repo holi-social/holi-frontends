@@ -29,10 +29,12 @@ interface PaginationQueryResult<TData, TFetchData> extends Partial<QueryResult<T
   fetchNextPage: () => Promise<TFetchData | void>
 }
 
+export type UsePaginationQueryResult<T> = PaginationQueryResult<T[], ApolloQueryResult<PagedResponse<T, string>>>
+
 function usePaginationQuery<TData>(
   query: DocumentNode | TypedDocumentNode<PagedResponse<TData, string>>,
   options: PaginationQueryHookOptions
-): PaginationQueryResult<TData[], ApolloQueryResult<PagedResponse<TData, string>>> {
+): UsePaginationQueryResult<TData> {
   const { pageSize, queryPath, variables, ...remainingOptions } = options
   const [isFetchingMore, setIsFetchingMore] = useState(false)
 
@@ -77,8 +79,7 @@ function usePaginationQuery<TData>(
   }, [isFetchingMore, fetchMore, data.length])
 
   return {
-    // Sometimes there is a delay between setting loading to false and filling the pagedData/error
-    loading: loading || (!pagedData && !error),
+    loading,
     data,
     error,
     totalResults,

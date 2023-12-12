@@ -25,22 +25,22 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[
 
   for (const message of messages) {
     const { timestamp } = message
-    let formatedDate = ''
+    let formattedDate = ''
 
     if (timestamp) {
       const date = new Date(timestamp)
-      formatedDate = Intl.DateTimeFormat(locale, {
+      formattedDate = Intl.DateTimeFormat(locale, {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
       }).format(date)
     }
 
-    groupedMessages[formatedDate] = groupedMessages[formatedDate] ?? {
+    groupedMessages[formattedDate] = groupedMessages[formattedDate] ?? {
       title: getSectionDisplayDate(locale, timestamp),
       data: [],
     }
-    groupedMessages[formatedDate].data.unshift(message)
+    groupedMessages[formattedDate].data.unshift(message)
   }
 
   return Object.values(groupedMessages).reverse()

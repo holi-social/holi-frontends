@@ -7,14 +7,15 @@ import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvata
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export interface SpaceAvatarProps {
-  space: Pick<Space, 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title'>
+  space?: Pick<Space, 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title'>
   size?: AvatarProps['size']
   style?: AvatarProps['style']
+  loading?: boolean
   testID?: string
 }
 
-const SpaceAvatar = ({ space, size, testID, style }: SpaceAvatarProps) => {
-  const initials = getInitials(space.title)
+const SpaceAvatar = ({ space, size, loading = false, testID, style }: SpaceAvatarProps) => {
+  const initials = getInitials(space?.title ?? '')
   const { width: deviceWidth } = useWindowDimensions()
 
   const defaultSize = deviceWidth > +vars.breakpointXl ? 'extralarge' : 'large'
@@ -23,12 +24,13 @@ const SpaceAvatar = ({ space, size, testID, style }: SpaceAvatarProps) => {
     <HoliAvatar
       style={[styles.spaceAvatar, style]}
       testID={testID || 'space-avatar'}
-      imageSrc={space.avatar}
-      imageBlurhash={space.avatarBlurhash}
-      label={space.title}
-      defaultColor={space.avatarDefaultColor}
+      imageSrc={space?.avatar}
+      imageBlurhash={space?.avatarBlurhash}
+      label={space?.title}
+      defaultColor={space?.avatarDefaultColor}
       initials={initials}
       size={size || defaultSize}
+      loading={!!loading}
     />
   )
 }
