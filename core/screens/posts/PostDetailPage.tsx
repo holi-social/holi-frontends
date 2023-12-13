@@ -16,7 +16,7 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -55,9 +55,9 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
   const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
-  // `commentId` can be an UUID of a comment of hardcodded 'first' string value
+  // `commentId` can be a UUID of a comment or hardcoded 'first' string value
   const [commentId] = useParam('commentId')
-  const { navigate } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
@@ -80,7 +80,12 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data, refetch } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
-    onError: (error) => logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId }),
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId })
+    },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
