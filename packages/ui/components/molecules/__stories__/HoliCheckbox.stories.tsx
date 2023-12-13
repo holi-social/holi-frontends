@@ -1,5 +1,6 @@
+import { useState } from '@storybook/client-api'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import React, { useState } from 'react'
+import React from 'react'
 
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 
@@ -12,11 +13,11 @@ const Template: ComponentStory<typeof HoliCheckbox> = ({ ...args }) => {
   const [isChecked, setChecked] = useState(args.checked)
 
   const handleOnChange = () => {
-    setChecked(!isChecked)
+    setChecked(!isChecked || isChecked === 'mixed')
   }
   return (
     <div style={{ width: 320 }}>
-      <HoliCheckbox onSelect={handleOnChange} {...args} />
+      <HoliCheckbox onSelect={handleOnChange} {...args} checked={isChecked} />
     </div>
   )
 }
@@ -29,6 +30,7 @@ Primary.argTypes = {
   disabled: { description: 'Disables interaction', type: 'boolean', control: { type: 'boolean' } },
   errorMessage: { description: 'Error message', control: { type: 'text' } },
   shape: { description: 'Outer shape', type: 'string', control: { type: 'select', options: ['square', 'round'] } },
+  checked: { description: 'Checked state', control: { type: 'select', options: [true, false, 'mixed'] } },
 }
 
 Primary.args = {
@@ -37,4 +39,5 @@ Primary.args = {
   disabled: false,
   shape: 'square',
   errorMessage: '',
+  checked: false,
 }
