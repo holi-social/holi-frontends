@@ -3,7 +3,7 @@ import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { logError } from '@holi/core/errors/helpers'
-import { useGlobalNotificationPreferences } from '@holi/core/screens/userprofile/useGlobalNotificationPreferences'
+import { useGlobalNotificationPreferences } from '@holi/core/screens/notifications/hooks/useGlobalNotificationPreferences'
 
 const novuPreferences = [{ preference: { channels: { push: true, email: true } } }]
 const novuPreferencesOnlyPush = { preference: { channels: { push: true, email: false } } }

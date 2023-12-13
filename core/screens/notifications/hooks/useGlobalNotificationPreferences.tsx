@@ -12,7 +12,6 @@ export const useGlobalNotificationPreferences = () => {
     push: boolean
     email: boolean
   } | null>(null)
-
   const [globalPreferencesUpdating, setGlobalPreferencesUpdating] = useState(true)
 
   const setPreferences = (response: IUserGlobalPreferenceSettings) => {
