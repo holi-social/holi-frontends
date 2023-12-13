@@ -55,7 +55,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
   const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
-  // `commentId` can be an UUID of a comment or hardcoded 'first' string value
+  // `commentId` can be a UUID of a comment or hardcoded 'first' string value
   const [commentId] = useParam('commentId')
   const { navigate, replaceRoute } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
