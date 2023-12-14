@@ -35,7 +35,7 @@ const NotificationSpaceItem = ({
   return (
     <View style={style} testID={testID}>
       <HoliLink href={href} label={title} mobileNavigateBackFirst>
-        <View style={styles.link}>
+        <View style={styles.container}>
           <View style={styles.imageContainer}>
             <SpaceAvatar space={notification.options.space} size="small" style={{ borderColor: 'transparent' }} />
           </View>
@@ -74,7 +74,7 @@ const NotificationSpaceItem = ({
 }
 
 const styles = StyleSheet.create({
-  link: {
+  container: {
     display: 'flex',
     flexDirection: 'row',
   },
