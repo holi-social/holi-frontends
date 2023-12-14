@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 16,
   },
   nameRow: {
     maxWidth: 300,
