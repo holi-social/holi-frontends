@@ -276,6 +276,13 @@
   "notFound.page.title": "holi moli...",
   "notFound.page.text": "Sorry, we couldn’t find the page you’re looking for",
   "notFound.page.button": "Back to home",
+
+  "notifications.banner.accept": " request to join {{space}} has been already accepted by you.",
+  "notifications.banner.accept.admin": " request to join {{space}} has been already accepted by an Admin.",
+  "notifications.banner.declined": " no longer has a pending request to join {{space}}.",
+  "notifications.banner.withdrawn": " withdrew the request to join {{space}}.",
+  "notifications.banner.deleted": "The person who requested to join {{space}} deleted their holi account.",
+
   "notifications.connection.accept": "Accept",
   "notifications.connection.accepted.message": "You accepted the contact request from <0>{{name}}</0>",
   "notifications.connection.confirmation.message": "<0>{{name}}</0> accepted your contact request",
