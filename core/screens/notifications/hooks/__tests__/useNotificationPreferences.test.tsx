@@ -3,7 +3,7 @@ import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { logError } from '@holi/core/errors/helpers'
-import { useGlobalNotificationPreferences } from '@holi/core/screens/notifications/hooks/useGlobalNotificationPreferences'
+import { useNotificationPreferences } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 
 const novuPreferences = [{ preference: { channels: { push: true, email: true } } }]
 const novuPreferencesOnlyPush = { preference: { channels: { push: true, email: false } } }
@@ -41,7 +41,7 @@ describe('useGlobalNotificationPreferences', () => {
   it('should fetch user global preferences initially', async () => {
     mockGetUserGlobalPreference = jest.fn().mockResolvedValue([novuPreferencesOnlyPush])
 
-    const { result } = renderHook(() => useGlobalNotificationPreferences())
+    const { result } = renderHook(() => useNotificationPreferences())
 
     await waitFor(() => {
       expect(result.current.globalPreferences).toEqual({ push: true, email: false })
@@ -54,7 +54,7 @@ describe('useGlobalNotificationPreferences', () => {
       getUserGlobalPreference: jest.fn().mockRejectedValue('broken'),
     }
 
-    const { result } = renderHook(() => useGlobalNotificationPreferences())
+    const { result } = renderHook(() => useNotificationPreferences())
 
     expect(result.current.globalPreferences).toStrictEqual(null)
 
@@ -70,7 +70,7 @@ describe('useGlobalNotificationPreferences', () => {
       updateSubscriberGlobalPreference: jest.fn().mockResolvedValue(novuPreferencesOnlyPush),
     }
 
-    const { result } = renderHook(() => useGlobalNotificationPreferences())
+    const { result } = renderHook(() => useNotificationPreferences())
 
     await waitFor(() => {
       expect(result.current.globalPreferences).toBeTruthy()
@@ -109,7 +109,7 @@ describe('useGlobalNotificationPreferences', () => {
     mockTogglePushNotifications = jest.fn().mockResolvedValue({})
 
     // when rendering
-    const { result } = renderHook(() => useGlobalNotificationPreferences())
+    const { result } = renderHook(() => useNotificationPreferences())
 
     // then we can wait to have some global preferences initially
     await waitFor(() => {
@@ -158,7 +158,7 @@ describe('useGlobalNotificationPreferences', () => {
 
     mockTogglePushNotifications = jest.fn().mockRejectedValue('chat server down')
 
-    const { result } = renderHook(() => useGlobalNotificationPreferences())
+    const { result } = renderHook(() => useNotificationPreferences())
 
     // wait to have some global preferences initially
     await waitFor(() => {
@@ -186,7 +186,7 @@ describe('useGlobalNotificationPreferences', () => {
       updateSubscriberGlobalPreference: jest.fn().mockRejectedValue('update failed'),
     }
 
-    const { result } = renderHook(() => useGlobalNotificationPreferences())
+    const { result } = renderHook(() => useNotificationPreferences())
 
     await waitFor(() => {
       expect(result.current.globalPreferences).toBeTruthy()

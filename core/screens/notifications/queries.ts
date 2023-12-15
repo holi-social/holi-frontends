@@ -89,3 +89,31 @@ export const LastSeenNotificationMutation = gql`
 export type lastSeenNotificationResponse = {
   lastSeenNotification: NewNotificationStatus
 }
+
+export interface NotificationsChannelPreferences {
+  push: boolean
+  email: boolean
+}
+
+export interface NotificationsWorkflowPreferences {
+  id: string
+  category: string
+  preferences: NotificationsChannelPreferences
+}
+
+export interface NotificationsPreferencesResponse {
+  notifications_preferences: NotificationsWorkflowPreferences[]
+}
+
+export const notificationsPreferencesQuery = gql`
+  query NotificationsPreferences {
+    notifications_preferences {
+      id
+      category
+      preferences {
+        push
+        email
+      }
+    }
+  }
+`

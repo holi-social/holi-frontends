@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import NotificationSettings from '@holi/core/screens/notifications/components/NotificationSettings'
+import NotificationSettings from '@holi/core/screens/notifications/NotificationSettings'
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import ChangeEmail from '@holi/core/screens/userprofile/ChangeEmail'
 import ChangeEmailVerification from '@holi/core/screens/userprofile/ChangeEmailVerification'
