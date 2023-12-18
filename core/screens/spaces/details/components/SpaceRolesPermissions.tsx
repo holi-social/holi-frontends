@@ -1,11 +1,18 @@
+import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -143,11 +150,27 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
   },
 ]
 
+const { useParam } = createParam<SpaceRolesPermissionsParams>()
+
 const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const { replaceRoute } = useRouting()
+
+  const { data, error } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+    variables: { idOrName: spaceIdOrName || '' },
+    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
+    skip: !spaceIdOrName,
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load space', { location: 'SpaceRolesPermissions.spaceByIdQuery', spaceIdOrName })
+    },
+  })
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -205,28 +228,38 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
     )
   }
 
+  if (error || !data?.spaceById) {
+    return <></>
+  }
+
   return (
-    <SafeAreaView>
-      <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
-        <HoliTabs
-          id="collaborator-tabs"
-          style={styles.tabWrapper}
-          tabBarStyle={tabBarStyle}
-          tabs={[
-            {
-              title: t('spaces.rolesAndPermissions.tabs.admin'),
-              style: styles.tabStyle,
-              children: <AdminTab />,
-            },
-            {
-              title: t('spaces.rolesAndPermissions.tabs.collaborators'),
-              style: styles.tabStyle,
-              children: <CollaboratorTab />,
-            },
-          ]}
-        />
-      </ScrollHeaderLayout.Default>
-    </SafeAreaView>
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={data?.spaceById}
+      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+    >
+      <SafeAreaView>
+        <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
+          <HoliTabs
+            id="collaborator-tabs"
+            style={styles.tabWrapper}
+            tabBarStyle={tabBarStyle}
+            tabs={[
+              {
+                title: t('spaces.rolesAndPermissions.tabs.admin'),
+                style: styles.tabStyle,
+                children: <AdminTab />,
+              },
+              {
+                title: t('spaces.rolesAndPermissions.tabs.collaborators'),
+                style: styles.tabStyle,
+                children: <CollaboratorTab />,
+              },
+            ]}
+          />
+        </ScrollHeaderLayout.Default>
+      </SafeAreaView>
+    </PermissionsGuard>
   )
 }
 
