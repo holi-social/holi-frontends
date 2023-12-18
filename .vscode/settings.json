@@ -35,11 +35,11 @@
     "extralarge"
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "[json]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll": false
+      "source.fixAll": "never"
     }
   },
   "editor.inlineSuggest.showToolbar": "onHover"
