@@ -1,3 +1,4 @@
+import { Appointment } from '@holi/core/screens/appointments/types'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import {
   LocationType,
@@ -137,6 +138,11 @@ const invites = [1, 2, 3].map((id) => ({
   __typename: 'SpaceInvite',
 }))
 
+const appointments = [1, 2, 3].map((title) => ({
+  title: `invite-title-${title}`,
+  __typename: 'Appointment',
+}))
+
 export const pagedMembershipRequests: Paged<SpaceMembershipRequest> = {
   totalResults: membershipRequests.length,
   data: membershipRequests,
@@ -159,6 +165,18 @@ const emptyPagedInvites: Paged<SpaceInvite> = {
   totalResults: 0,
   data: [],
   __typename: 'SpaceInvitePaged',
+}
+
+export const pagedAppointments: Paged<Appointment> = {
+  totalResults: invites.length,
+  data: appointments,
+  __typename: 'AppointmentPaged',
+}
+
+const emptyPagedAppointments: Paged<Appointment> = {
+  totalResults: 0,
+  data: [],
+  __typename: 'AppointmentPaged',
 }
 
 export const task: Task = {
@@ -223,6 +241,7 @@ export const space: Space = {
   name: 'space-title',
   membershipRequests: emptyPagedMembershipRequests,
   invites: emptyPagedInvites,
+  appointments: emptyPagedAppointments,
   sdgs: [],
   onboarding: {
     steps: [],

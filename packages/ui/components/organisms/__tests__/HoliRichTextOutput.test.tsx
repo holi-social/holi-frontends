@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import * as React from 'react'
 
 import { Link } from '@holi/core/screens/posts/types'
@@ -73,5 +73,19 @@ describe('HoliRichTextOutput', () => {
       <HoliRichTextOutput users={DUMMY_USERS} text={inputText} testID={testId} links={[linkData]} />
     )
     expect(getByTestId(testId)).toHaveTextContent(expectedOutput)
+  })
+
+  it('full text starting with word followed by colon is not a link', () => {
+    const testId = 'the-rich-text-output-element'
+    const inputText = 'Starke: Reduzierung'
+    render(<HoliRichTextOutput text={inputText} allowAllLinks testID={testId} />)
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
+
+  it('link surrounded by whitespace is rendered as a link', () => {
+    const testId = 'the-rich-text-output-element'
+    const inputText = '  http://www.google.de '
+    render(<HoliRichTextOutput text={inputText} allowAllLinks testID={testId} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 })

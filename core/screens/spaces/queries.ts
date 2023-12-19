@@ -46,6 +46,7 @@ export const FullSpaceInviteFragment = gql`
   }
 `
 
+// TODO: Remove appointments @client (mock) directive once available
 // We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const FullSpaceFragment = gql`
   ${FullUserFragment}
@@ -147,6 +148,7 @@ export const FullSpaceFragment = gql`
         text
       }
     }
+    appointments @client
   }
 `
 
@@ -217,6 +219,10 @@ export const spaceByIdQuery = gql`
   }
 `
 
+export type SpaceByIdResponse = {
+  spaceById: Space
+}
+
 export const spaceMembershipByIdQuery = gql`
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
@@ -230,9 +236,18 @@ export const spaceMembershipByIdQuery = gql`
   }
 `
 
-export type SpaceByIdResponse = {
-  spaceById: Space
-}
+export const spacesByNameQuery = gql`
+  ${SpaceOverviewFragment}
+
+  query SpacesByName($substring: String!, $limit: Int!, $offset: Int!) {
+    spacesByName(substring: $substring, limit: $limit, offset: $offset) {
+      data {
+        ...SpaceOverview
+      }
+      totalResults
+    }
+  }
+`
 
 export interface SpacesByMemberIdResponse {
   spaces: MemberSpaces

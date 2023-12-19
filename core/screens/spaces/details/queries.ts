@@ -36,7 +36,7 @@ export const spaceMembershipRequestsQuery = gql`
 export const spaceInvitesQuery = gql`
   ${FullSpaceInviteFragment}
 
-  query SpaceInvitessBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+  query SpaceInvitesBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
     spaceById(idOrName: $idOrName) {
       id
       invites(limit: $limit, offset: $offset) {

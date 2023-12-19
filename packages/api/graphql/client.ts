@@ -116,6 +116,15 @@ export const createCache = () =>
           posts: {
             keyArgs: ['idOrName', 'visibility'],
           },
+          // TODO: Remove mock after appointments are implemented
+          appointments: {
+            read() {
+              return {
+                totalResults: 0,
+                data: [],
+              }
+            },
+          },
         },
       },
       SpacePaged: {
@@ -202,6 +211,9 @@ export const createCache = () =>
             },
           },
           userByName: {
+            keyArgs: ['substring'],
+          },
+          spacesByName: {
             keyArgs: ['substring'],
           },
           connectedUsers: {
