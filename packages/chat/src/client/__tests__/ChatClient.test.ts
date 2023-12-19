@@ -1,7 +1,11 @@
-import { ICreateClientOpts, Preset, Visibility } from 'matrix-js-sdk'
+import { Preset, Visibility } from 'matrix-js-sdk'
 
+import { createMatrixClientMock } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { CHAT_ROOM_NAME_MOCK, mockCreateMatrixClient, mockMx } from '@holi/chat/src/test-utils/matrix-mock-setup'
+import { CHAT_ROOM_NAME_MOCK } from '@holi/chat/src/test-utils/matrix-mock-setup'
+
+jest.mock('matrix-js-sdk')
+jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
 
 const clientOptions = (token: string) => ({
   baseUrl: 'chat.holi.social',
@@ -11,55 +15,58 @@ const clientOptions = (token: string) => ({
   userId: '@mau:local.chat.holi.social',
 })
 
-jest.mock('matrix-js-sdk', () => ({
-  ...jest.requireActual('matrix-js-sdk'),
-  createClient: (opts: ICreateClientOpts) => mockCreateMatrixClient(opts.userId ?? '', mockMx),
-}))
+describe('ChatClient', () => {
+  describe('should call the creation of', () => {
+    it('a direct message room', async () => {
+      const mxClient = createMatrixClientMock()
+      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
 
-it('should call the creation of a direct message room', async () => {
-  const members = ['mas.oyma', 'kenji.midori']
-  const client = new ChatClient(clientOptions('syt_p'))
-  const isDM = true
+      const members = ['mas.oyma', 'kenji.midori']
+      const client = new ChatClient(clientOptions('syt_p'))
+      const isDM = true
 
-  const result = {
-    invite: members,
-    is_direct: isDM,
-    preset: Preset.PrivateChat,
-    visibility: Visibility.Private,
-    initial_state: [
-      {
-        type: 'm.room.guest_access',
-        state_key: 'dm_room',
-        content: {
-          guest_access: 'can_join',
-        },
-      },
-    ],
-  }
+      const result = {
+        invite: members,
+        is_direct: isDM,
+        preset: 'private_chat',
+        visibility: 'private',
+        initial_state: [
+          {
+            type: 'm.room.guest_access',
+            state_key: 'dm_room',
+            content: {
+              guest_access: 'can_join',
+            },
+          },
+        ],
+      }
 
-  const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
+      const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
 
-  expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
-  expect(mockMx.createRoom).toBeCalledTimes(1)
-  expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
-})
+      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
+      expect(mxClient.createRoom).toBeCalledTimes(1)
+      expect(mxClient.createRoom).toHaveBeenLastCalledWith(result)
+    })
 
-it('should call the creation of a private message room', async () => {
-  const members = ['david.m.rosen', 'fusajiro.yamauchi']
-  const client = new ChatClient(clientOptions('syt_p'))
-  const isDM = false
-  const name = '#general'
+    it('a private message room', async () => {
+      const mxClient = createMatrixClientMock()
+      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
 
-  const result = {
-    invite: members,
-    is_direct: isDM,
-    preset: Preset.PrivateChat,
-    visibility: Visibility.Private,
-    name,
-  }
+      const members = ['david.m.rosen', 'fusajiro.yamauchi']
+      const client = new ChatClient(clientOptions('syt_p'))
+      const isDirectMessage = false
+      const name = '#general'
 
-  const { room_id } = await client.createRoom(members, { isDirectMessage: isDM, name })
-  expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
-  expect(mockMx.createRoom).toBeCalledTimes(1)
-  expect(mockMx.createRoom).toHaveBeenLastCalledWith(result)
+      const { room_id } = await client.createRoom(members, { isDirectMessage, name })
+      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
+      expect(mxClient.createRoom).toBeCalledTimes(1)
+      expect(mxClient.createRoom).toHaveBeenLastCalledWith({
+        invite: members,
+        is_direct: isDirectMessage,
+        preset: Preset.PrivateChat,
+        visibility: Visibility.Private,
+        name,
+      })
+    })
+  })
 })
