@@ -1,6 +1,14 @@
-import { MatrixClient, Room, RoomMember } from 'matrix-js-sdk'
+import { EmittedEvents, EventEmitterEvents, MatrixClient, Room, RoomMember } from 'matrix-js-sdk'
 
 type Mutable<T> = { -readonly [P in keyof T]: T[P] }
+
+export const getClientOptions = (token: string) => ({
+  baseUrl: 'chat.holi.social',
+  accessToken: token,
+  deviceId: 'DKIEMZVXAM',
+  freshLogin: true,
+  userId: '@mau:local.chat.holi.social',
+})
 
 export class MockTransformer {
   static toMutableMockType = <T>(value: T): Mutable<jest.Mocked<T>> =>
@@ -32,3 +40,8 @@ export const createRoomMemberMock = (userId: string) => {
 
   return roomMember
 }
+
+export const getListenerForMatrixEvent = (
+  event: EmittedEvents | EventEmitterEvents,
+  mxClient: jest.Mocked<MatrixClient>
+) => mxClient.on.mock.calls.find(([e]) => e === event)?.[1]

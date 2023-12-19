@@ -5,6 +5,7 @@ import {
   createMatrixClientMock,
   createRoomMemberMock,
   createRoomMock,
+  getClientOptions,
 } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { CHAT_ROOM_NAME_MOCK } from '@holi/chat/src/test-utils/matrix-mock-setup'
@@ -12,14 +13,6 @@ import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientErr
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
-
-const clientOptions = (token: string) => ({
-  baseUrl: 'chat.holi.social',
-  accessToken: token,
-  deviceId: 'DKIEMZVXAM',
-  freshLogin: true,
-  userId: '@mau:local.chat.holi.social',
-})
 
 describe('ChatClient', () => {
   let mxClient = createMatrixClientMock()
@@ -33,7 +26,7 @@ describe('ChatClient', () => {
     it('create a direct message room', async () => {
       mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
 
-      const client = new ChatClient(clientOptions('syt_p'))
+      const client = new ChatClient(getClientOptions('syt_p'))
       const isDM = true
 
       const result = {
@@ -62,7 +55,7 @@ describe('ChatClient', () => {
     it('create a group 1:n room', async () => {
       mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
 
-      const client = new ChatClient(clientOptions('syt_p'))
+      const client = new ChatClient(getClientOptions('syt_p'))
       const isDirectMessage = false
       const name = '#general'
 
@@ -82,7 +75,7 @@ describe('ChatClient', () => {
       mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
 
       const members: string[] = []
-      const client = new ChatClient(clientOptions('syt_p'))
+      const client = new ChatClient(getClientOptions('syt_p'))
       const isDirectMessage = true
 
       expect(client.createRoom(members, { isDirectMessage })).rejects.toThrowError(HoliChatClientError)
@@ -92,7 +85,7 @@ describe('ChatClient', () => {
   describe('getOrCreateRoom() method', () => {
     describe('creates a new room if', () => {
       const checkIfANewRoomWasCreated = async () => {
-        const client = new ChatClient(clientOptions('syt_p'))
+        const client = new ChatClient(getClientOptions('syt_p'))
         await client.getOrCreateRoom(members, { isDirectMessage: true })
 
         expect(mxClient.createRoom).toHaveBeenCalled()
@@ -134,7 +127,7 @@ describe('ChatClient', () => {
       const roomMock = createRoomMock(roomId, { members: roomMemberMocks.map(MockTransformer.toOriginalType) })
       mxClient.getRooms.mockReturnValue([MockTransformer.toOriginalType(roomMock)])
 
-      const client = new ChatClient(clientOptions('syt_p'))
+      const client = new ChatClient(getClientOptions('syt_p'))
       const { room_id } = await client.getOrCreateRoom([members[0]], { isDirectMessage: true })
       expect(room_id).toEqual(roomId)
       expect(mxClient.createRoom).not.toBeCalled()
