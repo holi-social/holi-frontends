@@ -68,8 +68,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
-  const { user } = useLoggedInUser()
   const { isLoggedOut } = useAuth()
+  const { user } = useLoggedInUser()
   const mixins = useStyleMixins()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
