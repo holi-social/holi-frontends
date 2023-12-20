@@ -1,4 +1,4 @@
-import { EmittedEvents, EventEmitterEvents, MatrixClient, Room, RoomMember } from 'matrix-js-sdk'
+import { EmittedEvents, EventEmitterEvents, MatrixClient, MatrixEvent, Room, RoomMember } from 'matrix-js-sdk'
 
 type Mutable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -45,3 +45,12 @@ export const getListenerForMatrixEvent = (
   event: EmittedEvents | EventEmitterEvents,
   mxClient: jest.Mocked<MatrixClient>
 ) => mxClient.on.mock.calls.find(([e]) => e === event)?.[1]
+
+export const createMatrixEventMock = (type: string) => {
+  const event = MockTransformer.toMutableMockType(new MatrixEvent())
+
+  // event setup
+  event.getType.mockReturnValue(type)
+
+  return event
+}
