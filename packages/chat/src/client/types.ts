@@ -1,4 +1,4 @@
-import { IRoomEvent, IStateEvent, NotificationCountType, Room } from 'matrix-js-sdk'
+import { EventType, IRoomEvent, IStateEvent, NotificationCountType, Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
 
@@ -35,6 +35,16 @@ export interface SpaceChildRoom {
 }
 
 export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom
+
+export enum RoomUpdatesType {
+  name = EventType.RoomName,
+  avatar = EventType.RoomAvatar,
+}
+
+export interface RoomUpdatesContent {
+  name: string
+  url?: string
+}
 
 export interface CreateRoomOptions {
   isDirectMessage: boolean
