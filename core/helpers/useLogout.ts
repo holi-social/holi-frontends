@@ -56,8 +56,8 @@ export const useLogout = () => {
           if (!skipLogoutFlow) {
             await submitLogoutFlow({ session_token: session?.session_token || '' })
           }
-          await client.clearStore()
           await setUserLoggedOut()
+          await client.clearStore()
 
           logDebug('useLogout', 'logout successful')
           openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)

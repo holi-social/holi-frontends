@@ -1,7 +1,7 @@
 import { Platform, StyleSheet } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const staticStyles = StyleSheet.create({
   inlineButtonFixDefault: {
@@ -15,8 +15,29 @@ const staticStyles = StyleSheet.create({
   },
   moreButton: {
     marginVertical: 24,
-    maxWidth: vars.maxButtonWidth,
+    maxWidth: +vars.maxButtonWidth,
     alignSelf: 'center',
+  },
+  black300: {
+    color: colors.foreground30,
+  },
+  gray300: {
+    color: colors.foreground20,
+  },
+  gray200: {
+    color: colors.foreground10,
+  },
+  white100: {
+    color: colors.white100,
+  },
+  white200: {
+    color: colors.white200,
+  },
+  error200: {
+    color: colors.error20,
+  },
+  brandB300: {
+    color: colors.brandColorB30,
   },
 })
 

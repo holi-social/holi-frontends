@@ -3,7 +3,9 @@ import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
@@ -51,6 +53,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [spaceIdOrName] = useParam('spaceIdOrName')
+  const { replaceRoute } = useRouting()
   const [selectedTab] = useParam('tab')
   const [selectedUserId] = useParam('userId')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
@@ -62,8 +65,17 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
-  const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
+  const { data, loading, error, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
+    variables: { idOrName: spaceIdOrName || '' },
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load space', {
+        location: 'EditSpaceCollaborators.spaceMembershipByIdQuery',
+        spaceIdOrName,
+      })
+    },
   })
   const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
     variables: { idOrName: spaceIdOrName },
@@ -133,8 +145,16 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     return <HoliLoader />
   }
 
+  if (error || !space) {
+    return <></>
+  }
+
   return (
-    <>
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+    >
       <ScrollHeaderLayout.Refreshable
         headerOverlap
         keyboardShouldPersistTaps="handled"
@@ -231,7 +251,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
           <HoliIcon icon={UserAdd} size={16} color={colors.foreground30} style={styles.icon} />
         </HoliButton>
       </View>
-    </>
+    </PermissionsGuard>
   )
 }
 

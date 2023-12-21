@@ -14,7 +14,7 @@ import {
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -77,13 +77,17 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
         openToast(t('insights.posts.comments.success'), HoliToastType.SUCCESS)
         navigateBack()
       },
-      onError: (error) =>
+      onError: (error) => {
+        if (isNotFoundError(error)) {
+          return replaceRoute('/404')
+        }
         displayError(error, 'Failed to create post comment', {
           location: 'CommentInputPage.createPostComment',
           postId,
           insightId,
           spaceIdOrName,
-        }),
+        })
+      },
     }
   )
 
@@ -144,11 +148,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }
 
   const post = data?.postById
-
-  if (!post) {
-    replaceRoute('/404')
-    return <></>
-  }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>

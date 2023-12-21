@@ -1,27 +1,22 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 
 interface Props {
-  pageSize: number
+  width?: '40%' | '60%'
 }
-const SearchSkeleton = ({ pageSize }: Props) => {
-  return new Array(pageSize).fill(1).map((_, idx) => {
-    return (
-      <View style={[styles.flex, styles.listItem]} key={idx}>
-        <HoliBox padding={[0, 16, 0, 0]}>
-          <HoliAvatar size="medium" loading />
-        </HoliBox>
-        <View style={styles.flex}>
-          <HoliText loading skeletonOptions={{ width: '60%' }} />
-        </View>
-      </View>
-    )
-  })
-}
+
+const SearchSkeleton = ({ width = '60%', children }: PropsWithChildren<Props>) => (
+  <View style={[styles.flex, styles.listItem]}>
+    <HoliBox padding={[0, 16, 0, 0]}>{children}</HoliBox>
+
+    <View style={styles.flex}>
+      <HoliText loading skeletonOptions={{ width }} />
+    </View>
+  </View>
+)
 
 export default SearchSkeleton
 
@@ -32,7 +27,6 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 8,
   },
   nameRow: {
     maxWidth: 300,

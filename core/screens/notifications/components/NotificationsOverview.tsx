@@ -168,8 +168,9 @@ function containsNotifications(notifications?: Notification[]) {
 
 function groupByDate(notifications?: Notification[]) {
   if (!notifications) return []
-  return notifications
-    .sort(sortByCreatedNewestFirst)
+  return [...notifications]
+    .filter(({ notificationType }) => SHOWN_NOTIFICATIONS.includes(notificationType))
+    .sort(compareByCreatedNewestFirst)
     .reduce(
       (acc, notification) => {
         const { created } = notification
@@ -201,6 +202,6 @@ function groupByDate(notifications?: Notification[]) {
     .filter(({ data }) => data.length)
 }
 
-function sortByCreatedNewestFirst(a: Notification, b: Notification) {
+function compareByCreatedNewestFirst(a: Notification, b: Notification) {
   return b.created.localeCompare(a.created)
 }

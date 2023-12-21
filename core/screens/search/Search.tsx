@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -21,6 +21,7 @@ const Search: React.VFC<ScreenProps> = () => {
 
   const setScreenOptions = useSetScreenOptions()
 
+  // TODO: Remove from ^1.11.0
   const { ftOff } = useFeatureToggle(FeatureToggleName.SEARCH)
 
   useLayoutEffect(() => {
@@ -33,9 +34,7 @@ const Search: React.VFC<ScreenProps> = () => {
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
         <SafeAreaView style={styles.wrapper}>
-          <ScrollView keyboardShouldPersistTaps="handled">
-            <SearchContent />
-          </ScrollView>
+          <SearchContent />
         </SafeAreaView>
       )}
     />

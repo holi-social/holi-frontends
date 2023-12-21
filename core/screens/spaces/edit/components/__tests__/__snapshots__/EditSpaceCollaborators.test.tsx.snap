@@ -476,7 +476,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                       }
                     >
                       <View
-                        accessibilityLabel="user.visitProfile"
+                        accessibilityLabel="spaces.collaborators.permissions.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {
@@ -633,7 +633,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         </View>
                       </View>
                       <View
-                        accessibilityLabel="user.visitProfile"
+                        accessibilityLabel="spaces.collaborators.permissions.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {
@@ -790,7 +790,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         </View>
                       </View>
                       <View
-                        accessibilityLabel="user.visitProfile"
+                        accessibilityLabel="spaces.collaborators.permissions.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {
@@ -1854,7 +1854,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       }
                     >
                       <View
-                        accessibilityLabel="user.visitProfile"
+                        accessibilityLabel="spaces.collaborators.permissions.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {
@@ -2011,7 +2011,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         </View>
                       </View>
                       <View
-                        accessibilityLabel="user.visitProfile"
+                        accessibilityLabel="spaces.collaborators.permissions.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {
@@ -2168,7 +2168,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         </View>
                       </View>
                       <View
-                        accessibilityLabel="user.visitProfile"
+                        accessibilityLabel="spaces.collaborators.permissions.label"
                         accessibilityRole="button"
                         accessibilityState={
                           {

@@ -6,7 +6,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -48,8 +48,12 @@ const InsightDetailPage = () => {
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
     notifyOnNetworkStatusChange: true,
-    onError: (error) =>
-      logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId }),
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId })
+    },
   })
   const initLoading = loadingInsight && !insight
   const setScreenOptions = useSetScreenOptions()
@@ -67,11 +71,6 @@ const InsightDetailPage = () => {
       },
     })
   }, [t, insight?.title, setScreenOptions])
-
-  if (!loadingInsight && !insight) {
-    replaceRoute('/404')
-    return <></>
-  }
 
   const posts: Post[] = insight?.posts || []
   const author = insight?.creator

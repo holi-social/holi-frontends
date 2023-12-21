@@ -5,14 +5,16 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliText, { type HoliTextColor } from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliButtonLoadingProps extends HoliButtonProps {
   icon?: HoliIconType
   loading?: boolean
   loadingLabel?: string
+  color?: HoliTextColor
 }
 
 /** @description
@@ -22,21 +24,23 @@ export interface HoliButtonLoadingProps extends HoliButtonProps {
  */
 const HoliButtonLoading = ({
   loading = false,
-  disabled = false,
+  disabled,
   label,
   loadingLabel,
   onPress,
   testID = 'loader-btn',
   icon,
+  color = 'black300',
   ...props
 }: React.PropsWithChildren<HoliButtonLoadingProps & HoliButtonProps>) => {
   const [isProcessing, setProcessing] = useState(false)
+  const mixins = useStyleMixins()
 
   const onPressWrapper = async (event: React.SyntheticEvent | GestureResponderEvent) => {
     if (onPress) {
       setProcessing(true)
       try {
-        return await onPress(event)
+        await onPress(event)
       } finally {
         setProcessing(false)
       }
@@ -48,13 +52,21 @@ const HoliButtonLoading = ({
   const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
 
   return (
-    <HoliButton label={label} disabled={disabled || isSpinning} onPress={onPressWrapper} testID={testID} {...props}>
-      <HoliText style={disabled && styles.textDisabled}>{labelToShow}</HoliText>
+    <HoliButton
+      label={label}
+      disabled={disabled || (disabled === undefined && isSpinning)}
+      onPress={onPressWrapper}
+      testID={testID}
+      {...props}
+    >
+      <HoliText style={disabled && styles.textDisabled} color={color}>
+        {labelToShow}
+      </HoliText>
 
       {iconToShow && (
         <View style={styles.icon} testID={testID + (isSpinning ? '-processing' : '-idle')}>
           <SpinningIconContainer spinning={isSpinning}>
-            <HoliIcon icon={iconToShow} size={16} />
+            <HoliIcon icon={iconToShow} size={16} color={mixins[color]?.color} />
           </SpinningIconContainer>
         </View>
       )}

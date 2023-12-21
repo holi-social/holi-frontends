@@ -11,6 +11,8 @@ import {
   MembershipStatus,
   type NotificationCount,
   type RoomId,
+  RoomUpdatesContent,
+  RoomUpdatesType,
   type RoomWithSharedData,
 } from '@holi/chat/src/client/types'
 import {
@@ -19,6 +21,8 @@ import {
   addOrUpdateChatRoom,
   addOrUpdateMemberInChatRoom,
   deleteChatRoom,
+  updateChatRoomAvatar,
+  updateChatRoomName,
   updateRoomAfterNewMessage,
   updateRoomInvitation,
   updateRoomUnreadNotifications,
@@ -257,14 +261,12 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
   })
 
-  const unsubscribeFromRooms = client.subscribeToRooms((roomWithSharedData) => {
+  const unsubscribeFromRooms = client.subscribeToNewRooms((roomWithSharedData) => {
     const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
     /**
-     * @name waitForCorrectRoomName
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
      * We use this function to watch for the room `name` change and only create an atom when correct name was passed
      * or timeout exceeded.
-     * @param timestamp `number` represents timestamp limit till function postponds setting the atom
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
@@ -313,7 +315,30 @@ _spaceRoomsSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
   setAtom(client.getSpaceIdToChildIdsRecord())
 
-  client.subscribeToRoomTimeline(setAtom)
+  client.subscribeToSpaceRooms(setAtom)
+}
+
+const _roomsUpdatesSubscriber = atom(
+  null,
+  (get, set, roomId: string, type: RoomUpdatesType, content: RoomUpdatesContent) => {
+    const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+    if (!roomAtom) return
+
+    switch (type) {
+      case RoomUpdatesType.avatar:
+        set(roomAtom, (prevChatRoom) => updateChatRoomAvatar(prevChatRoom, content))
+        break
+      case RoomUpdatesType.name:
+        set(roomAtom, (prevChatRoom) => updateChatRoomName(prevChatRoom, content))
+        break
+      default:
+        throw new HoliError('_roomsUpdatesSubscriber got a wrong event type')
+    }
+  }
+)
+
+_roomsUpdatesSubscriber.onMount = (setAtom) => {
+  return getChatClient().subscribeToRoomsUpdates(setAtom)
 }
 
 /**
@@ -834,6 +859,7 @@ export const useSubscribeToChat = () => {
   useAtom(_setLoggedInMemberId)
   useAtom(_roomAtomsRecordAtomSubscriber)
   useAtom(_spaceRoomsSubscriber)
+  useAtom(_roomsUpdatesSubscriber)
   useAtom(_roomsNotificationsSubscriberAtom)
   useAtom(_newMessageAtomSubscriber)
   useAtom(_myMembershipSubscriberAtom)

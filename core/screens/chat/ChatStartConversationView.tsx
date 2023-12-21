@@ -108,8 +108,8 @@ const ChatStartConversationView = () => {
             <View style={[styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
               <HoliTextInput
                 value={searchUserInputValue}
-                placeholder={t('chat.start.input.label')}
-                aria-label={t('chat.start.input.label')}
+                placeholder={t('chat.start.input.placeholder')}
+                aria-label={t('chat.start.input.placeholder')}
                 trailingComponent={trailingComponent}
                 onChange={onSearchUserInputChange}
                 validationErrorText={
