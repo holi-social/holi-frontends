@@ -21,6 +21,7 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import HoliWizard, {
@@ -68,8 +69,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
-  const { user } = useLoggedInUser()
   const { isLoggedOut } = useAuth()
+  const { user, isLoading } = useLoggedInUser()
   const mixins = useStyleMixins()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
@@ -192,7 +193,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     [t]
   )
 
-  if (!user) return null
+  if (isLoading) return <HoliLoader />
 
   return (
     <HoliKeyboardSaveView>

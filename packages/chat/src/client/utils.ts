@@ -21,6 +21,7 @@ import {
   MatrixId,
   MembershipStatus,
   RoomType,
+  RoomUpdatesType,
   type RoomWithSharedData,
   type SharedDataContent,
   type SpaceChildSharedDataContent,
@@ -56,6 +57,10 @@ export const createInitialRoom = (room: Room): RoomWithSharedData => ({
   type: 'private',
   room: room,
 })
+
+export const hasRoomUpdatesType = (type: unknown): type is RoomUpdatesType => {
+  return type === RoomUpdatesType.avatar || type === RoomUpdatesType.name
+}
 
 /**
  *
