@@ -1,6 +1,8 @@
 import { EventTimeline, EventTimelineSet, MatrixClient, createClient } from 'matrix-js-sdk'
 
-export const createMatrixClientMock = (): jest.Mocked<MatrixClient> => {
+import { MutableMock } from './types'
+
+export const createMatrixClientMock = (): MutableMock<MatrixClient> => {
   const mxClient = new MatrixClient({ baseUrl: '' }) as jest.Mocked<MatrixClient>
   const createClientMock = createClient as jest.Mock<MatrixClient>
   createClientMock.mockReturnValue(mxClient)
