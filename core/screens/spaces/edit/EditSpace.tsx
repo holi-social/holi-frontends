@@ -8,7 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -113,8 +113,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
-    onError: (error) =>
-      logError(error, 'Failed to load space', { location: 'EditSpace.spaceByIdQuery', spaceIdOrName }),
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load space', { location: 'EditSpace.spaceByIdQuery', spaceIdOrName })
+    },
   })
 
   const space = data?.spaceById

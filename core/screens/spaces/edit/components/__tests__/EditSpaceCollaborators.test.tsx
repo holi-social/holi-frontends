@@ -14,8 +14,13 @@ import EditSpaceCollaborators, {
   EditSpaceCollaboratorsParams,
 } from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
 import { spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 
-const createMocksForSpace = (spaceById = space) => {
+const spaceForAdmin = {
+  ...space,
+  connectionStatusToMyself: [SpaceConnectionType.ADMINISTRATOR, SpaceConnectionType.MEMBER],
+}
+const createMocksForSpace = (spaceById = spaceForAdmin) => {
   const spaceByIdRequest = {
     request: {
       query: spaceMembershipByIdQuery,
@@ -78,12 +83,13 @@ const createMocksForSpace = (spaceById = space) => {
     },
   }
 
-  // Space membership requests are queried twice
+  // Space membership requests and invites are queried twice
   return [
     spaceByIdRequest,
     spaceMembersBySpaceIdRequest,
     spaceMembershipRequestsBySpaceIdRequest,
     spaceMembershipRequestsBySpaceIdRequest,
+    spaceInvitesBySpaceIdRequest,
     spaceInvitesBySpaceIdRequest,
   ]
 }
@@ -104,7 +110,7 @@ const mockParams = (params: EditSpaceCollaboratorsParams = { spaceIdOrName: spac
 
 describe('EditSpaceCollaborators', () => {
   const spaceWithMembershipRequestsAndInvites = {
-    ...space,
+    ...spaceForAdmin,
     membershipRequests: pagedMembershipRequests,
     invites: pagedInvites,
   }
@@ -183,8 +189,7 @@ describe('EditSpaceCollaborators', () => {
     expect(screen.queryByTestId('space-collaborators-permissions-modal-backdrop')).toBeFalsy()
   })
 
-  // TODO: Fix cache not using the refreshMocks after refreshing
-  xit('refreshes members and requests if the refresh parameter is passed', async () => {
+  it('refreshes members and requests if the refresh parameter is passed', async () => {
     const setParam = jest.fn()
     const cache = createCache()
 
@@ -195,7 +200,7 @@ describe('EditSpaceCollaborators', () => {
     const newMembershipRequestsCount = initialMembershipRequests.totalResults - 1
     const initialInvites = spaceWithMembershipRequestsAndInvites.invites
     const newInvitesCount = initialInvites.totalResults - 1
-    const spaceWithlessMembersAndRequests = {
+    const spaceWithLessMembersAndRequests = {
       ...spaceWithMembershipRequestsAndInvites,
       members: {
         ...initialMembers,
@@ -214,7 +219,7 @@ describe('EditSpaceCollaborators', () => {
       },
     }
     const initialMocks = createMocksForSpace(spaceWithMembershipRequestsAndInvites)
-    const refreshMocks = createMocksForSpace(spaceWithlessMembersAndRequests)
+    const refreshMocks = createMocksForSpace(spaceWithLessMembersAndRequests)
     const mocks = [...initialMocks, ...refreshMocks]
     const crateComponent = () => (
       <MockedProvider mocks={mocks} cache={cache}>
@@ -245,7 +250,7 @@ describe('EditSpaceCollaborators', () => {
 
     // Expect less members, membership requests and invites
     await act(async () => {
-      await expect(screen.getAllByTestId('spaces-collaborators-item').length).toBe(newMemberCount)
+      await waitFor(() => expect(screen.getAllByTestId('spaces-collaborators-item').length).toBe(newMemberCount))
       await waitFor(() =>
         expect(screen.getAllByTestId('space-pending-request-item').length).toBe(newMembershipRequestsCount)
       )

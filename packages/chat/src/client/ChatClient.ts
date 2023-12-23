@@ -35,6 +35,8 @@ import {
   type MxMessagesResponse,
   type NotificationCount,
   type RoomId,
+  RoomUpdatesContent,
+  RoomUpdatesType,
   type RoomWithSharedData,
   type SharedDataContent,
 } from '@holi/chat/src/client/types'
@@ -44,6 +46,7 @@ import {
   createInitialRoom,
   filterMessagesChunk,
   hasDuplicateMembershipEvent,
+  hasRoomUpdatesType,
   isAdminChangeToMembership,
   isEventWithSharedData,
   isJoinOrLeaveEvent,
@@ -389,7 +392,7 @@ export default class ChatClient {
     await this.mxClient.forget(roomId, deleteRoom)
   }
 
-  public joinRoom = async (roomId: string): Promise<Room | null> => {
+  public async joinRoom(roomId: string): Promise<Room | null> {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
       const errMsg = 'There was a problem joining the room after accepting invitation'
@@ -400,11 +403,11 @@ export default class ChatClient {
     return room
   }
 
-  public leaveRoom = async (roomId: string): Promise<void> => {
+  public async leaveRoom(roomId: string): Promise<void> {
     await this.mxClient.leave(roomId)
   }
 
-  public sendTextMessage = async (roomId: string, text: string): Promise<string> => {
+  public async sendTextMessage(roomId: string, text: string): Promise<string> {
     const content: ChatMessageContent = {
       body: text,
       msgtype: 'm.text',
@@ -415,7 +418,7 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
-  public setLatestMessagesAsRead = async (roomId: string): Promise<void> => {
+  public async setLatestMessagesAsRead(roomId: string): Promise<void> {
     const room = this.mxClient.getRoom(roomId)
     const userId = this.mxClient.getUserId()
 
@@ -429,17 +432,17 @@ export default class ChatClient {
     await this.mxClient.sendReadReceipt(lastEvent, ReceiptType.ReadPrivate)
   }
 
-  public ignoreUser = async (userId: string): Promise<void> => {
+  public async ignoreUser(userId: string): Promise<void> {
     const usersToIgnore = this.mxClient.getIgnoredUsers().concat(userId)
     await this.mxClient.setIgnoredUsers(usersToIgnore)
   }
 
-  public unignoreUser = async (userId: string): Promise<void> => {
+  public async unignoreUser(userId: string): Promise<void> {
     const usersToIgnore = this.mxClient.getIgnoredUsers().filter((uId: string) => uId !== userId)
     await this.mxClient.setIgnoredUsers(usersToIgnore)
   }
 
-  public getIgnoredUsers = (): MatrixId[] => {
+  public getIgnoredUsers(): MatrixId[] {
     return this.mxClient.getIgnoredUsers() as MatrixId[]
   }
 
@@ -497,7 +500,7 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToRooms(
+  public subscribeToNewRooms(
     callback: (roomWithSharedData: RoomWithSharedData, hasPendingInvitation: boolean) => void
   ): () => void {
     const client = this.mxClient
@@ -519,6 +522,26 @@ export default class ChatClient {
 
     return () => {
       client.off(ClientEvent.Room, roomEventHandler)
+    }
+  }
+
+  public subscribeToRoomsUpdates(
+    callback: (roomId: string, type: RoomUpdatesType, content: RoomUpdatesContent) => void
+  ): () => void {
+    const timelineListener = (event: MatrixEvent, room: Room | undefined) => {
+      if (!room) return
+      const type = event.getType()
+      if (!hasRoomUpdatesType(type)) return
+
+      const content = event.getEffectiveEvent().content as RoomUpdatesContent
+
+      callback(room.roomId, type, content)
+    }
+
+    this.mxClient.on(RoomEvent.Timeline, timelineListener)
+
+    return () => {
+      this.mxClient.off(RoomEvent.Timeline, timelineListener)
     }
   }
 
@@ -578,7 +601,12 @@ export default class ChatClient {
     })
   }
 
-  public subscribeToRoomTimeline(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
+  /**
+   * @describe In this method, we use a general room `Timeline` event emitter
+   * exclusively for updating `Space -> Child` room relationships. Other
+   * subscribers who listen to the timeline should implement a  separate method.
+   */
+  public subscribeToSpaceRooms(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
     const client = this.mxClient
 
     const timelineListener = (event: MatrixEvent) => {
@@ -586,8 +614,7 @@ export default class ChatClient {
       // initated from the space chat admin user `@admin:local.chat.holi.social`
       const { state_key } = event.getEffectiveEvent()
       if (state_key) this.joinRoomFromAdminInvite(event, state_key, this.getUserId())
-      // Currently we only process space -> child event relationships
-      // but it can be extened to other areas relevant to the timeline.
+
       if (!isSpaceChildEvent(event)) return
       callback(this.createSpaceIdToChildIds([event]))
     }

@@ -83,7 +83,7 @@
     },
     "production": {
       "extends": "base",
-      "channel": "production-1-11",
+      "channel": "production-1-12",
       "env": {
         "ENVIRONMENT_ID": "production",
         "HOLI_API_GATEWAY": "https://production.unified.apis.holi.social",
