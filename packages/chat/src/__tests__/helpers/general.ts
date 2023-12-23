@@ -1,4 +1,12 @@
-import { EmittedEvents, EventEmitterEvents, MatrixClient, MatrixEvent, Room, RoomMember } from 'matrix-js-sdk'
+import {
+  EmittedEvents,
+  EventEmitterEvents,
+  MatrixClient,
+  MatrixEvent,
+  Room,
+  RoomEvent,
+  RoomMember,
+} from 'matrix-js-sdk'
 
 import { MutableMock } from './types'
 
@@ -41,7 +49,7 @@ export const createRoomMemberMock = (userId: string) => {
 }
 
 export const getListenerForMatrixEvent = (
-  event: EmittedEvents | EventEmitterEvents,
+  event: EmittedEvents | EventEmitterEvents | RoomEvent,
   mxClientOrRoom: MutableMock<MatrixClient> | MutableMock<Room>
 ) => {
   return mxClientOrRoom.on.mock.calls.find(([e]) => e === event)?.[1]

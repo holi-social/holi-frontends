@@ -1,4 +1,13 @@
-import { ClientEvent, EventType, IEvent, MatrixEvent, Room, RoomEvent, RoomMember } from 'matrix-js-sdk'
+import {
+  ClientEvent,
+  EmittedEvents,
+  EventEmitterEvents,
+  EventType,
+  IEvent,
+  Room,
+  RoomEvent,
+  RoomMember,
+} from 'matrix-js-sdk'
 
 import {
   MockTransformer,
@@ -15,6 +24,25 @@ import { createInitialRoom } from '@holi/chat/src/client/utils'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
+const chatAdminUserId = 'matrix-admin-user-id'
+jest.mock('@holi/core/helpers/config', () => ({
+  chatAdminUserId,
+}))
+
+type PickMatching<T, V> = { [K in keyof T as T[K] extends V ? K : never]: T[K] }
+type ChatClientMethods = PickMatching<ChatClient, CallableFunction>
+
+interface ClientLevelOptions {
+  level: 'client'
+  room?: MutableMock<Room>
+}
+
+interface RoomLevelOptions {
+  level: 'room'
+  room: MutableMock<Room>
+}
+
+type SimulateSubscriptionOptions = ClientLevelOptions | RoomLevelOptions
 
 describe('ChatClient', () => {
   let mxClient = createMatrixClientMock()
@@ -22,26 +50,34 @@ describe('ChatClient', () => {
     mxClient = createMatrixClientMock()
   })
 
+  const simulateSubscription = <K extends keyof ChatClientMethods>(
+    subscribeMethod: K,
+    eventType: EmittedEvents | EventEmitterEvents | RoomEvent,
+    { level, room }: SimulateSubscriptionOptions = { level: 'client' }
+  ) => {
+    if (room) mxClient.getRooms.mockReturnValue([MockTransformer.toOriginalType(room)])
+
+    const client = new ChatClient(getClientOptions('syt_p'))
+    const callback = jest.fn()
+    const subscriber = client[subscribeMethod] as (...args: unknown[]) => void
+    subscriber.call(client, callback)
+
+    const listener = getListenerForMatrixEvent(eventType, level === 'client' ? mxClient : room) as (
+      ...args: unknown[]
+    ) => void
+
+    return { listener, callback }
+  }
+
   describe('subscribeToRooms() method', () => {
-    const simulateNewRoomEvent = (room: Room) => {
-      const client = new ChatClient(getClientOptions('syt_p'))
-      const roomSubscriberCallback = jest.fn()
-      client.subscribeToRooms(roomSubscriberCallback)
-
-      // extract roomListener that gets set in ChatClient
-      const roomListener = getListenerForMatrixEvent(ClientEvent.Room, mxClient) as (room: Room) => void
-      roomListener?.(room)
-
-      return roomSubscriberCallback
-    }
-
     it('calls the callback handler on new event', async () => {
       const roomId = 'testRoomId'
-      const room = MockTransformer.toOriginalType(createRoomMock(roomId))
+      const room = createRoomMock(roomId)
 
-      const roomSubscriberCallback = simulateNewRoomEvent(room)
+      const { listener, callback } = simulateSubscription('subscribeToRooms', ClientEvent.Room)
+      listener(room)
 
-      expect(roomSubscriberCallback).toBeCalledWith(createInitialRoom(room), false)
+      expect(callback).toBeCalledWith(createInitialRoom(MockTransformer.toOriginalType(room)), false)
     })
 
     it('on a new Space room event joins that room and then calls the callback handler', async () => {
@@ -54,58 +90,49 @@ describe('ChatClient', () => {
       roomMock.hasMembershipState.mockReturnValue(true)
       room = MockTransformer.toOriginalType(roomMock)
 
-      const roomSubscriberCallback = simulateNewRoomEvent(room)
+      const { listener, callback } = simulateSubscription('subscribeToRooms', ClientEvent.Room)
+      listener(room)
 
       expect(mxClient.joinRoom).toBeCalledWith(roomId)
-      expect(roomSubscriberCallback).toBeCalledWith(createInitialRoom(room), true)
+      expect(callback).toBeCalledWith(createInitialRoom(room), true)
     })
   })
 
   describe('subscribeToRoomDeletion() method', () => {
     it('calls the passed callback.', async () => {
       const roomId = 'roomDeletedId'
-      const client = new ChatClient(getClientOptions('syt_p'))
-      const roomDeletionCallback = jest.fn()
-      client.subscribeToRoomDeletion(roomDeletionCallback)
 
-      // extract roomListener that gets set in ChatClient
-      const roomListener = getListenerForMatrixEvent(ClientEvent.DeleteRoom, mxClient) as (room_id: string) => void
-      roomListener?.(roomId)
+      const { listener, callback } = simulateSubscription('subscribeToRoomDeletion', ClientEvent.DeleteRoom)
+      listener(roomId)
 
-      expect(roomDeletionCallback).toBeCalledWith(roomId)
+      expect(callback).toBeCalledWith(roomId)
     })
   })
 
   describe('subscribeToRoomSharedData() method', () => {
     describe('subscribes to RoomSharedData events of existing rooms', () => {
-      const simulateRoomSharedDataEvent = (room: MutableMock<Room>) => {
-        mxClient.getRooms.mockReturnValue([MockTransformer.toOriginalType(room)])
-
-        const client = new ChatClient(getClientOptions('syt_p'))
-        const callback = jest.fn()
-        client.subscribeToRoomSharedData(callback)
-
-        // get room listener of SharedData event
-        const roomListener = getListenerForMatrixEvent(RoomEvent.Timeline, room) as (
-          event: MatrixEvent
-        ) => Promise<void>
-
-        return { roomListener, callback }
-      }
-
       it('ignores non-SharedData events', async () => {
-        const spaceRoom = createRoomMock('spaceRoom')
-        const { roomListener, callback } = simulateRoomSharedDataEvent(spaceRoom)
+        const room = createRoomMock('spaceRoom')
+        const { listener, callback } = simulateSubscription('subscribeToRoomSharedData', RoomEvent.Timeline, {
+          level: 'room',
+          room,
+        })
+
         // configure event
         const nonSharedDataEvent = createMatrixEventMock(RoomEvent.MyMembership)
+
         // trigger event
-        await roomListener(MockTransformer.toOriginalType(nonSharedDataEvent))
+        await listener(MockTransformer.toOriginalType(nonSharedDataEvent))
+
         expect(callback).not.toBeCalled()
       })
 
       it('react on SharedData event', async () => {
-        const spaceRoom = createRoomMock('spaceRoom')
-        const { roomListener, callback } = simulateRoomSharedDataEvent(spaceRoom)
+        const room = createRoomMock('spaceRoom')
+        const { listener, callback } = simulateSubscription('subscribeToRoomSharedData', RoomEvent.Timeline, {
+          level: 'room',
+          room,
+        })
 
         // configure event
         const spaceRoomSharedDataEventMock = createMatrixEventMock(ChatRoomEvent.SharedData)
@@ -113,52 +140,46 @@ describe('ChatClient', () => {
         spaceRoomSharedDataEventMock.event = { content }
 
         // trigger event
-        await roomListener(MockTransformer.toOriginalType(spaceRoomSharedDataEventMock))
+        await listener(MockTransformer.toOriginalType(spaceRoomSharedDataEventMock))
 
         expect(callback).toBeCalledTimes(1)
         const callbackArgument: SpaceRoom = callback.mock.calls[0][0]
         expect(callbackArgument.type).toBe('space')
         expect(callbackArgument.content).toBe(content)
-        expect(callbackArgument.room).toBe(spaceRoom)
+        expect(callbackArgument.room).toBe(room)
       })
     })
   })
 
   describe('subscribeToRoomMessages() method', () => {
-    const simulateMessageOrMembershipEvent = (room: MutableMock<Room>) => {
-      mxClient.getRooms.mockReturnValue([MockTransformer.toOriginalType(room)])
-
-      const client = new ChatClient(getClientOptions('syt_p'))
-      const callback = jest.fn()
-      client.subscribeToRoomMessages(callback)
-
-      const roomListener = getListenerForMatrixEvent(RoomEvent.Timeline, room) as (event: MatrixEvent) => Promise<void>
-
-      return { roomListener, callback }
-    }
-
     it('handles Message events.', async () => {
       const roomId = 'some-room-id'
-      const spaceRoom = createRoomMock(roomId)
+      const room = createRoomMock(roomId)
 
-      const { roomListener, callback } = simulateMessageOrMembershipEvent(spaceRoom)
+      const { listener, callback } = simulateSubscription('subscribeToRoomMessages', RoomEvent.Timeline, {
+        level: 'room',
+        room,
+      })
 
       const messageEventMock = createMatrixEventMock(RoomEvent.Timeline)
       messageEventMock.getRoomId.mockReturnValue(roomId)
       messageEventMock.getType.mockReturnValue(EventType.RoomMessage)
 
-      await roomListener(MockTransformer.toOriginalType(messageEventMock))
+      await listener(MockTransformer.toOriginalType(messageEventMock))
 
       expect(callback).toBeCalledWith(messageEventMock)
     })
 
     describe('handles membership', () => {
-      const simulatesMembershipEvent = async (roomMembership: string, eventMembership: string) => {
+      const simulatesMembershipSub = async (roomMembership: string, eventMembership: string) => {
         const roomId = 'some-room-id'
         const room = createRoomMock(roomId)
         room.getMember.mockReturnValue({ membership: roomMembership } as RoomMember)
 
-        const { roomListener, callback } = simulateMessageOrMembershipEvent(room)
+        const { listener, callback } = simulateSubscription('subscribeToRoomMessages', RoomEvent.Timeline, {
+          level: 'room',
+          room,
+        })
 
         const event = createMatrixEventMock(RoomEvent.Timeline)
         event.getRoomId.mockReturnValue(roomId)
@@ -166,22 +187,22 @@ describe('ChatClient', () => {
         event.getContent.mockReturnValue({ membership: eventMembership })
         event.getEffectiveEvent.mockReturnValue({ state_key: 'dummy' } as IEvent)
 
-        await roomListener(MockTransformer.toOriginalType(event))
+        await listener(MockTransformer.toOriginalType(event))
 
         return { callback, event }
       }
       it('JOIN events', async () => {
-        const { callback, event } = await simulatesMembershipEvent('invite', 'join')
+        const { callback, event } = await simulatesMembershipSub('invite', 'join')
         expect(callback).toBeCalledWith(event)
       })
 
       it('LEAVE events', async () => {
-        const { callback, event } = await simulatesMembershipEvent('join', 'leave')
+        const { callback, event } = await simulatesMembershipSub('join', 'leave')
         expect(callback).toBeCalledWith(event)
       })
 
       it('ignores other membership events', async () => {
-        const { callback } = await simulatesMembershipEvent('knock', 'invite')
+        const { callback } = await simulatesMembershipSub('knock', 'invite')
         expect(callback).not.toBeCalled()
       })
     })
@@ -194,15 +215,18 @@ describe('ChatClient', () => {
       await Promise.all(
         eventTypesToIgnore.map(async (eventType) => {
           const roomId = 'some-room-id'
-          const spaceRoom = createRoomMock(roomId)
+          const room = createRoomMock(roomId)
 
-          const { roomListener, callback } = simulateMessageOrMembershipEvent(spaceRoom)
+          const { listener, callback } = simulateSubscription('subscribeToRoomMessages', RoomEvent.Timeline, {
+            level: 'room',
+            room,
+          })
 
           const unsupportedEventMock = createMatrixEventMock(RoomEvent.Timeline)
           unsupportedEventMock.getRoomId.mockReturnValue(roomId)
           unsupportedEventMock.getType.mockReturnValue(eventType)
 
-          await roomListener(MockTransformer.toOriginalType(unsupportedEventMock))
+          await listener(MockTransformer.toOriginalType(unsupportedEventMock))
 
           expect(callback).not.toBeCalled()
         })
