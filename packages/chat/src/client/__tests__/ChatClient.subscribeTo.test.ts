@@ -233,4 +233,108 @@ describe('ChatClient', () => {
       )
     })
   })
+
+  describe('subscribeToRoomTimeline() method', () => {
+    it('handles SpaceChild event types', async () => {
+      const roomId = 'some-room-id'
+      const room = createRoomMock(roomId)
+
+      // Timeline event of type SpaceChild
+      const event = createMatrixEventMock(RoomEvent.Timeline)
+      event.getType.mockReturnValue(EventType.SpaceChild)
+      event.getEffectiveEvent.mockReturnValue({} as IEvent)
+
+      const { listener, callback } = simulateSubscription('subscribeToRoomTimeline', RoomEvent.Timeline, {
+        level: 'client',
+        room,
+      })
+      await listener(MockTransformer.toOriginalType(event))
+
+      expect(callback).toBeCalled()
+    })
+
+    it('ignores non-SpaceChild event types', async () => {
+      const roomId = 'some-room-id'
+      const room = createRoomMock(roomId)
+
+      // Timeline event of type SpaceParent
+      const event = createMatrixEventMock(RoomEvent.Timeline)
+      event.getType.mockReturnValue(EventType.SpaceParent)
+      event.getEffectiveEvent.mockReturnValue({} as IEvent)
+
+      const { listener, callback } = simulateSubscription('subscribeToRoomTimeline', RoomEvent.Timeline, {
+        level: 'client',
+        room,
+      })
+      await listener(MockTransformer.toOriginalType(event))
+
+      expect(callback).not.toBeCalled()
+    })
+
+    it('automatically joins Room for Matrix Admin`s INVITE RoomMember event type.', async () => {
+      const roomId = 'some-room-id'
+      const room = createRoomMock(roomId)
+
+      const mxUserId = 'mx-user-id'
+      mxClient.getUserId.mockReturnValue(mxUserId)
+      mxClient.joinRoom.mockResolvedValue(MockTransformer.toOriginalType(room))
+      // Timeline event of type SpaceChild
+      const event = createMatrixEventMock(RoomEvent.Timeline)
+      event.getType.mockReturnValue(EventType.RoomMember)
+      event.getEffectiveEvent.mockReturnValue({ state_key: mxUserId } as IEvent)
+      event.getSender.mockReturnValue(chatAdminUserId)
+      event.getContent.mockReturnValue({ membership: 'invite' })
+      event.getRoomId.mockReturnValue(roomId)
+
+      const { listener, callback } = simulateSubscription('subscribeToRoomTimeline', RoomEvent.Timeline, {
+        level: 'client',
+        room,
+      })
+      await listener(MockTransformer.toOriginalType(event))
+
+      // joins room
+      expect(mxClient.joinRoom).toBeCalled()
+      // does not call callback
+      expect(callback).not.toBeCalled()
+    })
+  })
+
+  describe('subscribeToUnreadRoomsNotifications() method', () => {
+    it('handles UnreadNotifications events.', async () => {
+      const roomId = 'some-room-id'
+      const room = createRoomMock(roomId)
+      const notificationCount = 3
+
+      const { listener, callback } = simulateSubscription(
+        'subscribeToUnreadRoomsNotifications',
+        RoomEvent.UnreadNotifications,
+        {
+          level: 'room',
+          room,
+        }
+      )
+
+      listener(notificationCount)
+
+      expect(callback).toBeCalledWith(roomId, notificationCount)
+    })
+
+    it('ignores UnreadNotifications event with `0` count value.', async () => {
+      const room = createRoomMock('some-room-id')
+      const notificationCount = 0
+
+      const { listener, callback } = simulateSubscription(
+        'subscribeToUnreadRoomsNotifications',
+        RoomEvent.UnreadNotifications,
+        {
+          level: 'room',
+          room,
+        }
+      )
+
+      listener(notificationCount)
+
+      expect(callback).not.toBeCalled()
+    })
+  })
 })
