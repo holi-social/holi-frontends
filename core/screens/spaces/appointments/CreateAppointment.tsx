@@ -8,19 +8,24 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import AppointmentInputForm from '@holi/core/screens/appointments/components/AppointmentInputForm'
+import AppointmentInputForm, { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
+import {
+  CreateAppointmentResponse,
+  CreateAppointmentSchema,
+  createAppointmentMutation,
+} from '@holi/core/screens/appointments/mutations'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { CreateTaskResponse, CreateTaskSchema, createTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -33,27 +38,21 @@ const { useParam } = createParam<CreateAppointmentParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const DEFAULT_SLOTS_AVAILABLE = 1
-
-const CreateAppointment: React.VFC<ScreenProps> = () => {
+const CreateAppointment: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const { t } = useTranslation()
 
   // input fields
-  const [name, setName] = useState('')
+  const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
-  const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
-  const [regularity, setRegularity] = useState<HoliModalSelectOption | undefined>()
-  const [contactEmail, setContactEmail] = useState('')
-  const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
+  const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
+  const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
-  const [skills, setSkills] = useState<Skill[]>([])
   const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
-  const [contactPhone, setContactPhone] = useState<string | undefined>('')
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
@@ -78,10 +77,10 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
 
   const { displayError } = useErrorHandling()
 
-  const [createAppointment] = useMutation<CreateTaskResponse>(createTaskMutation, {
+  const [createAppointment] = useMutation<CreateAppointmentResponse>(createAppointmentMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) =>
-      displayError(error, 'Failed to create task', {
+      displayError(error, 'Failed to create appointment', {
         location: 'CreateAppointment.createAppointment',
         spaceIdOrName,
       }),
@@ -93,18 +92,13 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
       variables: {
         input: {
           spaceId: space?.id,
-          name,
+          title,
           description,
-          visibility: visibility?.id,
-          locationType: locationType?.id,
-          regularity: regularity?.id,
-          contactEmail,
-          slotsAvailable,
+          inviteOnly: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY,
+          permission: permissionType?.id,
           thumbnail: thumbnail?.blob,
-          skills: skills.map((skill) => skill.id),
           location,
           geolocation,
-          contactPhone,
         },
       },
     })
@@ -112,29 +106,26 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
   // If locationType is REMOTE, remove location and coordinates
   // Otherwise set their values based on the selectedLocation
   useEffect(() => {
-    if (locationType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
+    if (permissionType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
       setGeolocation({
         latitude: selectedLocation.coordinates.latitude,
         longitude: selectedLocation.coordinates.longitude,
       })
       setLocation(selectedLocation.label)
     }
-    if (locationType?.id === LocationType.REMOTE) {
+    if (permissionType?.id === LocationType.REMOTE) {
       setGeolocation(undefined)
       setLocation(undefined)
     }
-  }, [selectedLocation, locationType])
+  }, [selectedLocation, permissionType])
 
   useEffect(() => {
-    const resultSchema = CreateTaskSchema.safeParse({
+    const resultSchema = CreateAppointmentSchema.safeParse({
       spaceId: space?.id,
-      visibility: visibility?.id,
-      locationType: locationType?.id,
-      regularity: regularity?.id,
-      ...(name ? { name } : {}),
+      inviteOnly: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY,
+      permission: permissionType?.id,
+      ...(title ? { title } : {}),
       ...(description ? { description } : {}),
-      ...(contactEmail ? { contactEmail } : {}),
-      ...(contactPhone ? { contactPhone } : {}),
     })
     setInputValid(resultSchema.success)
 
@@ -143,21 +134,7 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
     } else {
       setFieldErrors({})
     }
-  }, [
-    space?.id,
-    name,
-    description,
-    visibility,
-    locationType,
-    regularity,
-    contactEmail,
-    slotsAvailable,
-    thumbnail,
-    skills,
-    location,
-    geolocation,
-    contactPhone,
-  ])
+  }, [space?.id, title, description, inviteOnly, permissionType, thumbnail, location, geolocation])
 
   useLayoutEffect(() => {
     !loadingSpace &&
@@ -166,7 +143,7 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
         animation: 'slide_from_bottom',
         headerTitle: () => (
           <HoliHeading level="1" size="small">
-            {t('spaces.tasks.add.title')}
+            {t('spaces.appointments.add.button.label')}
           </HoliHeading>
         ),
         headerStyle: { backgroundColor: colors.background10 },
@@ -179,21 +156,17 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
   }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
-    if (
-      name.length > 0 &&
-      description.length > 0 &&
-      !!visibility &&
-      !!locationType &&
-      !!regularity &&
-      !!contactEmail &&
-      inputValid
-    ) {
+    if (title.length > 0 && description.length > 0 && inputValid) {
       setSaveButtonDisabled(false)
     }
-  }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
+  }, [title, description, inviteOnly, permissionType, inputValid])
+
+  if (loadingSpace || ftLoading) {
+    return <HoliLoader />
+  }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space) {
+  if (errorSpace || !space) {
     return <></>
   }
 
@@ -202,6 +175,8 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
       permissionType={PermissionsType.SPACES}
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
+      forceRestrict={!ftEnabled && !ftLoading}
+      redirectRoute={`/spaces/${spaceIdOrName}`}
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}
@@ -210,29 +185,19 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
         showConfirmationModal={showConfirmationModal}
       >
         <AppointmentInputForm
-          name={name}
+          title={title}
           description={description}
-          visibility={visibility}
-          locationType={locationType}
-          regularity={regularity}
-          contactEmail={contactEmail}
-          slotsAvailable={slotsAvailable}
+          inviteOnly={inviteOnly}
+          permissionType={permissionType}
           thumbnail={thumbnail}
-          skills={skills}
           geolocation={geolocation}
           selectedLocation={selectedLocation}
-          contactPhone={contactPhone}
-          onChangeName={setName}
+          onChangeTitle={setTitle}
           onChangeDescription={setDescription}
-          onChangeVisibility={setVisibility}
-          onChangeLocationType={setLocationType}
-          onChangeRegularity={setRegularity}
-          onChangeContactEmail={setContactEmail}
-          onChangeSlotsAvailable={setSlotsAvailable}
+          onChangeInviteOnly={setInviteOnly}
+          onChangePermissionType={setPermissionType}
           onChangeThumbnail={setThumbnail}
-          onChangeSkills={setSkills}
           onChangeGeolocation={setGeolocation}
-          onChangeContactPhone={setContactPhone}
           onChangeSelectedLocation={setSelectedLocation}
           fieldErrors={fieldErrors}
           isAdmin={isAdmin}
