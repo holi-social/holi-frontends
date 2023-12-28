@@ -12,9 +12,9 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import AppointmentInputForm from '@holi/core/screens/appointments/components/AppointmentInputForm'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
 import { CreateTaskResponse, CreateTaskSchema, createTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
@@ -209,7 +209,7 @@ const CreateAppointment: React.VFC<ScreenProps> = () => {
         onSave={onSave}
         showConfirmationModal={showConfirmationModal}
       >
-        <TaskInputForm
+        <AppointmentInputForm
           name={name}
           description={description}
           visibility={visibility}
