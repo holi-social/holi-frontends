@@ -11,6 +11,7 @@ import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -68,7 +69,7 @@ export interface AppointmentInputFormProps {
   onChangeDescription: (_: string) => void
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
-  onChangeThumbnail: (_: HoliImageInfo) => void
+  onChangeThumbnail: (_: HoliImageInfo | undefined) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   fieldErrors?: TranslatedFieldErrors
@@ -225,14 +226,32 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
             <HoliImagePicker
               maxFileSizeInMB={10}
               buttonProps={{
-                label: t('spaces.appointments.input.upload.button.label'),
+                label: thumbnail?.uri
+                  ? t('spaces.appointments.input.coverImage.change.button.label')
+                  : t('spaces.appointments.input.upload.button.label'),
                 testID: 'space-upload-image-btn',
                 style: styles.imageUploadButton,
               }}
               onPickImage={onChangeThumbnail}
             >
-              <HoliText>{t('spaces.appointments.input.upload.button.label')}</HoliText>
+              <HoliText>
+                {thumbnail?.uri
+                  ? t('spaces.appointments.input.coverImage.change.button.label')
+                  : t('spaces.appointments.input.upload.button.label')}
+              </HoliText>
             </HoliImagePicker>
+
+            {thumbnail?.uri && (
+              <HoliButton
+                label={t('spaces.appointments.input.coverImage.remove.button.label')}
+                onPress={() => onChangeThumbnail(undefined)}
+                testID="create-space-remove-image-btn"
+                style={styles.imageUploadButton}
+                inline
+              >
+                <HoliText numberOfLines={1}>{t('spaces.appointments.input.coverImage.remove.button.label')}</HoliText>
+              </HoliButton>
+            )}
           </View>
           <View style={styles.instructionsContainer}>
             <HoliText size="extrasmall" style={styles.instructions}>
@@ -295,6 +314,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   uploadButtonContainer: {
+    gap: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },

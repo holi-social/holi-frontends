@@ -457,6 +457,8 @@
   "spaces.actions.more": "Mehr",
   "spaces.appointments.add.button.label": "Einen Termin planen",
   "spaces.appointments.empty.description": "Starte die Planung eurer Meetings und Events",
+  "spaces.appointments.input.coverImage.change.button.label": "Titelbild  ändern",
+  "spaces.appointments.input.coverImage.remove.button.label": "Titelbild entfernen",
   "spaces.appointments.input.description.label": "Beschreibung",
   "spaces.appointments.input.description.placeholder": "Erkläre, worum es bei dem Treffen oder der Veranstaltung geht...",
   "spaces.appointments.input.inviteOnly.INVITE_ONLY.description": "Beschränkt auf Mitwirkende innerhalb eines Spaces.",
