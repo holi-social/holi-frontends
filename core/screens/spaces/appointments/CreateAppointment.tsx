@@ -30,6 +30,14 @@ import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/typ
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
+function formatDate(date: Date) {
+  return [
+    date.getFullYear(),
+    (date.getMonth() + 1).toString().padStart(2, '0'),
+    date.getDate().toString().padStart(2, '0'),
+  ].join('-')
+}
+
 export type CreateAppointmentParams = {
   spaceIdOrName: string
 }
@@ -49,6 +57,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
+  const [startDate, setStartDate] = useState<string | undefined>(formatDate(new Date()))
+  const [endDate, setEndDate] = useState<string | undefined>(formatDate(new Date()))
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [location, setLocation] = useState<string | undefined>('')
@@ -97,6 +107,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           inviteOnly: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY,
           permission: permissionType?.id,
           thumbnail: thumbnail?.blob,
+          startDateTime: new Date(startDate || '').toISOString(),
+          endDateTime: new Date(endDate || '').toISOString(),
           location,
           geolocation,
         },
@@ -188,6 +200,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           title={title}
           description={description}
           inviteOnly={inviteOnly}
+          startDate={startDate}
+          endDate={endDate}
           permissionType={permissionType}
           thumbnail={thumbnail}
           geolocation={geolocation}
@@ -199,6 +213,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           onChangeThumbnail={setThumbnail}
           onChangeGeolocation={setGeolocation}
           onChangeSelectedLocation={setSelectedLocation}
+          onChangeStartDate={setStartDate}
+          onChangeEndDate={setEndDate}
           fieldErrors={fieldErrors}
           isAdmin={isAdmin}
         />

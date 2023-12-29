@@ -13,6 +13,7 @@ import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -58,6 +59,8 @@ export interface AppointmentInputFormProps {
   title: string
   description: string
   inviteOnly?: HoliModalSelectOption
+  startDate?: string
+  endDate?: string
   permissionType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo
@@ -68,6 +71,8 @@ export interface AppointmentInputFormProps {
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
+  onChangeStartDate: (_: string) => void
+  onChangeEndDate: (_: string) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
   onChangeThumbnail: (_: HoliImageInfo | undefined) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
@@ -80,6 +85,8 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   title,
   description,
   inviteOnly,
+  startDate,
+  endDate,
   permissionType,
   thumbnail,
   currentThumbnail,
@@ -87,6 +94,8 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   onChangeTitle,
   onChangeDescription,
   onChangeInviteOnly,
+  onChangeStartDate,
+  onChangeEndDate,
   onChangePermissionType,
   onChangeThumbnail,
   onChangeSelectedLocation,
@@ -171,8 +180,28 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         label={t('spaces.appointments.input.inviteOnly.title')}
         testID="appointment-invite-only-input"
         style={styles.marginSeparator}
+        showOptionIcon
         isRequired
       />
+
+      <View style={styles.sectionWrapper}>
+        <HoliDatePicker
+          onChange={onChangeStartDate}
+          title={t('spaces.appointments.input.startDate.title')}
+          label={t('spaces.appointments.input.startDate.title')}
+          value={startDate}
+          isRequired
+        />
+
+        <HoliDatePicker
+          style={styles.marginSeparator}
+          onChange={onChangeEndDate}
+          title={t('spaces.appointments.input.endDate.title')}
+          label={t('spaces.appointments.input.endDate.title')}
+          value={endDate}
+          isRequired
+        />
+      </View>
 
       <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
         <PlacesAutocomplete
@@ -269,8 +298,9 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           placeholder={t('spaces.appointments.input.permission.placeholder')}
           label={t('spaces.appointments.input.permission.label')}
           testID="appointment-permission-input"
-          isRequired
           description={t('spaces.appointments.input.permission.description')}
+          showOptionIcon
+          isRequired
         />
       </View>
     </>
@@ -330,5 +360,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     color: colors.foreground20,
+  },
+
+  calendarButton: {
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: colors.background10,
+    color: colors.foreground30,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: colors.background30,
+  },
+  calendarButtonHovered: {
+    borderColor: colors.foreground20,
   },
 })
