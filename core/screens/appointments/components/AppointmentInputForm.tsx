@@ -6,7 +6,6 @@ import { Image as ReactNativeImage } from 'react-native'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { PermissionsType } from '@holi/core/screens/appointments/types'
-import { VisibilityType } from '@holi/core/screens/spaces/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
@@ -117,7 +116,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         ...option,
         title: t(`spaces.appointments.input.inviteOnly.${option.id}.title`),
         description: t(`spaces.appointments.input.inviteOnly.${option.id}.description`),
-        disabled: !isAdmin && option.id === VisibilityType.PUBLIC ? true : false,
+        disabled: !isAdmin && option.id === INVITE_ONLY_TYPE.PUBLIC ? true : false,
       }))
     )
 
@@ -126,9 +125,45 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         ...option,
         title: t(`spaces.appointments.input.permission.${option.id}.title`),
         description: t(`spaces.appointments.input.permission.${option.id}.description`),
+        disabled:
+          option.id === PermissionsType.PARTICIPANTS && inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC ? true : false,
       }))
     )
-  }, [t, setInviteOnlyOptions, setPermissionTypeOptions, isAdmin])
+
+    // for admins, set it as public initially
+    if (!inviteOnly && isAdmin && inviteOnlyOptions) {
+      const publicAppointment = inviteOnlyOptions.find((option) => option.id === INVITE_ONLY_TYPE.PUBLIC)
+      if (publicAppointment) {
+        onChangeInviteOnly(publicAppointment)
+      }
+    }
+
+    // for non-admins, set it as private by default
+    if (!inviteOnly && !isAdmin && inviteOnlyOptions) {
+      const privateAppointment = inviteOnlyOptions.find((option) => option.id === INVITE_ONLY_TYPE.INVITE_ONLY)
+      if (privateAppointment) {
+        onChangeInviteOnly(privateAppointment)
+      }
+    }
+
+    // for public events, set permissions as admins only by default
+    if (inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC) {
+      const adminOnlyPermissions = permissionTypeOptions.find((option) => option.id === PermissionsType.ADMINS)
+      if (adminOnlyPermissions) {
+        onChangePermissionType(adminOnlyPermissions)
+      }
+    }
+  }, [
+    t,
+    setInviteOnlyOptions,
+    setPermissionTypeOptions,
+    isAdmin,
+    inviteOnly,
+    inviteOnlyOptions,
+    onChangeInviteOnly,
+    onChangePermissionType,
+    permissionTypeOptions,
+  ])
 
   useEffect(() => {
     setTitleError(fieldErrors?.title?.length ? fieldErrors.title[0] : undefined)
@@ -138,10 +173,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   useEffect(() => {
     if (inviteOnly) {
       setInviteOnlyOptions((options) =>
-        options.map((visibilityOption) =>
-          visibilityOption.title === inviteOnly.title
-            ? { ...visibilityOption, selected: true }
-            : { ...visibilityOption, selected: false }
+        options.map((inviteOnlyOption) =>
+          inviteOnlyOption.title === inviteOnly.title
+            ? { ...inviteOnlyOption, selected: true }
+            : { ...inviteOnlyOption, selected: false }
         )
       )
     }

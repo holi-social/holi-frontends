@@ -20,7 +20,7 @@ import {
   createAppointmentMutation,
 } from '@holi/core/screens/appointments/mutations'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse, spaceByIdQuery, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -75,10 +75,13 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
     data,
     error: errorSpace,
     loading: loadingSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  } = useQuery<SpaceByIdResponse>(spaceByIdWithAllMembersQuery, {
     variables: { idOrName: spaceIdOrName },
     onError: (error) =>
-      logError(error, 'Failed to load space', { location: 'CreateAppointment.spaceByIdQuery', spaceIdOrName }),
+      logError(error, 'Failed to load space', {
+        location: 'CreateAppointment.spaceByIdWithAllMembersQuery',
+        spaceIdOrName,
+      }),
   })
 
   const space = data?.spaceById
@@ -105,6 +108,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           title,
           description,
           inviteOnly: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY,
+          participants: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ id }) => id) : [], // TODO: remove this logic when allowing choosing specific participants
           permission: permissionType?.id,
           thumbnail: thumbnail?.blob,
           startDateTime: new Date(startDate || '').toISOString(),
