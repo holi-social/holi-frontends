@@ -56,12 +56,14 @@ module.exports = withSentryConfig(
   withTranspileModules(
     [
       'react-native',
+      'react-native-calendars',
       'react-native-reanimated',
       'react-native-card-stack-swiper',
       'react-native-gesture-handler',
       'react-native-webview',
       'react-native-render-html',
       'react-native-animated-pagination-dot',
+      'recyclerlistview',
       'expo-modules-core',
       'expo-camera',
       'expo-constants',
