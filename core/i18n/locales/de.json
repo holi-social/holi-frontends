@@ -1018,5 +1018,20 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
-  "wizard.stepsCount": "Schritt {{current}} von {{total}}"
+  "wizard.stepsCount": "Schritt {{current}} von {{total}}",
+  "dayNames": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+  "monthNames": [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember"
+  ]
 }

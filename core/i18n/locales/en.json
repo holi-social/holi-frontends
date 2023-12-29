@@ -1018,5 +1018,20 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Loading the page failed!",
-  "wizard.stepsCount": "Step {{current}} of {{total}}"
+  "wizard.stepsCount": "Step {{current}} of {{total}}",
+  "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+  "monthNames": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ]
 }
