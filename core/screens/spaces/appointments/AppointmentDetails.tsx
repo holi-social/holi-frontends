@@ -45,6 +45,7 @@ const AppointmentDetails = () => {
     onError: (error) =>
       !isNotFoundError(error) &&
       logError(error, 'Failed to load space', { location: 'TaskDetails.spaceByIdQuery', spaceIdOrName }),
+    skip: !spaceIdOrName,
   })
 
   const {
@@ -53,13 +54,14 @@ const AppointmentDetails = () => {
     data: appointmentData,
     refetch: refetchAppointment,
   } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
-    variables: { idOrName: idOrSlug },
+    variables: { idOrSlug },
     onError: (error) =>
       !isNotFoundError(error) &&
       logError(error, 'Failed to load appointment', {
         location: 'AppointmentDetails.appointmentByIdOrSlugQuery',
         idOrSlug,
       }),
+    skip: !idOrSlug,
   })
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchAppointment, refetchSpace]))
 
