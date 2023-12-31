@@ -36,7 +36,7 @@ const useDeleteAppointment = ({
       },
       onError: (error) =>
         displayError(error, 'Failed to delete appointment', {
-          displayMessage: t('spaces.appointments.delete.error'),
+          displayMessage: t('appointment.delete.error'),
           location: 'useDeleteAppointment',
           appointmentId: id,
           spaceId,

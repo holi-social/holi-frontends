@@ -7,6 +7,7 @@
   "appointment.card.PUBLIC.title": "Öffentlich",
   "appointment.delete.confirmation.description": "Möchtest du diesen Termin wirklich löschen?",
   "appointment.delete.confirmation.title": "Termin löschen",
+  "appointment.delete.error": "Beim Löschen des Termins ist ein Fehler aufgetreten. Bitte probiere es später nochmal",
   "appointment.delete.success": "Termin gelöscht",
   "apps.drawer.appsHub": "Apps Hub",
   "apps.drawer.label": "Übersicht der Apps",
