@@ -55,3 +55,17 @@ export const appointmentsBySpaceIdQuery = gql`
 export interface AppointmentsBySpaceIdResponse {
   appointments: Paged<Appointment>
 }
+
+export const appointmentByIdOrSlugQuery = gql`
+  ${FullAppointmentFragment}
+
+  query Appointment($idOrSlug: String!) {
+    appointment(idOrSlug: $idOrSlug) {
+      ...FullAppointment
+    }
+  }
+`
+
+export interface appointmentByIdOrSlugResponse {
+  appointment: Appointment
+}
