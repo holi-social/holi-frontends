@@ -28,6 +28,7 @@ const nextConfig = {
     locales: ['en', 'de'],
     defaultLocale: 'en',
     localeDetection: false,
+    getDefaultLocale: () => 'en',
   },
   compiler: {
     // Remove console outputs in production builds, see https://nextjs.org/docs/advanced-features/compiler#remove-console
