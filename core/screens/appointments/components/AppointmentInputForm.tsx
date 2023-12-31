@@ -27,15 +27,15 @@ export enum INVITE_ONLY_TYPE {
 export const INVITE_ONLY_OPTIONS: HoliModalSelectOption[] = [
   {
     id: INVITE_ONLY_TYPE.PUBLIC,
-    title: 'Public',
     selected: true,
     icon: Global,
+    title: INVITE_ONLY_TYPE.PUBLIC,
   },
   {
     id: INVITE_ONLY_TYPE.INVITE_ONLY,
-    title: 'Members',
     selected: false,
     icon: Lock,
+    title: INVITE_ONLY_TYPE.INVITE_ONLY,
   },
 ]
 
@@ -101,6 +101,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   fieldErrors = {},
   isAdmin,
 }: AppointmentInputFormProps) => {
+  const [optionsReady, setOptionsReady] = useState(false)
   const [inviteOnlyOptions, setInviteOnlyOptions] = useState<HoliModalSelectOption[]>(INVITE_ONLY_OPTIONS)
   const [permissionTypeOptions, setPermissionTypeOptions] = useState<HoliModalSelectOption[]>(PERMISSION_TYPE_OPTIONS)
 
@@ -116,7 +117,8 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         ...option,
         title: t(`spaces.appointments.input.inviteOnly.${option.id}.title`),
         description: t(`spaces.appointments.input.inviteOnly.${option.id}.description`),
-        disabled: !isAdmin && option.id === INVITE_ONLY_TYPE.PUBLIC ? true : false,
+        disabled: !isAdmin && option.id === INVITE_ONLY_TYPE.PUBLIC,
+        selected: inviteOnly?.id === option.id,
       }))
     )
 
@@ -125,13 +127,16 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         ...option,
         title: t(`spaces.appointments.input.permission.${option.id}.title`),
         description: t(`spaces.appointments.input.permission.${option.id}.description`),
-        disabled:
-          option.id === PermissionsType.PARTICIPANTS && inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC ? true : false,
+        disabled: option.id === PermissionsType.PARTICIPANTS && inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC,
+        selected: permissionType?.id === option.id,
       }))
     )
+    setOptionsReady(true)
+  }, [t, setInviteOnlyOptions, setPermissionTypeOptions, isAdmin, inviteOnly, permissionType, setOptionsReady])
 
+  useEffect(() => {
     // for admins, set it as public initially
-    if (!inviteOnly && isAdmin && inviteOnlyOptions) {
+    if (optionsReady && !inviteOnly && isAdmin) {
       const publicAppointment = inviteOnlyOptions.find((option) => option.id === INVITE_ONLY_TYPE.PUBLIC)
       if (publicAppointment) {
         onChangeInviteOnly(publicAppointment)
@@ -139,30 +144,37 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
     }
 
     // for non-admins, set it as private by default
-    if (!inviteOnly && !isAdmin && inviteOnlyOptions) {
+    if (optionsReady && !inviteOnly && !isAdmin) {
       const privateAppointment = inviteOnlyOptions.find((option) => option.id === INVITE_ONLY_TYPE.INVITE_ONLY)
       if (privateAppointment) {
         onChangeInviteOnly(privateAppointment)
       }
     }
 
-    // for public events, set permissions as admins only by default
-    if (inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC) {
+    // whenever selected to public events, set permissions as admins only by default
+    if (optionsReady && inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC && permissionType?.id !== PermissionsType.ADMINS) {
+      const adminOnlyPermissions = permissionTypeOptions.find((option) => option.id === PermissionsType.ADMINS)
+      if (adminOnlyPermissions) {
+        onChangePermissionType(adminOnlyPermissions)
+      }
+    }
+
+    // set permissions as admins only by default if not yet set
+    if (optionsReady && !permissionType) {
       const adminOnlyPermissions = permissionTypeOptions.find((option) => option.id === PermissionsType.ADMINS)
       if (adminOnlyPermissions) {
         onChangePermissionType(adminOnlyPermissions)
       }
     }
   }, [
-    t,
-    setInviteOnlyOptions,
-    setPermissionTypeOptions,
-    isAdmin,
     inviteOnly,
+    permissionType,
+    isAdmin,
     inviteOnlyOptions,
+    permissionTypeOptions,
     onChangeInviteOnly,
     onChangePermissionType,
-    permissionTypeOptions,
+    optionsReady,
   ])
 
   useEffect(() => {
