@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
+import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -45,7 +46,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     successMsg: t('appointment.delete.success'),
   })
 
-  const currentLanguage = (i18n.language || '').split('-')[0]
+  const currentLanguage = getLocale(i18n.language || '')
   const date = localizeDate(new Date(appointment.startDateTime), currentLanguage, {
     weekday: 'short',
     day: 'numeric',
