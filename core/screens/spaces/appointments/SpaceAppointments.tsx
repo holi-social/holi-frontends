@@ -12,11 +12,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import AppointmentsList from '@holi/core/screens/appointments/components/AppointmentsList'
+import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -76,9 +77,9 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
   // TODO: use upcoming spaceAppointmentsQuery (with filter by upcoming and past appointments)
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: PAGE_SIZE,
-    queryPath: 'spaceById.appointments',
+    queryPath: 'appointments',
     variables: {
-      idOrName: spaceIdOrName,
+      spaceId: space?.id,
       limit: PAGE_SIZE,
     },
   }
@@ -116,9 +117,15 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
               style: styles.tabStyle,
               children: (
                 <View style={[mixins.container, styles.all]}>
-                  <Pagination query={spaceMembersQuery} queryOptions={queryOptions} loadMoreOnScroll>
-                    <HoliText>{t('spaces.appointments.tabs.upcoming')}</HoliText>
-                    {/* TODO: Include AppointmentsList component */}
+                  <Pagination
+                    query={appointmentsBySpaceIdQuery}
+                    queryOptions={{
+                      ...queryOptions,
+                      variables: { ...queryOptions.variables, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
+                    }}
+                    loadMoreOnScroll
+                  >
+                    {space && <AppointmentsList space={space} />}
                   </Pagination>
                 </View>
               ),
@@ -128,9 +135,15 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
               style: styles.tabStyle,
               children: (
                 <View style={[mixins.container, styles.all]}>
-                  <Pagination query={spaceMembershipRequestsQuery} queryOptions={queryOptions} loadMoreOnScroll>
-                    <HoliText>{t('spaces.collaborators.loadMoreButton')}</HoliText>
-                    {/* TODO: Include AppointmentsList component */}
+                  <Pagination
+                    query={appointmentsBySpaceIdQuery}
+                    queryOptions={{
+                      ...queryOptions,
+                      variables: { ...queryOptions.variables, statusType: APPOINTMENT_STATUS_TYPE.PAST },
+                    }}
+                    loadMoreOnScroll
+                  >
+                    {space && <AppointmentsList space={space} />}
                   </Pagination>
                 </View>
               ),
