@@ -19,8 +19,9 @@ import {
   CreateAppointmentSchema,
   createAppointmentMutation,
 } from '@holi/core/screens/appointments/mutations'
+import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
-import { SpaceByIdResponse, spaceByIdQuery, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -28,15 +29,8 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { formatDateToYYYMMDD } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
-
-function formatDate(date: Date) {
-  return [
-    date.getFullYear(),
-    (date.getMonth() + 1).toString().padStart(2, '0'),
-    date.getDate().toString().padStart(2, '0'),
-  ].join('-')
-}
 
 export type CreateAppointmentParams = {
   spaceIdOrName: string
@@ -57,8 +51,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
-  const [startDate, setStartDate] = useState<string | undefined>(formatDate(new Date()))
-  const [endDate, setEndDate] = useState<string | undefined>(formatDate(new Date()))
+  const [startDate, setStartDate] = useState<string>(formatDateToYYYMMDD(new Date()))
+  const [endDate, setEndDate] = useState<string>(formatDateToYYYMMDD(new Date()))
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [location, setLocation] = useState<string | undefined>('')
@@ -70,6 +64,12 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  useEffect(() => {
+    if (startDate > endDate) {
+      setEndDate(startDate)
+    }
+  }, [startDate, endDate, setEndDate])
 
   const {
     data,
@@ -97,7 +97,12 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
         location: 'CreateAppointment.createAppointment',
         spaceIdOrName,
       }),
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+    refetchQueries: [
+      {
+        query: appointmentsBySpaceIdQuery,
+        variables: { spaceId: space?.id, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
+      },
+    ],
   })
 
   const onSave = () =>
@@ -108,13 +113,14 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           title,
           description,
           inviteOnly: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY,
-          participants: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ id }) => id) : [], // TODO: remove this logic when allowing choosing specific participants
+          participantIds:
+            inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
           permission: permissionType?.id,
           thumbnail: thumbnail?.blob,
           startDateTime: new Date(startDate || '').toISOString(),
           endDateTime: new Date(endDate || '').toISOString(),
-          location,
-          geolocation,
+          // location, // TODO: reinclude once backend bug is fixed
+          // geolocation, // TODO: reinclude once backend bug is fixed
         },
       },
     })

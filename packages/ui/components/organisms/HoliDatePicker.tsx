@@ -8,6 +8,7 @@ import { ArrowLeftS, ArrowRightS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
+import { localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
 LocaleConfig.locales['de'] = {
@@ -30,22 +31,6 @@ LocaleConfig.locales['de'] = {
   dayNamesShort: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
   today: 'Heute',
 }
-
-const localizeDate = (date: Date, language: string) => {
-  const currentLanguage = language
-
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }
-
-  const formattedDate = date.toLocaleDateString(currentLanguage, options)
-
-  return formattedDate
-}
-
 export interface HoliDatePickerProps {
   onChange: (date: string) => void
   title: string
