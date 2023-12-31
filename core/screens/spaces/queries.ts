@@ -246,7 +246,9 @@ export const spaceByIdWithAllMembersQuery = gql`
       members(limit: 100000) {
         totalResults
         data {
-          id
+          user {
+            id
+          }
         }
       }
     }

@@ -114,8 +114,8 @@ export interface DeleteAppointmentResponse {
 }
 
 export const deleteAppointmentMutation = gql`
-  mutation DeleteAppointment($id: UUID!) {
-    deleteAppointment(id: $id) {
+  mutation DeleteAppointment($appointmentId: UUID!) {
+    deleteAppointment(appointmentId: $appointmentId) {
       success
     }
   }
