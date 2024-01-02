@@ -69,12 +69,12 @@ describe('ChatClient', () => {
     return { listener, callback }
   }
 
-  describe('subscribeToRooms() method', () => {
+  describe('subscribeToNewRooms() method', () => {
     it('calls the callback handler on new event', async () => {
       const roomId = 'testRoomId'
       const room = createRoomMock(roomId)
 
-      const { listener, callback } = simulateSubscription('subscribeToRooms', ClientEvent.Room)
+      const { listener, callback } = simulateSubscription('subscribeToNewRooms', ClientEvent.Room)
       listener(room)
 
       expect(callback).toBeCalledWith(createInitialRoom(MockTransformer.toOriginalType(room)), false)
@@ -90,7 +90,7 @@ describe('ChatClient', () => {
       roomMock.hasMembershipState.mockReturnValue(true)
       room = MockTransformer.toOriginalType(roomMock)
 
-      const { listener, callback } = simulateSubscription('subscribeToRooms', ClientEvent.Room)
+      const { listener, callback } = simulateSubscription('subscribeToNewRooms', ClientEvent.Room)
       listener(room)
 
       expect(mxClient.joinRoom).toBeCalledWith(roomId)
@@ -234,7 +234,7 @@ describe('ChatClient', () => {
     })
   })
 
-  describe('subscribeToRoomTimeline() method', () => {
+  describe('subscribeToSpaceRooms() method', () => {
     it('handles SpaceChild event types', async () => {
       const roomId = 'some-room-id'
       const room = createRoomMock(roomId)
@@ -244,7 +244,7 @@ describe('ChatClient', () => {
       event.getType.mockReturnValue(EventType.SpaceChild)
       event.getEffectiveEvent.mockReturnValue({} as IEvent)
 
-      const { listener, callback } = simulateSubscription('subscribeToRoomTimeline', RoomEvent.Timeline, {
+      const { listener, callback } = simulateSubscription('subscribeToSpaceRooms', RoomEvent.Timeline, {
         level: 'client',
         room,
       })
@@ -262,7 +262,7 @@ describe('ChatClient', () => {
       event.getType.mockReturnValue(EventType.SpaceParent)
       event.getEffectiveEvent.mockReturnValue({} as IEvent)
 
-      const { listener, callback } = simulateSubscription('subscribeToRoomTimeline', RoomEvent.Timeline, {
+      const { listener, callback } = simulateSubscription('subscribeToSpaceRooms', RoomEvent.Timeline, {
         level: 'client',
         room,
       })
@@ -286,7 +286,7 @@ describe('ChatClient', () => {
       event.getContent.mockReturnValue({ membership: 'invite' })
       event.getRoomId.mockReturnValue(roomId)
 
-      const { listener, callback } = simulateSubscription('subscribeToRoomTimeline', RoomEvent.Timeline, {
+      const { listener, callback } = simulateSubscription('subscribeToSpaceRooms', RoomEvent.Timeline, {
         level: 'client',
         room,
       })
