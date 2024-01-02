@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { useCallback } from 'react'
 
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
 import {
   NotificationsPreferencesResponse,
@@ -50,10 +51,22 @@ export interface NotificationWorkflow {
 //   )
 
 export const useNotificationPreferences = () => {
-  // TODO(SF) handle errors
-  const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery)
-  const [updatePreferences, { loading: updatingPreferences }] =
-    useMutation<NotificationsPreferencesResponse>(updateNotificationsPreferences)
+  const { displayError } = useErrorHandling()
+  const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
+    onError: (error) =>
+      displayError(error, 'Failed to load notification preferences', {
+        location: 'useNotificationPreferences.notificationsPreferencesQuery',
+      }),
+  })
+  const [updatePreferences, { loading: updatingPreferences }] = useMutation<NotificationsPreferencesResponse>(
+    updateNotificationsPreferences,
+    {
+      onError: (error) =>
+        displayError(error, 'Failed to update notification preferences', {
+          location: 'useNotificationPreferences.updateNotificationsPreferences',
+        }),
+    }
+  )
 
   // const aggregatedGlobalPreferences = useMemo(
   //   () => aggregatePreferences(workflowPreferences, { allowMixed: true }),

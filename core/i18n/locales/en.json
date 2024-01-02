@@ -597,7 +597,7 @@
   "spaces.follow.unfollow.confirm.headline": "Unfollow {{spaceName}}",
   "spaces.follow.unfollow.confirm.text": "Do you really want to stop following {{spaceName}}?",
   "spaces.global.empty.instruction": "Tap + to add",
-  "spaces.global.seeAll.button.label": "See all",
+  "spaces.global.seeAllButton.label": "See all",
   "spaces.input.contact.description.label": "Contact description",
   "spaces.input.contact.description.placeholder": "Let people know about your preferred way of contact…",
   "spaces.input.contact.email.label": "Email address",

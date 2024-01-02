@@ -18,7 +18,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CATEGORY_ILLUSTRATIONS = {
@@ -39,22 +39,22 @@ const NotificationSettingsList = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  // TODO(SF) how to display updating state for the whole screen?
   const { workflowPreferences, updatePreference, updatingPreferences, loading } = useNotificationPreferences()
   const workflowsByCategory = useMemo(
     () => groupBy(workflowPreferences, (entry) => entry.category),
     [workflowPreferences]
   )
 
-  if (loading || updatingPreferences) {
+  if (loading) {
     return (
-      <View style={[mixins.container, styles.accountSettings]}>
+      <View style={[mixins.container, styles.loadingContainer, styles.accountSettings]}>
         <HoliLoader />
       </View>
     )
   }
   return (
     <View style={[mixins.container, styles.accountSettings]}>
+      {updatingPreferences && <HoliLoader />}
       {NOTIFICATION_CATEGORIES_IN_ORDER.map((category, index) => {
         const workflows = workflowsByCategory[category]
         if (!workflows) {
@@ -185,6 +185,9 @@ const CategoryIllustration: React.FC<{ style: ViewStyle; category: NOTIFICATION_
 export default NotificationSettingsList
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    marginTop: +vars.topBarHeight,
+  },
   accountSettings: {
     paddingHorizontal: 0,
   },
