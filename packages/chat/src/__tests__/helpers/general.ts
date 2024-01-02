@@ -1,11 +1,14 @@
 import {
   EmittedEvents,
   EventEmitterEvents,
+  EventTimeline,
+  EventTimelineSet,
   MatrixClient,
   MatrixEvent,
   Room,
   RoomEvent,
   RoomMember,
+  createClient,
 } from 'matrix-js-sdk'
 
 import { MutableMock } from './types'
@@ -18,10 +21,21 @@ export const getClientOptions = (token: string) => ({
   userId: '@mau:local.chat.holi.social',
 })
 
-export class MockTransformer {
-  static toMutableMockType = <T>(value: T): MutableMock<T> => value as jest.Mocked<T> as MutableMock<T>
+export const toMutableMockType = <T>(value: T): MutableMock<T> => value as jest.Mocked<T> as MutableMock<T>
 
-  static toOriginalType = <T>(value: MutableMock<T>) => value as T
+export const toOriginalType = <T>(value: MutableMock<T>) => value as T
+
+export const createMatrixClientMock = (): MutableMock<MatrixClient> => {
+  const mxClient = new MatrixClient({ baseUrl: '' }) as jest.Mocked<MatrixClient>
+  const createClientMock = createClient as jest.Mock<MatrixClient>
+  createClientMock.mockReturnValue(mxClient)
+
+  const EventTimelineSetMock = EventTimelineSet as jest.MockedClass<typeof EventTimelineSet>
+  const eventTimelineSet = new EventTimelineSet(undefined) as jest.Mocked<EventTimelineSet>
+  EventTimelineSetMock.mockReturnValue(eventTimelineSet)
+  eventTimelineSet.getLiveTimeline.mockReturnValue(new EventTimeline(eventTimelineSet))
+
+  return mxClient
 }
 
 export const createRoomMock = (
@@ -29,7 +43,7 @@ export const createRoomMock = (
   { isSpaceRoom = false, members = [] }: Partial<{ isSpaceRoom: boolean; members: RoomMember[] }> = {}
 ) => {
   // because new Room() is a mock the arguments in constructor do not matter
-  const room = MockTransformer.toMutableMockType(new Room(roomId, {} as MatrixClient, 'creator'))
+  const room = toMutableMockType(new Room(roomId, {} as MatrixClient, 'creator'))
 
   // room setup
   room.roomId = roomId
@@ -41,7 +55,7 @@ export const createRoomMock = (
 
 export const createRoomMemberMock = (userId: string) => {
   // because new RoomMember() is a mock the arguments in constructor do not matter
-  const roomMember = MockTransformer.toMutableMockType(new RoomMember('dummyRoomId', userId))
+  const roomMember = toMutableMockType(new RoomMember('dummyRoomId', userId))
 
   roomMember.userId = userId
 
@@ -56,7 +70,7 @@ export const getListenerForMatrixEvent = (
 }
 
 export const createMatrixEventMock = (type: string) => {
-  const event = MockTransformer.toMutableMockType(new MatrixEvent())
+  const event = toMutableMockType(new MatrixEvent())
 
   // event setup
   event.getType.mockReturnValue(type)

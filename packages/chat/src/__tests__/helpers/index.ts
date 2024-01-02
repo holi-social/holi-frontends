@@ -1,2 +1,2 @@
-export * from './createMatrixClientMock'
 export * from './general'
+export * from './types'

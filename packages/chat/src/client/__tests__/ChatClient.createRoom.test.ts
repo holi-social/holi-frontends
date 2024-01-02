@@ -1,11 +1,11 @@
 import { Preset, Visibility } from 'matrix-js-sdk'
 
 import {
-  MockTransformer,
   createMatrixClientMock,
   createRoomMemberMock,
   createRoomMock,
   getClientOptions,
+  toOriginalType,
 } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { CHAT_ROOM_NAME_MOCK } from '@holi/chat/src/test-utils/matrix-mock-setup'
@@ -102,9 +102,9 @@ describe('ChatClient', () => {
         const roomId = 'testRoomId'
         const roomMock = createRoomMock(roomId, {
           isSpaceRoom: true,
-          members: roomMemberMocks.map(MockTransformer.toOriginalType),
+          members: roomMemberMocks.map(toOriginalType),
         })
-        mxClient.getRooms.mockReturnValue([MockTransformer.toOriginalType(roomMock)])
+        mxClient.getRooms.mockReturnValue([toOriginalType(roomMock)])
 
         await checkIfANewRoomWasCreated()
       })
@@ -113,9 +113,9 @@ describe('ChatClient', () => {
         const roomMemberMocks = members.slice(0, 1).concat('some-different-user').map(createRoomMemberMock)
         const roomId = 'testRoomId'
         const roomMock = createRoomMock(roomId, {
-          members: roomMemberMocks.map(MockTransformer.toOriginalType),
+          members: roomMemberMocks.map(toOriginalType),
         })
-        mxClient.getRooms.mockReturnValue([MockTransformer.toOriginalType(roomMock)])
+        mxClient.getRooms.mockReturnValue([toOriginalType(roomMock)])
 
         await checkIfANewRoomWasCreated()
       })
@@ -124,8 +124,8 @@ describe('ChatClient', () => {
     it('finds an existing room and returns it.', async () => {
       const roomMemberMocks = members.map(createRoomMemberMock)
       const roomId = 'testRoomId'
-      const roomMock = createRoomMock(roomId, { members: roomMemberMocks.map(MockTransformer.toOriginalType) })
-      mxClient.getRooms.mockReturnValue([MockTransformer.toOriginalType(roomMock)])
+      const roomMock = createRoomMock(roomId, { members: roomMemberMocks.map(toOriginalType) })
+      mxClient.getRooms.mockReturnValue([toOriginalType(roomMock)])
 
       const client = new ChatClient(getClientOptions('syt_p'))
       const { room_id } = await client.getOrCreateRoom([members[0]], { isDirectMessage: true })
