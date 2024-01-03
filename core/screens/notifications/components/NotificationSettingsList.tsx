@@ -125,7 +125,7 @@ const WorkflowSettings = ({
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.row, style]}>
+    <View style={[styles.row, style]} testID={workflow.id}>
       <HoliColumns>
         <SettingsNameColumn>
           <HoliText>{t(`profile.settings.notifications.workflow.${workflow.id}`)}</HoliText>
@@ -136,6 +136,7 @@ const WorkflowSettings = ({
               checked={workflow.preferences.push}
               aria-label={t('profile.settings.notifications.channel.push')}
               onSelect={(checked) => updatePreference(workflow.id, Channel.PUSH, checked)}
+              testID="push"
             />
           )}
         </SettingsCheckBoxColumn>
@@ -145,6 +146,7 @@ const WorkflowSettings = ({
               checked={workflow.preferences.email}
               aria-label={t('profile.settings.notifications.channel.email')}
               onSelect={(checked) => updatePreference(workflow.id, Channel.EMAIL, checked)}
+              testID="email"
             />
           )}
         </SettingsCheckBoxColumn>

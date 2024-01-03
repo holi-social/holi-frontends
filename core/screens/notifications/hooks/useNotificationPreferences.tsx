@@ -16,7 +16,7 @@ export enum Category {
   GLOBAL = 'GLOBAL',
   CHAT = 'CHAT',
 }
-type EnabledValue = boolean | 'mixed' | undefined
+type EnabledValue = boolean | 'mixed' | undefined | null
 export type NotificationChannelPreferences = { [key in Channel]?: EnabledValue }
 
 export type UpdateWorkflowPreference = (id: string, channel: Channel, enabled: boolean) => Promise<void>
