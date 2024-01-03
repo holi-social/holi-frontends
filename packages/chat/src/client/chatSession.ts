@@ -123,7 +123,7 @@ const ensureChatLoggedIn = async (orySessionToken?: string, freshLogin = true): 
   // fetch only if no Matrix session data found
   const storedSessionCredentials = await loadSessionCredentials()
   if (storedSessionCredentials?.access_token) {
-    return Promise.resolve(storedSessionCredentials)
+    return storedSessionCredentials
   } else {
     return await storeSessionCredentials(await loginChat(orySessionToken, freshLogin))
   }
