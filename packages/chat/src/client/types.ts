@@ -58,23 +58,33 @@ export type Membership = Memberships[number]
 
 export enum MembershipStatus {
   /**
-   * The user is effectively joined to the room. For example, actually joined
-   * or knocking on the room (when that becomes possible).
-   */
-  Joined = 'JOIN',
-
-  /**
    * The user is effectively invited to the room. Currently this is a direct map
    * to the invite membership as no other membership states are effectively
    * invites.
    */
-  Invited = 'INVITE',
+  Invited = 'invite',
+
+  /**
+   * The user is effectively joined to the room. For example, actually joined
+   * or knocking on the room (when that becomes possible).
+   */
+  Joined = 'join',
 
   /**
    * The user is effectively no longer in the room. For example, kicked,
    * banned, or voluntarily left.
    */
-  Left = 'LEFT',
+  Left = 'leave',
+
+  /**
+   * The user is not allowed to join the room
+   */
+  Banned = 'ban',
+
+  /**
+   * the user has requested to participate in the room, but has not yet been allowed to
+   */
+  Knocking = 'knock',
 }
 
 export type NotificationCount = Partial<Record<NotificationCountType, number>>

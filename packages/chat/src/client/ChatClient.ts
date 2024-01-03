@@ -374,7 +374,7 @@ export default class ChatClient {
     if (isChatRoom(roomOrEvent)) {
       const userId = this.getUserId()
       if (!userId) return false
-      return roomOrEvent.hasMembershipState(userId, MembershipStatus.Invited.toLowerCase())
+      return roomOrEvent.hasMembershipState(userId, MembershipStatus.Invited)
     } else {
       const pushAction = roomOrEvent.getPushActions()
       if (!pushAction?.notify) return false
@@ -384,7 +384,7 @@ export default class ChatClient {
 
       const content = roomOrEvent.getContent()
 
-      return content.membership === MembershipStatus.Invited.toLowerCase()
+      return content.membership === MembershipStatus.Invited
     }
   }
 
@@ -465,8 +465,6 @@ export default class ChatClient {
   ): (() => void) | void {
     const membershipHandler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
-      const client = this.mxClient
-      const avatarUrl = member.getAvatarUrl(client.getHomeserverUrl(), 500, 500, 'scale', true, true)
 
       // If the creator of the DM room is the last one we forget (delete) entirely the room
       // Example usage when the invited member in a two people DM rejects an invitation.
@@ -476,6 +474,7 @@ export default class ChatClient {
           .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
       }
 
+      const avatarUrl = member.getAvatarUrl(this.mxClient.getHomeserverUrl(), 500, 500, 'scale', true, true)
       callback(roomState.roomId, createChatMember(member, avatarUrl), event.getContent().membership)
     }
 

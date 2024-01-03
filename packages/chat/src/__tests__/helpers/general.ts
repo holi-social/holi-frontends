@@ -8,8 +8,11 @@ import {
   Room,
   RoomEvent,
   RoomMember,
+  RoomState,
   createClient,
 } from 'matrix-js-sdk'
+
+import { Membership } from '@holi/chat/src/client/types'
 
 import { MutableMock } from './types'
 
@@ -53,11 +56,24 @@ export const createRoomMock = (
   return room
 }
 
-export const createRoomMemberMock = (userId: string) => {
+export const createRoomStateMock = (roomId: string) => {
+  // because new Room() is a mock the arguments in constructor do not matter
+  const roomState = toMutableMockType(new RoomState(roomId))
+
+  // room setup
+  roomState.roomId = roomId
+
+  return roomState
+}
+
+export const createRoomMemberMock = (userId: string, name?: string, membership?: Membership, avatarUrl?: string) => {
   // because new RoomMember() is a mock the arguments in constructor do not matter
   const roomMember = toMutableMockType(new RoomMember('dummyRoomId', userId))
 
   roomMember.userId = userId
+  if (name) roomMember.name = name
+  if (membership) roomMember.membership = membership
+  if (avatarUrl) roomMember.getAvatarUrl.mockReturnValue(avatarUrl)
 
   return roomMember
 }

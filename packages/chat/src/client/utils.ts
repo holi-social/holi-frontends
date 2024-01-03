@@ -162,25 +162,21 @@ export const hasDuplicateMembershipEvent = (room: Room, event: MatrixEvent): boo
 }
 
 export const createChatMember = (member: RoomMember, avatarUrl: string | null): ChatRoomMember => {
-  const id = member.userId as MatrixId
-
   return {
-    id,
+    id: member.userId as MatrixId,
     name: member.name,
     avatar: avatarUrl ?? member.user?.avatarUrl,
-    membership: getChatMembership(member.membership),
+    membership: getEnumKeyByValue(MembershipStatus, member.membership),
   }
 }
 
-export function getChatMembership(membership?: string) {
-  switch (membership) {
-    case 'join':
-      return MembershipStatus.Joined
-    case 'invite':
-      return MembershipStatus.Invited
-    case 'leave':
-      return MembershipStatus.Left
-  }
+export const getEnumKeyByValue = <T extends { [index: string]: string }>(
+  enumObject: T,
+  enumValue?: string
+): T[keyof T] | undefined => {
+  if (!enumValue) return undefined
+  const found = Object.keys(enumObject).find((x) => enumObject[x] === enumValue)
+  return found ? (enumObject[found] as T[keyof T]) : undefined
 }
 
 /**

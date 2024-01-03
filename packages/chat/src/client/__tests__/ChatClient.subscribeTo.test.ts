@@ -7,19 +7,22 @@ import {
   Room,
   RoomEvent,
   RoomMember,
+  RoomStateEvent,
 } from 'matrix-js-sdk'
 
 import {
   MutableMock,
   createMatrixClientMock,
   createMatrixEventMock,
+  createRoomMemberMock,
   createRoomMock,
+  createRoomStateMock,
   getClientOptions,
   getListenerForMatrixEvent,
   toOriginalType,
 } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent, SpaceRoom } from '@holi/chat/src/client/types'
+import { ChatRoomEvent, MembershipStatus, SpaceRoom } from '@holi/chat/src/client/types'
 import { createInitialRoom } from '@holi/chat/src/client/utils'
 
 jest.mock('matrix-js-sdk')
@@ -335,6 +338,32 @@ describe('ChatClient', () => {
       listener(notificationCount)
 
       expect(callback).not.toBeCalled()
+    })
+  })
+
+  describe('subscribeToMembership() method', () => {
+    it('handles new membership', async () => {
+      const roomId = 'some-room-id'
+      const userId = 'some-user'
+      const userName = 'user name'
+      const avatarUrl = 'avatarUrl'
+      const currentMembership = MembershipStatus.Invited
+      const member = createRoomMemberMock(userId, userName, currentMembership, avatarUrl)
+      const event = createMatrixEventMock(EventType.RoomMember)
+      const newMembership = MembershipStatus.Joined
+      event.getContent.mockReturnValue({ membership: newMembership })
+      const roomState = createRoomStateMock(roomId)
+      roomState.getMembers.mockReturnValue([toOriginalType(member)])
+
+      const { listener, callback } = simulateSubscription('subscribeToMembership', RoomStateEvent.Members)
+      // event: MatrixEvent, roomState: RoomState, member: RoomMember
+      listener(event, roomState, member)
+
+      expect(callback).toBeCalledWith(
+        roomId,
+        { avatar: avatarUrl, id: userId, membership: currentMembership, name: userName },
+        newMembership
+      )
     })
   })
 })
