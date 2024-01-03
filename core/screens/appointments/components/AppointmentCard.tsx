@@ -96,7 +96,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           </HoliButton>
         )}
         <View style={styles.header}>
-          <View style={[styles.inviteOnly, appointment.thumbnail ? styles.tagWithImage : {}]}>
+          <View style={[styles.inviteOnly, appointment.thumbnail && !imageError ? styles.tagWithImage : {}]}>
             <HoliIcon
               icon={appointment.inviteOnly ? LockFilled : GlobeFilled}
               color={colors.foreground30}
@@ -116,7 +116,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               label={t('global.moreOptions')}
               testID="btn-appointment-more-options"
               buttonElement={
-                <View style={appointment.thumbnail ? styles.optionsWithImage : null}>
+                <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
                   <HoliIcon icon={More} color={colors.foreground30} />
                 </View>
               }
@@ -150,7 +150,9 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         </View>
       </View>
 
-      <View style={[styles.detailContainer, appointment.thumbnail ? styles.detailContainerWithImage : {}]}>
+      <View
+        style={[styles.detailContainer, appointment.thumbnail && !imageError ? styles.detailContainerWithImage : {}]}
+      >
         <HoliButton
           transparent
           label={appointment.title}
