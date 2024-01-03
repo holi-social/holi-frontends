@@ -6,13 +6,14 @@ import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/pos
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
 import AboutSpaces from '@holi/core/screens/spaces/about/AboutSpaces'
+import CreateAppointment, { CreateAppointmentParams } from '@holi/core/screens/spaces/appointments/CreateAppointment'
 import SpaceAppointments, { SpaceAppointmentsParams } from '@holi/core/screens/spaces/appointments/SpaceAppointments'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import SpaceCollaboratorsManage, {
   SpaceCollaboratorsManageParams,
 } from '@holi/core/screens/spaces/details/components/SpaceCollaboratorsManage'
-import SpaceInvitePage, { SpaceInvitePageParams } from '@holi/core/screens/spaces/details/components/SpaceInvitePage'
+import SpaceInvitePage, { SpaceInviteViewParams } from '@holi/core/screens/spaces/details/components/SpaceInvitePage'
 import SpaceRolesPermissions, {
   SpaceRolesPermissionsParams,
 } from '@holi/core/screens/spaces/details/components/SpaceRolesPermissions'
@@ -53,7 +54,7 @@ export type SpacesScreens = {
   [RouteName.SpaceVideoCallList]: SpaceVideoCallListParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
-  [RouteName.SpaceInvitePage]: SpaceInvitePageParams
+  [RouteName.SpaceInvitePage]: SpaceInviteViewParams
   [RouteName.Collaborators]: SpaceCollaboratorsManageParams
   [RouteName.EditCollaborators]: EditSpaceCollaboratorsParams
   [RouteName.SpaceRolesPermissions]: SpaceRolesPermissionsParams
@@ -62,6 +63,7 @@ export type SpacesScreens = {
   [RouteName.SpaceTasks]: SpaceTasksParams
   [RouteName.AboutSpaces]: undefined
   [RouteName.SpaceAppointments]: SpaceAppointmentsParams
+  [RouteName.CreateAppointment]: CreateAppointmentParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -104,6 +106,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.SpaceTasks} component={SpaceTasks} />
       <SpacesStack.Screen name={RouteName.AboutSpaces} component={AboutSpaces} />
       <SpacesStack.Screen name={RouteName.SpaceAppointments} component={SpaceAppointments} />
+      <SpacesStack.Screen name={RouteName.CreateAppointment} component={CreateAppointment} />
     </SpacesStack.Navigator>
   )
 }

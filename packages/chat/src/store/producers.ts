@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import { type Getter, atom } from 'jotai'
 
-import type { ChatRoomMember } from '@holi/chat/src/client/types'
+import type { ChatRoomMember, RoomUpdatesContent } from '@holi/chat/src/client/types'
 import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
 
 /**
@@ -71,6 +71,14 @@ export const addOrUpdateChatRoom = produce(
 
 export const deleteChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roomId: string) => {
   if (roomId in roomAtoms) delete roomAtoms[roomId]
+})
+
+export const updateChatRoomName = produce((chatRoom: ChatRoom, content: RoomUpdatesContent) => {
+  chatRoom.name = content.name
+})
+
+export const updateChatRoomAvatar = produce((chatRoom: ChatRoom, content: RoomUpdatesContent) => {
+  chatRoom.avatar = content.url
 })
 
 /**

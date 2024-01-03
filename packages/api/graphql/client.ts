@@ -213,6 +213,9 @@ export const createCache = () =>
           userByName: {
             keyArgs: ['substring'],
           },
+          spacesByName: {
+            keyArgs: ['substring'],
+          },
           connectedUsers: {
             keyArgs: [],
           },

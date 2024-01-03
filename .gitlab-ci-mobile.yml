@@ -312,7 +312,6 @@ mobile_production_submit_android:
     - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
     - production
-  when: manual
   interruptible: false
 
 mobile_production_submit_ios:
@@ -328,5 +327,4 @@ mobile_production_submit_ios:
     - eas submit -p ios --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
     - production
-  when: manual
   interruptible: false

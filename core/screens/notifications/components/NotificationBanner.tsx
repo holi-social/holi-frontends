@@ -1,0 +1,205 @@
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+
+import i18n from '@holi/core/i18n'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Check, Close } from '@holi/icons/src/generated'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
+
+interface NotificationBannerProps {
+  userAvatar: string
+  userName: string
+  spaceName: string
+  acceptedByAdmin: boolean
+  status: 'accepted' | 'declined' | 'withdrawn' | 'deleted'
+  showBanner: boolean
+  style?: StyleProp<ViewStyle>
+}
+
+const NotificationBanner = ({
+  style,
+  userAvatar,
+  userName,
+  spaceName,
+  status,
+  acceptedByAdmin,
+  showBanner = true,
+}: React.PropsWithChildren<NotificationBannerProps>) => {
+  const { t } = useTranslation()
+  const [isVisible, setIsVisible] = useState(showBanner)
+
+  const formatUsername = (username: string, locale: string) => {
+    if (locale === 'de-DE' || locale === 'de') {
+      if (
+        username.endsWith('s') ||
+        username.endsWith('ss') ||
+        username.endsWith('ß') ||
+        username.endsWith('tz') ||
+        username.endsWith('z') ||
+        username.endsWith('x')
+      ) {
+        return username + "'"
+      } else {
+        return username + 's'
+      }
+    } else if (locale === 'en-US' || locale === 'en') {
+      if (username.endsWith('s') || username.endsWith('z')) {
+        return username + "'"
+      } else {
+        return username + "'s"
+      }
+    } else {
+      return username
+    }
+  }
+
+  const statusList = [
+    {
+      status: 'accepted',
+      iconColor: colors.brandColorC20,
+      message: t(acceptedByAdmin ? 'notifications.banner.accept.admin' : 'notifications.banner.accept', {
+        space: spaceName,
+      }),
+    },
+    {
+      status: 'declined',
+      iconColor: colors.warning20,
+      message: t('notifications.banner.declined', {
+        space: spaceName,
+      }),
+    },
+    {
+      status: 'withdrawn',
+      iconColor: colors.warning20,
+      message: t('notifications.banner.withdrawn', {
+        space: spaceName,
+      }),
+    },
+    {
+      status: 'deleted',
+      iconColor: colors.warning20,
+      message: t('notifications.banner.deleted', {
+        space: spaceName,
+      }),
+    },
+  ]
+
+  const matchingStatus = statusList.find((item) => item.status === status)
+
+  return (
+    <>
+      {isVisible && (
+        <View style={[style, styles.container]}>
+          <View>
+            {status === 'deleted' ? (
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/notifications/avatar.svg')}
+                width={40}
+                height={40}
+                label={t('user.profileForm.avatar')}
+                isSvg={true}
+                resizeMode="contain"
+              />
+            ) : (
+              <HoliAvatar
+                imageSrc={userAvatar}
+                size="small"
+                style={{ borderColor: 'transparent' }}
+                label={t('user.profileForm.avatar')}
+                initials=""
+              />
+            )}
+            {matchingStatus &&
+              (matchingStatus.status === 'accepted' ? (
+                <View style={[styles.iconContainer, { backgroundColor: matchingStatus.iconColor }]}>
+                  <HoliIcon icon={Check} size={12} />
+                </View>
+              ) : (
+                <View style={[styles.iconContainer, { backgroundColor: matchingStatus.iconColor }]}>
+                  <HoliLocalImage
+                    imageSource={require('@holi/ui/assets/img/notifications/warning.svg')}
+                    width={12}
+                    height={12}
+                    label={t('user.profileForm.avatar')}
+                    isSvg={true}
+                    resizeMode="contain"
+                  />
+                </View>
+              ))}
+          </View>
+          <View style={styles.content}>
+            <HoliText size="small" style={styles.message}>
+              <HoliText size="small" bold>
+                {status !== 'deleted' && status !== 'declined' && formatUsername(userName, i18n.language)}
+                {status === 'declined' && userName}
+              </HoliText>
+              {matchingStatus && matchingStatus.message}
+            </HoliText>
+          </View>
+          <HoliButton style={styles.status} label={''} transparent onPress={() => setIsVisible(false)}>
+            <HoliIcon icon={Close} size={20} />
+          </HoliButton>
+        </View>
+      )}
+    </>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.background30,
+    backgroundColor: colors.background10,
+  },
+  content: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginHorizontal: 12,
+  },
+
+  iconContainer: {
+    width: 18,
+    height: 18,
+    backgroundColor: colors.brandColorC30,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    zIndex: 1,
+    borderWidth: 1,
+
+    borderRadius: 999,
+
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  status: {
+    display: 'flex',
+    width: 40,
+    height: 40,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: 10,
+    flexShrink: 0,
+  },
+  message: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 4,
+  },
+})
+
+export default NotificationBanner

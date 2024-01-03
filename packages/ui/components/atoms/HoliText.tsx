@@ -6,6 +6,7 @@ import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleto
 import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export const HoliTextSizes = ['extralarge', 'large', 'default', 'small', 'extrasmall'] as const
 export type HoliTextSize = (typeof HoliTextSizes)[number]
@@ -44,6 +45,7 @@ const HoliText = ({
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const alignStyles = getAlignStyles(align)
+  const mixins = useStyleMixins()
 
   if (loading) {
     return (
@@ -64,7 +66,7 @@ const HoliText = ({
         { userSelect: selectable ? 'auto' : 'none' },
         styles.base,
         styles[size],
-        styles[color],
+        mixins[color],
         !!align && alignStyles.align,
         !!bold && styles.bold,
         !!italic && styles.italic,
@@ -104,27 +106,6 @@ const getStyles = (theme: HoliTheme) =>
     extrasmall: {
       fontSize: 12,
       lineHeight: 12 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    black300: {
-      color: colors.foreground30,
-    },
-    gray300: {
-      color: colors.foreground20,
-    },
-    gray200: {
-      color: colors.foreground10,
-    },
-    white100: {
-      color: colors.white100,
-    },
-    white200: {
-      color: colors.white200,
-    },
-    error200: {
-      color: colors.error20,
-    },
-    brandB300: {
-      color: colors.brandColorB30,
     },
     bold: {
       fontWeight: '500',

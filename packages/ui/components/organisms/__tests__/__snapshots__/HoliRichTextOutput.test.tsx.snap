@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliRichTextOutput full text starting with word followed by colon is not a link 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 16,
+      "fontWeight": "400",
+      "lineHeight": 22.4,
+      "userSelect": "auto",
+    }
+  }
+  testID="the-rich-text-output-element"
+>
+  Starke: Reduzierung
+</Text>
+`;
+
+exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 16,
+      "fontWeight": "400",
+      "lineHeight": 22.4,
+      "userSelect": "auto",
+    }
+  }
+  testID="the-rich-text-output-element"
+>
+    
+  <Text
+    accessible={false}
+    aria-label="http://www.google.de"
+    onPress={[Function]}
+    role="link"
+    selectable={true}
+    style={
+      {
+        "color": "#6267e7",
+        "fontFamily": "Circular Std Medium",
+        "fontSize": 16,
+        "fontWeight": "500",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
+    testID="text-link"
+  >
+    http://www.google.de
+  </Text>
+   
+</Text>
+`;
