@@ -6,10 +6,11 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Delete, Edit2, GlobeFilled, LockFilled, More, Time } from '@holi/icons/src/generated'
+import { Delete, Edit2, GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -18,8 +19,6 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { INVITE_ONLY_TYPE } from './AppointmentInputForm'
 
 type AppointmentCardProps = {
   appointment: Appointment
@@ -38,7 +37,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const { userId } = useAuth()
+  const { userId, isLoggedIn } = useAuth()
   const [imageError, setImageError] = useState(false)
   const [isLoadingDeleteAppointment, deleteAppointment] = useDeleteAppointment({
     id: appointment.id,
@@ -179,6 +178,46 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </HoliText>
           </View>
         </View>
+        {!isLoggedIn && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {t('appointment.card.login.location')}
+              </HoliText>
+            </View>
+          </View>
+        )}
+        {!isLoggedIn && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {t('appointment.card.login.videochat')}
+              </HoliText>
+            </View>
+          </View>
+        )}
+        {isLoggedIn && appointment.location && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {appointment.location}
+              </HoliText>
+            </View>
+          </View>
+        )}
+        {isLoggedIn && appointment.videoCallLink?.url && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {appointment.videoCallLink?.url}
+              </HoliText>
+            </View>
+          </View>
+        )}
       </HoliButton>
 
       {showFullView && (

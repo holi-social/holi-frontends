@@ -80,6 +80,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
   })
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const appointments = appointmentsResult?.appointments
 
@@ -95,6 +96,9 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
   }, [navigate, spaceIdOrName])
 
   if (errorSpace || loadingSpace) return <></>
+
+  // return empty block if there is no data and user is not a collaborator
+  if (!data.length && !isAdmin && !isMember) return <></>
 
   return (
     <CollaboratorAreaCard

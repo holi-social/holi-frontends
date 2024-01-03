@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -117,24 +117,23 @@ const styles = StyleSheet.create({
   defaultLayout: {
     paddingBottom: 120,
     minHeight: '100%',
-    paddingTop: vars.topBarHeight,
+    paddingTop: +vars.topBarHeight,
     backgroundColor: colors.background20,
     ...Platform.select({
       web: {
-        minHeight: '100vh',
+        minHeight: '100vh' as DimensionValue,
       },
     }),
   },
   contentStyle: {
     paddingBottom: 0,
-    // paddingTop: vars.topBarHeight,
     ...Platform.select({
       web: {
-        minHeight: '100vh',
+        minHeight: '100vh' as DimensionValue,
         paddingTop: 12,
       },
       native: {
-        paddingTop: vars.topBarHeight,
+        paddingTop: +vars.topBarHeight,
       },
     }),
   },
