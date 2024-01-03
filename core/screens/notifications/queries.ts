@@ -91,8 +91,8 @@ export type lastSeenNotificationResponse = {
 }
 
 export interface NotificationsChannelPreferences {
-  push: boolean
-  email: boolean
+  push?: boolean | null
+  email?: boolean | null
 }
 
 export interface NotificationsWorkflowPreferences {

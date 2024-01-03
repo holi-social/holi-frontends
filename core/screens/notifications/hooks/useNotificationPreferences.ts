@@ -2,9 +2,11 @@ import { useMutation, useQuery } from '@apollo/client'
 import { useCallback } from 'react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
 import {
   NotificationsPreferencesResponse,
+  NotificationsWorkflowPreferences,
   notificationsPreferencesQuery,
 } from '@holi/core/screens/notifications/queries'
 
@@ -16,7 +18,7 @@ export enum Category {
   GLOBAL = 'GLOBAL',
   CHAT = 'CHAT',
 }
-type EnabledValue = boolean | 'mixed' | undefined | null
+type EnabledValue = boolean | 'mixed' | null
 export type NotificationChannelPreferences = { [key in Channel]?: EnabledValue }
 
 export type UpdateWorkflowPreference = (id: string, channel: Channel, enabled: boolean) => Promise<void>
@@ -52,6 +54,13 @@ export interface NotificationWorkflow {
 
 export const useNotificationPreferences = () => {
   const { displayError } = useErrorHandling()
+  const {
+    chatEnabled,
+    chatPushEnabled,
+    updateChatPushPreference,
+    loadingChatPushPreference,
+    updatingChatPushPreference,
+  } = useChatPushPreference()
   const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
     onError: (error) =>
       displayError(error, 'Failed to load notification preferences', {
@@ -68,48 +77,52 @@ export const useNotificationPreferences = () => {
     }
   )
 
+  const updatePreference = useCallback(
+    async (id: string, channel: Channel, enabled: boolean) => {
+      const updates = []
+      if (([Category.GLOBAL, Category.CHAT] as string[]).includes(id) && channel === Channel.PUSH) {
+        updates.push(updateChatPushPreference(enabled))
+      }
+      if (id !== Category.CHAT) {
+        updates.push(
+          updatePreferences({
+            variables: {
+              input: {
+                id,
+                channel,
+                enabled,
+              },
+            },
+          })
+        )
+      }
+      await Promise.all(updates)
+    },
+    [updateChatPushPreference, updatePreferences]
+  )
+
   // const aggregatedGlobalPreferences = useMemo(
   //   () => aggregatePreferences(workflowPreferences, { allowMixed: true }),
   //   [workflowPreferences]
   // )
-  // TODO(SF) handle chat preferences
-  // const chatPreferencesGroup = {
-  //   category: Group.CHAT,
-  //   group: Group.CHAT,
-  //   preferences: chatPreferences,
-  // }
-  // const updateChatPushPreferences = useCallback(async (enabled: boolean) =>
-  // TODO(SF) what if chat client retrieval is not successful?
-  // TODO(SF) update displayed state as well
-  // getChatClient()
-  //   .togglePushNotifications(enabled)
-  //   .catch((error) =>
-  //     logError(error, 'Error while updating chat push notification preferences', {
-  //       location: 'useNotificationPreferences.updateChatPreferences',
-  //     })
-  //   ),
-  //   []
-  // )
-
-  const updatePreference = useCallback(
-    async (id: string, channel: Channel, enabled: boolean) => {
-      await updatePreferences({
-        variables: {
-          input: {
-            id,
-            channel,
-            enabled,
+  const chatPreferencesGroup: NotificationsWorkflowPreferences[] =
+    chatEnabled && !loadingChatPushPreference
+      ? [
+          {
+            id: Category.CHAT,
+            category: Category.CHAT,
+            preferences: {
+              push: chatPushEnabled,
+              email: null,
+            },
           },
-        },
-      })
-    },
-    [updatePreferences]
-  )
+        ]
+      : []
 
   return {
-    workflowPreferences: data?.notifications_preferences,
+    workflowPreferences: data?.notifications_preferences?.concat(chatPreferencesGroup),
     updatePreference,
-    loading,
-    updatingPreferences,
+    loading: loading || loadingChatPushPreference,
+    updatingPreferences: updatingPreferences || updatingChatPushPreference,
   }
 }

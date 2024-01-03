@@ -2,7 +2,6 @@ import { MockedProvider } from '@apollo/client/testing'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-// import ChatClient from '@holi/chat/src/client/ChatClient'
 import { logError } from '@holi/core/errors/helpers'
 import {
   Channel,
@@ -10,7 +9,12 @@ import {
   useNotificationPreferences,
 } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
-import { notificationsPreferencesQuery } from '@holi/core/screens/notifications/queries'
+import {
+  NotificationsWorkflowPreferences,
+  notificationsPreferencesQuery,
+} from '@holi/core/screens/notifications/queries'
+
+const mockUseChatPushPreference = jest.fn()
 
 jest.mock('@holi/core/errors/helpers', () => {
   const original = jest.requireActual('@holi/core/errors/helpers')
@@ -19,6 +23,10 @@ jest.mock('@holi/core/errors/helpers', () => {
     logError: jest.fn(),
   }
 })
+
+jest.mock('@holi/core/screens/notifications/hooks/useChatPushPreference', () => ({
+  useChatPushPreference: () => mockUseChatPushPreference(),
+}))
 
 const addTypenamesToWorkflow = ({ preferences, ...workflow }: NotificationWorkflow) => ({
   ...workflow,
@@ -113,6 +121,23 @@ const updatePreferenceRequestGlobal = {
     },
   },
 }
+const updatePreferenceRequestGlobalPush = {
+  request: {
+    query: updateNotificationsPreferences,
+    variables: {
+      input: {
+        id: 'GLOBAL',
+        channel: 'push',
+        enabled: true,
+      },
+    },
+  },
+  result: {
+    data: {
+      notifications_updatePreferences: updatedPreferencesResponseGlobal,
+    },
+  },
+}
 const updatePreferenceRequestWorkflow = {
   request: {
     query: updateNotificationsPreferences,
@@ -144,17 +169,11 @@ const updatePreferenceRequestFailure = {
   error: new Error('Test error'),
 }
 
-// let mockChatClient: Partial<ChatClient>
-// let mockTogglePushNotifications = jest.fn()
-// jest.mock('@holi/chat/src/store', () => ({
-//   getChatClient: () => mockChatClient,
-// }))
-
 describe('useNotificationPreferences', () => {
   beforeEach(() => {
-    // mockChatClient = {
-    //   togglePushNotifications: (value: boolean) => mockTogglePushNotifications(value),
-    // }
+    mockUseChatPushPreference.mockReturnValue({
+      chatEnabled: false,
+    })
   })
 
   it('should fetch user preferences initially', async () => {
@@ -241,84 +260,108 @@ describe('useNotificationPreferences', () => {
     })
   })
 
-  // it('should disable push in novu and chat', async () => {
-  //   // give a novu with only email preference
-  //   mockNovuService = {
-  //     getUserGlobalPreference: jest.fn().mockResolvedValue(novuPreferences),
-  //     updateSubscriberGlobalPreference: jest.fn().mockResolvedValue(novuPreferencesOnlyEmail),
-  //   }
-  //   mockTogglePushNotifications = jest.fn().mockResolvedValue({})
+  it('should handle chat push preference loading state', async () => {
+    mockUseChatPushPreference.mockReturnValue({
+      loadingChatPushPreference: true,
+    })
+    const { result } = renderHook(() => useNotificationPreferences(), {
+      wrapper: ({ children }) => <MockedProvider mocks={[preferencesRequestSuccess]}>{children}</MockedProvider>,
+    })
 
-  //   // when rendering
-  //   const { result } = renderHook(() => useNotificationPreferences())
+    await waitFor(() => expect(result.current.workflowPreferences).toEqual(preferencesResponse))
 
-  //   // then we can wait to have some global preferences initially
-  //   await waitFor(() => {
-  //     expect(result.current.globalPreferences).toBeTruthy()
-  //   })
+    expect(result.current.loading).toBeTruthy()
+  })
 
-  //   // when we toggle push off
-  //   act(() => {
-  //     result.current.togglePushPreference(false)
-  //   })
+  it('should include chat push preference if chat is enabled', async () => {
+    const expectedPreferences = (preferencesResponse as NotificationsWorkflowPreferences[]).concat([
+      {
+        id: 'CHAT',
+        category: 'CHAT',
+        preferences: { push: true, email: null },
+      },
+    ])
+    mockUseChatPushPreference.mockReturnValue({
+      chatEnabled: true,
+      chatPushEnabled: true,
+    })
+    const { result } = renderHook(() => useNotificationPreferences(), {
+      wrapper: ({ children }) => <MockedProvider mocks={[preferencesRequestSuccess]}>{children}</MockedProvider>,
+    })
+    expect(result.current.loading).toBeTruthy()
 
-  //   //then
-  //   await waitFor(() => {
-  //     // novu push is set to off
-  //     expect(mockNovuService.updateSubscriberGlobalPreference).toHaveBeenCalledWith(
-  //       [
-  //         { channelType: 'email', enabled: true },
-  //         { channelType: 'push', enabled: false },
-  //       ],
-  //       true
-  //     )
+    await waitFor(() => {
+      expect(result.current.loading).toBeFalsy()
+      expect(result.current.workflowPreferences).toEqual(expectedPreferences)
+    })
+  })
 
-  //     // matrix chat push is set to off
-  //     waitFor(() => {
-  //       expect(mockTogglePushNotifications).toHaveBeenCalledWith(false)
-  //     })
+  it('should apply global push preference to chat', async () => {
+    const updateChatPushPreference = jest.fn().mockResolvedValue(null)
+    mockUseChatPushPreference.mockReturnValue({
+      chatEnabled: true,
+      updateChatPushPreference,
+    })
+    const { result } = renderHook(() => useNotificationPreferences(), {
+      wrapper: ({ children }) => (
+        <MockedProvider mocks={[preferencesRequestSuccess, updatePreferenceRequestGlobalPush]}>
+          {children}
+        </MockedProvider>
+      ),
+    })
+    await waitFor(() => {
+      expect(result.current.loading).toBeFalsy()
+    })
 
-  //     // the hook returns that push is off
-  //     expect(result.current).toStrictEqual(
-  //       expect.objectContaining({
-  //         globalPreferences: {
-  //           email: true,
-  //           push: false,
-  //         },
-  //         globalPreferencesUpdating: false,
-  //       })
-  //     )
-  //   })
-  // })
+    await act(() => result.current.updatePreference('GLOBAL', Channel.PUSH, true))
 
-  // it('should disable push in novu even if chat push disabling fails', async () => {
-  //   mockNovuService = {
-  //     getUserGlobalPreference: jest.fn().mockResolvedValue(novuPreferences),
-  //     updateSubscriberGlobalPreference: jest.fn().mockResolvedValue(novuPreferencesOnlyEmail),
-  //   }
+    await waitFor(() => {
+      expect(result.current.updatingPreferences).toBeFalsy()
+      expect(updateChatPushPreference).toHaveBeenCalledWith(true)
+    })
+  })
 
-  //   mockTogglePushNotifications = jest.fn().mockRejectedValue('chat server down')
+  it('should not apply global email preference to chat', async () => {
+    const updateChatPushPreference = jest.fn()
+    mockUseChatPushPreference.mockReturnValue({
+      chatEnabled: true,
+      updateChatPushPreference,
+    })
+    const { result } = renderHook(() => useNotificationPreferences(), {
+      wrapper: ({ children }) => (
+        <MockedProvider mocks={[preferencesRequestSuccess, updatePreferenceRequestGlobal]}>{children}</MockedProvider>
+      ),
+    })
+    await waitFor(() => {
+      expect(result.current.loading).toBeFalsy()
+    })
 
-  //   const { result } = renderHook(() => useNotificationPreferences())
+    await act(() => result.current.updatePreference('GLOBAL', Channel.EMAIL, false))
 
-  //   // wait to have some global preferences initially
-  //   await waitFor(() => {
-  //     expect(result.current.globalPreferences).toBeTruthy()
-  //   })
+    await waitFor(() => {
+      expect(result.current.updatingPreferences).toBeFalsy()
+      expect(updateChatPushPreference).not.toHaveBeenCalled()
+    })
+  })
 
-  //   act(() => {
-  //     result.current.togglePushPreference(false)
-  //   })
+  it('should apply chat push preference update', async () => {
+    const updateChatPushPreference = jest.fn().mockResolvedValue(null)
+    mockUseChatPushPreference.mockReturnValue({
+      chatEnabled: true,
+      updateChatPushPreference,
+    })
+    const { result } = renderHook(() => useNotificationPreferences(), {
+      wrapper: ({ children }) => <MockedProvider mocks={[preferencesRequestSuccess]}>{children}</MockedProvider>,
+    })
+    await waitFor(() => {
+      expect(result.current.loading).toBeFalsy()
+    })
 
-  //   await waitFor(() => {
-  //     expect(mockNovuService.updateSubscriberGlobalPreference).toHaveBeenCalledWith(
-  //       [
-  //         { channelType: 'email', enabled: true },
-  //         { channelType: 'push', enabled: false },
-  //       ],
-  //       true
-  //     )
-  //    // TODO(SF) expect error log
-  //   })
-  // })
+    await act(() => result.current.updatePreference('CHAT', Channel.PUSH, true))
+
+    await waitFor(() => {
+      expect(result.current.updatingPreferences).toBeFalsy()
+      expect(updateChatPushPreference).toHaveBeenCalledWith(true)
+    })
+  })
 })
