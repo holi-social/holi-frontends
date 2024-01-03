@@ -3,19 +3,18 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
 import { Appointment } from '@holi/core/screens/appointments/types'
+import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Delete, Edit2, GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
+import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -39,11 +38,6 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   const { navigate } = useRouting()
   const { userId, isLoggedIn } = useAuth()
   const [imageError, setImageError] = useState(false)
-  const [isLoadingDeleteAppointment, deleteAppointment] = useDeleteAppointment({
-    id: appointment.id,
-    spaceId: space.id,
-    successMsg: t('appointment.delete.success'),
-  })
 
   const currentLanguage = getLocale(i18n.language || '')
   const date = localizeDate(new Date(appointment.startDateTime), currentLanguage, {
@@ -112,40 +106,11 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </HoliText>
           </View>
           {(isAdmin || isAppointmentCreator) && !showFullView && (
-            <HoliActionDrawer.Drawer
-              label={t('global.moreOptions')}
-              testID="btn-appointment-more-options"
-              buttonElement={
-                <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
-                  <HoliIcon icon={More} color={colors.foreground30} />
-                </View>
-              }
-            >
-              <HoliActionDrawer.Action
-                icon={Edit2}
-                title={t('global.edit')}
-                testID="btn-to-edit-appointment"
-                handleAction={() => navigate(`/spaces/${space.name}/appointments/${appointment.id}/edit`)}
-              />
-              <HoliActionDrawer.Action
-                isLoading={isLoadingDeleteAppointment}
-                icon={Delete}
-                title={t('global.delete')}
-                variant="danger"
-                testID="btn-to-delete-appointment"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('appointment.delete.confirmation.title')}
-                  description={t('appointment.delete.confirmation.description')}
-                  testID="appointment-delete"
-                  handleConfirmation={deleteAppointment}
-                  buttonType="warning"
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
-            </HoliActionDrawer.Drawer>
+            <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
+              <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
+                <HoliIcon icon={More} color={colors.foreground30} />
+              </View>
+            </AppointmentDrawer>
           )}
         </View>
       </View>
