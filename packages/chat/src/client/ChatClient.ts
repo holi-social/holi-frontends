@@ -603,7 +603,7 @@ export default class ChatClient {
   /**
    * @describe In this method, we use a general room `Timeline` event emitter
    * exclusively for updating `Space -> Child` room relationships. Other
-   * subscribers who listen to the timeline should implement a  separate method.
+   * subscribers who listen to the timeline should implement a separate method.
    */
   public subscribeToSpaceRooms(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
     const client = this.mxClient
