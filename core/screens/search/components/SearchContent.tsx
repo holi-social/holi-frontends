@@ -26,6 +26,10 @@ type SearchParams = {
 
 const { useParam } = createParam<SearchParams>()
 
+const validateFilter = (value: FilterType): FilterType => {
+  return filterTypes.includes(value) ? value : 'all'
+}
+
 interface SearchFilterButton {
   label: string
   onPress?: () => void
@@ -53,7 +57,7 @@ const SearchContent = () => {
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const [query = '', setQueryParam] = useParam('query', singleParamConfig)
   const [selectedFilter, setFilterParam] = useParam('filter', singleParamConfig)
-  const filter = (selectedFilter as FilterType) || 'all'
+  const filter = validateFilter(selectedFilter as FilterType)
   const itemsToLoad = useRef<number>(FILTER_ALL_PAGE_SIZE)
 
   const isQueryValid = query.length >= MIN_SEARCH_TERM_CHARACTERS
@@ -82,8 +86,8 @@ const SearchContent = () => {
       <HoliBox padding={16}>
         <HoliTextInput
           value={query}
-          placeholder={t('search.start.input.placeholder')}
-          aria-label={t('search.start.input.placeholder')}
+          placeholder={t(`search.input.${filter}.placeholder`)}
+          aria-label={t(`search.input.${filter}.placeholder`)}
           inputProps={{ autoFocus: true }}
           trailingComponent={
             <SpinningIconContainer spinning={!!(users?.loading || spaces?.loading)}>
@@ -141,14 +145,6 @@ const styles = StyleSheet.create({
     marginTop: +vars.topBarHeight,
     paddingLeft: 0,
     paddingRight: 0,
-    ...Platform.select({
-      web: {
-        paddingBottom: +vars.bottomBarHeight,
-      },
-      android: {
-        paddingBottom: +vars.bottomBarHeight,
-      },
-    }),
   },
   buttonList: {
     flexGrow: 0,

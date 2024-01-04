@@ -62,9 +62,12 @@ const SpaceDetails = () => {
     variables: { idOrName: spaceIdOrName || '' },
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
     skip: !spaceIdOrName,
-    onError: (error) =>
-      !isNotFoundError(error) &&
-      logError(error, 'Failed to load space', { location: 'SpaceDetails.spaceByIdQuery', spaceIdOrName }),
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load space', { location: 'SpaceDetails.spaceByIdQuery', spaceIdOrName })
+    },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -274,11 +277,6 @@ const SpaceDetails = () => {
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
-  }
-
-  if (called && ((error && isNotFoundError(error)) || (!loading && !space))) {
-    replaceRoute('/404')
-    return <></>
   }
 
   // Error and loading states are handled the same way and just hide the component

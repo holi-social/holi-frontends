@@ -34,8 +34,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const userId = useAuth()
-  const isLoggedIn = !!userId
+  const { isLoggedIn } = useAuth()
   const { logout } = useLogout()
   const { openToast } = useToast()
 

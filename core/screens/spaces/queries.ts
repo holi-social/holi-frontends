@@ -236,6 +236,25 @@ export const spaceMembershipByIdQuery = gql`
   }
 `
 
+// limit of 100000 to ignore pagination and get all member ids
+export const spaceByIdWithAllMembersQuery = gql`
+  query SpaceById($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
+      id
+      name
+      connectionStatusToMyself
+      members(limit: 100000) {
+        totalResults
+        data {
+          user {
+            id
+          }
+        }
+      }
+    }
+  }
+`
+
 export const spacesByNameQuery = gql`
   ${SpaceOverviewFragment}
 
