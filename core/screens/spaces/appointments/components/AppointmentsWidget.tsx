@@ -122,11 +122,11 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
       {data.length > INITIAL_NUMBER_OF_ITEMS && (
         <View style={styles.seeAllButtonContainer}>
           <HoliButton
-            label={t('spaces.global.seeAll.button.label')}
+            label={t('spaces.global.seeAllButton.label')}
             style={styles.seeAllButton}
             onPress={navigateToAppointmentsPage}
           >
-            <HoliText>{t('spaces.global.seeAll.button.label')}</HoliText>
+            <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
           </HoliButton>
         </View>
       )}
