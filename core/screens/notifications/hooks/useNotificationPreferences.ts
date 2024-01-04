@@ -68,7 +68,6 @@ const combineAndAggregatePreferences = (
     return workflowPreferences
   }
   const nonGlobalPreferences = workflowPreferences.filter(({ id }) => id !== Category.GLOBAL)
-  // TODO(SF) include global prefs in aggregation? shouldn't hurt
   const workflowsToAggregate = chatPreferences ? nonGlobalPreferences.concat([chatPreferences]) : nonGlobalPreferences
 
   const aggregatedGlobalPreferences = {
