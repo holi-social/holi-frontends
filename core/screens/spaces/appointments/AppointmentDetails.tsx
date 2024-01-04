@@ -17,7 +17,7 @@ import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
+import { Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -262,7 +262,7 @@ const AppointmentDetails = () => {
               </HoliText>
             </View>
             <View style={styles.detailsIconGroup}>
-              <HoliIcon icon={LockFilled} size={24} style={styles.detailsIcon} />
+              <HoliIcon icon={appointment.inviteOnly ? LockFilled : Global} size={24} style={styles.detailsIcon} />
               <HoliText>
                 {appointment.inviteOnly
                   ? t('spaces.appointments.details.restricted')
