@@ -253,7 +253,6 @@ const AppointmentDetails = () => {
                 label={appointment.creator.fullName || t('user.profileView.anonymous')}
                 initials={appointment.creator.avatarLabel || ''}
                 defaultColor={appointment.creator.avatarDefaultColor || ''}
-                size="large"
                 testID="appointment-contact-avatar"
               />
               <HoliText style={styles.avatarName}>
@@ -365,7 +364,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.background20,
     borderRadius: 50,
-    padding: 18,
+    padding: 13,
     marginRight: 16,
   },
 })
