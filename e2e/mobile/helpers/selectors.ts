@@ -188,19 +188,13 @@ export const getElementCoordinates = async (element: Element<'async'>) => {
 }
 
 export const fillFieldByTestId = async (testId: string, value: string) => {
-  const element = await tapOnElementWithTestId(testId)
   try {
+    const element = await tapOnElementWithTestId(testId)
     // https://webdriver.io/docs/api/element/setValue
     await element.setValue(value)
     return element
   } catch (err) {
-    try {
-      delay(1) // retry once after one second
-      await element.setValue(value)
-      return element
-    } catch (err) {
-      throw new Error("Couldn't fill field with testID: " + testId)
-    }
+    throw new Error("Couldn't fill field with testID: " + testId)
   }
 }
 
