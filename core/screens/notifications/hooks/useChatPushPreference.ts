@@ -10,7 +10,6 @@ export const useChatPushPreference = () => {
   const [loadingChatPushPreference, setLoadingChatPushPreference] = useState(true)
   const { ftLoading, ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
   const chatInitialized = useChatInitialized()
-  const [updatingChatPushPreference, setUpdatingChatPushPreference] = useState<boolean>()
 
   useEffect(() => {
     if (!ftLoading && ftEnabled && chatInitialized) {
@@ -31,7 +30,6 @@ export const useChatPushPreference = () => {
       if (!ftEnabled) {
         return
       }
-      setUpdatingChatPushPreference(true)
       return getChatClient()
         .setPushNotificationsEnabled(enabled)
         .then(() => setChatPushEnabled(enabled))
@@ -40,7 +38,6 @@ export const useChatPushPreference = () => {
             location: 'useChatPushPreferences.updateChatPreferences',
           })
         )
-        .finally(() => setUpdatingChatPushPreference(false))
     },
     [ftEnabled]
   )
@@ -50,6 +47,5 @@ export const useChatPushPreference = () => {
     chatPushEnabled,
     updateChatPushPreference,
     loadingChatPushPreference: ftLoading || (ftEnabled && (!chatInitialized || loadingChatPushPreference)),
-    updatingChatPushPreference,
   }
 }

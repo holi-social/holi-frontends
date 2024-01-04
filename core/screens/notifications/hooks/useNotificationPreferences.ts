@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
@@ -80,31 +80,24 @@ const combineAndAggregatePreferences = (
 
 export const useNotificationPreferences = () => {
   const { displayError } = useErrorHandling()
-  const {
-    chatEnabled,
-    chatPushEnabled,
-    updateChatPushPreference,
-    loadingChatPushPreference,
-    updatingChatPushPreference,
-  } = useChatPushPreference()
+  const [updatingPreferences, setUpdatingPreferences] = useState(false)
+  const { chatEnabled, chatPushEnabled, updateChatPushPreference, loadingChatPushPreference } = useChatPushPreference()
   const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
     onError: (error) =>
       displayError(error, 'Failed to load notification preferences', {
         location: 'useNotificationPreferences.notificationsPreferencesQuery',
       }),
   })
-  const [updatePreferences, { loading: updatingPreferences }] = useMutation<NotificationsPreferencesResponse>(
-    updateNotificationsPreferences,
-    {
-      onError: (error) =>
-        displayError(error, 'Failed to update notification preferences', {
-          location: 'useNotificationPreferences.updateNotificationsPreferences',
-        }),
-    }
-  )
+  const [updatePreferences] = useMutation<NotificationsPreferencesResponse>(updateNotificationsPreferences, {
+    onError: (error) =>
+      displayError(error, 'Failed to update notification preferences', {
+        location: 'useNotificationPreferences.updateNotificationsPreferences',
+      }),
+  })
 
   const updatePreference = useCallback(
     async (id: string, channel: Channel, enabled: boolean) => {
+      setUpdatingPreferences(true)
       const updates = []
       if (([Category.GLOBAL, Category.CHAT] as string[]).includes(id) && channel === Channel.PUSH) {
         updates.push(updateChatPushPreference(enabled))
@@ -122,7 +115,7 @@ export const useNotificationPreferences = () => {
           })
         )
       }
-      await Promise.all(updates)
+      await Promise.all(updates).finally(() => setUpdatingPreferences(false))
     },
     [updateChatPushPreference, updatePreferences]
   )
@@ -140,6 +133,6 @@ export const useNotificationPreferences = () => {
     workflowPreferences,
     updatePreference,
     loading: loading || loadingChatPushPreference,
-    updatingPreferences: updatingPreferences || updatingChatPushPreference,
+    updatingPreferences: updatingPreferences,
   }
 }

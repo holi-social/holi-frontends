@@ -91,7 +91,6 @@ describe('useChatPushPreference', () => {
 
     await act(() => result.current.updateChatPushPreference(false))
 
-    await waitFor(() => expect(result.current.updatingChatPushPreference).toBeFalsy())
     expect(mockSetPushNotificationsEnabled).toHaveBeenCalledWith(false)
   })
 
@@ -102,7 +101,6 @@ describe('useChatPushPreference', () => {
 
     await act(() => result.current.updateChatPushPreference(false))
 
-    await waitFor(() => expect(result.current.updatingChatPushPreference).toBeFalsy())
     expect(logError).toHaveBeenCalledWith(
       expect.anything(),
       'Error while updating chat push notification preferences',
