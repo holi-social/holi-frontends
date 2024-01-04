@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
@@ -13,9 +13,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -23,17 +21,9 @@ type AppointmentCardProps = {
   appointment: Appointment
   space: Space
   isAdmin?: boolean
-  showFullView?: boolean
 }
 
-const IMAGE_ASPECT_RATIO = 327 / 210
-
-const AppointmentCard: React.FC<AppointmentCardProps> = ({
-  appointment,
-  space,
-  isAdmin,
-  showFullView = true,
-}: AppointmentCardProps) => {
+const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, isAdmin }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
   const { userId, isLoggedIn } = useAuth()
@@ -73,17 +63,11 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     <View key={appointment.id} style={styles.appointmentItem} testID="space-appointment-tile">
       <View style={styles.imageContainer}>
         {!imageError && !!appointment.thumbnail && (
-          <HoliButton
-            transparent
-            label={appointment.title}
-            onPress={goToDetailView}
-            disabled={showFullView}
-            style={styles.clickOverlay}
-          >
+          <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
             <HoliImage
               label={t('spaces.appointments.thumbnail.label')}
               source={{ uri: appointment.thumbnail }}
-              style={showFullView ? styles.imageShowFullView : styles.image}
+              style={styles.image}
               onError={() => setImageError(true)}
               {...(appointment.thumbnailBlurhash ? { blurhash: appointment.thumbnailBlurhash } : {})}
             />
@@ -105,7 +89,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               )}
             </HoliText>
           </View>
-          {(isAdmin || isAppointmentCreator) && !showFullView && (
+          {(isAdmin || isAppointmentCreator) && (
             <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
               <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
                 <HoliIcon icon={More} color={colors.foreground30} />
@@ -122,21 +106,14 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           transparent
           label={appointment.title}
           onPress={goToDetailView}
-          disabled={showFullView}
           style={[styles.clickOverlay, { flex: 1 }]}
         >
-          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
+          <HoliText ellipsizeMode="tail" bold numberOfLines={2}>
             {appointment.title}
           </HoliText>
         </HoliButton>
       </View>
-      <HoliButton
-        transparent
-        label={appointment.title}
-        onPress={goToDetailView}
-        disabled={showFullView}
-        style={styles.clickOverlay}
-      >
+      <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
         <View style={styles.iconsContainer}>
           <View style={styles.iconGroupContainer}>
             <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
@@ -186,36 +163,6 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           </View>
         )}
       </HoliButton>
-
-      {showFullView && (
-        <View style={styles.descriptionContainer}>
-          <HoliText color="gray300" size="small">
-            {appointment.description}
-          </HoliText>
-          <HoliRichTextOutput
-            text={appointment.description}
-            color="gray300"
-            size="small"
-            allowAllLinks
-            testID="appointment-description"
-          />
-
-          <View style={styles.avatar}>
-            <HoliAvatar
-              imageSrc={appointment.creator.avatar}
-              imageBlurhash={appointment.creator.avatarBlurhash}
-              label={appointment.creator.fullName || t('user.profileView.anonymous')}
-              initials={appointment.creator.avatarLabel || ''}
-              defaultColor={appointment.creator.avatarDefaultColor || ''}
-              size="large"
-              testID="appointment-contact-avatar"
-            />
-            <HoliText style={styles.avatarName}>
-              {appointment.creator.fullName || t('user.profileView.anonymous')}
-            </HoliText>
-          </View>
-        </View>
-      )}
     </View>
   )
 }
@@ -263,19 +210,10 @@ const styles = StyleSheet.create({
     position: 'relative',
     pointerEvents: 'auto',
   },
-  descriptionContainer: {
-    marginVertical: 16,
-  },
   image: {
     borderRadius: 8,
     height: 166,
     justifyContent: 'center',
-  },
-  imageShowFullView: {
-    borderRadius: 8,
-    width: '100%',
-    aspectRatio: IMAGE_ASPECT_RATIO,
-    height: Platform.OS === 'web' ? '100%' : 'auto',
   },
   imageContainer: {
     position: 'relative',
@@ -305,14 +243,6 @@ const styles = StyleSheet.create({
   iconGroupText: {
     color: colors.foreground20,
     marginRight: 8,
-  },
-  avatar: {
-    marginTop: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatarName: {
-    marginLeft: 16,
   },
 })
 

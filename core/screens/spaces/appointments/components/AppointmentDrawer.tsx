@@ -13,6 +13,7 @@ type AppointmentDrawerProps = {
   appointment: Appointment
   space: Space
   isAdmin?: boolean
+  handleDelete?: () => void
   children: React.ReactNode
 }
 
@@ -20,6 +21,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
   appointment,
   space,
   isAdmin,
+  handleDelete,
   children,
 }: AppointmentDrawerProps) => {
   const { t } = useTranslation()
@@ -29,6 +31,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
     id: appointment.id,
     spaceId: space.id,
     successMsg: t('appointment.delete.success'),
+    handleDelete,
   })
 
   const isAppointmentCreator = appointment?.creator.id === userId

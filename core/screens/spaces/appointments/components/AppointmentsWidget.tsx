@@ -115,7 +115,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
         <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
           {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
             <HoliGridCell key={item.id}>
-              <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} showFullView={false} />
+              <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
             </HoliGridCell>
           ))}
         </HoliGridWrapper>

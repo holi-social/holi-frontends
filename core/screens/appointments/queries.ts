@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 
 import { Appointment } from '@holi/core/screens/appointments/types'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 export enum APPOINTMENT_STATUS_TYPE {
@@ -9,7 +10,42 @@ export enum APPOINTMENT_STATUS_TYPE {
 }
 
 export const FullAppointmentFragment = gql`
+  ${FullUserAvatarFragment}
   fragment FullAppointment on Appointment {
+    id
+    title
+    slug
+    inviteOnly
+    participants {
+      id
+    }
+    startDateTime
+    endDateTime
+    videoCallLink {
+      id
+      url
+      additionalInfo
+    }
+    description
+    thumbnail
+    thumbnailBlurhash
+    permission
+    creator {
+      ...FullUserAvatar
+    }
+    participants {
+      ...FullUserAvatar
+    }
+    location
+    geolocation {
+      longitude
+      latitude
+    }
+  }
+`
+
+export const PartialAppointmentFragment = gql`
+  fragment PartialAppointment on Appointment {
     id
     title
     slug
@@ -40,13 +76,13 @@ export const FullAppointmentFragment = gql`
 `
 
 export const appointmentsBySpaceIdQuery = gql`
-  ${FullAppointmentFragment}
+  ${PartialAppointmentFragment}
 
   query Appointments($spaceId: UUID!, $statusType: StatusType!, $offset: Int! = 0, $limit: Int! = 10) {
     appointments(spaceId: $spaceId, statusType: $statusType, offset: $offset, limit: $limit) {
       totalResults
       data {
-        ...FullAppointment
+        ...PartialAppointment
       }
     }
   }
