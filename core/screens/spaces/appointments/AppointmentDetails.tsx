@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   iconsContainer: {
-    marginTop: 4,
+    marginTop: 16,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
