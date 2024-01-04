@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
@@ -19,38 +19,65 @@ export enum Category {
   CHAT = 'CHAT',
 }
 type EnabledValue = boolean | 'mixed' | null
-export type NotificationChannelPreferences = { [key in Channel]?: EnabledValue }
+export type NotificationWorkflowPreferences = { [key in Channel]: EnabledValue }
+export type NotificationWorkflow = Omit<NotificationsWorkflowPreferences, 'preferences'> & {
+  preferences: NotificationWorkflowPreferences
+}
 
 export type UpdateWorkflowPreference = (id: string, channel: Channel, enabled: boolean) => Promise<void>
 
-export interface NotificationWorkflow {
-  id: string
-  category: string
-  preferences: NotificationChannelPreferences
+const determineMixedEnabledValue = (valueA: EnabledValue, valueB: EnabledValue): EnabledValue => {
+  if (valueA === null || valueA === valueB) {
+    return valueB
+  }
+  if (valueB === null) {
+    return valueA
+  }
+  return 'mixed'
 }
 
-// const determineEnabledValue = (
-//   valueA: EnabledValue,
-//   valueB: EnabledValue,
-//   { allowMixed = false } = {}
-// ): EnabledValue => {
-//   if (valueA === undefined || valueA === valueB) {
-//     return valueB
-//   }
-//   if (valueB === undefined) {
-//     return valueA
-//   }
-//   return allowMixed ? 'mixed' : true
-// }
+const aggregateMixedPreferences = (workflows: NotificationsWorkflowPreferences[]) =>
+  workflows.reduce(
+    (preferences, workflow) => ({
+      push: determineMixedEnabledValue(preferences.push, workflow.preferences.push),
+      email: determineMixedEnabledValue(preferences.email, workflow.preferences.email),
+    }),
+    { push: null, email: null } as NotificationWorkflowPreferences
+  )
 
-// const aggregatePreferences = (workflows: NotificationWorkflow[], { allowMixed = false } = {}) =>
-//   workflows.reduce(
-//     (preferences, workflow) => ({
-//       push: determineEnabledValue(preferences.push, workflow.preferences.push, { allowMixed }),
-//       email: determineEnabledValue(preferences.email, workflow.preferences.email, { allowMixed }),
-//     }),
-//     {} as NotificationChannelPreferences
-//   )
+const createChatPreferences = (
+  includeChat?: boolean,
+  chatPushEnabled?: boolean
+): NotificationsWorkflowPreferences | undefined =>
+  includeChat
+    ? {
+        id: Category.CHAT,
+        category: Category.CHAT,
+        preferences: {
+          push: !!chatPushEnabled,
+          email: null,
+        },
+      }
+    : undefined
+
+const combineAndAggregatePreferences = (
+  workflowPreferences?: NotificationsWorkflowPreferences[],
+  chatPreferences?: NotificationsWorkflowPreferences
+): NotificationWorkflow[] | undefined => {
+  if (workflowPreferences === undefined) {
+    return workflowPreferences
+  }
+  const nonGlobalPreferences = workflowPreferences.filter(({ id }) => id !== Category.GLOBAL)
+  // TODO(SF) include global prefs in aggregation? shouldn't hurt
+  const workflowsToAggregate = chatPreferences ? nonGlobalPreferences.concat([chatPreferences]) : nonGlobalPreferences
+
+  const aggregatedGlobalPreferences = {
+    id: Category.GLOBAL,
+    category: Category.GLOBAL,
+    preferences: aggregateMixedPreferences(workflowsToAggregate),
+  } as NotificationWorkflow
+  return [aggregatedGlobalPreferences].concat(workflowsToAggregate)
+}
 
 export const useNotificationPreferences = () => {
   const { displayError } = useErrorHandling()
@@ -101,26 +128,17 @@ export const useNotificationPreferences = () => {
     [updateChatPushPreference, updatePreferences]
   )
 
-  // const aggregatedGlobalPreferences = useMemo(
-  //   () => aggregatePreferences(workflowPreferences, { allowMixed: true }),
-  //   [workflowPreferences]
-  // )
-  const chatPreferencesGroup: NotificationsWorkflowPreferences[] =
-    chatEnabled && !loadingChatPushPreference
-      ? [
-          {
-            id: Category.CHAT,
-            category: Category.CHAT,
-            preferences: {
-              push: chatPushEnabled,
-              email: null,
-            },
-          },
-        ]
-      : []
+  const chatPreferences = useMemo(
+    () => createChatPreferences(chatEnabled && !loadingChatPushPreference, chatPushEnabled),
+    [chatEnabled, chatPushEnabled, loadingChatPushPreference]
+  )
+  const workflowPreferences = useMemo(
+    () => combineAndAggregatePreferences(data?.notifications_preferences, chatPreferences),
+    [chatPreferences, data?.notifications_preferences]
+  )
 
   return {
-    workflowPreferences: data?.notifications_preferences?.concat(chatPreferencesGroup),
+    workflowPreferences,
     updatePreference,
     loading: loading || loadingChatPushPreference,
     updatingPreferences: updatingPreferences || updatingChatPushPreference,

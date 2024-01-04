@@ -9,10 +9,7 @@ import {
   useNotificationPreferences,
 } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
-import {
-  NotificationsWorkflowPreferences,
-  notificationsPreferencesQuery,
-} from '@holi/core/screens/notifications/queries'
+import { notificationsPreferencesQuery } from '@holi/core/screens/notifications/queries'
 
 const mockUseChatPushPreference = jest.fn()
 
@@ -53,7 +50,24 @@ const preferencesResponse = [
     category: 'SPACES',
     preferences: { push: false, email: null },
   },
-].map(addTypenamesToWorkflow)
+]
+const preferencesMixedResponse = [
+  {
+    id: 'GLOBAL',
+    category: 'GLOBAL',
+    preferences: { push: true, email: true },
+  },
+  {
+    id: 'SPACE_MEMBERSHIP_REQUEST',
+    category: 'SPACES',
+    preferences: { push: false, email: true },
+  },
+  {
+    id: 'SPACE_NEW_POST',
+    category: 'SPACES',
+    preferences: { push: true, email: null },
+  },
+]
 const updatedPreferencesResponseGlobal = [
   {
     id: 'GLOBAL',
@@ -70,31 +84,14 @@ const updatedPreferencesResponseGlobal = [
     category: 'SPACES',
     preferences: { push: false, email: null },
   },
-].map(addTypenamesToWorkflow)
-const updatedPreferencesResponseWorkflow = [
-  {
-    id: 'GLOBAL',
-    category: 'GLOBAL',
-    preferences: { push: false, email: true },
-  },
-  {
-    id: 'SPACE_MEMBERSHIP_REQUEST',
-    category: 'SPACES',
-    preferences: { push: false, email: false },
-  },
-  {
-    id: 'SPACE_NEW_POST',
-    category: 'SPACES',
-    preferences: { push: false, email: null },
-  },
-].map(addTypenamesToWorkflow)
+]
 const preferencesRequestSuccess = {
   request: {
     query: notificationsPreferencesQuery,
   },
   result: {
     data: {
-      notifications_preferences: preferencesResponse,
+      notifications_preferences: preferencesResponse.map(addTypenamesToWorkflow),
     },
   },
 }
@@ -103,6 +100,16 @@ const preferencesRequestFailure = {
     query: notificationsPreferencesQuery,
   },
   error: new Error('Test error'),
+}
+const preferencesMixedRequest = {
+  request: {
+    query: notificationsPreferencesQuery,
+  },
+  result: {
+    data: {
+      notifications_preferences: preferencesMixedResponse.map(addTypenamesToWorkflow),
+    },
+  },
 }
 const updatePreferenceRequestGlobal = {
   request: {
@@ -117,7 +124,7 @@ const updatePreferenceRequestGlobal = {
   },
   result: {
     data: {
-      notifications_updatePreferences: updatedPreferencesResponseGlobal,
+      notifications_updatePreferences: updatedPreferencesResponseGlobal.map(addTypenamesToWorkflow),
     },
   },
 }
@@ -134,7 +141,7 @@ const updatePreferenceRequestGlobalPush = {
   },
   result: {
     data: {
-      notifications_updatePreferences: updatedPreferencesResponseGlobal,
+      notifications_updatePreferences: updatedPreferencesResponseGlobal.map(addTypenamesToWorkflow),
     },
   },
 }
@@ -143,15 +150,15 @@ const updatePreferenceRequestWorkflow = {
     query: updateNotificationsPreferences,
     variables: {
       input: {
-        id: 'SPACE_MEMBERSHIP_REQUEST',
-        channel: 'email',
-        enabled: false,
+        id: 'SPACE_NEW_POST',
+        channel: 'push',
+        enabled: true,
       },
     },
   },
   result: {
     data: {
-      notifications_updatePreferences: updatedPreferencesResponseWorkflow,
+      notifications_updatePreferences: preferencesMixedResponse.map(addTypenamesToWorkflow),
     },
   },
 }
@@ -169,6 +176,11 @@ const updatePreferenceRequestFailure = {
   error: new Error('Test error'),
 }
 
+const assertPreferencesIgnoringTypenames = (
+  actualPreferences: NotificationWorkflow[] | undefined,
+  expectedPreferences: NotificationWorkflow[]
+) => expect(actualPreferences?.map(addTypenamesToWorkflow)).toEqual(expectedPreferences.map(addTypenamesToWorkflow))
+
 describe('useNotificationPreferences', () => {
   beforeEach(() => {
     mockUseChatPushPreference.mockReturnValue({
@@ -184,7 +196,36 @@ describe('useNotificationPreferences', () => {
 
     await waitFor(() => {
       expect(result.current.loading).toBeFalsy()
-      expect(result.current.workflowPreferences).toEqual(preferencesResponse)
+      assertPreferencesIgnoringTypenames(result.current.workflowPreferences, preferencesResponse)
+    })
+  })
+
+  it('should aggregate global preferences', async () => {
+    const expectedPreferences = [
+      {
+        id: 'GLOBAL',
+        category: 'GLOBAL',
+        preferences: { push: 'mixed', email: true },
+      } as NotificationWorkflow,
+      {
+        id: 'SPACE_MEMBERSHIP_REQUEST',
+        category: 'SPACES',
+        preferences: { push: false, email: true },
+      },
+      {
+        id: 'SPACE_NEW_POST',
+        category: 'SPACES',
+        preferences: { push: true, email: null },
+      },
+    ]
+    const { result } = renderHook(() => useNotificationPreferences(), {
+      wrapper: ({ children }) => <MockedProvider mocks={[preferencesMixedRequest]}>{children}</MockedProvider>,
+    })
+    expect(result.current.loading).toBeTruthy()
+
+    await waitFor(() => {
+      expect(result.current.loading).toBeFalsy()
+      assertPreferencesIgnoringTypenames(result.current.workflowPreferences, expectedPreferences)
     })
   })
 
@@ -217,11 +258,28 @@ describe('useNotificationPreferences', () => {
 
     await waitFor(() => {
       expect(result.current.updatingPreferences).toBeFalsy()
-      expect(result.current.workflowPreferences).toEqual(updatedPreferencesResponseGlobal)
+      assertPreferencesIgnoringTypenames(result.current.workflowPreferences, updatedPreferencesResponseGlobal)
     })
   })
 
   it('should update workflow preference', async () => {
+    const expectedPreferences = [
+      {
+        id: 'GLOBAL',
+        category: 'GLOBAL',
+        preferences: { push: 'mixed', email: true },
+      } as NotificationWorkflow,
+      {
+        id: 'SPACE_MEMBERSHIP_REQUEST',
+        category: 'SPACES',
+        preferences: { push: false, email: true },
+      },
+      {
+        id: 'SPACE_NEW_POST',
+        category: 'SPACES',
+        preferences: { push: true, email: null },
+      },
+    ]
     const { result } = renderHook(() => useNotificationPreferences(), {
       wrapper: ({ children }) => (
         <MockedProvider mocks={[preferencesRequestSuccess, updatePreferenceRequestWorkflow]}>{children}</MockedProvider>
@@ -231,11 +289,11 @@ describe('useNotificationPreferences', () => {
       expect(result.current.loading).toBeFalsy()
     })
 
-    await act(() => result.current.updatePreference('SPACE_MEMBERSHIP_REQUEST', Channel.EMAIL, false))
+    await act(() => result.current.updatePreference('SPACE_NEW_POST', Channel.PUSH, true))
 
     await waitFor(() => {
       expect(result.current.updatingPreferences).toBeFalsy()
-      expect(result.current.workflowPreferences).toEqual(updatedPreferencesResponseWorkflow)
+      assertPreferencesIgnoringTypenames(result.current.workflowPreferences, expectedPreferences)
     })
   })
 
@@ -253,7 +311,7 @@ describe('useNotificationPreferences', () => {
 
     await waitFor(() => {
       expect(result.current.updatingPreferences).toBeFalsy()
-      expect(result.current.workflowPreferences).toEqual(preferencesResponse)
+      assertPreferencesIgnoringTypenames(result.current.workflowPreferences, preferencesResponse)
       expect(logError).toHaveBeenCalledWith(expect.anything(), 'Failed to update notification preferences', {
         location: 'useNotificationPreferences.updateNotificationsPreferences',
       })
@@ -268,19 +326,34 @@ describe('useNotificationPreferences', () => {
       wrapper: ({ children }) => <MockedProvider mocks={[preferencesRequestSuccess]}>{children}</MockedProvider>,
     })
 
-    await waitFor(() => expect(result.current.workflowPreferences).toEqual(preferencesResponse))
+    await waitFor(() => assertPreferencesIgnoringTypenames(result.current.workflowPreferences, preferencesResponse))
 
     expect(result.current.loading).toBeTruthy()
   })
 
   it('should include chat push preference if chat is enabled', async () => {
-    const expectedPreferences = (preferencesResponse as NotificationsWorkflowPreferences[]).concat([
+    const expectedPreferences = [
+      {
+        id: 'GLOBAL',
+        category: 'GLOBAL',
+        preferences: { push: 'mixed', email: true },
+      } as NotificationWorkflow,
+      {
+        id: 'SPACE_MEMBERSHIP_REQUEST',
+        category: 'SPACES',
+        preferences: { push: false, email: true },
+      },
+      {
+        id: 'SPACE_NEW_POST',
+        category: 'SPACES',
+        preferences: { push: false, email: null },
+      },
       {
         id: 'CHAT',
         category: 'CHAT',
         preferences: { push: true, email: null },
       },
-    ])
+    ]
     mockUseChatPushPreference.mockReturnValue({
       chatEnabled: true,
       chatPushEnabled: true,
@@ -292,7 +365,7 @@ describe('useNotificationPreferences', () => {
 
     await waitFor(() => {
       expect(result.current.loading).toBeFalsy()
-      expect(result.current.workflowPreferences).toEqual(expectedPreferences)
+      assertPreferencesIgnoringTypenames(result.current.workflowPreferences, expectedPreferences)
     })
   })
 
