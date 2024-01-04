@@ -14,19 +14,20 @@ import {
 } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Check } from '@holi/icons/src/generated'
+import { Check, Subtract } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliCheckboxShape = 'square' | 'round' | 'box'
+export type HoliCheckboxValue = boolean | 'mixed'
 
 export type HoliCheckboxProps = {
   label?: string
   shape?: HoliCheckboxShape
   'aria-label': string
   role?: AccessibilityRoleWeb
-  checked?: boolean
+  checked?: HoliCheckboxValue
   errorMessage?: string
   onSelect?: (checked: boolean, event: GestureResponderEvent) => void
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
@@ -62,6 +63,7 @@ const HoliCheckbox = ({
   }, [autofocus])
 
   // https://www.w3.org/WAI/ARIA/apg/example-index/checkbox/checkbox.html
+  // resp. https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/examples/checkbox-mixed/
   // https://www.w3.org/WAI/ARIA/apg/example-index/radio/radio-rating.html
   const accessibilityProps: AccessibilityPropsWeb = {
     accessible: !disabled,
@@ -72,7 +74,7 @@ const HoliCheckbox = ({
 
   const onPress = useCallback(
     (event: GestureResponderEvent) => {
-      onSelect(!checked, event)
+      onSelect(!checked || checked === 'mixed', event)
     },
     [checked, onSelect]
   )
@@ -119,7 +121,7 @@ const HoliCheckbox = ({
               { transform: [{ scale: scaleFactor }] },
             ]}
           >
-            {checked && <HoliIcon icon={Check} size={20} color={checkMarkColor} />}
+            {checked && <HoliIcon icon={checked === 'mixed' ? Subtract : Check} size={20} color={checkMarkColor} />}
           </Animated.View>
 
           {!children && !!label && (

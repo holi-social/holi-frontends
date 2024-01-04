@@ -60,6 +60,7 @@ import {
 } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import { type ChatCredentials } from '@holi/chat/src/utils/types'
+import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
 import { environment } from '@holi/core/helpers/environment'
 import { logDebug } from '@holi/core/helpers/logging'
@@ -263,9 +264,8 @@ export default class ChatClient {
     userIds: string[],
     { isDirectMessage, isPrivate = true, name }: CreateRoomOptions
   ): Promise<RoomId> {
-    const errMsg = 'Chat rooms should be created with at least one user'
     if (userIds.length < 1) {
-      logError(Error(errMsg), 'Failed to create room', { location: 'ChatClient.createRoom' })
+      throw new HoliChatClientError('createRoom', 'Chat rooms must be created with at least one member')
     }
 
     const dmInitialState = [
