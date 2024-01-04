@@ -85,6 +85,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.AboutSpaces]: 'about-spaces',
         [RouteName.SpaceAppointments]: 'spaces/:spaceIdOrName/appointments',
         [RouteName.CreateAppointment]: 'spaces/:spaceIdOrName/appointments/create',
+        [RouteName.AppointmentDetails]: 'spaces/:spaceIdOrName/appointments/:idOrSlug',
       },
     },
 
