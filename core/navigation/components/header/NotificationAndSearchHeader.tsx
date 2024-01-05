@@ -18,8 +18,6 @@ const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
   const hasNewNotifications = useHasNewNotifications()
 
-  console.log('hasNewNotifications', hasNewNotifications)
-
   const { ftOff } = useFeatureToggle(FeatureToggleName.SEARCH)
 
   return (

@@ -1,8 +1,15 @@
 import { faker } from '@faker-js/faker'
 
+import { navigateBackToHomeScreenDeeper } from '@holi/e2e-mobile/helpers/navigation'
+
 import { defaultAuthSteps, deleteAccount, finishAccountSetup, logout } from '../../helpers/auth'
 import { itif } from '../../helpers/platform'
-import { elementByTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import {
+  elementByTestId,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 
 const userFirstName = faker.internet.userName()
 const userLastName = faker.string.numeric(4)
@@ -21,9 +28,13 @@ describe('@Notifications', () => {
     await defaultAuthSteps()
     await tapOnElementWithTestId('btn-to-home-view')
 
-    // and mentioning the new user in a comment to a post
-    // which likely is an existing daily inspiration post
+    // and mentioning the new user in a comment to a post in an insight
+    await scrollToElementWithTestId('feed-insight-image-link', 'down')
+    await tapOnElementWithTestId('feed-insight-image-link')
+    // click first post within the insight
+    await scrollToElementWithTestId('btn-to-post', 'down', { maxAttempts: 5 })
     await tapOnElementWithTestId('btn-to-post')
+
     await tapOnElementWithTestId('post-detail-footer')
     const input = await elementByTestId('post-comment')
     await input.setValue('E2E Testing mention for @')
@@ -38,7 +49,8 @@ describe('@Notifications', () => {
     await tapOnElementWithTestId('post-comment-suggestions-item')
     await tapOnElementWithTestId('btn-submit-comment')
 
-    // and logging out afterwards
+    //logout
+    await navigateBackToHomeScreenDeeper()
     await logout()
 
     // and logging in as the new user
@@ -46,9 +58,10 @@ describe('@Notifications', () => {
     await tapOnElementWithTestId('btn-to-home-view')
 
     // then badge is displayed on the notification bell
+    await waitForElementWithTestId('btn-to-notifications-with-badge', 10)
+
     // and notification center has a notification for it
-    await waitForElementWithTestId('btn-to-notifications-with-badge')
-    await tapOnElementWithTestId('btn-to-notifications')
+    await tapOnElementWithTestId('btn-to-notifications-with-badge')
     await waitForElementWithTestId('notification-list')
     await waitForElementWithTestId('post-comment')
 
