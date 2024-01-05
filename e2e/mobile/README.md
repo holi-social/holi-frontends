@@ -54,7 +54,7 @@ Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa
 
 You need to install [Appium](https://appium.io/docs/en/about-appium/getting-started/) in order to run the tests locally.
 
-1. `npm i -g appium@next`
+1. `npm i -g appium@2.0.1`
 2. `npm install @appium/doctor --location=global`
 3. `appium driver install xcuitest`
 4. `appium driver install uiautomator2`
@@ -186,7 +186,7 @@ When running the tests, if you see an error message along the lines of
 it might be necessary to manually run the `appium` process in a separate terminal session, via:
 
 ```sh
-npm install -g appium
+npm install -g appium@2.0.1
 appium
 ```
 
