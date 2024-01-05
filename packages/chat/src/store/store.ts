@@ -235,7 +235,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const homeserverUrl = client.getHomeserverUrl()
   const ignoredUsers = client.getIgnoredUsers()
 
-  const addRoomToStore = (roomListWithSharedData: RoomWithSharedData[], homeServerUrl: string, logPhase: string) => {
+  const addRoomsToStore = (roomListWithSharedData: RoomWithSharedData[], logPhase: string) => {
     const roomList = roomListWithSharedData.map((roomWithSharedData) => {
       const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
 
@@ -251,14 +251,14 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
    */
   client
     .getJoinedRoomsWithSharedData()
-    .then((rooms) => addRoomToStore(rooms, homeserverUrl, 'init'))
+    .then((rooms) => addRoomsToStore(rooms, 'init'))
     .finally(() => setChatInitialized(true))
 
   /**
    * Listen to just created rooms
    */
   const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
-    addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
+    addRoomsToStore([roomWithSharedData], 'subscription')
   })
 
   const unsubscribeFromRooms = client.subscribeToNewRooms((roomWithSharedData) => {
@@ -270,7 +270,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
-        addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
+        addRoomsToStore([roomWithSharedData], 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -282,7 +282,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
+    addRoomsToStore([roomWithSharedData], 'subscription')
   })
 
   const deleteRoomFromStore = (roomId: string) => {
