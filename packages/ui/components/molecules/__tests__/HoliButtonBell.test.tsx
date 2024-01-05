@@ -7,7 +7,7 @@ import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 describe('React tree', () => {
   it('renders correctly with new notifications badge', () => {
     const tree = renderer
-      .create(<HoliButtonBell showBell label="With new notifications" icon={Notification2} />)
+      .create(<HoliButtonBell showBadge label="With new notifications" icon={Notification2} />)
       .toJSON()
     expect(tree).toMatchSnapshot()
   })

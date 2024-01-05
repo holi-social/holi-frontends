@@ -4,35 +4,29 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface NotificationBadgeProps {
-  visible: boolean
+  showBadge: boolean
   backgroundColor?: string
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-const NotificationBellBadge = ({
-  visible,
+const HoliIconBadge = ({
+  showBadge,
   backgroundColor = colors.background10,
   style,
-  testID = 'notification-bell',
   children,
 }: React.PropsWithChildren<NotificationBadgeProps>) => {
-  const hasChildren = !!children
+  const hasNoIcon = !children
 
   return (
-    <View style={[styles.container, style]} testID={testID}>
+    <View style={[styles.container, style]}>
       {children}
-      {visible && (
-        <View
-          style={[styles.badge, !hasChildren && styles.standAlone, { borderColor: backgroundColor }]}
-          testID={testID + '-with-badge'}
-        />
-      )}
+      {showBadge && <View style={[styles.badge, hasNoIcon && styles.standAlone, { borderColor: backgroundColor }]} />}
     </View>
   )
 }
 
-export default NotificationBellBadge
+export default HoliIconBadge
 
 const BADGE_SIZE = 12
 
