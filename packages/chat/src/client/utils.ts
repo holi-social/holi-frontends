@@ -220,8 +220,8 @@ export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefin
 /**
  * @description It filters message events and member events messages. It also
  * removes member event message duplication. For example, when a user changes
- * their avatar or name, we don't want to provide a  new member event to the
- * message timelin
+ * their avatar or name, we don't want to provide a new member event to the
+ * message timeline
  */
 export const filterMessagesChunk = (chunk: IRoomEvent[]): IRoomEvent[] => {
   return chunk.reduce((events: IRoomEvent[], event: IRoomEvent) => {
