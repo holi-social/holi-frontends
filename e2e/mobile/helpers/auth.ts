@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
-  checkIfElementWithTestIdExists,
+  elementExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
   tapOnLoginLinkInText,
@@ -122,18 +122,18 @@ export const deleteAccount = async () => {
 }
 
 const navigateToSettings = async () => {
-  if (await checkIfElementWithTestIdExists('btn-to-logout')) {
+  if (await elementExists('btn-to-logout')) {
     return true
   }
-  if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+  if (await elementExists('btn-to-settings')) {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')
     return true
   }
-  if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
+  if (await elementExists('btn-to-profile-view')) {
     await tapOnElementWithTestId('btn-to-profile-view')
     await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
-    if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+    if (await elementExists('btn-to-settings')) {
       await tapOnElementWithTestId('btn-to-settings')
       await waitForElementWithTestId('btn-to-logout')
       return true
@@ -143,7 +143,7 @@ const navigateToSettings = async () => {
   await navigateBackToHomeScreen()
   await tapOnElementWithTestId('btn-to-profile-view')
   await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
-  if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+  if (await elementExists('btn-to-settings')) {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')
     return true

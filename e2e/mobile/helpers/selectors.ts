@@ -58,7 +58,7 @@ export const withImplicitTimeout = async <T>(timeout: number, fn: () => Promise<
   }
 }
 
-export const checkIfElementWithTestIdExists = async (testId: string, timeout = 10) => {
+export const elementExists = async (testId: string, timeout = 10) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await withImplicitTimeout(timeout, async () => await elementByTestId(testId))
   return element.elementId !== undefined
