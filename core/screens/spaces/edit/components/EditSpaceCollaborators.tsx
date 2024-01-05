@@ -66,7 +66,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const styles = createStyles(screenHeight)
 
   const { data, loading, error, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+    variables: { idOrName: spaceIdOrName },
+    skip: !spaceIdOrName,
     onError: (error) => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
@@ -78,12 +79,15 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     },
   })
   const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchPendingInvites } = useQuery<SpaceByIdResponse>(spaceInvitesQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
 

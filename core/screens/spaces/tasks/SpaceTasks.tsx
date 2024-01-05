@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -8,7 +7,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -32,15 +31,12 @@ const SpaceTasks = () => {
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+  const { loading, space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-    skip: !spaceIdOrName,
   })
 
-  const space = data?.spaceById
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
 
   const setScreenOptions = useSetScreenOptions()
@@ -58,6 +54,10 @@ const SpaceTasks = () => {
       },
     })
   }, [setScreenOptions, t])
+
+  if (loading || !space) {
+    return <></>
+  }
 
   return (
     <>

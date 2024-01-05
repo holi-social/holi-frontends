@@ -49,14 +49,17 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
 
   const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
 
   const { refetch: refetchUpcomingAppointments } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
 
   const { refetch: refetchPastAppointments } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -90,7 +93,7 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
 
   useRefreshOnNavigation({ initialized: called, onRefresh })
 
-  if (loading) {
+  if (loading || !space) {
     return <HoliLoader />
   }
 
