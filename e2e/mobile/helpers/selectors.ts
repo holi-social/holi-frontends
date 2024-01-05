@@ -24,6 +24,8 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
   return element
 }
 
+export const getElement = async (testId: string) => await elementBySelector(byTestId(testId))
+
 export const waitForElementWithInnerText = async (text: string, timeout?: number) =>
   waitForElement(byText(text), timeout)
 
@@ -89,7 +91,7 @@ const scrollElementIntoView = async (testId: string, direction: ScrollDirection,
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
     try {
-      return await waitForElementWithTestId(testId, 100)
+      return await getElement(testId)
     } catch (e) {
       // element was not found
     }
