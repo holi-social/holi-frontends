@@ -91,8 +91,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-controls="autocomplete-primary-suggestions"
           aria-expanded={false}
           aria-haspopup="menu"
@@ -323,8 +323,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-controls="autocomplete-error-suggestions"
           aria-expanded={false}
           aria-haspopup="menu"

@@ -94,8 +94,8 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
@@ -1480,8 +1480,8 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
@@ -2802,8 +2802,8 @@ exports[`MultiSelect renders correctly when closed 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -3082,8 +3082,8 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
@@ -4318,8 +4318,8 @@ exports[`SingleSelect correctly filters options 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-controls="singleselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
@@ -5690,8 +5690,8 @@ exports[`SingleSelect renders correctly after selection 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -5937,8 +5937,8 @@ exports[`SingleSelect renders correctly when closed 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -6186,8 +6186,8 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-controls="singleselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
