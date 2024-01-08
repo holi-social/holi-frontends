@@ -8,6 +8,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 type HoliCalendarIconSize = 'small' | 'medium'
 
+export const HoliCalendarIconSizes: HoliCalendarIconSize[] = ['small', 'medium']
+
 export type HoliCalendarIconProps = {
   day: number
   month: number
