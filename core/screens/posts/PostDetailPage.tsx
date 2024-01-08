@@ -28,7 +28,7 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
@@ -52,8 +52,8 @@ const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage: React.VFC<ScreenProps> = () => {
-  const [insightId = ''] = useParam('insightId')
-  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
+  const [insightId] = useParam('insightId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   // `commentId` can be a UUID of a comment or hardcoded 'first' string value
   const [commentId] = useParam('commentId')
@@ -62,12 +62,9 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
 
-  const queryResult = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+  const { space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-    skip: !spaceIdOrName,
   })
-  const space = queryResult.data?.spaceById
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { t } = useTranslation()
@@ -80,6 +77,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data, refetch } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
+    skip: !postId,
     onError: (error) => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')

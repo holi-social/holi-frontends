@@ -455,7 +455,7 @@ export type UserProfileParams = {
 }
 const { useParam } = createParam<UserProfileParams>()
 
-const [userId = ''] = useParam('userId')
+const [userId] = useParam('userId')
 ```
 
 #### web
