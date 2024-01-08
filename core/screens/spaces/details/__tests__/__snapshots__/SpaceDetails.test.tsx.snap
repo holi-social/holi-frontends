@@ -814,7 +814,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="space-tabs-tab-0"
+                          id="space-tabs-tab-0"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -973,7 +973,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="space-tabs-tab-1"
+                          id="space-tabs-tab-1"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1160,7 +1160,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="space-tabs-tab-2"
+                          id="space-tabs-tab-2"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1370,7 +1370,7 @@ exports[`SpaceDetails renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="space-tabs-tab-0"
-                  nativeID="space-tabs-panel-0"
+                  id="space-tabs-panel-0"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -2204,7 +2204,7 @@ exports[`SpaceDetails renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="space-tabs-tab-1"
-                  nativeID="space-tabs-panel-1"
+                  id="space-tabs-panel-1"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -2397,7 +2397,7 @@ exports[`SpaceDetails renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="space-tabs-tab-2"
-                  nativeID="space-tabs-panel-2"
+                  id="space-tabs-panel-2"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",

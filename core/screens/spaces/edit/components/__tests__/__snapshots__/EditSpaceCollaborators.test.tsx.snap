@@ -135,7 +135,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-0"
+                          id="collaborator-tabs-tab-0"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -225,7 +225,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-1"
+                          id="collaborator-tabs-tab-1"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -315,7 +315,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-2"
+                          id="collaborator-tabs-tab-2"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -426,7 +426,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-0"
-                  nativeID="collaborator-tabs-panel-0"
+                  id="collaborator-tabs-panel-0"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -945,7 +945,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-1"
-                  nativeID="collaborator-tabs-panel-1"
+                  id="collaborator-tabs-panel-1"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -1046,7 +1046,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-2"
-                  nativeID="collaborator-tabs-panel-2"
+                  id="collaborator-tabs-panel-2"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -1494,7 +1494,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-0"
+                          id="collaborator-tabs-tab-0"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1586,7 +1586,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-1"
+                          id="collaborator-tabs-tab-1"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1676,7 +1676,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           accessible={true}
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-2"
+                          id="collaborator-tabs-tab-2"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1787,7 +1787,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-0"
-                  nativeID="collaborator-tabs-panel-0"
+                  id="collaborator-tabs-panel-0"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -2306,7 +2306,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-1"
-                  nativeID="collaborator-tabs-panel-1"
+                  id="collaborator-tabs-panel-1"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -3908,7 +3908,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-2"
-                  nativeID="collaborator-tabs-panel-2"
+                  id="collaborator-tabs-panel-2"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",

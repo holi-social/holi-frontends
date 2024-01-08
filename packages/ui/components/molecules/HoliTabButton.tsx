@@ -50,7 +50,7 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
     return (
       <Pressable
         {...accessibilityProps}
-        nativeID={props.id}
+        id={props.id}
         testID={props.testID}
         disabled={disabled}
         onPress={(event) => {

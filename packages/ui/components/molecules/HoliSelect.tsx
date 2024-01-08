@@ -283,7 +283,7 @@ const HoliSelect = ({
           renderItem={renderItem}
           keyExtractor={(option) => option.id}
           style={styles.optionsMenu}
-          nativeID={`${id}-options`}
+          id={`${id}-options`}
           role="menu"
           keyboardShouldPersistTaps="always"
           persistentScrollbar={true}

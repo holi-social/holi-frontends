@@ -196,7 +196,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
           testID={testID}
           ref={ref}
         />
-        <View nativeID={`${id}-suggestions`} role="menu" style={suggestionsStyle}>
+        <View id={`${id}-suggestions`} role="menu" style={suggestionsStyle}>
           {
             /** FIXME convert to VirtualizedList, FlatList or SectionList */
             isOpened ? (
