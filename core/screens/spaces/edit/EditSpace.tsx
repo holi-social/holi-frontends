@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +7,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -26,8 +24,8 @@ import EditSpaceLocation from '@holi/core/screens/spaces/edit/components/EditSpa
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/edit/components/EditSpaceNameAndGoal'
 import EditSpaceSDGs from '@holi/core/screens/spaces/edit/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/edit/components/EditSpaceTopics'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -111,17 +109,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
 
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load space', { location: 'EditSpace.spaceByIdQuery', spaceIdOrName })
-    },
-  })
-
-  const space = data?.spaceById
+  const { loading, error, space } = useSpace(spaceIdOrName)
 
   const { visible, show, hide } = useModalState()
 
