@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
@@ -7,12 +6,10 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
@@ -32,24 +29,12 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
 
-  const { data, error } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+  const { error, space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-    skip: !spaceIdOrName,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load space', {
-        location: 'SpaceCollaboratorsManage.spaceByIdQuery',
-        spaceIdOrName,
-      })
-    },
   })
 
   useLayoutEffect(() => {
@@ -65,14 +50,14 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
     })
   }, [setScreenOptions, t])
 
-  if (error || !data?.spaceById) {
+  if (error || !space) {
     return <></>
   }
 
   return (
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
-      space={data?.spaceById}
+      space={space}
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
       <SafeAreaView>
