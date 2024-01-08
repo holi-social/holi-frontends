@@ -31,7 +31,11 @@ const HoliCalendarIcon = ({
 
   const getMonthName = (month: number): string => {
     const monthNames: [string] = t('monthNames', { returnObjects: true })
-    return monthNames[month - 1].substring(0, 3)
+    const monthName = monthNames[month - 1]
+    if (!monthName) {
+      return ''
+    }
+    return monthName.substring(0, 3)
   }
 
   return (
