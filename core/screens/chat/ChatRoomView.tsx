@@ -33,6 +33,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
+const WAIT_FOR_CHATROOM_DELAY = 5000
+
 export type ChatRoomPageParams = {
   roomId: string
 }
@@ -119,16 +121,21 @@ const ChatRoomView = () => {
   }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom])
 
   useEffect(() => {
-    // redirect logged in user to Chat screen if room not found
     if (chatInitialized && !room) {
-      openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
-      replaceRoute('/chat').catch((error) =>
-        logError(error, 'Could not redirect logged in user to /chat', {
-          location: 'ChatRoomView.useEffect',
-        })
-      )
+      // redirect to Chat screen if no room is found after WAIT_FOR_CHATROOM_DELAY ms
+      const timer = setTimeout(() => {
+        if (chatInitialized && !room) {
+          openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
+          replaceRoute('/chat').catch((error) =>
+            logError(error, 'Could not redirect logged in user to /chat', {
+              location: 'ChatRoomView.useEffect',
+            })
+          )
+        }
+      }, WAIT_FOR_CHATROOM_DELAY)
+      return () => clearTimeout(timer)
     }
-  }, [chatInitialized, openToast, replaceRoute, room, t])
+  }, [chatInitialized, openToast, replaceRoute, t, room])
 
   // request initial chunk of room messages
   useEffect(() => {

@@ -47,8 +47,8 @@ type ScreenProps = NativeStackScreenProps<InsightsScreens>
 const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CommentInputPageParams>()
 
-  const [insightId = ''] = useParam('insightId')
-  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
+  const [insightId] = useParam('insightId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
@@ -67,7 +67,13 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
-    onError: (error) => logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId }),
+    skip: !postId,
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId })
+    },
   })
 
   const [createPostComment, { loading: createCommentLoading }] = useMutation<CreatePostCommentResponse>(
@@ -138,7 +144,9 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     setMaxViewPortHeight(newScrollViewHeight)
   }, [])
 
-  if (loading || error) {
+  const post = data?.postById
+
+  if (loading || error || !post) {
     return <></>
   }
 
@@ -146,8 +154,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     navigate(`${getPostUrl(postId, insightId, spaceIdOrName)}`)
     return null
   }
-
-  const post = data?.postById
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>

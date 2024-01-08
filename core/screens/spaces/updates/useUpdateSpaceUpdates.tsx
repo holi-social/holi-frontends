@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react'
 import { Dispatch } from 'react'
 import { SetStateAction } from 'react'
 
-import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { PostImage } from '@holi/core/screens/posts/types'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { Space, VisibilityFilter, VisibilityType } from '@holi/core/screens/spaces/types'
 import {
   CreateSpacePostMutationResponse,
@@ -43,7 +42,7 @@ export interface UseCreateOrUpdateSpacePost {
 
 export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: string): UseCreateOrUpdateSpacePost => {
   const { displayError } = useErrorHandling()
-  const { navigateBack, replaceRoute } = useRouting()
+  const { navigateBack } = useRouting()
 
   //input fields
   const [title, setTitle] = useState<string>('')
@@ -53,24 +52,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const [visibility, setVisibility] = useState<VisibilityType>(VisibilityType.MEMBERS)
 
   // data fetch
-  const {
-    data: spaceQueryData,
-    error: spaceQueryError,
-    loading: spaceQueryLoading,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      navigateBack()
-      displayError(error, 'Failed to load space', {
-        location: 'useCreateOrUpdateSpacePost.spaceByIdQuery',
-        spaceIdOrName,
-      })
-    },
-  })
-  const space = spaceQueryData?.spaceById
+  const { loading: spaceQueryLoading, error: spaceQueryError, space } = useSpace(spaceIdOrName)
 
   const {
     data: postQueryData,

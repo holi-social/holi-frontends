@@ -14,7 +14,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
@@ -49,18 +49,7 @@ const AppointmentDetails = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
 
-  const {
-    loading: loadingSpace,
-    error: errorSpace,
-    data: spaceData,
-    refetch: refetchSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) =>
-      !isNotFoundError(error) &&
-      logError(error, 'Failed to load space', { location: 'TaskDetails.spaceByIdQuery', spaceIdOrName }),
-    skip: !spaceIdOrName,
-  })
+  const { loading: loadingSpace, error: errorSpace, space, refetch: refetchSpace } = useSpace(spaceIdOrName)
 
   const {
     loading: loadingAppointment,
@@ -80,7 +69,6 @@ const AppointmentDetails = () => {
   })
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchAppointment, refetchSpace]))
 
-  const space = spaceData?.spaceById
   const appointment = appointmentData?.appointment
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -127,7 +115,7 @@ const AppointmentDetails = () => {
     (errorAppointment && isNotFoundError(errorAppointment)) ||
     (calledAppointment && !loadingAppointment && !appointment)
   ) {
-    replaceRoute('NotFound')
+    replaceRoute('/404')
     return <></>
   }
 

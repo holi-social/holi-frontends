@@ -77,6 +77,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
     loading: loadingSpace,
   } = useQuery<SpaceByIdResponse>(spaceByIdWithAllMembersQuery, {
     variables: { idOrName: spaceIdOrName },
+    skip: !spaceIdOrName,
     onError: (error) =>
       logError(error, 'Failed to load space', {
         location: 'CreateAppointment.spaceByIdWithAllMembersQuery',
