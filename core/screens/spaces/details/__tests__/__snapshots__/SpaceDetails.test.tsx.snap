@@ -792,7 +792,6 @@ exports[`SpaceDetails renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="space-tabs-panel-0"
                           accessibilityLabel="spaces.tab.info"
                           accessibilityState={
                             {
@@ -812,6 +811,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="space-tabs-panel-0"
                           collapsable={false}
                           focusable={true}
                           id="space-tabs-tab-0"
@@ -951,7 +951,6 @@ exports[`SpaceDetails renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="space-tabs-panel-1"
                           accessibilityLabel="spaces.tab.updates"
                           accessibilityState={
                             {
@@ -971,6 +970,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="space-tabs-panel-1"
                           collapsable={false}
                           focusable={true}
                           id="space-tabs-tab-1"
@@ -1138,7 +1138,6 @@ exports[`SpaceDetails renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="space-tabs-panel-2"
                           accessibilityLabel="spaces.tab.action"
                           accessibilityState={
                             {
@@ -1158,6 +1157,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="space-tabs-panel-2"
                           collapsable={false}
                           focusable={true}
                           id="space-tabs-tab-2"

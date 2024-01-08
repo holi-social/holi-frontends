@@ -54,7 +54,7 @@ export interface HoliTextInputProps {
   ariaExpanded?: boolean
   ariaHasPopup?: AccessibilityPropsWeb['aria-haspopup']
   accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
-  accessibilityControls?: string
+  'aria-controls'?: string
   showCharacterCount?: boolean
   isRequired?: boolean
 }
@@ -120,7 +120,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
       accessible: true,
       'aria-label': props['aria-label'],
       accessibilityAutoComplete: props.accessibilityAutoComplete || 'inline',
-      accessibilityControls: props.accessibilityControls,
+      'aria-controls': props['aria-controls'],
     }
 
     const handleFocus = useCallback(

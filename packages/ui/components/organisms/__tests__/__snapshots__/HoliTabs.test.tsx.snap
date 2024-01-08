@@ -59,7 +59,6 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 }
               >
                 <View
-                  accessibilityControls="test-tabs-panel-0"
                   accessibilityLabel="Profile"
                   accessibilityState={
                     {
@@ -79,6 +78,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                     }
                   }
                   accessible={true}
+                  aria-controls="test-tabs-panel-0"
                   collapsable={false}
                   focusable={true}
                   id="test-tabs-tab-0"
@@ -149,7 +149,6 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 }
               >
                 <View
-                  accessibilityControls="test-tabs-panel-1"
                   accessibilityLabel="Insights"
                   accessibilityState={
                     {
@@ -169,6 +168,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                     }
                   }
                   accessible={true}
+                  aria-controls="test-tabs-panel-1"
                   collapsable={false}
                   focusable={true}
                   id="test-tabs-tab-1"
@@ -239,7 +239,6 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 }
               >
                 <View
-                  accessibilityControls="test-tabs-panel-2"
                   accessibilityLabel="Spaces"
                   accessibilityState={
                     {
@@ -259,6 +258,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                     }
                   }
                   accessible={true}
+                  aria-controls="test-tabs-panel-2"
                   collapsable={false}
                   focusable={true}
                   id="test-tabs-tab-2"

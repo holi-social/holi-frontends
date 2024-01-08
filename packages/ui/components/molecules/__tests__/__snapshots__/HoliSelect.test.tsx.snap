@@ -95,8 +95,8 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="multiselect-options"
           accessible={true}
+          aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -1481,8 +1481,8 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="multiselect-options"
           accessible={true}
+          aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -3083,8 +3083,8 @@ exports[`MultiSelect renders correctly when opened 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="multiselect-options"
           accessible={true}
+          aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -4319,8 +4319,8 @@ exports[`SingleSelect correctly filters options 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="singleselect-options"
           accessible={true}
+          aria-controls="singleselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -6187,8 +6187,8 @@ exports[`SingleSelect renders correctly when opened 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="singleselect-options"
           accessible={true}
+          aria-controls="singleselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"

@@ -113,7 +113,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-0"
                           accessibilityLabel="spaces.collaborators.manage.tabs.all"
                           accessibilityState={
                             {
@@ -133,6 +132,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-0"
                           collapsable={false}
                           focusable={true}
                           id="collaborator-tabs-tab-0"
@@ -203,7 +203,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-1"
                           accessibilityLabel="spaces.collaborators.manage.tabs.requests"
                           accessibilityState={
                             {
@@ -223,6 +222,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-1"
                           collapsable={false}
                           focusable={true}
                           id="collaborator-tabs-tab-1"
@@ -293,7 +293,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-2"
                           accessibilityLabel="spaces.collaborators.manage.tabs.invites"
                           accessibilityState={
                             {
@@ -313,6 +312,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-2"
                           collapsable={false}
                           focusable={true}
                           id="collaborator-tabs-tab-2"
@@ -1472,7 +1472,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-0"
                           accessibilityLabel="spaces.collaborators.manage.tabs.all"
                           accessibilityState={
                             {
@@ -1492,6 +1491,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-0"
                           collapsable={false}
                           focusable={true}
                           id="collaborator-tabs-tab-0"
@@ -1564,7 +1564,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-1"
                           accessibilityLabel="spaces.collaborators.manage.tabs.requests"
                           accessibilityState={
                             {
@@ -1584,6 +1583,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-1"
                           collapsable={false}
                           focusable={true}
                           id="collaborator-tabs-tab-1"
@@ -1654,7 +1654,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-2"
                           accessibilityLabel="spaces.collaborators.manage.tabs.invites"
                           accessibilityState={
                             {
@@ -1674,6 +1673,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-2"
                           collapsable={false}
                           focusable={true}
                           id="collaborator-tabs-tab-2"

@@ -21,20 +21,29 @@ interface Props {
   style: StyleProp<ViewStyle>
   disabled?: boolean
   disableFocusability?: boolean
-  ariaSelected?: boolean
-  accessibilityControls?: string
+  'aria-selected'?: boolean
+  'aria-controls'?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
   onLayout?: (event: LayoutChangeEvent) => void
 }
 
 const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
-  ({ disabled = false, disableFocusability = false, ariaSelected = false, accessibilityControls, ...props }, ref) => {
+  (
+    {
+      disabled = false,
+      disableFocusability = false,
+      ['aria-selected']: ariaSelected = false,
+      ['aria-controls']: accessibilityControls,
+      ...props
+    },
+    ref
+  ) => {
     const accessibilityProps: AccessibilityPropsWeb = {
       accessible: !disableFocusability,
       role: 'tab',
       'aria-label': props.label,
-      accessibilityControls,
+      'aria-controls': accessibilityControls,
       'aria-selected': ariaSelected,
     }
 

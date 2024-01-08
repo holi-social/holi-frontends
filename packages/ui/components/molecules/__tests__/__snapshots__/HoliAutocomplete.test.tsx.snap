@@ -92,8 +92,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="autocomplete-primary-suggestions"
           accessible={true}
+          aria-controls="autocomplete-primary-suggestions"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="accessibility label"
@@ -324,8 +324,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="autocomplete-error-suggestions"
           accessible={true}
+          aria-controls="autocomplete-error-suggestions"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="accessibility label"
