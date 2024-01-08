@@ -165,10 +165,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           testID="collaborator-tabs-button-0-active"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -255,10 +255,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           testID="collaborator-tabs-button-1-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -345,10 +345,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           testID="collaborator-tabs-button-2-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1524,10 +1524,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           testID="collaborator-tabs-button-0-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1616,10 +1616,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           testID="collaborator-tabs-button-1-active"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1706,10 +1706,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           testID="collaborator-tabs-button-2-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >

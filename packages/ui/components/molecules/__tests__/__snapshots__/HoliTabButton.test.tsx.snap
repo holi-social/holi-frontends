@@ -43,10 +43,10 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   }
 >
   <View
-    pointerEvents="none"
     style={
       {
         "flexDirection": "row",
+        "pointerEvents": "none",
       }
     }
   >
@@ -113,10 +113,10 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   }
 >
   <View
-    pointerEvents="none"
     style={
       {
         "flexDirection": "row",
+        "pointerEvents": "none",
       }
     }
   >
@@ -183,10 +183,10 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   }
 >
   <View
-    pointerEvents="none"
     style={
       {
         "flexDirection": "row",
+        "pointerEvents": "none",
       }
     }
   >
@@ -253,10 +253,10 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   }
 >
   <View
-    pointerEvents="none"
     style={
       {
         "flexDirection": "row",
+        "pointerEvents": "none",
       }
     }
   >

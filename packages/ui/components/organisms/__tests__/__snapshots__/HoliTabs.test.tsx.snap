@@ -111,10 +111,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   testID="tabs-module-button-0-active"
                 >
                   <View
-                    pointerEvents="none"
                     style={
                       {
                         "flexDirection": "row",
+                        "pointerEvents": "none",
                       }
                     }
                   >
@@ -201,10 +201,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   testID="tabs-module-button-1-inactive"
                 >
                   <View
-                    pointerEvents="none"
                     style={
                       {
                         "flexDirection": "row",
+                        "pointerEvents": "none",
                       }
                     }
                   >
@@ -291,10 +291,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   testID="tabs-module-button-2-inactive"
                 >
                   <View
-                    pointerEvents="none"
                     style={
                       {
                         "flexDirection": "row",
+                        "pointerEvents": "none",
                       }
                     }
                   >

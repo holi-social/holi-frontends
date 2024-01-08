@@ -69,9 +69,7 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
         style={[props.style, styles.base]}
         ref={ref}
       >
-        <View pointerEvents="none" style={styles.content}>
-          {content}
-        </View>
+        <View style={styles.content}>{content}</View>
       </Pressable>
     )
   }
@@ -90,6 +88,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flexDirection: 'row',
+    pointerEvents: 'none',
   },
   textDisabled: {
     color: colors.foreground20,

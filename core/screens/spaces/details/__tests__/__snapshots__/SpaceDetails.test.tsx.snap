@@ -844,10 +844,10 @@ exports[`SpaceDetails renders correctly 1`] = `
                           testID="space-tabs-button-0-active"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1003,10 +1003,10 @@ exports[`SpaceDetails renders correctly 1`] = `
                           testID="space-tabs-button-1-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1190,10 +1190,10 @@ exports[`SpaceDetails renders correctly 1`] = `
                           testID="space-tabs-button-2-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
