@@ -9,7 +9,7 @@
       "@holi/ui/*": ["packages/ui/*"],
       "@holi/icons/*": ["packages/icons/*"],
       "@holi/api/*": ["packages/api/*"],
-      "@holi/chat/*": ["packates/chat/*"],
+      "@holi/chat/*": ["packages/chat/*"],
       "@holi/core/*": ["core/*"],
       "@holi-apps/donations/*": ["holi-apps/donations/*"],
       "@holi-apps/goodnews/*": ["holi-apps/goodnews/*"],
