@@ -204,7 +204,6 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               },
             ]
           }
-          testID="notification-bell"
         >
           <View
             style={
@@ -227,7 +226,6 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 },
               ]
             }
-            testID="notification-bell-with-badge"
           />
         </View>
       </View>
@@ -681,7 +679,6 @@ I would like to join!
               },
             ]
           }
-          testID="notification-bell"
         >
           <View
             style={
@@ -704,7 +701,6 @@ I would like to join!
                 },
               ]
             }
-            testID="notification-bell-with-badge"
           />
         </View>
       </View>
