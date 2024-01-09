@@ -28,17 +28,14 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     [tabNamesInOrder]
   )
 
-  const [currentTabName] = useParam('tab', {
-    ...singleParamConfig,
-    options: { web: { replace: true } },
-  })
+  const [currentTabName] = useParam('tab', singleParamConfig)
   const [initialTabIndex, setInitialTabIndex] = useState<number | undefined>()
   const updateParams = useUpdateParams()
 
   const selectTabWithIndex = useCallback(
     (tabIndex: number) => {
       if (tabIndex >= 0 && tabIndex < tabNamesInOrder.length) {
-        updateParams({ tab: tabNamesInOrder[tabIndex] })
+        updateParams({ tab: tabNamesInOrder[tabIndex] }, { web: { replace: true } })
       }
     },
     [tabNamesInOrder, updateParams]
@@ -53,7 +50,7 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     if (initialTabName) {
       const tabIndex = getTabIndexForName(initialTabName)
       if (tabIndex !== undefined && tabIndex >= 0) {
-        updateParams({ tab: initialTabName })
+        updateParams({ tab: initialTabName }, { web: { replace: true } })
         setInitialTabIndex(tabIndex)
       }
     }
