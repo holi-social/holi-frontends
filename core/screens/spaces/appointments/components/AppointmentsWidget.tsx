@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   },
   seeAllButton: {
     backgroundColor: colors.background10,
+    marginTop: 16,
   },
   noAppointmentsDescriptionContainer: {
     flex: 1,
