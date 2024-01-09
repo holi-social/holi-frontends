@@ -31,7 +31,7 @@ const HoliTimePicker = ({
   title,
   label,
   style,
-  testID = 'holi-date-picker',
+  testID = 'holi-time-picker',
   isRequired,
 }: HoliTimePickerProps) => {
   const [hovered, setHovered] = useState(false)
