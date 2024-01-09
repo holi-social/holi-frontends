@@ -16,6 +16,7 @@ import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import HoliTimePicker from '@holi/ui/components/organisms/HoliTimePicker'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
@@ -60,6 +61,10 @@ export interface AppointmentInputFormProps {
   inviteOnly?: HoliModalSelectOption
   startDate?: string
   endDate?: string
+  startHours?: string
+  endHours?: string
+  startMinutes?: string
+  endMinutes?: string
   permissionType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo
@@ -72,6 +77,10 @@ export interface AppointmentInputFormProps {
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
   onChangeStartDate: (_: string) => void
   onChangeEndDate: (_: string) => void
+  onChangeStartHours: (_: string) => void
+  onChangeEndHours: (_: string) => void
+  onChangeStartMinutes: (_: string) => void
+  onChangeEndMinutes: (_: string) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
   onChangeThumbnail: (_: HoliImageInfo | undefined) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
@@ -86,6 +95,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   inviteOnly,
   startDate,
   endDate,
+  startHours,
+  endHours,
+  startMinutes,
+  endMinutes,
   permissionType,
   thumbnail,
   currentThumbnail,
@@ -95,6 +108,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   onChangeInviteOnly,
   onChangeStartDate,
   onChangeEndDate,
+  onChangeStartHours,
+  onChangeEndHours,
+  onChangeStartMinutes,
+  onChangeEndMinutes,
   onChangePermissionType,
   onChangeThumbnail,
   onChangeSelectedLocation,
@@ -239,6 +256,14 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           value={startDate}
           isRequired
         />
+        <HoliTimePicker
+          valueHours={startHours}
+          onChangeHours={onChangeStartHours}
+          valueMinutes={startMinutes}
+          onChangeMinutes={onChangeStartMinutes}
+          title="time"
+          label="time"
+        />
 
         <HoliDatePicker
           style={styles.marginSeparator}
@@ -247,6 +272,14 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           label={t('spaces.appointments.input.endDate.title')}
           value={endDate}
           isRequired
+        />
+        <HoliTimePicker
+          valueHours={endHours}
+          onChangeHours={onChangeEndHours}
+          valueMinutes={endMinutes}
+          onChangeMinutes={onChangeEndMinutes}
+          title="time"
+          label="time"
         />
       </View>
 
