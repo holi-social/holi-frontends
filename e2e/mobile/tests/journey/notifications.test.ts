@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker'
 import { delay } from '@holi/e2e-mobile/helpers/time'
 
 import { defaultAuthSteps, deleteAccount, finishAccountSetup, logout } from '../../helpers/auth'
-import { itif } from '../../helpers/platform'
 import {
   elementByTestId,
   scrollToElementWithTestId,
@@ -18,7 +17,7 @@ const email = `${userFirstName}${userLastName}@e2etest.com`
 const password = 'TheSamePassword4A11E2eUsers'
 
 describe('@Notifications', () => {
-  itif(platform === 'ios', 'mentioning a user on a comment to a post notifies them in-app', async () => {
+  it('mentioning a user on a comment to a post notifies them in-app', async () => {
     // given a new user
     await defaultAuthSteps({ email, password }, 'registration', false)
     await finishAccountSetup({ firstName: userFirstName, lastName: userLastName })
