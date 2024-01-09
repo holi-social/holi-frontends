@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { navigateBackToHomeScreenDeeper } from '@holi/e2e-mobile/helpers/navigation'
+import { delay } from '@holi/e2e-mobile/helpers/time'
 
 import { defaultAuthSteps, deleteAccount, finishAccountSetup, logout } from '../../helpers/auth'
 import { itif } from '../../helpers/platform'
@@ -48,9 +48,10 @@ describe('@Notifications', () => {
     }
     await tapOnElementWithTestId('post-comment-suggestions-item')
     await tapOnElementWithTestId('btn-submit-comment')
+    //wait a bit for the comment to submit and the confirm toast to disappear
+    await delay(3)
 
     //logout
-    await navigateBackToHomeScreenDeeper()
     await logout()
 
     // and logging in as the new user

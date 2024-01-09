@@ -1,8 +1,18 @@
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from './selectors'
+import { scrollUp } from '@holi/e2e-mobile/helpers/gestures'
+import { delay } from '@holi/e2e-mobile/helpers/time'
+
+import {
+  elementByTestId,
+  elementExists,
+  getElement,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from './selectors'
 
 const homeScreenTestId = 'home-feed-insights-heading'
 
-export const waitForHomeScreen = async (timeout?: number) => waitForElementWithTestId(homeScreenTestId, timeout)
+export const waitForHomeScreen = async () => await getElement(homeScreenTestId)
 
 export const navigateToAppById = async (id: 'donations' | 'goodnews' | 'volunteering') => {
   await waitForHomeScreen()
@@ -21,28 +31,31 @@ export const navigateBackToHomeScreen = async (buttonId?: backHomeButtonId) => {
   }
 
   let homeScreenReached = false
-  let firstRun = true
   while (!homeScreenReached) {
-    try {
-      await waitForHomeScreen(firstRun ? 500 : 5000)
+    if (await elementExists('btn-to-home-view')) {
+      await tapOnElementWithTestId('btn-to-home-view')
+    }
+    const backButtonOverlay = await elementByTestId('nav-button-back')
+    if (backButtonOverlay.elementId) {
+      // swipe a bit downwards to have the back button header overlay return into view
+      await scrollUp()
+      await Appium.touchAction({ element: backButtonOverlay, action: 'tap' })
+      // wait for the animation to finish
+      await delay(2)
+    }
+
+    if (await elementExists(homeScreenTestId)) {
       homeScreenReached = true
-    } catch (e) {
-      firstRun = false
-      try {
-        await tapOnElementWithTestId('btn-to-home-view', 0)
-      } catch (e) {
-        await tapOnElementWithTestId('nav-button-back', 0)
-      }
-      await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 15 })
     }
   }
 }
 
 // this implementation allows for deeper/infinite nesting of pages/layers
+// todo gregor: replace with method above
 export const navigateBackToHomeScreenDeeper = async () => {
   try {
     // early exit: are we already on it?
-    await waitForHomeScreen(1)
+    await waitForHomeScreen()
     return
   } catch (e) {
     // not there yet, continue
