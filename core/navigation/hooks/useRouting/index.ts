@@ -75,6 +75,7 @@ const useRouting = (): RoutingState => {
     navigate,
     navigateBack,
     replaceRoute,
+    replaceHistory: replaceRoute,
     setParams,
   }
 }

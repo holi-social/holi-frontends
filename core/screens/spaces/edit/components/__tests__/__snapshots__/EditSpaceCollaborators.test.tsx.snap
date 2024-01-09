@@ -546,6 +546,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             <ViewManagerAdapter_ExpoImage
                               accessibilityRole="image"
                               accessible={true}
+                              aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
                               contentPosition={
@@ -703,6 +704,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             <ViewManagerAdapter_ExpoImage
                               accessibilityRole="image"
                               accessible={true}
+                              aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
                               contentPosition={
@@ -860,6 +862,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             <ViewManagerAdapter_ExpoImage
                               accessibilityRole="image"
                               accessible={true}
+                              aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
                               contentPosition={
@@ -1907,6 +1910,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <ViewManagerAdapter_ExpoImage
                               accessibilityRole="image"
                               accessible={true}
+                              aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
                               contentPosition={
@@ -2064,6 +2068,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <ViewManagerAdapter_ExpoImage
                               accessibilityRole="image"
                               accessible={true}
+                              aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
                               contentPosition={
@@ -2221,6 +2226,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <ViewManagerAdapter_ExpoImage
                               accessibilityRole="image"
                               accessible={true}
+                              aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
                               contentPosition={

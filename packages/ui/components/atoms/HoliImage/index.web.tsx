@@ -32,13 +32,22 @@ const createSrc = (source: ImageSource | ImageSource[]): string | undefined => {
   }
 }
 
-const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover', onError }: WebImageProps) => {
+const HoliImage = ({
+  source,
+  label,
+  style,
+  sizes,
+  resizeMode = 'cover',
+  onError,
+  'aria-hidden': ariaHidden,
+}: WebImageProps) => {
   const srcSet = createSrcSet(source)
   const aspectRatio = style?.aspectRatio ? { aspectRatio: style?.aspectRatio.toString() } : {}
 
   const accessibilityProps: AccessibilityProps = {
     role: 'img',
     'aria-label': label,
+    'aria-hidden': ariaHidden,
   }
 
   // We use img tag instead of Image by react-native, as react-native-web does not yet
