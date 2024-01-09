@@ -7,6 +7,23 @@ export function formatDateToYYYMMDD(date: Date) {
   ].join('-')
 }
 
+// creating a new Date object using the format YYYY-MM-DD can result in a day off due to time zone considerations
+// this method solves that issue by considering the timezone offset of the date
+export const getDateObjFromYYYMMDD = (dateString: string) => {
+  const parts = dateString.split('-')
+  const year = parseInt(parts[0], 10)
+  const month = parseInt(parts[1], 10) - 1 // Month is zero-based in JavaScript
+  const day = parseInt(parts[2], 10)
+
+  const date = new Date(Date.UTC(year, month, day))
+
+  // Adjust the date considering the local time zone offset
+  const localOffset = date.getTimezoneOffset()
+  const adjustedDate = new Date(date.getTime() + localOffset * 60 * 1000)
+
+  return adjustedDate
+}
+
 export const localizeDate = (
   date: Date,
   language: string,
