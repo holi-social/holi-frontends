@@ -5,7 +5,8 @@
   "devDependencies": {
     "@types/jest": "^29.5.1",
     "ts-jest": "^29.1.0",
-    "webdriverio": "^7.30.1"
+    "webdriverio": "^7.30.1",
+    "dotenv": "^16.3.1"
   },
   "name": "@holi/e2e-mobile",
   "private": true,
