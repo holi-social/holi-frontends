@@ -210,20 +210,15 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     await clickElementByTestId(page, 'space-edit-close')
 
-    // #############################################################################
-    // TODO Fix navigation and reactivate the test
+    await testAddEditDeleteTask(page)
 
-    // await testAddEditDeleteTask(page)
+    // test digital tools
+    await testAddEditDeleteDigitalTool(page)
 
-    // // test digital tools
-    // await testAddEditDeleteDigitalTool(page)
+    await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
 
-    // await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
-
-    // // test Update Post creation and deletion
-    // await testCreateDeleteSpaceUpdatePost(page)
-
-    // #############################################################################
+    // test Update Post creation and deletion
+    await testCreateDeleteSpaceUpdatePost(page)
 
     // delete space
     await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
