@@ -47,8 +47,8 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
             <HoliAvatar
               imageSrc={collaborator.avatar}
               imageBlurhash={collaborator.avatarBlurhash}
-              label={collaborator.fullName}
-              aria-label={collaborator.fullName || t('user.profileView.anonymous')}
+              label={collaborator.fullName || t('user.profileView.anonymous')}
+              aria-hidden
               initials={collaborator.avatarLabel}
               defaultColor={collaborator.avatarDefaultColor}
               size="small"
