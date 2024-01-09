@@ -18,12 +18,14 @@ const HoliImage = ({
   testID,
   onLayout,
   onError,
+  'aria-hidden': ariaHidden,
 }: MobileImageProps) => {
   const accessibilityProps: AccessibilityProps = {
     accessible: !!label,
     role: 'img',
     accessibilityRole: 'image',
     'aria-label': label,
+    ...(ariaHidden ? { 'aria-hidden': ariaHidden } : {}),
   }
 
   const transformedSource = transformSourcesURL(source)

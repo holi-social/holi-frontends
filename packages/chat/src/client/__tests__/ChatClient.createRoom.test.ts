@@ -29,7 +29,11 @@ describe('ChatClient', () => {
       const client = new ChatClient(getClientOptions('syt_p'))
       const isDM = true
 
-      const result = {
+      const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
+
+      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
+      expect(mxClient.createRoom).toBeCalledTimes(1)
+      expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
         is_direct: isDM,
         preset: 'private_chat',
@@ -43,13 +47,7 @@ describe('ChatClient', () => {
             },
           },
         ],
-      }
-
-      const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
-
-      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
-      expect(mxClient.createRoom).toBeCalledTimes(1)
-      expect(mxClient.createRoom).toHaveBeenLastCalledWith(result)
+      })
     })
 
     it('create a group 1:n room', async () => {

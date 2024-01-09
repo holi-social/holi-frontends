@@ -108,7 +108,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
                 style={styles.slideButton}
                 onPress={() => goToSlide(slideIndex)}
                 key={slideIndex}
-                ariaSelected={slideIndex === currentSlideIndex}
+                aria-selected={slideIndex === currentSlideIndex}
                 testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
               >
                 <View

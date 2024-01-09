@@ -17,6 +17,12 @@ const useRouting = (): RoutingState => {
 
   const replaceRoute = useCallback((routeName: string) => router.replace(routeName), [router])
 
+  const replaceHistory = useCallback(async (routeName: string) => {
+    // https://developer.mozilla.org/docs/Web/API/History/replaceState
+    window.history.replaceState({ ...window.history.state, url: routeName, as: routeName }, '', routeName)
+    return true
+  }, [])
+
   const navigateBack = useCallback(
     (fallbackRouteName = '/') => {
       if (window.history.length) {
@@ -32,6 +38,7 @@ const useRouting = (): RoutingState => {
     navigate,
     navigateBack,
     replaceRoute,
+    replaceHistory,
     setParams,
   }
 }

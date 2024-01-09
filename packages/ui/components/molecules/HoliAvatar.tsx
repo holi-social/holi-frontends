@@ -17,7 +17,7 @@ export type AvatarShape = 'circle' | 'square'
 interface BaseProps {
   imageSrc?: string
   imageBlurhash?: string
-  'aria-label'?: string
+  'aria-hidden'?: boolean
   size?: AvatarSize
   shape?: AvatarShape
   defaultColor?: string
@@ -55,7 +55,7 @@ const HoliAvatar = ({
   imageBlurhash,
   initials,
   label,
-  'aria-label': ariaLabel,
+  'aria-hidden': ariaHidden,
   style,
   loading = false,
   ...props
@@ -68,7 +68,8 @@ const HoliAvatar = ({
 
   const accessibilityPropsInitials: AccessibilityProps = {
     accessible: false,
-    'aria-label': label || ariaLabel || t('user.profileForm.avatar'),
+    'aria-label': label || t('user.profileForm.avatar'),
+    ...(ariaHidden ? { 'aria-hidden': ariaHidden } : {}),
     role: 'img',
   }
 
@@ -87,6 +88,7 @@ const HoliAvatar = ({
       {!loading && hasImage && (
         <HoliImage
           label={label ?? ''} // only null when loading
+          aria-hidden={ariaHidden}
           source={{ uri: imageSrc, width, height: width }}
           blurhash={imageBlurhash}
           style={styles.image}

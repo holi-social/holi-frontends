@@ -144,6 +144,7 @@ const SpaceDetails = () => {
                 icon={Edit2}
                 title={t('global.edit')}
                 handleAction={editAction}
+                testID="space-edit"
               />
               <HoliActionDrawer.Action
                 isLoading={isLoading}
