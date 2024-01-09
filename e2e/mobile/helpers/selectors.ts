@@ -166,8 +166,12 @@ export const seeTextWithTestId = async (expectedText: string, testId: string) =>
 }
 
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
-  // https://webdriver.io/docs/api/element/touchAction
   const element = await waitForElementWithTestId(testId, timeout)
+  return tapOnElement(element)
+}
+
+export const tapOnElement = async (element: Element<'async'>) => {
+  // https://webdriver.io/docs/api/element/touchAction
   await Appium.touchAction({ element, action: 'tap' })
   return element
 }

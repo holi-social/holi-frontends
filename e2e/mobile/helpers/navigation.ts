@@ -6,6 +6,7 @@ import {
   elementExists,
   getElement,
   scrollToElementWithTestId,
+  tapOnElement,
   tapOnElementWithTestId,
   waitForElementWithTestId,
 } from './selectors'
@@ -34,11 +35,12 @@ export const navigateBackToHomeScreen = async (buttonId?: backHomeButtonId) => {
     if (await elementExists('btn-to-home-view')) {
       await tapOnElementWithTestId('btn-to-home-view')
     }
-    const backButtonOverlay = await elementByTestId('nav-button-back')
-    if (backButtonOverlay.elementId) {
-      // swipe a bit downwards to have the back button header overlay return into view
+
+    const navButtonBack = await elementByTestId('nav-button-back')
+    if (navButtonBack.elementId) {
+      // swipe to have the back button header overlay return into view, when scrolled away
       await scrollUp()
-      await Appium.touchAction({ element: backButtonOverlay, action: 'tap' })
+      await tapOnElement(navButtonBack)
       // wait for the animation to finish
       await delay(2)
     }
