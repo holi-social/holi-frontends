@@ -220,6 +220,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            aria-hidden={true}
             aria-label="No Connection"
             role="img"
             selectable={true}
@@ -500,6 +501,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            aria-hidden={true}
             aria-label="Connected"
             role="img"
             selectable={true}
@@ -797,6 +799,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            aria-hidden={true}
             aria-label="Connected and Space connection"
             role="img"
             selectable={true}
@@ -993,6 +996,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            aria-hidden={true}
             aria-label="Follower"
             role="img"
             selectable={true}
@@ -1290,6 +1294,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            aria-hidden={true}
             aria-label="Member"
             role="img"
             selectable={true}
@@ -1454,6 +1459,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            aria-hidden={true}
             aria-label="Admin"
             role="img"
             selectable={true}

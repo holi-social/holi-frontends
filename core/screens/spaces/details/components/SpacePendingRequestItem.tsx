@@ -142,8 +142,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
         <HoliAvatar
           imageSrc={membershipRequest.user.avatar}
           imageBlurhash={membershipRequest.user.avatarBlurhash}
-          label={membershipRequest.user.fullName}
-          aria-label={requestorName}
+          label={requestorName}
           initials={membershipRequest.user.avatarLabel}
           defaultColor={membershipRequest.user.avatarDefaultColor}
           size="small"
