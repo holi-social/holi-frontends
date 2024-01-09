@@ -35,7 +35,7 @@ export type InsightDetailPageParams = {
 const { useParam } = createParam<InsightDetailPageParams>()
 
 const InsightDetailPage = () => {
-  const [insightId = ''] = useParam('insightId')
+  const [insightId] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { replaceRoute } = useRouting()
@@ -47,6 +47,7 @@ const InsightDetailPage = () => {
     refetch,
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
+    skip: !insightId,
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
       if (isNotFoundError(error)) {

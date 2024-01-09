@@ -20,32 +20,15 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
     keyboardShouldPersistTaps="handled"
     onScroll={[Function]}
     refreshControl={
-      <View
-        style={
-          {
-            "top": 52,
-            "zIndex": 10,
-          }
-        }
-      >
-        <RefreshControlMock
-          onRefresh={[Function]}
-          refreshing={false}
-        />
-      </View>
+      <RefreshControlMock
+        onRefresh={[Function]}
+        progressViewOffset={52}
+        refreshing={false}
+      />
     }
     scrollEventThrottle={125}
   >
-    <View
-      style={
-        {
-          "top": 52,
-          "zIndex": 10,
-        }
-      }
-    >
-      <RCTRefreshControl />
-    </View>
+    <RCTRefreshControl />
     <View>
       <View
         style={
@@ -130,7 +113,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-0"
                           accessibilityLabel="spaces.collaborators.manage.tabs.all"
                           accessibilityState={
                             {
@@ -150,9 +132,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-0"
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-0"
+                          id="collaborator-tabs-tab-0"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -182,10 +165,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           testID="collaborator-tabs-button-0-active"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -220,7 +203,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-1"
                           accessibilityLabel="spaces.collaborators.manage.tabs.requests"
                           accessibilityState={
                             {
@@ -240,9 +222,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-1"
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-1"
+                          id="collaborator-tabs-tab-1"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -272,10 +255,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           testID="collaborator-tabs-button-1-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -310,7 +293,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-2"
                           accessibilityLabel="spaces.collaborators.manage.tabs.invites"
                           accessibilityState={
                             {
@@ -330,9 +312,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-2"
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-2"
+                          id="collaborator-tabs-tab-2"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -362,10 +345,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           testID="collaborator-tabs-button-2-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -443,7 +426,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-0"
-                  nativeID="collaborator-tabs-panel-0"
+                  id="collaborator-tabs-panel-0"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -962,7 +945,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-1"
-                  nativeID="collaborator-tabs-panel-1"
+                  id="collaborator-tabs-panel-1"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -1063,7 +1046,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-2"
-                  nativeID="collaborator-tabs-panel-2"
+                  id="collaborator-tabs-panel-2"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -1398,32 +1381,15 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
     keyboardShouldPersistTaps="handled"
     onScroll={[Function]}
     refreshControl={
-      <View
-        style={
-          {
-            "top": 52,
-            "zIndex": 10,
-          }
-        }
-      >
-        <RefreshControlMock
-          onRefresh={[Function]}
-          refreshing={false}
-        />
-      </View>
+      <RefreshControlMock
+        onRefresh={[Function]}
+        progressViewOffset={52}
+        refreshing={false}
+      />
     }
     scrollEventThrottle={125}
   >
-    <View
-      style={
-        {
-          "top": 52,
-          "zIndex": 10,
-        }
-      }
-    >
-      <RCTRefreshControl />
-    </View>
+    <RCTRefreshControl />
     <View>
       <View
         style={
@@ -1506,7 +1472,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-0"
                           accessibilityLabel="spaces.collaborators.manage.tabs.all"
                           accessibilityState={
                             {
@@ -1526,9 +1491,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-0"
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-0"
+                          id="collaborator-tabs-tab-0"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1558,10 +1524,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           testID="collaborator-tabs-button-0-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1598,7 +1564,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-1"
                           accessibilityLabel="spaces.collaborators.manage.tabs.requests"
                           accessibilityState={
                             {
@@ -1618,9 +1583,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-1"
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-1"
+                          id="collaborator-tabs-tab-1"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1650,10 +1616,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           testID="collaborator-tabs-button-1-active"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1688,7 +1654,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         }
                       >
                         <View
-                          accessibilityControls="collaborator-tabs-panel-2"
                           accessibilityLabel="spaces.collaborators.manage.tabs.invites"
                           accessibilityState={
                             {
@@ -1708,9 +1673,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             }
                           }
                           accessible={true}
+                          aria-controls="collaborator-tabs-panel-2"
                           collapsable={false}
                           focusable={true}
-                          nativeID="collaborator-tabs-tab-2"
+                          id="collaborator-tabs-tab-2"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1740,10 +1706,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           testID="collaborator-tabs-button-2-inactive"
                         >
                           <View
-                            pointerEvents="none"
                             style={
                               {
                                 "flexDirection": "row",
+                                "pointerEvents": "none",
                               }
                             }
                           >
@@ -1821,7 +1787,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-0"
-                  nativeID="collaborator-tabs-panel-0"
+                  id="collaborator-tabs-panel-0"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -2340,7 +2306,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-1"
-                  nativeID="collaborator-tabs-panel-1"
+                  id="collaborator-tabs-panel-1"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",
@@ -3942,7 +3908,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               >
                 <View
                   aria-labelledby="collaborator-tabs-tab-2"
-                  nativeID="collaborator-tabs-panel-2"
+                  id="collaborator-tabs-panel-2"
                   style={
                     {
                       "backgroundColor": "#f5f5f5",

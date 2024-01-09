@@ -91,9 +91,9 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
-          accessibilityControls="autocomplete-primary-suggestions"
           accessible={true}
+          aria-autocomplete="list"
+          aria-controls="autocomplete-primary-suggestions"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="accessibility label"
@@ -223,7 +223,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
     </View>
   </View>
   <View
-    nativeID="autocomplete-primary-suggestions"
+    id="autocomplete-primary-suggestions"
     role="menu"
     style={{}}
   />
@@ -323,9 +323,9 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
-          accessibilityControls="autocomplete-error-suggestions"
           accessible={true}
+          aria-autocomplete="list"
+          aria-controls="autocomplete-error-suggestions"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="accessibility label"
@@ -478,7 +478,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
     </View>
   </View>
   <View
-    nativeID="autocomplete-error-suggestions"
+    id="autocomplete-error-suggestions"
     role="menu"
     style={{}}
   />

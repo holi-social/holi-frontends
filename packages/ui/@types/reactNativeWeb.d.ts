@@ -7,9 +7,9 @@ interface AccessibilityPropsWeb extends AccessibilityProps {
   'aria-level'?: number
   role?: AccessibilityRoleWeb
   accessibilityPressed?: boolean
-  accessibilityControls?: string
+  'aria-controls'?: string
   'aria-haspopup'?: 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog' | true
-  accessibilityAutoComplete?: 'none' | 'inline' | 'list' | 'both'
+  'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both'
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)

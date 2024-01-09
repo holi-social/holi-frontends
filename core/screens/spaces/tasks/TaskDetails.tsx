@@ -1,21 +1,19 @@
-import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Delete, More } from '@holi/icons/src/generated'
+import { Delete, Edit2, More } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -37,15 +35,9 @@ const TaskDetails = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) =>
-      !isNotFoundError(error) &&
-      logError(error, 'Failed to load space', { location: 'TaskDetails.spaceByIdQuery', spaceIdOrName }),
-  })
+  const { loading, error, space, refetch } = useSpace(spaceIdOrName)
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  const space = data?.spaceById
   const task = (space?.tasks || []).find((t) => t.id === taskId)
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -69,7 +61,7 @@ const TaskDetails = () => {
             buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
           >
             <HoliActionDrawer.Action
-              action="edit"
+              icon={Edit2}
               title={t('global.edit')}
               testID="btn-to-edit-task"
               handleAction={() => navigate(`/spaces/${space?.name}/tasks/${task?.id}/edit`)}
@@ -77,7 +69,6 @@ const TaskDetails = () => {
             <HoliActionDrawer.Action
               isLoading={isLoadingDeleteTask}
               icon={Delete}
-              action="delete"
               title={t('spaces.digitalTool.delete.label')}
               variant="danger"
               testID="btn-to-delete-task"
@@ -114,14 +105,14 @@ const TaskDetails = () => {
     })
   }, [renderActionDrawer, setScreenOptions, t])
 
-  if ((error && isNotFoundError(error)) || (!loading && !task)) {
-    replaceRoute('NotFound')
-    return null
-  }
-
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !space || !task) {
     return <></>
+  }
+
+  if (!loading && space && !task) {
+    replaceRoute('/404')
+    return null
   }
 
   return (

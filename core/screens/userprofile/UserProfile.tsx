@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,6 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
-import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -66,15 +65,21 @@ const UserProfile = () => {
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
-  const [fetchUser, { loading, error, data, refetch: refetchUser }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
+  const {
+    loading,
+    data,
+    refetch: refetchUser,
+  } = useQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
+    skip: !userId, // userId is empty for initial page load
     onError: (error) => {
-      if (error && !isNotFoundError(error)) {
-        displayError(error, 'Failed to load user', {
-          location: 'UserProfile.fetchUser',
-        })
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
       }
+      displayError(error, 'Failed to load user', {
+        location: 'UserProfile.fetchUser',
+      })
     },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetchUser)
@@ -137,19 +142,6 @@ const UserProfile = () => {
       ),
     })
   }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
-
-  // TODO: workaround for params always being undefined on initial page load
-  // > will probably be solved with ssr
-  // see https://github.com/nandorojo/solito/issues/100
-  useEffect(() => {
-    if (userId && !loading && !user) {
-      fetchUser()
-    }
-  }, [fetchUser, userId, loading, user, error, displayError])
-
-  if (error && isNotFoundError(error)) {
-    return <NotFound />
-  }
 
   if (!userId || loading) {
     // TODO: replace with proper loading indicator

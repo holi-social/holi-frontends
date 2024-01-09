@@ -178,8 +178,8 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
           validationErrorText={!isOpened ? validationErrorText : undefined} // hide it when opening the suggestions
           helperText={isOpened && suggestions.length ? undefined : helperText}
           aria-label={ariaLabel}
-          accessibilityAutoComplete="list"
-          accessibilityControls={`${id}-suggestions`}
+          aria-autocomplete="list"
+          aria-controls={`${id}-suggestions`}
           role="combobox"
           ariaExpanded={isOpened}
           ariaHasPopup="menu"
@@ -196,7 +196,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
           testID={testID}
           ref={ref}
         />
-        <View nativeID={`${id}-suggestions`} role="menu" style={suggestionsStyle}>
+        <View id={`${id}-suggestions`} role="menu" style={suggestionsStyle}>
           {
             /** FIXME convert to VirtualizedList, FlatList or SectionList */
             isOpened ? (

@@ -16,3 +16,16 @@ export const registerDeviceMutation = gql`
     }
   }
 `
+
+export const updateNotificationsPreferences = gql`
+  mutation UpdateNotificationsPreferences($input: Notifications_UpdatePreferencesInput!) {
+    notifications_updatePreferences(input: $input) {
+      id
+      category
+      preferences {
+        push
+        email
+      }
+    }
+  }
+`

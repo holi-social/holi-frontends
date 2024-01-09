@@ -1,0 +1,30 @@
+import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import NotificationSettingsList from '@holi/core/screens/notifications/components/NotificationSettingsList'
+import { colors } from '@holi/ui/styles/globalVars'
+
+const NotificationSettings = () => {
+  const { t } = useTranslation()
+  const setScreenOptions = useSetScreenOptions()
+
+  useLayoutEffect(() => {
+    setScreenOptions({ title: t('profile.settings.notifications.title') })
+  }, [setScreenOptions, t])
+
+  return (
+    <PermissionsGuard permissionType={PermissionsType.AUTH}>
+      <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+        <LoginProtection>
+          <NotificationSettingsList />
+        </LoginProtection>
+      </ScrollHeaderLayout.Default>
+    </PermissionsGuard>
+  )
+}
+
+export default NotificationSettings

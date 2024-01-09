@@ -1024,10 +1024,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="active-tab"
     >
       <View
-        pointerEvents="none"
         style={
           {
             "flexDirection": "row",
+            "pointerEvents": "none",
           }
         }
       >
@@ -1097,10 +1097,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="active-tab"
     >
       <View
-        pointerEvents="none"
         style={
           {
             "flexDirection": "row",
+            "pointerEvents": "none",
           }
         }
       >
@@ -1167,10 +1167,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="active-tab"
     >
       <View
-        pointerEvents="none"
         style={
           {
             "flexDirection": "row",
+            "pointerEvents": "none",
           }
         }
       >
@@ -1237,10 +1237,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="active-tab"
     >
       <View
-        pointerEvents="none"
         style={
           {
             "flexDirection": "row",
+            "pointerEvents": "none",
           }
         }
       >
@@ -1307,10 +1307,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="active-tab"
     >
       <View
-        pointerEvents="none"
         style={
           {
             "flexDirection": "row",
+            "pointerEvents": "none",
           }
         }
       >
@@ -1377,10 +1377,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="active-tab"
     >
       <View
-        pointerEvents="none"
         style={
           {
             "flexDirection": "row",
+            "pointerEvents": "none",
           }
         }
       >
@@ -1447,10 +1447,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="active-tab"
     >
       <View
-        pointerEvents="none"
         style={
           {
             "flexDirection": "row",
+            "pointerEvents": "none",
           }
         }
       >

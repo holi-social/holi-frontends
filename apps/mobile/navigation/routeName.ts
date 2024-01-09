@@ -36,6 +36,7 @@ export enum RouteName {
   AboutSpaces = 'AboutSpaces',
   SpaceAppointments = 'SpaceAppointments',
   CreateAppointment = 'CreateAppointment',
+  AppointmentDetails = 'AppointmentDetails',
 
   // Chat Stack
   ChatHome = 'ChatHome',
