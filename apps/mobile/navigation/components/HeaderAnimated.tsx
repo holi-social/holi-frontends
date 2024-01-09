@@ -86,8 +86,10 @@ const HeaderAnimated = ({ back, options, route, navigation }: NativeStackHeaderP
   return (
     <Animated.View style={[styles.header, headerStyle, { transform: [{ translateY: headerSlideAnimation }] }]}>
       <View
-        pointerEvents="box-none"
-        style={[StyleSheet.absoluteFill, { backgroundColor: headerTransparent ? 'transparent' : colors.background10 }]}
+        style={[
+          StyleSheet.absoluteFill,
+          { backgroundColor: headerTransparent ? 'transparent' : colors.background10, pointerEvents: 'box-none' },
+        ]}
       >
         {headerBackgroundCustom ? (
           headerBackgroundCustom

@@ -1347,10 +1347,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             testID="active-tab"
           >
             <View
-              pointerEvents="none"
               style={
                 {
                   "flexDirection": "row",
+                  "pointerEvents": "none",
                 }
               }
             >
@@ -1420,10 +1420,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             testID="active-tab"
           >
             <View
-              pointerEvents="none"
               style={
                 {
                   "flexDirection": "row",
+                  "pointerEvents": "none",
                 }
               }
             >
@@ -1490,10 +1490,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             testID="active-tab"
           >
             <View
-              pointerEvents="none"
               style={
                 {
                   "flexDirection": "row",
+                  "pointerEvents": "none",
                 }
               }
             >
@@ -1560,10 +1560,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             testID="active-tab"
           >
             <View
-              pointerEvents="none"
               style={
                 {
                   "flexDirection": "row",
+                  "pointerEvents": "none",
                 }
               }
             >
@@ -1630,10 +1630,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             testID="active-tab"
           >
             <View
-              pointerEvents="none"
               style={
                 {
                   "flexDirection": "row",
+                  "pointerEvents": "none",
                 }
               }
             >
@@ -1700,10 +1700,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             testID="active-tab"
           >
             <View
-              pointerEvents="none"
               style={
                 {
                   "flexDirection": "row",
+                  "pointerEvents": "none",
                 }
               }
             >
@@ -1770,10 +1770,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             testID="active-tab"
           >
             <View
-              pointerEvents="none"
               style={
                 {
                   "flexDirection": "row",
+                  "pointerEvents": "none",
                 }
               }
             >
