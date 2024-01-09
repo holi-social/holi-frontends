@@ -22,7 +22,7 @@ import {
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
-import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -130,17 +130,14 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
       },
     })
 
-  // If locationType is REMOTE, remove location and coordinates
-  // Otherwise set their values based on the selectedLocation
   useEffect(() => {
-    if (permissionType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
+    if (selectedLocation?.coordinates) {
       setGeolocation({
         latitude: selectedLocation.coordinates.latitude,
         longitude: selectedLocation.coordinates.longitude,
       })
       setLocation(selectedLocation.label)
-    }
-    if (permissionType?.id === LocationType.REMOTE) {
+    } else {
       setGeolocation(undefined)
       setLocation(undefined)
     }

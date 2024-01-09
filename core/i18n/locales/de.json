@@ -216,6 +216,7 @@
   "global.support.faq.href": "https://holiroadmap.notion.site/holiroadmap/83a5a7842a0e48058ee29bb91be63748?v=b706f1531b8f4f248166a460c8781bcb",
   "global.support.mail.href": "mailto:support@holi.social",
   "global.technicalError": "Ups! Da ist ein technisches Problem aufgetreten!",
+  "global.time.placeholder": "00:00",
   "global.until": "bis",
   "global.validation.email.invalid": "Dies scheint keine E-Mail-Adresse zu sein. Bitte korrigiere deine Eingabe",
   "global.validation.url.invalid": "Der Link wurde als unsicher eingestuft und kann nicht freigegeben werden",

@@ -81,7 +81,7 @@ const HoliTimePicker = ({
               </HoliText>
             </View>
           ) : (
-            <HoliText style={styles.placeholder}>00:00</HoliText>
+            <HoliText style={styles.placeholder}>{t('global.time.placeholder')}</HoliText>
           )}
         </HoliButton>
       </View>
