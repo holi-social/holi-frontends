@@ -122,6 +122,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
           location,
           geolocation,
+          videoCallLink: url,
+          videoCallInfo: additionalInfo,
         },
       },
     })
