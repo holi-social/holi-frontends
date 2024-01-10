@@ -16,7 +16,6 @@ export interface HoliTimePickerProps {
   onChangeMinutes: (minutes: string) => void
   valueHours?: string
   valueMinutes?: string
-  title: string
   label?: string
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -28,7 +27,6 @@ const HoliTimePicker = ({
   onChangeMinutes,
   valueHours,
   valueMinutes,
-  title,
   label,
   style,
   testID = 'holi-time-picker',
@@ -67,7 +65,7 @@ const HoliTimePicker = ({
           </View>
         )}
         <HoliButton
-          label={title}
+          label={t('global.time')}
           testID={`btn-${testID}`}
           transparent
           contentStyle={[styles.border, styles.button, hovered && styles.buttonHovered]}
@@ -76,7 +74,7 @@ const HoliTimePicker = ({
         >
           {valueHours ? (
             <View style={styles.valueContainer}>
-              <HoliText style={styles.value}>
+              <HoliText>
                 {valueHours}:{valueMinutes}
               </HoliText>
             </View>
@@ -91,9 +89,9 @@ const HoliTimePicker = ({
         autoHeight={false}
         relativeHeight={1}
         onDismiss={onModalClose}
-        style={[mixins.container, styles.modal]}
+        style={styles.modal}
       >
-        <View style={styles.inputContainer}>
+        <View style={[mixins.container, styles.inputContainer]}>
           <HoliTextInput
             value={valueHours}
             onChange={(text) => Number(text) < 24 && onChangeHours(text.replace(/[^0-9+ .]/g, ''))}
@@ -107,6 +105,8 @@ const HoliTimePicker = ({
               inputMode: 'numeric',
               maxLength: 2,
               autoFocus: true,
+              onSubmitEditing: hideModal,
+              returnKeyType: 'done',
             }}
             style={styles.input}
           />
@@ -122,6 +122,8 @@ const HoliTimePicker = ({
               keyboardType: 'number-pad',
               inputMode: 'numeric',
               maxLength: 2,
+              onSubmitEditing: hideModal,
+              returnKeyType: 'done',
             }}
             style={styles.input}
           />
@@ -161,9 +163,7 @@ const styles = StyleSheet.create({
   valueContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  value: {
-    marginLeft: 12,
+    textAlign: 'center',
   },
   placeholder: {
     color: colors.foreground20,

@@ -12,11 +12,10 @@ import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
+import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTimePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import HoliTimePicker from '@holi/ui/components/organisms/HoliTimePicker'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
@@ -249,37 +248,27 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
       />
 
       <View style={styles.sectionWrapper}>
-        <HoliDatePicker
-          onChange={onChangeStartDate}
+        <HoliDateAndTimePicker
           title={t('spaces.appointments.input.startDate.title')}
           label={t('spaces.appointments.input.startDate.title')}
-          value={startDate}
-          isRequired
-        />
-        <HoliTimePicker
+          onChangeDate={onChangeStartDate}
+          valueDate={startDate}
           valueHours={startHours}
           onChangeHours={onChangeStartHours}
           valueMinutes={startMinutes}
           onChangeMinutes={onChangeStartMinutes}
-          title="time"
-          label="time"
         />
 
-        <HoliDatePicker
-          style={styles.marginSeparator}
-          onChange={onChangeEndDate}
+        <HoliDateAndTimePicker
           title={t('spaces.appointments.input.endDate.title')}
           label={t('spaces.appointments.input.endDate.title')}
-          value={endDate}
-          isRequired
-        />
-        <HoliTimePicker
+          onChangeDate={onChangeEndDate}
+          valueDate={endDate}
           valueHours={endHours}
           onChangeHours={onChangeEndHours}
           valueMinutes={endMinutes}
           onChangeMinutes={onChangeEndMinutes}
-          title="time"
-          label="time"
+          style={styles.marginSeparator}
         />
       </View>
 

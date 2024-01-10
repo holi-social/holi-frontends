@@ -35,7 +35,7 @@ LocaleConfig.locales['de'] = {
 export interface HoliDatePickerProps {
   onChange: (date: string) => void
   title: string
-  label: string
+  label?: string
   value?: string
   description?: string
   placeholder?: string
@@ -91,7 +91,9 @@ const HoliDatePicker = ({
         >
           {value ? (
             <View style={styles.selectedDateContainer}>
-              <HoliText style={styles.selectedDateTitle}>{displayValue}</HoliText>
+              <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.selectedDateTitle}>
+                {displayValue}
+              </HoliText>
             </View>
           ) : (
             <HoliText style={styles.placeholder}>{placeholder}</HoliText>
