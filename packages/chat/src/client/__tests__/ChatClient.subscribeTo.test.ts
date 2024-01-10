@@ -3,6 +3,7 @@ import {
   EmittedEvents,
   EventEmitterEvents,
   EventType,
+  IContent,
   IEvent,
   Room,
   RoomEvent,
@@ -22,7 +23,7 @@ import {
   toOriginalType,
 } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent, MembershipStatus, SpaceRoom } from '@holi/chat/src/client/types'
+import { ChatRoomEvent, MembershipStatus, RoomUpdatesType, SpaceRoom } from '@holi/chat/src/client/types'
 import { createInitialRoom } from '@holi/chat/src/client/utils'
 
 jest.mock('matrix-js-sdk')
@@ -298,6 +299,48 @@ describe('ChatClient', () => {
       // joins room
       expect(mxClient.joinRoom).toBeCalled()
       // does not call callback
+      expect(callback).not.toBeCalled()
+    })
+  })
+
+  describe('subscribeToRoomsUpdates() method', () => {
+    it('name updates are propagated', async () => {
+      const roomId = 'some-room-id'
+      const room = createRoomMock(roomId)
+      const event = createMatrixEventMock(RoomUpdatesType.name)
+      const content = {} as IContent
+      event.getEffectiveEvent.mockReturnValue({ content: content } as IEvent)
+      const { listener, callback } = simulateSubscription('subscribeToRoomsUpdates', RoomEvent.Timeline)
+      await listener(toOriginalType(event), toOriginalType(room))
+
+      expect(callback).toBeCalledWith(roomId, RoomUpdatesType.name, content)
+    })
+
+    it('avatar updates are propagated', async () => {
+      const roomId = 'some-room-id'
+      const room = createRoomMock(roomId)
+      const event = createMatrixEventMock(RoomUpdatesType.avatar)
+      const content = {} as IContent
+      event.getEffectiveEvent.mockReturnValue({ content: content } as IEvent)
+      const { listener, callback } = simulateSubscription('subscribeToRoomsUpdates', RoomEvent.Timeline)
+      await listener(toOriginalType(event), toOriginalType(room))
+
+      expect(callback).toBeCalledWith(roomId, RoomUpdatesType.avatar, content)
+    })
+
+    it('when room is missing, the callback is not called', async () => {
+      const event = createMatrixEventMock(RoomUpdatesType.avatar)
+      const { listener, callback } = simulateSubscription('subscribeToRoomsUpdates', RoomEvent.Timeline)
+      await listener(toOriginalType(event))
+
+      expect(callback).not.toBeCalled()
+    })
+
+    it('when different event type, the callback is not called', async () => {
+      const event = createMatrixEventMock('other type')
+      const { listener, callback } = simulateSubscription('subscribeToRoomsUpdates', RoomEvent.Timeline)
+      await listener(toOriginalType(event))
+
       expect(callback).not.toBeCalled()
     })
   })
