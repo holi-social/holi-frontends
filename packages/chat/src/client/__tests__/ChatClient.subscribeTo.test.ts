@@ -66,7 +66,7 @@ describe('ChatClient', () => {
 
     const listener = getListenerForMatrixEvent(eventType, level === 'client' ? mxClient : room) as (
       ...args: unknown[]
-    ) => void
+    ) => Promise<void>
 
     return { listener, callback }
   }
@@ -77,7 +77,7 @@ describe('ChatClient', () => {
       const room = createRoomMock(roomId)
 
       const { listener, callback } = simulateSubscription('subscribeToNewRooms', ClientEvent.Room)
-      listener(room)
+      await listener(room)
 
       expect(callback).toBeCalledWith(createInitialRoom(room), false)
     })
@@ -92,7 +92,7 @@ describe('ChatClient', () => {
       roomMock.hasMembershipState.mockReturnValue(true)
 
       const { listener, callback } = simulateSubscription('subscribeToNewRooms', ClientEvent.Room)
-      listener(roomMock)
+      await listener(roomMock)
 
       expect(mxClient.joinRoom).toBeCalledWith(roomId)
       expect(callback).toBeCalledWith(createInitialRoom(roomMock), true)
@@ -104,7 +104,7 @@ describe('ChatClient', () => {
       const roomId = 'roomDeletedId'
 
       const { listener, callback } = simulateSubscription('subscribeToRoomDeletion', ClientEvent.DeleteRoom)
-      listener(roomId)
+      await listener(roomId)
 
       expect(callback).toBeCalledWith(roomId)
     })
@@ -379,7 +379,7 @@ describe('ChatClient', () => {
         }
       )
 
-      listener(notificationCount)
+      await listener(notificationCount)
 
       expect(callback).toBeCalledWith(roomId, notificationCount)
     })
@@ -397,7 +397,7 @@ describe('ChatClient', () => {
         }
       )
 
-      listener(notificationCount)
+      await listener(notificationCount)
 
       expect(callback).not.toBeCalled()
     })
@@ -419,7 +419,7 @@ describe('ChatClient', () => {
 
       const { listener, callback } = simulateSubscription('subscribeToMembership', RoomStateEvent.Members)
       // event: MatrixEvent, roomState: RoomState, member: RoomMember
-      listener(event, roomState, member)
+      await listener(event, roomState, member)
 
       expect(callback).toBeCalledWith(
         roomId,
