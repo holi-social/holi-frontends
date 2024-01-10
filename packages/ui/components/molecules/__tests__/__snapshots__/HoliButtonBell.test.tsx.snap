@@ -43,7 +43,7 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
       undefined,
     ]
   }
-  testID="bell-button-with-icon-with-badge"
+  testID="bell-button"
 >
   <View
     style={
@@ -66,6 +66,7 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
           undefined,
         ]
       }
+      testID="bell-button"
     >
       <View>
         <RNSVGSvgView
@@ -141,6 +142,7 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
             },
           ]
         }
+        testID="bell-button-with-badge"
       />
     </View>
   </View>
@@ -213,6 +215,7 @@ exports[`React tree renders without new notifications badge 1`] = `
           undefined,
         ]
       }
+      testID="bell-button"
     >
       <View>
         <RNSVGSvgView

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { scrollDown, scrollUp } from '../../helpers/gestures'
-import { navigateBackToHomeScreen } from '../../helpers/navigation'
+import { navigateBackToHomeScreenDeeper } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   scrollToElementWithTestId,
@@ -15,7 +15,7 @@ describe('@Comment', () => {
     await registerNewUser()
 
     // go to home feed
-    await navigateBackToHomeScreen()
+    await navigateBackToHomeScreenDeeper()
 
     // click first insight image link
     await scrollToElementWithTestId('feed-insight-image-link', 'down')
@@ -51,7 +51,7 @@ describe('@Comment', () => {
     // await waitForElementWithTestId('toast-SUCCESS', 60000)
 
     // clean up view
-    await navigateBackToHomeScreen()
+    await navigateBackToHomeScreenDeeper()
 
     // scroll up to make sure top menu shows up
     await scrollDown()
@@ -59,6 +59,6 @@ describe('@Comment', () => {
     await scrollUp()
 
     await deleteAccount()
-    await navigateBackToHomeScreen()
+    await navigateBackToHomeScreenDeeper()
   })
 })

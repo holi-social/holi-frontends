@@ -162,7 +162,32 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               },
             ]
           }
-        />
+          testID="notification-bell"
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#6267e7",
+                  "borderRadius": 6,
+                  "borderWidth": 2,
+                  "height": 12,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 12,
+                },
+                {
+                  "top": 4,
+                },
+                {
+                  "borderColor": "#ebebeb",
+                },
+              ]
+            }
+            testID="notification-bell-with-badge"
+          />
+        </View>
       </View>
     </View>
     <View

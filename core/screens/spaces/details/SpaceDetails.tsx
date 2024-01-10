@@ -243,7 +243,7 @@ const SpaceDetails = () => {
             <HoliButtonBell
               label={t('spaces.actions.chat', { spaceName: space?.name })}
               icon={Chat3}
-              showBadge={spaceRoom.notificationCount > 0}
+              showBell={spaceRoom.notificationCount > 0}
               onPress={() => {
                 navigate(`/chat?activeTab=${spaceRoom.id}`)
               }}

@@ -38,7 +38,7 @@ Primary.argTypes = {
     defaultValue: 'Chat',
     description: 'HoliIconType component to be shown as an icon',
   },
-  showBadge: {
+  showBell: {
     primay: true,
     defaultValue: true,
     description: 'boolean to show the bell',
@@ -52,7 +52,7 @@ Primary.argTypes = {
 
 Primary.args = {
   label: 'Label',
-  showBadge: true,
+  showBell: true,
   onPress: () => alert('Button clicked'),
   color: 'black',
 }

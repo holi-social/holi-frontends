@@ -1,6 +1,6 @@
 import React from 'react'
 
-import HoliIconBadge from '@holi/core/navigation/components/header/HoliIconBadge'
+import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -8,25 +8,18 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 interface Props {
   label: string
   icon: HoliIconType
-  showBadge?: boolean
+  showBell?: boolean
   onPress?: () => void
   color?: string | undefined
   testID?: string
 }
 
-export const HoliButtonBell = ({
-  label,
-  icon,
-  showBadge = false,
-  onPress,
-  color,
-  testID = showBadge ? 'bell-button-with-icon' : 'bell-button',
-}: Props) => {
+export const HoliButtonBell = ({ label, icon, showBell = false, onPress, color, testID = 'bell-button' }: Props) => {
   return (
-    <HoliButton label={label} inline testID={showBadge ? testID + '-with-badge' : testID} transparent onPress={onPress}>
-      <HoliIconBadge showBadge={showBadge}>
+    <HoliButton label={label} inline testID={testID} transparent onPress={onPress}>
+      <NotificationBellBadge visible={showBell} testID={testID}>
         <HoliIcon icon={icon} color={color} />
-      </HoliIconBadge>
+      </NotificationBellBadge>
     </HoliButton>
   )
 }

@@ -102,6 +102,7 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
             },
           ]
         }
+        testID="notification-bell"
       />
     </View>
   </View>

@@ -83,8 +83,8 @@ test.describe('@SpaceNotifications', () => {
             await locateElementByTestId(adminB, 'btn-to-notifications-with-badge')
 
             // when admins open their notification center
-            await clickElementByTestId(adminA, 'btn-to-notifications-with-badge')
-            await clickElementByTestId(adminB, 'btn-to-notifications-with-badge')
+            await clickElementByTestId(adminA, 'btn-to-notifications')
+            await clickElementByTestId(adminB, 'btn-to-notifications')
 
             // then both admins are notified
             await locateElementByTestId(adminA, `space-connection-notification-item_${adminAId}_${collaboratorId}`)

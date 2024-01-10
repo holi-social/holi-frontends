@@ -24,8 +24,6 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
   return element
 }
 
-export const getElement = async (testId: string) => await elementBySelector(byTestId(testId))
-
 export const waitForElementWithInnerText = async (text: string, timeout?: number) =>
   waitForElement(byText(text), timeout)
 
@@ -60,7 +58,7 @@ export const withImplicitTimeout = async <T>(timeout: number, fn: () => Promise<
   }
 }
 
-export const elementExists = async (testId: string, timeout = 10) => {
+export const checkIfElementWithTestIdExists = async (testId: string, timeout = 10) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await withImplicitTimeout(timeout, async () => await elementByTestId(testId))
   return element.elementId !== undefined
@@ -91,7 +89,7 @@ const scrollElementIntoView = async (testId: string, direction: ScrollDirection,
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
     try {
-      return await getElement(testId)
+      return await waitForElementWithTestId(testId, 100)
     } catch (e) {
       // element was not found
     }
@@ -166,14 +164,14 @@ export const seeTextWithTestId = async (expectedText: string, testId: string) =>
 }
 
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
-  const element = await waitForElementWithTestId(testId, timeout)
-  return tapOnElement(element)
-}
-
-export const tapOnElement = async (element: Element<'async'>) => {
   // https://webdriver.io/docs/api/element/touchAction
-  await Appium.touchAction({ element, action: 'tap' })
-  return element
+  try {
+    const element = await waitForElementWithTestId(testId, timeout)
+    await Appium.touchAction({ element, action: 'tap' })
+    return element
+  } catch (err) {
+    throw new Error("Couldn't tap on element with testID: " + testId)
+  }
 }
 
 export const tapOnLoginLinkInText = async (selector = 'already-have-account-text') => {

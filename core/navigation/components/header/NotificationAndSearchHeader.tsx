@@ -25,7 +25,7 @@ const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
       <HoliButtonBell
         label={t('notifications.title')}
         icon={Notification2}
-        showBadge={hasNewNotifications}
+        showBell={hasNewNotifications}
         onPress={() => {
           navigate('/notifications')
         }}
