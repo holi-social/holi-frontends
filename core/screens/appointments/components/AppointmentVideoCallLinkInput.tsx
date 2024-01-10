@@ -1,24 +1,20 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { urlRegex } from '@holi/core/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
-import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
-import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
 import digitalTools from '@holi/core/static/digitalTools'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Add, GlobeFilled, LockFilled, MapPin2, More, Settings3, Time, VideoChat } from '@holi/icons/src/generated'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import { Add, Delete, Settings3, Vidicon } from '@holi/icons/src/generated'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { localizeDate } from '@holi/ui/helper/date'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const autoGenerateJitsiUrl = () => {
@@ -40,7 +36,6 @@ const autoGenerateJitsiUrl = () => {
 
 const getMeetingProvider = (url = '') => {
   // first check if it's using the custom jitsiUrl
-  console.log(url, jitsiUrl, url.includes(jitsiUrl))
   if (url.includes(jitsiUrl)) {
     return digitalTools.find((t) => t.name.toLowerCase().includes('jitsi'))
   }
@@ -66,12 +61,35 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
   onChangeAdditionalInfo,
 }: AppointmentVideoCallLinkInputProps) => {
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
+  const { show: showDeleteModal, visible: deleteModalVisible, hide: hideDeleteModal } = useModalState()
+  const [urlError, setUrlError] = useState<string>()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
   const meetingProvider = getMeetingProvider(url)
 
-  console.log(meetingProvider)
+  useEffect(() => {
+    // Check if the input URL is in a valid format
+    if (!!url && !urlRegex.test(url) && url.length > 0) {
+      setUrlError(t('global.validation.url.invalid'))
+    } else {
+      setUrlError(undefined)
+    }
+  }, [t, url])
+
+  const onDismissModal = () => {
+    // clear url in case modal is closed while it is invalid
+    if (!url || urlError) {
+      onChangeUrl('')
+    }
+    hideModal()
+  }
+
+  const handleDelete = () => {
+    onChangeUrl('')
+    onChangeAdditionalInfo('')
+    hideModal()
+  }
 
   return (
     <>
@@ -97,6 +115,11 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
                 <HoliLocalImage imageSource={meetingProvider.img} width={32} height={32} label={meetingProvider.name} />
               </View>
             )}
+            {!meetingProvider && (
+              <View style={[styles.placeholderIcon, styles.placeholderIconSM]}>
+                <HoliIcon icon={Vidicon} size={16} />
+              </View>
+            )}
             <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.meetingProviderUrl}>
               {url}
             </HoliText>
@@ -106,19 +129,41 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
           </View>
         )}
       </View>
-      <HoliModal label={t('global.videoCall.add.button')} {...modalProps}>
+      <HoliModal label={t('global.videoCall.add.button')} {...modalProps} onDismiss={onDismissModal}>
         <View style={mixins.container}>
+          <View style={styles.modalTitleContainer}>
+            <View style={styles.iconContainer}>
+              {meetingProvider && (
+                <HoliLocalImage imageSource={meetingProvider.img} width={40} height={40} label={meetingProvider.name} />
+              )}
+              {!meetingProvider && (
+                <View style={[styles.placeholderIcon, styles.placeholderIconMD]}>
+                  <HoliIcon icon={Vidicon} size={16} />
+                </View>
+              )}
+            </View>
+            {!!url && (
+              <HoliHeading style={styles.modalTitle} lineBreakMode="tail">
+                {url.replace('https://', '')}
+              </HoliHeading>
+            )}
+          </View>
+          <View style={styles.modalDescriptionContainer}>
+            <HoliText color="gray300">{t('spaces.appointments.input.videoCall.description')}</HoliText>
+          </View>
           <HoliTextInput
             value={url}
             onChange={onChangeUrl}
             placeholder={t('global.https.placeholder')}
             inputLabel={t('global.url')}
             aria-label={t('global.url')}
+            validationErrorText={urlError}
             inputProps={{
               keyboardType: 'url',
               inputMode: 'url',
               autoFocus: true,
             }}
+            style={styles.input}
           />
           <HoliTextInput
             value={additionalInfo}
@@ -128,9 +173,33 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
             aria-label={t('spaces.appointments.input.videoCall.additionalInfo.label')}
             maxNoOfCharacters={240}
             showCharacterCount
+            style={styles.input}
           />
+          <View style={styles.modalOptionsContainer}>
+            <HoliButton
+              transparent
+              label={t('spaces.appointments.input.videoCall.delete.button')}
+              contentStyle={styles.modalOptionButton}
+              onPress={showDeleteModal}
+            >
+              <HoliIcon icon={Delete} color={colors.error20} style={styles.modalOptionIcon} />
+              <HoliText color="error200">{t('spaces.appointments.input.videoCall.delete.button')}</HoliText>
+            </HoliButton>
+          </View>
         </View>
       </HoliModal>
+      <HoliConfirmation
+        confirmationButtonType="warning"
+        show={deleteModalVisible}
+        label={t('spaces.appointments.input.videoCall.delete.button')}
+        title={t('spaces.appointments.input.videoCall.delete.button')}
+        description={t('spaces.appointments.input.videoCall.delete.confirmation')}
+        onDismiss={hideDeleteModal}
+        dismissText={t('global.dismiss')}
+        confirmText={t('global.delete')}
+        testID="video-linkform-modal-exit-confirmation"
+        onConfirm={handleDelete}
+      />
     </>
   )
 }
@@ -157,12 +226,55 @@ const styles = StyleSheet.create({
     position: 'relative',
     overflow: 'hidden',
   },
+  placeholderIcon: {
+    backgroundColor: colors.background20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeholderIconSM: {
+    height: 32,
+    width: 32,
+  },
+  placeholderIconMD: {
+    height: 40,
+    width: 40,
+  },
   meetingProviderUrl: {
     marginLeft: 12,
     flex: 1,
   },
   editButton: {
     marginLeft: 12,
+  },
+  modalTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    marginLeft: 12,
+    maxWidth: '85%',
+  },
+  modalDescriptionContainer: {
+    marginTop: 16,
+  },
+  input: {
+    marginTop: 24,
+  },
+  modalOptionsContainer: {
+    marginTop: 24,
+    borderTopWidth: 1,
+    borderTopColor: colors.background30,
+    paddingBottom: +vars.bottomBarHeight + 64,
+  },
+  modalOptionButton: {
+    flexDirection: 'row',
+    display: 'flex',
+    padding: 12,
+    alignItems: 'center',
+  },
+  modalOptionIcon: {
+    marginRight: 12,
   },
 })
 

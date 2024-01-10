@@ -734,7 +734,7 @@
   "spaces.input.publicLinks.url.label": "URL",
   "spaces.input.publicLinks.url.placeholder": "https://",
   "spaces.input.publicLinks.validation.name.mandatory": "Ein Name für den Link ist Pflicht",
-  "spaces.input.publicLinks.validation.url.invalid": "Die URL ist ungültig.",
+  "global.validation.url.invalid": "Die URL ist ungültig.",
   "spaces.input.publicLinks.validation.url.mandatory": "Eine URL ist erforderlich, um einen Social Media Link hinzuzufügen.",
   "spaces.input.sdgs.description": "Die 17 Ziele für nachhaltige Entwicklung (SDGs) sind politische Zielsetzungen der Vereinten Nationen (UN), die weltweit der Sicherung einer nachhaltigen Entwicklung auf ökonomischer, sozialer sowie ökologischer Ebene dienen sollen.",
   "spaces.input.sdgs.search": "Nachhaltigkeitsziele suchen",

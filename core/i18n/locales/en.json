@@ -734,7 +734,7 @@
   "spaces.input.publicLinks.url.label": "URL",
   "spaces.input.publicLinks.url.placeholder": "https://",
   "spaces.input.publicLinks.validation.name.mandatory": "A name for the link is mandatory.",
-  "spaces.input.publicLinks.validation.url.invalid": "The URL is invalid.",
+  "global.validation.url.invalid": "The URL is invalid.",
   "spaces.input.publicLinks.validation.url.mandatory": "A URL is mandatory to add a public link.",
   "spaces.input.sdgs.description": "The Sustainable Development Goals are a collection of 17 interlinked objectives designed to serve as a / shared blueprint for peace and prosperity for people and the planet now and into the future",
   "spaces.input.sdgs.search": "Search SDG",

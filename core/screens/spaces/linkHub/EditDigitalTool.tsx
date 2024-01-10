@@ -93,7 +93,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   useEffect(() => {
     if (!urlRegex.test(url)) {
-      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+      setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
     }
