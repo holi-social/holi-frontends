@@ -2,6 +2,7 @@ import type { Atom, PrimitiveAtom } from 'jotai'
 
 import type {
   ChatRoomMember,
+  ChatRoomMessage,
   MatrixId,
   PrivateRoom,
   RoomWithSharedData,
@@ -21,7 +22,7 @@ export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
 export type PrivateChatRoomAtom = PrimitiveAtom<PrivateChatRoom>
 export type SpaceRoomAtom = PrimitiveAtom<SpaceChatRoom>
 export type SpaceChildRoomAtom = PrimitiveAtom<SpaceChildChatRoom>
-export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
+export type ChatMessagesAtom = PrimitiveAtom<ChatRoomMessage[]>
 export type RoomAtomByRoomId = Record<ChatRoomId, ChatRoomAtom>
 export type MessageAtomsByRoomId = Record<ChatRoomId, ChatMessagesAtom>
 
@@ -33,7 +34,7 @@ export interface BaseChatRoom {
   avatar?: string
   hasInvitation: boolean
   notificationCount: number
-  lastMessage: ChatMessage | undefined
+  lastMessage: ChatRoomMessage | undefined
   creator: ChatRoomMember | null
   members: ChatRoomMember[]
   senderId?: string
@@ -87,37 +88,6 @@ export type RoomAtomsRecordAtomSubscriberArgs = CreateRoomArgs | UpdateRoomArgs 
 /**
  * Message
  */
-
-export type ChatContentType = 'm.text'
-
-export interface ChatMessageContent {
-  body: string
-  msgtype: ChatContentType
-}
-
-export interface ChatMembershipContent {
-  displayname: string
-  membership: 'join' | 'leave'
-}
-
-export interface ChatMessageBase {
-  timestamp?: number
-  room_id: string
-  id: string
-  sender: string | undefined
-}
-
-export interface ChatTextMessage extends ChatMessageBase {
-  type: 'message'
-  content: ChatMessageContent
-}
-
-export interface ChaMembershipMessage extends ChatMessageBase {
-  type: 'membership'
-  content: ChatMembershipContent
-}
-
-export type ChatMessage = ChatTextMessage | ChaMembershipMessage
 
 export interface CreateMessage {
   roomId: string
