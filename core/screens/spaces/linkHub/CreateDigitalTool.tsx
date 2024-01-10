@@ -86,7 +86,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   useEffect(() => {
     // Check if the input URL is in a valid format
     if (!urlRegex.test(url) && url.length > 0) {
-      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+      setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
     }

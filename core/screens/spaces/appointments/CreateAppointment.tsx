@@ -61,6 +61,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
+  const [url, setUrl] = useState('')
+  const [additionalInfo, setAdditionalInfo] = useState('')
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
@@ -120,6 +122,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
           location,
           geolocation,
+          videoCallLink: url,
+          videoCallInfo: additionalInfo,
         },
       },
     })
@@ -216,6 +220,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           thumbnail={thumbnail}
           geolocation={geolocation}
           selectedLocation={selectedLocation}
+          url={url}
+          additionalInfo={additionalInfo}
           onChangeTitle={setTitle}
           onChangeDescription={setDescription}
           onChangeInviteOnly={setInviteOnly}
@@ -229,6 +235,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           onChangeEndHours={setEndHours}
           onChangeStartMinutes={setStartMinutes}
           onChangeEndMinutes={setEndMinutes}
+          onChangeUrl={setUrl}
+          onChangeAdditionalInfo={setAdditionalInfo}
           fieldErrors={fieldErrors}
           isAdmin={isAdmin}
         />

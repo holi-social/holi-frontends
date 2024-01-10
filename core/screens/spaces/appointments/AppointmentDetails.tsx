@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { DimensionValue, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { jitsiUrl } from '@holi/core/helpers/config'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -17,11 +18,12 @@ import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
+import { ExternalLink, Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
@@ -42,7 +44,7 @@ const AppointmentDetails = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
-  const { navigateBack, replaceRoute } = useRouting()
+  const { navigateBack, replaceRoute, navigate } = useRouting()
   const { userId, isLoggedIn } = useAuth()
   const { width: deviceWidth } = useWindowDimensions()
 
@@ -151,6 +153,17 @@ const AppointmentDetails = () => {
     true
   )
 
+  const navigateToVideoCall = () => {
+    if (!appointment.videoCallLink?.url) return
+    if (Platform.OS === 'web') {
+      // Directly call api that performs redirects
+      Linking.openURL(appointment.videoCallLink?.url.replace(jitsiUrl, '/api/video-call'))
+    } else {
+      // Open webview that will then navigate to the same page as web above
+      navigate(appointment.videoCallLink?.url.replace(jitsiUrl, '/video-call'))
+    }
+  }
+
   return (
     <>
       <ScrollHeaderLayout.Refreshable
@@ -211,7 +224,25 @@ const AppointmentDetails = () => {
               <View style={styles.iconsContainer}>
                 <View style={styles.iconGroupContainer}>
                   <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
-                  <HoliText bold>{appointment.videoCallLink?.url}</HoliText>
+                  <HoliButton
+                    label={appointment.videoCallLink?.url}
+                    transparent
+                    inline
+                    style={styles.iconGroupWithDescription}
+                    onPress={navigateToVideoCall}
+                  >
+                    <View style={styles.externalLinkContainer}>
+                      <HoliText bold ellipsizeMode="tail" numberOfLines={2}>
+                        {appointment.videoCallLink?.url}
+                      </HoliText>
+                      <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
+                    </View>
+                    {appointment.videoCallLink?.additionalInfo && (
+                      <HoliText style={styles.iconGroupContainerDescription} color="gray200">
+                        {appointment.videoCallLink.additionalInfo}
+                      </HoliText>
+                    )}
+                  </HoliButton>
                 </View>
               </View>
             )}
@@ -325,11 +356,17 @@ const styles = StyleSheet.create({
   },
   iconGroupContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     flexShrink: 1,
   },
   iconGroupIcon: {
     marginRight: 8,
+    marginTop: -2,
+  },
+  iconGroupWithDescription: {
+    maxWidth: '95%',
+  },
+  iconGroupContainerDescription: {
+    marginTop: 2,
   },
   description: {
     marginTop: 16,
@@ -354,6 +391,15 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 13,
     marginRight: 16,
+  },
+  externalLinkContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 6,
+    paddingRight: 12,
+  },
+  externalLinkIcon: {
+    marginTop: 2,
   },
 })
 

@@ -65,7 +65,7 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
   useEffect(() => {
     // Check if the input URL is in a valid format
     if (!urlRegex.test(url) && url.length > 0) {
-      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.invalid'))
+      setValidationErrorTextUrl(t('global.validation.url.invalid'))
     } else {
       setValidationErrorTextUrl(undefined)
     }
