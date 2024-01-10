@@ -113,7 +113,13 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
           <View style={styles.card}>
             {!!meetingProvider && (
               <View style={styles.iconContainer}>
-                <HoliLocalImage imageSource={meetingProvider.img} width={32} height={32} label={meetingProvider.name} />
+                <HoliLocalImage
+                  imageSource={meetingProvider.img}
+                  width={32}
+                  height={32}
+                  label={meetingProvider.name}
+                  resizeMode="contain"
+                />
               </View>
             )}
             {!meetingProvider && (
@@ -141,6 +147,7 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
                     width={40}
                     height={40}
                     label={meetingProvider.name}
+                    resizeMode="contain"
                   />
                 )}
                 {!meetingProvider && (
