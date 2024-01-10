@@ -21,9 +21,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -250,9 +247,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
     <View
       style={
         [
-          {
-            "minWidth": 190,
-          },
           {
             "maxWidth": 750,
           },
