@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -18,6 +18,7 @@ export type HoliCalendarIconProps = {
   contentStyle?: StyleProp<ViewStyle>
 }
 
+// Month and day are human readable numbers, aka 1-12 and 1-31
 const HoliCalendarIcon = ({
   day,
   month,
@@ -35,7 +36,7 @@ const HoliCalendarIcon = ({
     if (!monthName) {
       return ''
     }
-    return monthName.substring(0, 3)
+    return monthName.substring(0, 3).toUpperCase()
   }
 
   return (
@@ -58,7 +59,7 @@ const getStyles = (isSmall: boolean, disabled: boolean) =>
   StyleSheet.create({
     wrapper: {
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       overflow: 'hidden',
       width: isSmall ? 40 : 60,
       height: isSmall ? 40 : 60,
@@ -66,24 +67,32 @@ const getStyles = (isSmall: boolean, disabled: boolean) =>
       borderRadius: 8,
       borderColor: disabled ? colors.foreground20 : colors.foreground30,
       backgroundColor: disabled ? colors.foreground20 : colors.foreground30,
+      paddingTop: 2,
     },
     month: {
       color: disabled ? colors.background30 : colors.brandColorA10,
       fontSize: isSmall ? 9 : 12,
-      marginHorizontal: 'auto',
+      lineHeight: isSmall ? 9 : 12,
+      paddingBottom: 2,
+      textAlign: 'center',
     },
     dayWrapper: {
+      display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: isSmall ? 22 : 40,
-      width: isSmall ? 40 : 60,
+      minHeight: isSmall ? 28 : 44,
+      minWidth: isSmall ? 40 : 60,
       backgroundColor: disabled ? colors.background30 : colors.brandColorA10,
-      borderTopLeftRadius: 2,
-      borderTopRightRadius: 2,
-      marginTop: isSmall ? -2 : 0,
+      borderTopLeftRadius: 6,
+      borderTopRightRadius: 6,
     },
     day: {
       color: disabled ? colors.foreground20 : colors.foreground30,
       fontSize: isSmall ? 20 : 28,
+      ...Platform.select({
+        native: {
+          paddingTop: isSmall ? 0 : 8,
+        },
+      }),
     },
   })
