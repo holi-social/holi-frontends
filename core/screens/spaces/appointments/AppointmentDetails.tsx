@@ -6,6 +6,7 @@ import { DimensionValue, Linking, Platform, StyleSheet, View, useWindowDimension
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { jitsiUrl } from '@holi/core/helpers/config'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -43,7 +44,7 @@ const AppointmentDetails = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
-  const { navigateBack, replaceRoute } = useRouting()
+  const { navigateBack, replaceRoute, navigate } = useRouting()
   const { userId, isLoggedIn } = useAuth()
   const { width: deviceWidth } = useWindowDimensions()
 
@@ -152,6 +153,17 @@ const AppointmentDetails = () => {
     true
   )
 
+  const navigateToVideoCall = () => {
+    if (!appointment.videoCallLink?.url) return
+    if (Platform.OS === 'web') {
+      // Directly call api that performs redirects
+      Linking.openURL(appointment.videoCallLink?.url.replace(jitsiUrl, '/api/video-call'))
+    } else {
+      // Open webview that will then navigate to the same page as web above
+      navigate(appointment.videoCallLink?.url.replace(jitsiUrl, '/video-call'))
+    }
+  }
+
   return (
     <>
       <ScrollHeaderLayout.Refreshable
@@ -217,7 +229,7 @@ const AppointmentDetails = () => {
                     transparent
                     inline
                     style={styles.iconGroupWithDescription}
-                    onPress={() => Linking.openURL(appointment.videoCallLink?.url || '')}
+                    onPress={navigateToVideoCall}
                   >
                     <View style={styles.externalLinkContainer}>
                       <HoliText bold ellipsizeMode="tail" numberOfLines={2}>
