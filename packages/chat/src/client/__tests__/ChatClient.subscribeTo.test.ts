@@ -173,9 +173,8 @@ describe('ChatClient', () => {
           msgtype: 'm.text',
         } as IContent,
       } as IEvent
-      const messageEventMock = createMatrixEventMock(RoomEvent.Timeline)
+      const messageEventMock = createMatrixEventMock(EventType.RoomMessage)
       messageEventMock.getRoomId.mockReturnValue(roomId)
-      messageEventMock.getType.mockReturnValue(EventType.RoomMessage)
       messageEventMock.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
       await listener(messageEventMock, room)
@@ -204,9 +203,8 @@ describe('ChatClient', () => {
             membership: eventMembership,
           } as IContent,
         } as IEvent
-        const event = createMatrixEventMock(RoomEvent.Timeline)
+        const event = createMatrixEventMock(EventType.RoomMember)
         event.getRoomId.mockReturnValue(roomId)
-        event.getType.mockReturnValue(EventType.RoomMember)
         event.getContent.mockReturnValue({ membership: eventMembership })
         event.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
@@ -245,9 +243,8 @@ describe('ChatClient', () => {
             room,
           })
 
-          const unsupportedEventMock = createMatrixEventMock(RoomEvent.Timeline)
+          const unsupportedEventMock = createMatrixEventMock(eventType)
           unsupportedEventMock.getRoomId.mockReturnValue(roomId)
-          unsupportedEventMock.getType.mockReturnValue(eventType)
 
           await listener(unsupportedEventMock)
 
@@ -263,8 +260,7 @@ describe('ChatClient', () => {
       const room = createRoomMock(roomId)
 
       // Timeline event of type SpaceChild
-      const event = createMatrixEventMock(RoomEvent.Timeline)
-      event.getType.mockReturnValue(EventType.SpaceChild)
+      const event = createMatrixEventMock(EventType.SpaceChild)
       event.getEffectiveEvent.mockReturnValue({} as IEvent)
 
       const { listener, callback } = simulateSubscription('subscribeToSpaceRooms', RoomEvent.Timeline, {
@@ -281,8 +277,7 @@ describe('ChatClient', () => {
       const room = createRoomMock(roomId)
 
       // Timeline event of type SpaceParent
-      const event = createMatrixEventMock(RoomEvent.Timeline)
-      event.getType.mockReturnValue(EventType.SpaceParent)
+      const event = createMatrixEventMock(EventType.SpaceParent)
       event.getEffectiveEvent.mockReturnValue({} as IEvent)
 
       const { listener, callback } = simulateSubscription('subscribeToSpaceRooms', RoomEvent.Timeline, {
@@ -302,8 +297,7 @@ describe('ChatClient', () => {
       mxClient.getUserId.mockReturnValue(mxUserId)
       mxClient.joinRoom.mockResolvedValue(room)
       // Timeline event of type SpaceChild
-      const event = createMatrixEventMock(RoomEvent.Timeline)
-      event.getType.mockReturnValue(EventType.RoomMember)
+      const event = createMatrixEventMock(EventType.RoomMember)
       event.getEffectiveEvent.mockReturnValue({ state_key: mxUserId } as IEvent)
       event.getSender.mockReturnValue(chatAdminUserId)
       event.getContent.mockReturnValue({ membership: 'invite' })
