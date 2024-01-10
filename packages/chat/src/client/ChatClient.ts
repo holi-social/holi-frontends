@@ -27,15 +27,17 @@ import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { configurePusher } from '@holi/chat/src/client/pusher'
 import {
+  type ChatMsgTextContent,
   ChatRoomEvent,
   type ChatRoomMember,
+  type ChatRoomMessage,
   type CreateRoomOptions,
   type MatrixId,
   MembershipStatus,
   type MxMessagesResponse,
   type NotificationCount,
   type RoomId,
-  RoomUpdatesContent,
+  type RoomUpdatesContent,
   RoomUpdatesType,
   type RoomWithSharedData,
   type SharedDataContent,
@@ -43,9 +45,9 @@ import {
 import {
   addRoomEventListener,
   createChatMember,
+  createChatMessage,
   createInitialRoom,
   filterMessagesChunk,
-  hasDuplicateMembershipEvent,
   hasRoomUpdatesType,
   isAdminChangeToMembership,
   isEventWithSharedData,
@@ -58,7 +60,6 @@ import {
   isSpaceRoom,
   setRoomsListeners,
 } from '@holi/chat/src/client/utils'
-import type { ChatMessageContent } from '@holi/chat/src/store'
 import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
@@ -406,7 +407,7 @@ export default class ChatClient {
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {
-    const content: ChatMessageContent = {
+    const content: ChatMsgTextContent = {
       body: text,
       msgtype: 'm.text',
     }
@@ -572,29 +573,21 @@ export default class ChatClient {
     })
   }
 
-  public subscribeToRoomMessages(callback: (event: MatrixEvent) => void): () => void {
-    const rooms = this.mxClient.getRooms()
-
-    // The handler to attach for each room listening
-    const handleIncomingMessages = (room: Room) => (event: MatrixEvent) => {
+  public subscribeToRoomMessages(callback: (roomId: string, chatRoomMessage: ChatRoomMessage) => void): () => void {
+    const messagesListener = (event: MatrixEvent, room: Room | undefined) => {
+      if (!room) return
       if (room.roomId !== event.getRoomId()) return
       if (!isMessageEvent(event) && !isMembershipEvent(event)) return
       if (isMembershipEvent(event) && !isJoinOrLeaveEvent(event)) return
-      if (hasDuplicateMembershipEvent(room, event)) return
 
-      callback(event)
+      callback(room.roomId, createChatMessage(room.roomId, event.getEffectiveEvent()))
     }
 
-    // Partially pass the arguments we need in order to set the listeners.
-    const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, handleIncomingMessages)
-    // Collects and set listeners for existing and incoming rooms.
-    const client = this.mxClient
-    return setRoomsListeners({
-      client,
-      rooms,
-      roomEvent: RoomEvent.Timeline,
-      createListener: incomingMessagesListener,
-    })
+    this.mxClient.on(RoomEvent.Timeline, messagesListener)
+
+    return () => {
+      this.mxClient.off(RoomEvent.Timeline, messagesListener)
+    }
   }
 
   /**

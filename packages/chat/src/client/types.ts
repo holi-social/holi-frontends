@@ -94,6 +94,39 @@ export enum ChatRoomEvent {
   SharedData = 'holi.room.shared.data',
 }
 
+/**
+ * Messages
+ */
+export interface ChatRoomMessage {
+  type: ChatMessageType
+  content: ChatMsgTextContent | ChatMsgMemberContent
+  roomId: string
+  id: string
+  sender: string | undefined
+  timestamp?: number
+}
+
+export type ChatMessageType = 'message' | 'membership'
+
+export type ChatMsgContentType = 'm.text'
+
+export type ChatMsgContentOf<T extends ChatMsgTextContent | ChatMsgMemberContent = ChatMsgTextContent> = T extends {
+  msgtype: ChatMsgContentType
+}
+  ? T
+  : ChatMsgMemberContent
+
+export interface ChatMsgTextContent {
+  body: string
+  msgtype: ChatMsgContentType
+}
+
+export interface ChatMsgMemberContent {
+  membership?: string
+  name?: string
+  avatar?: string
+}
+
 export interface MxMessagesResponse {
   start?: string
   end?: string
