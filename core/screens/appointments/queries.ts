@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 import { Appointment } from '@holi/core/screens/appointments/types'
-import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 export enum APPOINTMENT_STATUS_TYPE {
@@ -10,7 +10,7 @@ export enum APPOINTMENT_STATUS_TYPE {
 }
 
 export const FullAppointmentFragment = gql`
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
   fragment FullAppointment on Appointment {
     id
     title
@@ -31,10 +31,10 @@ export const FullAppointmentFragment = gql`
     thumbnailBlurhash
     permission
     creator {
-      ...FullUserAvatar
+      ...UserAvatar
     }
     participants {
-      ...FullUserAvatar
+      ...UserAvatar
     }
     location
     geolocation {

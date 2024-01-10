@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import { Post } from '@holi/core/screens/posts/types'
-import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
@@ -11,12 +11,13 @@ export type NumberOfItems = {
 }
 
 export const userSuggestionsQuery = gql`
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
 
   query UserSuggestions($limit: Int! = 10) {
     userSuggestions(limit: $limit) {
       data {
-        ...FullUserAvatar
+        ...UserAvatar
+        aboutMe
       }
     }
   }
