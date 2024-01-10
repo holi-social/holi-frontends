@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParam, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 
 export type RefreshOnNavigationParams = {
   refresh?: string
@@ -11,15 +11,16 @@ export interface RefreshOnNavigationProps {
   onRefresh: () => Promise<void>
 }
 
-const { useParam } = createParam<RefreshOnNavigationParams>()
+const { useParam, useUpdateParams } = createParam<RefreshOnNavigationParams>()
 
 const useRefreshOnNavigation = ({ initialized = false, onRefresh }: RefreshOnNavigationProps) => {
-  const [refreshParam, setRefreshParam] = useParam('refresh')
+  const [refreshParam] = useParam('refresh')
+  const updateParams = useUpdateParams(webReplaceQueryConfig)
 
   useEffect(() => {
     if (initialized && refreshParam) {
       onRefresh()
-      setRefreshParam(undefined)
+      updateParams({ refresh: undefined })
     }
     // Only refresh if refreshParam was set to true after initializing
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import createParam, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import SearchResultsList from '@holi/core/screens/search/components/SearchResultsList'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
@@ -24,7 +24,7 @@ type SearchParams = {
   filter: FilterType
 }
 
-const { useParam } = createParam<SearchParams>()
+const { useParam, useUpdateParams } = createParam<SearchParams>()
 
 const validateFilter = (value: FilterType): FilterType => {
   return filterTypes.includes(value) ? value : 'all'
@@ -55,8 +55,9 @@ const SearchContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
-  const [query = '', setQueryParam] = useParam('query', singleParamConfig)
-  const [selectedFilter, setFilterParam] = useParam('filter', singleParamConfig)
+  const [query = ''] = useParam('query', singleParamConfig)
+  const [selectedFilter] = useParam('filter', singleParamConfig)
+  const updateParams = useUpdateParams(webReplaceQueryConfig)
   const filter = validateFilter(selectedFilter as FilterType)
   const itemsToLoad = useRef<number>(FILTER_ALL_PAGE_SIZE)
 
@@ -70,7 +71,7 @@ const SearchContent = () => {
 
   const onSearchUserInputChange = (value: string) => {
     if (value.toLowerCase() !== query.toLowerCase()) {
-      setQueryParam(value)
+      updateParams({ query: value })
     }
   }
 
@@ -117,9 +118,7 @@ const SearchContent = () => {
               }`}
               selected={isSelected}
               loading={result?.loading}
-              onPress={() => {
-                setFilterParam(filterType)
-              }}
+              onPress={() => updateParams({ filter: filterType })}
             />
           )
         })}
@@ -129,7 +128,7 @@ const SearchContent = () => {
       <SearchResultsList
         query={query}
         filter={filter}
-        setFilter={setFilterParam}
+        setFilter={(filter) => updateParams({ filter })}
         searchQueryResult={searchQueryResult}
       />
     </View>

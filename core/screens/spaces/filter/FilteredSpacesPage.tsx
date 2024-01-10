@@ -1,6 +1,10 @@
 import React, { memo, useCallback } from 'react'
 
-import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import createParam, {
+  arrayParamConfig,
+  singleParamConfig,
+  webReplaceQueryConfig,
+} from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import FilteredSpaces from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
@@ -17,7 +21,7 @@ const FilteredSpacesPage = () => {
   const [topicSlug] = useParam('topic', singleParamConfig)
   const [locationId] = useParam('location', singleParamConfig)
   const [skillSlugs] = useParam('skill', arrayParamConfig)
-  const updateParams = useUpdateParams()
+  const updateParams = useUpdateParams(webReplaceQueryConfig)
   const { navigate } = useRouting()
 
   const applyFilters = useCallback(
