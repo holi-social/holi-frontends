@@ -21,6 +21,7 @@
     - [Can't find simctl SDKs](#cant-find-simctl-sdks)
     - [Espresso server can't be built / started](#espresso-server-cant-be-built--started)
     - [Can't find ANDROID_HOME nor ANDROID_SDK_ROOT](#cant-find-android_home-nor-android_sdk_root)
+    - [Password field doesn't work]
 
 ## Building via EAS
 
@@ -53,7 +54,7 @@ Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa
 
 You need to install [Appium](https://appium.io/docs/en/about-appium/getting-started/) in order to run the tests locally.
 
-1. `npm i -g appium@next`
+1. `npm i -g appium@2.0.1`
 2. `npm install @appium/doctor --location=global`
 3. `appium driver install xcuitest`
 4. `appium driver install uiautomator2`
@@ -185,7 +186,7 @@ When running the tests, if you see an error message along the lines of
 it might be necessary to manually run the `appium` process in a separate terminal session, via:
 
 ```sh
-npm install -g appium
+npm install -g appium@2.0.1
 appium
 ```
 
@@ -222,3 +223,7 @@ export ANDROID_HOME=/home/$(whoami)/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
 ```
+
+### iOS Password field doesn't work
+Make sure to disable Password autofill in your simulator device settings
+Settings -> Passwords -> Password options -> Disable "Autofill"

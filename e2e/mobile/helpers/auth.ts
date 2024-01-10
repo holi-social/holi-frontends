@@ -4,7 +4,7 @@ import { delay } from '@holi/e2e-mobile/helpers/time'
 
 import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
-  checkIfElementWithTestIdExists,
+  elementExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
   tapOnLoginLinkInText,
@@ -100,12 +100,13 @@ export const finishAccountSetup = async ({
   await tapOnElementWithTestId('holi-wizard-next-btn')
 
   await waitForHomeScreen()
-  delay(10)
 }
 
 export const logout = async () => {
   if (await navigateToSettings()) {
     await tapOnElementWithTestId('btn-to-logout')
+    // wait for animation of confirm modal
+    await delay(2)
     await tapOnElementWithTestId('modal-logout-confirmation-confirm')
     await waitForElementWithTestId('already-have-account-text', 15000)
   }
@@ -125,31 +126,51 @@ export const deleteAccount = async () => {
 }
 
 const navigateToSettings = async () => {
-  if (await checkIfElementWithTestIdExists('btn-to-logout')) {
+  // are we at settings already?
+  if (await elementExists('btn-to-logout')) {
     return true
   }
-  if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+
+  // go to settings when navigation is possible
+  if (await elementExists('btn-to-settings')) {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')
     return true
   }
-  if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
+
+  // we are in profile and need to go back
+  if (await elementExists('btn-to-profile-view')) {
     await tapOnElementWithTestId('btn-to-profile-view')
-    await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
-    if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+    await eitherAtProfileOrLogin()
+    if (await elementExists('btn-to-settings')) {
       await tapOnElementWithTestId('btn-to-settings')
       await waitForElementWithTestId('btn-to-logout')
       return true
     }
     return false
   }
+
+  // we are somewhere else and try to get back to home screen
   await navigateBackToHomeScreen()
-  await tapOnElementWithTestId('btn-to-profile-view')
-  await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
-  if (await checkIfElementWithTestIdExists('btn-to-settings')) {
-    await tapOnElementWithTestId('btn-to-settings')
-    await waitForElementWithTestId('btn-to-logout')
-    return true
+
+  // go to settings again
+  if (await elementExists('btn-to-profile-view')) {
+    await tapOnElementWithTestId('btn-to-profile-view')
+    await eitherAtProfileOrLogin()
+    if (await elementExists('btn-to-settings')) {
+      await tapOnElementWithTestId('btn-to-settings')
+      await waitForElementWithTestId('btn-to-logout')
+      return true
+    }
+    return false
   }
+
+  // no route to settings
+  // eslint-disable-next-line no-console
+  console.error('Error while navigating to settings')
   return false
+}
+
+const eitherAtProfileOrLogin = async () => {
+  await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
 }
