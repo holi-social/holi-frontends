@@ -92,7 +92,30 @@ const parseArray = (value?: string | string[]): string[] => (!value ? [] : Array
 
 export const singleParamConfig = { initial: undefined, parse: parseString }
 export const arrayParamConfig = { initial: [], parse: parseArray }
+export const webReplaceQueryConfig = { web: { replace: true } }
 
+/**
+ * This creates two hooks for handling query parameters:
+ *
+ * - `useParam`:
+ *   Requires the name of a query parameter as argument and returns a
+ *   getter and a setter to handle this query parameter's state similiar
+ *   to the `useState` hook. I.e. using the setter will result in
+ *   rerenderings.
+ *   You can pass a second parameter to control how to parse the query
+ *   values, e.g. to specify how and if multiple values should be
+ *   allowed (see `singleParamConfig` and `arrayParamConfig`).
+ * - `useUpdateParams`:
+ *   This function allows updating multiple query parameters at once and
+ *   does not trigger rerenderings. It expects an object of query
+ *   parameters with values to change as argument.
+ *
+ * Both hooks allow passing of `UpdateOptions` that e.g. define if
+ * updating the query parameter should replace the last history entry on
+ * web (see `webReplaceQueryConfig`). By default the last history entry
+ * is only replaced by the setter of `useParam` if an already present
+ * query parameter is changed.
+ */
 const createParam = <Props extends Record<string, unknown> = Record<string, string>>() => {
   const useParam = <
     Name extends keyof Props,
@@ -190,7 +213,9 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
     return [state, setState]
   }
 
-  const useUpdateParams = (): ((props: Partial<Props>, options?: UpdateOptions) => void) => {
+  const useUpdateParams = (
+    options?: UpdateOptions
+  ): ((props: Partial<Props>, optionOverrides?: UpdateOptions) => void) => {
     const { setParams } = useRouting()
 
     const setNativeStateFromParams = useCallback(
@@ -200,28 +225,32 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
       [setParams]
     )
 
-    const setWebState = useCallback((value: Partial<Props>, options?: UpdateOptions) => {
-      const { pathname, query } = Router
-      const newQuery = { ...query, ...value }
-      for (const key in value) {
-        if (value[key] == null || value[key] === '') {
-          delete newQuery[key]
+    const setWebState = useCallback(
+      (value: Partial<Props>, optionOverrides?: UpdateOptions) => {
+        const combinedOptions = { ...options, ...optionOverrides }
+        const { pathname, query } = Router
+        const newQuery = { ...query, ...value }
+        for (const key in value) {
+          if (value[key] === null || value[key] === undefined || value[key] === '') {
+            delete newQuery[key]
+          }
         }
-      }
 
-      const action = options?.web?.replace ? Router.replace : Router.push
+        const action = combinedOptions?.web?.replace ? Router.replace : Router.push
 
-      action(
-        {
-          pathname,
-          query: newQuery,
-        },
-        undefined,
-        {
-          shallow: true,
-        }
-      )
-    }, [])
+        action(
+          {
+            pathname,
+            query: newQuery,
+          },
+          undefined,
+          {
+            shallow: true,
+          }
+        )
+      },
+      [options]
+    )
 
     return Platform.select({
       web: setWebState,
