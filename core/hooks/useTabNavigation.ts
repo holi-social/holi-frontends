@@ -11,7 +11,7 @@ export interface TabNavigationProps {
   determineInitialTab?: () => string | undefined
 }
 
-const { useParam } = createParam<TabNavigationParams>()
+const { useParam, useUpdateParams } = createParam<TabNavigationParams>()
 
 const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigationProps) => {
   const getTabIndexForName = useCallback(
@@ -28,19 +28,17 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     [tabNamesInOrder]
   )
 
-  const [currentTabName, setCurrentTabName] = useParam('tab', {
-    ...singleParamConfig,
-    options: { web: { replace: true } },
-  })
+  const [currentTabName] = useParam('tab', singleParamConfig)
   const [initialTabIndex, setInitialTabIndex] = useState<number | undefined>()
+  const updateParams = useUpdateParams()
 
   const selectTabWithIndex = useCallback(
     (tabIndex: number) => {
       if (tabIndex >= 0 && tabIndex < tabNamesInOrder.length) {
-        setCurrentTabName(tabNamesInOrder[tabIndex])
+        updateParams({ tab: tabNamesInOrder[tabIndex] }, { web: { replace: true } })
       }
     },
-    [setCurrentTabName, tabNamesInOrder]
+    [tabNamesInOrder, updateParams]
   )
 
   useEffect(() => {
@@ -52,11 +50,11 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     if (initialTabName) {
       const tabIndex = getTabIndexForName(initialTabName)
       if (tabIndex !== undefined && tabIndex >= 0) {
-        setCurrentTabName(initialTabName)
+        updateParams({ tab: initialTabName }, { web: { replace: true } })
         setInitialTabIndex(tabIndex)
       }
     }
-  }, [currentTabName, determineInitialTab, getTabIndexForName, initialTabIndex, setCurrentTabName])
+  }, [currentTabName, determineInitialTab, getTabIndexForName, initialTabIndex, updateParams])
 
   return {
     initialTabIndex,
