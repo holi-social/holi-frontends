@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { urlRegex } from '@holi/core/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
@@ -88,6 +88,7 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
   const handleDelete = () => {
     onChangeUrl('')
     onChangeAdditionalInfo('')
+    hideDeleteModal()
     hideModal()
   }
 
@@ -130,76 +131,92 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
         )}
       </View>
       <HoliModal label={t('global.videoCall.add.button')} {...modalProps} onDismiss={onDismissModal}>
-        <View style={mixins.container}>
-          <View style={styles.modalTitleContainer}>
-            <View style={styles.iconContainer}>
-              {meetingProvider && (
-                <HoliLocalImage imageSource={meetingProvider.img} width={40} height={40} label={meetingProvider.name} />
-              )}
-              {!meetingProvider && (
-                <View style={[styles.placeholderIcon, styles.placeholderIconMD]}>
-                  <HoliIcon icon={Vidicon} size={16} />
-                </View>
+        <ScrollView>
+          <View style={mixins.container}>
+            <View style={styles.modalTitleContainer}>
+              <View style={styles.iconContainer}>
+                {meetingProvider && (
+                  <HoliLocalImage
+                    imageSource={meetingProvider.img}
+                    width={40}
+                    height={40}
+                    label={meetingProvider.name}
+                  />
+                )}
+                {!meetingProvider && (
+                  <View style={[styles.placeholderIcon, styles.placeholderIconMD]}>
+                    <HoliIcon icon={Vidicon} size={16} />
+                  </View>
+                )}
+              </View>
+              {!!url && (
+                <HoliHeading style={styles.modalTitle} lineBreakMode="tail">
+                  {url.replace('https://', '')}
+                </HoliHeading>
               )}
             </View>
-            {!!url && (
-              <HoliHeading style={styles.modalTitle} lineBreakMode="tail">
-                {url.replace('https://', '')}
-              </HoliHeading>
-            )}
+            <View style={styles.modalDescriptionContainer}>
+              <HoliText color="gray300">{t('spaces.appointments.input.videoCall.description')}</HoliText>
+            </View>
+            <HoliTextInput
+              value={url}
+              onChange={onChangeUrl}
+              placeholder={t('global.https.placeholder')}
+              inputLabel={t('global.url')}
+              aria-label={t('global.url')}
+              validationErrorText={urlError}
+              inputProps={{
+                keyboardType: 'url',
+                inputMode: 'url',
+                autoFocus: true,
+              }}
+              style={styles.input}
+            />
+            <HoliTextInput
+              value={additionalInfo}
+              onChange={onChangeAdditionalInfo}
+              placeholder={t('spaces.appointments.input.videoCall.additionalInfo.placeholder')}
+              inputLabel={t('spaces.appointments.input.videoCall.additionalInfo.label')}
+              aria-label={t('spaces.appointments.input.videoCall.additionalInfo.label')}
+              maxNoOfCharacters={240}
+              showCharacterCount
+              style={styles.input}
+            />
+            <View style={styles.modalOptionsContainer}>
+              <HoliButton
+                transparent
+                label={t('spaces.appointments.input.videoCall.delete.button')}
+                contentStyle={styles.modalOptionButton}
+                onPress={showDeleteModal}
+              >
+                <HoliIcon icon={Delete} color={colors.error20} style={styles.modalOptionIcon} />
+                <HoliText color="error200">{t('spaces.appointments.input.videoCall.delete.button')}</HoliText>
+              </HoliButton>
+            </View>
           </View>
-          <View style={styles.modalDescriptionContainer}>
-            <HoliText color="gray300">{t('spaces.appointments.input.videoCall.description')}</HoliText>
-          </View>
-          <HoliTextInput
-            value={url}
-            onChange={onChangeUrl}
-            placeholder={t('global.https.placeholder')}
-            inputLabel={t('global.url')}
-            aria-label={t('global.url')}
-            validationErrorText={urlError}
-            inputProps={{
-              keyboardType: 'url',
-              inputMode: 'url',
-              autoFocus: true,
-            }}
-            style={styles.input}
-          />
-          <HoliTextInput
-            value={additionalInfo}
-            onChange={onChangeAdditionalInfo}
-            placeholder={t('spaces.appointments.input.videoCall.additionalInfo.placeholder')}
-            inputLabel={t('spaces.appointments.input.videoCall.additionalInfo.label')}
-            aria-label={t('spaces.appointments.input.videoCall.additionalInfo.label')}
-            maxNoOfCharacters={240}
-            showCharacterCount
-            style={styles.input}
-          />
-          <View style={styles.modalOptionsContainer}>
-            <HoliButton
-              transparent
-              label={t('spaces.appointments.input.videoCall.delete.button')}
-              contentStyle={styles.modalOptionButton}
-              onPress={showDeleteModal}
-            >
-              <HoliIcon icon={Delete} color={colors.error20} style={styles.modalOptionIcon} />
-              <HoliText color="error200">{t('spaces.appointments.input.videoCall.delete.button')}</HoliText>
-            </HoliButton>
-          </View>
-        </View>
+        </ScrollView>
+        <HoliButton
+          label={t('global.done')}
+          inline
+          testID="appointment-video-call-link-save-button"
+          style={[mixins.container, styles.overlayButton]}
+          onPress={hideModal}
+        >
+          {t('global.done')}
+        </HoliButton>
+        <HoliConfirmation
+          confirmationButtonType="warning"
+          show={deleteModalVisible}
+          label={t('spaces.appointments.input.videoCall.delete.button')}
+          title={t('spaces.appointments.input.videoCall.delete.button')}
+          description={t('spaces.appointments.input.videoCall.delete.confirmation')}
+          onDismiss={hideDeleteModal}
+          dismissText={t('global.dismiss')}
+          confirmText={t('global.delete')}
+          testID="video-linkform-modal-exit-confirmation"
+          onConfirm={handleDelete}
+        />
       </HoliModal>
-      <HoliConfirmation
-        confirmationButtonType="warning"
-        show={deleteModalVisible}
-        label={t('spaces.appointments.input.videoCall.delete.button')}
-        title={t('spaces.appointments.input.videoCall.delete.button')}
-        description={t('spaces.appointments.input.videoCall.delete.confirmation')}
-        onDismiss={hideDeleteModal}
-        dismissText={t('global.dismiss')}
-        confirmText={t('global.delete')}
-        testID="video-linkform-modal-exit-confirmation"
-        onConfirm={handleDelete}
-      />
     </>
   )
 }
@@ -265,7 +282,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     borderTopWidth: 1,
     borderTopColor: colors.background30,
-    paddingBottom: +vars.bottomBarHeight + 64,
+    paddingBottom: +vars.bottomBarHeight + 60,
   },
   modalOptionButton: {
     flexDirection: 'row',
@@ -275,6 +292,14 @@ const styles = StyleSheet.create({
   },
   modalOptionIcon: {
     marginRight: 12,
+  },
+  overlayButton: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 40,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    width: 420,
+    maxWidth: '90%',
   },
 })
 
