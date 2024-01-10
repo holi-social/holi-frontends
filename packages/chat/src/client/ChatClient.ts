@@ -321,7 +321,7 @@ export default class ChatClient {
     }, Promise.resolve([]))
   }
 
-  public getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
+  private getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
     const stateEventList = await this.mxClient.roomState(roomId)
 
     const sharedDataEvent = stateEventList.find(isEventWithSharedData)
