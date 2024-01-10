@@ -69,12 +69,6 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
-  useEffect(() => {
-    if (startDate > endDate) {
-      setEndDate(startDate)
-    }
-  }, [startDate, endDate, setEndDate])
-
   const {
     data,
     error: errorSpace,

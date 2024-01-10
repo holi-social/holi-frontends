@@ -235,23 +235,30 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         inputProps={{ autoFocus: true }}
       />
 
-      <HoliModalSelect
-        options={inviteOnlyOptions}
-        title={t('spaces.appointments.input.inviteOnly.title')}
-        onChange={onChangeInviteOnly}
-        placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
-        label={t('spaces.appointments.input.inviteOnly.title')}
-        testID="appointment-invite-only-input"
-        style={styles.marginSeparator}
-        showOptionIcon
-        isRequired
-      />
+      {optionsReady && (
+        <HoliModalSelect
+          options={inviteOnlyOptions}
+          title={t('spaces.appointments.input.inviteOnly.title')}
+          onChange={onChangeInviteOnly}
+          placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
+          label={t('spaces.appointments.input.inviteOnly.title')}
+          testID="appointment-invite-only-input"
+          style={styles.marginSeparator}
+          showOptionIcon
+          isRequired
+        />
+      )}
 
       <View style={styles.sectionWrapper}>
         <HoliDateAndTimePicker
           title={t('spaces.appointments.input.startDate.title')}
           label={t('spaces.appointments.input.startDate.title')}
-          onChangeDate={onChangeStartDate}
+          onChangeDate={(newStartDate) => {
+            if (endDate && newStartDate > endDate) {
+              onChangeEndDate(newStartDate)
+            }
+            onChangeStartDate(newStartDate)
+          }}
           valueDate={startDate}
           valueHours={startHours}
           onChangeHours={onChangeStartHours}
@@ -262,7 +269,12 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         <HoliDateAndTimePicker
           title={t('spaces.appointments.input.endDate.title')}
           label={t('spaces.appointments.input.endDate.title')}
-          onChangeDate={onChangeEndDate}
+          onChangeDate={(newEndDate) => {
+            if (startDate && newEndDate < startDate) {
+              onChangeStartDate(newEndDate)
+            }
+            onChangeEndDate(newEndDate)
+          }}
           valueDate={endDate}
           valueHours={endHours}
           onChangeHours={onChangeEndHours}
