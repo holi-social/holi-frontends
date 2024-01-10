@@ -105,8 +105,6 @@ const HoliTimePicker = ({
               inputMode: 'numeric',
               maxLength: 2,
               autoFocus: true,
-              onSubmitEditing: hideModal,
-              returnKeyType: 'done',
             }}
             style={styles.input}
           />
