@@ -6,6 +6,7 @@ import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/pos
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
 import AboutSpaces from '@holi/core/screens/spaces/about/AboutSpaces'
+import AppointmentDetails, { AppointmentDetailsParams } from '@holi/core/screens/spaces/appointments/AppointmentDetails'
 import CreateAppointment, { CreateAppointmentParams } from '@holi/core/screens/spaces/appointments/CreateAppointment'
 import SpaceAppointments, { SpaceAppointmentsParams } from '@holi/core/screens/spaces/appointments/SpaceAppointments'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
@@ -64,6 +65,7 @@ export type SpacesScreens = {
   [RouteName.AboutSpaces]: undefined
   [RouteName.SpaceAppointments]: SpaceAppointmentsParams
   [RouteName.CreateAppointment]: CreateAppointmentParams
+  [RouteName.AppointmentDetails]: AppointmentDetailsParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -107,6 +109,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.AboutSpaces} component={AboutSpaces} />
       <SpacesStack.Screen name={RouteName.SpaceAppointments} component={SpaceAppointments} />
       <SpacesStack.Screen name={RouteName.CreateAppointment} component={CreateAppointment} />
+      <SpacesStack.Screen name={RouteName.AppointmentDetails} component={AppointmentDetails} />
     </SpacesStack.Navigator>
   )
 }

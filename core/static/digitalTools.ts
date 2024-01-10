@@ -176,6 +176,14 @@ const digitalTools = [
     img: require('@holi/ui/assets/img/icons/collaboration/googledrive.png'),
   },
   {
+    name: 'Google Meet',
+    type: 'Communication',
+    slug: 'meet.google',
+    url: 'https://meet.google.com',
+    desc: 'Real-time meetings by Google. Using your browser, share your video, desktop, and presentations with teammates and customers.',
+    img: require('@holi/ui/assets/img/icons/collaboration/googlemeet.png'),
+  },
+  {
     name: 'Google Docs',
     type: 'Storage & Docs',
     slug: 'docs.google.com/document',

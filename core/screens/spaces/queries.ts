@@ -1,46 +1,55 @@
 import { gql } from '@apollo/client/core'
 
-import { memberSpacesFragment } from '@holi/core/queries'
+import { MemberSpacesFragment } from '@holi/core/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
-import { FullUserAvatarFragment, FullUserFragment } from '@holi/core/screens/userprofile/queries'
+import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces } from '@holi/core/types'
 
-export const FullSpaceMemberFragment = gql`
-  ${FullUserAvatarFragment}
-  fragment FullSpaceMember on SpaceMemberPaged {
+const SpaceMemberPermissionsFragment = gql`
+  ${UserAvatarFragment}
+  fragment SpaceMemberPermissions on User {
+    ...UserAvatar
+    aboutMe
+    pronouns
+  }
+`
+
+export const SpaceMemberListFragment = gql`
+  ${SpaceMemberPermissionsFragment}
+  fragment SpaceMemberList on SpaceMemberPaged {
     totalResults
     data {
       id
       user {
-        ...FullUserAvatar
+        ...SpaceMemberPermissions
       }
       isAdministrator
     }
   }
 `
 
-export const FullSpaceMembershipRequestFragment = gql`
-  ${FullUserAvatarFragment}
-  fragment FullSpaceMembershipRequest on SpaceMembershipRequestPaged {
+export const SpaceMembershipRequestListFragment = gql`
+  ${SpaceMemberPermissionsFragment}
+  fragment SpaceMembershipRequestList on SpaceMembershipRequestPaged {
     totalResults
     data {
       id
       message
       user {
-        ...FullUserAvatar
+        ...SpaceMemberPermissions
       }
     }
   }
 `
 
-export const FullSpaceInviteFragment = gql`
-  ${FullUserAvatarFragment}
-  fragment FullSpaceInvite on SpaceInvitePaged {
+export const SpaceInviteListFragment = gql`
+  ${SpaceMemberPermissionsFragment}
+  fragment SpaceInviteList on SpaceInvitePaged {
     totalResults
     data {
       id
       invitedUser {
-        ...FullUserAvatar
+        ...SpaceMemberPermissions
       }
     }
   }
@@ -49,8 +58,7 @@ export const FullSpaceInviteFragment = gql`
 // TODO: Remove appointments @client (mock) directive once available
 // We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const FullSpaceFragment = gql`
-  ${FullUserFragment}
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
   fragment FullSpace on Space {
     id
     title
@@ -60,7 +68,7 @@ export const FullSpaceFragment = gql`
     contactDescription
     created
     creator {
-      ...FullUser
+      ...UserAvatar
     }
     avatar
     avatarBlurhash
@@ -98,13 +106,7 @@ export const FullSpaceFragment = gql`
         id
         isAdministrator
         user {
-          id
-          identity
-          avatar
-          avatarBlurhash
-          avatarDefaultColor
-          avatarLabel
-          fullName
+          ...UserAvatar
         }
       }
     }
@@ -126,7 +128,7 @@ export const FullSpaceFragment = gql`
       thumbnail
       thumbnailBlurhash
       creator {
-        ...FullUserAvatar
+        ...UserAvatar
       }
       skills {
         id
@@ -273,7 +275,7 @@ export interface SpacesByMemberIdResponse {
 }
 
 export const spacesByMemberIdQuery = gql`
-  ${memberSpacesFragment}
+  ${MemberSpacesFragment}
   query SpacesByMember($memberId: UUID) {
     spaces(memberId: $memberId) {
       ...MemberSpaces

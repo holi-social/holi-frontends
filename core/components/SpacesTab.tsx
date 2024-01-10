@@ -8,7 +8,7 @@ import { logError } from '@holi/core/errors/helpers'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
 import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
-import type { Space } from '@holi/core/screens/spaces/types'
+import { SpaceForMember } from '@holi/core/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { vars } from '@holi/ui/styles/globalVars'
@@ -35,7 +35,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
   return spaces.totalResults > 0 ? (
     <HoliBox padding={24}>
       <View style={mixins.container}>
-        {spaces.data.map((space: Space) => (
+        {spaces.data.map((space: SpaceForMember) => (
           <HoliBox
             key={space.id}
             padding={[0, 0, 32, 0]}

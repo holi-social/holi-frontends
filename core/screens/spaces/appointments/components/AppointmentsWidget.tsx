@@ -80,6 +80,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
   })
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const appointments = appointmentsResult?.appointments
 
@@ -96,6 +97,9 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
 
   if (errorSpace || loadingSpace) return <></>
 
+  // return empty block if there is no data and user is not a collaborator
+  if (!data.length && !isAdmin && !isMember) return <></>
+
   return (
     <CollaboratorAreaCard
       headerLeftIcon={CalendarEvent}
@@ -111,7 +115,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
         <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
           {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
             <HoliGridCell key={item.id}>
-              <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} showFullView={false} />
+              <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
             </HoliGridCell>
           ))}
         </HoliGridWrapper>
@@ -122,11 +126,11 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
       {data.length > INITIAL_NUMBER_OF_ITEMS && (
         <View style={styles.seeAllButtonContainer}>
           <HoliButton
-            label={t('spaces.global.seeAll.button.label')}
+            label={t('spaces.global.seeAllButton.label')}
             style={styles.seeAllButton}
             onPress={navigateToAppointmentsPage}
           >
-            <HoliText>{t('spaces.global.seeAll.button.label')}</HoliText>
+            <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
           </HoliButton>
         </View>
       )}
@@ -146,6 +150,7 @@ const styles = StyleSheet.create({
   },
   seeAllButton: {
     backgroundColor: colors.background10,
+    marginTop: 16,
   },
   noAppointmentsDescriptionContainer: {
     flex: 1,

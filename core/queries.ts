@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 
 import { Insight } from '@holi/core/screens/insights/types'
+import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 // Report Content query
@@ -36,7 +37,8 @@ export interface BlockUserResponse {
   success: boolean
 }
 
-export const memberSpacesFragment = gql`
+export const MemberSpacesFragment = gql`
+  ${UserAvatarFragment}
   fragment MemberSpaces on SpacePaged {
     data {
       id
@@ -50,11 +52,7 @@ export const memberSpacesFragment = gql`
       members {
         data {
           user {
-            id
-            avatar
-            avatarBlurhash
-            avatarLabel
-            avatarDefaultColor
+            ...UserAvatar
           }
         }
         totalResults

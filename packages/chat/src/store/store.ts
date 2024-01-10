@@ -7,6 +7,7 @@ import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatState'
 import {
   type ChatRoomMember,
+  ChatRoomMessage,
   type MatrixId,
   MembershipStatus,
   type NotificationCount,
@@ -15,6 +16,7 @@ import {
   RoomUpdatesType,
   type RoomWithSharedData,
 } from '@holi/chat/src/client/types'
+import { createChatMessage } from '@holi/chat/src/client/utils'
 import {
   addChatRoom,
   addNotificationsCount,
@@ -30,7 +32,6 @@ import {
   updateUserIdToMember,
 } from '@holi/chat/src/store/producers'
 import type {
-  ChatMessage,
   ChatMessagesAtom,
   ChatRoom,
   ChatRoomAtom,
@@ -42,7 +43,6 @@ import type {
 } from '@holi/chat/src/store/types'
 import { MessageAtomsByRoomId, RoomAtomsActionType } from '@holi/chat/src/store/types'
 import {
-  createChatMessage,
   createChatRoom,
   getAtomFromRecordId,
   isPrivateChatRoom,
@@ -235,7 +235,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const homeserverUrl = client.getHomeserverUrl()
   const ignoredUsers = client.getIgnoredUsers()
 
-  const addRoomToStore = (roomListWithSharedData: RoomWithSharedData[], homeServerUrl: string, logPhase: string) => {
+  const addRoomsToStore = (roomListWithSharedData: RoomWithSharedData[], logPhase: string) => {
     const roomList = roomListWithSharedData.map((roomWithSharedData) => {
       const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
 
@@ -251,14 +251,14 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
    */
   client
     .getJoinedRoomsWithSharedData()
-    .then((rooms) => addRoomToStore(rooms, homeserverUrl, 'init'))
+    .then((rooms) => addRoomsToStore(rooms, 'init'))
     .finally(() => setChatInitialized(true))
 
   /**
    * Listen to just created rooms
    */
   const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
-    addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
+    addRoomsToStore([roomWithSharedData], 'subscription')
   })
 
   const unsubscribeFromRooms = client.subscribeToNewRooms((roomWithSharedData) => {
@@ -270,7 +270,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
-        addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
+        addRoomsToStore([roomWithSharedData], 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -282,7 +282,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomToStore([roomWithSharedData], homeserverUrl, 'subscription')
+    addRoomsToStore([roomWithSharedData], 'subscription')
   })
 
   const deleteRoomFromStore = (roomId: string) => {
@@ -498,7 +498,7 @@ const _messageBunchAtomSetter = atom(null, (_get, set, roomId: string, events: I
 
   const addMessagesToRoomThread = produce(
     (threadsRecord: Record<string, ChatMessagesAtom>, roomEvents: IRoomEvent[], merge = false) => {
-      threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
+      threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatRoomMessage[]>([])
       set(threadsRecord[roomId], (existingMessages) => {
         // the list of messages must have `Backward` direction - from older to newer messages
         // it is why we reverse `requestedMessages`
@@ -518,30 +518,19 @@ const _messageBunchAtomSetter = atom(null, (_get, set, roomId: string, events: I
  * and if it has EventType.RoomMessage type, setter adds new message into the room's `Atom<ChatMessage[]>`.
  * This setter function is only used for new messages.
  */
-const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
-  const roomId = event.getRoomId()
-  if (!roomId) return
+const _newMessageAtomSubscriber = atom(null, (get, set, roomId: string, message: ChatRoomMessage) => {
+  const roomAtomsRecord = get(roomAtomsRecordAtom)
+  const roomAtom = roomAtomsRecord[roomId]
 
-  // TODO: optimize to update the room timestamp instead of updating the entire room
-  // This could be done through the new room selection
-  const updateRoom = produce((roomId: string, message: ChatMessage) => {
-    const roomAtomsRecord = get(roomAtomsRecordAtom)
-    const roomAtom = roomAtomsRecord[roomId]
+  if (!roomAtom) return
 
-    if (!roomAtom) return
-
-    set(roomAtom, (room) => updateRoomAfterNewMessage(room, message))
+  const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>) => {
+    threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatRoomMessage[]>([])
+    set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, message))
   })
 
-  const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
-    threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
-    const newMessage = createChatMessage(roomId, event.event as IRoomEvent)
-
-    updateRoom(roomId, newMessage)
-    set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, newMessage))
-  })
-
-  set(_messagesAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
+  set(roomAtom, (prevRoom) => updateRoomAfterNewMessage(prevRoom, message))
+  set(_messagesAtomsRecordAtom, addMessageToRoomThread)
 })
 
 _newMessageAtomSubscriber.onMount = (setAtom) => {
@@ -575,7 +564,7 @@ export const setLatestMessagesAsRead = async (roomId: string): Promise<void> => 
   }
 }
 
-export const updateMessages = produce((thread: ChatMessage[], newMessage: ChatMessage) => {
+export const updateMessages = produce((thread: ChatRoomMessage[], newMessage: ChatRoomMessage) => {
   const dupMessage = thread.find((m) => m.id === newMessage.id)
   if (!dupMessage) {
     thread.push(newMessage)
@@ -842,7 +831,7 @@ export const leaveRoomUpdate = produce((roomAtomsRecord: Record<string, ChatRoom
  * @description It returns the specific room with all its data (`ChatRoom` and `ChatMessage[]`) or
  * `undefined` for both if the room ID could not be found.
  */
-export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatMessage[] | undefined] => {
+export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatRoomMessage[] | undefined] => {
   const room = useAtomValue(useMemo(() => roomByIdAtomCreator(roomId), [roomId]))
   const messages = useAtomValue(useMemo(() => messagesByRoomIdAtomCreator(roomId), [roomId]))
 

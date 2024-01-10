@@ -22,7 +22,7 @@ import {
 } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MembershipStatus, RoomUpdatesType, SpaceRoom } from '@holi/chat/src/client/types'
-import { createInitialRoom } from '@holi/chat/src/client/utils'
+import { createChatMessage, createInitialRoom } from '@holi/chat/src/client/utils'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
@@ -158,17 +158,29 @@ describe('ChatClient', () => {
       const room = createRoomMock(roomId)
 
       const { listener, callback } = simulateSubscription('subscribeToRoomMessages', RoomEvent.Timeline, {
-        level: 'room',
+        level: 'client',
         room,
       })
 
+      const effectiveEvent = {
+        state_key: 'dummy',
+        event_id: 'id',
+        type: EventType.RoomMessage,
+        sender: '@holi-chat:some-dude',
+        origin_server_ts: 1111111,
+        content: {
+          body: 'howdy',
+          msgtype: 'm.text',
+        } as IContent,
+      } as IEvent
       const messageEventMock = createMatrixEventMock(RoomEvent.Timeline)
       messageEventMock.getRoomId.mockReturnValue(roomId)
       messageEventMock.getType.mockReturnValue(EventType.RoomMessage)
+      messageEventMock.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
-      await listener(messageEventMock)
+      await listener(messageEventMock, room)
 
-      expect(callback).toBeCalledWith(messageEventMock)
+      expect(callback).toBeCalledWith(roomId, createChatMessage(roomId, effectiveEvent))
     })
 
     describe('handles membership', () => {
@@ -178,28 +190,38 @@ describe('ChatClient', () => {
         room.getMember.mockReturnValue({ membership: roomMembership } as RoomMember)
 
         const { listener, callback } = simulateSubscription('subscribeToRoomMessages', RoomEvent.Timeline, {
-          level: 'room',
+          level: 'client',
           room,
         })
 
+        const effectiveEvent = {
+          state_key: 'dummy',
+          event_id: 'id',
+          type: EventType.RoomMember,
+          sender: '@holi-admin:',
+          origin_server_ts: 1111111,
+          content: {
+            membership: eventMembership,
+          } as IContent,
+        } as IEvent
         const event = createMatrixEventMock(RoomEvent.Timeline)
         event.getRoomId.mockReturnValue(roomId)
         event.getType.mockReturnValue(EventType.RoomMember)
         event.getContent.mockReturnValue({ membership: eventMembership })
-        event.getEffectiveEvent.mockReturnValue({ state_key: 'dummy' } as IEvent)
+        event.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
-        await listener(event)
+        await listener(event, room)
 
-        return { callback, event }
+        return { callback, roomId, message: createChatMessage(roomId, effectiveEvent) }
       }
       it('JOIN events', async () => {
-        const { callback, event } = await simulatesMembershipSub('invite', 'join')
-        expect(callback).toBeCalledWith(event)
+        const { callback, message, roomId } = await simulatesMembershipSub('invite', 'join')
+        expect(callback).toBeCalledWith(roomId, message)
       })
 
       it('LEAVE events', async () => {
-        const { callback, event } = await simulatesMembershipSub('join', 'leave')
-        expect(callback).toBeCalledWith(event)
+        const { callback, message, roomId } = await simulatesMembershipSub('join', 'leave')
+        expect(callback).toBeCalledWith(roomId, message)
       })
 
       it('ignores other membership events', async () => {

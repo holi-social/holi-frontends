@@ -1,13 +1,11 @@
-import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -35,12 +33,8 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   const mixins = useStyleMixins()
   const imageWidth = 251
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) => logError(error, 'Failed to load space', { location: 'AllTools.spaceByIdQuery', spaceIdOrName }),
-  })
+  const { space } = useSpace(spaceIdOrName)
 
-  const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
@@ -59,7 +53,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
     }
   }, [space])
 
-  if (!isMember) {
+  if (space && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 

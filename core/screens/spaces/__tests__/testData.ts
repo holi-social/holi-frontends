@@ -1,4 +1,4 @@
-import { Appointment } from '@holi/core/screens/appointments/types'
+import { AppointmentInput } from '@holi/core/screens/appointments/types'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import {
   LocationType,
@@ -167,13 +167,13 @@ const emptyPagedInvites: Paged<SpaceInvite> = {
   __typename: 'SpaceInvitePaged',
 }
 
-export const pagedAppointments: Paged<Appointment> = {
+export const pagedAppointments: Paged<AppointmentInput> = {
   totalResults: invites.length,
   data: appointments,
   __typename: 'AppointmentPaged',
 }
 
-const emptyPagedAppointments: Paged<Appointment> = {
+const emptyPagedAppointments: Paged<AppointmentInput> = {
   totalResults: 0,
   data: [],
   __typename: 'AppointmentPaged',

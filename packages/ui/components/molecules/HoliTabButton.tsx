@@ -21,20 +21,29 @@ interface Props {
   style: StyleProp<ViewStyle>
   disabled?: boolean
   disableFocusability?: boolean
-  ariaSelected?: boolean
-  accessibilityControls?: string
+  'aria-selected'?: boolean
+  'aria-controls'?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
   onLayout?: (event: LayoutChangeEvent) => void
 }
 
 const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
-  ({ disabled = false, disableFocusability = false, ariaSelected = false, accessibilityControls, ...props }, ref) => {
+  (
+    {
+      disabled = false,
+      disableFocusability = false,
+      ['aria-selected']: ariaSelected = false,
+      ['aria-controls']: accessibilityControls,
+      ...props
+    },
+    ref
+  ) => {
     const accessibilityProps: AccessibilityPropsWeb = {
       accessible: !disableFocusability,
       role: 'tab',
       'aria-label': props.label,
-      accessibilityControls,
+      'aria-controls': accessibilityControls,
       'aria-selected': ariaSelected,
     }
 
@@ -50,7 +59,7 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
     return (
       <Pressable
         {...accessibilityProps}
-        nativeID={props.id}
+        id={props.id}
         testID={props.testID}
         disabled={disabled}
         onPress={(event) => {
@@ -60,9 +69,7 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
         style={[props.style, styles.base]}
         ref={ref}
       >
-        <View pointerEvents="none" style={styles.content}>
-          {content}
-        </View>
+        <View style={styles.content}>{content}</View>
       </Pressable>
     )
   }
@@ -81,6 +88,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flexDirection: 'row',
+    pointerEvents: 'none',
   },
   textDisabled: {
     color: colors.foreground20,

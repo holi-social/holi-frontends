@@ -1,11 +1,10 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -13,13 +12,14 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import DigitalToolInputForm from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
   AddCollaborationToolResponse,
   AddCollaborationToolSchema,
   addCollaborationToolMutation,
 } from '@holi/core/screens/spaces/linkHub/mutations'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -51,17 +51,8 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [inputValid, setInputValid] = useState(true)
 
-  const {
-    data,
-    error: errorSpace,
-    loading: loadingSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) =>
-      logError(error, 'Failed to load space', { location: 'CreateDigitalTool.spaceByIdQuery', spaceIdOrName }),
-  })
+  const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
-  const space = data?.spaceById
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { handleGraphQLError } = useFieldErrors({
@@ -95,7 +86,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   useEffect(() => {
     // Check if the input URL is in a valid format
     if (!urlRegex.test(url) && url.length > 0) {
-      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+      setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
     }

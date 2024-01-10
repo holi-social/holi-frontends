@@ -36,7 +36,7 @@ const CreateSpace = () => {
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate, replaceHistory } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
@@ -68,8 +68,8 @@ const CreateSpace = () => {
   const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
     onCompleted: async (data) => {
       const spaceDetailsRoute = `/spaces/${data.createSpace.name}`
-      await replaceRoute(spaceDetailsRoute)
-      navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
+      await replaceHistory(spaceDetailsRoute)
+      return navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
     },
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: mySpaceQuery }],

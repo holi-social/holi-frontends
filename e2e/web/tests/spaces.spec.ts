@@ -121,7 +121,8 @@ const testShareSpace = async (browserName: string, page: Page) => {
   if (browserName === 'chromium') {
     // check if shared link is correct
     const clipboardText = await page.evaluate('navigator.clipboard.readText()')
-    expect(clipboardText).toContain(page.url())
+    const url = page.url()
+    expect(clipboardText).toContain(url.substring(0, url.indexOf('?')))
   }
 
   // expect success toast
@@ -206,6 +207,8 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     // edit space contact info
     await editSpaceContactInfo(page)
+
+    await clickElementByTestId(page, 'space-edit-close')
 
     await testAddEditDeleteTask(page)
 
@@ -407,7 +410,6 @@ const testAddEditDeleteTask = async (page: Page) => {
   // create task
   const taskTitle = 'E2E task'
   const taskDescription = 'E2E task description'
-  await clickElementByTestId(page, 'space-edit-close')
   await clickElementByTestId(page, 'space-tabs-button-2-inactive')
   await clickElementByTestId(page, 'btn-right-space-tasks-card')
   await checkAccessibility(page)

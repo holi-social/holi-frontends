@@ -16,8 +16,11 @@ import {
 } from 'matrix-js-sdk'
 
 import {
+  ChatMsgMemberContent,
+  ChatMsgTextContent,
   ChatRoomEvent,
   ChatRoomMember,
+  ChatRoomMessage,
   MatrixId,
   MembershipStatus,
   RoomType,
@@ -26,6 +29,7 @@ import {
   type SharedDataContent,
   type SpaceChildSharedDataContent,
 } from '@holi/chat/src/client/types'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatAdminUserId } from '@holi/core/helpers/config'
 import { getEnumKeyByValue } from '@holi/core/helpers/utils'
 
@@ -175,14 +179,53 @@ export const createChatMember = (member: RoomMember, avatarUrl: string | null): 
  * Messages
  */
 
+const createMsgTextContent = (body: string): ChatMsgTextContent => ({
+  body,
+  msgtype: 'm.text',
+})
+
+const createMsgMemberContent = (
+  membership: string,
+  options: { displayname?: string; avatar_url?: string } = {}
+): ChatMsgMemberContent => ({
+  ...(membership?.length > 0 ? { membership } : {}),
+  ...(options.displayname ? { name: options.displayname } : {}),
+  ...(options.avatar_url ? { avatar: options.avatar_url } : {}),
+})
+
+export const createChatMessage = (roomId: string, event: IEvent | IRoomEvent): ChatRoomMessage => {
+  const base = {
+    id: event.event_id,
+    timestamp: event.origin_server_ts,
+    roomId,
+  }
+
+  switch (event.type) {
+    case EventType.RoomMessage:
+      return {
+        ...base,
+        type: 'message',
+        sender: event.sender,
+        content: createMsgTextContent(event.content.body),
+      }
+    case EventType.RoomMember:
+      return {
+        ...base,
+        type: 'membership',
+        content: createMsgMemberContent(event.content.membership ?? '', { displayname: event.content.displayname }),
+        sender: isIStateEvent(event) ? event.state_key : event.sender,
+      }
+    default:
+      throw new HoliError('Unexpected RoomEvent: only EventType.RoomMessage and EventType.RoomMember are supported')
+  }
+}
+
 /**
  * @description return an optional IRoomEvent for last supported message of the room.
  * for rooms of type:
  * - 'space' returns undefined, because we do not show rooms of this type
  * - 'space.child' supports 'm.room.message' and 'm.room.membership' events
  * - 'private' supports only 'm.room.message' events
- * @argument room: `Room`
- * @argument roomType: `RoomType`
  */
 export const getLastMessageEvent = (room: Room, roomType: RoomType): IRoomEvent | undefined => {
   if (roomType === 'space') return undefined
@@ -208,8 +251,8 @@ export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefin
 /**
  * @description It filters message events and member events messages. It also
  * removes member event message duplication. For example, when a user changes
- * their avatar or name, we don't want to provide a  new member event to the
- * message timelin
+ * their avatar or name, we don't want to provide a new member event to the
+ * message timeline
  */
 export const filterMessagesChunk = (chunk: IRoomEvent[]): IRoomEvent[] => {
   return chunk.reduce((events: IRoomEvent[], event: IRoomEvent) => {

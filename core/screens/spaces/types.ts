@@ -1,4 +1,4 @@
-import { Appointment } from '@holi/core/screens/appointments/types'
+import { AppointmentInput } from '@holi/core/screens/appointments/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
@@ -93,7 +93,7 @@ export interface Space {
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   membershipRequests: Paged<SpaceMembershipRequest>
-  appointments: Paged<Appointment>
+  appointments: Paged<AppointmentInput>
   avatarDefaultColor: string
   name: string
   links?: SpaceLink[]

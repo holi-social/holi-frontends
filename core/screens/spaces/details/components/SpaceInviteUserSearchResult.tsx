@@ -59,8 +59,8 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
               <HoliAvatar
                 imageSrc={user.avatar}
                 imageBlurhash={user.avatarBlurhash}
-                label=""
-                aria-label={user.fullName || t('user.profileView.anonymous')}
+                label={user.fullName || t('user.profileView.anonymous')}
+                aria-hidden
                 initials={user.avatarLabel}
                 defaultColor={user.avatarDefaultColor}
                 size="medium"

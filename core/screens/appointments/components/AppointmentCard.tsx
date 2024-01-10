@@ -1,50 +1,33 @@
 import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
 import { Appointment } from '@holi/core/screens/appointments/types'
+import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Delete, Edit2, GlobeFilled, LockFilled, More, Time } from '@holi/icons/src/generated'
+import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { INVITE_ONLY_TYPE } from './AppointmentInputForm'
 
 type AppointmentCardProps = {
   appointment: Appointment
   space: Space
   isAdmin?: boolean
-  showFullView?: boolean
 }
 
-const IMAGE_ASPECT_RATIO = 327 / 210
-
-const AppointmentCard: React.FC<AppointmentCardProps> = ({
-  appointment,
-  space,
-  isAdmin,
-  showFullView = true,
-}: AppointmentCardProps) => {
+const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, isAdmin }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const { userId } = useAuth()
+  const { userId, isLoggedIn } = useAuth()
   const [imageError, setImageError] = useState(false)
-  const [isLoadingDeleteAppointment, deleteAppointment] = useDeleteAppointment({
-    id: appointment.id,
-    spaceId: space.id,
-    successMsg: t('appointment.delete.success'),
-  })
 
   const currentLanguage = getLocale(i18n.language || '')
   const date = localizeDate(new Date(appointment.startDateTime), currentLanguage, {
@@ -80,24 +63,18 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     <View key={appointment.id} style={styles.appointmentItem} testID="space-appointment-tile">
       <View style={styles.imageContainer}>
         {!imageError && !!appointment.thumbnail && (
-          <HoliButton
-            transparent
-            label={appointment.title}
-            onPress={goToDetailView}
-            disabled={showFullView}
-            style={styles.clickOverlay}
-          >
+          <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
             <HoliImage
               label={t('spaces.appointments.thumbnail.label')}
               source={{ uri: appointment.thumbnail }}
-              style={showFullView ? styles.imageShowFullView : styles.image}
+              style={styles.image}
               onError={() => setImageError(true)}
               {...(appointment.thumbnailBlurhash ? { blurhash: appointment.thumbnailBlurhash } : {})}
             />
           </HoliButton>
         )}
         <View style={styles.header}>
-          <View style={[styles.inviteOnly, appointment.thumbnail ? styles.tagWithImage : {}]}>
+          <View style={[styles.inviteOnly, appointment.thumbnail && !imageError ? styles.tagWithImage : {}]}>
             <HoliIcon
               icon={appointment.inviteOnly ? LockFilled : GlobeFilled}
               color={colors.foreground30}
@@ -112,65 +89,31 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               )}
             </HoliText>
           </View>
-          {(isAdmin || isAppointmentCreator) && !showFullView && (
-            <HoliActionDrawer.Drawer
-              label={t('global.moreOptions')}
-              testID="btn-appointment-more-options"
-              buttonElement={
-                <View style={appointment.thumbnail ? styles.optionsWithImage : null}>
-                  <HoliIcon icon={More} color={colors.foreground30} />
-                </View>
-              }
-            >
-              <HoliActionDrawer.Action
-                icon={Edit2}
-                title={t('global.edit')}
-                testID="btn-to-edit-appointment"
-                handleAction={() => navigate(`/spaces/${space.name}/appointments/${appointment.id}/edit`)}
-              />
-              <HoliActionDrawer.Action
-                isLoading={isLoadingDeleteAppointment}
-                icon={Delete}
-                title={t('global.delete')}
-                variant="danger"
-                testID="btn-to-delete-appointment"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('appointment.delete.confirmation.title')}
-                  description={t('appointment.delete.confirmation.description')}
-                  testID="appointment-delete"
-                  handleConfirmation={deleteAppointment}
-                  buttonType="warning"
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
-            </HoliActionDrawer.Drawer>
+          {(isAdmin || isAppointmentCreator) && (
+            <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
+              <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
+                <HoliIcon icon={More} color={colors.foreground30} />
+              </View>
+            </AppointmentDrawer>
           )}
         </View>
       </View>
 
-      <View style={[styles.detailContainer, appointment.thumbnail ? styles.detailContainerWithImage : {}]}>
+      <View
+        style={[styles.detailContainer, appointment.thumbnail && !imageError ? styles.detailContainerWithImage : {}]}
+      >
         <HoliButton
           transparent
           label={appointment.title}
           onPress={goToDetailView}
-          disabled={showFullView}
           style={[styles.clickOverlay, { flex: 1 }]}
         >
-          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
+          <HoliText ellipsizeMode="tail" bold numberOfLines={2}>
             {appointment.title}
           </HoliText>
         </HoliButton>
       </View>
-      <HoliButton
-        transparent
-        label={appointment.title}
-        onPress={goToDetailView}
-        disabled={showFullView}
-        style={styles.clickOverlay}
-      >
+      <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
         <View style={styles.iconsContainer}>
           <View style={styles.iconGroupContainer}>
             <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
@@ -179,37 +122,47 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </HoliText>
           </View>
         </View>
-      </HoliButton>
-
-      {showFullView && (
-        <View style={styles.descriptionContainer}>
-          <HoliText color="gray300" size="small">
-            {appointment.description}
-          </HoliText>
-          <HoliRichTextOutput
-            text={appointment.description}
-            color="gray300"
-            size="small"
-            allowAllLinks
-            testID="appointment-description"
-          />
-
-          <View style={styles.avatar}>
-            <HoliAvatar
-              imageSrc={appointment.creator.avatar}
-              imageBlurhash={appointment.creator.avatarBlurhash}
-              label={appointment.creator.fullName || t('user.profileView.anonymous')}
-              initials={appointment.creator.avatarLabel || ''}
-              defaultColor={appointment.creator.avatarDefaultColor || ''}
-              size="large"
-              testID="appointment-contact-avatar"
-            />
-            <HoliText style={styles.avatarName}>
-              {appointment.creator.fullName || t('user.profileView.anonymous')}
-            </HoliText>
+        {!isLoggedIn && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {t('appointment.card.login.location')}
+              </HoliText>
+            </View>
           </View>
-        </View>
-      )}
+        )}
+        {!isLoggedIn && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {t('appointment.card.login.videochat')}
+              </HoliText>
+            </View>
+          </View>
+        )}
+        {isLoggedIn && appointment.location && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {appointment.location}
+              </HoliText>
+            </View>
+          </View>
+        )}
+        {isLoggedIn && appointment.videoCallLink?.url && (
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {appointment.videoCallLink?.url}
+              </HoliText>
+            </View>
+          </View>
+        )}
+      </HoliButton>
     </View>
   )
 }
@@ -257,19 +210,10 @@ const styles = StyleSheet.create({
     position: 'relative',
     pointerEvents: 'auto',
   },
-  descriptionContainer: {
-    marginVertical: 16,
-  },
   image: {
     borderRadius: 8,
     height: 166,
     justifyContent: 'center',
-  },
-  imageShowFullView: {
-    borderRadius: 8,
-    width: '100%',
-    aspectRatio: IMAGE_ASPECT_RATIO,
-    height: Platform.OS === 'web' ? '100%' : 'auto',
   },
   imageContainer: {
     position: 'relative',
@@ -299,14 +243,6 @@ const styles = StyleSheet.create({
   iconGroupText: {
     color: colors.foreground20,
     marginRight: 8,
-  },
-  avatar: {
-    marginTop: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatarName: {
-    marginLeft: 16,
   },
 })
 

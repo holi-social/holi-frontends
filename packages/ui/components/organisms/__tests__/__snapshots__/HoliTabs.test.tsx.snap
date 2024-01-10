@@ -59,7 +59,6 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 }
               >
                 <View
-                  accessibilityControls="test-tabs-panel-0"
                   accessibilityLabel="Profile"
                   accessibilityState={
                     {
@@ -79,9 +78,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                     }
                   }
                   accessible={true}
+                  aria-controls="test-tabs-panel-0"
                   collapsable={false}
                   focusable={true}
-                  nativeID="test-tabs-tab-0"
+                  id="test-tabs-tab-0"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -111,10 +111,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   testID="tabs-module-button-0-active"
                 >
                   <View
-                    pointerEvents="none"
                     style={
                       {
                         "flexDirection": "row",
+                        "pointerEvents": "none",
                       }
                     }
                   >
@@ -149,7 +149,6 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 }
               >
                 <View
-                  accessibilityControls="test-tabs-panel-1"
                   accessibilityLabel="Insights"
                   accessibilityState={
                     {
@@ -169,9 +168,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                     }
                   }
                   accessible={true}
+                  aria-controls="test-tabs-panel-1"
                   collapsable={false}
                   focusable={true}
-                  nativeID="test-tabs-tab-1"
+                  id="test-tabs-tab-1"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -201,10 +201,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   testID="tabs-module-button-1-inactive"
                 >
                   <View
-                    pointerEvents="none"
                     style={
                       {
                         "flexDirection": "row",
+                        "pointerEvents": "none",
                       }
                     }
                   >
@@ -239,7 +239,6 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 }
               >
                 <View
-                  accessibilityControls="test-tabs-panel-2"
                   accessibilityLabel="Spaces"
                   accessibilityState={
                     {
@@ -259,9 +258,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                     }
                   }
                   accessible={true}
+                  aria-controls="test-tabs-panel-2"
                   collapsable={false}
                   focusable={true}
-                  nativeID="test-tabs-tab-2"
+                  id="test-tabs-tab-2"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -291,10 +291,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   testID="tabs-module-button-2-inactive"
                 >
                   <View
-                    pointerEvents="none"
                     style={
                       {
                         "flexDirection": "row",
+                        "pointerEvents": "none",
                       }
                     }
                   >
@@ -371,7 +371,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
       >
         <View
           aria-labelledby="test-tabs-tab-0"
-          nativeID="test-tabs-panel-0"
+          id="test-tabs-panel-0"
         >
           <View
             testID="test-tabs-panel-0-active"
@@ -408,7 +408,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
       >
         <View
           aria-labelledby="test-tabs-tab-1"
-          nativeID="test-tabs-panel-1"
+          id="test-tabs-panel-1"
         >
           <View
             testID="test-tabs-panel-1-inactive"
@@ -445,7 +445,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
       >
         <View
           aria-labelledby="test-tabs-tab-2"
-          nativeID="test-tabs-panel-2"
+          id="test-tabs-panel-2"
         >
           <View
             testID="test-tabs-panel-2-inactive"

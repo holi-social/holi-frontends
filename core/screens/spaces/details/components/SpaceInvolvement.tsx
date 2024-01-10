@@ -42,7 +42,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             </View>
           </HoliLink>
         )}
-        {isCollaborator && appointmentsFtEnabled && <AppointmentsWidget space={space} style={styles.card} />}
+        {appointmentsFtEnabled && <AppointmentsWidget space={space} style={styles.card} />}
         {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
         {isCollaborator && <StorageWidget space={space} style={styles.card} />}
         {isCollaborator ? (

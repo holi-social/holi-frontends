@@ -53,8 +53,8 @@ export interface HoliTextInputProps {
   role?: AccessibilityRoleWeb
   ariaExpanded?: boolean
   ariaHasPopup?: AccessibilityPropsWeb['aria-haspopup']
-  accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
-  accessibilityControls?: string
+  'aria-autocomplete'?: AccessibilityPropsWeb['aria-autocomplete']
+  'aria-controls'?: string
   showCharacterCount?: boolean
   isRequired?: boolean
 }
@@ -119,8 +119,8 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
       'aria-haspopup': props.ariaHasPopup,
       accessible: true,
       'aria-label': props['aria-label'],
-      accessibilityAutoComplete: props.accessibilityAutoComplete || 'inline',
-      accessibilityControls: props.accessibilityControls,
+      'aria-autocomplete': props['aria-autocomplete'] || 'inline',
+      'aria-controls': props['aria-controls'],
     }
 
     const handleFocus = useCallback(
@@ -189,7 +189,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
         style={[styles.wrapper, inline ? styles.inline : styles.block, style]}
         {...hoverPropsForWeb}
       >
-        <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
+        <View style={[{ maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
           {!!inputLabel && (
             <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
               <HoliText
@@ -322,9 +322,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
-    },
-    wrapperContainer: {
-      minWidth: 190,
     },
     inputWrapper: {
       alignItems: 'center',

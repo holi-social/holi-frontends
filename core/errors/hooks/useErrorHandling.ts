@@ -2,8 +2,7 @@ import { ApolloError } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { isUnauthorizedError } from '@holi/core/errors/helpers'
-import { logError, logErrorLocal } from '@holi/core/errors/helpers/logError'
+import { isUnauthorizedError, logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 

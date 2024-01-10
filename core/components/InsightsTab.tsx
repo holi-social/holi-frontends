@@ -28,7 +28,7 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
       logError(error, 'Failed to load insights for user', { location: 'InsightsTab.insightsByUserIdQuery' }),
   })
   const insights = data?.insightsByUserId
-  const hasInsights = insights && insights.totalResults > 0
+  const hasInsights = !!insights?.totalResults
 
   return hasInsights ? (
     <>

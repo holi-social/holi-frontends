@@ -5,6 +5,7 @@ import { Image as ReactNativeImage } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
 import { PermissionsType } from '@holi/core/screens/appointments/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -12,7 +13,7 @@ import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
+import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTimePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -60,22 +61,34 @@ export interface AppointmentInputFormProps {
   inviteOnly?: HoliModalSelectOption
   startDate?: string
   endDate?: string
+  startHours?: string
+  endHours?: string
+  startMinutes?: string
+  endMinutes?: string
   permissionType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo
   thumbnailBlurhash?: string
   geolocation?: GeolocationPoint
   selectedLocation?: GeolocationSuggestion
+  url?: string
+  additionalInfo?: string
   currentThumbnail?: string
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
   onChangeStartDate: (_: string) => void
   onChangeEndDate: (_: string) => void
+  onChangeStartHours: (_: string) => void
+  onChangeEndHours: (_: string) => void
+  onChangeStartMinutes: (_: string) => void
+  onChangeEndMinutes: (_: string) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
   onChangeThumbnail: (_: HoliImageInfo | undefined) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
+  onChangeUrl: (_: string) => void
+  onChangeAdditionalInfo: (_: string) => void
   fieldErrors?: TranslatedFieldErrors
   isAdmin?: boolean
 }
@@ -86,18 +99,30 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   inviteOnly,
   startDate,
   endDate,
+  startHours,
+  endHours,
+  startMinutes,
+  endMinutes,
   permissionType,
   thumbnail,
   currentThumbnail,
   selectedLocation,
+  url,
+  additionalInfo,
   onChangeTitle,
   onChangeDescription,
   onChangeInviteOnly,
   onChangeStartDate,
   onChangeEndDate,
+  onChangeStartHours,
+  onChangeEndHours,
+  onChangeStartMinutes,
+  onChangeEndMinutes,
   onChangePermissionType,
   onChangeThumbnail,
   onChangeSelectedLocation,
+  onChangeUrl,
+  onChangeAdditionalInfo,
   fieldErrors = {},
   isAdmin,
 }: AppointmentInputFormProps) => {
@@ -219,34 +244,52 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         inputProps={{ autoFocus: true }}
       />
 
-      <HoliModalSelect
-        options={inviteOnlyOptions}
-        title={t('spaces.appointments.input.inviteOnly.title')}
-        onChange={onChangeInviteOnly}
-        placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
-        label={t('spaces.appointments.input.inviteOnly.title')}
-        testID="appointment-invite-only-input"
-        style={styles.marginSeparator}
-        showOptionIcon
-        isRequired
-      />
-
-      <View style={styles.sectionWrapper}>
-        <HoliDatePicker
-          onChange={onChangeStartDate}
-          title={t('spaces.appointments.input.startDate.title')}
-          label={t('spaces.appointments.input.startDate.title')}
-          value={startDate}
+      {optionsReady && (
+        <HoliModalSelect
+          options={inviteOnlyOptions}
+          title={t('spaces.appointments.input.inviteOnly.title')}
+          onChange={onChangeInviteOnly}
+          placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
+          label={t('spaces.appointments.input.inviteOnly.title')}
+          testID="appointment-invite-only-input"
+          style={styles.marginSeparator}
+          showOptionIcon
           isRequired
         />
+      )}
 
-        <HoliDatePicker
-          style={styles.marginSeparator}
-          onChange={onChangeEndDate}
+      <View style={styles.sectionWrapper}>
+        <HoliDateAndTimePicker
+          title={t('spaces.appointments.input.startDate.title')}
+          label={t('spaces.appointments.input.startDate.title')}
+          onChangeDate={(newStartDate) => {
+            if (endDate && newStartDate > endDate) {
+              onChangeEndDate(newStartDate)
+            }
+            onChangeStartDate(newStartDate)
+          }}
+          valueDate={startDate}
+          valueHours={startHours}
+          onChangeHours={onChangeStartHours}
+          valueMinutes={startMinutes}
+          onChangeMinutes={onChangeStartMinutes}
+        />
+
+        <HoliDateAndTimePicker
           title={t('spaces.appointments.input.endDate.title')}
           label={t('spaces.appointments.input.endDate.title')}
-          value={endDate}
-          isRequired
+          onChangeDate={(newEndDate) => {
+            if (startDate && newEndDate < startDate) {
+              onChangeStartDate(newEndDate)
+            }
+            onChangeEndDate(newEndDate)
+          }}
+          valueDate={endDate}
+          valueHours={endHours}
+          onChangeHours={onChangeEndHours}
+          valueMinutes={endMinutes}
+          onChangeMinutes={onChangeEndMinutes}
+          style={styles.marginSeparator}
         />
       </View>
 
@@ -261,6 +304,14 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           onChange={onChangeSelectedLocation}
           onSubmit={onChangeSelectedLocation}
           style={{ zIndex: 1 }}
+        />
+
+        <AppointmentVideoCallLinkInput
+          url={url}
+          additionalInfo={additionalInfo}
+          onChangeAdditionalInfo={onChangeAdditionalInfo}
+          onChangeUrl={onChangeUrl}
+          style={styles.videoCallItem}
         />
       </View>
 
@@ -365,6 +416,9 @@ const styles = StyleSheet.create({
     borderTopColor: colors.background30,
     paddingTop: 24,
     marginTop: 32,
+  },
+  videoCallItem: {
+    marginTop: 12,
   },
   thumbnailTitle: {
     marginTop: 56,

@@ -80,8 +80,8 @@ const HoliTabBar: React.FC<TabListProps> = ({
                         { maxWidth: MAX_TAB_WIDTH },
                       ] as StyleProp<ViewStyle>)}
                       onPress={() => onPress?.(tabId)}
-                      ariaSelected={isActive}
-                      accessibilityControls={`${id}-panel-${tabId}`}
+                      aria-selected={isActive}
+                      aria-controls={`${id}-panel-${tabId}`}
                       testID={`${testID}-button-${tabId}-${isActive ? 'active' : 'inactive'}`}
                     >
                       {!!tab.titleIcons && (

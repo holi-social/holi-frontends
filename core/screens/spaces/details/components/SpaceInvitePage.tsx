@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
@@ -6,13 +5,12 @@ import { Platform, StyleSheet } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceInviteView from '@holi/core/screens/spaces/details/components/SpaceInviteView'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowLeftS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -30,19 +28,9 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceInvitePage: React.FC<ScreenProps> = () => {
   const { t } = useTranslation()
-  const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
-    onError: (error) =>
-      displayError(error, 'Failed to load space', {
-        location: 'SpaceInvitePage.spaceByIdQuery',
-        spaceIdOrName,
-      }),
-  })
-
-  const space = data?.spaceById
+  const { loading, error, space } = useSpace(spaceIdOrName)
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -64,7 +52,6 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
   }
 
   if (error || !space) {
-    navigate(`/spaces/${spaceIdOrName}`)
     return <></>
   }
 

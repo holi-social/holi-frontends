@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
 import React, { memo, useCallback, useEffect, useMemo } from 'react'
@@ -9,7 +8,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
@@ -28,8 +26,8 @@ import SpaceDetailView, {
   SpaceDetailsTabs,
 } from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
-import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
+import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
@@ -49,30 +47,18 @@ const { useParam } = createParam<SpaceDetailsParams>()
 
 const SpaceDetails = () => {
   const { t } = useTranslation()
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
-  // On initial page load on web `spaceIdOrName` is undefined
-  // > will probably be solved with ssr
-  // see https://github.com/nandorojo/solito/issues/100
-  const { loading, error, data, refetch, called } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+  const { loading, error, space, refetch, called } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-    skip: !spaceIdOrName,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load space', { location: 'SpaceDetails.spaceByIdQuery', spaceIdOrName })
-    },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const isWeb = Platform.OS === 'web'
-  const space = data?.spaceById
   const id = space?.id || `${spaceIdOrName}`
 
   const [isLoading, deleteSpace] = useDeleteSpace(id)
@@ -158,6 +144,7 @@ const SpaceDetails = () => {
                 icon={Edit2}
                 title={t('global.edit')}
                 handleAction={editAction}
+                testID="space-edit"
               />
               <HoliActionDrawer.Action
                 isLoading={isLoading}

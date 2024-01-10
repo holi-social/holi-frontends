@@ -67,9 +67,11 @@ const createMocksForSpace = (spaceById = space) => {
 jest.useFakeTimers()
 
 const mockUseParam = jest.fn()
+const mockUseUpdateParams = jest.fn()
 
 jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: (paramName: string) => mockUseParam(paramName),
+  useUpdateParams: () => mockUseUpdateParams,
 }))
 
 const mockParams = (params: SpaceDetailsParams = { spaceIdOrName: space.name }) => {
@@ -108,7 +110,7 @@ describe('SpaceDetails', () => {
   })
 
   it('selects info tab for non-members', async () => {
-    const setParamMocks = mockParams()
+    mockParams()
     render(
       <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
         <SpaceDetails spaceIdOrName={space.name} />
@@ -120,11 +122,11 @@ describe('SpaceDetails', () => {
       await waitFor(() => screen.getByText(space.title))
     })
 
-    expect(setParamMocks['tab']).toHaveBeenCalledWith('info')
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'info' }, { web: { replace: true } })
   })
 
   it('selects involvement tab for members if involvement content exists', async () => {
-    const setParamMocks = mockParams()
+    mockParams()
     render(
       <MockedProvider mocks={createMocksForSpace(spaceForMember)} cache={createCache()}>
         <SpaceDetails spaceIdOrName={space.name} />
@@ -136,11 +138,11 @@ describe('SpaceDetails', () => {
       await waitFor(() => screen.getByText(space.title))
     })
 
-    expect(setParamMocks['tab']).toHaveBeenCalledWith('involvement')
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'involvement' }, { web: { replace: true } })
   })
 
   it('selects updates tab for members if no involvement content exists', async () => {
-    const setParamMocks = mockParams()
+    mockParams()
     const spaceForMemberWithoutInvolvement = {
       ...spaceForMember,
       tasks: [],
@@ -156,7 +158,7 @@ describe('SpaceDetails', () => {
       await waitFor(() => screen.getByText(space.title))
     })
 
-    expect(setParamMocks['tab']).toHaveBeenCalledWith('updates')
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' }, { web: { replace: true } })
   })
 
   it('refreshes the space if the refresh parameter is passed', async () => {

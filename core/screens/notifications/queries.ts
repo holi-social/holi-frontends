@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
 import { Notification } from '@holi/core/screens/notifications/components/types'
-import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {
@@ -10,7 +10,7 @@ export type NumberOfItems = {
 
 // TODO: add "post", "postComment", "space" into options
 export const notificationsQuery = gql`
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
 
   query Notifications($offset: Int! = 0, $limit: Int! = 100) {
     notifications(offset: $offset, limit: $limit) {
@@ -18,7 +18,7 @@ export const notificationsQuery = gql`
         id
         notificationType
         owner {
-          ...FullUserAvatar
+          ...UserAvatar
         }
         created
         read
@@ -28,11 +28,11 @@ export const notificationsQuery = gql`
             title
             isPublic
             creator {
-              ...FullUserAvatar
+              ...UserAvatar
             }
           }
           user {
-            ...FullUserAvatar
+            ...UserAvatar
           }
           postComment {
             id
@@ -89,3 +89,31 @@ export const LastSeenNotificationMutation = gql`
 export type lastSeenNotificationResponse = {
   lastSeenNotification: NewNotificationStatus
 }
+
+export interface NotificationsChannelPreferences {
+  push: boolean | null
+  email: boolean | null
+}
+
+export interface NotificationsWorkflowPreferences {
+  id: string
+  category: string
+  preferences: NotificationsChannelPreferences
+}
+
+export interface NotificationsPreferencesResponse {
+  notifications_preferences: NotificationsWorkflowPreferences[]
+}
+
+export const notificationsPreferencesQuery = gql`
+  query NotificationsPreferences {
+    notifications_preferences {
+      id
+      category
+      preferences {
+        push
+        email
+      }
+    }
+  }
+`
