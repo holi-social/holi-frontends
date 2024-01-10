@@ -189,7 +189,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
         style={[styles.wrapper, inline ? styles.inline : styles.block, style]}
         {...hoverPropsForWeb}
       >
-        <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
+        <View style={[{ maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
           {!!inputLabel && (
             <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
               <HoliText
@@ -322,9 +322,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
-    },
-    wrapperContainer: {
-      minWidth: 190,
     },
     inputWrapper: {
       alignItems: 'center',
