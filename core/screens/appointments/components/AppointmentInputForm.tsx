@@ -5,6 +5,7 @@ import { Image as ReactNativeImage } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
 import { PermissionsType } from '@holi/core/screens/appointments/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -70,6 +71,8 @@ export interface AppointmentInputFormProps {
   thumbnailBlurhash?: string
   geolocation?: GeolocationPoint
   selectedLocation?: GeolocationSuggestion
+  url?: string
+  additionalInfo?: string
   currentThumbnail?: string
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
@@ -84,6 +87,8 @@ export interface AppointmentInputFormProps {
   onChangeThumbnail: (_: HoliImageInfo | undefined) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
+  onChangeUrl: (_: string) => void
+  onChangeAdditionalInfo: (_: string) => void
   fieldErrors?: TranslatedFieldErrors
   isAdmin?: boolean
 }
@@ -102,6 +107,8 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   thumbnail,
   currentThumbnail,
   selectedLocation,
+  url,
+  additionalInfo,
   onChangeTitle,
   onChangeDescription,
   onChangeInviteOnly,
@@ -114,6 +121,8 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   onChangePermissionType,
   onChangeThumbnail,
   onChangeSelectedLocation,
+  onChangeUrl,
+  onChangeAdditionalInfo,
   fieldErrors = {},
   isAdmin,
 }: AppointmentInputFormProps) => {
@@ -296,6 +305,14 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           onSubmit={onChangeSelectedLocation}
           style={{ zIndex: 1 }}
         />
+
+        <AppointmentVideoCallLinkInput
+          url={url}
+          additionalInfo={additionalInfo}
+          onChangeAdditionalInfo={onChangeAdditionalInfo}
+          onChangeUrl={onChangeUrl}
+          style={styles.videoCallItem}
+        />
       </View>
 
       <View style={[styles.sectionWrapper, { zIndex: 1 }]}>
@@ -399,6 +416,9 @@ const styles = StyleSheet.create({
     borderTopColor: colors.background30,
     paddingTop: 24,
     marginTop: 32,
+  },
+  videoCallItem: {
+    marginTop: 12,
   },
   thumbnailTitle: {
     marginTop: 56,
