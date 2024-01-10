@@ -22,14 +22,14 @@ import {
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
-import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { formatDateToYYYMMDD } from '@holi/ui/helper/date'
+import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type CreateAppointmentParams = {
@@ -53,6 +53,10 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
   const [startDate, setStartDate] = useState<string>(formatDateToYYYMMDD(new Date()))
   const [endDate, setEndDate] = useState<string>(formatDateToYYYMMDD(new Date()))
+  const [startHours, setStartHours] = useState<string>(numberToStringWithPad(new Date().getHours()))
+  const [endHours, setEndHours] = useState<string>(numberToStringWithPad(new Date().getHours()))
+  const [startMinutes, setStartMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
+  const [endMinutes, setEndMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [location, setLocation] = useState<string | undefined>('')
@@ -64,12 +68,6 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
-
-  useEffect(() => {
-    if (startDate > endDate) {
-      setEndDate(startDate)
-    }
-  }, [startDate, endDate, setEndDate])
 
   const {
     data,
@@ -118,25 +116,22 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
             inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
           permission: permissionType?.id,
           thumbnail: thumbnail?.blob,
-          startDateTime: new Date(startDate || '').toISOString(),
-          endDateTime: new Date(endDate || '').toISOString(),
+          startDateTime: transformToUTC(`${startDate}T${startHours}:${startMinutes}` || ''),
+          endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
           location,
           geolocation,
         },
       },
     })
 
-  // If locationType is REMOTE, remove location and coordinates
-  // Otherwise set their values based on the selectedLocation
   useEffect(() => {
-    if (permissionType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
+    if (selectedLocation?.coordinates) {
       setGeolocation({
         latitude: selectedLocation.coordinates.latitude,
         longitude: selectedLocation.coordinates.longitude,
       })
       setLocation(selectedLocation.label)
-    }
-    if (permissionType?.id === LocationType.REMOTE) {
+    } else {
       setGeolocation(undefined)
       setLocation(undefined)
     }
@@ -213,6 +208,10 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           inviteOnly={inviteOnly}
           startDate={startDate}
           endDate={endDate}
+          startHours={startHours}
+          endHours={endHours}
+          startMinutes={startMinutes}
+          endMinutes={endMinutes}
           permissionType={permissionType}
           thumbnail={thumbnail}
           geolocation={geolocation}
@@ -226,6 +225,10 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           onChangeSelectedLocation={setSelectedLocation}
           onChangeStartDate={setStartDate}
           onChangeEndDate={setEndDate}
+          onChangeStartHours={setStartHours}
+          onChangeEndHours={setEndHours}
+          onChangeStartMinutes={setStartMinutes}
+          onChangeEndMinutes={setEndMinutes}
           fieldErrors={fieldErrors}
           isAdmin={isAdmin}
         />

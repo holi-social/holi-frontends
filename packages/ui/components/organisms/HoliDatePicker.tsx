@@ -9,7 +9,7 @@ import { ArrowLeftS, ArrowRightS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import { localizeDate } from '@holi/ui/helper/date'
+import { getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
 LocaleConfig.locales['de'] = {
@@ -35,7 +35,7 @@ LocaleConfig.locales['de'] = {
 export interface HoliDatePickerProps {
   onChange: (date: string) => void
   title: string
-  label: string
+  label?: string
   value?: string
   description?: string
   placeholder?: string
@@ -60,6 +60,8 @@ const HoliDatePicker = ({
 
   const { i18n } = useTranslation()
   const currentLanguage = getLocale(i18n.language || '')
+
+  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(value), currentLanguage)
 
   const hoverPropsForWeb = Platform.select({
     web: {
@@ -89,8 +91,8 @@ const HoliDatePicker = ({
         >
           {value ? (
             <View style={styles.selectedDateContainer}>
-              <HoliText style={styles.selectedDateTitle}>
-                {localizeDate(new Date(value.replaceAll('-', '/')), currentLanguage)}
+              <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.selectedDateTitle}>
+                {displayValue}
               </HoliText>
             </View>
           ) : (

@@ -12,7 +12,7 @@ import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
+import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTimePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -60,6 +60,10 @@ export interface AppointmentInputFormProps {
   inviteOnly?: HoliModalSelectOption
   startDate?: string
   endDate?: string
+  startHours?: string
+  endHours?: string
+  startMinutes?: string
+  endMinutes?: string
   permissionType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo
@@ -72,6 +76,10 @@ export interface AppointmentInputFormProps {
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
   onChangeStartDate: (_: string) => void
   onChangeEndDate: (_: string) => void
+  onChangeStartHours: (_: string) => void
+  onChangeEndHours: (_: string) => void
+  onChangeStartMinutes: (_: string) => void
+  onChangeEndMinutes: (_: string) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
   onChangeThumbnail: (_: HoliImageInfo | undefined) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
@@ -86,6 +94,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   inviteOnly,
   startDate,
   endDate,
+  startHours,
+  endHours,
+  startMinutes,
+  endMinutes,
   permissionType,
   thumbnail,
   currentThumbnail,
@@ -95,6 +107,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   onChangeInviteOnly,
   onChangeStartDate,
   onChangeEndDate,
+  onChangeStartHours,
+  onChangeEndHours,
+  onChangeStartMinutes,
+  onChangeEndMinutes,
   onChangePermissionType,
   onChangeThumbnail,
   onChangeSelectedLocation,
@@ -219,34 +235,52 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         inputProps={{ autoFocus: true }}
       />
 
-      <HoliModalSelect
-        options={inviteOnlyOptions}
-        title={t('spaces.appointments.input.inviteOnly.title')}
-        onChange={onChangeInviteOnly}
-        placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
-        label={t('spaces.appointments.input.inviteOnly.title')}
-        testID="appointment-invite-only-input"
-        style={styles.marginSeparator}
-        showOptionIcon
-        isRequired
-      />
-
-      <View style={styles.sectionWrapper}>
-        <HoliDatePicker
-          onChange={onChangeStartDate}
-          title={t('spaces.appointments.input.startDate.title')}
-          label={t('spaces.appointments.input.startDate.title')}
-          value={startDate}
+      {optionsReady && (
+        <HoliModalSelect
+          options={inviteOnlyOptions}
+          title={t('spaces.appointments.input.inviteOnly.title')}
+          onChange={onChangeInviteOnly}
+          placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
+          label={t('spaces.appointments.input.inviteOnly.title')}
+          testID="appointment-invite-only-input"
+          style={styles.marginSeparator}
+          showOptionIcon
           isRequired
         />
+      )}
 
-        <HoliDatePicker
-          style={styles.marginSeparator}
-          onChange={onChangeEndDate}
+      <View style={styles.sectionWrapper}>
+        <HoliDateAndTimePicker
+          title={t('spaces.appointments.input.startDate.title')}
+          label={t('spaces.appointments.input.startDate.title')}
+          onChangeDate={(newStartDate) => {
+            if (endDate && newStartDate > endDate) {
+              onChangeEndDate(newStartDate)
+            }
+            onChangeStartDate(newStartDate)
+          }}
+          valueDate={startDate}
+          valueHours={startHours}
+          onChangeHours={onChangeStartHours}
+          valueMinutes={startMinutes}
+          onChangeMinutes={onChangeStartMinutes}
+        />
+
+        <HoliDateAndTimePicker
           title={t('spaces.appointments.input.endDate.title')}
           label={t('spaces.appointments.input.endDate.title')}
-          value={endDate}
-          isRequired
+          onChangeDate={(newEndDate) => {
+            if (startDate && newEndDate < startDate) {
+              onChangeStartDate(newEndDate)
+            }
+            onChangeEndDate(newEndDate)
+          }}
+          valueDate={endDate}
+          valueHours={endHours}
+          onChangeHours={onChangeEndHours}
+          valueMinutes={endMinutes}
+          onChangeMinutes={onChangeEndMinutes}
+          style={styles.marginSeparator}
         />
       </View>
 
