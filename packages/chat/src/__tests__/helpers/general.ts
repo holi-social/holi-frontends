@@ -14,7 +14,7 @@ import {
 
 import { Membership } from '@holi/chat/src/client/types'
 
-import { MutableMock } from './types'
+import { Mutable } from './types'
 
 export const getClientOptions = (token: string) => ({
   baseUrl: 'chat.holi.social',
@@ -24,12 +24,11 @@ export const getClientOptions = (token: string) => ({
   userId: '@mau:local.chat.holi.social',
 })
 
-export const toMutableMockType = <T>(value: T): MutableMock<T> => value as jest.Mocked<T> as MutableMock<T>
+export const asMocked = <T>(value: T): jest.Mocked<T> => value as jest.Mocked<T>
+export const asMutable = <T>(value: T): Mutable<T> => value as Mutable<T>
 
-export const toOriginalType = <T>(value: MutableMock<T>) => value as T
-
-export const createMatrixClientMock = (): MutableMock<MatrixClient> => {
-  const mxClient = new MatrixClient({ baseUrl: '' }) as jest.Mocked<MatrixClient>
+export const createMatrixClientMock = () => {
+  const mxClient = asMocked(new MatrixClient({ baseUrl: '' }))
   const createClientMock = createClient as jest.Mock<MatrixClient>
   createClientMock.mockReturnValue(mxClient)
 
@@ -46,10 +45,10 @@ export const createRoomMock = (
   { isSpaceRoom = false, members = [] }: Partial<{ isSpaceRoom: boolean; members: RoomMember[] }> = {}
 ) => {
   // because new Room() is a mock the arguments in constructor do not matter
-  const room = toMutableMockType(new Room(roomId, {} as MatrixClient, 'creator'))
+  const room = asMocked(new Room(roomId, {} as MatrixClient, 'creator'))
 
   // room setup
-  room.roomId = roomId
+  asMutable(room).roomId = roomId
   room.isSpaceRoom.mockReturnValue(isSpaceRoom)
   room.getMembers.mockReturnValue(members)
 
@@ -58,19 +57,19 @@ export const createRoomMock = (
 
 export const createRoomStateMock = (roomId: string) => {
   // because new Room() is a mock the arguments in constructor do not matter
-  const roomState = toMutableMockType(new RoomState(roomId))
+  const roomState = asMocked(new RoomState(roomId))
 
   // room setup
-  roomState.roomId = roomId
+  asMutable(roomState).roomId = roomId
 
   return roomState
 }
 
 export const createRoomMemberMock = (userId: string, name?: string, membership?: Membership, avatarUrl?: string) => {
   // because new RoomMember() is a mock the arguments in constructor do not matter
-  const roomMember = toMutableMockType(new RoomMember('dummyRoomId', userId))
+  const roomMember = asMocked(new RoomMember('dummyRoomId', userId))
 
-  roomMember.userId = userId
+  asMutable(roomMember).userId = userId
   if (name) roomMember.name = name
   if (membership) roomMember.membership = membership
   if (avatarUrl) roomMember.getAvatarUrl.mockReturnValue(avatarUrl)
@@ -80,13 +79,14 @@ export const createRoomMemberMock = (userId: string, name?: string, membership?:
 
 export const getListenerForMatrixEvent = (
   event: EmittedEvents | EventEmitterEvents | RoomEvent,
-  mxClientOrRoom: MutableMock<MatrixClient> | MutableMock<Room>
+  mxClientOrRoom: jest.Mocked<MatrixClient> | jest.Mocked<Room>
 ) => {
+  // find the call where the first parameter is the passed in event and return the second parameter of that call
   return mxClientOrRoom.on.mock.calls.find(([e]) => e === event)?.[1]
 }
 
 export const createMatrixEventMock = (type: string) => {
-  const event = toMutableMockType(new MatrixEvent())
+  const event = asMocked(new MatrixEvent())
 
   // event setup
   event.getType.mockReturnValue(type)
