@@ -14,8 +14,6 @@ import {
 
 import { Membership } from '@holi/chat/src/client/types'
 
-import { Mutable } from './types'
-
 export const getClientOptions = (token: string) => ({
   baseUrl: 'chat.holi.social',
   accessToken: token,
@@ -25,6 +23,8 @@ export const getClientOptions = (token: string) => ({
 })
 
 export const asMocked = <T>(value: T): jest.Mocked<T> => value as jest.Mocked<T>
+
+export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
 export const asMutable = <T>(value: T): Mutable<T> => value as Mutable<T>
 
 export const createMatrixClientMock = () => {
