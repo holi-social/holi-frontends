@@ -8,6 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -88,7 +89,11 @@ const HoliTimePicker = ({
         {...modalProps}
         autoHeight={false}
         relativeHeight={1}
-        onDismiss={onModalClose}
+        onDismiss={() => {
+          onChangeHours(numberToStringWithPad(+(valueHours || 0)))
+          onChangeMinutes(numberToStringWithPad(+(valueMinutes || 0)))
+          onModalClose()
+        }}
         style={styles.modal}
       >
         <View style={[mixins.container, styles.inputContainer]}>
