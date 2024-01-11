@@ -46,6 +46,10 @@ const useDeleteAppointment = ({
           query: appointmentsBySpaceIdQuery,
           variables: { spaceId: spaceId, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
         },
+        {
+          query: appointmentsBySpaceIdQuery,
+          variables: { spaceId: spaceId, statusType: APPOINTMENT_STATUS_TYPE.PAST },
+        },
       ],
     }
   )
