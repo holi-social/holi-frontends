@@ -10,7 +10,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type EditSpaceModalProps = {
-  onDismiss: () => void
+  onDismiss?: () => void
   onSave: () => Promise<unknown>
   children: ReactNode
   saveButtonDisabled?: boolean
@@ -48,15 +48,17 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       </ScrollView>
       {showFooter && (
         <View style={[mixins.container, styles.footer]}>
-          <HoliButton
-            label={t('global.dismiss')}
-            type="secondary"
-            inline
-            style={styles.footerButton}
-            onPress={onDismiss}
-          >
-            {t('global.dismiss')}
-          </HoliButton>
+          {onDismiss && (
+            <HoliButton
+              label={t('global.dismiss')}
+              type="secondary"
+              inline
+              style={styles.footerButton}
+              onPress={onDismiss}
+            >
+              {t('global.dismiss')}
+            </HoliButton>
+          )}
           <HoliButtonLoading
             disabled={saveButtonDisabled}
             label={t('global.save')}

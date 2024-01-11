@@ -74,7 +74,7 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
       : {}
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} scrollable={false}>
+    <EditSpaceModal onSave={onSave} scrollable={false}>
       <HoliText style={styles.title} size="extralarge">
         {t('spaces.input.publicLinks.manage.title')}
       </HoliText>
