@@ -31,7 +31,6 @@ import {
 } from '@holi/chat/src/client/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatAdminUserId } from '@holi/core/helpers/config'
-import { getEnumKeyByValue } from '@holi/core/helpers/utils'
 
 /**
  * Rooms
@@ -171,7 +170,7 @@ export const createChatMember = (member: RoomMember, avatarUrl: string | null): 
     id: member.userId as MatrixId,
     name: member.name,
     avatar: avatarUrl ?? member.user?.avatarUrl,
-    membership: getEnumKeyByValue(MembershipStatus, member.membership),
+    membership: MembershipStatus[member.membership as keyof typeof MembershipStatus],
   }
 }
 

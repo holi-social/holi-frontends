@@ -373,7 +373,7 @@ export default class ChatClient {
     if (isChatRoom(roomOrEvent)) {
       const userId = this.getUserId()
       if (!userId) return false
-      return roomOrEvent.hasMembershipState(userId, MembershipStatus.Invited)
+      return roomOrEvent.hasMembershipState(userId, MembershipStatus.invite)
     } else {
       const pushAction = roomOrEvent.getPushActions()
       if (!pushAction?.notify) return false
@@ -383,7 +383,7 @@ export default class ChatClient {
 
       const content = roomOrEvent.getContent()
 
-      return content.membership === MembershipStatus.Invited
+      return content.membership === MembershipStatus.invite
     }
   }
 

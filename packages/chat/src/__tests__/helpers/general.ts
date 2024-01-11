@@ -12,7 +12,7 @@ import {
   createClient,
 } from 'matrix-js-sdk'
 
-import { Membership } from '@holi/chat/src/client/types'
+import { MembershipStatus } from '@holi/chat/src/client/types'
 
 export const getClientOptions = (token: string) => ({
   baseUrl: 'chat.holi.social',
@@ -63,7 +63,12 @@ export const createRoomStateMock = (roomId: string) => {
   return roomState
 }
 
-export const createRoomMemberMock = (userId: string, name?: string, membership?: Membership, avatarUrl?: string) => {
+export const createRoomMemberMock = (
+  userId: string,
+  name?: string,
+  membership?: MembershipStatus,
+  avatarUrl?: string
+) => {
   // because new RoomMember() is a mock the arguments in constructor do not matter
   const roomMember = jest.mocked(new RoomMember('', ''))
 

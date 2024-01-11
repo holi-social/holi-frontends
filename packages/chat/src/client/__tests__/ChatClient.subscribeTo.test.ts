@@ -403,10 +403,10 @@ describe('ChatClient', () => {
       const userId = 'some-user'
       const userName = 'user name'
       const avatarUrl = 'avatarUrl'
-      const currentMembership = MembershipStatus.Invited
+      const currentMembership = MembershipStatus.invite
       const member = createRoomMemberMock(userId, userName, currentMembership, avatarUrl)
       const event = createMatrixEventMock(EventType.RoomMember)
-      const newMembership = MembershipStatus.Joined
+      const newMembership = MembershipStatus.join
       event.getContent.mockReturnValue({ membership: newMembership })
       const roomState = createRoomStateMock(roomId)
       roomState.getMembers.mockReturnValue([member])
