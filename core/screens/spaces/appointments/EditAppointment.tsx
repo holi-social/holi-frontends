@@ -238,7 +238,6 @@ const EditAppointment: React.FC<ScreenProps> = () => {
         } as HoliModalSelectOption)
       }
 
-      // remove __typename when setting geolocation
       if (appointment.geolocation) {
         const { latitude, longitude } = appointment.geolocation
         setGeolocation({ latitude, longitude })
