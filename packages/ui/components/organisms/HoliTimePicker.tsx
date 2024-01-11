@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { isWeb } from '@holi/chat/src/utils'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
@@ -103,7 +102,6 @@ const HoliTimePicker = ({
             placeholder="00"
             inputLabel={hoursLabel}
             aria-label={hoursLabel}
-            inline={!isWeb}
             type="number"
             inputProps={{
               keyboardType: 'number-pad',
@@ -119,7 +117,6 @@ const HoliTimePicker = ({
             placeholder="00"
             inputLabel={minutesLabel}
             aria-label={minutesLabel}
-            inline={!isWeb}
             type="number"
             inputProps={{
               keyboardType: 'number-pad',
