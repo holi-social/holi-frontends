@@ -236,6 +236,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexShrink: 1,
+    flex: 1,
   },
   iconGroupIcon: {
     marginRight: 4,
@@ -243,6 +244,7 @@ const styles = StyleSheet.create({
   iconGroupText: {
     color: colors.foreground20,
     marginRight: 8,
+    maxWidth: '90%',
   },
 })
 
