@@ -67,13 +67,14 @@ export interface AppointmentInputFormProps {
   endMinutes?: string
   permissionType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
-  thumbnail?: HoliImageInfo
+  thumbnail?: HoliImageInfo | null // null is for choosing to remove an image from an appointment and keeping it without image
   thumbnailBlurhash?: string
   geolocation?: GeolocationPoint
   selectedLocation?: GeolocationSuggestion
   url?: string
   additionalInfo?: string
   currentThumbnail?: string
+  currentLocation?: string
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
@@ -84,7 +85,7 @@ export interface AppointmentInputFormProps {
   onChangeStartMinutes: (_: string) => void
   onChangeEndMinutes: (_: string) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
-  onChangeThumbnail: (_: HoliImageInfo | undefined) => void
+  onChangeThumbnail: (_: HoliImageInfo | undefined | null) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   onChangeUrl: (_: string) => void
@@ -106,6 +107,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   permissionType,
   thumbnail,
   currentThumbnail,
+  currentLocation,
   selectedLocation,
   url,
   additionalInfo,
@@ -298,7 +300,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           label={t('spaces.input.location.label')}
           placeholder={t('spaces.input.location.placeholder')}
           selected={selectedLocation}
-          value={selectedLocation?.label}
+          value={selectedLocation?.label || currentLocation}
           id="appointment-location"
           testID="appointment-location"
           onChange={onChangeSelectedLocation}
@@ -368,10 +370,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
               </HoliText>
             </HoliImagePicker>
 
-            {thumbnail?.uri && (
+            {(!!thumbnail?.uri || currentThumbnail) && (
               <HoliButton
                 label={t('spaces.appointments.input.coverImage.remove.button.label')}
-                onPress={() => onChangeThumbnail(undefined)}
+                onPress={() => onChangeThumbnail(null)}
                 testID="create-space-remove-image-btn"
                 style={styles.imageUploadButton}
                 inline
