@@ -185,7 +185,7 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
               placeholder={t('spaces.appointments.input.videoCall.additionalInfo.placeholder')}
               inputLabel={t('spaces.appointments.input.videoCall.additionalInfo.label')}
               aria-label={t('spaces.appointments.input.videoCall.additionalInfo.label')}
-              maxNoOfCharacters={240}
+              maxNoOfCharacters={100}
               showCharacterCount
               style={styles.input}
             />

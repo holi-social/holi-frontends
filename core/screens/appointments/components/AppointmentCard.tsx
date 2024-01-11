@@ -36,11 +36,17 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
     month: 'short',
   })
 
+  const endDate = localizeDate(new Date(appointment.endDateTime), currentLanguage, {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  })
+
   const startTime = localizeDate(
     new Date(appointment.startDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
@@ -50,7 +56,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
     new Date(appointment.endDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
@@ -118,7 +124,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
           <View style={styles.iconGroupContainer}>
             <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
             <HoliText style={styles.iconGroupText} size="extrasmall">
-              {date} ∙ {startTime} {t('global.until')} {endTime}
+              {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+              {endTime}
             </HoliText>
           </View>
         </View>
@@ -236,6 +243,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexShrink: 1,
+    flex: 1,
   },
   iconGroupIcon: {
     marginRight: 4,
@@ -243,6 +251,7 @@ const styles = StyleSheet.create({
   iconGroupText: {
     color: colors.foreground20,
     marginRight: 8,
+    maxWidth: '90%',
   },
 })
 

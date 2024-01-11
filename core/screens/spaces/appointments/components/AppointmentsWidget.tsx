@@ -111,29 +111,31 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
       testID="space-appointments-card"
       style={[style, styles.container]}
     >
-      {totalResults > 0 && (
-        <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
-          {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
-            <HoliGridCell key={item.id}>
-              <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
-            </HoliGridCell>
-          ))}
-        </HoliGridWrapper>
-      )}
+      <View style={styles.contentWrapper}>
+        {totalResults > 0 && (
+          <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+            {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
+              <HoliGridCell key={item.id}>
+                <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
+              </HoliGridCell>
+            ))}
+          </HoliGridWrapper>
+        )}
 
-      {totalResults === 0 && <NoAppointmentsAvailable onPress={navigateToAddAppointmentPage} />}
+        {totalResults === 0 && <NoAppointmentsAvailable onPress={navigateToAddAppointmentPage} />}
 
-      {data.length > INITIAL_NUMBER_OF_ITEMS && (
-        <View style={styles.seeAllButtonContainer}>
-          <HoliButton
-            label={t('spaces.global.seeAllButton.label')}
-            style={styles.seeAllButton}
-            onPress={navigateToAppointmentsPage}
-          >
-            <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
-          </HoliButton>
-        </View>
-      )}
+        {data.length > INITIAL_NUMBER_OF_ITEMS && (
+          <View style={styles.seeAllButtonContainer}>
+            <HoliButton
+              label={t('spaces.global.seeAllButton.label')}
+              style={styles.seeAllButton}
+              onPress={navigateToAppointmentsPage}
+            >
+              <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
+            </HoliButton>
+          </View>
+        )}
+      </View>
     </CollaboratorAreaCard>
   )
 }
@@ -143,6 +145,8 @@ export default AppointmentsWidget
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 16,
+  },
+  contentWrapper: {
     padding: 8,
   },
   seeAllButtonContainer: {

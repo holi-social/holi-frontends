@@ -17,6 +17,7 @@ import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTime
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
@@ -272,9 +273,19 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           }}
           valueDate={startDate}
           valueHours={startHours}
-          onChangeHours={onChangeStartHours}
           valueMinutes={startMinutes}
-          onChangeMinutes={onChangeStartMinutes}
+          onChangeHours={(newStartHours) => {
+            if (`${endHours || '00'}:${endMinutes || '00'}` < `${newStartHours || '00'}:${startMinutes} || '00'`) {
+              onChangeEndHours(numberToStringWithPad(+newStartHours))
+            }
+            onChangeStartHours(newStartHours)
+          }}
+          onChangeMinutes={(newStartMinutes) => {
+            if (`${endHours || '00'}:${endMinutes || '00'}` < `${startHours || '00'}:${newStartMinutes || '00'}`) {
+              onChangeEndMinutes(numberToStringWithPad(+newStartMinutes))
+            }
+            onChangeStartMinutes(newStartMinutes)
+          }}
         />
 
         <HoliDateAndTimePicker
@@ -288,9 +299,19 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           }}
           valueDate={endDate}
           valueHours={endHours}
-          onChangeHours={onChangeEndHours}
           valueMinutes={endMinutes}
-          onChangeMinutes={onChangeEndMinutes}
+          onChangeHours={(newEndHours) => {
+            if (`${newEndHours || '00'}:${endMinutes || '00'}` < `${startHours || '00'}:${startMinutes || '00'}`) {
+              onChangeStartHours(numberToStringWithPad(+newEndHours))
+            }
+            onChangeEndHours(newEndHours)
+          }}
+          onChangeMinutes={(newEndMinutes) => {
+            if (`${endHours || '00'}:${newEndMinutes || '00'}` < `${startHours || '00'}:${startMinutes || '00'}`) {
+              onChangeStartMinutes(numberToStringWithPad(+newEndMinutes))
+            }
+            onChangeEndMinutes(newEndMinutes)
+          }}
           style={styles.marginSeparator}
         />
       </View>
