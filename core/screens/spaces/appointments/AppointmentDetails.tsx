@@ -24,6 +24,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
@@ -191,9 +192,16 @@ const AppointmentDetails = () => {
             )}
           </View>
           <View style={[styles.card, styles.firstCard]}>
-            <HoliHeading ellipsizeMode="tail" level="1" size="medium" testID="appointment-title">
-              {appointment.title}
-            </HoliHeading>
+            <View style={styles.titleContainer}>
+              <HoliCalendarIcon
+                day={new Date(appointment.startDateTime).getDate()}
+                month={new Date(appointment.startDateTime).getMonth() + 1}
+                size="medium"
+              />
+              <HoliHeading style={styles.title} ellipsizeMode="tail" level="1" size="medium" testID="appointment-title">
+                {appointment.title}
+              </HoliHeading>
+            </View>
             <View style={[styles.iconsContainer, styles.firstIconContainer]}>
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
@@ -340,6 +348,15 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: 'relative',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 8,
+  },
+  title: {
+    maxWidth: '80%',
   },
   card: {
     padding: 16,
