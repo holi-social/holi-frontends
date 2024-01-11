@@ -14,6 +14,7 @@ import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/i
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import { localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -113,7 +114,13 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
           label={appointment.title}
           onPress={goToDetailView}
           style={[styles.clickOverlay, { flex: 1 }]}
+          contentStyle={styles.titleButton}
         >
+          <HoliCalendarIcon
+            day={new Date(appointment.startDateTime).getDate()}
+            month={new Date(appointment.startDateTime).getMonth() + 1}
+            size="small"
+          />
           <HoliText ellipsizeMode="tail" bold numberOfLines={2}>
             {appointment.title}
           </HoliText>
@@ -216,6 +223,12 @@ const styles = StyleSheet.create({
   clickOverlay: {
     position: 'relative',
     pointerEvents: 'auto',
+  },
+  titleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 8,
   },
   image: {
     borderRadius: 8,
