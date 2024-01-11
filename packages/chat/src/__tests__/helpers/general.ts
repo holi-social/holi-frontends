@@ -29,7 +29,7 @@ export const asMutable = <T>(value: T): Mutable<T> => value as Mutable<T>
 
 export const createMatrixClientMock = () => {
   const mxClient = asMocked(new MatrixClient({ baseUrl: '' }))
-  const createClientMock = createClient as jest.Mock<MatrixClient>
+  const createClientMock = createClient as jest.Mock
   createClientMock.mockReturnValue(mxClient)
 
   const EventTimelineSetMock = EventTimelineSet as jest.MockedClass<typeof EventTimelineSet>
