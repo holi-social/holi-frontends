@@ -517,6 +517,7 @@
   "spaces.appointments.details.public": "Open to anyone",
   "spaces.appointments.details.restricted": "Restricted to collaborators",
   "spaces.appointments.details.title": "Appointments",
+  "spaces.appointments.edit.button.label": "Edit appointment",
   "spaces.appointments.empty.description": "Start organizing your meetings and events",
   "spaces.appointments.input.coverImage.change.button.label": "Change cover",
   "spaces.appointments.input.coverImage.remove.button.label": "Remove cover",

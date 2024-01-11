@@ -1,4 +1,5 @@
 import { User } from '@holi/core/screens/userprofile/types'
+import { GeolocationPoint } from '@holi/core/types'
 
 export enum PermissionsType {
   PARTICIPANTS = 'PARTICIPANTS',
@@ -45,6 +46,6 @@ export interface Appointment {
   videoCallLink?: AppointmentVideoCallLink
   videoCallInfo?: string
   thumbnail?: string
-  geolocation?: string
+  geolocation?: GeolocationPoint
   thumbnailBlurhash?: string
 }

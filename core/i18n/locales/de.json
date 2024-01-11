@@ -517,6 +517,7 @@
   "spaces.appointments.details.public": "Offen für jeden",
   "spaces.appointments.details.restricted": "Beschränkt auf Mitwirkende:r",
   "spaces.appointments.details.title": "Termine",
+  "spaces.appointments.edit.button.label": "Termin bearbeiten",
   "spaces.appointments.empty.description": "Starte die Planung eurer Meetings und Events",
   "spaces.appointments.input.coverImage.change.button.label": "Titelbild  ändern",
   "spaces.appointments.input.coverImage.remove.button.label": "Titelbild entfernen",

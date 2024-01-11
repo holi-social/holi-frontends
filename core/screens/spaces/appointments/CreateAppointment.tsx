@@ -58,7 +58,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [startMinutes, setStartMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
   const [endMinutes, setEndMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
-  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
+  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined | null>()
   const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
   const [url, setUrl] = useState('')
