@@ -133,11 +133,17 @@ const AppointmentDetails = () => {
     month: 'short',
   })
 
+  const endDate = localizeDate(new Date(appointment.endDateTime), currentLanguage, {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  })
+
   const startTime = localizeDate(
     new Date(appointment.startDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
@@ -147,7 +153,7 @@ const AppointmentDetails = () => {
     new Date(appointment.endDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
@@ -192,7 +198,8 @@ const AppointmentDetails = () => {
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
                 <HoliText bold>
-                  {date} ∙ {startTime} {t('global.until')} {endTime}
+                  {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+                  {endTime}
                 </HoliText>
               </View>
             </View>
