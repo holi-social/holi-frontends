@@ -10,6 +10,7 @@ import {
   mockMx,
   setMatrixMock,
 } from '@holi/chat/src/test-utils/matrix-mock-setup'
+import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -20,7 +21,6 @@ interface MockLoggedInUserState {
 }
 
 let mockLoggedInUser: User | undefined = undefined
-let mockNavigationParam: string[] = []
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let mockOrySessionInStorage: Record<string, string> | undefined
 let mockMatrixSessionInStorage: [string, boolean | string | undefined][]
@@ -53,9 +53,7 @@ jest.mock('@react-native-async-storage/async-storage', () => {
   }
 })
 
-jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
-  useParam: () => mockNavigationParam,
-}))
+jest.mock('@holi/core/navigation/hooks/useParam')
 
 jest.mock('matrix-js-sdk', () => ({
   ...jest.requireActual('matrix-js-sdk'),
@@ -115,7 +113,7 @@ describe('ChatRoomView', () => {
       creator: someMember,
     })
 
-    mockNavigationParam = [someRoom.id]
+    mockParameters({ roomId: someRoom.id })
     const members = [someMember]
     const rooms = [someRoom]
 
@@ -143,7 +141,7 @@ describe('ChatRoomView', () => {
       hasInvitation: false,
     })
 
-    mockNavigationParam = [bobsRoom.id]
+    mockParameters({ roomId: bobsRoom.id })
     mockMatrixSessionInStorage = [
       ['mx_client_login', true], //fresh?
       ['mx_user_id', 'BobIdentity'],

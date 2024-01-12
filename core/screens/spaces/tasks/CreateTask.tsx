@@ -8,7 +8,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
@@ -29,7 +29,7 @@ export type CreateTaskParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<CreateTaskParams>()
+const { useParam } = createParamHooks<CreateTaskParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 

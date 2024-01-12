@@ -9,7 +9,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
@@ -32,7 +32,7 @@ export type InsightDetailPageParams = {
   insightId: string
 }
 
-const { useParam } = createParam<InsightDetailPageParams>()
+const { useParam } = createParamHooks<InsightDetailPageParams>()
 
 const InsightDetailPage = () => {
   const [insightId] = useParam('insightId')

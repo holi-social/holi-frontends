@@ -18,7 +18,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
@@ -44,7 +44,7 @@ export type PostDetailPageParams = {
   spaceIdOrName?: string
 }
 
-const { useParam } = createParam<PostDetailPageParams>()
+const { useParam } = createParamHooks<PostDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<InsightsScreens | SpacesScreens>
 

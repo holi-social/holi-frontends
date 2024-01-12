@@ -10,7 +10,7 @@ import { jitsiUrl } from '@holi/core/helpers/config'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
@@ -38,7 +38,7 @@ export type AppointmentDetailsParams = {
   idOrSlug: string
 }
 
-const { useParam } = createParam<AppointmentDetailsParams>()
+const { useParam } = createParamHooks<AppointmentDetailsParams>()
 
 const AppointmentDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')

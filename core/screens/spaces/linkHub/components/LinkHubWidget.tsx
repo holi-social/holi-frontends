@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
@@ -44,7 +44,7 @@ const NoToolsAvailable: React.FC<NoToolsAvailableProps> = ({ onPress }) => {
 }
 
 const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
-  const { useParam } = createParam<SpaceDetailsParams>()
+  const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)

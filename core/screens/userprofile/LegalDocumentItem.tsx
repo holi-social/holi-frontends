@@ -5,13 +5,13 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { getDocumentURL } from '@holi/core/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { DocType } from '@holi/web/pages/api/documents'
 
-const { useParam } = createParam<{ type: DocType }>()
+const { useParam } = createParamHooks<{ type: DocType }>()
 
 const LegalDocumentItem = () => {
   const { t } = useTranslation()

@@ -15,7 +15,7 @@ import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/ho
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useTabNavigation, { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType } from '@holi/core/queries'
@@ -43,7 +43,7 @@ export type SpaceDetailsParams = RefreshOnNavigationParams &
     spaceIdOrName: string
   }
 
-const { useParam } = createParam<SpaceDetailsParams>()
+const { useParam } = createParamHooks<SpaceDetailsParams>()
 
 const SpaceDetails = () => {
   const { t } = useTranslation()

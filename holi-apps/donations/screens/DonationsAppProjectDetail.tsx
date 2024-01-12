@@ -10,7 +10,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -34,7 +34,7 @@ export type DonationsAppProjectDetailParams = {
   projectId: string
 }
 
-const { useParam } = createParam<DonationsAppProjectDetailParams>()
+const { useParam } = createParamHooks<DonationsAppProjectDetailParams>()
 
 const DonationsAppProjectDetail = () => {
   const [projectId] = useParam('projectId')

@@ -10,7 +10,7 @@ import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AppointmentInputForm, { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
@@ -36,7 +36,7 @@ export type CreateAppointmentParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<CreateAppointmentParams>()
+const { useParam } = createParamHooks<CreateAppointmentParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 

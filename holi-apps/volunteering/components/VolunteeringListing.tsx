@@ -36,11 +36,12 @@ type VolunteeringListingProps = {
   filters: VolunteeringFilters
   isFiltering?: boolean
   clearFilters?: () => void
+  loadingFilters: boolean
 }
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {}, isFiltering, clearFilters }) => {
+const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingFilters }: VolunteeringListingProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -78,7 +79,7 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
     return <HoliText>{t('volunteering:listing.error')}</HoliText>
   }
 
-  if (loading) {
+  if (loading || loadingFilters) {
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
