@@ -99,22 +99,16 @@ export enum ChatRoomEvent {
  */
 export interface ChatRoomMessage {
   type: ChatMessageType
-  content: ChatMsgTextContent | ChatMsgMemberContent
+  content: MsgContent
   roomId: string
   id: string
   sender: string | undefined
   timestamp?: number
 }
 
+export type MsgContent = ChatMsgTextContent | ChatMsgMemberContent
 export type ChatMessageType = 'message' | 'membership'
-
 export type ChatMsgContentType = 'm.text'
-
-export type ChatMsgContentOf<T extends ChatMsgTextContent | ChatMsgMemberContent = ChatMsgTextContent> = T extends {
-  msgtype: ChatMsgContentType
-}
-  ? T
-  : ChatMsgMemberContent
 
 export interface ChatMsgTextContent {
   body: string

@@ -3,8 +3,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomMember } from '@holi/chat/src/client/types'
-import { ChatTextMessage, loggedInMemberIdAtom } from '@holi/chat/src/store'
+import { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
+import { isMsgTextContent } from '@holi/chat/src/client/utils'
+import { loggedInMemberIdAtom } from '@holi/chat/src/store'
 import { getTimeFormat } from '@holi/core/i18n/helpers/dateHelper'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -15,7 +16,7 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface Props {
-  message: ChatTextMessage
+  message: ChatRoomMessage
   member: ChatRoomMember | undefined
   holiUser?: User
   showAvatar?: boolean
@@ -41,7 +42,7 @@ const RoomTextMessage = ({
 
   const { content, timestamp } = message
 
-  if (!content || !content.body) return
+  if (!isMsgTextContent(content)) return null
 
   const paddingBottom = isNextMessageFromSameUser ? 2 : 8
   const paddingTop = isPrevMessageFromSameUser ? 2 : 8

@@ -1,5 +1,5 @@
-import { ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
-import { ChatMessage, ChatRoom } from '@holi/chat/src/store'
+import { ChatMsgTextContent, ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoom } from '@holi/chat/src/store'
 
 import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
 
@@ -17,9 +17,9 @@ export function createChatRoomFixture(overrides?: Partial<ChatRoom>): ChatRoom {
     members: [creator, ...(hasMembers ? (overrides?.members as ChatRoomMember[]) : [])],
     senderId: creator.id ?? 'defaultSenderId',
     timestamp: new Date().getTime(),
-  }
+  } as ChatRoom
 
-  return { ...defaultRoom, ...overrides }
+  return { ...defaultRoom, ...overrides } as ChatRoom
 }
 
 export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): ChatRoomMember {
@@ -34,11 +34,11 @@ export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): Ch
 }
 
 export function createChatMessageFixture(
-  overrides?: Partial<ChatMessage> | string,
+  overrides?: Partial<ChatRoomMessage> | string,
   sender?: ChatRoomMember,
   room?: ChatRoom
-): ChatMessage {
-  const defaultMessage: ChatMessage = {
+): ChatRoomMessage {
+  const defaultMessage: ChatRoomMessage = {
     type: 'message',
     id: 'defaultMessageId',
     content: {
@@ -46,25 +46,27 @@ export function createChatMessageFixture(
       msgtype: 'm.text',
     },
     timestamp: new Date().getTime(),
-    room_id: 'defaultRoomId',
+    roomId: 'defaultRoomId',
     sender: 'defaultSenderId',
   }
 
-  let fixture = { ...defaultMessage }
+  let fixture = { ...defaultMessage } as unknown as ChatRoomMessage
 
   if (typeof overrides === 'string') {
-    fixture.content.body = overrides
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ;(fixture.content as ChatMsgTextContent).body = overrides
   } else {
     fixture = { ...fixture, ...overrides }
 
-    const bodyContentOverride = overrides?.content?.body
+    const bodyContentOverride = (overrides?.content as ChatMsgTextContent)?.body
     if (bodyContentOverride) {
-      defaultMessage.content.body = bodyContentOverride
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;(defaultMessage.content as ChatMsgTextContent).body = bodyContentOverride
     }
   }
 
   if (room) {
-    fixture.room_id = room.id
+    fixture.roomId = room.id
   }
 
   if (sender) {

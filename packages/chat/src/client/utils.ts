@@ -23,6 +23,7 @@ import {
   ChatRoomMessage,
   MatrixId,
   MembershipStatus,
+  MsgContent,
   RoomType,
   RoomUpdatesType,
   type RoomWithSharedData,
@@ -190,11 +191,12 @@ export function getChatMembership(membership?: string) {
 /**
  * Messages
  */
-
 const createMsgTextContent = (body: string): ChatMsgTextContent => ({
   body,
   msgtype: 'm.text',
 })
+
+export const isMsgTextContent = (content: MsgContent): content is ChatMsgTextContent => 'msgtype' in content
 
 const createMsgMemberContent = (
   membership: string,
@@ -204,6 +206,8 @@ const createMsgMemberContent = (
   ...(options.displayname ? { name: options.displayname } : {}),
   ...(options.avatar_url ? { avatar: options.avatar_url } : {}),
 })
+
+export const isMsgMemberContent = (content: MsgContent): content is ChatMsgMemberContent => 'membership' in content
 
 export const createChatMessage = (roomId: string, event: IEvent | IRoomEvent): ChatRoomMessage => {
   const base = {
@@ -231,6 +235,9 @@ export const createChatMessage = (roomId: string, event: IEvent | IRoomEvent): C
       throw new HoliError('Unexpected RoomEvent: only EventType.RoomMessage and EventType.RoomMember are supported')
   }
 }
+
+export const isTextChatMsg = (msg: ChatRoomMessage): boolean => msg.type === 'message'
+export const isMemberChatMsg = (msg: ChatRoomMessage): boolean => msg.type === 'membership'
 
 /**
  * @description return an optional IRoomEvent for last supported message of the room.
