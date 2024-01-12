@@ -199,8 +199,7 @@ export const registerNewUserAccount = async (
 }
 
 export const checkAccessibility = async (page: Page) => {
-  // eslint-disable-next-line no-console
-  console.info('check accessibility for', page.url())
+  console.debug('check accessibility for', page.url())
   await injectAxe(page)
   const axeOptions = {
     rules: {
