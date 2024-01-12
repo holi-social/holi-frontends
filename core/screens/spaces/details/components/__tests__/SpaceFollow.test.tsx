@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
 import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollow'
@@ -9,6 +10,8 @@ import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/det
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+
+jest.mock('@holi/core/navigation/hooks/useParam')
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: () => ({ userId: '123' }),
@@ -123,12 +126,12 @@ const spaceByIdRequestFollowing = {
 const MOCKS_NOT_FOLLOWING = [authenticatedUserRequest, spaceByIdRequest, followSpaceMutation]
 const MOCKS_FOLLOWING = [authenticatedUserRequest, spaceByIdRequestFollowing, unfollowSpaceMutation]
 
-jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
-  useParam: () => [SPACE_ID, jest.fn()],
-}))
-
 // TODO: re-enable with HOLI-4898
 xdescribe('Space follow button', () => {
+  beforeEach(() => {
+    mockParameters({ spaceIdOrName: SPACE_ID })
+  })
+
   it('shows follow button, when not logged in', async () => {
     const aSpace = {
       ...space,
