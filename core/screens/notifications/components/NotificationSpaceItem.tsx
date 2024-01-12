@@ -27,8 +27,8 @@ const NotificationSpaceItem = ({
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const fullName = notification.options.user?.fullName || t('user.profileView.anonymous')
-  const { id, title } = notification.options.space
-  href = href || `/spaces/${id}`
+  const { title, name } = notification.options.space
+  href = href || `/spaces/${name}`
 
   const message = notification.options.message ?? notification.options.requestMessage
 

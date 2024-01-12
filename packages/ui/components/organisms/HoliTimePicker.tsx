@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { isWeb } from '@holi/chat/src/utils'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -88,7 +88,11 @@ const HoliTimePicker = ({
         {...modalProps}
         autoHeight={false}
         relativeHeight={1}
-        onDismiss={onModalClose}
+        onDismiss={() => {
+          onChangeHours(numberToStringWithPad(+(valueHours || 0)))
+          onChangeMinutes(numberToStringWithPad(+(valueMinutes || 0)))
+          onModalClose()
+        }}
         style={styles.modal}
       >
         <View style={[mixins.container, styles.inputContainer]}>
@@ -98,7 +102,6 @@ const HoliTimePicker = ({
             placeholder="00"
             inputLabel={hoursLabel}
             aria-label={hoursLabel}
-            inline={!isWeb}
             type="number"
             inputProps={{
               keyboardType: 'number-pad',
@@ -114,7 +117,6 @@ const HoliTimePicker = ({
             placeholder="00"
             inputLabel={minutesLabel}
             aria-label={minutesLabel}
-            inline={!isWeb}
             type="number"
             inputProps={{
               keyboardType: 'number-pad',

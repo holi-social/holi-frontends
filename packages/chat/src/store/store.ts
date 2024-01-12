@@ -515,7 +515,7 @@ const _messageBunchAtomSetter = atom(null, (_get, set, roomId: string, events: I
 /**
  * @name _newMessageAtomSubscriber (Read-Write)
  * @description Write (setter) function expects `MatrixEvent` argunment
- * and if it has EventType.RoomMessage type, setter adds new message into the room's `Atom<ChatMessage[]>`.
+ * and if it has EventType.RoomMessage type, setter adds new message into the room's `Atom<ChatRoomMessage[]>`.
  * This setter function is only used for new messages.
  */
 const _newMessageAtomSubscriber = atom(null, (get, set, roomId: string, message: ChatRoomMessage) => {
@@ -540,7 +540,7 @@ _newMessageAtomSubscriber.onMount = (setAtom) => {
 /**
  * @name messagesByRoomIdAtomCreator (Write-Only)
  * @description A function that returns an atom of messages for the given room id.
- * @returns `Atom<ChatMessage[]>` or `undefined` if the room does not exist.
+ * @returns `Atom<ChatRoomMessage[]>` or `undefined` if the room does not exist.
  */
 const messagesByRoomIdAtomCreator = (roomId: string) =>
   atom((get) => {
@@ -828,7 +828,7 @@ export const leaveRoomUpdate = produce((roomAtomsRecord: Record<string, ChatRoom
 
 /**
  * @name useRoomById (Hook Helper)
- * @description It returns the specific room with all its data (`ChatRoom` and `ChatMessage[]`) or
+ * @description It returns the specific room with all its data (`ChatRoom` and `ChatRoomMessage[]`) or
  * `undefined` for both if the room ID could not be found.
  */
 export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatRoomMessage[] | undefined] => {
@@ -842,7 +842,7 @@ export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatRoomMess
  * @description hook that triggers atoms subscriptions to Matrix events (calling useAtom will result
  * in the atoms `.onMount` method being called). As a result, the atoms will be populated with domain
  * objects derived from the Matrix events. Example: Matrix message events will be converted to
- * `ChatMessage` instances and stored in the `messagesAtomsRecordAtom`.
+ * `ChatRoomMessage` instances and stored in the `messagesAtomsRecordAtom`.
  */
 export const useSubscribeToChat = () => {
   useAtom(_setLoggedInMemberId)

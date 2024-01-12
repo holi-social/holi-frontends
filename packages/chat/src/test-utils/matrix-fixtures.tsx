@@ -1,4 +1,4 @@
-import { ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatMsgTextContent, ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
 import { ChatRoom } from '@holi/chat/src/store'
 
 import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
@@ -50,16 +50,18 @@ export function createChatMessageFixture(
     sender: 'defaultSenderId',
   }
 
-  let fixture = { ...defaultMessage }
+  let fixture = { ...defaultMessage } as unknown as ChatRoomMessage
 
   if (typeof overrides === 'string') {
-    fixture.content.body = overrides
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ;(fixture.content as ChatMsgTextContent).body = overrides
   } else {
     fixture = { ...fixture, ...overrides }
 
-    const bodyContentOverride = overrides?.content?.body
+    const bodyContentOverride = (overrides?.content as ChatMsgTextContent)?.body
     if (bodyContentOverride) {
-      defaultMessage.content.body = bodyContentOverride
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;(defaultMessage.content as ChatMsgTextContent).body = bodyContentOverride
     }
   }
 

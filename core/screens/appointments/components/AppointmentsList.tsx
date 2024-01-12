@@ -40,7 +40,7 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
     <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
       {appointments.map((item) => (
         <HoliGridCell key={item.id}>
-          <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} showFullView={false} />
+          <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
         </HoliGridCell>
       ))}
     </HoliGridWrapper>
