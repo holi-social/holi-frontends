@@ -167,24 +167,11 @@ export const hasDuplicateMembershipEvent = (room: Room, event: MatrixEvent): boo
 }
 
 export const createChatMember = (member: RoomMember, avatarUrl: string | null): ChatRoomMember => {
-  const id = member.userId as MatrixId
-
   return {
-    id,
+    id: member.userId as MatrixId,
     name: member.name,
     avatar: avatarUrl ?? member.user?.avatarUrl,
-    membership: getChatMembership(member.membership),
-  }
-}
-
-export function getChatMembership(membership?: string) {
-  switch (membership) {
-    case 'join':
-      return MembershipStatus.Joined
-    case 'invite':
-      return MembershipStatus.Invited
-    case 'leave':
-      return MembershipStatus.Left
+    membership: MembershipStatus[member.membership as keyof typeof MembershipStatus],
   }
 }
 

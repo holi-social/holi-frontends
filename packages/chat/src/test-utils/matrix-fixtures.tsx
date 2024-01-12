@@ -28,7 +28,7 @@ export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): Ch
   const defaultChatMember: ChatRoomMember = {
     name: overrides?.name ?? 'defaultUserName',
     id: `@${identity}:test.chat`,
-    membership: MembershipStatus.Joined,
+    membership: MembershipStatus.join,
   }
   return { ...defaultChatMember, ...overrides }
 }

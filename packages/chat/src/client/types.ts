@@ -52,29 +52,35 @@ export interface CreateRoomOptions {
   name?: string
 }
 
-export const memberships = ['invite', 'join', 'leave', 'ban', 'knock'] as const
-export type Memberships = typeof memberships
-export type Membership = Memberships[number]
-
 export enum MembershipStatus {
-  /**
-   * The user is effectively joined to the room. For example, actually joined
-   * or knocking on the room (when that becomes possible).
-   */
-  Joined = 'JOIN',
-
   /**
    * The user is effectively invited to the room. Currently this is a direct map
    * to the invite membership as no other membership states are effectively
    * invites.
    */
-  Invited = 'INVITE',
+  invite = 'invite',
+
+  /**
+   * The user is effectively joined to the room. For example, actually joined
+   * or knocking on the room (when that becomes possible).
+   */
+  join = 'join',
 
   /**
    * The user is effectively no longer in the room. For example, kicked,
    * banned, or voluntarily left.
    */
-  Left = 'LEFT',
+  leave = 'leave',
+
+  /**
+   * The user is not allowed to join the room
+   */
+  ban = 'ban',
+
+  /**
+   * the user has requested to participate in the room, but has not yet been allowed to
+   */
+  knock = 'knock',
 }
 
 export type NotificationCount = Partial<Record<NotificationCountType, number>>

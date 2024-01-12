@@ -320,7 +320,7 @@ export default class ChatClient {
     }, Promise.resolve([]))
   }
 
-  public getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
+  private getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
     const stateEventList = await this.mxClient.roomState(roomId)
 
     const sharedDataEvent = stateEventList.find(isEventWithSharedData)
@@ -373,7 +373,7 @@ export default class ChatClient {
     if (isChatRoom(roomOrEvent)) {
       const userId = this.getUserId()
       if (!userId) return false
-      return roomOrEvent.hasMembershipState(userId, MembershipStatus.Invited.toLowerCase())
+      return roomOrEvent.hasMembershipState(userId, MembershipStatus.invite)
     } else {
       const pushAction = roomOrEvent.getPushActions()
       if (!pushAction?.notify) return false
@@ -383,7 +383,7 @@ export default class ChatClient {
 
       const content = roomOrEvent.getContent()
 
-      return content.membership === MembershipStatus.Invited.toLowerCase()
+      return content.membership === MembershipStatus.invite
     }
   }
 
@@ -464,7 +464,6 @@ export default class ChatClient {
   ): (() => void) | void {
     const membershipHandler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
-      const avatarUrl = member.getAvatarUrl(this.mxClient.getHomeserverUrl(), 500, 500, 'scale', true, true)
 
       // If the creator of the DM room is the last one we forget (delete) entirely the room
       // Example usage when the invited member in a two people DM rejects an invitation.
@@ -474,6 +473,7 @@ export default class ChatClient {
           .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
       }
 
+      const avatarUrl = member.getAvatarUrl(this.mxClient.getHomeserverUrl(), 500, 500, 'scale', true, true)
       callback(roomState.roomId, createChatMember(member, avatarUrl), event.getContent().membership)
     }
 
@@ -593,7 +593,7 @@ export default class ChatClient {
   /**
    * @describe In this method, we use a general room `Timeline` event emitter
    * exclusively for updating `Space -> Child` room relationships. Other
-   * subscribers who listen to the timeline should implement a  separate method.
+   * subscribers who listen to the timeline should implement a separate method.
    */
   public subscribeToSpaceRooms(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
     const timelineListener = (event: MatrixEvent) => {
