@@ -2,8 +2,8 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { ChatRoomMember } from '@holi/chat/src/client/types'
-import { ChaMembershipMessage } from '@holi/chat/src/store'
+import type { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
+import { isMsgMemberContent } from '@holi/chat/src/client/utils'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -11,24 +11,17 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomMembershipBadgeProps {
-  message: ChaMembershipMessage
+  message: ChatRoomMessage
   member: ChatRoomMember | undefined
   user?: User
   testID?: string
 }
 
-const RoomMembershipBadge = ({
-  user,
-  member,
-  message: {
-    content: { membership },
-  },
-  testID,
-}: RoomMembershipBadgeProps) => {
+const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBadgeProps) => {
   const { t } = useTranslation()
-
+  const content = message.content
   // if Holi user wasn't found do not render the badge
-  if (!user) return null
+  if (!user || !isMsgMemberContent(content)) return null
 
   return (
     <HoliBox padding={[8, 16]}>
@@ -38,8 +31,8 @@ const RoomMembershipBadge = ({
           style={[
             styles.wrapper,
             {
-              backgroundColor: membership === 'join' ? colors.brandColorC10 : colors.background30,
-              borderColor: membership === 'join' ? colors.foreground30 : colors.foreground10,
+              backgroundColor: content.membership === 'join' ? colors.brandColorC10 : colors.background30,
+              borderColor: content.membership === 'join' ? colors.foreground30 : colors.foreground10,
             },
           ]}
         >
@@ -60,7 +53,9 @@ const RoomMembershipBadge = ({
                 <HoliText size="small">
                   <Trans
                     t={t}
-                    i18nKey={membership === 'join' ? 'chat.message.membership.join' : 'chat.message.membership.leave'}
+                    i18nKey={
+                      content.membership === 'join' ? 'chat.message.membership.join' : 'chat.message.membership.leave'
+                    }
                     values={{ user: user?.fullName }}
                   >
                     <HoliText size="small" italic />

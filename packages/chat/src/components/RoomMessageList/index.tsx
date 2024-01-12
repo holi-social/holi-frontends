@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
+import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
-import { MessageItem, isChatTextMessage, isMessageSection } from '@holi/chat/src/components/RoomMessageList/types'
-import { ChatMessage } from '@holi/chat/src/store'
+import { MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -14,7 +14,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import RoomMessage from './RoomMessage'
 import { RoomMessageListProps } from './types'
 
-const groupByDate = (messages: ChatMessage[], locale: string): MessageItem[] => {
+const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[] => {
   const groupedMessages: Record<string, MessageItem[]> = {}
   locale = getLocale(locale)
 
@@ -62,10 +62,10 @@ const RoomMessageList = ({
         const isFirstMessageInSection = index === 0
         const prevMessage = groupedMessages[index + 1]
         const isPrevMessageFromSameUser =
-          !!prevMessage && isChatTextMessage(prevMessage) && prevMessage?.sender === message.sender
+          !!prevMessage && isTextMessageItem(prevMessage) && prevMessage?.sender === message.sender
         const nextMessage = groupedMessages[index - 1]
         const isNextMessageFromSameUser =
-          !!nextMessage && isChatTextMessage(nextMessage) && nextMessage?.sender === message.sender
+          !!nextMessage && isTextMessageItem(nextMessage) && nextMessage?.sender === message.sender
 
         return (
           <RoomMessage

@@ -1,13 +1,14 @@
 import { useAtomValue } from 'jotai'
 import React, { useMemo } from 'react'
 
+import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMembershipBadge from '@holi/chat/src/components/RoomMessageList/RoomMembershipBadge'
 import RoomTextMessage from '@holi/chat/src/components/RoomMessageList/RoomTextMessage'
-import { type ChatMessage, roomMembersAtomCreator } from '@holi/chat/src/store'
+import { roomMembersAtomCreator } from '@holi/chat/src/store'
 import type { User } from '@holi/core/screens/userprofile/types'
 
 interface Props {
-  message: ChatMessage
+  message: ChatRoomMessage
   roomId: string
   holiUser?: User
   showAvatar?: boolean
