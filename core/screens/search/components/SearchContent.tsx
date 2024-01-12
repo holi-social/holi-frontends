@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import createParam, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import SearchResultsList from '@holi/core/screens/search/components/SearchResultsList'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
@@ -24,7 +24,7 @@ type SearchParams = {
   filter: FilterType
 }
 
-const { useParam, useUpdateParams } = createParam<SearchParams>()
+const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 
 const validateFilter = (value: FilterType): FilterType => {
   return filterTypes.includes(value) ? value : 'all'

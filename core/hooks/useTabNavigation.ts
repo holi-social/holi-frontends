@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import createParam, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 
 export type TabNavigationParams = {
   tab?: string
@@ -11,7 +11,7 @@ export interface TabNavigationProps {
   determineInitialTab?: () => string | undefined
 }
 
-const { useParam, useUpdateParams } = createParam<TabNavigationParams>()
+const { useParam, useUpdateParams } = createParamHooks<TabNavigationParams>()
 
 const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigationProps) => {
   const getTabIndexForName = useCallback(

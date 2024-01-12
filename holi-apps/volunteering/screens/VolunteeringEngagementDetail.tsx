@@ -14,7 +14,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ShareBox } from '@holi/icons/src/generated'
@@ -110,7 +110,7 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
 export type VolunteeringEngagementDetailParams = {
   engagementId: string
 }
-const { useParam } = createParam<VolunteeringEngagementDetailParams>()
+const { useParam } = createParamHooks<VolunteeringEngagementDetailParams>()
 
 type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }

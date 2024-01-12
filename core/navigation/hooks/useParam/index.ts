@@ -116,7 +116,7 @@ export const webReplaceQueryConfig = { web: { replace: true } }
  * is only replaced by the setter of `useParam` if an already present
  * query parameter is changed.
  */
-const createParam = <Props extends Record<string, unknown> = Record<string, string>>() => {
+const createParamHooks = <Props extends Record<string, unknown> = Record<string, string>>() => {
   const useParam = <
     Name extends keyof Props,
     NullableUnparsedParsedType extends Props[Name] | undefined = Props[Name] | undefined,
@@ -264,4 +264,4 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
   }
 }
 
-export default createParam
+export default createParamHooks

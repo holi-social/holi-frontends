@@ -1,4 +1,4 @@
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 
 type Parameters = { [key: string]: unknown }
 
@@ -11,7 +11,7 @@ const mockSetParam = jest.fn()
  *  jest.mock('@holi/core/navigation/hooks/useParam')
  */
 export const mockParameters = (parameters: Parameters = {}) => {
-  const { useParam, useUpdateParams } = createParam()
+  const { useParam, useUpdateParams } = createParamHooks()
   const mockUseParam = jest.mocked(useParam)
   mockUseParam.mockImplementation((paramName: keyof Parameters) => {
     return [parameters[paramName], mockSetParam]

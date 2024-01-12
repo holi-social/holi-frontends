@@ -16,7 +16,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
@@ -45,7 +45,7 @@ export type CommentInputPageParams = {
 type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const CommentInputPage: React.VFC<ScreenProps> = () => {
-  const { useParam } = createParam<CommentInputPageParams>()
+  const { useParam } = createParamHooks<CommentInputPageParams>()
 
   const [insightId] = useParam('insightId')
   const [spaceIdOrName] = useParam('spaceIdOrName')

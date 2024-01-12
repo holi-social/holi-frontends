@@ -7,7 +7,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
@@ -20,7 +20,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
 }
-const { useParam } = createParam<SpaceVideoCallListParams>()
+const { useParam } = createParamHooks<SpaceVideoCallListParams>()
 
 const SpaceVideoCallList = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)

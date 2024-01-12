@@ -4,7 +4,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
@@ -20,7 +20,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export type SpaceTasksParams = {
   spaceIdOrName: string
 }
-const { useParam } = createParam<SpaceTasksParams>()
+const { useParam } = createParamHooks<SpaceTasksParams>()
 
 const SpaceTasks = () => {
   const { t } = useTranslation()

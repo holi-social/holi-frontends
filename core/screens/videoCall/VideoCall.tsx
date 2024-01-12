@@ -10,14 +10,14 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { vars } from '@holi/ui/styles/globalVars'
 
-const { useParam } = createParam<VideoCallParams>()
+const { useParam } = createParamHooks<VideoCallParams>()
 
 const VideoCall: React.FC = () => {
   const [roomName] = useParam('roomName')

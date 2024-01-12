@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
 import {
@@ -54,7 +54,7 @@ const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPre
 }
 
 const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }) => {
-  const { useParam } = createParam<SpaceDetailsParams>()
+  const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)

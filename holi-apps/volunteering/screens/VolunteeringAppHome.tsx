@@ -10,7 +10,7 @@ import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesA
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -25,7 +25,7 @@ import VolunteeringFilterForm from '@holi-apps/volunteering/components/Volunteer
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
+const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilters>()
 
 const VolunteeringAppHome = () => {
   const { displayError } = useErrorHandling()

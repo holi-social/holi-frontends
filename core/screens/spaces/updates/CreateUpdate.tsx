@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -17,7 +17,7 @@ export type CreateUpdateParams = {
   postId?: string
 }
 
-const { useParam } = createParam<CreateUpdateParams>()
+const { useParam } = createParamHooks<CreateUpdateParams>()
 
 const CreateSpaceUpdate = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')

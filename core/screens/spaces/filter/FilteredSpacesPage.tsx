@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 
-import createParam, {
+import createParamHooks, {
   arrayParamConfig,
   singleParamConfig,
   webReplaceQueryConfig,
@@ -15,7 +15,7 @@ export type FilteredSpacesPageParams = {
   skill?: string[]
 }
 
-const { useParam, useUpdateParams } = createParam<FilteredSpacesPageParams>()
+const { useParam, useUpdateParams } = createParamHooks<FilteredSpacesPageParams>()
 
 const FilteredSpacesPage = () => {
   const [topicSlug] = useParam('topic', singleParamConfig)

@@ -4,7 +4,7 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
@@ -22,7 +22,7 @@ export type SpaceOnboardingParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<SpaceOnboardingParams>()
+const { useParam } = createParamHooks<SpaceOnboardingParams>()
 
 const SpaceOnboarding = () => {
   const { t } = useTranslation()

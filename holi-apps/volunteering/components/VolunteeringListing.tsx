@@ -41,12 +41,7 @@ type VolunteeringListingProps = {
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.FC<VolunteeringListingProps> = ({
-  filters = {},
-  isFiltering,
-  clearFilters,
-  loadingFilters,
-}) => {
+const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingFilters }: VolunteeringListingProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()

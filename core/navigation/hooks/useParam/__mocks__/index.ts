@@ -1,9 +1,9 @@
 const mockUseParam = jest.fn()
 const mockUseUpdateParams = jest.fn()
 
-const createParam = () => ({
+const createParamHooks = () => ({
   useParam: mockUseParam,
   useUpdateParams: () => mockUseUpdateParams,
 })
 
-export default createParam
+export default createParamHooks

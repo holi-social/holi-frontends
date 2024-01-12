@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import createParam, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 
 export type RefreshOnNavigationParams = {
   refresh?: string
@@ -11,7 +11,7 @@ export interface RefreshOnNavigationProps {
   onRefresh: () => Promise<void>
 }
 
-const { useParam, useUpdateParams } = createParam<RefreshOnNavigationParams>()
+const { useParam, useUpdateParams } = createParamHooks<RefreshOnNavigationParams>()
 
 const useRefreshOnNavigation = ({ initialized = false, onRefresh }: RefreshOnNavigationProps) => {
   const [refreshParam] = useParam('refresh')

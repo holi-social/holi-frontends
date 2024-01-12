@@ -11,7 +11,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -29,7 +29,7 @@ export type DonationsAppHomeParams = {
   location?: string
 }
 
-const { useParam, useUpdateParams } = createParam<DonationsAppHomeParams>()
+const { useParam, useUpdateParams } = createParamHooks<DonationsAppHomeParams>()
 
 const DonationsAppHome = () => {
   const { t } = useTranslation()

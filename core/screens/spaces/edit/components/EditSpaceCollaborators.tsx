@@ -9,7 +9,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
@@ -43,7 +43,7 @@ export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   userId?: string
 }
 
-const { useParam } = createParam<EditSpaceCollaboratorsParams>()
+const { useParam } = createParamHooks<EditSpaceCollaboratorsParams>()
 
 const PAGE_SIZE = 20
 const TAB_COLLABORATORS = 0

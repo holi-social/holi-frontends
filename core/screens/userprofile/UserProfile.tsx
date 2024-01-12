@@ -17,7 +17,7 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType } from '@holi/core/queries'
@@ -47,7 +47,7 @@ export type UserProfileParams = {
   userId: string
 }
 
-const { useParam } = createParam<UserProfileParams>()
+const { useParam } = createParamHooks<UserProfileParams>()
 
 const UserProfile = () => {
   const { t } = useTranslation()

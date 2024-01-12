@@ -18,7 +18,7 @@ import {
 import { isWeb } from '@holi/chat/src/utils'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -102,7 +102,7 @@ type ChatHomeContentParams = {
   activeTab: string
 }
 
-const { useParam } = createParam<ChatHomeContentParams>()
+const { useParam } = createParamHooks<ChatHomeContentParams>()
 
 const tabRoomAtomsRecordAtom = atom<Record<string, ChatRoomAtom[]>>((get) => {
   const roomAtoms = get(roomAtomsAtom)

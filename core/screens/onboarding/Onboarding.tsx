@@ -8,13 +8,13 @@ import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { OnboardingStateValue, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const { useParam } = createParam()
+const { useParam } = createParamHooks()
 
 export enum RegistrationStep {
   'PRE_REGISTRATION_LOGIN',
