@@ -4,6 +4,12 @@ type Parameters = { [key: string]: unknown }
 
 const mockSetParam = jest.fn()
 
+/**
+ *  Allows mocking query parameters and provides access to the mocked functions.
+ *
+ *  Requires mock of `useParam`:
+ *  jest.mock('@holi/core/navigation/hooks/useParam')
+ */
 export const mockParameters = (parameters: Parameters = {}) => {
   const { useParam, useUpdateParams } = createParam()
   const mockUseParam = jest.mocked(useParam)
