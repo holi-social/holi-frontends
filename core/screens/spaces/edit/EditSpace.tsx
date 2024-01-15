@@ -55,6 +55,17 @@ enum EditFields {
   LINKS = 'LINKS',
 }
 
+const editTitles: Record<EditFields, string> = {
+  [EditFields.NAME]: 'spaces.input.nameAndGoal.title',
+  [EditFields.TOPICS]: 'spaces.input.topics.title',
+  [EditFields.SDGS]: 'spaces.input.sdgs.title',
+  [EditFields.COVER_IMAGE]: 'spaces.edit.mainImage',
+  [EditFields.AVATAR]: 'spaces.edit.avatar',
+  [EditFields.LOCATION]: 'spaces.input.location.title',
+  [EditFields.CONTACT]: 'space.input.contact.title',
+  [EditFields.LINKS]: 'spaces.input.publicLinks.manage.title',
+}
+
 export type EditSpaceParams = {
   spaceIdOrName: string
   onboarding: string
@@ -338,6 +349,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           </HoliButton>
         </View>
         <HoliModal
+          heading={editField ? t(editTitles[editField]) : ''}
           show={visible}
           label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
           onDismiss={handleModalClose}
