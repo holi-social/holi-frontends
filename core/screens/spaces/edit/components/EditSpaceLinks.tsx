@@ -75,9 +75,6 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
 
   return (
     <EditSpaceModal onSave={onSave} scrollable={false}>
-      <HoliText style={styles.title} size="extralarge">
-        {t('spaces.input.publicLinks.manage.title')}
-      </HoliText>
       <HoliText style={styles.subTitle}>{t('spaces.input.publicLinks.manage.subtitle')}</HoliText>
       <View style={styles.buttonContainer}>
         <HoliButton
@@ -127,12 +124,9 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: colors.background20,
   },
-  title: {
-    marginTop: 40,
-  },
   subTitle: {
+    marginTop: 24,
     marginBottom: 32,
-    marginTop: 16,
     color: colors.foreground20,
   },
   modal: {
