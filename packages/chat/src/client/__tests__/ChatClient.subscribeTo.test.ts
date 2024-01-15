@@ -21,7 +21,7 @@ import {
   getListenerForMatrixEvent,
 } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent, MembershipStatus, RoomUpdatesType, SpaceRoom } from '@holi/chat/src/client/types'
+import { ChatRoomEvent, MembershipStatus, RoomUpdatesType } from '@holi/chat/src/client/types'
 import { createChatMessage, createInitialRoom } from '@holi/chat/src/client/utils'
 
 jest.mock('matrix-js-sdk')
@@ -138,16 +138,13 @@ describe('ChatClient', () => {
         // configure event
         const spaceRoomSharedDataEventMock = createMatrixEventMock(ChatRoomEvent.SharedData)
         const content = { roomId: 'room', holiSpaceId: 'holi-space-id' }
-        spaceRoomSharedDataEventMock.event = { content }
+        ;(spaceRoomSharedDataEventMock.event as Partial<IEvent>) = { content }
 
         // trigger event
         await listener(spaceRoomSharedDataEventMock)
 
         expect(callback).toBeCalledTimes(1)
-        const callbackArgument: SpaceRoom = callback.mock.calls[0][0]
-        expect(callbackArgument.type).toBe('space')
-        expect(callbackArgument.content).toBe(content)
-        expect(callbackArgument.room).toBe(room)
+        expect(callback).toBeCalledWith({ type: 'space', content, room })
       })
     })
   })
