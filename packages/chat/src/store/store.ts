@@ -194,7 +194,7 @@ export const spaceRoomIdToChildRoomsAtom = atom<Record<string, ChatRoomAtom[]>>(
  *
  * IMPORTANT! Do not use this atom to read/access rooms.
  */
-const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
+export const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
   switch (args.type) {
     case RoomAtomsActionType.CREATE: {
       const chatRoomList = args.roomList.reduce<ChatRoom[]>(
