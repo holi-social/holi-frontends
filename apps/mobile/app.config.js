@@ -133,6 +133,10 @@ export default {
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
+        // see https://docs.expo.dev/build-reference/variables/#built-in-environment-variables
+        buildId: process.env.EAS_BUILD_ID,
+        profile: process.env.EAS_BUILD_PROFILE,
+        gitCommitHash: process.env.EAS_BUILD_GIT_COMMIT_HASH,
       },
       e2e: {
         userId: process.env.E2E_USER_ID, // not required as not used in production
