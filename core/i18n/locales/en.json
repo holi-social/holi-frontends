@@ -633,6 +633,7 @@
   "spaces.discover.others": "Other Spaces that might be interesting for you",
   "spaces.discover.welcome": "Welcome to Spaces",
   "spaces.edit.avatar": "Change logo",
+  "spaces.edit.avatar.description": "The logo will help others associate your Space to your group or organisation.",
   "spaces.edit.avatar.add": "Add logo",
   "spaces.edit.avatar.requirements": ".jpg or .png file up to 8 MB",
   "spaces.edit.close": "Finish editing",

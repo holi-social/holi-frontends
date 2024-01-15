@@ -40,7 +40,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave}>
       <SpaceImageForm
-        title={t('spaces.edit.avatar')}
+        description={t('spaces.edit.avatar.description')}
         onUploadImage={handleImageUpload}
         image={avatar}
         blurhash={space.avatarBlurhash}
