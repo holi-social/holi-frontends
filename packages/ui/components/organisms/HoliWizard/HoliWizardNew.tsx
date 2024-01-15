@@ -4,7 +4,7 @@ import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
+import HoliProgressBar, { useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
@@ -97,10 +97,11 @@ const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID }) => {
   const { currentStepOptions, onSkipPress } = useWizard()
   const { skippable } = currentStepOptions
   const progress = ((currentStep + 1) / stepCount) * 100
+  const { progressWidth } = useProgressBar(progress)
 
   return (
     <View style={[mixins.container, styles.progressBarContainer]}>
-      <HoliProgressBar progress={progress} />
+      <HoliProgressBar width={progressWidth} />
 
       <View style={styles.stepCountContainer}>
         <HoliText size="extrasmall" style={{ color: colors.foreground30 }}>
