@@ -55,6 +55,7 @@ export enum RouteName {
   ChangeEmailVerification = 'ChangeEmailVerification',
   HelpSettings = 'HelpSettings',
   LegalDocuments = 'LegalDocuments',
+  AboutHoliApp = 'AboutHoliApp',
   Document = 'Document',
 
   // Donation app

@@ -41,6 +41,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.ChangeEmail]: 'profile/settings/changeEmail',
             [RouteName.ChangeEmailVerification]: 'profile/settings/changeEmailVerification',
             [RouteName.LegalDocuments]: 'profile/settings/legalDocuments',
+            [RouteName.AboutHoliApp]: 'profile/settings/aboutholiapp',
             [RouteName.HelpSettings]: 'profile/settings/help',
             [RouteName.Document]: 'profile/settings/legalDocuments/document',
           },

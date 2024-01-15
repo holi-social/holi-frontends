@@ -34,6 +34,9 @@ export interface HoliJitsiConfig {
 
 export interface HoliEASConfig {
   projectId: string
+  buildId: string | undefined
+  profile: string | undefined
+  gitCommitHash: string | undefined
 }
 
 export interface HoliE2EConfig {
@@ -96,6 +99,9 @@ export const config: HoliConfig = {
   },
   eas: {
     projectId: Constants.expoConfig?.extra?.eas.projectId,
+    buildId: Constants.expoConfig?.extra?.eas.buildId,
+    profile: Constants.expoConfig?.extra?.eas.profile,
+    gitCommitHash: Constants.expoConfig?.extra?.eas.gitCommitHash,
   },
   e2e: {
     userId: Constants.expoConfig?.extra?.e2e.userId,
