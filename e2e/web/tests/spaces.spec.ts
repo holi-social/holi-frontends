@@ -19,6 +19,8 @@ test.describe('@Spaces', () => {
       browserName === 'webkit',
       'webkit fails regularly due to timing, race conditions, in a flaky way. Due to time constraints, we disabled the suite.'
     )
+    page.on('console', (msg) => console.debug('  BROWSER LOG>', msg.text(), '<'))
+
     // prepare
     await proceedAsGuest(page)
 
