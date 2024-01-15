@@ -16,10 +16,7 @@ interface EditSpaceNameAndGoalProps {
   onDismiss: () => void
 }
 
-const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
-  space,
-  onDismiss,
-}: EditSpaceNameAndGoalProps) => {
+const EditSpaceNameAndGoal = ({ space, onDismiss }: EditSpaceNameAndGoalProps) => {
   const [spaceName, setSpaceName] = useState<string>(space.title)
   const [spaceGoal, setSpaceGoal] = useState<string>(space.description)
   const [inputValid, setInputValid] = useState(true)
@@ -61,7 +58,6 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
       scrollable={false}
     >
       <SpaceNameAndGoalForm
-        title={t('spaces.input.nameAndGoal.title')}
         onChangeSpaceGoal={setSpaceGoal}
         onChangeSpaceName={setSpaceName}
         spaceGoal={spaceGoal}

@@ -16,7 +16,7 @@ type EditSpaceSDGsProps = {
   onDismiss: () => void
 }
 
-const EditSpaceSDGs: React.VFC<EditSpaceSDGsProps> = ({ space, onDismiss }: EditSpaceSDGsProps) => {
+const EditSpaceSDGs = ({ space, onDismiss }: EditSpaceSDGsProps) => {
   const [sdgs, setSdgs] = useState<Term[]>([...(space?.sdgs || [])])
   const { openToast } = useToast()
   const { sdgs: allSdgs } = useContext(SpaceTermContext)
