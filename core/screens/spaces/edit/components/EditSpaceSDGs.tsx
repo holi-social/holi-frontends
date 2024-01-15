@@ -41,7 +41,6 @@ const EditSpaceSDGs = ({ space, onDismiss }: EditSpaceSDGsProps) => {
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave}>
       <SpaceTermsInput
-        title={t('spaces.input.sdgs.title')}
         description={t('spaces.input.sdgs.description')}
         searchPlaceholder={t('spaces.input.sdgs.search')}
         selected={sdgs}

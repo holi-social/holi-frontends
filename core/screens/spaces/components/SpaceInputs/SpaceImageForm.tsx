@@ -144,13 +144,13 @@ export default SpaceImageForm
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 24,
     paddingBottom: 42,
   },
   title: {
-    marginTop: 24,
+    marginBottom: 16,
   },
   subTitle: {
-    marginTop: 16,
     color: colors.foreground20,
   },
   imageUploadButton: {

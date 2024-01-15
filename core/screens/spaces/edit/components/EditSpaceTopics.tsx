@@ -41,7 +41,6 @@ const EditSpaceTopics: React.VFC<EditSpaceTopicsProps> = ({ space, onDismiss }: 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={!topics.length}>
       <SpaceTermsInput
-        title={t('spaces.input.topics.title')}
         description={t('spaces.input.topics.description')}
         searchPlaceholder={t('spaces.input.topics.search')}
         hint={t('spaces.input.topics.hint')}
