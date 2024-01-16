@@ -3,6 +3,7 @@ import {
   EventEmitterEvents,
   EventTimeline,
   EventTimelineSet,
+  IContent,
   MatrixClient,
   MatrixEvent,
   Room,
@@ -101,11 +102,12 @@ export const getListenerForMatrixEvent = (
   return calls[0]?.[1] // return the second argument passed into the found call
 }
 
-export const createMatrixEventMock = (type: string) => {
+export const createMatrixEventMock = (type: string, content?: IContent) => {
   const event = jest.mocked(new MatrixEvent())
 
   // event setup
   event.getType.mockReturnValue(type)
+  if (content) event.getContent.mockReturnValue(content)
 
   return event
 }
