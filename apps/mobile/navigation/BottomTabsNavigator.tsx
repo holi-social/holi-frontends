@@ -4,11 +4,12 @@ import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
+import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
+import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
@@ -87,9 +88,7 @@ const BottomTabsNavigator = () => {
         component={ChatHomeStackNavigator}
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon={focused ? Chat3Filled : Chat3} color={iconColor(focused)} />
-          },
+          tabBarIcon: ({ focused }) => <ChatBottomTabsNavigatorItem focused={focused} />,
           tabBarLabel: ({ focused }) => (
             <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
               {t('chat.title')}
