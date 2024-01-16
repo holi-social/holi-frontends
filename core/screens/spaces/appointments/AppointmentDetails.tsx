@@ -171,6 +171,11 @@ const AppointmentDetails = () => {
     }
   }
 
+  const openMap = () => {
+    if (!appointment.location) return
+    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(appointment.location)}`)
+  }
+
   return (
     <>
       <ScrollHeaderLayout.Refreshable
@@ -231,7 +236,18 @@ const AppointmentDetails = () => {
               <View style={styles.iconsContainer}>
                 <View style={styles.iconGroupContainer}>
                   <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
-                  <HoliText bold>{appointment.location}</HoliText>
+                  <HoliButton
+                    label={appointment.location}
+                    transparent
+                    inline
+                    style={styles.iconGroupWithDescription}
+                    onPress={openMap}
+                  >
+                    <View style={styles.externalLinkContainer}>
+                      <HoliText bold>{appointment.location}</HoliText>
+                      <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
+                    </View>
+                  </HoliButton>
                 </View>
               </View>
             )}
