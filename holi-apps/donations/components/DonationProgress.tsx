@@ -6,7 +6,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type DonationProgressProps = {
+interface DonationProgressProps {
   progressPercentage: number
   openAmountInCents: number
   category?: string
