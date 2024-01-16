@@ -6,7 +6,7 @@ import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { UpdateExternalLinkResponse, updateExternalLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
@@ -100,12 +100,11 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
       <SafeAreaView style={styles.safeArea}>
         <HoliKeyboardSaveView>
           <ScrollView keyboardShouldPersistTaps="handled">
-            <EditSpaceModal
+            <EditSpaceModalWithFooter
               onDismiss={onDismiss}
               onSave={onSave}
               saveButtonDisabled={saveButtonDisabled}
               scrollable={false}
-              persistFooter={true}
             >
               <SpaceLinksForm
                 title={t('spaces.input.publicLinks.edit.label')}
@@ -116,7 +115,7 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
                 validationErrorTextUrl={validationErrorTextUrl}
                 validationErrorTextName={validationErrorTextName}
               />
-            </EditSpaceModal>
+            </EditSpaceModalWithFooter>
           </ScrollView>
         </HoliKeyboardSaveView>
       </SafeAreaView>

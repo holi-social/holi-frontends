@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -39,7 +39,7 @@ const EditSpaceSDGs = ({ space, onDismiss }: EditSpaceSDGsProps) => {
   const onSave = () => updateSpace({ variables: { input: { id: space.id, sdgs: sdgs.map((sdg) => sdg.id) } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave}>
+    <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>
       <SpaceTermsInput
         description={t('spaces.input.sdgs.description')}
         searchPlaceholder={t('spaces.input.sdgs.search')}
@@ -48,7 +48,7 @@ const EditSpaceSDGs = ({ space, onDismiss }: EditSpaceSDGsProps) => {
         terms={allSdgs}
         showSortNumber
       />
-    </EditSpaceModal>
+    </EditSpaceModalWithFooter>
   )
 }
 

@@ -24,7 +24,7 @@ interface EditSpaceLinksProps {
   onDismiss: () => void
 }
 
-const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: EditSpaceLinksProps) => {
+const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
   const { openToast } = useToast()
   const [selectedLink, setSelectedLink] = useState<SpaceLink>(undefined as unknown as SpaceLink)
   const { visible: visibleEdit, show: showEdit, hide: hideEdit } = useModalState()
@@ -38,11 +38,6 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
     },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
   })
-
-  const onSave = async () => {
-    openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
-    onDismiss()
-  }
 
   const onEdit = (link: SpaceLink) => {
     setSelectedLink(link)
@@ -74,7 +69,14 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
       : {}
 
   return (
-    <EditSpaceModal onSave={onSave} scrollable={false}>
+    <EditSpaceModal
+      scrollable={false}
+      footer={
+        <HoliButton label={t('global.done')} onPress={onDismiss}>
+          {t('global.done')}
+        </HoliButton>
+      }
+    >
       <HoliText style={styles.subTitle}>{t('spaces.input.publicLinks.manage.subtitle')}</HoliText>
       <View style={styles.buttonContainer}>
         <HoliButton

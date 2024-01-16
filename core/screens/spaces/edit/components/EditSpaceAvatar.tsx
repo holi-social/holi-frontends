@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -38,7 +38,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
   const onSave = () => updateSpace({ variables: { input: { id: space.id, avatar: avatar?.blob ?? null } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave}>
+    <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>
       <SpaceImageForm
         description={t('spaces.edit.avatar.description')}
         onUploadImage={handleImageUpload}
@@ -47,7 +47,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
         currentImageUri={space.avatar}
         previewVariant="avatar"
       />
-    </EditSpaceModal>
+    </EditSpaceModalWithFooter>
   )
 }
 
