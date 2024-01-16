@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
@@ -66,14 +66,16 @@ const SettingsOverview = () => {
             style={styles.settingsItem}
             testID="btn-your-account"
           />
-          <MoreOptionItem
-            label={t('profile.settings.aboutholiapp.title')}
-            icon={Information}
-            iconRightStyle="arrow"
-            onPress={() => navigate('/profile/settings/aboutholiapp')}
-            style={styles.settingsItem}
-            testID="btn-about"
-          />
+          {Platform.OS !== 'web' && (
+            <MoreOptionItem
+              label={t('profile.settings.aboutholiapp.title')}
+              icon={Information}
+              iconRightStyle="arrow"
+              onPress={() => navigate('/profile/settings/aboutholiapp')}
+              style={styles.settingsItem}
+              testID="btn-about"
+            />
+          )}
         </View>
 
         <View style={styles.separator} />
