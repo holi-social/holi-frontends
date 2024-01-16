@@ -7,7 +7,7 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
@@ -21,7 +21,7 @@ export type SpaceStorageParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<SpaceStorageParams>()
+const { useParam } = createParamHooks<SpaceStorageParams>()
 
 const SpaceStorage: React.FC = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)

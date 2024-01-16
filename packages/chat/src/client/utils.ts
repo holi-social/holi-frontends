@@ -16,16 +16,21 @@ import {
 } from 'matrix-js-sdk'
 
 import {
+  ChatMsgMemberContent,
+  ChatMsgTextContent,
   ChatRoomEvent,
   ChatRoomMember,
+  ChatRoomMessage,
   MatrixId,
   MembershipStatus,
+  MsgContent,
   RoomType,
   RoomUpdatesType,
   type RoomWithSharedData,
   type SharedDataContent,
   type SpaceChildSharedDataContent,
 } from '@holi/chat/src/client/types'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatAdminUserId } from '@holi/core/helpers/config'
 
 /**
@@ -162,30 +167,64 @@ export const hasDuplicateMembershipEvent = (room: Room, event: MatrixEvent): boo
 }
 
 export const createChatMember = (member: RoomMember, avatarUrl: string | null): ChatRoomMember => {
-  const id = member.userId as MatrixId
-
   return {
-    id,
+    id: member.userId as MatrixId,
     name: member.name,
     avatar: avatarUrl ?? member.user?.avatarUrl,
-    membership: getChatMembership(member.membership),
-  }
-}
-
-export function getChatMembership(membership?: string) {
-  switch (membership) {
-    case 'join':
-      return MembershipStatus.Joined
-    case 'invite':
-      return MembershipStatus.Invited
-    case 'leave':
-      return MembershipStatus.Left
+    membership: MembershipStatus[member.membership as keyof typeof MembershipStatus],
   }
 }
 
 /**
  * Messages
  */
+const createMsgTextContent = (body: string): ChatMsgTextContent => ({
+  body,
+  msgtype: 'm.text',
+})
+
+export const isMsgTextContent = (content: MsgContent): content is ChatMsgTextContent => 'msgtype' in content
+
+const createMsgMemberContent = (
+  membership: string,
+  options: { displayname?: string; avatar_url?: string } = {}
+): ChatMsgMemberContent => ({
+  ...(membership?.length > 0 ? { membership } : {}),
+  ...(options.displayname ? { name: options.displayname } : {}),
+  ...(options.avatar_url ? { avatar: options.avatar_url } : {}),
+})
+
+export const isMsgMemberContent = (content: MsgContent): content is ChatMsgMemberContent => 'membership' in content
+
+export const createChatMessage = (roomId: string, event: IEvent | IRoomEvent): ChatRoomMessage => {
+  const base = {
+    id: event.event_id,
+    timestamp: event.origin_server_ts,
+    roomId,
+  }
+
+  switch (event.type) {
+    case EventType.RoomMessage:
+      return {
+        ...base,
+        type: 'message',
+        sender: event.sender,
+        content: createMsgTextContent(event.content.body),
+      }
+    case EventType.RoomMember:
+      return {
+        ...base,
+        type: 'membership',
+        content: createMsgMemberContent(event.content.membership ?? '', { displayname: event.content.displayname }),
+        sender: isIStateEvent(event) ? event.state_key : event.sender,
+      }
+    default:
+      throw new HoliError('Unexpected RoomEvent: only EventType.RoomMessage and EventType.RoomMember are supported')
+  }
+}
+
+export const isTextChatMsg = (msg: ChatRoomMessage): boolean => msg.type === 'message'
+export const isMemberChatMsg = (msg: ChatRoomMessage): boolean => msg.type === 'membership'
 
 /**
  * @description return an optional IRoomEvent for last supported message of the room.
@@ -193,8 +232,6 @@ export function getChatMembership(membership?: string) {
  * - 'space' returns undefined, because we do not show rooms of this type
  * - 'space.child' supports 'm.room.message' and 'm.room.membership' events
  * - 'private' supports only 'm.room.message' events
- * @argument room: `Room`
- * @argument roomType: `RoomType`
  */
 export const getLastMessageEvent = (room: Room, roomType: RoomType): IRoomEvent | undefined => {
   if (roomType === 'space') return undefined

@@ -41,13 +41,13 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     featureToggleName: FeatureToggleName.VIDEOCALL,
     path: '/video-call',
   },
-]
-
-export const RESOURCES_COMING_SOON: ResourceCategory[] = [
   {
     id: SPACE_COLLABORATOR_TOOLS.EVENT,
     icon: CalendarEvent,
     translationKey: 'spaces.resources.category.event',
-    path: '',
+    featureToggleName: FeatureToggleName.APPOINTMENTS,
+    path: '/appointments',
   },
 ]
+
+export const RESOURCES_COMING_SOON: ResourceCategory[] = []

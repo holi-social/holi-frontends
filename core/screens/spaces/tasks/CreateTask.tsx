@@ -7,8 +7,9 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { logDebug } from '@holi/core/helpers/logging'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
@@ -29,7 +30,7 @@ export type CreateTaskParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<CreateTaskParams>()
+const { useParam } = createParamHooks<CreateTaskParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
@@ -185,6 +186,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   // Error and loading states are handled the same way and just hide the component
   if (loadingSpace || errorSpace || !space) {
+    logDebug('CreateTask', 'return empty content', { loadingSpace, errorSpace, space })
     return <></>
   }
 

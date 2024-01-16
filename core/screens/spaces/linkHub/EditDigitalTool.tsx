@@ -8,7 +8,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
@@ -35,7 +35,7 @@ export type EditDigitalToolParams = {
   toolIdOrName: string
 }
 
-const { useParam } = createParam<EditDigitalToolParams>()
+const { useParam } = createParamHooks<EditDigitalToolParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
@@ -93,7 +93,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   useEffect(() => {
     if (!urlRegex.test(url)) {
-      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+      setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
     }

@@ -25,7 +25,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -39,7 +39,7 @@ export type ChatRoomPageParams = {
   roomId: string
 }
 
-const { useParam } = createParam<ChatRoomPageParams>()
+const { useParam } = createParamHooks<ChatRoomPageParams>()
 
 const ChatRoomView = () => {
   const { t } = useTranslation()

@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import { Atom } from 'jotai'
-import { EventTimeline, EventType, type IRoomEvent, type IStateEvent, type Room } from 'matrix-js-sdk'
+import { EventTimeline, EventType, type Room } from 'matrix-js-sdk'
 
 import {
   type MatrixId,
@@ -10,13 +10,10 @@ import {
   type SpaceRoom,
   type SpaceSharedDataContent,
 } from '@holi/chat/src/client/types'
-import { createChatMember, getLastMessageEvent, isIStateEvent } from '@holi/chat/src/client/utils'
+import { createChatMember, createChatMessage, getLastMessageEvent } from '@holi/chat/src/client/utils'
 import type {
   AtomRecordGetter,
   BaseChatRoom,
-  ChatMembershipContent,
-  ChatMessage,
-  ChatMessageContent,
   ChatRoom,
   HoliIdentity,
   PrivateChatRoom,
@@ -205,38 +202,6 @@ export function updateSpaceRoomsNotifications(chatRooms: ChatRoom[], spaceIdToCh
 
     return updateChatRoomNotificationCount(room, totalNotificationCount)
   })
-}
-
-/**
- * Messages
- *
- */
-export function createChatMessage(roomId: string, event: IRoomEvent | IStateEvent): ChatMessage {
-  const base = {
-    id: event.event_id,
-    timestamp: event.origin_server_ts,
-    room_id: roomId,
-  }
-
-  switch (event.type) {
-    case EventType.RoomMessage:
-      return {
-        ...base,
-        type: 'message',
-        content: event.content as ChatMessageContent, // TODO: Fix cast
-        sender: event.sender,
-      }
-    case EventType.RoomMember:
-      return {
-        ...base,
-        type: 'membership',
-        content: event.content as ChatMembershipContent, // TODO: Fix cast
-        sender: isIStateEvent(event) ? event.state_key : event.sender,
-      }
-
-    default:
-      throw new HoliError('Unexpected RoomEvent: only EventType.RoomMessage and EventType.RoomMember are supported')
-  }
 }
 
 /**

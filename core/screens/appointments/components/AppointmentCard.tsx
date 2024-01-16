@@ -14,6 +14,7 @@ import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/i
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import { localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -36,11 +37,17 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
     month: 'short',
   })
 
+  const endDate = localizeDate(new Date(appointment.endDateTime), currentLanguage, {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  })
+
   const startTime = localizeDate(
     new Date(appointment.startDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
@@ -50,7 +57,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
     new Date(appointment.endDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
@@ -107,7 +114,13 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
           label={appointment.title}
           onPress={goToDetailView}
           style={[styles.clickOverlay, { flex: 1 }]}
+          contentStyle={styles.titleButton}
         >
+          <HoliCalendarIcon
+            day={new Date(appointment.startDateTime).getDate()}
+            month={new Date(appointment.startDateTime).getMonth() + 1}
+            size="small"
+          />
           <HoliText ellipsizeMode="tail" bold numberOfLines={2}>
             {appointment.title}
           </HoliText>
@@ -118,7 +131,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
           <View style={styles.iconGroupContainer}>
             <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
             <HoliText style={styles.iconGroupText} size="extrasmall">
-              {date} ∙ {startTime} {t('global.until')} {endTime}
+              {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+              {endTime}
             </HoliText>
           </View>
         </View>
@@ -197,11 +211,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   detailContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 24,
-    flex: 1,
+    marginTop: 16,
   },
   detailContainerWithImage: {
     marginTop: 0,
@@ -209,6 +219,12 @@ const styles = StyleSheet.create({
   clickOverlay: {
     position: 'relative',
     pointerEvents: 'auto',
+  },
+  titleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 8,
   },
   image: {
     borderRadius: 8,
@@ -236,6 +252,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexShrink: 1,
+    flex: 1,
   },
   iconGroupIcon: {
     marginRight: 4,
@@ -243,6 +260,7 @@ const styles = StyleSheet.create({
   iconGroupText: {
     color: colors.foreground20,
     marginRight: 8,
+    maxWidth: '90%',
   },
 })
 

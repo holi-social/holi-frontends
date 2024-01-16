@@ -3,13 +3,11 @@ import { OrySessionContext, OrySessionToken, newKratosSdk } from '@holi/core/aut
 import { setUserLoggedIn, setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
 import { logDebug } from '@holi/core/helpers/logging'
 
-const kratosSdk = newKratosSdk()
-
 type SessionState = 'active' | 'expired' | 'invalid'
 
 // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token (native clients) resp. cookie (web, automatically sent)
 export const validateSessionWithOry = async (orySessionToken?: OrySessionToken): Promise<SessionState> =>
-  kratosSdk
+  newKratosSdk()
     .toSession({ xSessionToken: orySessionToken })
     .then(({ data }) => (data?.active ? 'active' : 'expired'))
     .catch(() => 'invalid')

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliProgressBar should render correctly in size medium 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+      "borderColor": "#ebebeb",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "height": 14,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "#abff8b",
+        "borderColor": "#86df54",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "height": 12,
+        "maxWidth": "100%",
+        "minWidth": 12,
+        "width": 150,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`HoliProgressBar should render correctly in size small 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+      "borderColor": "#ebebeb",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "height": 6,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "#abff8b",
+        "borderColor": "#86df54",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "height": 4,
+        "maxWidth": "100%",
+        "minWidth": 12,
+        "width": 150,
+      }
+    }
+  />
+</View>
+`;

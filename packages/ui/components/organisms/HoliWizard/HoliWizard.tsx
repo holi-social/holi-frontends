@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
@@ -36,6 +36,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const arrayChildren = Children.toArray(children)
     const stepCount = arrayChildren.length
     const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
+    const { progressWidth } = useProgressBar(progress)
 
     const wizardContext = {
       currentStep,
@@ -74,7 +75,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
       <SafeAreaView style={{ flex: 1 }} testID={testID}>
         <HoliWizardContext.Provider value={wizardContext}>
           <View style={[mixins.container, styles.progressBarContainer]}>
-            <HoliProgressBar progress={progress} />
+            <HoliProgressBar width={progressWidth} />
             <StepCount />
           </View>
 

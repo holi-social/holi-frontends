@@ -4,15 +4,14 @@ import React from 'react'
 import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
+import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { pagedInvites, pagedMembershipRequests, space } from '@holi/core/screens/spaces/__tests__/testData'
 import {
   spaceInvitesQuery,
   spaceMembersQuery,
   spaceMembershipRequestsQuery,
 } from '@holi/core/screens/spaces/details/queries'
-import EditSpaceCollaborators, {
-  EditSpaceCollaboratorsParams,
-} from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
+import EditSpaceCollaborators from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
 import { spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 
@@ -96,17 +95,7 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
 
 jest.useFakeTimers()
 
-const mockUseParam = jest.fn()
-
-jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
-  useParam: (paramName: string) => mockUseParam(paramName),
-}))
-
-const mockParams = (params: EditSpaceCollaboratorsParams = { spaceIdOrName: space.name }, setParam = jest.fn()) =>
-  mockUseParam.mockImplementation((paramName: keyof EditSpaceCollaboratorsParams) => [
-    params[paramName],
-    (value?: string) => setParam(paramName, value),
-  ])
+jest.mock('@holi/core/navigation/hooks/useParam')
 
 describe('EditSpaceCollaborators', () => {
   const spaceWithMembershipRequestsAndInvites = {
@@ -116,7 +105,7 @@ describe('EditSpaceCollaborators', () => {
   }
 
   it('renders correctly', async () => {
-    mockParams()
+    mockParameters({ spaceIdOrName: space.name })
     render(
       <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
         <EditSpaceCollaborators spaceIdOrName={space.name} />
@@ -129,7 +118,7 @@ describe('EditSpaceCollaborators', () => {
   })
 
   it('renders correctly with pending requests', async () => {
-    mockParams()
+    mockParameters({ spaceIdOrName: space.name })
     render(
       <MockedProvider mocks={createMocksForSpace(spaceWithMembershipRequestsAndInvites)} cache={createCache()}>
         <EditSpaceCollaborators spaceIdOrName={space.name} />
@@ -143,7 +132,7 @@ describe('EditSpaceCollaborators', () => {
   })
 
   it('selects the pending tab if the corresponding query parameter is passed', async () => {
-    mockParams({
+    mockParameters({
       spaceIdOrName: space.name,
       tab: 'pending',
     })
@@ -158,7 +147,7 @@ describe('EditSpaceCollaborators', () => {
   })
 
   it('opens the modal for a user request if the corresponding parameter is passed', async () => {
-    mockParams({
+    mockParameters({
       spaceIdOrName: space.name,
       tab: 'pending',
       userId: 'requesting-user-1',
@@ -175,7 +164,7 @@ describe('EditSpaceCollaborators', () => {
   })
 
   it('does not open the modal for an unknown user', async () => {
-    mockParams({
+    mockParameters({
       spaceIdOrName: space.name,
       tab: 'pending',
       userId: 'unknown-user',
@@ -190,7 +179,6 @@ describe('EditSpaceCollaborators', () => {
   })
 
   it('refreshes members and requests if the refresh parameter is passed', async () => {
-    const setParam = jest.fn()
     const cache = createCache()
 
     // Setup: send less members and membership requests after refresh
@@ -228,7 +216,7 @@ describe('EditSpaceCollaborators', () => {
     )
 
     // Initial render
-    mockParams({ spaceIdOrName: space.name }, setParam)
+    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
     const { rerender } = render(crateComponent())
 
     // Expect initial members and membership requests in the beginning
@@ -239,14 +227,14 @@ describe('EditSpaceCollaborators', () => {
       )
       await waitFor(() => expect(screen.getAllByTestId('space-invite-item').length).toBe(newInvitesCount + 1))
     })
-    expect(setParam).not.toHaveBeenCalled()
+    expect(mockUseUpdateParams).not.toHaveBeenCalled()
 
     // Pass new params and force rerender
-    mockParams({ spaceIdOrName: space.name, refresh: 'true' }, setParam)
+    mockParameters({ spaceIdOrName: space.name, refresh: 'true' })
     rerender(crateComponent())
 
     // Expect parameter to have been reset after refresh
-    await waitFor(() => expect(setParam).toHaveBeenCalledWith('refresh', undefined))
+    await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ refresh: undefined }))
 
     // Expect less members, membership requests and invites
     await act(async () => {

@@ -6,7 +6,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -147,7 +147,7 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
   },
 ]
 
-const { useParam } = createParam<SpaceRolesPermissionsParams>()
+const { useParam } = createParamHooks<SpaceRolesPermissionsParams>()
 
 const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   const { t } = useTranslation()

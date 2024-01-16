@@ -36,6 +36,7 @@ export enum RouteName {
   AboutSpaces = 'AboutSpaces',
   SpaceAppointments = 'SpaceAppointments',
   CreateAppointment = 'CreateAppointment',
+  EditAppointment = 'EditAppointment',
   AppointmentDetails = 'AppointmentDetails',
 
   // Chat Stack
@@ -54,6 +55,7 @@ export enum RouteName {
   ChangeEmailVerification = 'ChangeEmailVerification',
   HelpSettings = 'HelpSettings',
   LegalDocuments = 'LegalDocuments',
+  AboutHoliApp = 'AboutHoliApp',
   Document = 'Document',
 
   // Donation app

@@ -6,7 +6,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceInviteView from '@holi/core/screens/spaces/details/components/SpaceInviteView'
@@ -22,7 +22,7 @@ export type SpaceInviteViewParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<SpaceInviteViewParams>()
+const { useParam } = createParamHooks<SpaceInviteViewParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 

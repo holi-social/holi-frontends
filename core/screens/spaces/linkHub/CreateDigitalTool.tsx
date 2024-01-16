@@ -8,7 +8,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
@@ -31,7 +31,7 @@ export type CreateDigitalToolParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<CreateDigitalToolParams>()
+const { useParam } = createParamHooks<CreateDigitalToolParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
@@ -86,7 +86,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   useEffect(() => {
     // Check if the input URL is in a valid format
     if (!urlRegex.test(url) && url.length > 0) {
-      setUrlError(t('spaces.input.publicLinks.validation.url.invalid'))
+      setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
     }

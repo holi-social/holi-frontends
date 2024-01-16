@@ -5,6 +5,7 @@ import { Image as ReactNativeImage } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
 import { PermissionsType } from '@holi/core/screens/appointments/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -16,6 +17,7 @@ import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTime
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
@@ -66,11 +68,14 @@ export interface AppointmentInputFormProps {
   endMinutes?: string
   permissionType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
-  thumbnail?: HoliImageInfo
+  thumbnail?: HoliImageInfo | null // null is for choosing to remove an image from an appointment and keeping it without image
   thumbnailBlurhash?: string
   geolocation?: GeolocationPoint
   selectedLocation?: GeolocationSuggestion
+  url?: string
+  additionalInfo?: string
   currentThumbnail?: string
+  currentLocation?: string
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
@@ -81,9 +86,11 @@ export interface AppointmentInputFormProps {
   onChangeStartMinutes: (_: string) => void
   onChangeEndMinutes: (_: string) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
-  onChangeThumbnail: (_: HoliImageInfo | undefined) => void
+  onChangeThumbnail: (_: HoliImageInfo | undefined | null) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
+  onChangeUrl: (_: string) => void
+  onChangeAdditionalInfo: (_: string) => void
   fieldErrors?: TranslatedFieldErrors
   isAdmin?: boolean
 }
@@ -101,7 +108,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   permissionType,
   thumbnail,
   currentThumbnail,
+  currentLocation,
   selectedLocation,
+  url,
+  additionalInfo,
   onChangeTitle,
   onChangeDescription,
   onChangeInviteOnly,
@@ -114,6 +124,8 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   onChangePermissionType,
   onChangeThumbnail,
   onChangeSelectedLocation,
+  onChangeUrl,
+  onChangeAdditionalInfo,
   fieldErrors = {},
   isAdmin,
 }: AppointmentInputFormProps) => {
@@ -231,7 +243,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         testID="appointment-title"
         isRequired
         showCharacterCount
-        maxNoOfCharacters={40}
+        maxNoOfCharacters={128}
         inputProps={{ autoFocus: true }}
       />
 
@@ -261,9 +273,19 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           }}
           valueDate={startDate}
           valueHours={startHours}
-          onChangeHours={onChangeStartHours}
           valueMinutes={startMinutes}
-          onChangeMinutes={onChangeStartMinutes}
+          onChangeHours={(newStartHours) => {
+            if (`${endHours || '00'}:${endMinutes || '00'}` < `${newStartHours || '00'}:${startMinutes} || '00'`) {
+              onChangeEndHours(numberToStringWithPad(+newStartHours))
+            }
+            onChangeStartHours(newStartHours)
+          }}
+          onChangeMinutes={(newStartMinutes) => {
+            if (`${endHours || '00'}:${endMinutes || '00'}` < `${startHours || '00'}:${newStartMinutes || '00'}`) {
+              onChangeEndMinutes(numberToStringWithPad(+newStartMinutes))
+            }
+            onChangeStartMinutes(newStartMinutes)
+          }}
         />
 
         <HoliDateAndTimePicker
@@ -277,9 +299,19 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           }}
           valueDate={endDate}
           valueHours={endHours}
-          onChangeHours={onChangeEndHours}
           valueMinutes={endMinutes}
-          onChangeMinutes={onChangeEndMinutes}
+          onChangeHours={(newEndHours) => {
+            if (`${newEndHours || '00'}:${endMinutes || '00'}` < `${startHours || '00'}:${startMinutes || '00'}`) {
+              onChangeStartHours(numberToStringWithPad(+newEndHours))
+            }
+            onChangeEndHours(newEndHours)
+          }}
+          onChangeMinutes={(newEndMinutes) => {
+            if (`${endHours || '00'}:${newEndMinutes || '00'}` < `${startHours || '00'}:${startMinutes || '00'}`) {
+              onChangeStartMinutes(numberToStringWithPad(+newEndMinutes))
+            }
+            onChangeEndMinutes(newEndMinutes)
+          }}
           style={styles.marginSeparator}
         />
       </View>
@@ -289,12 +321,20 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           label={t('spaces.input.location.label')}
           placeholder={t('spaces.input.location.placeholder')}
           selected={selectedLocation}
-          value={selectedLocation?.label}
+          value={selectedLocation?.label || currentLocation}
           id="appointment-location"
           testID="appointment-location"
           onChange={onChangeSelectedLocation}
           onSubmit={onChangeSelectedLocation}
           style={{ zIndex: 1 }}
+        />
+
+        <AppointmentVideoCallLinkInput
+          url={url}
+          additionalInfo={additionalInfo}
+          onChangeAdditionalInfo={onChangeAdditionalInfo}
+          onChangeUrl={onChangeUrl}
+          style={styles.videoCallItem}
         />
       </View>
 
@@ -311,7 +351,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           showCharacterCount
           noOfVisibleLines={4}
           maxNoOfVisibleLines={8}
-          maxNoOfCharacters={600}
+          maxNoOfCharacters={5000}
         />
         <View style={[styles.thumbnailContainer, styles.marginSeparator]}>
           {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
@@ -351,10 +391,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
               </HoliText>
             </HoliImagePicker>
 
-            {thumbnail?.uri && (
+            {(!!thumbnail?.uri || currentThumbnail) && (
               <HoliButton
                 label={t('spaces.appointments.input.coverImage.remove.button.label')}
-                onPress={() => onChangeThumbnail(undefined)}
+                onPress={() => onChangeThumbnail(null)}
                 testID="create-space-remove-image-btn"
                 style={styles.imageUploadButton}
                 inline
@@ -399,6 +439,9 @@ const styles = StyleSheet.create({
     borderTopColor: colors.background30,
     paddingTop: 24,
     marginTop: 32,
+  },
+  videoCallItem: {
+    marginTop: 12,
   },
   thumbnailTitle: {
     marginTop: 56,

@@ -6,7 +6,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
@@ -24,7 +24,7 @@ export type TaskDetailsParams = {
   taskId: string
 }
 
-const { useParam } = createParam<TaskDetailsParams>()
+const { useParam } = createParamHooks<TaskDetailsParams>()
 
 const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)

@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
@@ -26,7 +26,7 @@ export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<SpaceOnboardingStepsParams>()
+const { useParam } = createParamHooks<SpaceOnboardingStepsParams>()
 
 const SpaceOnboardingSteps = () => {
   const { t } = useTranslation()

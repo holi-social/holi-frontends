@@ -28,7 +28,7 @@ import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingV
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -50,7 +50,7 @@ export type ChangePasswordParams = {
   webview: string
 }
 
-const { useParam } = createParam<ChangePasswordParams>()
+const { useParam } = createParamHooks<ChangePasswordParams>()
 
 const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
   const [flow] = useParam('flow')

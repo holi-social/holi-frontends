@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
@@ -9,7 +9,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { AccountCircle, FolderLock, Help, LogoutBox, Notification3 } from '@holi/icons/src/generated'
+import { AccountCircle, FolderLock, Help, Information, LogoutBox, Notification3 } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -66,6 +66,16 @@ const SettingsOverview = () => {
             style={styles.settingsItem}
             testID="btn-your-account"
           />
+          {Platform.OS !== 'web' && (
+            <MoreOptionItem
+              label={t('profile.settings.aboutholiapp.title')}
+              icon={Information}
+              iconRightStyle="arrow"
+              onPress={() => navigate('/profile/settings/aboutholiapp')}
+              style={styles.settingsItem}
+              testID="btn-about"
+            />
+          )}
         </View>
 
         <View style={styles.separator} />

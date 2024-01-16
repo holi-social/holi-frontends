@@ -4,7 +4,7 @@ import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AllTools from '@holi/core/screens/spaces/linkHub/components/AllTools'
@@ -19,7 +19,7 @@ export type LinkHubParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<LinkHubParams>()
+const { useParam } = createParamHooks<LinkHubParams>()
 
 const LinkHub = () => {
   const { t } = useTranslation()

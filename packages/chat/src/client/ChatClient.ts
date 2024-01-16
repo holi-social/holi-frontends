@@ -27,15 +27,17 @@ import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { configurePusher } from '@holi/chat/src/client/pusher'
 import {
+  type ChatMsgTextContent,
   ChatRoomEvent,
   type ChatRoomMember,
+  type ChatRoomMessage,
   type CreateRoomOptions,
   type MatrixId,
   MembershipStatus,
   type MxMessagesResponse,
   type NotificationCount,
   type RoomId,
-  RoomUpdatesContent,
+  type RoomUpdatesContent,
   RoomUpdatesType,
   type RoomWithSharedData,
   type SharedDataContent,
@@ -43,9 +45,9 @@ import {
 import {
   addRoomEventListener,
   createChatMember,
+  createChatMessage,
   createInitialRoom,
   filterMessagesChunk,
-  hasDuplicateMembershipEvent,
   hasRoomUpdatesType,
   isAdminChangeToMembership,
   isEventWithSharedData,
@@ -58,7 +60,6 @@ import {
   isSpaceRoom,
   setRoomsListeners,
 } from '@holi/chat/src/client/utils'
-import type { ChatMessageContent } from '@holi/chat/src/store'
 import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
@@ -293,12 +294,6 @@ export default class ChatClient {
     return { ...rest, chunk: filterMessagesChunk(chunk) }
   }
 
-  public getRoomNotificationCount(id: string): number {
-    const room = this.mxClient.getRoom(id)
-    if (room === null) return 0
-    return room.getUnreadNotificationCount()
-  }
-
   // This are the rooms on initial loading
   public getRooms(): Room[] {
     return this.mxClient.getRooms()
@@ -319,7 +314,7 @@ export default class ChatClient {
     }, Promise.resolve([]))
   }
 
-  public getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
+  private getRoomSharedData = async (roomId: string): Promise<SharedDataContent | null> => {
     const stateEventList = await this.mxClient.roomState(roomId)
 
     const sharedDataEvent = stateEventList.find(isEventWithSharedData)
@@ -372,7 +367,7 @@ export default class ChatClient {
     if (isChatRoom(roomOrEvent)) {
       const userId = this.getUserId()
       if (!userId) return false
-      return roomOrEvent.hasMembershipState(userId, MembershipStatus.Invited.toLowerCase())
+      return roomOrEvent.hasMembershipState(userId, MembershipStatus.invite)
     } else {
       const pushAction = roomOrEvent.getPushActions()
       if (!pushAction?.notify) return false
@@ -382,7 +377,7 @@ export default class ChatClient {
 
       const content = roomOrEvent.getContent()
 
-      return content.membership === MembershipStatus.Invited.toLowerCase()
+      return content.membership === MembershipStatus.invite
     }
   }
 
@@ -406,7 +401,7 @@ export default class ChatClient {
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {
-    const content: ChatMessageContent = {
+    const content: ChatMsgTextContent = {
       body: text,
       msgtype: 'm.text',
     }
@@ -418,10 +413,7 @@ export default class ChatClient {
 
   public async setLatestMessagesAsRead(roomId: string): Promise<void> {
     const room = this.mxClient.getRoom(roomId)
-    const userId = this.mxClient.getUserId()
 
-    // If the user is not logged-in we do an early return
-    if (!userId) return
     if (!room || room.getUnreadNotificationCount() === 0) return
 
     const events = room.getLiveTimeline().getEvents()
@@ -463,7 +455,6 @@ export default class ChatClient {
   ): (() => void) | void {
     const membershipHandler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
-      const avatarUrl = member.getAvatarUrl(this.mxClient.getHomeserverUrl(), 500, 500, 'scale', true, true)
 
       // If the creator of the DM room is the last one we forget (delete) entirely the room
       // Example usage when the invited member in a two people DM rejects an invitation.
@@ -473,6 +464,7 @@ export default class ChatClient {
           .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
       }
 
+      const avatarUrl = member.getAvatarUrl(this.mxClient.getHomeserverUrl(), 500, 500, 'scale', true, true)
       callback(roomState.roomId, createChatMember(member, avatarUrl), event.getContent().membership)
     }
 
@@ -572,35 +564,27 @@ export default class ChatClient {
     })
   }
 
-  public subscribeToRoomMessages(callback: (event: MatrixEvent) => void): () => void {
-    const rooms = this.mxClient.getRooms()
-
-    // The handler to attach for each room listening
-    const handleIncomingMessages = (room: Room) => (event: MatrixEvent) => {
+  public subscribeToRoomMessages(callback: (roomId: string, chatRoomMessage: ChatRoomMessage) => void): () => void {
+    const messagesListener = (event: MatrixEvent, room: Room | undefined) => {
+      if (!room) return
       if (room.roomId !== event.getRoomId()) return
       if (!isMessageEvent(event) && !isMembershipEvent(event)) return
       if (isMembershipEvent(event) && !isJoinOrLeaveEvent(event)) return
-      if (hasDuplicateMembershipEvent(room, event)) return
 
-      callback(event)
+      callback(room.roomId, createChatMessage(room.roomId, event.getEffectiveEvent()))
     }
 
-    // Partially pass the arguments we need in order to set the listeners.
-    const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, handleIncomingMessages)
-    // Collects and set listeners for existing and incoming rooms.
-    const client = this.mxClient
-    return setRoomsListeners({
-      client,
-      rooms,
-      roomEvent: RoomEvent.Timeline,
-      createListener: incomingMessagesListener,
-    })
+    this.mxClient.on(RoomEvent.Timeline, messagesListener)
+
+    return () => {
+      this.mxClient.off(RoomEvent.Timeline, messagesListener)
+    }
   }
 
   /**
    * @describe In this method, we use a general room `Timeline` event emitter
    * exclusively for updating `Space -> Child` room relationships. Other
-   * subscribers who listen to the timeline should implement a  separate method.
+   * subscribers who listen to the timeline should implement a separate method.
    */
   public subscribeToSpaceRooms(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
     const timelineListener = (event: MatrixEvent) => {

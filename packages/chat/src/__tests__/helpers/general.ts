@@ -3,77 +3,111 @@ import {
   EventEmitterEvents,
   EventTimeline,
   EventTimelineSet,
+  IContent,
   MatrixClient,
   MatrixEvent,
   Room,
   RoomEvent,
   RoomMember,
+  RoomState,
   createClient,
 } from 'matrix-js-sdk'
 
-import { MutableMock } from './types'
+import { MembershipStatus } from '@holi/chat/src/client/types'
 
 export const getClientOptions = (token: string) => ({
   baseUrl: 'chat.holi.social',
   accessToken: token,
   deviceId: 'DKIEMZVXAM',
   freshLogin: true,
-  userId: '@mau:local.chat.holi.social',
+  userId: '@someone:chat.holi.social',
 })
 
-export const toMutableMockType = <T>(value: T): MutableMock<T> => value as jest.Mocked<T> as MutableMock<T>
+export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
+export const asMutable = <T>(value: T) => value as Mutable<T>
 
-export const toOriginalType = <T>(value: MutableMock<T>) => value as T
-
-export const createMatrixClientMock = (): MutableMock<MatrixClient> => {
-  const mxClient = new MatrixClient({ baseUrl: '' }) as jest.Mocked<MatrixClient>
-  const createClientMock = createClient as jest.Mock<MatrixClient>
+export const createMatrixClientMock = () => {
+  const mxClient = jest.mocked(new MatrixClient({ baseUrl: '' }))
+  const createClientMock = jest.mocked(createClient)
   createClientMock.mockReturnValue(mxClient)
 
-  const EventTimelineSetMock = EventTimelineSet as jest.MockedClass<typeof EventTimelineSet>
-  const eventTimelineSet = new EventTimelineSet(undefined) as jest.Mocked<EventTimelineSet>
+  const EventTimelineSetMock = jest.mocked(EventTimelineSet)
+  const eventTimelineSet = jest.mocked(new EventTimelineSet(undefined))
   EventTimelineSetMock.mockReturnValue(eventTimelineSet)
   eventTimelineSet.getLiveTimeline.mockReturnValue(new EventTimeline(eventTimelineSet))
 
   return mxClient
 }
 
+interface RoomMockOptions {
+  isSpaceRoom?: boolean
+  members?: RoomMember[]
+  timelineEvents?: MatrixEvent[]
+}
+
 export const createRoomMock = (
   roomId: string,
-  { isSpaceRoom = false, members = [] }: Partial<{ isSpaceRoom: boolean; members: RoomMember[] }> = {}
+  { isSpaceRoom = false, members = [], timelineEvents }: RoomMockOptions = {}
 ) => {
-  // because new Room() is a mock the arguments in constructor do not matter
-  const room = toMutableMockType(new Room(roomId, {} as MatrixClient, 'creator'))
+  const room = jest.mocked(new Room('', {} as MatrixClient, ''))
 
   // room setup
-  room.roomId = roomId
+  asMutable(room).roomId = roomId
   room.isSpaceRoom.mockReturnValue(isSpaceRoom)
   room.getMembers.mockReturnValue(members)
+  if (timelineEvents) {
+    const eventTimeline = new EventTimeline({} as EventTimelineSet) as jest.Mocked<EventTimeline>
+    room.getLiveTimeline.mockReturnValue(eventTimeline)
+    eventTimeline.getEvents.mockReturnValue(timelineEvents)
+  }
 
   return room
 }
 
-export const createRoomMemberMock = (userId: string) => {
-  // because new RoomMember() is a mock the arguments in constructor do not matter
-  const roomMember = toMutableMockType(new RoomMember('dummyRoomId', userId))
+export const createRoomStateMock = (roomId: string) => {
+  // because new Room() is a mock the arguments in constructor do not matter
+  const roomState = jest.mocked(new RoomState(''))
 
-  roomMember.userId = userId
+  // room setup
+  asMutable(roomState).roomId = roomId
+
+  return roomState
+}
+
+export const createRoomMemberMock = (
+  userId: string,
+  name?: string,
+  membership?: MembershipStatus,
+  avatarUrl?: string
+) => {
+  // because new RoomMember() is a mock the arguments in constructor do not matter
+  const roomMember = jest.mocked(new RoomMember('', ''))
+
+  asMutable(roomMember).userId = userId
+  if (name) roomMember.name = name
+  if (membership) roomMember.membership = membership
+  if (avatarUrl) roomMember.getAvatarUrl.mockReturnValue(avatarUrl)
 
   return roomMember
 }
 
 export const getListenerForMatrixEvent = (
   event: EmittedEvents | EventEmitterEvents | RoomEvent,
-  mxClientOrRoom: MutableMock<MatrixClient> | MutableMock<Room>
+  mxClientOrRoom: jest.Mocked<MatrixClient> | jest.Mocked<Room>,
+  functionName?: string // additionally filter for listener function name, when more listeners are registered for the same event
 ) => {
-  return mxClientOrRoom.on.mock.calls.find(([e]) => e === event)?.[1]
+  // filter the calls where the first parameter is the passed in event
+  let calls = mxClientOrRoom.on.mock.calls.filter(([e]) => e === event)
+  if (functionName) calls = calls.filter(([, fn]) => fn.name === functionName) // in addition filter for correct functionName
+  return calls[0]?.[1] // return the second argument passed into the found call
 }
 
-export const createMatrixEventMock = (type: string) => {
-  const event = toMutableMockType(new MatrixEvent())
+export const createMatrixEventMock = (type: string, content?: IContent) => {
+  const event = jest.mocked(new MatrixEvent())
 
   // event setup
   event.getType.mockReturnValue(type)
+  if (content) event.getContent.mockReturnValue(content)
 
   return event
 }

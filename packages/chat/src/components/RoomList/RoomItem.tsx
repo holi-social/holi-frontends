@@ -3,8 +3,9 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import type { ChatRoomMessage } from '@holi/chat/src/client/types'
+import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'
 import {
-  type ChatMessage,
   type ChatRoomAtom,
   chatPartnerAtomCreator,
   getHoliUserForChatMember,
@@ -75,32 +76,30 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
     )
   }
 
-  const getChatMessageText = (message: ChatMessage, isSpaceRoom: boolean, userName = ''): string | null => {
-    switch (message.type) {
-      case 'message':
-        return (isSpaceRoom ? `${userName}: ` : ' ') + message.content.body
-
-      case 'membership': {
-        switch (message.content.membership) {
-          case 'join':
-            return t('chat.room.lastMessage.membership.join', { user: userName })
-          case 'leave':
-            return t('chat.room.lastMessage.membership.leave', { user: userName })
-          default:
-            return null
-        }
-      }
-
-      default:
-        return null
+  const getChatMessage = (message: ChatRoomMessage, userName: string, isSpaceRoom = false): string | null => {
+    if (isMsgTextContent(message.content)) {
+      return (isSpaceRoom ? `${userName}: ` : ' ') + message.content.body
     }
+
+    if (isMsgMemberContent(message.content)) {
+      switch (message.content.membership) {
+        case 'join':
+          return t('chat.room.lastMessage.membership.join', { user: userName })
+        case 'leave':
+          return t('chat.room.lastMessage.membership.leave', { user: userName })
+        default:
+          return null
+      }
+    }
+
+    return null
   }
 
   return (
     <HoliLink href={`/chat/rooms/${roomId}`} label={roomName} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
-          {/* View bellow is used to position message indicator regarding the HoliAvatar */}
+          {/* View below is used to position message indicator regarding the HoliAvatar */}
           <View>
             {isSpaceRoom ? (
               <HoliAvatar
@@ -149,9 +148,13 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
                 {t('chat.invitation.newconversation')}
               </HoliText>
             )}
-            {lastMessage && (
+            {lastMessage ? (
               <HoliText numberOfLines={1} color="gray300">
-                {getChatMessageText(lastMessage, isSpaceRoom, lastMessageHoliUser?.fullName)}
+                {getChatMessage(lastMessage, lastMessageHoliUser?.fullName ?? '', isSpaceRoom)}
+              </HoliText>
+            ) : (
+              <HoliText numberOfLines={1} color="gray300">
+                {t('chat.room.noMessages')}
               </HoliText>
             )}
           </View>

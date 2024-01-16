@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { DeleteAppointmentResponse, deleteAppointmentMutation } from '@holi/core/screens/appointments/mutations'
-import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type UseDeleteAppointment = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
@@ -41,12 +40,7 @@ const useDeleteAppointment = ({
           appointmentId: id,
           spaceId,
         }),
-      refetchQueries: [
-        {
-          query: appointmentsBySpaceIdQuery,
-          variables: { spaceId: spaceId, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
-        },
-      ],
+      refetchQueries: ['Appointments'],
     }
   )
 

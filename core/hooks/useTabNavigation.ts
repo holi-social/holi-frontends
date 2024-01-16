@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 
 export type TabNavigationParams = {
   tab?: string
@@ -11,7 +11,7 @@ export interface TabNavigationProps {
   determineInitialTab?: () => string | undefined
 }
 
-const { useParam, useUpdateParams } = createParam<TabNavigationParams>()
+const { useParam, useUpdateParams } = createParamHooks<TabNavigationParams>()
 
 const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigationProps) => {
   const getTabIndexForName = useCallback(
@@ -30,12 +30,12 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
 
   const [currentTabName] = useParam('tab', singleParamConfig)
   const [initialTabIndex, setInitialTabIndex] = useState<number | undefined>()
-  const updateParams = useUpdateParams()
+  const updateParams = useUpdateParams(webReplaceQueryConfig)
 
   const selectTabWithIndex = useCallback(
     (tabIndex: number) => {
       if (tabIndex >= 0 && tabIndex < tabNamesInOrder.length) {
-        updateParams({ tab: tabNamesInOrder[tabIndex] }, { web: { replace: true } })
+        updateParams({ tab: tabNamesInOrder[tabIndex] })
       }
     },
     [tabNamesInOrder, updateParams]
@@ -50,7 +50,7 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     if (initialTabName) {
       const tabIndex = getTabIndexForName(initialTabName)
       if (tabIndex !== undefined && tabIndex >= 0) {
-        updateParams({ tab: initialTabName }, { web: { replace: true } })
+        updateParams({ tab: initialTabName })
         setInitialTabIndex(tabIndex)
       }
     }

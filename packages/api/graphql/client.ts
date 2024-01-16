@@ -116,15 +116,6 @@ export const createCache = () =>
           posts: {
             keyArgs: ['idOrName', 'visibility'],
           },
-          // TODO: Remove mock after appointments are implemented
-          appointments: {
-            read() {
-              return {
-                totalResults: 0,
-                data: [],
-              }
-            },
-          },
         },
       },
       SpacePaged: {
@@ -166,10 +157,18 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
+      AppointmentPaged: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
+          appointments: {
+            keyArgs: ['statusType'],
+          },
           lastInsights: {
             keyArgs: [],
           },

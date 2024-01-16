@@ -199,6 +199,7 @@ export const registerNewUserAccount = async (
 }
 
 export const checkAccessibility = async (page: Page) => {
+  console.debug('check accessibility for', page.url())
   await injectAxe(page)
   const axeOptions = {
     rules: {

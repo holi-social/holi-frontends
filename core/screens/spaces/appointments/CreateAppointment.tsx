@@ -10,7 +10,7 @@ import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AppointmentInputForm, { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
@@ -36,7 +36,7 @@ export type CreateAppointmentParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<CreateAppointmentParams>()
+const { useParam } = createParamHooks<CreateAppointmentParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
@@ -58,9 +58,11 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [startMinutes, setStartMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
   const [endMinutes, setEndMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
-  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
+  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined | null>()
   const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
+  const [url, setUrl] = useState('')
+  const [additionalInfo, setAdditionalInfo] = useState('')
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
@@ -120,6 +122,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
           location,
           geolocation,
+          videoCallLink: url,
+          videoCallInfo: additionalInfo,
         },
       },
     })
@@ -216,6 +220,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           thumbnail={thumbnail}
           geolocation={geolocation}
           selectedLocation={selectedLocation}
+          url={url}
+          additionalInfo={additionalInfo}
           onChangeTitle={setTitle}
           onChangeDescription={setDescription}
           onChangeInviteOnly={setInviteOnly}
@@ -229,6 +235,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           onChangeEndHours={setEndHours}
           onChangeStartMinutes={setStartMinutes}
           onChangeEndMinutes={setEndMinutes}
+          onChangeUrl={setUrl}
+          onChangeAdditionalInfo={setAdditionalInfo}
           fieldErrors={fieldErrors}
           isAdmin={isAdmin}
         />

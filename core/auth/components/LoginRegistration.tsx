@@ -76,6 +76,16 @@ const LoginRegistration = ({
           </HoliTextLink>
         </HoliText>
       ))}
+      <HoliText size={'small'} color="gray300">
+        <HoliTextLink
+          label={'test'}
+          onPress={() => navigate('/profile/settings/aboutholiapp')}
+          href={'/profile/settings/aboutholiapp'}
+          variant="inline"
+        >
+          {t('profile.loggedOut.footer.aboutholiapp')}
+        </HoliTextLink>
+      </HoliText>
     </View>
   )
 
@@ -165,6 +175,7 @@ const getStyles = (screenHeight: number) =>
       justifyContent: 'center',
       gap: 6,
       flexDirection: 'row',
+      flexWrap: 'wrap',
       bottom: 24,
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     },

@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -23,7 +23,7 @@ export type SpaceCollaboratorsManageParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<SpaceCollaboratorsManageParams>()
+const { useParam } = createParamHooks<SpaceCollaboratorsManageParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 

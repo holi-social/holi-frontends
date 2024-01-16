@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type DonationProgressProps = {
+interface DonationProgressProps {
   progressPercentage: number
   openAmountInCents: number
   category?: string
@@ -24,6 +24,7 @@ const DonationProgress = ({
   const styles = getStyles()
   const isSmall = size === 'small'
   const goalTextSize = size === 'large' ? 'default' : 'small'
+  const progressSize = size === 'small' ? 'small' : 'medium'
 
   const openAmount = useMemo(() => {
     return new Intl.NumberFormat(i18n.language, {
@@ -32,6 +33,7 @@ const DonationProgress = ({
       minimumFractionDigits: 0,
     }).format(Math.round(openAmountInCents / 100))
   }, [openAmountInCents, i18n.language])
+  const { progressWidth } = useProgressBar(progressPercentage)
 
   return (
     <View style={[props?.style]}>
@@ -46,7 +48,7 @@ const DonationProgress = ({
         )}
       </View>
       <View style={styles.progressBarContainer}>
-        <HoliProgressBar progress={progressPercentage} isSmall={isSmall} />
+        <HoliProgressBar width={progressWidth} size={progressSize} />
       </View>
     </View>
   )

@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import NotificationSettings from '@holi/core/screens/notifications/NotificationSettings'
+import AboutHoliApp from '@holi/core/screens/userprofile/AboutHoliApp'
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import ChangeEmail from '@holi/core/screens/userprofile/ChangeEmail'
 import ChangeEmailVerification from '@holi/core/screens/userprofile/ChangeEmailVerification'
@@ -111,6 +112,14 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen
         name={RouteName.Document}
         component={LegalDocumentItem}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
+        name={RouteName.AboutHoliApp}
+        component={AboutHoliApp}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,

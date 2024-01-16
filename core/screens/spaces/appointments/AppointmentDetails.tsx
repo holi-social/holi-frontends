@@ -1,15 +1,17 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { DimensionValue, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { jitsiUrl } from '@holi/core/helpers/config'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
@@ -17,11 +19,23 @@ import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
+import {
+  ExternalLink,
+  FileCopy,
+  Global,
+  LockFilled,
+  MapPin2,
+  More,
+  Share,
+  Time,
+  VideoChat,
+} from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
@@ -35,14 +49,14 @@ export type AppointmentDetailsParams = {
   idOrSlug: string
 }
 
-const { useParam } = createParam<AppointmentDetailsParams>()
+const { useParam } = createParamHooks<AppointmentDetailsParams>()
 
 const AppointmentDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [idOrSlug] = useParam('idOrSlug')
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
-  const { navigateBack, replaceRoute } = useRouting()
+  const { navigateBack, replaceRoute, navigate } = useRouting()
   const { userId, isLoggedIn } = useAuth()
   const { width: deviceWidth } = useWindowDimensions()
 
@@ -73,6 +87,13 @@ const AppointmentDetails = () => {
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isAppointmentCreator = appointment?.creator.id === userId
+  const isMobile = Platform.OS !== 'web'
+
+  const [, shareLink] = useShareLink({
+    link: `/spaces/${space?.name}/appointments/${appointment?.id}`,
+    linkType: LinkType.UNIVERSAL,
+    message: '',
+  })
 
   const renderActionDrawer = useCallback(
     () =>
@@ -131,11 +152,17 @@ const AppointmentDetails = () => {
     month: 'short',
   })
 
+  const endDate = localizeDate(new Date(appointment.endDateTime), currentLanguage, {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  })
+
   const startTime = localizeDate(
     new Date(appointment.startDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
@@ -145,11 +172,27 @@ const AppointmentDetails = () => {
     new Date(appointment.endDateTime),
     currentLanguage,
     {
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
     },
     true
   )
+
+  const navigateToVideoCall = () => {
+    if (!appointment.videoCallLink?.url) return
+    if (Platform.OS === 'web') {
+      // Directly call api that performs redirects
+      Linking.openURL(appointment.videoCallLink?.url.replace(jitsiUrl, '/api/video-call'))
+    } else {
+      // Open webview that will then navigate to the same page as web above
+      navigate(appointment.videoCallLink?.url.replace(jitsiUrl, '/video-call'))
+    }
+  }
+
+  const openMap = () => {
+    if (!appointment.location) return
+    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(appointment.location)}`)
+  }
 
   return (
     <>
@@ -172,14 +215,22 @@ const AppointmentDetails = () => {
             )}
           </View>
           <View style={[styles.card, styles.firstCard]}>
-            <HoliHeading ellipsizeMode="tail" level="1" size="medium" testID="appointment-title">
-              {appointment.title}
-            </HoliHeading>
+            <View style={styles.titleContainer}>
+              <HoliCalendarIcon
+                day={new Date(appointment.startDateTime).getDate()}
+                month={new Date(appointment.startDateTime).getMonth() + 1}
+                size="medium"
+              />
+              <HoliHeading style={styles.title} ellipsizeMode="tail" level="1" size="medium" testID="appointment-title">
+                {appointment.title}
+              </HoliHeading>
+            </View>
             <View style={[styles.iconsContainer, styles.firstIconContainer]}>
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
                 <HoliText bold>
-                  {date} ∙ {startTime} {t('global.until')} {endTime}
+                  {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+                  {endTime}
                 </HoliText>
               </View>
             </View>
@@ -203,7 +254,18 @@ const AppointmentDetails = () => {
               <View style={styles.iconsContainer}>
                 <View style={styles.iconGroupContainer}>
                   <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
-                  <HoliText bold>{appointment.location}</HoliText>
+                  <HoliButton
+                    label={appointment.location}
+                    transparent
+                    inline
+                    style={styles.iconGroupWithDescription}
+                    onPress={openMap}
+                  >
+                    <View style={styles.externalLinkContainer}>
+                      <HoliText bold>{appointment.location}</HoliText>
+                      <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
+                    </View>
+                  </HoliButton>
                 </View>
               </View>
             )}
@@ -211,7 +273,25 @@ const AppointmentDetails = () => {
               <View style={styles.iconsContainer}>
                 <View style={styles.iconGroupContainer}>
                   <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
-                  <HoliText bold>{appointment.videoCallLink?.url}</HoliText>
+                  <HoliButton
+                    label={appointment.videoCallLink?.url}
+                    transparent
+                    inline
+                    style={styles.iconGroupWithDescription}
+                    onPress={navigateToVideoCall}
+                  >
+                    <View style={styles.externalLinkContainer}>
+                      <HoliText bold ellipsizeMode="tail" numberOfLines={2}>
+                        {appointment.videoCallLink?.url}
+                      </HoliText>
+                      <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
+                    </View>
+                    {appointment.videoCallLink?.additionalInfo && (
+                      <HoliText style={styles.iconGroupContainerDescription} color="gray200">
+                        {appointment.videoCallLink.additionalInfo}
+                      </HoliText>
+                    )}
+                  </HoliButton>
                 </View>
               </View>
             )}
@@ -229,6 +309,23 @@ const AppointmentDetails = () => {
               allowAllLinks
               testID="appointment-description"
             />
+          </View>
+          <View style={styles.card}>
+            {isMobile ? (
+              <HoliButton transparent label={t('global.share')} onPress={shareLink}>
+                <View style={styles.interactionLinkContainer}>
+                  <HoliIcon icon={Share} size={24} style={styles.interactionLinkIcon} />
+                  <HoliText bold>{t('global.share')}</HoliText>
+                </View>
+              </HoliButton>
+            ) : (
+              <HoliButton transparent label={t('spaces.appointments.copyLink')} onPress={shareLink}>
+                <View style={styles.interactionLinkContainer}>
+                  <HoliIcon icon={FileCopy} size={24} style={styles.interactionLinkIcon} />
+                  <HoliText bold>{t('spaces.appointments.copyLink')}</HoliText>
+                </View>
+              </HoliButton>
+            )}
           </View>
           <View style={styles.card}>
             <HoliHeading level="2" size="medium">
@@ -303,6 +400,15 @@ const styles = StyleSheet.create({
   imageContainer: {
     position: 'relative',
   },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 8,
+  },
+  title: {
+    maxWidth: '80%',
+  },
   card: {
     padding: 16,
     flex: 1,
@@ -325,11 +431,17 @@ const styles = StyleSheet.create({
   },
   iconGroupContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     flexShrink: 1,
   },
   iconGroupIcon: {
     marginRight: 8,
+    marginTop: -2,
+  },
+  iconGroupWithDescription: {
+    maxWidth: '95%',
+  },
+  iconGroupContainerDescription: {
+    marginTop: 2,
   },
   description: {
     marginTop: 16,
@@ -354,6 +466,24 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 13,
     marginRight: 16,
+  },
+  externalLinkContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 6,
+    paddingRight: 12,
+  },
+  externalLinkIcon: {
+    marginTop: 2,
+  },
+  interactionLinkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingRight: 12,
+  },
+  interactionLinkIcon: {
+    marginTop: -2,
   },
 })
 
