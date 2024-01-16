@@ -76,16 +76,18 @@ const LoginRegistration = ({
           </HoliTextLink>
         </HoliText>
       ))}
-      <HoliText size={'small'} color="gray300">
-        <HoliTextLink
-          label={'test'}
-          onPress={() => navigate('/profile/settings/aboutholiapp')}
-          href={'/profile/settings/aboutholiapp'}
-          variant="inline"
-        >
-          {t('profile.loggedOut.footer.aboutholiapp')}
-        </HoliTextLink>
-      </HoliText>
+      {Platform.OS !== 'web' && (
+        <HoliText size={'small'} color="gray300">
+          <HoliTextLink
+            label={'test'}
+            onPress={() => navigate('/profile/settings/aboutholiapp')}
+            href={'/profile/settings/aboutholiapp'}
+            variant="inline"
+          >
+            {t('profile.loggedOut.footer.aboutholiapp')}
+          </HoliTextLink>
+        </HoliText>
+      )}
     </View>
   )
 
