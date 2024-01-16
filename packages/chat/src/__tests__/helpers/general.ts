@@ -38,17 +38,27 @@ export const createMatrixClientMock = () => {
   return mxClient
 }
 
+interface RoomMockOptions {
+  isSpaceRoom?: boolean
+  members?: RoomMember[]
+  timelineEvents?: MatrixEvent[]
+}
+
 export const createRoomMock = (
   roomId: string,
-  { isSpaceRoom = false, members = [] }: Partial<{ isSpaceRoom: boolean; members: RoomMember[] }> = {}
+  { isSpaceRoom = false, members = [], timelineEvents }: RoomMockOptions = {}
 ) => {
-  // because new Room() is a mock the arguments in constructor do not matter
   const room = jest.mocked(new Room('', {} as MatrixClient, ''))
 
   // room setup
   asMutable(room).roomId = roomId
   room.isSpaceRoom.mockReturnValue(isSpaceRoom)
   room.getMembers.mockReturnValue(members)
+  if (timelineEvents) {
+    const eventTimeline = new EventTimeline({} as EventTimelineSet) as jest.Mocked<EventTimeline>
+    room.getLiveTimeline.mockReturnValue(eventTimeline)
+    eventTimeline.getEvents.mockReturnValue(timelineEvents)
+  }
 
   return room
 }
@@ -82,10 +92,13 @@ export const createRoomMemberMock = (
 
 export const getListenerForMatrixEvent = (
   event: EmittedEvents | EventEmitterEvents | RoomEvent,
-  mxClientOrRoom: jest.Mocked<MatrixClient> | jest.Mocked<Room>
+  mxClientOrRoom: jest.Mocked<MatrixClient> | jest.Mocked<Room>,
+  functionName?: string // additionally filter for listener function name, when more listeners are registered for the same event
 ) => {
-  // find the call where the first parameter is the passed in event and return the second parameter of that call
-  return mxClientOrRoom.on.mock.calls.find(([e]) => e === event)?.[1]
+  // filter the calls where the first parameter is the passed in event
+  let calls = mxClientOrRoom.on.mock.calls.filter(([e]) => e === event)
+  if (functionName) calls = calls.filter(([, fn]) => fn.name === functionName) // in addition filter for correct functionName
+  return calls[0]?.[1] // return the second argument passed into the found call
 }
 
 export const createMatrixEventMock = (type: string) => {
