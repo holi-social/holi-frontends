@@ -55,7 +55,6 @@ export const SpaceInviteListFragment = gql`
   }
 `
 
-// TODO: Remove appointments @client (mock) directive once available
 // We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const FullSpaceFragment = gql`
   ${UserAvatarFragment}
@@ -150,7 +149,6 @@ export const FullSpaceFragment = gql`
         text
       }
     }
-    appointments @client
   }
 `
 
