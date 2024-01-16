@@ -2,8 +2,9 @@ import { useAtomValue } from 'jotai'
 import React from 'react'
 
 import { hasUnreadNotificationsAtom } from '@holi/chat/src/store'
+import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Chat3Filled } from '@holi/icons/src/generated'
-import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface ChatBottomTabsNavigatorItemProps {
@@ -15,12 +16,9 @@ const ChatBottomTabsNavigatorItem = ({ focused }: ChatBottomTabsNavigatorItemPro
   const hasUnreadNotifications = useAtomValue(hasUnreadNotificationsAtom)
 
   return (
-    <HoliButtonBell
-      label="Chat"
-      icon={focused ? Chat3Filled : Chat3}
-      color={iconColor(focused)}
-      showBell={hasUnreadNotifications}
-    />
+    <NotificationBellBadge visible={hasUnreadNotifications} testID="bell-badge">
+      <HoliIcon icon={focused ? Chat3Filled : Chat3} color={iconColor(focused)} />
+    </NotificationBellBadge>
   )
 }
 
