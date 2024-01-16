@@ -3,17 +3,14 @@
 exports[`HoliProgressBar should render the default variant correctly 1`] = `
 <View
   style={
-    [
-      {
-        "backgroundColor": "#fff",
-        "borderColor": "#ebebeb",
-        "borderRadius": 6,
-        "borderWidth": 1,
-        "height": 14,
-        "width": "100%",
-      },
-      false,
-    ]
+    {
+      "backgroundColor": "#fff",
+      "borderColor": "#ebebeb",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "height": 14,
+      "width": "100%",
+    }
   }
 >
   <View
@@ -37,19 +34,14 @@ exports[`HoliProgressBar should render the default variant correctly 1`] = `
 exports[`HoliProgressBar should render the small variant correctly 1`] = `
 <View
   style={
-    [
-      {
-        "backgroundColor": "#fff",
-        "borderColor": "#ebebeb",
-        "borderRadius": 6,
-        "borderWidth": 1,
-        "height": 14,
-        "width": "100%",
-      },
-      {
-        "height": 6,
-      },
-    ]
+    {
+      "backgroundColor": "#fff",
+      "borderColor": "#ebebeb",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "height": 6,
+      "width": "100%",
+    }
   }
 >
   <View
