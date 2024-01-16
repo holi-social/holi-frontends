@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import HoliProgressBar, { HoliProgressBarProps, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliProgressBar, HoliProgressBarProps, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 
 export default {
   title: 'Molecules/HoliProgressBar',

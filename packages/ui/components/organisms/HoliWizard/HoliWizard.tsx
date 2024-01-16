@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliProgressBar, { useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,

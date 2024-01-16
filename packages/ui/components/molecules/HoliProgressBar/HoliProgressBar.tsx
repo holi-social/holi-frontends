@@ -11,15 +11,13 @@ export interface HoliProgressBarProps {
   width: number | Animated.Value | Animated.AnimatedInterpolation<'string' | 'number'>
 }
 
-const HoliProgressBar = ({ variant = 'default', testID, width }: HoliProgressBarProps) => {
+export const HoliProgressBar = ({ variant = 'default', testID, width }: HoliProgressBarProps) => {
   return (
     <View testID={testID} style={StyleSheet.flatten([barStyles.base, barStyles[variant]])}>
       <Animated.View style={StyleSheet.flatten([progressStyles.base, progressStyles[variant], { width }])} />
     </View>
   )
 }
-
-export default HoliProgressBar
 
 const barStyles = StyleSheet.create({
   base: {

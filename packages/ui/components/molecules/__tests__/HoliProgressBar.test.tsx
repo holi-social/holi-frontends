@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import HoliProgressBar, { useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 
 jest.useFakeTimers()
 

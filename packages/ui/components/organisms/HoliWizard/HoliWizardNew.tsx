@@ -4,7 +4,7 @@ import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliProgressBar, { useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
