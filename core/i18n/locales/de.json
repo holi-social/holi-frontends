@@ -134,6 +134,7 @@
   "chat.invitation.accept": "Chat starten",
   "chat.invitation.copy": "{{fullName}} möchte eine Unterhaltung mit dir beginnen",
   "chat.invitation.newconversation": "Neue Unterhaltung",
+  "chat.room.noMessages": "Noch keine Nachrichten",
   "chat.invitation.reject": "Ablehnen",
   "chat.maintenance.headline": "Dieses Feature ist aufgrund einer Wartung gerade nicht verfügbar.\nEs ist bald wieder da!",
   "chat.maintenance.tagline": "Der Chat macht eine Pause",
