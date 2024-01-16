@@ -23,12 +23,7 @@ import {
   UpdateAppointmentSchema,
   updateAppointmentMutation,
 } from '@holi/core/screens/appointments/mutations'
-import {
-  APPOINTMENT_STATUS_TYPE,
-  appointmentByIdOrSlugQuery,
-  appointmentByIdOrSlugResponse,
-  appointmentsBySpaceIdQuery,
-} from '@holi/core/screens/appointments/queries'
+import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
 import { PermissionsType as AppointmentPermissionsType } from '@holi/core/screens/appointments/types'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
@@ -125,12 +120,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
         location: 'EditAppointment.updateAppointment',
         spaceIdOrName,
       }),
-    refetchQueries: [
-      {
-        query: appointmentsBySpaceIdQuery,
-        variables: { spaceId: space?.id, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
-      },
-    ],
+    refetchQueries: ['Appointments'],
   })
 
   const onSave = () =>

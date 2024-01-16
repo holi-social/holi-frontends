@@ -116,7 +116,6 @@ export const createCache = () =>
           posts: {
             keyArgs: ['idOrName', 'visibility'],
           },
-          appointments: alwaysReplacePolicy,
         },
       },
       SpacePaged: {
