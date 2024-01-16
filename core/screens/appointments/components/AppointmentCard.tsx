@@ -211,11 +211,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   detailContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 24,
-    flex: 1,
+    marginTop: 16,
   },
   detailContainerWithImage: {
     marginTop: 0,
