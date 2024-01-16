@@ -99,7 +99,7 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
     <HoliLink href={`/chat/rooms/${roomId}`} label={roomName} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
-          {/* View bellow is used to position message indicator regarding the HoliAvatar */}
+          {/* View below is used to position message indicator regarding the HoliAvatar */}
           <View>
             {isSpaceRoom ? (
               <HoliAvatar
@@ -148,9 +148,13 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
                 {t('chat.invitation.newconversation')}
               </HoliText>
             )}
-            {lastMessage && (
+            {lastMessage ? (
               <HoliText numberOfLines={1} color="gray300">
                 {getChatMessage(lastMessage, lastMessageHoliUser?.fullName ?? '', isSpaceRoom)}
+              </HoliText>
+            ) : (
+              <HoliText numberOfLines={1} color="gray300">
+                {t('chat.room.noMessages')}
               </HoliText>
             )}
           </View>
