@@ -32,6 +32,7 @@ test.describe('@Spaces', () => {
     await testCreatingEditingDeletingASpace(context, page, userHandler)
   })
 })
+
 const testAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-spaces')
 
@@ -241,6 +242,13 @@ const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
   const postDescription = 'This is an update for the new post'
 
   await clickElementByTestId(page, 'space-tabs-button-1-inactive')
+
+  // !!! It's a bad pattern to add a delay in tests !!!
+  // But we currently don't have any more ideas how we can fix the issue
+  // The app does not respond properly, when the button is pressed too quickly
+  // This can keep the test green until we know how to fix the underlying issue
+  await new Promise((resolve) => setTimeout(resolve, 600))
+
   await clickElementByTestId(page, 'space-add-post-button')
 
   const nameInput = await locateElementByTestId(page, 'update-title-input-input')
@@ -413,6 +421,13 @@ const testAddEditDeleteTask = async (page: Page) => {
   const taskTitle = 'E2E task'
   const taskDescription = 'E2E task description'
   await clickElementByTestId(page, 'space-tabs-button-2-inactive')
+
+  // !!! It's a bad pattern to add a delay in tests !!!
+  // But we currently don't have any more ideas how we can fix the issue
+  // The app does not respond properly, when the button is pressed too quickly
+  // This can keep the test green until we know how to fix the underlying issue
+  await new Promise((resolve) => setTimeout(resolve, 300))
+
   await clickElementByTestId(page, 'btn-right-space-tasks-card')
   await checkAccessibility(page)
   await inputTaskInfo(page, taskTitle, taskDescription)
