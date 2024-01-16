@@ -243,7 +243,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
         testID="appointment-title"
         isRequired
         showCharacterCount
-        maxNoOfCharacters={40}
+        maxNoOfCharacters={128}
         inputProps={{ autoFocus: true }}
       />
 
@@ -351,7 +351,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           showCharacterCount
           noOfVisibleLines={4}
           maxNoOfVisibleLines={8}
-          maxNoOfCharacters={600}
+          maxNoOfCharacters={5000}
         />
         <View style={[styles.thumbnailContainer, styles.marginSeparator]}>
           {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
