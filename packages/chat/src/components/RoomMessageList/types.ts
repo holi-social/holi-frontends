@@ -20,9 +20,9 @@ export interface MessageSection {
 export type MessageItem = ChatRoomMessage | MessageSection
 
 export const isMessageSection = (item: MessageItem): item is MessageSection => {
-  return 'title' in item
+  return !!item && 'title' in item
 }
 
 export const isTextMessageItem = (item: MessageItem): item is ChatRoomMessage => {
-  return 'type' in item && item.type === 'message'
+  return !!item && 'type' in item && item.type === 'message'
 }

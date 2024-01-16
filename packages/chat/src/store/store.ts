@@ -102,6 +102,10 @@ export const roomAtomsAtom = atom<ChatRoomAtom[]>((get) =>
   })
 )
 
+export const hasUnreadNotificationsAtom = atom<boolean>((get) =>
+  Object.values(get(roomAtomsAtom)).some((roomAtom) => get(roomAtom).notificationCount > 0)
+)
+
 /**
  * @description An atom containing a list of all private rooms.
  * @see roomAtomsAtom
