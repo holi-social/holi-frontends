@@ -23,10 +23,10 @@ export const BasicExample: ComponentStory<typeof HoliProgressBar> = Template.bin
 
 BasicExample.argTypes = {
   width: { description: 'Progress bar width (px)', required: true, control: { type: 'number' } },
-  variant: {
-    description: 'Progress bar variant',
+  size: {
+    description: 'Progress bar size',
     required: false,
-    control: { type: 'select', options: ['default', 'small'] },
+    control: { type: 'select', options: ['small', 'medium'] },
   },
 }
 

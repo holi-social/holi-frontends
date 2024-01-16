@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HoliProgressBar should render the default variant correctly 1`] = `
+exports[`HoliProgressBar should render correctly in size medium 1`] = `
 <View
   style={
     {
@@ -31,7 +31,7 @@ exports[`HoliProgressBar should render the default variant correctly 1`] = `
 </View>
 `;
 
-exports[`HoliProgressBar should render the small variant correctly 1`] = `
+exports[`HoliProgressBar should render correctly in size small 1`] = `
 <View
   style={
     {

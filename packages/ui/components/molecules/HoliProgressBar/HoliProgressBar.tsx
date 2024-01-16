@@ -3,18 +3,18 @@ import { Animated, StyleSheet, View } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
-type HoliProgressBarVariant = 'default' | 'small'
+type HoliProgressBarSize = 'small' | 'medium'
 
 export interface HoliProgressBarProps {
-  variant?: HoliProgressBarVariant
+  size?: HoliProgressBarSize
   testID?: string
   width: number | Animated.Value | Animated.AnimatedInterpolation<'string' | 'number'>
 }
 
-export const HoliProgressBar = ({ variant = 'default', testID, width }: HoliProgressBarProps) => {
+export const HoliProgressBar = ({ size = 'medium', testID, width }: HoliProgressBarProps) => {
   return (
-    <View testID={testID} style={StyleSheet.flatten([barStyles.base, barStyles[variant]])}>
-      <Animated.View style={StyleSheet.flatten([progressStyles.base, progressStyles[variant], { width }])} />
+    <View testID={testID} style={StyleSheet.flatten([barStyles.base, barStyles[size]])}>
+      <Animated.View style={StyleSheet.flatten([progressStyles.base, progressStyles[size], { width }])} />
     </View>
   )
 }
@@ -27,7 +27,7 @@ const barStyles = StyleSheet.create({
     borderColor: colors.background30,
     width: '100%',
   },
-  default: {
+  medium: {
     height: 14,
   },
   small: {
@@ -44,7 +44,7 @@ const progressStyles = StyleSheet.create({
     backgroundColor: colors.brandColorC20,
     maxWidth: '100%',
   },
-  default: {
+  medium: {
     height: 12,
   },
   small: {

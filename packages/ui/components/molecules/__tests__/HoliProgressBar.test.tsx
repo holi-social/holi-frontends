@@ -7,14 +7,14 @@ import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/H
 jest.useFakeTimers()
 
 describe('HoliProgressBar', () => {
-  it('should render the default variant correctly', () => {
+  it('should render correctly in size medium', () => {
     const { toJSON } = render(<HoliProgressBar width={150} />)
 
     expect(toJSON()).toMatchSnapshot()
   })
 
-  it('should render the small variant correctly', () => {
-    const { toJSON } = render(<HoliProgressBar width={150} variant="small" />)
+  it('should render correctly in size small', () => {
+    const { toJSON } = render(<HoliProgressBar width={150} size="small" />)
 
     expect(toJSON()).toMatchSnapshot()
   })

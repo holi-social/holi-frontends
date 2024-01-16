@@ -24,7 +24,7 @@ const DonationProgress = ({
   const styles = getStyles()
   const isSmall = size === 'small'
   const goalTextSize = size === 'large' ? 'default' : 'small'
-  const progressVariant = size === 'small' ? 'small' : 'default'
+  const progressSize = size === 'small' ? 'small' : 'medium'
 
   const openAmount = useMemo(() => {
     return new Intl.NumberFormat(i18n.language, {
@@ -48,7 +48,7 @@ const DonationProgress = ({
         )}
       </View>
       <View style={styles.progressBarContainer}>
-        <HoliProgressBar width={progressWidth} variant={progressVariant} />
+        <HoliProgressBar width={progressWidth} size={progressSize} />
       </View>
     </View>
   )
