@@ -294,12 +294,6 @@ export default class ChatClient {
     return { ...rest, chunk: filterMessagesChunk(chunk) }
   }
 
-  public getRoomNotificationCount(id: string): number {
-    const room = this.mxClient.getRoom(id)
-    if (room === null) return 0
-    return room.getUnreadNotificationCount()
-  }
-
   // This are the rooms on initial loading
   public getRooms(): Room[] {
     return this.mxClient.getRooms()
@@ -419,10 +413,7 @@ export default class ChatClient {
 
   public async setLatestMessagesAsRead(roomId: string): Promise<void> {
     const room = this.mxClient.getRoom(roomId)
-    const userId = this.mxClient.getUserId()
 
-    // If the user is not logged-in we do an early return
-    if (!userId) return
     if (!room || room.getUnreadNotificationCount() === 0) return
 
     const events = room.getLiveTimeline().getEvents()
