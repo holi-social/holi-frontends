@@ -5,12 +5,12 @@ import type { Appointment } from '@holi/core/screens/appointments/types'
 
 export const CreateAppointmentSchema = z.object({
   spaceId: z.string() /* UUID */,
-  title: z.string().min(2).max(40).optional(),
+  title: z.string().min(2).max(128).optional(),
   inviteOnly: z.boolean(),
   startDateTime: z.string().optional(),
   endDateTime: z.string().optional(),
   location: z.string().optional(),
-  description: z.string().trim().max(600).optional(),
+  description: z.string().trim().max(5000).optional(),
   permission: z.string().optional() /* PermissionType */,
   videoCallLink: z.string().optional(),
   videoCallInfo: z.string().optional(),
@@ -58,12 +58,12 @@ export type CreateAppointmentResponse = {
 
 export const UpdateAppointmentSchema = z.object({
   spaceId: z.string() /* UUID */,
-  title: z.string().min(2).max(40).optional(),
+  title: z.string().min(2).max(128).optional(),
   inviteOnly: z.boolean(),
   startDateTime: z.string().optional(),
   endDateTime: z.string().optional(),
   location: z.string().optional(),
-  description: z.string().trim().max(600).optional(),
+  description: z.string().trim().max(5000).optional(),
   permission: z.string() /* PermissionType */,
   videoCallLink: z.string().optional(),
   videoCallInfo: z.string().optional(),
