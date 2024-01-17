@@ -17,7 +17,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface EditSpaceLinksProps {
   space: Space
@@ -72,7 +72,7 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
     <EditSpaceModal
       scrollable={false}
       footer={
-        <HoliButton label={t('global.done')} onPress={onDismiss}>
+        <HoliButton label={t('global.done')} style={styles.doneButton} onPress={onDismiss}>
           {t('global.done')}
         </HoliButton>
       }
@@ -130,6 +130,10 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 32,
     color: colors.foreground20,
+  },
+  doneButton: {
+    maxWidth: vars.maxButtonWidth,
+    marginHorizontal: 'auto',
   },
   modal: {
     backgroundColor: colors.background20,
