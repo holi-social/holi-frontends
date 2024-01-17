@@ -21,10 +21,10 @@ export const HoliProgressBar = ({ size = 'medium', testID, width }: HoliProgress
 
 const barStyles = StyleSheet.create({
   base: {
-    backgroundColor: colors.background10,
+    backgroundColor: colors.white100,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: colors.background30,
+    borderColor: colors.black300at12percent,
     width: '100%',
   },
   medium: {
@@ -37,11 +37,11 @@ const barStyles = StyleSheet.create({
 
 const progressStyles = StyleSheet.create({
   base: {
-    borderColor: colors.brandColorC30,
+    borderColor: colors.brandC300,
     borderWidth: 1,
     borderRadius: 6,
     minWidth: 12,
-    backgroundColor: colors.brandColorC20,
+    backgroundColor: colors.brandC200,
     maxWidth: '100%',
   },
   medium: {
