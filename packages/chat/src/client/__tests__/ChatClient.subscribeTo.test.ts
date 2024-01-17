@@ -99,12 +99,7 @@ describe('ChatClient', () => {
       it('ignores non-SharedData events', async () => {
         const room = createRoomMock('spaceRoom')
 
-        const { listener, callback } = simulateSubscription(
-          client.subscribeToRoomSharedData,
-          RoomEvent.Timeline,
-          room,
-          room
-        )
+        const { listener, callback } = simulateSubscription(client.subscribeToRoomSharedData, RoomEvent.Timeline, room)
 
         // configure event
         const nonSharedDataEvent = createMatrixEventMock(RoomEvent.MyMembership)
@@ -117,12 +112,7 @@ describe('ChatClient', () => {
 
       it('react on SharedData event', async () => {
         const room = createRoomMock('spaceRoom')
-        const { listener, callback } = simulateSubscription(
-          client.subscribeToRoomSharedData,
-          RoomEvent.Timeline,
-          room,
-          room
-        )
+        const { listener, callback } = simulateSubscription(client.subscribeToRoomSharedData, RoomEvent.Timeline, room)
 
         // configure event
         const spaceRoomSharedDataEventMock = createMatrixEventMock(ChatRoomEvent.SharedData)
@@ -130,7 +120,7 @@ describe('ChatClient', () => {
         ;(spaceRoomSharedDataEventMock.event as Partial<IEvent>) = { content }
 
         // trigger event
-        await listener(spaceRoomSharedDataEventMock)
+        await listener(spaceRoomSharedDataEventMock, room)
 
         expect(callback).toBeCalledTimes(1)
         expect(callback).toBeCalledWith({ type: 'space', content, room })
