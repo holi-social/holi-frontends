@@ -542,26 +542,21 @@ export default class ChatClient {
   }
 
   public subscribeToRoomSharedData(callback: (event: RoomWithSharedData) => void): () => void {
-    const rooms = this.mxClient.getRooms()
-
-    // The handler to attach for each room listening
-    const handleSharedData = (room: Room) => async (event: MatrixEvent) => {
+    const handleSharedData = (event: MatrixEvent, room: Room | undefined) => {
+      if (!room) return
       if (event.getType() !== ChatRoomEvent.SharedData) return
 
       const { event: { content = {} } = {} } = event
-      callback(await this.getRoomWithSharedData(room, content as SharedDataContent))
+      this.getRoomWithSharedData(room, content as SharedDataContent)
+        .then(callback)
+        .catch((err) => logError(err, 'failed to get shared data', { location: 'subscribeToRoomSharedData' }))
     }
 
-    // Partially pass the arguments we need in order to set the listeners.
-    const sharedDataListener = addRoomEventListener(RoomEvent.Timeline, handleSharedData)
-    // Collects and set listeners for existing and incoming rooms.
-    const client = this.mxClient
-    return setRoomsListeners({
-      client,
-      rooms,
-      roomEvent: RoomEvent.Timeline,
-      createListener: sharedDataListener,
-    })
+    this.mxClient.on(RoomEvent.Timeline, handleSharedData)
+
+    return () => {
+      this.mxClient.off(RoomEvent.Timeline, handleSharedData)
+    }
   }
 
   public subscribeToRoomMessages(callback: (roomId: string, chatRoomMessage: ChatRoomMessage) => void): () => void {
