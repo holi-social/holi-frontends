@@ -5,7 +5,7 @@ exports[`HoliProgressBar should render correctly in size medium 1`] = `
   style={
     {
       "backgroundColor": "#fff",
-      "borderColor": "#ebebeb",
+      "borderColor": "#2624241F",
       "borderRadius": 6,
       "borderWidth": 1,
       "height": 14,
@@ -36,7 +36,7 @@ exports[`HoliProgressBar should render correctly in size small 1`] = `
   style={
     {
       "backgroundColor": "#fff",
-      "borderColor": "#ebebeb",
+      "borderColor": "#2624241F",
       "borderRadius": 6,
       "borderWidth": 1,
       "height": 6,
