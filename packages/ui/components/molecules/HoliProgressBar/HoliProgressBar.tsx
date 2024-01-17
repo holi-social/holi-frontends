@@ -1,5 +1,5 @@
 import React from 'react'
-import { Animated, StyleSheet, View } from 'react-native'
+import { Animated, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -8,7 +8,7 @@ type HoliProgressBarSize = 'small' | 'medium'
 export interface HoliProgressBarProps {
   size?: HoliProgressBarSize
   testID?: string
-  width: number | Animated.Value | Animated.AnimatedInterpolation<'string' | 'number'>
+  width: ViewStyle['width'] | Animated.Value | Animated.AnimatedInterpolation<'string' | 'number'>
 }
 
 export const HoliProgressBar = ({ size = 'medium', testID, width }: HoliProgressBarProps) => {
