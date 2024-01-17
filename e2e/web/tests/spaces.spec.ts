@@ -385,6 +385,8 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
 
   await clickElementByTestId(page, 'form-modal-save-btn')
+  // wait for save to finish and space to be shown
+  await page.waitForSelector(byTestId('space-header'))
 }
 
 export const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
