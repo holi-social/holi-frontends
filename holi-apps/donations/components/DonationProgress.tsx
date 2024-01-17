@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliProgressBar, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface DonationProgressProps {
@@ -33,7 +33,6 @@ const DonationProgress = ({
       minimumFractionDigits: 0,
     }).format(Math.round(openAmountInCents / 100))
   }, [openAmountInCents, i18n.language])
-  const { progressWidth } = useProgressBar(progressPercentage)
 
   return (
     <View style={[props?.style]}>
@@ -48,7 +47,7 @@ const DonationProgress = ({
         )}
       </View>
       <View style={styles.progressBarContainer}>
-        <HoliProgressBar width={progressWidth} size={progressSize} />
+        <HoliProgressBar width={`${progressPercentage}%`} size={progressSize} />
       </View>
     </View>
   )
