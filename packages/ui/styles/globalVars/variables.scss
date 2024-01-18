@@ -3,7 +3,7 @@
 // - as js-variables in packages/styles/globalVars.ts for react-native styling
 
 // Important !!!
-// run `yarn workspace @holi/ui run generate-style-vars` on every file change
+// run `yarn ui:generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
 $font-family-web: Circular Std, Helvetica, Arial, sans-serif;
@@ -26,3 +26,9 @@ $breakpoint-l: 840;
 $breakpoint-xl: 1200;
 $breakpoint-xxl: 1920;
 $breakpoint-xxxl: 2396;
+
+$spacing-xs: 8;
+$spacing-s: 16;
+$spacing-m: 24;
+$spacing-l: 40;
+$spacing-xl: 64;
