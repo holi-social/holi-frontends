@@ -47,7 +47,7 @@ const DonationProgress = ({
         )}
       </View>
       <View style={styles.progressBarContainer}>
-        <HoliProgressBar width={`${progressPercentage}%`} size={progressSize} />
+        <HoliProgressBar percentage={progressPercentage} size={progressSize} />
       </View>
     </View>
   )
