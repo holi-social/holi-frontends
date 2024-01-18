@@ -3,8 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import NotificationBanner from '@holi/core/screens/notifications/components/NotificationBanner'
 import SpacePendingRequestsItem from '@holi/core/screens/spaces/details/components/SpacePendingRequestItem'
-import { Space, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
+import { useSpaceMembershipStatus } from '@holi/core/screens/spaces/hooks/useSpaceMembershipStatus'
+import { Space, SpaceMember, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
+import { Paged } from '@holi/core/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -14,16 +17,21 @@ type SpacePendingRequestsProps = {
   space: Space
   style?: StyleProp<ViewStyle>
   initiallySelectedUserId?: string
+  spaceMembers?: Paged<SpaceMember>
 }
 
-const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space, initiallySelectedUserId }) => {
+const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({
+  space,
+  initiallySelectedUserId,
+  spaceMembers,
+}) => {
   const { t } = useTranslation()
 
   // local state created in order to keep the items in the list even after accepting/declining requests
   // (if we use the data from the context directly, a refetch will clear the accepted/declined users from the list)
   const [spaceMembershipRequests, setSpaceMembershipRequests] = useState<SpaceMembershipRequest[]>([])
-
   const { data } = usePaginationContext<SpaceMembershipRequest>()
+  const { user, showBanner, status, loading } = useSpaceMembershipStatus(initiallySelectedUserId || '', spaceMembers)
 
   const mixins = useStyleMixins()
 
@@ -33,6 +41,15 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({ space, 
 
   return (
     <View>
+      {initiallySelectedUserId && showBanner && !loading ? (
+        <NotificationBanner
+          spaceName={space.name}
+          status={status as 'accepted' | 'cancelled' | 'deleted'}
+          showBanner={showBanner}
+          style={{ marginBottom: 12 }}
+          member={user}
+        />
+      ) : null}
       {!spaceMembershipRequests.length && (
         <View style={[mixins.container, styles.emptyContainer]}>
           <HoliLocalImage
