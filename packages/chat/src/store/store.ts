@@ -196,7 +196,8 @@ export const spaceRoomIdToChildRoomsAtom = atom<Record<string, ChatRoomAtom[]>>(
  * first parameter, and not the getter function. We require a getter function
  * because we subscribe to events in the `onMount` lifecycle.
  *
- * IMPORTANT! Do not use this atom to read/access rooms.
+ * * IMPORTANT! Do not use this atom to read/access rooms.
+ * * IMPORTANT! Only import in test.
  */
 export const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
   switch (args.type) {

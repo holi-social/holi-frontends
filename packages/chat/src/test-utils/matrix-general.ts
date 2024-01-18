@@ -28,6 +28,9 @@ export const asMutable = <T>(value: T) => value as Mutable<T>
 
 export const createMatrixClientMock = () => {
   const mxClient = jest.mocked(new MatrixClient({ baseUrl: '' }))
+  mxClient.getIgnoredUsers.mockReturnValue([])
+  mxClient.getRooms.mockReturnValue([])
+
   const createClientMock = jest.mocked(createClient)
   createClientMock.mockReturnValue(mxClient)
 
