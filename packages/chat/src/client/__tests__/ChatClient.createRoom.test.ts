@@ -8,15 +8,15 @@ import {
   Visibility,
 } from 'matrix-js-sdk'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import { ChatRoomEvent, MembershipStatus } from '@holi/chat/src/client/types'
 import {
   createMatrixClientMock,
   createMatrixEventMock,
   createRoomMemberMock,
   createRoomMock,
   getClientOptions,
-} from '@holi/chat/src/__tests__/helpers'
-import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent, MembershipStatus } from '@holi/chat/src/client/types'
+} from '@holi/chat/src/test-utils'
 import { CHAT_ROOM_NAME_MOCK } from '@holi/chat/src/test-utils/matrix-mock-setup'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 

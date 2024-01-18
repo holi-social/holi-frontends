@@ -11,6 +11,9 @@ import {
   RoomStateEvent,
 } from 'matrix-js-sdk'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import { ChatRoomEvent, MembershipStatus, RoomUpdatesType } from '@holi/chat/src/client/types'
+import { createChatMessage, createInitialRoom } from '@holi/chat/src/client/utils'
 import {
   createMatrixClientMock,
   createMatrixEventMock,
@@ -19,10 +22,7 @@ import {
   createRoomStateMock,
   getClientOptions,
   getListenerForMatrixEvent,
-} from '@holi/chat/src/__tests__/helpers'
-import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent, MembershipStatus, RoomUpdatesType } from '@holi/chat/src/client/types'
-import { createChatMessage, createInitialRoom } from '@holi/chat/src/client/utils'
+} from '@holi/chat/src/test-utils'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher', () => jest.fn())

@@ -1,7 +1,7 @@
 import { PushRuleKind } from 'matrix-js-sdk'
 
-import { createMatrixClientMock, getClientOptions } from '@holi/chat/src/__tests__/helpers'
 import ChatClient from '@holi/chat/src/client/ChatClient'
+import { createMatrixClientMock, getClientOptions } from '@holi/chat/src/test-utils'
 
 jest.mock('matrix-js-sdk')
 
