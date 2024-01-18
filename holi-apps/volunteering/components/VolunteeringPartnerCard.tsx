@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
@@ -23,15 +23,14 @@ const VolunteeringPartnerCard: React.VFC<VolunteeringPartnerContainerProps> = ({
   return (
     <View style={styles.cardContainer}>
       {!!headline && <HoliText size="large">{headline}</HoliText>}
-      <HoliBox padding={[16, 0, 0, 0]}>
-        <PartnerInfoRow
-          headline={headline}
-          rowText={name}
-          linkTitle={t('volunteering:shared.partner.link.title', { source: name })}
-          partners={[partner]}
-          onPress={() => (partner?.url ? Linking.openURL(partner?.url) : null)}
-        />
-      </HoliBox>
+      <HoliGap size="s" />
+      <PartnerInfoRow
+        headline={headline}
+        rowText={name}
+        linkTitle={t('volunteering:shared.partner.link.title', { source: name })}
+        partners={[partner]}
+        onPress={() => (partner?.url ? Linking.openURL(partner?.url) : null)}
+      />
     </View>
   )
 }
