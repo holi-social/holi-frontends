@@ -20,7 +20,7 @@ export const CreateTaskSchema = z.object({
     .optional(),
   contactPhone: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
-  slotsAvailable: z.number().optional(),
+  slotsAvailable: z.number(),
   slotsTaken: z.number().optional(),
   skills: z.array(z.string()).optional(),
 })
