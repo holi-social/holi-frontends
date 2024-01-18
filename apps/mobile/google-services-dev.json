@@ -1,0 +1,92 @@
+{
+  "project_info": {
+    "project_number": "984061681268",
+    "project_id": "holi-shared",
+    "storage_bucket": "holi-shared.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984061681268:android:d3b7164448cae2f6a8bb21",
+        "android_client_info": {
+          "package_name": "social.holi.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984061681268-hidvpg8rt33agkbf73q61iv81esutotl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "social.holi.app",
+            "certificate_hash": "60e87ca534522d87a1df26046849919332fb2c8f"
+          }
+        },
+        {
+          "client_id": "984061681268-ikulttkd0pbh2314qemn76m6ao415sks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDci3-bFStg_aogA5EFJ8UYqqJSoH5dZDw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984061681268-ikulttkd0pbh2314qemn76m6ao415sks.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "984061681268-chl3h9fc4s87vlu9e2d2j5ibogr3fbeh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "social.holi",
+                "app_store_id": "6446693757"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984061681268:android:635cfe0f800b45c6a8bb21",
+        "android_client_info": {
+          "package_name": "social.holi.app.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984061681268-ikulttkd0pbh2314qemn76m6ao415sks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDci3-bFStg_aogA5EFJ8UYqqJSoH5dZDw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984061681268-ikulttkd0pbh2314qemn76m6ao415sks.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "984061681268-chl3h9fc4s87vlu9e2d2j5ibogr3fbeh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "social.holi",
+                "app_store_id": "6446693757"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
