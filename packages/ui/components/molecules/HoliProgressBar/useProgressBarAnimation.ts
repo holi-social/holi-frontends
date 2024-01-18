@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
 
-export const useProgressBar = (progress: number) => {
+export const useProgressBarAnimation = (progress: number) => {
   const widthAnim = useRef(new Animated.Value(progress)).current
   const widthAnimValue = widthAnim.interpolate({
     inputRange: [0, 100],
@@ -18,6 +18,6 @@ export const useProgressBar = (progress: number) => {
   }, [progress, widthAnim])
 
   return {
-    progressWidth: widthAnimValue,
+    percentage: widthAnimValue,
   }
 }

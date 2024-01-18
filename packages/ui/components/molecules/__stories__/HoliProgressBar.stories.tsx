@@ -1,7 +1,11 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import { HoliProgressBar, HoliProgressBarProps, useProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import {
+  HoliProgressBar,
+  HoliProgressBarProps,
+  useProgressBarAnimation,
+} from '@holi/ui/components/molecules/HoliProgressBar'
 
 export default {
   title: 'Molecules/HoliProgressBar',
@@ -22,7 +26,7 @@ const Template: ComponentStory<typeof HoliProgressBar> = ({ ...args }) => {
 export const BasicExample: ComponentStory<typeof HoliProgressBar> = Template.bind({})
 
 BasicExample.argTypes = {
-  width: { description: 'Progress bar width (px)', required: true, control: { type: 'number' } },
+  percentage: { description: 'Progress (%)', required: true, control: { type: 'range', min: 0, max: 100, step: 0.1 } },
   size: {
     description: 'Progress bar size',
     required: false,
@@ -31,16 +35,15 @@ BasicExample.argTypes = {
 }
 
 BasicExample.args = {
-  width: 150,
+  percentage: 25,
 }
 
-export const AnimatedExample: ComponentStory<React.FC<HoliProgressBarProps & { progress: number }>> = ({
-  progress,
-  ...args
-}) => {
-  const { progressWidth } = useProgressBar(progress)
+export const AnimatedExample: ComponentStory<
+  React.FC<Omit<HoliProgressBarProps, 'percentage'> & { progress: number }>
+> = ({ progress, ...args }) => {
+  const { percentage } = useProgressBarAnimation(progress)
 
-  return <HoliProgressBar {...args} width={progressWidth} />
+  return <HoliProgressBar {...args} percentage={percentage} />
 }
 
 AnimatedExample.argTypes = {
