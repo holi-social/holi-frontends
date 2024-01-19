@@ -16,7 +16,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
 export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProps {
@@ -39,7 +39,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="small">
+        <HoliHeading level="1" size="s">
           {t('auth.login')}
         </HoliHeading>
       ),

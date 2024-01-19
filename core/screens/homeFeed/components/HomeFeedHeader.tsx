@@ -7,7 +7,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HandWaveFilledPng from '@holi/ui/assets/img/icons/hand-wave-filled.png'
 import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -21,7 +21,7 @@ const HomeFeedHeader: React.FC = () => {
     <View style={mixins.container}>
       {/*Headline */}
       <HoliBox padding={[32, 0, 8, 0]}>
-        <HoliHeading level="1" size="super" testID="home-feed-insights-heading" style={styles.headlineContainer}>
+        <HoliHeading level="1" size="xl" testID="home-feed-insights-heading" style={styles.headlineContainer}>
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
           {Platform.OS === 'android' ? (
             <HoliLocalImage

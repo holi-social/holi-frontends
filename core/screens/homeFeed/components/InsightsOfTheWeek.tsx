@@ -10,7 +10,8 @@ import InsightList, { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/Insi
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -55,9 +56,8 @@ const InsightsOfTheWeekList: React.FC = () => {
   return (
     <>
       {/* Headline */}
-      <HoliBox padding={[0, 0, 8, 0]}>
-        <HoliHeading size="large">{t('homeFeed.insights.heading')}</HoliHeading>
-      </HoliBox>
+      <HoliHeading size="l">{t('homeFeed.insights.heading')}</HoliHeading>
+      <HoliGap size="xs" />
 
       {/* Curators with popup */}
       <HoliBox padding={[8, 0]}>

@@ -8,7 +8,7 @@ import { joinRoom, leaveRoom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliDivider from '@holi/ui/components/atoms/HoliDivider'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -57,7 +57,7 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
                 loading={userIsLoading}
               />
               <View>
-                <HoliHeading size="medium">{user.fullName}</HoliHeading>
+                <HoliHeading size="m">{user.fullName}</HoliHeading>
                 {!!user?.pronouns && <HoliText color="gray300">{user?.pronouns}</HoliText>}
               </View>
             </>

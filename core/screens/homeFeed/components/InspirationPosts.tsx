@@ -11,10 +11,10 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const POSTS_PAGE_SIZE = 2
@@ -31,9 +31,8 @@ const InspirationPostsList = () => {
 
   return (
     <>
-      <HoliBox padding={[0, 0, 24, 0]}>
-        <HoliHeading size="large">{t('homeFeed.inspirationPosts.heading')}</HoliHeading>
-      </HoliBox>
+      <HoliHeading size="l">{t('homeFeed.inspirationPosts.heading')}</HoliHeading>
+      <HoliGap />
       <HoliGridWrapper itemsInRow={postGridItemsInRow}>
         {loading
           ? new Array(POSTS_PAGE_SIZE).fill(1).map((_, idx) => (

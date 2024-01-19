@@ -16,7 +16,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
@@ -118,7 +118,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
     <HoliKeyboardSaveView>
       <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="handled">
         <View style={styles.inner}>
-          <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
+          <HoliHeading level="1" size="m" testID="sign-up-headline">
             {t('registration.signUp.heading')}
           </HoliHeading>
 
@@ -147,9 +147,6 @@ const styles = StyleSheet.create({
   inner: {
     maxWidth: +vars.breakpointL,
     width: '100%',
-  },
-  headline: {
-    fontWeight: '400',
   },
   description: {
     color: colors.foreground20,

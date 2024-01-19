@@ -10,9 +10,10 @@ import {
   UpdateWorkflowPreference,
   useNotificationPreferences,
 } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -105,7 +106,8 @@ const SettingsCategoryHeading = ({ category }: { category: NOTIFICATION_CATEGORY
   return (
     <>
       <CategoryIllustration style={{ paddingBottom: 8 }} category={category} />
-      <HoliHeading style={{ paddingBottom: 4 }}>{t(`profile.settings.notifications.${category}.title`)}</HoliHeading>
+      <HoliHeading>{t(`profile.settings.notifications.${category}.title`)}</HoliHeading>
+      <HoliBox padding={[0, 0, 4, 0]} />
       <HoliText style={{ paddingBottom: 16 }} color="gray300">
         {t(`profile.settings.notifications.${category}.description`)}
       </HoliText>

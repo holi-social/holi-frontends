@@ -10,7 +10,8 @@ import { initPasswordRecoveryFlow, updatePasswordRecoveryFlowEmail } from '@holi
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type RecoverPasswordFormProps = {
@@ -70,7 +71,8 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
       {!props.webview && (
         <>
           <AlreadyHaveAccountText mobileNavigateBackFirst style={styles.loginHeadline} />
-          <HoliHeading level="2" style={styles.headline2}>
+          <HoliGap size="l" />
+          <HoliHeading level="2" align="center">
             {t('auth.login.signUp.link.headline')}
           </HoliHeading>
           <RegistrationButton style={styles.button} />
@@ -92,10 +94,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
-  },
-  headline2: {
-    marginTop: 40,
-    textAlign: 'center',
   },
   loginHeadline: {
     marginTop: 16,
