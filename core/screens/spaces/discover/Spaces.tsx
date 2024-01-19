@@ -26,7 +26,6 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Spaces = () => {
@@ -66,7 +65,7 @@ const Spaces = () => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
   }, [isLoggedIn, navigate, openLoginModal])
 
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[vars.breakpointS, mixins.container]])
 
   useLayoutEffect(() => {
     const title = t('spaces.title')

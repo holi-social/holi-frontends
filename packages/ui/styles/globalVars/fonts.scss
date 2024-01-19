@@ -1,0 +1,10 @@
+// This file is used in two ways:
+// - direct import into the web's main.scss
+// - as js-variables in packages/styles/globalVars.ts for react-native styling
+
+// Important !!!
+// run `yarn ui:generate-style-vars` on every file change
+// TODO: add to dev-watcher
+
+$font-family-web: Circular Std, Helvetica, Arial, sans-serif;
+$font-family-mobile: Circular Std;

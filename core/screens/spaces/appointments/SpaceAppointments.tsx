@@ -22,7 +22,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceAppointmentsParams = RefreshOnNavigationParams & {
@@ -43,7 +42,7 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
   const [selectedTab] = useParam('tab')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[vars.breakpointS, mixins.container]])
   const { height: screenHeight, width: screenWidth } = useWindowDimensions()
   const styles = createStyles(screenHeight)
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
