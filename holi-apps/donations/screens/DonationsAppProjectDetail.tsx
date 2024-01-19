@@ -15,7 +15,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, ShareBox } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -91,7 +91,7 @@ const DonationsAppProjectDetail = () => {
         <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
           <View style={styles.header}>
-            <HoliHeading level="1" size={'large'}>
+            <HoliHeading level="1" size="l">
               {project.title}
             </HoliHeading>
             <View style={styles.location}>

@@ -6,7 +6,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -35,7 +35,8 @@ const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = 
       <HoliGridCell key={idx}>
         <HoliSkeleton aspectRatio={327 / 214} borderRadius={24} height={'auto'} width={'100%'} />
         <HoliText size="extrasmall" style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
-        <HoliHeading level="2" size="small" style={styles.topicTitle} loading skeletonOptions={{ width: '100%' }} />
+        <HoliGap size="xs" />
+        <HoliHeading level="2" size="s" color={colors.brandB300} loading skeletonOptions={{ width: '100%' }} />
         <HoliText size="extrasmall" style={{ marginTop: 8 }} loading skeletonOptions={{ width: '60%' }} />
       </HoliGridCell>
     )
@@ -84,10 +85,6 @@ const getLogoStyles = (logoWidth: number, idx: number) => {
 }
 
 const styles = StyleSheet.create({
-  topicTitle: {
-    color: colors.brandColorB30,
-    marginTop: 8,
-  },
   spaceTop: {
     marginTop: 8,
     width: '100%',
