@@ -24,6 +24,7 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
   const { navigate } = useRouting()
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
@@ -40,7 +41,7 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
     <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
       {appointments.map((item) => (
         <HoliGridCell key={item.id}>
-          <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
+          <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
         </HoliGridCell>
       ))}
     </HoliGridWrapper>
