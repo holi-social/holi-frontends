@@ -31,7 +31,8 @@ import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/type
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -189,7 +190,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 <HoliIcon icon={Edit2} />
               </HoliButton>
               <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
-              <HoliHeading level="1" size="medium" style={styles.title} testID="space-edit-title">
+              <HoliGap />
+              <HoliHeading level="1" size="m" testID="space-edit-title">
                 {space.title}
               </HoliHeading>
               <HoliButton
@@ -432,9 +434,6 @@ const getStyles = (statusBarHeight: number) =>
     },
     container: {
       alignItems: 'center',
-    },
-    title: {
-      paddingTop: 24,
     },
     body: {
       backgroundColor: colors.background20,

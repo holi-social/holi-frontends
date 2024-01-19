@@ -21,7 +21,7 @@ import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/typ
 import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -157,7 +157,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
       setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
-          <HoliHeading level="1" size="small">
+          <HoliHeading level="1" size="s">
             {t('spaces.tasks.add.title')}
           </HoliHeading>
         ),

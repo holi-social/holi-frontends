@@ -30,7 +30,7 @@ import {
   Time,
   VideoChat,
 } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -221,7 +221,7 @@ const AppointmentDetails = () => {
                 month={new Date(appointment.startDateTime).getMonth() + 1}
                 size="medium"
               />
-              <HoliHeading style={styles.title} ellipsizeMode="tail" level="1" size="medium" testID="appointment-title">
+              <HoliHeading style={styles.title} ellipsizeMode="tail" level="1" size="m" testID="appointment-title">
                 {appointment.title}
               </HoliHeading>
             </View>
@@ -298,7 +298,7 @@ const AppointmentDetails = () => {
           </View>
 
           <View style={styles.card}>
-            <HoliHeading level="2" size="medium">
+            <HoliHeading level="2" size="m">
               {t('spaces.appointments.details.about')}
             </HoliHeading>
             <HoliRichTextOutput
@@ -328,7 +328,7 @@ const AppointmentDetails = () => {
             )}
           </View>
           <View style={styles.card}>
-            <HoliHeading level="2" size="medium">
+            <HoliHeading level="2" size="m">
               {t('spaces.appointments.details.details')}
             </HoliHeading>
             <View style={styles.avatar}>

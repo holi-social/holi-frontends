@@ -25,7 +25,7 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceT
 import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Close } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
@@ -79,7 +79,7 @@ const CreateSpace = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => (
-        <HoliHeading level="1" size="medium">
+        <HoliHeading level="1" size="m">
           {t('spaces.create.title')}
         </HoliHeading>
       ),

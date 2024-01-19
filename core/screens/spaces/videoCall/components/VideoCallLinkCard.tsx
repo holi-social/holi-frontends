@@ -10,7 +10,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { VideoCallLink } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightUp, More, Share } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -63,9 +64,8 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: 
       testID="btn-video-call-link-more-options"
       buttonElement={cardElement}
     >
-      <HoliHeading level="2" style={styles.optionsHeading}>
-        {videoCallLink.roomName}
-      </HoliHeading>
+      <HoliHeading level="2">{videoCallLink.roomName}</HoliHeading>
+      <HoliBox padding={[12, 0, 0, 0]} />
       <HoliText style={[styles.detailText, styles.optionsLink]}>{videoCallLink.url}</HoliText>
       <HoliActionDrawer.Action
         icon={ArrowRightUp}
@@ -101,10 +101,6 @@ const styles = StyleSheet.create({
   },
   detailText: {
     color: colors.foreground20,
-  },
-  optionsHeading: {
-    marginBottom: 12,
-    fontWeight: '400',
   },
   optionsLink: {
     paddingBottom: 24,

@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceMineTile from '@holi/core/screens/spaces/discover/components/SpaceMineTile'
 import { SpaceSection } from '@holi/core/screens/spaces/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
 export type MySpacesProps = {
   mySpaces: SpaceSection[]
@@ -26,7 +26,7 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
     <View style={[styles.container, style]}>
       {mappedSpaces.map((section, sectionIndex) => (
         <View key={`${sectionIndex}`} style={styles.section}>
-          <HoliHeading level="3" size="small" testID={`section-headline-${section.type}`}>
+          <HoliHeading level="3" size="s" testID={`section-headline-${section.type}`}>
             {section.title}
           </HoliHeading>
 

@@ -12,7 +12,7 @@ import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -69,7 +69,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
 
   return (
     <View style={style} testID="spaces-container">
-      <HoliHeading level="1" size="large" style={styles.headerTitle} testID="discover-spaces-header">
+      <HoliHeading level="1" size="l" testID="discover-spaces-header">
         {t('spaces.discover.welcome')}
       </HoliHeading>
       <HoliText style={styles.headerDescription} testID="discover-spaces-description">
@@ -105,9 +105,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
           <View style={styles.learnMoreDescriptionContainer}>
             {screenWidth > +vars.breakpointS && (
               <>
-                <HoliHeading level="2" style={{ fontWeight: '400' }}>
-                  {t('spaces.about.banner.title')}
-                </HoliHeading>
+                <HoliHeading level="2">{t('spaces.about.banner.title')}</HoliHeading>
                 <HoliText style={{ color: colors.foreground20, lineHeight: 23.68 }}>
                   {t('spaces.about.banner.description')}
                 </HoliText>
@@ -223,9 +221,6 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
 }
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    fontWeight: '400',
-  },
   headerDescription: {
     paddingVertical: 12,
     fontWeight: '400',
