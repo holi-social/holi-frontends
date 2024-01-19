@@ -8,28 +8,18 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
+import ShareAppointment from '@holi/core/screens/spaces/appointments/ShareAppointment'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import {
-  ExternalLink,
-  FileCopy,
-  Global,
-  LockFilled,
-  MapPin2,
-  More,
-  Share,
-  Time,
-  VideoChat,
-} from '@holi/icons/src/generated'
+import { ExternalLink, Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -88,12 +78,6 @@ const AppointmentDetails = () => {
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isAppointmentCreator = appointment?.creator.id === userId
   const isMobile = Platform.OS !== 'web'
-
-  const [, shareLink] = useShareLink({
-    link: `/spaces/${space?.name}/appointments/${appointment?.id}`,
-    linkType: LinkType.UNIVERSAL,
-    message: '',
-  })
 
   const renderActionDrawer = useCallback(
     () =>
@@ -311,21 +295,13 @@ const AppointmentDetails = () => {
             />
           </View>
           <View style={styles.card}>
-            {isMobile ? (
-              <HoliButton transparent label={t('global.share')} onPress={shareLink}>
-                <View style={styles.interactionLinkContainer}>
-                  <HoliIcon icon={Share} size={24} style={styles.interactionLinkIcon} />
-                  <HoliText bold>{t('global.share')}</HoliText>
-                </View>
-              </HoliButton>
-            ) : (
-              <HoliButton transparent label={t('spaces.appointments.copyLink')} onPress={shareLink}>
-                <View style={styles.interactionLinkContainer}>
-                  <HoliIcon icon={FileCopy} size={24} style={styles.interactionLinkIcon} />
-                  <HoliText bold>{t('spaces.appointments.copyLink')}</HoliText>
-                </View>
-              </HoliButton>
-            )}
+            <ShareAppointment
+              space={space}
+              appointment={appointment}
+              isMobile={isMobile}
+              date={date}
+              startTime={startTime}
+            />
           </View>
           <View style={styles.card}>
             <HoliHeading level="2" size="medium">
@@ -475,15 +451,6 @@ const styles = StyleSheet.create({
   },
   externalLinkIcon: {
     marginTop: 2,
-  },
-  interactionLinkContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingRight: 12,
-  },
-  interactionLinkIcon: {
-    marginTop: -2,
   },
 })
 
