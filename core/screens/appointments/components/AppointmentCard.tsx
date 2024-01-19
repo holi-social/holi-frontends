@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
   },
   detailContainer: {
     marginTop: 16,
+    minHeight: 40,
   },
   detailContainerWithImage: {
     marginTop: 0,
