@@ -5,7 +5,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowDownS, ArrowUpS, Global } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -59,7 +59,7 @@ const HoliModalSelect = <IDType extends string>({
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
-  const styles = getStyles(isDense, !!description)
+  const styles = getStyles(isDense)
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
@@ -164,9 +164,9 @@ const HoliModalSelect = <IDType extends string>({
       >
         <ScrollView style={mixins.container}>
           <View style={styles.separator}>
-            <HoliHeading level="2" style={[styles.heading, isDense && styles.headingDense]}>
-              {label}
-            </HoliHeading>
+            <HoliBox padding={isDense ? [16, 0, description ? 12 : 24, 0] : 0}>
+              <HoliHeading level="2">{label}</HoliHeading>
+            </HoliBox>
             {!!description && <HoliText style={styles.description}>{description}</HoliText>}
           </View>
           <View style={styles.optionsContainer}>{options.map(renderOption)}</View>
@@ -178,7 +178,7 @@ const HoliModalSelect = <IDType extends string>({
 
 export default HoliModalSelect
 
-const getStyles = (isDense: boolean, description: boolean) =>
+const getStyles = (isDense: boolean) =>
   StyleSheet.create({
     labelWrapper: {
       marginBottom: 6,
@@ -207,14 +207,6 @@ const getStyles = (isDense: boolean, description: boolean) =>
     },
     modal: {
       backgroundColor: isDense ? colors.background10 : colors.background30,
-    },
-    heading: {
-      fontWeight: '400',
-    },
-    headingDense: {
-      width: '100%',
-      marginTop: 16,
-      paddingBottom: description ? 12 : 24,
     },
     optionsContainer: {
       marginTop: isDense ? 12 : 16,

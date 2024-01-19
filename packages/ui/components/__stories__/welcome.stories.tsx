@@ -2,7 +2,7 @@ import React from 'react'
 
 import BubbleConnection from '@holi/ui/assets/img/icons/brand/BubbleConnection.svg'
 import Logo from '@holi/ui/assets/img/icons/brand/Logo.svg'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export default {
@@ -13,7 +13,7 @@ export const All = () => {
   return (
     <div className="welcome-page">
       <div className="welcome-container">
-        <HoliHeading size="large">Welcome to HOLI Components</HoliHeading>
+        <HoliHeading size="l">Welcome to HOLI Components</HoliHeading>
         <section className="description">
           <HoliText>
             These components base on{' '}

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import HoliHeading, { HoliHeadingLevels, HoliHeadingSizes } from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading, HoliHeadingSize } from '@holi/ui/components/atoms/HoliHeading'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export default {
@@ -27,7 +27,7 @@ ByLevel.argTypes = {
   },
   level: {
     description: 'determines the accessibilityLevel',
-    control: { type: 'select', options: HoliHeadingLevels },
+    control: { type: 'select', options: ['1', '2', '3'] },
   },
   selectable: { description: 'Should text be selectable?' },
   numberOfLines: {
@@ -50,13 +50,14 @@ ByLevelAndSize.argTypes = {
   },
   size: {
     description: 'adjusts the size of the text',
-    control: { type: 'select', options: HoliHeadingSizes },
+    control: { type: 'select', options: ['xl', 'l', 'm', 's'] },
   },
   level: {
     description: 'determines the accessibilityLevel',
-    control: { type: 'select', options: HoliHeadingLevels },
+    control: { type: 'select', options: ['1', '2', '3'] },
   },
   selectable: { description: 'Should text be selectable?' },
+  italic: { description: 'Should text be italic?', control: { type: 'boolean' } },
   numberOfLines: {
     description: 'Limits the text to this number of lines',
     control: { type: 'number' },
@@ -66,14 +67,14 @@ ByLevelAndSize.argTypes = {
 export const Colored = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliHeading size="large" style={{ color: colors.brandColorB30 }}>
+    <HoliHeading size="l" color={colors.brandColorB30}>
       Positive purple
     </HoliHeading>
   </Fragment>
 )
 
 export const All = () => {
-  const sizes = HoliHeadingSizes
+  const sizes: HoliHeadingSize[] = ['xl', 'l', 'm', 's']
   const samples = sizes.map((size) => {
     return (
       <div key={size} style={{ marginBottom: '16px' }}>
@@ -82,5 +83,16 @@ export const All = () => {
       </div>
     )
   })
-  return <div style={{ padding: '16px' }}>{samples}</div>
+  const italicSizes: HoliHeadingSize[] = ['l', 'm']
+  const italicSamples = italicSizes.map((size) => {
+    return (
+      <div key={size} style={{ marginBottom: '16px' }}>
+        <div style={{ opacity: 0.2 }}>italic {size}</div>
+        <HoliHeading size={size} italic>
+          This is an italic headline of size {size}
+        </HoliHeading>
+      </div>
+    )
+  })
+  return <div style={{ padding: '16px' }}>{samples.concat(italicSamples)}</div>
 }

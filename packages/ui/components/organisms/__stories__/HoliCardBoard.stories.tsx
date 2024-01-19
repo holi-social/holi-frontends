@@ -6,7 +6,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliDivider from '@holi/ui/components/atoms/HoliDivider'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -34,7 +34,7 @@ export const Example: ComponentStory<typeof Card> = () => {
             loading={false}
           />
           <View>
-            <HoliHeading size="medium">Grace Brewster Hopper</HoliHeading>
+            <HoliHeading size="m">Grace Brewster Hopper</HoliHeading>
             <HoliText color="gray300">She/Her</HoliText>
           </View>
           <HoliColumns>

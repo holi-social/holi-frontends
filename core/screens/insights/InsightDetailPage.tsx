@@ -16,9 +16,10 @@ import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/qu
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -104,14 +105,15 @@ const InsightDetailPage = () => {
 
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
-          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category" loading={initLoading}>
+          {/* TODO(SF) HoliText caption */}
+          <HoliHeading size="s" color={colors.brandB300} testID="insight-category" loading={initLoading}>
             {insight?.topic?.title}
           </HoliHeading>
 
+          <HoliGap size="xs" />
           <HoliHeading
             level="1"
-            size="super"
-            style={styles.insightHeadline}
+            size="xl"
             testID="insight-headline"
             loading={initLoading}
             // large font size (-> radius=16) with multiple lines expected
@@ -219,12 +221,6 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 24,
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
-  },
-  categoryHeadline: {
-    color: colors.brandColorB30,
-  },
-  insightHeadline: {
-    marginTop: 8,
   },
   insightText: {
     color: colors.foreground20,
