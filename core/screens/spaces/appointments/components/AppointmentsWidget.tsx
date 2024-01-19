@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
@@ -59,13 +58,6 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
-  const itemsInRow = useBreakpointMatcher([
-    [0, 1],
-    [+vars.breakpointS, 2],
-    [+vars.breakpointM, 3],
-    [+vars.breakpointXxl, 4],
-  ])
-
   const {
     data: appointmentsResult,
     error: errorSpace,
@@ -113,7 +105,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
     >
       <View style={styles.contentWrapper}>
         {totalResults > 0 && (
-          <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+          <HoliGridWrapper itemsInRow={1} gap={16}>
             {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
               <HoliGridCell key={item.id}>
                 <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
