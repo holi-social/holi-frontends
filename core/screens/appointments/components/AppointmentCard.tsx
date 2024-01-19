@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   iconGroupContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexShrink: 1,
     flex: 1,
   },
