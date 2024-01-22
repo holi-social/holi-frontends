@@ -32,7 +32,7 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
       <HoliSkeleton aspectRatio={327 / 214} borderRadius={24} height={'auto'} width={'100%'} />
       <HoliText size="extrasmall" style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
       <HoliGap size="xs" />
-      <HoliHeading level="2" size="s" color={colors.brandB300} loading skeletonOptions={{ width: '60%' }} />
+      <HoliHeading level="2" size="s" loading skeletonOptions={{ width: '60%' }} />
       <HoliGap size="xs" />
       <HoliText size="extrasmall" style={{ marginTop: 8 }} loading skeletonOptions={{ width: '100%' }} />
     </HoliGridCell>
