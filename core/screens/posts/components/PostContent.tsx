@@ -76,7 +76,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                   ) : null}
 
                   {/* Post title */}
-                  <HoliHeading level="1" size="m" style={styles.header} testID="post-heading">
+                  <HoliHeading level="1" size="m" testID="post-heading">
                     {post.title}
                   </HoliHeading>
                 </HoliColumn>
@@ -190,10 +190,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'space-between',
     marginBottom: 20,
-  },
-  header: {
-    flexGrow: 1,
-    flexShrink: 1,
   },
   description: {
     marginTop: 16,

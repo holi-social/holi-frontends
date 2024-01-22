@@ -105,10 +105,15 @@ const InsightDetailPage = () => {
 
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
-          {/* TODO(SF) HoliText caption */}
-          <HoliHeading size="s" color={colors.brandB300} testID="insight-category" loading={initLoading}>
+          <HoliText
+            size="small"
+            bold
+            style={{ color: colors.brandB300 }}
+            testID="insight-category"
+            loading={initLoading}
+          >
             {insight?.topic?.title}
-          </HoliHeading>
+          </HoliText>
 
           <HoliGap size="xs" />
           <HoliHeading

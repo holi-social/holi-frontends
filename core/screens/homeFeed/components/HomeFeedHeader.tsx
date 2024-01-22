@@ -20,28 +20,18 @@ const HomeFeedHeader: React.FC = () => {
   return (
     <View style={mixins.container}>
       {/*Headline */}
-      <HoliBox padding={[32, 0, 8, 0]}>
-        <HoliHeading level="1" size="xl" testID="home-feed-insights-heading" style={styles.headlineContainer}>
+      <HoliBox padding={[32, 0, 8, 0]} layout={styles.headlineContainer}>
+        <HoliHeading level="1" size="xl" testID="home-feed-insights-heading">
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
-          {Platform.OS === 'android' ? (
-            <HoliLocalImage
-              imageSource={HandWaveFilledPng}
-              width={40}
-              height={40}
-              label={''}
-              style={styles.handwaveFilled}
-            />
-          ) : (
-            <HoliLocalImage
-              imageSource={HandWaveFilled}
-              width={40}
-              height={40}
-              label={''}
-              style={styles.handwaveFilled}
-              isSvg
-            />
-          )}
         </HoliHeading>
+        <HoliLocalImage
+          imageSource={Platform.OS === 'android' ? HandWaveFilledPng : HandWaveFilled}
+          width={40}
+          height={40}
+          label={''}
+          style={styles.handwaveFilled}
+          isSvg={Platform.OS !== 'android'}
+        />
       </HoliBox>
     </View>
   )
@@ -51,7 +41,7 @@ export default withProfiler(HomeFeedHeader, { name: 'HomeFeedHeader' })
 
 const styles = StyleSheet.create({
   headlineContainer: {
-    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
   },
   handwaveFilled: {

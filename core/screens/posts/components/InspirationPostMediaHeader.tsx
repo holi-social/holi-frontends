@@ -61,7 +61,6 @@ const InspirationPostMediaHeader = ({ post }: InspirationPostMediaHeaderProps) =
           ) : (
             <HoliImage label="" source={{ uri: fallbackImageUri }} style={styles.fallbackImage} />
           )}
-          {/* TODO(SF) really heading? */}
           {!!post?.inspirationPostCategory?.title && <HoliHeading>{post?.inspirationPostCategory?.title}</HoliHeading>}
         </View>
         <HoliText size="small" style={styles.inspirationDate}>

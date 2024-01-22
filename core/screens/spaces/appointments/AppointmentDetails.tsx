@@ -221,7 +221,7 @@ const AppointmentDetails = () => {
                 month={new Date(appointment.startDateTime).getMonth() + 1}
                 size="medium"
               />
-              <HoliHeading style={styles.title} ellipsizeMode="tail" level="1" size="m" testID="appointment-title">
+              <HoliHeading ellipsizeMode="tail" level="1" size="m" testID="appointment-title">
                 {appointment.title}
               </HoliHeading>
             </View>
@@ -405,9 +405,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
     marginBottom: 8,
-  },
-  title: {
-    maxWidth: '80%',
   },
   card: {
     padding: 16,

@@ -7,6 +7,7 @@ import { jitsiUrl } from '@holi/core/helpers/config'
 import digitalTools from '@holi/core/static/digitalTools'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Delete, Settings3, Vidicon } from '@holi/icons/src/generated'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -157,9 +158,9 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
                 )}
               </View>
               {!!url && (
-                <HoliHeading style={styles.modalTitle} lineBreakMode="tail">
-                  {url.replace('https://', '')}
-                </HoliHeading>
+                <HoliBox padding={[0, 0, 0, 12]} layout={styles.modalTitle}>
+                  <HoliHeading ellipsizeMode="tail">{url.replace('https://', '')}</HoliHeading>
+                </HoliBox>
               )}
             </View>
             <View style={styles.modalDescriptionContainer}>
@@ -276,7 +277,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalTitle: {
-    marginLeft: 12,
     maxWidth: '85%',
   },
   modalDescriptionContainer: {

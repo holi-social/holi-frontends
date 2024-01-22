@@ -38,9 +38,8 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
       <View {...props}>
         <HoliSkeleton aspectRatio={327 / 206} borderRadius={16} height={'auto'} width={'100%'} />
 
-        {/* TODO(SF) holitext caption */}
         <HoliGap size="s" />
-        <HoliHeading level="3" selectable size="s" color={colors.brandB300} loading />
+        <HoliText size="small" selectable style={{ color: colors.brandB300 }} loading />
 
         <HoliGap size="xs" />
         <HoliHeading level="2" selectable size="s" numberOfLines={3} loading skeletonOptions={{ numberOfLines: 2 }} />
@@ -69,17 +68,16 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
           label={insight.title}
           style={styles.mainImage}
         />
+        <HoliGap size="s" />
 
         {!!insight.topic && (
-          // TODO(SF) holitext caption
-          <HoliBox padding={[16, 0, 0, 0]}>
-            <HoliHeading level="3" selectable size="s" color={colors.brandB300}>
+          <HoliBox padding={[0, 0, 8, 0]}>
+            <HoliText size="small" bold selectable style={{ color: colors.brandB300 }}>
               {insight.topic.title}
-            </HoliHeading>
+            </HoliText>
           </HoliBox>
         )}
 
-        <HoliGap size="s" />
         <HoliHeading level="2" selectable size="s" numberOfLines={3}>
           {insight.title}
         </HoliHeading>

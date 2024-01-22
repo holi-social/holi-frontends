@@ -10,7 +10,7 @@ Image.getSize = jest.fn()
 const imageUri = ''
 const postTitle = 'Post title'
 
-describe('HoliModalFullscreen.tsx', () => {
+describe('PostImage', () => {
   it('renders correctly image', () => {
     const tree = renderer.create(<PostImage uri={imageUri} postTitle={postTitle} key="postImage" />).toJSON()
     expect(tree).toMatchSnapshot()
