@@ -128,7 +128,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           transparent
           label={appointment.title}
           onPress={goToDetailView}
-          style={[styles.clickOverlay, { flex: 1 }]}
+          style={[styles.clickOverlay, styles.flex1]}
           contentStyle={styles.titleButton}
         >
           <HoliCalendarIcon
@@ -136,7 +136,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             month={new Date(appointment.startDateTime).getMonth() + 1}
             size="small"
           />
-          <HoliText ellipsizeMode="tail" bold numberOfLines={2}>
+          <HoliText ellipsizeMode="tail" bold numberOfLines={2} style={styles.flex1}>
             {appointment.title}
           </HoliText>
         </HoliButton>
@@ -238,6 +238,9 @@ const styles = StyleSheet.create({
   clickOverlay: {
     position: 'relative',
     pointerEvents: 'auto',
+  },
+  flex1: {
+    flex: 1,
   },
   titleButton: {
     flexDirection: 'row',
