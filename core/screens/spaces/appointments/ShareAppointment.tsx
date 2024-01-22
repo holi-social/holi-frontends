@@ -2,11 +2,12 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Share } from '@holi/icons/src/generated'
+import { FileCopy, Share } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -26,14 +27,15 @@ const ShareAppointment: React.VFC<ShareAppointmentProps> = ({
   startTime,
 }: ShareAppointmentProps) => {
   const { t } = useTranslation()
+  const { isLoggedIn } = useAuth()
 
   const message = `${t('spaces.appointments.share.message.title')}${t('spaces.appointments.share.message.text', {
     appointment: appointment.title,
     space: space.title,
   })}${t('spaces.appointments.share.message.date', { date: date, time: startTime })}${
-    appointment.location ? t('spaces.appointments.share.message.location', { location: appointment.location }) : ''
-  }${appointment.videoCallLink?.url ? t('spaces.appointments.share.message.link') : ''}${
-    appointment.videoCallLink?.url ? appointment.videoCallLink?.url : ''
+    appointment.location && isLoggedIn
+      ? t('spaces.appointments.share.message.location', { location: appointment.location })
+      : ''
   }`
 
   const [, shareLink] = useShareLink({
@@ -49,7 +51,7 @@ const ShareAppointment: React.VFC<ShareAppointmentProps> = ({
       onPress={shareLink}
     >
       <View style={styles.shareContainer}>
-        <HoliIcon icon={Share} size={24} style={styles.shareIcon} />
+        <HoliIcon icon={isMobile ? Share : FileCopy} size={24} style={styles.shareIcon} />
         <HoliText bold>{isMobile ? t('global.share') : t('spaces.appointments.copyLink')}</HoliText>
       </View>
     </HoliButton>
