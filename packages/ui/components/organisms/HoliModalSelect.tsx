@@ -251,6 +251,7 @@ const getStyles = (isDense: boolean, description: boolean) =>
     selectedOptionContainer: {
       flexDirection: 'row',
       alignItems: 'center',
+      maxWidth: '95%',
     },
     selectedOptionTitle: {
       marginLeft: 12,
