@@ -39,14 +39,14 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
     [+vars.breakpointXxl, 4],
   ])
 
-  const tasks = preview ? space?.tasks?.slice(-itemsInRow) : space?.tasks
+  const tasks = (preview ? space.tasks?.slice(-itemsInRow) : space.tasks) || []
 
   return (
     <>
-      {space?.tasks?.length ? (
+      {space.tasks?.length ? (
         <>
           <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
-            {(tasks || []).map((task) => (
+            {tasks.map((task) => (
               <HoliGridCell key={task.id}>
                 <SpaceTaskTile
                   task={task}
@@ -58,7 +58,7 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
               </HoliGridCell>
             ))}
           </HoliGridWrapper>
-          {preview && space.tasks?.length > itemsInRow && (
+          {preview && space.tasks.length > itemsInRow && (
             <View style={styles.seeAllButtonContainer}>
               <HoliButton
                 label={t('spaces.global.seeAllButton.label')}
