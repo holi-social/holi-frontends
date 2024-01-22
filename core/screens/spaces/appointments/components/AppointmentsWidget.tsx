@@ -104,7 +104,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
     <CollaboratorAreaCard
       headerLeftIcon={CalendarEvent}
       headerRightIcon={Add}
-      headerRightButtonLabel={t('spaces.appointments.add.button.label')}
+      headerRightButtonLabel={isMember ? t('spaces.appointments.add.button.label') : undefined}
       title={t('spaces.appointments.title')}
       onPressHeaderLeft={navigateToAppointmentsPage}
       onPressHeaderRight={navigateToAddAppointmentPage}

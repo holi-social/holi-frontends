@@ -58,11 +58,13 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
           isSvg
         />
       }
-      secondText={t('appointment.noResults.description')}
+      secondText={isMember ? t('appointment.noResults.description') : ''}
     >
-      <HoliButton label={t('appointment.noResults.button')} onPress={navigateToAddAppointmentPage}>
-        {t('appointment.noResults.button')}
-      </HoliButton>
+      {isMember && (
+        <HoliButton label={t('appointment.noResults.button')} onPress={navigateToAddAppointmentPage}>
+          {t('appointment.noResults.button')}
+        </HoliButton>
+      )}
     </HoliNoResults>
   )
 }
