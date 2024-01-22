@@ -15,7 +15,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface SpaceTermsInputProps {
-  title: string
+  title?: string
   description: string
   searchPlaceholder: string
   onSelect: (items: SortedTerm[]) => void
@@ -26,7 +26,7 @@ export interface SpaceTermsInputProps {
   testID?: string
 }
 
-const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
+const SpaceTermsInput = ({
   title,
   description,
   searchPlaceholder,
@@ -80,9 +80,11 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
 
   return (
     <View style={[styles.container, { minHeight: deviceHeight }]} testID={testID || 'space-terms-list'}>
-      <HoliText size="extralarge" style={styles.title}>
-        {title}
-      </HoliText>
+      {title && (
+        <HoliText size="extralarge" style={styles.title}>
+          {title}
+        </HoliText>
+      )}
       <HoliText style={styles.subTitle}>{description}</HoliText>
       <HoliTextInput
         aria-label={searchPlaceholder}
@@ -122,6 +124,7 @@ export default SpaceTermsInput
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
     paddingBottom: 132,
     ...Platform.select({
       native: {
@@ -130,11 +133,10 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    marginTop: 24,
+    marginBottom: 16,
   },
   subTitle: {
     marginBottom: 32,
-    marginTop: 16,
     color: colors.foreground20,
   },
   input: {

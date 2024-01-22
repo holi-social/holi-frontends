@@ -8,7 +8,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface SpaceLocationInputProps extends Partial<PlacesAutocompleteProps> {
-  title: string
   description: string
   validationErrorText?: string
   onChange: (selected: GeolocationSuggestion) => void
@@ -17,8 +16,7 @@ export interface SpaceLocationInputProps extends Partial<PlacesAutocompleteProps
   location?: GeolocationSuggestion
 }
 
-const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
-  title,
+const SpaceLocationInput = ({
   description,
   validationErrorText,
   onChange,
@@ -30,9 +28,6 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
 
   return (
     <View style={styles.container}>
-      <HoliText size="extralarge" style={styles.title}>
-        {title}
-      </HoliText>
       <HoliText style={styles.subTitle}>{description}</HoliText>
       <PlacesAutocomplete
         label={t('spaces.input.location.label')}
@@ -61,6 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background20,
+    paddingTop: 24,
     paddingBottom: 50,
     ...Platform.select({
       native: {
@@ -68,12 +64,8 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  title: {
-    marginTop: 24,
-  },
   subTitle: {
     marginBottom: 32,
-    marginTop: 16,
     color: colors.foreground20,
   },
   input: {

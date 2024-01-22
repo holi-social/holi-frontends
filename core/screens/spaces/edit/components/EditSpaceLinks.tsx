@@ -17,14 +17,14 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface EditSpaceLinksProps {
   space: Space
   onDismiss: () => void
 }
 
-const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: EditSpaceLinksProps) => {
+const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
   const { openToast } = useToast()
   const [selectedLink, setSelectedLink] = useState<SpaceLink>(undefined as unknown as SpaceLink)
   const { visible: visibleEdit, show: showEdit, hide: hideEdit } = useModalState()
@@ -38,11 +38,6 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
     },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
   })
-
-  const onSave = async () => {
-    openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
-    onDismiss()
-  }
 
   const onEdit = (link: SpaceLink) => {
     setSelectedLink(link)
@@ -74,10 +69,14 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
       : {}
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} scrollable={false}>
-      <HoliText style={styles.title} size="extralarge">
-        {t('spaces.input.publicLinks.manage.title')}
-      </HoliText>
+    <EditSpaceModal
+      scrollable={false}
+      footer={
+        <HoliButton label={t('global.done')} style={styles.doneButton} onPress={onDismiss}>
+          {t('global.done')}
+        </HoliButton>
+      }
+    >
       <HoliText style={styles.subTitle}>{t('spaces.input.publicLinks.manage.subtitle')}</HoliText>
       <View style={styles.buttonContainer}>
         <HoliButton
@@ -127,13 +126,14 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: colors.background20,
   },
-  title: {
-    marginTop: 40,
-  },
   subTitle: {
+    marginTop: 24,
     marginBottom: 32,
-    marginTop: 16,
     color: colors.foreground20,
+  },
+  doneButton: {
+    maxWidth: vars.maxButtonWidth,
+    marginHorizontal: 'auto',
   },
   modal: {
     backgroundColor: colors.background20,
