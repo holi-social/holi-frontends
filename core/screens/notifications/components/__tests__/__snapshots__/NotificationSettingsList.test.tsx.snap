@@ -57,13 +57,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,
-          "paddingBottom": 4,
           "userSelect": "auto",
         }
       }
     >
       profile.settings.notifications.GLOBAL.title
     </Text>
+    <View
+      style={
+        {
+          "paddingBottom": 4,
+        }
+      }
+    />
     <Text
       accessible={false}
       selectable={true}
@@ -488,13 +494,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,
-          "paddingBottom": 4,
           "userSelect": "auto",
         }
       }
     >
       profile.settings.notifications.POSTS_AND_COMMENTS.title
     </Text>
+    <View
+      style={
+        {
+          "paddingBottom": 4,
+        }
+      }
+    />
     <Text
       accessible={false}
       selectable={true}
@@ -790,13 +802,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,
-          "paddingBottom": 4,
           "userSelect": "auto",
         }
       }
     >
       profile.settings.notifications.SPACES.title
     </Text>
+    <View
+      style={
+        {
+          "paddingBottom": 4,
+        }
+      }
+    />
     <Text
       accessible={false}
       selectable={true}
@@ -1605,13 +1623,19 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,
-          "paddingBottom": 4,
           "userSelect": "auto",
         }
       }
     >
       profile.settings.notifications.GLOBAL.title
     </Text>
+    <View
+      style={
+        {
+          "paddingBottom": 4,
+        }
+      }
+    />
     <Text
       accessible={false}
       selectable={true}
