@@ -18,7 +18,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
@@ -110,7 +110,7 @@ const DonationsAppHome = () => {
         <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>
       <View
-        style={[mixins.container, { paddingTop: statusBarHeight + vars.topBarHeight }]}
+        style={[mixins.container, { paddingTop: statusBarHeight + dimensions.topBarHeight }]}
         testID={'donations-list-container'}
       >
         <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />

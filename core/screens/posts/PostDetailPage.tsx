@@ -34,7 +34,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
@@ -144,7 +144,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         }}
         ref={scrollViewRef}
       >
-        <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
+        <View style={screenWidth > dimensions.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent
             hasVisibilityIcon={hasVisibilityIcon}
             style={styles.postContent}

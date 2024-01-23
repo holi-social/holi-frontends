@@ -11,7 +11,7 @@ import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { FilterType, filterTypes } from './types'
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   inner: {
     flex: 1,
     // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: +vars.topBarHeight,
+    marginTop: dimensions.topBarHeight,
     paddingLeft: 0,
     paddingRight: 0,
   },

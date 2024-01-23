@@ -21,7 +21,7 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 interface AppointmentsWidgetProps {
   space: Space
@@ -61,9 +61,9 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
-    [+vars.breakpointS, 2],
-    [+vars.breakpointM, 3],
-    [+vars.breakpointXxl, 4],
+    [dimensions.breakpointS, 2],
+    [dimensions.breakpointM, 3],
+    [dimensions.breakpointXxl, 4],
   ])
 
   const {
@@ -104,7 +104,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
     <CollaboratorAreaCard
       headerLeftIcon={CalendarEvent}
       headerRightIcon={Add}
-      headerRightButtonLabel={t('spaces.appointments.add.button.label')}
+      headerRightButtonLabel={isMember ? t('spaces.appointments.add.button.label') : undefined}
       title={t('spaces.appointments.title')}
       onPressHeaderLeft={navigateToAppointmentsPage}
       onPressHeaderRight={navigateToAddAppointmentPage}
@@ -116,7 +116,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
           <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
             {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
               <HoliGridCell key={item.id}>
-                <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
+                <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
               </HoliGridCell>
             ))}
           </HoliGridWrapper>

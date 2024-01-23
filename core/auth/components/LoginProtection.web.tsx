@@ -7,7 +7,7 @@ import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { userId } = useAuth()
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         minHeight: '100%',
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: dimensions.bottomBarHeight,
       },
     }),
   },

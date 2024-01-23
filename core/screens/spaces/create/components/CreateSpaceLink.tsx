@@ -7,7 +7,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { urlRegex } from '@holi/core/helpers'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
 import { AddExternalLinkResponse, addExternalLinkMutation } from '@holi/core/screens/spaces/create/mutations'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLinkType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -98,12 +98,11 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
       <SafeAreaView style={styles.safeArea}>
         <HoliKeyboardSaveView>
           <ScrollView keyboardShouldPersistTaps="handled">
-            <EditSpaceModal
+            <EditSpaceModalWithFooter
               onDismiss={onDismiss}
               onSave={onSave}
               saveButtonDisabled={saveButtonDisabled}
               scrollable={false}
-              persistFooter={true}
             >
               <SpaceLinksForm
                 title={t('spaces.input.publicLinks.title')}
@@ -114,7 +113,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
                 validationErrorTextUrl={validationErrorTextUrl}
                 validationErrorTextName={validationErrorTextName}
               />
-            </EditSpaceModal>
+            </EditSpaceModalWithFooter>
           </ScrollView>
         </HoliKeyboardSaveView>
       </SafeAreaView>

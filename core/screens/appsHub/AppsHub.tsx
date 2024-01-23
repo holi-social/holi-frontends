@@ -11,7 +11,7 @@ import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const AppsHub = () => {
   const setScreenOptions = useSetScreenOptions()
@@ -75,11 +75,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 16,
     marginBottom: 8,
-    maxWidth: +vars.breakpointS,
+    maxWidth: dimensions.breakpointS,
   },
   container: {
     alignItems: 'center',
-    paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
+    paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
     paddingBottom: 48,
   },
   image: {

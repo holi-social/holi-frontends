@@ -134,7 +134,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
           participantIds:
             inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
           permission: permissionType?.id,
-          thumbnail: thumbnail?.blob,
+          thumbnail: thumbnail === null ? null : thumbnail?.blob, // null is used to inform the backend that the thumbnail has been deleted
           startDateTime: transformToUTC(`${startDate}T${startHours}:${startMinutes}` || ''),
           endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
           location,

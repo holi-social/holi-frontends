@@ -9,7 +9,7 @@ import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMe
 import { MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
 import { RoomMessageListProps } from './types'
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background20,
   },
   listFooterSpacer: {
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
   listHeaderSpacer: {
     height: 20,

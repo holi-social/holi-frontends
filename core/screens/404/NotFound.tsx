@@ -10,7 +10,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const NotFound = () => {
   const { t } = useTranslation()
@@ -95,7 +95,7 @@ const getStyles = (safeAreaInsetTop: number) =>
       height: '100%',
       backgroundColor: colors.background20,
       paddingHorizontal: 16,
-      paddingTop: +vars.topBarHeight + 24 + (Platform.OS !== 'web' ? safeAreaInsetTop : 0),
+      paddingTop: dimensions.topBarHeight + 24 + (Platform.OS !== 'web' ? safeAreaInsetTop : 0),
     },
     content: {
       alignItems: 'center',

@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from 'react-native'
 
 import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
 import { onScreenScrollY } from '@holi/core/helpers'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import type { RoomListProps } from './types'
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   listFooterSpacer: {
-    height: +vars.bottomBarHeight,
+    height: dimensions.bottomBarHeight,
   },
   listItemSeparator: {
     borderColor: colors.background30,

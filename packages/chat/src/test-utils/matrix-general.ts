@@ -4,6 +4,7 @@ import {
   EventTimeline,
   EventTimelineSet,
   IContent,
+  IEvent,
   MatrixClient,
   MatrixEvent,
   Room,
@@ -13,21 +14,27 @@ import {
   createClient,
 } from 'matrix-js-sdk'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
 import { MembershipStatus } from '@holi/chat/src/client/types'
 
-export const getClientOptions = (token: string) => ({
+const chatClientOptions = {
   baseUrl: 'chat.holi.social',
-  accessToken: token,
+  accessToken: 'syt_p',
   deviceId: 'DKIEMZVXAM',
   freshLogin: true,
   userId: '@someone:chat.holi.social',
-})
+}
+
+export const createChatClient = () => new ChatClient(chatClientOptions)
 
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
 export const asMutable = <T>(value: T) => value as Mutable<T>
 
 export const createMatrixClientMock = () => {
   const mxClient = jest.mocked(new MatrixClient({ baseUrl: '' }))
+  mxClient.getIgnoredUsers.mockReturnValue([])
+  mxClient.getRooms.mockReturnValue([])
+
   const createClientMock = jest.mocked(createClient)
   createClientMock.mockReturnValue(mxClient)
 
@@ -40,6 +47,7 @@ export const createMatrixClientMock = () => {
 }
 
 interface RoomMockOptions {
+  name?: string
   isSpaceRoom?: boolean
   members?: RoomMember[]
   timelineEvents?: MatrixEvent[]
@@ -47,12 +55,13 @@ interface RoomMockOptions {
 
 export const createRoomMock = (
   roomId: string,
-  { isSpaceRoom = false, members = [], timelineEvents }: RoomMockOptions = {}
+  { name, isSpaceRoom = false, members = [], timelineEvents }: RoomMockOptions = {}
 ) => {
   const room = jest.mocked(new Room('', {} as MatrixClient, ''))
 
   // room setup
   asMutable(room).roomId = roomId
+  if (name) room.name = name
   room.isSpaceRoom.mockReturnValue(isSpaceRoom)
   room.getMembers.mockReturnValue(members)
   if (timelineEvents) {
@@ -102,12 +111,14 @@ export const getListenerForMatrixEvent = (
   return calls[0]?.[1] // return the second argument passed into the found call
 }
 
-export const createMatrixEventMock = (type: string, content?: IContent) => {
+export const createMatrixEventMock = (type: string, roomId?: string, content?: IContent, effectiveEvent?: IEvent) => {
   const event = jest.mocked(new MatrixEvent())
 
   // event setup
   event.getType.mockReturnValue(type)
+  if (roomId) event.getRoomId.mockReturnValue(roomId)
   if (content) event.getContent.mockReturnValue(content)
+  if (effectiveEvent) event.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
   return event
 }

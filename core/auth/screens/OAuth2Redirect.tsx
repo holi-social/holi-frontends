@@ -7,7 +7,7 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { ErrorContext } from '@holi/core/errors/helpers/logError.shared'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface OAuth2RedirectProps {
@@ -42,7 +42,7 @@ const OAuth2Redirect: React.VFC<OAuth2RedirectProps> = ({ error, errorContext })
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
+    marginTop: dimensions.topBarHeight + 50,
   },
 })
 

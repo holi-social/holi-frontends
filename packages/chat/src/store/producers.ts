@@ -30,8 +30,10 @@ export const addNotificationsCount = produce((chatRoom: ChatRoom, count: number)
 })
 
 export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatRoomMessage) => {
-  room.lastMessage = message
-  room.timestamp = message.timestamp
+  if (!room.timestamp || (message.timestamp && room.timestamp <= message.timestamp)) {
+    room.lastMessage = message
+    room.timestamp = message.timestamp
+  }
 })
 
 /**

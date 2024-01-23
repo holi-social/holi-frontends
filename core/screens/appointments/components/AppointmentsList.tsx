@@ -12,7 +12,7 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 interface AppointmentsListProps {
   space: Space
@@ -24,12 +24,13 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
   const { navigate } = useRouting()
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
-    [+vars.breakpointS, 2],
-    [+vars.breakpointM, 3],
-    [+vars.breakpointXxl, 4],
+    [dimensions.breakpointS, 2],
+    [dimensions.breakpointM, 3],
+    [dimensions.breakpointXxl, 4],
   ])
 
   const navigateToAddAppointmentPage = useCallback(() => {
@@ -40,7 +41,7 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
     <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
       {appointments.map((item) => (
         <HoliGridCell key={item.id}>
-          <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
+          <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
         </HoliGridCell>
       ))}
     </HoliGridWrapper>
@@ -57,11 +58,13 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
           isSvg
         />
       }
-      secondText={t('appointment.noResults.description')}
+      secondText={isMember ? t('appointment.noResults.description') : ''}
     >
-      <HoliButton label={t('appointment.noResults.button')} onPress={navigateToAddAppointmentPage}>
-        {t('appointment.noResults.button')}
-      </HoliButton>
+      {isMember && (
+        <HoliButton label={t('appointment.noResults.button')} onPress={navigateToAddAppointmentPage}>
+          {t('appointment.noResults.button')}
+        </HoliButton>
+      )}
     </HoliNoResults>
   )
 }

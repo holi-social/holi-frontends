@@ -6,7 +6,7 @@ import {
   RefreshableScrollViewProps,
 } from '@holi/core/components/ScrollHeaderLayout/types'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 const PULL_DIVIDER = 2
 
@@ -24,8 +24,8 @@ export function withRefreshControl<P extends LayoutProps, T>(
       }: RefreshableScrollHeaderLayoutProps<P>,
       ref: React.ForwardedRef<T>
     ) => {
-      const refreshHeight = +vars.topBarHeight + +vars.loaderHeight
-      const loaderTopOffset = +vars.loaderHeight
+      const refreshHeight = dimensions.topBarHeight + dimensions.loaderHeight
+      const loaderTopOffset = dimensions.loaderHeight
 
       const startPointRef = useRef(0)
       const [pullChange, setPullChange] = useState(0)

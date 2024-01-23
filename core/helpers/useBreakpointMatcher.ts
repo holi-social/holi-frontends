@@ -1,10 +1,10 @@
 import { useWindowDimensions } from 'react-native'
 
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 const defaultBreakpointGridValues: [number, number][] = [
   [0, 1],
-  [+vars.breakpointL, 2],
+  [dimensions.breakpointL, 2],
 ]
 
 /*

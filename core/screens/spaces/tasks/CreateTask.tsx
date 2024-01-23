@@ -123,6 +123,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
       visibility: visibility?.id,
       locationType: locationType?.id,
       regularity: regularity?.id,
+      slotsAvailable: slotsAvailable,
       ...(name ? { name } : {}),
       ...(description ? { description } : {}),
       ...(contactEmail ? { contactEmail } : {}),

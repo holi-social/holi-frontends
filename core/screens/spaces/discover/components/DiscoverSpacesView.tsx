@@ -16,7 +16,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 interface DiscoverSpacesViewProps {
   style?: StyleProp<ViewStyle>
@@ -92,18 +92,20 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         transparent
       >
         <View
-          style={screenWidth > +vars.breakpointS ? styles.compositionImageContainerL : styles.compositionImageContainer}
+          style={
+            screenWidth > dimensions.breakpointS ? styles.compositionImageContainerL : styles.compositionImageContainer
+          }
         >
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
             resizeMode="contain"
-            width={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? width : 324}
-            height={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? aspectRatio * width : 188}
+            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? width : 324}
+            height={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? aspectRatio * width : 188}
             style={styles.compositionImage}
             label=""
           />
           <View style={styles.learnMoreDescriptionContainer}>
-            {screenWidth > +vars.breakpointS && (
+            {screenWidth > dimensions.breakpointS && (
               <>
                 <HoliHeading level="2">{t('spaces.about.banner.title')}</HoliHeading>
                 <HoliText style={{ color: colors.foreground20, lineHeight: 23.68 }}>
@@ -111,7 +113,9 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
                 </HoliText>
               </>
             )}
-            <View style={screenWidth > +vars.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}>
+            <View
+              style={screenWidth > dimensions.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}
+            >
               <HoliText bold style={{ paddingRight: 8 }}>
                 {t('spaces.about.banner.button.title')}
               </HoliText>

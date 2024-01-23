@@ -8,7 +8,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 export interface CenteredImageHeadlineDescriptionLayoutProps extends CenteredContentLayoutProps {
   imageSource?: StaticImageData
@@ -71,7 +71,7 @@ CenteredImageHeadlineDescriptionLayout.displayName = 'CenteredImageHeadlineDescr
 const styles = StyleSheet.create({
   inner: {
     alignItems: 'center',
-    maxWidth: vars.breakpointL,
+    maxWidth: dimensions.breakpointL,
   },
   imageContainer: {
     alignItems: 'center',

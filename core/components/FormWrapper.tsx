@@ -15,7 +15,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface FormWrapperProps extends ScrollViewProps {
@@ -101,7 +101,9 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
         <HoliKeyboardSaveView
           onHeightChange={onHeightChange}
           style={styles.keyboardSaveView}
-          initialOffsetTop={initialOffsetTop ?? (showBottomBar && Platform.OS === 'web' ? +vars.bottomBarHeight : 0)}
+          initialOffsetTop={
+            initialOffsetTop ?? (showBottomBar && Platform.OS === 'web' ? dimensions.bottomBarHeight : 0)
+          }
         >
           <ScrollView
             ref={scrollViewRef}
@@ -164,7 +166,7 @@ const createStyles = (screenHeight: number) =>
     scrollView: {
       flex: 1,
       width: '100%',
-      maxWidth: vars.maxScreenWidth,
+      maxWidth: dimensions.maxScreenWidth,
       paddingBottom: 25,
       ...Platform.select({
         web: {
@@ -201,7 +203,7 @@ const createStyles = (screenHeight: number) =>
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
       ...Platform.select({
         web: {
-          maxWidth: vars.maxScreenWidth,
+          maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
         },
       }),

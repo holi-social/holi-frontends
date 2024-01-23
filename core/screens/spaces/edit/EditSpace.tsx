@@ -42,7 +42,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 enum EditFields {
@@ -54,6 +54,17 @@ enum EditFields {
   LOCATION = 'LOCATION',
   CONTACT = 'CONTACT',
   LINKS = 'LINKS',
+}
+
+const editTitles: Record<EditFields, string> = {
+  [EditFields.NAME]: 'spaces.input.nameAndGoal.title',
+  [EditFields.TOPICS]: 'spaces.input.topics.title',
+  [EditFields.SDGS]: 'spaces.input.sdgs.title',
+  [EditFields.COVER_IMAGE]: 'spaces.edit.mainImage',
+  [EditFields.AVATAR]: 'spaces.edit.avatar',
+  [EditFields.LOCATION]: 'spaces.input.location.title',
+  [EditFields.CONTACT]: 'space.input.contact.title',
+  [EditFields.LINKS]: 'spaces.input.publicLinks.manage.title',
 }
 
 export type EditSpaceParams = {
@@ -340,6 +351,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           </HoliButton>
         </View>
         <HoliModal
+          heading={editField ? t(editTitles[editField]) : ''}
           show={visible}
           label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
           onDismiss={handleModalClose}
@@ -406,7 +418,7 @@ const getStyles = (statusBarHeight: number) =>
     },
     wrapper: {
       justifyContent: 'center',
-      paddingTop: vars.topBarHeight + statusBarHeight,
+      paddingTop: dimensions.topBarHeight + statusBarHeight,
     },
     modalHeader: {
       backgroundColor: colors.background20,
@@ -468,7 +480,7 @@ const getStyles = (statusBarHeight: number) =>
     },
     overlayButton: {
       marginHorizontal: 'auto',
-      maxWidth: vars.maxButtonWidth,
+      maxWidth: dimensions.maxButtonWidth,
     },
     modalContentWrapper: {
       ...Platform.select({

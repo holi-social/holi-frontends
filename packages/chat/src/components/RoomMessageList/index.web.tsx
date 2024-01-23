@@ -7,7 +7,7 @@ import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
 import { RoomMessageListProps, isTextMessageItem } from './types'
@@ -111,10 +111,10 @@ const styles = StyleSheet.create({
   listItemContainer: {
     alignSelf: 'center',
     width: '100%',
-    maxWidth: +vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
   },
   listFooterSpacer: {
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
   listHeaderSpacer: {
     height: 20,

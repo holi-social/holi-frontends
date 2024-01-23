@@ -433,7 +433,7 @@ const testAddEditDeleteTask = async (page: Page) => {
   await clickElementByTestId(page, 'btn-right-space-tasks-card')
   await checkAccessibility(page)
   await inputTaskInfo(page, taskTitle, taskDescription)
-  await expect(page.getByText(taskTitle)).toBeVisible()
+  await expect(page.getByText(taskTitle).first()).toBeVisible()
 
   // edit task
   const editedTaskTitle = 'E2E edited task'
@@ -452,7 +452,7 @@ const testAddEditDeleteTask = async (page: Page) => {
 
   // save edited task
   await clickElementByTestId(page, 'form-modal-save-btn')
-  await expect(page.getByText(editedTaskTitle)).toBeVisible()
+  await expect(page.getByText(editedTaskTitle).first()).toBeVisible()
 
   // delete task
   await clickElementByTestId(page, 'btn-task-more-options')

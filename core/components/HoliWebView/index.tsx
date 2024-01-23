@@ -11,7 +11,7 @@ import { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewSourceUri => {
   return !!value && 'uri' in value
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     position: 'absolute',
-    paddingTop: vars.topBarHeight + 50,
+    paddingTop: dimensions.topBarHeight + 50,
     backgroundColor: colors.background10,
     width: '100%',
     height: '100%',

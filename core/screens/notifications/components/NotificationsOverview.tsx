@@ -26,7 +26,7 @@ import {
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const NotificationsOverview = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -137,12 +137,12 @@ const styles = StyleSheet.create({
   },
   bottomLoader: {
     position: 'relative',
-    marginBottom: +vars.bottomBarHeight,
+    marginBottom: dimensions.bottomBarHeight,
   },
   scrollView: {
     ...Platform.select({
       android: {
-        marginTop: +vars.topBarHeight,
+        marginTop: dimensions.topBarHeight,
       },
       web: {
         marginHorizontal: 'auto',
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     }),
   },
   footer: {
-    marginBottom: +vars.bottomBarHeight,
+    marginBottom: dimensions.bottomBarHeight,
   },
   webWrapperStyle: {
     backgroundColor: colors.background30,

@@ -42,22 +42,22 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             </View>
           </HoliLink>
         )}
+
+        {!isCollaborator && space.onboarding?.steps && space.onboarding.steps.length > 0 && (
+          <SpaceCollaboratorOnboardingSteps
+            steps={space.onboarding?.steps}
+            header={t('spaces.collaborate.onboarding.info.header')}
+            style={styles.onboardingSteps}
+          />
+        )}
+
         {appointmentsFtEnabled && <AppointmentsWidget space={space} style={styles.card} />}
         {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
         {isCollaborator && <StorageWidget space={space} style={styles.card} />}
         {isCollaborator ? (
           <TaskCollaborationCard isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} />
         ) : (
-          <>
-            {space.onboarding?.steps && space.onboarding.steps.length > 0 && (
-              <SpaceCollaboratorOnboardingSteps
-                steps={space.onboarding?.steps}
-                header={t('spaces.collaborate.onboarding.info.header')}
-                style={styles.onboardingSteps}
-              />
-            )}
-            <SpaceTaskList isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} preview />
-          </>
+          <SpaceTaskList isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} preview />
         )}
         {isCollaborator && <NewToolsTeaser />}
       </View>

@@ -21,7 +21,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
@@ -183,7 +183,7 @@ export default withProfiler(VolunteeringListing, { name: 'VolunteeringListing' }
 const getStyles = (bottomInset = 0) =>
   StyleSheet.create({
     list: {
-      paddingTop: +vars.topBarHeight,
+      paddingTop: dimensions.topBarHeight,
       backgroundColor: colors.background20,
     },
     loadMoreButton: {

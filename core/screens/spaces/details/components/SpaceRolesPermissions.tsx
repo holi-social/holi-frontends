@@ -15,7 +15,7 @@ import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceRolesPermissionsParams = {
@@ -55,6 +55,15 @@ const ADMIN_PERMISSIONS: RolePermissions[] = [
     permissions: [
       { name: 'spaces.rolesAndPermissions.update.postCollab', allowed: true },
       { name: 'spaces.rolesAndPermissions.update.postPublic', allowed: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.appointments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.appointments.schedulePublic', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.scheduleColab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.editAny', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.deleteAny', allowed: true },
     ],
   },
   {
@@ -115,6 +124,15 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
     ],
   },
   {
+    role: 'spaces.rolesAndPermissions.appointments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.appointments.schedulePublic', allowed: false },
+      { name: 'spaces.rolesAndPermissions.appointments.scheduleColab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.editOwn', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.deleteOwn', allowed: true },
+    ],
+  },
+  {
     role: 'spaces.rolesAndPermissions.tasks.title',
     permissions: [
       { name: 'spaces.rolesAndPermissions.tasks.postCollab', allowed: true },
@@ -152,7 +170,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
-  const tabBarStyle = useBreakpointMatcher([[vars.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const [spaceIdOrName] = useParam('spaceIdOrName')
 
   const { error, space } = useSpace(spaceIdOrName, {
@@ -254,7 +272,7 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       android: {
-        paddingTop: +vars.topBarHeight,
+        paddingTop: dimensions.topBarHeight,
       },
     }),
   },
@@ -267,7 +285,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {

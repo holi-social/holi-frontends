@@ -29,7 +29,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CreateSpace = () => {
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     width: '100%',
     paddingHorizontal: 0,
     ...Platform.select({

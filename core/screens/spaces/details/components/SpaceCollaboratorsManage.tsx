@@ -16,7 +16,7 @@ import { ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generate
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorsManageParams = {
@@ -93,12 +93,12 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
   container: {
     ...Platform.select({
       android: {
-        paddingTop: vars.topBarHeight,
+        paddingTop: dimensions.topBarHeight,
       },
     }),
   },

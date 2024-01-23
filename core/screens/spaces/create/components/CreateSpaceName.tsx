@@ -41,9 +41,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
     <View style={styles.wrapper}>
       <View style={styles.container}>
         <View style={styles.title}>
-          <HoliText size="extralarge" testID="space-name-and-goal-title">
-            {t('spaces.create.stepOne.title')}
-          </HoliText>
+          <HoliText size="extralarge">{t('spaces.create.stepOne.title')}</HoliText>
         </View>
         <SpaceNameInput
           value={spaceName}

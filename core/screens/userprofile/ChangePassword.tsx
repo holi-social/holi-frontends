@@ -38,7 +38,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface ChangePasswordProps {
@@ -307,13 +307,13 @@ const styles = StyleSheet.create({
   inner: {
     flex: 1,
     // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: +vars.topBarHeight,
+    marginTop: dimensions.topBarHeight,
     ...Platform.select({
       web: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: dimensions.bottomBarHeight,
       },
       android: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: dimensions.bottomBarHeight,
       },
     }),
   },

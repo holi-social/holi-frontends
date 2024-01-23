@@ -9,7 +9,7 @@ import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface NotificationGroup {
@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   listHeaderSpacer: {
-    height: +vars.topBarHeight,
+    height: dimensions.topBarHeight,
   },
   lastSectionFooter: {
-    marginBottom: +vars.bottomBarHeight,
+    marginBottom: dimensions.bottomBarHeight,
   },
   notification: {
     paddingVertical: 12,
