@@ -45,7 +45,7 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
 
   return (
     <>
-      {space.tasks?.length ? (
+      {allTasks.length > 0 ? (
         <>
           <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
             {displayTasks.map((task) => (
