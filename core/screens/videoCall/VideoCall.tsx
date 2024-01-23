@@ -15,7 +15,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 const { useParam } = createParamHooks<VideoCallParams>()
 
@@ -100,8 +100,8 @@ const VideoCall: React.FC = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight - +vars.topBarHeight,
-      marginTop: vars.topBarHeight,
+      minHeight: deviceHeight - dimensions.topBarHeight,
+      marginTop: dimensions.topBarHeight,
     },
   })
 

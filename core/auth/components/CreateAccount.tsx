@@ -21,7 +21,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const isWeb = Platform.OS === 'web'
 
@@ -145,7 +145,7 @@ export default memo(CreateAccount)
 
 const styles = StyleSheet.create({
   inner: {
-    maxWidth: +vars.breakpointL,
+    maxWidth: dimensions.breakpointL,
     width: '100%',
   },
   headline: {

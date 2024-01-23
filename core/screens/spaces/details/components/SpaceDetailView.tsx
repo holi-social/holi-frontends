@@ -10,7 +10,7 @@ import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/Sp
 import { Flag2, Flag2Filled, Pushpin, PushpinFilled, Sun, SunFilled } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum SpaceDetailsTabs {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   tabStyle: {
     backgroundColor: colors.background20,
-    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
+    paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 24,
   },
 })
 

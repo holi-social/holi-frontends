@@ -33,8 +33,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
@@ -61,7 +60,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
@@ -273,10 +272,10 @@ const createStyles = (screenHeight: number) =>
       minHeight: '100%',
       ...Platform.select({
         native: {
-          paddingTop: +vars.topBarHeight + 24,
+          paddingTop: dimensions.topBarHeight + 24,
         },
         web: {
-          paddingTop: +vars.topBarHeight,
+          paddingTop: dimensions.topBarHeight,
           minHeight: '100vh' as DimensionValue,
         },
       }),
@@ -296,10 +295,10 @@ const createStyles = (screenHeight: number) =>
       paddingVertical: 16,
       ...Platform.select({
         web: {
-          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
+          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 52,
         },
         native: {
-          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 80,
+          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 80,
         },
       }),
     },

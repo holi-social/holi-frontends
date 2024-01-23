@@ -14,7 +14,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const autoGenerateJitsiUrl = () => {
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     borderTopWidth: 1,
     borderTopColor: colors.background30,
-    paddingBottom: +vars.bottomBarHeight + 60,
+    paddingBottom: dimensions.bottomBarHeight + 60,
   },
   modalOptionButton: {
     flexDirection: 'row',

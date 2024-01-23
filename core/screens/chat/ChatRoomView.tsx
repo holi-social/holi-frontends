@@ -31,7 +31,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     minHeight: '100%',
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background20,
   },
   listContainer: {
@@ -214,6 +214,6 @@ const styles = StyleSheet.create({
   listStage: {
     alignSelf: 'center',
     paddingHorizontal: 16,
-    maxWidth: +vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
   },
 })

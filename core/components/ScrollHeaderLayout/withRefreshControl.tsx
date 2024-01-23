@@ -7,7 +7,7 @@ import {
   RefreshableScrollViewProps,
 } from '@holi/core/components/ScrollHeaderLayout/types'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 export function withRefreshControl<P extends LayoutProps, T>(
   ScrollComponent: (props: RefreshableScrollViewProps<P>, ref: React.ForwardedRef<T>) => React.ReactNode
@@ -24,7 +24,7 @@ export function withRefreshControl<P extends LayoutProps, T>(
       ref: React.ForwardedRef<T>
     ) => {
       const { top } = useSafeAreaInsets()
-      const additionalOffset = (headerOverlap ? top : 0) + +vars.topBarHeight
+      const additionalOffset = (headerOverlap ? top : 0) + dimensions.topBarHeight
 
       const refreshControl = (
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressViewOffset={additionalOffset} />

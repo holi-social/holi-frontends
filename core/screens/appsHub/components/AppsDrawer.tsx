@@ -13,7 +13,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const AppsDrawer: React.FC = () => {
@@ -21,7 +21,7 @@ const AppsDrawer: React.FC = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const onAppButtonClick = useCallback(
@@ -95,7 +95,7 @@ export default AppsDrawer
 const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
+    bottom: (Platform.OS === 'web' ? dimensions.bottomBarHeight : 0) + 16,
     right: '50%',
     justifyContent: 'center',
     paddingHorizontal: 20,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   appsHubButton: {
     marginVertical: 16,
     marginHorizontal: 12,
-    paddingBottom: Platform.OS === 'web' ? 36 : +vars.bottomBarHeight,
+    paddingBottom: Platform.OS === 'web' ? 36 : dimensions.bottomBarHeight,
   },
   appsHubContainer: {
     gap: 8,

@@ -14,7 +14,7 @@ import { spaceInvitesQuery } from '@holi/core/screens/spaces/details/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
@@ -111,10 +111,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     ...Platform.select({
       native: {
-        paddingTop: +vars.topBarHeight + 52,
+        paddingTop: dimensions.topBarHeight + 52,
       },
       web: {
-        paddingTop: +vars.topBarHeight + 24,
+        paddingTop: dimensions.topBarHeight + 24,
       },
     }),
     paddingBottom: 8,

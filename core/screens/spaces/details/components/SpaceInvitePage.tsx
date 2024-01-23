@@ -16,7 +16,7 @@ import { ArrowLeftS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export type SpaceInviteViewParams = {
   spaceIdOrName: string
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   loading: {
     paddingTop: 32,
     flex: 1,
-    marginTop: Platform.OS === 'web' ? 40 : +vars.topBarHeight + 44,
+    marginTop: Platform.OS === 'web' ? 40 : dimensions.topBarHeight + 44,
     backgroundColor: colors.background30,
     height: '100%',
   },

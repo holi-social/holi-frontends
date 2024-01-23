@@ -2,7 +2,7 @@ import React from 'react'
 import { Platform } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 export const SectionFooterWrapper = ({
   hasBottomOffset,
@@ -12,7 +12,7 @@ export const SectionFooterWrapper = ({
     case 'android':
     case 'web':
       return hasBottomOffset ? (
-        <HoliBox padding={[0, 0, +vars.bottomBarHeight, 0]}>{children}</HoliBox>
+        <HoliBox padding={[0, 0, dimensions.bottomBarHeight, 0]}>{children}</HoliBox>
       ) : (
         <>{children}</>
       )

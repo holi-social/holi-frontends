@@ -13,7 +13,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export type LinkHubParams = {
   spaceIdOrName: string
@@ -27,7 +27,7 @@ const LinkHub = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -64,7 +64,7 @@ const LinkHub = () => {
         <HoliTabs
           id="toolKit-tabs"
           centeredButtons
-          style={{ flex: 1, paddingTop: vars.topBarHeight + 40, backgroundColor: colors.background10 }}
+          style={{ flex: 1, paddingTop: dimensions.topBarHeight + 40, backgroundColor: colors.background10 }}
           backgroundColor={colors.background20}
           tabs={[
             {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingHorizontal: 0,
     paddingVertical: 0,
-    bottom: vars.topBarHeight,
+    bottom: dimensions.topBarHeight,
     right: '50%',
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',

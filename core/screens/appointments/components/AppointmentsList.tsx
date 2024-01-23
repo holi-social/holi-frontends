@@ -12,7 +12,7 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 interface AppointmentsListProps {
   space: Space
@@ -28,9 +28,9 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
-    [+vars.breakpointS, 2],
-    [+vars.breakpointM, 3],
-    [+vars.breakpointXxl, 4],
+    [dimensions.breakpointS, 2],
+    [dimensions.breakpointM, 3],
+    [dimensions.breakpointXxl, 4],
   ])
 
   const navigateToAddAppointmentPage = useCallback(() => {

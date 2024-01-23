@@ -9,6 +9,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -20,7 +21,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
@@ -104,11 +105,10 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
     <View style={[mixins.container, styles.list]}>
       {engagements.length > 0 && (
         <View>
-          <HoliBox padding={[0, 0, 16, 0]}>
-            <HoliHeading level="1" style={styles.title}>
-              {t('volunteering:listing.headline')}
-            </HoliHeading>
-          </HoliBox>
+          <HoliHeading level="1" style={styles.title}>
+            {t('volunteering:listing.headline')}
+          </HoliHeading>
+          <HoliGap size="s" />
           <PartnerInfoRow
             rowText={t('volunteering:listing.subline')}
             showOutlinkIcon={false}
@@ -185,7 +185,7 @@ export default withProfiler(VolunteeringListing, { name: 'VolunteeringListing' }
 const getStyles = (bottomInset = 0) =>
   StyleSheet.create({
     list: {
-      paddingTop: +vars.topBarHeight,
+      paddingTop: dimensions.topBarHeight,
       backgroundColor: colors.background20,
     },
     title: {

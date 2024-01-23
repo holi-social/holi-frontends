@@ -14,7 +14,7 @@ import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/Video
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceVideoCallListParams = {
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   },
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : +vars.topBarHeight,
+    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
     backgroundColor: colors.background20,
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
 })

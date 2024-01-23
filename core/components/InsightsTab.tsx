@@ -12,7 +12,7 @@ import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export interface InsightsTabProps {
   userId: string
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     width: '100%',
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
     borderBottomWidth: 1,
     borderStyle: 'solid',
     borderBottomColor: colors.background30,

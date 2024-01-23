@@ -33,7 +33,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { useKeyboard } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CommentInputPageParams = {
@@ -231,12 +231,12 @@ const SMALL_DEVICE_HEIGHT = 600
 const getStyles = (screenHeight: number) =>
   StyleSheet.create({
     pageView: {
-      paddingTop: vars.topBarHeight + 40,
+      paddingTop: dimensions.topBarHeight + 40,
       height: '100%', // prevents double scrollbars
       overflow: 'hidden',
       ...Platform.select({
         web: {
-          paddingTop: vars.topBarHeight + 10,
+          paddingTop: dimensions.topBarHeight + 10,
           height: '100vh',
           marginHorizontal: 'auto',
         },
@@ -252,7 +252,7 @@ const getStyles = (screenHeight: number) =>
     scrollView: {
       flex: 1,
       width: '100%',
-      maxWidth: vars.maxScreenWidth,
+      maxWidth: dimensions.maxScreenWidth,
       marginHorizontal: 'auto',
     },
     scrollContent: {
@@ -326,7 +326,7 @@ const getStyles = (screenHeight: number) =>
       borderTopColor: colors.background30,
       ...Platform.select({
         web: {
-          maxWidth: vars.maxScreenWidth,
+          maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
         },
       }),
@@ -343,7 +343,7 @@ const getStyles = (screenHeight: number) =>
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
       ...Platform.select({
         web: {
-          maxWidth: vars.maxScreenWidth,
+          maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
         },
       }),

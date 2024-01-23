@@ -8,7 +8,7 @@ import { clearProcessingUnauthorizedLogout } from '@holi/core/components/Session
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ForceLogout = () => {
@@ -41,7 +41,7 @@ const ForceLogout = () => {
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
+    marginTop: dimensions.topBarHeight + 50,
   },
 })
 

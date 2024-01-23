@@ -11,7 +11,7 @@ import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceForMember } from '@holi/core/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface SpacesTabProps {
@@ -39,7 +39,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
           <HoliBox
             key={space.id}
             padding={[0, 0, 32, 0]}
-            layout={{ maxWidth: vars.maxScreenWidth, width: '100%', alignSelf: 'center' }}
+            layout={{ maxWidth: dimensions.maxScreenWidth, width: '100%', alignSelf: 'center' }}
           >
             <HoliBlockItem
               label={space.title}

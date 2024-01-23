@@ -4,7 +4,7 @@ import { Platform, ScrollView, StyleSheet } from 'react-native'
 import Default from '@holi/core/components/DefaultLayout/Default'
 import HeaderOffsetScrollView from '@holi/core/components/DefaultLayout/HeaderOffsetScrollView'
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 /**
  * This is the default screen layout.
@@ -39,6 +39,6 @@ export default DefaultLayout
 
 export const styles = StyleSheet.create({
   headerPadding: {
-    paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
+    paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
   },
 })
