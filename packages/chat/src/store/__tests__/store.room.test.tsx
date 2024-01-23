@@ -1,18 +1,16 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { waitFor } from '@testing-library/react-native'
 import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
 import { ClientEvent, Room } from 'matrix-js-sdk'
 import React from 'react'
 import { PropsWithChildren } from 'react'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MembershipStatus } from '@holi/chat/src/client/types'
 import { _roomAtomsRecordAtomSubscriber, initChatClient, roomAtomsRecordAtom } from '@holi/chat/src/store/store'
 import {
+  createChatClient,
   createMatrixClientMock,
   createRoomMemberMock,
   createRoomMock,
-  getClientOptions,
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
 
@@ -26,41 +24,38 @@ const useStoreRoomAtomsTest = () => {
 }
 
 describe('Chat Store - rooms', () => {
+  const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
   let store: ReturnType<typeof createStore>
   let mxClient = createMatrixClientMock()
+  let chatClient = createChatClient()
+
+  const roomId = 'roomId'
+  const notificationCount = 0
+
+  const creator = {
+    avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
+    id: 'creator.kato:holi.social',
+    membership: MembershipStatus.join,
+    name: 'creator',
+  }
+  const member = {
+    avatar: 'https://unsplash.com/photos/a-group-of-blue-and-orange-shapes-on-a-white-surface-g0lR2cThaR0',
+    id: 'member1.feynman:holi.social',
+    membership: MembershipStatus.join,
+    name: 'member1',
+  }
 
   beforeEach(() => {
     jest.clearAllTimers()
     mxClient = createMatrixClientMock()
+    chatClient = createChatClient()
+    initChatClient(chatClient)
     store = createStore()
   })
 
-  it('should rendered the previously joined private room - getJoinedRoomsWithSharedData', (done) => {
+  it('should rendered the previously joined private room - getJoinedRoomsWithSharedData', async () => {
     // Init test Data
-    const wrapper = ({ children }: PropsWithChildren) => (
-      <Provider key={1} store={store}>
-        {children}
-      </Provider>
-    )
-    const roomId = 'roomId'
-    const notificationCount = 0
-
-    const creator = {
-      avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
-      id: 'daishi.kato:holi.social',
-      membership: MembershipStatus.join,
-      name: 'daishi',
-    }
-
-    const members = [
-      creator,
-      {
-        avatar: 'https://unsplash.com/photos/a-group-of-blue-and-orange-shapes-on-a-white-surface-g0lR2cThaR0',
-        id: 'richard.feynman:holi.social',
-        membership: MembershipStatus.join,
-        name: 'richie',
-      },
-    ]
+    const members = [creator, member]
 
     const creatorMock = createRoomMemberMock(creator.id, creator.name, creator.membership, creator.avatar)
     const roomMock = createRoomMock(roomId, {
@@ -73,17 +68,13 @@ describe('Chat Store - rooms', () => {
     roomMock.getMember.mockReturnValue(creatorMock)
     roomMock.getMyMembership.mockReturnValue('join')
 
-    // Init`ChatClient`
-    const chatClient = new ChatClient(getClientOptions('syt_p'))
-    initChatClient(chatClient)
+    mxClient.getRooms.mockReturnValue([roomMock])
+    mxClient.roomState.mockReturnValue(Promise.resolve([]))
+
+    const { result, waitFor } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
     // Wait until the initial rooms are available
-    waitFor(() => {
-      mxClient.getRooms.mockReturnValue([roomMock])
-      mxClient.roomState.mockReturnValue(Promise.resolve([]))
-
-      const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
-
+    await waitFor(() => {
       expect(result.current).toHaveProperty(roomId)
       expect(store.get(result.current[roomId])).toStrictEqual({
         avatar: undefined,
@@ -97,39 +88,20 @@ describe('Chat Store - rooms', () => {
         timestamp: undefined,
         type: 'private',
       })
-      done()
     })
   })
 
-  it('should rendered the previously joined space room - getJoinedRoomsWithSharedData', (done) => {
+  it('should rendered the previously joined space room - getJoinedRoomsWithSharedData', async () => {
     // Init test Data
-    const wrapper = ({ children }: PropsWithChildren) => (
-      <Provider key={2} store={store}>
-        {children}
-      </Provider>
-    )
     const spaceRoomId = '!space.room:holi.social'
     const spaceRoomName = 'space'
     const spaceChildRoomId = '!general.holi.social'
     const spaceChildRoomName = '#general'
     const holiSpaceId = 'holi-uuid'
-    const notificationCount = 0
-
-    const creator = {
-      avatar: 'https://unsplash.com/admin',
-      id: '@admin:holi.social',
-      membership: MembershipStatus.join,
-      name: 'admin',
-    }
 
     const members = [
       creator,
-      {
-        avatar: 'https://unsplash.com/driver',
-        id: '@elle.driver:holi.social',
-        membership: MembershipStatus.join,
-        name: 'Elle Driver',
-      },
+      member,
       {
         avatar: 'https://unsplash.com/test',
         id: '@o-ren-ishii:holi.social',
@@ -167,46 +139,42 @@ describe('Chat Store - rooms', () => {
       roomMock.getMyMembership.mockReturnValue('join')
     })
 
-    // Init`ChatClient`
-    const chatClient = new ChatClient(getClientOptions('syt_p'))
-    initChatClient(chatClient)
-
-    // Wait until the initial rooms are available
-    waitFor(() => {
-      mxClient.getRooms.mockReturnValue(rooms)
-      mxClient.roomState.mockImplementation(async (roomId: string) => {
-        if (roomId === spaceChildRoomId) {
-          return Promise.resolve([
-            {
-              type: ChatRoomEvent.SharedData,
-              room_id: spaceChildRoomId,
-              sender: creator.id,
-              content: spaceChildRoomEventContent,
-              state_key: '',
-              origin_server_ts: 1705480890010,
-              event_id: '$bJL-z28AnpJCuo_FWlAHvnCZ0Xk4aOkcpRlxqhjq_Do',
-              user_id: creator.id,
-            },
-          ])
-        }
-
+    mxClient.getRooms.mockReturnValue(rooms)
+    mxClient.roomState.mockImplementation(async (roomId: string) => {
+      if (roomId === spaceChildRoomId) {
         return Promise.resolve([
           {
             type: ChatRoomEvent.SharedData,
-            room_id: spaceRoomId,
+            room_id: spaceChildRoomId,
             sender: creator.id,
-            content: { holiSpaceId },
+            content: spaceChildRoomEventContent,
             state_key: '',
-            origin_server_ts: 1701872060015,
-            event_id: '$HpOGhRhXpmnIqG9LzfilcVeIaY-cUQgEy2cp8d3L3io',
+            origin_server_ts: 1705480890010,
+            event_id: '$bJL-z28AnpJCuo_FWlAHvnCZ0Xk4aOkcpRlxqhjq_Do',
             user_id: creator.id,
           },
         ])
-      })
+      }
 
-      // Mount and test
-      const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
+      return Promise.resolve([
+        {
+          type: ChatRoomEvent.SharedData,
+          room_id: spaceRoomId,
+          sender: creator.id,
+          content: { holiSpaceId },
+          state_key: '',
+          origin_server_ts: 1701872060015,
+          event_id: '$HpOGhRhXpmnIqG9LzfilcVeIaY-cUQgEy2cp8d3L3io',
+          user_id: creator.id,
+        },
+      ])
+    })
 
+    // Mount and test
+    const { result, waitFor } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
+
+    // Wait until the initial rooms are available
+    await waitFor(() => {
       expect(Object.keys(result.current).length).toBe(2)
 
       expect(store.get(result.current[spaceRoomId])).toStrictEqual({
@@ -239,34 +207,12 @@ describe('Chat Store - rooms', () => {
         notificationCount: notificationCount,
         timestamp: undefined,
       })
-
-      done()
     })
   })
 
   it('should subscribeToNewRooms events and update the _roomAtomsRecordAtom', () => {
-    const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
-
     // Init test Data
-    const roomId = 'roomId'
-    const notificationCount = 0
-
-    const creator = {
-      avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
-      id: 'daishi.kato:holi.social',
-      membership: MembershipStatus.join,
-      name: 'daishi',
-    }
-
-    const members = [
-      creator,
-      {
-        avatar: 'https://unsplash.com/photos/a-group-of-blue-and-orange-shapes-on-a-white-surface-g0lR2cThaR0',
-        id: 'richard.feynman:holi.social',
-        membership: MembershipStatus.join,
-        name: 'richie',
-      },
-    ]
+    const members = [creator, member]
 
     const creatorMock = createRoomMemberMock(creator.id, creator.name, creator.membership, creator.avatar)
     const roomMock = createRoomMock(roomId, {
@@ -277,10 +223,6 @@ describe('Chat Store - rooms', () => {
     roomMock.getUnreadNotificationCount.mockReturnValue(notificationCount)
     roomMock.getCreator.mockReturnValue(creator.id)
     roomMock.getMember.mockReturnValue(creatorMock)
-
-    // Init `ChatClient`
-    const chatClient = new ChatClient(getClientOptions('syt_p'))
-    initChatClient(chatClient)
 
     const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
