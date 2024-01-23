@@ -16,6 +16,7 @@ import AppointmentsList from '@holi/core/screens/appointments/components/Appoint
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -75,6 +76,7 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
   const space = data?.spaceById
 
   const initialTab = selectedTab === 'pending' || space?.membershipRequests?.totalResults ? TAB_PAST : TAB_UPCOMING
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   // TODO: use upcoming spaceAppointmentsQuery (with filter by upcoming and past appointments)
   const queryOptions: PaginationQueryHookOptions = {
@@ -153,15 +155,17 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
           ]}
         />
       </ScrollHeaderLayout.Refreshable>
-      <HoliButton
-        label={t('spaces.appointments.add.button.label')}
-        testID="btn-add-appointment"
-        inline
-        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-        onPress={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
-      >
-        <HoliIcon icon={Add} size={24} color={colors.foreground30} />
-      </HoliButton>
+      {isMember && (
+        <HoliButton
+          label={t('spaces.appointments.add.button.label')}
+          testID="btn-add-appointment"
+          inline
+          style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
+          onPress={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+        >
+          <HoliIcon icon={Add} size={24} color={colors.foreground30} />
+        </HoliButton>
+      )}
     </>
   )
 }

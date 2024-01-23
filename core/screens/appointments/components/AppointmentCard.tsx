@@ -22,9 +22,15 @@ type AppointmentCardProps = {
   appointment: Appointment
   space: Space
   isAdmin?: boolean
+  isMember?: boolean
 }
 
-const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, isAdmin }: AppointmentCardProps) => {
+const AppointmentCard: React.FC<AppointmentCardProps> = ({
+  appointment,
+  space,
+  isAdmin,
+  isMember,
+}: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
   const { userId, isLoggedIn } = useAuth()
@@ -66,6 +72,9 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
   const goToDetailView = () => navigate(`/spaces/${space.name}/appointments/${appointment.id}`)
   const isAppointmentCreator = appointment?.creator.id === userId
 
+  const shouldShowVisibilityLabel = isLoggedIn && (isMember || isAdmin)
+  const userIsAllowedToEdit = isAdmin || isAppointmentCreator
+
   return (
     <View key={appointment.id} style={styles.appointmentItem} testID="space-appointment-tile">
       <View style={styles.imageContainer}>
@@ -81,21 +90,23 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
           </HoliButton>
         )}
         <View style={styles.header}>
-          <View style={[styles.inviteOnly, appointment.thumbnail && !imageError ? styles.tagWithImage : {}]}>
-            <HoliIcon
-              icon={appointment.inviteOnly ? LockFilled : GlobeFilled}
-              color={colors.foreground30}
-              size={14}
-              style={styles.iconGroupIcon}
-            />
-            <HoliText size="extrasmall">
-              {t(
-                `appointment.card.${
-                  appointment.inviteOnly ? INVITE_ONLY_TYPE.INVITE_ONLY : INVITE_ONLY_TYPE.PUBLIC
-                }.title`
-              )}
-            </HoliText>
-          </View>
+          {shouldShowVisibilityLabel && (
+            <View style={[styles.inviteOnly, appointment.thumbnail && !imageError ? styles.tagWithImage : {}]}>
+              <HoliIcon
+                icon={appointment.inviteOnly ? LockFilled : GlobeFilled}
+                color={colors.foreground30}
+                size={14}
+                style={styles.iconGroupIcon}
+              />
+              <HoliText size="extrasmall">
+                {t(
+                  `appointment.card.${
+                    appointment.inviteOnly ? INVITE_ONLY_TYPE.INVITE_ONLY : INVITE_ONLY_TYPE.PUBLIC
+                  }.title`
+                )}
+              </HoliText>
+            </View>
+          )}
           {(isAdmin || isAppointmentCreator) && (
             <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
               <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
@@ -107,13 +118,17 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
       </View>
 
       <View
-        style={[styles.detailContainer, appointment.thumbnail && !imageError ? styles.detailContainerWithImage : {}]}
+        style={[
+          styles.detailContainer,
+          appointment.thumbnail && !imageError ? styles.detailContainerWithImage : {},
+          !userIsAllowedToEdit && !shouldShowVisibilityLabel ? styles.detailContainerWithoutHeader : {},
+        ]}
       >
         <HoliButton
           transparent
           label={appointment.title}
           onPress={goToDetailView}
-          style={[styles.clickOverlay, { flex: 1 }]}
+          style={[styles.clickOverlay, styles.flex1]}
           contentStyle={styles.titleButton}
         >
           <HoliCalendarIcon
@@ -121,7 +136,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, space, i
             month={new Date(appointment.startDateTime).getMonth() + 1}
             size="small"
           />
-          <HoliText ellipsizeMode="tail" bold numberOfLines={2}>
+          <HoliText ellipsizeMode="tail" bold numberOfLines={2} style={styles.flex1}>
             {appointment.title}
           </HoliText>
         </HoliButton>
@@ -212,6 +227,10 @@ const styles = StyleSheet.create({
   },
   detailContainer: {
     marginTop: 16,
+    minHeight: 40,
+  },
+  detailContainerWithoutHeader: {
+    marginTop: 0,
   },
   detailContainerWithImage: {
     marginTop: 0,
@@ -219,6 +238,9 @@ const styles = StyleSheet.create({
   clickOverlay: {
     position: 'relative',
     pointerEvents: 'auto',
+  },
+  flex1: {
+    flex: 1,
   },
   titleButton: {
     flexDirection: 'row',
@@ -250,7 +272,7 @@ const styles = StyleSheet.create({
   },
   iconGroupContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexShrink: 1,
     flex: 1,
   },

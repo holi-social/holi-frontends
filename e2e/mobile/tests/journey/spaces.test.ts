@@ -164,13 +164,11 @@ describe('@Spaces', () => {
   const inputSpaceNameAndGoal = async (name: string, goal: string) => {
     await waitForElementWithTestId('space-name-input')
     await waitForElementWithTestId('space-goal-input')
-    await fillFieldByTestId('space-name-input', name)
     await fillFieldByTestId('space-goal-input', goal)
-    // Click on the title (or anywhere outside the keyboard) to close the keyboard
+    await fillFieldByTestId('space-name-input', name + '\n')
+    // Send "\n" at the end of the value  to close the keyboard
     // There is no safe way to close the keyboard on iOS, so it's recommended to do it ourselves
     // https://github.com/appium/appium/issues/15073
-    await scrollToElementWithTestId('space-name-and-goal-title', 'up', { maxAttempts: 2 })
-    await tapOnElementWithTestId('space-name-and-goal-title')
   }
 
   const selectSomeTerms = async (numberOfTermsToSelect = 3) => {

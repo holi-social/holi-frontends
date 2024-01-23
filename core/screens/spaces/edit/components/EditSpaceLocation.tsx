@@ -101,7 +101,6 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
         showBottomBar
         renderProp={() => (
           <SpaceLocationInput
-            title={t('spaces.input.location.title')}
             description={t('spaces.input.location.description')}
             onChange={setSelectedLocation}
             location={selectedLocation}

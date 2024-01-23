@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import i18n from '@holi/core/i18n'
+import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -12,22 +13,18 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface NotificationBannerProps {
-  userAvatar: string
-  userName: string
+  member?: User
   spaceName: string
-  acceptedByAdmin: boolean
-  status: 'accepted' | 'declined' | 'withdrawn' | 'deleted'
+  status: 'accepted' | 'cancelled' | 'deleted'
   showBanner: boolean
   style?: StyleProp<ViewStyle>
 }
 
 const NotificationBanner = ({
   style,
-  userAvatar,
-  userName,
   spaceName,
   status,
-  acceptedByAdmin,
+  member,
   showBanner = true,
 }: React.PropsWithChildren<NotificationBannerProps>) => {
   const { t } = useTranslation()
@@ -62,21 +59,14 @@ const NotificationBanner = ({
     {
       status: 'accepted',
       iconColor: colors.brandColorC20,
-      message: t(acceptedByAdmin ? 'notifications.banner.accept.admin' : 'notifications.banner.accept', {
+      message: t('notifications.banner.accept', {
         space: spaceName,
       }),
     },
     {
-      status: 'declined',
+      status: 'cancelled',
       iconColor: colors.warning20,
-      message: t('notifications.banner.declined', {
-        space: spaceName,
-      }),
-    },
-    {
-      status: 'withdrawn',
-      iconColor: colors.warning20,
-      message: t('notifications.banner.withdrawn', {
+      message: t('notifications.banner.cancelled', {
         space: spaceName,
       }),
     },
@@ -107,11 +97,13 @@ const NotificationBanner = ({
               />
             ) : (
               <HoliAvatar
-                imageSrc={userAvatar}
+                imageSrc={member?.avatar}
                 size="small"
                 style={{ borderColor: 'transparent' }}
                 label={t('user.profileForm.avatar')}
-                initials=""
+                imageBlurhash={member?.avatarBlurhash}
+                initials={member?.avatarLabel || ''}
+                defaultColor={member?.avatarDefaultColor || ''}
               />
             )}
             {matchingStatus &&
@@ -134,10 +126,14 @@ const NotificationBanner = ({
           </View>
           <View style={styles.content}>
             <HoliText size="small" style={styles.message}>
-              <HoliText size="small" bold>
-                {status !== 'deleted' && status !== 'declined' && formatUsername(userName, i18n.language)}
-                {status === 'declined' && userName}
-              </HoliText>
+              {member && (
+                <HoliText size="small" bold>
+                  {status !== 'deleted' &&
+                    status !== 'cancelled' &&
+                    formatUsername(member?.fullName ?? '', i18n.language)}
+                  {status === 'cancelled' && member?.fullName}
+                </HoliText>
+              )}
               {matchingStatus && matchingStatus.message}
             </HoliText>
           </View>

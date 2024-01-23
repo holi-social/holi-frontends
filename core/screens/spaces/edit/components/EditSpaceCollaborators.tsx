@@ -77,7 +77,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       })
     },
   })
-  const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+  const { refetch: refetchMembers, data: membersData } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
     skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
@@ -152,6 +152,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     return <></>
   }
 
+  const spaceMembers = membersData?.spaceById?.members
+
   return (
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
@@ -203,7 +205,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                     fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                     loadMoreOnScroll
                   >
-                    {!!space && <SpacePendingRequestsList space={space} initiallySelectedUserId={selectedUserId} />}
+                    {!!space && (
+                      <SpacePendingRequestsList
+                        space={space}
+                        initiallySelectedUserId={selectedUserId}
+                        spaceMembers={spaceMembers}
+                      />
+                    )}
                   </Pagination>
                 </View>
               ),

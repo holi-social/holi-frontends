@@ -14,9 +14,11 @@ describe('SpacePendingRequestsList', () => {
       totalResults: 0,
     }
     render(
-      <PaginationContext.Provider value={paginationContext}>
-        <SpacePendingRequestsList space={space} />
-      </PaginationContext.Provider>
+      <MockedProvider>
+        <PaginationContext.Provider value={paginationContext}>
+          <SpacePendingRequestsList space={space} />
+        </PaginationContext.Provider>
+      </MockedProvider>
     )
     expect(screen.toJSON()).toMatchSnapshot()
   })

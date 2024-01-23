@@ -58,6 +58,15 @@ const ADMIN_PERMISSIONS: RolePermissions[] = [
     ],
   },
   {
+    role: 'spaces.rolesAndPermissions.appointments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.appointments.schedulePublic', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.scheduleColab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.editAny', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.deleteAny', allowed: true },
+    ],
+  },
+  {
     role: 'spaces.rolesAndPermissions.tasks.title',
     permissions: [
       { name: 'spaces.rolesAndPermissions.tasks.postCollab', allowed: true },
@@ -112,6 +121,15 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
     permissions: [
       { name: 'spaces.rolesAndPermissions.update.postCollab', allowed: true },
       { name: 'spaces.rolesAndPermissions.update.postPublic', allowed: false },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.appointments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.appointments.schedulePublic', allowed: false },
+      { name: 'spaces.rolesAndPermissions.appointments.scheduleColab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.editOwn', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.deleteOwn', allowed: true },
     ],
   },
   {

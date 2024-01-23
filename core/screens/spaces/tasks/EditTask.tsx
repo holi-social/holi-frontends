@@ -136,6 +136,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       description,
       contactEmail,
       contactPhone,
+      slotsAvailable,
     })
     setInputValid(resultSchema.success)
 

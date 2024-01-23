@@ -196,7 +196,8 @@ export const spaceRoomIdToChildRoomsAtom = atom<Record<string, ChatRoomAtom[]>>(
  * first parameter, and not the getter function. We require a getter function
  * because we subscribe to events in the `onMount` lifecycle.
  *
- * IMPORTANT! Do not use this atom to read/access rooms.
+ * * IMPORTANT! Do not use this atom to read/access rooms.
+ * * IMPORTANT! Only import in test.
  */
 export const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
   switch (args.type) {
@@ -521,8 +522,10 @@ const _messageBunchAtomSetter = atom(null, (_get, set, roomId: string, events: I
  * @description Write (setter) function expects `MatrixEvent` argunment
  * and if it has EventType.RoomMessage type, setter adds new message into the room's `Atom<ChatRoomMessage[]>`.
  * This setter function is only used for new messages.
+ *
+ * * IMPORTANT! Only import in test.
  */
-const _newMessageAtomSubscriber = atom(null, (get, set, roomId: string, message: ChatRoomMessage) => {
+export const _newMessageAtomSubscriber = atom(null, (get, set, roomId: string, message: ChatRoomMessage) => {
   const roomAtomsRecord = get(roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[roomId]
 

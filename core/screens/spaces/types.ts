@@ -4,6 +4,7 @@ import type { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/typ
 import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export interface SpaceMember {
+  data: unknown
   id: string
   user: User
   isAdministrator?: boolean
