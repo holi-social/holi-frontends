@@ -58,7 +58,7 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
               </HoliGridCell>
             ))}
           </HoliGridWrapper>
-          {preview && space.tasks.length > itemsInRow && (
+          {space.tasks.length > displayTasks.length && (
             <View style={styles.seeAllButtonContainer}>
               <HoliButton
                 label={t('spaces.global.seeAllButton.label')}
