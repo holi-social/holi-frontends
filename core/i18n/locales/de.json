@@ -806,6 +806,7 @@
   "spaces.invite.btn.decline": "Einladung ablehnen",
   "spaces.invite.btn.invite": "Einladen",
   "spaces.invite.btn.send": "Einladung verschicken",
+  "spaces.invite.connections.empty": "Du hast noch keine Verbindungen",
   "spaces.invite.connections.header": "Deine Verbindungen",
   "spaces.invite.decline.success": "Einladung abgelehnt",
   "spaces.invite.hint.discussion": "Lade Personen ein, die an den Aktivitäten dieses Spaces Interesse haben können",
