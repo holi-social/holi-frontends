@@ -209,74 +209,68 @@ const AppointmentDetails = () => {
                 {appointment.title}
               </HoliHeading>
             </View>
-            <View style={[styles.iconsContainer, styles.firstIconContainer]}>
+            <View style={styles.firstIconContainer}>
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
-                <HoliText bold>
+                <HoliText bold style={styles.infoText}>
                   {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
                   {endTime}
                 </HoliText>
               </View>
             </View>
             {!isLoggedIn && (
-              <View style={styles.iconsContainer}>
-                <View style={styles.iconGroupContainer}>
-                  <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
-                  <HoliText bold>{t('appointment.card.login.location')}</HoliText>
-                </View>
+              <View style={styles.iconGroupContainer}>
+                <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
+                <HoliText bold>{t('appointment.card.login.location')}</HoliText>
               </View>
             )}
             {!isLoggedIn && (
-              <View style={styles.iconsContainer}>
-                <View style={styles.iconGroupContainer}>
-                  <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
-                  <HoliText bold>{t('appointment.card.login.videochat')}</HoliText>
-                </View>
+              <View style={styles.iconGroupContainer}>
+                <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
+                <HoliText bold>{t('appointment.card.login.videochat')}</HoliText>
               </View>
             )}
             {isLoggedIn && appointment.location && (
-              <View style={styles.iconsContainer}>
-                <View style={styles.iconGroupContainer}>
-                  <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
-                  <HoliButton
-                    label={appointment.location}
-                    transparent
-                    inline
-                    style={styles.iconGroupWithDescription}
-                    onPress={openMap}
-                  >
-                    <View style={styles.externalLinkContainer}>
-                      <HoliText bold>{appointment.location}</HoliText>
-                      <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
-                    </View>
-                  </HoliButton>
-                </View>
+              <View style={styles.iconGroupContainer}>
+                <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
+                <HoliButton
+                  label={appointment.location}
+                  transparent
+                  inline
+                  style={styles.externalLinkButton}
+                  contentStyle={styles.iconGroupWithDescription}
+                  onPress={openMap}
+                >
+                  <HoliText bold style={styles.infoText}>
+                    {appointment.location}
+                  </HoliText>
+                  <HoliIcon icon={ExternalLink} size={16} />
+                </HoliButton>
               </View>
             )}
             {isLoggedIn && appointment.videoCallLink?.url && (
-              <View style={styles.iconsContainer}>
-                <View style={styles.iconGroupContainer}>
-                  <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
-                  <HoliButton
-                    label={appointment.videoCallLink?.url}
-                    transparent
-                    inline
-                    style={styles.iconGroupWithDescription}
-                    onPress={navigateToVideoCall}
-                  >
-                    <View style={styles.externalLinkContainer}>
-                      <HoliText bold ellipsizeMode="tail" numberOfLines={2}>
-                        {appointment.videoCallLink?.url}
-                      </HoliText>
-                      <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
-                    </View>
+              <View style={styles.iconGroupContainer}>
+                <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
+                <HoliButton
+                  label={appointment.videoCallLink?.url}
+                  transparent
+                  inline
+                  style={styles.externalLinkButton}
+                  contentStyle={styles.iconGroupWithDescription}
+                  onPress={navigateToVideoCall}
+                >
+                  <View style={styles.infoText}>
+                    <HoliText bold ellipsizeMode="tail" numberOfLines={2}>
+                      {appointment.videoCallLink?.url}
+                    </HoliText>
                     {appointment.videoCallLink?.additionalInfo && (
                       <HoliText style={styles.iconGroupContainerDescription} color="gray200">
                         {appointment.videoCallLink.additionalInfo}
                       </HoliText>
                     )}
-                  </HoliButton>
-                </View>
+                  </View>
+                  <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
+                </HoliButton>
               </View>
             )}
           </View>
@@ -397,27 +391,30 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
   },
-  iconsContainer: {
-    marginTop: 16,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
   firstIconContainer: {
     marginTop: 24,
   },
   iconGroupContainer: {
+    flex: 1,
+    marginTop: 16,
     flexDirection: 'row',
-    flexShrink: 1,
+    flexWrap: 'wrap',
   },
   iconGroupIcon: {
     marginRight: 8,
     marginTop: -2,
   },
+  externalLinkButton: {
+    flex: 1,
+  },
   iconGroupWithDescription: {
-    maxWidth: '95%',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 6,
   },
   iconGroupContainerDescription: {
     marginTop: 2,
+    flex: 1,
   },
   description: {
     marginTop: 16,
@@ -443,11 +440,13 @@ const styles = StyleSheet.create({
     padding: 13,
     marginRight: 16,
   },
-  externalLinkContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 6,
-    paddingRight: 12,
+  infoText: {
+    flex: 1,
+    ...Platform.select({
+      web: {
+        overflow: 'hidden',
+      },
+    }),
   },
   externalLinkIcon: {
     marginTop: 2,

@@ -96,7 +96,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
     <CollaboratorAreaCard
       headerLeftIcon={CalendarEvent}
       headerRightIcon={Add}
-      headerRightButtonLabel={t('spaces.appointments.add.button.label')}
+      headerRightButtonLabel={isMember ? t('spaces.appointments.add.button.label') : undefined}
       title={t('spaces.appointments.title')}
       onPressHeaderLeft={navigateToAppointmentsPage}
       onPressHeaderRight={navigateToAddAppointmentPage}
@@ -108,7 +108,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
           <HoliGridWrapper itemsInRow={1} gap={16}>
             {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
               <HoliGridCell key={item.id}>
-                <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} />
+                <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
               </HoliGridCell>
             ))}
           </HoliGridWrapper>
