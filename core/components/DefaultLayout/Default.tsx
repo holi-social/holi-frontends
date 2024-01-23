@@ -3,7 +3,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const Default = React.forwardRef<ScrollView, LayoutProps>(
   (
@@ -57,7 +57,7 @@ export default Default
 
 const styles = StyleSheet.create({
   footerPadding: {
-    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
+    paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 24,
   },
   scrollLayout: {
     justifyContent: 'flex-start',

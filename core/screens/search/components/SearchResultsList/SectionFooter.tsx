@@ -8,7 +8,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 import { SearchSection } from './types'
 
@@ -71,7 +71,7 @@ export const SectionFooter = ({ type, result, isFilterAll, onLoadMoreButtonPress
 
 const styles = StyleSheet.create({
   moreButton: {
-    maxWidth: +vars.maxButtonWidth,
+    maxWidth: dimensions.maxButtonWidth,
     alignSelf: 'center',
   },
 })

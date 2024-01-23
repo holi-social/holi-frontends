@@ -15,7 +15,7 @@ import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnbo
 import StorageOnboardModal from '@holi/core/screens/spaces/linkHub/components/StorageOnboardModal'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 export type SpaceStorageParams = {
   spaceIdOrName: string
@@ -87,11 +87,11 @@ const WrappedSpaceStorage = () => (
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight - +vars.topBarHeight,
+      minHeight: deviceHeight - dimensions.topBarHeight,
     },
     messageContainer: {
       alignItems: 'center',
-      marginTop: vars.topBarHeight + 50,
+      marginTop: dimensions.topBarHeight + 50,
     },
   })
 

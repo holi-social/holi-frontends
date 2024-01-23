@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { View } from 'react-native'
 
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 type HoliGapSize = 'xs' | 's' | 'm' | 'l' | 'xl'
 type HoliGapDirection = 'vertical' | 'horizontal'
@@ -14,11 +14,11 @@ interface HoliGapProps {
 }
 
 const sizes = {
-  xs: vars.spacingXs,
-  s: vars.spacingS,
-  m: vars.spacingM,
-  l: vars.spacingL,
-  xl: vars.spacingXl,
+  xs: dimensions.spacingXs,
+  s: dimensions.spacingS,
+  m: dimensions.spacingM,
+  l: dimensions.spacingL,
+  xl: dimensions.spacingXl,
 }
 
 export const HoliGap = ({ size = 'm', direction = 'vertical', testID }: PropsWithChildren<HoliGapProps>) => {

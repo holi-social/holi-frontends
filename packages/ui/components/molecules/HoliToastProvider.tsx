@@ -7,7 +7,7 @@ import { EmotionUnhappyNoeyes, UserSmile } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export enum HoliToastType {
   ERROR = 'ERROR',
@@ -146,9 +146,9 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
           backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
         },
       }),
-      ...(deviceWidth >= +vars.breakpointL
+      ...(deviceWidth >= dimensions.breakpointL
         ? {
-            maxWidth: +vars.maxButtonWidth,
+            maxWidth: dimensions.maxButtonWidth,
             marginLeft: 'auto',
             marginRight: 'auto',
             left: 0,
@@ -165,7 +165,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       padding: 20,
       flex: 1,
       backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
-      ...(deviceWidth >= +vars.breakpointL
+      ...(deviceWidth >= dimensions.breakpointL
         ? {
             borderRadius: 10,
             marginTop: 5,

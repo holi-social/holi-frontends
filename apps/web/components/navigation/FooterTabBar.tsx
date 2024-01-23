@@ -11,7 +11,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FooterTabBar = () => {
@@ -118,17 +118,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
     borderTopWidth: 1,
     borderTopColor: colors.background30,
-    height: vars.bottomBarHeight,
-    maxHeight: vars.bottomBarHeight,
+    height: dimensions.bottomBarHeight,
+    maxHeight: dimensions.bottomBarHeight,
   },
   buttonContainer: {
     flex: 1,
     width: '100%',
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: vars.bottomBarHeight,
-    maxHeight: vars.bottomBarHeight,
+    height: dimensions.bottomBarHeight,
+    maxHeight: dimensions.bottomBarHeight,
   },
   button: {
     paddingHorizontal: 20,

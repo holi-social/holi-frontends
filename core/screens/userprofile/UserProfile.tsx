@@ -34,7 +34,7 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 /** TODO: Suspence currently only works on web. To make it work for
@@ -87,7 +87,7 @@ const UserProfile = () => {
   const userFullName = user?.fullName || t('user.profileView.anonymous')
   const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
 
-  const tabBarStyle = useBreakpointMatcher([[vars.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
   const [isLoadingReport, reportContent] = useReportContent({
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     alignItems: 'center',
-    marginTop: +vars.topBarHeight + 50,
+    marginTop: dimensions.topBarHeight + 50,
   },
   chipRowContainer: {
     marginTop: 24,

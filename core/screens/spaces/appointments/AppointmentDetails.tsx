@@ -39,7 +39,7 @@ import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
@@ -202,7 +202,7 @@ const AppointmentDetails = () => {
         contentStyle={styles.contentStyle}
         headerOverlap
       >
-        <View style={[mixins.container, deviceWidth < +vars.breakpointL ? styles.smallScreenPadding : {}]}>
+        <View style={[mixins.container, deviceWidth < dimensions.breakpointL ? styles.smallScreenPadding : {}]}>
           <View style={styles.imageContainer}>
             {!imageError && !!appointment.thumbnail && (
               <HoliImage
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
   defaultLayout: {
     paddingBottom: 120,
     minHeight: '100%',
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background20,
     ...Platform.select({
       web: {
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
         minHeight: '100vh' as DimensionValue,
       },
       native: {
-        paddingTop: +vars.topBarHeight,
+        paddingTop: dimensions.topBarHeight,
       },
     }),
   },

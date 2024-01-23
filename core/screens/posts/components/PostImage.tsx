@@ -8,7 +8,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -29,24 +29,24 @@ export type PostImageProps = SkeletonProps | Props
 
 const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   {
-    breakpoint: +vars.breakpointXs,
-    width: +vars.breakpointXs - 40,
+    breakpoint: dimensions.breakpointXs,
+    width: dimensions.breakpointXs - 40,
   },
   {
-    breakpoint: +vars.breakpointS,
-    width: +vars.breakpointS - 40,
+    breakpoint: dimensions.breakpointS,
+    width: dimensions.breakpointS - 40,
   },
   {
-    breakpoint: +vars.breakpointM,
-    width: +vars.breakpointM - 40,
+    breakpoint: dimensions.breakpointM,
+    width: dimensions.breakpointM - 40,
   },
   {
-    breakpoint: +vars.breakpointL,
-    width: +vars.breakpointL / 2 - 12,
+    breakpoint: dimensions.breakpointL,
+    width: dimensions.breakpointL / 2 - 12,
   },
   {
-    breakpoint: +vars.breakpointXl,
-    width: +vars.breakpointXl / 2 - 12,
+    breakpoint: dimensions.breakpointXl,
+    width: dimensions.breakpointXl / 2 - 12,
   },
 ]
 

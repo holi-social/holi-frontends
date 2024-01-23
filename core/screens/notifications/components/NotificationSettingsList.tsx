@@ -18,7 +18,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CATEGORY_ILLUSTRATIONS = {
@@ -188,7 +188,7 @@ export default NotificationSettingsList
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    marginTop: +vars.topBarHeight,
+    marginTop: dimensions.topBarHeight,
   },
   accountSettings: {
     paddingHorizontal: 0,

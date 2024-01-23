@@ -21,7 +21,7 @@ import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceAppointmentsParams = RefreshOnNavigationParams & {
@@ -42,10 +42,10 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
   const [selectedTab] = useParam('tab')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const tabBarStyle = useBreakpointMatcher([[vars.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const { height: screenHeight, width: screenWidth } = useWindowDimensions()
   const styles = createStyles(screenHeight)
-  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
   const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
     skip: !spaceIdOrName,
@@ -172,10 +172,10 @@ const createStyles = (screenHeight: number) =>
       minHeight: '100%',
       ...Platform.select({
         native: {
-          paddingTop: +vars.topBarHeight + 24,
+          paddingTop: dimensions.topBarHeight + 24,
         },
         web: {
-          paddingTop: +vars.topBarHeight,
+          paddingTop: dimensions.topBarHeight,
           minHeight: '100vh' as DimensionValue,
         },
       }),
@@ -195,10 +195,10 @@ const createStyles = (screenHeight: number) =>
       paddingVertical: 16,
       ...Platform.select({
         web: {
-          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
+          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 52,
         },
         native: {
-          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 80,
+          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 80,
         },
       }),
     },
