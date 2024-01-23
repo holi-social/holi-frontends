@@ -18,9 +18,7 @@ interface ColorFamily {
 const allColors: ColorFamily[] = [
   {
     familyName: 'Black',
-    colors: [
-      { name: '$black300', code: colors.black300, description: 'Headline, links, button borders' },
-    ],
+    colors: [{ name: '$black300', code: colors.black300, description: 'Headline, links, button borders' }],
   },
   {
     familyName: 'Gray',
@@ -119,20 +117,14 @@ const allColors: ColorFamily[] = [
   },
 ]
 
-const ColorBlock = ({
-  name,
-  code,
-  description,
-  cssClass,
-  isGradient = false,
-}: Color & { isGradient?: boolean }) => {
+const ColorBlock = ({ name, code, description, cssClass, isGradient = false }: Color & { isGradient?: boolean }) => {
   return (
     <div className={`color-item ${cssClass} ${isGradient && 'warning'}`}>
       <div className="color-block" style={{ backgroundColor: code }} />
       <p className="color-name">{name}</p>
       <p className="color-code">{isGradient ? 'Use LinearGradient component!' : code}</p>
       <p className="color-description">{description}</p>
-    </div >
+    </div>
   )
 }
 

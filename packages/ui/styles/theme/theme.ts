@@ -1,15 +1,15 @@
 import React from 'react'
 import { Platform } from 'react-native'
 
-import { vars } from '@holi/ui/styles/globalVars'
+import { fonts } from '@holi/ui/styles/globalVars'
 
 const defaultTheme = {
   dark: false,
   fontFamily: {
     default: (variant?: string) =>
       Platform.select({
-        web: vars.fontFamilyWeb,
-        default: variant ? `${vars.fontFamilyMobile} ${variant}` : vars.fontFamilyMobile,
+        web: fonts.fontFamilyWeb,
+        default: variant ? `${fonts.fontFamilyMobile} ${variant}` : fonts.fontFamilyMobile,
       }) as string,
   },
 }

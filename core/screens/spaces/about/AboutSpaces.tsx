@@ -11,7 +11,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const AboutSpaces = () => {
   const setScreenOptions = useSetScreenOptions()
@@ -41,7 +41,7 @@ const AboutSpaces = () => {
     <ScrollView contentContainerStyle={styles.container} style={styles.scrollViewBackground}>
       <View
         style={[
-          screenWidth > +vars.breakpointS ? styles.contentLarge : styles.content,
+          screenWidth > dimensions.breakpointS ? styles.contentLarge : styles.content,
           styles.transparentCard,
           styles.transparentCardWithPadding,
         ]}
@@ -62,7 +62,10 @@ const AboutSpaces = () => {
       </View>
 
       <View
-        style={[screenWidth > +vars.breakpointS ? styles.contentLarge : styles.content, styles.sectionTwoContainer]}
+        style={[
+          screenWidth > dimensions.breakpointS ? styles.contentLarge : styles.content,
+          styles.sectionTwoContainer,
+        ]}
       >
         <View style={[styles.flexContainer, styles.sectionTwoContent]}>
           <HoliText size="extralarge" style={styles.title}>
@@ -82,7 +85,7 @@ const AboutSpaces = () => {
       </View>
       <View
         style={[
-          screenWidth > +vars.breakpointS ? [styles.contentLarge, styles.contentLargeDirection] : styles.content,
+          screenWidth > dimensions.breakpointS ? [styles.contentLarge, styles.contentLargeDirection] : styles.content,
           styles.sectionThreeContainer,
         ]}
       >
@@ -150,10 +153,10 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
       paddingHorizontal: 16,
     },
     buttonContainerDirection: {
-      flexDirection: screenWidth > +vars.breakpointM ? 'row' : 'column',
+      flexDirection: screenWidth > dimensions.breakpointM ? 'row' : 'column',
     },
     container: {
-      paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
+      paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
       backgroundColor: colors.background20,
       paddingBottom: 48,
       alignItems: 'center',
@@ -162,7 +165,7 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
       paddingHorizontal: 16,
       paddingTop: 40,
       justifyContent: 'center',
-      maxWidth: +vars.breakpointM,
+      maxWidth: dimensions.breakpointM,
       borderRadius: 24,
       borderWidth: 1,
       paddingBottom: 8,
@@ -171,15 +174,15 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
     },
     contentLarge: {
       flexDirection: 'row',
-      paddingHorizontal: screenWidth > +vars.breakpointS ? 24 : 16,
+      paddingHorizontal: screenWidth > dimensions.breakpointS ? 24 : 16,
       paddingTop: 40,
-      maxWidth: +vars.breakpointM,
+      maxWidth: dimensions.breakpointM,
       borderRadius: 24,
       borderWidth: 1,
       gap: 32,
     },
     contentLargeDirection: {
-      flexDirection: screenWidth > +vars.breakpointS ? 'row-reverse' : 'column',
+      flexDirection: screenWidth > dimensions.breakpointS ? 'row-reverse' : 'column',
     },
     description: {
       marginTop: 16,
@@ -195,31 +198,31 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
       gap: 32,
       flexDirection: 'column',
       alignItems: 'center',
-      maxWidth: +vars.breakpointM,
+      maxWidth: dimensions.breakpointM,
       marginBottom: 48,
     },
     sectionTwoContainer: {
       backgroundColor: colors.brandColorC20,
       paddingBottom: 24,
-      marginBottom: screenWidth > +vars.breakpointS ? 24 : 0,
+      marginBottom: screenWidth > dimensions.breakpointS ? 24 : 0,
       bottom: -1,
     },
     sectionTwoContent: {
-      paddingHorizontal: screenWidth > +vars.breakpointS ? 16 : 0,
+      paddingHorizontal: screenWidth > dimensions.breakpointS ? 16 : 0,
     },
     imageContainer: {
       alignSelf: 'center',
-      paddingBottom: screenWidth < +vars.breakpointM ? 16 : 0,
+      paddingBottom: screenWidth < dimensions.breakpointM ? 16 : 0,
     },
     title: {
       lineHeight: 33.6,
     },
     transparentCard: {
       ...Platform.select({ android: { paddingTop: safeAreaInsetTop, marginTop: 24 } }),
-      paddingHorizontal: screenWidth > +vars.breakpointM ? 0 : 16,
+      paddingHorizontal: screenWidth > dimensions.breakpointM ? 0 : 16,
       backgroundColor: colors.background20,
       borderWidth: 0,
-      paddingBottom: screenWidth < +vars.breakpointM ? 24 : 48,
+      paddingBottom: screenWidth < dimensions.breakpointM ? 24 : 48,
     },
     transparentCardWithPadding: {
       paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 24,

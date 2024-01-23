@@ -15,8 +15,7 @@ import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceRolesPermissionsParams = {
@@ -171,7 +170,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const [spaceIdOrName] = useParam('spaceIdOrName')
 
   const { error, space } = useSpace(spaceIdOrName, {
@@ -273,7 +272,7 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       android: {
-        paddingTop: +vars.topBarHeight,
+        paddingTop: dimensions.topBarHeight,
       },
     }),
   },
@@ -286,7 +285,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {

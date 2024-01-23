@@ -13,7 +13,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AddNewDrawerProps {
@@ -26,7 +26,7 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
   const { visible, show, hide } = useModalState()
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
   const onCategoryButtonClick = useCallback(
     ({ path }: ResourceCategory) => {

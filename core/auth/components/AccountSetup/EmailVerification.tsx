@@ -20,7 +20,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const CODE_MAX_COUNT = 6
 
@@ -236,7 +236,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
 const styles = StyleSheet.create({
   inner: {
     alignItems: 'center',
-    maxWidth: +vars.breakpointL,
+    maxWidth: dimensions.breakpointL,
   },
   imageContainer: {
     alignItems: 'center',
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   limitedBox: {
-    maxWidth: +vars.breakpointS,
+    maxWidth: dimensions.breakpointS,
     width: '100%',
   },
 })

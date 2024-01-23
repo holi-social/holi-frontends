@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 
-import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
 import LocationStep, { useLocationStep } from '@holi/core/auth/components/AccountSetup/LocationStep'
 import NamesStep, { useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
@@ -21,6 +20,7 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
@@ -206,7 +206,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             key="names"
             testID="account-setup-names-step"
           >
-            <HoliBox padding={[40, 0, 0, 0]} />
+            <HoliGap size="l" />
             <NamesStep
               names={names}
               onChange={onNamesChange}
@@ -236,7 +236,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             key="interests"
             testID="account-setup-interests-step"
           >
-            <HoliBox padding={[40, 0, 0, 0]} />
+            <HoliGap size="l" />
             <InterestsStep
               filterString={filterString}
               onFilterStringChange={onFilterStringChange}
@@ -254,7 +254,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             testID="account-setup-location-step"
             ref={locationScrollViewRef}
           >
-            <HoliBox padding={[40, 0, 0, 0]} />
+            <HoliGap size="l" />
             <LocationStep
               selected={selectedLocation}
               value={locationQuery}

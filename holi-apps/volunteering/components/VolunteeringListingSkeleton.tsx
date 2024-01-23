@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -53,20 +53,13 @@ const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = 
 
   return (
     <View style={[mixins.container, styles.container]}>
-      <HoliBox padding={[0, 0, 24, 0]}>
-        <>
-          <HoliHeading level="1" loading skeletonOptions={{ width: '60%' }} />
-        </>
-        <View style={styles.partnerInfoRow}>
-          {partnerSkeleton}
-          <HoliText style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
-        </View>
-        {isFiltering && (
-          <>
-            <HoliText bold style={styles.searchQuery} loading skeletonOptions={{ width: '40%' }} />
-          </>
-        )}
-      </HoliBox>
+      <HoliHeading level="1" loading skeletonOptions={{ width: '60%' }} />
+      <View style={styles.partnerInfoRow}>
+        {partnerSkeleton}
+        <HoliText style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
+      </View>
+      {isFiltering && <HoliText bold style={styles.searchQuery} loading skeletonOptions={{ width: '40%' }} />}
+      <HoliGap />
       <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
         {skeletonItems}
       </HoliGridWrapper>

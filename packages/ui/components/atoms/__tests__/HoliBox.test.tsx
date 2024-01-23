@@ -3,7 +3,7 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import HoliBox, { BoxLayoutProps } from '@holi/ui/components/atoms/HoliBox'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 describe('HoliBox', () => {
   it('should style using the padding shorthand', () => {
@@ -70,7 +70,7 @@ describe('HoliBox', () => {
     const layoutValue: BoxLayoutProps = {
       alignSelf: 'flex-start',
       width: '100%',
-      maxWidth: vars.maxScreenWidth,
+      maxWidth: dimensions.maxScreenWidth,
     }
     const { getByTestId } = render(
       <HoliBox padding={paddingValue} layout={layoutValue} testID={testID}>
@@ -81,6 +81,6 @@ describe('HoliBox', () => {
 
     expect(box.props.style.alignSelf).toBe('flex-start')
     expect(box.props.style.width).toBe('100%')
-    expect(box.props.style.maxWidth).toBe(vars.maxScreenWidth)
+    expect(box.props.style.maxWidth).toBe(dimensions.maxScreenWidth)
   })
 })

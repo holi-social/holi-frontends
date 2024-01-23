@@ -11,16 +11,15 @@ import {
   RoomStateEvent,
 } from 'matrix-js-sdk'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MembershipStatus, RoomUpdatesType } from '@holi/chat/src/client/types'
 import { createChatMessage, createInitialRoom } from '@holi/chat/src/client/utils'
 import {
+  createChatClient,
   createMatrixClientMock,
   createMatrixEventMock,
   createRoomMemberMock,
   createRoomMock,
   createRoomStateMock,
-  getClientOptions,
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
 
@@ -33,10 +32,11 @@ jest.mock('@holi/core/helpers/config', () => ({
 
 describe('ChatClient', () => {
   let mxClient = createMatrixClientMock()
-  let client: ChatClient = {} as ChatClient
+  let client = createChatClient()
+
   beforeEach(() => {
     mxClient = createMatrixClientMock()
-    client = new ChatClient(getClientOptions('syt_p'))
+    client = createChatClient()
   })
 
   const simulateSubscription = (
@@ -146,9 +146,7 @@ describe('ChatClient', () => {
           msgtype: 'm.text',
         } as IContent,
       } as IEvent
-      const messageEventMock = createMatrixEventMock(EventType.RoomMessage)
-      messageEventMock.getRoomId.mockReturnValue(roomId)
-      messageEventMock.getEffectiveEvent.mockReturnValue(effectiveEvent)
+      const messageEventMock = createMatrixEventMock(EventType.RoomMessage, roomId, {}, effectiveEvent)
 
       await listener(messageEventMock, room)
 
@@ -173,9 +171,12 @@ describe('ChatClient', () => {
             membership: eventMembership,
           } as IContent,
         } as IEvent
-        const event = createMatrixEventMock(EventType.RoomMember, { membership: eventMembership })
-        event.getRoomId.mockReturnValue(roomId)
-        event.getEffectiveEvent.mockReturnValue(effectiveEvent)
+        const event = createMatrixEventMock(
+          EventType.RoomMember,
+          roomId,
+          { membership: eventMembership },
+          effectiveEvent
+        )
 
         await listener(event, room)
 
@@ -214,8 +215,7 @@ describe('ChatClient', () => {
             room
           )
 
-          const unsupportedEventMock = createMatrixEventMock(eventType)
-          unsupportedEventMock.getRoomId.mockReturnValue(roomId)
+          const unsupportedEventMock = createMatrixEventMock(eventType, roomId)
 
           await listener(unsupportedEventMock)
 
@@ -262,10 +262,10 @@ describe('ChatClient', () => {
       mxClient.getUserId.mockReturnValue(mxUserId)
       mxClient.joinRoom.mockResolvedValue(room)
       // Timeline event of type SpaceChild
-      const event = createMatrixEventMock(EventType.RoomMember, { membership: 'invite' })
-      event.getEffectiveEvent.mockReturnValue({ state_key: mxUserId } as IEvent)
+      const event = createMatrixEventMock(EventType.RoomMember, roomId, { membership: 'invite' }, {
+        state_key: mxUserId,
+      } as IEvent)
       event.getSender.mockReturnValue(chatAdminUserId)
-      event.getRoomId.mockReturnValue(roomId)
 
       const { listener, callback } = simulateSubscription(client.subscribeToSpaceRooms, RoomEvent.Timeline, room)
       await listener(event)
@@ -363,7 +363,7 @@ describe('ChatClient', () => {
       const currentMembership = MembershipStatus.invite
       const member = createRoomMemberMock(userId, userName, currentMembership, avatarUrl)
       const newMembership = MembershipStatus.join
-      const event = createMatrixEventMock(EventType.RoomMember, { membership: newMembership })
+      const event = createMatrixEventMock(EventType.RoomMember, roomId, { membership: newMembership })
       const roomState = createRoomStateMock(roomId)
       roomState.getMembers.mockReturnValue([member])
 

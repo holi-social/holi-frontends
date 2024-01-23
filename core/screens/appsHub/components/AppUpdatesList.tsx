@@ -9,7 +9,7 @@ import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 type AppUpdatesListProps = {
   appName: string
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     marginRight: 11,
   },
   listHeader: {
-    paddingTop: +vars.topBarHeight + 24,
+    paddingTop: dimensions.topBarHeight + 24,
     paddingBottom: 32,
   },
 })

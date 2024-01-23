@@ -11,7 +11,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { useKeyboard } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceFormScreenLayoutProps {
@@ -50,7 +50,11 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
         keyboardShouldPersistTaps="handled"
       >
         <View
-          style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
+          style={[
+            mixins.container,
+            styles.container,
+            { minHeight: deviceHeight, paddingTop: dimensions.topBarHeight + 40 },
+          ]}
         >
           {!!title && (
             <HoliHeading level="1" size="medium">

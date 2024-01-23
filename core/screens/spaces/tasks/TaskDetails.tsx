@@ -16,7 +16,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, More } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TaskDetailsParams = {
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   defaultLayout: {
     paddingBottom: 120,
     minHeight: '100%',
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background20,
     ...Platform.select({
       web: {
@@ -145,20 +145,20 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
-    // paddingTop: vars.topBarHeight,
+    // paddingTop: dimensions.topBarHeight,
     ...Platform.select({
       web: {
         minHeight: '100vh',
         paddingTop: 12,
       },
       native: {
-        paddingTop: vars.topBarHeight,
+        paddingTop: dimensions.topBarHeight,
       },
     }),
   },
   messageContainer: {
     alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
+    marginTop: dimensions.topBarHeight + 50,
   },
   headerRight: {
     flexDirection: 'row',

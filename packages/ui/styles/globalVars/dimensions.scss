@@ -1,19 +1,15 @@
 // This file is used in two ways:
 // - direct import into the web's main.scss
-// - as js-variables in packages/styles/globalVars.ts for react-native styling
+// - as js-variables in packages/styles/globaldimensions.ts for react-native styling
 
 // Important !!!
-// run `yarn workspace @holi/ui run generate-style-vars` on every file change
+// run `yarn ui:generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
-$font-family-web: Circular Std, Helvetica, Arial, sans-serif;
-$font-family-mobile: Circular Std;
+// Only add values that can be parsed as numbers!
 
 $max-screen-width: 840;
 $max-button-width: 400;
-$largest-mobile-width: 450;
-$largest-mobile-height: 915;
-$max-width-for-readable-text: 500;
 $top-bar-height: 52;
 $bottom-bar-height: 62;
 $loader-height: 66;
@@ -26,3 +22,9 @@ $breakpoint-l: 840;
 $breakpoint-xl: 1200;
 $breakpoint-xxl: 1920;
 $breakpoint-xxxl: 2396;
+
+$spacing-xs: 8;
+$spacing-s: 16;
+$spacing-m: 24;
+$spacing-l: 40;
+$spacing-xl: 64;

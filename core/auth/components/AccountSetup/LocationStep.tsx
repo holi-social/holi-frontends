@@ -10,7 +10,7 @@ import PlacesAutocomplete, {
   PlacesAutocompleteProps,
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -78,24 +78,22 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
         {t('registration.accountSetup.location.heading')}
       </HoliHeading>
 
-      <HoliBox padding={[16, 0, 0, 0]}>
-        <HoliText>{t('registration.accountSetup.location.describtion')}</HoliText>
-      </HoliBox>
+      <HoliGap size="s" />
+      <HoliText>{t('registration.accountSetup.location.describtion')}</HoliText>
 
-      <HoliBox padding={[24, 0, 0, 0]}>
-        <PlacesAutocomplete
-          label={t('user.profileForm.location')}
-          placeholder={t('user.profileForm.locationPlaceholder')}
-          id="user-location-input"
-          testID="user-location"
-          suggestionsStyle={{ backgroundColor: colors.background10 }}
-          helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
-          fetchDetailsOnClose
-          level={GeolocationLevel.CITY}
-          {...placesAutocompleteProps}
-          {...scrollToInputWithId('location')}
-        />
-      </HoliBox>
+      <HoliGap size="m" />
+      <PlacesAutocomplete
+        label={t('user.profileForm.location')}
+        placeholder={t('user.profileForm.locationPlaceholder')}
+        id="user-location-input"
+        testID="user-location"
+        suggestionsStyle={{ backgroundColor: colors.background10 }}
+        helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
+        fetchDetailsOnClose
+        level={GeolocationLevel.CITY}
+        {...placesAutocompleteProps}
+        {...scrollToInputWithId('location')}
+      />
     </View>
   )
 }

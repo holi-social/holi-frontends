@@ -41,7 +41,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 enum EditFields {
@@ -416,7 +416,7 @@ const getStyles = (statusBarHeight: number) =>
     },
     wrapper: {
       justifyContent: 'center',
-      paddingTop: vars.topBarHeight + statusBarHeight,
+      paddingTop: dimensions.topBarHeight + statusBarHeight,
     },
     modalHeader: {
       backgroundColor: colors.background20,
@@ -481,7 +481,7 @@ const getStyles = (statusBarHeight: number) =>
     },
     overlayButton: {
       marginHorizontal: 'auto',
-      maxWidth: vars.maxButtonWidth,
+      maxWidth: dimensions.maxButtonWidth,
     },
     modalContentWrapper: {
       ...Platform.select({

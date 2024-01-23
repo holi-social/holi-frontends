@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
   divider: {
     width: '100%',
     height: 1,
-    backgroundColor: colors.background30,
+    backgroundColor: colors.gray100,
   },
 })
 
-export default HoliDivider
+export { HoliDivider }

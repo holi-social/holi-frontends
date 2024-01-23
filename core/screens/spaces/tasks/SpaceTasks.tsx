@@ -14,7 +14,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceTasksParams = {
@@ -29,7 +29,7 @@ const SpaceTasks = () => {
 
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
   const { loading, space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
   },
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : +vars.topBarHeight,
+    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
     backgroundColor: colors.background20,
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',

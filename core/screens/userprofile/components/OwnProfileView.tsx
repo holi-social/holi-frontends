@@ -20,7 +20,7 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
@@ -39,7 +39,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
     variables: { userId: user.id },

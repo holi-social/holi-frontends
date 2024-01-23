@@ -36,7 +36,7 @@ import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -50,7 +50,7 @@ const SpaceDetails = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName, {
@@ -313,7 +313,7 @@ const SpaceDetails = () => {
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingBottom: 0,
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
 
     ...Platform.select({
       web: {
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     minHeight: '100%',
   },
   spaceDetailView: {
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     alignItems: 'center',
-    marginTop: +vars.topBarHeight + 50,
+    marginTop: dimensions.topBarHeight + 50,
   },
   overlayContainer: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingHorizontal: 0,
     paddingVertical: 0,
-    bottom: +vars.topBarHeight,
+    bottom: dimensions.topBarHeight,
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',
     right: '50%',

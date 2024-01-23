@@ -8,14 +8,13 @@ import {
   Visibility,
 } from 'matrix-js-sdk'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MembershipStatus } from '@holi/chat/src/client/types'
 import {
+  createChatClient,
   createMatrixClientMock,
   createMatrixEventMock,
   createRoomMemberMock,
   createRoomMock,
-  getClientOptions,
 } from '@holi/chat/src/test-utils'
 import { CHAT_ROOM_NAME_MOCK } from '@holi/chat/src/test-utils/matrix-mock-setup'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
@@ -25,10 +24,11 @@ jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
 
 describe('ChatClient', () => {
   let mxClient = createMatrixClientMock()
-  let client: ChatClient = {} as ChatClient
+  let client = createChatClient()
+
   beforeEach(() => {
     mxClient = createMatrixClientMock()
-    client = new ChatClient(getClientOptions('syt_p'))
+    client = createChatClient()
   })
 
   const members = ['david.m.rosen', 'fusajiro.yamauchi']
@@ -147,7 +147,6 @@ describe('ChatClient', () => {
       const mockRoom = createRoomMock(roomId)
       mxClient.getRooms.mockReturnValue([mockRoom])
 
-      const client = new ChatClient(getClientOptions('syt_p'))
       const roomWithShareData = await client.getJoinedRoomsWithSharedData()
 
       expect(roomWithShareData).toStrictEqual([])
@@ -189,7 +188,6 @@ describe('ChatClient', () => {
         ])
       )
 
-      const client = new ChatClient(getClientOptions('syt_p'))
       const roomWithShareData = await client.getJoinedRoomsWithSharedData()
 
       expect(roomWithShareData).toStrictEqual([
@@ -223,13 +221,13 @@ describe('ChatClient', () => {
     })
 
     it('Event with no notify has no pending invitation', async () => {
-      const mockEvent = createMatrixEventMock('any', { membership: MembershipStatus.invite })
+      const mockEvent = createMatrixEventMock('any', 'roomId', { membership: MembershipStatus.invite })
       const result = client.hasPendingInvitation(mockEvent)
       expect(result).toBe(false)
     })
 
     it('Event that is sending has no pending invitation', async () => {
-      const mockEvent = createMatrixEventMock('any', { membership: MembershipStatus.invite })
+      const mockEvent = createMatrixEventMock('any', 'roomId', { membership: MembershipStatus.invite })
       mockEvent.getPushActions.mockReturnValue({ notify: true, tweaks: {} })
       mockEvent.isSending.mockReturnValue(true)
       const result = client.hasPendingInvitation(mockEvent)
@@ -237,14 +235,14 @@ describe('ChatClient', () => {
     })
 
     it('Event with status join has no pending invitation', async () => {
-      const mockEvent = createMatrixEventMock('any', { membership: MembershipStatus.join })
+      const mockEvent = createMatrixEventMock('any', 'roomId', { membership: MembershipStatus.join })
       mockEvent.getPushActions.mockReturnValue({ notify: true, tweaks: {} })
       const result = client.hasPendingInvitation(mockEvent)
       expect(result).toBe(false)
     })
 
     it('Event with status invite has a pending invitation', async () => {
-      const mockEvent = createMatrixEventMock('any', { membership: MembershipStatus.invite })
+      const mockEvent = createMatrixEventMock('any', 'roomId', { membership: MembershipStatus.invite })
       mockEvent.getPushActions.mockReturnValue({ notify: true, tweaks: {} })
       const result = client.hasPendingInvitation(mockEvent)
       expect(result).toBe(true)

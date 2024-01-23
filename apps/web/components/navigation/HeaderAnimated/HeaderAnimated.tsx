@@ -8,7 +8,7 @@ import { setScreenScrollY, useScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import HeaderAnimatedGradientBackground from './HeaderAnimatedGradientBackground'
@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
   headerOuter: {
     alignItems: 'center',
     width: '100%',
-    height: vars.topBarHeight,
-    maxHeight: vars.topBarHeight,
+    height: dimensions.topBarHeight,
+    maxHeight: dimensions.topBarHeight,
   },
   headerContent: {
     flexDirection: 'row',

@@ -138,10 +138,10 @@
 
 .colors-overview .color-item.gradient-black300Top .color-block {
   opacity: 0.5;
-  background: linear-gradient(180deg, rgba(38, 36, 36, 0.60) 0%, rgba(38, 36, 36, 0.00) 100%)
+  background: linear-gradient(180deg, rgba(38, 36, 36, 0.60) 0%, rgba(38, 36, 36, 0.00) 100%);
 }
 
 .colors-overview .color-item.gradient-black300Bottom .color-block {
   opacity: 0.5;
-  background: linear-gradient(180deg, rgba(38, 36, 36, 0.00) 0%, rgba(38, 36, 36, 0.60) 100%)
+  background: linear-gradient(180deg, rgba(38, 36, 36, 0.00) 0%, rgba(38, 36, 36, 0.60) 100%);
 }
