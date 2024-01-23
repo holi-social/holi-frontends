@@ -81,7 +81,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   return (
     <View key={appointment.id} style={styles.appointmentItem} testID="space-appointment-tile">
       <View style={styles.imageContainer}>
-        {!imageError && !!appointment.thumbnail && (
+        {!imageError && !!appointment.thumbnail && screenWidth < +vars.breakpointS && (
           <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
             <HoliImage
               label={t('spaces.appointments.thumbnail.label')}
@@ -94,7 +94,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         )}
         <View style={styles.header}>
           {shouldShowVisibilityLabel && (
-            <View style={[styles.inviteOnly, appointment.thumbnail && !imageError ? styles.tagWithImage : {}]}>
+            <View style={[styles.inviteOnly]}>
               <HoliIcon
                 icon={appointment.inviteOnly ? LockFilled : GlobeFilled}
                 color={colors.foreground30}
@@ -119,87 +119,203 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           )}
         </View>
       </View>
-
-      <View
-        style={[
-          styles.detailContainer,
-          appointment.thumbnail && !imageError ? styles.detailContainerWithImage : {},
-          !userIsAllowedToEdit && !shouldShowVisibilityLabel ? styles.detailContainerWithoutHeader : {},
-        ]}
-      >
-        <HoliButton
-          transparent
-          label={appointment.title}
-          onPress={goToDetailView}
-          style={[styles.clickOverlay, styles.flex1]}
-          contentStyle={styles.titleButton}
+      <View style={{ flexDirection: 'row' }}>
+        <View
+          style={[
+            styles.detailContainer,
+            appointment.thumbnail && !imageError && screenWidth < +vars.breakpointS
+              ? styles.detailContainerWithImage
+              : {},
+            !userIsAllowedToEdit && !shouldShowVisibilityLabel ? styles.detailContainerWithoutHeader : {},
+          ]}
         >
-          <HoliCalendarIcon
-            day={new Date(appointment.startDateTime).getDate()}
-            month={new Date(appointment.startDateTime).getMonth() + 1}
-            size="small"
-          />
-          <HoliText ellipsizeMode="tail" bold numberOfLines={2} style={styles.flex1}>
-            {appointment.title}
-          </HoliText>
-        </HoliButton>
-        <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
-          <View style={styles.iconsContainer}>
-            <View style={styles.iconGroupContainer}>
-              <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
-              <HoliText style={styles.iconGroupText} size="extrasmall">
-                {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
-                {endTime}
-              </HoliText>
-            </View>
-          </View>
-          {!isLoggedIn && (
+          <HoliButton
+            transparent
+            label={appointment.title}
+            onPress={goToDetailView}
+            style={[styles.clickOverlay, screenWidth < +vars.breakpointS && styles.flex1]}
+            contentStyle={styles.titleButton}
+          >
+            <HoliCalendarIcon
+              day={new Date(appointment.startDateTime).getDate()}
+              month={new Date(appointment.startDateTime).getMonth() + 1}
+              size="small"
+            />
+            <HoliText ellipsizeMode="tail" bold numberOfLines={2} style={styles.flex1}>
+              {appointment.title}
+            </HoliText>
+          </HoliButton>
+          <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
             <View style={styles.iconsContainer}>
               <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+                <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
                 <HoliText style={styles.iconGroupText} size="extrasmall">
-                  {t('appointment.card.login.location')}
+                  {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+                  {endTime}
                 </HoliText>
               </View>
             </View>
-          )}
-          {!isLoggedIn && (
-            <View style={styles.iconsContainer}>
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
-                <HoliText style={styles.iconGroupText} size="extrasmall">
-                  {t('appointment.card.login.videochat')}
-                </HoliText>
+            {!isLoggedIn && (
+              <View style={styles.iconsContainer}>
+                <View style={styles.iconGroupContainer}>
+                  <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+                  <HoliText style={styles.iconGroupText} size="extrasmall">
+                    {t('appointment.card.login.location')}
+                  </HoliText>
+                </View>
               </View>
-            </View>
-          )}
-          {isLoggedIn && appointment.location && (
-            <View style={styles.iconsContainer}>
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
-                <HoliText style={styles.iconGroupText} size="extrasmall">
-                  {appointment.location}
-                </HoliText>
+            )}
+            {!isLoggedIn && (
+              <View style={styles.iconsContainer}>
+                <View style={styles.iconGroupContainer}>
+                  <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+                  <HoliText style={styles.iconGroupText} size="extrasmall">
+                    {t('appointment.card.login.videochat')}
+                  </HoliText>
+                </View>
               </View>
-            </View>
-          )}
-          {isLoggedIn && appointment.videoCallLink?.url && (
-            <View style={styles.iconsContainer}>
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
-                <HoliText style={styles.iconGroupText} size="extrasmall">
-                  {appointment.videoCallLink?.url}
-                </HoliText>
+            )}
+            {isLoggedIn && appointment.location && (
+              <View style={styles.iconsContainer}>
+                <View style={styles.iconGroupContainer}>
+                  <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+                  <HoliText style={styles.iconGroupText} size="extrasmall">
+                    {appointment.location}
+                  </HoliText>
+                </View>
               </View>
-            </View>
-          )}
-        </HoliButton>
+            )}
+            {isLoggedIn && appointment.videoCallLink?.url && (
+              <View style={styles.iconsContainer}>
+                <View style={styles.iconGroupContainer}>
+                  <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+                  <HoliText style={styles.iconGroupText} size="extrasmall">
+                    {appointment.videoCallLink?.url}
+                  </HoliText>
+                </View>
+              </View>
+            )}
+          </HoliButton>
+        </View>
+        {!imageError && !!appointment.thumbnail && screenWidth > +vars.breakpointS && (
+          <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
+            <HoliImage
+              label={t('spaces.appointments.thumbnail.label')}
+              source={{ uri: appointment.thumbnail }}
+              style={styles.imageL}
+              onError={() => setImageError(true)}
+              {...(appointment.thumbnailBlurhash ? { blurhash: appointment.thumbnailBlurhash } : {})}
+            />
+          </HoliButton>
+        )}
       </View>
     </View>
   )
 }
 
 const getStyles = (screenWidth: number) =>
+  StyleSheet.create({
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      position: screenWidth > +vars.breakpointS ? 'relative' : 'absolute',
+      width: '100%',
+      top: screenWidth > +vars.breakpointS ? 0 : 8,
+      marginBottom: 16,
+    },
+    inviteOnly: {
+      padding: 2,
+      paddingRight: 4,
+      height: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    tagWithImage: {
+      borderRadius: 24,
+      borderWidth: screenWidth < +vars.breakpointS ? 1 : 0,
+      borderColor: colors.background30,
+      backgroundColor: colors.background10,
+      marginLeft: 6,
+    },
+    optionsWithImage: {
+      borderRadius: 6,
+      borderWidth: screenWidth < +vars.breakpointS ? 1 : 0,
+      borderColor: colors.background30,
+      backgroundColor: colors.background10,
+      marginRight: 6,
+    },
+    detailContainer: {
+      minHeight: 40,
+      alignSelf: 'stretch',
+      display: 'flex',
+    },
+    detailContainerWithoutHeader: {
+      marginTop: 0,
+    },
+    detailContainerWithImage: {
+      marginTop: 0,
+    },
+    clickOverlay: {
+      position: 'relative',
+      pointerEvents: 'auto',
+    },
+    flex1: {
+      flex: 1,
+    },
+    titleButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      marginBottom: 8,
+    },
+    image: {
+      borderRadius: 8,
+      height: 166,
+      justifyContent: 'center',
+    },
+    imageL: {
+      borderRadius: 8,
+      height: 166,
+      width: 224,
+      justifyContent: 'center',
+      alignSelf: 'center',
+    },
+    imageContainer: {
+      position: 'relative',
+    },
+    appointmentItem: {
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.background30,
+      backgroundColor: colors.background10,
+      padding: screenWidth > +vars.breakpointS ? 16 : 8,
+      flexShrink: 1,
+    },
+    iconsContainer: {
+      marginTop: 4,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+    iconGroupContainer: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      flexShrink: 1,
+      flex: 1,
+    },
+    iconGroupIcon: {
+      marginRight: 4,
+    },
+    iconGroupText: {
+      color: colors.foreground20,
+      marginRight: 8,
+      maxWidth: '90%',
+    },
+  })
+
+export default memo(AppointmentCard)
+
+/* const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     header: {
       flexDirection: 'row',
@@ -282,6 +398,4 @@ const getStyles = (screenWidth: number) =>
       marginRight: 8,
       maxWidth: '90%',
     },
-  })
-
-export default memo(AppointmentCard)
+  }) */
