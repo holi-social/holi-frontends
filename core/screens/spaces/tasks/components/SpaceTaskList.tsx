@@ -32,21 +32,23 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
 
   const navigateToTasks = () => navigate(`/spaces/${space.name}/tasks`)
 
-  const itemsInRow = useBreakpointMatcher([
-    [0, 1],
-    [+vars.breakpointS, 2],
-    [+vars.breakpointM, 3],
-    [+vars.breakpointXxl, 4],
-  ])
+  const itemsInRow =
+    useBreakpointMatcher([
+      [0, 1],
+      [+vars.breakpointS, 2],
+      [+vars.breakpointM, 3],
+      [+vars.breakpointXxl, 4],
+    ]) || 1
 
-  const tasks = (preview ? space.tasks?.slice(-itemsInRow) : space.tasks) || []
+  const allTasks = space.tasks || []
+  const displayTasks = preview ? allTasks.slice(0, Math.max(itemsInRow, 2)) : allTasks
 
   return (
     <>
       {space.tasks?.length ? (
         <>
           <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
-            {tasks.map((task) => (
+            {displayTasks.map((task) => (
               <HoliGridCell key={task.id}>
                 <SpaceTaskTile
                   task={task}
@@ -58,7 +60,7 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
               </HoliGridCell>
             ))}
           </HoliGridWrapper>
-          {space.tasks.length > displayTasks.length && (
+          {allTasks.length > displayTasks.length && (
             <View style={styles.seeAllButtonContainer}>
               <HoliButton
                 label={t('spaces.global.seeAllButton.label')}
