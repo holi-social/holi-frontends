@@ -17,7 +17,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 interface EditSpaceLinksProps {
   space: Space
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   doneButton: {
-    maxWidth: vars.maxButtonWidth,
+    maxWidth: dimensions.maxButtonWidth,
     marginHorizontal: 'auto',
   },
   modal: {
