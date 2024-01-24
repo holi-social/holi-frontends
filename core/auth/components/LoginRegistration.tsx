@@ -8,11 +8,10 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { getDocumentURL } from '@holi/core/helpers'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -65,28 +64,28 @@ const LoginRegistration = ({
   const docsElement = (
     <View style={styles.bottomLinkContainer}>
       {footerDocs.map((docType) => (
-        <HoliText size={'small'} color="gray300" key={docType}>
-          <HoliTextLink
-            label={t(`profile.loggedOut.footer.${docType}`)}
-            onPress={() => showModalFor(docType)}
-            href={'/profile'}
-            variant="inline"
-          >
-            {t(`profile.loggedOut.footer.${docType}`)}
-          </HoliTextLink>
-        </HoliText>
+        <HoliTextLink
+          key={docType}
+          label={t(`profile.loggedOut.footer.${docType}`)}
+          onPress={() => showModalFor(docType)}
+          href={'/profile'}
+          size="small"
+          color="gray300"
+        >
+          {t(`profile.loggedOut.footer.${docType}`)}
+        </HoliTextLink>
       ))}
       {Platform.OS !== 'web' && (
-        <HoliText size={'small'} color="gray300">
-          <HoliTextLink
-            label={'test'}
-            onPress={() => navigate('/profile/settings/aboutholiapp')}
-            href={'/profile/settings/aboutholiapp'}
-            variant="inline"
-          >
-            {t('profile.loggedOut.footer.aboutholiapp')}
-          </HoliTextLink>
-        </HoliText>
+        // TODO(SF) label
+        <HoliTextLink
+          label={'test'}
+          onPress={() => navigate('/profile/settings/aboutholiapp')}
+          href={'/profile/settings/aboutholiapp'}
+          size="small"
+          color="gray300"
+        >
+          {t('profile.loggedOut.footer.aboutholiapp')}
+        </HoliTextLink>
       )}
     </View>
   )

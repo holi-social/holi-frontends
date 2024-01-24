@@ -5,13 +5,13 @@ import { StyleSheet, View } from 'react-native'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { insightsByUserIdQuery } from '@holi/core/queries'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export interface InsightsTabProps {
