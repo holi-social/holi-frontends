@@ -45,6 +45,8 @@ const LoginRegistration = ({
   const showModalFor = (document: DocType) => {
     setShownDocument(document)
     showModal()
+    // prevent HoliLink default behaviour
+    return false
   }
 
   const onDocumentLoadError = (err?: Error) => {
@@ -68,7 +70,7 @@ const LoginRegistration = ({
           key={docType}
           label={t(`profile.loggedOut.footer.${docType}`)}
           onPress={() => showModalFor(docType)}
-          href={'/profile'}
+          href={`/profile/settings/legalDocuments/document?type=${docType}`}
           size="small"
           color="gray300"
         >
@@ -76,9 +78,8 @@ const LoginRegistration = ({
         </HoliTextLink>
       ))}
       {Platform.OS !== 'web' && (
-        // TODO(SF) label
         <HoliTextLink
-          label={'test'}
+          label={t('profile.loggedOut.footer.aboutholiapp')}
           onPress={() => navigate('/profile/settings/aboutholiapp')}
           href={'/profile/settings/aboutholiapp'}
           size="small"
