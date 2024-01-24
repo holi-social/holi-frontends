@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -27,15 +26,16 @@ const ShareAppointment: React.VFC<ShareAppointmentProps> = ({
   startTime,
 }: ShareAppointmentProps) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
 
   const message = `${t('spaces.appointments.share.message.title')}${t('spaces.appointments.share.message.text', {
     appointment: appointment.title,
     space: space.title,
   })}${t('spaces.appointments.share.message.date', { date: date, time: startTime })}${
-    appointment.location && isLoggedIn
-      ? t('spaces.appointments.share.message.location', { location: appointment.location })
+    appointment.locationDetails?.completeAddress
+      ? t('spaces.appointments.share.message.location', { location: appointment.locationDetails.completeAddress })
       : ''
+  }${appointment.videoCallLink?.url ? t('spaces.appointments.share.message.link') : ''}${
+    appointment.videoCallLink?.url ? appointment.videoCallLink?.url : ''
   }`
 
   const [, shareLink] = useShareLink({

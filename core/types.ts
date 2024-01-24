@@ -29,3 +29,11 @@ export interface GeolocationGeoJSON {
   }
   geometry: GeolocationGeometry
 }
+
+export interface LocationDetails {
+  completeAddress: string
+  city?: string
+  state?: string
+  country?: string
+  geolocation: GeolocationPoint
+}

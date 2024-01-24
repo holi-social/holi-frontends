@@ -4,6 +4,8 @@ export interface Place {
   id: string
   name: string
   city?: string
+  state?: string
+  country: string
   coordinates?: GeolocationPoint
 }
 

@@ -74,6 +74,7 @@ const AppointmentDetails = () => {
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchAppointment, refetchSpace]))
 
   const appointment = appointmentData?.appointment
+  const isHybrid = appointment?.isHybrid
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isAppointmentCreator = appointment?.creator.id === userId
@@ -174,8 +175,13 @@ const AppointmentDetails = () => {
   }
 
   const openMap = () => {
-    if (!appointment.location) return
-    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(appointment.location)}`)
+    if (!appointment.locationDetails) return
+
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      appointment.locationDetails.completeAddress
+    )}`
+
+    Linking.openURL(mapUrl)
   }
 
   return (
@@ -205,9 +211,11 @@ const AppointmentDetails = () => {
                 month={new Date(appointment.startDateTime).getMonth() + 1}
                 size="medium"
               />
-              <HoliHeading ellipsizeMode="tail" level="1" size="m" testID="appointment-title">
-                {appointment.title}
-              </HoliHeading>
+              <View style={styles.infoText}>
+                <HoliHeading ellipsizeMode="tail" level="1" size="m" testID="appointment-title">
+                  {appointment.title}
+                </HoliHeading>
+              </View>
             </View>
             <View style={styles.firstIconContainer}>
               <View style={styles.iconGroupContainer}>
@@ -218,23 +226,54 @@ const AppointmentDetails = () => {
                 </HoliText>
               </View>
             </View>
-            {!isLoggedIn && (
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
-                <HoliText bold>{t('appointment.card.login.location')}</HoliText>
-              </View>
+            {!isLoggedIn && appointment.locationDetails && (
+              <>
+                <View style={styles.iconGroupContainer}>
+                  <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
+                  <HoliButton
+                    label={t('appointment.card.login.location')}
+                    transparent
+                    inline
+                    style={styles.iconGroupWithDescription}
+                    onPress={() => navigate('/login')}
+                  >
+                    <HoliText bold>{t('appointment.card.login.location')}</HoliText>
+                  </HoliButton>
+                </View>
+                <View style={styles.noIconsContainer}>
+                  <HoliButton
+                    label={appointment.locationDetails.completeAddress}
+                    transparent
+                    inline
+                    style={styles.iconGroupWithDescription}
+                    onPress={() => navigate('/login')}
+                  >
+                    <HoliText color="gray300" size="small">
+                      {appointment.locationDetails.completeAddress}
+                    </HoliText>
+                  </HoliButton>
+                </View>
+              </>
             )}
-            {!isLoggedIn && (
+            {!isLoggedIn && isHybrid && (
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
-                <HoliText bold>{t('appointment.card.login.videochat')}</HoliText>
+                <HoliButton
+                  label={t('appointment.card.login.videochat')}
+                  transparent
+                  inline
+                  style={styles.iconGroupWithDescription}
+                  onPress={() => navigate('/login')}
+                >
+                  <HoliText bold>{t('appointment.card.login.videochat')}</HoliText>
+                </HoliButton>
               </View>
             )}
-            {isLoggedIn && appointment.location && (
+            {isLoggedIn && appointment.locationDetails && (
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
                 <HoliButton
-                  label={appointment.location}
+                  label={appointment.locationDetails.completeAddress}
                   transparent
                   inline
                   style={styles.externalLinkButton}
@@ -242,9 +281,9 @@ const AppointmentDetails = () => {
                   onPress={openMap}
                 >
                   <HoliText bold style={styles.infoText}>
-                    {appointment.location}
+                    {appointment.locationDetails.completeAddress}
                   </HoliText>
-                  <HoliIcon icon={ExternalLink} size={16} />
+                  <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
                 </HoliButton>
               </View>
             )}
@@ -301,20 +340,22 @@ const AppointmentDetails = () => {
             <HoliHeading level="2" size="m">
               {t('spaces.appointments.details.details')}
             </HoliHeading>
-            <View style={styles.avatar}>
-              <HoliAvatar
-                imageSrc={appointment.creator.avatar}
-                imageBlurhash={appointment.creator.avatarBlurhash}
-                label={appointment.creator.fullName || t('user.profileView.anonymous')}
-                initials={appointment.creator.avatarLabel || ''}
-                defaultColor={appointment.creator.avatarDefaultColor || ''}
-                testID="appointment-contact-avatar"
-              />
-              <HoliText style={styles.avatarName}>
-                {t('spaces.appointments.details.createdBy')}{' '}
-                {appointment.creator.fullName || t('user.profileView.anonymous')}
-              </HoliText>
-            </View>
+            {isLoggedIn && (
+              <View style={styles.avatar}>
+                <HoliAvatar
+                  imageSrc={appointment.creator.avatar}
+                  imageBlurhash={appointment.creator.avatarBlurhash}
+                  label={appointment.creator.fullName || t('user.profileView.anonymous')}
+                  initials={appointment.creator.avatarLabel || ''}
+                  defaultColor={appointment.creator.avatarDefaultColor || ''}
+                  testID="appointment-contact-avatar"
+                />
+                <HoliText style={styles.avatarName}>
+                  {t('spaces.appointments.details.createdBy')}{' '}
+                  {appointment.creator.fullName || t('user.profileView.anonymous')}
+                </HoliText>
+              </View>
+            )}
             <View style={styles.detailsIconGroup}>
               <HoliIcon icon={appointment.inviteOnly ? LockFilled : Global} size={24} style={styles.detailsIcon} />
               <HoliText>
@@ -387,6 +428,11 @@ const styles = StyleSheet.create({
   firstCard: {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
+  },
+  noIconsContainer: {
+    marginLeft: 32,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   firstIconContainer: {
     marginTop: 24,
