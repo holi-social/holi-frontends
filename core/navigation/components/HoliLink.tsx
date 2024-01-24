@@ -2,22 +2,17 @@ import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { Pressable } from 'react-native'
 
-import type { UseLinkProps } from '@holi/core/navigation/hooks/useLink'
+import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink.shared'
 import useLink from '@holi/core/navigation/hooks/useLink'
 
-export interface HoliLinkProps extends UseLinkProps {
-  label: string
-  testID?: string
-}
-
-const HoliLink = ({
+export const HoliLink = ({
   href,
   label,
   external,
   onPress,
   children,
   mobileNavigateBackFirst,
-  testID = 'text-link',
+  testID = 'link',
 }: PropsWithChildren<HoliLinkProps>) => {
   const handleLinkPress = useLink({ href, external, onPress, mobileNavigateBackFirst })
 
@@ -27,5 +22,3 @@ const HoliLink = ({
     </Pressable>
   )
 }
-
-export default HoliLink
