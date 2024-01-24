@@ -46,7 +46,11 @@ const UserConnectionsList: React.FC<UserConnectionsListProps> = ({ spaceId, onIn
       scrollPlaceholder={<HoliLoader style={styles.loader} />}
     >
       <HoliText size="large">{t('spaces.invite.connections.header')}</HoliText>
-      <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />
+      <SpaceInviteUserSearchResult
+        spaceId={spaceId}
+        onInviteHandled={onInviteHandled}
+        emptyText={t('spaces.invite.connections.empty')}
+      />
     </Pagination>
   )
 }
