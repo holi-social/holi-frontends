@@ -14,6 +14,7 @@ interface LogoutOptions {
   skipLogoutFlow?: boolean
   redirectPath?: string
   redirectTimeout?: number
+  showToastAfter?: boolean
 }
 
 const isLoggingOutVar = makeVar(false)
@@ -33,6 +34,7 @@ export const useLogout = () => {
         skipLogoutFlow = false,
         redirectPath = '/profile',
         redirectTimeout = undefined,
+        showToastAfter = true,
       }: LogoutOptions = {}) => {
         const redirect = () => {
           if (redirectTimeout) {
@@ -60,7 +62,7 @@ export const useLogout = () => {
           await client.clearStore()
 
           logDebug('useLogout', 'logout successful')
-          openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
+          if (showToastAfter) openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
         } catch (err) {
           logDebug('useLogout', 'logout failed, removing session from storage', err)
           setUserLoggedOut() // will remove session info from storage

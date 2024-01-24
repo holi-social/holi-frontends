@@ -61,7 +61,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
           displayError(error, 'Failed to retrieve email verification flow', {
             location: 'EmailVerification.getOrCreateVerificationFlow',
           })
-          isLoggedIn && logout({ redirectPath: '/' })
+          isLoggedIn && logout({ redirectPath: '/', showToastAfter: false })
           onDismiss()
         })
         .finally(hideLoader)
@@ -215,7 +215,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
           <HoliButtonLoading
             label={t('auth.loginProtection.continueAsGuest')}
             onPress={async () => {
-              isLoggedIn && (await logout({ redirectPath: '/' }).catch(() => null)) // ignore logout error
+              isLoggedIn && (await logout({ redirectPath: '/', showToastAfter: false }).catch(() => null)) // ignore logout error
               onDismiss()
               navigate('/')
               setVerificationFlowData(undefined)
