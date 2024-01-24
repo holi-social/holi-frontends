@@ -9,7 +9,7 @@ import ResourceCategoryTile, {
 } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Spaces } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'

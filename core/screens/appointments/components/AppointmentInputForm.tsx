@@ -7,7 +7,7 @@ import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
 import { PermissionsType } from '@holi/core/screens/appointments/types'
-import { GeolocationPoint } from '@holi/core/types'
+import { LocationDetails } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -70,12 +70,12 @@ export interface AppointmentInputFormProps {
   regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo | null // null is for choosing to remove an image from an appointment and keeping it without image
   thumbnailBlurhash?: string
-  geolocation?: GeolocationPoint
+  locationDetails?: LocationDetails
   selectedLocation?: GeolocationSuggestion
   url?: string
   additionalInfo?: string
   currentThumbnail?: string
-  currentLocation?: string
+  currentLocationDetails?: LocationDetails
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
@@ -87,7 +87,7 @@ export interface AppointmentInputFormProps {
   onChangeEndMinutes: (_: string) => void
   onChangePermissionType: (_: HoliModalSelectOption) => void
   onChangeThumbnail: (_: HoliImageInfo | undefined | null) => void
-  onChangeGeolocation: (_: GeolocationPoint) => void
+  onChangeLocationDetails: (_: LocationDetails) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   onChangeUrl: (_: string) => void
   onChangeAdditionalInfo: (_: string) => void
@@ -108,7 +108,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   permissionType,
   thumbnail,
   currentThumbnail,
-  currentLocation,
+  currentLocationDetails,
   selectedLocation,
   url,
   additionalInfo,
@@ -321,7 +321,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           label={t('spaces.input.location.label')}
           placeholder={t('spaces.input.location.placeholder')}
           selected={selectedLocation}
-          value={selectedLocation?.label || currentLocation}
+          value={selectedLocation?.label || currentLocationDetails?.completeAddress}
           id="appointment-location"
           testID="appointment-location"
           onChange={onChangeSelectedLocation}

@@ -23,7 +23,8 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
 const Login = () => {
@@ -43,7 +44,7 @@ const Login = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="small">
+        <HoliHeading level="1" size="s">
           {t('auth.login')}
         </HoliHeading>
       ),
@@ -128,9 +129,8 @@ const Login = () => {
             </HoliTextLink>
           </View>
 
-          <HoliHeading level="2" style={styles.headline2}>
-            {t('auth.login.signUp.link.headline')}
-          </HoliHeading>
+          <HoliGap size="l" />
+          <HoliHeading level="2">{t('auth.login.signUp.link.headline')}</HoliHeading>
 
           <RegistrationButton style={styles.formItemContainer} />
         </LoginRegistrationContainer>
@@ -150,8 +150,5 @@ const styles = StyleSheet.create({
   },
   formItemContainer: {
     marginTop: 20,
-  },
-  headline2: {
-    marginTop: 40,
   },
 })

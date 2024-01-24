@@ -24,26 +24,34 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
 >
   <RCTScrollView>
     <View>
-      <Text
-        role="heading"
-        selectable={true}
+      <View
         style={
           {
-            "color": "#262424",
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 28,
-            "fontWeight": "500",
-            "lineHeight": 39.199999999999996,
-            "marginBottom": 16,
-            "marginHorizontal": 24,
-            "textAlign": "left",
-            "userSelect": "auto",
+            "paddingBottom": 16,
+            "paddingLeft": 24,
+            "paddingRight": 24,
           }
         }
-        testID="holi-modal-content-heading"
       >
-        user.cards.modal.title
-      </Text>
+        <Text
+          role="heading"
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 28,
+              "fontWeight": "500",
+              "lineHeight": 39.199999999999996,
+              "textAlign": "left",
+              "userSelect": "auto",
+            }
+          }
+          testID="holi-modal-content-heading"
+        >
+          user.cards.modal.title
+        </Text>
+      </View>
       <View
         style={
           [

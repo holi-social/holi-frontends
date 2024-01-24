@@ -9,7 +9,7 @@ import AppTile from '@holi/core/screens/appsHub/components/AppTile'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Apps, ArrowRightS } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -79,7 +79,7 @@ const AppsDrawer: React.FC = () => {
           </View>
           <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigateToAppsHub()}>
             <View style={styles.appsHubContainer}>
-              <HoliHeading size="small">{t('apps.drawer.appsHub')}</HoliHeading>
+              <HoliHeading size="s">{t('apps.drawer.appsHub')}</HoliHeading>
               <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
               <HoliIcon icon={ArrowRightS} size={24} color={colors.foreground30} />
             </View>

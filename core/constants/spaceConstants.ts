@@ -1,6 +1,6 @@
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import type { ResourceCategory } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
-import { CalendarEvent, CheckboxFilled, FolderOpenFilled, LinkM, VidiconFilled } from '@holi/icons/src/generated'
+import { CalendarEventFilled, CheckboxFilled, FolderOpenFilled, LinkM, VidiconFilled } from '@holi/icons/src/generated'
 
 export const SPACE_COLLABORATOR_TOOLS = {
   DIGITAL_TOOL: 'digital-tool',
@@ -43,7 +43,7 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.EVENT,
-    icon: CalendarEvent,
+    icon: CalendarEventFilled,
     translationKey: 'spaces.resources.category.event',
     featureToggleName: FeatureToggleName.APPOINTMENTS,
     path: '/appointments',

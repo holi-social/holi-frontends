@@ -6,7 +6,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -31,7 +31,9 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
     <HoliGridCell key={idx}>
       <HoliSkeleton aspectRatio={327 / 214} borderRadius={24} height={'auto'} width={'100%'} />
       <HoliText size="extrasmall" style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
-      <HoliHeading level="2" size="small" style={styles.topicTitle} loading skeletonOptions={{ width: '60%' }} />
+      <HoliGap size="xs" />
+      <HoliHeading level="2" size="s" loading skeletonOptions={{ width: '60%' }} />
+      <HoliGap size="xs" />
       <HoliText size="extrasmall" style={{ marginTop: 8 }} loading skeletonOptions={{ width: '100%' }} />
     </HoliGridCell>
   ))
@@ -63,13 +65,8 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
 export default withProfiler(DonationListingSkeleton, { name: 'DonationListingSkeleton' })
 
 const styles = StyleSheet.create({
-  topicTitle: {
-    color: colors.brandColorB30,
-    marginVertical: 8,
-  },
   spaceTop: {
     marginTop: 16,
-
     width: '100%',
   },
   skeletonContainer: {

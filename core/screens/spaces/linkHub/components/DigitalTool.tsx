@@ -10,7 +10,8 @@ import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, LinkM, ShareBox } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -165,9 +166,8 @@ const DigitalTool = ({
               <HoliIcon icon={Edit2} />
             </HoliButton>
           </View>
-          <HoliHeading level="1" style={styles.modalToolName}>
-            {defaultTool ? toolName : tool?.title}
-          </HoliHeading>
+          <HoliHeading level="1">{defaultTool ? toolName : tool?.title}</HoliHeading>
+          <HoliGap size="xs" />
           {tool.description && (
             <HoliText size="small" style={styles.modalToolDescription} testID="tool-desc">
               {tool.description}
@@ -278,9 +278,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     marginBottom: 32,
-  },
-  modalToolName: {
-    marginBottom: 8,
   },
   modalToolDescription: {
     color: colors.foreground20,

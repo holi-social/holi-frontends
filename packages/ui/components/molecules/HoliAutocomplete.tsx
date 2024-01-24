@@ -14,6 +14,9 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type Suggestion = {
   id: string
   label: string
+  city?: string
+  state?: string
+  country: string
 }
 interface AutocompleteItemProps {
   suggestion: Suggestion

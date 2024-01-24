@@ -9,18 +9,25 @@ export const CreateAppointmentSchema = z.object({
   inviteOnly: z.boolean(),
   startDateTime: z.string().optional(),
   endDateTime: z.string().optional(),
-  location: z.string().optional(),
+  locationDetails: z
+    .object({
+      completeAddress: z.string().optional(),
+      city: z.string().optional(),
+      state: z.string().optional(),
+      country: z.string().optional(),
+      geolocation: z
+        .object({
+          latitude: z.number(),
+          longitude: z.number(),
+        })
+        .optional(),
+    })
+    .optional(),
   description: z.string().trim().max(5000).optional(),
   permission: z.string().optional() /* PermissionType */,
   videoCallLink: z.string().optional(),
   videoCallInfo: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
-  geolocation: z
-    .object({
-      latitude: z.number(),
-      longitude: z.number(),
-    })
-    .optional(),
 })
 
 export type CreateAppointmentInput = z.infer<typeof CreateAppointmentSchema>
@@ -34,7 +41,16 @@ export const createAppointmentMutation = gql`
       inviteOnly
       startDateTime
       endDateTime
-      location
+      locationDetails {
+        completeAddress
+        city
+        state
+        country
+        geolocation {
+          longitude
+          latitude
+        }
+      }
       description
       permission
       videoCallLink {
@@ -44,10 +60,6 @@ export const createAppointmentMutation = gql`
       }
       thumbnail
       thumbnailBlurhash
-      geolocation {
-        longitude
-        latitude
-      }
     }
   }
 `
@@ -62,18 +74,25 @@ export const UpdateAppointmentSchema = z.object({
   inviteOnly: z.boolean(),
   startDateTime: z.string().optional(),
   endDateTime: z.string().optional(),
-  location: z.string().optional(),
+  locationDetails: z
+    .object({
+      completeAddress: z.string().optional(),
+      city: z.string().optional(),
+      state: z.string().optional(),
+      country: z.string().optional(),
+      geolocation: z
+        .object({
+          latitude: z.number(),
+          longitude: z.number(),
+        })
+        .optional(),
+    })
+    .optional(),
   description: z.string().trim().max(5000).optional(),
   permission: z.string() /* PermissionType */,
   videoCallLink: z.string().optional(),
   videoCallInfo: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
-  geolocation: z
-    .object({
-      latitude: z.number(),
-      longitude: z.number(),
-    })
-    .optional(),
 })
 
 export type UpdateAppointmentInput = z.infer<typeof UpdateAppointmentSchema>
@@ -87,7 +106,16 @@ export const updateAppointmentMutation = gql`
       inviteOnly
       startDateTime
       endDateTime
-      location
+      locationDetails {
+        completeAddress
+        city
+        state
+        country
+        geolocation {
+          longitude
+          latitude
+        }
+      }
       description
       permission
       videoCallLink {
@@ -97,10 +125,6 @@ export const updateAppointmentMutation = gql`
       }
       thumbnail
       thumbnailBlurhash
-      geolocation {
-        longitude
-        latitude
-      }
     }
   }
 `

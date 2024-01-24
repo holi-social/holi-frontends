@@ -14,7 +14,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -166,7 +166,7 @@ const ChatStartConversationView = () => {
                 />
               ) : (
                 <View style={[mixins.container, styles.listDescription]}>
-                  <HoliHeading level="3" style={styles.listDescriptionText}>
+                  <HoliHeading level="3" align="center">
                     {t('chat.start.description')}
                   </HoliHeading>
                 </View>
@@ -208,9 +208,6 @@ const styles = StyleSheet.create({
   listDescription: {
     flex: 1,
     justifyContent: 'center',
-  },
-  listDescriptionText: {
-    textAlign: 'center',
   },
   userItem: {
     justifyContent: 'space-between',

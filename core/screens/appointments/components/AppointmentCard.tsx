@@ -74,6 +74,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
   const shouldShowVisibilityLabel = isLoggedIn && (isMember || isAdmin)
   const userIsAllowedToEdit = isAdmin || isAppointmentCreator
+  const isHybrid = appointment?.isHybrid
 
   return (
     <View key={appointment.id} style={styles.appointmentItem} testID="space-appointment-tile">
@@ -151,17 +152,38 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </HoliText>
           </View>
         </View>
-        {!isLoggedIn && (
+
+        {!isLoggedIn && isHybrid && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
               <HoliText style={styles.iconGroupText} size="extrasmall">
-                {t('appointment.card.login.location')}
+                {t('appointment.card.hybrid.title')}
               </HoliText>
             </View>
           </View>
         )}
-        {!isLoggedIn && (
+
+        {!isLoggedIn && !isHybrid && appointment.locationDetails && (
+          <>
+            <View style={styles.iconsContainer}>
+              <View style={styles.iconGroupContainer}>
+                <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+                <HoliText style={styles.iconGroupText} size="extrasmall">
+                  {t('appointment.card.login.location')}
+                </HoliText>
+              </View>
+            </View>
+            <View style={styles.iconsContainer}>
+              <View style={styles.iconGroupContainer}>
+                <HoliText style={styles.noIconGroupText} size="extrasmall">
+                  {appointment.locationDetails.completeAddress}
+                </HoliText>
+              </View>
+            </View>
+          </>
+        )}
+        {!isLoggedIn && !isHybrid && appointment.videoCallLink && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
@@ -171,12 +193,12 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </View>
           </View>
         )}
-        {isLoggedIn && appointment.location && (
+        {isLoggedIn && appointment.locationDetails && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
               <HoliText style={styles.iconGroupText} size="extrasmall">
-                {appointment.location}
+                {appointment.locationDetails.completeAddress}
               </HoliText>
             </View>
           </View>
@@ -281,6 +303,12 @@ const styles = StyleSheet.create({
   },
   iconGroupText: {
     color: colors.foreground20,
+    marginRight: 8,
+    maxWidth: '90%',
+  },
+  noIconGroupText: {
+    color: colors.foreground20,
+    marginLeft: 16,
     marginRight: 8,
     maxWidth: '90%',
   },

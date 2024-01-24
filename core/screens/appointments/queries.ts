@@ -36,11 +36,17 @@ export const FullAppointmentFragment = gql`
     participants {
       ...UserAvatar
     }
-    location
-    geolocation {
-      longitude
-      latitude
+    locationDetails {
+      completeAddress
+      city
+      state
+      country
+      geolocation {
+        longitude
+        latitude
+      }
     }
+    isHybrid
   }
 `
 
@@ -67,11 +73,17 @@ export const PartialAppointmentFragment = gql`
     creator {
       id
     }
-    location
-    geolocation {
-      longitude
-      latitude
+    locationDetails {
+      completeAddress
+      city
+      state
+      country
+      geolocation {
+        longitude
+        latitude
+      }
     }
+    isHybrid
   }
 `
 

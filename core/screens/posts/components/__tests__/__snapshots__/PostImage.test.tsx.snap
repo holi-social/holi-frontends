@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
+exports[`PostImage renders correctly image 1`] = `
 [
   <View
     accessibilityLabel="insights.posts.image.show"

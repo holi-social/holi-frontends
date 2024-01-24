@@ -20,7 +20,7 @@ import {
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
@@ -216,15 +216,17 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   )}
 
                   {!!heading && (
-                    <HoliHeading
-                      level="2"
-                      style={styles.title}
-                      ellipsizeMode="tail"
-                      numberOfLines={1}
-                      testID={`${testID}-heading`}
-                    >
-                      {heading}
-                    </HoliHeading>
+                    <View style={styles.titleContainer}>
+                      <HoliHeading
+                        level="2"
+                        align="center"
+                        ellipsizeMode="tail"
+                        numberOfLines={1}
+                        testID={`${testID}-heading`}
+                      >
+                        {heading}
+                      </HoliHeading>
+                    </View>
                   )}
                 </View>
               ) : null}
@@ -311,8 +313,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
   },
-  title: {
-    textAlign: 'center',
+  titleContainer: {
     width: '80%',
   },
 })

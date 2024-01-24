@@ -11,7 +11,7 @@ import PlacesAutocomplete, {
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -74,7 +74,7 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
 
   return (
     <View testID={testID}>
-      <HoliHeading level="1" size="large" testID="account-setup-location-step-headline">
+      <HoliHeading level="1" size="l" testID="account-setup-location-step-headline">
         {t('registration.accountSetup.location.heading')}
       </HoliHeading>
 

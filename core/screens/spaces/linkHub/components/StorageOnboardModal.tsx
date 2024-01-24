@@ -43,7 +43,7 @@ const StorageOnboardModal = ({ visible, handleModalClose }: StorageOnboardModalP
         actionButtonText={t('spaces.storage.onboarding.button')}
         onActionButtonPress={() => handleModalClose()}
         headlineText={t('spaces.storage.onboarding.title')}
-        headlineStyle={styles.headlineText}
+        headlineAlign="center"
         testID={'space-onboard-content'}
         style={styles.modalContentWrapper}
       >
@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
   },
-  headlineText: { textAlign: 'center' },
   hint1: {
     textAlign: 'center',
     marginBottom: 16,

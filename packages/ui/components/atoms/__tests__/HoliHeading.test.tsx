@@ -3,16 +3,12 @@ import React from 'react'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2 } from '@holi/icons/src/generated'
-import HoliHeading, {
-  HoliHeadingLevels,
-  HoliHeadingProps,
-  HoliHeadingSizes,
-} from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading, HoliHeadingLevel, HoliHeadingSize } from '@holi/ui/components/atoms/HoliHeading'
 
 describe('renders correctly', () => {
   const booleanValues = [true, false]
-  const sizeValues: HoliHeadingProps['size'][] = HoliHeadingSizes
-  const levelValues: HoliHeadingProps['level'][] = HoliHeadingLevels
+  const sizeValues: HoliHeadingSize[] = ['xl', 'l', 'm', 's']
+  const levelValues: HoliHeadingLevel[] = ['1', '2', '3']
 
   booleanValues.forEach((selectable) => {
     sizeValues.forEach((size) => {

@@ -4,7 +4,6 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Link } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -20,9 +19,9 @@ const LinkContent: React.VFC<LinkContentProps> = ({ image, title, description, o
 
       <View style={styles.contentContainer}>
         <View style={styles.textContainer}>
-          <HoliHeading size="xSmall" numberOfLines={3} style={styles.fontColor}>
+          <HoliText bold size="small" numberOfLines={3}>
             {title}
-          </HoliHeading>
+          </HoliText>
 
           <HoliText size="extrasmall" numberOfLines={2} style={[styles.fontColor, styles.textMarginTop]}>
             {description}

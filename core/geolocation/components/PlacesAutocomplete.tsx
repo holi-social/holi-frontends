@@ -86,10 +86,13 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
     const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
 
     const placeSuggestions = (data?.geo_placesAutocomplete || [])
-      .map(({ id, name, coordinates }) => ({
+      .map(({ id, name, city, state, country, coordinates }) => ({
         id,
         value: name,
         label: name,
+        city: city,
+        state: state,
+        country: country,
         coordinates,
       }))
       .slice(0, PLACE_SUGGESTION_MAX_COUNT)

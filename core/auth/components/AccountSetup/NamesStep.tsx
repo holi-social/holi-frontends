@@ -7,7 +7,7 @@ import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { ScrollToProps, useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 
@@ -91,7 +91,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
 
   return (
     <>
-      <HoliHeading level="1" size="large" testID="account-setup-names-step-headline">
+      <HoliHeading level="1" size="l" testID="account-setup-names-step-headline">
         {t('registration.accountSetup.names.heading')}
       </HoliHeading>
 

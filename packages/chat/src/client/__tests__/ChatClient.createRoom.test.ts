@@ -301,7 +301,7 @@ describe('ChatClient', () => {
         eventWithoutMembershipChange,
         eventWithMembershipChange,
       ]
-      mxClient.createMessagesRequest.mockReturnValue(Promise.resolve({ chunk, start, end }))
+      mxClient.createMessagesRequest.mockResolvedValue({ chunk, start, end })
       const { chunk: result, ...other } = await client.createMessagesRequest(roomId)
       expect(result).toStrictEqual([eventJoin, eventLeave, eventMessage, eventWithMembershipChange])
       expect(other).toStrictEqual({ start, end })

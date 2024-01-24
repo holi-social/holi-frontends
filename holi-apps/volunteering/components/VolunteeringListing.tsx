@@ -12,7 +12,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -105,9 +105,7 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
     <View style={[mixins.container, styles.list]}>
       {engagements.length > 0 && (
         <View>
-          <HoliHeading level="1" style={styles.title}>
-            {t('volunteering:listing.headline')}
-          </HoliHeading>
+          <HoliHeading level="1">{t('volunteering:listing.headline')}</HoliHeading>
           <HoliGap size="s" />
           <PartnerInfoRow
             rowText={t('volunteering:listing.subline')}
@@ -187,9 +185,6 @@ const getStyles = (bottomInset = 0) =>
     list: {
       paddingTop: dimensions.topBarHeight,
       backgroundColor: colors.background20,
-    },
-    title: {
-      fontWeight: '400',
     },
     loadMoreButton: {
       marginTop: 24,
