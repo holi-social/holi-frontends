@@ -91,7 +91,7 @@ storybook_publish:
     expire_in: 1 week
   interruptible: true
   tags:
-    - holi-big
+    - holi-huge
   only:
     refs:
       - main
