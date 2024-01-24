@@ -9,9 +9,10 @@ import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -174,14 +175,15 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                       </HoliText>
                     </>
                   )}
-                  <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
+                  <HoliGap size="xs" />
+                  <HoliHeading level="2" size="s" selectable>
                     {project.title}
                   </HoliHeading>
+                  <HoliGap size="xs" />
                   <DonationProgress
                     category={project.categories[0]}
                     progressPercentage={project.progressPercentage}
                     openAmountInCents={project.openAmountInCents}
-                    style={styles.heading}
                   />
                 </HoliCard>
               </HoliGridCell>
@@ -206,9 +208,6 @@ const styles = StyleSheet.create({
   },
   clearFilter: {
     paddingLeft: 3,
-  },
-  heading: {
-    marginTop: 8,
   },
 })
 

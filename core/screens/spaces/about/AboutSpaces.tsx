@@ -9,7 +9,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { ArrowLeft, Close } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -32,7 +32,7 @@ const AboutSpaces = () => {
       headerBackVisible: true,
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => (
-        <HoliHeading level="1" size="small">
+        <HoliHeading level="1" size="s">
           {t('spaces.about.page.title')}
         </HoliHeading>
       ),

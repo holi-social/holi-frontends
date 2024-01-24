@@ -30,7 +30,7 @@ import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/scre
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -181,7 +181,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
       setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
-          <HoliHeading level="1" size="small">
+          <HoliHeading level="1" size="s">
             {t('spaces.appointments.edit.button.label')}
           </HoliHeading>
         ),

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -26,7 +26,7 @@ const VolunteeringDetailHeader: React.FC<VolunteeringDetailHeaderProps> = ({
         <HoliText size={'small'} style={styles.categoryText}>
           {engagement.categories[0]}
         </HoliText>
-        <HoliHeading level="1" size={'large'} style={{ fontWeight: '400' }}>
+        <HoliHeading level="1" size="l">
           {engagement.title}
         </HoliHeading>
         {!!engagement.location && (

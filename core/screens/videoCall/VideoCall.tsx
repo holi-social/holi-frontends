@@ -13,7 +13,7 @@ import { jitsiUrl } from '@holi/core/helpers/config'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
@@ -34,7 +34,7 @@ const VideoCall: React.FC = () => {
     if (roomName) {
       setScreenOptions({
         headerTitle: () => (
-          <HoliHeading level="1" size="small" numberOfLines={1}>
+          <HoliHeading level="1" size="s" numberOfLines={1}>
             {t('videocall.webview.heading', { roomName })}
           </HoliHeading>
         ),

@@ -1,68 +1,50 @@
 import * as React from 'react'
-import { AccessibilityProps, Platform, StyleSheet, Text, TextProps, View } from 'react-native'
+import { AccessibilityProps, Platform, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
 import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
 import { colors } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import defaultTheme from '@holi/ui/styles/theme/theme'
 
-type HoliHeadingLevel = '1' | '2' | '3' | '4' // for working code completion in vscode
-type HoliHeadingSize = 'super' | 'large' | 'medium' | 'small' | 'xSmall' // for working code completion in vscode
+export type HoliHeadingLevel = '1' | '2' | '3'
+export type HoliHeadingSize = 'xl' | 'l' | 'm' | 's'
 
-const HoliHeadings: Record<
-  HoliHeadingLevel,
-  {
-    defaultSize: HoliHeadingSize
-  }
-> = {
-  1: {
-    defaultSize: 'large',
-  },
-  2: {
-    defaultSize: 'medium',
-  },
-  3: {
-    defaultSize: 'small',
-  },
-  4: {
-    defaultSize: 'xSmall',
-  },
+const defaultSizes: { [key in HoliHeadingLevel]: HoliHeadingSize } = {
+  1: 'l',
+  2: 'm',
+  3: 's',
 }
-
-export const HoliHeadingLevels: HoliHeadingLevel[] = Object.keys(HoliHeadings) as unknown as HoliHeadingLevel[]
-export const HoliHeadingSizes: HoliHeadingSize[] = ['super', 'large', 'medium', 'small'] // keep in sync with type HoliHeadingSize
 
 export type HoliHeadingProps = {
   size?: HoliHeadingSize
   level?: HoliHeadingLevel
+  italic?: boolean
+  align?: TextStyle['textAlign']
   selectable?: boolean
   testID?: string
   numberOfLines?: number
+  ellipsizeMode?: TextProps['ellipsizeMode']
   loading?: boolean
   skeletonOptions?: SkeletonTextOptions
 }
 
-const HoliHeading = ({
+export const HoliHeading = ({
   children,
   level = '2',
-  size = HoliHeadings[level].defaultSize,
+  size = defaultSizes[level],
+  italic = false,
+  align,
   selectable = true,
   testID,
   numberOfLines,
   loading = false,
   skeletonOptions,
-  ...props
-}: React.PropsWithChildren<HoliHeadingProps & TextProps>) => {
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
-
+}: React.PropsWithChildren<HoliHeadingProps>) => {
   if (loading) {
     return (
-      <View style={props?.style}>
-        <HoliSkeleton {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, styles[size].lineHeight, '40%')} />
-      </View>
+      <HoliSkeleton {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, styles[size].lineHeight, '40%')} />
     )
   }
 
@@ -76,16 +58,19 @@ const HoliHeading = ({
     },
   })
 
+  const italicStyle = italic ? italicStyles.italic : {}
+  const alignmentStyle = align ? { textAlign: align } : {}
+
   return (
     <Text
-      {...props}
       {...accessibilityProps}
       selectable={Platform.OS !== 'web' ? selectable : undefined}
       style={StyleSheet.flatten([
+        styles.base,
+        styles[size],
+        italicStyle,
+        alignmentStyle,
         { userSelect: selectable ? 'auto' : 'none' },
-        styles.default,
-        styles[size as keyof typeof styles],
-        props?.style,
       ])}
       testID={testID}
       numberOfLines={numberOfLines}
@@ -95,33 +80,33 @@ const HoliHeading = ({
   )
 }
 
-export default HoliHeading
+const styles = StyleSheet.create({
+  base: {
+    fontWeight: '500',
+    fontFamily: defaultTheme.fontFamily.default('Medium'),
+    color: colors.black300,
+  },
+  xl: {
+    fontSize: 36,
+    lineHeight: 36 * (Platform.OS === 'ios' ? 1.4 : 1.2),
+  },
+  l: {
+    fontSize: 28,
+    lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
+  },
+  m: {
+    fontSize: 21,
+    lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
+  },
+  s: {
+    fontSize: 16,
+    lineHeight: 16 * 1.4,
+  },
+})
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    default: {
-      fontWeight: '500',
-      fontFamily: theme.fontFamily.default('Medium'),
-      color: colors.foreground30,
-    },
-    super: {
-      fontSize: 36,
-      lineHeight: 36 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    large: {
-      fontSize: 28,
-      lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    medium: {
-      fontSize: 21,
-      lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    small: {
-      fontSize: 16,
-      lineHeight: 16 * 1.4,
-    },
-    xSmall: {
-      fontSize: 14,
-      lineHeight: 14 * 1.4,
-    },
-  })
+const italicStyles = StyleSheet.create({
+  italic: {
+    fontStyle: 'italic',
+    fontWeight: '300',
+  },
+})

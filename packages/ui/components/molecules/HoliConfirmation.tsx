@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
@@ -112,7 +112,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
         <Pressable onPress={onDismiss} style={styles.backdrop} testID={`${testID}-confirmation-backdrop`} />
 
         <View style={styles.modalView}>
-          <HoliHeading level="4" size="small">
+          <HoliHeading level="3" size="s">
             {title}
           </HoliHeading>
           <HoliText style={styles.description} testID={`${testID}-confirmation-description`}>

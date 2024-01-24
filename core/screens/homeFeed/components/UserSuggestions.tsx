@@ -11,7 +11,7 @@ import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -60,7 +60,7 @@ const UserSuggestions: React.FC = () => {
     <HoliBox padding={[32, 0, 0, 0]}>
       <View style={mixins.container} testID="user-suggestions">
         {/* Headline */}
-        <HoliHeading level="2" size="large">
+        <HoliHeading level="2" size="l">
           {t('homeFeed.userSuggestions.title')}
         </HoliHeading>
 

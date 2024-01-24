@@ -6,7 +6,7 @@ import HoliLoader from '@holi//ui/components/molecules/HoliLoader'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
 import type { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
 export interface UseUserChipsReturn {
   filterString: string
@@ -22,7 +22,7 @@ const InterestsStep = (props: UseUserChipsReturn) => {
 
   return (
     <View>
-      <HoliHeading level="1" size="large" testID="account-setup-interests-step-headline">
+      <HoliHeading level="1" size="l" testID="account-setup-interests-step-headline">
         {t('user.interests.form.headline')}
       </HoliHeading>
 

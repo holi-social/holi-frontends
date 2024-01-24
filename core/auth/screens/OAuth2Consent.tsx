@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { OAuth2DefaultProps } from '@holi/core/auth/helpers/oauth2'
 import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
 export interface OAuth2ConsentProps extends OAuth2DefaultProps, OAuth2RedirectProps {}
 
@@ -18,7 +18,7 @@ const OAuth2Consent: React.FC<OAuth2ConsentProps> = ({ isInWebview = false, ...r
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="small">
+        <HoliHeading level="1" size="s">
           {t('auth.login')}
         </HoliHeading>
       ),

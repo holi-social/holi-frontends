@@ -13,7 +13,7 @@ import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
 import StorageOnboardModal from '@holi/core/screens/spaces/linkHub/components/StorageOnboardModal'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
@@ -45,7 +45,7 @@ const SpaceStorage: React.FC = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="small" numberOfLines={1}>
+        <HoliHeading level="1" size="s" numberOfLines={1}>
           {t('spaces.storage.title')}
         </HoliHeading>
       ),

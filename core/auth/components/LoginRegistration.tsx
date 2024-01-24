@@ -9,7 +9,8 @@ import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestErr
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { getDocumentURL } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
@@ -37,7 +38,6 @@ const LoginRegistration = ({
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { height: screenHeight } = useWindowDimensions()
-  const styles = getStyles(screenHeight)
 
   const [shownDocument, setShownDocument] = useState<DocType>('imprint')
 
@@ -103,7 +103,8 @@ const LoginRegistration = ({
             label={t('profile.loggedOut.image')}
           />
         </View>
-        <HoliHeading level="1" size="medium" style={styles.text} testID="login-protection-heading">
+        <HoliBox padding={[screenHeight <= SMALL_DEVICE_HEIGHT ? 24 : 74, 0, 0, 0]} />
+        <HoliHeading level="1" size="m" align="center" testID="login-protection-heading">
           {headingText}
         </HoliHeading>
 
@@ -144,43 +145,37 @@ const LoginRegistration = ({
   )
 }
 
-const getStyles = (screenHeight: number) =>
-  StyleSheet.create({
-    fillHeight: {
-      flex: 1,
-    },
-    imageContainer: {
-      alignItems: 'center',
-    },
-    text: {
-      fontWeight: '400',
-      textAlign: 'center',
-      marginTop: screenHeight <= SMALL_DEVICE_HEIGHT ? 24 : 74,
-    },
-    button: {
-      maxWidth: 300,
-      alignSelf: 'center',
-    },
-    firstButton: {
-      marginTop: 24,
-    },
-    secondButton: {
-      marginTop: 16,
-    },
-    loginHeadline: {
-      marginTop: 16,
-      textAlign: 'center',
-      marginBottom: 24,
-    },
-    bottomLinkContainer: {
-      width: '100%',
-      justifyContent: 'center',
-      gap: 6,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      bottom: 24,
-      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    },
-  })
+const styles = StyleSheet.create({
+  fillHeight: {
+    flex: 1,
+  },
+  imageContainer: {
+    alignItems: 'center',
+  },
+  button: {
+    maxWidth: 300,
+    alignSelf: 'center',
+  },
+  firstButton: {
+    marginTop: 24,
+  },
+  secondButton: {
+    marginTop: 16,
+  },
+  loginHeadline: {
+    marginTop: 16,
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  bottomLinkContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    gap: 6,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    bottom: 24,
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+  },
+})
 
 export default LoginRegistration

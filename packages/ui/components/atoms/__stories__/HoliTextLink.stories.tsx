@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 
 export default {
@@ -62,7 +62,7 @@ export const Primary = ({ ...args }) => (
     </LinkPreviewSlot>
 
     <LinkPreviewSlot>
-      <HoliHeading size="small">Change the controls</HoliHeading>
+      <HoliHeading size="s">Change the controls</HoliHeading>
       <br />
       <HoliTextLink href="/" label={args.label} variant={args.variant} size={args.size}>
         Try the primary link controls
@@ -96,7 +96,7 @@ export const Secondary = ({ ...args }) => (
     </LinkPreviewSlot>
 
     <LinkPreviewSlot>
-      <HoliHeading size="small">Change the controls</HoliHeading>
+      <HoliHeading size="s">Change the controls</HoliHeading>
       <br />
       <HoliTextLink href="/" label={args.label} variant={args.variant} size={args.size}>
         Try the secondary link controls

@@ -149,6 +149,13 @@ exports[`SpaceDetails renders correctly 1`] = `
                 St
               </Text>
             </View>
+            <View
+              style={
+                {
+                  "height": 24,
+                }
+              }
+            />
             <Text
               role="heading"
               selectable={true}
@@ -159,7 +166,6 @@ exports[`SpaceDetails renders correctly 1`] = `
                   "fontSize": 21,
                   "fontWeight": "500",
                   "lineHeight": 29.4,
-                  "paddingTop": 24,
                   "userSelect": "auto",
                 }
               }
@@ -1465,6 +1471,13 @@ exports[`SpaceDetails renders correctly 1`] = `
                           />
                         </View>
                       </View>
+                      <View
+                        style={
+                          {
+                            "paddingTop": 32,
+                          }
+                        }
+                      />
                       <Text
                         role="heading"
                         selectable={true}
@@ -1473,9 +1486,8 @@ exports[`SpaceDetails renders correctly 1`] = `
                             "color": "#262424",
                             "fontFamily": "Circular Std Medium",
                             "fontSize": 21,
-                            "fontWeight": "400",
+                            "fontWeight": "500",
                             "lineHeight": 29.4,
-                            "marginTop": 32,
                             "userSelect": "auto",
                           }
                         }
@@ -1530,10 +1542,9 @@ exports[`SpaceDetails renders correctly 1`] = `
                           style={
                             {
                               "color": "#262424",
-                              "flex": 1,
                               "fontFamily": "Circular Std Medium",
                               "fontSize": 21,
-                              "fontWeight": "400",
+                              "fontWeight": "500",
                               "lineHeight": 29.4,
                               "userSelect": "auto",
                             }
@@ -1770,10 +1781,9 @@ exports[`SpaceDetails renders correctly 1`] = `
                           style={
                             {
                               "color": "#262424",
-                              "flex": 1,
                               "fontFamily": "Circular Std Medium",
                               "fontSize": 21,
-                              "fontWeight": "400",
+                              "fontWeight": "500",
                               "lineHeight": 29.4,
                               "userSelect": "auto",
                             }
@@ -1839,10 +1849,9 @@ exports[`SpaceDetails renders correctly 1`] = `
                           style={
                             {
                               "color": "#262424",
-                              "flex": 1,
                               "fontFamily": "Circular Std Medium",
                               "fontSize": 21,
-                              "fontWeight": "400",
+                              "fontWeight": "500",
                               "lineHeight": 29.4,
                               "userSelect": "auto",
                             }

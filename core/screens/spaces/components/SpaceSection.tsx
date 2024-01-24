@@ -4,7 +4,7 @@ import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'r
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2 } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -30,9 +30,7 @@ const SpaceSection = ({
   return (
     <View style={[styles.wrapper, style]} testID={testID}>
       <View style={styles.headingContainer}>
-        <HoliHeading level="2" style={styles.heading}>
-          {title}
-        </HoliHeading>
+        <HoliHeading level="2">{title}</HoliHeading>
         {editable && (
           <HoliButton
             style={styles.editButton}
@@ -63,10 +61,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  heading: {
-    fontWeight: '400',
-    flex: 1,
   },
   body: {
     marginTop: 24,
