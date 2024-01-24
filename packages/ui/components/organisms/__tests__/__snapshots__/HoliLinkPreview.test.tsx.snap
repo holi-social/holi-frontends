@@ -34,7 +34,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     role="link"
-    testID="text-link"
+    testID="link"
   >
     <View
       style={
