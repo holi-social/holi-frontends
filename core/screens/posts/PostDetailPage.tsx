@@ -179,7 +179,13 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         <View style={styles.postCommentWrapper}>
           <PostDetailFooter
             style={[styles.postCommentButton, isWeb && mixins.container]}
-            onPress={() => (isLoggedIn ? navigate(getPostCommentUrl()) : openLoginModal())}
+            onPress={() =>
+              isLoggedIn
+                ? navigate(getPostCommentUrl())
+                : openLoginModal({
+                    description: t('insights.posts.comments.loginRedirect.text'),
+                  })
+            }
           />
         </View>
       </SafeAreaView>
