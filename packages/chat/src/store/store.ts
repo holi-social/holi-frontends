@@ -309,8 +309,10 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
  * room according to the space room -> children relationship defined by
  * `m.space.child`. It also collects the already existing events on the first
  * load.
+ *
+ * * IMPORTANT! Only import in test.
  **/
-const _spaceRoomsSubscriber = atom(null, (_get, set, newSpaceIdToChildIds: Record<string, string[]>) => {
+export const _spaceRoomsSubscriber = atom(null, (_get, set, newSpaceIdToChildIds: Record<string, string[]>) => {
   set(spaceRoomIdToChildIdsAtom, (spaceIdToChildIds) =>
     updateSpaceIdToChildIds(spaceIdToChildIds, newSpaceIdToChildIds)
   )

@@ -76,7 +76,7 @@ describe('Chat Store - messages', () => {
     roomMock.getUnreadNotificationCount.mockReturnValue(0)
 
     mxClient.getRooms.mockReturnValue([roomMock])
-    mxClient.roomState.mockReturnValue(Promise.resolve([]))
+    mxClient.roomState.mockResolvedValue([])
 
     const room: ChatRoom = {
       avatar: undefined,
@@ -208,7 +208,7 @@ describe('Chat Store - messages', () => {
     const event2 = msgEvent(roomId, creator.id, 2)
     const event3 = msgEvent(roomId, creator.id, 3)
     const roomEvents = [event1, event2, event3] as IRoomEvent[]
-    mxClient.createMessagesRequest.mockReturnValue(Promise.resolve({ chunk: roomEvents, start: 'start', end: 'end' }))
+    mxClient.createMessagesRequest.mockResolvedValue({ chunk: roomEvents, start: 'start', end: 'end' })
     const { result } = renderHook(() => useRequestRoomMessages(), { wrapper })
     result.current(roomId, false)
 

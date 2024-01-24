@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks'
+import { when } from 'jest-when'
 import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
 import { ClientEvent, Room } from 'matrix-js-sdk'
 import React from 'react'
@@ -69,7 +70,7 @@ describe('Chat Store - rooms', () => {
     roomMock.getMyMembership.mockReturnValue('join')
 
     mxClient.getRooms.mockReturnValue([roomMock])
-    mxClient.roomState.mockReturnValue(Promise.resolve([]))
+    mxClient.roomState.mockResolvedValue([])
 
     const { result, waitFor } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
@@ -140,23 +141,22 @@ describe('Chat Store - rooms', () => {
     })
 
     mxClient.getRooms.mockReturnValue(rooms)
-    mxClient.roomState.mockImplementation(async (roomId: string) => {
-      if (roomId === spaceChildRoomId) {
-        return Promise.resolve([
-          {
-            type: ChatRoomEvent.SharedData,
-            room_id: spaceChildRoomId,
-            sender: creator.id,
-            content: spaceChildRoomEventContent,
-            state_key: '',
-            origin_server_ts: 1705480890010,
-            event_id: '$bJL-z28AnpJCuo_FWlAHvnCZ0Xk4aOkcpRlxqhjq_Do',
-            user_id: creator.id,
-          },
-        ])
-      }
-
-      return Promise.resolve([
+    when(mxClient.roomState)
+      .calledWith(spaceChildRoomId)
+      .mockResolvedValue([
+        {
+          type: ChatRoomEvent.SharedData,
+          room_id: spaceChildRoomId,
+          sender: creator.id,
+          content: spaceChildRoomEventContent,
+          state_key: '',
+          origin_server_ts: 1705480890010,
+          event_id: '$bJL-z28AnpJCuo_FWlAHvnCZ0Xk4aOkcpRlxqhjq_Do',
+        },
+      ])
+    when(mxClient.roomState)
+      .calledWith(spaceRoomId)
+      .mockResolvedValue([
         {
           type: ChatRoomEvent.SharedData,
           room_id: spaceRoomId,
@@ -165,10 +165,8 @@ describe('Chat Store - rooms', () => {
           state_key: '',
           origin_server_ts: 1701872060015,
           event_id: '$HpOGhRhXpmnIqG9LzfilcVeIaY-cUQgEy2cp8d3L3io',
-          user_id: creator.id,
         },
       ])
-    })
 
     // Mount and test
     const { result, waitFor } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
