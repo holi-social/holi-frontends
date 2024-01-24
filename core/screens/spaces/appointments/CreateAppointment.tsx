@@ -23,7 +23,7 @@ import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { GeolocationPoint } from '@holi/core/types'
+import { LocationDetails } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -59,8 +59,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [endMinutes, setEndMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined | null>()
-  const [location, setLocation] = useState<string | undefined>('')
-  const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
+  const [locationDetails, setLocationDetails] = useState<LocationDetails | undefined>()
   const [url, setUrl] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
 
@@ -120,8 +119,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           thumbnail: thumbnail?.blob,
           startDateTime: transformToUTC(`${startDate}T${startHours}:${startMinutes}` || ''),
           endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
-          location,
-          geolocation,
+          locationDetails: locationDetails,
           videoCallLink: url,
           videoCallInfo: additionalInfo,
         },
@@ -130,14 +128,18 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
 
   useEffect(() => {
     if (selectedLocation?.coordinates) {
-      setGeolocation({
-        latitude: selectedLocation.coordinates.latitude,
-        longitude: selectedLocation.coordinates.longitude,
+      setLocationDetails({
+        completeAddress: selectedLocation.label,
+        city: selectedLocation.city,
+        state: selectedLocation.state,
+        country: selectedLocation.country,
+        geolocation: {
+          latitude: selectedLocation.coordinates.latitude,
+          longitude: selectedLocation.coordinates.longitude,
+        },
       })
-      setLocation(selectedLocation.label)
     } else {
-      setGeolocation(undefined)
-      setLocation(undefined)
+      setLocationDetails(undefined)
     }
   }, [selectedLocation, permissionType])
 
@@ -156,7 +158,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
     } else {
       setFieldErrors({})
     }
-  }, [space?.id, title, description, inviteOnly, permissionType, thumbnail, location, geolocation])
+  }, [space?.id, title, description, inviteOnly, permissionType, thumbnail, locationDetails])
 
   useLayoutEffect(() => {
     !loadingSpace &&
@@ -218,7 +220,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           endMinutes={endMinutes}
           permissionType={permissionType}
           thumbnail={thumbnail}
-          geolocation={geolocation}
+          locationDetails={locationDetails}
           selectedLocation={selectedLocation}
           url={url}
           additionalInfo={additionalInfo}
@@ -227,7 +229,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
           onChangeInviteOnly={setInviteOnly}
           onChangePermissionType={setPermissionType}
           onChangeThumbnail={setThumbnail}
-          onChangeGeolocation={setGeolocation}
+          onChangeLocationDetails={setLocationDetails}
           onChangeSelectedLocation={setSelectedLocation}
           onChangeStartDate={setStartDate}
           onChangeEndDate={setEndDate}
