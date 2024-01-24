@@ -37,7 +37,11 @@ export function StartChatButton({
   const identity = user?.identity
 
   const handleChat = async () => {
-    if (!isLoggedIn) return openLoginModal()
+    if (!isLoggedIn) {
+      return openLoginModal({
+        description: t('chat.start.loginRedirect.text'),
+      })
+    }
 
     if (!identity) {
       logError(new HoliError('Can not create a chat without a user identity'), 'Failed to open chat', {

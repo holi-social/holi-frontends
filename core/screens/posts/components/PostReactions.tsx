@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -16,6 +17,7 @@ export interface PostReactionsProps {
 }
 
 const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style }) => {
+  const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
@@ -34,7 +36,9 @@ const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style })
 
   const reactOnPost = () => {
     if (!user) {
-      return openLoginModal()
+      return openLoginModal({
+        description: t('insights.reactions.post.loginRedirect.text'),
+      })
     }
     updatePostReaction({
       variables: {

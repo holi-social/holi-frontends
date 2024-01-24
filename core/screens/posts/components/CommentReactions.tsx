@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -16,6 +17,7 @@ export interface CommentReactionsProps {
 }
 
 const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange, style }) => {
+  const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
@@ -37,7 +39,9 @@ const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange,
 
   const reactOnComment = () => {
     if (!isLoggedIn) {
-      return openLoginModal()
+      return openLoginModal({
+        description: t('insights.posts.comments.react.loginRedirect.text'),
+      })
     }
     updatePostCommentReaction({
       variables: {

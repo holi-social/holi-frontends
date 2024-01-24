@@ -85,7 +85,9 @@ const PostPreview = ({
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
-      openLoginModal()
+      openLoginModal({
+        description: t('insights.posts.comments.loginRedirect.text'),
+      })
       // return false prevents link execution
       return false
     }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -6,6 +6,8 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -17,6 +19,8 @@ const AboutSpaces = () => {
   const setScreenOptions = useSetScreenOptions()
   const { navigate, navigateBack } = useRouting()
   const { t } = useTranslation()
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { width: screenWidth } = useWindowDimensions()
 
@@ -36,6 +40,10 @@ const AboutSpaces = () => {
       headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
     })
   }, [setScreenOptions, t])
+
+  const handleCreateSpaceButtonPress = useCallback(() => {
+    isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
+  }, [isLoggedIn, navigate, openLoginModal, t])
 
   return (
     <ScrollView contentContainerStyle={styles.container} style={styles.scrollViewBackground}>
@@ -113,7 +121,7 @@ const AboutSpaces = () => {
           <HoliButton
             style={styles.actionButton}
             label="Create a Space"
-            onPress={() => navigate('/spaces/create')}
+            onPress={handleCreateSpaceButtonPress}
             testID="discover-spaces-create-button"
           >
             {t('spaces.about.page.button.primary')}
