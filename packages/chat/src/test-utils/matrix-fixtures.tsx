@@ -1,5 +1,9 @@
+import { EventType, IContent, IEvent, MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk'
+import { act } from 'react-test-renderer'
+
 import { ChatMsgTextContent, ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
 import { ChatRoom } from '@holi/chat/src/store'
+import { createMatrixEventMock, createRoomMemberMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-general'
 
 import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
 
@@ -74,4 +78,101 @@ export function createChatMessageFixture(
   }
 
   return fixture
+}
+
+// Message helpers
+export const msgEvent = (roomId: string, senderId: string, eventNr: number): IEvent => {
+  return {
+    state_key: 'dummy',
+    event_id: 'id_' + eventNr,
+    type: EventType.RoomMessage,
+    sender: senderId,
+    origin_server_ts: eventNr,
+    unsigned: {},
+    room_id: roomId,
+    content: {
+      body: 'message body ' + eventNr,
+    } as IContent,
+  }
+}
+
+export const expectedMsgForEvent = (e: IEvent): ChatRoomMessage => {
+  return {
+    id: e.event_id,
+    timestamp: e.origin_server_ts,
+    roomId: e.room_id || '',
+    type: 'message',
+    sender: e.sender,
+    content: {
+      body: e.content.body,
+      msgtype: 'm.text',
+    },
+  }
+}
+
+export const sendMessageEvent = (
+  listener: (event: MatrixEvent, room: Room | undefined) => void,
+  roomMock: Room,
+  senderId: string,
+  eventNr: number
+) => {
+  const event = msgEvent(roomMock.roomId, senderId, eventNr)
+  const eventMock = createMatrixEventMock(EventType.RoomMessage, roomMock.roomId, {}, event)
+
+  act(() => listener(eventMock, roomMock))
+
+  const message = expectedMsgForEvent(event)
+  return { message, event, eventMock }
+}
+
+// Room helpers
+const creator: ChatRoomMember = {
+  avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
+  id: '@room.creator:holi.social',
+  membership: MembershipStatus.join,
+  name: 'room creator',
+}
+const member: ChatRoomMember = {
+  avatar: 'https://unsplash.com/photos/a-group-of-blue-and-orange-shapes-on-a-white-surface-g0lR2cThaR0',
+  id: '@a.member:holi.social',
+  membership: MembershipStatus.join,
+  name: 'a member',
+}
+
+export const initChatRoom = (
+  mxClient: jest.MockedObjectDeep<MatrixClient>,
+  roomId = 'roomId',
+  roomCreator: ChatRoomMember = creator,
+  roomMember: ChatRoomMember = member
+) => {
+  const members: ChatRoomMember[] = [roomCreator, roomMember]
+  const creatorMock = createRoomMemberMock(roomCreator.id, roomCreator.name, roomCreator.membership, roomCreator.avatar)
+  const roomMock = createRoomMock(roomId, {
+    name: 'roomName',
+    members: members.map(({ avatar, id, membership, name }) => createRoomMemberMock(id, name, membership, avatar)),
+    timelineEvents: [],
+  })
+
+  roomMock.getCreator.mockReturnValue(roomCreator.id)
+  roomMock.getMember.mockReturnValue(creatorMock)
+  roomMock.getMyMembership.mockReturnValue('join')
+  roomMock.getUnreadNotificationCount.mockReturnValue(0)
+
+  mxClient.getRooms.mockReturnValue([roomMock])
+  mxClient.roomState.mockReturnValue(Promise.resolve([]))
+
+  const room: ChatRoom = {
+    avatar: undefined,
+    creator: roomCreator,
+    hasInvitation: false,
+    id: roomId,
+    lastMessage: undefined,
+    members,
+    name: 'roomName',
+    notificationCount: 0,
+    timestamp: undefined,
+    type: 'private',
+  }
+
+  return { roomMock, room, creator: roomCreator, member: roomMember }
 }
