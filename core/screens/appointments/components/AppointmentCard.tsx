@@ -80,7 +80,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
   return (
     <View key={appointment.id} style={styles.appointmentItem} testID="space-appointment-tile">
-      <View style={styles.imageContainer}>
+      <View style={[styles.imageContainer, styles.imageMargin]}>
         {!imageError && !!appointment.thumbnail && screenWidth < +vars.breakpointS && (
           <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
             <HoliImage
@@ -92,9 +92,14 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             />
           </HoliButton>
         )}
-        <View style={styles.header}>
+        <View style={[styles.header]}>
           {shouldShowVisibilityLabel && (
-            <View style={[styles.inviteOnly]}>
+            <View
+              style={[
+                styles.inviteOnly,
+                appointment.thumbnail && !imageError && screenWidth < +vars.breakpointS ? styles.tagWithImage : {},
+              ]}
+            >
               <HoliIcon
                 icon={appointment.inviteOnly ? LockFilled : GlobeFilled}
                 color={colors.foreground30}
@@ -119,7 +124,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           )}
         </View>
       </View>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View
           style={[
             styles.detailContainer,
@@ -218,11 +223,9 @@ const getStyles = (screenWidth: number) =>
     header: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
       position: screenWidth > +vars.breakpointS ? 'relative' : 'absolute',
       width: '100%',
       top: screenWidth > +vars.breakpointS ? 0 : 8,
-      marginBottom: 16,
     },
     inviteOnly: {
       padding: 2,
@@ -246,6 +249,7 @@ const getStyles = (screenWidth: number) =>
       marginRight: 6,
     },
     detailContainer: {
+      marginTop: screenWidth < +vars.breakpointS ? 16 : undefined,
       minHeight: 40,
       alignSelf: 'stretch',
       display: 'flex',
@@ -259,6 +263,7 @@ const getStyles = (screenWidth: number) =>
     clickOverlay: {
       position: 'relative',
       pointerEvents: 'auto',
+      width: 'auto',
     },
     flex1: {
       flex: 1,
@@ -283,6 +288,9 @@ const getStyles = (screenWidth: number) =>
     },
     imageContainer: {
       position: 'relative',
+    },
+    imageMargin: {
+      marginBottom: 16,
     },
     appointmentItem: {
       borderRadius: 16,
@@ -313,11 +321,7 @@ const getStyles = (screenWidth: number) =>
     },
   })
 
-export default memo(AppointmentCard)
-
-/* const getStyles = (screenWidth: number) =>
-  StyleSheet.create({
-    header: {
+/*     header: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       position: 'absolute',
@@ -346,7 +350,11 @@ export default memo(AppointmentCard)
       marginRight: 6,
     },
     detailContainer: {
-      marginTop: screenWidth > +vars.breakpointS ? 16 : 0,
+      marginTop: 16,
+      minHeight: 40,
+    },
+    detailContainerWithoutHeader: {
+      marginTop: 0,
     },
     detailContainerWithImage: {
       marginTop: 0,
@@ -354,6 +362,9 @@ export default memo(AppointmentCard)
     clickOverlay: {
       position: 'relative',
       pointerEvents: 'auto',
+    },
+    flex1: {
+      flex: 1,
     },
     titleButton: {
       flexDirection: 'row',
@@ -377,7 +388,6 @@ export default memo(AppointmentCard)
       backgroundColor: colors.background10,
       padding: 8,
       flexShrink: 1,
-      flexDirection: screenWidth > +vars.breakpointS ? 'row-reverse' : 'column',
     },
     iconsContainer: {
       marginTop: 4,
@@ -399,3 +409,5 @@ export default memo(AppointmentCard)
       maxWidth: '90%',
     },
   }) */
+
+export default memo(AppointmentCard)
