@@ -372,7 +372,7 @@ const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
  * the server. It updates all the user rooms with the incoming unread
  * notification.
  */
-const _roomsNotificationsSubscriberAtom = atom(
+export const _roomsNotificationsSubscriberAtom = atom(
   null,
   (get, set, roomId: string, notificationCount: NotificationCount) => {
     const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
