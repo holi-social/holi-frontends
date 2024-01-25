@@ -131,31 +131,39 @@ const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
   }
 }
 
-export const transformPushInteractionToUrl = (response: Partial<NotificationResponse>) => {
+
+const isChatNotification = (notification: NotificationPayload) => !!notification.room_id
+
+export const transformPushInteractionToUrl = (response: NotificationResponse) => {
   const payload: NotificationPayload | undefined = extractPayloadFromNotification(response)
   if (!payload) {
     return null
   }
-  switch (payload.notificationType) {
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
-      return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
-    case NovuNotificationType.POST_COMMENT_MENTION:
-    case NovuNotificationType.POST_COMMENT_AUTHOR:
-      return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
-    case NovuNotificationType.SPACE_NEW_POST:
-      return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
 
-    default:
-      // Default is chat notification
-      return createUrlFromChatNotification(payload)
+  if (isChatNotification(payload)) {
+    return createUrlFromChatNotification(payload)
+  } else {
+    switch (payload.notificationType) {
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
+        return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
+      case NovuNotificationType.POST_COMMENT_MENTION:
+      case NovuNotificationType.POST_COMMENT_AUTHOR:
+        return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
+      case NovuNotificationType.SPACE_NEW_POST:
+        return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
+      case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
+        return spaceAppointmentUrl(payload)
+      default:
+        return null
+    }
   }
 }
