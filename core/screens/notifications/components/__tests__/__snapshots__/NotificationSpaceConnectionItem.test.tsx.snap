@@ -43,7 +43,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       role="link"
-      testID="text-link"
+      testID="link"
     >
       <View
         style={
@@ -509,7 +509,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       role="link"
-      testID="text-link"
+      testID="link"
     >
       <View
         style={

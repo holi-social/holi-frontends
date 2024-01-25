@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 
 import LinkContent from './LinkContent'
 import { HoliLinkPreviewProps } from './holiLinkPreviewProps'

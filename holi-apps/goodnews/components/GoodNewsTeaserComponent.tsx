@@ -2,12 +2,12 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -92,7 +92,6 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
               label={t('goodnews:listing.teaser.textLink.url')}
               href={t('goodnews:listing.teaser.textLink.url')}
               external
-              variant="inline"
             />
           </Trans>
         </HoliText>

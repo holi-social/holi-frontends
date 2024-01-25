@@ -7,9 +7,9 @@ import { ScrollView, StyleSheet } from 'react-native'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { updatePasswordRecoveryFlowCode, updatePasswordRecoveryFlowEmail } from '@holi/core/auth/helpers/auth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 // import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -134,7 +134,6 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
             label={t('registration.emailVerification.resendEmail')}
             href="/"
             onPress={resendEmail}
-            variant="secondary"
             size="small"
           >
             {t('registration.emailVerification.resendEmail')}

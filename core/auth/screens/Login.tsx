@@ -16,6 +16,7 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -24,7 +25,6 @@ import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
 const Login = () => {
@@ -122,7 +122,6 @@ const Login = () => {
               label={t('auth.login.link.forgotPassword')}
               href="/forgotPassword"
               size="small"
-              variant="secondary"
               mobileNavigateBackFirst
               testID="btn-to-forgot-password-form"
             >

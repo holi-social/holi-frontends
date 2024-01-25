@@ -23,7 +23,7 @@ const CommunityGuidelines = ({ onNextPress, onBackPress, ...agreementProps }: Co
       headlineText={t('registration.communityGuidelines.heading')}
       descriptionText={t('registration.communityGuidelines.description')}
       checkboxLabelTranslation="registration.communityGuidelines.checkboxLabel"
-      documentNavPath="/communityGuidelines"
+      documentNavPath="/profile/settings/legalDocuments/document?type=communityGuidelines"
       modalLabelText={t('registration.communityGuidelines')}
       testID="community-guidelines"
     />

@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { type AvatarShape } from '@holi/ui/components/molecules/HoliAvatar'
 

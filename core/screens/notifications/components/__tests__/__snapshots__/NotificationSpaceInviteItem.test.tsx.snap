@@ -37,7 +37,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       role="link"
-      testID="text-link"
+      testID="link"
     >
       <View
         style={
@@ -497,7 +497,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       role="link"
-      testID="text-link"
+      testID="link"
     >
       <View
         style={
