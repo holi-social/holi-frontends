@@ -35,7 +35,8 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
 
   const { t } = useTranslation()
 
-  const onSave = () => updateSpace({ variables: { input: { id: space.id, avatar: avatar?.blob ?? null } } })
+  const onSave = () =>
+    updateSpace({ variables: { input: { id: space.id, avatar: avatar === null ? null : avatar?.blob } } })
 
   return (
     <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>

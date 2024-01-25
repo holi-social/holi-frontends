@@ -9,12 +9,12 @@ import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
-import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
 import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
+import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -44,21 +44,31 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         )}
 
         {!isCollaborator && space.onboarding?.steps && space.onboarding.steps.length > 0 && (
-          <SpaceCollaboratorOnboardingSteps
-            steps={space.onboarding?.steps}
-            header={t('spaces.collaborate.onboarding.info.header')}
-            style={styles.onboardingSteps}
-          />
+          <>
+            <SpaceCollaboratorOnboardingSteps
+              steps={space.onboarding?.steps}
+              header={t('spaces.collaborate.onboarding.info.header')}
+              style={styles.onboardingSteps}
+            />
+            <View style={(styles.divider, styles.dividerPadding)}>
+              <HoliDivider />
+            </View>
+          </>
         )}
 
-        {appointmentsFtEnabled && <AppointmentsWidget space={space} style={styles.card} />}
-        {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
-        {isCollaborator && <StorageWidget space={space} style={styles.card} />}
-        {isCollaborator ? (
-          <TaskCollaborationCard isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} />
-        ) : (
-          <SpaceTaskList isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} preview />
+        {appointmentsFtEnabled && (
+          <AppointmentsWidget space={space} style={styles.card} isCollaborator={isCollaborator} />
         )}
+
+        {isCollaborator ? (
+          <LinkHubWidget space={space} style={styles.card} />
+        ) : (
+          <View style={styles.divider}>
+            <HoliDivider />
+          </View>
+        )}
+        {isCollaborator && <StorageWidget space={space} style={styles.card} />}
+        <TaskCollaborationCard isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} />
         {isCollaborator && <NewToolsTeaser />}
       </View>
     </>
@@ -89,10 +99,8 @@ const styles = StyleSheet.create({
     borderColor: colors.background30,
   },
   onboardingSteps: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
-    paddingBottom: 12,
     marginBottom: 32,
+    paddingHorizontal: 8,
   },
   icon: {
     marginRight: 8,
@@ -102,6 +110,13 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     alignSelf: 'flex-end',
     marginRight: 16,
+  },
+  divider: {
+    paddingHorizontal: 8,
+    paddingBottom: 8,
+  },
+  dividerPadding: {
+    paddingBottom: 8,
   },
 })
 

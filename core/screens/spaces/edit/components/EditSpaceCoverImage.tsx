@@ -38,7 +38,8 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
 
   const { t } = useTranslation()
 
-  const onSave = () => updateSpace({ variables: { input: { id: space.id, cover: coverImage?.blob ?? null } } })
+  const onSave = () =>
+    updateSpace({ variables: { input: { id: space.id, cover: coverImage === null ? null : coverImage?.blob } } })
 
   return (
     <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>

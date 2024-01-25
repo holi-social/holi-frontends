@@ -102,7 +102,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             {
               "alignItems": "center",
               "flexDirection": "row",
-              "maxWidth": "95%",
+              "maxWidth": "90%",
             }
           }
         >
