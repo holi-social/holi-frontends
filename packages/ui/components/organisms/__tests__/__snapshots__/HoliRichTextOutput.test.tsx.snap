@@ -37,57 +37,26 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
   testID="the-rich-text-output-element"
 >
     
-  <View
-    accessibilityLabel="http://www.google.de"
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+  <Text
+    accessible={false}
+    aria-label="http://www.google.de"
+    onPress={[Function]}
     role="link"
+    selectable={true}
+    style={
+      {
+        "color": "#6267e7",
+        "fontFamily": "Circular Std Medium",
+        "fontSize": 16,
+        "fontWeight": "500",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
     testID="text-link"
   >
-    <Text
-      accessible={false}
-      selectable={true}
-      style={
-        {
-          "color": "#6267e7",
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "userSelect": "auto",
-        }
-      }
-    >
-      http://www.google.de
-    </Text>
-  </View>
+    http://www.google.de
+  </Text>
    
 </Text>
 `;

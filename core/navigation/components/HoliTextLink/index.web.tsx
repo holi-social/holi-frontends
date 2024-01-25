@@ -2,10 +2,8 @@ import type { PropsWithChildren } from 'react'
 import React from 'react'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink.shared'
-import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-
-export type HoliTextLinkProps = HoliLinkProps & Pick<HoliTextProps, 'color' | 'size'>
+import { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export const HoliTextLink = ({
   href,

@@ -3,7 +3,7 @@ import type { SyntheticEvent } from 'react'
 import React, { useCallback } from 'react'
 import type { PropsWithChildren } from 'react'
 
-import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink.shared'
+import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
 
 export const HoliLink = ({
   href,
