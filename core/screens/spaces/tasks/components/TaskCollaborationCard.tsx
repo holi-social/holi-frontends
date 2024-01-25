@@ -33,12 +33,14 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space })
 
   return (
     <CollaboratorAreaCard
-      headerLeftIcon={Checkbox}
+      headerLeftIcon={isCollaborator ? Checkbox : undefined}
       title={t('spaces.spaceDetails.tasks.header.title')}
       testID="space-tasks-card"
       {...cardProps}
       onPressHeaderLeft={() => navigateToTasks()}
       onPressHeaderRight={() => navigateToCreateTask()}
+      isCollaborator={isCollaborator}
+      style={!isCollaborator ? styles.container : {}}
     >
       {space.tasks?.length ? (
         <View style={styles.tasksListContainer}>
@@ -65,6 +67,10 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space })
 export default TasksCard
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+  },
   seeAllButtonContainer: {
     alignItems: 'center',
   },

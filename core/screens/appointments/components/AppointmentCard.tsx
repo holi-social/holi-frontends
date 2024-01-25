@@ -142,7 +142,12 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           </HoliText>
         </HoliButton>
       </View>
-      <HoliButton transparent label={appointment.title} onPress={goToDetailView} style={styles.clickOverlay}>
+      <HoliButton
+        transparent
+        label={appointment.title}
+        onPress={goToDetailView}
+        style={[styles.clickOverlay, styles.paddingBottom]}
+      >
         <View style={styles.iconsContainer}>
           <View style={styles.iconGroupContainer}>
             <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
@@ -311,6 +316,9 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 8,
     maxWidth: '90%',
+  },
+  paddingBottom: {
+    paddingBottom: 8,
   },
 })
 
