@@ -176,6 +176,7 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
       case NovuNotificationType.SPACE_NEW_POST:
         return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
       case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
+      case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
         return spaceAppointmentUrl(payload)
       default:
         return null

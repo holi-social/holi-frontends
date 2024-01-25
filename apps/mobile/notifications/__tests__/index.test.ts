@@ -309,5 +309,18 @@ describe('transformPushInteractionToUrl', () => {
       )
       expect(url).toEqual('holi://spaces/space1/appointments/appointment1')
     })
+
+    it('should create a url to an updated appointment', () => {
+      const url = transformPushInteractionToUrl(
+        createIOSNotificationResponse({
+          notificationType: NovuNotificationType.SPACE_APPOINTMENT_UPDATE,
+          data: JSON.stringify({
+            appointment: { title: 'appointment1' },
+            space: { name: 'space1' },
+          }),
+        })
+      )
+      expect(url).toEqual('holi://spaces/space1/appointments/appointment1')
+    })
   })
 })
