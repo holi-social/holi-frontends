@@ -10,7 +10,7 @@ describe('transformPushInteractionToUrl', () => {
   const createAndroidNotificationResponse = (
     payload: { [key: string]: string },
     type: 'push' | 'unknown' = 'push'
-  ): Partial<NotificationResponse> => ({
+  ): NotificationResponse => ({
     notification: {
       request: {
         trigger: {
@@ -40,12 +40,13 @@ describe('transformPushInteractionToUrl', () => {
       },
       date: 0,
     },
+    actionIdentifier: 'something',
   })
 
   const createIOSNotificationResponse = (
     payload: { [key: string]: unknown },
     type: 'push' | 'unknown' = 'push'
-  ): Partial<NotificationResponse> => ({
+  ): NotificationResponse => ({
     notification: {
       request: {
         trigger: {
@@ -63,6 +64,7 @@ describe('transformPushInteractionToUrl', () => {
       },
       date: 0,
     },
+    actionIdentifier: 'something',
   })
 
   it('should not create url for non-push notifications', () => {
@@ -134,7 +136,6 @@ describe('transformPushInteractionToUrl', () => {
       notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER,
       expectedUrl: 'holi://spaces/space1',
     },
-
     {
       notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN,
       expectedUrl: 'holi://spaces/space1',
@@ -293,5 +294,20 @@ describe('transformPushInteractionToUrl', () => {
       })
     )
     expect(url).toEqual('holi://spaces/space1?tab=updates')
+  })
+
+  describe('Appointment notifications', () => {
+    it('should create a url to a newly created appointment', () => {
+      const url = transformPushInteractionToUrl(
+        createIOSNotificationResponse({
+          notificationType: NovuNotificationType.SPACE_APPOINTMENT_CREATION,
+          data: JSON.stringify({
+            appointment: { title: 'appointment1' },
+            space: { name: 'space1' },
+          }),
+        })
+      )
+      expect(url).toEqual('holi://spaces/space1/appointments/appointment1')
+    })
   })
 })

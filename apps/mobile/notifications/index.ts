@@ -11,7 +11,7 @@ import {
 
 export type NotificationPayload = Record<string, unknown>
 
-const extractPayloadFromNotification = (response: Partial<NotificationResponse>): NotificationPayload | undefined => {
+const extractPayloadFromNotification = (response: NotificationResponse): NotificationPayload | undefined => {
   const request = response?.notification?.request
   if (request?.trigger?.type === 'push') {
     // background or closed app push
@@ -131,6 +131,21 @@ const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
   }
 }
 
+const spaceAppointmentUrl = (notification: NotificationPayload) => {
+  try {
+    const { space, appointment } = extractData(notification)
+    return `holi://spaces/${space.name}/appointments/${appointment.title}`
+  } catch (error) {
+    logError(error, 'Failed to create url for appointment notification', {
+      location: 'notifications.spaceAppointmentUrl',
+    })
+  }
+}
+
+const extractData = (notification: NotificationPayload) => {
+  const data = typeof notification.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  return data
+}
 
 const isChatNotification = (notification: NotificationPayload) => !!notification.room_id
 
