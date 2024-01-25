@@ -25,6 +25,7 @@ import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 interface AppointmentsWidgetProps {
   space: Space
+  isCollaborator?: boolean
   style?: StyleProp<ViewStyle>
 }
 
@@ -53,7 +54,7 @@ const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPre
   )
 }
 
-const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }) => {
+const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, isCollaborator, style }) => {
   const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -102,14 +103,15 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, style }
 
   return (
     <CollaboratorAreaCard
-      headerLeftIcon={CalendarEvent}
-      headerRightIcon={Add}
+      headerLeftIcon={isCollaborator ? CalendarEvent : undefined}
+      headerRightIcon={isCollaborator ? Add : undefined}
       headerRightButtonLabel={isMember ? t('spaces.appointments.add.button.label') : undefined}
       title={t('spaces.appointments.title')}
       onPressHeaderLeft={navigateToAppointmentsPage}
       onPressHeaderRight={navigateToAddAppointmentPage}
       testID="space-appointments-card"
-      style={[style, styles.container]}
+      isCollaborator={isCollaborator}
+      style={[style, styles.container, !isCollaborator ? styles.nonMemberContainer : {}]}
     >
       <View style={styles.contentWrapper}>
         {totalResults > 0 && (
@@ -145,6 +147,10 @@ export default AppointmentsWidget
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 16,
+  },
+  nonMemberContainer: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   contentWrapper: {
     padding: 8,
