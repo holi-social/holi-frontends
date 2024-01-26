@@ -73,7 +73,7 @@
     "tinycolor2": "1.4.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6",
+    "@babel/core": "^7.23.9",
     "@types/lodash.at": "^4.6.7",
     "@types/lodash.debounce": "^4.0.7",
     "@types/lodash.groupby": "^4.6.9",

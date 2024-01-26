@@ -37,7 +37,8 @@ BasicExample.argTypes = {
   size: {
     description: 'Spacing size',
     required: false,
-    control: { type: 'select', options: ['xs', 's', 'm', 'l', 'xl'] },
+    options: ['xs', 's', 'm', 'l', 'xl'],
+    control: { type: 'select' },
   },
 }
 

@@ -26,7 +26,8 @@ ByLevel.argTypes = {
   },
   level: {
     description: 'determines the accessibilityLevel',
-    control: { type: 'select', options: ['1', '2', '3'] },
+    control: { type: 'select' },
+    options: ['1', '2', '3'],
   },
   selectable: { description: 'Should text be selectable?' },
   numberOfLines: {
@@ -49,11 +50,13 @@ ByLevelAndSize.argTypes = {
   },
   size: {
     description: 'adjusts the size of the text',
-    control: { type: 'select', options: ['xl', 'l', 'm', 's'] },
+    control: { type: 'select' },
+    options: ['xl', 'l', 'm', 's'],
   },
   level: {
     description: 'determines the accessibilityLevel',
-    control: { type: 'select', options: ['1', '2', '3'] },
+    control: { type: 'select' },
+    options: ['1', '2', '3'],
   },
   selectable: { description: 'Should text be selectable?' },
   italic: { description: 'Should text be italic?', control: { type: 'boolean' } },
