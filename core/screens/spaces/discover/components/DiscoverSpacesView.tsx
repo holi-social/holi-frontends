@@ -22,6 +22,7 @@ interface DiscoverSpacesViewProps {
   style?: StyleProp<ViewStyle>
   userTopics: Topic[]
   userSkills: Skill[]
+  userGeolocationId?: string
 }
 
 /**
@@ -42,7 +43,12 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
   )
 }
 
-const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopics, userSkills }) => {
+const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
+  style,
+  userTopics,
+  userSkills,
+  userGeolocationId,
+}) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
@@ -126,6 +132,17 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
       </HoliButton>
 
       <View style={styles.body}>
+        {isLoggedIn && userGeolocationId && (
+          <ScrollBasedRender>
+            <SpacesGroupSlider
+              locationId={userGeolocationId}
+              pageSize={SPACES_GROUP_LIMIT}
+              style={styles.spacesGroup}
+              testID="discover-spaces-slider-default-location"
+            />
+          </ScrollBasedRender>
+        )}
+
         {userTopics.map((userTopic, index) => {
           if (index < 2) {
             // render the first two topics without ScrollBasedRender, to avoid an empty list after login
@@ -209,16 +226,6 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
               </ScrollBasedRender>
             )
           })}
-
-        {/* Example how to do location based discovery: */}
-        {/*<ScrollBasedRender>*/}
-        {/*  <SpacesGroupSlider*/}
-        {/*    locationId={DEFAULT_LOCATION_ID}*/}
-        {/*    pageSize={SPACES_GROUP_LIMIT}*/}
-        {/*    style={styles.spacesGroup}*/}
-        {/*    testID="discover-spaces-slider-default-location"*/}
-        {/*  />*/}
-        {/*</ScrollBasedRender>*/}
       </View>
     </View>
   )
