@@ -87,9 +87,6 @@
   "main": "index.js",
   "name": "@holi/mobile",
   "private": true,
-  "resolutions": {
-    "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
-  },
   "scripts": {
     "android": "expo start --android",
     "build_all": "npx --yes eas-cli build --platform all",

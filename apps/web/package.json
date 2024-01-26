@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "resolutions": {
-    "**/@storybook/react-docgen-typescript-plugin": "1.0.1",
     "**@babel/core": "7.23.9"
   },
   "scripts": {
