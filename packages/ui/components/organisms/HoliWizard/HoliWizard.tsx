@@ -2,6 +2,7 @@ import React, { Children, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
+import FormWrapper from '@holi/core/components/FormWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliProgressBar, useProgressBarAnimation } from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
@@ -10,6 +11,7 @@ import HoliWizardNavigationButtons, {
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import { useKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
+import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HoliWizardProps {
@@ -72,34 +74,42 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     }
 
     return (
-      <SafeAreaView style={{ flex: 1 }} testID={testID}>
-        <HoliWizardContext.Provider value={wizardContext}>
-          <View style={[mixins.container, styles.progressBarContainer]}>
-            <HoliProgressBar percentage={percentage} />
-            <StepCount />
-          </View>
+      <FormWrapper
+        testID={testID}
+        showBottomBar
+        // isModal
+        onSave={handleNextButtonPress}
+        scrollToInput={false}
+        bottomBarStyle={styles.bottomBar}
+        renderProp={() => (
+          <HoliWizardContext.Provider value={wizardContext}>
+            <View style={[mixins.container, styles.progressBarContainer]}>
+              <HoliProgressBar percentage={percentage} />
+              <StepCount />
+            </View>
 
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={[styles.scrollViewContent, mixins.container]}
-            ref={ref}
-          >
-            {arrayChildren && arrayChildren[currentStep]}
-          </ScrollView>
+            <ScrollView
+              style={styles.scrollView}
+              contentContainerStyle={[styles.scrollViewContent, mixins.container]}
+              ref={ref}
+            >
+              {arrayChildren && arrayChildren[currentStep]}
+            </ScrollView>
 
-          {!hideFooterButtons && (
-            <HoliWizardNavigationButtons
-              onNextPress={handleNextButtonPress}
-              onBackPress={handleBackButtonPress}
-              submitButtonLabel={submitButtonLabel}
-              isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
-              isNextButtonEnabled={isNextButtonEnabled}
-              isLastStep={currentStep === stepCount - 1}
-              style={styles.buttonContainer}
-            />
-          )}
-        </HoliWizardContext.Provider>
-      </SafeAreaView>
+            {false && !hideFooterButtons && (
+              <HoliWizardNavigationButtons
+                onNextPress={handleNextButtonPress}
+                onBackPress={handleBackButtonPress}
+                submitButtonLabel={submitButtonLabel}
+                isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
+                isNextButtonEnabled={isNextButtonEnabled}
+                isLastStep={currentStep === stepCount - 1}
+                style={styles.buttonContainer}
+              />
+            )}
+          </HoliWizardContext.Provider>
+        )}
+      />
     )
   }
 )
@@ -116,7 +126,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   scrollViewContent: {
-    paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom + 24,
+    // paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom + 24,
+    // paddingBottom: +dimensions.bottomBarHeight,
   },
   stepCountContainer: {
     alignSelf: 'flex-start',
@@ -126,6 +137,14 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     paddingTop: 42,
+  },
+  bottomBar: {
+    backgroundColor: colors.background10,
+    ...Platform.select({
+      web: {
+        borderTopColor: 'transparent',
+      },
+    }),
   },
   buttonContainer: {
     bottom: 0,

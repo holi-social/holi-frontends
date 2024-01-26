@@ -6,8 +6,10 @@ import {
   SafeAreaView,
   ScrollView,
   ScrollViewProps,
+  StyleProp,
   StyleSheet,
   View,
+  ViewStyle,
   useWindowDimensions,
 } from 'react-native'
 
@@ -27,6 +29,7 @@ export interface FormWrapperProps extends ScrollViewProps {
   isModal?: boolean
   buttonLabel?: string
   showBottomBar?: boolean
+  bottomBarStyle?: StyleProp<ViewStyle>
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
@@ -44,6 +47,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       showBottomBar = false,
       scrollToInput = true,
       testID = 'form-wrapper',
+      bottomBarStyle,
       ...scrollViewProps
     }: FormWrapperProps,
     ref
@@ -118,7 +122,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
               {renderProp(scrollToInputWithId)}
             </View>
           </ScrollView>
-          <SafeAreaView style={[styles.bottomBar]}>
+          <SafeAreaView style={[styles.bottomBar, bottomBarStyle]}>
             <View style={[mixins.container, styles.buttonContainer]}>
               <HoliButtonLoading
                 inline
