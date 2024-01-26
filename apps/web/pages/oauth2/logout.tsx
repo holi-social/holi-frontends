@@ -3,6 +3,7 @@ import { OAuth2Api } from '@ory/client'
 import { setCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import pino from 'pino'
+import React from 'react'
 
 import { cookieNameForceLogout, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
 import OAuth2Logout, { OAuth2LogoutProps } from '@holi/core/auth/screens/OAuth2Logout'
