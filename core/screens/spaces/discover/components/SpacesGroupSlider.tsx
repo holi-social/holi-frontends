@@ -40,7 +40,7 @@ interface SelfLoadingSkillProps extends BaseProps {
 interface SelfLoadingLocationProps extends BaseProps {
   topic?: never
   skill?: never
-  locationId: string
+  locationId?: string
 }
 
 type ContentProps = SelfLoadingTopicProps | SelfLoadingSkillProps | SelfLoadingLocationProps
