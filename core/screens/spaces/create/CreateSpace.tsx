@@ -126,7 +126,6 @@ const CreateSpace = () => {
           <View style={[mixins.container, styles.container]}>
             <HoliWizard
               isBackButtonAvailable={true}
-              submitButtonLabel={t('spaces.create.button')}
               onNextPress={handleNextButtonPress}
               onSubmit={handleSubmitButtonPress}
             >

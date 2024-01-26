@@ -86,17 +86,17 @@ describe('@Spaces', () => {
     // create space - name and goal
     await checkConfirmButtonIsDisabled()
     await inputSpaceNameAndGoal(initialName, initialGoal)
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('holi-wizard-save-btn')
 
     // create space - topics
     await checkConfirmButtonIsDisabled()
     await selectSomeTerms(numberOfInitialTerms)
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('holi-wizard-save-btn')
 
     // create space - cover image
     // We mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
     await scrollToElementWithTestId('create-space-remove-image-btn', 'down')
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('holi-wizard-save-btn')
   }
 
   const assertEditingSpace = async () => {
@@ -157,7 +157,7 @@ describe('@Spaces', () => {
   }
 
   const checkConfirmButtonIsDisabled = async () => {
-    const nextButton = await waitForElementWithTestId('holi-wizard-next-btn')
+    const nextButton = await waitForElementWithTestId('holi-wizard-save-btn')
     await nextButton.waitForEnabled({ reverse: true })
   }
 

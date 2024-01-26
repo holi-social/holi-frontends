@@ -140,14 +140,14 @@ const createSpace = async (page: Page, initialName = 'e2e space name', initialGo
   await clickElementByTestId(page, 'btn-create-space')
 
   await inputSpaceNameAndGoal(page, initialName, initialGoal)
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   const termCheckboxes = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
   await termCheckboxes.nth(0).click()
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   try {
     await clickElementByTestId(page, 'space-onboard-content-close-btn')
