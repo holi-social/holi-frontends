@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withHtml = require('@blunck/next-html')()
-const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 
@@ -34,6 +33,36 @@ const nextConfig = {
     // Remove console outputs in production builds, see https://nextjs.org/docs/advanced-features/compiler#remove-console
     removeConsole: process.env.ENVIRONMENT_ID === 'production',
   },
+  transpilePackages: [
+    'react-native',
+    'react-native-animated-pagination-dot',
+    'react-native-calendars',
+    'react-native-card-stack-swiper',
+    'react-native-gesture-handler',
+    'react-native-reanimated',
+    'react-native-reanimated-carousel',
+    'react-native-render-html',
+    'react-native-safe-area-context',
+    'react-native-svg',
+    'react-native-swipe-gestures',
+    'react-native-webview',
+    'recyclerlistview',
+    'expo-modules-core',
+    'expo-camera',
+    'expo-constants',
+    'expo-device',
+    'expo-notifications',
+    'expo-status-bar',
+    '@jsamr/react-native-li',
+    '@holi-apps/donations',
+    '@holi-apps/goodnews',
+    '@holi-apps/volunteering',
+    '@holi/ui',
+    '@holi/icons',
+    '@holi/core',
+    '@holi/api',
+    '@holi/chat',
+  ],
 }
 
 const sentryWebpackPluginOptions = {
@@ -53,38 +82,4 @@ const sentryOptions = {
   hideSourceMaps: true,
 }
 
-module.exports = withSentryConfig(
-  withTranspileModules(
-    [
-      'react-native',
-      'react-native-calendars',
-      'react-native-reanimated',
-      'react-native-card-stack-swiper',
-      'react-native-gesture-handler',
-      'react-native-webview',
-      'react-native-render-html',
-      'react-native-animated-pagination-dot',
-      'recyclerlistview',
-      'expo-modules-core',
-      'expo-camera',
-      'expo-constants',
-      'expo-device',
-      'expo-notifications',
-      'expo-status-bar',
-      '@jsamr/react-native-li',
-      '@holi-apps/donations',
-      '@holi-apps/goodnews',
-      '@holi-apps/volunteering',
-      '@holi/ui',
-      '@holi/icons',
-      '@holi/core',
-      '@holi/api',
-      '@holi/chat',
-    ],
-    {
-      resolveSymlinks: true,
-    }
-  )(withHtml(nextConfig)),
-  sentryWebpackPluginOptions,
-  sentryOptions
-)
+module.exports = withSentryConfig(withHtml(nextConfig), sentryWebpackPluginOptions, sentryOptions)
