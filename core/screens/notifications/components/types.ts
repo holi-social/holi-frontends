@@ -1,5 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { Appointment } from '@holi/core/screens/appointments/types'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { Comment, Post } from '@holi/core/screens/posts/types'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -119,16 +120,35 @@ export interface NotificationSpacePermissions extends NotificationBase {
   }
 }
 
+export interface SpaceAppointmentNotificationData {
+  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+  appointment: Pick<Appointment, 'id' | 'title' | 'description' | 'location' | 'startDateTime' | 'endDateTime'>
+  link: string
+}
+
+export interface NotificationAppointments extends NotificationBase {
+  notificationType:
+    | NovuNotificationType.SPACE_APPOINTMENT_CREATION
+    | NovuNotificationType.SPACE_APPOINTMENT_UPDATE
+    | NovuNotificationType.SPACE_APPOINTMENT_DELETION
+  options: SpaceAppointmentNotificationData
+}
+
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
 export type NotificationWithUser =
   | NotificationConnection
   | NotificationPost
   | NotificationSpaceConnection
   | NotificationSpacePermissions
-export type Notification = NotificationWithUser | NotificationReleaseInfo | NotificationSpacePost
+export type Notification =
+  | NotificationWithUser
+  | NotificationReleaseInfo
+  | NotificationSpacePost
+  | NotificationAppointments
 
 export interface NotificationProps<T = Notification> {
   notification: T
   style?: StyleProp<ViewStyle>
   testID?: string
+  link?: string
 }
