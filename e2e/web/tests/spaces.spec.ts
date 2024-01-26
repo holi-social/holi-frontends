@@ -273,7 +273,7 @@ const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
 }
 
 export const checkConfirmButtonIsDisabled = async (page: Page) => {
-  const nextButton = await locateElementByTestId(page, 'holi-wizard-next-btn')
+  const nextButton = await locateElementByTestId(page, 'holi-wizard-save-btn')
   await nextButton.isDisabled()
 }
 
@@ -523,25 +523,25 @@ const createSpace = async (
   await clickElementByTestId(page, 'btn-to-spaces')
   await clickElementByTestId(page, 'btn-create-space')
   // wait until page is loaded
-  await page.waitForSelector(byTestId('holi-wizard-next-btn'))
+  await page.waitForSelector(byTestId('holi-wizard-save-btn'))
 
   // Create space - name and goal
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
   await inputSpaceNameAndGoal(page, initialName, initialGoal)
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // Create space - topics
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
   await selectSomeTerms(page, numberOfInitialTerms)
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // Create space - cover image
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
   await clickElementByTestId(page, 'space-onboard-content-close-btn')
 }
 

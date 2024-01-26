@@ -131,20 +131,20 @@ export const finishAccountSetup = async (
   const lastNameInput = await locateElementByTestId(page, 'last-name-input')
   await lastNameInput.fill(lastName)
   // submit
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // submit pre-success step
   await page.waitForSelector(byTestId('account-setup-pre-registration-success-step-headline'))
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
   // skip interests step
   await page.waitForSelector(byTestId('account-setup-interests-step-headline'))
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
   // skip location step
   await page.waitForSelector(byTestId('account-setup-location-step-headline'))
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
   // skip interests step
   await page.waitForSelector(byTestId('account-setup-success-step'))
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   if (!id) throw new Error("Wasn't able to intercept user id while finishing account setup flow")
   return {
