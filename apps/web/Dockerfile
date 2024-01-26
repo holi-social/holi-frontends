@@ -1,5 +1,5 @@
 # Production image, copy all the files and run next
-FROM node:18.14.0-alpine
+FROM node:18.17.0-alpine
 
 WORKDIR /app
 
