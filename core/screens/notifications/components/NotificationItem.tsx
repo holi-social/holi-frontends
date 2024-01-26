@@ -3,6 +3,8 @@ import React from 'react'
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
+import NotificationSpaceAppointmentDeletionItem from '@holi/core/screens/notifications/components/NotificationSpaceAppointmentDeletionItem'
+import NotificationSpaceAppointmentItem from '@holi/core/screens/notifications/components/NotificationSpaceAppointmentItem'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
 import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
@@ -38,6 +40,9 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.POST_COMMENT_MENTION,
   NovuNotificationType.POST_COMMENT_AUTHOR,
   NovuNotificationType.SPACE_NEW_POST,
+  NovuNotificationType.SPACE_APPOINTMENT_CREATION,
+  NovuNotificationType.SPACE_APPOINTMENT_UPDATE,
+  NovuNotificationType.SPACE_APPOINTMENT_DELETION,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -76,7 +81,13 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED:
     case NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED:
       return <NotificationSpacePermissionsItem notification={notification} {...props} testID="space-permissions" />
-
+    case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
+    case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
+      return <NotificationSpaceAppointmentItem notification={notification} testID={'space-appointment'} />
+    case NovuNotificationType.SPACE_APPOINTMENT_DELETION:
+      return (
+        <NotificationSpaceAppointmentDeletionItem notification={notification} testID={'space-appointment-deletion'} />
+      )
     default:
       return null
   }
