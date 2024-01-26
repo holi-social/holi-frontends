@@ -74,7 +74,6 @@ const AppointmentDetails = () => {
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchAppointment, refetchSpace]))
 
   const appointment = appointmentData?.appointment
-  const isHybrid = appointment?.isHybrid
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isAppointmentCreator = appointment?.creator.id === userId
@@ -255,7 +254,7 @@ const AppointmentDetails = () => {
                 </View>
               </>
             )}
-            {!isLoggedIn && isHybrid && (
+            {!isLoggedIn && appointment.hasVideoCallLink && (
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
                 <HoliButton

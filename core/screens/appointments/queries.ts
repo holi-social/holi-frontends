@@ -47,6 +47,7 @@ export const FullAppointmentFragment = gql`
       }
     }
     isHybrid
+    hasVideoCallLink
   }
 `
 
@@ -84,6 +85,7 @@ export const PartialAppointmentFragment = gql`
       }
     }
     isHybrid
+    hasVideoCallLink
   }
 `
 
