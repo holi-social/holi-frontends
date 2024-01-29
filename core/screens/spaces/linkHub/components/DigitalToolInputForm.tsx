@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image as ReactNativeImage, StyleSheet, View } from 'react-native'
 
+import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -147,7 +148,11 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         )}
         <View style={styles.uploadButtonContainer}>
           <HoliImagePicker
-            maxFileSizeInMB={10}
+            fileSizeLimitation={{
+              type: 'resize',
+              limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+              resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+            }}
             buttonProps={{
               label: t('spaces.input.digitalTool.upload.button.label'),
               style: styles.imageUploadButton,

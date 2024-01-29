@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
+import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
@@ -191,7 +192,11 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         )}
         <View style={styles.uploadButtonContainer}>
           <HoliImagePicker
-            maxFileSizeInMB={10}
+            fileSizeLimitation={{
+              type: 'resize',
+              limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+              resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+            }}
             buttonProps={{
               label: t('spaces.input.task.upload.button.label'),
               testID: 'space-upload-image-btn',
