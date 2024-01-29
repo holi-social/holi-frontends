@@ -113,6 +113,8 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         borderTopColor: 'transparent',
+        position: 'fixed',
+        alignSelf: 'center',
       },
     }),
   },
