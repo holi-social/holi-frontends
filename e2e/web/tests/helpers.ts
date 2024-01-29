@@ -10,7 +10,7 @@ export const goodnewsRequestTimeout = 20_000
 export const volunteeringRequestTimeout = 20_000
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
-export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
+export const byTestId = (testId: string, nth?: number) => `[data-testid='${testId}']${nth ? ` >> nth=${nth}` : ''}`
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const delay = (time: number) =>

@@ -9,6 +9,7 @@ import {
   proceedAsGuest,
   waitForAnimationEnd,
 } from './helpers'
+import { inputSpaceNameAndGoal } from './helpers/spaces'
 import { UserHandler, test } from './testmaster'
 
 test.setTimeout(240000)
@@ -275,14 +276,6 @@ const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
 export const checkConfirmButtonIsDisabled = async (page: Page) => {
   const nextButton = await locateElementByTestId(page, 'holi-wizard-save-btn')
   await nextButton.isDisabled()
-}
-
-export const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => {
-  const nameInput = await locateElementByTestId(page, 'space-name-input')
-  await nameInput.fill(name)
-
-  const goalInput = await locateElementByTestId(page, 'space-goal-input')
-  await goalInput.fill(goal)
 }
 
 const editSpaceContactInfo = async (page: Page) => {
