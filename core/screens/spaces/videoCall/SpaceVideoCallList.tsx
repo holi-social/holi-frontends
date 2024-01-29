@@ -4,10 +4,10 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
@@ -26,7 +26,7 @@ const SpaceVideoCallList = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const { navigate } = useRouting()
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -54,8 +54,8 @@ const SpaceVideoCallList = () => {
               title={t('spaces.videocall.schedule.heading')}
               headerLeftIcon={CalendarCheck}
               headerRightIcon={ArrowRightS}
-              onPressHeaderLeft={showFeatureNotImplementedToast}
-              onPressHeaderRight={showFeatureNotImplementedToast}
+              onPressHeaderLeft={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+              onPressHeaderRight={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
               headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
             />
           </HoliBox>
