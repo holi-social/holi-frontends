@@ -5,6 +5,7 @@ import { getCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
+import React from 'react'
 
 import { cookieNameForceLogout, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
 import OAuth2Login, { OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'

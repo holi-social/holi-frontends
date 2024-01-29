@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 
 import { AppLayout } from '@holi/web/layout/NavigationLayoutVolunteeringApp'
 import type { NextPageWithLayout } from '@holi/web/pages/_app'

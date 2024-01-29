@@ -28,7 +28,8 @@ Primary.argTypes = {
   },
   size: {
     description: 'adjusts the size of the text',
-    control: { type: 'select', options: HoliTextSizes },
+    control: { type: 'select' },
+    options: HoliTextSizes,
   },
   bold: {
     description: 'adjusts the boldness of the text',

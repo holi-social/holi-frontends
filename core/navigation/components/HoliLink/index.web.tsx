@@ -26,16 +26,15 @@ export const HoliLink = ({
   )
 
   return (
-    <Link href={href}>
-      <a
-        aria-label={label}
-        title={label}
-        target={external ? '_blank' : undefined}
-        onClick={onLinkPress}
-        data-testid={testID}
-      >
-        {children}
-      </a>
+    <Link
+      href={href}
+      aria-label={label}
+      title={label}
+      target={external ? '_blank' : undefined}
+      onClick={onLinkPress}
+      data-testid={testID}
+    >
+      {children}
     </Link>
   )
 }

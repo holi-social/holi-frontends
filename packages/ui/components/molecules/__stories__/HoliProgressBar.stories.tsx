@@ -30,7 +30,8 @@ BasicExample.argTypes = {
   size: {
     description: 'Progress bar size',
     required: false,
-    control: { type: 'select', options: ['small', 'medium'] },
+    control: { type: 'select' },
+    options: ['small', 'medium'],
   },
 }
 
