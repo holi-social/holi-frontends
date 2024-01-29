@@ -201,13 +201,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 24,
     paddingBottom: dimensions.bottomBarHeight,
+    minHeight: '100%',
   },
   holiTabs: {
     flex: 1,
     backgroundColor: colors.background10,
   },
   tabStyle: {
-    minHeight: '100%',
     backgroundColor: colors.background20,
   },
   mySpacesContainer: {

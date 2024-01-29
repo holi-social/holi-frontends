@@ -50,12 +50,13 @@ global.console.warn = jest.fn()
 const renderDiscoverSpaces = (
   userTopics: Topic[] = [],
   userSkills: Skill[] = [],
+  userGeolocationId?: string,
   contextProps: Partial<SpaceTermContextResult> = {}
 ) => {
   return render(
     <MockedProvider mocks={[]} addTypename={false}>
       <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
-        <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} />
+        <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} userGeolocationId={userGeolocationId} />
       </SpaceTermContext.Provider>
     </MockedProvider>
   )
@@ -63,7 +64,7 @@ const renderDiscoverSpaces = (
 
 describe('DiscoverSpacesView', () => {
   it('renders correctly, without user spaces, when loading', async () => {
-    const { getByTestId, queryAllByTestId } = renderDiscoverSpaces([], [], { loadingTopics: true })
+    const { getByTestId, queryAllByTestId } = renderDiscoverSpaces([], [], undefined, { loadingTopics: true })
 
     expect(getByTestId('discover-spaces-header')).toHaveTextContent('spaces.discover.welcome')
     expect(getByTestId('discover-spaces-description')).toHaveTextContent('spaces.discover.description')
@@ -102,7 +103,9 @@ describe('DiscoverSpacesView', () => {
   })
 
   it('renders correctly, with user spaces, when loading', async () => {
-    const { getByTestId, queryAllByTestId } = renderDiscoverSpaces(userTopics, userSkills, { loadingTopics: true })
+    const { getByTestId, queryAllByTestId } = renderDiscoverSpaces(userTopics, userSkills, undefined, {
+      loadingTopics: true,
+    })
 
     expect(getByTestId('discover-spaces-header')).toHaveTextContent('spaces.discover.welcome')
     expect(getByTestId('discover-spaces-description')).toHaveTextContent('spaces.discover.description')

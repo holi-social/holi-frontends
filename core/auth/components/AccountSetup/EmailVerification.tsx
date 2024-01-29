@@ -13,9 +13,9 @@ import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
@@ -192,7 +192,6 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             label={t('registration.emailVerification.resendEmail')}
             href="/"
             onPress={resendEmail}
-            variant="secondary"
             size="small"
           >
             {t('registration.emailVerification.resendEmail')}

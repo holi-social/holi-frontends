@@ -1,0 +1,3 @@
+export const IMAGE_MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024 // 10 MB
+export const PROFILE_IMAGE_MAX_WIDTH = 1920
+export const CONTENT_IMAGE_MAX_WIDTH = 3840

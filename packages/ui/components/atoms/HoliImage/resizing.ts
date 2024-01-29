@@ -1,6 +1,5 @@
 import { PixelRatio, Platform } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import { isProduction } from '@holi/core/helpers/environment'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
@@ -78,12 +77,9 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
     const text = padding + (calculatedWidth ?? '∞') + '×' + (calculatedHeight ?? '∞') + padding
     const newUri = 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg?text=' + text
     return { ...source, uri: newUri }
-    // we've seen imagekit requests with file urls, we should not wrap these
   } else if (uri.startsWith('file://')) {
-    logError(new Error('File uri should not happen'), 'Failed to resize image', {
-      location: 'resizing.setScalingParams',
-      uri,
-    })
+    // we've seen imagekit requests with file urls, we should not wrap these
+    // also, file uris show up after using Expos ImageManipulator in context of HoliImagePicker
     return source
   } else if (!calculatedWidth && !calculatedHeight) {
     // Due to app crashes, we don't allow fully unbounded images

@@ -3,11 +3,11 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
 import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
