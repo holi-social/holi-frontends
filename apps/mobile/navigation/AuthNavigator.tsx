@@ -28,6 +28,7 @@ export type AuthStackScreensList = {
   ChangeEmailVerification: undefined
   LegalDocuments: undefined
   Document: undefined
+  AboutHoliApp: undefined
 }
 
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()

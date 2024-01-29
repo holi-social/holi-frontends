@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
+import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
@@ -374,7 +375,11 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           )}
           <View style={styles.uploadButtonContainer}>
             <HoliImagePicker
-              maxFileSizeInMB={10}
+              fileSizeLimitation={{
+                type: 'resize',
+                limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+                resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+              }}
               buttonProps={{
                 label: thumbnail?.uri
                   ? t('spaces.appointments.input.coverImage.change.button.label')

@@ -190,6 +190,7 @@
   "global.gotIt": "Okay",
   "global.hours": "Stunde",
   "global.https.placeholder": "https://...",
+  "global.imagepicker.failure": "Ups! Da ist ein technisches Problem beim Laden des Bildes aufgetreten! Solltest Du ein sehr großes Bild auf einem älteren Gerät gewählt haben, versuche es bitte mit einem kleineren Bild.",
   "global.leavePage.confirmation.confirm": "Ja, verlassen",
   "global.leavePage.confirmation.description": "Möchtest du diese Seite wirklich verlassen? Alle ungespeicherten Eingaben gehen verloren.",
   "global.leavePage.confirmation.dismiss": "Nein, zurück",

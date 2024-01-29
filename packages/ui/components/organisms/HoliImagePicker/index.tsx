@@ -1,44 +1,59 @@
 import { ReactNativeFile } from 'apollo-upload-client'
-import { MediaTypeOptions } from 'expo-image-picker'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-import { HoliImagePickerProps } from './types'
+import { FileSizeLimitationResize, HoliImagePickerProps } from './types'
 import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
 
 const HoliImagePicker = ({
   children,
   buttonProps,
   onPickImage,
-  maxFileSizeInMB,
-  multiple = false,
+  fileSizeLimitation,
 }: React.PropsWithChildren<HoliImagePickerProps>) => {
   const { pickImages } = useMediaLibraryImagePicker()
+  const { openToast } = useToast()
+  const { t } = useTranslation()
 
   const pickImageHandler = async () => {
-    const images = await pickImages({
-      mediaTypes: MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-      base64: true,
-      maxFileSizeInMB,
-      allowsMultipleSelection: multiple,
-    })
+    const imagePickerResult = await pickImages(fileSizeLimitation)
 
-    if (!images || images?.canceled) return
+    switch (imagePickerResult) {
+      case 'technicalError':
+        openToast(t('global.imagepicker.failure'), HoliToastType.ERROR)
+        return
+      case 'invalidFileSize':
+        openToast(
+          t('filePicker.error.maxFileSize', {
+            size: (fileSizeLimitation as FileSizeLimitationResize).limitBytes / 1024 / 1024,
+          }),
+          HoliToastType.ERROR
+        )
+        return
+      case 'missingPermissions':
+        openToast(t('global.permissions.mediaLibrary.denied'), HoliToastType.ERROR)
+        return
+      default:
+        if (imagePickerResult.canceled) return
+        else {
+          // allowsMultipleSelection is false, so we can assume there should only be
+          // one asset (using a for loop is the safest option though)
+          for (const { uri, base64, height, width } of imagePickerResult.assets) {
+            const response = await fetch(uri)
+            const blob = await response.blob()
+            const filename = uri.substring(uri.lastIndexOf('/') + 1)
+            const reactNativeFile = new ReactNativeFile({
+              uri,
+              name: filename,
+              type: blob.type,
+            })
 
-    for (const { uri, base64, height, width } of images.assets) {
-      const response = await fetch(uri)
-      const blob = await response.blob()
-      const filename = uri.substring(uri.lastIndexOf('/') + 1)
-      const reactNativeFile = new ReactNativeFile({
-        uri,
-        name: filename,
-        type: blob.type,
-      })
-
-      onPickImage({ uri, blob: reactNativeFile, base64, height, width })
+            onPickImage({ uri, blob: reactNativeFile, base64, height, width })
+          }
+        }
     }
   }
 
