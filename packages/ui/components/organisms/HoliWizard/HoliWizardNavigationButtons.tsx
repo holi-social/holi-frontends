@@ -60,7 +60,7 @@ const HoliWizardNavigationButtons = ({
           label={isLastStep ? submitButtonLabel : t('global.next')}
           loadingLabel={t('global.loading')}
           onPress={onNextPress}
-          testID={testID ? `${testID}-next-btn` : 'holi-wizard-next-btn'}
+          testID={testID ? `${testID}-next-btn` : 'holi-wizard-save-btn'}
           style={styles.nextButton}
         />
       </View>

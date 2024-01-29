@@ -47,4 +47,5 @@ export interface Appointment {
   thumbnail?: string
   thumbnailBlurhash?: string
   isHybrid: boolean
+  hasVideoCallLink: boolean
 }

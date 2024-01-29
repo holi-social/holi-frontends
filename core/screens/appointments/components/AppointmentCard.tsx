@@ -188,7 +188,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </View>
           </>
         )}
-        {!isLoggedIn && !isHybrid && appointment.videoCallLink && (
+        {!isLoggedIn && !isHybrid && appointment.hasVideoCallLink && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
