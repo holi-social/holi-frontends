@@ -8,6 +8,7 @@
   "appointment.card.hybrid.title": "Hybrid attendance",
   "appointment.card.login.location": "Login for complete address",
   "appointment.card.login.videochat": "Login for video call link",
+  "appointment.card.virtual.title": "Virtual attendance",
   "appointment.delete.confirmation.description": "Are you sure you want to delete this appointment?\nThis action is irreversible.",
   "appointment.delete.confirmation.title": "Delete appointment",
   "appointment.delete.error": "There was an error deleting the appointment. Please retry later",

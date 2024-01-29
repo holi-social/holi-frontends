@@ -8,6 +8,7 @@
   "appointment.card.hybrid.title": "Hybrid-Veranstaltung",
   "appointment.card.login.location": "Einloggen für vollständige Adresse",
   "appointment.card.login.videochat": "Einloggen für Videokonferenz-Link",
+  "appointment.card.virtual.title": "virtuelle Teilnahme",
   "appointment.delete.confirmation.description": "Möchtest du diesen Termin wirklich löschen?",
   "appointment.delete.confirmation.title": "Termin löschen",
   "appointment.delete.error": "Beim Löschen des Termins ist ein Fehler aufgetreten. Bitte probiere es später nochmal",
