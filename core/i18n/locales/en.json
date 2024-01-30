@@ -526,6 +526,7 @@
   "spaces.appointments.details.about": "About this appointment",
   "spaces.appointments.details.createdBy": "Created by",
   "spaces.appointments.details.details": "Details",
+  "spaces.appointments.details.organisedBy": "Organised By",
   "spaces.appointments.details.public": "Open to anyone",
   "spaces.appointments.details.restricted": "Restricted to collaborators",
   "spaces.appointments.details.title": "Appointments",

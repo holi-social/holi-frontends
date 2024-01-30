@@ -34,7 +34,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
     handleDelete,
   })
 
-  const isAppointmentCreator = appointment?.creator.id === userId
+  const isAppointmentCreator = appointment?.creator?.id === userId
 
   return (
     (isAdmin || isAppointmentCreator) && (
