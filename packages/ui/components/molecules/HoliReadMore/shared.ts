@@ -1,4 +1,4 @@
-import { TextProps, TextStyle, ViewStyle } from 'react-native'
+import { TextLayoutLine, TextProps, TextStyle, ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
@@ -20,3 +20,10 @@ export const styles = StyleSheet.create({
     marginTop: 1.5,
   },
 })
+
+export function truncateTextByLines(textLines: TextLayoutLine[], numberOfLines: number, ellipsis: string): string {
+  const shortTextLines = textLines.slice(0, numberOfLines)
+  const needsEllipsis = shortTextLines.length == numberOfLines
+  const shortText = shortTextLines.map((line) => line.text).join('')
+  return needsEllipsis ? shortText.replace(/\S*\W+$/, ellipsis) : shortText
+}

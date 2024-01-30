@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['../../.eslintrc.js', 'next'],
+  extends: ['next', '../../.eslintrc.js'],
   root: false,
   settings: {
     next: {

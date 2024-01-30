@@ -2,6 +2,7 @@
 import { AcceptOAuth2ConsentRequestSession, IdentityApi, OAuth2Api, OAuth2ConsentRequest } from '@ory/client'
 import { GetServerSideProps, NextPage } from 'next'
 import pino from 'pino'
+import React from 'react'
 
 import { OAuth2DefaultProps, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
 import OAuth2Consent, { OAuth2ConsentProps } from '@holi/core/auth/screens/OAuth2Consent'

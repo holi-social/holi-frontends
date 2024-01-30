@@ -82,6 +82,10 @@ jest.mock('react-native-webview', () => ({
   default: () => jest.fn(),
 }))
 
+jest.mock('next/router', () => ({
+  useRouter: () => jest.fn(),
+}))
+
 i18n.use(initReactI18next).init({
   lng: 'en',
   fallbackLng: 'en',

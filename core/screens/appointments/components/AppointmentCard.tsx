@@ -70,7 +70,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   )
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/appointments/${appointment.id}`)
-  const isAppointmentCreator = appointment?.creator.id === userId
+  const isAppointmentCreator = appointment?.creator?.id === userId
 
   const shouldShowVisibilityLabel = isLoggedIn && (isMember || isAdmin)
   const userIsAllowedToEdit = isAdmin || isAppointmentCreator
@@ -170,30 +170,20 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         )}
 
         {!isLoggedIn && !isHybrid && appointment.locationDetails && (
-          <>
-            <View style={styles.iconsContainer}>
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
-                <HoliText style={styles.iconGroupText} size="extrasmall">
-                  {t('appointment.card.login.location')}
-                </HoliText>
-              </View>
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliText style={styles.noIconGroupText} size="extrasmall">
+                {appointment.locationDetails.completeAddress}
+              </HoliText>
             </View>
-            <View style={styles.iconsContainer}>
-              <View style={styles.iconGroupContainer}>
-                <HoliText style={styles.noIconGroupText} size="extrasmall">
-                  {appointment.locationDetails.completeAddress}
-                </HoliText>
-              </View>
-            </View>
-          </>
+          </View>
         )}
         {!isLoggedIn && !isHybrid && appointment.hasVideoCallLink && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
               <HoliText style={styles.iconGroupText} size="extrasmall">
-                {t('appointment.card.login.videochat')}
+                {t('appointment.card.virtual.title')}
               </HoliText>
             </View>
           </View>

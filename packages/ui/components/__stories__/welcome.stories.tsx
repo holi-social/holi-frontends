@@ -16,7 +16,7 @@ export const All = () => {
         <HoliHeading size="l">Welcome to HOLI Components</HoliHeading>
         <section className="description">
           <HoliText>
-            These components base on{' '}
+            These components are based on{' '}
             <a href="https://www.figma.com/file/RbD0C3K6vITgJXJ4srCxQ9/2.-components" target="_blank" rel="noreferrer">
               FIGMA design
             </a>

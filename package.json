@@ -16,8 +16,7 @@
   "resolutions": {
     "**/ts-invariant": "0.10.3",
     "**/tslib": "2.5.0",
-    "**/@storybook/react-docgen-typescript-plugin": "1.0.1",
-    "**/@babel/core": "7.21.4",
+    "**/@babel/core": "7.23.9",
     "**/@types/react": "~18.2.14"
   },
   "scripts": {

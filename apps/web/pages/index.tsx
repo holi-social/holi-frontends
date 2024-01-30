@@ -1,5 +1,6 @@
 // import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import type { NextPage } from 'next'
+import React from 'react'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { addApolloSSRState } from '@holi/core/helpers/useApolloSSRClient'

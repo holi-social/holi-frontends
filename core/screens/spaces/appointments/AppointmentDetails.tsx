@@ -16,6 +16,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
 import ShareAppointment from '@holi/core/screens/spaces/appointments/ShareAppointment'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
+import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -76,7 +77,7 @@ const AppointmentDetails = () => {
   const appointment = appointmentData?.appointment
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isAppointmentCreator = appointment?.creator.id === userId
+  const isAppointmentCreator = appointment?.creator?.id === userId
   const isMobile = Platform.OS !== 'web'
 
   const renderActionDrawer = useCallback(
@@ -339,7 +340,7 @@ const AppointmentDetails = () => {
             <HoliHeading level="2" size="m">
               {t('spaces.appointments.details.details')}
             </HoliHeading>
-            {isLoggedIn && (
+            {isLoggedIn && appointment.creator && (
               <View style={styles.avatar}>
                 <HoliAvatar
                   imageSrc={appointment.creator.avatar}
@@ -352,6 +353,14 @@ const AppointmentDetails = () => {
                 <HoliText style={styles.avatarName}>
                   {t('spaces.appointments.details.createdBy')}{' '}
                   {appointment.creator.fullName || t('user.profileView.anonymous')}
+                </HoliText>
+              </View>
+            )}
+            {isLoggedIn && !appointment.creator && (
+              <View style={styles.avatar}>
+                <SpaceAvatar space={space} size="medium" />
+                <HoliText style={styles.avatarName}>
+                  {t('spaces.appointments.details.organisedBy')} {space.title}
                 </HoliText>
               </View>
             )}

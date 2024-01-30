@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native'
 
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { replaceSpecialChars } from '@holi/core/helpers'
 import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -59,7 +60,6 @@ export const useNamesStep = ({ user }: UseNamesStepOptions) => {
     resetErrorsForField(fieldName)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const validateOnBlur = () => {
     const validationResult = RegisterUserNamesInputSchema.safeParse(names)
 
@@ -102,9 +102,8 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
         aria-label={t('user.profileForm.firstName')}
         placeholder={t('user.profileForm.firstNamePlaceholder')}
         maxNoOfCharacters={192}
-        onChange={(value: string) => onChange('firstName', value)}
+        onChange={(value: string) => onChange('firstName', replaceSpecialChars(value))}
         validationErrorText={fieldErrors?.firstName?.join()}
-        // inputProps={{ autoFocus: Platform.OS === 'web' }}
         {...scrollToInputWithId('firstName')}
         isRequired
         testID={'first-name'}
@@ -117,7 +116,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
         aria-label={t('user.profileForm.lastName')}
         placeholder={t('user.profileForm.lastNamePlaceholder')}
         maxNoOfCharacters={192}
-        onChange={(value: string) => onChange('lastName', value)}
+        onChange={(value: string) => onChange('lastName', replaceSpecialChars(value))}
         validationErrorText={fieldErrors?.lastName?.join()}
         {...scrollToInputWithId('lastName')}
         testID={'last-name'}

@@ -1,5 +1,5 @@
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
-import { Children } from 'react'
+import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'

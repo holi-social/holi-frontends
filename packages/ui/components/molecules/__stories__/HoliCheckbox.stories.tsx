@@ -29,8 +29,8 @@ Primary.argTypes = {
   'aria-label': { description: 'A11y Label', control: { type: 'text' } },
   disabled: { description: 'Disables interaction', type: 'boolean', control: { type: 'boolean' } },
   errorMessage: { description: 'Error message', control: { type: 'text' } },
-  shape: { description: 'Outer shape', type: 'string', control: { type: 'select', options: ['square', 'round'] } },
-  checked: { description: 'Checked state', control: { type: 'select', options: [true, false, 'mixed'] } },
+  shape: { description: 'Outer shape', type: 'string', control: { type: 'select' }, options: ['square', 'round'] },
+  checked: { description: 'Checked state', control: { type: 'select' }, options: [true, false, 'mixed'] },
 }
 
 Primary.args = {

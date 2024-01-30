@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import React from 'react'
 
 import ChatStartConversationView from '@holi/core/screens/chat/ChatStartConversationView'
 

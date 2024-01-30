@@ -17,7 +17,7 @@ Primary.argTypes = {
   category: { description: 'Label/tag for the donations', control: { type: 'text' } },
   progressPercentage: { description: 'Progress in %', control: { type: 'range', min: 0, max: 100, step: 0.1 } },
   openAmountInCents: { description: 'Open amount', control: { type: 'range', min: 0, max: 100000, step: 100 } },
-  size: { description: 'Size of the component', control: { type: 'select', options: ['default', 'small'] } },
+  size: { description: 'Size of the component', control: { type: 'select' }, options: ['default', 'small'] },
   style: { description: 'Wrapper style override', control: false },
 }
 
