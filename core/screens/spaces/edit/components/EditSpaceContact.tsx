@@ -74,7 +74,6 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
       scrollable={false}
     >
       <SpaceContactForm
-        title={t('space.input.contact.title')}
         onChangeContactDescription={setContactDescription}
         onChangeContactPhone={setContactPhone}
         onChangeContactEmail={setContactEmail}

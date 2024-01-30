@@ -21,9 +21,8 @@ export interface SpaceContactFormProps extends Omit<FormWrapperProps, 'renderPro
   contactDescriptionErrors?: string[]
   contactEmailErrors?: string[]
   contactPhoneErrors?: string[]
-  title: string
 }
-const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
+const SpaceContactForm = ({
   onChangeContactDescription,
   onChangeContactEmail,
   onChangeContactPhone,
@@ -35,7 +34,6 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
   contactDescriptionErrors,
   contactEmailErrors,
   contactPhoneErrors,
-  title,
   style,
 }: SpaceContactFormProps) => {
   const { t } = useTranslation()
@@ -48,9 +46,6 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
       showBottomBar
       renderProp={() => (
         <View style={[styles.container, style]}>
-          <View style={styles.title}>
-            <HoliText size="extralarge">{title}</HoliText>
-          </View>
           <View style={styles.info}>
             <HoliIcon icon={Global} style={styles.infoIcon} />
             <HoliText style={styles.infoText}>{t('spaces.input.contact.info.text')}</HoliText>
@@ -84,6 +79,7 @@ export default SpaceContactForm
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 24,
     paddingBottom: 50,
   },
   info: {
@@ -97,10 +93,6 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: colors.foreground20,
-  },
-  title: {
-    marginBottom: 16,
-    marginTop: 24,
   },
   inputContainer: {
     marginTop: 24,
