@@ -37,12 +37,12 @@ module.exports = {
   webpackFinal: async (config) => {
     config?.module?.rules?.forEach(rule => {
       if (!rule || typeof rule !== 'object') return;
-      if (rule.test instanceof RegExp && rule.test.test('.svg')) {
-        rule.exclude = /\.svg$/;
+      if (rule.test instanceof RegExp && (rule.test.test('.svg') || rule.test.test('.png'))) {
+        rule.exclude = /\.(svg|png)$/;
       }
     });
     config?.module?.rules?.push({
-      test: /\.svg$/,
+      test: /\.(svg|png)$/,
       type: 'asset/resource',
     })
     return config

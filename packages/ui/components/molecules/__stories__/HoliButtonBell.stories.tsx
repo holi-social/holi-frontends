@@ -23,19 +23,23 @@ const Template: ComponentStory<typeof HoliButtonBell> = ({ ...args }) => {
   )
 }
 
+const icons = { Chat3, Notification2, PhoneFilled }
+
 export const Primary: ComponentStory<typeof HoliButtonBell> = Template.bind({})
 Primary.argTypes = {
   label: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   icon: {
     required: true,
-    options: ['Chat', 'Notification', 'PhoneFilled'],
-    mapping: {
-      Chat: Chat3,
-      Notification: Notification2,
-      PhoneFilled: PhoneFilled,
+    options: Object.keys(icons),
+    mapping: icons,
+    control: {
+      type: 'radio',
+      labels: {
+        Chat3: 'Chat',
+        Notification2: 'Notification',
+        PhoneFilled: 'PhoneFilled',
+      },
     },
-    control: { type: 'radio' },
-    defaultValue: 'Chat',
     description: 'HoliIconType component to be shown as an icon',
   },
   showBell: {
@@ -55,4 +59,5 @@ Primary.args = {
   showBell: true,
   onPress: () => alert('Button clicked'),
   color: 'black',
+  icon: Chat3,
 }
