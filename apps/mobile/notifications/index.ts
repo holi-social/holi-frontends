@@ -131,6 +131,15 @@ const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
   }
 }
 
+const spaceUrl = (notification: NotificationPayload, tab?: string): string => {
+  const { space } = extractData(notification)
+  const url = new URL(`holi://spaces/${space.name}`)
+  if (tab) {
+    url.searchParams.set('tab', tab)
+  }
+  return url.toString()
+}
+
 const spaceAppointmentUrl = (notification: NotificationPayload) => {
   try {
     const { space, appointment } = extractData(notification)
@@ -178,6 +187,8 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
       case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
       case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
         return spaceAppointmentUrl(payload)
+      case NovuNotificationType.SPACE_APPOINTMENT_DELETION:
+        return spaceUrl(payload, 'involvement')
       default:
         return null
     }

@@ -322,5 +322,17 @@ describe('transformPushInteractionToUrl', () => {
       )
       expect(url).toEqual('holi://spaces/space1/appointments/123')
     })
+
+    it("should create a url to it's Space for a deleted appointment", () => {
+      const url = transformPushInteractionToUrl(
+        createIOSNotificationResponse({
+          notificationType: NovuNotificationType.SPACE_APPOINTMENT_DELETION,
+          data: JSON.stringify({
+            space: { name: 'space1' },
+          }),
+        })
+      )
+      expect(url).toEqual('holi://spaces/space1?tab=involvement')
+    })
   })
 })
