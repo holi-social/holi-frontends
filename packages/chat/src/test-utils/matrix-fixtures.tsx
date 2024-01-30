@@ -3,7 +3,7 @@ import { act } from 'react-test-renderer'
 
 import { ChatMsgTextContent, ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
 import { ChatRoom } from '@holi/chat/src/store'
-import { createMatrixEventMock, createRoomMemberMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-general'
+import { createChatRoom, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-general'
 
 import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
 
@@ -145,34 +145,21 @@ export const initChatRoom = (
   roomCreator: ChatRoomMember = creator,
   roomMember: ChatRoomMember = member
 ) => {
-  const members: ChatRoomMember[] = [roomCreator, roomMember]
-  const creatorMock = createRoomMemberMock(roomCreator.id, roomCreator.name, roomCreator.membership, roomCreator.avatar)
+  const members = [roomCreator, roomMember]
   const roomMock = createRoomMock(roomId, {
     name: 'roomName',
-    members: members.map(({ avatar, id, membership, name }) => createRoomMemberMock(id, name, membership, avatar)),
+    members: members,
     timelineEvents: [],
+    creatorId: roomCreator.id,
+    myMembership: MembershipStatus.join,
+    unreadNotificationCount: 0,
+    getMember: creator,
   })
-
-  roomMock.getCreator.mockReturnValue(roomCreator.id)
-  roomMock.getMember.mockReturnValue(creatorMock)
-  roomMock.getMyMembership.mockReturnValue('join')
-  roomMock.getUnreadNotificationCount.mockReturnValue(0)
 
   mxClient.getRooms.mockReturnValue([roomMock])
   mxClient.roomState.mockReturnValue(Promise.resolve([]))
 
-  const room: ChatRoom = {
-    avatar: undefined,
-    creator: roomCreator,
-    hasInvitation: false,
-    id: roomId,
-    lastMessage: undefined,
-    members,
-    name: 'roomName',
-    notificationCount: 0,
-    timestamp: undefined,
-    type: 'private',
-  }
+  const room: ChatRoom = createChatRoom(roomId, 'roomName', roomCreator, members)
 
   return { roomMock, room, creator: roomCreator, member: roomMember }
 }

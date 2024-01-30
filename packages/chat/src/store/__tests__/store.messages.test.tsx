@@ -1,9 +1,11 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { Provider, createStore, useAtom } from 'jotai'
-import { EventType, IRoomEvent, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
+import { EventType, IRoomEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'
 import { PropsWithChildren } from 'react'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import { ChatRoomMember } from '@holi/chat/src/client/types'
 import {
   _newMessageAtomSubscriber,
   _roomAtomsRecordAtomSubscriber,
@@ -11,6 +13,7 @@ import {
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store/store'
+import { PrivateChatRoom } from '@holi/chat/src/store/types'
 import {
   createChatClient,
   createMatrixClientMock,
@@ -37,8 +40,12 @@ const useStoreMessagesAtomsTest = (roomId: string) => {
 describe('Chat Store - messages', () => {
   const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
   let store: ReturnType<typeof createStore>
-  let mxClient = createMatrixClientMock()
-  let chatClient = createChatClient()
+  let mxClient: jest.MockedObjectDeep<MatrixClient>
+  let chatClient: ChatClient
+  let roomMock: jest.MockedObjectDeep<Room>
+  let room: PrivateChatRoom
+  let creator: ChatRoomMember
+  let member: ChatRoomMember
 
   beforeEach(() => {
     jest.clearAllTimers()
@@ -46,13 +53,12 @@ describe('Chat Store - messages', () => {
     chatClient = createChatClient()
     initChatClient(chatClient)
     store = createStore()
+    ;({ roomMock, room, creator, member } = initChatRoom(mxClient))
   })
 
   it('shoud receive messages in an existing room', async () => {
-    const { roomMock, room, creator, member } = initChatRoom(mxClient)
-
     const { result, waitForNextUpdate } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
-    const listener = getListenerForMatrixEvent(RoomEvent.Timeline, mxClient, 'messagesListener') as (
+    const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
       event: MatrixEvent,
       room: Room | undefined
     ) => void
@@ -73,10 +79,8 @@ describe('Chat Store - messages', () => {
   })
 
   it('A new message with the same event id should replace existing message content', async () => {
-    const { roomMock, room, creator, member } = initChatRoom(mxClient)
-
     const { result, waitForNextUpdate } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
-    const listener = getListenerForMatrixEvent(RoomEvent.Timeline, mxClient, 'messagesListener') as (
+    const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
       event: MatrixEvent,
       room: Room | undefined
     ) => void
@@ -112,8 +116,6 @@ describe('Chat Store - messages', () => {
   })
 
   it('Requesting room messages should update the store in bulk, but not the room', async () => {
-    const { room, creator } = initChatRoom(mxClient)
-
     const event1 = msgEvent(room.id, creator.id, 1)
     const event2 = msgEvent(room.id, creator.id, 2)
     const event3 = msgEvent(room.id, creator.id, 3)

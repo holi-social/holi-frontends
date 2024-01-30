@@ -5,12 +5,14 @@ import {
   EventType,
   IContent,
   IEvent,
+  MatrixClient,
   Room,
   RoomEvent,
   RoomMember,
   RoomStateEvent,
 } from 'matrix-js-sdk'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MembershipStatus, RoomUpdatesType } from '@holi/chat/src/client/types'
 import { createChatMessage, createInitialRoom } from '@holi/chat/src/client/utils'
 import {
@@ -31,8 +33,8 @@ jest.mock('@holi/core/helpers/config', () => ({
 }))
 
 describe('ChatClient', () => {
-  let mxClient = createMatrixClientMock()
-  let client = createChatClient()
+  let mxClient: jest.MockedObjectDeep<MatrixClient>
+  let client: ChatClient
 
   beforeEach(() => {
     mxClient = createMatrixClientMock()
@@ -49,7 +51,7 @@ describe('ChatClient', () => {
     if (room) mxClient.getRooms.mockReturnValue([room])
     const callback = jest.fn()
     fn.call(client, callback)
-    const listener = getListenerForMatrixEvent(eventType, registerOn ? registerOn : mxClient) as (
+    const listener = getListenerForMatrixEvent(registerOn ? registerOn : mxClient, eventType) as (
       ...args: unknown[]
     ) => Promise<void>
     return { listener, callback }
