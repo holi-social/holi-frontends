@@ -38,7 +38,7 @@ export interface Appointment {
   startDateTime: string
   endDateTime: string
   permission: PermissionsType
-  creator: User
+  creator?: User
   participantIds?: string[]
   locationDetails?: LocationDetails
   description: string
