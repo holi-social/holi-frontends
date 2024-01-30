@@ -15,7 +15,8 @@ import {
 } from 'matrix-js-sdk'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoomMember, MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoom } from '@holi/chat/src/store'
 
 const chatClientOptions = {
   baseUrl: 'chat.holi.social',
@@ -49,13 +50,28 @@ export const createMatrixClientMock = () => {
 interface RoomMockOptions {
   name?: string
   isSpaceRoom?: boolean
-  members?: RoomMember[]
+  memberMocks?: RoomMember[]
+  members?: ChatRoomMember[]
   timelineEvents?: MatrixEvent[]
+  creatorId?: MatrixId
+  myMembership?: MembershipStatus
+  unreadNotificationCount?: number
+  getMember?: ChatRoomMember
 }
 
 export const createRoomMock = (
   roomId: string,
-  { name, isSpaceRoom = false, members = [], timelineEvents }: RoomMockOptions = {}
+  {
+    name,
+    isSpaceRoom = false,
+    members = [],
+    memberMocks,
+    timelineEvents,
+    creatorId,
+    myMembership,
+    unreadNotificationCount = 0,
+    getMember,
+  }: RoomMockOptions = {}
 ) => {
   const room = jest.mocked(new Room('', {} as MatrixClient, ''))
 
@@ -63,7 +79,19 @@ export const createRoomMock = (
   asMutable(room).roomId = roomId
   if (name) room.name = name
   room.isSpaceRoom.mockReturnValue(isSpaceRoom)
-  room.getMembers.mockReturnValue(members)
+  if (members) {
+    room.getMembers.mockReturnValue(members.map(roomMemberToMock))
+  }
+  if (memberMocks) {
+    room.getMembers.mockReturnValue(memberMocks)
+  }
+  if (creatorId) room.getCreator.mockReturnValue(creatorId)
+  if (myMembership) room.getMyMembership.mockReturnValue(myMembership)
+
+  room.getUnreadNotificationCount.mockReturnValue(unreadNotificationCount)
+
+  if (getMember) room.getMember.mockReturnValue(roomMemberToMock(getMember))
+
   if (timelineEvents) {
     const eventTimeline = new EventTimeline({} as EventTimelineSet) as jest.Mocked<EventTimeline>
     room.getLiveTimeline.mockReturnValue(eventTimeline)
@@ -83,8 +111,12 @@ export const createRoomStateMock = (roomId: string) => {
   return roomState
 }
 
+export const roomMemberToMock = (m: ChatRoomMember) => {
+  return createRoomMemberMock(m.id, m.name, m.membership, m.avatar)
+}
+
 export const createRoomMemberMock = (
-  userId: string,
+  userId: MatrixId,
   name?: string,
   membership?: MembershipStatus,
   avatarUrl?: string
@@ -101,8 +133,8 @@ export const createRoomMemberMock = (
 }
 
 export const getListenerForMatrixEvent = (
-  event: EmittedEvents | EventEmitterEvents | RoomEvent,
   mxClientOrRoom: jest.Mocked<MatrixClient> | jest.Mocked<Room>,
+  event: EmittedEvents | EventEmitterEvents | RoomEvent,
   functionName?: string // additionally filter for listener function name, when more listeners are registered for the same event
 ) => {
   // filter the calls where the first parameter is the passed in event
@@ -121,4 +153,30 @@ export const createMatrixEventMock = (type: string, roomId?: string, content?: I
   if (effectiveEvent) event.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
   return event
+}
+
+export const createChatRoom = (
+  roomId: string,
+  name: string,
+  creator: ChatRoomMember = {
+    avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
+    id: '@creator.kato:holi.social',
+    membership: MembershipStatus.join,
+    name: 'creator',
+  },
+  members: ChatRoomMember[] = [creator],
+  notificationCount = 0
+): ChatRoom => {
+  return {
+    avatar: undefined,
+    creator,
+    hasInvitation: false,
+    id: roomId,
+    lastMessage: undefined,
+    members,
+    name,
+    notificationCount,
+    timestamp: undefined,
+    type: 'private',
+  }
 }

@@ -516,7 +516,7 @@ export default class ChatClient {
   public subscribeToRoomsUpdates(
     callback: (roomId: string, type: RoomUpdatesType, content: RoomUpdatesContent) => void
   ): () => void {
-    const timelineListener = (event: MatrixEvent, room: Room | undefined) => {
+    const roomTimelineListener = (event: MatrixEvent, room: Room | undefined) => {
       if (!room) return
       const type = event.getType()
       if (!hasRoomUpdatesType(type)) return
@@ -526,10 +526,10 @@ export default class ChatClient {
       callback(room.roomId, type, content)
     }
 
-    this.mxClient.on(RoomEvent.Timeline, timelineListener)
+    this.mxClient.on(RoomEvent.Timeline, roomTimelineListener)
 
     return () => {
-      this.mxClient.off(RoomEvent.Timeline, timelineListener)
+      this.mxClient.off(RoomEvent.Timeline, roomTimelineListener)
     }
   }
 
@@ -582,7 +582,7 @@ export default class ChatClient {
    * subscribers who listen to the timeline should implement a separate method.
    */
   public subscribeToSpaceRooms(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
-    const timelineListener = (event: MatrixEvent) => {
+    const spaceRoomTimelineListener = (event: MatrixEvent) => {
       // We automatically join a room if the `invite` event was
       // initated from the space chat admin user `@admin:local.chat.holi.social`
       const { state_key } = event.getEffectiveEvent()
@@ -592,10 +592,10 @@ export default class ChatClient {
       callback(this.createSpaceIdToChildIds([event]))
     }
 
-    this.mxClient.on(RoomEvent.Timeline, timelineListener)
+    this.mxClient.on(RoomEvent.Timeline, spaceRoomTimelineListener)
 
     return () => {
-      this.mxClient.off(RoomEvent.Timeline, timelineListener)
+      this.mxClient.off(RoomEvent.Timeline, spaceRoomTimelineListener)
     }
   }
 

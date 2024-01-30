@@ -1,12 +1,13 @@
-import { PushRuleKind } from 'matrix-js-sdk'
+import { MatrixClient, PushRuleKind } from 'matrix-js-sdk'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
 import { createChatClient, createMatrixClientMock } from '@holi/chat/src/test-utils'
 
 jest.mock('matrix-js-sdk')
 
 describe('ChatClient', () => {
-  let mxClient = createMatrixClientMock()
-  let client = createChatClient()
+  let mxClient: jest.MockedObjectDeep<MatrixClient>
+  let client: ChatClient
 
   beforeEach(() => {
     mxClient = createMatrixClientMock()

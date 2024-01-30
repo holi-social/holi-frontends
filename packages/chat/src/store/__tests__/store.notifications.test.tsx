@@ -1,9 +1,10 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { Provider, createStore, useAtom } from 'jotai'
-import { MatrixEvent, NotificationCount, Room, RoomEvent } from 'matrix-js-sdk'
+import { MatrixClient, MatrixEvent, NotificationCount, Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'
 import { PropsWithChildren } from 'react'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
 import {
   _newMessageAtomSubscriber,
   _roomAtomsRecordAtomSubscriber,
@@ -28,8 +29,8 @@ const useStoreMessagesAtomsTest = (roomId: string) => {
 describe('Chat Store - notifications', () => {
   const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
   let store: ReturnType<typeof createStore>
-  let mxClient = createMatrixClientMock()
-  let chatClient = createChatClient()
+  let mxClient: jest.MockedObjectDeep<MatrixClient>
+  let chatClient: ChatClient
 
   beforeEach(() => {
     jest.clearAllTimers()
@@ -43,11 +44,11 @@ describe('Chat Store - notifications', () => {
     const { roomMock, room, member } = initChatRoom(mxClient)
 
     const { result, waitForNextUpdate } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
-    const messageListener = getListenerForMatrixEvent(RoomEvent.Timeline, mxClient, 'messagesListener') as (
+    const messageListener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
       event: MatrixEvent,
       room: Room | undefined
     ) => void
-    const unreadNotificationsListener = getListenerForMatrixEvent(RoomEvent.UnreadNotifications, mxClient) as (
+    const unreadNotificationsListener = getListenerForMatrixEvent(mxClient, RoomEvent.UnreadNotifications) as (
       notificationCount: NotificationCount
     ) => void
 

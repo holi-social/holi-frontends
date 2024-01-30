@@ -3,12 +3,14 @@ import {
   IRoomEvent,
   IStateEvent,
   IStateEventWithRoomId,
+  MatrixClient,
   Preset,
   ReceiptType,
   Visibility,
 } from 'matrix-js-sdk'
 
-import { ChatRoomEvent, MembershipStatus } from '@holi/chat/src/client/types'
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import { ChatRoomEvent, MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
 import {
   createChatClient,
   createMatrixClientMock,
@@ -23,15 +25,15 @@ jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
 
 describe('ChatClient', () => {
-  let mxClient = createMatrixClientMock()
-  let client = createChatClient()
+  const members: MatrixId[] = ['@david.m.rosen:holi.social', '@fusajiro.yamauchi:holi.social']
+
+  let mxClient: jest.MockedObjectDeep<MatrixClient>
+  let client: ChatClient
 
   beforeEach(() => {
     mxClient = createMatrixClientMock()
     client = createChatClient()
   })
-
-  const members = ['david.m.rosen', 'fusajiro.yamauchi']
 
   describe('createRoom() method', () => {
     it('create a direct message room', async () => {
@@ -107,7 +109,7 @@ describe('ChatClient', () => {
         const roomId = 'testRoomId'
         const roomMock = createRoomMock(roomId, {
           isSpaceRoom: true,
-          members: roomMemberMocks,
+          memberMocks: roomMemberMocks,
         })
         mxClient.getRooms.mockReturnValue([roomMock])
 
@@ -117,11 +119,11 @@ describe('ChatClient', () => {
       it('client has rooms only with different members', async () => {
         const roomMemberMocks = members
           .slice(0, 1)
-          .concat('some-different-user')
+          .concat('@some-different-user:holi.social')
           .map((userId) => createRoomMemberMock(userId))
         const roomId = 'testRoomId'
         const roomMock = createRoomMock(roomId, {
-          members: roomMemberMocks,
+          memberMocks: roomMemberMocks,
         })
         mxClient.getRooms.mockReturnValue([roomMock])
 
@@ -132,7 +134,7 @@ describe('ChatClient', () => {
     it('finds an existing room and returns it.', async () => {
       const roomMemberMocks = members.map((userId) => createRoomMemberMock(userId))
       const roomId = 'testRoomId'
-      const roomMock = createRoomMock(roomId, { members: roomMemberMocks })
+      const roomMock = createRoomMock(roomId, { memberMocks: roomMemberMocks })
       mxClient.getRooms.mockReturnValue([roomMock])
 
       const { room_id } = await client.getOrCreateRoom([members[0]], { isDirectMessage: true })
@@ -265,7 +267,7 @@ describe('ChatClient', () => {
       const roomId = 'roomId'
       const e1 = createMatrixEventMock('any')
       const e2 = createMatrixEventMock('other')
-      const mockRoom = createRoomMock(roomId, { timelineEvents: [e1, e2] })
+      const mockRoom = createRoomMock(roomId, { timelineEvents: [e1, e2], unreadNotificationCount: 2 })
       mxClient.getRoom.mockReturnValue(mockRoom)
 
       client.setLatestMessagesAsRead(roomId)

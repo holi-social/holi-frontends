@@ -1,16 +1,17 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { when } from 'jest-when'
 import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
-import { ClientEvent, Room } from 'matrix-js-sdk'
+import { ClientEvent, MatrixClient, Room } from 'matrix-js-sdk'
 import React from 'react'
 import { PropsWithChildren } from 'react'
 
-import { ChatRoomEvent, MembershipStatus } from '@holi/chat/src/client/types'
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import { ChatRoomEvent, ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import { _roomAtomsRecordAtomSubscriber, initChatClient, roomAtomsRecordAtom } from '@holi/chat/src/store/store'
 import {
   createChatClient,
+  createChatRoom,
   createMatrixClientMock,
-  createRoomMemberMock,
   createRoomMock,
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
@@ -26,25 +27,25 @@ const useStoreRoomAtomsTest = () => {
 
 describe('Chat Store - rooms', () => {
   const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
-  let store: ReturnType<typeof createStore>
-  let mxClient = createMatrixClientMock()
-  let chatClient = createChatClient()
-
   const roomId = 'roomId'
   const notificationCount = 0
 
-  const creator = {
+  const creator: ChatRoomMember = {
     avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
-    id: 'creator.kato:holi.social',
+    id: '@creator.kato:holi.social',
     membership: MembershipStatus.join,
     name: 'creator',
   }
-  const member = {
+  const member: ChatRoomMember = {
     avatar: 'https://unsplash.com/photos/a-group-of-blue-and-orange-shapes-on-a-white-surface-g0lR2cThaR0',
-    id: 'member1.feynman:holi.social',
+    id: '@member1.feynman:holi.social',
     membership: MembershipStatus.join,
     name: 'member1',
   }
+
+  let mxClient: jest.MockedObjectDeep<MatrixClient>
+  let chatClient: ChatClient
+  let store: ReturnType<typeof createStore>
 
   beforeEach(() => {
     jest.clearAllTimers()
@@ -58,16 +59,15 @@ describe('Chat Store - rooms', () => {
     // Init test Data
     const members = [creator, member]
 
-    const creatorMock = createRoomMemberMock(creator.id, creator.name, creator.membership, creator.avatar)
     const roomMock = createRoomMock(roomId, {
-      members: members.map(({ avatar, id, membership, name }) => createRoomMemberMock(id, name, membership, avatar)),
+      name: 'name',
+      members,
       timelineEvents: [],
+      unreadNotificationCount: notificationCount,
+      creatorId: creator.id,
+      myMembership: MembershipStatus.join,
+      getMember: creator,
     })
-
-    roomMock.getUnreadNotificationCount.mockReturnValue(notificationCount)
-    roomMock.getCreator.mockReturnValue(creator.id)
-    roomMock.getMember.mockReturnValue(creatorMock)
-    roomMock.getMyMembership.mockReturnValue('join')
 
     mxClient.getRooms.mockReturnValue([roomMock])
     mxClient.roomState.mockResolvedValue([])
@@ -77,18 +77,9 @@ describe('Chat Store - rooms', () => {
     // Wait until the initial rooms are available
     await waitFor(() => {
       expect(result.current).toHaveProperty(roomId)
-      expect(store.get(result.current[roomId])).toStrictEqual({
-        avatar: undefined,
-        creator: creator,
-        hasInvitation: false,
-        id: roomId,
-        lastMessage: undefined,
-        members,
-        name: undefined,
-        notificationCount: notificationCount,
-        timestamp: undefined,
-        type: 'private',
-      })
+      expect(store.get(result.current[roomId])).toStrictEqual(
+        createChatRoom(roomId, 'name', creator, members, notificationCount)
+      )
     })
   })
 
@@ -108,7 +99,7 @@ describe('Chat Store - rooms', () => {
         id: '@o-ren-ishii:holi.social',
         membership: MembershipStatus.join,
         name: 'O-Ren Ishii',
-      },
+      } as ChatRoomMember,
     ]
 
     const spaceChildRoomEventContent = {
@@ -118,14 +109,13 @@ describe('Chat Store - rooms', () => {
       parentSpaceRoomId: spaceRoomId,
     }
 
-    const creatorMock = createRoomMemberMock(creator.id, creator.name, creator.membership, creator.avatar)
-    const roomMembers = members.map(({ avatar, id, membership, name }) =>
-      createRoomMemberMock(id, name, membership, avatar)
-    )
-
     const roomMockOptions = {
-      members: roomMembers,
+      members,
       timelineEvents: [],
+      unreadNotificationCount: notificationCount,
+      creatorId: creator.id,
+      getMember: creator,
+      myMembership: MembershipStatus.join,
     }
     const spaceRoomMock = createRoomMock(spaceRoomId, roomMockOptions)
     spaceRoomMock.name = spaceRoomName
@@ -133,12 +123,6 @@ describe('Chat Store - rooms', () => {
     spaceChildRoomMock.name = spaceChildRoomName
 
     const rooms = [spaceRoomMock, spaceChildRoomMock]
-    rooms.forEach((roomMock) => {
-      roomMock.getUnreadNotificationCount.mockReturnValue(notificationCount)
-      roomMock.getCreator.mockReturnValue(creator.id)
-      roomMock.getMember.mockReturnValue(creatorMock)
-      roomMock.getMyMembership.mockReturnValue('join')
-    })
 
     mxClient.getRooms.mockReturnValue(rooms)
     when(mxClient.roomState)
@@ -212,35 +196,25 @@ describe('Chat Store - rooms', () => {
     // Init test Data
     const members = [creator, member]
 
-    const creatorMock = createRoomMemberMock(creator.id, creator.name, creator.membership, creator.avatar)
     const roomMock = createRoomMock(roomId, {
-      members: members.map(({ avatar, id, membership, name }) => createRoomMemberMock(id, name, membership, avatar)),
+      name: 'name',
+      members,
       timelineEvents: [],
+      unreadNotificationCount: notificationCount,
+      creatorId: creator.id,
+      getMember: creator,
     })
-
-    roomMock.getUnreadNotificationCount.mockReturnValue(notificationCount)
-    roomMock.getCreator.mockReturnValue(creator.id)
-    roomMock.getMember.mockReturnValue(creatorMock)
 
     const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
     expect(result.current[roomId]).toBeUndefined()
 
-    const listener = getListenerForMatrixEvent(ClientEvent.Room, mxClient, 'roomEventHandler') as (room: Room) => void
+    const listener = getListenerForMatrixEvent(mxClient, ClientEvent.Room, 'roomEventHandler') as (room: Room) => void
     act(() => listener(roomMock))
 
     expect(result.current).toHaveProperty(roomId)
-    expect(store.get(result.current[roomId])).toStrictEqual({
-      avatar: undefined,
-      creator: creator,
-      hasInvitation: false,
-      id: roomId,
-      lastMessage: undefined,
-      members,
-      name: undefined,
-      notificationCount: notificationCount,
-      timestamp: undefined,
-      type: 'private',
-    })
+    expect(store.get(result.current[roomId])).toStrictEqual(
+      createChatRoom(roomId, 'name', creator, members, notificationCount)
+    )
   })
 })
