@@ -2431,24 +2431,6 @@ exports[`SpaceDetails renders correctly 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "paddingBottom": 8,
-                          "paddingHorizontal": 8,
-                        }
-                      }
-                    >
-                      <View
-                        style={
-                          {
-                            "backgroundColor": "#ebebeb",
-                            "height": 1,
-                            "width": "100%",
-                          }
-                        }
-                      />
-                    </View>
-                    <View
-                      style={
                         [
                           {
                             "backgroundColor": "#fff",

@@ -1,9 +1,16 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import {
+  APPOINTMENT_STATUS_TYPE,
+  AppointmentsBySpaceIdResponse,
+  appointmentsBySpaceIdQuery,
+} from '@holi/core/screens/appointments/queries'
 import AppointmentsWidget from '@holi/core/screens/spaces/appointments/components/AppointmentsWidget'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
@@ -30,6 +37,20 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
 
+  const {
+    data: appointmentsResult,
+    error: errorAppointments,
+    loading: loadingAppointments,
+  } = useQuery<AppointmentsBySpaceIdResponse>(appointmentsBySpaceIdQuery, {
+    variables: { spaceId: space.id, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
+    onError: (error) =>
+      logError(error, 'Failed to load appointments widget', {
+        location: 'AppointmentWidget.appointmentsBySpaceIdQuery',
+        spaceIdOrName: space.name,
+      }),
+    skip: !appointmentsFtEnabled,
+  })
+
   return (
     <>
       <View style={style}>
@@ -44,31 +65,50 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         )}
 
         {!isCollaborator && space.onboarding?.steps && space.onboarding.steps.length > 0 && (
-          <>
-            <SpaceCollaboratorOnboardingSteps
-              steps={space.onboarding?.steps}
-              header={t('spaces.collaborate.onboarding.info.header')}
-              style={styles.onboardingSteps}
-            />
+          <SpaceCollaboratorOnboardingSteps
+            steps={space.onboarding?.steps}
+            header={t('spaces.collaborate.onboarding.info.header')}
+            style={styles.onboardingSteps}
+          />
+        )}
+
+        {/* include divider if any other block below has content when logged out */}
+        {!isCollaborator &&
+          space.onboarding?.steps &&
+          space.onboarding.steps.length > 0 &&
+          (!!appointmentsResult?.appointments?.data?.length || !!space.tasks?.length) && (
             <View style={(styles.divider, styles.dividerPadding)}>
               <HoliDivider />
             </View>
-          </>
+          )}
+
+        {appointmentsFtEnabled && !loadingAppointments && !errorAppointments && (
+          <AppointmentsWidget
+            space={space}
+            style={styles.card}
+            isCollaborator={isCollaborator}
+            appointments={appointmentsResult?.appointments.data}
+            totalResults={appointmentsResult?.appointments.totalResults}
+          />
         )}
 
-        {appointmentsFtEnabled && (
-          <AppointmentsWidget space={space} style={styles.card} isCollaborator={isCollaborator} />
-        )}
-
-        {isCollaborator ? (
-          <LinkHubWidget space={space} style={styles.card} />
-        ) : (
-          <View style={styles.divider}>
+        {/* include divider if any other block below has content when logged out */}
+        {!isCollaborator && !!appointmentsResult?.appointments?.data?.length && !!space.tasks?.length && (
+          <View style={(styles.divider, styles.dividerPadding)}>
             <HoliDivider />
           </View>
         )}
+
+        {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
         {isCollaborator && <StorageWidget space={space} style={styles.card} />}
-        <TaskCollaborationCard isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} />
+
+        <TaskCollaborationCard
+          isAdmin={isAdmin}
+          space={space}
+          isCollaborator={isCollaborator}
+          showNoResults={!space.onboarding?.steps?.length && !appointmentsResult?.appointments?.data?.length}
+        />
+
         {isCollaborator && <NewToolsTeaser />}
       </View>
     </>

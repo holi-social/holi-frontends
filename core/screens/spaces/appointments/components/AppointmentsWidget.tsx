@@ -1,18 +1,12 @@
-import { useQuery } from '@apollo/client'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
-import {
-  APPOINTMENT_STATUS_TYPE,
-  AppointmentsBySpaceIdResponse,
-  appointmentsBySpaceIdQuery,
-} from '@holi/core/screens/appointments/queries'
+import { Appointment } from '@holi/core/screens/appointments/types'
 import { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -25,6 +19,8 @@ import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 interface AppointmentsWidgetProps {
   space: Space
+  appointments?: Appointment[]
+  totalResults?: number
   isCollaborator?: boolean
   style?: StyleProp<ViewStyle>
 }
@@ -54,7 +50,13 @@ const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPre
   )
 }
 
-const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, isCollaborator, style }) => {
+const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
+  space,
+  appointments,
+  totalResults,
+  isCollaborator,
+  style,
+}) => {
   const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -62,31 +64,11 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, isColla
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
-    [dimensions.breakpointS, 2],
-    [dimensions.breakpointM, 3],
-    [dimensions.breakpointXxl, 4],
+    [dimensions.breakpointM, 2],
   ])
-
-  const {
-    data: appointmentsResult,
-    error: errorSpace,
-    loading: loadingSpace,
-  } = useQuery<AppointmentsBySpaceIdResponse>(appointmentsBySpaceIdQuery, {
-    variables: { spaceId: space.id, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
-    onError: (error) =>
-      logError(error, 'Failed to load appointments widget', {
-        location: 'AppointmentWidget.appointmentsBySpaceIdQuery',
-        spaceIdOrName,
-      }),
-  })
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-
-  const appointments = appointmentsResult?.appointments
-
-  const data = appointments?.data || []
-  const totalResults = appointments?.totalResults || 0
 
   const navigateToAppointmentsPage = useCallback(() => {
     navigate(`/spaces/${space.name}/appointments`)
@@ -96,10 +78,8 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, isColla
     navigate(`/spaces/${spaceIdOrName}/appointments/create`)
   }, [navigate, spaceIdOrName])
 
-  if (errorSpace || loadingSpace) return <></>
-
   // return empty block if there is no data and user is not a collaborator
-  if (!data.length && !isAdmin && !isMember) return <></>
+  if (!appointments?.length && !isAdmin && !isMember) return <></>
 
   return (
     <CollaboratorAreaCard
@@ -114,9 +94,9 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, isColla
       style={[style, styles.container, !isCollaborator ? styles.nonMemberContainer : {}]}
     >
       <View style={styles.contentWrapper}>
-        {totalResults > 0 && (
+        {!!totalResults && (
           <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
-            {data.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
+            {appointments?.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
               <HoliGridCell key={item.id}>
                 <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
               </HoliGridCell>
@@ -126,7 +106,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({ space, isColla
 
         {totalResults === 0 && <NoAppointmentsAvailable onPress={navigateToAddAppointmentPage} />}
 
-        {data.length > INITIAL_NUMBER_OF_ITEMS && (
+        {(appointments?.length || 0) > INITIAL_NUMBER_OF_ITEMS && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
               label={t('spaces.global.seeAllButton.label')}
