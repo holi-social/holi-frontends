@@ -102,7 +102,6 @@ const RootNavigator = () => {
         name={RouteName.Login}
         component={Login}
         options={{
-          presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
         }}
