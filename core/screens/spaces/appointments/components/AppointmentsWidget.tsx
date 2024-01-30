@@ -64,9 +64,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
-    [dimensions.breakpointS, 2],
-    [dimensions.breakpointM, 3],
-    [dimensions.breakpointXxl, 4],
+    [dimensions.breakpointM, 2],
   ])
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
