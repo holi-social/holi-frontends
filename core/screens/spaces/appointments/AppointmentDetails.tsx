@@ -8,6 +8,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -35,7 +36,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
-export type AppointmentDetailsParams = {
+export type AppointmentDetailsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
   idOrSlug: string
 }
@@ -73,6 +74,7 @@ const AppointmentDetails = () => {
     skip: !idOrSlug,
   })
   const { refreshing, onRefresh } = useOnRefresh(() => Promise.all([refetchAppointment, refetchSpace]))
+  useRefreshOnNavigation({ initialized: calledAppointment, onRefresh })
 
   const appointment = appointmentData?.appointment
 

@@ -320,7 +320,7 @@ describe('transformPushInteractionToUrl', () => {
           }),
         })
       )
-      expect(url).toEqual('holi://spaces/space1/appointments/123')
+      expect(url).toEqual('holi://spaces/space1/appointments/123?refresh=true')
     })
 
     it("should create a url to it's Space for a deleted appointment", () => {

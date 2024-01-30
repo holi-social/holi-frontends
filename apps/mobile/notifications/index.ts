@@ -140,10 +140,14 @@ const spaceUrl = (notification: NotificationPayload, tab?: string): string => {
   return url.toString()
 }
 
-const spaceAppointmentUrl = (notification: NotificationPayload) => {
+const spaceAppointmentUrl = (notification: NotificationPayload, refresh = false) => {
   try {
     const { space, appointment } = extractData(notification)
-    return `holi://spaces/${space.name}/appointments/${appointment.id}`
+    const url = new URL(`holi://spaces/${space.name}/appointments/${appointment.id}`)
+    if (refresh) {
+      url.searchParams.set('refresh', 'true')
+    }
+    return url.toString()
   } catch (error) {
     logError(error, 'Failed to create url for appointment notification', {
       location: 'notifications.spaceAppointmentUrl',
@@ -185,8 +189,9 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
       case NovuNotificationType.SPACE_NEW_POST:
         return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
       case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
-      case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
         return spaceAppointmentUrl(payload)
+      case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
+        return spaceAppointmentUrl(payload, true)
       case NovuNotificationType.SPACE_APPOINTMENT_DELETION:
         return spaceUrl(payload, 'involvement')
       default:
