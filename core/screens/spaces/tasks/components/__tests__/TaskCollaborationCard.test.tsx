@@ -16,7 +16,7 @@ describe('TaskCollaborationCard', () => {
     const tree = renderer
       .create(
         <MockedProvider>
-          <TaskCollaborationCard isAdmin={false} space={space} />
+          <TaskCollaborationCard isAdmin={false} space={space} isCollaborator={true} />
         </MockedProvider>
       )
       .toJSON()
@@ -28,7 +28,7 @@ describe('TaskCollaborationCard', () => {
     const tree = renderer
       .create(
         <MockedProvider>
-          <TaskCollaborationCard isAdmin={false} space={spaceWithoutTasks} />
+          <TaskCollaborationCard isAdmin={false} space={spaceWithoutTasks} isCollaborator={true} />
         </MockedProvider>
       )
       .toJSON()
@@ -38,7 +38,7 @@ describe('TaskCollaborationCard', () => {
   it('correctly navigates to space creation screen', () => {
     render(
       <MockedProvider>
-        <TaskCollaborationCard isAdmin={true} space={spaceWithoutTasks} />
+        <TaskCollaborationCard isAdmin={true} space={spaceWithoutTasks} isCollaborator={true} />
       </MockedProvider>
     )
     fireEvent.press(screen.getByTestId('btn-right-space-tasks-card'))
