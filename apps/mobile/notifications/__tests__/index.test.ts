@@ -302,12 +302,12 @@ describe('transformPushInteractionToUrl', () => {
         createIOSNotificationResponse({
           notificationType: NovuNotificationType.SPACE_APPOINTMENT_CREATION,
           data: JSON.stringify({
-            appointment: { title: 'appointment1' },
+            appointment: { id: 122 },
             space: { name: 'space1' },
           }),
         })
       )
-      expect(url).toEqual('holi://spaces/space1/appointments/appointment1')
+      expect(url).toEqual('holi://spaces/space1/appointments/122')
     })
 
     it('should create a url to an updated appointment', () => {
@@ -315,12 +315,12 @@ describe('transformPushInteractionToUrl', () => {
         createIOSNotificationResponse({
           notificationType: NovuNotificationType.SPACE_APPOINTMENT_UPDATE,
           data: JSON.stringify({
-            appointment: { title: 'appointment1' },
+            appointment: { id: 123 },
             space: { name: 'space1' },
           }),
         })
       )
-      expect(url).toEqual('holi://spaces/space1/appointments/appointment1')
+      expect(url).toEqual('holi://spaces/space1/appointments/123')
     })
   })
 })

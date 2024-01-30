@@ -134,7 +134,7 @@ const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
 const spaceAppointmentUrl = (notification: NotificationPayload) => {
   try {
     const { space, appointment } = extractData(notification)
-    return `holi://spaces/${space.name}/appointments/${appointment.title}`
+    return `holi://spaces/${space.name}/appointments/${appointment.id}`
   } catch (error) {
     logError(error, 'Failed to create url for appointment notification', {
       location: 'notifications.spaceAppointmentUrl',
