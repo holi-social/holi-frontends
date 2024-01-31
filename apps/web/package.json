@@ -2,9 +2,6 @@
   "name": "@holi/web",
   "version": "1.0.0",
   "private": true,
-  "resolutions": {
-    "**@babel/core": "7.23.9"
-  },
   "scripts": {
     "predev": "yarn workspace @holi/ui run generate-style-vars",
     "prebuild": "yarn workspace @holi/ui run generate-style-vars",
@@ -29,6 +26,7 @@
     "lottie-react": "^2.3.1",
     "next": "^14.1.0",
     "next-http-proxy-middleware": "^1.2.6",
+    "ni18n": "^1.1.0",
     "pino": "^8.8.0",
     "raf": "^3.4.1",
     "react": "^18.2.0",
