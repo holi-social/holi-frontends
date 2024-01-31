@@ -1,39 +1,45 @@
-import type { ResourceKey } from 'i18next'
+import type { InitOptions, Resource } from 'i18next'
 
-type NamespaceConfig = { [key: string]: ResourceKey }
-
-type I18nConfig = {
-  defaultLocale: string
-  supportedLocales: { [key: string]: string }
-  defaultNamespace: string
-  namespaces: { [key: string]: NamespaceConfig }
+interface I18nConfig extends InitOptions {
+  fallbackLng: string
+  resources: Resource
+  ns: string[]
 }
 
-const config: I18nConfig = {
-  defaultLocale: 'en',
-  supportedLocales: {
-    en: 'English',
-    de: 'Deutsch',
+const resources = {
+  en: {
+    core: require('@holi/core/i18n/locales/en.json'),
+    donations: require('@holi-apps/donations/i18n/locales/en.json'),
+    goodnews: require('@holi-apps/goodnews/i18n/locales/en.json'),
+    volunteering: require('@holi-apps/volunteering/i18n/locales/en.json'),
   },
-  defaultNamespace: 'core',
-  namespaces: {
-    core: {
-      en: require('@holi/core/i18n/locales/en.json'),
-      de: require('@holi/core/i18n/locales/de.json'),
-    },
-    donations: {
-      en: require('@holi-apps/donations/i18n/locales/en.json'),
-      de: require('@holi-apps/donations/i18n/locales/de.json'),
-    },
-    goodnews: {
-      en: require('@holi-apps/goodnews/i18n/locales/en.json'),
-      de: require('@holi-apps/goodnews/i18n/locales/de.json'),
-    },
-    volunteering: {
-      en: require('@holi-apps/volunteering/i18n/locales/en.json'),
-      de: require('@holi-apps/volunteering/i18n/locales/de.json'),
-    },
+  de: {
+    core: require('@holi/core/i18n/locales/de.json'),
+    donations: require('@holi-apps/donations/i18n/locales/de.json'),
+    goodnews: require('@holi-apps/goodnews/i18n/locales/de.json'),
+    volunteering: require('@holi-apps/volunteering/i18n/locales/de.json'),
   },
 }
 
-export default config
+export const i18nConfig: I18nConfig = {
+  fallbackLng: 'de',
+  supportedLngs: ['de', 'en'],
+  defaultNS: 'core',
+  fallbackNS: 'core',
+  resources,
+  ns: Object.keys(resources['de']),
+  compatibilityJSON: 'v3',
+  // TODO(SF) client only?
+  detection: {
+    // Use browser language to determine the language
+    order: ['navigator'],
+  },
+  // TODO(SF) ?
+  load: 'languageOnly',
+  returnNull: false,
+  partialBundledLanguages: true,
+  // TODO(SF) server only?
+  react: {
+    useSuspense: false,
+  },
+}

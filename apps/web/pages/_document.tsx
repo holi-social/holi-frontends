@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    const { locale = i18nConfig.defaultLocale } = this.props
+    const { locale = i18nConfig.fallbackLng } = this.props
     // use same path for local and dev env
     const env = environmentId === EnvironmentId.LOCAL ? EnvironmentId.DEVELOPMENT : environmentId
     return (

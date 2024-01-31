@@ -1,6 +1,6 @@
 import type { BackendModule, CallbackError } from 'i18next'
 
-import config from '@holi/core/i18n/config'
+import { i18nConfig } from '@holi/core/i18n/config'
 
 const translationLoader: BackendModule = {
   type: 'backend',
@@ -8,8 +8,9 @@ const translationLoader: BackendModule = {
   init: () => {},
   read: (language, namespace, callback) => {
     try {
-      const namespaceConfig = config.namespaces[namespace] || config.namespaces[config.defaultNamespace]
-      const translations = namespaceConfig[language] || namespaceConfig[config.defaultLocale]
+      const namespaceConfig = i18nConfig.resources[language] || i18nConfig.resources[i18nConfig.fallbackLng]
+      const translations = namespaceConfig[namespace] || namespaceConfig[i18nConfig.fallbackLng]
+      console.log('####### loading', language, namespace)
       callback(null, translations)
     } catch (error) {
       callback(error as CallbackError, null)
