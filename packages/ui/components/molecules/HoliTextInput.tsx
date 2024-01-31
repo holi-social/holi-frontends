@@ -222,7 +222,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
           >
             <TextInput
               value={value}
-              style={[styles.input, inline ? styles.inline : styles.block, { height: inputHeight }]}
+              style={[styles.input, inline ? styles.inline : styles.block]}
               numberOfLines={noOfVisibleLines}
               multiline={multiline}
               onFocus={handleFocus}
@@ -235,9 +235,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                 if (type === 'number') text = text.replace(/[^0-9]/g, '')
                 props.onChange?.(text)
               }}
-              onContentSizeChange={(event) =>
-                seInputHeight(clamp(event.nativeEvent.contentSize.height, noOfVisibleLines, maxNoOfVisibleLines))
-              }
+              onContentSizeChange={(event) => seInputHeight(event.nativeEvent.contentSize.height)}
               keyboardType={keyboardType}
               textContentType={textContentType}
               maxLength={maxNoOfCharacters}
@@ -251,6 +249,8 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               {...props?.inputProps}
               testID={!isIOS ? `${props.testID || 'holi-text'}-input` : 'input'}
               ref={textAreaRef}
+              // Fix for correct cursor scrolling for multiple lines
+              scrollEnabled={multiline ? Math.floor(inputHeight / INPUT_HEIGHT) >= maxNoOfVisibleLines : true}
             />
             {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
               <View style={styles.trailingIconWrapper}>
