@@ -113,6 +113,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           placeholder="Label · 2"
           placeholderTextColor="#262424"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -127,9 +128,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -1496,6 +1494,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           placeholder="Children & Youth"
           placeholderTextColor="#262424"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -1510,9 +1509,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -2813,6 +2809,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -2827,9 +2824,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -3091,6 +3085,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -3105,9 +3100,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -4324,6 +4316,7 @@ exports[`SingleSelect correctly filters options 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -4338,9 +4331,6 @@ exports[`SingleSelect correctly filters options 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -5693,6 +5683,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
           placeholder="Children & Youth"
           placeholderTextColor="#262424"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -5707,9 +5698,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -5936,6 +5924,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -5950,9 +5939,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -6183,6 +6169,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -6197,9 +6184,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }

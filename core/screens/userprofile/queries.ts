@@ -86,6 +86,7 @@ export const userByNameQuery = gql`
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
         ...UserAvatar
+        identity
       }
       totalResults
     }
