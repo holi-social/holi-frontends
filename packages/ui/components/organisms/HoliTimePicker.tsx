@@ -1,3 +1,4 @@
+import DateTimePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -5,11 +6,9 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliTimePickerProps {
   onChangeHours: (hours: string) => void
@@ -32,26 +31,38 @@ const HoliTimePicker = ({
   testID = 'holi-time-picker',
   isRequired,
 }: HoliTimePickerProps) => {
-  const [hovered, setHovered] = useState(false)
-  const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
+  const [showPickerIOS, setShowPickerIOS] = useState(false)
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
-  const hoursLabel = t('global.hours')
-  const minutesLabel = t('global.minutes')
+  // the datetimepicker package works with timestamps and thus we create a date and ignore the month, day and year later
+  const date = new Date()
+  date.setHours(+(valueHours || 0))
+  date.setMinutes(+(valueMinutes || 0))
 
-  const onModalClose = () => {
+  const onPickerClose = () => {
     if (!valueHours) onChangeHours('00')
     if (!valueMinutes) onChangeMinutes('00')
-    hideModal()
   }
 
-  const hoverPropsForWeb = Platform.select({
-    web: {
-      onMouseEnter: () => setHovered(true),
-      onMouseOut: () => setHovered(false),
-    },
-  })
+  const onChange = (event: DateTimePickerEvent) => {
+    const chosenDate = new Date(event.nativeEvent.timestamp || 0)
+    onChangeHours(numberToStringWithPad(chosenDate.getHours()) + '')
+    onChangeMinutes(numberToStringWithPad(chosenDate.getMinutes()) + '')
+  }
+
+  const showPicker = () => {
+    if (Platform.OS === 'android') {
+      DateTimePickerAndroid.open({
+        value: date, // YYYY-MM-DDTHH:mm:ss.sssZ
+        onChange,
+        mode: 'time',
+        is24Hour: true,
+        display: 'spinner',
+      })
+    } else {
+      setShowPickerIOS(true)
+    }
+  }
 
   return (
     <>
@@ -68,9 +79,8 @@ const HoliTimePicker = ({
           label={t('global.time')}
           testID={`btn-${testID}`}
           transparent
-          contentStyle={[styles.border, styles.button, hovered && styles.buttonHovered]}
-          onPress={modalProps?.show ? hideModal : showModal}
-          {...hoverPropsForWeb}
+          contentStyle={[styles.border, styles.button]}
+          onPress={showPicker}
         >
           {valueHours ? (
             <View style={styles.valueContainer}>
@@ -83,52 +93,28 @@ const HoliTimePicker = ({
           )}
         </HoliButton>
       </View>
-      <HoliModal
-        label={label || ''}
-        {...modalProps}
-        autoHeight={false}
-        relativeHeight={1}
-        onDismiss={() => {
-          onChangeHours(numberToStringWithPad(+(valueHours || 0)))
-          onChangeMinutes(numberToStringWithPad(+(valueMinutes || 0)))
-          onModalClose()
-        }}
-        style={styles.modal}
-      >
-        <View style={[mixins.container, styles.inputContainer]}>
-          <HoliTextInput
-            value={valueHours}
-            onChange={(text) => Number(text) < 24 && onChangeHours(text.replace(/[^0-9+ .]/g, ''))}
-            placeholder="00"
-            inputLabel={hoursLabel}
-            aria-label={hoursLabel}
-            type="number"
-            inputProps={{
-              keyboardType: 'number-pad',
-              inputMode: 'numeric',
-              maxLength: 2,
-              autoFocus: true,
-            }}
-            style={styles.input}
+      {Platform.OS === 'ios' && (
+        <HoliModal
+          show={showPickerIOS}
+          label={t('global.time')}
+          autoHeight
+          onDismiss={() => {
+            setShowPickerIOS(false)
+            onPickerClose()
+          }}
+          style={styles.modal}
+        >
+          <DateTimePicker
+            testID={testID}
+            value={date}
+            mode="time"
+            is24Hour={true}
+            onChange={onChange}
+            locale="de_DE" // necessary in order to force military time (not AM/PM)
+            display="spinner"
           />
-          <HoliTextInput
-            value={valueMinutes}
-            onChange={(text) => Number(text) < 60 && onChangeMinutes(text.replace(/[^0-9+ .]/g, ''))}
-            placeholder="00"
-            inputLabel={minutesLabel}
-            aria-label={minutesLabel}
-            type="number"
-            inputProps={{
-              keyboardType: 'number-pad',
-              inputMode: 'numeric',
-              maxLength: 2,
-              onSubmitEditing: hideModal,
-              returnKeyType: 'done',
-            }}
-            style={styles.input}
-          />
-        </View>
-      </HoliModal>
+        </HoliModal>
+      )}
     </>
   )
 }
@@ -157,9 +143,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
     color: colors.foreground30,
   },
-  buttonHovered: {
-    borderColor: colors.foreground20,
-  },
   valueContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -169,15 +152,6 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   modal: {
-    backgroundColor: colors.background30,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    marginTop: 32,
-    gap: 12,
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
+    paddingBottom: 42,
   },
 })
