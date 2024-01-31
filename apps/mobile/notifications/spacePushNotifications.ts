@@ -5,8 +5,10 @@ import {
   SpacePostNotificationData,
 } from '@holi/core/screens/notifications/components/types'
 
-interface PushNotificationBase {
+interface PushNotificationBase<TData> {
   notificationVersion: string
+  notificationType: NovuNotificationType
+  data: string /* Android */ | TData
   aps: {
     alert: {
       title: string
@@ -15,17 +17,6 @@ interface PushNotificationBase {
   }
 }
 
-export interface SpaceMembershipPushNotification extends PushNotificationBase {
-  notificationType: NovuNotificationType
-  data: string /* Android */ | SpaceMembershipNotificationData
-}
-
-export interface PostCommentPushNotification extends PushNotificationBase {
-  notificationType: NovuNotificationType
-  data: string /* Android */ | PostCommentNotificationData
-}
-
-export interface SpacePostPushNotification extends PushNotificationBase {
-  notificationType: NovuNotificationType
-  data: string /* Android */ | SpacePostNotificationData
-}
+export type SpaceMembershipPushNotification = PushNotificationBase<SpaceMembershipNotificationData>
+export type PostCommentPushNotification = PushNotificationBase<PostCommentNotificationData>
+export type SpacePostPushNotification = PushNotificationBase<SpacePostNotificationData>
