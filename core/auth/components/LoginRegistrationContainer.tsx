@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -18,7 +18,7 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     isLoggedIn && replaceRoute('/profile')
   }, [isLoggedIn, replaceRoute])
 

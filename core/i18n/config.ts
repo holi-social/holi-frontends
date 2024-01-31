@@ -34,12 +34,7 @@ export const i18nConfig: I18nConfig = {
     // Use browser language to determine the language
     order: ['navigator'],
   },
-  // TODO(SF) ?
   load: 'languageOnly',
   returnNull: false,
   partialBundledLanguages: true,
-  // TODO(SF) server only?
-  react: {
-    useSuspense: false,
-  },
 }

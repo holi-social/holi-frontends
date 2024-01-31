@@ -1,10 +1,10 @@
-import { useCallback, useLayoutEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useSafeDispatch = (dispatch: (...args: any[]) => any) => {
   const mounted = useRef(false)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     mounted.current = true
     return () => {
       mounted.current = false

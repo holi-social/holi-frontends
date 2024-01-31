@@ -10,7 +10,6 @@ const translationLoader: BackendModule = {
     try {
       const namespaceConfig = i18nConfig.resources[language] || i18nConfig.resources[i18nConfig.fallbackLng]
       const translations = namespaceConfig[namespace] || namespaceConfig[i18nConfig.fallbackLng]
-      console.log('####### loading', language, namespace)
       callback(null, translations)
     } catch (error) {
       callback(error as CallbackError, null)

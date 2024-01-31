@@ -1,5 +1,5 @@
 import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -41,7 +41,7 @@ const Login = () => {
 
   const isWeb = Platform.OS === 'web'
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">
