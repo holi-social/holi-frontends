@@ -3,6 +3,7 @@ import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+import { i18nConfig } from '@holi/core/i18n'
 import { environmentId } from '@holi/web/environment'
 
 // adapt to react-native behavior
@@ -16,20 +17,33 @@ import { environmentId } from '@holi/web/environment'
 // `
 
 export default class MyDocument extends Document {
-  static async getInitialProps({ renderPage }: DocumentContext) {
+  static async getInitialProps(context: DocumentContext) {
+    let pageProps = {}
+
+    const originalRenderPage = context.renderPage
+    context.renderPage = () =>
+      originalRenderPage({
+        enhanceApp: (App) => (props) => {
+          pageProps = props.pageProps
+          return <App {...props} />
+        },
+        enhanceComponent: (Component) => Component,
+      })
+
+    const initialProps = await Document.getInitialProps(context)
     AppRegistry.registerComponent('HOLI', () => Main)
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
-    const page = await renderPage()
     const styles = getStyleElement()
-    return { ...page, styles: Children.toArray(styles) }
+    return { ...initialProps, ...pageProps, styles: Children.toArray(styles) }
   }
 
   render() {
+    const { locale = i18nConfig.defaultLocale } = this.props
     // use same path for local and dev env
     const env = environmentId === EnvironmentId.LOCAL ? EnvironmentId.DEVELOPMENT : environmentId
     return (
-      <Html lang="en">
+      <Html lang={locale}>
         <Head>
           {/* TODO: i18n meta atttributes like description, title etc. */}
           <meta name="description" content="HOLI community" />
