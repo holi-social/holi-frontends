@@ -39,11 +39,6 @@ const HoliTimePicker = ({
   date.setHours(+(valueHours || 0))
   date.setMinutes(+(valueMinutes || 0))
 
-  const onPickerClose = () => {
-    if (!valueHours) onChangeHours('00')
-    if (!valueMinutes) onChangeMinutes('00')
-  }
-
   const onChange = (event: DateTimePickerEvent) => {
     const chosenDate = new Date(event.nativeEvent.timestamp || 0)
     onChangeHours(numberToStringWithPad(chosenDate.getHours()) + '')
@@ -98,10 +93,7 @@ const HoliTimePicker = ({
           show={showPickerIOS}
           label={t('global.time')}
           autoHeight
-          onDismiss={() => {
-            setShowPickerIOS(false)
-            onPickerClose()
-          }}
+          onDismiss={() => setShowPickerIOS(false)}
           style={styles.modal}
         >
           <DateTimePicker
