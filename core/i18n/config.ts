@@ -4,6 +4,7 @@ interface I18nConfig extends InitOptions {
   fallbackLng: string
   resources: Resource
   ns: string[]
+  supportedLngs: string[]
 }
 
 const resources = {
@@ -29,7 +30,6 @@ export const i18nConfig: I18nConfig = {
   resources,
   ns: Object.keys(resources['de']),
   compatibilityJSON: 'v3',
-  // TODO(SF) client only?
   detection: {
     // Use browser language to determine the language
     order: ['navigator'],

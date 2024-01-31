@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { appWithI18Next } from 'ni18n'
+import { appWithI18Next, useSyncLanguage } from 'ni18n'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
@@ -11,7 +11,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { featureFlag } from '@holi/web/environment'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
-import type { ApolloStateProps } from '@holi/web/helpers/useApolloSSRClient'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
 import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
@@ -23,7 +22,7 @@ export interface AppPropsWithLayout extends AppProps {
   pageProps: NextJSPageProps
 }
 
-export type NextPageWithLayout = NextPage<ApolloStateProps> & {
+export type NextPageWithLayout = NextPage<NextJSPageProps> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 
@@ -32,6 +31,8 @@ pino().debug('Avoid treeshaking of externally included logging framework by next
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
+
+  useSyncLanguage(pageProps.locale)
 
   useEffect(() => {
     // Init authentication
