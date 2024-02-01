@@ -9,6 +9,6 @@ export const detectLocaleFromHeader = (req?: NextPageContext['req'] | NextApiReq
   }
 
   const locales = new locale.Locales(req.headers['accept-language'], ni18nConfig.fallbackLng)
-  const supportedLocales = new locale.Locales(ni18nConfig.supportedLngs)
+  const supportedLocales = new locale.Locales(ni18nConfig.supportedLngs, ni18nConfig.fallbackLng)
   return locales.best(supportedLocales).language
 }
