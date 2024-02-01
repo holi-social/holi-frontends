@@ -100,8 +100,16 @@ const VideoCall: React.FC = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight - dimensions.topBarHeight,
-      marginTop: dimensions.topBarHeight,
+      ...Platform.select({
+        android: {
+          marginTop: dimensions.topBarHeight,
+          minHeight: deviceHeight - dimensions.topBarHeight,
+        },
+        ios: {
+          marginTop: 12,
+          minHeight: deviceHeight - dimensions.topBarHeight - dimensions.bottomBarHeight * 1.5,
+        },
+      }),
     },
   })
 
