@@ -128,11 +128,18 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
                 <HoliIcon icon={Vidicon} size={16} />
               </View>
             )}
-            <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.meetingProviderUrl}>
-              {url}
-            </HoliText>
+            <View style={styles.detailsContainer}>
+              <HoliText ellipsizeMode="tail" bold numberOfLines={1} style={styles.meetingProviderUrl}>
+                {url}
+              </HoliText>
+              {!!additionalInfo && (
+                <HoliText ellipsizeMode="middle" size="extrasmall" color="gray300" style={styles.meetingProviderInfo}>
+                  {additionalInfo}
+                </HoliText>
+              )}
+            </View>
             <HoliButton transparent inline label={t('global.edit')} onPress={showModal} style={styles.editButton}>
-              <HoliIcon icon={Settings3} size={20} color={colors.foreground20} />
+              <HoliIcon icon={Settings3} size={24} color={colors.foreground30} />
             </HoliButton>
           </View>
         )}
@@ -187,6 +194,8 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
               inputLabel={t('spaces.appointments.input.videoCall.additionalInfo.label')}
               aria-label={t('spaces.appointments.input.videoCall.additionalInfo.label')}
               maxNoOfCharacters={100}
+              noOfVisibleLines={4}
+              maxNoOfVisibleLines={4}
               showCharacterCount
               style={styles.input}
             />
@@ -239,8 +248,9 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 16,
+    gap: 12,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: colors.background10,
     borderRadius: 8,
     borderWidth: 1,
@@ -266,8 +276,15 @@ const styles = StyleSheet.create({
     width: 40,
   },
   meetingProviderUrl: {
-    marginLeft: 12,
     flex: 1,
+  },
+  meetingProviderInfo: {
+    paddingTop: 8,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1,
+    alignSelf: 'stretch',
   },
   editButton: {
     marginLeft: 12,
@@ -307,6 +324,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: 420,
     maxWidth: '90%',
+  },
+  detailsContainer: {
+    alignItems: 'flex-start',
+    flex: 1,
+    paddingTop: 4,
   },
 })
 
