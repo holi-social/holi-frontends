@@ -6,7 +6,7 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useLogout } from '@holi/core/helpers'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Logout = () => {
@@ -33,7 +33,7 @@ const Logout = () => {
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
+    marginTop: dimensions.topBarHeight + 50,
   },
 })
 

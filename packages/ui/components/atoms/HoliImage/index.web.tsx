@@ -3,7 +3,7 @@ import { AccessibilityProps } from 'react-native'
 
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { ImageSource, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 import styles from './styles.module.scss'
 
@@ -32,13 +32,22 @@ const createSrc = (source: ImageSource | ImageSource[]): string | undefined => {
   }
 }
 
-const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover', onError }: WebImageProps) => {
+const HoliImage = ({
+  source,
+  label,
+  style,
+  sizes,
+  resizeMode = 'cover',
+  onError,
+  'aria-hidden': ariaHidden,
+}: WebImageProps) => {
   const srcSet = createSrcSet(source)
   const aspectRatio = style?.aspectRatio ? { aspectRatio: style?.aspectRatio.toString() } : {}
 
   const accessibilityProps: AccessibilityProps = {
     role: 'img',
     'aria-label': label,
+    'aria-hidden': ariaHidden,
   }
 
   // We use img tag instead of Image by react-native, as react-native-web does not yet
@@ -48,7 +57,7 @@ const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover', onError 
       className={styles.image}
       srcSet={srcSet}
       src={createSrc(source)}
-      sizes={sizes || (srcSet && `(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw`)}
+      sizes={sizes || (srcSet && `(min-width:${dimensions.maxScreenWidth}px) ${dimensions.maxScreenWidth}px, 100vw`)}
       alt={label}
       onError={onError}
       {...accessibilityProps}

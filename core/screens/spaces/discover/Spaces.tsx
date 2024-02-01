@@ -25,8 +25,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Spaces = () => {
@@ -63,10 +62,10 @@ const Spaces = () => {
   )
 
   const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn ? navigate('/spaces/create') : openLoginModal()
-  }, [isLoggedIn, navigate, openLoginModal])
+    isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
+  }, [isLoggedIn, navigate, openLoginModal, t])
 
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -201,14 +200,14 @@ const styles = StyleSheet.create({
   discoverSpacesContainer: {
     flex: 1,
     paddingTop: 24,
-    paddingBottom: +vars.bottomBarHeight,
+    paddingBottom: dimensions.bottomBarHeight,
+    minHeight: '100%',
   },
   holiTabs: {
     flex: 1,
     backgroundColor: colors.background10,
   },
   tabStyle: {
-    minHeight: '100%',
     backgroundColor: colors.background20,
   },
   mySpacesContainer: {

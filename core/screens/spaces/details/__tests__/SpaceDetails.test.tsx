@@ -1,13 +1,14 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { FeatureToggleStatus, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
-import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
+import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
@@ -66,24 +67,7 @@ const createMocksForSpace = (spaceById = space) => {
 
 jest.useFakeTimers()
 
-const mockUseParam = jest.fn()
-
-jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
-  useParam: (paramName: string) => mockUseParam(paramName),
-}))
-
-const mockParams = (params: SpaceDetailsParams = { spaceIdOrName: space.name }) => {
-  const setParamMocks = {
-    tab: jest.fn(),
-    refresh: jest.fn(),
-    spaceIdOrName: jest.fn(),
-  }
-  mockUseParam.mockImplementation((paramName: keyof SpaceDetailsParams) => {
-    const [param, setParam] = useState(params[paramName])
-    return [param, setParamMocks[paramName].mockImplementation(setParam)]
-  })
-  return setParamMocks
-}
+jest.mock('@holi/core/navigation/hooks/useParam')
 
 describe('SpaceDetails', () => {
   const spaceForMember = {
@@ -92,7 +76,7 @@ describe('SpaceDetails', () => {
   }
 
   it('renders correctly', async () => {
-    mockParams()
+    mockParameters({ spaceIdOrName: space.name })
     render(
       <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
         <SpaceDetails spaceIdOrName={space.name} />
@@ -108,7 +92,7 @@ describe('SpaceDetails', () => {
   })
 
   it('selects info tab for non-members', async () => {
-    const setParamMocks = mockParams()
+    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
     render(
       <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
         <SpaceDetails spaceIdOrName={space.name} />
@@ -120,11 +104,11 @@ describe('SpaceDetails', () => {
       await waitFor(() => screen.getByText(space.title))
     })
 
-    expect(setParamMocks['tab']).toHaveBeenCalledWith('info')
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'info' })
   })
 
   it('selects involvement tab for members if involvement content exists', async () => {
-    const setParamMocks = mockParams()
+    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
     render(
       <MockedProvider mocks={createMocksForSpace(spaceForMember)} cache={createCache()}>
         <SpaceDetails spaceIdOrName={space.name} />
@@ -136,11 +120,11 @@ describe('SpaceDetails', () => {
       await waitFor(() => screen.getByText(space.title))
     })
 
-    expect(setParamMocks['tab']).toHaveBeenCalledWith('involvement')
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'involvement' })
   })
 
   it('selects updates tab for members if no involvement content exists', async () => {
-    const setParamMocks = mockParams()
+    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
     const spaceForMemberWithoutInvolvement = {
       ...spaceForMember,
       tasks: [],
@@ -156,7 +140,7 @@ describe('SpaceDetails', () => {
       await waitFor(() => screen.getByText(space.title))
     })
 
-    expect(setParamMocks['tab']).toHaveBeenCalledWith('updates')
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' })
   })
 
   it('refreshes the space if the refresh parameter is passed', async () => {
@@ -176,21 +160,24 @@ describe('SpaceDetails', () => {
     )
 
     // Initial render
-    const setParamMocks = mockParams({ spaceIdOrName: space.name })
+    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
     const { rerender } = render(crateComponent())
 
     // Expect initial title
     await act(async () => {
       await waitFor(() => screen.getByText(space.title))
     })
-    expect(setParamMocks['refresh']).not.toHaveBeenCalled()
+    expect(mockUseUpdateParams).toHaveBeenCalledTimes(1)
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({
+      tab: 'info',
+    })
 
     // Pass new params and force rerender
-    act(() => setParamMocks['refresh']('true'))
+    mockParameters({ spaceIdOrName: space.name, refresh: true })
     rerender(crateComponent())
 
     // Expect parameter to have been reset after refresh
-    await waitFor(() => expect(setParamMocks['refresh']).toHaveBeenCalledWith(undefined))
+    await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ refresh: undefined }))
 
     // Expect a new title
     await act(async () => {

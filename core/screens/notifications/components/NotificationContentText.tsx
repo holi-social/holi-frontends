@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import type { TextLayoutEventData, TextLayoutLine } from 'react-native'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import { truncateTextByLines } from '@holi/ui/components/molecules/HoliReadMore'
+import { truncateTextByLines } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 const NotificationContentText = ({
   children,

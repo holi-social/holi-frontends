@@ -9,7 +9,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
@@ -33,8 +33,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
@@ -43,7 +42,7 @@ export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   userId?: string
 }
 
-const { useParam } = createParam<EditSpaceCollaboratorsParams>()
+const { useParam } = createParamHooks<EditSpaceCollaboratorsParams>()
 
 const PAGE_SIZE = 20
 const TAB_COLLABORATORS = 0
@@ -61,12 +60,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const { height: screenHeight } = useWindowDimensions()
   const styles = createStyles(screenHeight)
 
   const { data, loading, error, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+    variables: { idOrName: spaceIdOrName },
+    skip: !spaceIdOrName,
     onError: (error) => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
@@ -77,13 +77,16 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       })
     },
   })
-  const { refetch: refetchMembers } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+  const { refetch: refetchMembers, data: membersData } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
   const { refetch: refetchPendingInvites } = useQuery<SpaceByIdResponse>(spaceInvitesQuery, {
+    skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -149,6 +152,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     return <></>
   }
 
+  const spaceMembers = membersData?.spaceById?.members
+
   return (
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
@@ -200,7 +205,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                     fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                     loadMoreOnScroll
                   >
-                    {!!space && <SpacePendingRequestsList space={space} initiallySelectedUserId={selectedUserId} />}
+                    {!!space && (
+                      <SpacePendingRequestsList
+                        space={space}
+                        initiallySelectedUserId={selectedUserId}
+                        spaceMembers={spaceMembers}
+                      />
+                    )}
                   </Pagination>
                 </View>
               ),
@@ -261,10 +272,10 @@ const createStyles = (screenHeight: number) =>
       minHeight: '100%',
       ...Platform.select({
         native: {
-          paddingTop: +vars.topBarHeight + 24,
+          paddingTop: dimensions.topBarHeight + 24,
         },
         web: {
-          paddingTop: +vars.topBarHeight,
+          paddingTop: dimensions.topBarHeight,
           minHeight: '100vh' as DimensionValue,
         },
       }),
@@ -284,10 +295,10 @@ const createStyles = (screenHeight: number) =>
       paddingVertical: 16,
       ...Platform.select({
         web: {
-          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 52,
+          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 52,
         },
         native: {
-          minHeight: screenHeight - +vars.topBarHeight - +vars.bottomBarHeight - 80,
+          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 80,
         },
       }),
     },

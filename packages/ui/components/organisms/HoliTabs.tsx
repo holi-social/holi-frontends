@@ -50,7 +50,7 @@ const HoliTabs = ({
         <View
           style={tab.style}
           aria-labelledby={`${id}-tab-${i}`}
-          nativeID={`${id}-panel-${i}`}
+          id={`${id}-panel-${i}`}
           key={i}
           role={Platform.OS === 'web' ? 'tabpanel' : undefined}
         >

@@ -448,14 +448,14 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
   - in order to retrieve the `userId` query parameter:
 
 ```ts
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 
 export type UserProfileParams = {
   userId: string
 }
-const { useParam } = createParam<UserProfileParams>()
+const { useParam } = createParamHooks<UserProfileParams>()
 
-const [userId = ''] = useParam('userId')
+const [userId] = useParam('userId')
 ```
 
 #### web

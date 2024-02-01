@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -38,19 +38,19 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
 
   const { t } = useTranslation()
 
-  const onSave = () => updateSpace({ variables: { input: { id: space.id, cover: coverImage?.blob ?? null } } })
+  const onSave = () =>
+    updateSpace({ variables: { input: { id: space.id, cover: coverImage === null ? null : coverImage?.blob } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave}>
+    <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>
       <SpaceImageForm
-        title={t('spaces.edit.mainImage')}
         description={t('spaces.input.coverImage.remove.description')}
         onUploadImage={handleImageUpload}
         image={coverImage}
         blurhash={space.coverBlurhash}
         currentImageUri={space.cover}
       />
-    </EditSpaceModal>
+    </EditSpaceModalWithFooter>
   )
 }
 

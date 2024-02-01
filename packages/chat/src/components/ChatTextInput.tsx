@@ -8,7 +8,9 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
+
+const isAndroid = Platform.OS === 'android'
 
 interface TextInputKeyPressEventDataWeb extends TextInputKeyPressEventData {
   shiftKey: boolean
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     width: '100%',
-    maxWidth: +vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
     paddingHorizontal: 16,
     paddingTop: 6,
     paddingBottom: 24,
@@ -122,12 +124,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   textInputContainer: {
-    maxHeight: 60,
+    maxHeight: isAndroid ? 110 : 132,
     backgroundColor: colors.white100,
     flexShrink: 1,
   },
   textInput: {
-    height: '100%',
     borderWidth: 0,
     paddingVertical: 0,
     paddingHorizontal: 0,

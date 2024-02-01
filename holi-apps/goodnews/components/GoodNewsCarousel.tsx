@@ -10,7 +10,7 @@ import Carousel from 'react-native-reanimated-carousel'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -32,7 +32,7 @@ type CarouselItem = {
 export type GoodNewsArticleParams = {
   articleId?: string
 }
-const { useParam } = createParam<GoodNewsArticleParams>()
+const { useParam } = createParamHooks<GoodNewsArticleParams>()
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel = () => {

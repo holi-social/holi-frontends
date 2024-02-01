@@ -1,19 +1,18 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
-import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Information } from '@holi/icons/src/generated'
@@ -21,13 +20,13 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<SpaceOnboardingStepsParams>()
+const { useParam } = createParamHooks<SpaceOnboardingStepsParams>()
 
 const SpaceOnboardingSteps = () => {
   const { t } = useTranslation()
@@ -39,23 +38,12 @@ const SpaceOnboardingSteps = () => {
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
-  const [fetchSpace, { data, loading: fetchingSpace }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
+  const { loading: fetchingSpace, space } = useSpace(spaceIdOrName)
 
-  const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [stepsList, setStepsList] = useState<OnboardingStep[]>(space?.onboarding?.steps || [{ text: '' }])
   const [hasEmptySteps, setHasEmptySteps] = useState(false)
   const [isNewStep, setIsNewStep] = useState(true)
-
-  useEffect(() => {
-    if (spaceIdOrName) {
-      fetchSpace({
-        variables: { idOrName: spaceIdOrName || '' },
-        onError: (error) =>
-          logError(error, 'Failed to load space', { location: 'SpaceOnboardingSteps.fetchSpace', spaceIdOrName }),
-      })
-    }
-  }, [fetchSpace, spaceIdOrName])
 
   useEffect(() => {
     if (space?.onboarding?.steps && space.onboarding.steps.length > 0) {
@@ -221,7 +209,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 0,
     backgroundColor: colors.background20,
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
   formWrapper: {
     height: '100%',
@@ -245,7 +233,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   previewButton: {
-    marginBottom: vars.bottomBarHeight,
+    marginBottom: dimensions.bottomBarHeight,
   },
   preview: {
     flexDirection: 'row',

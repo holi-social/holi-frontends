@@ -1,5 +1,9 @@
-import { ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
-import { ChatMessage, ChatRoom } from '@holi/chat/src/store'
+import { EventType, IContent, IEvent, MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk'
+import { act } from 'react-test-renderer'
+
+import { ChatMsgTextContent, ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoom } from '@holi/chat/src/store'
+import { createChatRoom, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-general'
 
 import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
 
@@ -17,9 +21,9 @@ export function createChatRoomFixture(overrides?: Partial<ChatRoom>): ChatRoom {
     members: [creator, ...(hasMembers ? (overrides?.members as ChatRoomMember[]) : [])],
     senderId: creator.id ?? 'defaultSenderId',
     timestamp: new Date().getTime(),
-  }
+  } as ChatRoom
 
-  return { ...defaultRoom, ...overrides }
+  return { ...defaultRoom, ...overrides } as ChatRoom
 }
 
 export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): ChatRoomMember {
@@ -28,17 +32,17 @@ export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): Ch
   const defaultChatMember: ChatRoomMember = {
     name: overrides?.name ?? 'defaultUserName',
     id: `@${identity}:test.chat`,
-    membership: MembershipStatus.Joined,
+    membership: MembershipStatus.join,
   }
   return { ...defaultChatMember, ...overrides }
 }
 
 export function createChatMessageFixture(
-  overrides?: Partial<ChatMessage> | string,
+  overrides?: Partial<ChatRoomMessage> | string,
   sender?: ChatRoomMember,
   room?: ChatRoom
-): ChatMessage {
-  const defaultMessage: ChatMessage = {
+): ChatRoomMessage {
+  const defaultMessage: ChatRoomMessage = {
     type: 'message',
     id: 'defaultMessageId',
     content: {
@@ -46,25 +50,27 @@ export function createChatMessageFixture(
       msgtype: 'm.text',
     },
     timestamp: new Date().getTime(),
-    room_id: 'defaultRoomId',
+    roomId: 'defaultRoomId',
     sender: 'defaultSenderId',
   }
 
-  let fixture = { ...defaultMessage }
+  let fixture = { ...defaultMessage } as unknown as ChatRoomMessage
 
   if (typeof overrides === 'string') {
-    fixture.content.body = overrides
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ;(fixture.content as ChatMsgTextContent).body = overrides
   } else {
     fixture = { ...fixture, ...overrides }
 
-    const bodyContentOverride = overrides?.content?.body
+    const bodyContentOverride = (overrides?.content as ChatMsgTextContent)?.body
     if (bodyContentOverride) {
-      defaultMessage.content.body = bodyContentOverride
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;(defaultMessage.content as ChatMsgTextContent).body = bodyContentOverride
     }
   }
 
   if (room) {
-    fixture.room_id = room.id
+    fixture.roomId = room.id
   }
 
   if (sender) {
@@ -72,4 +78,88 @@ export function createChatMessageFixture(
   }
 
   return fixture
+}
+
+// Message helpers
+export const msgEvent = (roomId: string, senderId: string, eventNr: number): IEvent => {
+  return {
+    state_key: 'dummy',
+    event_id: 'id_' + eventNr,
+    type: EventType.RoomMessage,
+    sender: senderId,
+    origin_server_ts: eventNr,
+    unsigned: {},
+    room_id: roomId,
+    content: {
+      body: 'message body ' + eventNr,
+    } as IContent,
+  }
+}
+
+export const expectedMsgForEvent = (e: IEvent): ChatRoomMessage => {
+  return {
+    id: e.event_id,
+    timestamp: e.origin_server_ts,
+    roomId: e.room_id || '',
+    type: 'message',
+    sender: e.sender,
+    content: {
+      body: e.content.body,
+      msgtype: 'm.text',
+    },
+  }
+}
+
+export const sendMessageEvent = (
+  listener: (event: MatrixEvent, room: Room | undefined) => void,
+  roomMock: Room,
+  senderId: string,
+  eventNr: number
+) => {
+  const event = msgEvent(roomMock.roomId, senderId, eventNr)
+  const eventMock = createMatrixEventMock(EventType.RoomMessage, roomMock.roomId, {}, event)
+
+  act(() => listener(eventMock, roomMock))
+
+  const message = expectedMsgForEvent(event)
+  return { message, event, eventMock }
+}
+
+// Room helpers
+const creator: ChatRoomMember = {
+  avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
+  id: '@room.creator:holi.social',
+  membership: MembershipStatus.join,
+  name: 'room creator',
+}
+const member: ChatRoomMember = {
+  avatar: 'https://unsplash.com/photos/a-group-of-blue-and-orange-shapes-on-a-white-surface-g0lR2cThaR0',
+  id: '@a.member:holi.social',
+  membership: MembershipStatus.join,
+  name: 'a member',
+}
+
+export const initChatRoom = (
+  mxClient: jest.MockedObjectDeep<MatrixClient>,
+  roomId = 'roomId',
+  roomCreator: ChatRoomMember = creator,
+  roomMember: ChatRoomMember = member
+) => {
+  const members = [roomCreator, roomMember]
+  const roomMock = createRoomMock(roomId, {
+    name: 'roomName',
+    members: members,
+    timelineEvents: [],
+    creatorId: roomCreator.id,
+    myMembership: MembershipStatus.join,
+    unreadNotificationCount: 0,
+    getMember: creator,
+  })
+
+  mxClient.getRooms.mockReturnValue([roomMock])
+  mxClient.roomState.mockReturnValue(Promise.resolve([]))
+
+  const room: ChatRoom = createChatRoom(roomId, 'roomName', roomCreator, members)
+
+  return { roomMock, room, creator: roomCreator, member: roomMember }
 }

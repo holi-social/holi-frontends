@@ -28,17 +28,17 @@ import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingV
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface ChangePasswordProps {
@@ -50,7 +50,7 @@ export type ChangePasswordParams = {
   webview: string
 }
 
-const { useParam } = createParam<ChangePasswordParams>()
+const { useParam } = createParamHooks<ChangePasswordParams>()
 
 const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
   const [flow] = useParam('flow')
@@ -122,7 +122,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
     else
       setScreenOptions({
         headerTitle: () => (
-          <HoliHeading level="1" size="small">
+          <HoliHeading level="1" size="s">
             {t('auth.changePassword.heading')}
           </HoliHeading>
         ),
@@ -307,13 +307,13 @@ const styles = StyleSheet.create({
   inner: {
     flex: 1,
     // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: +vars.topBarHeight,
+    marginTop: dimensions.topBarHeight,
     ...Platform.select({
       web: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: dimensions.bottomBarHeight,
       },
       android: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: dimensions.bottomBarHeight,
       },
     }),
   },

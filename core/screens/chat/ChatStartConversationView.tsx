@@ -14,13 +14,13 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { isWebTouchDevice, useDebounce } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FIND_USER_BY_NAME_LIMIT = 30
@@ -166,7 +166,7 @@ const ChatStartConversationView = () => {
                 />
               ) : (
                 <View style={[mixins.container, styles.listDescription]}>
-                  <HoliHeading level="3" style={styles.listDescriptionText}>
+                  <HoliHeading level="3" align="center">
                     {t('chat.start.description')}
                   </HoliHeading>
                 </View>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // 16 is space between the header and the input
     // we do not use `paddingTop` for this spacing, because it will be overriden with `safeAreaInsetTop` for Android
-    marginTop: +vars.topBarHeight + 16,
+    marginTop: dimensions.topBarHeight + 16,
   },
   list: {
     flex: 1,
@@ -208,9 +208,6 @@ const styles = StyleSheet.create({
   listDescription: {
     flex: 1,
     justifyContent: 'center',
-  },
-  listDescriptionText: {
-    textAlign: 'center',
   },
   userItem: {
     justifyContent: 'space-between',

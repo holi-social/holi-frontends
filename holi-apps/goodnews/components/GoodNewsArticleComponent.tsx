@@ -4,8 +4,8 @@ import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewSt
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -79,14 +79,13 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
         )}
       </ImageBackground>
       <View style={[mixins.container, styles.contentContainer]} testID="goodnews-list-item">
-        <HoliBox padding={[0, 0, 16, 0]}>
-          <PartnerInfoRow
-            rowText={t('goodnews:app.subline')}
-            showOutlinkIcon={false}
-            partners={{ 'goodnews.eu': partner }}
-            onPress={partnerModalState.show}
-          />
-        </HoliBox>
+        <PartnerInfoRow
+          rowText={t('goodnews:app.subline')}
+          showOutlinkIcon={false}
+          partners={{ 'goodnews.eu': partner }}
+          onPress={partnerModalState.show}
+        />
+        <HoliGap size="s" />
         <PartnerModal
           partners={{ 'goodnews.eu': partner }}
           show={partnerModalState.visible}
@@ -96,9 +95,10 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
         <HoliText size="small" style={styles.source}>
           {article.source}
         </HoliText>
-        <HoliHeading level="1" size="large" style={styles.headline}>
+        <HoliHeading level="1" size="l">
           {article.headline}
         </HoliHeading>
+        <HoliGap size="xs" />
         <HoliText style={styles.teaserText}>{article.teaserText}</HoliText>
         {/* TODO refactoring to modify <HoliLink /> so that it works as/with a button, too */}
         <HoliButton
@@ -155,10 +155,6 @@ const styles = StyleSheet.create({
   },
   source: {
     paddingBottom: 8,
-  },
-  headline: {
-    paddingBottom: 8,
-    fontWeight: '400',
   },
   teaserText: {
     paddingBottom: 28,

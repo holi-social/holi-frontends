@@ -84,11 +84,11 @@ export const finishAccountSetup = async ({
   // provide user name
   await fillFieldByTestId('last-name-input', lastName)
   // submit name changes
-  await tapOnElementWithTestId('holi-wizard-next-btn')
+  await tapOnElementWithTestId('holi-wizard-save-btn')
 
   // Pre-success step
   await waitForElementWithTestId('account-setup-pre-registration-success-step')
-  await tapOnElementWithTestId('holi-wizard-next-btn')
+  await tapOnElementWithTestId('holi-wizard-save-btn')
   // Interests step
   await waitForElementWithTestId('account-setup-interests-step')
   await tapOnElementWithTestId('holi-wizard-skip-btn')
@@ -97,7 +97,7 @@ export const finishAccountSetup = async ({
   await tapOnElementWithTestId('holi-wizard-skip-btn')
   // Success step
   await waitForElementWithTestId('account-setup-success-step')
-  await tapOnElementWithTestId('holi-wizard-next-btn')
+  await tapOnElementWithTestId('holi-wizard-save-btn')
 
   await waitForHomeScreen()
   delay(10)

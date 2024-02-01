@@ -11,7 +11,8 @@ import { Linking, StyleSheet, View } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -58,14 +59,13 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
             </HoliBox>
           )}
           <HoliBox padding={[32, 0, 0, 0]}>
-            <HoliHeading level="1" size={'large'}>
+            <HoliHeading level="1" size="l">
               {/*TODO: how to not render for optional props (headline, text, buttonText)? */}
               {t(`${i18nPrefix}.${partnerKey}.headline`)}
             </HoliHeading>
           </HoliBox>
-          <HoliBox padding={[16, 0, 0, 0]}>
-            <HoliText>{t(`${i18nPrefix}.${partnerKey}.text`)}</HoliText>
-          </HoliBox>
+          <HoliGap size="s" />
+          <HoliText>{t(`${i18nPrefix}.${partnerKey}.text`)}</HoliText>
           <HoliBox padding={[32, 0, 0, 0]} layout={{ alignSelf: 'stretch' }}>
             <HoliButton transparent onPress={() => (partner.url ? Linking.openURL(partner.url) : null)} label={''}>
               <View style={styles.outlink}>

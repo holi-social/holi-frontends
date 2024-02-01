@@ -11,7 +11,7 @@ import {
 
 export type NotificationPayload = Record<string, unknown>
 
-const extractPayloadFromNotification = (response: Partial<NotificationResponse>): NotificationPayload | undefined => {
+const extractPayloadFromNotification = (response: NotificationResponse): NotificationPayload | undefined => {
   const request = response?.notification?.request
   if (request?.trigger?.type === 'push') {
     // background or closed app push
@@ -131,31 +131,71 @@ const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
   }
 }
 
-export const transformPushInteractionToUrl = (response: Partial<NotificationResponse>) => {
+const spaceUrl = (notification: NotificationPayload, tab?: string): string => {
+  const { space } = extractData(notification)
+  const url = new URL(`holi://spaces/${space.name}`)
+  if (tab) {
+    url.searchParams.set('tab', tab)
+  }
+  return url.toString()
+}
+
+const spaceAppointmentUrl = (notification: NotificationPayload, refresh = false) => {
+  try {
+    const { space, appointment } = extractData(notification)
+    const url = new URL(`holi://spaces/${space.name}/appointments/${appointment.id}`)
+    if (refresh) {
+      url.searchParams.set('refresh', 'true')
+    }
+    return url.toString()
+  } catch (error) {
+    logError(error, 'Failed to create url for appointment notification', {
+      location: 'notifications.spaceAppointmentUrl',
+    })
+  }
+}
+
+const extractData = (notification: NotificationPayload) => {
+  const data = typeof notification.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  return data
+}
+
+const isChatNotification = (notification: NotificationPayload) => !!notification.room_id
+
+export const transformPushInteractionToUrl = (response: NotificationResponse) => {
   const payload: NotificationPayload | undefined = extractPayloadFromNotification(response)
   if (!payload) {
     return null
   }
-  switch (payload.notificationType) {
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
-    case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
-    case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
-      return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
-    case NovuNotificationType.POST_COMMENT_MENTION:
-    case NovuNotificationType.POST_COMMENT_AUTHOR:
-      return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
-    case NovuNotificationType.SPACE_NEW_POST:
-      return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
 
-    default:
-      // Default is chat notification
-      return createUrlFromChatNotification(payload)
+  if (isChatNotification(payload)) {
+    return createUrlFromChatNotification(payload)
+  } else {
+    switch (payload.notificationType) {
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_DECLINE_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
+      case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
+        return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
+      case NovuNotificationType.POST_COMMENT_MENTION:
+      case NovuNotificationType.POST_COMMENT_AUTHOR:
+        return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
+      case NovuNotificationType.SPACE_NEW_POST:
+        return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
+      case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
+        return spaceAppointmentUrl(payload)
+      case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
+        return spaceAppointmentUrl(payload, true)
+      case NovuNotificationType.SPACE_APPOINTMENT_DELETION:
+        return spaceUrl(payload, 'involvement')
+      default:
+        return null
+    }
   }
 }

@@ -31,13 +31,13 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChangeEmail = () => {
@@ -90,7 +90,7 @@ const ChangeEmail = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="small">
+        <HoliHeading level="1" size="s">
           {t('auth.changeEmail.heading')}
         </HoliHeading>
       ),
@@ -272,13 +272,13 @@ const styles = StyleSheet.create({
   inner: {
     flex: 1,
     // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: +vars.topBarHeight,
+    marginTop: dimensions.topBarHeight,
     ...Platform.select({
       web: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: dimensions.bottomBarHeight,
       },
       android: {
-        paddingBottom: vars.bottomBarHeight,
+        paddingBottom: dimensions.bottomBarHeight,
       },
     }),
   },

@@ -3,11 +3,11 @@ import React from 'react'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
-const { useParam } = createParam<VideoCallParams>()
+const { useParam } = createParamHooks<VideoCallParams>()
 
 const VideoCall: React.FC = () => {
   const [roomName] = useParam('roomName')

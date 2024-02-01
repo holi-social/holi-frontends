@@ -14,7 +14,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ShareBox } from '@holi/icons/src/generated'
@@ -24,7 +24,7 @@ import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/H
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
@@ -110,7 +110,7 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
 export type VolunteeringEngagementDetailParams = {
   engagementId: string
 }
-const { useParam } = createParam<VolunteeringEngagementDetailParams>()
+const { useParam } = createParamHooks<VolunteeringEngagementDetailParams>()
 
 type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
@@ -251,7 +251,7 @@ const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({
     messageContainer: {
       alignItems: 'center',
-      marginTop: vars.topBarHeight + 50,
+      marginTop: dimensions.topBarHeight + 50,
     },
     wrapper: {
       alignItems: 'center',
@@ -267,10 +267,10 @@ const getStyles = (statusBarHeight: number) =>
       ...Platform.select({
         native: {
           maxWidth: '100%',
-          paddingTop: vars.topBarHeight + 40,
+          paddingTop: dimensions.topBarHeight + 40,
         },
         web: {
-          paddingTop: statusBarHeight + vars.topBarHeight,
+          paddingTop: statusBarHeight + dimensions.topBarHeight,
         },
       }),
     },

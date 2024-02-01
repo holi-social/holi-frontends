@@ -1,20 +1,27 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import {
+  APPOINTMENT_STATUS_TYPE,
+  AppointmentsBySpaceIdResponse,
+  appointmentsBySpaceIdQuery,
+} from '@holi/core/screens/appointments/queries'
 import AppointmentsWidget from '@holi/core/screens/spaces/appointments/components/AppointmentsWidget'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
-import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
 import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -30,6 +37,20 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
 
+  const {
+    data: appointmentsResult,
+    error: errorAppointments,
+    loading: loadingAppointments,
+  } = useQuery<AppointmentsBySpaceIdResponse>(appointmentsBySpaceIdQuery, {
+    variables: { spaceId: space.id, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
+    onError: (error) =>
+      logError(error, 'Failed to load appointments widget', {
+        location: 'AppointmentWidget.appointmentsBySpaceIdQuery',
+        spaceIdOrName: space.name,
+      }),
+    skip: !appointmentsFtEnabled,
+  })
+
   return (
     <>
       <View style={style}>
@@ -42,23 +63,52 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             </View>
           </HoliLink>
         )}
-        {isCollaborator && appointmentsFtEnabled && <AppointmentsWidget space={space} style={styles.card} />}
+
+        {!isCollaborator && space.onboarding?.steps && space.onboarding.steps.length > 0 && (
+          <SpaceCollaboratorOnboardingSteps
+            steps={space.onboarding?.steps}
+            header={t('spaces.collaborate.onboarding.info.header')}
+            style={styles.onboardingSteps}
+          />
+        )}
+
+        {/* include divider if any other block below has content when logged out */}
+        {!isCollaborator &&
+          space.onboarding?.steps &&
+          space.onboarding.steps.length > 0 &&
+          (!!appointmentsResult?.appointments?.data?.length || !!space.tasks?.length) && (
+            <View style={(styles.divider, styles.dividerPadding)}>
+              <HoliDivider />
+            </View>
+          )}
+
+        {appointmentsFtEnabled && !loadingAppointments && !errorAppointments && (
+          <AppointmentsWidget
+            space={space}
+            style={styles.card}
+            isCollaborator={isCollaborator}
+            appointments={appointmentsResult?.appointments.data}
+            totalResults={appointmentsResult?.appointments.totalResults}
+          />
+        )}
+
+        {/* include divider if any other block below has content when logged out */}
+        {!isCollaborator && !!appointmentsResult?.appointments?.data?.length && !!space.tasks?.length && (
+          <View style={(styles.divider, styles.dividerPadding)}>
+            <HoliDivider />
+          </View>
+        )}
+
         {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
         {isCollaborator && <StorageWidget space={space} style={styles.card} />}
-        {isCollaborator ? (
-          <TaskCollaborationCard isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} />
-        ) : (
-          <>
-            {space.onboarding?.steps && space.onboarding.steps.length > 0 && (
-              <SpaceCollaboratorOnboardingSteps
-                steps={space.onboarding?.steps}
-                header={t('spaces.collaborate.onboarding.info.header')}
-                style={styles.onboardingSteps}
-              />
-            )}
-            <SpaceTaskList isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} preview />
-          </>
-        )}
+
+        <TaskCollaborationCard
+          isAdmin={isAdmin}
+          space={space}
+          isCollaborator={isCollaborator}
+          showNoResults={!space.onboarding?.steps?.length && !appointmentsResult?.appointments?.data?.length}
+        />
+
         {isCollaborator && <NewToolsTeaser />}
       </View>
     </>
@@ -89,10 +139,8 @@ const styles = StyleSheet.create({
     borderColor: colors.background30,
   },
   onboardingSteps: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
-    paddingBottom: 12,
     marginBottom: 32,
+    paddingHorizontal: 8,
   },
   icon: {
     marginRight: 8,
@@ -102,6 +150,13 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     alignSelf: 'flex-end',
     marginRight: 16,
+  },
+  divider: {
+    paddingHorizontal: 8,
+    paddingBottom: 8,
+  },
+  dividerPadding: {
+    paddingBottom: 8,
   },
 })
 

@@ -41,6 +41,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.ChangeEmail]: 'profile/settings/changeEmail',
             [RouteName.ChangeEmailVerification]: 'profile/settings/changeEmailVerification',
             [RouteName.LegalDocuments]: 'profile/settings/legalDocuments',
+            [RouteName.AboutHoliApp]: 'profile/settings/aboutholiapp',
             [RouteName.HelpSettings]: 'profile/settings/help',
             [RouteName.Document]: 'profile/settings/legalDocuments/document',
           },
@@ -84,6 +85,9 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceTasks]: 'spaces/:spaceIdOrName/tasks',
         [RouteName.AboutSpaces]: 'about-spaces',
         [RouteName.SpaceAppointments]: 'spaces/:spaceIdOrName/appointments',
+        [RouteName.CreateAppointment]: 'spaces/:spaceIdOrName/appointments/create',
+        [RouteName.EditAppointment]: 'spaces/:spaceIdOrName/appointments/:idOrSlug/edit',
+        [RouteName.AppointmentDetails]: 'spaces/:spaceIdOrName/appointments/:idOrSlug',
       },
     },
 

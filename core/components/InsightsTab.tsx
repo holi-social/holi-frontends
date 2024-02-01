@@ -5,14 +5,14 @@ import { StyleSheet, View } from 'react-native'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { insightsByUserIdQuery } from '@holi/core/queries'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export interface InsightsTabProps {
   userId: string
@@ -28,7 +28,7 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
       logError(error, 'Failed to load insights for user', { location: 'InsightsTab.insightsByUserIdQuery' }),
   })
   const insights = data?.insightsByUserId
-  const hasInsights = insights && insights.totalResults > 0
+  const hasInsights = !!insights?.totalResults
 
   return hasInsights ? (
     <>
@@ -38,7 +38,7 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
             <HoliLink label="" href={`/insights/${insight.id}`}>
               <HoliColumns padding={[40, 24]} alignItems="flex-start">
                 <HoliColumn padding={[0, 16, 0, 0]} flex={2}>
-                  <HoliHeading level="3" size="small">
+                  <HoliHeading level="3" size="s">
                     {insight.title}
                   </HoliHeading>
                 </HoliColumn>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     width: '100%',
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
     borderBottomWidth: 1,
     borderStyle: 'solid',
     borderBottomColor: colors.background30,

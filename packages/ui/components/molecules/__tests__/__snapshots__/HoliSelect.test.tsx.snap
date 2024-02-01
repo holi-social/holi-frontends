@@ -22,9 +22,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -94,9 +91,9 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
-          accessibilityControls="multiselect-options"
           accessible={true}
+          aria-autocomplete="list"
+          aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -116,6 +113,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           placeholder="Label · 2"
           placeholderTextColor="#262424"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -130,9 +128,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -361,9 +356,9 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
     getItemCount={[Function]}
     handlerTag={8}
     handlerType="NativeViewGestureHandler"
+    id="multiselect-options"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="multiselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -1408,9 +1403,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -1480,9 +1472,9 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
-          accessibilityControls="multiselect-options"
           accessible={true}
+          aria-autocomplete="list"
+          aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -1502,6 +1494,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           placeholder="Children & Youth"
           placeholderTextColor="#262424"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -1516,9 +1509,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -1747,9 +1737,9 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
     getItemCount={[Function]}
     handlerTag={7}
     handlerType="NativeViewGestureHandler"
+    id="multiselect-options"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="multiselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -2735,9 +2725,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -2802,8 +2789,8 @@ exports[`MultiSelect renders correctly when closed 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -2822,6 +2809,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -2836,9 +2824,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -3010,9 +2995,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -3082,9 +3064,9 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
-          accessibilityControls="multiselect-options"
           accessible={true}
+          aria-autocomplete="list"
+          aria-controls="multiselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -3103,6 +3085,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -3117,9 +3100,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -3348,9 +3328,9 @@ exports[`MultiSelect renders correctly when opened 1`] = `
     getItemCount={[Function]}
     handlerTag={6}
     handlerType="NativeViewGestureHandler"
+    id="multiselect-options"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="multiselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -4277,9 +4257,6 @@ exports[`SingleSelect correctly filters options 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -4318,9 +4295,9 @@ exports[`SingleSelect correctly filters options 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
-          accessibilityControls="singleselect-options"
           accessible={true}
+          aria-autocomplete="list"
+          aria-controls="singleselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -4339,6 +4316,7 @@ exports[`SingleSelect correctly filters options 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -4353,9 +4331,6 @@ exports[`SingleSelect correctly filters options 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -4740,9 +4715,9 @@ exports[`SingleSelect correctly filters options 1`] = `
     getItemCount={[Function]}
     handlerTag={2}
     handlerType="NativeViewGestureHandler"
+    id="singleselect-options"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="singleselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -5653,9 +5628,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -5690,8 +5662,8 @@ exports[`SingleSelect renders correctly after selection 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -5711,6 +5683,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
           placeholder="Children & Youth"
           placeholderTextColor="#262424"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -5725,9 +5698,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -5900,9 +5870,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -5937,8 +5904,8 @@ exports[`SingleSelect renders correctly when closed 1`] = `
         testID="holi-text-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
           accessible={true}
+          aria-autocomplete="list"
           aria-expanded={false}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -5957,6 +5924,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -5971,9 +5939,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -6145,9 +6110,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
       style={
         [
           {
-            "minWidth": 190,
-          },
-          {
             "maxWidth": 750,
           },
           {
@@ -6186,9 +6148,9 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         testID="test-input"
       >
         <TextInput
-          accessibilityAutoComplete="list"
-          accessibilityControls="singleselect-options"
           accessible={true}
+          aria-autocomplete="list"
+          aria-controls="singleselect-options"
           aria-expanded={true}
           aria-haspopup="menu"
           aria-label="Accessibility label"
@@ -6207,6 +6169,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           onFocus={[Function]}
           placeholderTextColor="#787777"
           role="combobox"
+          scrollEnabled={true}
           secureTextEntry={false}
           style={
             [
@@ -6221,9 +6184,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               },
               {
                 "width": "100%",
-              },
-              {
-                "height": 22,
               },
             ]
           }
@@ -6452,9 +6412,9 @@ exports[`SingleSelect renders correctly when opened 1`] = `
     getItemCount={[Function]}
     handlerTag={1}
     handlerType="NativeViewGestureHandler"
+    id="singleselect-options"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="singleselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}

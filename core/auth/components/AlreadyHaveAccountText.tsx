@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 
 export interface AlreadyHaveAccountTextProps {
   mobileNavigateBackFirst?: boolean
@@ -21,7 +21,6 @@ const AlreadyHaveAccountText = ({ mobileNavigateBackFirst = false, style }: Alre
           label={t('auth.login')}
           href="/login"
           size="small"
-          variant="secondary"
           mobileNavigateBackFirst={mobileNavigateBackFirst}
           testID="btn-to-login-form"
         />

@@ -8,6 +8,8 @@ export const geoPlacesQuery = gql`
       id
       name
       city
+      state
+      country
       coordinates {
         latitude
         longitude

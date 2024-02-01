@@ -3,12 +3,12 @@ import { Trans, useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import { ChatRoomMember } from '@holi/chat/src/client/types'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 
 interface RoomMessageListStartProps {
@@ -33,23 +33,21 @@ const RoomMessageListStart = ({ chatPartnerHoliUser, member }: RoomMessageListSt
           defaultColor={chatPartnerHoliUser.avatarDefaultColor}
           size="large"
         />
+        <HoliGap size="xs" />
 
-        <HoliBox padding={[8, 0, 0, 0]}>
-          <HoliHeading level="2">{chatPartnerHoliUser.fullName}</HoliHeading>
-        </HoliBox>
+        <HoliHeading level="2">{chatPartnerHoliUser.fullName}</HoliHeading>
       </HoliLink>
+      <HoliGap size="s" />
 
-      <HoliBox padding={[16, 0, 0, 0]}>
-        <HoliText>
-          <Trans t={t} i18nKey={'chat.room.start.description'} values={{ fullName: chatPartnerHoliUser.fullName }}>
-            <HoliTextLink
-              label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
-              href={`/profile/${chatPartnerHoliUser.id}`}
-              variant="primary"
-            />
-          </Trans>
-        </HoliText>
-      </HoliBox>
+      <HoliText>
+        <Trans t={t} i18nKey={'chat.room.start.description'} values={{ fullName: chatPartnerHoliUser.fullName }}>
+          <HoliTextLink
+            label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
+            href={`/profile/${chatPartnerHoliUser.id}`}
+            color="brandB300"
+          />
+        </Trans>
+      </HoliText>
     </View>
   )
 }

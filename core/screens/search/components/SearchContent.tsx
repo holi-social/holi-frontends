@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import SearchResultsList from '@holi/core/screens/search/components/SearchResultsList'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
@@ -11,7 +11,7 @@ import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { FilterType, filterTypes } from './types'
@@ -24,7 +24,7 @@ type SearchParams = {
   filter: FilterType
 }
 
-const { useParam } = createParam<SearchParams>()
+const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 
 const validateFilter = (value: FilterType): FilterType => {
   return filterTypes.includes(value) ? value : 'all'
@@ -55,8 +55,9 @@ const SearchContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
-  const [query = '', setQueryParam] = useParam('query', singleParamConfig)
-  const [selectedFilter, setFilterParam] = useParam('filter', singleParamConfig)
+  const [query = ''] = useParam('query', singleParamConfig)
+  const [selectedFilter] = useParam('filter', singleParamConfig)
+  const updateParams = useUpdateParams(webReplaceQueryConfig)
   const filter = validateFilter(selectedFilter as FilterType)
   const itemsToLoad = useRef<number>(FILTER_ALL_PAGE_SIZE)
 
@@ -70,7 +71,7 @@ const SearchContent = () => {
 
   const onSearchUserInputChange = (value: string) => {
     if (value.toLowerCase() !== query.toLowerCase()) {
-      setQueryParam(value)
+      updateParams({ query: value })
     }
   }
 
@@ -117,9 +118,7 @@ const SearchContent = () => {
               }`}
               selected={isSelected}
               loading={result?.loading}
-              onPress={() => {
-                setFilterParam(filterType)
-              }}
+              onPress={() => updateParams({ filter: filterType })}
             />
           )
         })}
@@ -129,7 +128,7 @@ const SearchContent = () => {
       <SearchResultsList
         query={query}
         filter={filter}
-        setFilter={setFilterParam}
+        setFilter={(filter) => updateParams({ filter })}
         searchQueryResult={searchQueryResult}
       />
     </View>
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
   inner: {
     flex: 1,
     // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: +vars.topBarHeight,
+    marginTop: dimensions.topBarHeight,
     paddingLeft: 0,
     paddingRight: 0,
   },

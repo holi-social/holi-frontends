@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -39,9 +39,8 @@ const EditSpaceTopics: React.VFC<EditSpaceTopicsProps> = ({ space, onDismiss }: 
   const onSave = () => updateSpace({ variables: { input: { id: space.id, topics: topics.map((topic) => topic.id) } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={!topics.length}>
+    <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={!topics.length}>
       <SpaceTermsInput
-        title={t('spaces.input.topics.title')}
         description={t('spaces.input.topics.description')}
         searchPlaceholder={t('spaces.input.topics.search')}
         hint={t('spaces.input.topics.hint')}
@@ -49,7 +48,7 @@ const EditSpaceTopics: React.VFC<EditSpaceTopicsProps> = ({ space, onDismiss }: 
         onSelect={setTopics}
         terms={allTopics}
       />
-    </EditSpaceModal>
+    </EditSpaceModalWithFooter>
   )
 }
 

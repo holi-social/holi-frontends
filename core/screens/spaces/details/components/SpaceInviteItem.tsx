@@ -115,8 +115,7 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
         <HoliAvatar
           imageSrc={invite.invitedUser.avatar}
           imageBlurhash={invite.invitedUser.avatarBlurhash}
-          label={invite.invitedUser.fullName}
-          aria-label={invitedName}
+          label={invitedName}
           initials={invite.invitedUser.avatarLabel}
           defaultColor={invite.invitedUser.avatarDefaultColor}
           size="small"

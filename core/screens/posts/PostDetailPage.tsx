@@ -18,7 +18,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
@@ -28,13 +28,13 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
@@ -44,7 +44,7 @@ export type PostDetailPageParams = {
   spaceIdOrName?: string
 }
 
-const { useParam } = createParam<PostDetailPageParams>()
+const { useParam } = createParamHooks<PostDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<InsightsScreens | SpacesScreens>
 
@@ -52,8 +52,8 @@ const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage: React.VFC<ScreenProps> = () => {
-  const [insightId = ''] = useParam('insightId')
-  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
+  const [insightId] = useParam('insightId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   // `commentId` can be a UUID of a comment or hardcoded 'first' string value
   const [commentId] = useParam('commentId')
@@ -62,12 +62,9 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
 
-  const queryResult = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+  const { space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-    skip: !spaceIdOrName,
   })
-  const space = queryResult.data?.spaceById
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { t } = useTranslation()
@@ -80,6 +77,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data, refetch } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
+    skip: !postId,
     onError: (error) => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
@@ -146,7 +144,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         }}
         ref={scrollViewRef}
       >
-        <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
+        <View style={screenWidth > dimensions.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent
             hasVisibilityIcon={hasVisibilityIcon}
             style={styles.postContent}
@@ -181,7 +179,13 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         <View style={styles.postCommentWrapper}>
           <PostDetailFooter
             style={[styles.postCommentButton, isWeb && mixins.container]}
-            onPress={() => (isLoggedIn ? navigate(getPostCommentUrl()) : openLoginModal())}
+            onPress={() =>
+              isLoggedIn
+                ? navigate(getPostCommentUrl())
+                : openLoginModal({
+                    description: t('insights.posts.comments.loginRedirect.text'),
+                  })
+            }
           />
         </View>
       </SafeAreaView>

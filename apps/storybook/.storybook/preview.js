@@ -1,4 +1,3 @@
-import { RouterContext } from 'next/dist/shared/lib/router-context'
 import * as NextImage from 'next/image'
 import * as React from 'react'
 
@@ -23,17 +22,6 @@ export const parameters = {
     en: { title: 'English', left: '🇬🇧' },
     de: { title: 'Deutsch', left: '🇩🇪' },
   },
-  nextRouter: {
-    Provider: RouterContext.Provider, // documentation https://storybook.js.org/addons/storybook-addon-next-router
-  },
 }
 
 export const loaders = [async () => await awaitI18nInitialization]
-
-// de-optimize next Image component asset loading
-const OriginalNextImage = NextImage.default
-
-Object.defineProperty(NextImage, 'default', {
-  configurable: true,
-  value: (props) => <OriginalNextImage {...props} unoptimized />,
-})

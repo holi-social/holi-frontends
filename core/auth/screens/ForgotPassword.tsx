@@ -12,7 +12,7 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
 export interface ForgotPasswordProps {
   webview?: boolean
@@ -29,7 +29,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
     if (!webview)
       setScreenOptions({
         headerTitle: () => (
-          <HoliHeading level="1" size="small">
+          <HoliHeading level="1" size="s">
             {t('auth.forgotPassword')}
           </HoliHeading>
         ),

@@ -18,7 +18,7 @@ import {
 import { isWeb } from '@holi/chat/src/utils'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -29,7 +29,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChatHomeNeedToLogin = () => {
@@ -102,7 +102,7 @@ type ChatHomeContentParams = {
   activeTab: string
 }
 
-const { useParam } = createParam<ChatHomeContentParams>()
+const { useParam } = createParamHooks<ChatHomeContentParams>()
 
 const tabRoomAtomsRecordAtom = atom<Record<string, ChatRoomAtom[]>>((get) => {
   const roomAtoms = get(roomAtomsAtom)
@@ -163,7 +163,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <HoliBox padding={[+vars.topBarHeight + (Platform.OS === 'android' ? safeAreaInsetTop : 0), 0, 0, 0]}>
+      <HoliBox padding={[dimensions.topBarHeight + (Platform.OS === 'android' ? safeAreaInsetTop : 0), 0, 0, 0]}>
         <ChatTabBar selectedTabId={selectedTabId} />
       </HoliBox>
 
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   },
   overlayButton: {
     position: 'absolute',
-    bottom: (isWeb ? +vars.bottomBarHeight : 0) + 12,
+    bottom: (isWeb ? dimensions.bottomBarHeight : 0) + 12,
     right: 12,
     borderWidth: 1,
     paddingVertical: 16,

@@ -3,10 +3,10 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -35,7 +35,8 @@ const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = 
       <HoliGridCell key={idx}>
         <HoliSkeleton aspectRatio={327 / 214} borderRadius={24} height={'auto'} width={'100%'} />
         <HoliText size="extrasmall" style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
-        <HoliHeading level="2" size="small" style={styles.topicTitle} loading skeletonOptions={{ width: '100%' }} />
+        <HoliGap size="xs" />
+        <HoliHeading level="2" size="s" loading skeletonOptions={{ width: '100%' }} />
         <HoliText size="extrasmall" style={{ marginTop: 8 }} loading skeletonOptions={{ width: '60%' }} />
       </HoliGridCell>
     )
@@ -53,20 +54,13 @@ const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = 
 
   return (
     <View style={[mixins.container, styles.container]}>
-      <HoliBox padding={[0, 0, 24, 0]}>
-        <>
-          <HoliHeading level="1" loading skeletonOptions={{ width: '60%' }} />
-        </>
-        <View style={styles.partnerInfoRow}>
-          {partnerSkeleton}
-          <HoliText style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
-        </View>
-        {isFiltering && (
-          <>
-            <HoliText bold style={styles.searchQuery} loading skeletonOptions={{ width: '40%' }} />
-          </>
-        )}
-      </HoliBox>
+      <HoliHeading level="1" loading skeletonOptions={{ width: '60%' }} />
+      <View style={styles.partnerInfoRow}>
+        {partnerSkeleton}
+        <HoliText style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />
+      </View>
+      {isFiltering && <HoliText bold style={styles.searchQuery} loading skeletonOptions={{ width: '40%' }} />}
+      <HoliGap />
       <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
         {skeletonItems}
       </HoliGridWrapper>
@@ -91,10 +85,6 @@ const getLogoStyles = (logoWidth: number, idx: number) => {
 }
 
 const styles = StyleSheet.create({
-  topicTitle: {
-    color: colors.brandColorB30,
-    marginTop: 8,
-  },
   spaceTop: {
     marginTop: 8,
     width: '100%',

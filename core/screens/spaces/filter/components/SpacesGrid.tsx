@@ -8,7 +8,7 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 interface BaseProps {
   spaces: Space[]
@@ -29,8 +29,8 @@ type SpacesGridProps = SkeletonProps | Props
 
 const spaceBreakpointGridValues: [number, number][] = [
   [0, 2],
-  [+vars.breakpointM, 3],
-  [+vars.breakpointL, 4],
+  [dimensions.breakpointM, 3],
+  [dimensions.breakpointL, 4],
 ]
 
 const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<SpacesGridProps>) => {

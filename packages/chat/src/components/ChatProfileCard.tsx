@@ -7,14 +7,14 @@ import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { joinRoom, leaveRoom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliDivider from '@holi/ui/components/atoms/HoliDivider'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 interface Props {
   roomId: string
@@ -57,7 +57,7 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
                 loading={userIsLoading}
               />
               <View>
-                <HoliHeading size="medium">{user.fullName}</HoliHeading>
+                <HoliHeading size="m">{user.fullName}</HoliHeading>
                 {!!user?.pronouns && <HoliText color="gray300">{user?.pronouns}</HoliText>}
               </View>
             </>
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     width: '100%',
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
     paddingHorizontal: 16,
-    paddingVertical: vars.bottomBarHeight,
+    paddingVertical: dimensions.bottomBarHeight,
   },
   buttons: {
     flexDirection: 'row',

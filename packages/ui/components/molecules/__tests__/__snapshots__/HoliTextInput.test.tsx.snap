@@ -18,9 +18,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     style={
       [
         {
-          "minWidth": 190,
-        },
-        {
           "maxWidth": 750,
         },
         {
@@ -87,8 +84,8 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
       testID="holi-text-input-wrapper"
     >
       <TextInput
-        accessibilityAutoComplete="inline"
         accessible={true}
+        aria-autocomplete="inline"
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
@@ -105,6 +102,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         onFocus={[Function]}
         placeholder="Placeholder"
         placeholderTextColor="#bfbebe"
+        scrollEnabled={true}
         secureTextEntry={false}
         style={
           [
@@ -119,9 +117,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
             },
             {
               "width": "100%",
-            },
-            {
-              "height": 22,
             },
           ]
         }
@@ -189,9 +184,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     style={
       [
         {
-          "minWidth": 190,
-        },
-        {
           "maxWidth": 750,
         },
         {
@@ -255,8 +247,8 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
       testID="holi-text-input-wrapper"
     >
       <TextInput
-        accessibilityAutoComplete="inline"
         accessible={true}
+        aria-autocomplete="inline"
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
@@ -273,6 +265,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         onFocus={[Function]}
         placeholder="Placeholder"
         placeholderTextColor="#bfbebe"
+        scrollEnabled={false}
         secureTextEntry={false}
         style={
           [
@@ -287,9 +280,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
             },
             {
               "width": "100%",
-            },
-            {
-              "height": 22,
             },
           ]
         }
@@ -357,9 +347,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     style={
       [
         {
-          "minWidth": 190,
-        },
-        {
           "maxWidth": 750,
         },
         {
@@ -423,8 +410,8 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
       testID="holi-text-input-wrapper"
     >
       <TextInput
-        accessibilityAutoComplete="inline"
         accessible={true}
+        aria-autocomplete="inline"
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
@@ -441,6 +428,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         onFocus={[Function]}
         placeholder="Placeholder"
         placeholderTextColor="#bfbebe"
+        scrollEnabled={false}
         secureTextEntry={false}
         style={
           [
@@ -455,9 +443,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
             },
             {
               "width": "100%",
-            },
-            {
-              "height": 22,
             },
           ]
         }
@@ -524,9 +509,6 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
   <View
     style={
       [
-        {
-          "minWidth": 190,
-        },
         {
           "maxWidth": 750,
         },
@@ -600,8 +582,8 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
       testID="holi-text-input-wrapper"
     >
       <TextInput
-        accessibilityAutoComplete="inline"
         accessible={true}
+        aria-autocomplete="inline"
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
@@ -618,6 +600,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         onFocus={[Function]}
         placeholder="Placeholder"
         placeholderTextColor="#bfbebe"
+        scrollEnabled={true}
         secureTextEntry={false}
         style={
           [
@@ -632,9 +615,6 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
             },
             {
               "maxWidth": "100%",
-            },
-            {
-              "height": 22,
             },
           ]
         }
@@ -702,9 +682,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     style={
       [
         {
-          "minWidth": 190,
-        },
-        {
           "maxWidth": 750,
         },
         {
@@ -768,8 +745,8 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       testID="holi-text-input-wrapper"
     >
       <TextInput
-        accessibilityAutoComplete="inline"
         accessible={true}
+        aria-autocomplete="inline"
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
@@ -786,6 +763,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         onFocus={[Function]}
         placeholder="Placeholder"
         placeholderTextColor="#bfbebe"
+        scrollEnabled={true}
         secureTextEntry={false}
         style={
           [
@@ -800,9 +778,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             },
             {
               "width": "100%",
-            },
-            {
-              "height": 22,
             },
           ]
         }
@@ -943,9 +918,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     style={
       [
         {
-          "minWidth": 190,
-        },
-        {
           "maxWidth": 750,
         },
         {
@@ -1009,8 +981,8 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
       testID="holi-text-input-wrapper"
     >
       <TextInput
-        accessibilityAutoComplete="inline"
         accessible={true}
+        aria-autocomplete="inline"
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="current-password"
@@ -1027,6 +999,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         onFocus={[Function]}
         placeholder="Placeholder"
         placeholderTextColor="#bfbebe"
+        scrollEnabled={true}
         secureTextEntry={true}
         style={
           [
@@ -1041,9 +1014,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
             },
             {
               "width": "100%",
-            },
-            {
-              "height": 22,
             },
           ]
         }
@@ -1112,9 +1082,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
     style={
       [
         {
-          "minWidth": 190,
-        },
-        {
           "maxWidth": 750,
         },
         {
@@ -1149,8 +1116,8 @@ exports[`HoliTextInput renders correctly without label 1`] = `
       testID="holi-text-input-wrapper"
     >
       <TextInput
-        accessibilityAutoComplete="inline"
         accessible={true}
+        aria-autocomplete="inline"
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
@@ -1167,6 +1134,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         onFocus={[Function]}
         placeholder="Placeholder"
         placeholderTextColor="#bfbebe"
+        scrollEnabled={true}
         secureTextEntry={false}
         style={
           [
@@ -1181,9 +1149,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
             },
             {
               "width": "100%",
-            },
-            {
-              "height": 22,
             },
           ]
         }

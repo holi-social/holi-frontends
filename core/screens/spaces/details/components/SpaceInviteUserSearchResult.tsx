@@ -16,6 +16,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 type SpaceInviteUserSearchResultProps = {
   spaceId: string
   onInviteHandled: () => void
+  emptyText?: string
 }
 
 const SPACE_CONNECTION_STATUS_PRIORITY = [
@@ -27,7 +28,11 @@ const SPACE_CONNECTION_STATUS_PRIORITY = [
 const getMostRelevantSpaceConnectionStatus = (statusList: SpaceConnectionType[] = []) =>
   SPACE_CONNECTION_STATUS_PRIORITY.find((connectionType) => statusList.includes(connectionType))
 
-const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = ({ spaceId, onInviteHandled }) => {
+const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = ({
+  spaceId,
+  onInviteHandled,
+  emptyText,
+}) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const navigateToUser = useCallback((user: User) => navigate(`/profile/${user.id}`), [navigate])
@@ -38,7 +43,7 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
     return <HoliLoader style={styles.loader} />
   }
   if (!users?.length) {
-    return <HoliText>{t('spaces.invite.user.notFound')}</HoliText>
+    return <HoliText>{emptyText ?? t('spaces.invite.user.notFound')}</HoliText>
   }
   return (
     <View style={styles.list}>
@@ -59,8 +64,8 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
               <HoliAvatar
                 imageSrc={user.avatar}
                 imageBlurhash={user.avatarBlurhash}
-                label=""
-                aria-label={user.fullName || t('user.profileView.anonymous')}
+                label={user.fullName || t('user.profileView.anonymous')}
+                aria-hidden
                 initials={user.avatarLabel}
                 defaultColor={user.avatarDefaultColor}
                 size="medium"

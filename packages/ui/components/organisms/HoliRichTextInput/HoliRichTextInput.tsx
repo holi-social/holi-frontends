@@ -191,6 +191,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
         style={styles.input}
         editable={!disabled}
         maxLength={props.maxNoOfCharacters}
+        testID={(props.testID || 'richtext-component') + '-input'}
       />
       <CharactersCount />
     </View>

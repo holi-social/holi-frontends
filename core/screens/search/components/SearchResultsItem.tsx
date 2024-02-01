@@ -2,11 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User, isHoliUser } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 

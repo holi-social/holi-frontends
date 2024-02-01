@@ -3,23 +3,22 @@ import { useTranslation } from 'react-i18next'
 import { SectionList, View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
+import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
-import { isChatTextMessage } from '@holi/chat/src/components/RoomMessageList/types'
-import { ChatMessage } from '@holi/chat/src/store'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
-import { RoomMessageListProps } from './types'
+import { RoomMessageListProps, isTextMessageItem } from './types'
 
 interface MessageDateGroup {
   title: string
-  data: ChatMessage[]
+  data: ChatRoomMessage[]
   roomType: string
 }
 
-const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[] => {
+const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageDateGroup[] => {
   const groupedMessages: Record<string, MessageDateGroup> = {}
   locale = getLocale(locale)
 
@@ -66,10 +65,10 @@ const RoomMessageList = ({
         const isFirstMessageInSection = index === 0
         const prevMessage = list[index + 1]
         const isPrevMessageFromSameUser =
-          !!prevMessage && isChatTextMessage(prevMessage) && prevMessage?.sender === message.sender
+          !!prevMessage && isTextMessageItem(prevMessage) && prevMessage.sender === message.sender
         const nextMessage = list[index - 1]
         const isNextMessageFromSameUser =
-          !!nextMessage && isChatTextMessage(nextMessage) && nextMessage?.sender === message.sender
+          !!nextMessage && isTextMessageItem(prevMessage) && nextMessage.sender === message.sender
 
         return (
           <View style={styles.listItemContainer}>
@@ -112,10 +111,10 @@ const styles = StyleSheet.create({
   listItemContainer: {
     alignSelf: 'center',
     width: '100%',
-    maxWidth: +vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
   },
   listFooterSpacer: {
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
   listHeaderSpacer: {
     height: 20,

@@ -3,110 +3,121 @@ import React from 'react'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
-const allColors = [
+interface Color {
+  name: string
+  code?: string
+  description: string
+  cssClass?: string
+}
+interface ColorFamily {
+  familyName: string
+  colors: Color[]
+  isGradient?: boolean
+}
+
+const allColors: ColorFamily[] = [
   {
-    familyName: 'Foreground',
+    familyName: 'Black',
+    colors: [{ name: '$black300', code: colors.black300, description: 'Headline, links, button borders' }],
+  },
+  {
+    familyName: 'Gray',
     colors: [
-      { name: '$forground30', code: colors.foreground30, description: 'Headline, links, button borders' },
-      { name: '$forground20', code: colors.foreground20, description: 'Support text, body' },
-      { name: '$forground10', code: colors.foreground10, description: 'Disabled text, details' },
+      {
+        name: '$gray300',
+        code: colors.gray300,
+        description: 'Support text, body',
+      },
+      { name: '$gray200', code: colors.gray200, description: 'Disabled text, details' },
+      { name: '$gray100', code: colors.gray100, description: 'Background details like input borders, button borders' },
     ],
   },
   {
-    familyName: 'Background',
+    familyName: 'White',
     colors: [
       {
-        name: '$background30',
-        code: colors.background30,
-        description: 'Background details: input borders, button borders',
+        name: '$white200',
+        code: colors.white200,
+        description: 'Large containers: pages, main divs',
       },
-      { name: '$background20', code: colors.background20, description: 'Large areas: pages, main divs' },
-      { name: '$background10', code: colors.background10, description: 'Small areas: buttons, pills, tags, cells' },
+      { name: '$white100', code: colors.white100, description: 'Small areas: buttons, pills, tags, cells' },
     ],
   },
   {
     familyName: 'Brand A',
     colors: [
-      { name: '$brandColorA30', code: colors.brandColorA30, description: 'Contrasted yellow' },
-      { name: '$brandColorA20', code: colors.brandColorA20, description: 'Main yellow, CTAs, buttons' },
-      { name: '$brandColorA10', code: colors.brandColorA10, description: 'Soft yellow' },
+      { name: '$brandA300', code: colors.brandA300, description: 'Contrasted yellow' },
+      { name: '$brandA200', code: colors.brandA200, description: 'Main yellow, CTAs, buttons' },
+      { name: '$brandA100', code: colors.brandA100, description: 'Soft yellow' },
     ],
   },
   {
     familyName: 'Brand B',
     colors: [
-      { name: '$brandColorB30', code: colors.brandColorB30, description: 'Contrasted purple' },
-      { name: '$brandColorB20', code: colors.brandColorB20, description: 'Main purple, actions' },
-      { name: '$brandColorB10', code: colors.brandColorB10, description: 'Soft purple' },
+      { name: '$brandB300', code: colors.brandB300, description: 'Contrasted purple' },
+      { name: '$brandB200', code: colors.brandB200, description: 'Main purple, actions' },
+      { name: '$brandB100', code: colors.brandB100, description: 'Soft purple' },
     ],
   },
   {
     familyName: 'Brand C',
     colors: [
-      { name: '$brandColorC30', code: colors.brandColorC30, description: 'Contrasted green' },
-      { name: '$brandColorC20', code: colors.brandColorC20, description: 'Main green, pills' },
-      { name: '$brandColorC10', code: colors.brandColorC10, description: 'Soft green' },
+      { name: '$brandC300', code: colors.brandC300, description: 'Contrasted green' },
+      { name: '$brandC200', code: colors.brandC200, description: 'Main green, pills' },
+      { name: '$brandC100', code: colors.brandC100, description: 'Soft green' },
     ],
   },
   {
     familyName: 'Brand D',
     colors: [
-      { name: '$brandColorD30', code: colors.brandColorD30, description: 'Contrasted blue' },
-      { name: '$brandColorD20', code: colors.brandColorD20, description: 'Main blue, pills' },
-      { name: '$brandColorD10', code: colors.brandColorD10, description: 'Soft blue' },
+      { name: '$brandD300', code: colors.brandD300, description: 'Contrasted blue' },
+      { name: '$brandD200', code: colors.brandD200, description: 'Main blue, pills' },
+      { name: '$brandD100', code: colors.brandD100, description: 'Soft blue' },
     ],
   },
   {
     familyName: 'Warning',
     colors: [
-      { name: '$warning30', code: colors.warning30, description: 'Contrasted warning color' },
-      { name: '$warning20', code: colors.warning20, description: 'Main warning color' },
-      { name: '$warning10', code: colors.warning10, description: 'Soft warning color' },
+      { name: '$warning300', code: colors.warning300, description: 'Contrasted warning color' },
+      { name: '$warning200', code: colors.warning200, description: 'Main warning color' },
+      { name: '$warning100', code: colors.warning100, description: 'Background' },
     ],
   },
   {
     familyName: 'Error',
     colors: [
-      { name: '$error30', code: colors.error30, description: 'Contrasted error color' },
-      { name: '$error20', code: colors.error20, description: 'Main error color' },
-      { name: '$error10', code: colors.error10, description: 'Soft error color' },
+      { name: '$error300', code: colors.error300, description: 'Contrasted error color' },
+      { name: '$error200', code: colors.error200, description: 'Main error color' },
+      { name: '$error100', code: colors.error100, description: 'Background' },
     ],
   },
   {
     familyName: 'Overlay',
     colors: [
-      { name: '$foreground30at48Percent', code: colors.foreground30at48Percent, description: 'Overlays, Drawers' },
-      { name: '$foreground30at32Percent', code: colors.foreground30at32Percent, description: 'Details, Overlays' },
-      { name: '$foreground30at12Percent', code: colors.foreground30at12Percent, description: 'Details' },
+      { name: '$black300at48percent', code: colors.black300at48percent, description: 'Details' },
+      { name: '$black300at32percent', code: colors.black300at32percent, description: 'Overlays and drawers' },
+      { name: '$black300at12percent', code: colors.black300at12percent, description: 'Details' },
     ],
   },
   {
     familyName: 'Gradient',
+    isGradient: true,
     colors: [
       {
-        name: '$foreground30Top',
-        code: colors.foreground30,
-        description: 'Overlays, Drawers',
-        cssClass: 'gradient-top',
+        name: '$black300Top',
+        description: 'Headers',
+        cssClass: 'gradient-black300Top',
       },
       {
-        name: '$foreground30Bottom',
-        code: colors.foreground30,
-        description: 'Details, Overlays',
-        cssClass: 'gradient-bottom',
+        name: '$black300Bottom',
+        description: 'Footers',
+        cssClass: 'gradient-black300Bottom',
       },
     ],
   },
 ]
 
-const ColorBlock: React.VFC<{ name: string; code: string; description: string; cssClass: string }> = ({
-  name,
-  code,
-  description,
-  cssClass,
-}) => {
-  const isGradient = cssClass?.toLowerCase().includes('gradient')
-
+const ColorBlock = ({ name, code, description, cssClass, isGradient = false }: Color & { isGradient?: boolean }) => {
   return (
     <div className={`color-item ${cssClass} ${isGradient && 'warning'}`}>
       <div className="color-block" style={{ backgroundColor: code }} />
@@ -142,6 +153,7 @@ export const ColorsOverview = () => {
                 code={color.code}
                 description={color.description}
                 cssClass={color.cssClass}
+                isGradient={familiy.isGradient}
               />
             ))}
           </div>

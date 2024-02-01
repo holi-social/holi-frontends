@@ -12,11 +12,11 @@ import {
 } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export interface UseConfirmation {
   show: boolean
@@ -89,7 +89,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
 }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
-  const smallDeviceWidth = parseInt(vars.breakpointXs, 10) + 50
+  const smallDeviceWidth = parseInt(dimensions.breakpointXs, 10) + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
 
   const styles = createStyles(screenWidth, smallDeviceWidth, isSmallDevice)
@@ -112,7 +112,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
         <Pressable onPress={onDismiss} style={styles.backdrop} testID={`${testID}-confirmation-backdrop`} />
 
         <View style={styles.modalView}>
-          <HoliHeading level="4" size="small">
+          <HoliHeading level="3" size="s">
             {title}
           </HoliHeading>
           <HoliText style={styles.description} testID={`${testID}-confirmation-description`}>

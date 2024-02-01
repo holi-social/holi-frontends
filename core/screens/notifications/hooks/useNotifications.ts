@@ -6,6 +6,7 @@ import { logDebug } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
   Notification,
+  NotificationAppointments,
   NotificationPost,
   NotificationSpaceConnection,
   NotificationSpacePost,
@@ -127,7 +128,7 @@ export const useNotifications = () => {
 
 function mapToNotification(
   message: IMessage
-): NotificationSpaceConnection | NotificationPost | NotificationSpacePost | undefined {
+): NotificationSpaceConnection | NotificationPost | NotificationSpacePost | NotificationAppointments | undefined {
   const { data, notificationType } = message.payload
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
@@ -165,6 +166,17 @@ function mapToNotification(
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationSpacePost['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
+    case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
+    case NovuNotificationType.SPACE_APPOINTMENT_DELETION:
+      return {
+        id: message._id,
+        notificationType,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationAppointments['options'],
         content: message.content.toString(),
       }
   }

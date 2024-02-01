@@ -10,14 +10,14 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
-const { useParam } = createParam<VideoCallParams>()
+const { useParam } = createParamHooks<VideoCallParams>()
 
 const VideoCall: React.FC = () => {
   const [roomName] = useParam('roomName')
@@ -34,7 +34,7 @@ const VideoCall: React.FC = () => {
     if (roomName) {
       setScreenOptions({
         headerTitle: () => (
-          <HoliHeading level="1" size="small" numberOfLines={1}>
+          <HoliHeading level="1" size="s" numberOfLines={1}>
             {t('videocall.webview.heading', { roomName })}
           </HoliHeading>
         ),
@@ -100,8 +100,16 @@ const VideoCall: React.FC = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight - +vars.topBarHeight,
-      marginTop: vars.topBarHeight,
+      ...Platform.select({
+        android: {
+          marginTop: dimensions.topBarHeight,
+          minHeight: deviceHeight - dimensions.topBarHeight,
+        },
+        ios: {
+          marginTop: 12,
+          minHeight: deviceHeight - dimensions.topBarHeight - dimensions.bottomBarHeight * 1.5,
+        },
+      }),
     },
   })
 

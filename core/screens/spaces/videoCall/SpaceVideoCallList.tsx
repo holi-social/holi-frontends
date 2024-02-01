@@ -4,29 +4,29 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
 }
-const { useParam } = createParam<SpaceVideoCallListParams>()
+const { useParam } = createParamHooks<SpaceVideoCallListParams>()
 
 const SpaceVideoCallList = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const { navigate } = useRouting()
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -54,8 +54,8 @@ const SpaceVideoCallList = () => {
               title={t('spaces.videocall.schedule.heading')}
               headerLeftIcon={CalendarCheck}
               headerRightIcon={ArrowRightS}
-              onPressHeaderLeft={showFeatureNotImplementedToast}
-              onPressHeaderRight={showFeatureNotImplementedToast}
+              onPressHeaderLeft={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+              onPressHeaderRight={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
               headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
             />
           </HoliBox>
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   },
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : +vars.topBarHeight,
+    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
     backgroundColor: colors.background20,
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
 })

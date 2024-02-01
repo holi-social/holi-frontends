@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/nextjs'
 import NextErrorComponent from 'next/error'
+import React from 'react'
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {

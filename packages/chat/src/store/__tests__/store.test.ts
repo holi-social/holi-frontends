@@ -6,12 +6,12 @@ it('should have ignored members', () => {
     {
       id: '@jared:holi.social',
       name: 'Jared',
-      membership: MembershipStatus.Joined,
+      membership: MembershipStatus.join,
     },
     {
       id: '@debbie:holi.social',
       name: 'Debbie Harry',
-      membership: MembershipStatus.Left,
+      membership: MembershipStatus.leave,
     },
   ]
 
@@ -23,7 +23,7 @@ it('should not have ignored members on a single member with joined membership', 
     {
       id: '@sky:holi.social',
       name: 'Sky',
-      membership: MembershipStatus.Joined,
+      membership: MembershipStatus.join,
     },
   ]
 
@@ -35,7 +35,7 @@ it('should have ignored members on a single member with leaved membership', () =
     {
       id: '@sky:holi.social',
       name: 'Sky',
-      membership: MembershipStatus.Left,
+      membership: MembershipStatus.leave,
     },
   ]
 
@@ -47,12 +47,12 @@ it('should not have only ignored members on 1:1 room', () => {
     {
       id: '@sky:holi.social',
       name: 'Sky',
-      membership: MembershipStatus.Joined,
+      membership: MembershipStatus.join,
     },
     {
       id: '@rusty:holi.social',
       name: 'Rusty',
-      membership: MembershipStatus.Invited,
+      membership: MembershipStatus.invite,
     },
   ]
 

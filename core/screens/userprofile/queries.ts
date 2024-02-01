@@ -1,21 +1,19 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import { memberSpacesFragment } from '@holi/core/queries'
 import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
-import type { MemberSpaces, Paged } from '@holi/core/types'
+import type { Paged } from '@holi/core/types'
 
-export const FullUserAvatarFragment = gql`
-  fragment FullUserAvatar on User {
+// This fragment is used in a lot of places throughout the app
+// Do NOT add anymore fields here that are not required for HoliAvatar
+export const UserAvatarFragment = gql`
+  fragment UserAvatar on User {
     id
-    identity
     avatar
     avatarBlurhash
     avatarLabel
     avatarDefaultColor
     fullName
-    aboutMe
-    pronouns
   }
 `
 
@@ -82,31 +80,13 @@ export const userByIdQuery = gql`
   }
 `
 
-export interface UserbyIdWithSpacesResponse {
-  userById: User
-  spaces: MemberSpaces
-}
-
-export const userByIdWithSpacesQuery = gql`
-  ${FullUserFragment}
-  ${memberSpacesFragment}
-
-  query UserByIdWithSpaces($userId: UUID!) {
-    userById(id: $userId) {
-      ...FullUser
-    }
-    spaces(memberId: $userId) {
-      ...MemberSpaces
-    }
-  }
-`
-
 export const userByNameQuery = gql`
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
   query UserByName($substring: String!, $limit: Int!, $offset: Int!) {
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
-        ...FullUserAvatar
+        ...UserAvatar
+        identity
       }
       totalResults
     }
@@ -118,11 +98,13 @@ export type UserByNameResponse = {
 }
 
 export const usersByChatIdentitiesQuery = gql`
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
   query UsersByChatIdentities($identities: [String!]!, $limit: Int!, $offset: Int!) {
     usersByChatIdentities(identities: $identities, limit: $limit, offset: $offset) {
       data {
-        ...FullUserAvatar
+        ...UserAvatar
+        identity
+        pronouns
       }
     }
   }

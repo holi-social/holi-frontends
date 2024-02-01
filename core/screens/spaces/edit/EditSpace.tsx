@@ -1,16 +1,14 @@
-import { useQuery } from '@apollo/client'
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
@@ -26,14 +24,15 @@ import EditSpaceLocation from '@holi/core/screens/spaces/edit/components/EditSpa
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/edit/components/EditSpaceNameAndGoal'
 import EditSpaceSDGs from '@holi/core/screens/spaces/edit/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/edit/components/EditSpaceTopics'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -43,7 +42,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 enum EditFields {
@@ -57,12 +56,23 @@ enum EditFields {
   LINKS = 'LINKS',
 }
 
+const editTitles: Record<EditFields, string> = {
+  [EditFields.NAME]: 'spaces.input.nameAndGoal.title',
+  [EditFields.TOPICS]: 'spaces.input.topics.title',
+  [EditFields.SDGS]: 'spaces.input.sdgs.title',
+  [EditFields.COVER_IMAGE]: 'spaces.edit.mainImage',
+  [EditFields.AVATAR]: 'spaces.edit.avatar',
+  [EditFields.LOCATION]: 'spaces.input.location.title',
+  [EditFields.CONTACT]: 'space.input.contact.title',
+  [EditFields.LINKS]: 'spaces.input.publicLinks.manage.title',
+}
+
 export type EditSpaceParams = {
   spaceIdOrName: string
   onboarding: string
 }
 
-const { useParam } = createParam<EditSpaceParams>()
+const { useParam } = createParamHooks<EditSpaceParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 type OnboardingCard = {
@@ -75,21 +85,21 @@ type OnboardingCard = {
 
 const onboardingContentList: Array<OnboardingCard> = [
   {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg'),
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.png'),
     description: 'spaces.edit.onboarding.description',
     instruction: 'spaces.edit.onboarding.instruction',
-    width: 202,
-    height: 179,
+    width: 279,
+    height: 200,
   },
   {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.svg'),
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.png'),
     description: 'spaces.edit.onboarding.tip1',
     instruction: '',
-    width: 215,
-    height: 188,
+    width: 279,
+    height: 200,
   },
   {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.svg'),
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.png'),
     description: 'spaces.edit.onboarding.tip2',
     instruction: '',
     width: 279,
@@ -109,19 +119,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const statusBarHeight = Constants.statusBarHeight
-  const styles = getStyles(statusBarHeight)
+  const windowWidth = useWindowDimensions().width
 
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load space', { location: 'EditSpace.spaceByIdQuery', spaceIdOrName })
-    },
-  })
+  const styles = getStyles(statusBarHeight, windowWidth)
 
-  const space = data?.spaceById
+  const { loading, error, space } = useSpace(spaceIdOrName)
 
   const { visible, show, hide } = useModalState()
 
@@ -201,7 +203,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 <HoliIcon icon={Edit2} />
               </HoliButton>
               <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
-              <HoliHeading level="1" size="medium" style={styles.title} testID="space-edit-title">
+              <HoliGap />
+              <HoliHeading level="1" size="m" testID="space-edit-title">
                 {space.title}
               </HoliHeading>
               <HoliButton
@@ -350,12 +353,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           </HoliButton>
         </View>
         <HoliModal
+          heading={editField ? t(editTitles[editField]) : ''}
           show={visible}
           label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
           onDismiss={handleModalClose}
           relativeHeight={isEdit ? 1 : undefined}
-          autoHeight={isEdit ? false : true}
-          headerStyle={styles.modalHeader}
+          headerStyle={isEdit ? styles.modalHeader : styles.onboardingModalHeader}
           testID="space-chips-modal"
           style={isOnboarding && !isEdit ? styles.modal : undefined}
         >
@@ -377,6 +380,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               onActionButtonPress={handleModalClose}
               headlineText={t('spaces.edit.onboarding.header')}
               testID={'space-onboard-content'}
+              headlineAlign="center"
               style={[styles.modalContentWrapper]}
             >
               <HoliCarousel
@@ -398,7 +402,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   )
 }
 
-const getStyles = (statusBarHeight: number) =>
+const getStyles = (statusBarHeight: number, windowWidth: number) =>
   StyleSheet.create({
     defaultLayout: {
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
@@ -416,10 +420,13 @@ const getStyles = (statusBarHeight: number) =>
     },
     wrapper: {
       justifyContent: 'center',
-      paddingTop: vars.topBarHeight + statusBarHeight,
+      paddingTop: dimensions.topBarHeight + statusBarHeight,
     },
     modalHeader: {
       backgroundColor: colors.background20,
+    },
+    onboardingModalHeader: {
+      backgroundColor: colors.background30,
     },
     header: {
       alignItems: 'center',
@@ -444,9 +451,6 @@ const getStyles = (statusBarHeight: number) =>
     },
     container: {
       alignItems: 'center',
-    },
-    title: {
-      paddingTop: 24,
     },
     body: {
       backgroundColor: colors.background20,
@@ -481,12 +485,13 @@ const getStyles = (statusBarHeight: number) =>
     },
     overlayButton: {
       marginHorizontal: 'auto',
-      maxWidth: vars.maxButtonWidth,
+      maxWidth: dimensions.maxButtonWidth,
     },
     modalContentWrapper: {
       ...Platform.select({
         web: {
           maxWidth: '100%',
+          alignItems: windowWidth > dimensions.breakpointXl ? 'center' : undefined,
         },
         native: {
           flexShrink: 1,
@@ -495,34 +500,21 @@ const getStyles = (statusBarHeight: number) =>
       }),
       backgroundColor: colors.background30,
     },
-    illustration: {
-      marginBottom: 8,
-    },
     carouselContainer: {
       width: '100%',
       display: 'flex',
+      justifyContent: 'center',
       flex: 1,
-      marginBottom: Platform.OS === 'web' ? 54 : 0,
-    },
-    onboardCardContainer: {
-      padding: 24,
-      borderWidth: 1,
-      borderRadius: 16,
-      borderColor: colors.foreground30,
-      alignItems: 'center',
-      alignContent: 'center',
-      backgroundColor: colors.background20,
-      flex: 1,
-    },
-    onboardingDescription: {
-      marginTop: 24,
-    },
-    onboardingInstruction: {
-      marginTop: 12,
+      ...Platform.select({
+        web: {
+          marginBottom: 54,
+          marginTop: 8,
+        },
+      }),
     },
     modal: {
       backgroundColor: colors.background30,
-      height: Platform.OS === 'web' ? '100%' : '75%',
+      height: windowWidth <= dimensions.breakpointXs ? '100%' : windowWidth > dimensions.breakpointXl ? '70%' : '80%',
     },
   })
 

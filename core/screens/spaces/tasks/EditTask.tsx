@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -6,22 +6,22 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
 import { UpdateTaskResponse, UpdateTaskSchema, updateTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -31,7 +31,7 @@ export type EditTaskParams = {
   taskId: string
 }
 
-const { useParam } = createParam<EditTaskParams>()
+const { useParam } = createParamHooks<EditTaskParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
@@ -67,21 +67,9 @@ const EditTask: React.VFC<ScreenProps> = () => {
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
-  const {
-    data,
-    error: errorSpace,
-    loading: loadingSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
-    onError: (error) =>
-      logError(error, 'Failed to load space', {
-        location: 'EditTask.spaceByIdQuery',
-        spaceIdOrName,
-      }),
-  })
+  const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
   const { userId } = useAuth()
-  const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const task = (space?.tasks || []).find((t) => t.id === taskId)
@@ -148,6 +136,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       description,
       contactEmail,
       contactPhone,
+      slotsAvailable,
     })
     setInputValid(resultSchema.success)
 
@@ -209,7 +198,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
-          <HoliHeading level="1" size="small">
+          <HoliHeading level="1" size="s">
             {t('spaces.tasks.edit.title')}
           </HoliHeading>
         ),

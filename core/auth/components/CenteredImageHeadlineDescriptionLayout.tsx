@@ -2,12 +2,13 @@ import React from 'react'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import CenteredContentLayout, { CenteredContentLayoutProps } from '@holi/core/components/CenteredContentLayout'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 export interface CenteredImageHeadlineDescriptionLayoutProps extends CenteredContentLayoutProps {
   imageSource?: StaticImageData
@@ -51,13 +52,8 @@ const CenteredImageHeadlineDescriptionLayout = React.forwardRef<
               />
             </View>
           )}
-
-          <HoliHeading
-            level="1"
-            size="medium"
-            style={[styles.headline, !!imageSource && { marginTop: 74 }]}
-            testID={`${testID}-headline`}
-          >
+          {!!imageSource && <HoliBox padding={[74, 0, 0, 0]} />}
+          <HoliHeading level="1" size="m" align="center" testID={`${testID}-headline`}>
             {headlineText}
           </HoliHeading>
 
@@ -75,14 +71,10 @@ CenteredImageHeadlineDescriptionLayout.displayName = 'CenteredImageHeadlineDescr
 const styles = StyleSheet.create({
   inner: {
     alignItems: 'center',
-    maxWidth: vars.breakpointL,
+    maxWidth: dimensions.breakpointL,
   },
   imageContainer: {
     alignItems: 'center',
-  },
-  headline: {
-    fontWeight: '400',
-    textAlign: 'center',
   },
   description: {
     color: colors.foreground20,

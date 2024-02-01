@@ -1,27 +1,26 @@
-import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceTasksParams = {
   spaceIdOrName: string
 }
-const { useParam } = createParam<SpaceTasksParams>()
+const { useParam } = createParamHooks<SpaceTasksParams>()
 
 const SpaceTasks = () => {
   const { t } = useTranslation()
@@ -30,17 +29,14 @@ const SpaceTasks = () => {
 
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+  const { loading, space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-    skip: !spaceIdOrName,
   })
 
-  const space = data?.spaceById
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
 
   const setScreenOptions = useSetScreenOptions()
@@ -58,6 +54,10 @@ const SpaceTasks = () => {
       },
     })
   }, [setScreenOptions, t])
+
+  if (loading || !space) {
+    return <></>
+  }
 
   return (
     <>
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
   },
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : +vars.topBarHeight,
+    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
     backgroundColor: colors.background20,
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
   },
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',

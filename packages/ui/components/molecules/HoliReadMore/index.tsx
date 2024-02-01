@@ -6,7 +6,7 @@ import type { TextLayoutEventData, TextLayoutLine } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
+import { styles, truncateTextByLines } from '@holi/ui/components/molecules/HoliReadMore/shared'
 import type { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
@@ -79,13 +79,6 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
       )}
     </>
   )
-}
-
-export function truncateTextByLines(textLines: TextLayoutLine[], numberOfLines: number, ellipsis: string): string {
-  const shortTextLines = textLines.slice(0, numberOfLines)
-  const needsEllipsis = shortTextLines.length == numberOfLines
-  const shortText = shortTextLines.map((line) => line.text).join('')
-  return needsEllipsis ? shortText.replace(/\S*\W+$/, ellipsis) : shortText
 }
 
 export default HoliReadMore

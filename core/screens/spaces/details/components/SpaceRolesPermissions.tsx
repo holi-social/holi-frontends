@@ -1,25 +1,21 @@
-import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceRolesPermissionsParams = {
@@ -59,6 +55,15 @@ const ADMIN_PERMISSIONS: RolePermissions[] = [
     permissions: [
       { name: 'spaces.rolesAndPermissions.update.postCollab', allowed: true },
       { name: 'spaces.rolesAndPermissions.update.postPublic', allowed: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.appointments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.appointments.schedulePublic', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.scheduleColab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.editAny', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.deleteAny', allowed: true },
     ],
   },
   {
@@ -119,6 +124,15 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
     ],
   },
   {
+    role: 'spaces.rolesAndPermissions.appointments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.appointments.schedulePublic', allowed: false },
+      { name: 'spaces.rolesAndPermissions.appointments.scheduleColab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.editOwn', allowed: true },
+      { name: 'spaces.rolesAndPermissions.appointments.deleteOwn', allowed: true },
+    ],
+  },
+  {
     role: 'spaces.rolesAndPermissions.tasks.title',
     permissions: [
       { name: 'spaces.rolesAndPermissions.tasks.postCollab', allowed: true },
@@ -150,26 +164,17 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
   },
 ]
 
-const { useParam } = createParam<SpaceRolesPermissionsParams>()
+const { useParam } = createParamHooks<SpaceRolesPermissionsParams>()
 
 const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { replaceRoute } = useRouting()
 
-  const { data, error } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+  const { error, space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-    skip: !spaceIdOrName,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load space', { location: 'SpaceRolesPermissions.spaceByIdQuery', spaceIdOrName })
-    },
   })
 
   useLayoutEffect(() => {
@@ -228,14 +233,14 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
     )
   }
 
-  if (error || !data?.spaceById) {
+  if (error || !space) {
     return <></>
   }
 
   return (
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
-      space={data?.spaceById}
+      space={space}
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
       <SafeAreaView>
@@ -267,7 +272,7 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       android: {
-        paddingTop: +vars.topBarHeight,
+        paddingTop: dimensions.topBarHeight,
       },
     }),
   },
@@ -280,7 +285,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {

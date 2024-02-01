@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import React from 'react'
 
 import PostDetailPage from '@holi/core/screens/posts/PostDetailPage'
 

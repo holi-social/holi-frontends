@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
@@ -19,7 +19,7 @@ const UpdatesOfYourApps = () => {
   return (
     <HoliBox padding={[32, 0, 0, 0]}>
       <View style={[mixins.container, styles.wrapper]}>
-        <HoliHeading size="large">{t('apps.updates.headline')}</HoliHeading>
+        <HoliHeading size="l">{t('apps.updates.headline')}</HoliHeading>
         <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_DONATIONS}
           featureNameKey="donations:maintenance.feature"

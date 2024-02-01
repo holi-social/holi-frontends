@@ -5,7 +5,9 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -36,19 +38,14 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
       <View {...props}>
         <HoliSkeleton aspectRatio={327 / 206} borderRadius={16} height={'auto'} width={'100%'} />
 
-        <HoliHeading level="3" selectable size="xSmall" style={styles.topicTitle} loading />
+        <HoliGap size="s" />
+        <HoliText size="small" selectable style={{ color: colors.brandB300 }} loading />
 
-        <HoliHeading
-          level="2"
-          selectable
-          size="small"
-          numberOfLines={3}
-          style={styles.spaceTop}
-          loading
-          skeletonOptions={{ numberOfLines: 2 }}
-        />
+        <HoliGap size="xs" />
+        <HoliHeading level="2" selectable size="s" numberOfLines={3} loading skeletonOptions={{ numberOfLines: 2 }} />
 
-        <HoliText size="small" style={styles.spaceTop} selectable loading />
+        <HoliGap size="xs" />
+        <HoliText size="small" selectable loading />
 
         <HoliUserAvatarPile loading usersToShow={3} counter collapse style={styles.avatarPile} />
       </View>
@@ -71,21 +68,26 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
           label={insight.title}
           style={styles.mainImage}
         />
+        <HoliGap size="s" />
 
         {!!insight.topic && (
-          <HoliHeading level="3" selectable size="xSmall" style={styles.topicTitle}>
-            {insight.topic.title}
-          </HoliHeading>
+          <HoliBox padding={[0, 0, 8, 0]}>
+            <HoliText size="small" bold selectable style={{ color: colors.brandB300 }}>
+              {insight.topic.title}
+            </HoliText>
+          </HoliBox>
         )}
 
-        <HoliHeading level="2" selectable size="small" numberOfLines={3} style={styles.spaceTop}>
+        <HoliHeading level="2" selectable size="s" numberOfLines={3}>
           {insight.title}
         </HoliHeading>
 
         {!!insight.creator && (
-          <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable>
-            {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
-          </HoliText>
+          <HoliBox padding={[8, 0, 0, 0]}>
+            <HoliText size="small" style={styles.textGrey} selectable>
+              {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
+            </HoliText>
+          </HoliBox>
         )}
 
         {!!editors.length && (
@@ -112,17 +114,10 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colors.background30,
   },
-  topicTitle: {
-    color: colors.brandColorB30,
-    marginTop: 16,
-  },
   avatarPile: {
     marginTop: 12,
   },
   textGrey: {
     color: colors.foreground20,
-  },
-  spaceTop: {
-    marginTop: 8,
   },
 })

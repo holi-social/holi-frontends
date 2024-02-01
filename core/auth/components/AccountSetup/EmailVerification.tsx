@@ -13,14 +13,14 @@ import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 const CODE_MAX_COUNT = 6
 
@@ -61,7 +61,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
           displayError(error, 'Failed to retrieve email verification flow', {
             location: 'EmailVerification.getOrCreateVerificationFlow',
           })
-          isLoggedIn && logout({ redirectPath: '/' })
+          isLoggedIn && logout({ redirectPath: '/', showToastAfter: false })
           onDismiss()
         })
         .finally(hideLoader)
@@ -192,7 +192,6 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             label={t('registration.emailVerification.resendEmail')}
             href="/"
             onPress={resendEmail}
-            variant="secondary"
             size="small"
           >
             {t('registration.emailVerification.resendEmail')}
@@ -215,7 +214,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
           <HoliButtonLoading
             label={t('auth.loginProtection.continueAsGuest')}
             onPress={async () => {
-              isLoggedIn && (await logout({ redirectPath: '/' }).catch(() => null)) // ignore logout error
+              isLoggedIn && (await logout({ redirectPath: '/', showToastAfter: false }).catch(() => null)) // ignore logout error
               onDismiss()
               navigate('/')
               setVerificationFlowData(undefined)
@@ -236,7 +235,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
 const styles = StyleSheet.create({
   inner: {
     alignItems: 'center',
-    maxWidth: +vars.breakpointL,
+    maxWidth: dimensions.breakpointL,
   },
   imageContainer: {
     alignItems: 'center',
@@ -252,7 +251,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   limitedBox: {
-    maxWidth: +vars.breakpointS,
+    maxWidth: dimensions.breakpointS,
     width: '100%',
   },
 })

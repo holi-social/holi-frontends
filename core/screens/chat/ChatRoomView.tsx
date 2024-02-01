@@ -25,19 +25,21 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
+
+const WAIT_FOR_CHATROOM_DELAY = 5000
 
 export type ChatRoomPageParams = {
   roomId: string
 }
 
-const { useParam } = createParam<ChatRoomPageParams>()
+const { useParam } = createParamHooks<ChatRoomPageParams>()
 
 const ChatRoomView = () => {
   const { t } = useTranslation()
@@ -119,16 +121,21 @@ const ChatRoomView = () => {
   }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom])
 
   useEffect(() => {
-    // redirect logged in user to Chat screen if room not found
     if (chatInitialized && !room) {
-      openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
-      replaceRoute('/chat').catch((error) =>
-        logError(error, 'Could not redirect logged in user to /chat', {
-          location: 'ChatRoomView.useEffect',
-        })
-      )
+      // redirect to Chat screen if no room is found after WAIT_FOR_CHATROOM_DELAY ms
+      const timer = setTimeout(() => {
+        if (chatInitialized && !room) {
+          openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
+          replaceRoute('/chat').catch((error) =>
+            logError(error, 'Could not redirect logged in user to /chat', {
+              location: 'ChatRoomView.useEffect',
+            })
+          )
+        }
+      }, WAIT_FOR_CHATROOM_DELAY)
+      return () => clearTimeout(timer)
     }
-  }, [chatInitialized, openToast, replaceRoute, room, t])
+  }, [chatInitialized, openToast, replaceRoute, t, room])
 
   // request initial chunk of room messages
   useEffect(() => {
@@ -196,7 +203,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     minHeight: '100%',
-    paddingTop: +vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background20,
   },
   listContainer: {
@@ -207,6 +214,6 @@ const styles = StyleSheet.create({
   listStage: {
     alignSelf: 'center',
     paddingHorizontal: 16,
-    maxWidth: +vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
   },
 })

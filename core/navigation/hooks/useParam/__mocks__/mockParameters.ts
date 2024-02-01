@@ -1,0 +1,26 @@
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
+
+type Parameters = { [key: string]: unknown }
+
+const mockSetParam = jest.fn()
+
+/**
+ *  Allows mocking query parameters and provides access to the mocked functions.
+ *
+ *  Requires mock of `useParam`:
+ *  jest.mock('@holi/core/navigation/hooks/useParam')
+ */
+export const mockParameters = (parameters: Parameters = {}) => {
+  const { useParam, useUpdateParams } = createParamHooks()
+  const mockUseParam = jest.mocked(useParam)
+  mockUseParam.mockImplementation((paramName: keyof Parameters) => {
+    return [parameters[paramName], mockSetParam]
+  })
+
+  return {
+    mockUseParam,
+    mockSetParam,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    mockUseUpdateParams: useUpdateParams(),
+  }
+}

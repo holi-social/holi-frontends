@@ -18,6 +18,7 @@ interface CollaboratorAreaCardProps {
   onPressHeaderLeft?: () => void
   onPressHeaderRight?: () => void
   testID?: string
+  isCollaborator?: boolean
 }
 const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   headerLeftIcon,
@@ -29,11 +30,13 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   style,
   onPressHeaderLeft,
   onPressHeaderRight,
+  isCollaborator = true,
   testID = 'collaboration-area-card',
 }: CollaboratorAreaCardProps) => {
+  const size = isCollaborator ? 'default' : 'large'
   const Header = () => {
     return (
-      <View style={styles.headerContainer}>
+      <View style={isCollaborator ? styles.headerContainer : styles.collaboratorHeaderContainer}>
         <HoliButton
           transparent
           style={styles.headerTitleContainer}
@@ -50,7 +53,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
                 style={{ marginRight: 8 }}
               />
             )}
-            <HoliText>{title}</HoliText>
+            <HoliText size={size}>{title}</HoliText>
           </View>
         </HoliButton>
         {!!headerRightButtonLabel && (
@@ -89,6 +92,14 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     padding: 16,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  collaboratorHeaderContainer: {
+    paddingLeft: 8,
+    paddingTop: 16,
+    paddingBottom: 8,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',

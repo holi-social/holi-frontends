@@ -1,20 +1,18 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, Checkbox, Team } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -24,7 +22,7 @@ export type SpaceOnboardingParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<SpaceOnboardingParams>()
+const { useParam } = createParamHooks<SpaceOnboardingParams>()
 
 const SpaceOnboarding = () => {
   const { t } = useTranslation()
@@ -33,22 +31,8 @@ const SpaceOnboarding = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
 
-  const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
+  const { space } = useSpace(spaceIdOrName)
 
-  useEffect(() => {
-    if (spaceIdOrName) {
-      fetchSpace({
-        variables: { idOrName: spaceIdOrName || '' },
-        onError: (error) =>
-          logError(error, 'Failed to load space', {
-            location: 'SpaceOnboarding.fetchSpace',
-            spaceIdOrName,
-          }),
-      })
-    }
-  }, [fetchSpace, spaceIdOrName])
-
-  const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   useLayoutEffect(() => {

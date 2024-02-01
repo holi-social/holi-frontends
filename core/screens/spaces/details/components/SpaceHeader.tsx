@@ -14,7 +14,8 @@ import SpaceMoreActions from '@holi/core/screens/spaces/details/components/Space
 import SpaceShare from '@holi/core/screens/spaces/details/components/SpaceShare'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -55,7 +56,8 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
     <View style={[styles.container, style]} testID="space-header">
       <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
       <SpaceAvatar space={space} />
-      <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
+      <HoliGap />
+      <HoliHeading level="1" size="m" testID="space-title">
         {space.title}
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
@@ -89,9 +91,6 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-  },
-  title: {
-    paddingTop: 24,
   },
   avatarPileContainer: {
     marginTop: 16,

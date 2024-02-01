@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -27,7 +28,8 @@ const RecoverPasswordSent: React.VFC<RecoverPasswordSentProps> = (props: Recover
           isSvg
         />
       </View>
-      <HoliHeading level="2" size="medium" style={styles.heading} testID="form-sent-headline">
+      <HoliBox padding={[20, 0, 0, 0]} />
+      <HoliHeading level="2" size="m" align="center" testID="form-sent-headline">
         {t('auth.forgotPassword.success.headline')}
       </HoliHeading>
       <HoliText style={styles.text}>{t('auth.forgotPassword.success.text')}</HoliText>
@@ -53,10 +55,6 @@ const styles = StyleSheet.create({
   },
   moodImage: {
     alignItems: 'center',
-  },
-  heading: {
-    marginTop: 20,
-    textAlign: 'center',
   },
   text: {
     marginTop: 20,

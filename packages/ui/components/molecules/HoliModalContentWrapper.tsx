@@ -12,17 +12,18 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapperProps {
   actionButtonText: string
   headlineText?: string
-  headlineStyle?: StyleProp<TextStyle>
+  headlineAlign?: TextStyle['textAlign']
   prependChildren?: React.ReactNode
   onActionButtonPress: () => void
   style?: StyleProp<ViewStyle>
@@ -38,7 +39,7 @@ const HoliModalContentWrapper = (
     actionButtonText,
     onActionButtonPress,
     headlineText,
-    headlineStyle,
+    headlineAlign = 'left',
     prependChildren,
     children,
     style,
@@ -57,9 +58,11 @@ const HoliModalContentWrapper = (
   const content = (
     <>
       {!!headlineText?.length && (
-        <HoliHeading level="1" style={[styles.headline, headlineStyle]} size="large" testID={`${testID}-heading`}>
-          {headlineText}
-        </HoliHeading>
+        <HoliBox padding={[0, 24, 16, 24]}>
+          <HoliHeading level="1" size="l" align={headlineAlign} testID={`${testID}-heading`}>
+            {headlineText}
+          </HoliHeading>
+        </HoliBox>
       )}
 
       {Platform.OS === 'web' ? (
@@ -117,11 +120,6 @@ const styles = StyleSheet.create({
     maxWidth: 800,
     ...(Platform.OS === 'web' ? { flex: 1 } : {}),
   },
-  headline: {
-    marginBottom: 16,
-    textAlign: 'left',
-    marginHorizontal: 24,
-  },
   keyboardPlaceHolder: {
     // room when the softkeyboard is open
     zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
@@ -141,7 +139,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 0,
-    maxWidth: vars.maxButtonWidth,
+    maxWidth: dimensions.maxButtonWidth,
   },
   saveLoaderContainer: {
     backgroundColor: colors.background10,

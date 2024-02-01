@@ -9,16 +9,17 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -32,10 +33,10 @@ export type InsightDetailPageParams = {
   insightId: string
 }
 
-const { useParam } = createParam<InsightDetailPageParams>()
+const { useParam } = createParamHooks<InsightDetailPageParams>()
 
 const InsightDetailPage = () => {
-  const [insightId = ''] = useParam('insightId')
+  const [insightId] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { replaceRoute } = useRouting()
@@ -47,6 +48,7 @@ const InsightDetailPage = () => {
     refetch,
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
+    skip: !insightId,
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
       if (isNotFoundError(error)) {
@@ -103,14 +105,20 @@ const InsightDetailPage = () => {
 
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
-          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category" loading={initLoading}>
+          <HoliText
+            size="small"
+            bold
+            style={{ color: colors.brandB300 }}
+            testID="insight-category"
+            loading={initLoading}
+          >
             {insight?.topic?.title}
-          </HoliHeading>
+          </HoliText>
 
+          <HoliGap size="xs" />
           <HoliHeading
             level="1"
-            size="super"
-            style={styles.insightHeadline}
+            size="xl"
             testID="insight-headline"
             loading={initLoading}
             // large font size (-> radius=16) with multiple lines expected
@@ -218,12 +226,6 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 24,
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
-  },
-  categoryHeadline: {
-    color: colors.brandColorB30,
-  },
-  insightHeadline: {
-    marginTop: 8,
   },
   insightText: {
     color: colors.foreground20,

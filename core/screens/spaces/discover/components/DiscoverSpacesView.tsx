@@ -12,16 +12,17 @@ import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 interface DiscoverSpacesViewProps {
   style?: StyleProp<ViewStyle>
   userTopics: Topic[]
   userSkills: Skill[]
+  userGeolocationId?: string
 }
 
 /**
@@ -42,7 +43,12 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
   )
 }
 
-const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopics, userSkills }) => {
+const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
+  style,
+  userTopics,
+  userSkills,
+  userGeolocationId,
+}) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
@@ -61,15 +67,15 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
   )
 
   const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn ? navigate('/spaces/create') : openLoginModal()
-  }, [isLoggedIn, navigate, openLoginModal])
+    isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
+  }, [isLoggedIn, navigate, openLoginModal, t])
 
   const { width } = useWindowDimensions()
   const aspectRatio = 188 / 324
 
   return (
     <View style={style} testID="spaces-container">
-      <HoliHeading level="1" size="large" style={styles.headerTitle} testID="discover-spaces-header">
+      <HoliHeading level="1" size="l" testID="discover-spaces-header">
         {t('spaces.discover.welcome')}
       </HoliHeading>
       <HoliText style={styles.headerDescription} testID="discover-spaces-description">
@@ -92,28 +98,30 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         transparent
       >
         <View
-          style={screenWidth > +vars.breakpointS ? styles.compositionImageContainerL : styles.compositionImageContainer}
+          style={
+            screenWidth > dimensions.breakpointS ? styles.compositionImageContainerL : styles.compositionImageContainer
+          }
         >
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
             resizeMode="contain"
-            width={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? width : 324}
-            height={Platform.OS === 'web' && screenWidth < +vars.breakpointM ? aspectRatio * width : 188}
+            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? width : 324}
+            height={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? aspectRatio * width : 188}
             style={styles.compositionImage}
             label=""
           />
           <View style={styles.learnMoreDescriptionContainer}>
-            {screenWidth > +vars.breakpointS && (
+            {screenWidth > dimensions.breakpointS && (
               <>
-                <HoliHeading level="2" style={{ fontWeight: '400' }}>
-                  {t('spaces.about.banner.title')}
-                </HoliHeading>
+                <HoliHeading level="2">{t('spaces.about.banner.title')}</HoliHeading>
                 <HoliText style={{ color: colors.foreground20, lineHeight: 23.68 }}>
                   {t('spaces.about.banner.description')}
                 </HoliText>
               </>
             )}
-            <View style={screenWidth > +vars.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}>
+            <View
+              style={screenWidth > dimensions.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}
+            >
               <HoliText bold style={{ paddingRight: 8 }}>
                 {t('spaces.about.banner.button.title')}
               </HoliText>
@@ -124,6 +132,17 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
       </HoliButton>
 
       <View style={styles.body}>
+        {isLoggedIn && userGeolocationId && (
+          <ScrollBasedRender>
+            <SpacesGroupSlider
+              locationId={userGeolocationId}
+              pageSize={SPACES_GROUP_LIMIT}
+              style={styles.spacesGroup}
+              testID="discover-spaces-slider-default-location"
+            />
+          </ScrollBasedRender>
+        )}
+
         {userTopics.map((userTopic, index) => {
           if (index < 2) {
             // render the first two topics without ScrollBasedRender, to avoid an empty list after login
@@ -207,25 +226,12 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
               </ScrollBasedRender>
             )
           })}
-
-        {/* Example how to do location based discovery: */}
-        {/*<ScrollBasedRender>*/}
-        {/*  <SpacesGroupSlider*/}
-        {/*    locationId={DEFAULT_LOCATION_ID}*/}
-        {/*    pageSize={SPACES_GROUP_LIMIT}*/}
-        {/*    style={styles.spacesGroup}*/}
-        {/*    testID="discover-spaces-slider-default-location"*/}
-        {/*  />*/}
-        {/*</ScrollBasedRender>*/}
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    fontWeight: '400',
-  },
   headerDescription: {
     paddingVertical: 12,
     fontWeight: '400',

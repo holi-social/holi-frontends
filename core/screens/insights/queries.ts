@@ -2,11 +2,11 @@ import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
 import { PostFragment } from '@holi/core/screens/posts/queries'
-import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 const InsightWithPostsFragment = gql`
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
   ${PostFragment}
 
   fragment InsightWithPosts on Insight {
@@ -15,7 +15,8 @@ const InsightWithPostsFragment = gql`
     description
     datePublished
     creator {
-      ...FullUserAvatar
+      ...UserAvatar
+      aboutMe
     }
     headerImage
     headerImageBlurhash
@@ -30,7 +31,7 @@ const InsightWithPostsFragment = gql`
 `
 
 export const lastInsightsQuery = gql`
-  ${FullUserAvatarFragment}
+  ${UserAvatarFragment}
 
   query LastInsights($offset: Int! = 0, $limit: Int! = 4) {
     lastInsights(offset: $offset, limit: $limit) {
@@ -40,7 +41,8 @@ export const lastInsightsQuery = gql`
         description
         datePublished
         creator {
-          ...FullUserAvatar
+          ...UserAvatar
+          aboutMe
         }
         headerImage
         headerImageBlurhash
@@ -52,7 +54,7 @@ export const lastInsightsQuery = gql`
         involvedUsers {
           totalResults
           data {
-            ...FullUserAvatar
+            ...UserAvatar
           }
         }
       }

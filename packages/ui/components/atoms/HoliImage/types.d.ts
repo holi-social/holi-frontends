@@ -33,6 +33,7 @@ export interface HoliImageProps {
    * The default value assumes the image will span the whole screen width until maxScreenWidth.
    */
   sizes?: string
+  'aria-hidden'?: boolean
 }
 
 export interface MobileImageProps extends HoliImageProps {

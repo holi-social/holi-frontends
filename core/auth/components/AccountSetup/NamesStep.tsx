@@ -4,10 +4,11 @@ import { ScrollView } from 'react-native'
 
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { replaceSpecialChars } from '@holi/core/helpers'
 import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { ScrollToProps, useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 
@@ -59,7 +60,6 @@ export const useNamesStep = ({ user }: UseNamesStepOptions) => {
     resetErrorsForField(fieldName)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const validateOnBlur = () => {
     const validationResult = RegisterUserNamesInputSchema.safeParse(names)
 
@@ -91,33 +91,32 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
 
   return (
     <>
-      <HoliHeading level="1" size="large" testID="account-setup-names-step-headline">
+      <HoliHeading level="1" size="l" testID="account-setup-names-step-headline">
         {t('registration.accountSetup.names.heading')}
       </HoliHeading>
 
-      <HoliBox padding={[24, 0, 0, 0]} />
+      <HoliGap />
       <HoliTextInput
         value={firstName}
         inputLabel={t('user.profileForm.firstName')}
         aria-label={t('user.profileForm.firstName')}
         placeholder={t('user.profileForm.firstNamePlaceholder')}
         maxNoOfCharacters={192}
-        onChange={(value: string) => onChange('firstName', value)}
+        onChange={(value: string) => onChange('firstName', replaceSpecialChars(value))}
         validationErrorText={fieldErrors?.firstName?.join()}
-        // inputProps={{ autoFocus: Platform.OS === 'web' }}
         {...scrollToInputWithId('firstName')}
         isRequired
         testID={'first-name'}
       />
 
-      <HoliBox padding={[16, 0, 0, 0]} />
+      <HoliGap size="s" />
       <HoliTextInput
         value={lastName}
         inputLabel={t('user.profileForm.lastName')}
         aria-label={t('user.profileForm.lastName')}
         placeholder={t('user.profileForm.lastNamePlaceholder')}
         maxNoOfCharacters={192}
-        onChange={(value: string) => onChange('lastName', value)}
+        onChange={(value: string) => onChange('lastName', replaceSpecialChars(value))}
         validationErrorText={fieldErrors?.lastName?.join()}
         {...scrollToInputWithId('lastName')}
         testID={'last-name'}

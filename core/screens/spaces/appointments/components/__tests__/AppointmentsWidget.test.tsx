@@ -14,9 +14,11 @@ describe('AppointmentsWidget', () => {
       totalResults: 0,
     }
     render(
-      <PaginationContext.Provider value={paginationContext}>
-        <AppointmentsWidget space={space} />
-      </PaginationContext.Provider>
+      <MockedProvider>
+        <PaginationContext.Provider value={paginationContext}>
+          <AppointmentsWidget space={space} />
+        </PaginationContext.Provider>
+      </MockedProvider>
     )
     expect(screen.toJSON()).toMatchSnapshot()
   })

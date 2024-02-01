@@ -16,7 +16,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
@@ -33,7 +33,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { useKeyboard } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CommentInputPageParams = {
@@ -45,10 +45,10 @@ export type CommentInputPageParams = {
 type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const CommentInputPage: React.VFC<ScreenProps> = () => {
-  const { useParam } = createParam<CommentInputPageParams>()
+  const { useParam } = createParamHooks<CommentInputPageParams>()
 
-  const [insightId = ''] = useParam('insightId')
-  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
+  const [insightId] = useParam('insightId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
@@ -67,7 +67,13 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
-    onError: (error) => logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId }),
+    skip: !postId,
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId })
+    },
   })
 
   const [createPostComment, { loading: createCommentLoading }] = useMutation<CreatePostCommentResponse>(
@@ -138,7 +144,9 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     setMaxViewPortHeight(newScrollViewHeight)
   }, [])
 
-  if (loading || error) {
+  const post = data?.postById
+
+  if (loading || error || !post) {
     return <></>
   }
 
@@ -146,8 +154,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     navigate(`${getPostUrl(postId, insightId, spaceIdOrName)}`)
     return null
   }
-
-  const post = data?.postById
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
@@ -225,12 +231,12 @@ const SMALL_DEVICE_HEIGHT = 600
 const getStyles = (screenHeight: number) =>
   StyleSheet.create({
     pageView: {
-      paddingTop: vars.topBarHeight + 40,
+      paddingTop: dimensions.topBarHeight + 40,
       height: '100%', // prevents double scrollbars
       overflow: 'hidden',
       ...Platform.select({
         web: {
-          paddingTop: vars.topBarHeight + 10,
+          paddingTop: dimensions.topBarHeight + 10,
           height: '100vh',
           marginHorizontal: 'auto',
         },
@@ -246,7 +252,7 @@ const getStyles = (screenHeight: number) =>
     scrollView: {
       flex: 1,
       width: '100%',
-      maxWidth: vars.maxScreenWidth,
+      maxWidth: dimensions.maxScreenWidth,
       marginHorizontal: 'auto',
     },
     scrollContent: {
@@ -320,7 +326,7 @@ const getStyles = (screenHeight: number) =>
       borderTopColor: colors.background30,
       ...Platform.select({
         web: {
-          maxWidth: vars.maxScreenWidth,
+          maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
         },
       }),
@@ -337,7 +343,7 @@ const getStyles = (screenHeight: number) =>
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
       ...Platform.select({
         web: {
-          maxWidth: vars.maxScreenWidth,
+          maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
         },
       }),

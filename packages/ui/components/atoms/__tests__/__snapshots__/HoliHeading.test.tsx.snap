@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly renders correctly when size is 'large', level is '1', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'l', level is '1', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -19,7 +19,7 @@ exports[`renders correctly renders correctly when size is 'large', level is '1',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'large', level is '1', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'l', level is '1', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -38,7 +38,7 @@ exports[`renders correctly renders correctly when size is 'large', level is '1',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'large', level is '2', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'l', level is '2', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -57,7 +57,7 @@ exports[`renders correctly renders correctly when size is 'large', level is '2',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'large', level is '2', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'l', level is '2', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -76,7 +76,7 @@ exports[`renders correctly renders correctly when size is 'large', level is '2',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'large', level is '3', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'l', level is '3', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -95,7 +95,7 @@ exports[`renders correctly renders correctly when size is 'large', level is '3',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'large', level is '3', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'l', level is '3', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -114,45 +114,7 @@ exports[`renders correctly renders correctly when size is 'large', level is '3',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'large', level is '4', selectable is 'false' 1`] = `
-<Text
-  role="heading"
-  selectable={false}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 28,
-      "fontWeight": "500",
-      "lineHeight": 39.199999999999996,
-      "userSelect": "none",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'large', level is '4', selectable is 'true' 1`] = `
-<Text
-  role="heading"
-  selectable={true}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 28,
-      "fontWeight": "500",
-      "lineHeight": 39.199999999999996,
-      "userSelect": "auto",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'medium', level is '1', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'm', level is '1', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -171,7 +133,7 @@ exports[`renders correctly renders correctly when size is 'medium', level is '1'
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'medium', level is '1', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'm', level is '1', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -190,7 +152,7 @@ exports[`renders correctly renders correctly when size is 'medium', level is '1'
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'medium', level is '2', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'm', level is '2', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -209,7 +171,7 @@ exports[`renders correctly renders correctly when size is 'medium', level is '2'
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'medium', level is '2', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'm', level is '2', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -228,7 +190,7 @@ exports[`renders correctly renders correctly when size is 'medium', level is '2'
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'medium', level is '3', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'm', level is '3', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -247,7 +209,7 @@ exports[`renders correctly renders correctly when size is 'medium', level is '3'
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'medium', level is '3', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'm', level is '3', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -266,45 +228,7 @@ exports[`renders correctly renders correctly when size is 'medium', level is '3'
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'medium', level is '4', selectable is 'false' 1`] = `
-<Text
-  role="heading"
-  selectable={false}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 21,
-      "fontWeight": "500",
-      "lineHeight": 29.4,
-      "userSelect": "none",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'medium', level is '4', selectable is 'true' 1`] = `
-<Text
-  role="heading"
-  selectable={true}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 21,
-      "fontWeight": "500",
-      "lineHeight": 29.4,
-      "userSelect": "auto",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'small', level is '1', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 's', level is '1', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -323,7 +247,7 @@ exports[`renders correctly renders correctly when size is 'small', level is '1',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'small', level is '1', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 's', level is '1', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -342,7 +266,7 @@ exports[`renders correctly renders correctly when size is 'small', level is '1',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'small', level is '2', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 's', level is '2', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -361,7 +285,7 @@ exports[`renders correctly renders correctly when size is 'small', level is '2',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'small', level is '2', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 's', level is '2', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -380,7 +304,7 @@ exports[`renders correctly renders correctly when size is 'small', level is '2',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'small', level is '3', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 's', level is '3', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -399,7 +323,7 @@ exports[`renders correctly renders correctly when size is 'small', level is '3',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'small', level is '3', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 's', level is '3', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -418,45 +342,7 @@ exports[`renders correctly renders correctly when size is 'small', level is '3',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'small', level is '4', selectable is 'false' 1`] = `
-<Text
-  role="heading"
-  selectable={false}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 16,
-      "fontWeight": "500",
-      "lineHeight": 22.4,
-      "userSelect": "none",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'small', level is '4', selectable is 'true' 1`] = `
-<Text
-  role="heading"
-  selectable={true}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 16,
-      "fontWeight": "500",
-      "lineHeight": 22.4,
-      "userSelect": "auto",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'super', level is '1', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'xl', level is '1', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -475,7 +361,7 @@ exports[`renders correctly renders correctly when size is 'super', level is '1',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'super', level is '1', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'xl', level is '1', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -494,7 +380,7 @@ exports[`renders correctly renders correctly when size is 'super', level is '1',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'super', level is '2', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'xl', level is '2', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -513,7 +399,7 @@ exports[`renders correctly renders correctly when size is 'super', level is '2',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'super', level is '2', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'xl', level is '2', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}
@@ -532,7 +418,7 @@ exports[`renders correctly renders correctly when size is 'super', level is '2',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'super', level is '3', selectable is 'false' 1`] = `
+exports[`renders correctly renders correctly when size is 'xl', level is '3', selectable is 'false' 1`] = `
 <Text
   role="heading"
   selectable={false}
@@ -551,45 +437,7 @@ exports[`renders correctly renders correctly when size is 'super', level is '3',
 </Text>
 `;
 
-exports[`renders correctly renders correctly when size is 'super', level is '3', selectable is 'true' 1`] = `
-<Text
-  role="heading"
-  selectable={true}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 36,
-      "fontWeight": "500",
-      "lineHeight": 50.4,
-      "userSelect": "auto",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'super', level is '4', selectable is 'false' 1`] = `
-<Text
-  role="heading"
-  selectable={false}
-  style={
-    {
-      "color": "#262424",
-      "fontFamily": "Circular Std Medium",
-      "fontSize": 36,
-      "fontWeight": "500",
-      "lineHeight": 50.4,
-      "userSelect": "none",
-    }
-  }
->
-  Test
-</Text>
-`;
-
-exports[`renders correctly renders correctly when size is 'super', level is '4', selectable is 'true' 1`] = `
+exports[`renders correctly renders correctly when size is 'xl', level is '3', selectable is 'true' 1`] = `
 <Text
   role="heading"
   selectable={true}

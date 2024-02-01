@@ -7,8 +7,9 @@ import { withRefreshControl } from '@holi/core/components/ScrollHeaderLayout/wit
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { Notification } from '@holi/core/screens/notifications/components/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import { vars } from '@holi/ui/styles/globalVars'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface NotificationGroup {
@@ -36,9 +37,9 @@ const NotificationSectionList: React.FC<NotificationSectionListProps> = ({
       keyExtractor={({ id }) => id}
       renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
       renderSectionHeader={({ section }) => (
-        <HoliHeading size="small" style={styles.groupTitle}>
-          {section.title}
-        </HoliHeading>
+        <HoliBox padding={[Platform.OS === 'android' ? 28 : 12, 0, 12, 0]}>
+          <HoliHeading size="s">{section.title}</HoliHeading>
+        </HoliBox>
       )}
       stickySectionHeadersEnabled={false}
       ListFooterComponent={footer}
@@ -65,18 +66,10 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   listHeaderSpacer: {
-    height: +vars.topBarHeight,
-  },
-  groupTitle: {
-    paddingVertical: 12,
-    ...Platform.select({
-      android: {
-        paddingTop: 28,
-      },
-    }),
+    height: dimensions.topBarHeight,
   },
   lastSectionFooter: {
-    marginBottom: +vars.bottomBarHeight,
+    marginBottom: dimensions.bottomBarHeight,
   },
   notification: {
     paddingVertical: 12,

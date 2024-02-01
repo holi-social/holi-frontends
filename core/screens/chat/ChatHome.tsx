@@ -12,7 +12,7 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -55,7 +55,7 @@ const ChatHome = () => {
     return (
       <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
         <View style={mixins.container}>
-          <HoliHeading level="1" size="super">
+          <HoliHeading level="1" size="xl">
             {' '}
           </HoliHeading>
           <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>

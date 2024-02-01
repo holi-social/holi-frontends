@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,6 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
-import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -18,7 +17,7 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType } from '@holi/core/queries'
@@ -35,8 +34,7 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 /** TODO: Suspence currently only works on web. To make it work for
@@ -48,7 +46,7 @@ export type UserProfileParams = {
   userId: string
 }
 
-const { useParam } = createParam<UserProfileParams>()
+const { useParam } = createParamHooks<UserProfileParams>()
 
 const UserProfile = () => {
   const { t } = useTranslation()
@@ -66,15 +64,21 @@ const UserProfile = () => {
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
-  const [fetchUser, { loading, error, data, refetch: refetchUser }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
+  const {
+    loading,
+    data,
+    refetch: refetchUser,
+  } = useQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
+    skip: !userId, // userId is empty for initial page load
     onError: (error) => {
-      if (error && !isNotFoundError(error)) {
-        displayError(error, 'Failed to load user', {
-          location: 'UserProfile.fetchUser',
-        })
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
       }
+      displayError(error, 'Failed to load user', {
+        location: 'UserProfile.fetchUser',
+      })
     },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetchUser)
@@ -83,7 +87,7 @@ const UserProfile = () => {
   const userFullName = user?.fullName || t('user.profileView.anonymous')
   const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
 
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
   const [isLoadingReport, reportContent] = useReportContent({
@@ -137,19 +141,6 @@ const UserProfile = () => {
       ),
     })
   }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
-
-  // TODO: workaround for params always being undefined on initial page load
-  // > will probably be solved with ssr
-  // see https://github.com/nandorojo/solito/issues/100
-  useEffect(() => {
-    if (userId && !loading && !user) {
-      fetchUser()
-    }
-  }, [fetchUser, userId, loading, user, error, displayError])
-
-  if (error && isNotFoundError(error)) {
-    return <NotFound />
-  }
 
   if (!userId || loading) {
     // TODO: replace with proper loading indicator
@@ -266,7 +257,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     alignItems: 'center',
-    marginTop: +vars.topBarHeight + 50,
+    marginTop: dimensions.topBarHeight + 50,
   },
   chipRowContainer: {
     marginTop: 24,

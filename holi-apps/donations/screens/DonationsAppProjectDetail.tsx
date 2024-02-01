@@ -10,18 +10,18 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, ShareBox } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
@@ -34,7 +34,7 @@ export type DonationsAppProjectDetailParams = {
   projectId: string
 }
 
-const { useParam } = createParam<DonationsAppProjectDetailParams>()
+const { useParam } = createParamHooks<DonationsAppProjectDetailParams>()
 
 const DonationsAppProjectDetail = () => {
   const [projectId] = useParam('projectId')
@@ -91,7 +91,7 @@ const DonationsAppProjectDetail = () => {
         <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
           <View style={styles.header}>
-            <HoliHeading level="1" size={'large'}>
+            <HoliHeading level="1" size="l">
               {project.title}
             </HoliHeading>
             <View style={styles.location}>
@@ -149,7 +149,7 @@ const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({
     messageContainer: {
       alignItems: 'center',
-      marginTop: vars.topBarHeight + 50,
+      marginTop: dimensions.topBarHeight + 50,
     },
     container: {
       paddingBottom: 132,
@@ -157,10 +157,10 @@ const getStyles = (statusBarHeight: number) =>
       ...Platform.select({
         native: {
           maxWidth: '100%',
-          paddingTop: vars.topBarHeight + 40,
+          paddingTop: dimensions.topBarHeight + 40,
         },
         web: {
-          paddingTop: statusBarHeight + vars.topBarHeight,
+          paddingTop: statusBarHeight + dimensions.topBarHeight,
         },
       }),
     },

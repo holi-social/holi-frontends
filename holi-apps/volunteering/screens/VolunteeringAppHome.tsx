@@ -10,12 +10,12 @@ import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesA
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -25,7 +25,7 @@ import VolunteeringFilterForm from '@holi-apps/volunteering/components/Volunteer
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
+const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilters>()
 
 const VolunteeringAppHome = () => {
   const { displayError } = useErrorHandling()
@@ -39,9 +39,9 @@ const VolunteeringAppHome = () => {
   const [location] = useParam('location', singleParamConfig)
   const [category] = useParam('category', singleParamConfig)
 
-  const updateParams = useUpdateParams()
+  const updateParams = useUpdateParams(webReplaceQueryConfig)
 
-  const { geolocationDetails, geolocationError } = useGeolocationDetails(location)
+  const { geolocationDetails, geolocationError, loadingGeolocation } = useGeolocationDetails(location)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
     return (
       geolocationDetails && {
@@ -81,17 +81,26 @@ const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
   const [filters, setFilters] = useState({ location: initialLocationSelection, category })
   const [isFiltering, setIsFiltering] = useState(!!(location || category))
+  const loadingFilters = loadingGeolocation || (!!location && !geolocationDetails)
 
   useEffect(() => {
-    if (location || category) {
+    if (loadingFilters) {
+      return
+    }
+    if (geolocationDetails || category) {
       setIsFiltering(true)
-      setFilters({ location: filters.location, category })
+      setFilters({
+        location: geolocationDetails && {
+          ...geolocationDetails,
+          label: geolocationDetails.name,
+        },
+        category,
+      })
     } else {
       setIsFiltering(false)
       setFilters({ location: undefined, category: undefined })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, category])
+  }, [location, category, geolocationDetails, loadingGeolocation, loadingFilters])
 
   useLayoutEffect(() => {
     const filterButton = (
@@ -114,7 +123,7 @@ const VolunteeringAppHome = () => {
     )
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="small">
+        <HoliHeading level="1" size="s">
           {title}
         </HoliHeading>
       ),
@@ -165,7 +174,12 @@ const VolunteeringAppHome = () => {
           />
         </HoliModal>
 
-        <VolunteeringListing filters={filters} clearFilters={clearFilters} isFiltering={isFiltering} />
+        <VolunteeringListing
+          filters={filters}
+          clearFilters={clearFilters}
+          isFiltering={isFiltering}
+          loadingFilters={loadingFilters}
+        />
       </DefaultLayout>
     </SafeAreaProvider>
   )

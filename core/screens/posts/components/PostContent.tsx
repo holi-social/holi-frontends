@@ -4,6 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import useReportContent from '@holi/core/hooks/useReportContent'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import InspirationPostMediaHeader from '@holi/core/screens/posts/components/InspirationPostMediaHeader'
@@ -17,8 +18,7 @@ import { Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -76,7 +76,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                   ) : null}
 
                   {/* Post title */}
-                  <HoliHeading level="1" size="medium" style={styles.header} testID="post-heading">
+                  <HoliHeading level="1" size="m" testID="post-heading">
                     {post.title}
                   </HoliHeading>
                 </HoliColumn>
@@ -190,10 +190,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'space-between',
     marginBottom: 20,
-  },
-  header: {
-    flexGrow: 1,
-    flexShrink: 1,
   },
   description: {
     marginTop: 16,

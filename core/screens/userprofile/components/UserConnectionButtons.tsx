@@ -40,8 +40,9 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
 
   const onPrimaryPress = () => {
     if (!isLoggedIn) {
-      openLoginModal({ description: t('user.profileView.connection.notLoggedIn.message') })
-      return
+      return openLoginModal({
+        description: t('user.profileView.connection.loginRedirect.text', { firstName: user.firstName }),
+      })
     }
 
     if (

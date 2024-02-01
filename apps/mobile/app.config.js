@@ -18,9 +18,30 @@ const requiredEnvVar = (variableName) => {
   return process.env[variableName]
 }
 
+// Used to create different apps for different environments (e.g. production, development) so they can be
+// installed alongside each other on developers devices. See eas.json for available profile names.
+requiredEnvVar('APP_VARIANT')
+let appName, iOSBundleIdentifier, androidPackage, googleServicesFile
+switch (process.env.APP_VARIANT) {
+  case 'production':
+    appName = 'holi'
+    iOSBundleIdentifier = 'social.holi'
+    androidPackage = 'social.holi.app'
+    googleServicesFile = './google-services.json'
+    break
+  case 'development':
+    appName = 'holi (dev)'
+    iOSBundleIdentifier = 'social.holi.dev'
+    androidPackage = 'social.holi.app.dev'
+    googleServicesFile = './google-services-dev.json'
+    break
+  default:
+    throw new Error(`Unknown APP_VARIANT ${process.env.APP_VARIANT}`)
+}
+
 export default {
   expo: {
-    name: 'holi',
+    name: appName,
     slug: 'projectholi',
     owner: 'holistic-foundation',
     version: versions.version,
@@ -42,7 +63,7 @@ export default {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'social.holi',
+      bundleIdentifier: iOSBundleIdentifier,
       buildNumber: versions.iosBuildNumber,
       config: {
         // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption
@@ -58,10 +79,10 @@ export default {
       },
     },
     android: {
-      package: 'social.holi.app',
+      package: androidPackage,
       versionCode: versions.androidVersionCode,
       // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
-      googleServicesFile: './google-services.json',
+      googleServicesFile: googleServicesFile,
       adaptiveIcon: {
         foregroundImage: './assets/icon_android.png',
         monochromeImage: './assets/icon_android_monochromatic.png',
@@ -133,6 +154,10 @@ export default {
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
+        // see https://docs.expo.dev/build-reference/variables/#built-in-environment-variables
+        buildId: process.env.EAS_BUILD_ID,
+        profile: process.env.EAS_BUILD_PROFILE,
+        gitCommitHash: process.env.EAS_BUILD_GIT_COMMIT_HASH,
       },
       e2e: {
         userId: process.env.E2E_USER_ID, // not required as not used in production

@@ -9,7 +9,7 @@ import i18n from '@holi/core/i18n'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { Tab } from '@holi/ui/components/organisms/HoliTabBar'
 import HoliTabBar from '@holi/ui/components/organisms/HoliTabBar'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export const DEFAULT_TAB_ID = 'all' as const
@@ -50,7 +50,7 @@ const ChatTabBar = ({ selectedTabId }: Props) => {
   const { setParams, replaceRoute } = useRouting()
 
   const mixins = useStyleMixins()
-  const tabBarStyle = useBreakpointMatcher([[+variables.breakpointS, mixins.container]])
+  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const tabs = useAtomValue(tabsAtom)
 
   return (

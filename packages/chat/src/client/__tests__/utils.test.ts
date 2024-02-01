@@ -1,15 +1,14 @@
-import type { Mock } from 'jest'
 import { ClientEvent, MatrixClient, Room, RoomEvent } from 'matrix-js-sdk'
 
 import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
 import * as ClientListenersModule from '@holi/chat/src/client/utils'
 
-const createRoomMock = (): Mock<Room> =>
+const createRoomMock = (): jest.Mock<Room> =>
   jest.fn().mockImplementation((roomId: string) => {
     return { on: jest.fn(), off: jest.fn(), roomId }
   })
 
-const createMxClientMock = (): Mock<MatrixClient> =>
+const createMxClientMock = (): jest.Mock<MatrixClient> =>
   jest.fn().mockImplementation((withEvents: boolean) => {
     return {
       on: jest.fn().mockImplementation((_: ClientEvent, listener: (room: Room) => void) => {
@@ -42,8 +41,8 @@ it('should create listeners for all existing rooms - createRoomsListeners', () =
   const Room = createRoomMock()
   const MatrixClient = createMxClientMock()
 
-  const client: Mock<MatrixClient> = new MatrixClient()
-  const rooms: Mock<Room>[] = ['room-1', 'room-2', 'room-3', 'room-4'].map((id) => new Room(id))
+  const client = new MatrixClient()
+  const rooms = ['room-1', 'room-2', 'room-3', 'room-4'].map((id) => new Room(id))
 
   const createListener = jest.fn()
 
@@ -65,8 +64,8 @@ it('should create listeners for all existing and incoming rooms - createRoomsLis
   const Room = createRoomMock()
   const MatrixClient = createMxClientMock()
 
-  const client: Mock<MatrixClient> = new MatrixClient(true)
-  const rooms: Mock<Room>[] = ['room-1', 'room-2', 'room-3', 'room-4'].map((id) => new Room(id))
+  const client = new MatrixClient(true)
+  const rooms = ['room-1', 'room-2', 'room-3', 'room-4'].map((id) => new Room(id))
 
   const createListener = jest.fn()
 

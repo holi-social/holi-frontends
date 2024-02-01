@@ -25,18 +25,18 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceT
 import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Close } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CreateSpace = () => {
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate, replaceHistory } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
@@ -68,8 +68,8 @@ const CreateSpace = () => {
   const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
     onCompleted: async (data) => {
       const spaceDetailsRoute = `/spaces/${data.createSpace.name}`
-      await replaceRoute(spaceDetailsRoute)
-      navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
+      await replaceHistory(spaceDetailsRoute)
+      return navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
     },
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: mySpaceQuery }],
@@ -79,7 +79,7 @@ const CreateSpace = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => (
-        <HoliHeading level="1" size="medium">
+        <HoliHeading level="1" size="m">
           {t('spaces.create.title')}
         </HoliHeading>
       ),
@@ -126,7 +126,6 @@ const CreateSpace = () => {
           <View style={[mixins.container, styles.container]}>
             <HoliWizard
               isBackButtonAvailable={true}
-              submitButtonLabel={t('spaces.create.button')}
               onNextPress={handleNextButtonPress}
               onSubmit={handleSubmitButtonPress}
             >
@@ -174,7 +173,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: vars.topBarHeight,
+    paddingTop: dimensions.topBarHeight,
     width: '100%',
     paddingHorizontal: 0,
     ...Platform.select({

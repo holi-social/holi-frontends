@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
+import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
@@ -64,7 +65,11 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             </View>
             <View style={styles.uploadButtonContainer}>
               <HoliImagePicker
-                maxFileSizeInMB={10}
+                fileSizeLimitation={{
+                  type: 'resize',
+                  limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+                  resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+                }}
                 buttonProps={{
                   label: t('spaces.input.coverImage.change.button.label'),
                   testID: 'space-upload-image-btn',
@@ -90,7 +95,11 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         )) || (
           <View style={styles.uploadButtonContainer}>
             <HoliImagePicker
-              maxFileSizeInMB={10}
+              fileSizeLimitation={{
+                type: 'resize',
+                limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+                resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+              }}
               buttonProps={{
                 label: t('spaces.input.coverImage.upload.button.label'),
                 testID: 'space-upload-image-btn',
@@ -144,13 +153,13 @@ export default SpaceImageForm
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 24,
     paddingBottom: 42,
   },
   title: {
-    marginTop: 24,
+    marginBottom: 16,
   },
   subTitle: {
-    marginTop: 16,
     color: colors.foreground20,
   },
   imageUploadButton: {

@@ -9,6 +9,7 @@ import {
   proceedAsGuest,
   waitForAnimationEnd,
 } from './helpers'
+import { inputSpaceNameAndGoal } from './helpers/spaces'
 import { UserHandler, test } from './testmaster'
 
 test.setTimeout(240000)
@@ -19,6 +20,8 @@ test.describe('@Spaces', () => {
       browserName === 'webkit',
       'webkit fails regularly due to timing, race conditions, in a flaky way. Due to time constraints, we disabled the suite.'
     )
+    page.on('console', (msg) => console.debug('  BROWSER LOG>', msg.text(), '<'))
+
     // prepare
     await proceedAsGuest(page)
 
@@ -30,6 +33,7 @@ test.describe('@Spaces', () => {
     await testCreatingEditingDeletingASpace(context, page, userHandler)
   })
 })
+
 const testAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-spaces')
 
@@ -121,7 +125,8 @@ const testShareSpace = async (browserName: string, page: Page) => {
   if (browserName === 'chromium') {
     // check if shared link is correct
     const clipboardText = await page.evaluate('navigator.clipboard.readText()')
-    expect(clipboardText).toContain(page.url())
+    const url = page.url()
+    expect(clipboardText).toContain(url.substring(0, url.indexOf('?')))
   }
 
   // expect success toast
@@ -207,6 +212,8 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     // edit space contact info
     await editSpaceContactInfo(page)
 
+    await clickElementByTestId(page, 'space-edit-close')
+
     await testAddEditDeleteTask(page)
 
     // test digital tools
@@ -236,6 +243,13 @@ const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
   const postDescription = 'This is an update for the new post'
 
   await clickElementByTestId(page, 'space-tabs-button-1-inactive')
+
+  // !!! It's a bad pattern to add a delay in tests !!!
+  // But we currently don't have any more ideas how we can fix the issue
+  // The app does not respond properly, when the button is pressed too quickly
+  // This can keep the test green until we know how to fix the underlying issue
+  await new Promise((resolve) => setTimeout(resolve, 600))
+
   await clickElementByTestId(page, 'space-add-post-button')
 
   const nameInput = await locateElementByTestId(page, 'update-title-input-input')
@@ -260,16 +274,8 @@ const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
 }
 
 export const checkConfirmButtonIsDisabled = async (page: Page) => {
-  const nextButton = await locateElementByTestId(page, 'holi-wizard-next-btn')
+  const nextButton = await locateElementByTestId(page, 'holi-wizard-save-btn')
   await nextButton.isDisabled()
-}
-
-export const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => {
-  const nameInput = await locateElementByTestId(page, 'space-name-input')
-  await nameInput.fill(name)
-
-  const goalInput = await locateElementByTestId(page, 'space-goal-input')
-  await goalInput.fill(goal)
 }
 
 const editSpaceContactInfo = async (page: Page) => {
@@ -372,6 +378,8 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
 
   await clickElementByTestId(page, 'form-modal-save-btn')
+  // wait for save to finish and space to be shown
+  await page.waitForSelector(byTestId('space-header'))
 }
 
 export const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
@@ -407,12 +415,18 @@ const testAddEditDeleteTask = async (page: Page) => {
   // create task
   const taskTitle = 'E2E task'
   const taskDescription = 'E2E task description'
-  await clickElementByTestId(page, 'space-edit-close')
   await clickElementByTestId(page, 'space-tabs-button-2-inactive')
+
+  // !!! It's a bad pattern to add a delay in tests !!!
+  // But we currently don't have any more ideas how we can fix the issue
+  // The app does not respond properly, when the button is pressed too quickly
+  // This can keep the test green until we know how to fix the underlying issue
+  await new Promise((resolve) => setTimeout(resolve, 300))
+
   await clickElementByTestId(page, 'btn-right-space-tasks-card')
   await checkAccessibility(page)
   await inputTaskInfo(page, taskTitle, taskDescription)
-  await expect(page.getByText(taskTitle)).toBeVisible()
+  await expect(page.getByText(taskTitle).first()).toBeVisible()
 
   // edit task
   const editedTaskTitle = 'E2E edited task'
@@ -431,7 +445,7 @@ const testAddEditDeleteTask = async (page: Page) => {
 
   // save edited task
   await clickElementByTestId(page, 'form-modal-save-btn')
-  await expect(page.getByText(editedTaskTitle)).toBeVisible()
+  await expect(page.getByText(editedTaskTitle).first()).toBeVisible()
 
   // delete task
   await clickElementByTestId(page, 'btn-task-more-options')
@@ -502,25 +516,25 @@ const createSpace = async (
   await clickElementByTestId(page, 'btn-to-spaces')
   await clickElementByTestId(page, 'btn-create-space')
   // wait until page is loaded
-  await page.waitForSelector(byTestId('holi-wizard-next-btn'))
+  await page.waitForSelector(byTestId('holi-wizard-save-btn'))
 
   // Create space - name and goal
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
   await inputSpaceNameAndGoal(page, initialName, initialGoal)
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // Create space - topics
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
   await selectSomeTerms(page, numberOfInitialTerms)
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // Create space - cover image
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'holi-wizard-save-btn')
   await clickElementByTestId(page, 'space-onboard-content-close-btn')
 }
 

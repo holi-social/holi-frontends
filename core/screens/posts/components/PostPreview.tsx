@@ -4,6 +4,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
@@ -19,8 +20,7 @@ import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/g
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
@@ -85,7 +85,9 @@ const PostPreview = ({
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
-      openLoginModal()
+      openLoginModal({
+        description: t('insights.posts.comments.loginRedirect.text'),
+      })
       // return false prevents link execution
       return false
     }
@@ -103,7 +105,7 @@ const PostPreview = ({
 
         {/* Post Title */}
         <View style={styles.postTitleLink}>
-          <HoliHeading level="3" size="small" loading>
+          <HoliHeading level="3" size="s" loading>
             {post?.title}
           </HoliHeading>
         </View>
@@ -233,7 +235,7 @@ const PostPreview = ({
             label={post?.title || ''}
             testID="btn-to-post"
           >
-            <HoliHeading level="3" size="small">
+            <HoliHeading level="3" size="s">
               {post?.title}
             </HoliHeading>
           </HoliLink>

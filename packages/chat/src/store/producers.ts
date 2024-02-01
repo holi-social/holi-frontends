@@ -1,8 +1,8 @@
 import { produce } from 'immer'
 import { type Getter, atom } from 'jotai'
 
-import type { ChatRoomMember, RoomUpdatesContent } from '@holi/chat/src/client/types'
-import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
+import type { ChatRoomMember, ChatRoomMessage, RoomUpdatesContent } from '@holi/chat/src/client/types'
+import type { ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
 
 /**
  * Room Producers
@@ -29,9 +29,11 @@ export const addNotificationsCount = produce((chatRoom: ChatRoom, count: number)
   chatRoom.notificationCount += count
 })
 
-export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
-  room.lastMessage = message
-  room.timestamp = message.timestamp
+export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatRoomMessage) => {
+  if (!room.timestamp || (message.timestamp && room.timestamp <= message.timestamp)) {
+    room.lastMessage = message
+    room.timestamp = message.timestamp
+  }
 })
 
 /**

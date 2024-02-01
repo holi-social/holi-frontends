@@ -10,15 +10,15 @@ import CenteredImageHeadlineDescriptionLayout, {
 import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import { colors } from '@holi/ui/styles/globalVars'
-import { vars } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 export interface AgreementProps {
   agreementValue: boolean
@@ -95,7 +95,6 @@ const AcceptDocumentLayout = ({
               label=""
               href={documentNavPath}
               size="small"
-              variant="secondary"
               onPress={() => {
                 showModal()
                 return false
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 20,
     marginBottom: 50,
-    maxWidth: vars.maxScreenWidth,
+    maxWidth: dimensions.maxScreenWidth,
     alignSelf: 'center',
     flex: 1,
     width: '100%',

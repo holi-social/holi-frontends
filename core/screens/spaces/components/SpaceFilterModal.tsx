@@ -6,13 +6,13 @@ import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocatio
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close, Filter3 } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceFilter = {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   overlayButton: {
     position: 'absolute',
-    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
+    bottom: (Platform.OS === 'web' ? dimensions.bottomBarHeight : 0) + 16,
     right: 16,
     borderWidth: 1,
     paddingVertical: 12,

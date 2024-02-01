@@ -1,4 +1,3 @@
-
 .sb-show-main.sb-main-padded {
   margin-bottom: 50px;
 }
@@ -7,12 +6,14 @@
   display: flex;
   align-items: center;
 }
+
 .welcome-page a {
   color: #6267e7 !important;
   font-weight: bold;
   text-decoration: none;
   font-family: sans-serif;
 }
+
 .welcome-page .welcome-container {
   position: relative;
   margin: 84px auto;
@@ -20,15 +21,18 @@
   border: solid 0.3px black;
   border-radius: 30px;
 }
+
 .welcome-page .container-logo {
   position: absolute;
   top: -84px;
   left: 10px;
 }
+
 .welcome-page .container-logo img {
   display: block;
   width: 80px;
 }
+
 .welcome-page .welcome-container .description {
   margin-top: 30px;
 }
@@ -46,6 +50,7 @@
   font-size: 14px;
   font-weight: bold;
 }
+
 .svg-preview input {
   margin-left: 20px;
   padding: 5px 10px;
@@ -64,7 +69,7 @@
   width: 128px;
 }
 
-.svg-preview .icon > div {
+.svg-preview .icon>div {
   font-size: 14px;
   font-family: sans-serif;
   margin-bottom: 10px;
@@ -89,20 +94,24 @@
   font-size: 14px;
   width: 100%;
 }
+
 .colors-overview h3 {
   font-family: sans-serif;
   font-size: 26px;
   font-weight: 100;
 }
+
 .colors-overview .color-item {
   width: 31%;
   margin-right: 20px;
 }
+
 .colors-overview .color-item .color-block {
   width: 100%;
   height: 80px;
   border-radius: 10px;
 }
+
 .colors-overview .color-item .color-name {
   font-family: monospace;
   display: inline-block;
@@ -112,22 +121,34 @@
   padding: 5px;
   border-radius: 4px;
 }
+
 .colors-overview .color-item .color-description {
   color: #BFBEBE;
 }
+
 .colors-overview .color-item .color-code {
   color: #787777;
 }
+
 .colors-overview .color-item.warning .color-code {
   color: #EC9D04;
   font-weight: bold;
   font-style: italic;
 }
-.colors-overview .color-item.gradient-top .color-block {
+
+.colors-overview .color-item.gradient-black300Top .color-block {
   opacity: 0.5;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 100%)
+  background: linear-gradient(180deg, rgba(38, 36, 36, 0.60) 0%, rgba(38, 36, 36, 0.00) 100%);
 }
-.colors-overview .color-item.gradient-bottom .color-block {
+
+.colors-overview .color-item.gradient-black300Bottom .color-block {
   opacity: 0.5;
-  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 100%)
+  background: linear-gradient(180deg, rgba(38, 36, 36, 0.00) 0%, rgba(38, 36, 36, 0.60) 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-style: solid;
+  border-width: 0;
 }
