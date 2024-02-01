@@ -15,6 +15,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
@@ -41,7 +42,7 @@ const Login = () => {
 
   const isWeb = Platform.OS === 'web'
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">

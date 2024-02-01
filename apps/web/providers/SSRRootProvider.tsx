@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
+import { useSyncLanguage } from 'ni18n'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { StyleSheet } from 'react-native'
@@ -19,6 +20,8 @@ interface RootProviderProps {
 
 const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
   const apolloWebClient = useApolloClient(pageProps)
+
+  useSyncLanguage(pageProps.locale)
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>

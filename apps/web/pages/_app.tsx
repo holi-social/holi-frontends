@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { appWithI18Next, useSyncLanguage } from 'ni18n'
+import { appWithI18Next } from 'ni18n'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
@@ -32,8 +32,6 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
 
-  useSyncLanguage(pageProps.locale)
-
   useEffect(() => {
     // Init authentication
     initAuth().catch((error) =>
@@ -58,4 +56,4 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   )
 }
 
-export default appWithI18Next(MyApp, ni18nConfig)
+export default featureFlag.enableSSR ? appWithI18Next(MyApp, ni18nConfig) : MyApp

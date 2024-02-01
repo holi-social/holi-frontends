@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
+
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useSafeDispatch = (dispatch: (...args: any[]) => any) => {
   const mounted = useRef(false)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     mounted.current = true
     return () => {
       mounted.current = false

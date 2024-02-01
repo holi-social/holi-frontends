@@ -1,9 +1,9 @@
 import fs from 'fs'
-import locale from 'locale'
 import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
-import { sanitizeBuffer } from '@holi/web/utils'
+import { detectLocaleFromHeader } from '@holi/web/helpers/detectLocaleFromHeader'
+import { sanitizeBuffer } from '@holi/web/helpers/sanitizeBuffer'
 
 const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'openSource'] as const
 
@@ -27,14 +27,11 @@ const documents = docTypes.reduce(
 const getDocumentFor = (name: DocType, lang: string) =>
   fs.readFileSync(path.resolve('public/documents', documents[name]?.[lang] ?? documents[name]?.de))
 
-const supportedLocales = new locale.Locales(['en_US', 'de_DE'])
-
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type: docType = '' } = req.query
 
   if (isDocType(docType)) {
-    const locales = new locale.Locales(req.headers['accept-language'], 'en')
-    const lang: string = locales.best(supportedLocales).language
+    const lang = detectLocaleFromHeader(req)
     const document = getDocumentFor(docType, lang)
     const sanitizedDocument = sanitizeBuffer(document)
     res.setHeader('Content-Type', 'text/html')

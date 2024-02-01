@@ -43,6 +43,7 @@
   "devDependencies": {
     "@blunck/next-html": "^1.0.0",
     "@emotion/react": "^11.11.1",
+    "@types/locale": "^0.1.4",
     "@types/react": "~18.2.14",
     "@types/react-dom": "~18.2.7",
     "eslint": "^8.33.0",
