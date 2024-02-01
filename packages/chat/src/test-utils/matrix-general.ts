@@ -1,8 +1,10 @@
 import {
+  Direction,
   EmittedEvents,
   EventEmitterEvents,
   EventTimeline,
   EventTimelineSet,
+  EventType,
   IContent,
   IEvent,
   MatrixClient,
@@ -15,7 +17,7 @@ import {
 } from 'matrix-js-sdk'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomMember, MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import { ChatRoom } from '@holi/chat/src/store'
 
 const chatClientOptions = {
@@ -53,10 +55,12 @@ interface RoomMockOptions {
   memberMocks?: RoomMember[]
   members?: ChatRoomMember[]
   timelineEvents?: MatrixEvent[]
-  creatorId?: MatrixId
+  creatorId?: string
   myMembership?: MembershipStatus
   unreadNotificationCount?: number
   getMember?: ChatRoomMember
+  stateEvents?: MatrixEvent[] | undefined
+  timestamp?: number
 }
 
 export const createRoomMock = (
@@ -69,33 +73,42 @@ export const createRoomMock = (
     timelineEvents,
     creatorId,
     myMembership,
+    timestamp,
+    stateEvents = [],
     unreadNotificationCount = 0,
     getMember,
   }: RoomMockOptions = {}
 ) => {
   const room = jest.mocked(new Room('', {} as MatrixClient, ''))
-
   // room setup
   asMutable(room).roomId = roomId
-  if (name) room.name = name
   room.isSpaceRoom.mockReturnValue(isSpaceRoom)
+  room.getUnreadNotificationCount.mockReturnValue(unreadNotificationCount)
+
+  if (name) room.name = name
+  if (timestamp) room.getLastActiveTimestamp.mockReturnValue(timestamp)
+  if (creatorId) room.getCreator.mockReturnValue(creatorId)
   if (members) {
     room.getMembers.mockReturnValue(members.map(roomMemberToMock))
   }
   if (memberMocks) {
     room.getMembers.mockReturnValue(memberMocks)
   }
-  if (creatorId) room.getCreator.mockReturnValue(creatorId)
   if (myMembership) room.getMyMembership.mockReturnValue(myMembership)
-
-  room.getUnreadNotificationCount.mockReturnValue(unreadNotificationCount)
-
   if (getMember) room.getMember.mockReturnValue(roomMemberToMock(getMember))
 
   if (timelineEvents) {
     const eventTimeline = new EventTimeline({} as EventTimelineSet) as jest.Mocked<EventTimeline>
     room.getLiveTimeline.mockReturnValue(eventTimeline)
     eventTimeline.getEvents.mockReturnValue(timelineEvents)
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    eventTimeline.getState.mockImplementation((_direction: Direction): RoomState | undefined => {
+      const getStateEvents = jest.fn().mockImplementation((_eventType: EventType | string) => {
+        return { ...stateEvents, getTs: jest.fn() }
+      })
+
+      return { getStateEvents } as unknown as RoomState
+    })
   }
 
   return room
@@ -116,7 +129,7 @@ export const roomMemberToMock = (m: ChatRoomMember) => {
 }
 
 export const createRoomMemberMock = (
-  userId: MatrixId,
+  userId: string,
   name?: string,
   membership?: MembershipStatus,
   avatarUrl?: string
@@ -130,6 +143,10 @@ export const createRoomMemberMock = (
   if (avatarUrl) roomMember.getAvatarUrl.mockReturnValue(avatarUrl)
 
   return roomMember
+}
+
+export const createRoomMembersMock = (membersOptions: ChatRoomMember[]) => {
+  return membersOptions.map(({ id, name, membership, avatar }) => createRoomMemberMock(id, name, membership, avatar))
 }
 
 export const getListenerForMatrixEvent = (
@@ -149,13 +166,18 @@ export const createMatrixEventMock = (type: string, roomId?: string, content?: I
   // event setup
   event.getType.mockReturnValue(type)
   if (roomId) event.getRoomId.mockReturnValue(roomId)
-  if (content) event.getContent.mockReturnValue(content)
+  if (content) {
+    event.getContent.mockReturnValue(content)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    event.event = { content } as any
+  }
+
   if (effectiveEvent) event.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
   return event
 }
 
-export const createChatRoom = (
+export const createPrivateChatRoomResult = (
   roomId: string,
   name: string,
   creator: ChatRoomMember = {

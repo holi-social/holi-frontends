@@ -17,9 +17,9 @@ import {
 } from '@holi/chat/src/store/store'
 import {
   createChatClient,
-  createChatRoom,
   createMatrixClientMock,
   createMatrixEventMock,
+  createPrivateChatRoomResult,
   createRoomMock,
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
@@ -115,9 +115,9 @@ describe('Chat Store - space rooms', () => {
     act(() => roomListener(childRoomMock))
     act(() => roomListener(child2RoomMock))
 
-    const room = createChatRoom(roomId, 'name', creator, members)
-    const childRoom = createChatRoom(childRoomId, 'childName', creator, members)
-    const child2Room = createChatRoom(child2RoomId, 'child2Name', creator, members)
+    const room = createPrivateChatRoomResult(roomId, 'name', creator, members)
+    const childRoom = createPrivateChatRoomResult(childRoomId, 'childName', creator, members)
+    const child2Room = createPrivateChatRoomResult(child2RoomId, 'child2Name', creator, members)
 
     expect(store.get(result.current.roomAtomsRecord[roomId])).toStrictEqual(room)
     expect(store.get(result.current.roomAtomsRecord[childRoomId])).toStrictEqual(childRoom)

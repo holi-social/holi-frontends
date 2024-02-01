@@ -3,7 +3,11 @@ import { act } from 'react-test-renderer'
 
 import { ChatMsgTextContent, ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
 import { ChatRoom } from '@holi/chat/src/store'
-import { createChatRoom, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-general'
+import {
+  createMatrixEventMock,
+  createPrivateChatRoomResult,
+  createRoomMock,
+} from '@holi/chat/src/test-utils/matrix-general'
 
 import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
 
@@ -159,7 +163,7 @@ export const initChatRoom = (
   mxClient.getRooms.mockReturnValue([roomMock])
   mxClient.roomState.mockReturnValue(Promise.resolve([]))
 
-  const room: ChatRoom = createChatRoom(roomId, 'roomName', roomCreator, members)
+  const room: ChatRoom = createPrivateChatRoomResult(roomId, 'roomName', roomCreator, members)
 
   return { roomMock, room, creator: roomCreator, member: roomMember }
 }
