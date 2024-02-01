@@ -554,7 +554,7 @@
   "spaces.appointments.input.title.label": "Title",
   "spaces.appointments.input.title.placeholder": "Add a clear and short title",
   "spaces.appointments.input.upload.button.label": "Upload cover",
-  "spaces.appointments.input.videoCall.additionalInfo.label": "Additional access information",
+  "spaces.appointments.input.videoCall.additionalInfo.label": "Additional video call entries",
   "spaces.appointments.input.videoCall.additionalInfo.placeholder": "Like MeetingID, dial in number…",
   "spaces.appointments.input.videoCall.delete.button": "Delete link",
   "spaces.appointments.input.videoCall.delete.confirmation": "Are you sure you want to delete the video call link?",
