@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Dimensions, StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 type OnboardingCard = {
   image: StaticImageData
@@ -23,14 +23,19 @@ type OnboardCardProps = {
 const SpaceOnboardCard = ({ content, imgWidth, imgHeight }: OnboardCardProps) => {
   const { t } = useTranslation()
 
+  const screenWidth = Dimensions.get('window').width
+
+  const adjustedImgWidth = screenWidth < dimensions.breakpointXs ? imgWidth * 0.6 : imgWidth
+
+  const adjustedImgHeight = screenWidth <= dimensions.breakpointXs ? imgHeight * 0.6 : imgHeight
+
   return (
     <View style={styles.onboardCardContainer}>
       <HoliLocalImage
         imageSource={content.image}
-        width={imgWidth}
-        height={imgHeight}
-        label={''}
-        isSvg={true}
+        width={adjustedImgWidth}
+        height={adjustedImgHeight}
+        label={content.description}
         resizeMode="contain"
         style={styles.illustration}
       />
@@ -54,6 +59,7 @@ const styles = StyleSheet.create({
   },
   onboardCardContainer: {
     padding: 24,
+    paddingBottom: 8,
     borderWidth: 1,
     borderRadius: 16,
     borderColor: colors.foreground30,
