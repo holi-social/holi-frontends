@@ -1,7 +1,7 @@
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -85,21 +85,21 @@ type OnboardingCard = {
 
 const onboardingContentList: Array<OnboardingCard> = [
   {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg'),
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.png'),
     description: 'spaces.edit.onboarding.description',
     instruction: 'spaces.edit.onboarding.instruction',
-    width: 202,
-    height: 179,
+    width: 279,
+    height: 200,
   },
   {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.svg'),
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.png'),
     description: 'spaces.edit.onboarding.tip1',
     instruction: '',
-    width: 215,
-    height: 188,
+    width: 279,
+    height: 200,
   },
   {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.svg'),
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.png'),
     description: 'spaces.edit.onboarding.tip2',
     instruction: '',
     width: 279,
@@ -119,7 +119,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const statusBarHeight = Constants.statusBarHeight
-  const styles = getStyles(statusBarHeight)
+  const windowWidth = useWindowDimensions().width
+
+  const styles = getStyles(statusBarHeight, windowWidth)
 
   const { loading, error, space } = useSpace(spaceIdOrName)
 
@@ -356,8 +358,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
           onDismiss={handleModalClose}
           relativeHeight={isEdit ? 1 : undefined}
-          autoHeight={isEdit ? false : true}
-          headerStyle={styles.modalHeader}
+          headerStyle={isEdit ? styles.modalHeader : styles.onboardingModalHeader}
           testID="space-chips-modal"
           style={isOnboarding && !isEdit ? styles.modal : undefined}
         >
@@ -379,6 +380,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               onActionButtonPress={handleModalClose}
               headlineText={t('spaces.edit.onboarding.header')}
               testID={'space-onboard-content'}
+              headlineAlign="center"
               style={[styles.modalContentWrapper]}
             >
               <HoliCarousel
@@ -400,7 +402,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   )
 }
 
-const getStyles = (statusBarHeight: number) =>
+const getStyles = (statusBarHeight: number, windowWidth: number) =>
   StyleSheet.create({
     defaultLayout: {
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
@@ -422,6 +424,9 @@ const getStyles = (statusBarHeight: number) =>
     },
     modalHeader: {
       backgroundColor: colors.background20,
+    },
+    onboardingModalHeader: {
+      backgroundColor: colors.background30,
     },
     header: {
       alignItems: 'center',
@@ -486,6 +491,7 @@ const getStyles = (statusBarHeight: number) =>
       ...Platform.select({
         web: {
           maxWidth: '100%',
+          alignItems: windowWidth > dimensions.breakpointXl ? 'center' : undefined,
         },
         native: {
           flexShrink: 1,
@@ -494,34 +500,21 @@ const getStyles = (statusBarHeight: number) =>
       }),
       backgroundColor: colors.background30,
     },
-    illustration: {
-      marginBottom: 8,
-    },
     carouselContainer: {
       width: '100%',
       display: 'flex',
+      justifyContent: 'center',
       flex: 1,
-      marginBottom: Platform.OS === 'web' ? 54 : 0,
-    },
-    onboardCardContainer: {
-      padding: 24,
-      borderWidth: 1,
-      borderRadius: 16,
-      borderColor: colors.foreground30,
-      alignItems: 'center',
-      alignContent: 'center',
-      backgroundColor: colors.background20,
-      flex: 1,
-    },
-    onboardingDescription: {
-      marginTop: 24,
-    },
-    onboardingInstruction: {
-      marginTop: 12,
+      ...Platform.select({
+        web: {
+          marginBottom: 54,
+          marginTop: 8,
+        },
+      }),
     },
     modal: {
       backgroundColor: colors.background30,
-      height: Platform.OS === 'web' ? '100%' : '75%',
+      height: windowWidth <= dimensions.breakpointXs ? '100%' : windowWidth > dimensions.breakpointXl ? '70%' : '80%',
     },
   })
 
