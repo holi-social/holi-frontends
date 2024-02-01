@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
+import { withProtocol } from '@holi/core/helpers/url'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -66,13 +67,10 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   })
 
   const onSave = () => {
-    // Check if the URL already has a protocol
-    const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
-
     return addCollaborationTool({
       variables: {
         input: {
-          url: urlWithProtocol,
+          url: withProtocol(url),
           spaceId: space?.id,
           title,
           description,
@@ -84,7 +82,6 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   }
 
   useEffect(() => {
-    // Check if the input URL is in a valid format
     if (!urlRegex.test(url) && url.length > 0) {
       setUrlError(t('global.validation.url.invalid'))
     } else {
