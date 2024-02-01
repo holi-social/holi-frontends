@@ -19,7 +19,7 @@ describe('addTranslations', () => {
 
     expect(props).toEqual({
       foo: 'bar',
-      locale: 'de',
+      locale: 'en',
       ...mockedTranslations,
     })
   })
@@ -27,6 +27,6 @@ describe('addTranslations', () => {
   it('should pass correct paramters to load translations', async () => {
     await addTranslations({} as NextApiRequest, {})
 
-    expect(mockLoadTranslations).toHaveBeenCalledWith(ni18nConfig, 'de', ni18nConfig.ns)
+    expect(mockLoadTranslations).toHaveBeenCalledWith(ni18nConfig, 'en', ni18nConfig.ns)
   })
 })

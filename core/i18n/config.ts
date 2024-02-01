@@ -23,12 +23,12 @@ const resources = {
 }
 
 export const i18nConfig: I18nConfig = {
-  fallbackLng: 'de',
-  supportedLngs: ['de', 'en'],
+  fallbackLng: 'en',
+  supportedLngs: ['en', 'de'],
   defaultNS: 'core',
   fallbackNS: 'core',
   resources,
-  ns: Object.keys(resources['de']),
+  ns: Object.keys(resources['en']),
   compatibilityJSON: 'v3',
   detection: {
     // Use browser language to determine the language

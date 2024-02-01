@@ -22,19 +22,19 @@ describe('detectLocaleFromHeader', () => {
     expect(locale).toBe('de')
   })
 
-  it('should use german as fallback if languages are not supported', () => {
+  it('should use english as fallback if languages are not supported', () => {
     const acceptLanguage = 'es-ES,cs-CZ,es,cs'
     const locale = detectLocaleFromHeader(createRequest(acceptLanguage))
-    expect(locale).toBe('de')
+    expect(locale).toBe('en')
   })
 
-  it('should use german as fallback if no languages are provided', () => {
+  it('should use english as fallback if no languages are provided', () => {
     const locale = detectLocaleFromHeader(createRequest())
-    expect(locale).toBe('de')
+    expect(locale).toBe('en')
   })
 
-  it('should use german as fallback if no request is provided', () => {
+  it('should use english as fallback if no request is provided', () => {
     const locale = detectLocaleFromHeader()
-    expect(locale).toBe('de')
+    expect(locale).toBe('en')
   })
 })
