@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import type { PropsWithChildren } from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
