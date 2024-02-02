@@ -355,7 +355,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         <HoliModal
           heading={editField ? t(editTitles[editField]) : ''}
           show={visible}
-          autoHeight={isEdit ? false : true}
+          autoHeight={!isEdit}
           label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
           onDismiss={handleModalClose}
           relativeHeight={isEdit ? 1 : undefined}
