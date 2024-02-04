@@ -1,7 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SpaceInvolvement renders correctly for the public 1`] = `
-<View>
+<View
+  style={
+    [
+      {
+        "gap": 16,
+      },
+      undefined,
+    ]
+  }
+>
   <View
     style={
       [
