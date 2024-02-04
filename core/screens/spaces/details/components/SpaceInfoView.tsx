@@ -15,10 +15,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceInfoViewProps = {
   space: Space
+  loading?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
+const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, loading = false, style }: SpaceInfoViewProps) => {
   const { t } = useTranslation()
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
@@ -27,67 +28,77 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
 
   return (
     <View style={style}>
-      <SpaceWelcome space={space} />
-      {!!space.topics?.length && (
-        <SpaceSection title={t('spaces.spaceDetails.topics')}>
-          <View style={styles.listContainer}>
-            {space.topics?.map((topic, index) => (
-              <HoliChip key={`topic_${index}`} text={topic.title} label={topic.title} disabled style={styles.chip} />
-            ))}
-          </View>
-        </SpaceSection>
-      )}
-      {!!space.location && (
-        <SpaceSection title={t('spaces.spaceDetails.location')}>
-          <HoliText>{space.location}</HoliText>
-        </SpaceSection>
-      )}
-      {!!sdgs.length && (
-        <SpaceSection title={t('spaces.spaceDetails.sdgs')}>
-          <View style={styles.listContainer}>
-            {sdgs.map((sdg, index) => (
-              <HoliChip
-                key={`sdg_${index}`}
-                text={`${sdg.number}. ${sdg.title}`}
-                label={`${sdg.number}. ${sdg.title}`}
-                disabled
-                style={styles.chip}
-              />
-            ))}
-          </View>
-        </SpaceSection>
-      )}
-      {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
-        <SpaceSection title={t('spaces.spaceDetails.contact')}>
-          <View style={styles.contactWrapper}>
-            {!!space.contactDescription && <HoliText>{space.contactDescription}</HoliText>}
-            {!!space.contactEmail && (
-              <View style={styles.contactContainer}>
-                <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
-                <HoliText size="small" bold>
-                  {space.contactEmail}
-                </HoliText>
+      <SpaceWelcome space={space} loading={loading} />
+      {!loading && (
+        <>
+          {!!space.topics?.length && (
+            <SpaceSection title={t('spaces.spaceDetails.topics')}>
+              <View style={styles.listContainer}>
+                {space.topics?.map((topic, index) => (
+                  <HoliChip
+                    key={`topic_${index}`}
+                    text={topic.title}
+                    label={topic.title}
+                    disabled
+                    style={styles.chip}
+                  />
+                ))}
               </View>
-            )}
-            {!!space.contactPhone && (
-              <View style={styles.contactContainer}>
-                <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
-                <HoliText size="small" bold>
-                  {space.contactPhone}
-                </HoliText>
+            </SpaceSection>
+          )}
+          {!!space.location && (
+            <SpaceSection title={t('spaces.spaceDetails.location')}>
+              <HoliText>{space.location}</HoliText>
+            </SpaceSection>
+          )}
+          {!!sdgs.length && (
+            <SpaceSection title={t('spaces.spaceDetails.sdgs')}>
+              <View style={styles.listContainer}>
+                {sdgs.map((sdg, index) => (
+                  <HoliChip
+                    key={`sdg_${index}`}
+                    text={`${sdg.number}. ${sdg.title}`}
+                    label={`${sdg.number}. ${sdg.title}`}
+                    disabled
+                    style={styles.chip}
+                  />
+                ))}
               </View>
-            )}
-          </View>
-        </SpaceSection>
-      )}
-      {!!links.length && (
-        <SpaceSection title={t('spaces.spaceDetails.publicLinks')}>
-          <View style={styles.listContainer}>
-            {links.map((link, index) => (
-              <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
-            ))}
-          </View>
-        </SpaceSection>
+            </SpaceSection>
+          )}
+          {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
+            <SpaceSection title={t('spaces.spaceDetails.contact')}>
+              <View style={styles.contactWrapper}>
+                {!!space.contactDescription && <HoliText>{space.contactDescription}</HoliText>}
+                {!!space.contactEmail && (
+                  <View style={styles.contactContainer}>
+                    <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
+                    <HoliText size="small" bold>
+                      {space.contactEmail}
+                    </HoliText>
+                  </View>
+                )}
+                {!!space.contactPhone && (
+                  <View style={styles.contactContainer}>
+                    <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
+                    <HoliText size="small" bold>
+                      {space.contactPhone}
+                    </HoliText>
+                  </View>
+                )}
+              </View>
+            </SpaceSection>
+          )}
+          {!!links.length && (
+            <SpaceSection title={t('spaces.spaceDetails.publicLinks')}>
+              <View style={styles.listContainer}>
+                {links.map((link, index) => (
+                  <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
+                ))}
+              </View>
+            </SpaceSection>
+          )}
+        </>
       )}
     </View>
   )

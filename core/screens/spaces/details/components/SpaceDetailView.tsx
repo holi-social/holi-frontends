@@ -60,7 +60,7 @@ const SpaceDetailView = ({
             title: t('spaces.tab.info'),
             titleIcons: [Pushpin, PushpinFilled],
             style: styles.tabStyle,
-            children: <SpaceInfoView space={space} style={[mixins.container, styles.tabItem]} />,
+            children: <SpaceInfoView space={space} style={[mixins.container, styles.tabItem]} loading={loading} />,
           },
           {
             title: t('spaces.tab.updates'),
