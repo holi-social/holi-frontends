@@ -59,10 +59,10 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testI
         />
 
         <View style={[styles.titleContainer]}>
-          <HoliText bold={!!boldTitle} loading>
+          <HoliText bold={!!boldTitle} loading skeletonOptions={{ width: '100%' }}>
             {title}
           </HoliText>
-          <HoliText size="small" style={styles.date} loading />
+          <HoliText size="small" style={styles.date} loading skeletonOptions={{ width: 150 }} />
         </View>
       </View>
     )
