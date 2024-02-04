@@ -29,16 +29,23 @@ type SpaceDetailViewProps = {
   style?: StyleProp<ViewStyle>
   initialTabIndex?: number
   onChangeTabIndex: (index: number) => void
+  loading?: boolean
 }
 
-const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: SpaceDetailViewProps) => {
+const SpaceDetailView = ({
+  space,
+  style,
+  initialTabIndex,
+  onChangeTabIndex,
+  loading = false,
+}: SpaceDetailViewProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 
   return (
     <View style={[styles.wrapper, style]} testID="space-details-container">
       <View style={styles.header}>
-        <SpaceHeader space={space} style={mixins.container} />
+        <SpaceHeader space={space} style={mixins.container} loading={loading} />
       </View>
       <HoliTabs
         id="space-tabs"

@@ -238,37 +238,55 @@ const SpaceDetails = () => {
       headerTitle: () => null,
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
-        <View style={styles.headerRight}>
-          {(isMember || isAdmin) && spaceRoom && (
-            <HoliButtonBell
-              label={t('spaces.actions.chat', { spaceName: space?.name })}
-              icon={Chat3}
-              showBell={spaceRoom.notificationCount > 0}
-              onPress={() => {
-                navigate(`/chat?activeTab=${spaceRoom.id}`)
-              }}
-              color={props.tintColor}
-            />
+        <>
+          {!loading && (
+            <View style={styles.headerRight}>
+              {(isMember || isAdmin) && spaceRoom && (
+                <HoliButtonBell
+                  label={t('spaces.actions.chat', { spaceName: space?.name })}
+                  icon={Chat3}
+                  showBell={spaceRoom.notificationCount > 0}
+                  onPress={() => {
+                    navigate(`/chat?activeTab=${spaceRoom.id}`)
+                  }}
+                  color={props.tintColor}
+                />
+              )}
+              {!isMember || !isAdmin ? (
+                <SpaceShareIcon {...props} spaceIdOrName={space?.name || spaceIdOrName} title={space?.title} />
+              ) : null}
+              {renderActionDrawer()}
+            </View>
           )}
-          {!isMember || !isAdmin ? (
-            <SpaceShareIcon {...props} spaceIdOrName={space?.name || spaceIdOrName} title={space?.title} />
-          ) : null}
-          {renderActionDrawer()}
-        </View>
+        </>
       ),
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [id, isAdmin, isMember, isWeb, navigate, renderActionDrawer, setScreenOptions, space, spaceRoom, spaceIdOrName, t])
+  }, [
+    id,
+    isAdmin,
+    isMember,
+    isWeb,
+    navigate,
+    renderActionDrawer,
+    setScreenOptions,
+    space,
+    spaceRoom,
+    spaceIdOrName,
+    t,
+    loading,
+  ])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
   }
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space) {
-    return <HoliLoader />
+  // Error state just hides the component
+  //todo: provide proper error handling
+  if (error || !space) {
+    return <></>
   }
 
   const UpdateButton = () => {
@@ -301,6 +319,7 @@ const SpaceDetails = () => {
           space={space}
           onChangeTabIndex={selectTabWithIndex}
           initialTabIndex={initialTabIndex}
+          loading={loading}
         />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout.Refreshable>

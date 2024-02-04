@@ -16,6 +16,7 @@ import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -23,13 +24,14 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceHeaderProps = {
   space: Space
+  loading: boolean
   style?: StyleProp<ViewStyle>
 }
 
 const sortUsersByFirstName = (users: User[]) =>
   users.sort((userA, userB) => (userA.fullName || '').localeCompare(userB.fullName || ''))
 
-const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
+const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, loading, style }) => {
   const { t } = useTranslation()
   const [modalVisible, setModalVisible] = useState(false)
   const [adminMemberships, regularMemberships] = useMemo(
@@ -54,10 +56,15 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 
   return (
     <View style={[styles.container, style]} testID="space-header">
-      <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
-      <SpaceAvatar space={space} />
+      <SpaceCollaborators
+        space={space}
+        show={modalVisible}
+        loading={loading}
+        onDismiss={() => setModalVisible(false)}
+      />
+      <SpaceAvatar space={space} loading={loading} />
       <HoliGap />
-      <HoliHeading level="1" size="m" testID="space-title">
+      <HoliHeading level="1" size="m" testID="space-title" loading={loading}>
         {space.title}
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
@@ -68,7 +75,14 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           onPress={showMembers}
           testID="btn-to-open-space-collaborators-modal"
         >
-          <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
+          <HoliUserAvatarPile
+            users={sortedMembersList}
+            usersToShow={3}
+            counter
+            collapse
+            testID="space-members"
+            loading={loading}
+          >
             <HoliText size="small" style={styles.avatarPileText}>
               {t('spaces.members.member', { count: space.members.totalResults })}
             </HoliText>
@@ -77,12 +91,24 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        <SpaceMoreActions space={space} />
-        <SpaceShare space={space} />
-        <SpaceInvite space={space} />
-        <SpaceFollow space={space} />
-        <SpaceJoin space={space} />
-        <SpaceAcceptInvitation space={space} />
+        {!loading && (
+          <>
+            <SpaceMoreActions space={space} />
+            <SpaceShare space={space} />
+            <SpaceInvite space={space} />
+            <SpaceFollow space={space} />
+            <SpaceJoin space={space} />
+            <SpaceAcceptInvitation space={space} />
+          </>
+        )}
+        {loading && (
+          <>
+            <View style={styles.loading}>
+              <HoliSkeleton height={35} width={100} borderRadius={35} />
+              <HoliSkeleton height={35} width={100} borderRadius={35} />
+            </View>
+          </>
+        )}
       </View>
     </View>
   )
@@ -107,6 +133,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
     justifyContent: 'center',
+  },
+  loading: {
+    flexDirection: 'row',
+    gap: 8,
   },
 })
 
