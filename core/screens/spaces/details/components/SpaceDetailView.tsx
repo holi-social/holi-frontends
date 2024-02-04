@@ -77,7 +77,12 @@ const SpaceDetailView = ({
             titleIcons: [Sun, SunFilled],
             style: styles.tabStyle,
             children: (
-              <SpaceInvolvement style={[mixins.container, styles.tabItem]} space={space} key="space-involvement" />
+              <SpaceInvolvement
+                style={[mixins.container, styles.tabItem]}
+                space={space}
+                key="space-involvement"
+                loading={loading}
+              />
             ),
           },
         ]}

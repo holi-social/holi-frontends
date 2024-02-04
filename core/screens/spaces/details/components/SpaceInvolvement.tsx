@@ -13,6 +13,7 @@ import {
 } from '@holi/core/screens/appointments/queries'
 import AppointmentsWidget from '@holi/core/screens/spaces/appointments/components/AppointmentsWidget'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
+import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
@@ -28,9 +29,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface SpaceInvolvementProps {
   style?: StyleProp<ViewStyle>
   space: Space
+  loading?: boolean
 }
 
-const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => {
+const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, loading = false, style }) => {
   const { t } = useTranslation()
   const { ftEnabled: appointmentsFtEnabled } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -52,72 +54,77 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
   })
 
   return (
-    <>
-      <View style={style}>
-        {isAdmin && (
-          <HoliLink label={t('spaces.collaborate.onboarding.link')} href={`/spaces/${space.name}/onboarding`}>
-            <View style={[styles.card, styles.onboarding]}>
-              <HoliIcon icon={OpenArm} size={24} color={colors.brandColorB30} style={styles.icon} />
-              <HoliText>{t('spaces.collaborate.onboarding.link')}</HoliText>
-              <HoliIcon icon={ArrowRightS} size={24} style={styles.end} />
-            </View>
-          </HoliLink>
-        )}
+    <View style={[styles.wrapper, style]}>
+      {loading ? (
+        new Array(3).fill(1).map((idx) => {
+          return <CollaboratorAreaCard title={t('spaces.spaceDetails.tasks.header.title')} loading key={idx} />
+        })
+      ) : (
+        <>
+          {isAdmin && (
+            <HoliLink label={t('spaces.collaborate.onboarding.link')} href={`/spaces/${space.name}/onboarding`}>
+              <View style={styles.onboarding}>
+                <HoliIcon icon={OpenArm} size={24} color={colors.brandColorB30} style={styles.icon} />
+                <HoliText>{t('spaces.collaborate.onboarding.link')}</HoliText>
+                <HoliIcon icon={ArrowRightS} size={24} style={styles.end} />
+              </View>
+            </HoliLink>
+          )}
 
-        {!isCollaborator && space.onboarding?.steps && space.onboarding.steps.length > 0 && (
-          <SpaceCollaboratorOnboardingSteps
-            steps={space.onboarding?.steps}
-            header={t('spaces.collaborate.onboarding.info.header')}
-            style={styles.onboardingSteps}
-          />
-        )}
+          {!isCollaborator && space.onboarding?.steps && space.onboarding.steps.length > 0 && (
+            <SpaceCollaboratorOnboardingSteps
+              steps={space.onboarding?.steps}
+              header={t('spaces.collaborate.onboarding.info.header')}
+              style={styles.onboardingSteps}
+            />
+          )}
 
-        {/* include divider if any other block below has content when logged out */}
-        {!isCollaborator &&
-          space.onboarding?.steps &&
-          space.onboarding.steps.length > 0 &&
-          (!!appointmentsResult?.appointments?.data?.length || !!space.tasks?.length) && (
+          {/* include divider if any other block below has content when logged out */}
+          {!isCollaborator &&
+            space.onboarding?.steps &&
+            space.onboarding.steps.length > 0 &&
+            (!!appointmentsResult?.appointments?.data?.length || !!space.tasks?.length) && (
+              <View style={(styles.divider, styles.dividerPadding)}>
+                <HoliDivider />
+              </View>
+            )}
+
+          {appointmentsFtEnabled && !loadingAppointments && !errorAppointments && (
+            <AppointmentsWidget
+              space={space}
+              isCollaborator={isCollaborator}
+              appointments={appointmentsResult?.appointments.data}
+              totalResults={appointmentsResult?.appointments.totalResults}
+            />
+          )}
+
+          {/* include divider if any other block below has content when logged out */}
+          {!isCollaborator && !!appointmentsResult?.appointments?.data?.length && !!space.tasks?.length && (
             <View style={(styles.divider, styles.dividerPadding)}>
               <HoliDivider />
             </View>
           )}
 
-        {appointmentsFtEnabled && !loadingAppointments && !errorAppointments && (
-          <AppointmentsWidget
+          {isCollaborator && <LinkHubWidget space={space} />}
+          {isCollaborator && <StorageWidget space={space} />}
+
+          <TaskCollaborationCard
+            isAdmin={isAdmin}
             space={space}
-            style={styles.card}
             isCollaborator={isCollaborator}
-            appointments={appointmentsResult?.appointments.data}
-            totalResults={appointmentsResult?.appointments.totalResults}
+            showNoResults={!space.onboarding?.steps?.length && !appointmentsResult?.appointments?.data?.length}
           />
-        )}
 
-        {/* include divider if any other block below has content when logged out */}
-        {!isCollaborator && !!appointmentsResult?.appointments?.data?.length && !!space.tasks?.length && (
-          <View style={(styles.divider, styles.dividerPadding)}>
-            <HoliDivider />
-          </View>
-        )}
-
-        {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
-        {isCollaborator && <StorageWidget space={space} style={styles.card} />}
-
-        <TaskCollaborationCard
-          isAdmin={isAdmin}
-          space={space}
-          isCollaborator={isCollaborator}
-          showNoResults={!space.onboarding?.steps?.length && !appointmentsResult?.appointments?.data?.length}
-        />
-
-        {isCollaborator && <NewToolsTeaser />}
-      </View>
-    </>
+          {isCollaborator && <NewToolsTeaser />}
+        </>
+      )}
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  card: {
-    marginBottom: 16,
+  wrapper: {
+    gap: 16,
   },
   seeAllButtonContainer: {
     alignItems: 'center',

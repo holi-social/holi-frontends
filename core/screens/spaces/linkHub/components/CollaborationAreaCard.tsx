@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -13,6 +14,7 @@ interface CollaboratorAreaCardProps {
   headerRightButtonLabel?: string
   title?: string
   disabled?: boolean
+  loading?: boolean
   children?: ReactNode
   style?: StyleProp<ViewStyle>
   onPressHeaderLeft?: () => void
@@ -26,6 +28,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   headerRightButtonLabel,
   title,
   disabled,
+  loading = false,
   children,
   style,
   onPressHeaderLeft,
@@ -35,6 +38,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
 }: CollaboratorAreaCardProps) => {
   const size = isCollaborator ? 'default' : 'large'
   const Header = () => {
+    if (loading) return null
     return (
       <View style={isCollaborator ? styles.headerContainer : styles.collaboratorHeaderContainer}>
         <HoliButton
@@ -76,7 +80,10 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   return (
     <View style={[styles.wrapper, style]}>
       <Header />
-      <View style={styles.contentContainer}>{children && children}</View>
+      <View style={styles.contentContainer}>
+        {!loading && children && children}
+        {loading && <HoliSkeleton height={200} width={'100%'} borderRadius={styles.wrapper.borderRadius} />}
+      </View>
     </View>
   )
 }
