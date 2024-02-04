@@ -71,7 +71,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { width: screenWidth } = useWindowDimensions()
 
-  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollViewRef = useRef<ScrollView>()
 
   const isWeb = Platform.OS === 'web'
 
@@ -116,21 +116,22 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     [isWeb]
   )
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
+  // Error state  just hide the component
+  // todo: provide proper error handling
+  if (error) {
     return <></>
   }
 
   const post = data?.postById
 
-  if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
+  if (!loading && !post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
-  const comments = post.comments || []
+  const comments = post?.comments || []
 
   const hasVisibilityIcon = spaceIdOrName !== '' && isMember
 
   const getPostCommentUrl = () => {
-    return `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`
+    return `${getPostUrl(post?.id, insightId, spaceIdOrName)}/comment`
   }
 
   return (
@@ -146,9 +147,11 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
       >
         <View style={screenWidth > dimensions.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent
+            post={post}
             hasVisibilityIcon={hasVisibilityIcon}
+            loading={loading}
             style={styles.postContent}
-            {...{ post, spaceIdOrName, insightId }}
+            {...{ spaceIdOrName, insightId }}
           />
 
           {/* Post comments */}
@@ -164,7 +167,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
                   <CommentView
                     key={comment.id}
                     comment={comment}
-                    postId={post.id}
+                    postId={post?.id ?? ''}
                     style={styles.comment}
                     onLayout={scrollToFirstComment || isCommentToScroll ? scrollIntoView : undefined}
                   />
@@ -176,18 +179,20 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
       </ScrollHeaderLayout.Refreshable>
 
       <SafeAreaView>
-        <View style={styles.postCommentWrapper}>
-          <PostDetailFooter
-            style={[styles.postCommentButton, isWeb && mixins.container]}
-            onPress={() =>
-              isLoggedIn
-                ? navigate(getPostCommentUrl())
-                : openLoginModal({
-                    description: t('insights.posts.comments.loginRedirect.text'),
-                  })
-            }
-          />
-        </View>
+        {!loading && (
+          <View style={styles.postCommentWrapper}>
+            <PostDetailFooter
+              style={[styles.postCommentButton, isWeb && mixins.container]}
+              onPress={() =>
+                isLoggedIn
+                  ? navigate(getPostCommentUrl())
+                  : openLoginModal({
+                      description: t('insights.posts.comments.loginRedirect.text'),
+                    })
+              }
+            />
+          </View>
+        )}
       </SafeAreaView>
     </>
   )

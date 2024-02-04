@@ -27,33 +27,50 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type PostContentProps = {
-  post: Post
+interface BaseProps {
   style?: StyleProp<ViewStyle>
+}
+
+interface SkeletonProps extends Partial<BaseProps> {
+  loading: true
+}
+
+interface Props extends BaseProps {
+  loading?: false
+  post: Post
   hasVisibilityIcon?: boolean
   insightId?: string
   spaceIdOrName?: string
 }
 
-const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName }: PostContentProps) => {
+type PostContentProps = SkeletonProps | Props
+
+const PostContent = ({
+  hasVisibilityIcon,
+  post,
+  loading = false,
+  style,
+  insightId,
+  spaceIdOrName,
+}: PostContentProps) => {
   const { t } = useTranslation()
-  const commenters = post.commenters.data
+  const commenters = post?.commenters?.data ?? []
   const { navigate } = useRouting()
   const { user } = useLoggedInUser()
 
   const editAction = useCallback(() => {
-    navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
-  }, [insightId, navigate, post.id, spaceIdOrName])
+    navigate(`${getPostUrl(post?.id, insightId, spaceIdOrName)}/edit`)
+  }, [insightId, navigate, post?.id, spaceIdOrName])
 
   const [isLoadingReport, reportContent] = useReportContent({
-    id: post.id,
+    id: post?.id ?? '',
     contentType: ContentType.POST,
     successMsg: t('global.report.successMessage'),
   })
 
-  const visibilityIcon = post.isPublic ? GlobalFilled : LockFilled
-  const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
-  const isCurrentUserPostCreator = post.creator.id === user?.id
+  const visibilityIcon = post?.isPublic ? GlobalFilled : LockFilled
+  const visibilityIconText = post?.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
+  const isCurrentUserPostCreator = post?.creator?.id === user?.id
   const isDailyInspirationPost = !!post?.inspirationPostCategory?.title
 
   return (
@@ -76,76 +93,90 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                   ) : null}
 
                   {/* Post title */}
-                  <HoliHeading level="1" size="m" testID="post-heading">
-                    {post.title}
+                  <HoliHeading level="1" size="m" testID="post-heading" loading={!!loading}>
+                    {post?.title}
                   </HoliHeading>
                 </HoliColumn>
 
                 {/* Action drawer (three dot menu) */}
-                <HoliColumn>
-                  <SafeAreaProvider>
-                    <HoliActionDrawer.Drawer
-                      label={t('insights.post.preview.more')}
-                      testID="post-three-dot-menu-button"
-                    >
-                      {/* Edit Action */}
-                      {/* editing only allowed for own content */}
-                      {spaceIdOrName && isCurrentUserPostCreator && (
-                        <HoliActionDrawer.Action
-                          icon={Edit2}
-                          title={t('spaces.updates.edit')}
-                          testID="edit-update"
-                          handleAction={editAction}
-                        />
-                      )}
-                      {/* Report Action */}
-                      {/* reporting own content makes no sense, so we hide this option */}
-                      {!isCurrentUserPostCreator && (
-                        <HoliActionDrawer.Action
-                          isLoading={isLoadingReport}
-                          icon={Flag}
-                          title={t('global.report')}
-                          testID="report-comment-button"
-                          showConfirmation
-                        >
-                          <HoliActionDrawer.Confirmation
-                            title={t('insights.post.report.confirmation.title')}
-                            description={t('insights.post.report.confirmation.description')}
-                            handleConfirmation={reportContent}
-                            hasDismissBtn
-                            requireLogin
+                {!loading && (
+                  <HoliColumn>
+                    <SafeAreaProvider>
+                      <HoliActionDrawer.Drawer
+                        label={t('insights.post.preview.more')}
+                        testID="post-three-dot-menu-button"
+                      >
+                        {/* Edit Action */}
+                        {/* editing only allowed for own content */}
+                        {spaceIdOrName && isCurrentUserPostCreator && (
+                          <HoliActionDrawer.Action
+                            icon={Edit2}
+                            title={t('spaces.updates.edit')}
+                            testID="edit-update"
+                            handleAction={editAction}
                           />
-                        </HoliActionDrawer.Action>
-                      )}
-                    </HoliActionDrawer.Drawer>
-                  </SafeAreaProvider>
-                </HoliColumn>
+                        )}
+                        {/* Report Action */}
+                        {/* reporting own content makes no sense, so we hide this option */}
+                        {!isCurrentUserPostCreator && (
+                          <HoliActionDrawer.Action
+                            isLoading={isLoadingReport}
+                            icon={Flag}
+                            title={t('global.report')}
+                            testID="report-comment-button"
+                            showConfirmation
+                          >
+                            <HoliActionDrawer.Confirmation
+                              title={t('insights.post.report.confirmation.title')}
+                              description={t('insights.post.report.confirmation.description')}
+                              handleConfirmation={reportContent}
+                              hasDismissBtn
+                              requireLogin
+                            />
+                          </HoliActionDrawer.Action>
+                        )}
+                      </HoliActionDrawer.Drawer>
+                    </SafeAreaProvider>
+                  </HoliColumn>
+                )}
               </HoliColumns>
             </View>
-            <HoliLink
-              href={`/profile/${post.creator.id}`}
-              label={post.creator.fullName}
-              testID="btn-to-post-creator-profile"
-            >
-              <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
-            </HoliLink>
+            {!loading && !!post ? (
+              <HoliLink
+                href={`/profile/${post?.creator.id}`}
+                label={post?.creator?.fullName ?? ''}
+                testID="btn-to-post-creator-profile"
+              >
+                <HoliMediaHeader
+                  title={post?.creator?.fullName ?? ''}
+                  author={post.creator}
+                  date={post.created ?? ''}
+                />
+              </HoliLink>
+            ) : (
+              <HoliMediaHeader loading />
+            )}
           </>
         )}
 
-        <InspirationPostMediaHeader post={post} />
+        {!loading && !!post && <InspirationPostMediaHeader post={post} />}
 
         {/* Post content */}
-        <HoliRichTextOutput
-          text={post.text}
-          users={post?.mentions || []}
-          links={post?.links || []}
-          style={styles.description}
-          allowAllLinks
-        />
+        {!loading && !!post ? (
+          <HoliRichTextOutput
+            text={post?.text ?? ''}
+            users={post?.mentions || []}
+            links={post?.links || []}
+            style={styles.description}
+            allowAllLinks
+          />
+        ) : (
+          <HoliText loading skeletonOptions={{ numberOfLines: 10 }} />
+        )}
       </View>
 
       {/* Post image */}
-      {post.image && (
+      {post?.image && (
         <PostImage
           uri={post.image.url}
           imageBlurhash={post.image.imageBlurhash}
@@ -156,7 +187,8 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
       )}
 
       {/* Post link previews */}
-      {!!post.links?.length &&
+      {!loading &&
+        !!post?.links?.length &&
         post.links.map((link, index) => {
           return (
             <View style={styles.paddingHorizontal} key={index}>
@@ -168,13 +200,13 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
       {/* Reaction bar with comments and likes */}
       <View style={[styles.reactionsBar]}>
         {/* Comments */}
-        {post.numberOfComments > 0 && (
-          <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-            {t('insights.post.response', { count: post.numberOfComments })}
+        {(loading || post?.numberOfComments > 0) && (
+          <HoliUserAvatarPile users={commenters} usersToShow={3} collapse loading={!!loading}>
+            {t('insights.post.response', { count: post?.numberOfComments })}
           </HoliUserAvatarPile>
         )}
 
-        <PostReactions post={post} />
+        {!loading && !!post && <PostReactions post={post} />}
       </View>
     </View>
   )
