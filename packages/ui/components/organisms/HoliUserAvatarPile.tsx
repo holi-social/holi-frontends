@@ -47,7 +47,7 @@ const HoliUserAvatarPile = ({
   counter = false,
   style,
   testID = 'holi-user-avatar-pile',
-  loading,
+  loading = false,
   usersTotal = users?.length ?? 0,
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
@@ -83,7 +83,7 @@ const HoliUserAvatarPile = ({
                   },
                 ]}
                 testID="pile-avatar"
-                loading={loading}
+                loading={!!loading}
               />
             )
           })
