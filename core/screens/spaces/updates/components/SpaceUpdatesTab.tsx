@@ -1,22 +1,21 @@
-import { withProfiler } from '@sentry/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import type { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
-import SpaceUpdatesList from '@holi/core/screens/spaces/updates/components/SpaceUpdatesList'
+import SpaceUpdatesList, {
+  SpaceUpdatesScrollPlaceholder,
+} from '@holi/core/screens/spaces/updates/components/SpaceUpdatesList'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -25,7 +24,7 @@ export interface SpaceUpdatesTabProps {
   style?: StyleProp<ViewStyle>
 }
 
-const POSTS_RESULT_PAGE_SIZE = 10
+export const POSTS_RESULT_PAGE_SIZE = 10
 
 const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
@@ -140,7 +139,7 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
           variables: { idOrName: space.name, visibility: hasPostFilter ? filter : VisibilityFilter.ALL },
         }}
         loadMoreOnScroll={true}
-        scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+        scrollPlaceholder={<SpaceUpdatesScrollPlaceholder />}
       >
         <SpaceUpdatesList space={space} />
       </Pagination>
@@ -178,10 +177,9 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     position: 'relative',
   },
+  wrapper: {
+    paddingTop: 12,
+  },
 })
 
-export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
-  () => import('@holi/core/screens/spaces/updates/components/SpaceUpdatesTab')
-)
-
-export default withProfiler(SpaceUpdatesTab, { name: 'SpaceUpdatesTab' })
+export default SpaceUpdatesTab

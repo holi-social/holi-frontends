@@ -99,7 +99,7 @@ const PostPreview = ({
         {/* Post Author */}
         <HoliColumns>
           <HoliColumn flex={2}>
-            <HoliMediaHeader title={post?.creator?.fullName} date={post?.created} boldTitle loading />
+            <HoliMediaHeader loading />
           </HoliColumn>
         </HoliColumns>
 
@@ -157,9 +157,9 @@ const PostPreview = ({
               testID="btn-to-post-creator-profile"
             >
               <HoliMediaHeader
-                title={post?.creator.fullName}
+                title={post?.creator.fullName ?? ''}
                 author={post?.creator || ({} as User)}
-                date={post?.created}
+                date={post?.created ?? ''}
                 boldTitle
               />
             </HoliLink>
@@ -225,7 +225,7 @@ const PostPreview = ({
       )}
 
       {/* Inspiration posts media header */}
-      <InspirationPostMediaHeader post={post} />
+      {!!post && <InspirationPostMediaHeader post={post} />}
 
       {/* Post title */}
       {!!post?.title && (
@@ -257,10 +257,11 @@ const PostPreview = ({
       {/* Post image */}
       {post?.image && (
         <PostImage
-          uri={post?.image.url || ''}
-          height={post?.image.height}
-          width={post?.image.width}
-          postTitle={post?.title}
+          uri={post.image.url}
+          imageBlurhash={post.image.imageBlurhash}
+          height={post.image.height}
+          width={post.image.width}
+          postTitle={post.title}
         />
       )}
 
@@ -303,7 +304,7 @@ const PostPreview = ({
         )}
 
         {/* Reactions */}
-        <PostReactions post={post || ({} as Post)} />
+        {!!post && <PostReactions post={post} />}
       </View>
     </View>
   )
