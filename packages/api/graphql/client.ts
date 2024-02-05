@@ -4,7 +4,7 @@ import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
-import { concat, mergeDeepWith, pick, pipe, uniqBy } from 'ramda'
+import { concat, mergeDeepRight, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
 
@@ -182,7 +182,14 @@ export const createCache = () =>
             keyArgs: [],
           },
           appVolunteering_engagementOpportunities: {
-            keyArgs: ['location', 'category'],
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            keyArgs: (args: Record<string, any> | null) => {
+              const { location, category } = args || {}
+              return JSON.stringify({
+                location: location?.geolocation?.properties?.place_id,
+                category,
+              })
+            },
           },
           spaces: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -227,6 +234,7 @@ interface ApolloCreateClientOptions {
   readonly ssrMode: boolean
 }
 
+// TODO(SF) isn't this true for mobile as well?
 const isSSR = typeof window === 'undefined'
 
 const API_URL = process.env.HOLI_API_URL
@@ -243,7 +251,19 @@ const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTe
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
 
-  return new ApolloClient({ ssrMode, link: clientLink, cache })
+  return new ApolloClient({
+    ssrMode,
+    link: clientLink,
+    cache,
+    // TODO(SF)
+    // ssrForceFetchDelay: 100,
+    // defaultOptions: {
+    //   query: {
+    //     fetchPolicy: isSSR ? 'no-cache' : undefined,
+    //     errorPolicy: 'all',
+    //   },
+    // },
+  })
 }
 
 // Web
@@ -252,24 +272,26 @@ let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
 
 type SSRClientInitState = Record<string, unknown> | null
 
-export const initializeApolloSSRClient = (initState: SSRClientInitState = null) => {
+export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
   const client = apolloSSRClient ?? createApolloClient({ ssrMode: isSSR })
 
   if (initState) {
     const existingCache = client.extract()
-    const merge = mergeDeepWith(concat)
-
-    client.cache.restore(merge(existingCache, initState))
+    // @ts-ignore TODO(SF)
+    client.cache.restore(mergeDeepRight(existingCache, initState))
   }
 
-  if (isSSR) return client
+  // For SSG and SSR always create a new Apollo Client
+  if (isSSR) {
+    return client
+  }
   if (!apolloSSRClient) apolloSSRClient = client
 
   return client
 }
 
 // Mobile
-// TODO: rename to recognize its only for client-side JS
+// TODO(SF): rename to recognize its only for client-side JS
 export const client = createApolloClient({ ssrMode: false })
 
 export default client

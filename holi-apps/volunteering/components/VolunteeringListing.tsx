@@ -40,7 +40,7 @@ type VolunteeringListingProps = {
   loadingFilters: boolean
 }
 
-const ENGAGEMENT_PAGE_SIZE = 10
+export const ENGAGEMENT_PAGE_SIZE = 10
 
 const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingFilters }: VolunteeringListingProps) => {
   const mixins = useStyleMixins()
@@ -69,7 +69,9 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
       location: isFiltering ? filters.location : undefined,
       category: isFiltering ? filters.category : undefined,
     },
-    fetchPolicy: 'cache-and-network',
+    // TODO(SF) use correctly for ssr
+    // fetchPolicy: 'cache-only',
+    // fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load volunteering engagements', {
         location: 'VolunteeringListing.VolunteeringEngagementsQuery',
