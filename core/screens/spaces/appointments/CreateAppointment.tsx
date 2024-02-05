@@ -212,7 +212,6 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
         saveButtonDisabled={saveButtonDisabled}
         onBack={() => setShowConfirmationModal(true)}
         showBackButton
-        isModal
         behavior="padding"
         scrollToInput={false}
         bottomBarStyle={styles.bottomBar}
