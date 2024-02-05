@@ -1,9 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client'
+import Constants from 'expo-constants'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import FormWrapper from '@holi/core/components/FormWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
@@ -20,17 +23,18 @@ import {
   createAppointmentMutation,
 } from '@holi/core/screens/appointments/mutations'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { LocationDetails } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
+import dimensions from '@holi/ui/styles/globalVars/dimensions'
 
 export type CreateAppointmentParams = {
   spaceIdOrName: string
@@ -69,6 +73,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const exitConfirmationTitle = t('global.leavePage.confirmation.title')
 
   const {
     data,
@@ -202,49 +207,81 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
       forceRestrict={!ftEnabled && !ftLoading}
       redirectRoute={`/spaces/${spaceIdOrName}`}
     >
-      <SpaceFormScreenLayout
-        saveButtonDisabled={saveButtonDisabled}
-        toggleConfirmationModal={setShowConfirmationModal}
+      <FormWrapper
         onSave={onSave}
-        showConfirmationModal={showConfirmationModal}
-      >
-        <AppointmentInputForm
-          title={title}
-          description={description}
-          inviteOnly={inviteOnly}
-          startDate={startDate}
-          endDate={endDate}
-          startHours={startHours}
-          endHours={endHours}
-          startMinutes={startMinutes}
-          endMinutes={endMinutes}
-          permissionType={permissionType}
-          thumbnail={thumbnail}
-          locationDetails={locationDetails}
-          selectedLocation={selectedLocation}
-          url={url}
-          additionalInfo={additionalInfo}
-          onChangeTitle={setTitle}
-          onChangeDescription={setDescription}
-          onChangeInviteOnly={setInviteOnly}
-          onChangePermissionType={setPermissionType}
-          onChangeThumbnail={setThumbnail}
-          onChangeLocationDetails={setLocationDetails}
-          onChangeSelectedLocation={setSelectedLocation}
-          onChangeStartDate={setStartDate}
-          onChangeEndDate={setEndDate}
-          onChangeStartHours={setStartHours}
-          onChangeEndHours={setEndHours}
-          onChangeStartMinutes={setStartMinutes}
-          onChangeEndMinutes={setEndMinutes}
-          onChangeUrl={setUrl}
-          onChangeAdditionalInfo={setAdditionalInfo}
-          fieldErrors={fieldErrors}
-          isAdmin={isAdmin}
-        />
-      </SpaceFormScreenLayout>
+        saveButtonDisabled={saveButtonDisabled}
+        onBack={() => setShowConfirmationModal(true)}
+        showBackButton
+        isModal
+        behavior="padding"
+        scrollToInput={false}
+        bottomBarStyle={styles.bottomBar}
+        renderProp={() => (
+          <View style={styles.container}>
+            <AppointmentInputForm
+              title={title}
+              description={description}
+              inviteOnly={inviteOnly}
+              startDate={startDate}
+              endDate={endDate}
+              startHours={startHours}
+              endHours={endHours}
+              startMinutes={startMinutes}
+              endMinutes={endMinutes}
+              permissionType={permissionType}
+              thumbnail={thumbnail}
+              locationDetails={locationDetails}
+              selectedLocation={selectedLocation}
+              url={url}
+              additionalInfo={additionalInfo}
+              onChangeTitle={setTitle}
+              onChangeDescription={setDescription}
+              onChangeInviteOnly={setInviteOnly}
+              onChangePermissionType={setPermissionType}
+              onChangeThumbnail={setThumbnail}
+              onChangeLocationDetails={setLocationDetails}
+              onChangeSelectedLocation={setSelectedLocation}
+              onChangeStartDate={setStartDate}
+              onChangeEndDate={setEndDate}
+              onChangeStartHours={setStartHours}
+              onChangeEndHours={setEndHours}
+              onChangeStartMinutes={setStartMinutes}
+              onChangeEndMinutes={setEndMinutes}
+              onChangeUrl={setUrl}
+              onChangeAdditionalInfo={setAdditionalInfo}
+              fieldErrors={fieldErrors}
+              isAdmin={isAdmin}
+            />
+          </View>
+        )}
+      />
+      <HoliConfirmation
+        show={showConfirmationModal}
+        label={exitConfirmationTitle}
+        title={exitConfirmationTitle}
+        description={t('global.leavePage.confirmation.description')}
+        onDismiss={() => setShowConfirmationModal(false)}
+        dismissText={t('global.leavePage.confirmation.dismiss')}
+        confirmText={t('global.leavePage.confirmation.confirm')}
+        testID="form-modal-exit-confirmation"
+        onConfirm={() => {
+          setShowConfirmationModal(false)
+          navigateBack()
+        }}
+      />
     </PermissionsGuard>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: +dimensions.topBarHeight + (Constants.statusBarHeight || 0) + 24,
+    paddingBottom: +dimensions.bottomBarHeight + 24,
+  },
+  bottomBar: {
+    backgroundColor: colors.background10,
+  },
+})
 
 export default CreateAppointment
