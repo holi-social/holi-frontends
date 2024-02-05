@@ -3,6 +3,7 @@ import Constants from 'expo-constants'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
+import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -307,42 +308,44 @@ const EditAppointment: React.FC<ScreenProps> = () => {
         scrollToInput={false}
         bottomBarStyle={styles.bottomBar}
         renderProp={() => (
-          <AppointmentInputForm
-            title={title}
-            description={description}
-            inviteOnly={inviteOnly}
-            startDate={startDate}
-            endDate={endDate}
-            startHours={startHours}
-            endHours={endHours}
-            startMinutes={startMinutes}
-            endMinutes={endMinutes}
-            permissionType={permissionType}
-            thumbnail={thumbnail}
-            locationDetails={locationDetails}
-            selectedLocation={selectedLocation}
-            url={url}
-            additionalInfo={additionalInfo}
-            currentThumbnail={currentThumbnail}
-            currentLocationDetails={currentLocationDetails}
-            onChangeTitle={setTitle}
-            onChangeDescription={setDescription}
-            onChangeInviteOnly={setInviteOnly}
-            onChangePermissionType={setPermissionType}
-            onChangeThumbnail={setThumbnail}
-            onChangeLocationDetails={setLocationDetails}
-            onChangeSelectedLocation={setSelectedLocation}
-            onChangeStartDate={setStartDate}
-            onChangeEndDate={setEndDate}
-            onChangeStartHours={setStartHours}
-            onChangeEndHours={setEndHours}
-            onChangeStartMinutes={setStartMinutes}
-            onChangeEndMinutes={setEndMinutes}
-            onChangeUrl={setUrl}
-            onChangeAdditionalInfo={setAdditionalInfo}
-            fieldErrors={fieldErrors}
-            isAdmin={isAdmin}
-          />
+          <View style={styles.container}>
+            <AppointmentInputForm
+              title={title}
+              description={description}
+              inviteOnly={inviteOnly}
+              startDate={startDate}
+              endDate={endDate}
+              startHours={startHours}
+              endHours={endHours}
+              startMinutes={startMinutes}
+              endMinutes={endMinutes}
+              permissionType={permissionType}
+              thumbnail={thumbnail}
+              locationDetails={locationDetails}
+              selectedLocation={selectedLocation}
+              url={url}
+              additionalInfo={additionalInfo}
+              currentThumbnail={currentThumbnail}
+              currentLocationDetails={currentLocationDetails}
+              onChangeTitle={setTitle}
+              onChangeDescription={setDescription}
+              onChangeInviteOnly={setInviteOnly}
+              onChangePermissionType={setPermissionType}
+              onChangeThumbnail={setThumbnail}
+              onChangeLocationDetails={setLocationDetails}
+              onChangeSelectedLocation={setSelectedLocation}
+              onChangeStartDate={setStartDate}
+              onChangeEndDate={setEndDate}
+              onChangeStartHours={setStartHours}
+              onChangeEndHours={setEndHours}
+              onChangeStartMinutes={setStartMinutes}
+              onChangeEndMinutes={setEndMinutes}
+              onChangeUrl={setUrl}
+              onChangeAdditionalInfo={setAdditionalInfo}
+              fieldErrors={fieldErrors}
+              isAdmin={isAdmin}
+            />
+          </View>
         )}
       />
       <HoliConfirmation
