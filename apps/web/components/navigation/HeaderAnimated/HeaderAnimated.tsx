@@ -33,12 +33,12 @@ export const useHeaderHideAnimation = () => {
 
   // adjust animation on scrollY change
   useEffect(() => {
-    const shouldShowHeader = scrollY < document.documentElement.scrollHeight / 3 || scrollY < prevScrollY.current
+    const shouldShowHeader = scrollY < document.documentElement.clientHeight / 3 || scrollY < prevScrollY.current
     console.debug(
       '-------- HEADER',
       'shouldShowHeader',
       shouldShowHeader,
-      `${scrollY} < ${document.documentElement.scrollHeight / 3} || ${scrollY} < ${prevScrollY.current}`
+      `${scrollY} < ${document.documentElement.clientHeight / 3} || ${scrollY} < ${prevScrollY.current}`
     )
     console.debug('-------- HEADER', 'isHeaderShown', isHeaderShown.current)
 
