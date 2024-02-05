@@ -35,6 +35,7 @@ export interface FormWrapperProps extends ScrollViewProps {
   isModal?: boolean
   buttonLabel?: string
   showBottomBar?: boolean
+  behavior?: 'position' | 'height' | 'padding'
   bottomBarStyle?: StyleProp<ViewStyle>
 }
 
@@ -56,6 +57,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       showBottomBar = false,
       scrollToInput = true,
       testID = 'form-wrapper',
+      behavior,
       bottomBarStyle,
       ...scrollViewProps
     }: FormWrapperProps,
@@ -106,7 +108,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
 
     return (
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={behavior || (Platform.OS === 'ios' ? 'padding' : 'height')}
         style={styles.pageView}
         keyboardVerticalOffset={isModal ? 98 : 0} // based on the height of the HoliModal's header
         ref={ref}
