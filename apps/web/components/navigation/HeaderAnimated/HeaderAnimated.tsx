@@ -24,7 +24,6 @@ export const useHeaderHideAnimation = () => {
   // update scrollY on HTML element scroll
   useEffect(() => {
     const onScroll = throttle(() => {
-      console.debug('-------- HEADER', 'on scroll', document.documentElement.scrollTop)
       setScreenScrollY(document.documentElement.scrollTop)
     }, 300)
     document.addEventListener('scroll', onScroll)
@@ -34,13 +33,6 @@ export const useHeaderHideAnimation = () => {
   // adjust animation on scrollY change
   useEffect(() => {
     const shouldShowHeader = scrollY < document.documentElement.clientHeight / 3 || scrollY < prevScrollY.current
-    console.debug(
-      '-------- HEADER',
-      'shouldShowHeader',
-      shouldShowHeader,
-      `${scrollY} < ${document.documentElement.clientHeight / 3} || ${scrollY} < ${prevScrollY.current}`
-    )
-    console.debug('-------- HEADER', 'isHeaderShown', isHeaderShown.current)
 
     if (isHeaderShown.current !== shouldShowHeader) {
       Animated.timing(headerSlideAnimation, {
@@ -48,7 +40,6 @@ export const useHeaderHideAnimation = () => {
         duration: 300,
         useNativeDriver: false,
       }).start()
-      console.debug('-------- HEADER', 'headerSlideAnimation', headerSlideAnimation)
 
       isHeaderShown.current = shouldShowHeader
     }
@@ -81,8 +72,6 @@ const HeaderAnimated = () => {
   } = options
 
   if (headerShown === false) return null
-
-  console.debug('-------- HEADER', 'headerHideAnimation from Component', headerHideAnimation)
 
   return (
     <Animated.View
