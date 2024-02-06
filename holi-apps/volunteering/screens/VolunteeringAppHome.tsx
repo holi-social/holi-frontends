@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
@@ -17,6 +16,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -144,14 +144,7 @@ const VolunteeringAppHome = () => {
   }, [displayError, geolocationError, location, t])
 
   return (
-    <SafeAreaProvider
-      // TODO(SF) NOW maybe extract to shared component
-      // taken from https://github.com/th3rdwave/react-native-safe-area-context/issues/132
-      initialMetrics={{
-        frame: { x: 0, y: 0, width: 0, height: 0 },
-        insets: { top: 0, left: 0, right: 0, bottom: 0 },
-      }}
-    >
+    <SafeAreaProvider>
       <DefaultLayout
         style={styles.defaultLayout}
         scrollable={true}
