@@ -306,15 +306,20 @@ export const waitForAnimationEnd = async (page: Page, locatorString: string): Pr
 }
 
 /*
- * Wrap around expectations that rely on unpredictable background work
+ * Wrap around a multi-step expectation that needs its steps retried
+ * for features with unpredictable background work
+ * think: re-freshing or re-clicking
  *
- * Be aware that a test itself is also retried in CI
+ * Be sure to have an expect() in the expectationFn
+ * otherwise, it will not throw and just pass
+ *
+ * Be aware that the test itself is also retried in CI
  */
-export const retry = async (assertionsFn: () => Promise<void>) => {
+export const retry = async (expectationFn: () => Promise<void>) => {
   await expect(async () => {
-    await assertionsFn()
+    await expectationFn()
   }).toPass({
-    intervals: [1_000, 2_000],
-    timeout: 10_000,
+    intervals: [2_000],
+    timeout: 30_000,
   })
 }

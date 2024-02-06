@@ -1,8 +1,9 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -18,7 +19,7 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     isLoggedIn && replaceRoute('/profile')
   }, [isLoggedIn, replaceRoute])
 

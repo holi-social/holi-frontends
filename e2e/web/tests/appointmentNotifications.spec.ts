@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
 import { clickElementByTestId, locateElementByTestId, randomSpaceName, retry } from './helpers'
 import { createSpace } from './helpers/spaces'
@@ -31,7 +31,7 @@ test.describe('@AppointmentNotifications', () => {
         // then follower is notified
         await retry(async () => {
           await follower.goto('/notifications')
-          await locateElementByTestId(follower, 'space-appointment')
+          await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
         })
       })
 
@@ -81,6 +81,6 @@ async function createSpaceAppointment(adminA: Page) {
     const descriptionField = await locateElementByTestId(adminA, 'appointment-description-input')
     await descriptionField.fill('Best E2E Party Description')
 
-    await clickElementByTestId(adminA, 'form-modal-save-btn')
+    await clickElementByTestId(adminA, 'form-wrapper-save-btn')
   })
 }
