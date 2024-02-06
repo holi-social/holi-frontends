@@ -1,8 +1,9 @@
 import { useEffect, useLayoutEffect } from 'react'
 import { Platform } from 'react-native'
 
-const isSSR = typeof window === 'undefined' || Platform.OS === 'web'
+import { isSSR } from '@holi/core/helpers/isSSR'
 
-const useIsomorphicLayoutEffect = isSSR ? useEffect : useLayoutEffect
+// TODO(SF) isSSR not relevant to check?
+const useIsomorphicLayoutEffect = isSSR || Platform.OS === 'web' ? useEffect : useLayoutEffect
 
 export default useIsomorphicLayoutEffect
