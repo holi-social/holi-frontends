@@ -1,74 +1,58 @@
+import DateTimePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { Calendar, LocaleConfig } from 'react-native-calendars'
 
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeftS, ArrowRightS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import { getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { formatDateToYYYMMDD, getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
 import { colors } from '@holi/ui/styles/globalVars'
 
-LocaleConfig.locales['de'] = {
-  monthNames: [
-    'Januar',
-    'Februar',
-    'März',
-    'April',
-    'Mai',
-    'Juni',
-    'Juli',
-    'August',
-    'September',
-    'Oktober',
-    'November',
-    'Dezember',
-  ],
-  monthNamesShort: ['Jan.', 'Feb.', 'März', 'Apr.', 'Mai', 'Juni', 'Juli', 'Aug.', 'Sept.', 'Okt.', 'Nov.', 'Dez.'],
-  dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-  dayNamesShort: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
-  today: 'Heute',
-}
 export interface HoliDatePickerProps {
   onChange: (date: string) => void
   title: string
+  value: string
   label?: string
-  value?: string
-  description?: string
-  placeholder?: string
   style?: StyleProp<ViewStyle>
   testID?: string
   isRequired?: boolean
-  showOptionIcon?: boolean
 }
 
 const HoliDatePicker = ({
-  onChange = () => null,
+  onChange,
   title,
-  label,
   value,
-  placeholder,
+  label,
   style,
   testID = 'holi-date-picker',
   isRequired,
 }: HoliDatePickerProps) => {
-  const [hovered, setHovered] = useState(false)
-  const [visible, setVisible] = useState(false)
-
+  const [showPickerIOS, setShowPickerIOS] = useState(false)
   const { i18n } = useTranslation()
   const currentLanguage = getLocale(i18n.language || '')
 
-  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(value), currentLanguage)
+  const onChangeDate = (event: DateTimePickerEvent) => {
+    const chosenDate = new Date(event.nativeEvent.timestamp || 0)
+    onChange(formatDateToYYYMMDD(chosenDate))
+  }
 
-  const hoverPropsForWeb = Platform.select({
-    web: {
-      onMouseEnter: () => setHovered(true),
-      onMouseOut: () => setHovered(false),
-    },
-  })
+  const showPicker = () => {
+    if (Platform.OS === 'android') {
+      DateTimePickerAndroid.open({
+        value: new Date(value),
+        onChange: onChangeDate,
+        mode: 'date',
+        display: 'spinner',
+      })
+    } else {
+      setShowPickerIOS(true)
+    }
+  }
+
+  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(value), currentLanguage)
 
   return (
     <>
@@ -85,37 +69,34 @@ const HoliDatePicker = ({
           label={title}
           testID={`btn-${testID}`}
           transparent
-          contentStyle={[styles.border, styles.button, hovered && styles.buttonHovered]}
-          onPress={() => setVisible((visible) => !visible)}
-          {...hoverPropsForWeb}
+          contentStyle={[styles.border, styles.button]}
+          onPress={showPicker}
         >
-          {value ? (
-            <View style={styles.selectedDateContainer}>
-              <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.selectedDateTitle}>
-                {displayValue}
-              </HoliText>
-            </View>
-          ) : (
-            <HoliText style={styles.placeholder}>{placeholder}</HoliText>
-          )}
+          <View style={styles.selectedDateContainer}>
+            <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.selectedDateTitle}>
+              {displayValue}
+            </HoliText>
+          </View>
         </HoliButton>
       </View>
-      {visible && (
-        <Calendar
-          style={[styles.border, styles.calendar]}
-          renderArrow={(direction) => <HoliIcon icon={direction === 'left' ? ArrowLeftS : ArrowRightS} />}
-          onDayPress={(day) => {
-            onChange(day.dateString)
-            setVisible(false)
-          }}
-          markedDates={
-            value
-              ? {
-                  [value]: { selected: true, disableTouchEvent: true, selectedColor: colors.brandColorB30 },
-                }
-              : {}
-          }
-        />
+      {Platform.OS === 'ios' && (
+        <HoliModal
+          show={showPickerIOS}
+          label={title}
+          autoHeight
+          onDismiss={() => setShowPickerIOS(false)}
+          style={styles.modal}
+        >
+          <DateTimePicker
+            testID={testID}
+            value={new Date(value)}
+            mode="date"
+            is24Hour={true}
+            onChange={onChangeDate}
+            locale={currentLanguage}
+            display="spinner"
+          />
+        </HoliModal>
       )}
     </>
   )
@@ -145,12 +126,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
     color: colors.foreground30,
   },
-  calendar: {
-    marginTop: 4,
-  },
-  buttonHovered: {
-    borderColor: colors.foreground20,
-  },
   selectedDateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -158,7 +133,7 @@ const styles = StyleSheet.create({
   selectedDateTitle: {
     marginLeft: 12,
   },
-  placeholder: {
-    color: colors.foreground20,
+  modal: {
+    paddingBottom: 42,
   },
 })
