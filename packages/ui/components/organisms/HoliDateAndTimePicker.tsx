@@ -11,7 +11,7 @@ export interface HoliDateAndTimePickerProps {
   onChangeDate: (hours: string) => void
   onChangeHours: (hours: string) => void
   onChangeMinutes: (minutes: string) => void
-  valueDate?: string
+  valueDate: string
   valueHours?: string
   valueMinutes?: string
   title: string
