@@ -6,6 +6,8 @@ import {
   Reference,
 } from '@apollo/client/cache'
 
+import { Paged } from '@holi/core/types'
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type KeyArgs = FieldPolicy<any>['keyArgs']
 
@@ -17,6 +19,34 @@ type KeyArgs = FieldPolicy<any>['keyArgs']
 export const alwaysReplacePolicy: FieldPolicy = {
   keyArgs: [],
   merge: (existing, incoming) => incoming,
+}
+
+export function mergeIndexAwareOffsetLimitArray<T = Reference>(
+  existing: readonly T[] | undefined,
+  incoming: readonly T[],
+  options: Partial<FieldFunctionOptions> = {}
+): readonly T[] {
+  const limit = options?.variables?.limit
+  const offset = options?.variables?.offset
+  if (!existing) {
+    // empty cache
+    return incoming
+  } else if (!offset && !limit) {
+    // we assume that *all* entries were requested, so incoming "overwrites" existing
+    return incoming
+  } else if (!offset || offset === 0) {
+    // limit was given, we assume offset = 0, so incoming entries partially overwrite existing ones
+    return incoming.concat(existing.slice(incoming.length))
+  } else if (existing.length >= offset + limit) {
+    // within range of existing -> incoming overwrites at the correct indices
+    const prefix = existing.slice(0, offset)
+    const suffix = existing.slice(offset + limit)
+    return prefix.concat(incoming.concat(suffix))
+  } else {
+    // existing and incoming are not overlapping -> fill with empty values in between
+    const fill = Array(offset - existing.length).fill(null)
+    return existing.concat(fill).concat(incoming)
+  }
 }
 
 /**
@@ -31,29 +61,7 @@ export const alwaysReplacePolicy: FieldPolicy = {
 export function indexAwareOffsetLimitPagination<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<T[]> {
   return {
     keyArgs,
-    merge: (existing, incoming, options) => {
-      const limit = options?.variables?.limit
-      const offset = options?.variables?.offset
-      if (!existing) {
-        // empty cache
-        return incoming
-      } else if (!offset && !limit) {
-        // we assume that *all* entries were requested, so incoming "overwrites" existing
-        return incoming
-      } else if (!offset || offset === 0) {
-        // limit was given, we assume offset = 0, so incoming entries partially overwrite existing ones
-        return incoming.concat(existing.slice(incoming.length))
-      } else if (existing.length >= offset + limit) {
-        // within range of existing -> incoming overwrites at the correct indices
-        const prefix = existing.slice(0, offset)
-        const suffix = existing.slice(offset + limit)
-        return prefix.concat(incoming.concat(suffix))
-      } else {
-        // existing and incoming are not overlapping -> fill with empty values in between
-        const fill = Array(offset - existing.length).fill(null)
-        return existing.concat(fill).concat(incoming)
-      }
-    },
+    merge: mergeIndexAwareOffsetLimitArray<T>,
     read: (existing, options) => {
       const limit = options?.variables?.limit
       const offset = options?.variables?.offset
@@ -61,6 +69,32 @@ export function indexAwareOffsetLimitPagination<T = Reference>(keyArgs?: KeyArgs
         // cache miss if cache empty or existing contains fewer entries than requested
         return undefined
       } else if (existing.some((e) => e === null)) {
+        // cache miss if cache is missing individual items
+        return undefined
+      } else {
+        return existing?.slice()
+      }
+    },
+  }
+}
+
+export function pagedPolicy<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<Paged<T>> {
+  return {
+    keyArgs,
+    merge: (existing, incoming, options) => {
+      return {
+        ...incoming,
+        data: mergeIndexAwareOffsetLimitArray<T>(existing?.data, incoming.data, options),
+      }
+    },
+    read: (existing, options) => {
+      const limit = options?.variables?.limit
+      const offset = options?.variables?.offset
+      const expectedResults = offset + limit
+      if (!existing || (existing.data.length < offset + limit && expectedResults <= existing?.totalResults)) {
+        // cache miss if cache empty or existing contains fewer entries than requested and in total
+        return undefined
+      } else if (existing.data.some((e) => e === null)) {
         // cache miss if cache is missing individual items
         return undefined
       } else {

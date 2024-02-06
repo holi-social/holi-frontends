@@ -8,7 +8,12 @@ import { concat, mergeDeepRight, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
 
-import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationPolicy } from './cachePolicies'
+import {
+  alwaysReplacePolicy,
+  indexAwareOffsetLimitPagination,
+  nestedPaginationPolicy,
+  pagedPolicy,
+} from './cachePolicies'
 import errorLink from './errorLink'
 import headerLink from './headerLink'
 
@@ -90,11 +95,7 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      AppVolunteering_EngagementsResponse: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
+      AppVolunteering_EngagementsResponse: pagedPolicy(),
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
