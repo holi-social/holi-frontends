@@ -1,24 +1,27 @@
 import { ApolloProvider } from '@apollo/client'
+import { useSyncLanguage } from 'ni18n'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { StyleSheet } from 'react-native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
-import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
+import { useApolloClient } from '@holi/web/helpers/useApolloSSRClient'
+import { NextJSPageProps } from '@holi/web/types'
 
 interface RootProviderProps {
-  pageProps: ApolloStateProps
+  pageProps: NextJSPageProps
 }
 
 const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
   const apolloWebClient = useApolloClient(pageProps)
+
+  useSyncLanguage(pageProps.locale)
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>

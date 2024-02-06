@@ -516,9 +516,9 @@ It may be configured at different places, but over all it must be unique.
 
 ### I18n (Internationalization)
 
-We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and rely on [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to provide locale data (polyfilled on mobile using [intl](https://www.npmjs.com/package/intl)).
+We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and [ni18n](https://github.com/JCQuintas/ni18n) for NextJS integration and SSR. We also rely on [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to provide locale data for date and number formatting (polyfilled on mobile using [intl](https://www.npmjs.com/package/intl)).
 
-You can find more documentation in [confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/181174275/I18n+Internationalization).
+You can find more documentation [here](http://app.gitlab-pages.holi.team/docs/internationalisation).
 
 We use [namespaces](https://www.i18next.com/principles/namespaces) to separate translations for the core application and the different holi-apps, which can be found in
 
@@ -554,9 +554,9 @@ t('message.key')
 // results in: "Interpolation example"
 t('message.interpolation', { value: 'example' })
 
-// results in: "Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>"
+// results in: "Translation with a <HoliText bold>nested component</HoliText>"
 <Trans t={t} i18nKey="message.nestedComponent">
-  <HoliText style={{ fontWeight: 'bold' }}>this text will be replaced by "nested component"</HoliText>
+  <HoliText bold>this text will be replaced by "nested component"</HoliText>
 </Trans>
 ```
 

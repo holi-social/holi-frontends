@@ -1,5 +1,5 @@
 import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -15,6 +15,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
@@ -41,7 +42,7 @@ const Login = () => {
 
   const isWeb = Platform.OS === 'web'
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">

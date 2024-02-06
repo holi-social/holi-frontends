@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
 import { clickButtonByText, clickElementByTestId, locateElementByTestId, randomSpaceName, retry } from './helpers'
 import { createSpace } from './helpers/spaces'
@@ -33,15 +33,17 @@ test.describe('@SpaceNotifications', () => {
           // B accepts the invite notification
           await retry(async () => {
             await adminB.goto('/notifications')
-            await locateElementByTestId(adminB, `space-invite-notification-item_${adminBId}_${adminAId}`)
-            await clickElementByTestId(adminB, 'accept-invite-button')
+            await expect(
+              await locateElementByTestId(adminB, `space-invite-notification-item_${adminBId}_${adminAId}`)
+            ).toBeVisible()
           })
+
+          await clickElementByTestId(adminB, 'accept-invite-button')
 
           // A is notified about the acceptance of B
           await retry(async () => {
             await adminA.goto('/notifications')
-            // await expect(adminA.getByTestId('space-membership-item')).toBeVisible()
-            await locateElementByTestId(adminA, 'space-membership-item')
+            await expect(await locateElementByTestId(adminA, 'space-membership-item')).toBeVisible({ timeout: 10000 })
           })
         })
 
@@ -56,7 +58,9 @@ test.describe('@SpaceNotifications', () => {
           // B is notified about promotion
           await retry(async () => {
             await adminB.goto('/notifications')
-            await locateElementByTestId(adminB, `space-permissions-notification-item_${adminBId}`)
+            await expect(
+              await locateElementByTestId(adminB, `space-permissions-notification-item_${adminBId}`)
+            ).toBeVisible()
           })
         })
 
@@ -76,13 +80,20 @@ test.describe('@SpaceNotifications', () => {
             await locateElementByTestId(adminA, 'btn-to-notifications-with-badge')
             await locateElementByTestId(adminB, 'btn-to-notifications-with-badge')
 
-            // when admins open their notification center
-            await clickElementByTestId(adminA, 'btn-to-notifications')
-            await clickElementByTestId(adminB, 'btn-to-notifications')
-
             // then both admins are notified
-            await locateElementByTestId(adminA, `space-connection-notification-item_${adminAId}_${collaboratorId}`)
-            await locateElementByTestId(adminB, `space-connection-notification-item_${adminBId}_${collaboratorId}`)
+            await retry(async () => {
+              await adminA.goto('/notifications')
+              await expect(
+                await locateElementByTestId(adminA, `space-connection-notification-item_${adminAId}_${collaboratorId}`)
+              ).toBeVisible()
+            })
+
+            await retry(async () => {
+              await adminB.goto('/notifications')
+              await expect(
+                await locateElementByTestId(adminB, `space-connection-notification-item_${adminBId}_${collaboratorId}`)
+              ).toBeVisible()
+            })
           })
 
           await test.step('declining a space join request notifies the declined user', async () => {
@@ -92,7 +103,7 @@ test.describe('@SpaceNotifications', () => {
             // then collaborator is notified
             await retry(async () => {
               await collaborator.goto('/notifications')
-              await locateElementByTestId(collaborator, 'space-membership-item')
+              await expect(await locateElementByTestId(collaborator, 'space-membership-item')).toBeVisible()
             })
           })
         })

@@ -2,9 +2,6 @@
   "name": "@holi/web",
   "version": "1.0.0",
   "private": true,
-  "resolutions": {
-    "**@babel/core": "7.23.9"
-  },
   "scripts": {
     "predev": "yarn workspace @holi/ui run generate-style-vars",
     "prebuild": "yarn workspace @holi/ui run generate-style-vars",
@@ -29,6 +26,7 @@
     "lottie-react": "^2.3.1",
     "next": "^14.1.0",
     "next-http-proxy-middleware": "^1.2.6",
+    "ni18n": "^1.1.0",
     "pino": "^8.8.0",
     "raf": "^3.4.1",
     "react": "^18.2.0",
@@ -45,6 +43,7 @@
   "devDependencies": {
     "@blunck/next-html": "^1.0.0",
     "@emotion/react": "^11.11.1",
+    "@types/locale": "^0.1.4",
     "@types/react": "~18.2.14",
     "@types/react-dom": "~18.2.7",
     "eslint": "^8.33.0",

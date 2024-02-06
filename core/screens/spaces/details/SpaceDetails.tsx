@@ -285,7 +285,7 @@ const SpaceDetails = () => {
   }
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={styles.safeAreaProvider}>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           refreshing,
@@ -311,19 +311,16 @@ const SpaceDetails = () => {
 }
 
 const styles = StyleSheet.create({
+  safeAreaProvider: {
+    // styles to feel window in Web
+    flex: 1,
+    display: 'flex',
+    minHeight: '100%',
+  },
   defaultLayout: {
     paddingBottom: 0,
     paddingTop: dimensions.topBarHeight,
-
-    ...Platform.select({
-      web: {
-        height: '100vh',
-        maxHeight: '100%',
-      },
-      default: {
-        minHeight: '100%',
-      },
-    }),
+    minHeight: '100%',
   },
   contentStyle: {
     paddingBottom: 0,
