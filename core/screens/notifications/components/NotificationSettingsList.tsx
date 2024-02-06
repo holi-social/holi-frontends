@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import NotificationSettingsError from '@holi/core/screens/notifications/components/NotificationSettingsError'
 import NotificationSettingsMaintenance from '@holi/core/screens/notifications/components/NotificationSettingsMaintenance'
 import {
   Category,
@@ -43,7 +44,7 @@ const NotificationSettingsList = () => {
   const mixins = useStyleMixins()
 
   const { ftMaintenance } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
-  const { workflowPreferences, updatePreference, updatingPreferences, loading } = useNotificationPreferences()
+  const { workflowPreferences, updatePreference, updatingPreferences, loading, error } = useNotificationPreferences()
   const workflowsByCategory = useMemo(
     () => groupBy(workflowPreferences, (entry) => entry.category),
     [workflowPreferences]
@@ -51,6 +52,10 @@ const NotificationSettingsList = () => {
 
   if (ftMaintenance) {
     return <NotificationSettingsMaintenance />
+  }
+
+  if (error) {
+    return <NotificationSettingsError />
   }
 
   if (loading) {
