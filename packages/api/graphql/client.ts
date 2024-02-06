@@ -7,6 +7,7 @@ import crossFetch from 'cross-fetch'
 import { concat, mergeDeepRight, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
+import { isSSR } from '@holi/core/helpers/isSSR'
 
 import {
   alwaysReplacePolicy,
@@ -235,9 +236,6 @@ interface ApolloCreateClientOptions {
   readonly ssrMode: boolean
 }
 
-// TODO(SF) isn't this true for mobile as well?
-const isSSR = typeof window === 'undefined'
-
 const API_URL = process.env.HOLI_API_URL
 const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
 
@@ -256,14 +254,9 @@ const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
     ssrMode,
     link: clientLink,
     cache,
-    // TODO(SF)
-    // ssrForceFetchDelay: 100,
-    // defaultOptions: {
-    //   query: {
-    //     fetchPolicy: isSSR ? 'no-cache' : undefined,
-    //     errorPolicy: 'all',
-    //   },
-    // },
+    // Skip force fetching queries, i.e. ignore some fetch policy overrides
+    // see https://www.apollographql.com/docs/react/performance/server-side-rendering/#overriding-fetch-policies-during-initialization
+    ssrForceFetchDelay: 500,
   })
 }
 
@@ -277,9 +270,8 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
   const client = apolloSSRClient ?? createApolloClient({ ssrMode: isSSR })
 
   if (initState) {
-    const existingCache = client.extract()
-    // @ts-ignore TODO(SF)
-    client.cache.restore(mergeDeepRight(existingCache, initState))
+    const { __META, ...existingCache } = client.extract()
+    client.cache.restore({ __META, ...mergeDeepRight(existingCache, initState) })
   }
 
   // For SSG and SSR always create a new Apollo Client
@@ -292,7 +284,7 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
 }
 
 // Mobile
-// TODO(SF): rename to recognize its only for client-side JS
+// TODO: rename to recognize its only for client-side JS
 export const client = createApolloClient({ ssrMode: false })
 
 export default client

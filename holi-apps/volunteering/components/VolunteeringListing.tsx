@@ -77,9 +77,7 @@ const VolunteeringListing = ({
       category: isFiltering ? filters.category : undefined,
     },
     skip: filterError,
-    // TODO(SF) NOW use correctly for ssr
-    // fetchPolicy: 'cache-only',
-    // fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
+    fetchPolicy: 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load volunteering engagements', {
         location: 'VolunteeringListing.VolunteeringEngagementsQuery',

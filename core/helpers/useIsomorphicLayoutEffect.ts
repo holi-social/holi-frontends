@@ -3,7 +3,6 @@ import { Platform } from 'react-native'
 
 import { isSSR } from '@holi/core/helpers/isSSR'
 
-// TODO(SF) isSSR not relevant to check?
 const useIsomorphicLayoutEffect = isSSR || Platform.OS === 'web' ? useEffect : useLayoutEffect
 
 export default useIsomorphicLayoutEffect
