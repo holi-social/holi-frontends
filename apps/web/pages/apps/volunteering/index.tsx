@@ -53,6 +53,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
           location: geolocation,
           category,
         },
+        skip: location && !geolocation,
       },
       {
         query: volunteeringCategoriesQuery,

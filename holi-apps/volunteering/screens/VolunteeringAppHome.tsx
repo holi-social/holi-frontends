@@ -51,7 +51,7 @@ const VolunteeringAppHome = () => {
   }, [geolocationDetails])
   const [filters, setFilters] = useState({ location: initialLocationSelection, category })
   const [isFiltering, setIsFiltering] = useState(!!(location || category))
-  const loadingFilters = loadingGeolocation || (!!location && !geolocationDetails)
+  const loadingFilters = loadingGeolocation || (!!location && !geolocationDetails && !geolocationError)
 
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
@@ -133,7 +133,7 @@ const VolunteeringAppHome = () => {
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
 
   useEffect(() => {
-    // TODO(SF) move to hook?
+    // TODO(SF) NOW move to hook?
     if (geolocationError) {
       displayError(geolocationError, 'Failed to load geolocation details', {
         displayMessage: t('volunteering:listing.error'),
@@ -143,14 +143,9 @@ const VolunteeringAppHome = () => {
     }
   }, [displayError, geolocationError, location, t])
 
-  // TODO(SF)
-  // if (geolocationError) {
-  //   return <></>
-  // }
-
   return (
     <SafeAreaProvider
-      // TODO(SF) maybe extract to shared component
+      // TODO(SF) NOW maybe extract to shared component
       // taken from https://github.com/th3rdwave/react-native-safe-area-context/issues/132
       initialMetrics={{
         frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -185,6 +180,7 @@ const VolunteeringAppHome = () => {
           clearFilters={clearFilters}
           isFiltering={isFiltering}
           loadingFilters={loadingFilters}
+          filterError={!!geolocationError}
         />
       </DefaultLayout>
     </SafeAreaProvider>
