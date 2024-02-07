@@ -3,5 +3,7 @@
   "extends": [
     "config:recommended"
   ],
-  "prConcurrentLimit": 5
+  "configMigration": true,
+  "prConcurrentLimit": 5,
+  "osvVulnerabilityAlerts": true
 }
