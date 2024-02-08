@@ -79,7 +79,7 @@ const App = () => {
 
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="inverted" />
       <NavigationProvider>
         <RootProvider>
           <RootNavigator />
