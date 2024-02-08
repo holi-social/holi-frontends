@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     opacity: 0.4,
-    backgroundColor: colors.foreground30,
+    backgroundColor: colors.backdropBackground,
   },
   dismissIcon: {
     alignSelf: 'flex-end',

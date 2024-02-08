@@ -95,6 +95,7 @@ const HoliDatePicker = ({
             onChange={onChangeDate}
             locale={currentLanguage}
             display="spinner"
+            textColor={colors.foreground30}
           />
         </HoliModal>
       )}

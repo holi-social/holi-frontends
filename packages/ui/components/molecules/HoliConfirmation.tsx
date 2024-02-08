@@ -160,7 +160,7 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
     },
     backdrop: {
       opacity: 0.4,
-      backgroundColor: colors.foreground30,
+      backgroundColor: colors.backdropBackground,
       ...StyleSheet.absoluteFillObject,
     },
     modalView: {

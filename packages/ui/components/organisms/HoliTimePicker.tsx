@@ -104,6 +104,7 @@ const HoliTimePicker = ({
             onChange={onChange}
             locale="de_DE" // necessary in order to force military time (not AM/PM)
             display="spinner"
+            textColor={colors.foreground30}
           />
         </HoliModal>
       )}
