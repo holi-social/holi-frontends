@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
@@ -57,7 +57,6 @@ const DONATIONS_IMG_SOURCES_MAPPING: {
 const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
 
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
@@ -80,10 +79,6 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   if (loading) {
     return <DonationListingSkeleton isFiltering={isFiltering} amount={6} />
-  }
-
-  const handleCardPress = (project: Project) => {
-    navigate(`/apps/donations/project/${project.id}`)
   }
 
   return (
@@ -160,32 +155,32 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             // FIX: duplication in projects after loading more
             .map((project) => (
               <HoliGridCell key={project.id}>
-                <HoliCard
-                  key={project.id}
-                  imageLabel={project.title ?? ''}
-                  imageUrl={project.picture[0].url}
-                  onCardPress={() => handleCardPress(project)}
-                  testID={'donations-list-item'}
-                  imageWidth={0}
-                >
-                  {!!project.categories[0] && (
-                    <>
-                      <HoliText size="small" style={{ color: colors.foreground20, marginTop: 8 }}>
-                        {t(`donations:category.${project.categories[0]}`)}
-                      </HoliText>
-                    </>
-                  )}
-                  <HoliGap size="xs" />
-                  <HoliHeading level="2" size="s" selectable>
-                    {project.title}
-                  </HoliHeading>
-                  <HoliGap size="xs" />
-                  <DonationProgress
-                    category={project.categories[0]}
-                    progressPercentage={project.progressPercentage}
-                    openAmountInCents={project.openAmountInCents}
-                  />
-                </HoliCard>
+                <HoliLink href={`/apps/donations/project/${project.id}`} label={project.title}>
+                  <HoliCard
+                    imageLabel={project.title ?? ''}
+                    imageUrl={project.picture[0].url}
+                    testID={'donations-list-item'}
+                    imageWidth={0}
+                  >
+                    {!!project.categories[0] && (
+                      <>
+                        <HoliText size="small" style={{ color: colors.foreground20, marginTop: 8 }}>
+                          {t(`donations:category.${project.categories[0]}`)}
+                        </HoliText>
+                      </>
+                    )}
+                    <HoliGap size="xs" />
+                    <HoliHeading level="2" size="s" selectable>
+                      {project.title}
+                    </HoliHeading>
+                    <HoliGap size="xs" />
+                    <DonationProgress
+                      category={project.categories[0]}
+                      progressPercentage={project.progressPercentage}
+                      openAmountInCents={project.openAmountInCents}
+                    />
+                  </HoliCard>
+                </HoliLink>
               </HoliGridCell>
             ))}
         </HoliGridWrapper>
