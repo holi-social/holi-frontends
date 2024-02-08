@@ -522,6 +522,8 @@
   "spaces.actions.chat": "Go to {{spaceName}} chats",
   "spaces.actions.more": "More",
   "spaces.appointments.add.button.label": "Plan an appointment",
+  "spaces.appointments.addToCallendar.button.label": "Add to your calendar",
+  "spaces.appointments.addToCallendar.description": "Google calendar and iCalendar",
   "spaces.appointments.copyLink": "Copy invitation link",
   "spaces.appointments.details.about": "About this appointment",
   "spaces.appointments.details.createdBy": "Created by",

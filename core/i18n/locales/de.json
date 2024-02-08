@@ -523,6 +523,8 @@
   "spaces.actions.chat": "Zu {{spaceName}} Chats",
   "spaces.actions.more": "Mehr",
   "spaces.appointments.add.button.label": "Einen Termin planen",
+  "spaces.appointments.addToCallendar.button.label": "Add to your calendar",
+  "spaces.appointments.addToCallendar.description": "Google calendar and iCalendar",
   "spaces.appointments.copyLink": "Einladungslink kopieren",
   "spaces.appointments.details.about": "Über diesen Termin",
   "spaces.appointments.details.createdBy": "Erstellt von",
