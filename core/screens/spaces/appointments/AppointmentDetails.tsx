@@ -432,7 +432,6 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 16,
-    flex: 1,
     backgroundColor: colors.background10,
     flexShrink: 1,
     borderRadius: 24,
