@@ -50,7 +50,7 @@ export const sizes = {
 const HoliAvatar = ({
   size = 'medium',
   shape = 'circle',
-  defaultColor = colors.background20,
+  defaultColor = colors.background10,
   imageSrc,
   imageBlurhash,
   initials,
@@ -112,7 +112,7 @@ const getStyles = (shape: AvatarShape, width: number, defaultColor: string, imag
   return StyleSheet.create({
     wrapper: {
       borderRadius: shape === 'circle' ? width / 2 : width * 0.15,
-      backgroundColor: imageIsAvailable ? colors.background20 : defaultColor,
+      backgroundColor: imageIsAvailable ? colors.background10 : defaultColor,
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',

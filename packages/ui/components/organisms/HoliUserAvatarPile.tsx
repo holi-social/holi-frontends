@@ -32,7 +32,7 @@ type HoliUserAvatarPileProps = SkeletonProps | Props
 const emptyUser = (id: string): User => {
   return {
     id,
-    avatarDefaultColor: 'white',
+    avatarDefaultColor: colors.background30,
     avatarLabel: '  ',
     fullName: '',
   }
