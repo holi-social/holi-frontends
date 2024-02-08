@@ -22,3 +22,19 @@ license-disclaimer.txt
 
 *.apk
 .fleet
+
+# yarn default ignores (also for any subfolders, like apps/mobile and e2e/web)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+**/.pnp.*
+**/.yarn/*
+**/!.yarn/patches
+**/!.yarn/plugins
+**/!.yarn/releases
+**/!.yarn/sdks
+**/!.yarn/versions

@@ -17,7 +17,10 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   const [, shareLink] = useShareLink({
     link: `/spaces/${space.name}`,
     linkType: LinkType.UNIVERSAL,
-    message: `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', { space: space.title })}`,
+    message: `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', {
+      space: space.title,
+      interpolation: { escapeValue: false },
+    })}`,
   })
 
   const isCollaborator = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
