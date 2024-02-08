@@ -3,6 +3,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { Animated, Easing, LayoutRectangle, StyleSheet, View } from 'react-native'
 
+import { colors } from '@holi/ui/styles/globalVars'
+
 import { HoliSkeletonProps } from './types'
 
 // inspired by https://github.com/chramos/react-native-skeleton-placeholder/blob/master/src/skeleton-placeholder.tsx
@@ -53,7 +55,13 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
       >
         {/* also achievable with react-native-svg if this causes problems */}
         <LinearGradient
-          colors={['#D9D9D900', '#DADADA80', '#DBDBDBE6', '#DADADA80', '#D9D9D900']}
+          colors={[
+            colors.skeletonGradient1,
+            colors.skeletonGradient2,
+            colors.skeletonGradient3,
+            colors.skeletonGradient4,
+            colors.skeletonGradient5,
+          ]}
           style={styles.gradient}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -85,7 +93,7 @@ const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonPro
       backgroundColor: 'black', // masking is based on transparency
     },
     background: {
-      backgroundColor: '#EBEBEB',
+      backgroundColor: colors.skeletonGradient1,
     },
     gradient: {
       height: '100%',

@@ -73,7 +73,8 @@ const HomeFeed = () => {
       headerLeft: () => (
         <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+            // TODO: include a theme provider check to get the logo
+            imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
             isSvg
             width={78}
             height={24}
