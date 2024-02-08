@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   onboarding: {
-    backgroundColor: colors.background20,
+    backgroundColor: colors.background10,
     borderRadius: 16,
     paddingVertical: 16,
     flexDirection: 'row',
