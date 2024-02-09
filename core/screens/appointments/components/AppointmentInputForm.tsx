@@ -60,9 +60,9 @@ export const PERMISSION_TYPE_OPTIONS: HoliModalSelectOption[] = [
 export interface AppointmentInputFormProps {
   title: string
   description: string
+  startDate: string
+  endDate: string
   inviteOnly?: HoliModalSelectOption
-  startDate?: string
-  endDate?: string
   startHours?: string
   endHours?: string
   startMinutes?: string

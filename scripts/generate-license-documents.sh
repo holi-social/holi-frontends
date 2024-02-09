@@ -3,7 +3,7 @@
 set -eux
 
 # generates a big file with all licenses of all dependencies at license-disclaimer.txt
-yarn licenses generate-disclaimer > license-disclaimer.txt
+yarn licenses generate-disclaimer --recursive > license-disclaimer.txt
 
 for lang in de en; do
   TARGETFILE=apps/web/.next/standalone/apps/web/public/documents/openSource_${lang}.html

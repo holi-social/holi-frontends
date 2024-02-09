@@ -83,6 +83,8 @@ export function withRefreshControl<P extends LayoutProps, T>(
             overscrollBehaviorY: 'contain',
             // animate only on endPull
             transition: !isPullInProgress ? 'all .3s ease-out' : '',
+            display: 'flex',
+            flex: 1,
             ...webWrapperStyle,
           }}
         >

@@ -1,3 +1,4 @@
+import { throttle } from 'lodash'
 import React from 'react'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -20,16 +21,18 @@ export const useHeaderHideAnimation = () => {
 
   const headerSlideAnimation = useRef(new Animated.Value(0)).current
 
-  // update scrollY on window scroll
+  // update scrollY on HTML element scroll
   useEffect(() => {
-    const onWindowScroll = () => setScreenScrollY(window.scrollY)
-    window.addEventListener('scroll', onWindowScroll)
-    return () => window.removeEventListener('scroll', onWindowScroll)
+    const onScroll = throttle(() => {
+      setScreenScrollY(document.documentElement.scrollTop)
+    }, 300)
+    document.addEventListener('scroll', onScroll)
+    return () => document.removeEventListener('scroll', onScroll)
   }, [])
 
   // adjust animation on scrollY change
   useEffect(() => {
-    const shouldShowHeader = scrollY < window.outerHeight / 3 || scrollY < prevScrollY.current
+    const shouldShowHeader = scrollY < document.documentElement.clientHeight / 3 || scrollY < prevScrollY.current
 
     if (isHeaderShown.current !== shouldShowHeader) {
       Animated.timing(headerSlideAnimation, {
