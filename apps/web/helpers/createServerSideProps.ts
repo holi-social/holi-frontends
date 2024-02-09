@@ -1,5 +1,5 @@
 import type { ApolloClient, NormalizedCacheObject, QueryOptions } from '@apollo/client'
-import type { NextPageContext, GetServerSidePropsResult } from 'next'
+import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { isNotFoundError } from '@holi/core/errors/helpers'

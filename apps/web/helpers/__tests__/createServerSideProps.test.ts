@@ -1,6 +1,6 @@
-import type { NextPageContext } from 'next'
-import { gql, ApolloError } from '@apollo/client'
+import { ApolloError, gql } from '@apollo/client'
 import { GraphQLError } from 'graphql'
+import type { NextPageContext } from 'next'
 
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { APOLLO_STATE_PROP_NAME } from '@holi/web/helpers/useApolloSSRClient'
@@ -18,7 +18,7 @@ jest.mock('@holi/api/graphql/client', () => ({
 jest.mock('@holi/web/environment', () => ({
   featureFlag: {
     enableSSR: true,
-  }
+  },
 }))
 
 describe('createServerSideProps', () => {
@@ -29,20 +29,32 @@ describe('createServerSideProps', () => {
     ...mockedTranslations,
   }
   const query1 = {
-    query: gql`query { foo { bar } }`
+    query: gql`
+      query {
+        foo {
+          bar
+        }
+      }
+    `,
   }
   const query2 = {
-    query: gql`query { bar { baz } }`
+    query: gql`
+      query {
+        bar {
+          baz
+        }
+      }
+    `,
   }
   const mockedCache = {
-    foo: 'bar'
+    foo: 'bar',
   }
   const mockQueryFunction = jest.fn().mockResolvedValue({})
   const mockedClient = {
     query: mockQueryFunction,
     cache: {
-      extract: () => mockedCache
-    }
+      extract: () => mockedCache,
+    },
   }
 
   beforeEach(() => {
@@ -55,7 +67,7 @@ describe('createServerSideProps', () => {
 
     expect(mockLoadTranslations).toHaveBeenCalled()
     expect(props).toEqual({
-      props: expectedI18nProps
+      props: expectedI18nProps,
     })
   })
 
@@ -78,7 +90,7 @@ describe('createServerSideProps', () => {
       props: {
         ...expectedI18nProps,
         [APOLLO_STATE_PROP_NAME]: mockedCache,
-      }
+      },
     })
   })
 
@@ -96,7 +108,7 @@ describe('createServerSideProps', () => {
       props: {
         ...expectedI18nProps,
         [APOLLO_STATE_PROP_NAME]: mockedCache,
-      }
+      },
     })
   })
 
@@ -112,18 +124,22 @@ describe('createServerSideProps', () => {
       props: {
         ...expectedI18nProps,
         [APOLLO_STATE_PROP_NAME]: mockedCache,
-      }
+      },
     })
   })
 
   it('should redirect to 404 page if a query results in a NOT_FOUND error', async () => {
-    mockQueryFunction.mockRejectedValueOnce(new ApolloError({
-      graphQLErrors: [new GraphQLError('Not found', {
-        extensions: {
-          code: 'NOT_FOUND'
-        }
-      })]
-    }))
+    mockQueryFunction.mockRejectedValueOnce(
+      new ApolloError({
+        graphQLErrors: [
+          new GraphQLError('Not found', {
+            extensions: {
+              code: 'NOT_FOUND',
+            },
+          }),
+        ],
+      })
+    )
 
     const props = await createServerSideProps(context, [query1, query2])
 
@@ -131,7 +147,7 @@ describe('createServerSideProps', () => {
     expect(mockQueryFunction).toBeCalledWith(query1)
     expect(mockQueryFunction).toBeCalledWith(query2)
     expect(props).toEqual({
-      notFound: true
+      notFound: true,
     })
   })
 })
