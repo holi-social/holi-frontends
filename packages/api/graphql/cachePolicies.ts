@@ -78,6 +78,23 @@ export function indexAwareOffsetLimitPagination<T = Reference>(keyArgs?: KeyArgs
   }
 }
 
+/**
+ * An index-aware pagination Apollo cache policy for cache items of type
+ * Paged<T>.
+ * The function takes `offset` and `limit` arguments into account as well as the
+ * `totalResults` that can potentially be fetched.
+ *
+ * Apollos built-in offsetLimitPagination ignores the limit part. The
+ * resulting issue (see also HOLI-2400) is that, given a cached query result of
+ * 5 items and a query with the same offset but 10 items, will result in no
+ * query being executed to fetch the missing 5 items.
+ *
+ * This implementation works by "remembering" individual items offsets and
+ * assuming a cache miss if any item requested (any item within the range
+ * [offset, offset+limit]) is not present and we are sure that the there are
+ * more elements left to fetch (`totalResults >= offset + limit`, see
+ * HOLI-6474).
+ */
 export function pagedPolicy<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<Paged<T>> {
   return {
     keyArgs,
@@ -91,7 +108,7 @@ export function pagedPolicy<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<Paged
       const limit = options?.variables?.limit
       const offset = options?.variables?.offset
       const expectedResults = offset + limit
-      if (!existing || (existing.data.length < offset + limit && expectedResults <= existing?.totalResults)) {
+      if (!existing || (existing.data.length < expectedResults && expectedResults <= existing?.totalResults)) {
         // cache miss if cache empty or existing contains fewer entries than requested and in total
         return undefined
       } else if (existing.data.some((e) => e === null)) {
