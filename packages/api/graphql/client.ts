@@ -91,11 +91,7 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      AppDonations_ProjectsResponse: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
+      AppDonations_ProjectsResponse: pagedPolicy(),
       AppVolunteering_EngagementsResponse: pagedPolicy(),
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
