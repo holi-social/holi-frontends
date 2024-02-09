@@ -88,7 +88,7 @@ const VolunteeringListing = ({
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
-  const noResults = error || filterError || engagements.length === 0
+  const noResults = !!error || filterError || engagements.length === 0
 
   const handleCardPress = (engagement: VolunteeringEngagement) => {
     navigate(`/apps/volunteering/engagement/${engagement.id}`)

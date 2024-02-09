@@ -50,8 +50,8 @@ const VolunteeringAppHome = () => {
     )
   }, [geolocationDetails])
   const [filters, setFilters] = useState({ location: initialLocationSelection, category })
-  const [isFiltering, setIsFiltering] = useState(!!(location || category))
   const loadingFilters = loadingGeolocation || (!!location && !geolocationDetails && !geolocationError)
+  const isFiltering = !!(location || category)
 
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
@@ -78,7 +78,6 @@ const VolunteeringAppHome = () => {
   const clearFilters = useCallback(() => {
     setFilters({ location: undefined, category: undefined })
     clearParamsFromUrl()
-    setIsFiltering(false)
   }, [clearParamsFromUrl])
 
   useEffect(() => {
@@ -86,7 +85,6 @@ const VolunteeringAppHome = () => {
       return
     }
     if (geolocationDetails || category) {
-      setIsFiltering(true)
       setFilters({
         location: geolocationDetails && {
           ...geolocationDetails,
@@ -95,7 +93,6 @@ const VolunteeringAppHome = () => {
         category,
       })
     } else {
-      setIsFiltering(false)
       setFilters({ location: undefined, category: undefined })
     }
   }, [location, category, geolocationDetails, loadingGeolocation, loadingFilters])
