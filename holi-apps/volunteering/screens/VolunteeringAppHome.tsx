@@ -1,7 +1,6 @@
-import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
@@ -9,6 +8,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -16,6 +16,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -23,13 +24,13 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
-import { VolunteeringFilters } from '@holi-apps/volunteering/types'
+import { VolunteeringFilterParams, VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilters>()
+const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilterParams>()
 
 const VolunteeringAppHome = () => {
   const { displayError } = useErrorHandling()
-
+  const { navigate } = useRouting()
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
   const setScreenOptions = useSetScreenOptions()
@@ -38,9 +39,7 @@ const VolunteeringAppHome = () => {
 
   const [location] = useParam('location', singleParamConfig)
   const [category] = useParam('category', singleParamConfig)
-
   const updateParams = useUpdateParams(webReplaceQueryConfig)
-
   const { geolocationDetails, geolocationError, loadingGeolocation } = useGeolocationDetails(location)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
     return (
@@ -50,6 +49,9 @@ const VolunteeringAppHome = () => {
       }
     )
   }, [geolocationDetails])
+  const [filters, setFilters] = useState({ location: initialLocationSelection, category })
+  const loadingFilters = loadingGeolocation || (!!location && !geolocationDetails && !geolocationError)
+  const isFiltering = !!(location || category)
 
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
@@ -57,13 +59,14 @@ const VolunteeringAppHome = () => {
 
   const submit = useCallback(
     (filters?: VolunteeringFilters) => {
-      updateParams({ location: filters?.location, category: filters?.category })
+      setFilters({ location: filters?.location, category: filters?.category })
+      updateParams({ location: filters?.location?.id, category: filters?.category })
       closeModal()
     },
     [updateParams, closeModal]
   )
 
-  const clearFiltersFromUrl = useCallback(
+  const clearParamsFromUrl = useCallback(
     () =>
       updateParams({
         location: undefined,
@@ -74,21 +77,14 @@ const VolunteeringAppHome = () => {
 
   const clearFilters = useCallback(() => {
     setFilters({ location: undefined, category: undefined })
-    clearFiltersFromUrl()
-    setIsFiltering(false)
-  }, [clearFiltersFromUrl])
-
-  const { navigate } = useRouting()
-  const [filters, setFilters] = useState({ location: initialLocationSelection, category })
-  const [isFiltering, setIsFiltering] = useState(!!(location || category))
-  const loadingFilters = loadingGeolocation || (!!location && !geolocationDetails)
+    clearParamsFromUrl()
+  }, [clearParamsFromUrl])
 
   useEffect(() => {
     if (loadingFilters) {
       return
     }
     if (geolocationDetails || category) {
-      setIsFiltering(true)
       setFilters({
         location: geolocationDetails && {
           ...geolocationDetails,
@@ -97,12 +93,11 @@ const VolunteeringAppHome = () => {
         category,
       })
     } else {
-      setIsFiltering(false)
       setFilters({ location: undefined, category: undefined })
     }
   }, [location, category, geolocationDetails, loadingGeolocation, loadingFilters])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const filterButton = (
       <HoliButton
         label={t('volunteering:filter.heading')}
@@ -144,10 +139,6 @@ const VolunteeringAppHome = () => {
     }
   }, [displayError, geolocationError, location, t])
 
-  if (geolocationError) {
-    return <></>
-  }
-
   return (
     <SafeAreaProvider>
       <DefaultLayout
@@ -168,7 +159,6 @@ const VolunteeringAppHome = () => {
           <VolunteeringFilterForm
             onSubmit={submit}
             filters={filters}
-            setFilters={setFilters}
             clearFilters={clearFilters}
             initialLocationSelection={initialLocationSelection}
           />
@@ -179,6 +169,7 @@ const VolunteeringAppHome = () => {
           clearFilters={clearFilters}
           isFiltering={isFiltering}
           loadingFilters={loadingFilters}
+          filterError={!!geolocationError}
         />
       </DefaultLayout>
     </SafeAreaProvider>

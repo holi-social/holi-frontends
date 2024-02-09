@@ -20,7 +20,6 @@ type VolunteeringFilterFormProps = {
   filters?: VolunteeringFilters
   initialLocationSelection?: GeolocationSuggestion
   onSubmit: (filters?: VolunteeringFilters) => void
-  setFilters?: (filters: { location: GeolocationSuggestion | undefined; category: string | undefined }) => void
   clearFilters?: () => void
 }
 
@@ -28,7 +27,6 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
   onSubmit,
   filters = {},
   initialLocationSelection,
-  setFilters,
   clearFilters,
 }: VolunteeringFilterFormProps) => {
   const { t } = useTranslation()
@@ -64,13 +62,10 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
     setSelectedLocation(filters.location ? initialLocationSelection : undefined)
   }, [initialLocationSelection, filters.location])
 
-  const submit = useCallback(() => {
-    setFilters && setFilters({ location: selectedLocation, category })
-    return onSubmit({
-      location: selectedLocation?.id,
-      category,
-    })
-  }, [onSubmit, selectedLocation, category, setFilters])
+  const submit = useCallback(
+    () => onSubmit({ location: selectedLocation, category }),
+    [onSubmit, selectedLocation, category]
+  )
 
   const resetForm = useCallback(() => {
     setLocationQuery(undefined)
