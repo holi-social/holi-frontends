@@ -7,7 +7,7 @@ import RenderHtml from 'react-native-render-html'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -130,12 +130,16 @@ const VolunteeringEngagementDetail = () => {
       id: engagementId,
     },
     skip: !engagementId,
-    onError: (error) =>
-      displayError(error, 'Failed to load volunteering engagement', {
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      return displayError(error, 'Failed to load volunteering engagement', {
         displayMessage: t('volunteering:listing.error'),
         location: 'VolunteeringEngagementDetail.engagementByIdQuery',
         engagementId,
-      }),
+      })
+    },
   })
   const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation, {
     variables: { id: engagementId },
@@ -157,13 +161,8 @@ const VolunteeringEngagementDetail = () => {
     }
   }, [trackEngagementView, engagementId])
 
-  if (!engagementId || loading) {
+  if (!engagementId || loading || !engagement) {
     return <HoliLoader />
-  }
-
-  if (!engagement) {
-    replaceRoute('/404')
-    return <></>
   }
 
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
