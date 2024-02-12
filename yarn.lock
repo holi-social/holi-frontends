@@ -5378,7 +5378,7 @@ __metadata:
     "@storybook/addon-essentials": "npm:^7.6.10"
     "@storybook/addon-interactions": "npm:^7.6.10"
     "@storybook/addon-links": "npm:^7.6.10"
-    "@storybook/addon-react-native-web": "npm:^0.0.22"
+    "@storybook/addon-react-native-web": "npm:^0.0.23"
     "@storybook/addon-storysource": "npm:^7.6.10"
     "@storybook/jest": "npm:^0.2.3"
     "@storybook/nextjs": "npm:^7.6.10"
@@ -8932,9 +8932,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-react-native-web@npm:^0.0.22":
-  version: 0.0.22
-  resolution: "@storybook/addon-react-native-web@npm:0.0.22"
+"@storybook/addon-react-native-web@npm:^0.0.23":
+  version: 0.0.23
+  resolution: "@storybook/addon-react-native-web@npm:0.0.23"
   peerDependencies:
     "@babel/preset-react": "*"
     "@react-native/babel-preset": "*"
@@ -8951,7 +8951,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/45ecbf9004efcbe12561d8738850ad6847cd35dc3de71b68ad20bbe8d79482c7169dd73c8bb3b914a3ac7442b077f930541fa82d4b1aabdfb6d07d894f47e6f5
+  checksum: 10c0/2399eef028dd26b7b54b396f77bcde44b9366cdc4c71e2b6ee8d40733b52c9d9dece69a2fbca9208a9251c1b603c022668de832bd64a0376f43f48325e423e27
   languageName: node
   linkType: hard
 
