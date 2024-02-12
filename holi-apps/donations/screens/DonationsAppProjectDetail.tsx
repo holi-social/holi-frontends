@@ -1,14 +1,16 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -54,28 +56,27 @@ const DonationsAppProjectDetail = () => {
       id: Number(projectId),
     },
     skip: !projectId,
-    onError: (error) =>
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       displayError(error, 'Failed to load donation project', {
         displayMessage: t('donations:donationListing.error'),
         location: 'DonationsAppProjectDetail.projectByIdQuery',
         projectId,
-      }),
+      })
+    },
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const project = data?.appDonations_project
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('donations:app.name') })
   }, [setScreenOptions, t])
 
-  if (!projectId || loading) {
+  if (!projectId || loading || !project) {
     return <HoliLoader />
-  }
-
-  if (!project) {
-    replaceRoute('/404')
-    return <></>
   }
 
   return (
@@ -102,7 +103,6 @@ const DonationsAppProjectDetail = () => {
             </View>
           </View>
           <DonationProgress
-            donationsCount={project.donationsCount}
             progressPercentage={project.progressPercentage}
             openAmountInCents={project.openAmountInCents}
             size="large"
