@@ -64,9 +64,6 @@ export const defaultAuthSteps = async (
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
 
-  if (isLogin) {
-    await waitForElementWithTestId('user-profile-full-name')
-  }
   if (!isLogin && withAccountSetup) {
     await finishAccountSetup()
   }
