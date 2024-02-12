@@ -27,6 +27,7 @@ import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNaviga
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -46,6 +47,7 @@ const HomeFeed = () => {
   const { isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
+  const { theme } = useTheme()
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -60,6 +62,24 @@ const HomeFeed = () => {
     FeatureToggleName.APPS_VOLUNTEERING
   )
 
+  const logo = theme.dark ? (
+    <HoliLocalImage
+      imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
+      isSvg
+      width={78}
+      height={24}
+      label={t('navigation.title')}
+    />
+  ) : (
+    <HoliLocalImage
+      imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+      isSvg
+      width={78}
+      height={24}
+      label={t('navigation.title')}
+    />
+  )
+
   // TODO: when SSR is enabled we need to lazy load the header
   // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -70,18 +90,7 @@ const HomeFeed = () => {
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
-      headerLeft: () => (
-        <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
-          <HoliLocalImage
-            // TODO: include a theme provider check to get the logo
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
-            isSvg
-            width={78}
-            height={24}
-            label={t('navigation.title')}
-          />
-        </HoliButton>
-      ),
+      headerLeft: () => logo,
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
   }, [navigate, t, headerTitle, setScreenOptions])
