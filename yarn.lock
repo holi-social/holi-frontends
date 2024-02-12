@@ -10171,8 +10171,8 @@ __metadata:
   linkType: hard
 
 "@testing-library/jest-native@npm:^5.4.1":
-  version: 5.4.2
-  resolution: "@testing-library/jest-native@npm:5.4.2"
+  version: 5.4.3
+  resolution: "@testing-library/jest-native@npm:5.4.3"
   dependencies:
     chalk: "npm:^4.1.2"
     jest-diff: "npm:^29.0.1"
@@ -10183,7 +10183,7 @@ __metadata:
     react: ">=16.0.0"
     react-native: ">=0.59"
     react-test-renderer: ">=16.0.0"
-  checksum: 10c0/2660155cdfd92f917c0dfe102e8ea3b8d3785d691d367fa59696828c860f0c87070e11b39d2ee18c114bc446f0cfca77d32700317196786b96e4233fe00ba22c
+  checksum: 10c0/9315989dc0377a778f7ec9317b98c1dab9a7e2ebe0ca20a5c75f9dba3a4b486c02452b4399dd1aeef9ebf0007247594c6357f62089f095fde5280ce0344f5e65
   languageName: node
   linkType: hard
 
