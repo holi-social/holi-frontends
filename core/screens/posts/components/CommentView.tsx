@@ -101,7 +101,7 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
       <View style={styles.body}>
         <VerticalLine style={styles.commentConnector} />
         <View style={styles.commentContent}>
-          <HoliRichTextOutput text={comment.text} users={comment.mentions || []} style={styles.text} />
+          <HoliRichTextOutput text={comment.text} users={comment.mentions || []} style={styles.text} allowAllLinks />
 
           <View style={styles.reactionsBar}>
             <CommentReactions comment={comment} />
