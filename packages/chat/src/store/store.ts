@@ -6,6 +6,7 @@ import { useCallback, useMemo, useRef } from 'react'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatState'
 import {
+  ChatRoom,
   type ChatRoomMember,
   ChatRoomMessage,
   type MatrixId,
@@ -14,11 +15,10 @@ import {
   type RoomId,
   RoomUpdatesContent,
   RoomUpdatesType,
-  type RoomWithSharedData,
+  SpaceChatRoom,
 } from '@holi/chat/src/client/types'
 import { createChatMessage } from '@holi/chat/src/client/utils'
 import {
-  addChatRoom,
   addNotificationsCount,
   addOrUpdateChatRoom,
   addOrUpdateMemberInChatRoom,
@@ -33,17 +33,13 @@ import {
 } from '@holi/chat/src/store/producers'
 import type {
   ChatMessagesAtom,
-  ChatRoom,
   ChatRoomAtom,
   CreateMessage,
   RoomAtomByRoomId,
-  RoomAtomsRecordAtomSubscriberArgs,
-  SpaceChatRoom,
   SpaceRoomAtom,
 } from '@holi/chat/src/store/types'
-import { MessageAtomsByRoomId, RoomAtomsActionType } from '@holi/chat/src/store/types'
+import { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
 import {
-  createChatRoom,
   getAtomFromRecordId,
   isPrivateChatRoom,
   isSpaceChatRoom,
@@ -192,90 +188,44 @@ export const spaceRoomIdToChildRoomsAtom = atom<Record<string, ChatRoomAtom[]>>(
 /**
  * @description A write-only atom that programmatically creates a room based on
  * the Matrix Client store and listens to the room invitation event emitter for
- * creating rooms (`onMount`). Implementing a write-only atom has null as the
- * first parameter, and not the getter function. We require a getter function
- * because we subscribe to events in the `onMount` lifecycle.
- *
- * * IMPORTANT! Do not use this atom to read/access rooms.
- * * IMPORTANT! Only import in test.
+ * creating rooms (`onMount`).
+ * * IMPORTANT! Only import in tests.
  */
-export const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
-  switch (args.type) {
-    case RoomAtomsActionType.CREATE: {
-      const chatRoomList = args.roomList.reduce<ChatRoom[]>(
-        (chatRooms, { room, hasPendingInvitation, ignoredUsers }) => {
-          const chatRoom = createChatRoom(room, args.homeserverUrl, hasPendingInvitation)
-          // We hide chat rooms with only ignored members from the user. We do an
-          // early return not to include the chat room in the store.
-          if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return chatRooms
+export const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, rooms: ChatRoom[], ignoredUsers: MatrixId[]) => {
+  const chatRooms = rooms.filter((room) => !hasOnlyIgnoredMembers(room.members, ignoredUsers))
+  const spaceIdToChildIds = get(spaceRoomIdToChildIdsAtom)
+  const updatedChatRooms = updateSpaceRoomsNotifications(chatRooms, spaceIdToChildIds)
 
-          return [...chatRooms, chatRoom]
-        },
-        []
-      )
-
-      const spaceIdToChildIds = get(spaceRoomIdToChildIdsAtom)
-      const chatRooms = updateSpaceRoomsNotifications(chatRoomList, spaceIdToChildIds)
-
-      set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, chatRooms, get))
-      break
-    }
-
-    case RoomAtomsActionType.UPDATE: {
-      set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, args.chatRoomList, get))
-      break
-    }
-
-    case RoomAtomsActionType.DELETE:
-      set(_roomAtomsRecordAtom, (prevRoomAtoms) => deleteChatRoom(prevRoomAtoms, args.roomId))
-      break
-
-    default:
-      throw new HoliError('roomAtomsRecordAtomSubscriber got a wrong action type')
-  }
+  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, updatedChatRooms, get))
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
-  const homeserverUrl = client.getHomeserverUrl()
   const ignoredUsers = client.getIgnoredUsers()
-
-  const addRoomsToStore = (roomListWithSharedData: RoomWithSharedData[], logPhase: string) => {
-    const roomList = roomListWithSharedData.map((roomWithSharedData) => {
-      const hasPendingInvitation = client.hasPendingInvitation(roomWithSharedData.room)
-
-      logDebug(`Chat.store [${logPhase}]`, `adding room ${roomWithSharedData.room.roomId} to store`)
-      return { room: roomWithSharedData, hasPendingInvitation, ignoredUsers }
-    })
-
-    setAtom({ type: RoomAtomsActionType.CREATE, roomList, homeserverUrl })
-  }
 
   /**
    * Initial load
    */
-  client
-    .getJoinedRoomsWithSharedData()
-    .then((rooms) => addRoomsToStore(rooms, 'init'))
-    .finally(() => setChatInitialized(true))
+  setAtom(client.getChatRooms(), ignoredUsers)
+  logDebug('Chat.store [init]', 'adding rooms to store')
+  setChatInitialized(true)
 
   /**
-   * Listen to just created rooms
+   * Subscribe to incoming rooms
    */
-  const unsubscribeFromRoomSharedData = client.subscribeToRoomSharedData((roomWithSharedData) => {
-    addRoomsToStore([roomWithSharedData], 'subscription')
-  })
+  const unsubscribeNewRooms = client.subscribeToNewRooms((chatRoom: ChatRoom) => {
+    const hasRoomEmptyName = (room: ChatRoom) => room.name === 'Empty room'
 
-  const unsubscribeFromRooms = client.subscribeToNewRooms((roomWithSharedData) => {
-    const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
+    // TODO: fix by subscribing to name changes
     /**
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
      * We use this function to watch for the room `name` change and only create an atom when correct name was passed
      * or timeout exceeded.
      */
     const waitForCorrectRoomName = (timestamp: number) => {
-      if (!hasRoomEmptyName(roomWithSharedData.room) || Date.now() > timestamp) {
-        addRoomsToStore([roomWithSharedData], 'subscription')
+      if (!hasRoomEmptyName(chatRoom) || Date.now() > timestamp) {
+        setAtom([chatRoom], ignoredUsers)
+        logDebug('Chat.store [subscription: new room ]', 'adding room ' + chatRoom.id + 'to store')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -283,24 +233,22 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       }
     }
 
-    if (hasRoomEmptyName(roomWithSharedData.room)) {
+    if (hasRoomEmptyName(chatRoom)) {
       waitForCorrectRoomName(Date.now() + 2000)
     }
 
-    addRoomsToStore([roomWithSharedData], 'subscription')
+    setAtom([chatRoom], ignoredUsers)
+    logDebug('Chat.store [subscription: new room ]', 'adding room ' + chatRoom.id + 'to store')
   })
 
-  const deleteRoomFromStore = (roomId: string) => {
-    logDebug('Chat.store', `deleting room ${roomId} from store`)
-    setAtom({ type: RoomAtomsActionType.DELETE, roomId, homeserverUrl })
-  }
-
-  const unsubscribeFromRoomDeletion = client.subscribeToRoomDeletion(deleteRoomFromStore)
+  const unsubscribeFromRoomSharedData = client.subscribeToSharedData((chatRoom) => {
+    setAtom([chatRoom], ignoredUsers)
+    logDebug('Chat.store [subscription: shared data ]', 'adding room ' + chatRoom.id + 'to store')
+  })
 
   return () => {
+    unsubscribeNewRooms()
     unsubscribeFromRoomSharedData()
-    unsubscribeFromRooms()
-    unsubscribeFromRoomDeletion()
   }
 }
 
@@ -658,38 +606,20 @@ const _myMembershipSubscriberAtom = atom(
 
     switch (membership) {
       case 'join': {
-        if (!roomAtom) {
-          try {
-            const roomWithShareData = await getChatClient().getRoomWithSharedData(room)
-            const chatRoom = createChatRoom(roomWithShareData, getChatClient().getHomeserverUrl())
-
-            if (isSpaceChatRoom(chatRoom) || isSpaceChildChatRoom(chatRoom)) {
-              set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => addChatRoom(prevRoomAtomsRecord, chatRoom))
-            }
-          } catch (err) {
-            logError(err, 'Failed to retrieve shared room data', { location: '_myMembershipSubscriberAtom' })
-          }
-
-          return
-        }
-
+        if (!roomAtom) break
         set(roomAtom, (room) => updateRoomInvitation(room, { membership, prevMembership }))
         break
       }
       case 'leave': {
-        if (!roomAtom) return
-
+        if (!roomAtom) break
         set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) => deleteChatRoom(prevRoomAtomsRecord, room.roomId))
         break
       }
-
-      case 'invite': {
-        break
-      }
+      case 'invite':
       case 'ban':
       case 'knock':
       default:
-        return
+        break
     }
   }
 )

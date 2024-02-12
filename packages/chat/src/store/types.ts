@@ -1,15 +1,13 @@
 import type { Atom, PrimitiveAtom } from 'jotai'
 
 import type {
-  ChatRoomMember,
+  ChatRoom,
   ChatRoomMessage,
   MatrixId,
   PrivateRoom,
   RoomWithSharedData,
-  SpaceChildRoom,
-  SpaceChildSharedDataContent,
-  SpaceRoom,
-  SpaceSharedDataContent,
+  SpaceChatRoom,
+  SpaceChildChatRoom,
 } from '@holi/chat/src/client/types'
 
 /**
@@ -26,28 +24,6 @@ export type MessageAtomsByRoomId = Record<ChatRoomId, ChatMessagesAtom>
 
 export type AtomRecordGetter = <T>(atom: Atom<Record<string, T>>) => Record<string, T>
 
-export interface BaseChatRoom {
-  id: string
-  name: string
-  avatar?: string
-  hasInvitation: boolean
-  notificationCount: number
-  lastMessage: ChatRoomMessage | undefined
-  creator: ChatRoomMember | null
-  members: ChatRoomMember[]
-  senderId?: string
-  timestamp: number | undefined
-}
-
-export type PrivateChatRoom = BaseChatRoom & Omit<PrivateRoom, 'room'>
-export interface SpaceChatRoom extends BaseChatRoom, Omit<SpaceRoom, 'room'> {
-  content: SpaceSharedDataContent
-}
-export interface SpaceChildChatRoom extends BaseChatRoom, Omit<SpaceChildRoom, 'room'> {
-  content: SpaceChildSharedDataContent
-}
-
-export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceChildChatRoom
 export type SpaceChatTab = SpaceChildChatRoom & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
 export type PrivateChatTab = PrivateRoom & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
 
@@ -55,11 +31,18 @@ export enum RoomAtomsActionType {
   'CREATE',
   'UPDATE',
   'DELETE',
+  'INIT',
 }
 
 export interface RoomUserData {
   room: RoomWithSharedData
   hasPendingInvitation: boolean
+  ignoredUsers: MatrixId[]
+}
+
+interface InitRoomArgs {
+  type: RoomAtomsActionType.INIT
+  rooms: ChatRoom[]
   ignoredUsers: MatrixId[]
 }
 
@@ -81,7 +64,7 @@ interface DeleteRoomArgs {
   homeserverUrl: string
 }
 
-export type RoomAtomsRecordAtomSubscriberArgs = CreateRoomArgs | UpdateRoomArgs | DeleteRoomArgs
+export type RoomAtomsRecordAtomSubscriberArgs = CreateRoomArgs | UpdateRoomArgs | DeleteRoomArgs | InitRoomArgs
 
 /**
  * Message

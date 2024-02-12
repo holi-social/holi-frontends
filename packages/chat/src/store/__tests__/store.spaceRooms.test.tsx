@@ -17,9 +17,9 @@ import {
 } from '@holi/chat/src/store/store'
 import {
   createChatClient,
+  createChatRoomResult,
   createMatrixClientMock,
   createMatrixEventMock,
-  createPrivateChatRoomResult,
   createRoomMock,
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
@@ -43,6 +43,7 @@ describe('Chat Store - space rooms', () => {
   const childRoomId = 'aChildRoomId'
   const child2RoomId = 'aChild2RoomId'
   const notificationCount = 0
+  const timestamp = 1706715917444
 
   const creator: ChatRoomMember = {
     avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
@@ -73,6 +74,7 @@ describe('Chat Store - space rooms', () => {
     const roomMock = createRoomMock(roomId, {
       name: 'name',
       members,
+      timestamp,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -83,6 +85,7 @@ describe('Chat Store - space rooms', () => {
     const childRoomMock = createRoomMock(childRoomId, {
       name: 'childName',
       members,
+      timestamp,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -93,6 +96,7 @@ describe('Chat Store - space rooms', () => {
     const child2RoomMock = createRoomMock(child2RoomId, {
       name: 'child2Name',
       members,
+      timestamp,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -105,19 +109,19 @@ describe('Chat Store - space rooms', () => {
 
     const { result, waitForNextUpdate } = renderHook(() => useStoreSpaceRoomAtomsTest(), { wrapper })
 
-    waitForNextUpdate()
-
     const roomListener = getListenerForMatrixEvent(mxClient, ClientEvent.Room, 'roomEventHandler') as (
       room: Room
     ) => void
+
+    waitForNextUpdate()
 
     act(() => roomListener(roomMock))
     act(() => roomListener(childRoomMock))
     act(() => roomListener(child2RoomMock))
 
-    const room = createPrivateChatRoomResult(roomId, 'name', creator, members)
-    const childRoom = createPrivateChatRoomResult(childRoomId, 'childName', creator, members)
-    const child2Room = createPrivateChatRoomResult(child2RoomId, 'child2Name', creator, members)
+    const room = createChatRoomResult(roomId, { name: 'name', creator, members, timestamp })
+    const childRoom = createChatRoomResult(childRoomId, { name: 'childName', creator, members, timestamp })
+    const child2Room = createChatRoomResult(child2RoomId, { name: 'child2Name', creator, members, timestamp })
 
     expect(store.get(result.current.roomAtomsRecord[roomId])).toStrictEqual(room)
     expect(store.get(result.current.roomAtomsRecord[childRoomId])).toStrictEqual(childRoom)
@@ -128,6 +132,7 @@ describe('Chat Store - space rooms', () => {
     const spaceRoomListener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'spaceRoomTimelineListener') as (
       event: MatrixEvent
     ) => void
+
     const spaceChildEvent = createMatrixEventMock(EventType.SpaceChild, roomId, {}, {
       room_id: roomId,
       state_key: childRoomId,

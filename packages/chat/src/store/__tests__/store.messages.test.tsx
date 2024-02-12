@@ -1,11 +1,12 @@
 import { act, renderHook } from '@testing-library/react-hooks'
+import { waitFor } from '@testing-library/react-native'
 import { Provider, createStore, useAtom } from 'jotai'
 import { EventType, IRoomEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'
 import { PropsWithChildren } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomMember } from '@holi/chat/src/client/types'
+import { ChatRoomMember, PrivateChatRoom } from '@holi/chat/src/client/types'
 import {
   _newMessageAtomSubscriber,
   _roomAtomsRecordAtomSubscriber,
@@ -13,7 +14,6 @@ import {
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store/store'
-import { PrivateChatRoom } from '@holi/chat/src/store/types'
 import {
   createChatClient,
   createMatrixClientMock,
@@ -22,7 +22,7 @@ import {
 } from '@holi/chat/src/test-utils'
 import {
   expectedMsgForEvent,
-  initChatRoom,
+  initChatRoomFixture,
   msgEvent,
   sendMessageEvent,
 } from '@holi/chat/src/test-utils/matrix-fixtures'
@@ -39,13 +39,12 @@ const useStoreMessagesAtomsTest = (roomId: string) => {
 
 describe('Chat Store - messages', () => {
   const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
+  const timestamp = 1706715917444
   let store: ReturnType<typeof createStore>
   let mxClient: jest.MockedObjectDeep<MatrixClient>
   let chatClient: ChatClient
-  let roomMock: jest.MockedObjectDeep<Room>
   let room: PrivateChatRoom
   let creator: ChatRoomMember
-  let member: ChatRoomMember
 
   beforeEach(() => {
     jest.clearAllTimers()
@@ -53,55 +52,45 @@ describe('Chat Store - messages', () => {
     chatClient = createChatClient()
     initChatClient(chatClient)
     store = createStore()
-    ;({ roomMock, room, creator, member } = initChatRoom(mxClient))
+    ;({ roomMock, room, creator, member } = initChatRoomFixture(mxClient, { timestamp }))
   })
 
-  it('shoud receive messages in an existing room', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
+  it('shoud receive messages in an existing room', () => {
+    const { roomMock, room, creator, member } = initChatRoomFixture(mxClient, { timestamp })
+
+    const { result } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
     const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
       event: MatrixEvent,
       room: Room | undefined
     ) => void
 
-    await waitForNextUpdate()
-
     expect(result.current).toStrictEqual([room, undefined])
 
     const { message: message1 } = sendMessageEvent(listener, roomMock, creator.id, 1)
-    room.lastMessage = message1
-    room.timestamp = message1.timestamp
     expect(result.current).toStrictEqual([room, [message1]])
 
     const { message: message2 } = sendMessageEvent(listener, roomMock, member.id, 2)
-    room.lastMessage = message2
-    room.timestamp = message2.timestamp
     expect(result.current).toStrictEqual([room, [message1, message2]])
   })
 
-  it('A new message with the same event id should replace existing message content', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
+  it('A new message with the same event id should replace existing message content', () => {
+    const { roomMock, room, creator, member } = initChatRoomFixture(mxClient, { timestamp })
+
+    const { result } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
     const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
       event: MatrixEvent,
       room: Room | undefined
     ) => void
 
-    await waitForNextUpdate()
-
     expect(result.current).toStrictEqual([room, undefined])
 
     const { message: message1 } = sendMessageEvent(listener, roomMock, creator.id, 1)
-    room.lastMessage = message1
-    room.timestamp = 1
     expect(result.current).toStrictEqual([room, [message1]])
 
     const { message: message2, event: event2 } = sendMessageEvent(listener, roomMock, creator.id, 2)
-    room.lastMessage = message2
-    room.timestamp = message2.timestamp
     expect(result.current).toStrictEqual([room, [message1, message2]])
 
     const { message: message3 } = sendMessageEvent(listener, roomMock, creator.id, 3)
-    room.lastMessage = message3
-    room.timestamp = message3.timestamp
     expect(result.current).toStrictEqual([room, [message1, message2, message3]])
 
     const event2Duplicate = msgEvent(room.id, member.id, 4)
@@ -124,13 +113,14 @@ describe('Chat Store - messages', () => {
     const { result } = renderHook(() => useRequestRoomMessages(), { wrapper })
     result.current(room.id, false)
 
-    const { result: result2, waitForNextUpdate } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
-
-    await waitForNextUpdate()
+    const { result: result2 } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
 
     const message1 = expectedMsgForEvent(event1)
     const message2 = expectedMsgForEvent(event2)
     const message3 = expectedMsgForEvent(event3)
-    expect(result2.current).toStrictEqual([room, [message3, message2, message1]])
+
+    await waitFor(() => {
+      expect(result2.current).toStrictEqual([room, [message3, message2, message1]])
+    })
   })
 })
