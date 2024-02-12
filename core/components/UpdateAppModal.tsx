@@ -4,28 +4,32 @@ import Constants from 'expo-constants'
 import * as Notifications from 'expo-notifications'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AppState, AppStateStatus, BackHandler, Linking, Platform } from 'react-native'
+import { AppState, AppStateStatus, BackHandler, Linking, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { CheckAppVersionResponse, NeedUpdateType, checkAppVersionQuery } from '@holi/core/screens/homeFeed/queries'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
 const BUILD_NUMBER =
-  Platform.OS === 'ios'
-    ? Constants.expoConfig?.ios?.buildNumber
-    : Platform.OS === 'android'
-    ? Constants.expoConfig?.android?.versionCode?.toString()
-    : null
+  Constants.expoConfig?.ios?.buildNumber ?? Constants.expoConfig?.android?.versionCode?.toString() ?? null
 
 const UpdateAppModal = () => {
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
   const { error, data, refetch } = useQuery<CheckAppVersionResponse>(checkAppVersionQuery, {
     variables: { version: Constants.expoConfig?.version, buildNumber: BUILD_NUMBER },
     onError: (error) =>
       logError(error, 'Failed to check app version', { location: 'UpdateAppModal.checkAppVersionQuery' }),
   })
   const [showModal, setShowModal] = useState(false)
+  const [modalDismissedOnce, setModalDismissedOnce] = useState(false)
 
   const updateApp = () => {
     const openStoreUrl = (url: string) => {
@@ -44,6 +48,10 @@ const UpdateAppModal = () => {
         break
     }
   }
+  const dismissModal = () => {
+    setShowModal(false)
+    setModalDismissedOnce(true)
+  }
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
@@ -56,6 +64,7 @@ const UpdateAppModal = () => {
         // doing it here, because UpdateAppModal always mounted
         // and only used on mobile
         Notifications.setBadgeCountAsync(0)
+        setModalDismissedOnce(false)
       }
     }
     const appStateListener = AppState.addEventListener('change', handleAppStateChange)
@@ -65,35 +74,77 @@ const UpdateAppModal = () => {
     }
   }, [refetch])
 
+  const updateStatus = data?.checkAppVersion?.needUpdate
+  const isMandatory = updateStatus === NeedUpdateType.MANDATORY
+  const isRecommended = updateStatus === NeedUpdateType.RECOMMENDED
+
   useEffect(() => {
-    if (data?.checkAppVersion?.needUpdate === NeedUpdateType.MANDATORY) {
+    if ((isMandatory || isRecommended) && !modalDismissedOnce) {
       setShowModal(true)
       return
     }
     setShowModal(false)
-  }, [data, error, showModal])
+  }, [data, error, showModal, isMandatory, isRecommended, modalDismissedOnce])
 
   return (
-    <HoliConfirmation
-      show={showModal}
-      label={t('update.modal.title')}
-      title={t('update.modal.title')}
-      description={t('update.modal.description')}
-      dismissText={t('update.modal.dialog.dismiss')}
-      confirmText={t('update.modal.dialog.confirm')}
-      testID="update-app-confirmation"
-      onDismiss={
-        Platform.OS === 'android'
-          ? () => {
-              BackHandler.exitApp()
-            }
-          : undefined
-      }
-      onConfirm={() => {
-        updateApp()
-      }}
-    />
+    <SafeAreaView>
+      <HoliModal
+        label={t(`update.modal.${updateStatus}.headline`)}
+        show={showModal}
+        style={{ backgroundColor: colors.background20 }}
+        onDismiss={isRecommended ? dismissModal : undefined}
+      >
+        <View style={[styles.mainContainer, mixins.container]}>
+          <View style={styles.content}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_update.svg')}
+              width={119}
+              height={79}
+              label={t(`update.modal.${updateStatus}.headline`)}
+              isSvg
+            />
+            <HoliHeading level="2" size="m">
+              {t(`update.modal.${updateStatus}.headline`)}
+            </HoliHeading>
+            <HoliText align="center">{t(`update.modal.${updateStatus}.text`)}</HoliText>
+          </View>
+          <View style={styles.content}>
+            <HoliButton
+              label={t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
+              onPress={() => {
+                updateApp()
+              }}
+            >
+              {t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
+            </HoliButton>
+            {/* close app button only works on Android */}
+            {isMandatory && Platform.OS === 'android' && (
+              <HoliButton label={t('update.modal.closeApp ')} type="secondary" onPress={() => BackHandler.exitApp()}>
+                {t('update.modal.closeApp')}
+              </HoliButton>
+            )}
+            {/* modal is only dismissible for recommended updates */}
+            {isRecommended && (
+              <HoliButton label={t('update.modal.dismiss')} type="secondary" onPress={dismissModal}>
+                {t('update.modal.dismiss')}
+              </HoliButton>
+            )}
+          </View>
+        </View>
+      </HoliModal>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    paddingBottom: dimensions.bottomBarHeight,
+    gap: 32,
+  },
+  content: {
+    gap: 16,
+    alignItems: 'center',
+  },
+})
 
 export default withProfiler(UpdateAppModal, { name: 'UpdateAppModal' })
