@@ -1,12 +1,35 @@
+import type { NextPageContext } from 'next'
 import React, { ReactElement } from 'react'
 
+import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
+import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { AppLayout } from '@holi/web/layout/NavigationLayoutVolunteeringApp'
 import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
+import { engagementByIdQuery } from '@holi-apps/volunteering/queries'
 import VolunteeringEngagementDetail from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 
 const VolunteeringEngagementDetailPage: NextPageWithLayout = () => <VolunteeringEngagementDetail />
 
 VolunteeringEngagementDetailPage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>
+
+export const getServerSideProps = async (context: NextPageContext) => {
+  const { engagementId } = context.query
+
+  const queries = [
+    {
+      query: featureTogglesQuery,
+    },
+    {
+      query: engagementByIdQuery,
+      variables: {
+        id: engagementId,
+      },
+      skip: !engagementId,
+    },
+  ]
+
+  return createServerSideProps(context, queries)
+}
 
 export default VolunteeringEngagementDetailPage

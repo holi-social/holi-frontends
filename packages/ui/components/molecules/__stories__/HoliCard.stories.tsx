@@ -16,10 +16,6 @@ export default {
   },
 } as ComponentMeta<typeof HoliCard>
 
-const handleCardPress = () => {
-  console.debug('handle card press')
-}
-
 const Template: ComponentStory<typeof HoliCard> = ({ ...args }) => {
   return (
     <HoliCard {...args}>
@@ -37,7 +33,6 @@ BasicExample.argTypes = {
   imageWidth: { description: 'Requested image width', control: { type: 'number' } },
   testID: { description: 'Test id', control: { type: 'text' } },
   style: { description: 'Custom styles' },
-  onCardPress: { description: 'Call back method to handle card press' },
 }
 
 BasicExample.args = {
@@ -46,5 +41,4 @@ BasicExample.args = {
   imageWidth: 1200,
   testID: 'holiCard',
   style: { width: 300, height: 600 },
-  onCardPress: handleCardPress,
 }

@@ -1,24 +1,21 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import Constants from 'expo-constants'
-import React, { memo, useEffect, useLayoutEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ShareBox } from '@holi/icons/src/generated'
-import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -112,15 +109,17 @@ export type VolunteeringEngagementDetailParams = {
 }
 const { useParam } = createParamHooks<VolunteeringEngagementDetailParams>()
 
-type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
-type AboutVolunteeringProps = { description: string; organizer?: Organizer }
+interface AboutVolunteeringProps {
+  description: string
+  organizer?: Organizer
+}
 
-const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> = () => {
+const VolunteeringEngagementDetail = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('volunteering:app.name') })
   }, [setScreenOptions, t])
   const mixins = useStyleMixins()
@@ -131,12 +130,16 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
       id: engagementId,
     },
     skip: !engagementId,
-    onError: (error) =>
-      displayError(error, 'Failed to load volunteering engagement', {
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      return displayError(error, 'Failed to load volunteering engagement', {
         displayMessage: t('volunteering:listing.error'),
         location: 'VolunteeringEngagementDetail.engagementByIdQuery',
         engagementId,
-      }),
+      })
+    },
   })
   const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation, {
     variables: { id: engagementId },
@@ -151,8 +154,6 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const { windowHeight, windowWidth, imageWidth } = useWindowDimensionsWithImageScaling()
-  const statusBarHeight = Constants.statusBarHeight
-  const styles = getStyles(statusBarHeight)
 
   useEffect(() => {
     if (engagementId) {
@@ -160,13 +161,8 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
     }
   }, [trackEngagementView, engagementId])
 
-  if (!engagementId || loading) {
+  if (!engagementId || loading || !engagement) {
     return <HoliLoader />
-  }
-
-  if (!engagement) {
-    replaceRoute('/404')
-    return <></>
   }
 
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
@@ -191,7 +187,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
               resizeMode={'contain'}
             />
           )) || <></>}
-          <HoliText>{organizer.name}</HoliText>
+          <HoliText style={styles.organizerName}>{organizer.name}</HoliText>
         </View>
       </View>
     )
@@ -199,7 +195,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
 
   const AboutVolunteering = ({ description, organizer }: AboutVolunteeringProps) => {
     return (
-      <View style={[styles.cardContainer, { maxWidth: windowWidth }]}>
+      <View style={[styles.cardContainer, windowWidth > 0 && { maxWidth: windowWidth }]}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
         <RenderHtml source={{ html: `${description}` }} contentWidth={windowWidth} />
         {organizer && <Organizer organizer={organizer} />}
@@ -236,84 +232,86 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   )
 }
 
-const WrappedVolunteeringEngagementDetail = (props: VolunteeringEngagementDetailProps) => (
+const WrappedVolunteeringEngagementDetail = () => (
   <FeatureToggleGuard
     toggleName={FeatureToggleName.APPS_VOLUNTEERING}
     featureNameKey="volunteering:maintenance.feature"
   >
-    <VolunteeringEngagementDetail {...props} />
+    <VolunteeringEngagementDetail />
   </FeatureToggleGuard>
 )
 
 export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
 
-const getStyles = (statusBarHeight: number) =>
-  StyleSheet.create({
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
-    },
-    wrapper: {
-      alignItems: 'center',
-      flex: 1,
-      backgroundColor: colors.background30,
-    },
-    header: {
-      backgroundColor: colors.background30,
-    },
-    container: {
-      paddingBottom: 132,
-      paddingHorizontal: 0,
-      ...Platform.select({
-        native: {
-          maxWidth: '100%',
-          paddingTop: dimensions.topBarHeight + 40,
-        },
-        web: {
-          paddingTop: statusBarHeight + dimensions.topBarHeight,
-        },
-      }),
-    },
-    cardContainer: {
-      width: '100%',
-      backgroundColor: 'white',
-      borderRadius: 32,
-      padding: 24,
-      marginTop: 2,
-    },
-    organizerInfoRow: {
-      display: 'flex',
-      width: '100%',
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 16,
-    },
-    partnerImage: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      marginRight: 16,
-    },
-    providerInfoRow: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 16,
-    },
+const styles = StyleSheet.create({
+  messageContainer: {
+    alignItems: 'center',
+    marginTop: dimensions.topBarHeight + 50,
+  },
+  wrapper: {
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: colors.background30,
+  },
+  header: {
+    backgroundColor: colors.background30,
+  },
+  container: {
+    paddingBottom: 132,
+    paddingHorizontal: 0,
+    ...Platform.select({
+      native: {
+        maxWidth: '100%',
+        paddingTop: dimensions.topBarHeight + 40,
+      },
+      web: {
+        paddingTop: dimensions.topBarHeight,
+      },
+    }),
+  },
+  cardContainer: {
+    width: '100%',
+    backgroundColor: 'white',
+    borderRadius: 32,
+    padding: 24,
+    marginTop: 2,
+  },
+  organizerInfoRow: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  organizerName: {
+    flex: 1,
+  },
+  partnerImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 16,
+  },
+  providerInfoRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+  },
 
-    volunteeringButton: {
-      bottom: 40,
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 16,
-      ...Platform.select({
-        native: {
-          position: 'absolute',
-        },
-        default: {
-          position: 'fixed',
-        },
-      }),
-    },
-  })
+  volunteeringButton: {
+    bottom: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    ...Platform.select({
+      native: {
+        position: 'absolute',
+      },
+      default: {
+        position: 'fixed',
+      },
+    }),
+  },
+})
