@@ -12,7 +12,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -64,7 +64,7 @@ const CommentInputPage = () => {
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
-      if (isNotFoundError(error)) {
+      if (isNotFoundError(error) || isForbiddenError(error)) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId })
@@ -146,7 +146,7 @@ const CommentInputPage = () => {
   }
 
   if (!user) {
-    navigate(`${getPostUrl(postId, insightId, spaceIdOrName)}`)
+    navigate(getPostUrl(postId, insightId, spaceIdOrName))
     return null
   }
 
