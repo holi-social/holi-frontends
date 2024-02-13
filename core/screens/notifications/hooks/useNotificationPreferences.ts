@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { useCallback, useMemo, useState } from 'react'
 
-import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
@@ -83,9 +82,9 @@ export const useNotificationPreferences = () => {
   const { displayError } = useErrorHandling()
   const [updatingPreferences, setUpdatingPreferences] = useState(false)
   const { chatEnabled, chatPushEnabled, updateChatPushPreference, loadingChatPushPreference } = useChatPushPreference()
-  const { data, loading, error } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
+  const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
     onError: (error) =>
-      logError(error, 'Failed to load notification preferences', {
+      displayError(error, 'Failed to load notification preferences', {
         location: 'useNotificationPreferences.notificationsPreferencesQuery',
       }),
   })
@@ -135,6 +134,5 @@ export const useNotificationPreferences = () => {
     updatePreference,
     loading: loading || loadingChatPushPreference,
     updatingPreferences: updatingPreferences,
-    error,
   }
 }
