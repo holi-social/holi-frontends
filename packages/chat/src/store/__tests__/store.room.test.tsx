@@ -7,7 +7,12 @@ import { PropsWithChildren } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
-import { _roomAtomsRecordAtomSubscriber, initChatClient, roomAtomsRecordAtom } from '@holi/chat/src/store/store'
+import {
+  _deleteRoomAtomSubscriber,
+  _roomAtomsRecordAtomSubscriber,
+  initChatClient,
+  roomAtomsRecordAtom,
+} from '@holi/chat/src/store/store'
 import {
   createChatClient,
   createChatRoomResult,
@@ -20,9 +25,38 @@ import {
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')
 
+const admin: ChatRoomMember = {
+  avatar: undefined,
+  id: '@chat-admin:holi.social',
+  membership: MembershipStatus.join,
+  name: 'chat-admin',
+}
+
+const creator: ChatRoomMember = {
+  avatar: 'https://unsplash.com/',
+  id: '@creator.kato:holi.social',
+  membership: MembershipStatus.join,
+  name: 'creator',
+}
+
+const member1: ChatRoomMember = {
+  avatar: 'https://unsplash.com/',
+  id: '@member1.feynman:holi.social',
+  membership: MembershipStatus.join,
+  name: 'member1',
+}
+
+const member2: ChatRoomMember = {
+  avatar: 'https://unsplash.com/',
+  id: '@nakamoto:holi.social',
+  membership: MembershipStatus.join,
+  name: 'member1',
+}
+
 const useStoreRoomAtomsTest = () => {
   const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
   useAtom(_roomAtomsRecordAtomSubscriber)
+  useAtom(_deleteRoomAtomSubscriber)
   return roomAtomsRecord
 }
 
@@ -39,26 +73,20 @@ describe('Chat Store - rooms', () => {
   const spaceChildRoomId = '!general.holi.social'
   const spaceChildRoomName = '#general'
   const holiSpaceId = 'holi-uuid'
+  const timestamp = 1706703410441
+  const spaceMembers = [admin, member1, member2]
+  const dmMembers = [creator, member1, member2]
 
-  const admin: ChatRoomMember = {
-    avatar: undefined,
-    id: '@chat-admin:holi.social',
-    membership: MembershipStatus.join,
-    name: 'chat-admin',
+  const spaceEventContent = {
+    holiSpaceId,
+    roomId: spaceRoomId,
   }
 
-  const creator: ChatRoomMember = {
-    avatar: 'https://unsplash.com/',
-    id: '@creator.kato:holi.social',
-    membership: MembershipStatus.join,
-    name: 'creator',
-  }
-
-  const member: ChatRoomMember = {
-    avatar: 'https://unsplash.com/',
-    id: '@member1.feynman:holi.social',
-    membership: MembershipStatus.join,
-    name: 'member1',
+  const spaceChildEventContent = {
+    ...spaceEventContent,
+    spaceName: spaceRoomName,
+    avatarDefaultColor: '#7BD7EA',
+    parentSpaceRoomId: spaceRoomId,
   }
 
   beforeEach(() => {
@@ -70,11 +98,8 @@ describe('Chat Store - rooms', () => {
   })
 
   it('should render the previously joined DM room', () => {
-    const timestamp = 1706715917444
-    const members = [creator, member]
-
     const roomMock = createRoomMock(roomId, {
-      members,
+      members: dmMembers,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -89,45 +114,19 @@ describe('Chat Store - rooms', () => {
 
     const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
-    // Wait until the initial rooms are available
-
     expect(result.current).toHaveProperty(roomId)
     expect(store.get(result.current[roomId])).toStrictEqual(
-      createChatRoomResult(roomId, { name: 'name', creator, members, notificationCount, timestamp })
+      createChatRoomResult(roomId, { name: 'name', creator, members: dmMembers, notificationCount, timestamp })
     )
   })
 
   it('should render the previously joined space room', () => {
-    const timestamp = 1706703410441
-    const member: ChatRoomMember = {
-      avatar: 'https://unsplash.com/test',
-      id: '@o-ren-ishii:holi.social',
-      membership: MembershipStatus.join,
-      name: 'O-Ren Ishii',
-    }
-
-    const members = [admin, member]
-
-    const spaceEventContent = {
-      holiSpaceId,
-      roomId: spaceRoomId,
-    }
-
-    const spaceChildEventContent = {
-      ...spaceEventContent,
-      spaceName: spaceRoomName,
-      avatarDefaultColor: '#7BD7EA',
-      parentSpaceRoomId: spaceRoomId,
-    }
-
     const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, spaceEventContent, {
       content: spaceEventContent,
-      getTs: jest.fn(),
     } as unknown as IEvent)
 
     const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceChildRoomId, {}, {
       content: spaceChildEventContent,
-      getTs: jest.fn(),
     } as unknown as IEvent)
 
     const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, spaceChildRoomId, {}, {
@@ -139,7 +138,7 @@ describe('Chat Store - rooms', () => {
     } as unknown as IEvent)
 
     const roomMockOptions = {
-      members,
+      members: spaceMembers,
       timestamp,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
@@ -176,7 +175,7 @@ describe('Chat Store - rooms', () => {
       hasInvitation: false,
       id: spaceRoomId,
       lastMessage: undefined,
-      members,
+      members: spaceMembers,
       name: spaceRoomName,
       notificationCount: notificationCount,
       timestamp,
@@ -189,19 +188,78 @@ describe('Chat Store - rooms', () => {
       hasInvitation: false,
       id: spaceChildRoomId,
       lastMessage: undefined,
-      members,
+      members: spaceMembers,
       name: spaceChildRoomName,
       notificationCount: notificationCount,
       timestamp,
     })
   })
 
-  it('should subscribeToNewRooms events and update the _roomAtomsRecordAtom', async () => {
-    const dmRoomMembers = [creator, member]
-    const timestamp = 1706715917444
+  it('should delete rooms on subscribtion and update the _roomAtomsRecordAtom', () => {
+    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, spaceEventContent, {
+      content: spaceEventContent,
+    } as unknown as IEvent)
 
+    const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceChildRoomId, {}, {
+      content: spaceChildEventContent,
+    } as unknown as IEvent)
+
+    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, spaceChildRoomId, {}, {
+      type: EventType.SpaceParent,
+      sender: admin.id,
+      content: {},
+      state_key: spaceRoomId,
+      room_id: spaceChildRoomId,
+    } as unknown as IEvent)
+
+    const roomMockOptions = {
+      members: spaceMembers,
+      timestamp,
+      timelineEvents: [],
+      unreadNotificationCount: notificationCount,
+      creatorId: admin.id,
+      getMember: admin,
+      myMembership: MembershipStatus.join,
+    }
+
+    const spaceRoomMock = createRoomMock(spaceRoomId, {
+      ...roomMockOptions,
+      name: spaceRoomName,
+      isSpaceRoom: true,
+      stateEvents: [spaceSharedDataEvent],
+    })
+
+    const spaceChildRoomMock = createRoomMock(spaceChildRoomId, {
+      ...roomMockOptions,
+      name: spaceChildRoomName,
+      stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
+    })
+
+    const rooms = [spaceRoomMock, spaceChildRoomMock]
+    mxClient.getRooms.mockReturnValue(rooms)
+    mxClient.getRoom.mockReturnValue(spaceRoomMock)
+
+    const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
+
+    expect(Object.keys(result.current).length).toBe(2)
+
+    const deleteRoomListener = getListenerForMatrixEvent(mxClient, ClientEvent.DeleteRoom, 'handleRoomDeletion') as (
+      roomId: string
+    ) => void
+
+    act(() => {
+      deleteRoomListener(spaceRoomId)
+      deleteRoomListener(spaceChildRoomId)
+    })
+
+    expect(Object.keys(result.current).length).toBe(0)
+    expect(() => store.get(result.current[spaceRoomId])).toThrow()
+    expect(() => store.get(result.current[spaceChildRoomId])).toThrow()
+  })
+
+  it('should subscribeToNewRooms events and update the _roomAtomsRecordAtom', async () => {
     const dmRoomMock = createRoomMock(roomId, {
-      members: dmRoomMembers,
+      members: dmMembers,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -228,30 +286,19 @@ describe('Chat Store - rooms', () => {
       hasInvitation: false,
       id: roomId,
       lastMessage: undefined,
-      members: dmRoomMembers,
+      members: dmMembers,
       name: undefined,
       notificationCount: notificationCount,
       timestamp,
       type: 'private',
     })
 
-    // Space Room Setup
-    const spaceRoomContent = { holiSpaceId, roomId: spaceRoomId }
-
-    const spaceChildRoomContent = {
-      holiSpaceId,
-      roomId: spaceChildRoomId,
-      spaceName: spaceRoomName,
-      avatarDefaultColor: '#7BD7EA',
-      parentSpaceRoomId: spaceRoomId,
-    }
-
-    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, spaceRoomContent, {
-      content: spaceRoomContent,
+    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, undefined, {
+      content: spaceEventContent,
     } as unknown as IEvent)
 
     const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceChildRoomId, undefined, {
-      content: spaceChildRoomContent,
+      content: spaceChildEventContent,
     } as unknown as IEvent)
 
     const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, spaceChildRoomId, undefined, {
@@ -260,12 +307,10 @@ describe('Chat Store - rooms', () => {
       room_id: spaceChildRoomId,
     } as unknown as IEvent)
 
-    const spaceRoomMembers = [admin, member]
-
     const spaceRoomMock = createRoomMock(spaceRoomId, {
       timestamp,
       timelineEvents: [],
-      members: spaceRoomMembers,
+      members: spaceMembers,
       name: spaceRoomName,
       isSpaceRoom: true,
       creatorId: admin.id,
@@ -275,7 +320,7 @@ describe('Chat Store - rooms', () => {
 
     const spaceChildRoomMock = createRoomMock(spaceChildRoomId, {
       timestamp,
-      members: spaceRoomMembers,
+      members: spaceMembers,
       timelineEvents: [],
       name: spaceChildRoomName,
       creatorId: admin.id,
@@ -304,12 +349,12 @@ describe('Chat Store - rooms', () => {
     expect(store.get(result.current[spaceRoomId])).toStrictEqual({
       type: 'space',
       avatar: undefined,
-      content: spaceRoomContent,
+      content: spaceEventContent,
       creator: admin,
       hasInvitation: false,
       id: spaceRoomId,
       lastMessage: undefined,
-      members: spaceRoomMembers,
+      members: spaceMembers,
       name: spaceRoomName,
       notificationCount: notificationCount,
       timestamp,
@@ -318,12 +363,12 @@ describe('Chat Store - rooms', () => {
     expect(store.get(result.current[spaceChildRoomId])).toStrictEqual({
       type: 'space.child',
       avatar: undefined,
-      content: spaceChildRoomContent,
+      content: spaceChildEventContent,
       creator: admin,
       hasInvitation: false,
       id: spaceChildRoomId,
       lastMessage: undefined,
-      members: spaceRoomMembers,
+      members: spaceMembers,
       name: spaceChildRoomName,
       notificationCount: notificationCount,
       timestamp,

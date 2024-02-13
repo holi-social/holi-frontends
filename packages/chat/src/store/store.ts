@@ -307,12 +307,20 @@ const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
   if (!roomAtom) return
   if (get(roomAtom).members.length > 2) return
 
-  const removeRoom = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, roomId: string) => {
-    delete roomAtomsRecord[roomId]
-  })
-
-  set(_roomAtomsRecordAtom, (prevAtomRecord) => removeRoom(prevAtomRecord, roomId))
+  set(_roomAtomsRecordAtom, (prevRoomAtoms) => deleteChatRoom(prevRoomAtoms, roomId))
 })
+
+/**
+ * @description It deletes a ChatRoom from the store for incoming Matrix delete
+ * events.
+ */
+export const _deleteRoomAtomSubscriber = atom(null, (_, set, roomId: string) => {
+  set(_roomAtomsRecordAtom, (prevRoomAtoms) => deleteChatRoom(prevRoomAtoms, roomId))
+})
+
+_deleteRoomAtomSubscriber.onMount = (setAtom) => {
+  return getChatClient().subscribeToRoomDeletion(setAtom)
+}
 
 /**
  * @name _roomAtomsRecordAtomSubscriber (Write-Only)
@@ -793,4 +801,5 @@ export const useSubscribeToChat = () => {
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
   useAtom(_ignoredUsersAtomSubscriber)
+  useAtom(_deleteRoomAtomSubscriber)
 }
