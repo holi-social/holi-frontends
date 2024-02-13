@@ -3,7 +3,9 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
   GenerateAppointmentIcsFileResponse,
   generateAppointmentIcsFileMutation,
@@ -20,6 +22,9 @@ interface AppointmentCalendarButtonProps {
 
 const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ appointment: { id, slug } }) => {
   const { t } = useTranslation()
+  const { isLoggedIn } = useAuth()
+  const { navigate } = useRouting()
+
   const [generateAppointmentIcsFile] = useMutation<GenerateAppointmentIcsFileResponse>(
     generateAppointmentIcsFileMutation,
     {
@@ -64,12 +69,20 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
     <>
       <HoliButton
         transparent
-        label={t('spaces.appointments.addToCallendar.button.label')}
-        onPress={handleGenerateIcsFile}
+        label={
+          isLoggedIn
+            ? t('spaces.appointments.addToCallendar.button.label')
+            : t('spaces.appointments.addToCallendar.login.label')
+        }
+        onPress={() => (isLoggedIn ? handleGenerateIcsFile() : navigate('/login'))}
       >
         <View style={styles.calendarButtonContainer}>
           <HoliIcon icon={CalendarCheck} size={24} />
-          <HoliText bold>{t('spaces.appointments.addToCallendar.button.label')}</HoliText>
+          <HoliText bold>
+            {isLoggedIn
+              ? t('spaces.appointments.addToCallendar.button.label')
+              : t('spaces.appointments.addToCallendar.login.label')}
+          </HoliText>
         </View>
       </HoliButton>
       <HoliText color="gray300" size="small" style={styles.calendarButtonDescription}>
