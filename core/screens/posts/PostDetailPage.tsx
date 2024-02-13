@@ -3,18 +3,11 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  LayoutChangeEvent,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-} from 'react-native'
+import { LayoutChangeEvent, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -63,7 +56,7 @@ const PostDetailPage = () => {
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
 
   const scrollViewRef = useRef<ScrollView>(null)
 

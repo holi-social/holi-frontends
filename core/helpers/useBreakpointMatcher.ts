@@ -1,5 +1,4 @@
-import { useWindowDimensions } from 'react-native'
-
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 const defaultBreakpointGridValues: [number, number][] = [
@@ -20,7 +19,7 @@ export const useBreakpointMatcher = <T = number>(
 ): T | undefined => {
   // useWindowDimensions causes more renders than just the breakpoint jumps,
   // but that's ok! don't try to debounce this via useEffect, it doesn't work!
-  const { width: windowWidth } = useWindowDimensions()
+  const { width: windowWidth } = useClientWindowDimensions()
 
   // this sorts in place (side effect), but that's ok,
   // because it's the same array again and again
