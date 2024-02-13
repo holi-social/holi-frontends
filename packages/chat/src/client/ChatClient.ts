@@ -513,10 +513,11 @@ export default class ChatClient {
   }
 
   public subscribeToRoomDeletion(callback: (roomId: string) => void): () => void {
-    this.mxClient.on(ClientEvent.DeleteRoom, callback)
+    const handleRoomDeletion = (roomId: string) => callback(roomId)
+    this.mxClient.on(ClientEvent.DeleteRoom, handleRoomDeletion)
 
     return () => {
-      this.mxClient.off(ClientEvent.DeleteRoom, callback)
+      this.mxClient.off(ClientEvent.DeleteRoom, handleRoomDeletion)
     }
   }
 
