@@ -525,6 +525,7 @@
   "spaces.actions.more": "More",
   "spaces.appointments.add.button.label": "Plan an appointment",
   "spaces.appointments.addToCallendar.button.label": "Add to your calendar",
+  "spaces.appointments.addToCallendar.login.label": "Login to add to your calendar",
   "spaces.appointments.addToCallendar.description": "Google calendar and iCalendar",
   "spaces.appointments.copyLink": "Copy invitation link",
   "spaces.appointments.details.about": "About this appointment",
