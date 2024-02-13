@@ -41,11 +41,12 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
 
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
+  const isChatPartnerDeleted = !!chatPartner && !chatPartnerHoliUser
 
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
-  const roomName = isSpaceRoom ? room.content.spaceName : chatPartnerHoliUser?.fullName ?? ''
+  const roomName = isSpaceRoom ? room.content.spaceName : chatPartnerHoliUser?.fullName ?? t('chat.user.deleted')
 
   const lastMessageMember = room.members.find(({ id }) => id === lastMessage?.sender)
   const lastMessageHoliUser = getHoliUserForChatMember(lastMessageMember, matrixIdToHoliUserRecord)
@@ -111,14 +112,25 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
                 size="medium"
               />
             ) : chatPartner ? (
-              <HoliAvatar
-                label={roomName}
-                imageSrc={chatPartner?.avatar ?? ''}
-                imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
-                initials={chatPartnerHoliUser?.avatarLabel ?? ''}
-                defaultColor={chatPartnerHoliUser?.avatarDefaultColor ?? ''}
-                size="medium"
-              />
+              isChatPartnerDeleted ? (
+                <HoliAvatar
+                  label={roomName}
+                  initials=":/"
+                  defaultColor={colors.brandColorD20}
+                  initialsColor="foreground30at48Percent"
+                  initialsFontWeight="500"
+                  size="medium"
+                />
+              ) : (
+                <HoliAvatar
+                  label={roomName}
+                  imageSrc={chatPartner?.avatar ?? ''}
+                  imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
+                  initials={chatPartnerHoliUser?.avatarLabel ?? ''}
+                  defaultColor={chatPartnerHoliUser?.avatarDefaultColor ?? ''}
+                  size="medium"
+                />
+              )
             ) : null}
 
             {hasUnseenMessages && (

@@ -51,17 +51,18 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#7BD7EA",
-              "borderRadius": 20,
               "justifyContent": "center",
               "overflow": "hidden",
             },
-            false,
-            undefined,
             {
+              "backgroundColor": "#7BD7EA",
+              "borderColor": undefined,
+              "borderRadius": 20,
+              "borderWidth": 0,
               "height": 40,
               "width": 40,
             },
+            undefined,
             false,
           ]
         }

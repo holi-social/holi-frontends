@@ -18,12 +18,17 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       [
         {
           "alignItems": "center",
-          "backgroundColor": "#f5f5f5",
-          "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        false,
+        {
+          "backgroundColor": "#f5f5f5",
+          "borderColor": undefined,
+          "borderRadius": 12,
+          "borderWidth": 0,
+          "height": 24,
+          "width": 24,
+        },
         [
           {
             "borderColor": "#fff",
@@ -34,10 +39,6 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
             "zIndex": -0,
           },
         ],
-        {
-          "height": 24,
-          "width": 24,
-        },
         false,
       ]
     }
@@ -85,12 +86,17 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       [
         {
           "alignItems": "center",
-          "backgroundColor": "red",
-          "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        false,
+        {
+          "backgroundColor": "red",
+          "borderColor": undefined,
+          "borderRadius": 12,
+          "borderWidth": 0,
+          "height": 24,
+          "width": 24,
+        },
         [
           {
             "borderColor": "#fff",
@@ -101,10 +107,6 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
             "zIndex": -1,
           },
         ],
-        {
-          "height": 24,
-          "width": 24,
-        },
         false,
       ]
     }
@@ -119,9 +121,9 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         {
           "color": "#fff",
           "fontFamily": "Circular Std Book",
-          "fontSize": 10.799999999999999,
+          "fontSize": 10.8,
           "fontWeight": "bold",
-          "lineHeight": 12.959999999999999,
+          "lineHeight": 12.96,
           "textTransform": "uppercase",
           "userSelect": "auto",
         }
@@ -135,12 +137,17 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       [
         {
           "alignItems": "center",
-          "backgroundColor": "#f5f5f5",
-          "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        false,
+        {
+          "backgroundColor": "#f5f5f5",
+          "borderColor": undefined,
+          "borderRadius": 12,
+          "borderWidth": 0,
+          "height": 24,
+          "width": 24,
+        },
         [
           {
             "borderColor": "#fff",
@@ -151,10 +158,6 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
             "zIndex": -2,
           },
         ],
-        {
-          "height": 24,
-          "width": 24,
-        },
         false,
       ]
     }
@@ -202,12 +205,17 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       [
         {
           "alignItems": "center",
-          "backgroundColor": "yellow",
-          "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        false,
+        {
+          "backgroundColor": "yellow",
+          "borderColor": undefined,
+          "borderRadius": 12,
+          "borderWidth": 0,
+          "height": 24,
+          "width": 24,
+        },
         [
           {
             "borderColor": "#fff",
@@ -218,10 +226,6 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
             "zIndex": -3,
           },
         ],
-        {
-          "height": 24,
-          "width": 24,
-        },
         false,
       ]
     }
@@ -236,9 +240,9 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         {
           "color": "#262424",
           "fontFamily": "Circular Std Book",
-          "fontSize": 10.799999999999999,
+          "fontSize": 10.8,
           "fontWeight": "bold",
-          "lineHeight": 12.959999999999999,
+          "lineHeight": 12.96,
           "textTransform": "uppercase",
           "userSelect": "auto",
         }
@@ -252,12 +256,17 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       [
         {
           "alignItems": "center",
-          "backgroundColor": "#f5f5f5",
-          "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        false,
+        {
+          "backgroundColor": "#f5f5f5",
+          "borderColor": undefined,
+          "borderRadius": 12,
+          "borderWidth": 0,
+          "height": 24,
+          "width": 24,
+        },
         [
           {
             "borderColor": "#fff",
@@ -268,10 +277,6 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
             "zIndex": -4,
           },
         ],
-        {
-          "height": 24,
-          "width": 24,
-        },
         false,
       ]
     }

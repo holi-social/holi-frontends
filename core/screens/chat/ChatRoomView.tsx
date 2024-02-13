@@ -82,20 +82,21 @@ const ChatRoomView = () => {
         ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
       headerTitle: () => {
+        if (loadingUsers) return null
+
         switch (room?.type) {
           case 'private':
-            return (
-              !!chatPartnerHoliUser &&
-              !!chatPartner && (
-                <ChatRoomHeaderTitle
-                  href={'/profile/' + chatPartnerHoliUser.id}
-                  name={chatPartnerHoliUser.fullName ?? chatPartner.name}
-                  imageSrc={chatPartner.avatar}
-                  imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
-                  initials={chatPartnerHoliUser.avatarLabel}
-                  defaultColor={chatPartnerHoliUser.avatarDefaultColor}
-                />
-              )
+            return !!chatPartnerHoliUser && !!chatPartner ? (
+              <ChatRoomHeaderTitle
+                href={'/profile/' + chatPartnerHoliUser.id}
+                name={chatPartnerHoliUser.fullName ?? chatPartner.name}
+                imageSrc={chatPartner.avatar}
+                imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
+                initials={chatPartnerHoliUser.avatarLabel}
+                defaultColor={chatPartnerHoliUser.avatarDefaultColor}
+              />
+            ) : (
+              <ChatRoomHeaderTitle name={t('chat.user.deleted')} initials=":/" defaultColor={colors.brandColorD20} />
             )
 
           case 'space.child':
@@ -118,7 +119,7 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom])
+  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom, t, loadingUsers])
 
   useEffect(() => {
     if (chatInitialized && !room) {
