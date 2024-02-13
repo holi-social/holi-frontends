@@ -128,6 +128,14 @@ describe('createServerSideProps', () => {
     })
   })
 
+  it('should not execute queries that should be skipped', async () => {
+    await createServerSideProps(context, [{ ...query1, skip: true }, query2])
+
+    expect(mockQueryFunction).toBeCalledTimes(1)
+    expect(mockQueryFunction).not.toBeCalledWith(query1)
+    expect(mockQueryFunction).toBeCalledWith(query2)
+  })
+
   it('should redirect to 404 page if a query results in a NOT_FOUND error', async () => {
     mockQueryFunction.mockRejectedValueOnce(
       new ApolloError({

@@ -2,17 +2,21 @@ import type { ApolloClient, NormalizedCacheObject, QueryOptions } from '@apollo/
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
-import { isNotFoundError } from '@holi/core/errors/helpers'
+import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
 import { addApolloSSRState } from '@holi/web/helpers/useApolloSSRClient'
 import { NextJSPageProps } from '@holi/web/types'
 
-type QueryCreatorFunction = (client: ApolloClient<NormalizedCacheObject>) => Promise<QueryOptions[]>
+interface SkippableQueryOptions extends QueryOptions {
+  skip?: boolean
+}
+
+type QueryCreatorFunction = (client: ApolloClient<NormalizedCacheObject>) => Promise<SkippableQueryOptions[]>
 
 export const createServerSideProps = async (
   { req }: NextPageContext,
-  queries: QueryOptions[] | QueryCreatorFunction = []
+  queries: SkippableQueryOptions[] | QueryCreatorFunction = []
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
   // TODO: We do an early return with empty page props. It still leads to
   // rendering everything on the client and should not have any
@@ -34,7 +38,9 @@ export const createServerSideProps = async (
   const client = initializeApolloSSRClient()
 
   const queriesToExecute = typeof queries === 'function' ? await queries(client) : queries
-  const results = await Promise.allSettled(queriesToExecute.map((query) => client.query(query)))
+  const results = await Promise.allSettled(
+    queriesToExecute.filter((query) => !query.skip).map((query) => client.query(query))
+  )
 
   const wasNotFound = results.some((result) => result.status === 'rejected' && isNotFoundError(result.reason))
   if (wasNotFound) {
