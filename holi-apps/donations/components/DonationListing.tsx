@@ -164,7 +164,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                   >
                     {!!project.categories[0] && (
                       <>
-                        <HoliText size="small" style={{ color: colors.foreground20, marginTop: 8 }}>
+                        <HoliText size="small" style={styles.category}>
                           {t(`donations:category.${project.categories[0]}`)}
                         </HoliText>
                       </>
@@ -203,6 +203,10 @@ const styles = StyleSheet.create({
   },
   clearFilter: {
     paddingLeft: 3,
+  },
+  category: {
+    color: colors.foreground20,
+    marginTop: 8,
   },
 })
 
