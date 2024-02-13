@@ -64,7 +64,7 @@ const InsightDetailPage = () => {
 
   useLayoutEffect(() => {
     setScreenOptions({
-      title: t('insights.insight.title', { title: insight?.title }),
+      title: insight?.title,
       headerTransparent: true,
       headerTintColor: colors.background10,
       navigationCustomOptions: {

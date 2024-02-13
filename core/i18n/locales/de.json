@@ -258,7 +258,6 @@
   "insights.editors.editedBy": "kuratiert von holi & Gästen",
   "insights.editors.modal.title": "Die aktuellen Themen-Redakteur:innen",
   "insights.insight.notFound": "Thema {{insightId}} nicht gefunden",
-  "insights.insight.title": "{{title}}",
   "insights.post.delete.confirmation.description": "Möchtest du dieses Update wirklich löschen?",
   "insights.post.delete.confirmation.title": "Update löschen",
   "insights.post.delete.success": "Du hast das Update gelöscht",

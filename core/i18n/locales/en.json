@@ -258,7 +258,6 @@
   "insights.editors.editedBy": "curated by holi & guests",
   "insights.editors.modal.title": "The current insight curators",
   "insights.insight.notFound": "Topic {{insightId}} not found",
-  "insights.insight.title": "{{title}}",
   "insights.post.delete.confirmation.description": "Do you really want to delete this Update?",
   "insights.post.delete.confirmation.title": "Delete Update",
   "insights.post.delete.success": "You deleted the Update",
