@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useCallback, useLayoutEffect, useRef } from 'react'
+import React, { memo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -13,10 +13,9 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -31,9 +30,6 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -46,12 +42,10 @@ export type PostDetailPageParams = {
 
 const { useParam } = createParamHooks<PostDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<InsightsScreens | SpacesScreens>
-
 const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
-const PostDetailPage: React.VFC<ScreenProps> = () => {
+const PostDetailPage = () => {
   const [insightId] = useParam('insightId')
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
@@ -79,7 +73,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
-      if (isNotFoundError(error)) {
+      if (isNotFoundError(error) || isForbiddenError(error)) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId })
@@ -87,9 +81,10 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  const title = data?.postById?.title
+  const post = data?.postById
+  const title = post?.title
 
-  useLayoutEffect(
+  useIsomorphicLayoutEffect(
     () =>
       setScreenOptions({
         title,
@@ -117,13 +112,9 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   )
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
+  if (loading || error || !post) {
     return <></>
   }
-
-  const post = data?.postById
-
-  if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   const comments = post.comments || []
 
