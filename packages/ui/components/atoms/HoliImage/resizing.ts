@@ -1,6 +1,7 @@
 import { PixelRatio, Platform } from 'react-native'
 
 import { isProduction } from '@holi/core/helpers/environment'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 // meant for dev: you see the dimension that would be loaded as a black image
@@ -16,6 +17,9 @@ const calcPixelRatioSize = (value: number | undefined): number | undefined => {
   }
 
   if (Platform.OS === 'web') {
+    if (isSSR) {
+      return value * 2
+    }
     const pixelDensity = window.devicePixelRatio // hint: can be affected by zoom!
     const halfRoundedPixelDensity = Math.round(pixelDensity * 2) / 2 // to limit the amount of cache buckets
     return halfRoundedPixelDensity * value

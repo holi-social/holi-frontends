@@ -20,7 +20,7 @@ lint_compile_test:
   stage: build
   image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
   script:
-    - yarn install
+    - yarn install --immutable --check-cache
     - yarn lint
     - yarn test
   cache:

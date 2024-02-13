@@ -13,7 +13,7 @@ const nextConfig = {
       'react-native$': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
     }
-    config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', ...config.resolve.extensions]
+    config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', '.web.jsx', ...config.resolve.extensions]
     return config
   },
   sassOptions: {

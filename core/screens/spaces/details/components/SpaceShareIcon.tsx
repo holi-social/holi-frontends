@@ -17,7 +17,10 @@ const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ spaceIdOrName, title, 
   const [, shareLink] = useShareLink({
     link: `/spaces/${spaceIdOrName}`,
     linkType: LinkType.UNIVERSAL,
-    message: `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', { space: title })}`,
+    message: `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', {
+      space: title,
+      interpolation: { escapeValue: false },
+    })}`,
   })
 
   return (

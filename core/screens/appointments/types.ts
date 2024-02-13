@@ -32,6 +32,7 @@ export interface AppointmentInput {
 
 export interface Appointment {
   id: string
+  slug: string
   spaceId: string
   title: string
   inviteOnly: boolean

@@ -7,7 +7,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { type AvatarShape } from '@holi/ui/components/molecules/HoliAvatar'
 
 interface Props {
-  href: string
+  href?: string
   name: string
   imageSrc?: string
   imageBlurhash?: string
@@ -19,14 +19,22 @@ interface Props {
 const ChatRoomHeaderTitle = ({ href, name, ...avatarProps }: Props) => {
   const { t } = useTranslation()
 
+  const content = (
+    <View style={styles.title}>
+      <HoliAvatar label={name} {...avatarProps} size="micro" />
+      <HoliText bold>{name}</HoliText>
+    </View>
+  )
+
   return (
     <View style={styles.container}>
-      <HoliLink label={t('user.visitProfile', { name })} href={href}>
-        <View style={styles.title}>
-          <HoliAvatar label={name} {...avatarProps} size="micro" />
-          <HoliText bold>{name}</HoliText>
-        </View>
-      </HoliLink>
+      {href ? (
+        <HoliLink label={t('user.visitProfile', { name })} href={href}>
+          {content}
+        </HoliLink>
+      ) : (
+        content
+      )}
     </View>
   )
 }

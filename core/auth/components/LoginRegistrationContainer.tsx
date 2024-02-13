@@ -17,11 +17,11 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   const { isLoggedIn } = useAuth()
   const { isLoading } = useLoggedInUser()
   const { t } = useTranslation()
-  const { replaceRoute } = useRouting()
+  const { navigateBack } = useRouting()
 
   useIsomorphicLayoutEffect(() => {
-    isLoggedIn && replaceRoute('/profile')
-  }, [isLoggedIn, replaceRoute])
+    isLoggedIn && navigateBack()
+  }, [isLoggedIn])
 
   if (isLoading) return <HoliLoader />
 

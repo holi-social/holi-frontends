@@ -38,11 +38,18 @@ type VolunteeringListingProps = {
   isFiltering?: boolean
   clearFilters?: () => void
   loadingFilters: boolean
+  filterError?: boolean
 }
 
-const ENGAGEMENT_PAGE_SIZE = 10
+export const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingFilters }: VolunteeringListingProps) => {
+const VolunteeringListing = ({
+  filters = {},
+  isFiltering,
+  clearFilters,
+  loadingFilters,
+  filterError,
+}: VolunteeringListingProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -69,6 +76,7 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
       location: isFiltering ? filters.location : undefined,
       category: isFiltering ? filters.category : undefined,
     },
+    skip: filterError,
     fetchPolicy: 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load volunteering engagements', {
@@ -76,13 +84,11 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
       }),
   })
 
-  if (error) {
-    return <HoliText>{t('volunteering:listing.error')}</HoliText>
-  }
-
   if (loading || loadingFilters) {
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
+
+  const noResults = !!error || filterError || engagements.length === 0
 
   const handleCardPress = (engagement: VolunteeringEngagement) => {
     navigate(`/apps/volunteering/engagement/${engagement.id}`)
@@ -133,7 +139,7 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
         </View>
       )}
       <HoliBox padding={[24, 0, 24, 0]}>
-        {engagements.length === 0 && (
+        {noResults && (
           <View style={mixins.container}>
             <HoliNoResults
               firstText={t('global.noSearchResults')}

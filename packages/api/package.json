@@ -11,13 +11,12 @@
     "apollo-link-timeout": "^4.0.0",
     "apollo-upload-client": "^17.0.0",
     "cross-fetch": "^3.1.5",
-    "ramda": "^0.28.0"
+    "ramda": "^0.29.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
     "@types/apollo-upload-client": "^17.0.1",
-    "@types/ramda": "^0.28.23"
+    "@types/ramda": "^0.29.1"
   },
-  "peerDependencies": {},
   "type": "module"
 }

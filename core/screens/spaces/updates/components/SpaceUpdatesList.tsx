@@ -25,7 +25,7 @@ const SpaceUpdatesList = ({ space }: SpaceUpdatesListProps) => {
   if (loading) return <HoliLoader style={styles.loaderBottom} />
 
   return (
-    <HoliBox padding={[0, 0, 24, 0]}>
+    <HoliBox padding={[0, 0, 64, 0]}>
       <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
         {posts.map((post) => (
           <HoliGridCell key={post.id}>

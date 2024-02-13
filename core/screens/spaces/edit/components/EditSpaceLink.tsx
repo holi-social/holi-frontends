@@ -5,6 +5,7 @@ import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } 
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
+import { withProtocol } from '@holi/core/helpers/url'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { UpdateExternalLinkResponse, updateExternalLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
@@ -81,13 +82,11 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
       return
     }
 
-    const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
-
     return updateLink({
       variables: {
         input: {
           id: link.id,
-          url: urlWithProtocol,
+          url: withProtocol(url),
           name: name,
           type: type,
         },

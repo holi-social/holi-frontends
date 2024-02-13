@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
+import { withProtocol } from '@holi/core/helpers/url'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -75,13 +76,11 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   })
 
   const onSave = () => {
-    const urlWithProtocol = !url.startsWith('http://') && !url.startsWith('https://') ? `https://${url}` : url
-
     return updateCollaborationTool({
       variables: {
         input: {
           id: toolId,
-          url: urlWithProtocol,
+          url: withProtocol(url),
           title,
           description,
           collectionType: selectedCollection?.id,
