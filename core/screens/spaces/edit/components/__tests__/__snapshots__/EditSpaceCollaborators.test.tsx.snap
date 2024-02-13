@@ -526,18 +526,19 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               [
                                 {
                                   "alignItems": "center",
-                                  "backgroundColor": "#f5f5f5",
-                                  "borderRadius": 20,
                                   "justifyContent": "center",
                                   "overflow": "hidden",
                                 },
-                                false,
                                 {
-                                  "borderWidth": 1,
-                                },
-                                {
+                                  "backgroundColor": "#f5f5f5",
+                                  "borderColor": undefined,
+                                  "borderRadius": 20,
+                                  "borderWidth": 0,
                                   "height": 40,
                                   "width": 40,
+                                },
+                                {
+                                  "borderWidth": 1,
                                 },
                                 false,
                               ]
@@ -684,18 +685,19 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               [
                                 {
                                   "alignItems": "center",
-                                  "backgroundColor": "#f5f5f5",
-                                  "borderRadius": 20,
                                   "justifyContent": "center",
                                   "overflow": "hidden",
                                 },
-                                false,
                                 {
-                                  "borderWidth": 1,
-                                },
-                                {
+                                  "backgroundColor": "#f5f5f5",
+                                  "borderColor": undefined,
+                                  "borderRadius": 20,
+                                  "borderWidth": 0,
                                   "height": 40,
                                   "width": 40,
+                                },
+                                {
+                                  "borderWidth": 1,
                                 },
                                 false,
                               ]
@@ -842,18 +844,19 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               [
                                 {
                                   "alignItems": "center",
-                                  "backgroundColor": "#f5f5f5",
-                                  "borderRadius": 20,
                                   "justifyContent": "center",
                                   "overflow": "hidden",
                                 },
-                                false,
                                 {
-                                  "borderWidth": 1,
-                                },
-                                {
+                                  "backgroundColor": "#f5f5f5",
+                                  "borderColor": undefined,
+                                  "borderRadius": 20,
+                                  "borderWidth": 0,
                                   "height": 40,
                                   "width": 40,
+                                },
+                                {
+                                  "borderWidth": 1,
                                 },
                                 false,
                               ]
@@ -1890,18 +1893,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               [
                                 {
                                   "alignItems": "center",
-                                  "backgroundColor": "#f5f5f5",
-                                  "borderRadius": 20,
                                   "justifyContent": "center",
                                   "overflow": "hidden",
                                 },
-                                false,
                                 {
-                                  "borderWidth": 1,
-                                },
-                                {
+                                  "backgroundColor": "#f5f5f5",
+                                  "borderColor": undefined,
+                                  "borderRadius": 20,
+                                  "borderWidth": 0,
                                   "height": 40,
                                   "width": 40,
+                                },
+                                {
+                                  "borderWidth": 1,
                                 },
                                 false,
                               ]
@@ -2048,18 +2052,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               [
                                 {
                                   "alignItems": "center",
-                                  "backgroundColor": "#f5f5f5",
-                                  "borderRadius": 20,
                                   "justifyContent": "center",
                                   "overflow": "hidden",
                                 },
-                                false,
                                 {
-                                  "borderWidth": 1,
-                                },
-                                {
+                                  "backgroundColor": "#f5f5f5",
+                                  "borderColor": undefined,
+                                  "borderRadius": 20,
+                                  "borderWidth": 0,
                                   "height": 40,
                                   "width": 40,
+                                },
+                                {
+                                  "borderWidth": 1,
                                 },
                                 false,
                               ]
@@ -2206,18 +2211,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               [
                                 {
                                   "alignItems": "center",
-                                  "backgroundColor": "#f5f5f5",
-                                  "borderRadius": 20,
                                   "justifyContent": "center",
                                   "overflow": "hidden",
                                 },
-                                false,
                                 {
-                                  "borderWidth": 1,
-                                },
-                                {
+                                  "backgroundColor": "#f5f5f5",
+                                  "borderColor": undefined,
+                                  "borderRadius": 20,
+                                  "borderWidth": 0,
                                   "height": 40,
                                   "width": 40,
+                                },
+                                {
+                                  "borderWidth": 1,
                                 },
                                 false,
                               ]
@@ -2412,18 +2418,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 [
                                   {
                                     "alignItems": "center",
-                                    "backgroundColor": "#f5f5f5",
-                                    "borderRadius": 20,
                                     "justifyContent": "center",
                                     "overflow": "hidden",
                                   },
-                                  false,
                                   {
-                                    "borderWidth": 1,
-                                  },
-                                  {
+                                    "backgroundColor": "#f5f5f5",
+                                    "borderColor": undefined,
+                                    "borderRadius": 20,
+                                    "borderWidth": 0,
                                     "height": 40,
                                     "width": 40,
+                                  },
+                                  {
+                                    "borderWidth": 1,
                                   },
                                   false,
                                 ]
@@ -2932,18 +2939,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 [
                                   {
                                     "alignItems": "center",
-                                    "backgroundColor": "#f5f5f5",
-                                    "borderRadius": 20,
                                     "justifyContent": "center",
                                     "overflow": "hidden",
                                   },
-                                  false,
                                   {
-                                    "borderWidth": 1,
-                                  },
-                                  {
+                                    "backgroundColor": "#f5f5f5",
+                                    "borderColor": undefined,
+                                    "borderRadius": 20,
+                                    "borderWidth": 0,
                                     "height": 40,
                                     "width": 40,
+                                  },
+                                  {
+                                    "borderWidth": 1,
                                   },
                                   false,
                                 ]
@@ -3452,18 +3460,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 [
                                   {
                                     "alignItems": "center",
-                                    "backgroundColor": "#f5f5f5",
-                                    "borderRadius": 20,
                                     "justifyContent": "center",
                                     "overflow": "hidden",
                                   },
-                                  false,
                                   {
-                                    "borderWidth": 1,
-                                  },
-                                  {
+                                    "backgroundColor": "#f5f5f5",
+                                    "borderColor": undefined,
+                                    "borderRadius": 20,
+                                    "borderWidth": 0,
                                     "height": 40,
                                     "width": 40,
+                                  },
+                                  {
+                                    "borderWidth": 1,
                                   },
                                   false,
                                 ]
@@ -4014,18 +4023,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 [
                                   {
                                     "alignItems": "center",
-                                    "backgroundColor": "#f5f5f5",
-                                    "borderRadius": 20,
                                     "justifyContent": "center",
                                     "overflow": "hidden",
                                   },
-                                  false,
                                   {
-                                    "borderWidth": 1,
-                                  },
-                                  {
+                                    "backgroundColor": "#f5f5f5",
+                                    "borderColor": undefined,
+                                    "borderRadius": 20,
+                                    "borderWidth": 0,
                                     "height": 40,
                                     "width": 40,
+                                  },
+                                  {
+                                    "borderWidth": 1,
                                   },
                                   false,
                                 ]
@@ -4361,18 +4371,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 [
                                   {
                                     "alignItems": "center",
-                                    "backgroundColor": "#f5f5f5",
-                                    "borderRadius": 20,
                                     "justifyContent": "center",
                                     "overflow": "hidden",
                                   },
-                                  false,
                                   {
-                                    "borderWidth": 1,
-                                  },
-                                  {
+                                    "backgroundColor": "#f5f5f5",
+                                    "borderColor": undefined,
+                                    "borderRadius": 20,
+                                    "borderWidth": 0,
                                     "height": 40,
                                     "width": 40,
+                                  },
+                                  {
+                                    "borderWidth": 1,
                                   },
                                   false,
                                 ]
@@ -4708,18 +4719,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 [
                                   {
                                     "alignItems": "center",
-                                    "backgroundColor": "#f5f5f5",
-                                    "borderRadius": 20,
                                     "justifyContent": "center",
                                     "overflow": "hidden",
                                   },
-                                  false,
                                   {
-                                    "borderWidth": 1,
-                                  },
-                                  {
+                                    "backgroundColor": "#f5f5f5",
+                                    "borderColor": undefined,
+                                    "borderRadius": 20,
+                                    "borderWidth": 0,
                                     "height": 40,
                                     "width": 40,
+                                  },
+                                  {
+                                    "borderWidth": 1,
                                   },
                                   false,
                                 ]

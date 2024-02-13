@@ -70,20 +70,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "#f5f5f5",
-                  "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 {
+                  "backgroundColor": "#f5f5f5",
                   "borderColor": "#262424",
-                },
-                undefined,
-                {
+                  "borderRadius": 64,
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
                 },
+                undefined,
                 false,
               ]
             }
@@ -210,20 +208,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "red",
-                  "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 {
+                  "backgroundColor": "red",
                   "borderColor": "#262424",
-                },
-                undefined,
-                {
+                  "borderRadius": 64,
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
                 },
+                undefined,
                 false,
               ]
             }
@@ -333,20 +329,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "#f5f5f5",
-                  "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 {
+                  "backgroundColor": "#f5f5f5",
                   "borderColor": "#262424",
-                },
-                undefined,
-                {
+                  "borderRadius": 64,
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
                 },
+                undefined,
                 false,
               ]
             }
@@ -473,20 +467,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "yellow",
-                  "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 {
+                  "backgroundColor": "yellow",
                   "borderColor": "#262424",
-                },
-                undefined,
-                {
+                  "borderRadius": 64,
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
                 },
+                undefined,
                 false,
               ]
             }
@@ -596,20 +588,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "#f5f5f5",
-                  "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 {
+                  "backgroundColor": "#f5f5f5",
                   "borderColor": "#262424",
-                },
-                undefined,
-                {
+                  "borderRadius": 64,
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
                 },
+                undefined,
                 false,
               ]
             }
@@ -736,20 +726,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "purple",
-                  "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 {
+                  "backgroundColor": "purple",
                   "borderColor": "#262424",
-                },
-                undefined,
-                {
+                  "borderRadius": 64,
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
                 },
+                undefined,
                 false,
               ]
             }
@@ -861,20 +849,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "#f5f5f5",
-                  "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 {
+                  "backgroundColor": "#f5f5f5",
                   "borderColor": "#262424",
-                },
-                undefined,
-                {
+                  "borderRadius": 64,
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
                 },
+                undefined,
                 false,
               ]
             }

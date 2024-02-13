@@ -34,7 +34,7 @@ const RoomTextMessage = ({
   isNextMessageFromSameUser = false,
   testID,
 }: Props) => {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const locale = getLocale(i18n.language)
 
   const myId = useAtomValue(loggedInMemberIdAtom)
@@ -52,14 +52,23 @@ const RoomTextMessage = ({
       <View style={[styles.rowWrapper, { flexDirection: isMyMessage ? 'row-reverse' : 'row' }]}>
         {showAvatar ? (
           <HoliBox padding={isMyMessage ? [0, 0, 0, 8] : [0, 8, 0, 0]}>
-            <HoliAvatar
-              imageSrc={member?.avatar}
-              imageBlurhash={holiUser?.avatarBlurhash}
-              label={holiUser?.fullName ?? ''}
-              initials={holiUser?.avatarLabel ?? ''}
-              defaultColor={holiUser?.avatarDefaultColor ?? ''}
-              size="micro"
-            />
+            {holiUser ? (
+              <HoliAvatar
+                imageSrc={member?.avatar}
+                imageBlurhash={holiUser?.avatarBlurhash}
+                label={holiUser?.fullName ?? ''}
+                initials={holiUser?.avatarLabel ?? ''}
+                defaultColor={holiUser?.avatarDefaultColor ?? ''}
+                size="micro"
+              />
+            ) : (
+              <HoliAvatar
+                label={t('chat.user.deleted')}
+                initials=":/"
+                defaultColor={colors.brandColorD20}
+                size="micro"
+              />
+            )}
           </HoliBox>
         ) : (
           <HoliBox padding={[0, 16]} />
@@ -73,7 +82,11 @@ const RoomTextMessage = ({
               </HoliBox>
             )}
 
-            <HoliRichTextOutput text={content.body} allowAllLinks />
+            {content.body ? (
+              <HoliRichTextOutput text={content.body} allowAllLinks />
+            ) : (
+              <HoliText>{t('chat.message.deleted')}</HoliText>
+            )}
 
             <View style={styles.date}>
               <HoliText size="extrasmall" color="gray300">
