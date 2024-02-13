@@ -1,13 +1,14 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useLayoutEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -62,7 +63,7 @@ const InsightDetailPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.insight.title', { title: insight?.title }),
       headerTransparent: true,
