@@ -2,7 +2,7 @@ import type { ApolloClient, NormalizedCacheObject, QueryOptions } from '@apollo/
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
-import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
+import { isNotFoundError } from '@holi/core/errors/helpers'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
 import { addApolloSSRState } from '@holi/web/helpers/useApolloSSRClient'
