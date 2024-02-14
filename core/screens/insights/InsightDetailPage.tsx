@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useLayoutEffect, useState } from 'react'
+import React, { ReactNode, memo, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
@@ -34,6 +34,36 @@ export type InsightDetailPageParams = {
 }
 
 const { useParam } = createParamHooks<InsightDetailPageParams>()
+
+// TODO: accessibility considerations
+type TagProps = {
+  children?: ReactNode
+  variant?: 'default' | 'skill' | 'interest'
+}
+const Tag = ({ variant = 'default', children }: TagProps) => (
+  <HoliText style={[tagStyles.tagContainer, tagStyles[variant]]}>{children}</HoliText>
+)
+
+const tagStyles = StyleSheet.create({
+  tagContainer: {
+    alignSelf: 'flex-start',
+    paddingVertical: dimensions.spacingXs,
+    paddingHorizontal: dimensions.spacingS,
+    borderRadius: dimensions.spacingL,
+    borderWidth: 1,
+    borderColor: colors.black300,
+  },
+  //  Align with Figma default > generic
+  default: {
+    backgroundColor: colors.white100,
+  },
+  interest: {
+    backgroundColor: colors.brandC200,
+  },
+  skill: {
+    backgroundColor: colors.brandD200,
+  },
+})
 
 const InsightDetailPage = () => {
   const [insightId] = useParam('insightId')
@@ -101,20 +131,14 @@ const InsightDetailPage = () => {
 
         {/* Insight content */}
         <View style={styles.insightView}>
-          <HoliText
-            size="small"
-            bold
-            style={{ color: colors.brandB300 }}
-            testID="insight-category"
-            loading={initLoading}
-          >
-            {insight?.topic?.title}
-          </HoliText>
+          <Tag variant="interest">{insight?.topic?.title}</Tag>
+          {/* Needs to be spacing 3xs */}
+          {/* Needs loading skeleton */}
 
           <HoliGap size="xs" />
           <HoliHeading
             level="1"
-            size="xl"
+            size="l"
             testID="insight-headline"
             loading={initLoading}
             // large font size (-> radius=16) with multiple lines expected
@@ -122,10 +146,7 @@ const InsightDetailPage = () => {
           >
             {insight?.title}
           </HoliHeading>
-
-          <HoliText style={styles.insightText} loading={initLoading} skeletonOptions={{ numberOfLines: 10 }}>
-            {insight?.description}
-          </HoliText>
+          <HoliGap size="xs" />
 
           {/* Author  */}
           {(initLoading || author) && (
@@ -175,6 +196,10 @@ const InsightDetailPage = () => {
               />
             </HoliModal>
           )}
+
+          <HoliText style={styles.insightText} loading={initLoading} skeletonOptions={{ numberOfLines: 10 }}>
+            {insight?.description}
+          </HoliText>
         </View>
 
         {!!posts.length && (
