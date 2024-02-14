@@ -5233,6 +5233,7 @@ __metadata:
     "@ory/kratos-client": "npm:^0.13.1"
     "@types/react": "npm:~18.2.14"
     "@types/tinycolor2": "npm:1.4.3"
+    expo-calendar: "npm:~11.3.2"
     graphql-config: "npm:^4.5.0"
     graphql-scalars: "npm:^1.21.3"
     jest-offline: "npm:^1.0.1"
@@ -17054,6 +17055,15 @@ __metadata:
     path-browserify: "npm:^1.0.0"
     url-parse: "npm:^1.5.9"
   checksum: 10c0/65671cf0f0bb4c10112db7495801a3f653ba991d3a17a88f259590ad7455a3ac8dd75b3476924b56e6d0e2adbb2005bed9b4fafb1af81d8bcb68b266936f74ed
+  languageName: node
+  linkType: hard
+
+"expo-calendar@npm:~11.3.2":
+  version: 11.3.2
+  resolution: "expo-calendar@npm:11.3.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/356f0b0e40b2cee07b1839b8e3b98df04145d45e49df85f96c6fea41a165a5faa69108d5ec1b7485537dae9ae71c26dc5d6e65337b647b74e4208acbd80b9a76
   languageName: node
   linkType: hard
 
