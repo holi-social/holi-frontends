@@ -20,39 +20,39 @@ interface AppointmentCalendarButtonProps {
   appointment: Appointment
 }
 
+// Note: Android does not have a default calendar, so we need to create one to store Holi appointments.
+const getOrCreateCalendar = async () => {
+  const calendars = await Calendar.getCalendarsAsync()
+  const calendar = calendars.find((calendar) => calendar.name === CALENDAR_NAME)
+
+  if (calendar) {
+    return calendar
+  }
+
+  try {
+    const calendarId = await Calendar.createCalendarAsync({
+      title: CALENDAR_NAME,
+      color: colors.brandA300,
+      entityType: Calendar.EntityTypes.EVENT,
+      source: { isLocalAccount: true, name: CALENDAR_NAME } as Calendar.Source,
+      name: CALENDAR_NAME,
+      ownerAccount: 'personal',
+      accessLevel: Calendar.CalendarAccessLevel.OWNER,
+    })
+
+    return calendars.find((calendar) => calendar.id === calendarId)
+  } catch (error) {
+    logError(error, 'Failed to create Holi calendar', {
+      location: 'useCalendar.getOrCreateCalendar',
+    })
+  }
+}
+
 const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ appointment }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
   const { openToast } = useToast()
-
-  // Note: Android does not have a default calendar, so we need to create one to store Holi appointments.
-  const getOrCreateCalendar = async () => {
-    const calendars = await Calendar.getCalendarsAsync()
-    const calendar = calendars.find((calendar) => calendar.name === CALENDAR_NAME)
-
-    if (calendar) {
-      return calendar
-    }
-
-    try {
-      const calendarId = await Calendar.createCalendarAsync({
-        title: CALENDAR_NAME,
-        color: colors.brandA300,
-        entityType: Calendar.EntityTypes.EVENT,
-        source: { isLocalAccount: true, name: CALENDAR_NAME } as Calendar.Source,
-        name: CALENDAR_NAME,
-        ownerAccount: 'personal',
-        accessLevel: Calendar.CalendarAccessLevel.OWNER,
-      })
-
-      return calendars.find((calendar) => calendar.id === calendarId)
-    } catch (error) {
-      logError(error, 'Failed to create Holi calendar', {
-        location: 'useCalendar.getOrCreateCalendar',
-      })
-    }
-  }
 
   const getCalendar = async () => {
     const calendarPermission = await Calendar.requestCalendarPermissionsAsync()
