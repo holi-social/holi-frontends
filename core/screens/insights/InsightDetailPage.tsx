@@ -26,7 +26,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightDetailPageParams = {
@@ -42,6 +42,7 @@ const InsightDetailPage = () => {
   const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
+
   const {
     data: { insightById: insight } = {},
     loading: loadingInsight,
@@ -64,15 +65,10 @@ const InsightDetailPage = () => {
 
   useLayoutEffect(() => {
     setScreenOptions({
-      title: insight?.title,
       headerTransparent: true,
-      headerTintColor: colors.background10,
-      navigationCustomOptions: {
-        headerBackgroundGradient: true,
-        footerShown: false,
-      },
+      headerTintColor: colors.white100,
     })
-  }, [t, insight?.title, setScreenOptions])
+  }, [setScreenOptions])
 
   const posts: Post[] = insight?.posts || []
   const author = insight?.creator
@@ -104,7 +100,7 @@ const InsightDetailPage = () => {
         )}
 
         {/* Insight content */}
-        <View style={[mixins.container, styles.insightView]}>
+        <View style={styles.insightView}>
           <HoliText
             size="small"
             bold
@@ -221,11 +217,13 @@ const styles = StyleSheet.create({
   },
   insightView: {
     backgroundColor: colors.background10,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    paddingTop: 40,
-    paddingBottom: 24,
-    ...Platform.select({ web: { paddingHorizontal: 20 } }),
+    // TODO: could these be spaccings too?
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+    //  TODO: use new spacings
+    paddingTop: dimensions.spacingXl,
+    paddingBottom: dimensions.spacingM,
+    paddingHorizontal: dimensions.spacingM,
   },
   insightText: {
     color: colors.foreground20,
