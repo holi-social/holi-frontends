@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
+import React, { Suspense, memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -13,6 +13,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
@@ -107,7 +108,7 @@ const UserProfile = () => {
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('profile.title'),
       headerTransparent: true,
