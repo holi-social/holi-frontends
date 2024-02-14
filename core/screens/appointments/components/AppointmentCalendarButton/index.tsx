@@ -26,6 +26,7 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
   const { navigate } = useRouting()
   const { openToast } = useToast()
 
+  // Note: Android does not have a default calendar, so we need to create one to store Holi appointments.
   const getOrCreateCalendar = async () => {
     const calendars = await Calendar.getCalendarsAsync()
     const calendar = calendars.find((calendar) => calendar.name === CALENDAR_NAME)
