@@ -7,7 +7,7 @@ const Spacing = {
   md: 24,
   lg: 32,
   xl: 40,
-  xxL: 48,
+  xxl: 48,
   '3xl': 56,
   '4xl': 64,
 } as const
