@@ -14,7 +14,6 @@ const SpacingsTable = () => (
     </thead>
     <tbody>
       {Object.keys(Spacing)
-        .filter((size) => isNaN(parseInt(size)))
         .map((size) => size as SpacingSize)
         .map((size) => (
           <tr key={size}>
