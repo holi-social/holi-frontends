@@ -9,6 +9,8 @@ export default {
   component: HoliDateAndTimePicker,
 } as Meta<typeof HoliDateAndTimePicker>
 
+const today = new Date()
+
 export const Example: StoryObj<typeof HoliDateAndTimePicker> = {
   argTypes: {
     valueDate: { type: 'string', control: 'date' },
@@ -16,6 +18,11 @@ export const Example: StoryObj<typeof HoliDateAndTimePicker> = {
     valueMinutes: { type: 'string', control: 'text' },
     title: { type: 'string', control: 'text' },
     label: { type: 'string', control: 'text' },
+  },
+  args: {
+    valueDate: today.toISOString(),
+    valueHours: today.getHours().toString().padStart(2, '0'),
+    valueMinutes: today.getMinutes().toString().padStart(2, '0'),
   },
   render: function Render() {
     const [{ valueDate, valueHours, valueMinutes, title, label }, updateArgs] = useArgs()
