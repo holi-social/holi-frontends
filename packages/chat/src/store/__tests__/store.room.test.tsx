@@ -257,9 +257,36 @@ describe('Chat Store - rooms', () => {
     expect(() => store.get(result.current[spaceChildRoomId])).toThrow()
   })
 
+  it('should not render DM rooms with an Empty Room name', () => {
+    const dmRoomMock = createRoomMock(roomId, {
+      name: '',
+      members: dmMembers,
+      timelineEvents: [],
+      unreadNotificationCount: notificationCount,
+      creatorId: creator.id,
+      getMember: creator,
+      timestamp,
+    })
+
+    const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
+
+    expect(result.current[roomId]).toBeUndefined()
+
+    // First DM comes in
+    const newRoomListener = getListenerForMatrixEvent(mxClient, ClientEvent.Room, 'roomEventHandler') as (
+      room: Room
+    ) => void
+
+    act(() => newRoomListener(dmRoomMock))
+
+    expect(result.current[roomId]).toBeUndefined()
+    expect(Object.entries(result.current).length).toBe(0)
+  })
+
   it('should subscribeToNewRooms events and update the _roomAtomsRecordAtom', async () => {
     const dmRoomMock = createRoomMock(roomId, {
       members: dmMembers,
+      name: member1.name,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -287,7 +314,7 @@ describe('Chat Store - rooms', () => {
       id: roomId,
       lastMessage: undefined,
       members: dmMembers,
-      name: undefined,
+      name: member1.name,
       notificationCount: notificationCount,
       timestamp,
       type: 'private',

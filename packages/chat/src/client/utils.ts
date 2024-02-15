@@ -14,6 +14,8 @@ import {
   type Room,
   RoomEvent,
   RoomMember,
+  type RoomNameState,
+  RoomNameType,
 } from 'matrix-js-sdk'
 
 import {
@@ -66,6 +68,23 @@ export const isIStateEvent = (event: IRoomEvent | IStateEvent): event is IStateE
 
 export const hasRoomUpdatesType = (type: unknown): type is RoomUpdatesType => {
   return type === RoomUpdatesType.avatar || type === RoomUpdatesType.name
+}
+
+/**
+ * @description A function passed on Matrix createClient to override default
+ * room names.
+ */
+export const roomNameGenerator = (roomId: string, state: RoomNameState): string | null => {
+  switch (state.type) {
+    case RoomNameType.Actual:
+      return state.name
+    case RoomNameType.EmptyRoom:
+      return ''
+    case RoomNameType.Generated:
+      return state.names.join(', ')
+    default:
+      return null
+  }
 }
 
 /**
