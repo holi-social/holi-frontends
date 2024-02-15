@@ -1,16 +1,16 @@
-enum Spacing {
-  xxxXs = 4,
-  xxXs = 8,
-  xXs = 12,
-  Xs = 16,
-  Sm = 20,
-  Md = 24,
-  Lg = 32,
-  Xl = 40,
-  xXL = 48,
-  xxXL = 56,
-  xxxXL = 64,
-}
+const Spacing = {
+  '4xs': 4,
+  '3xs': 8,
+  xxs: 12,
+  xs: 16,
+  sm: 20,
+  md: 24,
+  lg: 32,
+  xl: 40,
+  xxl: 48,
+  '3xl': 56,
+  '4xl': 64,
+} as const
 
 export type SpacingSize = keyof typeof Spacing
 
