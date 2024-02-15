@@ -46,7 +46,7 @@ const InsightDetailPage = () => {
 
   const {
     data: { insightById: insight } = {},
-    loading: loadingInsight,
+    loading,
     refetch,
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
@@ -59,7 +59,6 @@ const InsightDetailPage = () => {
       logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId })
     },
   })
-  const initLoading = loadingInsight && !insight
   const setScreenOptions = useSetScreenOptions()
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
@@ -86,95 +85,81 @@ const InsightDetailPage = () => {
         style={styles.wrapper}
         headerOverlap
       >
-        {initLoading ? (
-          <View style={[mixins.container, styles.bannerImage]}>
-            <HoliSkeleton height="100%" width="100%" borderRadius={0} />
-          </View>
-        ) : (
-          <ImageBackground
-            source={{ uri: insight?.headerImage }}
-            resizeMode="cover"
-            style={[mixins.container, styles.bannerImage]}
-            imageStyle={styles.insightImage}
-          />
-        )}
+        {insight && !loading ? (
+          <>
+            <ImageBackground
+              source={{ uri: insight.headerImage }}
+              resizeMode="cover"
+              style={[mixins.container, styles.bannerImage]}
+              imageStyle={styles.insightImage}
+            />
 
-        <View style={[styles.content, mixins.container]}>
-          <View style={styles.tag}>
-            {/* Our tags don't have a style for the one in the design - ask Design, should this be added to Tag component */}
-            <Tag variant="interest" size="m">
-              {insight?.topic?.title}
-            </Tag>
-          </View>
-          {/* Needs loading skeleton */}
+            <View style={[styles.content, mixins.container]}>
+              <View style={styles.tag}>
+                {/* Our tags don't have a style for the one in the design - ask Design, should this be added to Tag component */}
+                <Tag variant="interest" size="m">
+                  {insight.topic.title}
+                </Tag>
+              </View>
 
-          {/* TODO: our headings don't match the designs, what to do? */}
-          <View style={styles.tag}>
-            <HoliHeading
-              level="1"
-              size="l"
-              testID="insight-headline"
-              loading={initLoading}
-              // large font size (-> radius=16) with multiple lines expected
-              skeletonOptions={{ numberOfLines: 2, borderRadius: 16 }}
-            >
-              {insight?.title}
-            </HoliHeading>
-          </View>
+              {/* TODO: our headings don't match the designs, what to do? */}
+              <View style={styles.tag}>
+                <HoliHeading level="1" size="l" testID="insight-headline">
+                  {insight.title}
+                </HoliHeading>
+              </View>
 
-          {/* TODO: re-work the currator to match design - nothing has been changed yet for this  */}
-          {(initLoading || author) && (
-            <View style={styles.curator}>
-              <HoliButton
-                transparent
-                label={t('user.cards.modal.showInfo', { name: author?.fullName })}
-                onPress={initLoading ? undefined : () => setShowCuratorModal(true)}
-              >
-                <View style={styles.authorInfoInner}>
-                  <HoliAvatar
-                    imageSrc={author?.avatar}
-                    imageBlurhash={author?.avatarBlurhash}
-                    label={author?.fullName ?? ''}
-                    initials={author?.avatarLabel || ''}
-                    defaultColor={author?.avatarDefaultColor || ''}
-                    size="small"
-                    style={styles.authorInfoAvatar}
-                    loading={initLoading}
-                  />
-                  {initLoading ? (
-                    <HoliSkeleton width="40%" height={20} borderRadius={4} />
-                  ) : (
-                    <HoliText size="small" style={styles.authorInfoText}>
-                      <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author?.fullName }}>
-                        <HoliText size="small" />
-                      </Trans>
-                    </HoliText>
-                  )}
-                </View>
-              </HoliButton>
+              {/* TODO: re-work the currator to match design - nothing has been changed yet for this  */}
+              {author && (
+                <>
+                  <View style={styles.curator}>
+                    <HoliButton
+                      transparent
+                      label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                      onPress={() => setShowCuratorModal(true)}
+                    >
+                      <View style={styles.authorInfoInner}>
+                        <HoliAvatar
+                          imageSrc={author.avatar}
+                          imageBlurhash={author.avatarBlurhash}
+                          label={author.fullName ?? ''}
+                          initials={author.avatarLabel || ''}
+                          defaultColor={author.avatarDefaultColor || ''}
+                          size="small"
+                          style={styles.authorInfoAvatar}
+                        />
+
+                        <HoliText size="small" style={styles.authorInfoText}>
+                          <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
+                            <HoliText size="small" />
+                          </Trans>
+                        </HoliText>
+                      </View>
+                    </HoliButton>
+                  </View>
+
+                  <HoliModal
+                    label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                    show={showCuratorModal}
+                    onDismiss={() => setShowCuratorModal(false)}
+                    testID="insight-curator-modal"
+                  >
+                    <HoliUserCardsModalContent
+                      title={''} // don't show any headline in modal
+                      users={[author as User]}
+                      onDismiss={() => setShowCuratorModal(false)}
+                      testID="insight-curator"
+                    />
+                  </HoliModal>
+                </>
+              )}
+
+              <HoliText style={styles.insightText}>{insight.description}</HoliText>
             </View>
-          )}
-
-          {author && (
-            <HoliModal
-              label={t('user.cards.modal.showInfo', { name: author.fullName })}
-              show={showCuratorModal}
-              onDismiss={() => setShowCuratorModal(false)}
-              testID="insight-curator-modal"
-            >
-              <HoliUserCardsModalContent
-                title={''} // don't show any headline in modal
-                users={[author as User]}
-                onDismiss={() => setShowCuratorModal(false)}
-                testID="insight-curator"
-              />
-            </HoliModal>
-          )}
-
-          <HoliText style={styles.insightText} loading={initLoading} skeletonOptions={{ numberOfLines: 10 }}>
-            {insight?.description}
-          </HoliText>
-        </View>
+          </>
+        ) : (
+          <Skeleton />
+        )}
 
         {posts.length > 0 && (
           <View style={[mixins.container, styles.postList]}>
@@ -191,6 +176,40 @@ const InsightDetailPage = () => {
           </View>
         )}
       </ScrollHeaderLayout.Refreshable>
+    </>
+  )
+}
+
+// Trying out Skeleton as a separate component, why?
+// i) Feels wrong that smaller atoms & molecules have to have 2 concerns eg show title or a skeleton. SRP FTW.
+// ii) There's lots of branches in the code to deal with an insight possibly being null -
+//      catch this early and we can rely on insight being present and the code is less complex
+// Cons - There's duplication and possible drift between real UI and Skeleton... but Skeleton only has to
+// be an approximation of the ui.
+
+const Skeleton = () => {
+  const mixins = useStyleMixins()
+
+  return (
+    <>
+      <View style={[mixins.container, styles.bannerImage]}>
+        <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+      </View>
+      <View style={[styles.content, mixins.container]}>
+        <View style={styles.tag}>
+          <HoliSkeleton height={Spacing.Lg} width="40%" borderRadius={24} />
+        </View>
+        <View style={styles.title}>
+          <HoliSkeleton height={Spacing.xXL} width="100%" borderRadius={16} />
+        </View>
+        <View style={styles.curator}>
+          <View style={styles.skeletonCurrator}>
+            <HoliSkeleton height={Spacing.xxxXL} width={Spacing.xxxXL} borderRadius={64} />
+            <HoliSkeleton height={Spacing.xXL} width={128} borderRadius={16} />
+          </View>
+        </View>
+        <HoliSkeleton height={256} width="100%" borderRadius={16} />
+      </View>
     </>
   )
 }
@@ -234,6 +253,11 @@ const styles = StyleSheet.create({
   insightText: {
     color: colors.foreground20,
     marginTop: 24,
+  },
+  skeletonCurrator: {
+    flexDirection: 'row',
+    gap: Spacing.xxXs,
+    alignItems: 'center',
   },
   authorInfoInner: {
     flexDirection: 'row',
