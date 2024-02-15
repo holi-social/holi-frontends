@@ -202,6 +202,10 @@ export const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, rooms: ChatR
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
   const ignoredUsers = client.getIgnoredUsers()
+  const addRoomAtom = (chatRoom: ChatRoom) => {
+    setAtom([chatRoom], ignoredUsers)
+    logDebug('Chat.store [subscription room creation]', 'adding room ' + chatRoom.id + 'to store')
+  }
 
   /**
    * Initial load
@@ -213,42 +217,14 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   /**
    * Subscribe to incoming rooms
    */
-  const unsubscribeNewRooms = client.subscribeToNewRooms((chatRoom: ChatRoom) => {
-    const hasRoomEmptyName = (room: ChatRoom) => room.name === 'Empty room'
-
-    // TODO: fix by subscribing to name changes
-    /**
-     * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
-     * We use this function to watch for the room `name` change and only create an atom when correct name was passed
-     * or timeout exceeded.
-     */
-    const waitForCorrectRoomName = (timestamp: number) => {
-      if (!hasRoomEmptyName(chatRoom) || Date.now() > timestamp) {
-        setAtom([chatRoom], ignoredUsers)
-        logDebug('Chat.store [subscription: new room ]', 'adding room ' + chatRoom.id + 'to store')
-      } else {
-        setTimeout(() => {
-          waitForCorrectRoomName(timestamp)
-        }, 50)
-      }
-    }
-
-    if (hasRoomEmptyName(chatRoom)) {
-      waitForCorrectRoomName(Date.now() + 2000)
-    }
-
-    setAtom([chatRoom], ignoredUsers)
-    logDebug('Chat.store [subscription: new room ]', 'adding room ' + chatRoom.id + 'to store')
-  })
-
-  const unsubscribeFromRoomSharedData = client.subscribeToSharedData((chatRoom) => {
-    setAtom([chatRoom], ignoredUsers)
-    logDebug('Chat.store [subscription: shared data ]', 'adding room ' + chatRoom.id + 'to store')
-  })
+  const unsubscribeNewRooms = client.subscribeToNewRooms(addRoomAtom)
+  const unsubscribeRoomSharedData = client.subscribeToSharedData(addRoomAtom)
+  const unsubscribeRoomNameEvents = client.subscribeToRoomNameEvent(addRoomAtom)
 
   return () => {
     unsubscribeNewRooms()
-    unsubscribeFromRoomSharedData()
+    unsubscribeRoomNameEvents()
+    unsubscribeRoomSharedData()
   }
 }
 
