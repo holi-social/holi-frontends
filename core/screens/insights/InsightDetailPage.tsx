@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
   },
   insightText: {
     color: colors.foreground20,
-    marginTop: 24,
   },
   skeletonCurrator: {
     flexDirection: 'row',
