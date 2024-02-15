@@ -197,15 +197,15 @@ const Skeleton = () => {
       </View>
       <View style={[styles.content, mixins.container]}>
         <View style={styles.tag}>
-          <HoliSkeleton height={Spacing.Lg} width="40%" borderRadius={24} />
+          <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
         </View>
         <View style={styles.title}>
-          <HoliSkeleton height={Spacing.xXL} width="100%" borderRadius={16} />
+          <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
         </View>
         <View style={styles.curator}>
           <View style={styles.skeletonCurrator}>
-            <HoliSkeleton height={Spacing.xxxXL} width={Spacing.xxxXL} borderRadius={64} />
-            <HoliSkeleton height={Spacing.xXL} width={128} borderRadius={16} />
+            <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
+            <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
           </View>
         </View>
         <HoliSkeleton height={256} width="100%" borderRadius={16} />
@@ -237,25 +237,26 @@ const styles = StyleSheet.create({
     // TODO: could these be spaccings too?
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
-    paddingTop: Spacing.Xl,
-    paddingBottom: Spacing.Lg,
-    paddingHorizontal: Spacing.Xs,
+    paddingTop: Spacing.xl,
+    paddingBottom: Spacing.lg,
+    paddingHorizontal: Spacing.xs,
   },
   tag: {
-    marginBottom: Spacing.xxXs,
+    //  TODO: Need further work on these, perhaps Spacing.threeXl and back to an enum see https://projectholi.rocket.chat/group/Temp-DesignSystem-Concept?msg=zj5kyiD32wZ5Lu96f
+    marginBottom: Spacing['3xs'],
   },
   title: {
-    marginBottom: Spacing.Xs,
+    marginBottom: Spacing.xs,
   },
   curator: {
-    marginBottom: Spacing.Md,
+    marginBottom: Spacing.md,
   },
   insightText: {
     color: colors.foreground20,
   },
   skeletonCurrator: {
     flexDirection: 'row',
-    gap: Spacing.xxXs,
+    gap: Spacing['3xs'],
     alignItems: 'center',
   },
   authorInfoInner: {
