@@ -1,14 +1,17 @@
 import * as Calendar from 'expo-calendar'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
+import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { CalendarCheck } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -53,23 +56,19 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
   const { openToast } = useToast()
+  const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
 
   const getCalendar = async () => {
     const calendarPermission = await Calendar.requestCalendarPermissionsAsync()
 
     if (calendarPermission.granted) {
       if (Platform.OS === 'ios') {
-        const remindersPermission = await Calendar.requestRemindersPermissionsAsync()
-        if (remindersPermission.granted) {
-          return Calendar.getDefaultCalendarAsync()
-        } else {
-          openToast(t('appointment.reminders.permissions.error.notGranted'), HoliToastType.ERROR)
-        }
+        return Calendar.getDefaultCalendarAsync()
       } else {
         return getOrCreateCalendar()
       }
     }
-    openToast(t('appointment.calendar.permissions.error.notGranted'), HoliToastType.ERROR)
+    showModal()
   }
 
   const handleAddToCalendar = async () => {
@@ -98,6 +97,11 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
     }
   }
 
+  const openSettings = () => {
+    Linking.openSettings()
+    hideModal()
+  }
+
   return (
     <>
       <HoliButton
@@ -121,6 +125,36 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
       <HoliText color="gray300" size="small" style={styles.calendarButtonDescription}>
         {t('spaces.appointments.addToCallendar.description')}
       </HoliText>
+      <HoliModal label="calendar-permissions" {...modalProps} autoHeight={true} style={styles.modal}>
+        <HoliLocalImage
+          imageSource={require('@holi/ui/assets/img/illustrations/calendar_permissions.svg')}
+          width={70}
+          height={60}
+          label="calendar-permissions"
+          isSvg
+        />
+        <HoliGap size="m" />
+        <HoliText size="extralarge">{t('appointment.calendar.permissions.title')}</HoliText>
+        <HoliGap size="s" />
+        <HoliText>{t('appointment.calendar.permissions.description')}</HoliText>
+        <HoliGap size="m" />
+        <HoliButton
+          label={t('appointment.calendar.permissions.open.button.label')}
+          type="primary"
+          onPress={openSettings}
+        >
+          <HoliText>{t('appointment.calendar.permissions.open.button.label')}</HoliText>
+        </HoliButton>
+        <HoliGap size="s" />
+        <HoliButton
+          label={t('appointment.calendar.permissions.close.button.label')}
+          type="secondary"
+          onPress={hideModal}
+        >
+          <HoliText>{t('appointment.calendar.permissions.close.button.label')}</HoliText>
+        </HoliButton>
+        <HoliGap size="s" />
+      </HoliModal>
     </>
   )
 }
@@ -134,6 +168,10 @@ const styles = StyleSheet.create({
   },
   calendarButtonDescription: {
     marginLeft: 30,
+  },
+  modal: {
+    backgroundColor: colors.background30,
+    padding: 24,
   },
 })
 

@@ -24,7 +24,7 @@ export const All = () => {
           <HoliText style={{ display: 'block', marginTop: 10 }}>See below our</HoliText>
           <ul>
             <li>
-              <a href="/?path=/story/foundation-colors--colors-overview">Foundations</a>
+              <a href="/?path=/story/foundations-colors--colors-overview">Foundations</a>
             </li>
             <li>
               <a href="/?path=/story/atoms-holigridwrapper--primary">Atoms</a>
