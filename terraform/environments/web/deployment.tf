@@ -88,7 +88,7 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
       }
-      container_concurrency = 0 # 0 means thread safe, no restriction on max concurrency
+      container_concurrency = 100 # 0 means thread safe, no restriction on max concurrency
     }
     metadata {
       annotations = {
