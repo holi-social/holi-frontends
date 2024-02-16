@@ -7,6 +7,7 @@ import { LayoutChangeEvent, Platform, SafeAreaView, ScrollView, StyleSheet, View
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -50,7 +51,7 @@ const PostDetailPage = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const { space } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network', // ensures that all required fields are eventually present
   })
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 

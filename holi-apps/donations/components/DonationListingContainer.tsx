@@ -28,7 +28,6 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
     variables: {
       location: locationQuery,
     },
-    fetchPolicy: 'cache-and-network',
   }
 
   return (

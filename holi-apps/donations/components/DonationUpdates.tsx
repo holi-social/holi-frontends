@@ -32,7 +32,6 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
       offset: 0,
       location: locationQuery,
     },
-    fetchPolicy: 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load donation projects', {
         location: 'DonationUpdates.projectsQuery',
