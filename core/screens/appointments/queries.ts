@@ -13,6 +13,7 @@ export const FullAppointmentFragment = gql`
   ${UserAvatarFragment}
   fragment FullAppointment on Appointment {
     id
+    slug
     title
     slug
     inviteOnly
@@ -54,6 +55,7 @@ export const FullAppointmentFragment = gql`
 export const PartialAppointmentFragment = gql`
   fragment PartialAppointment on Appointment {
     id
+    slug
     title
     slug
     inviteOnly

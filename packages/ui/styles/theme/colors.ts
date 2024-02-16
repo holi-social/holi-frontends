@@ -11,4 +11,3 @@ export const useColorScheme = () => {
   return useReactiveVar(colorScheme)
 }
 const scheme = colorScheme()
-console.log(scheme)

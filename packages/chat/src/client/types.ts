@@ -2,7 +2,7 @@ import { EventType, IRoomEvent, IStateEvent, NotificationCountType, Room } from 
 
 export type MatrixId = `@${string}:${string}`
 
-export type RoomType = 'private' | 'space' | 'space.child'
+export type ChatRoomType = 'private' | 'space' | 'space.child'
 
 export type SharedDataContent = SpaceSharedDataContent | SpaceChildSharedDataContent
 
@@ -35,6 +35,29 @@ export interface SpaceChildRoom {
 }
 
 export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom
+
+export interface BaseChatRoom {
+  id: string
+  name: string
+  avatar?: string
+  hasInvitation: boolean
+  notificationCount: number
+  lastMessage: ChatRoomMessage | undefined
+  creator: ChatRoomMember | null
+  members: ChatRoomMember[]
+  senderId?: string
+  timestamp: number | undefined
+}
+
+export type PrivateChatRoom = BaseChatRoom & Omit<PrivateRoom, 'room'>
+export interface SpaceChatRoom extends BaseChatRoom, Omit<SpaceRoom, 'room'> {
+  content: SpaceSharedDataContent
+}
+export interface SpaceChildChatRoom extends BaseChatRoom, Omit<SpaceChildRoom, 'room'> {
+  content: SpaceChildSharedDataContent
+}
+
+export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceChildChatRoom
 
 export enum RoomUpdatesType {
   name = EventType.RoomName,

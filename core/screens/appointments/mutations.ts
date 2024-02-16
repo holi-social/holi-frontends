@@ -36,6 +36,7 @@ export const createAppointmentMutation = gql`
   mutation CreateAppointment($input: CreateAppointmentInput!) {
     createAppointment(input: $input) {
       id
+      slug
       title
       description
       inviteOnly
@@ -101,6 +102,7 @@ export const updateAppointmentMutation = gql`
   mutation UpdateAppointment($input: UpdateAppointmentInput!) {
     updateAppointment(input: $input) {
       id
+      slug
       title
       description
       inviteOnly
@@ -144,3 +146,13 @@ export const deleteAppointmentMutation = gql`
     }
   }
 `
+
+export const generateAppointmentIcsFileMutation = gql`
+  mutation GenerateAppointmentIcsFile($appointmentId: UUID!) {
+    generateAppointmentIcsFile(appointmentId: $appointmentId)
+  }
+`
+
+export type GenerateAppointmentIcsFileResponse = {
+  generateAppointmentIcsFile: string
+}

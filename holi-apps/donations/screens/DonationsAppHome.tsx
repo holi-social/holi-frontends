@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -9,6 +9,7 @@ import client from '@holi/api/graphql/client'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
@@ -60,7 +61,7 @@ const DonationsAppHome = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [donationProjectsQuery] }))
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const searchButton = (
       <HoliButton
         label={t('donations:search.heading')}

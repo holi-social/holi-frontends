@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -38,14 +38,20 @@ type VolunteeringListingProps = {
   isFiltering?: boolean
   clearFilters?: () => void
   loadingFilters: boolean
+  filterError?: boolean
 }
 
-const ENGAGEMENT_PAGE_SIZE = 10
+export const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingFilters }: VolunteeringListingProps) => {
+const VolunteeringListing = ({
+  filters = {},
+  isFiltering,
+  clearFilters,
+  loadingFilters,
+  filterError,
+}: VolunteeringListingProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const insets = useSafeAreaInsets()
   const styles = getStyles(insets.bottom)
   const { imageWidth } = useWindowDimensionsWithImageScaling()
@@ -69,6 +75,7 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
       location: isFiltering ? filters.location : undefined,
       category: isFiltering ? filters.category : undefined,
     },
+    skip: filterError,
     fetchPolicy: 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load volunteering engagements', {
@@ -76,17 +83,11 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
       }),
   })
 
-  if (error) {
-    return <HoliText>{t('volunteering:listing.error')}</HoliText>
-  }
-
   if (loading || loadingFilters) {
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
-  const handleCardPress = (engagement: VolunteeringEngagement) => {
-    navigate(`/apps/volunteering/engagement/${engagement.id}`)
-  }
+  const noResults = !!error || filterError || engagements.length === 0
 
   const listFooter = canFetchMore ? (
     <HoliButtonLoading
@@ -133,7 +134,7 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
         </View>
       )}
       <HoliBox padding={[24, 0, 24, 0]}>
-        {engagements.length === 0 && (
+        {noResults && (
           <View style={mixins.container}>
             <HoliNoResults
               firstText={t('global.noSearchResults')}
@@ -158,16 +159,16 @@ const VolunteeringListing = ({ filters = {}, isFiltering, clearFilters, loadingF
           <HoliGridWrapper itemsInRow={postGridItemsInRow}>
             {engagements.map((engagement) => (
               <HoliGridCell key={engagement.id}>
-                <HoliCard
-                  key={engagement.id}
-                  imageUrl={engagement.imageUrl}
-                  imageLabel={engagement.title ?? ''}
-                  imageWidth={imageWidth}
-                  testID="btn-to-volunteering-engagement"
-                  onCardPress={() => handleCardPress(engagement)}
-                >
-                  <VolunteeringCardContent engagement={engagement} key={engagement.id} />
-                </HoliCard>
+                <HoliLink href={`/apps/volunteering/engagement/${engagement.id}`} label={engagement.title}>
+                  <HoliCard
+                    imageUrl={engagement.imageUrl}
+                    imageLabel={engagement.title ?? ''}
+                    imageWidth={imageWidth}
+                    testID="btn-to-volunteering-engagement"
+                  >
+                    <VolunteeringCardContent engagement={engagement} key={engagement.id} />
+                  </HoliCard>
+                </HoliLink>
               </HoliGridCell>
             ))}
           </HoliGridWrapper>

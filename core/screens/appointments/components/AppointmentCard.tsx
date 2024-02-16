@@ -41,12 +41,14 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     weekday: 'short',
     day: 'numeric',
     month: 'short',
+    hour12: false,
   })
 
   const endDate = localizeDate(new Date(appointment.endDateTime), currentLanguage, {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
+    hour12: false,
   })
 
   const startTime = localizeDate(
@@ -55,6 +57,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: false,
     },
     true
   )
@@ -65,6 +68,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: false,
     },
     true
   )

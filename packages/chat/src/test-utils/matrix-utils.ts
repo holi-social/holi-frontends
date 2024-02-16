@@ -1,6 +1,6 @@
 import { ClientEvent, MatrixClient, Room } from 'matrix-js-sdk'
 
-import { ChatRoom } from '@holi/chat/src/store'
+import { ChatRoom } from '@holi/chat/src/client/types'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -31,7 +31,10 @@ export const matrixRoomFrom = (chatRoom: ChatRoom, isSpaceRoom = false): Room =>
     getLiveTimeline: () =>
       ({
         getState: () => ({
-          getStateEvents: () => ({ getTs: () => 0 }),
+          getStateEvents: (eventType, stateKey?: string) => {
+            if (stateKey !== undefined) return { getTs: () => 0 }
+            else return [{ getTs: () => 0, getEffectiveEvent: () => this }]
+          },
         }),
         getEvents: () => [],
       } as any),

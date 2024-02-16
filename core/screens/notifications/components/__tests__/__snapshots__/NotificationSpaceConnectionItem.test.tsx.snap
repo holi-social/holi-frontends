@@ -67,12 +67,17 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "#f5f5f5",
-                  "borderRadius": 20,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                false,
+                {
+                  "backgroundColor": "#f5f5f5",
+                  "borderColor": undefined,
+                  "borderRadius": 20,
+                  "borderWidth": 0,
+                  "height": 40,
+                  "width": 40,
+                },
                 [
                   {
                     "alignItems": "center",
@@ -88,10 +93,6 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                     "borderColor": "transparent",
                   },
                 ],
-                {
-                  "height": 40,
-                  "width": 40,
-                },
                 false,
               ]
             }
@@ -533,12 +534,17 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "#f5f5f5",
-                  "borderRadius": 20,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                false,
+                {
+                  "backgroundColor": "#f5f5f5",
+                  "borderColor": undefined,
+                  "borderRadius": 20,
+                  "borderWidth": 0,
+                  "height": 40,
+                  "width": 40,
+                },
                 [
                   {
                     "alignItems": "center",
@@ -554,10 +560,6 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                     "borderColor": "transparent",
                   },
                 ],
-                {
-                  "height": 40,
-                  "width": 40,
-                },
                 false,
               ]
             }

@@ -1,13 +1,14 @@
 import { EventType, IContent, IEvent, MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk'
 import { act } from 'react-test-renderer'
 
-import { ChatMsgTextContent, ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
-import { ChatRoom } from '@holi/chat/src/store'
 import {
-  createMatrixEventMock,
-  createPrivateChatRoomResult,
-  createRoomMock,
-} from '@holi/chat/src/test-utils/matrix-general'
+  ChatMsgTextContent,
+  ChatRoom,
+  ChatRoomMember,
+  ChatRoomMessage,
+  MembershipStatus,
+} from '@holi/chat/src/client/types'
+import { createChatRoomResult, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-general'
 
 import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
 
@@ -130,24 +131,29 @@ export const sendMessageEvent = (
 }
 
 // Room helpers
-const creator: ChatRoomMember = {
+export const creator: ChatRoomMember = {
   avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
   id: '@room.creator:holi.social',
   membership: MembershipStatus.join,
   name: 'room creator',
 }
-const member: ChatRoomMember = {
+export const member: ChatRoomMember = {
   avatar: 'https://unsplash.com/photos/a-group-of-blue-and-orange-shapes-on-a-white-surface-g0lR2cThaR0',
   id: '@a.member:holi.social',
   membership: MembershipStatus.join,
   name: 'a member',
 }
 
-export const initChatRoom = (
+interface InitChatRoomOptions {
+  roomId?: string
+  roomCreator?: ChatRoomMember
+  roomMember?: ChatRoomMember
+  timestamp?: number
+}
+
+export const initChatRoomFixture = (
   mxClient: jest.MockedObjectDeep<MatrixClient>,
-  roomId = 'roomId',
-  roomCreator: ChatRoomMember = creator,
-  roomMember: ChatRoomMember = member
+  { roomId = 'roomId', roomCreator = creator, roomMember = member, timestamp }: InitChatRoomOptions
 ) => {
   const members = [roomCreator, roomMember]
   const roomMock = createRoomMock(roomId, {
@@ -158,12 +164,13 @@ export const initChatRoom = (
     myMembership: MembershipStatus.join,
     unreadNotificationCount: 0,
     getMember: creator,
+    timestamp,
   })
 
   mxClient.getRooms.mockReturnValue([roomMock])
   mxClient.roomState.mockReturnValue(Promise.resolve([]))
 
-  const room: ChatRoom = createPrivateChatRoomResult(roomId, 'roomName', roomCreator, members)
+  const room = createChatRoomResult(roomId, { name: 'roomName', creator: roomCreator, members, timestamp })
 
   return { roomMock, room, creator: roomCreator, member: roomMember }
 }
