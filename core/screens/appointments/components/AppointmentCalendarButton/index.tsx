@@ -6,6 +6,7 @@ import { Linking, Platform, StyleSheet, View } from 'react-native'
 import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
+import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -52,7 +53,7 @@ const getOrCreateCalendar = async () => {
 }
 
 const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ appointment }) => {
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
   const { openToast } = useToast()
@@ -78,15 +79,24 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
       return
     }
 
+    // Expo 49 contains a bug that causes the event URL to be distorted when saved in an iOS calendar.
+    // Include the "url" property to the event details after updating Expo.
+    const locale = getLocale(i18n.language)
+
+    const localizedVideoCallLink = locale === 'de' ? 'Videokonferenz-Link' : 'Video call link'
+
+    const description = appointment.videoCallLink
+      ? `${appointment.description}\n${localizedVideoCallLink}: ${appointment.videoCallLink.url}`
+      : appointment.description
+
     const eventDetails = {
       id: appointment.id,
       title: appointment.title,
       startDate: new Date(appointment.startDateTime),
       endDate: new Date(appointment.endDateTime),
-      location: appointment.locationDetails?.completeAddress,
+      location: appointment.locationDetails?.completeAddress ?? appointment.videoCallLink?.url,
       organizer: appointment.creator?.fullName,
-      url: appointment.videoCallLink?.url,
-      notes: appointment.description,
+      notes: description,
     }
 
     const event = await Calendar.createEventAsync(calendar.id, eventDetails)
