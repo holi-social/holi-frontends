@@ -56,7 +56,6 @@ describe('NotificationSettingsList', () => {
   it('should correctly render loading state', () => {
     mockUseNotificationPreferences.mockReturnValue({
       loading: true,
-      maintenance: false,
     })
     render(<NotificationSettingsList />)
 
@@ -76,7 +75,6 @@ describe('NotificationSettingsList', () => {
     mockUseNotificationPreferences.mockReturnValue({
       workflowPreferences: [workflowPreferences[0]],
       updatingPreferences: true,
-      maintenance: false,
     })
     render(<NotificationSettingsList />)
 
