@@ -117,11 +117,7 @@ export const createCache = () =>
           },
         },
       },
-      SpacePaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
+      SpacePaged: pagedPolicy(),
       SpaceMemberPaged: {
         fields: {
           // Only allow pagination on the space detail or subordinated screens, recognizable by `idOrName`
