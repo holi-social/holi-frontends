@@ -2,9 +2,11 @@ import { fireEvent, render, screen, within } from '@testing-library/react-native
 import React from 'react'
 
 import NotificationSettingsList from '@holi/core/screens/notifications/components/NotificationSettingsList'
+import NotificationSettingsMaintenance from '@holi/core/screens/notifications/components/NotificationSettingsMaintenance'
 import { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 
 const mockUseNotificationPreferences = jest.fn()
+let mockChatFeatureToggle: Record<string, boolean | string>
 
 jest.mock('@holi/core/screens/notifications/hooks/useNotificationPreferences', () => {
   const original = jest.requireActual('@holi/core/screens/notifications/hooks/useNotificationPreferences')
@@ -13,6 +15,13 @@ jest.mock('@holi/core/screens/notifications/hooks/useNotificationPreferences', (
     useNotificationPreferences: () => mockUseNotificationPreferences(),
   }
 })
+
+jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
+  useFeatureToggle: () => mockChatFeatureToggle,
+  FeatureToggleName: {
+    NOTIFICATIONS: 'NOTIFICATIONS',
+  },
+}))
 
 const workflowPreferences = [
   {
@@ -38,9 +47,16 @@ const workflowPreferences = [
 ]
 
 describe('NotificationSettingsList', () => {
+  beforeEach(() => {
+    mockChatFeatureToggle = {
+      ftMaintenance: false,
+    }
+  })
+
   it('should correctly render loading state', () => {
     mockUseNotificationPreferences.mockReturnValue({
       loading: true,
+      maintenance: false,
     })
     render(<NotificationSettingsList />)
 
@@ -60,6 +76,7 @@ describe('NotificationSettingsList', () => {
     mockUseNotificationPreferences.mockReturnValue({
       workflowPreferences: [workflowPreferences[0]],
       updatingPreferences: true,
+      maintenance: false,
     })
     render(<NotificationSettingsList />)
 
@@ -92,5 +109,14 @@ describe('NotificationSettingsList', () => {
     fireEvent.press(checkbox)
 
     expect(updatePreference).toHaveBeenCalledWith('SPACE_MEMBERSHIP_REQUEST', Channel.EMAIL, false)
+  })
+
+  it('should correctly render maintenance state', () => {
+    mockChatFeatureToggle = {
+      ftMaintenance: true,
+    }
+    render(<NotificationSettingsMaintenance />)
+
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 })
