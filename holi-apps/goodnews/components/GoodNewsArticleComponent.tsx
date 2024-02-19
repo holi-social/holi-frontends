@@ -99,13 +99,15 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
           {article.headline}
         </HoliHeading>
         <HoliGap size="xs" />
-        <HoliText style={styles.teaserText}>{article.teaserText}</HoliText>
+        <HoliText numberOfLines={3}>{article.teaserText}</HoliText>
+        <HoliGap size="xs" />
         {/* TODO refactoring to modify <HoliLink /> so that it works as/with a button, too */}
         <HoliButton
           label={t('goodnews:button.readArticle')}
           onPress={() => Linking.openURL(article.articleUrl)}
           testID="btn-to-article-external"
           type="secondary"
+          variant={'medium'}
         >
           <HoliText style={styles.externalLinkButtonText} selectable={false}>
             {t('goodnews:button.readArticle')}
@@ -155,9 +157,6 @@ const styles = StyleSheet.create({
   },
   source: {
     paddingBottom: 8,
-  },
-  teaserText: {
-    paddingBottom: 28,
   },
   externalLinkButtonText: {
     paddingRight: 6,
