@@ -1,14 +1,14 @@
 import { DocumentNode, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -41,19 +41,13 @@ const Spaces = () => {
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
-  const {
-    loading,
-    data: mySpacesData,
-    error: mySpacesError,
-  } = useQuery<MySpacesResponse>(mySpaceQuery, {
+  const { loading, data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, {
     skip: !isLoggedIn,
-    onError: (error) =>
-      error.message !== 'Unauthorized' &&
-      displayError(mySpacesError, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
+    onError: (error) => displayError(error, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
   })
   const mySpaces = mySpacesData?.mySpaces || []
 
-  hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
+  hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
@@ -67,7 +61,7 @@ const Spaces = () => {
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const title = t('spaces.title')
     setScreenOptions({
       title,
@@ -112,18 +106,6 @@ const Spaces = () => {
     },
     [navigate]
   )
-
-  if (mySpacesError) {
-    if (mySpacesError.message === 'Unauthorized') {
-      hasOwnSpaces = false
-    } else {
-      return (
-        <DefaultLayout style={styles.layout}>
-          <View style={[mixins.container, styles.discoverSpacesContainer]} />
-        </DefaultLayout>
-      )
-    }
-  }
 
   if (loading) {
     return <HoliLoader />
@@ -180,7 +162,7 @@ const Spaces = () => {
         )}
       </ScrollHeaderLayout.Refreshable>
 
-      {(!hasOwnSpaces || (hasOwnSpaces && activeTab === 1)) && <SpaceFilterModal applyFilters={applyFilters} />}
+      {(!hasOwnSpaces || activeTab === 1) && <SpaceFilterModal applyFilters={applyFilters} />}
     </SpaceTermContextProvider>
   )
 }
