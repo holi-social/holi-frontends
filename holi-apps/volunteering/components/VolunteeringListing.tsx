@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -52,7 +52,6 @@ const VolunteeringListing = ({
 }: VolunteeringListingProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const insets = useSafeAreaInsets()
   const styles = getStyles(insets.bottom)
   const { imageWidth } = useWindowDimensionsWithImageScaling()
@@ -89,10 +88,6 @@ const VolunteeringListing = ({
   }
 
   const noResults = !!error || filterError || engagements.length === 0
-
-  const handleCardPress = (engagement: VolunteeringEngagement) => {
-    navigate(`/apps/volunteering/engagement/${engagement.id}`)
-  }
 
   const listFooter = canFetchMore ? (
     <HoliButtonLoading
@@ -164,16 +159,16 @@ const VolunteeringListing = ({
           <HoliGridWrapper itemsInRow={postGridItemsInRow}>
             {engagements.map((engagement) => (
               <HoliGridCell key={engagement.id}>
-                <HoliCard
-                  key={engagement.id}
-                  imageUrl={engagement.imageUrl}
-                  imageLabel={engagement.title ?? ''}
-                  imageWidth={imageWidth}
-                  testID="btn-to-volunteering-engagement"
-                  onCardPress={() => handleCardPress(engagement)}
-                >
-                  <VolunteeringCardContent engagement={engagement} key={engagement.id} />
-                </HoliCard>
+                <HoliLink href={`/apps/volunteering/engagement/${engagement.id}`} label={engagement.title}>
+                  <HoliCard
+                    imageUrl={engagement.imageUrl}
+                    imageLabel={engagement.title ?? ''}
+                    imageWidth={imageWidth}
+                    testID="btn-to-volunteering-engagement"
+                  >
+                    <VolunteeringCardContent engagement={engagement} key={engagement.id} />
+                  </HoliCard>
+                </HoliLink>
               </HoliGridCell>
             ))}
           </HoliGridWrapper>

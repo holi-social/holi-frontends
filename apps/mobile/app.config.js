@@ -105,6 +105,12 @@ export default {
           microphonePermission: 'Allow access to your microphone for video calls',
         },
       ],
+      [
+        'expo-calendar',
+        {
+          calendarPermission: 'Allow access to your calendar',
+        },
+      ],
     ],
     hooks: {
       postPublish: [

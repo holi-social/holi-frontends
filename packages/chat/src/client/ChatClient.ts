@@ -56,8 +56,10 @@ import {
   isSharedDataChildContent,
   isSharedDataContent,
   isSpaceChildEvent,
+  roomNameGenerator,
   setRoomsListeners,
 } from '@holi/chat/src/client/utils'
+import { isEmptyString, isString } from '@holi/chat/src/utils'
 import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
@@ -192,9 +194,8 @@ export default class ChatClient {
 
     const options: ICreateClientOpts = {
       ...credentials,
+      roomNameGenerator,
       timelineSupport: true,
-      // TODO: implement roomNameGenerator
-      // roomNameGenerator: (_: string, state: RoomNameState) => {}
       scheduler: new MatrixScheduler(),
     }
 
@@ -480,15 +481,28 @@ export default class ChatClient {
         return
       }
 
-      const chatRoom = this.createChatRoom(room)
+      if (!isString(room.name) || isEmptyString(room.name)) return
 
-      callback(chatRoom)
+      callback(this.createChatRoom(room))
     }
 
     this.mxClient.on(ClientEvent.Room, roomEventHandler)
 
     return () => {
       this.mxClient.off(ClientEvent.Room, roomEventHandler)
+    }
+  }
+
+  public subscribeToRoomNameEvent(callback: (chatRoom: ChatRoom) => void): () => void {
+    const handleNameChange = (room: Room) => {
+      if (!room) return
+      callback(this.createChatRoom(room))
+    }
+
+    this.mxClient.on(RoomEvent.Name, handleNameChange)
+
+    return () => {
+      this.mxClient.off(RoomEvent.Name, handleNameChange)
     }
   }
 
@@ -513,10 +527,11 @@ export default class ChatClient {
   }
 
   public subscribeToRoomDeletion(callback: (roomId: string) => void): () => void {
-    this.mxClient.on(ClientEvent.DeleteRoom, callback)
+    const handleRoomDeletion = (roomId: string) => callback(roomId)
+    this.mxClient.on(ClientEvent.DeleteRoom, handleRoomDeletion)
 
     return () => {
-      this.mxClient.off(ClientEvent.DeleteRoom, callback)
+      this.mxClient.off(ClientEvent.DeleteRoom, handleRoomDeletion)
     }
   }
 

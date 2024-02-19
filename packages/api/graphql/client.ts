@@ -91,11 +91,7 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      AppDonations_ProjectsResponse: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
+      AppDonations_ProjectsResponse: pagedPolicy(),
       AppVolunteering_EngagementsResponse: pagedPolicy(),
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
@@ -156,7 +152,10 @@ export const createCache = () =>
       },
       PostPaged: {
         fields: {
-          data: indexAwareOffsetLimitPagination(),
+          data: {
+            merge: indexAwareOffsetLimitPagination().merge,
+            read: offsetLimitPagination().read,
+          },
         },
       },
       AppointmentPaged: {

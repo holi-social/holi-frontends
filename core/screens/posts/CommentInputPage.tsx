@@ -188,6 +188,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                     testID="post-comment"
                     showCharacterCount={true}
                     maxNoOfCharacters={1500}
+                    maxSuggestionOptions={30}
                   />
                 </View>
               </View>

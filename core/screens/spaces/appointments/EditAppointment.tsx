@@ -306,6 +306,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
         showBackButton
         behavior="padding"
         scrollToInput={false}
+        keyboardShouldPersistTaps="handled"
         bottomBarStyle={styles.bottomBar}
         renderProp={() => (
           <View style={styles.container}>

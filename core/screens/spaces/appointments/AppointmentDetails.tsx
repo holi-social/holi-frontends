@@ -156,6 +156,7 @@ const AppointmentDetails = () => {
     {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: false,
     },
     true
   )
@@ -166,6 +167,7 @@ const AppointmentDetails = () => {
     {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: false,
     },
     true
   )
