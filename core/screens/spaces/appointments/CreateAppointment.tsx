@@ -185,10 +185,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
-    if (title.length > 0 && description.length > 0 && inputValid) {
-      setSaveButtonDisabled(false)
-    }
-  }, [title, description, inviteOnly, permissionType, inputValid])
+    setSaveButtonDisabled(!title.length || !inputValid)
+  }, [title, inputValid])
 
   if (loadingSpace || ftLoading) {
     return <HoliLoader />
