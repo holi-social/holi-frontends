@@ -19,7 +19,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
       .query<TopicsQueryResult>({ query: topicsQuery })
       .then((result) => result.data.topics?.data.slice() || [])
 
-    const defaultTopics = getDefaultTopics(topics, [])
+    const defaultTopics = getDefaultTopics(topics, []).slice(0, 2)
 
     const queries = [
       { query: featureTogglesQuery }, // Search icon in header
