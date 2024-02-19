@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -5,7 +6,6 @@ import { StyleSheet, View } from 'react-native'
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
-import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
@@ -16,7 +16,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FooterTabBar = () => {
   const { navigate } = useRouting()
-  const pathname = usePathname()
+  const { pathname } = useRouter() // Recognize 404 pages when `asPath` differs
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { isLoggedIn } = useAuth()
