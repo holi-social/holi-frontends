@@ -112,6 +112,7 @@ export const createCache = () =>
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
           posts: {
+            ...alwaysReplacePolicy,
             keyArgs: ['idOrName', 'visibility'],
           },
         },
@@ -150,14 +151,7 @@ export const createCache = () =>
           },
         },
       },
-      PostPaged: {
-        fields: {
-          data: {
-            merge: indexAwareOffsetLimitPagination().merge,
-            read: offsetLimitPagination().read,
-          },
-        },
-      },
+      PostPaged: pagedPolicy(),
       AppointmentPaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),

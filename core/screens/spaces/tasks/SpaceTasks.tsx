@@ -31,9 +31,7 @@ const SpaceTasks = () => {
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
-  const { loading, space } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-  })
+  const { loading, space } = useSpace(spaceIdOrName)
 
   const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)

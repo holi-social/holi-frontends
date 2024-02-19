@@ -5,6 +5,7 @@ import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 're
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import type { Space } from '@holi/core/screens/spaces/types'
@@ -25,7 +26,7 @@ export interface SpaceUpdatesTabProps {
   style?: StyleProp<ViewStyle>
 }
 
-const POSTS_RESULT_PAGE_SIZE = 10
+export const POSTS_RESULT_PAGE_SIZE = 10
 
 const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
@@ -42,7 +43,7 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
         spaceId: space.id,
       })
     },
-    fetchPolicy: 'cache-first',
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
