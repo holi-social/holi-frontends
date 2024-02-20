@@ -3,6 +3,8 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import NotificationSettingsMaintenance from '@holi/core/screens/notifications/components/NotificationSettingsMaintenance'
 import {
   Category,
   Channel,
@@ -40,11 +42,16 @@ const NotificationSettingsList = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
+  const { ftMaintenance } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
   const { workflowPreferences, updatePreference, updatingPreferences, loading } = useNotificationPreferences()
   const workflowsByCategory = useMemo(
     () => groupBy(workflowPreferences, (entry) => entry.category),
     [workflowPreferences]
   )
+
+  if (ftMaintenance) {
+    return <NotificationSettingsMaintenance />
+  }
 
   if (loading) {
     return (
@@ -53,6 +60,7 @@ const NotificationSettingsList = () => {
       </View>
     )
   }
+
   return (
     <View style={[mixins.container, styles.accountSettings]}>
       {updatingPreferences && <HoliLoader />}

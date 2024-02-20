@@ -47,6 +47,9 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
         displayError(error, 'Failed to accept space membership request', {
           location: 'SpaceInviteUserButton.acceptRequestToJoin',
           spaceId: spaceId,
+          ...(error.message.includes('Not a community staff.')
+            ? { displayMessage: t('spaces.invite.user.error', { user: user.fullName }) }
+            : {}),
         })
       },
     })
