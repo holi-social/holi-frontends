@@ -19,7 +19,7 @@
   "filter.location.placeholder": "Stadt auswählen",
   "filter.notFound.description": "Wir konnten keine Ergebnisse finden, die zu deinen Filterkriterien passen.",
   "filter.result": "{{count}} Freiwilligenarbeit",
-  "filter.result_plural": "{{count}} Freiwillenangebote",
+  "filter.result_plural": "{{count}} Freiwilligenangebote",
   "filter.submitButton": "Freiwilligenarbeit anzeigen",
   "listing.error": "Laden von Projekten ist fehlgeschlagen",
   "listing.headline": "Interessante Aufgaben für dich",
