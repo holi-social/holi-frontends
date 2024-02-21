@@ -1,8 +1,9 @@
-import React, { memo, useCallback, useLayoutEffect } from 'react'
+import React, { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -91,7 +92,7 @@ const TaskDetails = () => {
     [isAdmin, t, isLoadingDeleteTask, deleteTask, navigate, space?.name, task?.id]
   )
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
       headerTransparent: true,

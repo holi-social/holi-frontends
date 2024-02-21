@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import Constants from 'expo-constants'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -12,6 +12,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -165,7 +166,7 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
     }
   }, [space?.id, title, description, inviteOnly, permissionType, thumbnail, locationDetails])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loadingSpace &&
       isMember &&
       setScreenOptions({

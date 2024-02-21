@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 
@@ -6,6 +6,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SearchContent from '@holi/core/screens/search/components/SearchContent'
@@ -24,7 +25,7 @@ const Search: React.VFC<ScreenProps> = () => {
   // TODO: Remove from ^1.11.0
   const { ftOff } = useFeatureToggle(FeatureToggleName.SEARCH)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title })
   }, [setScreenOptions, title])
 
