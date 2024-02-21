@@ -49,7 +49,6 @@ import {
   createChatRoom,
   filterMessagesChunk,
   hasRoomUpdatesType,
-  isAdminChangeToMembership,
   isJoinOrLeaveEvent,
   isMembershipEvent,
   isMessageEvent,
@@ -168,17 +167,6 @@ export default class ChatClient {
     }
 
     return Object.fromEntries(spaceIdToChildIdsMap.entries())
-  }
-
-  private joinRoomFromAdminInvite(event: MatrixEvent, userId: string, loggedInUserId: string | null): void {
-    if (!isAdminChangeToMembership(event, userId, loggedInUserId)) return
-
-    const { membership } = event.getContent()
-    if (membership !== 'invite') return
-
-    this.joinRoom(event.getRoomId() ?? '').catch((err) => {
-      logError(err, 'Joining Room from adming invitation error', { location: 'ChatClient.joinRoomFromAdminInvite' })
-    })
   }
 
   public constructor(credentials: ChatCredentials) {
@@ -358,6 +346,18 @@ export default class ChatClient {
     }
   }
 
+  public async getPushNotificationEnabledState() {
+    const rules = await this.mxClient.getPushRules()
+    const [global] = rules.global.override || []
+    return global?.enabled
+  }
+
+  public async setPushNotificationsEnabled(enabled: boolean) {
+    // enable this master push rule to disable push notifications
+    // https://spec.matrix.org/v1.8/client-server-api/#default-override-rules
+    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', enabled)
+  }
+
   public forgetRoom = async (roomId: string, deleteRoom?: boolean): Promise<void> => {
     await this.mxClient.forget(roomId, deleteRoom)
   }
@@ -468,19 +468,6 @@ export default class ChatClient {
 
   public subscribeToNewRooms(callback: (chatRoom: ChatRoom) => void): () => void {
     const roomEventHandler = (room: Room) => {
-      const hasPendingInvitation = this.hasPendingInvitation(room)
-      // FIXME: This predicate will only work for space rooms with only one child room
-      // Note that only after the auto-join we will start receiving `SharedData` events
-      const isSpaceRoom = room.isSpaceRoom() || room.name === '#general'
-
-      if (isSpaceRoom && hasPendingInvitation) {
-        this.mxClient
-          .joinRoom(room.roomId)
-          .catch((err) => logError(err, 'failed to join space room', { location: 'subscribeToRooms' }))
-
-        return
-      }
-
       if (!isString(room.name) || isEmptyString(room.name)) return
 
       callback(this.createChatRoom(room))
@@ -585,11 +572,6 @@ export default class ChatClient {
    */
   public subscribeToSpaceRooms(callback: (spaceIdToChildIds: Record<string, string[]>) => void): () => void {
     const spaceRoomTimelineListener = (event: MatrixEvent) => {
-      // We automatically join a room if the `invite` event was
-      // initated from the space chat admin user `@admin:local.chat.holi.social`
-      const { state_key } = event.getEffectiveEvent()
-      if (state_key) this.joinRoomFromAdminInvite(event, state_key, this.getUserId())
-
       if (!isSpaceChildEvent(event)) return
       callback(this.createSpaceIdToChildIds([event]))
     }
@@ -621,17 +603,5 @@ export default class ChatClient {
       roomEvent: RoomEvent.Timeline,
       createListener: unreadNotificationsListener,
     })
-  }
-
-  async getPushNotificationEnabledState() {
-    const rules = await this.mxClient.getPushRules()
-    const [global] = rules.global.override || []
-    return global?.enabled
-  }
-
-  async setPushNotificationsEnabled(enabled: boolean) {
-    // enable this master push rule to disable push notifications
-    // https://spec.matrix.org/v1.8/client-server-api/#default-override-rules
-    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', enabled)
   }
 }
