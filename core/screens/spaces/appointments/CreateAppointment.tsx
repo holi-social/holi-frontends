@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import Constants from 'expo-constants'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -185,10 +185,8 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
   }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
-    if (title.length > 0 && description.length > 0 && inputValid) {
-      setSaveButtonDisabled(false)
-    }
-  }, [title, description, inviteOnly, permissionType, inputValid])
+    setSaveButtonDisabled(!title.length || !inputValid)
+  }, [title, inputValid])
 
   if (loadingSpace || ftLoading) {
     return <HoliLoader />
@@ -214,7 +212,9 @@ const CreateAppointment: React.FC<ScreenProps> = () => {
         showBackButton
         behavior="padding"
         scrollToInput={false}
+        keyboardShouldPersistTaps="handled"
         bottomBarStyle={styles.bottomBar}
+        initialOffsetTop={Platform.OS === 'ios' ? +dimensions.bottomBarHeight : undefined}
         renderProp={() => (
           <View style={styles.container}>
             <AppointmentInputForm

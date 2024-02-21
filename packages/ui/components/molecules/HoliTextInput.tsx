@@ -244,7 +244,6 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               secureTextEntry={type === 'password'}
               autoComplete={autocomplete}
               autoCapitalize="none"
-              autoCorrect={false}
               {...accessibilityProps}
               {...props?.inputProps}
               testID={!isIOS ? `${props.testID || 'holi-text'}-input` : 'input'}

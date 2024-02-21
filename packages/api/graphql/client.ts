@@ -152,7 +152,10 @@ export const createCache = () =>
       },
       PostPaged: {
         fields: {
-          data: indexAwareOffsetLimitPagination(),
+          data: {
+            merge: indexAwareOffsetLimitPagination().merge,
+            read: offsetLimitPagination().read,
+          },
         },
       },
       AppointmentPaged: {

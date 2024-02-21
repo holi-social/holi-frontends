@@ -24,6 +24,9 @@ COPY ./server-preload.js ./server-preload.js
 
 RUN chown -R node:node ./.next/
 
+RUN mkdir -p /mount && chown -R node:node /mount
+# RUN mkdir -p /profiling/logs && chown -R node:node /profiling && chown -R node:node /profiling/logs
+
 USER node
 
 EXPOSE 3000
@@ -35,4 +38,5 @@ ENV PORT 3000
 # Uncomment the following line in case you want to disable telemetry.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["node", "--require", "./server-preload.js", "server.js"]
+#CMD [ "sh", "-c", "echo Staring && find /profiling ; cat /profiling/logs/logs.txt ; echo profiling > /profiling/test_prof.txt ; echo logs > /profiling/logs/test_logs.txt ; node --cpu-prof --cpu-prof-dir=/profiling/logs --require=./server-preload.js server.js"]
+CMD [ "sh", "-c", "echo Staring && node --cpu-prof --cpu-prof-dir=/mount/main --require=./server-preload.js server.js"]
