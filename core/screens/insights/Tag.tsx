@@ -1,12 +1,9 @@
 import React, { ReactNode } from 'react'
 import { StyleSheet } from 'react-native'
 
-import HoliText, { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
-
-// TODO: accessibility considerations
-// Based on https://www.figma.com/file/RbD0C3K6vITgJXJ4srCxQ9/2.-components?node-id=9314%3A28012&mode=dev
 
 type TagProps = {
   children?: ReactNode
@@ -14,13 +11,8 @@ type TagProps = {
   size?: 's' | 'm'
 }
 
-const sizeToTextSizeMap: Record<string, HoliTextSize> = {
-  s: 'extrasmall',
-  m: 'default',
-}
-
 const Tag = ({ variant = 'default', size = 's', children }: TagProps) => (
-  <HoliText size={sizeToTextSizeMap[size]} style={[styles.tag, styles[variant], styles[size]]}>
+  <HoliText style={[styles.tag, styles[variant], styles[size]]} color="gray300">
     {children}
   </HoliText>
 )
@@ -28,23 +20,17 @@ const Tag = ({ variant = 'default', size = 's', children }: TagProps) => (
 const styles = StyleSheet.create({
   tag: {
     alignSelf: 'flex-start',
-    borderRadius: Spacing.xXL,
-    borderWidth: 1,
-    borderColor: colors.black300,
+    borderRadius: Spacing.xxl,
   },
   s: {
-    //  TODO: The spacing looks too tight to the top
-    paddingTop: Spacing.xxxXs,
-    paddingBottom: Spacing.xxxXs,
-    paddingHorizontal: Spacing.xxXs,
+    paddingVertical: Spacing['4xs'],
+    paddingHorizontal: Spacing.xxs,
   },
   m: {
-    paddingVertical: Spacing.xxXs,
-    paddingHorizontal: Spacing.xXs,
+    padding: Spacing.xs,
   },
-  //  TODO: Align naming with Figma default is an improvement over generic (generic in Figma)
   default: {
-    backgroundColor: colors.white100,
+    backgroundColor: colors.white200,
   },
   interest: {
     backgroundColor: colors.brandC200,

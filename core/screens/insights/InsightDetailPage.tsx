@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
+import { ImageBackground, ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -91,15 +91,13 @@ const InsightDetailPage = () => {
               source={{ uri: insight.headerImage }}
               resizeMode="cover"
               style={[mixins.container, styles.bannerImage]}
-              imageStyle={styles.insightImage}
+              imageStyle={styles.insightImage as ImageStyle}
             />
 
             <View style={[styles.content, mixins.container]}>
               <View style={styles.tag}>
                 {/* Our tags don't have a style for the one in the design - ask Design, should this be added to Tag component */}
-                <Tag variant="interest" size="m">
-                  {insight.topic.title}
-                </Tag>
+                <Tag size="s">{insight.topic.title}</Tag>
               </View>
 
               {/* TODO: our headings don't match the designs, what to do? */}
