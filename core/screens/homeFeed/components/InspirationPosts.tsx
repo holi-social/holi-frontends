@@ -17,6 +17,8 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import TestPoll from '@holi/core/screens/homeFeed/components/TestPoll'
+
 const POSTS_PAGE_SIZE = 2
 const POSTS_TEXT_LINES_SHOWN = 5
 
@@ -34,6 +36,7 @@ const InspirationPostsList = () => {
       <HoliHeading size="l">{t('homeFeed.inspirationPosts.heading')}</HoliHeading>
       <HoliGap />
       <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+      <HoliGridCell><TestPoll /></HoliGridCell>
         {loading
           ? new Array(POSTS_PAGE_SIZE).fill(1).map((_, idx) => (
               <HoliGridCell key={idx}>
