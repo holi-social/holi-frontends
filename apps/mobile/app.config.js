@@ -83,6 +83,7 @@ export default {
         'applinks:dev.holi.social',
         'applinks:*.dev.holi.social',
         'applinks:review-holi-7271-wu0rhf.dev.holi.social',
+        'applinks:staging.dev.holi.social',
       ],
     },
     android: {
