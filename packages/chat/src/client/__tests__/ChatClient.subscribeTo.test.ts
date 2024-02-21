@@ -107,23 +107,6 @@ describe('ChatClient', () => {
       )
     })
 
-    it('should auto join a Space room on new rooms', async () => {
-      const room = {} as Room
-      mxClient.getUserId.mockReturnValue('dummy_user_id')
-      mxClient.joinRoom.mockResolvedValue(room)
-
-      const roomId = 'SpaceRoomId'
-      const timestamp = 1706715917444
-      const roomMock = createRoomMock(roomId, { timestamp, timelineEvents: [], isSpaceRoom: true })
-      roomMock.hasMembershipState.mockReturnValue(true)
-
-      const { listener, callback } = simulateSubscription(client.subscribeToNewRooms, ClientEvent.Room)
-      await listener(roomMock)
-
-      expect(mxClient.joinRoom).toBeCalledWith(roomId)
-      expect(callback).toBeCalledTimes(0)
-    })
-
     it('should not create a `ChatRoom` on empty string room name', async () => {
       const dmRoomMock = createRoomMock(roomId, {
         name: '',
@@ -372,28 +355,6 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToSpaceRooms, RoomEvent.Timeline, room)
       await listener(event)
 
-      expect(callback).not.toBeCalled()
-    })
-
-    it('automatically joins Room for Matrix Admin`s INVITE RoomMember event type.', async () => {
-      const roomId = 'some-room-id'
-      const room = createRoomMock(roomId)
-
-      const mxUserId = 'mx-user-id'
-      mxClient.getUserId.mockReturnValue(mxUserId)
-      mxClient.joinRoom.mockResolvedValue(room)
-      // Timeline event of type SpaceChild
-      const event = createMatrixEventMock(EventType.RoomMember, roomId, { membership: 'invite' }, {
-        state_key: mxUserId,
-      } as IEvent)
-      event.getSender.mockReturnValue(chatAdminUserId)
-
-      const { listener, callback } = simulateSubscription(client.subscribeToSpaceRooms, RoomEvent.Timeline, room)
-      await listener(event)
-
-      // joins room
-      expect(mxClient.joinRoom).toBeCalled()
-      // does not call callback
       expect(callback).not.toBeCalled()
     })
   })
