@@ -39,4 +39,4 @@ ENV PORT 3000
 ENV NEXT_TELEMETRY_DISABLED 1
 
 #CMD [ "sh", "-c", "echo Staring && find /profiling ; cat /profiling/logs/logs.txt ; echo profiling > /profiling/test_prof.txt ; echo logs > /profiling/logs/test_logs.txt ; node --cpu-prof --cpu-prof-dir=/profiling/logs --require=./server-preload.js server.js"]
-CMD [ "sh", "-c", "echo Staring && find /mount ; node --cpu-prof --cpu-prof-dir=/mount/main --require=./server-preload.js server.js"]
+CMD [ "sh", "-c", "echo Staring && node --cpu-prof --cpu-prof-dir=/mount/main --require=./server-preload.js server.js"]

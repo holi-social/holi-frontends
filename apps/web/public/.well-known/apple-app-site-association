@@ -1,0 +1,23 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "Y7F8XQ5286.social.holi.dev",
+        "paths": [
+          "*"
+        ]
+      }
+    ]
+  },
+  "activitycontinuation": {
+    "apps": [
+      "Y7F8XQ5286.social.holi.dev"
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "Y7F8XQ5286.social.holi.dev"
+    ]
+  }
+}

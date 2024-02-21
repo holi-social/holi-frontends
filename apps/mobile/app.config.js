@@ -77,6 +77,13 @@ export default {
           'remote-notification', // enables the app to receive push notifications while app is in background
         ],
       },
+      associatedDomains: [
+        'applinks:app.holi.social',
+        'applinks:holi.social',
+        'applinks:dev.holi.social',
+        'applinks:*.dev.holi.social',
+        'applinks:review-holi-7271-wu0rhf.dev.holi.social',
+      ],
     },
     android: {
       package: androidPackage,
