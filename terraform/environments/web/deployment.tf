@@ -93,6 +93,15 @@ resource "google_cloud_run_service" "mvp_web" {
             memory = local.environment == "production" ? "512Mi" : "512Mi"
           }
         }
+        startup_probe {
+          initial_delay_seconds = 2
+          period_seconds        = 1
+          timeout_seconds       = 1
+          failure_threshold     = 20
+          http_get {
+            path = "/"
+          }
+        }
         volume_mounts {
           mount_path = "/mount"
           name       = "profiling"
