@@ -9,6 +9,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -39,7 +40,7 @@ const { useParam } = createParamHooks<InsightDetailPageParams>()
 
 const InsightDetailPage = () => {
   const [insightId] = useParam('insightId')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
@@ -109,7 +110,11 @@ const InsightDetailPage = () => {
               {author && (
                 <>
                   <View style={styles.curator}>
-                    <HoliText size="small" style={styles.authorInfoText}>
+                    <HoliText style={styles.authorInfoText}>
+                      <HoliText style={styles.date} color="gray300">
+                        {getRelativeDateString(insight.datePublished, i18n.language)}
+                      </HoliText>
+                      {' · '}
                       <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
                     </HoliText>
                     <HoliButton
@@ -259,8 +264,10 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   authorInfoText: {
-    color: colors.foreground20,
     marginBottom: Spacing['3xs'],
+  },
+  date: {
+    textTransform: 'capitalize',
   },
   authorInfoName: {
     color: colors.foreground30,
