@@ -30,7 +30,6 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
       offset: 0,
       limit: ENGAGEMENT_PAGE_SIZE,
     },
-    fetchPolicy: 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load volunteering engagements', {
         location: 'VolunteeringUpdates.VolunteeringEngagementsQuery',

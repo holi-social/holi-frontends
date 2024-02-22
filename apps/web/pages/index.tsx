@@ -1,39 +1,52 @@
-import type { NextPage } from 'next'
+import type { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
+import { featureTogglesQuery, inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
-// const PROJECT_PAGE_SIZE = 5
-// const ENGAGEMENT_PAGE_SIZE = 5
+import { PROJECT_PAGE_SIZE } from '@holi-apps/donations/components/DonationUpdates'
+import { donationProjectsQuery } from '@holi-apps/donations/queries'
+import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringUpdates'
+import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 
 const HomeFeedPage: NextPage = () => <HomeFeedOnboarding />
 
-// TODO: update SSR implementation
-// export const getServerSideProps = async (context: NextPageContext) => {
-//   return createServerSideProps(context, [
-//     // TODO: investigate why lastInsightsQuery is not working for SSR with `Promise.allSettled`
-//     { query: lastInsightsQuery },
-//     {
-//       query: donationProjectsQuery,
-//       variables: {
-//         limit: PROJECT_PAGE_SIZE,
-//         offset: 0,
-//       },
-//     },
-//     {
-//       query: goodNewsArticlesQuery,
-//       variables: {
-//         lastDate: undefined,
-//       },
-//     },
-//     {
-//       query: volunteeringEngagementsQuery,
-//       variables: {
-//         limit: ENGAGEMENT_PAGE_SIZE,
-//         offset: 0,
-//       },
-//     }
-//   ])
-// }
+export const getServerSideProps = async (context: NextPageContext) => {
+  const { location } = context.query
+
+  const queries = [
+    {
+      query: featureTogglesQuery,
+    },
+    { query: lastInsightsQuery },
+    { query: inspirationPostsQuery },
+    {
+      query: donationProjectsQuery,
+      variables: {
+        offset: 0,
+        limit: PROJECT_PAGE_SIZE,
+        location,
+      },
+    },
+    {
+      query: goodNewsArticlesQuery,
+      variables: {
+        lastDate: undefined,
+      },
+    },
+    {
+      query: volunteeringEngagementsQuery,
+      variables: {
+        limit: ENGAGEMENT_PAGE_SIZE,
+        offset: 0,
+      },
+    },
+  ]
+
+  return createServerSideProps(context, queries)
+}
 
 export default HomeFeedPage

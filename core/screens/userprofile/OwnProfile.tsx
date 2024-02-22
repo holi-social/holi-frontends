@@ -1,11 +1,12 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -60,7 +61,7 @@ const OwnProfile = () => {
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const title = t('profile.title')
 
     if (isLoggedIn && isOnboardingFinished) {

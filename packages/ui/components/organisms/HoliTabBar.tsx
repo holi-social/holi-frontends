@@ -1,7 +1,8 @@
 import React, { useCallback, useRef } from 'react'
 import type { LayoutChangeEvent, ScrollView, StyleProp, ViewStyle } from 'react-native'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -38,10 +39,10 @@ const HoliTabBar: React.FC<TabListProps> = ({
   tabBarStyle,
   onPress,
 }) => {
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
   const scrollViewRef = useRef<ScrollView | null>(null)
   // tab button width can be maximum 66% of the screen width
-  const MAX_TAB_WIDTH = Math.min(screenWidth * 0.66, 320)
+  const MAX_TAB_WIDTH = Math.max(screenWidth * 0.66, 320)
 
   const scrollIntoView = useCallback((event: LayoutChangeEvent) => {
     if (isWeb) return

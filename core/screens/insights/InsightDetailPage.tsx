@@ -1,13 +1,14 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useLayoutEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, ImageStyle, Platform, StyleSheet, View } from 'react-native'
+import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -25,6 +26,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
@@ -65,7 +67,7 @@ const InsightDetailPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: true,
       headerTintColor: colors.white100,
@@ -89,7 +91,7 @@ const InsightDetailPage = () => {
       >
         {insight && !loading ? (
           <>
-            <ImageBackground
+            <HoliImageBackground
               source={{ uri: insight.headerImage }}
               resizeMode="cover"
               style={[mixins.container, styles.bannerImage]}
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
     }),
   } as ImageStyle,
   insightImage: {
-    ...Platform.select({ web: { height: 'auto' } }),
+    ...Platform.select({ web: { height: '100%' } }),
   },
   content: {
     backgroundColor: colors.background10,

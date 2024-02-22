@@ -257,7 +257,6 @@
   "insights.post.delete.confirmation.title": "Delete Update",
   "insights.post.delete.success": "You deleted the Update",
   "insights.post.no-comment-yet": "Comment now…",
-  "insights.post.notFound": "Post {{postId}} not found",
   "insights.post.preview.more": "Options",
   "insights.post.report.confirmation.description": "Do you really want to report this post?",
   "insights.post.report.confirmation.title": "Report post",

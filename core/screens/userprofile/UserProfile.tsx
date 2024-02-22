@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
+import React, { Suspense, memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -13,6 +13,8 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { isSSR } from '@holi/core/helpers/isSSR'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
@@ -70,7 +72,7 @@ const UserProfile = () => {
     refetch: refetchUser,
   } = useQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
-    fetchPolicy: 'network-only',
+    fetchPolicy: isSSR ? 'network-only' : 'cache-and-network',
     skip: !userId, // userId is empty for initial page load
     onError: (error) => {
       if (isNotFoundError(error)) {
@@ -107,7 +109,7 @@ const UserProfile = () => {
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('profile.title'),
       headerTransparent: true,
@@ -142,7 +144,7 @@ const UserProfile = () => {
     })
   }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
 
-  if (!userId || loading) {
+  if (!userId || (loading && !user)) {
     // TODO: replace with proper loading indicator
     return (
       <DefaultLayout>

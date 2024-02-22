@@ -1,22 +1,18 @@
 import { GraphQLError } from 'graphql'
 
-import { extractFieldErrors, isErrorOfType, isNotFoundError } from '@holi/core/errors/helpers'
+import { extractFieldErrors, isErrorOfType, isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 
-const createGraphQLError = (extensions = {}): GraphQLError => ({
-  extensions,
-  locations: undefined,
-  path: undefined,
-  nodes: undefined,
-  source: undefined,
-  positions: undefined,
-  originalError: undefined,
-  name: '',
-  message: '',
-})
+const createGraphQLError = (extensions = {}): GraphQLError =>
+  ({
+    extensions,
+    name: '',
+    message: '',
+  } as GraphQLError)
 
 describe('apolloUtils', () => {
   const badUserInputError = createGraphQLError({ code: 'BAD_USER_INPUT' })
   const notFoundError = createGraphQLError({ code: 'NOT_FOUND' })
+  const forbiddenError = createGraphQLError({ code: 'FORBIDDEN' })
 
   it('checks for given error type', () => {
     expect(isErrorOfType({ graphQLErrors: [] }, ['BAD_USER_INPUT'])).toBeFalsy()
@@ -30,6 +26,13 @@ describe('apolloUtils', () => {
     expect(isNotFoundError({ graphQLErrors: [badUserInputError] })).toBeFalsy()
     expect(isNotFoundError({ graphQLErrors: [notFoundError] })).toBeTruthy()
     expect(isNotFoundError({ graphQLErrors: [badUserInputError, notFoundError] })).toBeTruthy()
+  })
+
+  it('checks for forbidden errors', () => {
+    expect(isForbiddenError({ graphQLErrors: [] })).toBeFalsy()
+    expect(isForbiddenError({ graphQLErrors: [badUserInputError] })).toBeFalsy()
+    expect(isForbiddenError({ graphQLErrors: [forbiddenError] })).toBeTruthy()
+    expect(isForbiddenError({ graphQLErrors: [badUserInputError, forbiddenError] })).toBeTruthy()
   })
 
   it('extracts field errors', () => {
