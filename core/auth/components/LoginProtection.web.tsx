@@ -20,7 +20,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
     navigate(Platform.OS === 'web' ? '/' : '/onboarding')
   }, [navigate])
 
-  if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader testID="loader" />
+  if (!!userId && isUserLoading) return <HoliLoader testID="loader" />
 
   return isOnboardingFinished && isLoggedIn ? (
     <>{children}</>

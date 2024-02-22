@@ -79,7 +79,7 @@ function usePaginationQuery<TData>(
   }, [isFetchingMore, fetchMore, data.length])
 
   return {
-    loading,
+    loading: loading && !pagedData,
     data,
     error,
     totalResults,

@@ -27,7 +27,6 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
   const { navigate } = useRouting()
 
   const { data, loading } = useQuery<GoodNewsArticlesQueryResponse>(goodNewsArticlesQuery, {
-    fetchPolicy: 'cache-and-network',
     onError: (error) =>
       logError(error, 'Failed to load good news articles', {
         location: 'GoodNewsUpdates.GoodNewsArticlesQuery',
