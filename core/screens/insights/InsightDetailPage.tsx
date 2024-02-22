@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
       },
       native: { maxHeight: '50%' },
     }),
-  },
+  } as ImageStyle,
   insightImage: {
     ...Platform.select({ web: { height: 'auto' } }),
   },
