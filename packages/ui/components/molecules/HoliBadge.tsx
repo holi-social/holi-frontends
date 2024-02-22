@@ -5,7 +5,7 @@ import HoliText, { HoliTextColor } from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type HoliBadgeProps = {
+export interface HoliBadgeProps {
   children?: ReactNode
   backgroundColor?: string
   color?: HoliTextColor
