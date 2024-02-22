@@ -1,7 +1,8 @@
 import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import React from 'react'
 
-import CommentInputPage from '@holi/core/screens/posts/CommentInputPage'
+const CommentInputPage = dynamic(() => import('@holi/core/screens/posts/CommentInputPage'), { ssr: false })
 
 const PostPage: NextPage = () => <CommentInputPage />
 

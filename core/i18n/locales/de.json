@@ -257,7 +257,6 @@
   "insights.post.delete.confirmation.title": "Update löschen",
   "insights.post.delete.success": "Du hast das Update gelöscht",
   "insights.post.no-comment-yet": "Kommentieren…",
-  "insights.post.notFound": "Post {{postId}} nicht gefunden",
   "insights.post.preview.more": "Optionen",
   "insights.post.report.confirmation.description": "Möchtest du diesen Post wirklich melden?",
   "insights.post.report.confirmation.title": "Post melden",
