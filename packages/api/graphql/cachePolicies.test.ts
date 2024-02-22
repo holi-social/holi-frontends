@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 
-import { indexAwareOffsetLimitPagination, mergeIndexAwareOffsetLimitArray, pagedPolicy } from './cachePolicies'
+import { mergeIndexAwareOffsetLimitArray, pagedPolicy } from './cachePolicies'
 
 const one = { id: 1, __ref: 'TestType' }
 const oneOne = { id: 11, __ref: 'TestType' }
@@ -64,50 +64,6 @@ describe('cachePolicies', () => {
         variables: { offset: 2, limit: 2 },
       })
       expect(result).toStrictEqual([one, two, oneOne, twoTwo, five])
-    })
-  })
-
-  describe('indexAwareOffsetLimitPagination.read', () => {
-    const policy = indexAwareOffsetLimitPagination()
-
-    it('should return miss for empty cache', () => {
-      // @ts-ignore
-      const result = policy.read(undefined, { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual(undefined)
-    })
-
-    it('should return hit if result is present', () => {
-      // @ts-ignore
-      const result = policy.read([one, two], { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual([one, two])
-    })
-
-    it('should return hit with all cached data (with offset + limit)', () => {
-      // we want read to always return all cached data, otherwise fetchMore wouldn't work
-      // @ts-ignore
-      const result = policy.read([one, two, three, four, five], { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual([one, two, three, four, five])
-    })
-
-    it('should return hit with all cached data (without offset + limit)', () => {
-      // we want read to always return all cached data, otherwise fetchMore wouldn't work
-      // @ts-ignore
-      const result = policy.read([one, two, three, four, five])
-      expect(result).toStrictEqual([one, two, three, four, five])
-    })
-
-    it('should return miss if cache contains empty slots (not within requested range)', () => {
-      // given that we always return all cached data, we shouldn't display lists with empty values
-      // returning undefined results in Apollo Client executing a network query after which required data will be present
-      // @ts-ignore
-      const result = policy.read([one, two, null, four, five], { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual(undefined)
-    })
-
-    it('should return miss if cache contains empty slots (within requested range)', () => {
-      // @ts-ignore
-      const result = policy.read([one, two, null, four, five], { variables: { offset: 0, limit: 5 } })
-      expect(result).toStrictEqual(undefined)
     })
   })
 

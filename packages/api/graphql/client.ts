@@ -1,6 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
-import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
@@ -9,12 +8,7 @@ import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 import { holiApiUrl } from '@holi/api/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
 
-import {
-  alwaysReplacePolicy,
-  indexAwareOffsetLimitPagination,
-  nestedPaginationPolicy,
-  pagedPolicy,
-} from './cachePolicies'
+import { alwaysReplacePolicy, pagedPolicy } from './cachePolicies'
 import errorLink from './errorLink'
 import headerLink from './headerLink'
 
@@ -86,11 +80,7 @@ export const createCache = () =>
           sdgs: alwaysReplacePolicy,
         },
       },
-      InsightPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
+      InsightPaged: pagedPolicy(),
       AppDonations_ProjectsResponse: pagedPolicy(),
       AppVolunteering_EngagementsResponse: pagedPolicy(),
       AppGoodNews_GoodNewsArticlesQueryResponse: {
@@ -104,55 +94,26 @@ export const createCache = () =>
       },
       Space: {
         fields: {
-          members: alwaysReplacePolicy,
-          membershipRequests: alwaysReplacePolicy,
+          members: pagedPolicy(),
+          membershipRequests: pagedPolicy(),
           tasks: alwaysReplacePolicy,
           sdgs: alwaysReplacePolicy,
           topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
-          posts: {
-            ...alwaysReplacePolicy,
-            keyArgs: ['idOrName', 'visibility'],
-          },
+          posts: pagedPolicy(['visibility']),
+          invites: pagedPolicy(),
+          connectionStatusToMyself: alwaysReplacePolicy,
+          appointments: pagedPolicy(),
         },
       },
       SpacePaged: pagedPolicy(),
-      SpaceMemberPaged: {
-        fields: {
-          // Only allow pagination on the space detail or subordinated screens, recognizable by `idOrName`
-          data: {
-            merge: nestedPaginationPolicy(['idOrName']).merge,
-          },
-        },
-      },
-      SpaceMembershipRequestPaged: {
-        fields: {
-          // Only allow pagination on the space detail screen, recognizable by `idOrName`
-          data: nestedPaginationPolicy(['idOrName']),
-        },
-      },
-      SpaceInvitesPaged: {
-        fields: {
-          // Only allow pagination on the space detail screen, recognizable by `idOrName`
-          data: nestedPaginationPolicy(['idOrName']),
-        },
-      },
-      UserPaged: {
-        fields: {
-          data: {
-            keyArgs: ['substring'],
-            merge: indexAwareOffsetLimitPagination().merge,
-            read: offsetLimitPagination().read,
-          },
-        },
-      },
+      SpaceMemberPaged: pagedPolicy(),
+      SpaceMembershipRequestPaged: pagedPolicy(),
+      SpaceInvitesPaged: pagedPolicy(),
+      UserPaged: pagedPolicy(['substring']),
       PostPaged: pagedPolicy(),
-      AppointmentPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
+      AppointmentPaged: pagedPolicy(),
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the

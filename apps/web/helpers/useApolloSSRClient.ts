@@ -13,7 +13,8 @@ export interface ApolloStateProps {
 export const addApolloSSRState = (client: ApolloClient<NormalizedCacheObject>, props: Partial<NextJSPageProps>) => {
   return {
     ...props,
-    [APOLLO_STATE_PROP_NAME]: client.cache.extract(),
+    // JSON transform as workaround for issue "`undefined` cannot be serialized as JSON. Please use `null` or omit this value all together."
+    [APOLLO_STATE_PROP_NAME]: JSON.parse(JSON.stringify(client.cache.extract())),
   }
 }
 
