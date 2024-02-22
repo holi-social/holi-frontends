@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useLayoutEffect, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { ImageBackground, ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -12,7 +12,6 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import Tag from '@holi/core/screens/insights/Tag'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
@@ -23,8 +22,10 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -96,21 +97,21 @@ const InsightDetailPage = () => {
 
             <View style={[styles.content, mixins.container]}>
               <View style={styles.tag}>
-                {/* Our tags don't have a style for the one in the design - ask Design, should this be added to Tag component */}
-                <Tag size="s">{insight.topic.title}</Tag>
+                <HoliBadge>{insight.topic.title}</HoliBadge>
               </View>
 
-              {/* TODO: our headings don't match the designs, what to do? */}
               <View style={styles.tag}>
                 <HoliHeading level="1" size="l" testID="insight-headline">
                   {insight.title}
                 </HoliHeading>
               </View>
 
-              {/* TODO: re-work the currator to match design - nothing has been changed yet for this  */}
               {author && (
                 <>
                   <View style={styles.curator}>
+                    <HoliText size="small" style={styles.authorInfoText}>
+                      <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
+                    </HoliText>
                     <HoliButton
                       transparent
                       label={t('user.cards.modal.showInfo', { name: author.fullName })}
@@ -123,15 +124,12 @@ const InsightDetailPage = () => {
                           label={author.fullName ?? ''}
                           initials={author.avatarLabel || ''}
                           defaultColor={author.avatarDefaultColor || ''}
-                          size="small"
                           style={styles.authorInfoAvatar}
                         />
-
-                        <HoliText size="small" style={styles.authorInfoText}>
-                          <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
-                            <HoliText size="small" />
-                          </Trans>
-                        </HoliText>
+                        <View>
+                          <HoliText bold>{author.fullName}</HoliText>
+                          <HoliText size="small">{t('global.freeJournalist')}</HoliText>
+                        </View>
                       </View>
                     </HoliButton>
                   </View>
@@ -152,7 +150,7 @@ const InsightDetailPage = () => {
                 </>
               )}
 
-              <HoliText style={styles.insightText}>{insight.description}</HoliText>
+              <HoliRichTextOutput text={insight.description} allowAllLinks />
             </View>
           </>
         ) : (
@@ -162,14 +160,11 @@ const InsightDetailPage = () => {
         {posts.length > 0 && (
           <View style={[mixins.container, styles.postList]}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {
-                /** FIXME convert to VirtualizedList, FlatList or SectionList */
-                posts.map((post) => (
-                  <HoliGridCell key={post.id}>
-                    <PostPreview post={post} insightId={insightId} />
-                  </HoliGridCell>
-                ))
-              }
+              {posts.map((post) => (
+                <HoliGridCell key={post.id}>
+                  <PostPreview post={post} insightId={insightId} />
+                </HoliGridCell>
+              ))}
             </HoliGridWrapper>
           </View>
         )}
@@ -232,7 +227,6 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: colors.background10,
-    // TODO: could these be spaccings too?
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
     paddingTop: Spacing.xl,
@@ -240,17 +234,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xs,
   },
   tag: {
-    //  TODO: Need further work on these, perhaps Spacing.threeXl and back to an enum see https://projectholi.rocket.chat/group/Temp-DesignSystem-Concept?msg=zj5kyiD32wZ5Lu96f
     marginBottom: Spacing['3xs'],
   },
   title: {
     marginBottom: Spacing.xs,
   },
   curator: {
-    marginBottom: Spacing.md,
-  },
-  insightText: {
-    color: colors.foreground20,
+    marginBottom: Spacing.lg,
   },
   skeletonCurrator: {
     flexDirection: 'row',
@@ -259,14 +249,18 @@ const styles = StyleSheet.create({
   },
   authorInfoInner: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.gray100,
+    padding: 12,
   },
   authorInfoAvatar: {
     marginRight: 16,
   },
   authorInfoText: {
     color: colors.foreground20,
+    marginBottom: Spacing['3xs'],
   },
   authorInfoName: {
     color: colors.foreground30,
