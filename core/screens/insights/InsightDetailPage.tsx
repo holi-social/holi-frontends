@@ -99,9 +99,11 @@ const InsightDetailPage = () => {
             />
 
             <View style={[styles.content, mixins.container]}>
-              <View style={styles.tag}>
-                <HoliBadge>{insight.topic.title}</HoliBadge>
-              </View>
+              {!!insight.topic && (
+                <View style={styles.tag}>
+                  <HoliBadge>{insight.topic.title}</HoliBadge>
+                </View>
+              )}
 
               <View style={styles.tag}>
                 <HoliHeading level="1" size="l" testID="insight-headline">
