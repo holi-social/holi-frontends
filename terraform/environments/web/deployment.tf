@@ -103,7 +103,7 @@ resource "google_cloud_run_service" "mvp_web" {
       annotations = {
         "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "0"
         "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "5"
-        "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
+        "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen2"
       }
     }
   }
