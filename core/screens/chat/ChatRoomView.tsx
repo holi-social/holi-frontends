@@ -89,7 +89,7 @@ const ChatRoomView = () => {
             return !!chatPartnerHoliUser && !!chatPartner ? (
               <ChatRoomHeaderTitle
                 href={'/profile/' + chatPartnerHoliUser.id}
-                name={chatPartnerHoliUser.fullName ?? chatPartner.name}
+                name={room.name}
                 imageSrc={chatPartner.avatar}
                 imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
                 initials={chatPartnerHoliUser.avatarLabel}

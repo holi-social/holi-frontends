@@ -32,18 +32,12 @@ variable "image_tag" {
 }
 
 resource "google_cloud_run_service" "mvp_web" {
-  provider = google-beta
   project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   name     = random_id.main.hex
   location = "europe-north1" # finland, low CO2 emissions
   # https://github.com/hashicorp/terraform-provider-google/issues/5898
   autogenerate_revision_name = true
 
-  metadata {
-    annotations = {
-      "run.googleapis.com/launch-stage" = "BETA"
-    }
-  }
   template {
     spec {
       service_account_name = data.terraform_remote_state.holi_mvp_shared_state.outputs.cloud_run_service_account_email
@@ -86,35 +80,30 @@ resource "google_cloud_run_service" "mvp_web" {
           limits = {
             # cpu can only be scaled down to 1000m as long as container_concurrency is set to != 1
             cpu    = local.environment == "production" ? "1000m" : "1000m"
-            memory = local.environment == "production" ? "512Mi" : "512Mi"
+            memory = local.environment == "production" ? "512Mi" : "256Mi"
           }
           requests = {
             cpu    = local.environment == "production" ? "1000m" : "10m"
-            memory = local.environment == "production" ? "512Mi" : "512Mi"
+            memory = local.environment == "production" ? "512Mi" : "256Mi"
           }
         }
-        volume_mounts {
-          mount_path = "/mount"
-          name       = "profiling"
+        startup_probe {
+          initial_delay_seconds = 2
+          period_seconds        = 1
+          timeout_seconds       = 1
+          failure_threshold     = 20
+          http_get {
+            path = "/"
+          }
         }
       }
       container_concurrency = 100 # 0 means thread safe, no restriction on max concurrency
-      volumes {
-        name = "profiling"
-        csi {
-          driver    = "gcsfuse.run.googleapis.com"
-          read_only = false
-          volume_attributes = {
-            bucketName = "holi-profiling"
-          }
-        }
-      }
     }
     metadata {
       annotations = {
         "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "0"
         "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "5"
-        "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen2"
+        "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
       }
     }
   }

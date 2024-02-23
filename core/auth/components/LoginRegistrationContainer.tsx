@@ -21,7 +21,7 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
 
   useIsomorphicLayoutEffect(() => {
     isLoggedIn && navigateBack()
-  }, [isLoggedIn])
+  }, [isLoggedIn, navigateBack])
 
   if (isLoading) return <HoliLoader />
 

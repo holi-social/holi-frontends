@@ -253,9 +253,7 @@ const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
     ssrMode,
     link: clientLink,
     cache,
-    // Skip force fetching queries, i.e. ignore some fetch policy overrides
-    // see https://www.apollographql.com/docs/react/performance/server-side-rendering/#overriding-fetch-policies-during-initialization
-    ssrForceFetchDelay: 500,
+    assumeImmutableResults: true,
   })
 }
 

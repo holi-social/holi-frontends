@@ -63,7 +63,6 @@ const InspirationPosts = () => {
         location: 'inspirationPostsQuery',
       })
     },
-    fetchPolicy: 'cache-first',
   }
 
   const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.FEED_DAILY_INSPIRATION)

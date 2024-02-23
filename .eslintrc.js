@@ -36,7 +36,12 @@ module.exports = {
       },
     ],
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
-    'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
+    'react-hooks/exhaustive-deps': [
+      'error',
+      {
+        additionalHooks: 'useIsomorphicLayoutEffect',
+      },
+    ], // Checks effect dependencies
     'react/self-closing-comp': [
       'error',
       {

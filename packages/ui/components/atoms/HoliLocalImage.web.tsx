@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import React from 'react'
 import { View } from 'react-native'
 
@@ -15,7 +15,13 @@ const HoliLocalImage = ({ imageSource, label, width, height, style, resizeMode =
 
   return (
     <View style={style}>
-      <Image src={imageSource as string} alt={label} width={width} height={height} objectFit={webResizeMode} />
+      <Image
+        src={imageSource as string}
+        alt={label}
+        width={width}
+        height={height}
+        style={{ objectFit: webResizeMode }}
+      />
     </View>
   )
 }

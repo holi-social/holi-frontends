@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
@@ -8,6 +8,7 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { getDocumentURL } from '@holi/core/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -36,7 +37,7 @@ const LoginRegistration = ({
   headingText = headingText ?? t('profile.loggedOut.heading')
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
-  const { height: screenHeight } = useWindowDimensions()
+  const { height: screenHeight } = useClientWindowDimensions()
 
   const [shownDocument, setShownDocument] = useState<DocType>('imprint')
 

@@ -1,4 +1,6 @@
-import { Platform, useWindowDimensions } from 'react-native'
+import { Platform } from 'react-native'
+
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 
 interface ImageScalingParams {
   relativeWidth?: number
@@ -27,7 +29,7 @@ const normalizeWebDimension = (widthOrHeight: number) => {
 export const useWindowDimensionsWithImageScaling = (
   { relativeWidth = 1, relativeHeight = 1 }: ImageScalingParams = { relativeWidth: 1, relativeHeight: 1 }
 ): ImageScaledSize => {
-  const { width, height, scale, fontScale } = useWindowDimensions()
+  const { width, height, scale, fontScale } = useClientWindowDimensions()
   // such that there are only a limited amount of cache keys available
   const imageWidth = Math.max(
     // so values below webCacheBucketSize don't become 0
