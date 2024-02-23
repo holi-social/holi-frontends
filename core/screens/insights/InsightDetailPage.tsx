@@ -137,7 +137,7 @@ const InsightDetailPage = () => {
                         />
                         <View>
                           <HoliText bold>{author.fullName}</HoliText>
-                          <HoliText size="small">{t('global.freeJournalist')}</HoliText>
+                          <HoliText size="small">{t('global.independentJournalist')}</HoliText>
                         </View>
                       </View>
                     </HoliButton>
