@@ -9,6 +9,7 @@ import NotificationContentText from '@holi/core/screens/notifications/components
 import { NotificationAppointments, NotificationProps } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export const NotificationSpaceAppointmentBaseItem = ({
@@ -37,7 +38,7 @@ export const NotificationSpaceAppointmentBaseItem = ({
 
           <View style={styles.content}>
             <NotificationContentText size="small" style={styles.fontColorGray}>
-              {content}
+              {content && <HoliHtmlView html={content} />}
             </NotificationContentText>
 
             <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
