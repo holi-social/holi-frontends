@@ -19,9 +19,11 @@ import { Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -171,7 +173,23 @@ const InsightDetailPage = () => {
         )}
 
         {recommendations.length > 0 && (
-          <View style={[mixins.container]}>
+          <View style={mixins.container}>
+            <HoliGap size="l" />
+            <View style={styles.sectionTitle}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
+                width={37}
+                height={37}
+                label=""
+                isSvg
+              />
+              <HoliHeading>
+                {recommendations.length > 1
+                  ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
+                  : t('insights.recommendations.title.single', { name: author?.firstName })}
+              </HoliHeading>
+            </View>
+            <HoliGap size="s" />
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {recommendations.map((recommendation) => (
                 <HoliGridCell key={recommendation.id}>
@@ -291,6 +309,11 @@ const styles = StyleSheet.create({
   },
   authorInfoName: {
     color: colors.foreground30,
+  },
+  sectionTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing['3xs'],
   },
   postList: {
     marginTop: 24,

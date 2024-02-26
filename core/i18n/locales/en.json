@@ -289,6 +289,8 @@
   "insights.reactions.post.like.noUser": "React to this post with ‘Thanks for sharing’",
   "insights.reactions.post.loginRedirect.text": "To react to this post, you have to sign in first",
   "insights.reactions.post.unlike": "Remove ‘Thanks for sharing’ off this post",
+  "insights.recommendations.title": "{{name}}'s top {{number}} recommendations",
+  "insights.recommendations.title.single": "{{name}}'s top recommendation",
   "insights.recommendations.category.article": "Article",
   "insights.recommendations.category.audio": "Audio",
   "insights.recommendations.category.donationproject": "Donation Project",

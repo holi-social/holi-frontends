@@ -300,6 +300,8 @@
   "insights.recommendations.category.tip": "Tipp",
   "insights.recommendations.category.video": "Video",
   "insights.recommendations.category.volunteering": "Volunteering",
+  "insights.recommendations.title": "{{name}}'s top {{number}} Empfehlungen",
+  "insights.recommendations.title.single": "{{name}}'s top Empfehlung",
   "location.placesAutocomplete.error": "Laden der Vorschläge fehlgeschlagen",
   "location.placesAutocomplete.noResults": "Keine Vorschläge gefunden",
   "loginRedirect.btnConfirm": "Einloggen",

@@ -18,6 +18,7 @@ const InsightWithPostsFragment = gql`
     creator {
       ...UserAvatar
       aboutMe
+      firstName
     }
     headerImage
     headerImageBlurhash
