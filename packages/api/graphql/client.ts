@@ -94,17 +94,12 @@ export const createCache = () =>
       },
       Space: {
         fields: {
-          members: pagedPolicy(),
-          membershipRequests: pagedPolicy(),
           tasks: alwaysReplacePolicy,
           sdgs: alwaysReplacePolicy,
           topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
-          posts: pagedPolicy(['visibility']),
-          invites: pagedPolicy(),
           connectionStatusToMyself: alwaysReplacePolicy,
-          appointments: pagedPolicy(),
         },
       },
       SpacePaged: pagedPolicy(),
@@ -113,7 +108,7 @@ export const createCache = () =>
       SpaceInvitesPaged: pagedPolicy(),
       UserPaged: pagedPolicy(['substring']),
       PostPaged: pagedPolicy(),
-      AppointmentPaged: pagedPolicy(),
+      AppointmentPaged: pagedPolicy(['statusType']),
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the

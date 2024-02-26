@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import {
@@ -49,6 +50,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         spaceIdOrName: space.name,
       }),
     skip: !appointmentsFtEnabled,
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   })
 
   return (
@@ -82,7 +84,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             </View>
           )}
 
-        {appointmentsFtEnabled && !loadingAppointments && !errorAppointments && (
+        {appointmentsFtEnabled && (!loadingAppointments || appointmentsResult?.appointments) && !errorAppointments && (
           <AppointmentsWidget
             space={space}
             style={styles.card}

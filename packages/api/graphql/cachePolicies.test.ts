@@ -163,7 +163,7 @@ describe('cachePolicies', () => {
     })
   })
 
-  describe('pagesPolicy.read', () => {
+  describe('pagedPolicy.read', () => {
     const policy = pagedPolicy()
     const partialPageResults = {
       totalResults: 5,
