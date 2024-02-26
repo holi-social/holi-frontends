@@ -1,13 +1,14 @@
 import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
-import { PostFragment } from '@holi/core/screens/posts/queries'
+import { PostFragment, RecommendationFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 const InsightWithPostsFragment = gql`
   ${UserAvatarFragment}
   ${PostFragment}
+  ${RecommendationFragment}
 
   fragment InsightWithPosts on Insight {
     id
@@ -26,6 +27,9 @@ const InsightWithPostsFragment = gql`
     }
     posts {
       ...PostFragment
+    }
+    recommendations {
+      ...RecommendationFragment
     }
   }
 `

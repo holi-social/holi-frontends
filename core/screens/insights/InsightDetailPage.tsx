@@ -15,6 +15,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import { Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -33,6 +34,8 @@ import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCar
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+import RecommendationPreview from './components/RecommendationPreview'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -75,6 +78,7 @@ const InsightDetailPage = () => {
   }, [setScreenOptions])
 
   const posts: Post[] = insight?.posts || []
+  const recommendations: Recommendation[] = insight?.recommendations || []
   const author = insight?.creator
 
   return (
@@ -164,6 +168,18 @@ const InsightDetailPage = () => {
           </>
         ) : (
           <Skeleton />
+        )}
+
+        {recommendations.length > 0 && (
+          <View style={[mixins.container]}>
+            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+              {recommendations.map((recommendation) => (
+                <HoliGridCell key={recommendation.id}>
+                  <RecommendationPreview recommendation={recommendation} />
+                </HoliGridCell>
+              ))}
+            </HoliGridWrapper>
+          </View>
         )}
 
         {posts.length > 0 && (
