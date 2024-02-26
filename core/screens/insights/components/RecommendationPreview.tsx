@@ -30,20 +30,28 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
         onPress={() => Linking.openURL(recommendation.link)}
         testID="feed-insight-image-link"
       >
-        <HoliImage
-          source={{ uri: recommendation.linkPreview.image }}
-          label={recommendation.link}
-          style={styles.image}
-        />
+        {recommendation.linkPreview.image && (
+          <>
+            <HoliImage
+              source={{ uri: recommendation.linkPreview.image }}
+              label={recommendation.link}
+              style={styles.image}
+            />
+            <HoliGap size="s" />
+          </>
+        )}
         <View style={styles.description}>
-          <HoliGap size="s" />
           <HoliBadge>{t(`insights.recommendations.category.${recommendation.category.toLowerCase()}`)}</HoliBadge>
           <HoliGap size="s" />
 
-          <HoliHeading level="2" selectable size="s" numberOfLines={3}>
-            {recommendation.linkPreview.title}
-          </HoliHeading>
-          <HoliGap size="s" />
+          {recommendation.linkPreview.title && (
+            <>
+              <HoliHeading level="2" selectable size="s" numberOfLines={3}>
+                {recommendation.linkPreview.title}
+              </HoliHeading>
+              <HoliGap size="s" />
+            </>
+          )}
 
           <View style={styles.link}>
             {!!recommendation.linkPreview.icon && (
