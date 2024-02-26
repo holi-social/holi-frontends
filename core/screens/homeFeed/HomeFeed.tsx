@@ -48,6 +48,7 @@ const HomeFeed = () => {
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
+  console.log('HomeFeed', { theme })
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()

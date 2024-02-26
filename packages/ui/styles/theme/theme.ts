@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform } from 'react-native'
 
-import { fonts } from '@holi/ui/styles/globalVars'
+import { colors, fonts } from '@holi/ui/styles/globalVars'
 
 const defaultTheme = {
   dark: false,
@@ -12,6 +12,7 @@ const defaultTheme = {
         default: variant ? `${fonts.fontFamilyMobile} ${variant}` : fonts.fontFamilyMobile,
       }) as string,
   },
+  colors,
 }
 
 export type HoliTheme = typeof defaultTheme
