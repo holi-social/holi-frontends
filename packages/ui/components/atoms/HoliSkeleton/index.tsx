@@ -1,9 +1,9 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
+import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Easing, LayoutRectangle, StyleSheet, View } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { HoliSkeletonProps } from './types'
 
@@ -14,6 +14,10 @@ const gradientWidth = 0.75 // relative
 
 // disclaimer: animation jumps to the right when re-rendered via hot reloading in dev
 const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(props, theme), [props, theme])
+
   const [layout, setLayout] = useState<LayoutRectangle>()
   const animatedValueRef = useRef(new Animated.Value(0))
 
@@ -31,8 +35,6 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
     loop.start()
     return () => loop.stop()
   }, [])
-
-  const styles = getStyles(props)
 
   if (!layout) {
     return <View style={styles.placeholder} onLayout={(e) => setLayout(e.nativeEvent.layout)} testID={props.testID} />
@@ -71,7 +73,7 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
   )
 }
 
-const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonProps) => {
+const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonProps, theme: HoliTheme) => {
   return StyleSheet.create({
     placeholder: {
       aspectRatio,
@@ -93,7 +95,7 @@ const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonPro
       backgroundColor: 'black', // masking is based on transparency
     },
     background: {
-      backgroundColor: colors.skeletonGradient1,
+      backgroundColor: theme.colors.skeletonGradient1,
     },
     gradient: {
       height: '100%',

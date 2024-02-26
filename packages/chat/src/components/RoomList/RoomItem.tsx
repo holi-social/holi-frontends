@@ -20,7 +20,7 @@ import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface RoomItemProps {
   roomAtom: ChatRoomAtom
@@ -34,6 +34,10 @@ export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
 const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
@@ -178,39 +182,40 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
 
 export default memo(RoomItem)
 
-const styles = StyleSheet.create({
-  rowWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: '100%',
-    gap: 4,
-  },
-  unseenMessageIndicator: {
-    borderWidth: 2,
-    borderColor: colors.white100,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: colors.brandColorB30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-  },
-  nameDateRaw: {
-    justifyContent: 'space-between',
-  },
-  name: {
-    flexShrink: 1,
-  },
-  fontColorGray: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    rowWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 12,
+    },
+    content: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: '100%',
+      gap: 4,
+    },
+    unseenMessageIndicator: {
+      borderWidth: 2,
+      borderColor: theme.colors.white100,
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      backgroundColor: theme.colors.brandColorB30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+    },
+    nameDateRaw: {
+      justifyContent: 'space-between',
+    },
+    name: {
+      flexShrink: 1,
+    },
+    fontColorGray: {
+      color: theme.colors.foreground20,
+    },
+  })

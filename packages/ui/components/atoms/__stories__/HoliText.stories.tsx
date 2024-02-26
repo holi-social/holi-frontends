@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import HoliText, { HoliTextSizes } from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export default {
   title: 'Atoms/HoliText',
@@ -37,14 +37,18 @@ Primary.argTypes = {
   selectable: { description: 'Should text be selectable?' },
 }
 
-export const Colored = () => (
-  <Fragment>
-    <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliText size="default" style={{ color: colors.brandColorB30 }}>
-      Positive purple
-    </HoliText>
-  </Fragment>
-)
+export const Colored = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  return (
+    <Fragment>
+      <div style={{ opacity: 0.2 }}>Colored example</div>
+      <HoliText size="default" style={{ color: colors.brandColorB30 }}>
+        Positive purple
+      </HoliText>
+    </Fragment>
+  )
+}
 
 export const All = ({ ...args }) => {
   const samples = HoliTextSizes.map((size) => {

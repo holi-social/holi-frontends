@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -11,7 +11,7 @@ import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add, LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface LinkHubWidgetProps {
   space: Space
@@ -26,6 +26,9 @@ interface NoToolsAvailableProps {
 
 const NoToolsAvailable: React.FC<NoToolsAvailableProps> = ({ onPress }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <HoliButton
       label={t('spaces.global.empty.instruction')}
@@ -50,6 +53,8 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { collaborationTools = [] } = space
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const handleShareButtonPress = useCallback((url: string) => {
     Linking.openURL(url)
@@ -112,32 +117,33 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
 
 export default LinkHubWidget
 
-const styles = StyleSheet.create({
-  toolKitContainer: {
-    paddingBottom: 16,
-  },
-  toolKitItem: {
-    marginHorizontal: 8,
-  },
-  seeAllButtonContainer: {
-    alignSelf: 'center',
-  },
-  seeAllButton: {
-    backgroundColor: colors.background10,
-  },
-  noToolsDescriptionContainer: {
-    flex: 1,
-    width: '100%',
-    paddingHorizontal: 8,
-    marginTop: 24,
-  },
-  instruction: {
-    marginTop: 12,
-    alignSelf: 'center',
-    color: colors.foreground30,
-  },
-  descriptionText: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    toolKitContainer: {
+      paddingBottom: 16,
+    },
+    toolKitItem: {
+      marginHorizontal: 8,
+    },
+    seeAllButtonContainer: {
+      alignSelf: 'center',
+    },
+    seeAllButton: {
+      backgroundColor: theme.colors.background10,
+    },
+    noToolsDescriptionContainer: {
+      flex: 1,
+      width: '100%',
+      paddingHorizontal: 8,
+      marginTop: 24,
+    },
+    instruction: {
+      marginTop: 12,
+      alignSelf: 'center',
+      color: theme.colors.foreground30,
+    },
+    descriptionText: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+  })

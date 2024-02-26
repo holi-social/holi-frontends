@@ -25,11 +25,14 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
 const OwnProfile = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {

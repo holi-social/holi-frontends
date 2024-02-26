@@ -6,7 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic, { ModalBasicProps } from '@holi/ui/components/molecules/ModalBasic'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliModalFullscreenProps extends ModalBasicProps {
   backgroundColor?: string
@@ -18,17 +18,19 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
   testID,
   label,
   style,
-  backgroundColor = colors.foreground30,
+  backgroundColor,
   children,
 }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   return (
     <>
-      <StatusBar animated backgroundColor={backgroundColor} />
+      <StatusBar animated backgroundColor={backgroundColor || colors.foreground30} />
 
       <ModalBasic show={show} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
-        <View style={[styles.modalContent, style, { backgroundColor: backgroundColor }]}>
+        <View style={[styles.modalContent, style, { backgroundColor: backgroundColor || colors.foreground30 }]}>
           <SafeAreaView style={styles.closeBtnSafeArea}>
             <View style={styles.closeBtnWrapper}>
               <HoliButton

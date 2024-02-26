@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -11,7 +11,7 @@ import SpaceLocationInput from '@holi/core/screens/spaces/components/SpaceInputs
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface EditSpaceLocationProps {
   space: Space
@@ -19,6 +19,9 @@ interface EditSpaceLocationProps {
 }
 
 const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
@@ -115,15 +118,16 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   )
 }
 
-const styles = StyleSheet.create({
-  layoutStyle: {
-    flex: 1,
-  },
-  contentStyle: {
-    flex: 1,
-    paddingBottom: 0,
-    backgroundColor: colors.background20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layoutStyle: {
+      flex: 1,
+    },
+    contentStyle: {
+      flex: 1,
+      paddingBottom: 0,
+      backgroundColor: theme.colors.background20,
+    },
+  })
 
 export default EditSpaceLocation

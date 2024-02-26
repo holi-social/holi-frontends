@@ -13,7 +13,7 @@ import type { UseConfirmationProps } from '@holi/ui/components/molecules/HoliCon
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 interface ActionContextProps {
   isVisibleConfirmation: boolean
@@ -58,6 +58,9 @@ export const Action = ({
 }: PropsWithChildren<ActionProps>) => {
   const { show: isVisibleConfirmation, setShow: setShowConfirmation, props: confirmationProps } = useConfirmationState()
   const { hideDrawer } = useActionDrawerContext()
+
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const isDanger = variant === 'danger'
   const variantColor = isDanger ? colors.error20 : colors.foreground30

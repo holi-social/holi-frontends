@@ -4,7 +4,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliCalendarIconSize = 'small' | 'medium'
 
@@ -27,8 +27,9 @@ const HoliCalendarIcon = ({
   ...props
 }: React.PropsWithChildren<HoliCalendarIconProps>) => {
   const isSmall = size === 'small'
-  const styles = useMemo(() => getStyles(isSmall, disabled), [isSmall, disabled])
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(isSmall, disabled, theme), [isSmall, disabled, theme])
 
   const getMonthName = (month: number): string => {
     const monthNames: [string] = t('monthNames', { returnObjects: true })
@@ -55,7 +56,7 @@ const HoliCalendarIcon = ({
 
 export default HoliCalendarIcon
 
-const getStyles = (isSmall: boolean, disabled: boolean) =>
+const getStyles = (isSmall: boolean, disabled: boolean, theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       alignItems: 'center',
@@ -65,12 +66,12 @@ const getStyles = (isSmall: boolean, disabled: boolean) =>
       height: isSmall ? 40 : 60,
       borderWidth: 1,
       borderRadius: 8,
-      borderColor: disabled ? colors.foreground20 : colors.foreground30,
-      backgroundColor: disabled ? colors.foreground20 : colors.foreground30,
+      borderColor: disabled ? theme.colors.foreground20 : theme.colors.foreground30,
+      backgroundColor: disabled ? theme.colors.foreground20 : theme.colors.foreground30,
       paddingTop: 2,
     },
     month: {
-      color: disabled ? colors.background30 : colors.brandColorA10,
+      color: disabled ? theme.colors.background30 : theme.colors.brandColorA10,
       fontSize: isSmall ? 9 : 12,
       lineHeight: isSmall ? 9 : 12,
       paddingBottom: 2,
@@ -82,12 +83,12 @@ const getStyles = (isSmall: boolean, disabled: boolean) =>
       justifyContent: 'center',
       minHeight: isSmall ? 28 : 44,
       minWidth: isSmall ? 40 : 60,
-      backgroundColor: disabled ? colors.background30 : colors.brandColorA10,
+      backgroundColor: disabled ? theme.colors.background30 : theme.colors.brandColorA10,
       borderTopLeftRadius: 6,
       borderTopRightRadius: 6,
     },
     day: {
-      color: disabled ? colors.foreground20 : colors.foreground30,
+      color: disabled ? theme.colors.foreground20 : theme.colors.foreground30,
       fontSize: isSmall ? 20 : 28,
       ...Platform.select({
         native: {

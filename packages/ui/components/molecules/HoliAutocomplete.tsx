@@ -9,7 +9,7 @@ import { Loader, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type Suggestion = {
   id: string
@@ -34,6 +34,9 @@ const HoliAutocompleteItem: React.VFC<AutocompleteItemProps> = ({
   testID,
   isLast,
 }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <HoliButton
       inline
@@ -101,6 +104,8 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
     const [searchText, setSearchText] = useState(value || '')
     const [isOpened, setIsOpened] = useState(false)
     const [focusedItem, setFocusedItem] = useState<string | null>(null)
+    const { theme } = useTheme()
+    const styles = useMemo(() => getStyles(theme), [theme])
 
     const onChangeText = useCallback(
       async (text: string) => {
@@ -228,30 +233,31 @@ HoliAutocomplete.displayName = 'HoliAutocomplete'
 
 export default memo(HoliAutocomplete)
 
-const styles = StyleSheet.create({
-  textInputOpened: {
-    borderBottomWidth: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  textInputFocused: {
-    borderColor: colors.brandColorB30,
-  },
-  textInputLabelFocused: {
-    color: colors.brandColorB30,
-  },
-  listItem: {
-    height: 48,
-    paddingHorizontal: 12,
-    justifyContent: 'center',
-    display: 'flex',
-    borderColor: colors.brandColorB30,
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
-  },
-  listItemLast: {
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-    borderBottomWidth: 2,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    textInputOpened: {
+      borderBottomWidth: 0,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    textInputFocused: {
+      borderColor: theme.colors.brandColorB30,
+    },
+    textInputLabelFocused: {
+      color: theme.colors.brandColorB30,
+    },
+    listItem: {
+      height: 48,
+      paddingHorizontal: 12,
+      justifyContent: 'center',
+      display: 'flex',
+      borderColor: theme.colors.brandColorB30,
+      borderLeftWidth: 2,
+      borderRightWidth: 2,
+    },
+    listItemLast: {
+      borderBottomLeftRadius: 4,
+      borderBottomRightRadius: 4,
+      borderBottomWidth: 2,
+    },
+  })

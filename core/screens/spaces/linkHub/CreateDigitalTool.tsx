@@ -26,7 +26,7 @@ import { ArrowDownS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -37,6 +37,8 @@ const { useParam } = createParamHooks<CreateDigitalToolParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const CreateDigitalTool: React.VFC<ScreenProps> = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()

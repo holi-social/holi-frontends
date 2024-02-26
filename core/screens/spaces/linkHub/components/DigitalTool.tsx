@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -18,7 +18,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface DigitalToolProps {
   tool: SpaceCollaborationTool
@@ -40,6 +40,9 @@ const DigitalTool = ({
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [showDetailModal, setShowDetailModal] = useState(false)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const deleteToolSuccesMsg = t('spaces.digitalTool.delete.success')
   const [isLoadingDeleteTool, deleteTool] = useDeleteTool({
@@ -194,103 +197,104 @@ const DigitalTool = ({
 
 export default DigitalTool
 
-const styles = StyleSheet.create({
-  toolContainer: {
-    flexDirection: 'row',
-    backgroundColor: colors.background10,
-    padding: 16,
-    marginBottom: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  toolName: {
-    color: colors.foreground20,
-  },
-  toolTitle: {
-    color: colors.foreground30,
-  },
-  imageContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  thumbnail: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-  },
-  thumbnailLarge: {
-    width: 52,
-    height: 52,
-    borderRadius: 8,
-  },
-  iconContainer: {
-    position: 'relative',
-    overflow: 'hidden',
-    borderRadius: 8,
-  },
-  infoContainer: {
-    flex: 4,
-    flexDirection: 'column',
-    marginLeft: 12,
-    justifyContent: 'space-between',
-  },
-  buttonContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  buttonWithIcon: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    marginBottom: 12,
-  },
-  toolContextHeader: {
-    width: '100%',
-    textAlign: 'center',
-    marginTop: 16,
-    paddingBottom: 16,
-    marginBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
-  },
-  shareIcon: {
-    marginBottom: 5,
-  },
-  showDetailsTrigger: {
-    width: '90%',
-    height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1,
-  },
-  modalContent: {
-    paddingHorizontal: 24,
-    paddingTop: 32,
-    paddingBottom: 56,
-  },
-  modalHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 32,
-  },
-  modalToolDescription: {
-    color: colors.foreground20,
-  },
-  modalToolLink: {
-    backgroundColor: colors.background20,
-    padding: 12,
-    marginTop: 20,
-    borderRadius: 4,
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    toolContainer: {
+      flexDirection: 'row',
+      backgroundColor: theme.colors.background10,
+      padding: 16,
+      marginBottom: 8,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    toolName: {
+      color: theme.colors.foreground20,
+    },
+    toolTitle: {
+      color: theme.colors.foreground30,
+    },
+    imageContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    thumbnail: {
+      width: 40,
+      height: 40,
+      borderRadius: 8,
+    },
+    thumbnailLarge: {
+      width: 52,
+      height: 52,
+      borderRadius: 8,
+    },
+    iconContainer: {
+      position: 'relative',
+      overflow: 'hidden',
+      borderRadius: 8,
+    },
+    infoContainer: {
+      flex: 4,
+      flexDirection: 'column',
+      marginLeft: 12,
+      justifyContent: 'space-between',
+    },
+    buttonContainer: {
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    buttonWithIcon: {
+      display: 'flex',
+      justifyContent: 'center',
+      paddingVertical: 18,
+      marginBottom: 12,
+    },
+    toolContextHeader: {
+      width: '100%',
+      textAlign: 'center',
+      marginTop: 16,
+      paddingBottom: 16,
+      marginBottom: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.background30,
+    },
+    shareIcon: {
+      marginBottom: 5,
+    },
+    showDetailsTrigger: {
+      width: '90%',
+      height: '100%',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      zIndex: 1,
+    },
+    modalContent: {
+      paddingHorizontal: 24,
+      paddingTop: 32,
+      paddingBottom: 56,
+    },
+    modalHeader: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+      marginBottom: 32,
+    },
+    modalToolDescription: {
+      color: theme.colors.foreground20,
+    },
+    modalToolLink: {
+      backgroundColor: theme.colors.background20,
+      padding: 12,
+      marginTop: 20,
+      borderRadius: 4,
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+  })

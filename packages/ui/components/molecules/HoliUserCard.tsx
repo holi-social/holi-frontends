@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,7 @@ import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliUserCardVariant = 'small' | 'normal'
 
@@ -31,7 +31,8 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   label,
 }: HoliUserCardProps) => {
   const { t } = useTranslation()
-  const styles = getStyles(variant)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(variant, theme), [theme])
 
   const accessibilityProps: AccessibilityPropsWeb = {
     accessible: !disableFocusability,
@@ -80,13 +81,13 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
 
 export default HoliUserCard
 
-const getStyles = (variant: HoliUserCardVariant) =>
+const getStyles = (variant: HoliUserCardVariant, theme: HoliTheme) =>
   StyleSheet.create({
     cardContainer: {
       borderRadius: 16,
       alignItems: 'center',
       alignContent: 'center',
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       padding: variant === 'normal' ? 24 : 16,
       height: variant === 'normal' ? '100%' : 'auto',
     },

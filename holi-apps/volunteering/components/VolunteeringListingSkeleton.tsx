@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -9,7 +9,7 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface BaseProps {
@@ -26,6 +26,9 @@ interface Props extends BaseProps {
 type VolunteeringListingSkeletonProps = SkeletonProps | Props
 
 const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = ({ isFiltering, amount }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const postGridItemsInRow = useBreakpointMatcher()
   const mixins = useStyleMixins()
   const logoWidth = 41
@@ -43,7 +46,7 @@ const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = 
   })
 
   const partnerSkeleton = new Array(5).fill(1).map((_, idx) => {
-    const styles = getLogoStyles(logoWidth, idx)
+    const styles = getLogoStyles(logoWidth, idx, theme)
 
     return (
       <View style={styles.partnerImage} key={idx}>
@@ -70,12 +73,12 @@ const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = 
 
 export default withProfiler(VolunteeringListingSkeleton, { name: 'VolunteeringListingSkeleton' })
 
-const getLogoStyles = (logoWidth: number, idx: number) => {
+const getLogoStyles = (logoWidth: number, idx: number, theme: HoliTheme) => {
   return StyleSheet.create({
     partnerImage: {
       borderRadius: logoWidth / 2,
       borderWidth: 1,
-      borderColor: colors.background20,
+      borderColor: theme.colors.background20,
       overflow: 'hidden',
       marginRight: 8,
       marginLeft: idx ? -24 : 0,
@@ -84,29 +87,30 @@ const getLogoStyles = (logoWidth: number, idx: number) => {
   })
 }
 
-const styles = StyleSheet.create({
-  spaceTop: {
-    marginTop: 8,
-    width: '100%',
-  },
-  container: {
-    paddingTop: 24,
-    backgroundColor: colors.background20,
-  },
-  heading: {
-    marginBottom: 3,
-  },
-  searchQuery: {
-    color: colors.brandColorB30,
-    marginTop: 16,
-  },
-  partnerInfoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  list: {
-    paddingTop: 24,
-    backgroundColor: colors.background20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    spaceTop: {
+      marginTop: 8,
+      width: '100%',
+    },
+    container: {
+      paddingTop: 24,
+      backgroundColor: theme.colors.background20,
+    },
+    heading: {
+      marginBottom: 3,
+    },
+    searchQuery: {
+      color: theme.colors.brandColorB30,
+      marginTop: 16,
+    },
+    partnerInfoRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    list: {
+      paddingTop: 24,
+      backgroundColor: theme.colors.background20,
+    },
+  })

@@ -17,7 +17,7 @@ import {
 
 import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliButtonType = 'primary' | 'secondary' | 'warning' // for working code completion in vscode
 export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary', 'warning'] // keep in sync with all possible HoliButtonType values
@@ -59,7 +59,8 @@ const HoliButton = ({
   const isPrimary = type === 'primary'
   const isWarning = type === 'warning'
 
-  const styles = useMemo(() => getStyles(inline, isWarning), [inline, isWarning])
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(inline, isWarning, theme), [inline, isWarning, theme])
 
   const accessibilityProps: AccessibilityProps = {
     ...(Platform.OS === 'web'
@@ -154,7 +155,7 @@ const HoliButton = ({
 
 export default HoliButton
 
-const getStyles = (inline: boolean, isWarning: boolean) =>
+const getStyles = (inline: boolean, isWarning: boolean, theme: HoliTheme) =>
   StyleSheet.create({
     base: {
       ...Platform.select({
@@ -165,10 +166,10 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       width: inline ? 'auto' : '100%',
     },
     nonTransparent: {
-      borderColor: colors.foreground30,
+      borderColor: theme.colors.foreground30,
       borderWidth: 2,
       borderRadius: 28,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       paddingHorizontal: 32,
       paddingVertical: 13,
       elevation: 0,
@@ -180,10 +181,10 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       textAlign: 'center',
     },
     textDisabled: {
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
     },
     hovered: {
-      shadowColor: isWarning ? colors.error30 : colors.foreground30,
+      shadowColor: isWarning ? theme.colors.error30 : theme.colors.foreground30,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -194,14 +195,14 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: isWarning ? colors.error30 : colors.foreground30,
+      outlineColor: isWarning ? theme.colors.error30 : theme.colors.foreground30,
       outlineStyle: 'solid',
     },
     pressedPrimary: {
-      backgroundColor: colors.brandColorA30,
+      backgroundColor: theme.colors.brandColorA30,
     },
     pressedSecondary: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
     },
     small: {
       borderRadius: 16,
@@ -215,22 +216,22 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       fontSize: 14,
     },
     disabled: {
-      borderColor: colors.background30,
+      borderColor: theme.colors.background30,
     },
     primary: {
-      backgroundColor: colors.brandColorA30,
+      backgroundColor: theme.colors.brandColorA30,
     },
     primaryDisabled: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
     },
     warningDisabled: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
     },
     warning: {
-      backgroundColor: colors.error10,
-      borderColor: colors.error30,
+      backgroundColor: theme.colors.error10,
+      borderColor: theme.colors.error30,
     },
     textWarning: {
-      color: colors.error30,
+      color: theme.colors.error30,
     },
   })

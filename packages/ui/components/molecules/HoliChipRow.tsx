@@ -1,10 +1,10 @@
-import * as React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliChipRowProps = {
   title?: string
@@ -27,6 +27,9 @@ const HoliChipRow = ({
   testID = undefined,
 }: React.PropsWithChildren<HoliChipRowProps>) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={[styles.container, style]} testID={testID}>
       <View style={styles.header}>
@@ -59,26 +62,27 @@ const HoliChipRow = ({
 
 export default HoliChipRow
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    paddingBottom: 0,
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-  },
-  editButton: {
-    color: colors.foreground20,
-  },
-  chipsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flexShrink: 1,
-    marginTop: 8,
-    gap: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      width: '100%',
+      paddingBottom: 0,
+    },
+    header: {
+      display: 'flex',
+      flexDirection: 'row',
+      width: '100%',
+      justifyContent: 'space-between',
+    },
+    editButton: {
+      color: theme.colors.foreground20,
+    },
+    chipsContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
+      marginTop: 8,
+      gap: 8,
+    },
+  })

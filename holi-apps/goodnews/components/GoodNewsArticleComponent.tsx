@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -11,7 +11,7 @@ import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/H
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
@@ -54,6 +54,8 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
 }: GoodNewsArticleComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const partnerModalState = useModalState()
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
@@ -122,43 +124,44 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
 
 export default memo(GoodNewsArticleComponent)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexGrow: 1,
-    paddingHorizontal: 0,
-  },
-  /* HEADER CONTAINER */
-  headerBackgroundImage: {
-    justifyContent: 'flex-end',
-    alignContent: 'stretch',
-    flexGrow: 500,
-    flexShrink: 1,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: colors.foreground30,
-  },
-  pictureCredit: {
-    color: colors.background10,
-    paddingBottom: 8,
-    paddingRight: 16,
-    alignSelf: 'flex-end',
-  },
-  /* CONTENT CONTAINER */
-  contentContainer: {
-    flexGrow: 1,
-    paddingTop: 16,
-    paddingBottom: 14,
-    ...Platform.select({
-      web: {
-        paddingHorizontal: 24,
-      },
-    }),
-  },
-  source: {
-    paddingBottom: 8,
-  },
-  externalLinkButtonText: {
-    paddingRight: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      flexGrow: 1,
+      paddingHorizontal: 0,
+    },
+    /* HEADER CONTAINER */
+    headerBackgroundImage: {
+      justifyContent: 'flex-end',
+      alignContent: 'stretch',
+      flexGrow: 500,
+      flexShrink: 1,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: theme.colors.foreground30,
+    },
+    pictureCredit: {
+      color: theme.colors.background10,
+      paddingBottom: 8,
+      paddingRight: 16,
+      alignSelf: 'flex-end',
+    },
+    /* CONTENT CONTAINER */
+    contentContainer: {
+      flexGrow: 1,
+      paddingTop: 16,
+      paddingBottom: 14,
+      ...Platform.select({
+        web: {
+          paddingHorizontal: 24,
+        },
+      }),
+    },
+    source: {
+      paddingBottom: 8,
+    },
+    externalLinkButtonText: {
+      paddingRight: 6,
+    },
+  })

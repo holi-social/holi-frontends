@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -8,7 +8,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { More } from '@holi/icons/src/generated'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface ActionDrawerContentProps {
@@ -48,6 +48,8 @@ export const Drawer = ({
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
   const { visible: visibleModal, show: showModal, hide: hideModal } = useModalState()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const contextValue = {
     isVisibleDrawer: visibleModal,

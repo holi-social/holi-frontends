@@ -1,11 +1,11 @@
-import * as React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   usersToShow?: number
@@ -30,6 +30,9 @@ interface Props extends BaseProps {
 type HoliUserAvatarPileProps = SkeletonProps | Props
 
 const emptyUser = (id: string): User => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return {
     id,
     avatarDefaultColor: colors.background30,
@@ -51,6 +54,8 @@ const HoliUserAvatarPile = ({
   usersTotal = users?.length ?? 0,
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const uniqueUsers = loading
     ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
@@ -103,23 +108,24 @@ const HoliUserAvatarPile = ({
 
 export default HoliUserAvatarPile
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  loadingCounter: {
-    marginLeft: 8,
-    width: 150,
-  },
-  counter: {
-    marginLeft: 8,
-  },
-  avatar: {
-    borderColor: colors.background10,
-    borderWidth: 2,
-  },
-  textGrey: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    loadingCounter: {
+      marginLeft: 8,
+      width: 150,
+    },
+    counter: {
+      marginLeft: 8,
+    },
+    avatar: {
+      borderColor: theme.colors.background10,
+      borderWidth: 2,
+    },
+    textGrey: {
+      color: theme.colors.foreground20,
+    },
+  })

@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
 
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliIconProps = {
   icon: HoliIconType
@@ -14,15 +14,18 @@ export type HoliIconProps = {
 }
 
 export const HoliIcon: React.FC<HoliIconProps> = ({
-  color = colors.gray300,
+  color,
   icon: SvgIcon,
   size = 24,
   testID,
   style,
 }: HoliIconProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return (
     <View testID={testID} style={style}>
-      <SvgIcon width={size} height={size} color={color} />
+      <SvgIcon width={size} height={size} color={color || colors.gray300} />
     </View>
   )
 }

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 
 import HoliText, { HoliTextColor } from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliBadgeProps {
   children?: ReactNode
@@ -11,11 +11,16 @@ export interface HoliBadgeProps {
   color?: HoliTextColor
 }
 
-const HoliBadge = ({ backgroundColor = colors.white200, color = 'gray300', children }: HoliBadgeProps) => (
-  <HoliText style={[styles.tag, { backgroundColor: backgroundColor }]} color={color}>
-    {children}
-  </HoliText>
-)
+const HoliBadge = ({ backgroundColor, color, children }: HoliBadgeProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
+  return (
+    <HoliText style={[styles.tag, { backgroundColor: backgroundColor || colors.white200 }]} color={color || 'gray300'}>
+      {children}
+    </HoliText>
+  )
+}
 
 const styles = StyleSheet.create({
   tag: {

@@ -1,13 +1,16 @@
 import { FlashList } from '@shopify/flash-list'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { RoomListProps } from './types'
 
 const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <FlashList
       data={roomAtoms}
@@ -25,9 +28,10 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
 
 export default memo(RoomList)
 
-const styles = StyleSheet.create({
-  listItemSeparator: {
-    borderColor: colors.background30,
-    borderTopWidth: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    listItemSeparator: {
+      borderColor: theme.colors.background30,
+      borderTopWidth: 1,
+    },
+  })

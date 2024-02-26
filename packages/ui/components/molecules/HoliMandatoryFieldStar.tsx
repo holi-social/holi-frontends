@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliMandatoryFieldStarProps = {
   show?: boolean
@@ -9,19 +9,20 @@ export type HoliMandatoryFieldStarProps = {
 }
 
 const HoliMandatoryFieldStar: React.FC<HoliMandatoryFieldStarProps> = ({ show, error }) => {
-  const styles = getStyles()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return <>{!!show && <Text style={!error ? styles.labelMandatoryStar : styles.labelMandatoryStarError}>*</Text>}</>
 }
 
 export default HoliMandatoryFieldStar
 
-const getStyles = () =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     labelMandatoryStar: {
-      color: colors.brandColorB30,
+      color: theme.colors.brandColorB30,
     },
     labelMandatoryStarError: {
-      color: colors.error30,
+      color: theme.colors.error30,
     },
   })

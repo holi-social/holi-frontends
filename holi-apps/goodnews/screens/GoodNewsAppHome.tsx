@@ -8,7 +8,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
 import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
@@ -16,6 +16,8 @@ import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
 const GoodNewsAppHome = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   useLayoutEffect(() => {
     setScreenOptions({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
@@ -10,7 +10,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import { getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 LocaleConfig.locales['de'] = {
   monthNames: [
@@ -51,6 +51,10 @@ const HoliDatePicker = ({
   testID = 'holi-date-picker',
   isRequired,
 }: HoliDatePickerProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [hovered, setHovered] = useState(false)
   const [visible, setVisible] = useState(false)
 
@@ -115,39 +119,40 @@ const HoliDatePicker = ({
 
 export default HoliDatePicker
 
-const styles = StyleSheet.create({
-  labelWrapper: {
-    marginBottom: 6,
-    flexDirection: 'row',
-  },
-  label: {
-    color: colors.foreground30,
-  },
-  border: {
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: colors.background30,
-  },
-  button: {
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.background10,
-    color: colors.foreground30,
-  },
-  calendar: {
-    marginTop: 4,
-  },
-  buttonHovered: {
-    borderColor: colors.foreground20,
-  },
-  selectedDateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  selectedDateTitle: {
-    marginLeft: 12,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    labelWrapper: {
+      marginBottom: 6,
+      flexDirection: 'row',
+    },
+    label: {
+      color: theme.colors.foreground30,
+    },
+    border: {
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: theme.colors.background30,
+    },
+    button: {
+      paddingVertical: 16,
+      paddingHorizontal: 12,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background10,
+      color: theme.colors.foreground30,
+    },
+    calendar: {
+      marginTop: 4,
+    },
+    buttonHovered: {
+      borderColor: theme.colors.foreground20,
+    },
+    selectedDateContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    selectedDateTitle: {
+      marginLeft: 12,
+    },
+  })
