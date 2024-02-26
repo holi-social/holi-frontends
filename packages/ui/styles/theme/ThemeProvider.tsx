@@ -1,6 +1,4 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import React, { useCallback, useMemo, useState } from 'react'
-import { Appearance, ColorSchemeName } from 'react-native'
 
 import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'
@@ -15,7 +13,7 @@ type ModalState = { [key: string]: boolean }
 export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWithChildren<{ theme?: HoliTheme }>) => {
   const [mode, setMode] = useState(useColorScheme())
   const isDark = mode === 'dark'
-  console.log('ThemeProvider', { isDark })
+  // console.log('ThemeProvider', { isDark })
 
   const toggleDarkMode = () => {
     const newMode = isDark ? 'light' : 'dark'

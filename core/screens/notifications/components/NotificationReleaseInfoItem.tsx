@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -8,7 +8,7 @@ import NotificationBellBadge from '@holi/core/navigation/components/header/Notif
 import { NotificationProps, NotificationReleaseInfo } from '@holi/core/screens/notifications/components/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const NotificationReleaseInfoItem: React.VFC<NotificationProps<NotificationReleaseInfo>> = ({
   notification,
@@ -18,6 +18,9 @@ const NotificationReleaseInfoItem: React.VFC<NotificationProps<NotificationRelea
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const { post } = notification.options
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={style} testID={testID}>
@@ -49,30 +52,31 @@ const NotificationReleaseInfoItem: React.VFC<NotificationProps<NotificationRelea
   )
 }
 
-const styles = StyleSheet.create({
-  link: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  avatar: {
-    height: 40,
-    width: 40,
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: '100%',
-    marginLeft: 12,
-  },
-  fontColorGray: {
-    color: colors.foreground20,
-  },
-  createdDate: {
-    marginTop: 4,
-  },
-  readStatus: {
-    marginLeft: 12,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    link: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    avatar: {
+      height: 40,
+      width: 40,
+    },
+    content: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: '100%',
+      marginLeft: 12,
+    },
+    fontColorGray: {
+      color: theme.colors.foreground20,
+    },
+    createdDate: {
+      marginTop: 4,
+    },
+    readStatus: {
+      marginLeft: 12,
+    },
+  })
 
 export default NotificationReleaseInfoItem

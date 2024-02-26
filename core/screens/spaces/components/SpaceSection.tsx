@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,7 @@ import { Edit2 } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceSectionProps = {
   title: string
@@ -26,6 +26,8 @@ const SpaceSection = ({
   children,
 }: React.PropsWithChildren<SpaceSectionProps>) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={[styles.wrapper, style]} testID={testID}>
@@ -51,30 +53,31 @@ const SpaceSection = ({
 }
 export default SpaceSection
 
-const styles = StyleSheet.create({
-  wrapper: {
-    borderTopWidth: 1,
-    borderTopColor: colors.background30,
-    paddingVertical: 32,
-  },
-  headingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  body: {
-    marginTop: 24,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flexShrink: 1,
-  },
-  editButton: {
-    marginLeft: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  editButtonText: {
-    marginRight: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      paddingVertical: 32,
+    },
+    headingContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    body: {
+      marginTop: 24,
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
+    },
+    editButton: {
+      marginLeft: 12,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+    },
+    editButtonText: {
+      marginRight: 6,
+    },
+  })

@@ -1,7 +1,7 @@
 import { ColorSchemeName, Platform } from 'react-native'
 
 export const setColorScheme = (value: ColorSchemeName) => {
-  console.log('setting color scheme', value)
+  // console.log('setting color scheme', value)
   if (Platform.OS !== 'web') return
 
   if (value) {
@@ -17,7 +17,7 @@ export const setColorScheme = (value: ColorSchemeName) => {
 }
 
 export const useColorScheme = () => {
-  console.log(Platform.OS)
+  // console.log(Platform.OS)
   if (Platform.OS !== 'web') return 'light' // TODO: get from asyncStorage for mobile
 
   const theme = localStorage.getItem('theme')

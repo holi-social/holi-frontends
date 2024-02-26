@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type FilterType = 'generic' | 'topic' | 'skill' | 'location' | 'planned'
 
@@ -38,7 +38,8 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
   small,
   testID = 'spaces-filter-pill',
 }) => {
-  const styles = getStyles(small || false)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(small || false, theme), [theme, small])
 
   if (loading) {
     const paddingVertical = styles.buttonContent.paddingVertical
@@ -84,26 +85,25 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
     </HoliButton>
   )
 }
-
-const getStyles = (small: boolean) =>
+const getStyles = (small: boolean, theme: HoliTheme) =>
   StyleSheet.create({
     generic: {
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
     },
     location: {
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
     },
     skill: {
-      backgroundColor: colors.brandColorD20,
+      backgroundColor: theme.colors.brandColorD20,
     },
     topic: {
-      backgroundColor: colors.brandColorC20,
+      backgroundColor: theme.colors.brandColorC20,
     },
     planned: {
-      backgroundColor: colors.brandColorD10,
+      backgroundColor: theme.colors.brandColorD10,
     },
     buttonContent: {
-      borderColor: colors.foreground30,
+      borderColor: theme.colors.foreground30,
       borderRadius: BORDER_RADIUS,
       borderWidth: 1,
       paddingVertical: small ? 2 : 4,

@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import HeaderAnimated from '@holi//mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { colors } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import DonationsAppHome, { DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'

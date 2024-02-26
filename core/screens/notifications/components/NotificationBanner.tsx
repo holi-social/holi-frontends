@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -10,7 +10,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface NotificationBannerProps {
   member?: User
@@ -29,6 +29,9 @@ const NotificationBanner = ({
 }: React.PropsWithChildren<NotificationBannerProps>) => {
   const { t } = useTranslation()
   const [isVisible, setIsVisible] = useState(showBanner)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const formatUsername = (username: string, locale: string) => {
     if (locale === 'de-DE' || locale === 'de') {
@@ -146,56 +149,57 @@ const NotificationBanner = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-  },
-  content: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginHorizontal: 12,
-  },
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 12,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+    },
+    content: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginHorizontal: 12,
+    },
 
-  iconContainer: {
-    width: 18,
-    height: 18,
-    backgroundColor: colors.brandColorC30,
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    zIndex: 1,
-    borderWidth: 1,
+    iconContainer: {
+      width: 18,
+      height: 18,
+      backgroundColor: theme.colors.brandColorC30,
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      zIndex: 1,
+      borderWidth: 1,
 
-    borderRadius: 999,
+      borderRadius: 999,
 
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  status: {
-    display: 'flex',
-    width: 40,
-    height: 40,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    gap: 10,
-    flexShrink: 0,
-  },
-  message: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4,
-  },
-})
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    status: {
+      display: 'flex',
+      width: 40,
+      height: 40,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      gap: 10,
+      flexShrink: 0,
+    },
+    message: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 4,
+    },
+  })
 
 export default NotificationBanner

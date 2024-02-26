@@ -19,7 +19,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceHeaderProps = {
   space: Space
@@ -31,6 +31,9 @@ const sortUsersByFirstName = (users: User[]) =>
 
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [modalVisible, setModalVisible] = useState(false)
   const [adminMemberships, regularMemberships] = useMemo(
     () => partition(space.members.data, 'isAdministrator'),
@@ -88,26 +91,27 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
-  avatarPileContainer: {
-    marginTop: 16,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  avatarPileText: {
-    color: colors.foreground30,
-  },
-  actionButtons: {
-    marginTop: 32,
-    flexDirection: 'row',
-    maxWidth: 420,
-    flexWrap: 'wrap',
-    gap: 8,
-    justifyContent: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'center',
+    },
+    avatarPileContainer: {
+      marginTop: 16,
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
+    avatarPileText: {
+      color: theme.colors.foreground30,
+    },
+    actionButtons: {
+      marginTop: 32,
+      flexDirection: 'row',
+      maxWidth: 420,
+      flexWrap: 'wrap',
+      gap: 8,
+      justifyContent: 'center',
+    },
+  })
 
 export default SpaceHeader

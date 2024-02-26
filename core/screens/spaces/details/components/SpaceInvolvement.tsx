@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -23,7 +23,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface SpaceInvolvementProps {
   style?: StyleProp<ViewStyle>
@@ -32,6 +32,10 @@ interface SpaceInvolvementProps {
 
 const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { ftEnabled: appointmentsFtEnabled } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -115,49 +119,50 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
   )
 }
 
-const styles = StyleSheet.create({
-  card: {
-    marginBottom: 16,
-  },
-  seeAllButtonContainer: {
-    alignItems: 'center',
-  },
-  seeAllButton: {
-    bottom: 0,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  onboarding: {
-    backgroundColor: colors.background10,
-    borderRadius: 16,
-    paddingVertical: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  onboardingSteps: {
-    marginBottom: 32,
-    paddingHorizontal: 8,
-  },
-  icon: {
-    marginRight: 8,
-    marginLeft: 16,
-  },
-  end: {
-    marginLeft: 'auto',
-    alignSelf: 'flex-end',
-    marginRight: 16,
-  },
-  divider: {
-    paddingHorizontal: 8,
-    paddingBottom: 8,
-  },
-  dividerPadding: {
-    paddingBottom: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    card: {
+      marginBottom: 16,
+    },
+    seeAllButtonContainer: {
+      alignItems: 'center',
+    },
+    seeAllButton: {
+      bottom: 0,
+      paddingHorizontal: 20,
+      borderWidth: 1,
+      marginTop: 16,
+      marginBottom: 8,
+    },
+    onboarding: {
+      backgroundColor: theme.colors.background10,
+      borderRadius: 16,
+      paddingVertical: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    onboardingSteps: {
+      marginBottom: 32,
+      paddingHorizontal: 8,
+    },
+    icon: {
+      marginRight: 8,
+      marginLeft: 16,
+    },
+    end: {
+      marginLeft: 'auto',
+      alignSelf: 'flex-end',
+      marginRight: 16,
+    },
+    divider: {
+      paddingHorizontal: 8,
+      paddingBottom: 8,
+    },
+    dividerPadding: {
+      paddingBottom: 8,
+    },
+  })
 
 export default SpaceInvolvement

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
@@ -31,7 +31,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightDetailPageParams = {
@@ -47,6 +47,9 @@ const InsightDetailPage = () => {
   const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const {
     data: { insightById: insight } = {},
@@ -191,6 +194,8 @@ const InsightDetailPage = () => {
 
 const Skeleton = () => {
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <>
@@ -216,69 +221,70 @@ const Skeleton = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-  },
-  bannerImage: {
-    paddingHorizontal: 0,
-    height: Platform.OS === 'web' ? 680 : 340,
-    ...Platform.select({
-      web: {
-        maxHeight: '50vh',
-        objectFit: 'cover',
-      },
-      native: { maxHeight: '50%' },
-    }),
-  } as ImageStyle,
-  insightImage: {
-    ...Platform.select({ web: { height: '100%' } }),
-  },
-  content: {
-    backgroundColor: colors.background10,
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.lg,
-    paddingHorizontal: Spacing.xs,
-  },
-  tag: {
-    marginBottom: Spacing['3xs'],
-  },
-  title: {
-    marginBottom: Spacing.xs,
-  },
-  curator: {
-    marginBottom: Spacing.lg,
-  },
-  skeletonCurrator: {
-    flexDirection: 'row',
-    gap: Spacing['3xs'],
-    alignItems: 'center',
-  },
-  authorInfoInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.gray100,
-    padding: 12,
-  },
-  authorInfoAvatar: {
-    marginRight: 16,
-  },
-  authorInfoText: {
-    marginBottom: Spacing['3xs'],
-  },
-  date: {
-    textTransform: 'capitalize',
-  },
-  authorInfoName: {
-    color: colors.foreground30,
-  },
-  postList: {
-    marginTop: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+    },
+    bannerImage: {
+      paddingHorizontal: 0,
+      height: Platform.OS === 'web' ? 680 : 340,
+      ...Platform.select({
+        web: {
+          maxHeight: '50vh',
+          objectFit: 'cover',
+        },
+        native: { maxHeight: '50%' },
+      }),
+    } as ImageStyle,
+    insightImage: {
+      ...Platform.select({ web: { height: '100%' } }),
+    },
+    content: {
+      backgroundColor: theme.colors.background10,
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+      paddingTop: Spacing.xl,
+      paddingBottom: Spacing.lg,
+      paddingHorizontal: Spacing.xs,
+    },
+    tag: {
+      marginBottom: Spacing['3xs'],
+    },
+    title: {
+      marginBottom: Spacing.xs,
+    },
+    curator: {
+      marginBottom: Spacing.lg,
+    },
+    skeletonCurrator: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+      alignItems: 'center',
+    },
+    authorInfoInner: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.gray100,
+      padding: 12,
+    },
+    authorInfoAvatar: {
+      marginRight: 16,
+    },
+    authorInfoText: {
+      marginBottom: Spacing['3xs'],
+    },
+    date: {
+      textTransform: 'capitalize',
+    },
+    authorInfoName: {
+      color: theme.colors.foreground30,
+    },
+    postList: {
+      marginTop: 24,
+    },
+  })
 
 export default withProfiler(memo(InsightDetailPage), { name: 'InsightDetailPage' })

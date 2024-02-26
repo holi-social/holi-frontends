@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -17,7 +17,7 @@ import {
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -68,6 +68,8 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const { width: windowWidth } = useWindowDimensions()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
 
@@ -192,26 +194,27 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
 }
 export default memo(SpacesGroupSlider)
 
-const styles = StyleSheet.create({
-  sliderContainer: {
-    marginBottom: 24,
-  },
-  sliderHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  pill: {
-    marginRight: 6,
-  },
-  seeMoreCard: {
-    paddingVertical: 8,
-  },
-  spaceCard: {
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    marginRight: 8,
-  },
-  backgroundWhite: {
-    backgroundColor: colors.background10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    sliderContainer: {
+      marginBottom: 24,
+    },
+    sliderHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    pill: {
+      marginRight: 6,
+    },
+    seeMoreCard: {
+      paddingVertical: 8,
+    },
+    spaceCard: {
+      paddingVertical: 8,
+      paddingHorizontal: 8,
+      marginRight: 8,
+    },
+    backgroundWhite: {
+      backgroundColor: theme.colors.background10,
+    },
+  })

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,7 +7,7 @@ import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/Spa
 import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/create/mutations'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateSpaceNameProps = {
   onChangeSpaceName: (name: string) => void
@@ -28,6 +28,8 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
 }: CreateSpaceNameProps) => {
   const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useEffect(() => {
     const resultSchema = ValidateSpaceInputSchema.safeParse({
@@ -62,21 +64,22 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
 
 export default CreateSpaceName
 
-const styles = StyleSheet.create({
-  wrapper: {
-    alignItems: 'center',
-    display: 'flex',
-    backgroundColor: colors.background10,
-  },
-  container: {
-    width: '100%',
-    paddingBottom: 160,
-    paddingHorizontal: 0,
-  },
-  title: {
-    marginVertical: 24,
-  },
-  goalInputContainer: {
-    marginTop: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      alignItems: 'center',
+      display: 'flex',
+      backgroundColor: theme.colors.background10,
+    },
+    container: {
+      width: '100%',
+      paddingBottom: 160,
+      paddingHorizontal: 0,
+    },
+    title: {
+      marginVertical: 24,
+    },
+    goalInputContainer: {
+      marginTop: 24,
+    },
+  })

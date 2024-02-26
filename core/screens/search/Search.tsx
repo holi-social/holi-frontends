@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 
@@ -10,7 +10,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SearchContent from '@holi/core/screens/search/components/SearchContent'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
@@ -18,6 +18,8 @@ const Search: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const title = t('search.title')
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -43,14 +45,15 @@ const Search: React.VFC<ScreenProps> = () => {
 
 export default memo(Search)
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-    flex: 1,
-    ...Platform.select({
-      web: {
-        minHeight: '100%',
-      },
-    }),
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+      flex: 1,
+      ...Platform.select({
+        web: {
+          minHeight: '100%',
+        },
+      }),
+    },
+  })

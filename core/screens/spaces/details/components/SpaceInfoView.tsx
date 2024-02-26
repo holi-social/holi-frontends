@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -11,7 +11,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Phone } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInfoViewProps = {
   space: Space
@@ -20,6 +20,9 @@ type SpaceInfoViewProps = {
 
 const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
@@ -94,31 +97,32 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
 }
 export default SpaceInfoView
 
-const styles = StyleSheet.create({
-  listContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flexShrink: 1,
-  },
-  chip: {
-    backgroundColor: colors.background10,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  link: {
-    marginRight: 20,
-    marginBottom: 20,
-  },
-  contactIcon: {
-    marginRight: 10,
-  },
-  contactWrapper: {
-    flex: 1,
-    gap: 16,
-  },
-  contactContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    listContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
+    },
+    chip: {
+      backgroundColor: theme.colors.background10,
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    link: {
+      marginRight: 20,
+      marginBottom: 20,
+    },
+    contactIcon: {
+      marginRight: 10,
+    },
+    contactWrapper: {
+      flex: 1,
+      gap: 16,
+    },
+    contactContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  })

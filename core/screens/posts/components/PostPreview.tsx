@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -28,7 +28,7 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -59,6 +59,10 @@ const PostPreview = ({
   loading,
 }: PostPreviewProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
@@ -309,41 +313,42 @@ const PostPreview = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    borderRadius: 12,
-    backgroundColor: colors.background10,
-  },
-  postTitleLink: {
-    marginBottom: 4,
-  },
-  imageContainer: {
-    width: '100%',
-  },
-  linkPreview: {
-    paddingTop: 16,
-    maxWidth: 420,
-    width: '100%',
-    alignSelf: 'center',
-  },
-  reactionsBar: {
-    paddingTop: 21,
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  reactionsLink: {
-    height: 'auto',
-    display: 'flex',
-  },
-  noCommentsYetMessage: {
-    paddingRight: 24,
-    flex: 1,
-    marginTop: Platform.OS === 'web' ? 0 : 4,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      borderRadius: 12,
+      backgroundColor: theme.colors.background10,
+    },
+    postTitleLink: {
+      marginBottom: 4,
+    },
+    imageContainer: {
+      width: '100%',
+    },
+    linkPreview: {
+      paddingTop: 16,
+      maxWidth: 420,
+      width: '100%',
+      alignSelf: 'center',
+    },
+    reactionsBar: {
+      paddingTop: 21,
+      alignItems: 'flex-start',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    reactionsLink: {
+      height: 'auto',
+      display: 'flex',
+    },
+    noCommentsYetMessage: {
+      paddingRight: 24,
+      flex: 1,
+      marginTop: Platform.OS === 'web' ? 0 : 4,
+    },
+  })
 
 export default PostPreview
