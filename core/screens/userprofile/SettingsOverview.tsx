@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -9,10 +9,19 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { AccountCircle, FolderLock, Help, Information, LogoutBox, Notification3 } from '@holi/icons/src/generated'
+import {
+  AccountCircle,
+  FolderLock,
+  Help,
+  Information,
+  LogoutBox,
+  Notification3,
+  Sun,
+  SunFilled,
+} from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const SettingsOverview = () => {
@@ -21,6 +30,8 @@ const SettingsOverview = () => {
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { logout, isLoggingOut } = useLogout()
+  const { theme, toggleDarkMode } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onConfirm: () => {
@@ -76,6 +87,12 @@ const SettingsOverview = () => {
               testID="btn-about"
             />
           )}
+          <MoreOptionItem
+            label={t('global.theme.toggle')}
+            icon={theme.dark ? Sun : SunFilled}
+            onPress={toggleDarkMode}
+            style={styles.settingsItem}
+          />
         </View>
 
         <View style={styles.separator} />
@@ -109,17 +126,18 @@ const SettingsOverview = () => {
 
 export default withProfiler(SettingsOverview, { name: 'SettingsOverview' })
 
-const styles = StyleSheet.create({
-  settingsOverview: {
-    paddingHorizontal: 24,
-  },
-  settingsItem: {
-    marginVertical: 24,
-  },
-  separator: {
-    width: '100%',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
-    height: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    settingsOverview: {
+      paddingHorizontal: 24,
+    },
+    settingsItem: {
+      marginVertical: 24,
+    },
+    separator: {
+      width: '100%',
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.background30,
+      height: 1,
+    },
+  })

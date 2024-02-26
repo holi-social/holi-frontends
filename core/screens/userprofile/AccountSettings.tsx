@@ -1,6 +1,6 @@
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Appearance, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
@@ -9,18 +9,18 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
-import { Key2, Mail, Sun } from '@holi/icons/src/generated'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
+import { Key2, Mail } from '@holi/icons/src/generated'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const AccountSettings = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { theme, toggleDarkMode } = useTheme()
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.account.title') })
@@ -45,13 +45,6 @@ const AccountSettings = () => {
               style={styles.settingsItem}
               testID="btn-change-email"
             />
-            <MoreOptionItem
-              label={'Toggle theme'}
-              icon={theme.dark ? Sun : Sun}
-              onPress={toggleDarkMode}
-              style={styles.settingsItem}
-              testID="btn-change-email"
-            />
           </View>
           <View style={styles.separator} />
           <View style={[mixins.container, styles.accountSettings]}>
@@ -65,17 +58,18 @@ const AccountSettings = () => {
 
 export default memo(AccountSettings)
 
-const styles = StyleSheet.create({
-  accountSettings: {
-    paddingHorizontal: 24,
-  },
-  settingsItem: {
-    marginVertical: 24,
-  },
-  separator: {
-    width: '100%',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
-    height: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    accountSettings: {
+      paddingHorizontal: 24,
+    },
+    settingsItem: {
+      marginVertical: 24,
+    },
+    separator: {
+      width: '100%',
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.background30,
+      height: 1,
+    },
+  })
