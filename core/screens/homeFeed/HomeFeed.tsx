@@ -1,6 +1,6 @@
 import { DocumentNode } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -25,8 +25,6 @@ import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
@@ -48,7 +46,7 @@ const HomeFeed = () => {
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
-  console.log('HomeFeed', { theme })
+  const colors = useMemo(() => theme.colors, [theme])
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()

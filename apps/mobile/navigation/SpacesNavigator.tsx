@@ -38,7 +38,7 @@ import CreateSpaceUpdate, { CreateUpdateParams } from '@holi/core/screens/spaces
 import SpaceVideoCallList, { SpaceVideoCallListParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
@@ -73,6 +73,8 @@ export type SpacesScreens = {
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
 
 const SpacesNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   return (
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpaceDetails}

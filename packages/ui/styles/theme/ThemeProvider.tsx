@@ -23,6 +23,8 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
     setMode(newMode)
   }
 
+  const colors = useMemo(() => (isDark ? colorsDark : colorsLight), [isDark])
+
   const [modalCurrentStatus, setModalCurrentStatus] = React.useState<ModalState>({})
   const anyModalOpen = useMemo(() => Object.values(modalCurrentStatus).some((value) => value), [modalCurrentStatus])
   const mixins = useStyleMixins()
@@ -41,7 +43,7 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
   return (
     <ThemeContext.Provider
       value={{
-        theme: { ...theme, dark: isDark, mixins, colors: isDark ? colorsDark : colorsLight },
+        theme: { ...theme, dark: isDark, mixins, colors },
         toggleDarkMode,
         modalIsOpen: anyModalOpen,
         setModalIsOpen,
