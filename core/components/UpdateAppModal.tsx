@@ -13,7 +13,8 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
@@ -30,6 +31,8 @@ const UpdateAppModal = () => {
   })
   const [showModal, setShowModal] = useState(false)
   const [modalDismissedOnce, setModalDismissedOnce] = useState(false)
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const updateApp = () => {
     const openStoreUrl = (url: string) => {

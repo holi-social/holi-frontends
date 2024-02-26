@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
@@ -12,7 +12,8 @@ import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface InsightsTabProps {
   userId: string
@@ -22,6 +23,9 @@ export interface InsightsTabProps {
 const THUMBNAIL_SIZE = 64
 
 const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { data } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, {
     variables: { userId },
     onError: (error) =>
@@ -69,22 +73,23 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
 
 export default withProfiler(InsightsTab, { name: 'InsightsTab' })
 
-const styles = StyleSheet.create({
-  itemContainer: {
-    flex: 1,
-    alignSelf: 'center',
-    width: '100%',
-    maxWidth: dimensions.maxScreenWidth,
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-    borderBottomColor: colors.background30,
-  },
-  imageColumn: {
-    paddingBottom: 40,
-    flexBasis: THUMBNAIL_SIZE,
-    width: THUMBNAIL_SIZE,
-    height: THUMBNAIL_SIZE,
-    borderRadius: 8,
-    backgroundColor: colors.background20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    itemContainer: {
+      flex: 1,
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+      borderBottomWidth: 1,
+      borderStyle: 'solid',
+      borderBottomColor: theme.colors.background30,
+    },
+    imageColumn: {
+      paddingBottom: 40,
+      flexBasis: THUMBNAIL_SIZE,
+      width: THUMBNAIL_SIZE,
+      height: THUMBNAIL_SIZE,
+      borderRadius: 8,
+      backgroundColor: theme.colors.background20,
+    },
+  })

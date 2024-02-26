@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -14,7 +14,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const AppsDrawer: React.FC = () => {
@@ -24,6 +25,9 @@ const AppsDrawer: React.FC = () => {
   const { width: screenWidth } = useClientWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const [modalIsVisible, setModalIsVisible] = useState(false)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
 
   const onAppButtonClick = useCallback(
     ({ path }: HoliApp) => {
@@ -93,42 +97,43 @@ const AppsDrawer: React.FC = () => {
 
 export default AppsDrawer
 
-const styles = StyleSheet.create({
-  overlayButton: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: (Platform.OS === 'web' ? dimensions.bottomBarHeight : 0) + 16,
-    right: '50%',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    borderColor: colors.background30,
-    borderWidth: 1,
-    shadowColor: colors.foreground30,
-    shadowOffset: {
-      width: 2,
-      height: 2,
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    overlayButton: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: (Platform.OS === 'web' ? dimensions.bottomBarHeight : 0) + 16,
+      right: '50%',
+      justifyContent: 'center',
+      paddingHorizontal: 20,
+      borderColor: theme.colors.background30,
+      borderWidth: 1,
+      shadowColor: theme.colors.foreground30,
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 4,
+      overflow: 'visible',
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    overflow: 'visible',
-  },
-  modalContent: {
-    gap: 16,
-  },
-  listContents: {
-    gap: 8,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    marginTop: 24,
-  },
-  appsHubButton: {
-    marginVertical: 16,
-    marginHorizontal: 12,
-    paddingBottom: Platform.OS === 'web' ? 36 : dimensions.bottomBarHeight,
-  },
-  appsHubContainer: {
-    gap: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-})
+    modalContent: {
+      gap: 16,
+    },
+    listContents: {
+      gap: 8,
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      marginTop: 24,
+    },
+    appsHubButton: {
+      marginVertical: 16,
+      marginHorizontal: 12,
+      paddingBottom: Platform.OS === 'web' ? 36 : dimensions.bottomBarHeight,
+    },
+    appsHubContainer: {
+      gap: 8,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  })
