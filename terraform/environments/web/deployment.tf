@@ -91,7 +91,7 @@ resource "google_cloud_run_service" "mvp_web" {
           initial_delay_seconds = 2
           period_seconds        = 1
           timeout_seconds       = 1
-          failure_threshold     = 20
+          failure_threshold     = 30
           http_get {
             path = "/"
           }
