@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   message: {
-    maxWidth: dimensions.breakpointL,
+    maxWidth: dimensions.breakpointM,
   },
 })
