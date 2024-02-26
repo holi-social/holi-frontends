@@ -83,8 +83,8 @@ resource "google_cloud_run_service" "mvp_web" {
             memory = local.environment == "production" ? "512Mi" : "512Mi"
           }
           requests = {
-            cpu    = local.environment == "production" ? "1000m" : "10m"
-            memory = local.environment == "production" ? "512Mi" : "512Mi"
+            cpu    = local.environment == "production" ? "1000m" : "1000m"
+            memory = local.environment == "production" ? "512Mi" : "256Mi"
           }
         }
         startup_probe {
@@ -102,8 +102,8 @@ resource "google_cloud_run_service" "mvp_web" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "0"
-        "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "5"
-        "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen2"
+        "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "2"
+        "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
       }
     }
   }
