@@ -32,7 +32,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   const [bookmarkInsight] = useMutation<BookmarkInsightResponse>(bookmarkInsightMutation, {
     onError: (error) =>
       displayError(error, 'Failed to bookmark insight', {
-        location: 'InsightDetailPage.bookmarkInsight',
+        location: 'InsightDrawer.bookmarkInsight',
         id,
       }),
     refetchQueries: [{ query: insightById, variables: { id } }],
@@ -41,7 +41,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   const [removeInsightBookmark] = useMutation<RemoveInsightBookmark>(removeInsightBookmarkMutation, {
     onError: (error) =>
       displayError(error, 'Failed to remove insight bookmark', {
-        location: 'InsightDetailPage.removeInsightBookmark',
+        location: 'InsightDrawer.removeInsightBookmark',
         id,
       }),
     refetchQueries: [{ query: insightById, variables: { id } }],
@@ -68,14 +68,14 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
         <HoliActionDrawer.Action
           icon={BookmarkFill}
           title={t('insights.insight.remove.bookmark.button')}
-          testID="btn-bookmark-insight"
+          testID="btn-remove-insight-bookmark"
           handleAction={removeInsightBookmarkActionHandler}
         />
       ) : (
         <HoliActionDrawer.Action
           icon={BookmarkLine}
           title={t('insights.insight.bookmark.button')}
-          testID="btn-remove-insight-bookmark"
+          testID="btn-bookmark-insight"
           handleAction={bookmarkInsightActionHandler}
         />
       )}
