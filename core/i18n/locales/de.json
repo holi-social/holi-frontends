@@ -416,6 +416,7 @@
   "profile.settings.account.delete.error": "Es gab einen Fehler beim Löschen des Kontos. Bitte probiere es später nochmal",
   "profile.settings.account.delete.success": "Konto erfolgreich gelöscht",
   "profile.settings.account.title": "Dein Konto",
+  "profile.settings.favorites.title": "Favoriten",
   "profile.settings.help.faq": "Hilfe-Center",
   "profile.settings.help.support": "Support kontaktieren",
   "profile.settings.help.title": "Hilfe",

@@ -415,6 +415,7 @@
   "profile.settings.account.delete.error": "There was an error deleting the account. Please retry later",
   "profile.settings.account.delete.success": "Successfully deleted account",
   "profile.settings.account.title": "Your account",
+  "profile.settings.favorites.title": "Favorites",
   "profile.settings.help.faq": "Help Center",
   "profile.settings.help.support": "Contact Support",
   "profile.settings.help.title": "Help",
