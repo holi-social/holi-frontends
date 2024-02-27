@@ -24,7 +24,9 @@ interface BaseProps {
   testID?: string
   style?: StyleProp<ViewStyle>
   initialsFontWeight?: TextStyle['fontWeight']
-  initialsColor?: keyof typeof colors
+  initialsColor?: {
+    [key: string]: string
+  }
 }
 
 interface Props extends BaseProps {

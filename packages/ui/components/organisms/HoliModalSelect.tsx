@@ -121,7 +121,16 @@ const HoliModalSelect = <IDType extends string>({
         />
       </HoliButton>
     ),
-    [styles.optionCardContent, styles.optionCard, styles.optionTextContainer, isDense, testID, handleOnChange]
+    [
+      styles.optionCardContent,
+      styles.optionCard,
+      styles.optionTextContainer,
+      isDense,
+      testID,
+      handleOnChange,
+      colors.foreground10,
+      colors.foreground30,
+    ]
   )
 
   return (

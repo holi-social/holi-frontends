@@ -30,7 +30,7 @@ const Notifications = () => {
           footerShown: false,
         },
       }),
-    [setScreenOptions, title]
+    [setScreenOptions, title, colors.background30]
   )
 
   return (

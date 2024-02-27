@@ -90,7 +90,7 @@ const GoodNewsCarousel = () => {
       },
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
     })
-  }, [activeArticleFormattedDate, setScreenOptions])
+  }, [activeArticleFormattedDate, setScreenOptions, colors.background10])
 
   useEffect(() => {
     if (paramArticleId) {

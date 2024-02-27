@@ -130,7 +130,7 @@ const VolunteeringAppHome = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
+  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, colors.background10, styles.dot])
 
   useEffect(() => {
     if (geolocationError) {

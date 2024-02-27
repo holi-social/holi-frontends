@@ -211,7 +211,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions])
+  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
 
   useEffect(() => {
     if (

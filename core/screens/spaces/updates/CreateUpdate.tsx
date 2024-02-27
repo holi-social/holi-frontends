@@ -88,7 +88,7 @@ const CreateSpaceUpdate = () => {
           footerShown: false,
         },
       })
-  }, [setScreenOptions, t, loading, isUpdate, isMember])
+  }, [setScreenOptions, t, loading, isUpdate, isMember, colors.background20])
 
   if (error || !space) {
     return <></>

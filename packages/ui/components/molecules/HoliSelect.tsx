@@ -184,7 +184,7 @@ const HoliSelect = ({
         </View>
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, clearFocus, onSelect, styles, multiSelect]
+    [testID, setFocusAndOpen, clearFocus, onSelect, styles, multiSelect, colors.background10]
   )
 
   const noOptions = (

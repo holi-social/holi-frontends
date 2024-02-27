@@ -44,7 +44,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
 }: ChipProps) => {
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(checked, theme), [theme])
+  const styles = useMemo(() => getStyles(checked, theme), [theme, checked])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,

@@ -45,7 +45,7 @@ const ChatHome = () => {
       ),
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, setScreenOptions, t, title])
+  }, [navigate, setScreenOptions, t, title, colors.background20])
   if (ftLoading) {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   } else if (ftMaintenance) {

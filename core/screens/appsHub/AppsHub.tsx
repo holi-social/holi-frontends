@@ -37,7 +37,7 @@ const AppsHub = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions])
+  }, [setScreenOptions, colors.background20])
 
   return (
     <DefaultLayout style={styles.container} backgroundColor={colors.background20} headerOverlap>

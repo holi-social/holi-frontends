@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, Text } from 'react-native'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'

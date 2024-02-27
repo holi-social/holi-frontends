@@ -61,22 +61,26 @@ const HomeFeed = () => {
     FeatureToggleName.APPS_VOLUNTEERING
   )
 
-  const logo = theme.dark ? (
-    <HoliLocalImage
-      imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
-      isSvg
-      width={78}
-      height={24}
-      label={t('navigation.title')}
-    />
-  ) : (
-    <HoliLocalImage
-      imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
-      isSvg
-      width={78}
-      height={24}
-      label={t('navigation.title')}
-    />
+  const logo = useMemo(
+    () =>
+      theme.dark ? (
+        <HoliLocalImage
+          imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
+          isSvg
+          width={78}
+          height={24}
+          label={t('navigation.title')}
+        />
+      ) : (
+        <HoliLocalImage
+          imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+          isSvg
+          width={78}
+          height={24}
+          label={t('navigation.title')}
+        />
+      ),
+    [theme.dark, t]
   )
 
   // TODO: when SSR is enabled we need to lazy load the header
@@ -92,7 +96,7 @@ const HomeFeed = () => {
       headerLeft: () => logo,
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, t, headerTitle, setScreenOptions])
+  }, [navigate, t, headerTitle, setScreenOptions, logo, colors.background10])
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({

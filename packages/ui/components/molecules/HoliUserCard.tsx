@@ -32,7 +32,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
 }: HoliUserCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(variant, theme), [theme])
+  const styles = useMemo(() => getStyles(variant, theme), [theme, variant])
 
   const accessibilityProps: AccessibilityPropsWeb = {
     accessible: !disableFocusability,

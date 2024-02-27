@@ -13,7 +13,6 @@ type ModalState = { [key: string]: boolean }
 export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWithChildren<{ theme?: HoliTheme }>) => {
   const [mode, setMode] = useState(useColorScheme())
   const isDark = mode === 'dark'
-  // console.log('ThemeProvider', { isDark })
 
   const toggleDarkMode = () => {
     const newMode = isDark ? 'light' : 'dark'

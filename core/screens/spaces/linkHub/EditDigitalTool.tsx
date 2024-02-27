@@ -112,7 +112,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, setScreenOptions])
+  }, [t, loadingSpace, setScreenOptions, colors.background20])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {

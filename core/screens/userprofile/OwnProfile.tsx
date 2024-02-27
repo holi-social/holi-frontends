@@ -129,6 +129,7 @@ const OwnProfile = () => {
     setScreenOptions,
     storeOnboardingState,
     user,
+    colors.background10,
   ])
 
   return (

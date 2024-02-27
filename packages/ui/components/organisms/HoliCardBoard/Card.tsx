@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import type { PropsWithChildren } from 'react'
 import { StyleSheet, View } from 'react-native'
 
@@ -10,10 +10,9 @@ interface Props {
 
 type ColorType = 'primary'
 
-const generateStyles = (type: ColorType) => {
-  const { theme } = useTheme()
+const generateStyles = (type: ColorType, theme: HoliTheme) => {
   const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = getStyles(theme)
 
   // TODO: future colors are constrained and generated here. (Consult with design)
   const colorStyles = StyleSheet.create({ color: { backgroundColor: colors.white100 } })
@@ -21,7 +20,8 @@ const generateStyles = (type: ColorType) => {
 }
 
 export const Card = ({ children, color = 'primary' }: PropsWithChildren<Props>) => {
-  return <View style={generateStyles(color)}>{children}</View>
+  const { theme } = useTheme()
+  return <View style={generateStyles(color, theme)}>{children}</View>
 }
 
 const getStyles = (theme: HoliTheme) =>

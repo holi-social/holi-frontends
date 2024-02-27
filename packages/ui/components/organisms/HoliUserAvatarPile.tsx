@@ -29,8 +29,7 @@ interface Props extends BaseProps {
 
 type HoliUserAvatarPileProps = SkeletonProps | Props
 
-const emptyUser = (id: string): User => {
-  const { theme } = useTheme()
+const emptyUser = (id: string, theme: HoliTheme): User => {
   const { colors } = theme
 
   return {
@@ -58,7 +57,7 @@ const HoliUserAvatarPile = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const uniqueUsers = loading
-    ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
+    ? [emptyUser('l1', theme), emptyUser('l2', theme), emptyUser('l3', theme)]
     : users.reduce((newArr: User[], nextUser: User) => {
         return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
       }, [])

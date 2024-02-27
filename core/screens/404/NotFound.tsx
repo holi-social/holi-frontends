@@ -43,7 +43,7 @@ const NotFound = () => {
       ),
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, setScreenOptions, t])
+  }, [navigate, setScreenOptions, t, colors.background20])
 
   return (
     <View style={styles.container}>

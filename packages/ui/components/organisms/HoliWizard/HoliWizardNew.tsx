@@ -1,4 +1,4 @@
-import React, { createContext, useMemo } from 'react'
+import React, { createContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 

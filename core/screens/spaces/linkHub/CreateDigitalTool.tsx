@@ -104,7 +104,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions])
+  }, [t, loadingSpace, isMember, setScreenOptions, colors.background20])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {
