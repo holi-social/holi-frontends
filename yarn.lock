@@ -5413,8 +5413,6 @@ __metadata:
     "@holi/icons": "npm:^1.0.0"
     "@types/tinycolor2": "npm:1.4.3"
     react-test-renderer: "npm:18.0.0"
-    sass: "npm:1.49.9"
-    sass3js: "npm:1.0.9"
   peerDependencies:
     lottie-react: ^2.4.0
     lottie-react-native: 5.1.6
@@ -28092,32 +28090,6 @@ __metadata:
     sass-embedded:
       optional: true
   checksum: 10c0/40729573560feb1a368c984198f655b287495470fa5b5a47f6bc6ab0c474c1bd973ccccbb855d3320a91020a64913e5f0d8905e224ea13e6766d9abbb5085a41
-  languageName: node
-  linkType: hard
-
-"sass3js@npm:1.0.9":
-  version: 1.0.9
-  resolution: "sass3js@npm:1.0.9"
-  dependencies:
-    commander: "npm:^2.20.0"
-  peerDependencies:
-    sass: 1.x
-  bin:
-    sass3js: lib/cli.js
-  checksum: 10c0/ae8767c12ce63e4e20709d3672211c3c960f4c9d6b4e4087181313fb019a8ae01986e87789a41d0df8a3a19f6a587d03f90aad121d4849e50cc3a39a6a50986c
-  languageName: node
-  linkType: hard
-
-"sass@npm:1.49.9":
-  version: 1.49.9
-  resolution: "sass@npm:1.49.9"
-  dependencies:
-    chokidar: "npm:>=3.0.0 <4.0.0"
-    immutable: "npm:^4.0.0"
-    source-map-js: "npm:>=0.6.2 <2.0.0"
-  bin:
-    sass: sass.js
-  checksum: 10c0/d9e923cb34e54096d6a89f9a4a09231e24cf1ee224089fefa0c302278384a4a4a6a962dae65cc823e1d7a0a35553a212ab37869cbb1b88944481a9d877b8cf47
   languageName: node
   linkType: hard
 
