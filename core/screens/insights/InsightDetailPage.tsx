@@ -82,6 +82,10 @@ const InsightDetailPage = () => {
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const author = insight?.creator
+  const recommendationsTitle =
+    recommendations.length > 1
+      ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
+      : t('insights.recommendations.title.single', { name: author?.firstName })
 
   return (
     <>
@@ -180,14 +184,10 @@ const InsightDetailPage = () => {
                 imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
                 width={37}
                 height={37}
-                label=""
+                label={recommendationsTitle}
                 isSvg
               />
-              <HoliHeading>
-                {recommendations.length > 1
-                  ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
-                  : t('insights.recommendations.title.single', { name: author?.firstName })}
-              </HoliHeading>
+              <HoliHeading>{recommendationsTitle}</HoliHeading>
             </View>
             <HoliGap size="s" />
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
