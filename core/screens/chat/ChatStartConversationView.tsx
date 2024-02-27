@@ -20,7 +20,8 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { isWebTouchDevice, useDebounce } from '@holi/ui/helper'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FIND_USER_BY_NAME_LIMIT = 30
@@ -35,6 +36,9 @@ const ChatStartConversationView = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [searchUserInputValue, setSearchUserInputValue] = useState('')
   const [users, setUsers] = useState<User[]>([])
@@ -53,7 +57,7 @@ const ChatStartConversationView = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background20])
 
   // BE API
   const [fetchUserByName, { loading }] = useLazyQuery<UserByNameResponse>(userByNameQuery)
@@ -185,42 +189,43 @@ const ChatStartConversationView = () => {
 
 export default ChatStartConversationView
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-    flex: 1,
-    ...Platform.select({
-      web: {
-        minHeight: '100%',
-      },
-    }),
-  },
-  inner: {
-    flex: 1,
-    // 16 is space between the header and the input
-    // we do not use `paddingTop` for this spacing, because it will be overriden with `safeAreaInsetTop` for Android
-    marginTop: dimensions.topBarHeight + 16,
-  },
-  list: {
-    flex: 1,
-    paddingTop: 24,
-  },
-  listDescription: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  userItem: {
-    justifyContent: 'space-between',
-  },
-  userItemContent: {
-    flexShrink: 1,
-  },
-  overlayButtonWrapper: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: (!isWebTouchDevice() && isWeb ? 20 : 0) + 8,
-  },
-  flexRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+      flex: 1,
+      ...Platform.select({
+        web: {
+          minHeight: '100%',
+        },
+      }),
+    },
+    inner: {
+      flex: 1,
+      // 16 is space between the header and the input
+      // we do not use `paddingTop` for this spacing, because it will be overriden with `safeAreaInsetTop` for Android
+      marginTop: dimensions.topBarHeight + 16,
+    },
+    list: {
+      flex: 1,
+      paddingTop: 24,
+    },
+    listDescription: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    userItem: {
+      justifyContent: 'space-between',
+    },
+    userItemContent: {
+      flexShrink: 1,
+    },
+    overlayButtonWrapper: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: (!isWebTouchDevice() && isWeb ? 20 : 0) + 8,
+    },
+    flexRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  })

@@ -31,7 +31,8 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -45,6 +46,9 @@ const ChatRoomView = () => {
   const { t } = useTranslation()
   const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
@@ -119,7 +123,18 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom, t, loadingUsers])
+  }, [
+    handleBackPress,
+    chatPartner,
+    setScreenOptions,
+    chatPartnerHoliUser,
+    roomId,
+    room,
+    isSpaceRoom,
+    t,
+    loadingUsers,
+    colors.brandColorD20,
+  ])
 
   useEffect(() => {
     if (chatInitialized && !room) {
@@ -194,27 +209,28 @@ const ChatRoomView = () => {
 
 export default ChatRoomView
 
-const styles = StyleSheet.create({
-  headerTitle: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    minHeight: '100%',
-    paddingTop: dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-  },
-  listContainer: {
-    flex: 1,
-    height: '100%',
-    width: '100%',
-  },
-  listStage: {
-    alignSelf: 'center',
-    paddingHorizontal: 16,
-    maxWidth: dimensions.maxScreenWidth,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    headerTitle: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      gap: 8,
+    },
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      minHeight: '100%',
+      paddingTop: dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+    },
+    listContainer: {
+      flex: 1,
+      height: '100%',
+      width: '100%',
+    },
+    listStage: {
+      alignSelf: 'center',
+      paddingHorizontal: 16,
+      maxWidth: dimensions.maxScreenWidth,
+    },
+  })
