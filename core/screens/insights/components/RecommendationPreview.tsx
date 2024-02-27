@@ -36,6 +36,7 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
               source={{ uri: recommendation.linkPreview.image }}
               label={recommendation.link}
               style={styles.image}
+              resizeMode="contain"
             />
             <HoliGap size="s" />
           </>
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 6,
+    maxWidth: '100%',
   },
   description: {
     paddingHorizontal: Spacing['3xs'],
