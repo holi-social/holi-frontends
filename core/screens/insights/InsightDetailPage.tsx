@@ -16,14 +16,17 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import { Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -36,6 +39,8 @@ import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCar
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+import RecommendationPreview from './components/RecommendationPreview'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -71,6 +76,7 @@ const InsightDetailPage = () => {
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const posts: Post[] = insight?.posts || []
+  const recommendations: Recommendation[] = insight?.recommendations || []
   const author = insight?.creator
 
   useIsomorphicLayoutEffect(() => {
@@ -90,6 +96,11 @@ const InsightDetailPage = () => {
       },
     })
   }, [insight, setScreenOptions])
+
+  const recommendationsTitle =
+    recommendations.length > 1
+      ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
+      : t('insights.recommendations.title.single', { name: author?.firstName })
 
   return (
     <>
@@ -177,6 +188,30 @@ const InsightDetailPage = () => {
           </>
         ) : (
           <Skeleton />
+        )}
+
+        {recommendations.length > 0 && (
+          <View style={mixins.container}>
+            <HoliGap size="l" />
+            <View style={styles.sectionTitle}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
+                width={37}
+                height={37}
+                label={recommendationsTitle}
+                isSvg
+              />
+              <HoliHeading>{recommendationsTitle}</HoliHeading>
+            </View>
+            <HoliGap size="s" />
+            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+              {recommendations.map((recommendation) => (
+                <HoliGridCell key={recommendation.id}>
+                  <RecommendationPreview recommendation={recommendation} />
+                </HoliGridCell>
+              ))}
+            </HoliGridWrapper>
+          </View>
         )}
 
         {posts.length > 0 && (
@@ -288,6 +323,11 @@ const styles = StyleSheet.create({
   },
   authorInfoName: {
     color: colors.foreground30,
+  },
+  sectionTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing['3xs'],
   },
   postList: {
     marginTop: 24,

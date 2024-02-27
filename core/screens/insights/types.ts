@@ -15,4 +15,27 @@ export interface Insight {
   numberOfPosts: number
   involvedUsers: Paged<User>
   isBookmarked?: boolean
+  recommendations?: Recommendation[]
+}
+
+export interface LinkPreview {
+  id: string
+  requestedUrl: string
+  url: string
+  title: string
+  description: string
+  type: string
+  image: string
+  siteName: string
+  fetchedAt: string
+  origin: string
+  icon?: string
+}
+
+export interface Recommendation {
+  id: string
+  category: string
+  link: string
+  linkPreview: LinkPreview
+  comment: string
 }
