@@ -63,7 +63,6 @@ export const lastInsightsQuery = gql`
             ...UserAvatar
           }
         }
-        isBookmarked
       }
       totalResults
     }

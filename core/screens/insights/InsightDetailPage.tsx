@@ -87,9 +87,7 @@ const InsightDetailPage = () => {
         return (
           insight && (
             <InsightDrawer insight={insight}>
-              <View>
-                <HoliIcon icon={MoreFilled} color={colors.white100} />
-              </View>
+              <HoliIcon icon={MoreFilled} color={colors.white100} />
             </InsightDrawer>
           )
         )
