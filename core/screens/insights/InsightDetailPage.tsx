@@ -201,6 +201,7 @@ const InsightDetailPage = () => {
             </View>
             <HoliGap size="s" />
             <HoliCarousel
+              hideDotIndicators
               marginHorizontal={20}
               slides={recommendations.map((recommendation) => ({
                 children: (
@@ -209,7 +210,6 @@ const InsightDetailPage = () => {
                   </View>
                 ),
               }))}
-              style={{ flex: 1 }}
             />
           </View>
         )}
