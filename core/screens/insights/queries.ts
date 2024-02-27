@@ -27,6 +27,7 @@ const InsightWithPostsFragment = gql`
     posts {
       ...PostFragment
     }
+    isBookmarked
   }
 `
 
@@ -57,6 +58,7 @@ export const lastInsightsQuery = gql`
             ...UserAvatar
           }
         }
+        isBookmarked
       }
       totalResults
     }
