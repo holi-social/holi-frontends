@@ -14,4 +14,5 @@ export interface Insight {
   posts: Post[]
   numberOfPosts: number
   involvedUsers: Paged<User>
+  isBookmarked?: boolean
 }
