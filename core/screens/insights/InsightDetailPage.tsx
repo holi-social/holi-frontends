@@ -16,8 +16,9 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import QuotesCarousel from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import { Recommendation } from '@holi/core/screens/insights/types'
+import { Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -80,10 +81,6 @@ const InsightDetailPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  const posts: Post[] = insight?.posts || []
-  const recommendations: Recommendation[] = insight?.recommendations || []
-  const author = insight?.creator
-
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: true,
@@ -100,6 +97,11 @@ const InsightDetailPage = () => {
     })
   }, [insight, setScreenOptions])
 
+  const posts: Post[] = insight?.posts || []
+  const recommendations: Recommendation[] = insight?.recommendations || []
+  const quotes: Quote[] = insight?.quotes || []
+
+  const author = insight?.creator
   const recommendationsTitle =
     recommendations.length > 1
       ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
@@ -223,6 +225,25 @@ const InsightDetailPage = () => {
                 ),
               }))}
             />
+          </View>
+        )}
+
+        {quotes.length > 0 && (
+          <View style={mixins.container}>
+            <HoliGap size="l" />
+            <View style={styles.sectionTitle}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
+                label="Quote"
+                width={37}
+                height={37}
+                isSvg
+              />
+              <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
+            </View>
+            <HoliGap size="s" />
+            <QuotesCarousel quotes={quotes} />
+            <HoliGap size="s" />
           </View>
         )}
 

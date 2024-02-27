@@ -45,6 +45,7 @@ export interface Link {
   image: string
   siteName: string
   origin: string
+  icon?: string
 }
 
 export interface Post {
