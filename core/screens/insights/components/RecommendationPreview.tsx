@@ -36,6 +36,7 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
               source={{ uri: recommendation.linkPreview.image }}
               label={recommendation.link}
               style={styles.image}
+              resizeMode="contain"
             />
             <HoliGap size="s" />
           </>
@@ -66,7 +67,7 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
                 <HoliIcon icon={LinkM} size={18} color={colors.brandB300} />
               </View>
             )}
-            <HoliText numberOfLines={1} size="small">
+            <HoliText numberOfLines={1} size="small" style={styles.linkText}>
               {recommendation.link}
             </HoliText>
           </View>
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 6,
+    maxWidth: '100%',
   },
   description: {
     paddingHorizontal: Spacing['3xs'],
@@ -96,6 +98,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing['3xs'],
+  },
+  linkText: {
+    flex: 1,
   },
   favicon: {
     height: 24,

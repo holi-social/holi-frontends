@@ -29,6 +29,7 @@ const InsightWithPostsFragment = gql`
     posts {
       ...PostFragment
     }
+    isBookmarked
     recommendations {
       ...RecommendationFragment
     }

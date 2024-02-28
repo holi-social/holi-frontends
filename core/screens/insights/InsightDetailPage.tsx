@@ -8,17 +8,21 @@ import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import { Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { MoreFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -31,10 +35,12 @@ import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
+import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import RecommendationPreview from './components/RecommendationPreview'
@@ -52,6 +58,8 @@ const InsightDetailPage = () => {
   const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const { width: screenWidth } = useClientWindowDimensions()
+  const smallDeviceWidth = parseInt(dimensions.breakpointS, 10)
 
   const {
     data: { insightById: insight } = {},
@@ -72,16 +80,26 @@ const InsightDetailPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
+  const posts: Post[] = insight?.posts || []
+  const recommendations: Recommendation[] = insight?.recommendations || []
+  const author = insight?.creator
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: true,
       headerTintColor: colors.white100,
+      headerRight: () => {
+        return (
+          insight && (
+            <InsightDrawer insight={insight}>
+              <HoliIcon icon={MoreFilled} color={colors.white100} />
+            </InsightDrawer>
+          )
+        )
+      },
     })
-  }, [setScreenOptions])
+  }, [insight, setScreenOptions])
 
-  const posts: Post[] = insight?.posts || []
-  const recommendations: Recommendation[] = insight?.recommendations || []
-  const author = insight?.creator
   const recommendationsTitle =
     recommendations.length > 1
       ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
@@ -107,7 +125,6 @@ const InsightDetailPage = () => {
               style={[mixins.container, styles.bannerImage]}
               imageStyle={styles.insightImage as ImageStyle}
             />
-
             <View style={[styles.content, mixins.container]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
@@ -177,9 +194,14 @@ const InsightDetailPage = () => {
         )}
 
         {recommendations.length > 0 && (
-          <View style={mixins.container}>
+          <View style={[mixins.container, screenWidth <= smallDeviceWidth ? { paddingHorizontal: 0 } : {}]}>
             <HoliGap size="l" />
-            <View style={styles.sectionTitle}>
+            <View
+              style={[
+                styles.sectionTitle,
+                screenWidth <= smallDeviceWidth ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
+              ]}
+            >
               <HoliLocalImage
                 imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
                 width={37}
@@ -190,13 +212,17 @@ const InsightDetailPage = () => {
               <HoliHeading>{recommendationsTitle}</HoliHeading>
             </View>
             <HoliGap size="s" />
-            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {recommendations.map((recommendation) => (
-                <HoliGridCell key={recommendation.id}>
-                  <RecommendationPreview recommendation={recommendation} />
-                </HoliGridCell>
-              ))}
-            </HoliGridWrapper>
+            <HoliCarousel
+              hideDotIndicators
+              marginHorizontal={20}
+              slides={recommendations.map((recommendation) => ({
+                children: (
+                  <View style={styles.carouselSlide}>
+                    <RecommendationPreview recommendation={recommendation} />
+                  </View>
+                ),
+              }))}
+            />
           </View>
         )}
 
@@ -314,6 +340,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing['3xs'],
+  },
+  carouselSlide: {
+    flex: 1,
   },
   postList: {
     marginTop: 24,
