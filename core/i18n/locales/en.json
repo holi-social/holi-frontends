@@ -177,6 +177,7 @@
   "date": "{{date, MMM, D}}",
   "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
   "error.errorBoundary.retry": "Try again?",
+  "favorites.noResults.title": "No bookmarks yet",
   "filePicker.error.maxFileSize": "The file you uploaded is bigger than {{size}}MB",
   "global.add": "Add",
   "global.and": "and",
