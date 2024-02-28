@@ -73,6 +73,31 @@ export type LastInsightsResponse = {
   lastInsights: Paged<Insight>
 }
 
+export const favoriteInsightsQuery = gql`
+  ${UserAvatarFragment}
+
+  query FavoriteInsights($offset: Int! = 0, $limit: Int! = 10) {
+    favoriteInsights(offset: $offset, limit: $limit) {
+      data {
+        id
+        title
+        datePublished
+        creator {
+          ...UserAvatar
+          aboutMe
+        }
+        headerImage
+        headerImageBlurhash
+      }
+      totalResults
+    }
+  }
+`
+
+export type FavoriteInsightsResponse = {
+  favoriteInsights: Paged<Insight>
+}
+
 export const insightById = gql`
   ${InsightWithPostsFragment}
 
