@@ -21,6 +21,7 @@ const insight: Insight = {
     totalResults: 0,
     data: [],
   },
+  isBookmarked: false,
 }
 
 export const createInsightList = (length = 3) =>

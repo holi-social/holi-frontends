@@ -15,11 +15,14 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import { Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { MoreFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -77,16 +80,26 @@ const InsightDetailPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
+  const posts: Post[] = insight?.posts || []
+  const recommendations: Recommendation[] = insight?.recommendations || []
+  const author = insight?.creator
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: true,
       headerTintColor: colors.white100,
+      headerRight: () => {
+        return (
+          insight && (
+            <InsightDrawer insight={insight}>
+              <HoliIcon icon={MoreFilled} color={colors.white100} />
+            </InsightDrawer>
+          )
+        )
+      },
     })
-  }, [setScreenOptions])
+  }, [insight, setScreenOptions])
 
-  const posts: Post[] = insight?.posts || []
-  const recommendations: Recommendation[] = insight?.recommendations || []
-  const author = insight?.creator
   const recommendationsTitle =
     recommendations.length > 1
       ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
@@ -112,7 +125,6 @@ const InsightDetailPage = () => {
               style={[mixins.container, styles.bannerImage]}
               imageStyle={styles.insightImage as ImageStyle}
             />
-
             <View style={[styles.content, mixins.container]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
