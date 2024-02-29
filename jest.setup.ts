@@ -64,6 +64,12 @@ jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
   }
 })
 
+jest.mock('@holi/core/tracking/hooks/useTrackEvent', () => (
+  () => (
+    () => ({ trackEvent: jest.fn() })
+  )
+))
+
 jest.mock('@holi/core/helpers/useSafeAreaInsets', () => ({
   useSafeAreaInsets: () => ({
     top: 0,

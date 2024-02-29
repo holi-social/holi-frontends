@@ -15,6 +15,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import useTrackClickEvent from '@holi/core/tracking/hooks/useTrackClickEvent'
 import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -91,11 +92,17 @@ const HoliButton = ({
       props.children
     )
 
+  const trackClickEvent = useTrackClickEvent()
+
   const onButtonPress = useCallback(
     (event: React.SyntheticEvent | GestureResponderEvent) => {
-      if (props.onPress && !disabled) props.onPress(event)
+      if (props.onPress && !disabled) {
+        const clickTarget = props.testID || `label: ${props.label}`
+        trackClickEvent({ clickTarget: clickTarget })
+        props.onPress(event)
+      }
     },
-    [disabled, props]
+    [disabled, props, trackClickEvent]
   )
 
   return (
