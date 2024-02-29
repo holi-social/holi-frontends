@@ -177,6 +177,7 @@
   "date": "{{date, D. MMM}}",
   "dayNames": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
   "error.errorBoundary.retry": "Erneut versuchen?",
+  "favorites.noResults.title": "Noch keine Lesezeichen",
   "filePicker.error.maxFileSize": "Die hochgeladene Datei ist größer als {{size}}MB",
   "global.add": "Hinzufügen",
   "global.and": "und",
