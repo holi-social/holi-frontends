@@ -5,10 +5,12 @@ import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
@@ -91,9 +93,11 @@ const InsightDetailPage = () => {
       headerRight: () => {
         return (
           insight && (
-            <InsightDrawer insight={insight}>
-              <HoliIcon icon={MoreFilled} color={colors.white100} />
-            </InsightDrawer>
+            <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
+              <InsightDrawer insight={insight}>
+                <HoliIcon icon={MoreFilled} color={colors.white100} />
+              </InsightDrawer>
+            </FeatureToggleGuard>
           )
         )
       },
