@@ -10,6 +10,7 @@ export type HoliNoResultsProps = {
   media?: JSX.Element
   secondText: string
   style?: StyleProp<ViewStyle>
+  testID?: string
 }
 
 const HoliNoResults = ({
@@ -18,12 +19,13 @@ const HoliNoResults = ({
   secondText,
   style,
   children,
+  testID,
 }: React.PropsWithChildren<HoliNoResultsProps>) => {
   const { t } = useTranslation()
   const title = firstText || t('global.noResults')
 
   return (
-    <View style={[styles.holiNoResults, style]}>
+    <View style={[styles.holiNoResults, style]} testID={testID}>
       {media && <View style={styles.mediaContainer}>{media}</View>}
       <HoliText size="small">{title}</HoliText>
       <HoliText size="large" style={styles.secondText}>

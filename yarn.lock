@@ -5207,6 +5207,7 @@ __metadata:
     cross-fetch: "npm:^3.1.6"
     immer: "npm:^10.0.2"
     jest: "npm:^29.6.4"
+    jest-offline: "npm:^1.0.1"
     jotai: "npm:2.4.3"
     jotai-devtools: "npm:0.7.0"
     matrix-js-sdk: "npm:^29.1.0"

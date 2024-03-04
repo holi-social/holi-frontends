@@ -13,13 +13,13 @@ import {
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
 import {
+  DM_ROOM_ID_FIXTURE,
   createChatClient,
   createMatrixClientMock,
   createMatrixEventMock,
   createRoomMemberMock,
   createRoomMock,
 } from '@holi/chat/src/test-utils'
-import { CHAT_ROOM_NAME_MOCK } from '@holi/chat/src/test-utils/matrix-mock-setup'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 
 jest.mock('matrix-js-sdk')
@@ -39,13 +39,13 @@ describe('ChatClient', () => {
 
   describe('createRoom() method', () => {
     it('create a direct message room', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
 
       const isDM = true
 
       const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
 
-      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
+      expect(room_id).toEqual(DM_ROOM_ID_FIXTURE)
       expect(mxClient.createRoom).toBeCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
@@ -65,13 +65,13 @@ describe('ChatClient', () => {
     })
 
     it('create a group 1:n room', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
 
       const isDirectMessage = false
       const name = '#general'
 
       const { room_id } = await client.createRoom(members, { isDirectMessage, name })
-      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
+      expect(room_id).toEqual(DM_ROOM_ID_FIXTURE)
       expect(mxClient.createRoom).toBeCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
@@ -83,7 +83,7 @@ describe('ChatClient', () => {
     })
 
     it('fails if no user IDs were passed', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
 
       const members: string[] = []
       const isDirectMessage = true
