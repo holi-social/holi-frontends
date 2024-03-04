@@ -1,12 +1,11 @@
 import { useQuery } from '@apollo/client'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
@@ -69,7 +68,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
-  const { width: windowWidth } = useClientWindowDimensions()
+  const { width: windowWidth } = useWindowDimensions()
 
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
 
