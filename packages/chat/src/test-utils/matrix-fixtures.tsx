@@ -1,89 +1,102 @@
 import { EventType, IContent, IEvent, MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk'
 import { act } from 'react-test-renderer'
 
-import {
-  ChatMsgTextContent,
-  ChatRoom,
-  ChatRoomMember,
-  ChatRoomMessage,
-  MembershipStatus,
-} from '@holi/chat/src/client/types'
-import { createChatRoomResult, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-general'
+import { ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
+import { createChatRoomResult, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-mocks'
+import { User } from '@holi/core/screens/userprofile/types'
 
-import { CHAT_ROOM_NAME_MOCK } from './matrix-mock-setup'
+export const DM_ROOM_ID_FIXTURE = 'room-id'
+export const NOTIFICATION_COUNT_FIXTURE = 0
+export const SPACE_ROOM_ID_FIXTURE = '!space.room:holi.social'
+export const SPACE_ROOM_NAME_FIXTURE = 'space'
+export const SPACE_CHILD_ROOM_ID_FIXTURE = '!general.holi.social'
+export const SPACE_CHILD_ROOM_NAME_FIXTURE = '#general'
+export const HOLI_SPACE_ID_FIXTURE = 'holi-uuid'
+export const TIMESTAMP_FIXTURE = 1706703410441
 
-export function createChatRoomFixture(overrides?: Partial<ChatRoom>): ChatRoom {
-  const creator = overrides?.creator ? overrides.creator : createChatMemberFixture()
-  const hasMembers = Boolean(overrides?.members) && Array.isArray(overrides?.members)
-
-  const defaultRoom: ChatRoom = {
-    id: overrides?.id ?? CHAT_ROOM_NAME_MOCK,
-    name: overrides?.name ?? 'defaultRoomName',
-    hasInvitation: true,
-    notificationCount: 0,
-    lastMessage: undefined,
-    creator: creator,
-    members: [creator, ...(hasMembers ? (overrides?.members as ChatRoomMember[]) : [])],
-    senderId: creator.id ?? 'defaultSenderId',
-    timestamp: new Date().getTime(),
-  } as ChatRoom
-
-  return { ...defaultRoom, ...overrides } as ChatRoom
+export const SPACE_EVENT_CONTENT_FIXTURE = {
+  holiSpaceId: HOLI_SPACE_ID_FIXTURE,
+  roomId: SPACE_ROOM_ID_FIXTURE,
 }
 
-export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): ChatRoomMember {
-  const identity = overrides?.name ? overrides.name + 'Identity' : 'defaultUserIdentity'
-
-  const defaultChatMember: ChatRoomMember = {
-    name: overrides?.name ?? 'defaultUserName',
-    id: `@${identity}:test.chat`,
-    membership: MembershipStatus.join,
-  }
-  return { ...defaultChatMember, ...overrides }
+export const SPACE_CHILD_EVENT_CONTENT_FIXTURE = {
+  ...SPACE_EVENT_CONTENT_FIXTURE,
+  spaceName: SPACE_ROOM_NAME_FIXTURE,
+  avatarDefaultColor: '#7BD7EA',
+  parentSpaceRoomId: SPACE_ROOM_ID_FIXTURE,
 }
 
-export function createChatMessageFixture(
-  overrides?: Partial<ChatRoomMessage> | string,
-  sender?: ChatRoomMember,
-  room?: ChatRoom
-): ChatRoomMessage {
-  const defaultMessage: ChatRoomMessage = {
-    type: 'message',
-    id: 'defaultMessageId',
-    content: {
-      body: 'Default chat message',
-      msgtype: 'm.text',
-    },
-    timestamp: new Date().getTime(),
-    roomId: 'defaultRoomId',
-    sender: 'defaultSenderId',
-  }
-
-  let fixture = { ...defaultMessage } as unknown as ChatRoomMessage
-
-  if (typeof overrides === 'string') {
-    // eslint-disable-next-line @typescript-eslint/no-extra-semi
-    ;(fixture.content as ChatMsgTextContent).body = overrides
-  } else {
-    fixture = { ...fixture, ...overrides }
-
-    const bodyContentOverride = (overrides?.content as ChatMsgTextContent)?.body
-    if (bodyContentOverride) {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;(defaultMessage.content as ChatMsgTextContent).body = bodyContentOverride
-    }
-  }
-
-  if (room) {
-    fixture.roomId = room.id
-  }
-
-  if (sender) {
-    fixture.sender = sender.id
-  }
-
-  return fixture
+export const ADMIN_FIXTURE: ChatRoomMember = {
+  avatar: undefined,
+  id: '@chat.admin:test.chat',
+  membership: MembershipStatus.join,
+  name: 'chat.admin',
 }
+
+export const CREATOR_FIXTURE: ChatRoomMember = {
+  avatar: '',
+  id: '@creator.kato:test.chat',
+  membership: MembershipStatus.join,
+  name: 'creator',
+}
+
+export const MEMBER1_FIXTURE: ChatRoomMember = {
+  avatar: '',
+  id: '@member1.feynman:test.chat',
+  membership: MembershipStatus.join,
+  name: 'member1',
+}
+
+export const MEMBER2_FIXTURE: ChatRoomMember = {
+  avatar: '',
+  id: '@nakamoto:test.chat',
+  membership: MembershipStatus.join,
+  name: 'member2',
+}
+
+export const HOLI_CREATOR_ID_FIXTURE = '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0'
+export const HOLI_CREATOR_FIXTURE: User = {
+  id: HOLI_CREATOR_ID_FIXTURE,
+  identity: 'creator.kato',
+  avatar: '',
+  fullName: CREATOR_FIXTURE.name,
+  firstName: CREATOR_FIXTURE.name,
+  lastName: 'J',
+  aboutMe: 'howdy!',
+  avatarDefaultColor: '#7571EC',
+  avatarLabel: 'CJ',
+}
+
+export const HOLI_MEMBER1_ID_FIXTURE = '1fac-4292-96fc-9fbe2e6edbb0'
+export const HOLI_MEMBER1_FIXTURE: User = {
+  id: HOLI_MEMBER1_ID_FIXTURE,
+  identity: 'member1.feynman',
+  avatar: '',
+  fullName: MEMBER1_FIXTURE.name,
+  firstName: MEMBER1_FIXTURE.name,
+  lastName: 'Feynman',
+  aboutMe: '',
+  avatarDefaultColor: 'papayawhip',
+  avatarLabel: 'RF',
+}
+
+export const HOLI_MEMBER2_ID_FIXTURE = '96fc-9fbe2e6edbb0'
+export const HOLI_MEMBER2_FIXTURE: User = {
+  id: HOLI_MEMBER1_ID_FIXTURE,
+  identity: 'nakamoto',
+  avatar: '',
+  fullName: MEMBER2_FIXTURE.name,
+  firstName: MEMBER2_FIXTURE.name,
+  lastName: 'Nakamoto',
+  aboutMe: '',
+  avatarDefaultColor: 'papayawhip',
+  avatarLabel: 'NM',
+}
+
+export const DM_MEMBERS_FIXTURE = [CREATOR_FIXTURE, MEMBER1_FIXTURE, MEMBER2_FIXTURE]
+export const SPACE_MEMBERS_FIXTURE = [ADMIN_FIXTURE, MEMBER1_FIXTURE, MEMBER2_FIXTURE]
+export const HOLI_DM_USERS_FIXTURE = [HOLI_CREATOR_FIXTURE, HOLI_MEMBER1_FIXTURE, HOLI_MEMBER2_FIXTURE]
+export const HOLI_SPACE_USERS_FIXTURE = [HOLI_MEMBER1_FIXTURE, HOLI_MEMBER2_FIXTURE]
 
 // Message helpers
 export const msgEvent = (roomId: string, senderId: string, eventNr: number): IEvent => {

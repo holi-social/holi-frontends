@@ -1,221 +1,310 @@
+import { DefaultOptions } from '@apollo/client'
+import { MockedProvider } from '@apollo/client/testing'
 import { act, render, screen, waitFor } from '@testing-library/react-native'
-import { ClientEvent } from 'matrix-js-sdk'
-import { ICreateClientOpts } from 'matrix-js-sdk/src/client'
+import { createStore } from 'jotai'
+import { ClientEvent, EventType, IEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'
 
+import { createCache } from '@holi/api/graphql/client'
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import { setChatConnected, setChatInitialized } from '@holi/chat/src/client/chatState'
+import { ChatRoomEvent, ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
-import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
-import { ChatMockProvider, queriesFor, storeForRoomAtoms } from '@holi/chat/src/test-utils/ChatMockProvider'
+import { initChatClient } from '@holi/chat/src/store'
 import {
-  createChatMemberFixture,
-  createChatMessageFixture,
-  createChatRoomFixture,
-} from '@holi/chat/src/test-utils/matrix-fixtures'
-import {
-  CHAT_MOCK_USER_ID,
-  mockCreateMatrixClient,
-  mockMx,
-  setMatrixMock,
-} from '@holi/chat/src/test-utils/matrix-mock-setup'
-import { fireMatrixEvent, matrixRoomFrom } from '@holi/chat/src/test-utils/matrix-utils'
-import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
+  ADMIN_FIXTURE,
+  CREATOR_FIXTURE,
+  DM_MEMBERS_FIXTURE,
+  DM_ROOM_ID_FIXTURE,
+  HOLI_CREATOR_FIXTURE,
+  HOLI_CREATOR_ID_FIXTURE,
+  HOLI_DM_USERS_FIXTURE,
+  HOLI_MEMBER1_FIXTURE,
+  HOLI_MEMBER1_ID_FIXTURE,
+  HOLI_SPACE_USERS_FIXTURE,
+  MEMBER1_FIXTURE,
+  NOTIFICATION_COUNT_FIXTURE,
+  SPACE_CHILD_EVENT_CONTENT_FIXTURE,
+  SPACE_CHILD_ROOM_ID_FIXTURE,
+  SPACE_CHILD_ROOM_NAME_FIXTURE,
+  SPACE_EVENT_CONTENT_FIXTURE,
+  SPACE_MEMBERS_FIXTURE,
+  SPACE_ROOM_ID_FIXTURE,
+  SPACE_ROOM_NAME_FIXTURE,
+  TIMESTAMP_FIXTURE,
+  createChatClient,
+  createMatrixClientMock,
+  createMatrixEventMock,
+  createRoomMock,
+  getListenerForMatrixEvent,
+} from '@holi/chat/src/test-utils'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { authenticatedUserQuery, usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 
-interface MockLoggedInUserState {
-  isLoggedIn: boolean
-  isLoading: boolean
+jest.mock('matrix-js-sdk')
+jest.mock('@holi/chat/src/client/pusher')
+jest.mock('@holi/core/auth/helpers/useAuth')
+
+const useAuthMock = jest.mocked(useAuth)
+const defaultOptions: DefaultOptions = {
+  watchQuery: { fetchPolicy: 'no-cache' },
+  query: { fetchPolicy: 'no-cache' },
 }
 
-let mockLoggedInUser: User | undefined = undefined
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-let mockOrySessionInStorage: Record<string, string> | undefined
-let mockMatrixSessionInStorage: [string, boolean | string | undefined][]
-let mockChatFeatureToggle: Record<string, boolean | string>
-let mockLoggedInUserState: MockLoggedInUserState | undefined = {
-  isLoggedIn: false,
-  isLoading: false,
-}
-
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
-  useLoggedInUser: () => ({
-    user: mockLoggedInUser,
-    ...mockLoggedInUserState,
-    refetch: jest.fn(),
-  }),
-}))
-
-jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
-  useFeatureToggle: () => mockChatFeatureToggle,
-  FeatureToggleName: {
-    CHAT: 'CHAT',
-  },
-}))
-
-jest.mock('@react-native-async-storage/async-storage', () => {
+const getLoggedUserQueryMock = (user: User) => {
   return {
-    multiGet: async () => mockMatrixSessionInStorage,
-    multiSet: async () => mockMatrixSessionInStorage,
-    multiRemove: async () => null,
+    request: {
+      query: authenticatedUserQuery,
+      variables: {
+        userId: user.id,
+      },
+    },
+    result: {
+      data: {
+        authenticatedUser: user,
+      },
+    },
   }
-})
+}
 
-jest.mock('matrix-js-sdk', () => ({
-  ...jest.requireActual('matrix-js-sdk'),
-  createClient: (opts: ICreateClientOpts) => mockCreateMatrixClient(opts.userId ?? '', mockMx),
-}))
+const getUserByChatIdQueryMock = (members: ChatRoomMember[], users: User[]) => {
+  const identities = members.map((member) => {
+    // Selects everything between @...: for an Marix Id (@member1.feynman:test.chat)
+    const result = member.id.match(/(?<=@)(\w+(?:\.\w+)*)/g)
+    if (result === null) return ''
+    return result[0]
+  })
 
-describe('ChatHome', () => {
+  return {
+    request: {
+      query: usersByChatIdentitiesQuery,
+      variables: {
+        identities,
+        offset: 0,
+        limit: members.length,
+      },
+    },
+    result: {
+      data: {
+        usersByChatIdentities: {
+          data: users,
+        },
+      },
+    },
+  }
+}
+
+describe('ChatHomeContent Component', () => {
+  let mxClient: jest.MockedObjectDeep<MatrixClient>
+  let chatClient: ChatClient
+  let store: ReturnType<typeof createStore>
+
   beforeEach(() => {
-    markDeviceTokenAsInitialized()
-    mockChatFeatureToggle = {
-      ftLoading: false,
-      ftError: false,
-      ftStatus: 'FeatureToggleStatus.PRODUCTION',
-      ftEnabled: true,
-    }
+    jest.clearAllTimers()
+    mxClient = createMatrixClientMock()
+    chatClient = createChatClient()
+    store = createStore()
+    initChatClient(chatClient)
+    setChatInitialized(true)
+    setChatConnected(true)
   })
 
-  afterEach(() => {
-    mockOrySessionInStorage = undefined
-    mockLoggedInUser = undefined
-    mockLoggedInUserState = undefined
-    mockMatrixSessionInStorage = []
+  it('should render login info screen if the user is not logged-in', async () => {
+    useAuthMock.mockReturnValue({ userId: null, isLoggedIn: false, isLoggedOut: false, isLoading: false })
+    render(
+      <MockedProvider mocks={[]} addTypename={false} cache={createCache()}>
+        <ChatHomeContent />
+      </MockedProvider>
+    )
+
+    expect(await screen.findByTestId('chat-login')).toBeOnTheScreen()
   })
 
-  describe('for guests', () => {
-    beforeAll(() => {
-      mockOrySessionInStorage = {}
-      mockLoggedInUser = undefined
-      mockLoggedInUserState = {
-        isLoggedIn: false,
-        isLoading: false,
-      }
-      mockMatrixSessionInStorage = [
-        ['mx_client_login', undefined],
-        ['mx_user_id', undefined],
-        ['mx_sso_token', undefined],
-        ['mx_device', undefined],
-      ]
+  it('should render existing rooms', async () => {
+    useAuthMock.mockReturnValue({
+      userId: HOLI_CREATOR_ID_FIXTURE,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      isLoading: false,
+    })
+    const roomName = 'room-name'
+    const roomMock = createRoomMock(DM_ROOM_ID_FIXTURE, {
+      members: DM_MEMBERS_FIXTURE,
+      timelineEvents: [],
+      unreadNotificationCount: NOTIFICATION_COUNT_FIXTURE,
+      creatorId: CREATOR_FIXTURE.id,
+      myMembership: MembershipStatus.join,
+      getMember: CREATOR_FIXTURE,
+      name: roomName,
     })
 
-    it('shows login hint', async () => {
-      render(
-        <ChatSessionInitializer>
-          <ChatProvider>
-            <ChatHomeContent />
-          </ChatProvider>
-        </ChatSessionInitializer>
-      )
+    roomMock.getLastActiveTimestamp.mockReturnValue(TIMESTAMP_FIXTURE)
 
-      expect(await screen.findByText('loginRedirect.title')).toBeOnTheScreen()
-      expect(await screen.findByText('loginRedirect.text')).toBeOnTheScreen()
-    })
-  })
+    mxClient.getRooms.mockReturnValue([roomMock])
+    mxClient.roomState.mockResolvedValue([])
 
-  describe('for signed-in user', () => {
-    beforeEach(() => {
-      mockOrySessionInStorage = {
-        session_token: 'session_token_stub',
-      }
-      mockLoggedInUser = {
-        id: 'someLoggedInUserId',
-        avatarDefaultColor: '',
-        avatarLabel: '',
-        fullName: '',
-        identity: 'someLoggedInUserIdentity',
-      }
-      mockLoggedInUserState = {
-        isLoggedIn: true,
-        isLoading: false,
-      }
-      mockMatrixSessionInStorage = [
-        ['mx_client_login', true], //fresh?
-        ['mx_user_id', CHAT_MOCK_USER_ID],
-        ['mx_sso_token', 'someAccessToken'],
-        ['mx_device', 'someDeviceId'],
-      ]
-      mockChatFeatureToggle = {
-        ftLoading: false,
-        ftError: false,
-        ftStatus: 'FeatureToggleStatus.PRODUCTION',
-        ftEnabled: true,
-      }
-
-      setMatrixMock(CHAT_MOCK_USER_ID)
-    })
-
-    it('shows empty home chat view', async () => {
-      render(
-        <ChatSessionInitializer>
-          <ChatProvider>
-            <ChatHomeContent />
-          </ChatProvider>
-        </ChatSessionInitializer>
-      )
-
-      await waitFor(() => {
-        expect(screen.getByText('chat.empty.tagline')).toBeOnTheScreen()
-        expect(screen.getByText('chat.empty.headline')).toBeOnTheScreen()
-        expect(screen.getByText('chat.empty.button.text')).toBeOnTheScreen()
-      })
-    })
-
-    it('shows an existing room', async () => {
-      // GIVEN a pre-existing room with a message by bob
-      const bob = createChatMemberFixture({ name: 'Bob' })
-      const bobsRoom = createChatRoomFixture({
-        // we use user identities as room names?
-        name: 'BobIdentity',
-        creator: bob,
-      })
-      bobsRoom.lastMessage = createChatMessageFixture('Moin!', bob)
-
-      const members = [bob]
-      const rooms = [bobsRoom]
-
-      // WHEN rendering the chat home
-      render(
-        <ChatMockProvider jotaiStore={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
+    render(
+      <MockedProvider
+        mocks={[
+          getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
+          getUserByChatIdQueryMock(DM_MEMBERS_FIXTURE, HOLI_DM_USERS_FIXTURE),
+        ]}
+        addTypename={true}
+        defaultOptions={defaultOptions}
+        cache={createCache()}
+      >
+        <ChatProvider store={store}>
           <ChatHomeContent />
-        </ChatMockProvider>
-      )
+        </ChatProvider>
+      </MockedProvider>
+    )
 
-      // THEN it shows the room list
-      expect(await screen.findByTestId('chat-room-list')).toBeOnTheScreen()
+    // During the loading phase we show the `<HoliLoader />`
+    expect(await screen.findByTestId('chat-home-loader')).toBeOnTheScreen()
 
-      // THEN intermediately a skeleton for the room is shown
-      // TODO FIXME: this should test if a skeleton is shown. the way the test setup is though, the room get's rendered immediately as the store already contains the room
-      //expect(await screen.findByTestId('room-item-BobIdentity-skeleton')).toBeOnTheScreen()
-      //expect(await screen.findByTestId('room-item-BobIdentity-skeleton')).not.toBeOnTheScreen()
+    const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
+    expect(displayedRoom).toHaveTextContent(MEMBER1_FIXTURE.name)
+  })
 
-      // THEN bobs room is shown in a list and the last message is displayed
-      const listedRoom = await screen.findByTestId('room-item-BobIdentity')
-      expect(listedRoom).toHaveTextContent('chat.invitation.newconversation')
-      expect(listedRoom).toHaveTextContent('Moin!')
+  it('should render existing room with pending invitation', async () => {
+    useAuthMock.mockReturnValue({
+      userId: HOLI_MEMBER1_ID_FIXTURE,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      isLoading: false,
+    })
+    const roomName = CREATOR_FIXTURE.name
+    const roomMock = createRoomMock(DM_ROOM_ID_FIXTURE, {
+      members: DM_MEMBERS_FIXTURE,
+      timelineEvents: [],
+      unreadNotificationCount: NOTIFICATION_COUNT_FIXTURE,
+      creatorId: CREATOR_FIXTURE.id,
+      myMembership: MembershipStatus.invite,
+      getMember: MEMBER1_FIXTURE,
+      name: roomName,
     })
 
-    it('shows an incoming room', async () => {
-      const aliceRoom = createChatRoomFixture({
-        // we use user identities as room names?
-        name: 'AliceIdentity',
-      })
+    roomMock.getLastActiveTimestamp.mockReturnValue(TIMESTAMP_FIXTURE)
+    roomMock.hasMembershipState.mockReturnValue(true)
 
-      render(
-        <ChatMockProvider>
+    mxClient.getRooms.mockReturnValue([roomMock])
+    mxClient.roomState.mockResolvedValue([])
+    mxClient.getUserId.mockReturnValue(MEMBER1_FIXTURE.id)
+
+    render(
+      <MockedProvider
+        mocks={[
+          getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
+          getUserByChatIdQueryMock(DM_MEMBERS_FIXTURE, HOLI_DM_USERS_FIXTURE),
+        ]}
+        addTypename={false}
+        defaultOptions={defaultOptions}
+      >
+        <ChatProvider store={store}>
           <ChatHomeContent />
-        </ChatMockProvider>
-      )
+        </ChatProvider>
+      </MockedProvider>
+    )
 
-      // wait for chat to be initialized before firing an event
-      expect(await screen.findByText('chat.empty.tagline')).toBeOnTheScreen()
+    const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
+    expect(displayedRoom).toHaveTextContent(CREATOR_FIXTURE.name)
+    expect(displayedRoom).toHaveTextContent('chat.invitation.newconversation')
+  })
 
+  it('should render incoming rooms', async () => {
+    useAuthMock.mockReturnValue({
+      userId: HOLI_MEMBER1_ID_FIXTURE,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      isLoading: false,
+    })
+
+    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
+      content: SPACE_EVENT_CONTENT_FIXTURE,
+    } as unknown as IEvent)
+
+    const spaceChildSharedDataEvent = createMatrixEventMock(
+      ChatRoomEvent.SharedData,
+      SPACE_CHILD_ROOM_ID_FIXTURE,
+      undefined,
+      {
+        content: SPACE_CHILD_EVENT_CONTENT_FIXTURE,
+      } as unknown as IEvent
+    )
+
+    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, SPACE_CHILD_ROOM_ID_FIXTURE, undefined, {
+      content: { canonical: true },
+      state_key: SPACE_ROOM_ID_FIXTURE,
+      room_id: SPACE_CHILD_ROOM_ID_FIXTURE,
+    } as unknown as IEvent)
+
+    const spaceRoomMock = createRoomMock(SPACE_ROOM_ID_FIXTURE, {
+      timestamp: TIMESTAMP_FIXTURE,
+      timelineEvents: [],
+      members: SPACE_MEMBERS_FIXTURE,
+      name: SPACE_ROOM_NAME_FIXTURE,
+      isSpaceRoom: true,
+      creatorId: ADMIN_FIXTURE.id,
+      getMember: ADMIN_FIXTURE,
+      stateEvents: [spaceSharedDataEvent],
+    })
+
+    const spaceChildRoomMock = createRoomMock(SPACE_CHILD_ROOM_ID_FIXTURE, {
+      timestamp: TIMESTAMP_FIXTURE,
+      members: SPACE_MEMBERS_FIXTURE,
+      timelineEvents: [],
+      name: SPACE_CHILD_ROOM_NAME_FIXTURE,
+      creatorId: ADMIN_FIXTURE.id,
+      getMember: ADMIN_FIXTURE,
+      stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
+    })
+
+    render(
+      <MockedProvider
+        mocks={[
+          getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
+          getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
+        ]}
+        addTypename={true}
+        defaultOptions={defaultOptions}
+        cache={createCache()}
+      >
+        <ChatProvider store={store}>
+          <ChatHomeContent />
+        </ChatProvider>
+      </MockedProvider>
+    )
+
+    // During the loading phase we show the `<HoliLoader />`
+    expect(await screen.findByTestId('chat-home-loader')).toBeOnTheScreen()
+    expect(await screen.findByTestId('chat-no-result')).toBeOnTheScreen()
+
+    // Events starts coming in
+    const newRoomListener = getListenerForMatrixEvent(mxClient, ClientEvent.Room, 'roomEventHandler') as (
+      room: Room
+    ) => void
+
+    const sharedDataListener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'handleSharedData') as (
+      event: MatrixEvent,
+      room: Room | undefined
+    ) => void
+
+    act(() => {
+      newRoomListener(spaceRoomMock)
+      newRoomListener(spaceChildRoomMock)
+    })
+
+    await waitFor(() => {
       act(() => {
-        fireMatrixEvent(mockMx.on, ClientEvent.Room, matrixRoomFrom(aliceRoom))
+        sharedDataListener(spaceSharedDataEvent, spaceRoomMock)
+        sharedDataListener(spaceChildSharedDataEvent, spaceChildRoomMock)
       })
-
-      expect(await screen.findByTestId('chat-room-list')).toBeOnTheScreen()
-      expect(await screen.findByTestId('room-item-AliceIdentity')).toBeOnTheScreen()
     })
+
+    expect(screen.queryByTestId(`room-item-${SPACE_ROOM_NAME_FIXTURE}`)).not.toBeOnTheScreen()
+    const displayedRoom = await screen.findByTestId(`room-item-${SPACE_CHILD_ROOM_NAME_FIXTURE}`)
+    expect(displayedRoom).toHaveTextContent(SPACE_ROOM_NAME_FIXTURE)
   })
 })

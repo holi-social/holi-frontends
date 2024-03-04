@@ -14,7 +14,6 @@ export const useLoggedInUser = () => {
     refetch,
   } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !userId,
-    fetchPolicy: 'cache-first',
     onError: (error) => {
       displayError(error, 'Failed to load authenticated user', {
         location: 'useLoggedInUser.authenticatedUserQuery',

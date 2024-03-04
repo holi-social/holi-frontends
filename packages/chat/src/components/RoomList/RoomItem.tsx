@@ -25,7 +25,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface RoomItemProps {
   roomAtom: ChatRoomAtom
   loggedInUser: User // optimization to not re-fetch the logged in user on scrolling
-  testID?: string
 }
 
 // nummeric constants to use for ItemLayout in FlatList
@@ -38,7 +37,6 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
   const room = useAtomValue(roomAtom)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
-
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
   const isChatPartnerDeleted = !!chatPartner && !chatPartnerHoliUser
