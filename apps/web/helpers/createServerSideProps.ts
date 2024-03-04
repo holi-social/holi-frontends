@@ -21,7 +21,8 @@ export const createServerSideProps = async (
   // TODO: We do an early return with empty page props. It still leads to
   // rendering everything on the client and should not have any
   // performance cost when we render the site.
-  if (!featureFlag.enableSSR) {
+  const isFirstServerCall = req?.url?.indexOf('/_next/data/') === -1
+  if (!featureFlag.enableSSR || !isFirstServerCall) {
     return {
       props: {},
     }
