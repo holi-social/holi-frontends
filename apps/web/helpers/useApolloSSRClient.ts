@@ -18,7 +18,7 @@ export const addApolloSSRState = (client: ApolloClient<NormalizedCacheObject>, p
   }
 }
 
-export const useApolloClient = (props: ApolloStateProps) => {
+export const useApolloSSRClient = (props: ApolloStateProps) => {
   const state = props[APOLLO_STATE_PROP_NAME]
   const store = useMemo(() => initializeApolloSSRClient(state), [state])
 

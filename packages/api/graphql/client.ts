@@ -227,7 +227,4 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
 }
 
 // Mobile
-// TODO: rename to recognize its only for client-side JS
-export const client = createApolloClient({ ssrMode: false })
-
-export default client
+export const initializeClientSideApolloClient = () => createApolloClient({ ssrMode: false })

@@ -11,7 +11,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
-import { useApolloClient } from '@holi/web/helpers/useApolloSSRClient'
+import { useApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
 import { NextJSPageProps } from '@holi/web/types'
 
 interface RootProviderProps {
@@ -19,7 +19,7 @@ interface RootProviderProps {
 }
 
 const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
-  const apolloWebClient = useApolloClient(pageProps)
+  const apolloWebClient = useApolloSSRClient(pageProps)
 
   useSyncLanguage(pageProps.locale)
 

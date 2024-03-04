@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client'
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -5,7 +6,6 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
-import client from '@holi/api/graphql/client'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
@@ -55,6 +55,7 @@ const DonationsAppHome = () => {
     updateParams({ location: undefined })
     closeModal()
   }, [updateParams, closeModal])
+  const client = useApolloClient()
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()

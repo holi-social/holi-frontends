@@ -1,9 +1,9 @@
+import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import client from '@holi/api/graphql/client'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
@@ -30,6 +30,7 @@ export const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid 
 
 const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
   const { displayError } = useErrorHandling()
+  const client = useApolloClient()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
