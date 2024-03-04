@@ -20,7 +20,7 @@ export function mergeIndexAwareOffsetLimitArray<T = Reference>(
   incoming: readonly T[],
   options: Partial<FieldFunctionOptions> = {}
 ): readonly T[] {
-  const { offset = 0, limit = incoming?.length || 0 } = options?.args || {}
+  const { offset = 0, limit = 0 } = options?.args || {}
   if (!existing) {
     // empty cache
     return incoming
@@ -33,11 +33,11 @@ export function mergeIndexAwareOffsetLimitArray<T = Reference>(
   } else if (existing.length >= offset + limit) {
     // within range of existing -> incoming overwrites at the correct indices
     const prefix = existing.slice(0, offset)
-    const suffix = existing.slice(offset + limit)
+    const suffix = existing.slice(offset + incoming.length)
     return prefix.concat(incoming.concat(suffix))
   } else {
     // existing and incoming are not overlapping -> fill with empty values in between
-    const fill = Array(offset - existing?.length).fill(null)
+    const fill = Array(Math.max(offset - existing?.length, 0)).fill(null)
     return existing.concat(fill).concat(incoming)
   }
 }
@@ -65,11 +65,14 @@ export function pagedPolicy<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<Paged
     merge: (existing, incoming, options) => {
       return {
         ...incoming,
-        data: mergeIndexAwareOffsetLimitArray<T>(existing?.data, incoming.data, options),
+        data: (mergeIndexAwareOffsetLimitArray<T>(existing?.data, incoming.data, options) || []).slice(
+          0,
+          incoming.totalResults
+        ),
       }
     },
     read: (existing, options) => {
-      const { offset = 0, limit = existing?.data?.length || 0 } = options?.args || {}
+      const { offset = 0, limit = 0 } = options?.args || {}
       const expectedResults = offset + limit
       if (!existing?.data || (existing.data.length < expectedResults && expectedResults <= existing?.totalResults)) {
         // cache miss if cache empty or existing contains fewer entries than requested and in total
