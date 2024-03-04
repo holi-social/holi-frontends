@@ -102,7 +102,6 @@ describe('ChatHomeContent Component', () => {
   let store: ReturnType<typeof createStore>
 
   beforeEach(() => {
-    jest.clearAllTimers()
     mxClient = createMatrixClientMock()
     chatClient = createChatClient()
     store = createStore()
