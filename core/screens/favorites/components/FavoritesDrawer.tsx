@@ -32,6 +32,11 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ id, children }: Favorit
     await removeInsightBookmark({ variables: { insightId: id } })
   }
 
+  //TODO: add share insight handler
+  const shareInsightActionHandler = () => {
+    return
+  }
+
   return (
     <HoliActionDrawer.Drawer
       label={t('global.moreOptions')}
@@ -42,7 +47,7 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ id, children }: Favorit
         icon={Share}
         title={t('global.share')}
         testID="btn-share-favorite"
-        handleAction={removeInsightBookmarkActionHandler}
+        handleAction={shareInsightActionHandler}
       />
       <HoliActionDrawer.Action
         icon={Bookmark2Line}
