@@ -48,14 +48,14 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   })
 
   const bookmarkInsightActionHandler = async () => {
-    await bookmarkInsight({ variables: { insightId: id } })
+    if (isLoggedIn) {
+      await bookmarkInsight({ variables: { insightId: id } })
+    }
+    navigate('/login')
   }
 
   const removeInsightBookmarkActionHandler = async () => {
-    if (isLoggedIn) {
-      await removeInsightBookmark({ variables: { insightId: id } })
-    }
-    navigate('/login')
+    await removeInsightBookmark({ variables: { insightId: id } })
   }
 
   const seeAllFavoritesActionHandler = async () => {
