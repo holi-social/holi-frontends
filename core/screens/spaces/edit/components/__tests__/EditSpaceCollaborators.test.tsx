@@ -1,3 +1,5 @@
+import { ApolloError } from '@apollo/client'
+import { GraphQLErrors } from '@apollo/client/errors'
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
@@ -5,7 +7,7 @@ import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
-import { pagedInvites, pagedMembershipRequests, space } from '@holi/core/screens/spaces/__tests__/testData'
+import { pagedInvites, pagedMembershipRequests, space, user } from '@holi/core/screens/spaces/__tests__/testData'
 import {
   spaceInvitesQuery,
   spaceMembersQuery,
@@ -14,6 +16,7 @@ import {
 import EditSpaceCollaborators from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
 import { spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 
 const spaceForAdmin = {
   ...space,
@@ -147,13 +150,25 @@ describe('EditSpaceCollaborators', () => {
   })
 
   it('opens the modal for a user request if the corresponding parameter is passed', async () => {
+    const userId = 'requesting-user-1'
+    const userByIdRequest = {
+      request: {
+        query: userByIdQuery,
+        variables: {
+          userId,
+        },
+      },
+      data: { userById: user },
+    }
+    const mocks = [...createMocksForSpace(spaceWithMembershipRequestsAndInvites), userByIdRequest]
+
     mockParameters({
       spaceIdOrName: space.name,
       tab: 'pending',
       userId: 'requesting-user-1',
     })
     render(
-      <MockedProvider mocks={createMocksForSpace(spaceWithMembershipRequestsAndInvites)} cache={createCache()}>
+      <MockedProvider mocks={mocks} cache={createCache()}>
         <EditSpaceCollaborators spaceIdOrName={space.name} />
       </MockedProvider>
     )
@@ -164,17 +179,33 @@ describe('EditSpaceCollaborators', () => {
   })
 
   it('does not open the modal for an unknown user', async () => {
+    const userId = 'unknown-user'
+    const userByIdRequestNotFound = {
+      request: {
+        query: userByIdQuery,
+        variables: {
+          userId,
+        },
+      },
+      error: new ApolloError({
+        graphQLErrors: [{ extensions: { code: 'NOT_FOUND' } }] as unknown as GraphQLErrors,
+      }),
+    }
+    const mocks = [...createMocksForSpace(spaceWithMembershipRequestsAndInvites), userByIdRequestNotFound]
+
     mockParameters({
       spaceIdOrName: space.name,
       tab: 'pending',
-      userId: 'unknown-user',
+      userId,
     })
     render(
-      <MockedProvider mocks={createMocksForSpace(spaceWithMembershipRequestsAndInvites)} cache={createCache()}>
+      <MockedProvider mocks={mocks} cache={createCache()}>
         <EditSpaceCollaborators spaceIdOrName={space.name} />
       </MockedProvider>
     )
-    await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
+    await act(async () => {
+      await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
+    })
     expect(screen.queryByTestId('space-collaborators-permissions-modal-backdrop')).toBeFalsy()
   })
 
@@ -239,10 +270,9 @@ describe('EditSpaceCollaborators', () => {
     // Expect less members, membership requests and invites
     await act(async () => {
       await waitFor(() => expect(screen.getAllByTestId('spaces-collaborators-item').length).toBe(newMemberCount))
-      // TODO(SF) FIXME: still displaying old count?
-      // await waitFor(() =>
-      //   expect(screen.getAllByTestId('space-pending-request-item').length).toBe(newMembershipRequestsCount)
-      // )
+      await waitFor(() =>
+        expect(screen.getAllByTestId('space-pending-request-item').length).toBe(newMembershipRequestsCount)
+      )
       await waitFor(() => expect(screen.getAllByTestId('space-invite-item').length).toBe(newInvitesCount))
     })
   })
