@@ -92,20 +92,6 @@ export const PostFragment = gql`
   }
 `
 
-export const RecommendationFragment = gql`
-  ${LinkFragment}
-
-  fragment RecommendationFragment on Recommendation {
-    id
-    category
-    comment
-    link
-    linkPreview {
-      ...LinkFragment
-    }
-  }
-`
-
 export const PostDetailsFragment = gql`
   ${UserAvatarFragment}
   ${PostCommentFragment}

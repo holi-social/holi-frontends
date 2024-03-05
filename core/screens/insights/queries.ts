@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
-import { Insight } from '@holi/core/screens/insights/types'
 import { LinkFragment, PostFragment, RecommendationFragment } from '@holi/core/screens/posts/queries'
+import { Insight, Recommendation } from '@holi/core/screens/insights/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
@@ -20,6 +20,20 @@ const QuotesFragment = gql`
     }
     category
     comment
+  }
+`
+
+export const RecommendationFragment = gql`
+  ${LinkFragment}
+
+  fragment RecommendationFragment on Recommendation {
+    id
+    category
+    comment
+    link
+    linkPreview {
+      ...LinkFragment
+    }
   }
 `
 
@@ -132,4 +146,18 @@ export const insightById = gql`
 
 export type InsightByIdResponse = {
   insightById: Insight
+}
+
+export const recommendationById = gql`
+  ${RecommendationFragment}
+
+  query RecommendationById($id: UUID!) {
+    recommendationById(id: $id) {
+      ...RecommendationFragment
+    }
+  }
+`
+
+export type RecommendationByIdResponse = {
+  recommendationById: Recommendation
 }
