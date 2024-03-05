@@ -1,8 +1,9 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Recommendation } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
@@ -16,19 +17,20 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RecommendationPreviewProps {
+  insightId: string
   recommendation: Recommendation
 }
 
-const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommendation, ...props }) => {
+const RecommendationPreview = ({ insightId, recommendation }: RecommendationPreviewProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   return (
-    <View {...props} style={styles.card}>
+    <View style={styles.card}>
       <HoliButton
         label={recommendation.linkPreview.title}
         transparent
-        onPress={() => Linking.openURL(recommendation.link)}
-        testID="feed-insight-image-link"
+        onPress={() => navigate(`/insights/${insightId}/recommendations/${recommendation.id}`)}
       >
         {recommendation.linkPreview.image && (
           <>
@@ -55,7 +57,7 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
           )}
 
           <View style={styles.link}>
-            {!!recommendation.linkPreview.icon && (
+            {recommendation.linkPreview.icon && (
               <HoliImage
                 source={{ uri: recommendation.linkPreview.icon }}
                 label={recommendation.linkPreview.title}

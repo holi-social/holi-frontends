@@ -192,6 +192,39 @@ const InsightDetailPage = () => {
 
               <HoliRichTextOutput text={insight.description} allowAllLinks />
             </View>
+
+            {recommendations.length > 0 && (
+              <View style={[mixins.container, screenWidth <= smallDeviceWidth ? { paddingHorizontal: 0 } : {}]}>
+                <HoliGap size="l" />
+                <View
+                  style={[
+                    styles.sectionTitle,
+                    screenWidth <= smallDeviceWidth ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
+                  ]}
+                >
+                  <HoliLocalImage
+                    imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
+                    width={37}
+                    height={37}
+                    label={recommendationsTitle}
+                    isSvg
+                  />
+                  <HoliHeading>{recommendationsTitle}</HoliHeading>
+                </View>
+                <HoliGap size="s" />
+                <HoliCarousel
+                  hideDotIndicators
+                  marginHorizontal={20}
+                  slides={recommendations.map((recommendation) => ({
+                    children: (
+                      <View style={styles.carouselSlide}>
+                        <RecommendationPreview insightId={insight.id} recommendation={recommendation} />
+                      </View>
+                    ),
+                  }))}
+                />
+              </View>
+            )}
           </>
         ) : (
           <Skeleton />
