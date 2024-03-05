@@ -105,7 +105,6 @@ describe('ChatRoomView', () => {
   let store: ReturnType<typeof createStore>
 
   beforeEach(() => {
-    jest.clearAllTimers()
     mxClient = createMatrixClientMock()
     chatClient = createChatClient()
     store = createStore()
@@ -223,9 +222,9 @@ describe('ChatRoomView', () => {
 
     await act(async () => {
       await waitForElementToBeRemoved(() => screen.getByTestId('chat-room-loader'))
-      expect(await screen.findByText(msgBody)).toBeOnTheScreen()
-      expect(await screen.findByTestId('chat-message-input-input')).toBeOnTheScreen()
     })
+    expect(await screen.findByText(msgBody)).toBeOnTheScreen()
+    expect(await screen.findByTestId('chat-message-input-input')).toBeOnTheScreen()
   })
 
   it('should render a Space chat room', async () => {
@@ -317,9 +316,9 @@ describe('ChatRoomView', () => {
 
     await act(async () => {
       await waitForElementToBeRemoved(() => screen.getByTestId('chat-room-loader'))
-      expect(await screen.findByText(msgBody)).toBeOnTheScreen()
-      expect(await screen.findByText(MEMBER2_FIXTURE.name)).toBeOnTheScreen()
-      expect(await screen.findByTestId('chat-message-input-input')).toBeOnTheScreen()
     })
+    expect(await screen.findByText(msgBody)).toBeOnTheScreen()
+    expect(await screen.findByText(MEMBER2_FIXTURE.name)).toBeOnTheScreen()
+    expect(await screen.findByTestId('chat-message-input-input')).toBeOnTheScreen()
   })
 })
