@@ -44,6 +44,7 @@ export const LinkFragment = gql`
     image
     siteName
     origin
+    icon
   }
 `
 
