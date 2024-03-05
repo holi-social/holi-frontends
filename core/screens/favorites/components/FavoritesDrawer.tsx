@@ -5,7 +5,6 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { RemoveInsightBookmark, removeInsightBookmarkMutation } from '@holi/core/screens/insights/mutations'
-import { insightById } from '@holi/core/screens/insights/queries'
 import { Bookmark2Line, Share } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 
@@ -26,7 +25,7 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ id, children }: Favorit
         location: 'FavoriteDrawer.removeInsightBookmark',
         id,
       }),
-    refetchQueries: [{ query: insightById, variables: { id } }],
+    refetchQueries: ['FavoriteInsights'],
   })
 
   const removeInsightBookmarkActionHandler = async () => {
