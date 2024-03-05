@@ -13,7 +13,7 @@ import {
 } from '@holi/core/screens/insights/mutations'
 import { insightById } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
-import { BookmarkFill, BookmarkLine } from '@holi/icons/src/generated'
+import { Bookmark3Line, BookmarkFill, BookmarkLine } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 
 type InsightDrawerProps = {
@@ -58,6 +58,10 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
     navigate('/login')
   }
 
+  const seeAllFavoritesActionHandler = async () => {
+    navigate('/profile/settings/favorites')
+  }
+
   return (
     <HoliActionDrawer.Drawer
       label={t('global.moreOptions')}
@@ -77,6 +81,14 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
           title={t('insights.insight.bookmark.button')}
           testID="btn-bookmark-insight"
           handleAction={bookmarkInsightActionHandler}
+        />
+      )}
+      {isLoggedIn && (
+        <HoliActionDrawer.Action
+          icon={Bookmark3Line}
+          title={t('favorites.seeAll.button')}
+          testID="btn-see-all-favorites"
+          handleAction={seeAllFavoritesActionHandler}
         />
       )}
     </HoliActionDrawer.Drawer>
