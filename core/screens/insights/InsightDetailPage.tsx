@@ -45,7 +45,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import RecommendationPreview from './components/RecommendationPreview'
+import RecommendationPreview from './recommendations/RecommendationPreview'
 
 export type InsightDetailPageParams = {
   insightId: string
