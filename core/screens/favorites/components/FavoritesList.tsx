@@ -3,14 +3,14 @@ import React from 'react'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import FavoriteInsightsList from '@holi/core/screens/favorites/components/FavoriteInsightsList'
+import InsightFavoritesList from '@holi/core/screens/favorites/components/InsightFavoritesList'
 import { favoriteInsightsQuery } from '@holi/core/screens/insights/queries'
 
 const FavoritesList = () => {
   const { displayError } = useErrorHandling()
 
   const queryOptions: PaginationQueryHookOptions = {
-    pageSize: 10,
+    pageSize: 20,
     queryPath: 'favoriteInsights',
     onError: (error) => {
       displayError(error, 'Failed to load favorite insights', {
@@ -27,7 +27,7 @@ const FavoritesList = () => {
       }}
       loadMoreOnScroll
     >
-      <FavoriteInsightsList />
+      <InsightFavoritesList />
     </Pagination>
   )
 }

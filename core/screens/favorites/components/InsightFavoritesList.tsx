@@ -1,26 +1,29 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import InsightFavoriteCard from '@holi/core/screens/favorites/components/InsightFavoriteCard'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
-import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 
-const FavoriteInsightsList = () => {
+const InsightFavoritesList = () => {
   const { data: insights } = usePaginationContext<Insight>()
   const { t } = useTranslation()
 
   return insights.length > 0 ? (
-    <HoliGridWrapper itemsInRow={1} gap={16}>
-      {insights.map((item) => (
-        <HoliGridCell key={item.id}>{/**TODO: Add favorite insight card*/}</HoliGridCell>
+    <View>
+      {insights.map((insight) => (
+        <HoliGridCell key={insight.id}>
+          <InsightFavoriteCard insight={insight} />
+        </HoliGridCell>
       ))}
-    </HoliGridWrapper>
+    </View>
   ) : (
     /**TODO: add no result page*/
     <HoliNoResults firstText={t('favorites.noResults.title')} secondText={''} />
   )
 }
 
-export default FavoriteInsightsList
+export default InsightFavoritesList
