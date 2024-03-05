@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import HoliText, { HoliTextColor } from '@holi/ui/components/atoms/HoliText'
+import HoliText, { HoliTextColor, HoliTextSize } from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -9,11 +9,19 @@ export interface HoliBadgeProps {
   children?: ReactNode
   backgroundColor?: string
   color?: HoliTextColor
+  textSize?: HoliTextSize
 }
 
-const HoliBadge = ({ backgroundColor = colors.white200, color = 'gray300', children }: HoliBadgeProps) => (
+const HoliBadge = ({
+  backgroundColor = colors.white200,
+  color = 'gray300',
+  textSize = 'default',
+  children,
+}: HoliBadgeProps) => (
   <View style={[styles.tag, { backgroundColor: backgroundColor }]}>
-    <HoliText color={color}>{children}</HoliText>
+    <HoliText color={color} size={textSize}>
+      {children}
+    </HoliText>
   </View>
 )
 

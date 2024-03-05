@@ -1,14 +1,33 @@
 import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
-import { PostFragment, RecommendationFragment } from '@holi/core/screens/posts/queries'
+import { LinkFragment, PostFragment, RecommendationFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
+
+const QuotesFragment = gql`
+  ${LinkFragment}
+
+  fragment QuotesFragment on Quote {
+    id
+    text
+    author
+    authorProfession
+    link
+    linkPreview {
+      ...LinkFragment
+      icon
+    }
+    category
+    comment
+  }
+`
 
 const InsightWithPostsFragment = gql`
   ${UserAvatarFragment}
   ${PostFragment}
   ${RecommendationFragment}
+  ${QuotesFragment}
 
   fragment InsightWithPosts on Insight {
     id
@@ -32,6 +51,9 @@ const InsightWithPostsFragment = gql`
     isBookmarked
     recommendations {
       ...RecommendationFragment
+    }
+    quotes {
+      ...QuotesFragment
     }
   }
 `
