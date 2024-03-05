@@ -53,4 +53,5 @@ export interface Recommendation {
   link: string
   linkPreview: Link
   comment: string
+  insight?: Insight
 }

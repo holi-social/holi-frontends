@@ -150,10 +150,16 @@ export type InsightByIdResponse = {
 
 export const recommendationById = gql`
   ${RecommendationFragment}
+  ${UserAvatarFragment}
 
   query RecommendationById($id: UUID!) {
     recommendationById(id: $id) {
       ...RecommendationFragment
+      insight {
+        creator {
+          ...UserAvatar
+        }
+      }
     }
   }
 `

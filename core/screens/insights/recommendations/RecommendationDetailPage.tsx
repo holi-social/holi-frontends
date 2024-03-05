@@ -12,6 +12,8 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { RecommendationByIdResponse, recommendationById } from '@holi/core/screens/insights/queries'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
@@ -36,6 +38,7 @@ const RecommendationDetailPage = () => {
     {
       variables: { id: recommendationId },
       notifyOnNetworkStatusChange: true,
+      skip: !recommendationId,
       onError: (error) => {
         if (isNotFoundError(error)) {
           return replaceRoute('/404')
@@ -82,7 +85,22 @@ const RecommendationDetailPage = () => {
                 {recommendation.linkPreview.title}
               </HoliHeading>
             </View>
-            <View style={styles.comment}>More to come</View>
+            <View style={styles.comment}>
+              {recommendation.insight && (
+                <View style={styles.recommender}>
+                  <HoliAvatar
+                    size="micro"
+                    imageSrc={recommendation.insight.creator.avatar}
+                    imageBlurhash={recommendation.insight.creator.avatarBlurhash}
+                    label={recommendation.insight.creator.fullName ?? ''}
+                    initials={recommendation.insight.creator.avatarLabel || ''}
+                    defaultColor={recommendation.insight.creator.avatarDefaultColor || ''}
+                  />
+                  <HoliText bold>{'Why I recommend this'}</HoliText>
+                </View>
+              )}
+              <HoliText>{recommendation.comment}</HoliText>
+            </View>
           </>
         )}
       </ScrollHeaderLayout.Refreshable>
@@ -122,6 +140,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xs,
     paddingVertical: Spacing.md,
     marginBottom: 2,
+  },
+  recommender: {
+    flexDirection: 'row',
+    gap: Spacing['3xs'],
+    alignItems: 'center',
+    marginBottom: Spacing.xs,
   },
   comment: {
     backgroundColor: colors.background10,
