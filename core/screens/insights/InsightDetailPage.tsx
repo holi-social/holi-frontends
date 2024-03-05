@@ -243,7 +243,7 @@ const InsightDetailPage = () => {
               <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
             </View>
             <HoliGap size="s" />
-            <QuotesCarousel quotes={quotes} />
+            <QuotesCarousel insightId={insight?.id} quotes={quotes} />
             <HoliGap size="s" />
           </View>
         )}

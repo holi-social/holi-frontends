@@ -1,7 +1,8 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { Quote } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
@@ -15,77 +16,100 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface QuoteCardProps {
+  insightId: string
   quote: Quote
 }
 
-const QuoteCard: React.FC<QuoteCardProps> = ({ quote }) => {
+type OptionalStyles = {
+  style?: ViewStyle
+}
+
+const QuoteCard: React.FC<Pick<QuoteCardProps, 'quote'> & OptionalStyles> = ({ quote, style = {} }) => {
+  return (
+    <View style={[styles.quoteCard, style]}>
+      <HoliLocalImage
+        imageSource={require('@holi/ui/assets/img/illustrations/illustrations_quote.svg')}
+        label="Quote icon"
+        width={26}
+        height={15}
+        resizeMode="contain"
+        isSvg
+      />
+      <HoliGap size="s" />
+      <HoliText numberOfLines={5}>{quote.text}</HoliText>
+      <HoliGap size="xs" />
+      <HoliText size="extrasmall" color="gray300">
+        {quote.author} ∙ {quote.authorProfession}
+      </HoliText>
+    </View>
+  )
+}
+
+const SourceCard: React.FC<Pick<QuoteCardProps, 'quote'>> = ({ quote }) => {
   const { t } = useTranslation()
   const linkHost = new URL(quote.link).host.replace(/^(www.)/, '')
 
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.quoteCard}>
-        <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustrations_quote.svg')}
-          label="Quote icon"
-          width={26}
-          height={15}
-          resizeMode="contain"
-          isSvg
-        />
-        <HoliGap size="s" />
-        <HoliText numberOfLines={5}>{quote.text}</HoliText>
-        <HoliGap size="xs" />
-        <HoliText size="extrasmall" color="gray300">
-          {quote.author} ∙ {quote.authorProfession}
-        </HoliText>
-      </View>
-      <HoliGap size="xs" />
-      <View style={styles.sourceCard}>
-        {!!quote.linkPreview.image && (
-          <View style={styles.linkPreviewImageContainer}>
-            <HoliImage
-              source={{ uri: quote.linkPreview.image }}
-              label={quote.linkPreview.title}
-              style={styles.linkPreviewImage}
-            />
-          </View>
-        )}
-        <View style={styles.linkPreviewDetailsContainer}>
-          <HoliBadge textSize="extrasmall">
-            {t(`insights.recommendations.category.${quote.category.toLowerCase()}`)}
-          </HoliBadge>
-          <View>
-            <HoliHeading level="2" size="s" selectable numberOfLines={2}>
-              {quote.linkPreview.title}
-            </HoliHeading>
-          </View>
-          <View style={styles.linkPreviewSourceLineContainer}>
-            {!!quote.linkPreview.icon && (
-              <View style={styles.linkPreviewFavicon}>
-                <HoliImage
-                  source={{ uri: quote.linkPreview.icon }}
-                  label={quote.linkPreview.title}
-                  style={{ width: 18, height: 18 }}
-                />
-              </View>
-            )}
-            {!quote.linkPreview.icon && (
-              <View style={[styles.linkPreviewFavicon, styles.linkPreviewDefaultIcon]}>
-                <HoliIcon icon={LinkM} size={18} color={colors.brandB300} />
-              </View>
-            )}
-            <HoliText size="extrasmall" color="gray300" numberOfLines={1}>
-              {linkHost}
-            </HoliText>
-          </View>
+    <View style={styles.sourceCard}>
+      {!!quote.linkPreview.image && (
+        <View style={styles.linkPreviewImageContainer}>
+          <HoliImage
+            source={{ uri: quote.linkPreview.image }}
+            label={quote.linkPreview.title}
+            style={styles.linkPreviewImage}
+          />
+        </View>
+      )}
+      <View style={styles.linkPreviewDetailsContainer}>
+        <HoliBadge textSize="extrasmall">
+          {t(`insights.recommendations.category.${quote.category.toLowerCase()}`)}
+        </HoliBadge>
+        <View>
+          <HoliHeading level="2" size="s" selectable numberOfLines={2}>
+            {quote.linkPreview.title}
+          </HoliHeading>
+        </View>
+        <View style={styles.linkPreviewSourceLineContainer}>
+          {!!quote.linkPreview.icon && (
+            <View style={styles.linkPreviewFavicon}>
+              <HoliImage
+                source={{ uri: quote.linkPreview.icon }}
+                label={quote.linkPreview.title}
+                style={{ width: 18, height: 18 }}
+              />
+            </View>
+          )}
+          {!quote.linkPreview.icon && (
+            <View style={[styles.linkPreviewFavicon, styles.linkPreviewDefaultIcon]}>
+              <HoliIcon icon={LinkM} size={18} color={colors.brandB300} />
+            </View>
+          )}
+          <HoliText size="extrasmall" color="gray300" numberOfLines={1}>
+            {linkHost}
+          </HoliText>
         </View>
       </View>
     </View>
   )
 }
 
-export default memo(QuoteCard)
+const InsightQuoteCard: React.FC<QuoteCardProps> = ({ insightId, quote }) => {
+  return (
+    <HoliLink label={quote.linkPreview.title} href={`/insights/${insightId}/quotes/${quote.id}`}>
+      <View style={styles.cardContainer}>
+        <QuoteCard quote={quote} />
+        <HoliGap size="xs" />
+        <SourceCard quote={quote} />
+      </View>
+    </HoliLink>
+  )
+}
+
+export default {
+  Quote: memo(QuoteCard),
+  Source: memo(SourceCard),
+  Full: memo(InsightQuoteCard),
+}
 
 const styles = StyleSheet.create({
   cardContainer: {
