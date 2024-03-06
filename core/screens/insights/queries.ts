@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
-import { LinkFragment, PostFragment, RecommendationFragment } from '@holi/core/screens/posts/queries'
 import { Insight, Recommendation } from '@holi/core/screens/insights/types'
+import { LinkFragment, PostFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
@@ -16,7 +16,6 @@ const QuotesFragment = gql`
     link
     linkPreview {
       ...LinkFragment
-      icon
     }
     category
     comment

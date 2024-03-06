@@ -225,73 +225,40 @@ const InsightDetailPage = () => {
                 />
               </View>
             )}
+
+            {quotes.length > 0 && (
+              <View style={mixins.container}>
+                <HoliGap size="l" />
+                <View style={styles.sectionTitle}>
+                  <HoliLocalImage
+                    imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
+                    label="Quote"
+                    width={37}
+                    height={37}
+                    isSvg
+                  />
+                  <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
+                </View>
+                <HoliGap size="s" />
+                <QuotesCarousel quotes={quotes} />
+                <HoliGap size="s" />
+              </View>
+            )}
+
+            {posts.length > 0 && (
+              <View style={[mixins.container, styles.postList]}>
+                <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+                  {posts.map((post) => (
+                    <HoliGridCell key={post.id}>
+                      <PostPreview post={post} insightId={insightId} />
+                    </HoliGridCell>
+                  ))}
+                </HoliGridWrapper>
+              </View>
+            )}
           </>
         ) : (
           <Skeleton />
-        )}
-
-        {recommendations.length > 0 && (
-          <View style={[mixins.container, screenWidth <= smallDeviceWidth ? { paddingHorizontal: 0 } : {}]}>
-            <HoliGap size="l" />
-            <View
-              style={[
-                styles.sectionTitle,
-                screenWidth <= smallDeviceWidth ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
-              ]}
-            >
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
-                width={37}
-                height={37}
-                label={recommendationsTitle}
-                isSvg
-              />
-              <HoliHeading>{recommendationsTitle}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
-            <HoliCarousel
-              hideDotIndicators
-              marginHorizontal={20}
-              slides={recommendations.map((recommendation) => ({
-                children: (
-                  <View style={styles.carouselSlide}>
-                    <RecommendationPreview recommendation={recommendation} />
-                  </View>
-                ),
-              }))}
-            />
-          </View>
-        )}
-
-        {quotes.length > 0 && (
-          <View style={mixins.container}>
-            <HoliGap size="l" />
-            <View style={styles.sectionTitle}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
-                label="Quote"
-                width={37}
-                height={37}
-                isSvg
-              />
-              <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
-            <QuotesCarousel quotes={quotes} />
-            <HoliGap size="s" />
-          </View>
-        )}
-
-        {posts.length > 0 && (
-          <View style={[mixins.container, styles.postList]}>
-            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {posts.map((post) => (
-                <HoliGridCell key={post.id}>
-                  <PostPreview post={post} insightId={insightId} />
-                </HoliGridCell>
-              ))}
-            </HoliGridWrapper>
-          </View>
         )}
       </ScrollHeaderLayout.Refreshable>
     </>
@@ -315,7 +282,7 @@ const Skeleton = () => {
       </View>
       <View style={[styles.content, mixins.container]}>
         <View style={styles.tag}>
-          <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
+          <HoliSkeleton height={Spacing.lg} width={200} borderRadius={24} />
         </View>
         <View style={styles.title}>
           <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
@@ -323,7 +290,7 @@ const Skeleton = () => {
         <View style={styles.curator}>
           <View style={styles.skeletonCurrator}>
             <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
-            <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+            <HoliSkeleton height={Spacing.xxl} width={260} borderRadius={16} />
           </View>
         </View>
         <HoliSkeleton height={256} width="100%" borderRadius={16} />
