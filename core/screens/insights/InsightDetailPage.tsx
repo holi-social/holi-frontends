@@ -23,7 +23,6 @@ import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/qu
 import { Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -87,6 +86,7 @@ const InsightDetailPage = () => {
     setScreenOptions({
       headerTransparent: true,
       headerTintColor: colors.white100,
+      title: '',
       headerRight: () => {
         return (
           insight && (
@@ -105,11 +105,11 @@ const InsightDetailPage = () => {
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
 
-  const author = insight?.creator
+  const creator = insight?.creator
   const recommendationsTitle =
     recommendations.length > 1
-      ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
-      : t('insights.recommendations.title.single', { name: author?.firstName })
+      ? t('insights.recommendations.title', { name: creator?.firstName, number: recommendations.length })
+      : t('insights.recommendations.title.single', { name: creator?.firstName })
 
   return (
     <>
@@ -144,10 +144,10 @@ const InsightDetailPage = () => {
                 </HoliHeading>
               </View>
 
-              {author && (
+              {creator && (
                 <>
                   <View style={styles.curator}>
-                    <HoliText style={styles.authorInfoText}>
+                    <HoliText style={styles.creationDetails}>
                       <HoliText style={styles.date} color="gray300">
                         {getRelativeDateString(insight.datePublished, i18n.language)}
                       </HoliText>
@@ -156,20 +156,20 @@ const InsightDetailPage = () => {
                     </HoliText>
                     <HoliButton
                       transparent
-                      label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                      label={t('user.cards.modal.showInfo', { name: creator.fullName })}
                       onPress={() => setShowCuratorModal(true)}
                     >
-                      <View style={styles.authorInfoInner}>
+                      <View style={styles.creatorInfo}>
                         <HoliAvatar
-                          imageSrc={author.avatar}
-                          imageBlurhash={author.avatarBlurhash}
-                          label={author.fullName ?? ''}
-                          initials={author.avatarLabel || ''}
-                          defaultColor={author.avatarDefaultColor || ''}
-                          style={styles.authorInfoAvatar}
+                          imageSrc={creator.avatar}
+                          imageBlurhash={creator.avatarBlurhash}
+                          label={creator.fullName ?? ''}
+                          initials={creator.avatarLabel || ''}
+                          defaultColor={creator.avatarDefaultColor || ''}
+                          style={styles.creatorAvatar}
                         />
                         <View>
-                          <HoliText bold>{author.fullName}</HoliText>
+                          <HoliText bold>{creator.fullName}</HoliText>
                           <HoliText size="small">{t('global.independentJournalist')}</HoliText>
                         </View>
                       </View>
@@ -177,16 +177,14 @@ const InsightDetailPage = () => {
                   </View>
 
                   <HoliModal
-                    label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                    label={t('user.cards.modal.showInfo', { name: creator.fullName })}
                     show={showCuratorModal}
                     onDismiss={() => setShowCuratorModal(false)}
-                    testID="insight-curator-modal"
                   >
                     <HoliUserCardsModalContent
-                      title={''} // don't show any headline in modal
-                      users={[author as User]}
+                      title={''}
+                      users={[creator]}
                       onDismiss={() => setShowCuratorModal(false)}
-                      testID="insight-curator"
                     />
                   </HoliModal>
                 </>
@@ -328,38 +326,35 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xs,
   },
   tag: {
-    marginBottom: Spacing['3xs'],
+    marginBottom: Spacing['xs'],
   },
   title: {
     marginBottom: Spacing.xs,
   },
   curator: {
-    marginBottom: Spacing.lg,
+    marginBottom: Spacing.md,
   },
   skeletonCurrator: {
     flexDirection: 'row',
     gap: Spacing['3xs'],
     alignItems: 'center',
   },
-  authorInfoInner: {
+  creatorInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.gray100,
-    padding: 12,
+    padding: Spacing.xxs,
   },
-  authorInfoAvatar: {
-    marginRight: 16,
+  creatorAvatar: {
+    marginRight: Spacing.xs,
   },
-  authorInfoText: {
+  creationDetails: {
     marginBottom: Spacing['3xs'],
   },
   date: {
     textTransform: 'capitalize',
-  },
-  authorInfoName: {
-    color: colors.foreground30,
   },
   sectionTitle: {
     flexDirection: 'row',
@@ -370,7 +365,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   postList: {
-    marginTop: 24,
+    marginTop: Spacing.md,
   },
 })
 
