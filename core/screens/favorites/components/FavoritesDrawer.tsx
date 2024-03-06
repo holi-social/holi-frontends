@@ -6,6 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { RemoveInsightBookmark, removeInsightBookmarkMutation } from '@holi/core/screens/insights/mutations'
 import { Bookmark2Line, Share } from '@holi/icons/src/generated'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 
 type FavoriteDrawerProps = {
@@ -17,6 +18,7 @@ type FavoriteDrawerProps = {
 const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ id, children }: FavoriteDrawerProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
 
   //TODO: This sould also handle removing bookmarks for initiatives, quotes, recommendations, etc...
   const [removeInsightBookmark] = useMutation<RemoveInsightBookmark>(removeInsightBookmarkMutation, {
@@ -30,6 +32,7 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ id, children }: Favorit
 
   const removeInsightBookmarkActionHandler = async () => {
     await removeInsightBookmark({ variables: { insightId: id } })
+    openToast(t('insights.insight.remove.bookmark.success'), HoliToastType.SUCCESS)
   }
 
   //TODO: add share insight handler
