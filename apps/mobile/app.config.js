@@ -96,6 +96,19 @@ export default {
         monochromeImage: './assets/icon_android_monochromatic.png',
         backgroundColor: '#fdfd80',
       },
+      intentFilters: [
+        {
+          action: 'VIEW',
+          autoVerify: true,
+          data: [
+            {
+              scheme: 'https',
+              host: '*.holi.social',
+            },
+          ],
+          category: ['BROWSABLE', 'DEFAULT'],
+        },
+      ],
     },
     plugins: [
       'expo-localization',
