@@ -86,6 +86,7 @@ const InsightDetailPage = () => {
     setScreenOptions({
       headerTransparent: true,
       headerTintColor: colors.white100,
+      title: '',
       headerRight: () => {
         return (
           insight && (
