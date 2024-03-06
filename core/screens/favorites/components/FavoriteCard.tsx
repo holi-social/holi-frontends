@@ -10,6 +10,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import AccountCircleFilled from '@holi/icons/src/generated/AccountCircleFilled'
 import MoreFilled from '@holi/icons/src/generated/MoreFilled'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -18,7 +19,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface FavoriteCardProps {
   id: string
   title: string
-  thumbnail: string
+  thumbnail?: string
   primaryLink: string
   curator?: User
   published?: string
@@ -40,7 +41,17 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ id, title, thumbnail, prima
       <HoliButton transparent inline label={title} onPress={() => navigate(primaryLink)}>
         <View style={styles.cardContent}>
           <View style={styles.thumbnailContainer}>
-            <HoliImage source={{ uri: thumbnail }} style={styles.thumbnail} label={title} />
+            {thumbnail ? (
+              <HoliImage source={{ uri: thumbnail }} style={styles.thumbnail} label={title} />
+            ) : (
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_thumbnail_placeholder.svg')}
+                isSvg
+                label={title}
+                width={100}
+                height={100}
+              />
+            )}
           </View>
           <View style={styles.detailsContainer}>
             <HoliText ellipsizeMode="tail" numberOfLines={2} bold>
