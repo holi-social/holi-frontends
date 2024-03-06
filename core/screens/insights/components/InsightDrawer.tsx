@@ -14,6 +14,7 @@ import {
 import { insightById } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import { Bookmark3Line, BookmarkFill, BookmarkLine } from '@holi/icons/src/generated'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 
 type InsightDrawerProps = {
@@ -26,6 +27,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   const { navigate } = useRouting()
   const { isLoggedIn } = useAuth()
   const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
 
   const { id, isBookmarked } = insight
 
@@ -50,12 +52,14 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   const bookmarkInsightActionHandler = async () => {
     if (isLoggedIn) {
       await bookmarkInsight({ variables: { insightId: id } })
+      openToast(t('insights.insight.bookmark.success'), HoliToastType.SUCCESS)
     }
     navigate('/login')
   }
 
   const removeInsightBookmarkActionHandler = async () => {
     await removeInsightBookmark({ variables: { insightId: id } })
+    openToast(t('insights.insight.remove.bookmark.success'), HoliToastType.SUCCESS)
   }
 
   const seeAllFavoritesActionHandler = async () => {
