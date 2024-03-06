@@ -3,6 +3,7 @@ import React, { memo } from 'react'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 export enum PermissionsType {
   SPACES = 'SPACES',
@@ -30,6 +31,10 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   // "undefined" is used when we do not know yet, if user is logged in (loading state)
   // "null" is used when we are SURE there is no logged in user
   const { userId } = useAuth()
+
+  if (userId === undefined) {
+    return <HoliLoader />
+  }
 
   if (forceRestrict) {
     navigate(redirectRoute || '/')

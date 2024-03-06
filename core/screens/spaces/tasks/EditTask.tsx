@@ -237,6 +237,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
       forceRestrict={!isAdmin && !isTaskOwner}
+      redirectRoute={`/spaces/${spaceIdOrName}`}
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}
