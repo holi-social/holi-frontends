@@ -347,6 +347,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.gray100,
+    boxShadow: `0px 1px 0px 0px ${colors.gray100}`,
     padding: Spacing.xxs,
   },
   creatorAvatar: {
