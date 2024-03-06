@@ -14,6 +14,7 @@ export const addApolloSSRState = (client: ApolloClient<NormalizedCacheObject>, p
   return {
     ...props,
     // JSON transform as workaround for issue "`undefined` cannot be serialized as JSON. Please use `null` or omit this value all together."
+    // see open NextJS issue: https://github.com/vercel/next.js/discussions/11209
     [APOLLO_STATE_PROP_NAME]: JSON.parse(JSON.stringify(client.cache.extract())),
   }
 }
