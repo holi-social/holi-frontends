@@ -44,6 +44,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.AboutHoliApp]: 'profile/settings/aboutholiapp',
             [RouteName.HelpSettings]: 'profile/settings/help',
             [RouteName.Document]: 'profile/settings/legalDocuments/document',
+            [RouteName.Favorites]: 'profile/settings/favorites',
           },
         },
       },

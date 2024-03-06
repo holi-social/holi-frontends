@@ -41,6 +41,7 @@ export type RootStackScreens = {
   [RouteName.AppsHub]: undefined
 
   [RouteName.NotFound]: undefined
+  [RouteName.Favorites]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()

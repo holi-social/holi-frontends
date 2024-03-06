@@ -178,6 +178,8 @@
   "dayNames": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
   "error.errorBoundary.retry": "Erneut versuchen?",
   "favorites.noResults.title": "Noch keine Lesezeichen",
+  "favorites.remove.bookmark.button": "Aus Favoriten entfernen",
+  "favorites.seeAll.button": "Alle Favoriten einsehen",
   "filePicker.error.maxFileSize": "Die hochgeladene Datei ist größer als {{size}}MB",
   "global.add": "Hinzufügen",
   "global.and": "und",
