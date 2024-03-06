@@ -26,8 +26,7 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowA
    * with the highlighted fullName
    */
 
-  const isExternalLink = (url: string) =>
-    Platform.OS !== 'web' || (!url.includes('holi.social') && !url.includes('localhost'))
+  const isExternalLink = (url: string) => !url.includes('holi.social') && !url.includes('localhost')
 
   const textWithMentions = (() => {
     return text

@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { GestureResponderEvent, Linking } from 'react-native'
+import { GestureResponderEvent, Linking, Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
@@ -24,7 +24,11 @@ const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkPr
         return
       }
 
-      if (mobileNavigateBackFirst) {
+      if (Platform.OS === 'ios' || Platform.OS === 'android') {
+        // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
+        const route = href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)/, '')
+        navigate(route)
+      } else if (mobileNavigateBackFirst) {
         navigateBack()
         setTimeout(() => navigate(href), 300)
       } else {
