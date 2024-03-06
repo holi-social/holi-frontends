@@ -37,6 +37,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface BaseProps {
   style?: StyleProp<ViewStyle>
 }
+
 interface SkeletonProps extends BaseProps {
   loading: true
   post?: Post
@@ -51,17 +52,50 @@ interface Props extends BaseProps {
   spaceIdOrName?: string
   hasVisibilityIcon?: boolean
   numberOfLines?: number
+  answered?: boolean
 }
-export type PostPreviewProps = SkeletonProps | Props
+// interface PollOptionData {
+//   text?: string
+//   percentage?: number
+//   answered?: boolean
+// }
+export type PollPreviewProps = SkeletonProps | Props
 
-const PostPreview = ({
+const pollQuestion = 'Wie geht es Ihnen?'
+// const pollOptions: PollOptionData[] = [
+//   { text: 'Super', percentage: 10 },
+//   { text: 'Fantastisch', percentage: 30 },
+// ]
+const rows = []
+// for (let i = 0; i < pollOptions.length; i++) {
+//   // note: we are adding a key prop here to allow react to uniquely identify each
+//   // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+//   rows.push(<AnswerOption text="text" />)
+// }
+
+const PollOptions = ({ answered }) => {
+  if (!answered) {
+    return (
+      <View>
+        <AnswerOption text="Option 1" />
+        <AnswerOption text="Option 2" />
+        <AnswerOption text="Option 3" />
+      </View>
+    )
+  } else {
+    return <View></View> // todo
+  }
+}
+
+const PollPreview = ({
   hasVisibilityIcon,
   insightId,
   post,
   spaceIdOrName,
   numberOfLines = 10,
   loading,
-}: PostPreviewProps) => {
+  answered,
+}: PollPreviewProps) => {
   const { t } = useTranslation()
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
@@ -150,25 +184,20 @@ const PostPreview = ({
       ) : null}
       {/* Author row with author, post date and three dot menu */}
       {/* As of v1.10.0: We don't show the author row when it is a daily inspiration post */}
-
       {/* Inspiration posts media header */}
       <InspirationPostMediaHeader post={post} />
-
       <View style={styles.postTitleLink}>
         <HoliLink href={getPostUrl(post?.id, insightId, spaceIdOrName)} label={post?.title || ''} testID="btn-to-post">
           <HoliHeading level="3" size="s">
-            Fragestellung
+            {pollQuestion}
           </HoliHeading>
         </HoliLink>
       </View>
 
-      {/* answering options */}
-      <AnswerOption text="Option 1" />
-      <AnswerOption text="Option 2" />
-      <AnswerOption text="Option 3" />
+      <PollOptions answered={answered} />
 
       <HoliBox padding={[8, 0, 8, 0]} layout={styles.headlineContainer}>
-        <HoliIcon icon={UserTeamFilled} size={14} style={styles.icon}/>
+        <HoliIcon icon={UserTeamFilled} size={14} style={styles.icon} />
         <HoliRichTextOutput
           text={'32 Anonyme Stimmen'}
           users={[]}
@@ -223,7 +252,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 7,
-  }
+  },
 })
 
-export default PostPreview
+export default PollPreview

@@ -36,7 +36,7 @@ const InspirationPostsList = () => {
       <HoliHeading size="l">{t('homeFeed.inspirationPosts.heading')}</HoliHeading>
       <HoliGap />
       <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-      <HoliGridCell><TestPoll /></HoliGridCell>
+      <HoliGridCell><TestPoll answered={false}/></HoliGridCell>
         {loading
           ? new Array(POSTS_PAGE_SIZE).fill(1).map((_, idx) => (
               <HoliGridCell key={idx}>
