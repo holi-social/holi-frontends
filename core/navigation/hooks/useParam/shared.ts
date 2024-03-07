@@ -79,8 +79,9 @@ export const useStableCallback = <T extends (...args: any[]) => any>(callback: T
 
 const parseString = (value?: string | string[]): string | undefined =>
   Array.isArray(value) ? (value.length ? value[0] : undefined) : value
-const parseArray = (value?: string | string[]): string[] => (!value ? [] : Array.isArray(value) ? value : [value])
+const parseArray = (value?: string | string[]): string[] | undefined =>
+  !value ? undefined : Array.isArray(value) ? value : [value]
 
 export const singleParamConfig = { initial: undefined, parse: parseString }
-export const arrayParamConfig = { initial: [], parse: parseArray }
+export const arrayParamConfig = { initial: undefined, parse: parseArray }
 export const webReplaceQueryConfig = { web: { replace: true } }

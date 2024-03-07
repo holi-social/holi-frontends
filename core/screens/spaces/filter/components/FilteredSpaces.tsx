@@ -1,13 +1,15 @@
+import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import client from '@holi/api/graphql/client'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { isSSR } from '@holi/core/helpers/isSSR'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -28,10 +30,11 @@ export const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid 
 
 const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
   const { displayError } = useErrorHandling()
+  const client = useApolloClient()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { height: windowHeight } = useWindowDimensions()
+  const { height: windowHeight } = useClientWindowDimensions()
   const styles = getStyles(windowHeight)
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
@@ -73,7 +76,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
       geolocation: geolocationDetails?.geolocation,
       skillSlugs,
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
 
   return (

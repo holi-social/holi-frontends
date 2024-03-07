@@ -24,7 +24,6 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
   const mixins = useStyleMixins()
   const { data } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
     variables: { memberId },
-    fetchPolicy: 'network-only',
     onError: (error) =>
       logError(error, 'Failed to load spaces for user', { location: 'SpacesTab.spacesByMemberIdQuery' }),
   })

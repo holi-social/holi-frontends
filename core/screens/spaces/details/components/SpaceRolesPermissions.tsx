@@ -173,9 +173,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const [spaceIdOrName] = useParam('spaceIdOrName')
 
-  const { error, space } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-  })
+  const { error, space } = useSpace(spaceIdOrName)
 
   useLayoutEffect(() => {
     setScreenOptions({

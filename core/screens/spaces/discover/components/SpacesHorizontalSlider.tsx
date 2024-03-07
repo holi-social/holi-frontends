@@ -19,20 +19,18 @@ const SpacesHorizontalSlider = ({
   cardWidth,
   slideGap,
 }: React.PropsWithChildren<SpacesHorizontalSliderProps>) => {
-  const styles = getStyles(cardWidth)
-
   return (
     <View style={style} testID={testID}>
       {children && (
         <ScrollView
           // always enable on web to prevent vertical jumping
-          scrollEnabled={Platform.OS === 'web' ? true : !loading}
+          scrollEnabled={Platform.OS === 'web' || !loading}
           horizontal
           nestedScrollEnabled
           contentContainerStyle={styles.scrollViewContainer}
         >
           {React.Children.map(children, (space, index) => (
-            <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
+            <View key={index} style={[{ marginRight: slideGap }, { width: cardWidth }]}>
               {space}
             </View>
           ))}
@@ -44,15 +42,11 @@ const SpacesHorizontalSlider = ({
 }
 export default memo(SpacesHorizontalSlider)
 
-const getStyles = (cardWidth: number) =>
-  StyleSheet.create({
-    cardContainer: {
-      width: cardWidth,
-    },
-    scrollViewContainer: {
-      paddingVertical: 13,
-      marginHorizontal: -20,
-      paddingLeft: 20,
-      paddingRight: 0,
-    },
-  })
+const styles = StyleSheet.create({
+  scrollViewContainer: {
+    paddingVertical: 13,
+    marginHorizontal: -20,
+    paddingLeft: 20,
+    paddingRight: 0,
+  },
+})

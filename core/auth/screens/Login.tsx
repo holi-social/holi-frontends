@@ -1,9 +1,9 @@
+import { useApolloClient } from '@apollo/client'
 import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import client from '@holi/api/graphql/client'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -39,6 +39,7 @@ const Login = () => {
   const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
+  const client = useApolloClient()
 
   const isWeb = Platform.OS === 'web'
 

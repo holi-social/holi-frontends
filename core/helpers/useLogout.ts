@@ -1,8 +1,8 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
+import { useApolloClient } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import client from '@holi/api/graphql/client'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logDebug } from '@holi/core/helpers/logging'
@@ -26,6 +26,7 @@ export const useLogout = () => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const { openToast } = useToast()
+  const client = useApolloClient()
 
   return {
     logout: useCallback(
@@ -74,7 +75,7 @@ export const useLogout = () => {
           redirect()
         }
       },
-      [navigate, openToast, t, isLoggingOut, userId]
+      [isLoggingOut, userId, navigate, client, openToast, t]
     ),
     isLoggingOut,
   }

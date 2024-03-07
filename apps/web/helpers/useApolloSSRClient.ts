@@ -13,11 +13,13 @@ export interface ApolloStateProps {
 export const addApolloSSRState = (client: ApolloClient<NormalizedCacheObject>, props: Partial<NextJSPageProps>) => {
   return {
     ...props,
-    [APOLLO_STATE_PROP_NAME]: client.cache.extract(),
+    // JSON transform as workaround for issue "`undefined` cannot be serialized as JSON. Please use `null` or omit this value all together."
+    // see open NextJS issue: https://github.com/vercel/next.js/discussions/11209
+    [APOLLO_STATE_PROP_NAME]: JSON.parse(JSON.stringify(client.cache.extract())),
   }
 }
 
-export const useApolloClient = (props: ApolloStateProps) => {
+export const useApolloSSRClient = (props: ApolloStateProps) => {
   const state = props[APOLLO_STATE_PROP_NAME]
   const store = useMemo(() => initializeApolloSSRClient(state), [state])
 
