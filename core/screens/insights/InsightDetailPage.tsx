@@ -169,7 +169,7 @@ const InsightDetailPage = () => {
                         />
                         <View>
                           <HoliText bold>{creator.fullName}</HoliText>
-                          <HoliText size="small">{t('global.independentJournalist')}</HoliText>
+                          <HoliText size="small">{t('global.journalist')}</HoliText>
                         </View>
                       </View>
                     </HoliButton>
