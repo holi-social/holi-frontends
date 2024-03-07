@@ -31,7 +31,7 @@
     "expo-image-picker": "~14.3.2",
     "expo-linking": "~5.0.2",
     "react": "18.2.0",
-    "react-native": "0.72.6",
+    "react-native": "0.72.10",
     "react-native-svg": "13.9.0",
     "react-zoom-pan-pinch": "^2.1.3"
   },
