@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Pagination } from '@holi/core/pagination/Pagination'
@@ -21,7 +21,7 @@ const FavoritesList = () => {
   }
 
   return (
-    <View style={styles.wrapper}>
+    <View>
       <Pagination
         query={favoriteInsightsQuery}
         queryOptions={{
@@ -34,15 +34,5 @@ const FavoritesList = () => {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    ...Platform.select({
-      web: {
-        alignItems: 'center',
-      },
-    }),
-  },
-})
 
 export default FavoritesList
