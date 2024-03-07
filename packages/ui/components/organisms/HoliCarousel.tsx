@@ -1,15 +1,7 @@
 import * as React from 'react'
-import {
-  NativeScrollEvent,
-  Platform,
-  ScrollView,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { NativeScrollEvent, Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -31,7 +23,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
 
   const marginBetweenSlides = 8 // margin between slides
   const scrollingOffset = screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
