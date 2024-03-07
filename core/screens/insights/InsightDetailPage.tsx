@@ -41,8 +41,7 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
-import dimensions from '@holi/ui/styles/globalVars/dimensions'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import RecommendationPreview from './components/RecommendationPreview'
@@ -61,7 +60,6 @@ const InsightDetailPage = () => {
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const { width: screenWidth } = useClientWindowDimensions()
-  const smallDeviceWidth = parseInt(dimensions.breakpointS, 10)
 
   const {
     data: { insightById: insight } = {},
@@ -158,6 +156,7 @@ const InsightDetailPage = () => {
                       transparent
                       label={t('user.cards.modal.showInfo', { name: creator.fullName })}
                       onPress={() => setShowCuratorModal(true)}
+                      style={styles.creatorInfoButton}
                     >
                       <View style={styles.creatorInfo}>
                         <HoliAvatar
@@ -198,12 +197,12 @@ const InsightDetailPage = () => {
         )}
 
         {recommendations.length > 0 && (
-          <View style={[mixins.container, screenWidth <= smallDeviceWidth ? { paddingHorizontal: 0 } : {}]}>
+          <View style={[mixins.container, screenWidth <= dimensions.breakpointS ? { paddingHorizontal: 0 } : {}]}>
             <HoliGap size="l" />
             <View
               style={[
                 styles.sectionTitle,
-                screenWidth <= smallDeviceWidth ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
+                screenWidth <= dimensions.breakpointS ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
               ]}
             >
               <HoliLocalImage
@@ -339,12 +338,16 @@ const styles = StyleSheet.create({
     gap: Spacing['3xs'],
     alignItems: 'center',
   },
+  creatorInfoButton: {
+    maxWidth: dimensions.maxButtonWidth,
+  },
   creatorInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.gray100,
+    boxShadow: `0px 1px 0px 0px ${colors.gray100}`,
     padding: Spacing.xxs,
   },
   creatorAvatar: {
