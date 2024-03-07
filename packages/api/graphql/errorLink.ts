@@ -8,7 +8,7 @@ import { isErrorOfType, isUnauthorizedError, logError, logErrorLocal } from '@ho
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   // Do not log "not found" or "bad user input" errors
-  if (graphQLErrors && isErrorOfType({ graphQLErrors }, ['NOT_FOUND', 'BAD_USER_INPUT'])) {
+  if (graphQLErrors && isErrorOfType({ graphQLErrors }, ['NOT_FOUND', 'BAD_USER_INPUT', 'FORBIDDEN'])) {
     return
   }
   if (graphQLErrors) {

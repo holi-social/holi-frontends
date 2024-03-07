@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useState } from 'react'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
@@ -158,15 +158,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background20,
     flex: 1,
-    ...Platform.select({
-      web: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      },
-    }),
   },
 })
 

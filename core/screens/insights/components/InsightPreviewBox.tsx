@@ -57,7 +57,7 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
   return (
     <View {...props}>
       <HoliButton
-        label={t('insights.insight.title', { title: insight.title })}
+        label={insight.title}
         transparent
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"

@@ -50,7 +50,7 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
               <HoliAvatar
                 imageSrc={member?.avatar ?? user?.avatar}
                 imageBlurhash={user?.avatarBlurhash}
-                label={user.fullName || member?.name || ''}
+                label={member?.name || user.fullName || ''}
                 initials={user?.avatarLabel || ''}
                 defaultColor={user?.avatarDefaultColor || ''}
                 size="large"

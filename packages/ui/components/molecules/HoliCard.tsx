@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import * as React from 'react'
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -12,7 +12,6 @@ export interface HoliCardProps {
   imageWidth: number
   style?: StyleProp<ViewStyle>
   testID?: string
-  onCardPress: () => void
 }
 
 const ImageContainerSkeleton = () => {
@@ -27,10 +26,9 @@ const HoliCard = ({
   children,
   style,
   testID,
-  onCardPress,
 }: PropsWithChildren<HoliCardProps>) => {
   return (
-    <Pressable testID={testID} style={[styles.container, style]} onPress={onCardPress}>
+    <View testID={testID} style={[styles.container, style]}>
       {imageUrl ? (
         <HoliImage
           testID={`${testID}-cardImage`}
@@ -43,7 +41,7 @@ const HoliCard = ({
         <ImageContainerSkeleton />
       )}
       {children}
-    </Pressable>
+    </View>
   )
 }
 

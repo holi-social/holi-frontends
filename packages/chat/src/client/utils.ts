@@ -1,5 +1,6 @@
 import {
   ClientEvent,
+  EventTimeline,
   EventType,
   type IContent,
   type IEvent,
@@ -13,22 +14,31 @@ import {
   type Room,
   RoomEvent,
   RoomMember,
+  type RoomNameState,
+  RoomNameType,
 } from 'matrix-js-sdk'
 
 import {
-  ChatMsgMemberContent,
-  ChatMsgTextContent,
+  type BaseChatRoom,
+  type ChatMsgMemberContent,
+  type ChatMsgTextContent,
+  type ChatRoom,
   ChatRoomEvent,
-  ChatRoomMember,
-  ChatRoomMessage,
-  MatrixId,
+  type ChatRoomMember,
+  type ChatRoomMessage,
+  type ChatRoomType,
+  type MatrixId,
   MembershipStatus,
-  MsgContent,
-  RoomType,
+  type MsgContent,
+  type PrivateChatRoom,
   RoomUpdatesType,
   type RoomWithSharedData,
   type SharedDataContent,
+  type SpaceChatRoom,
+  type SpaceChildChatRoom,
+  type SpaceChildRoom,
   type SpaceChildSharedDataContent,
+  type SpaceRoom,
 } from '@holi/chat/src/client/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatAdminUserId } from '@holi/core/helpers/config'
@@ -39,16 +49,14 @@ import { chatAdminUserId } from '@holi/core/helpers/config'
 
 type RoomListener = Listener<RoomEvent, ListenerMap<RoomEvent>, RoomEvent>
 
-export const isSpaceRoom = (room: Room) => room.isSpaceRoom()
-
 export const isEventWithSharedData = (event: IStateEventWithRoomId): boolean => event.type === ChatRoomEvent.SharedData
 
 export const isSharedDataContent = (content: IContent): content is SharedDataContent => {
   return !!content && content?.holiSpaceId
 }
 
-export const isSpaceGeneralRoomContent = (content: SharedDataContent): content is SpaceChildSharedDataContent => {
-  return !!content && 'parentSpaceRoomId' in content
+export const isSharedDataChildContent = (content: IContent): content is SpaceChildSharedDataContent => {
+  return isSharedDataContent(content) && 'parentSpaceRoomId' in content
 }
 
 export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === EventType.SpaceChild
@@ -58,13 +66,25 @@ export const isIRoomEvent = (event: IRoomEvent | Partial<IEvent>): event is IRoo
 
 export const isIStateEvent = (event: IRoomEvent | IStateEvent): event is IStateEvent => 'state_key' in event
 
-export const createInitialRoom = (room: Room): RoomWithSharedData => ({
-  type: 'private',
-  room: room,
-})
-
 export const hasRoomUpdatesType = (type: unknown): type is RoomUpdatesType => {
   return type === RoomUpdatesType.avatar || type === RoomUpdatesType.name
+}
+
+/**
+ * @description A function passed on Matrix createClient to override default
+ * room names.
+ */
+export const roomNameGenerator = (roomId: string, state: RoomNameState): string | null => {
+  switch (state.type) {
+    case RoomNameType.Actual:
+      return state.name
+    case RoomNameType.EmptyRoom:
+      return ''
+    case RoomNameType.Generated:
+      return state.names.join(', ')
+    default:
+      return null
+  }
 }
 
 /**
@@ -123,6 +143,108 @@ export const setRoomsListeners = ({ client, roomEvent, rooms, createListener }: 
   return () => {
     client.off(ClientEvent.Room, setClientLevelRoomListener)
     unsubscribers.forEach((func) => func())
+  }
+}
+
+/**
+ * @description It returns one of the 3 (internal) chat rooms based
+ * on the type of the RoomWithSharedData.
+ * Types: `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
+ */
+export const createChatRoom = (
+  roomWithSharedData: RoomWithSharedData,
+  homeserverUrl: string,
+  hasInvitation = false
+): ChatRoom => {
+  const baseChatRoom = createBaseChatRoom(
+    roomWithSharedData.room,
+    roomWithSharedData.type,
+    homeserverUrl,
+    hasInvitation
+  )
+
+  switch (roomWithSharedData.type) {
+    case 'private':
+      return createPrivateChatRoom(baseChatRoom)
+    case 'space':
+      return createSpaceChatRoom(baseChatRoom, roomWithSharedData)
+    case 'space.child':
+      return createSpaceChildChatRoom(baseChatRoom, roomWithSharedData)
+    default:
+      throw new HoliError('Unexpected ChatRoom: private, space and space.child supported')
+  }
+}
+
+export function createPrivateChatRoom(baseChatRoom: BaseChatRoom): PrivateChatRoom {
+  return {
+    type: 'private',
+    ...baseChatRoom,
+  }
+}
+
+export function createSpaceChatRoom(baseChatRoom: BaseChatRoom, spaceRoom: SpaceRoom): SpaceChatRoom {
+  return {
+    type: 'space',
+    content: {
+      roomId: spaceRoom.content.roomId,
+      holiSpaceId: spaceRoom.content.holiSpaceId,
+    },
+    ...baseChatRoom,
+  }
+}
+
+export function createSpaceChildChatRoom(
+  baseChatRoom: BaseChatRoom,
+  spaceChildRoom: SpaceChildRoom
+): SpaceChildChatRoom {
+  return {
+    type: 'space.child',
+    content: {
+      roomId: spaceChildRoom.content.roomId,
+      holiSpaceId: spaceChildRoom.content.holiSpaceId,
+      spaceName: spaceChildRoom.content.spaceName,
+      avatarDefaultColor: spaceChildRoom.content.avatarDefaultColor,
+      parentSpaceRoomId: spaceChildRoom.content.parentSpaceRoomId,
+    },
+    ...baseChatRoom,
+  }
+}
+
+/**
+ * @description It creates the base for all 3 (internal) types of chats rooms
+ * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
+ */
+export function createBaseChatRoom(
+  room: Room,
+  roomType: ChatRoomType,
+  homeserverUrl: string,
+  hasInvitation = false
+): BaseChatRoom {
+  const lastMessageEvent = getLastMessageEvent(room, roomType)
+  const lastMessage = lastMessageEvent && createChatMessage(room.roomId, lastMessageEvent)
+
+  const roomMxCreatorId = room.getCreator()
+  const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
+
+  const avatar = room.getMxcAvatarUrl() ?? undefined
+
+  return {
+    id: room.roomId,
+    name: room.name,
+    avatar,
+    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
+    hasInvitation,
+    lastMessage,
+    creator:
+      roomMxCreator &&
+      createChatMember(roomMxCreator, roomMxCreator.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true)),
+    members: room
+      .getMembers()
+      .map((member) => createChatMember(member, member.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true))),
+    timestamp:
+      room.getLastActiveTimestamp() > 0
+        ? room.getLastActiveTimestamp()
+        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
   }
 }
 
@@ -233,7 +355,7 @@ export const isMemberChatMsg = (msg: ChatRoomMessage): boolean => msg.type === '
  * - 'space.child' supports 'm.room.message' and 'm.room.membership' events
  * - 'private' supports only 'm.room.message' events
  */
-export const getLastMessageEvent = (room: Room, roomType: RoomType): IRoomEvent | undefined => {
+export const getLastMessageEvent = (room: Room, roomType: ChatRoomType): IRoomEvent | undefined => {
   if (roomType === 'space') return undefined
 
   const timelineEvents = room.getLiveTimeline().getEvents()

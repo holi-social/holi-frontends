@@ -1,7 +1,9 @@
 import httpProxy from 'http-proxy'
 
 const API_URL = process.env.HOLI_API_URL
-const proxy = httpProxy.createProxyServer()
+const proxy = httpProxy.createProxyServer({
+  proxyTimeout: 1000 * 30,
+})
 
 // Make sure that we don't parse JSON bodies on this route:
 export const config = {

@@ -200,19 +200,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#000000",
-                "borderRadius": 26,
                 "justifyContent": "center",
                 "overflow": "hidden",
               },
-              false,
               {
-                "borderWidth": 1,
-              },
-              {
+                "backgroundColor": "#000000",
+                "borderColor": undefined,
+                "borderRadius": 26,
                 "borderWidth": 1,
                 "height": 52,
                 "width": 52,
+              },
+              {
+                "borderWidth": 1,
               },
               false,
             ]
@@ -481,19 +481,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#000000",
-                "borderRadius": 26,
                 "justifyContent": "center",
                 "overflow": "hidden",
               },
-              false,
               {
-                "borderWidth": 1,
-              },
-              {
+                "backgroundColor": "#000000",
+                "borderColor": undefined,
+                "borderRadius": 26,
                 "borderWidth": 1,
                 "height": 52,
                 "width": 52,
+              },
+              {
+                "borderWidth": 1,
               },
               false,
             ]
@@ -779,19 +779,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#000000",
-                "borderRadius": 26,
                 "justifyContent": "center",
                 "overflow": "hidden",
               },
-              false,
               {
-                "borderWidth": 1,
-              },
-              {
+                "backgroundColor": "#000000",
+                "borderColor": undefined,
+                "borderRadius": 26,
                 "borderWidth": 1,
                 "height": 52,
                 "width": 52,
+              },
+              {
+                "borderWidth": 1,
               },
               false,
             ]
@@ -976,19 +976,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#000000",
-                "borderRadius": 26,
                 "justifyContent": "center",
                 "overflow": "hidden",
               },
-              false,
               {
-                "borderWidth": 1,
-              },
-              {
+                "backgroundColor": "#000000",
+                "borderColor": undefined,
+                "borderRadius": 26,
                 "borderWidth": 1,
                 "height": 52,
                 "width": 52,
+              },
+              {
+                "borderWidth": 1,
               },
               false,
             ]
@@ -1274,19 +1274,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#000000",
-                "borderRadius": 26,
                 "justifyContent": "center",
                 "overflow": "hidden",
               },
-              false,
               {
-                "borderWidth": 1,
-              },
-              {
+                "backgroundColor": "#000000",
+                "borderColor": undefined,
+                "borderRadius": 26,
                 "borderWidth": 1,
                 "height": 52,
                 "width": 52,
+              },
+              {
+                "borderWidth": 1,
               },
               false,
             ]
@@ -1439,19 +1439,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#000000",
-                "borderRadius": 26,
                 "justifyContent": "center",
                 "overflow": "hidden",
               },
-              false,
               {
-                "borderWidth": 1,
-              },
-              {
+                "backgroundColor": "#000000",
+                "borderColor": undefined,
+                "borderRadius": 26,
                 "borderWidth": 1,
                 "height": 52,
                 "width": 52,
+              },
+              {
+                "borderWidth": 1,
               },
               false,
             ]

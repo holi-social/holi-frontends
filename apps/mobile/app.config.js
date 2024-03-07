@@ -77,6 +77,14 @@ export default {
           'remote-notification', // enables the app to receive push notifications while app is in background
         ],
       },
+      associatedDomains: [
+        'applinks:app.holi.social',
+        'applinks:holi.social',
+        'applinks:dev.holi.social',
+        'applinks:*.dev.holi.social',
+        'applinks:review-holi-7271-wu0rhf.dev.holi.social',
+        'applinks:staging.dev.holi.social',
+      ],
     },
     android: {
       package: androidPackage,
@@ -88,6 +96,19 @@ export default {
         monochromeImage: './assets/icon_android_monochromatic.png',
         backgroundColor: '#fdfd80',
       },
+      intentFilters: [
+        {
+          action: 'VIEW',
+          autoVerify: true,
+          data: [
+            {
+              scheme: 'https',
+              host: '*.holi.social',
+            },
+          ],
+          category: ['BROWSABLE', 'DEFAULT'],
+        },
+      ],
     },
     plugins: [
       'expo-localization',
@@ -103,6 +124,12 @@ export default {
         {
           cameraPermission: 'Allow access to your camera for video calls',
           microphonePermission: 'Allow access to your microphone for video calls',
+        },
+      ],
+      [
+        'expo-calendar',
+        {
+          calendarPermission: 'Allow access to your calendar',
         },
       ],
     ],

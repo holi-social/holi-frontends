@@ -24,6 +24,9 @@ COPY ./server-preload.js ./server-preload.js
 
 RUN chown -R node:node ./.next/
 
+# Needed to mount a bucket for profiling
+# RUN mkdir -p /mount && chown -R node:node /mount
+
 USER node
 
 EXPOSE 3000
@@ -34,5 +37,8 @@ ENV PORT 3000
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry.
 ENV NEXT_TELEMETRY_DISABLED 1
+
+# This can be used to enable CPU profiling
+# CMD [ "sh", "-c", "echo Staring && node --cpu-prof --cpu-prof-dir=/mount/main --require=./server-preload.js server.js"]
 
 CMD ["node", "--require", "./server-preload.js", "server.js"]

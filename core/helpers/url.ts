@@ -19,3 +19,6 @@ export const getDocumentURL = (docType?: DocType): string | undefined => {
     }
   }
 }
+
+export const withProtocol = (address: string) =>
+  address.startsWith('https://') || address.startsWith('http://') ? address : `https://${address}`

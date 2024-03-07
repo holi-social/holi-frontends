@@ -4,11 +4,17 @@ import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
-import { concat, mergeDeepWith, pick, pipe, uniqBy } from 'ramda'
+import { concat, mergeDeepRight, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
+import { isSSR } from '@holi/core/helpers/isSSR'
 
-import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationPolicy } from './cachePolicies'
+import {
+  alwaysReplacePolicy,
+  indexAwareOffsetLimitPagination,
+  nestedPaginationPolicy,
+  pagedPolicy,
+} from './cachePolicies'
 import errorLink from './errorLink'
 import headerLink from './headerLink'
 
@@ -85,16 +91,8 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      AppDonations_ProjectsResponse: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
-      AppVolunteering_EngagementsResponse: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
+      AppDonations_ProjectsResponse: pagedPolicy(),
+      AppVolunteering_EngagementsResponse: pagedPolicy(),
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
@@ -154,7 +152,10 @@ export const createCache = () =>
       },
       PostPaged: {
         fields: {
-          data: indexAwareOffsetLimitPagination(),
+          data: {
+            merge: indexAwareOffsetLimitPagination().merge,
+            read: offsetLimitPagination().read,
+          },
         },
       },
       AppointmentPaged: {
@@ -182,7 +183,14 @@ export const createCache = () =>
             keyArgs: [],
           },
           appVolunteering_engagementOpportunities: {
-            keyArgs: ['location', 'category'],
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            keyArgs: (args: Record<string, any> | null) => {
+              const { location, category } = args || {}
+              return JSON.stringify({
+                location: location?.geolocation?.properties?.place_id,
+                category,
+              })
+            },
           },
           spaces: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -227,8 +235,6 @@ interface ApolloCreateClientOptions {
   readonly ssrMode: boolean
 }
 
-const isSSR = typeof window === 'undefined'
-
 const API_URL = process.env.HOLI_API_URL
 const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
 
@@ -243,7 +249,12 @@ const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTe
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
 
-  return new ApolloClient({ ssrMode, link: clientLink, cache })
+  return new ApolloClient({
+    ssrMode,
+    link: clientLink,
+    cache,
+    assumeImmutableResults: true,
+  })
 }
 
 // Web
@@ -252,17 +263,18 @@ let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
 
 type SSRClientInitState = Record<string, unknown> | null
 
-export const initializeApolloSSRClient = (initState: SSRClientInitState = null) => {
+export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
   const client = apolloSSRClient ?? createApolloClient({ ssrMode: isSSR })
 
   if (initState) {
-    const existingCache = client.extract()
-    const merge = mergeDeepWith(concat)
-
-    client.cache.restore(merge(existingCache, initState))
+    const { __META, ...existingCache } = client.extract()
+    client.cache.restore({ __META, ...mergeDeepRight(existingCache, initState) })
   }
 
-  if (isSSR) return client
+  // For SSG and SSR always create a new Apollo Client
+  if (isSSR) {
+    return client
+  }
   if (!apolloSSRClient) apolloSSRClient = client
 
   return client

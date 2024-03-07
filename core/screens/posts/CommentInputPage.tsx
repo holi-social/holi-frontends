@@ -12,9 +12,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -26,7 +24,6 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -42,9 +39,7 @@ export type CommentInputPageParams = {
   postId: string
 }
 
-type ScreenProps = NativeStackScreenProps<InsightsScreens>
-
-const CommentInputPage: React.VFC<ScreenProps> = () => {
+const CommentInputPage = () => {
   const { useParam } = createParamHooks<CommentInputPageParams>()
 
   const [insightId] = useParam('insightId')
@@ -69,7 +64,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
-      if (isNotFoundError(error)) {
+      if (isNotFoundError(error) || isForbiddenError(error)) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId })
@@ -151,7 +146,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }
 
   if (!user) {
-    navigate(`${getPostUrl(postId, insightId, spaceIdOrName)}`)
+    navigate(getPostUrl(postId, insightId, spaceIdOrName))
     return null
   }
 
@@ -188,6 +183,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                     testID="post-comment"
                     showCharacterCount={true}
                     maxNoOfCharacters={1500}
+                    maxSuggestionOptions={30}
                   />
                 </View>
               </View>

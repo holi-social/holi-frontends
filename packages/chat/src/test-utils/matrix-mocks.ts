@@ -7,6 +7,7 @@ import {
   EventType,
   IContent,
   IEvent,
+  IStateEventWithRoomId,
   MatrixClient,
   MatrixEvent,
   Room,
@@ -17,8 +18,7 @@ import {
 } from 'matrix-js-sdk'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
-import { ChatRoom } from '@holi/chat/src/store'
+import { ChatRoom, ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 
 const chatClientOptions = {
   baseUrl: 'chat.holi.social',
@@ -37,6 +37,7 @@ export const createMatrixClientMock = () => {
   const mxClient = jest.mocked(new MatrixClient({ baseUrl: '' }))
   mxClient.getIgnoredUsers.mockReturnValue([])
   mxClient.getRooms.mockReturnValue([])
+  mxClient.roomState.mockImplementation(async () => ({} as Promise<IStateEventWithRoomId[]>))
 
   const createClientMock = jest.mocked(createClient)
   createClientMock.mockReturnValue(mxClient)
@@ -103,8 +104,8 @@ export const createRoomMock = (
     eventTimeline.getEvents.mockReturnValue(timelineEvents)
     /* eslint-disable @typescript-eslint/no-unused-vars */
     eventTimeline.getState.mockImplementation((_direction: Direction): RoomState | undefined => {
-      const getStateEvents = jest.fn().mockImplementation((_eventType: EventType | string) => {
-        return { ...stateEvents, getTs: jest.fn() }
+      const getStateEvents = jest.fn().mockImplementation((eventType: EventType | string) => {
+        return stateEvents.filter((event) => event.getType() === eventType)
       })
 
       return { getStateEvents } as unknown as RoomState
@@ -128,12 +129,7 @@ export const roomMemberToMock = (m: ChatRoomMember) => {
   return createRoomMemberMock(m.id, m.name, m.membership, m.avatar)
 }
 
-export const createRoomMemberMock = (
-  userId: string,
-  name?: string,
-  membership?: MembershipStatus,
-  avatarUrl?: string
-) => {
+export const createRoomMemberMock = (userId: string, name?: string, membership?: string, avatarUrl?: string) => {
   // because new RoomMember() is a mock the arguments in constructor do not matter
   const roomMember = jest.mocked(new RoomMember('', ''))
 
@@ -145,8 +141,17 @@ export const createRoomMemberMock = (
   return roomMember
 }
 
-export const createRoomMembersMock = (membersOptions: ChatRoomMember[]) => {
-  return membersOptions.map(({ id, name, membership, avatar }) => createRoomMemberMock(id, name, membership, avatar))
+interface MemberMockOptions {
+  userId: string
+  name?: string
+  membership?: string
+  avatarUrl?: string
+}
+
+export const createRoomMembersMock = (membersOptions: MemberMockOptions[]) => {
+  return membersOptions.map(({ userId, name, membership, avatarUrl }) =>
+    createRoomMemberMock(userId, name, membership, avatarUrl)
+  )
 }
 
 export const getListenerForMatrixEvent = (
@@ -165,29 +170,42 @@ export const createMatrixEventMock = (type: string, roomId?: string, content?: I
 
   // event setup
   event.getType.mockReturnValue(type)
+  event.getTs = jest.fn()
   if (roomId) event.getRoomId.mockReturnValue(roomId)
   if (content) {
     event.getContent.mockReturnValue(content)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     event.event = { content } as any
   }
-
   if (effectiveEvent) event.getEffectiveEvent.mockReturnValue(effectiveEvent)
 
   return event
 }
 
-export const createPrivateChatRoomResult = (
+const creatorFixture: ChatRoomMember = {
+  avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
+  id: '@creator.kato:holi.social',
+  membership: MembershipStatus.join,
+  name: 'creator',
+}
+
+interface ChatRoomFixtureOptions {
+  name?: string
+  creator?: ChatRoomMember
+  members?: ChatRoomMember[]
+  notificationCount?: number
+  timestamp?: number
+}
+
+export const createChatRoomResult = (
   roomId: string,
-  name: string,
-  creator: ChatRoomMember = {
-    avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
-    id: '@creator.kato:holi.social',
-    membership: MembershipStatus.join,
-    name: 'creator',
-  },
-  members: ChatRoomMember[] = [creator],
-  notificationCount = 0
+  {
+    name = 'room-name',
+    creator = creatorFixture,
+    members = [creatorFixture],
+    notificationCount = 0,
+    timestamp,
+  }: ChatRoomFixtureOptions
 ): ChatRoom => {
   return {
     avatar: undefined,
@@ -198,7 +216,7 @@ export const createPrivateChatRoomResult = (
     members,
     name,
     notificationCount,
-    timestamp: undefined,
+    timestamp,
     type: 'private',
   }
 }

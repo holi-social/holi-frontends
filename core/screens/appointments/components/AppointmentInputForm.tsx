@@ -135,7 +135,6 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   const [permissionTypeOptions, setPermissionTypeOptions] = useState<HoliModalSelectOption[]>(PERMISSION_TYPE_OPTIONS)
 
   const [titleError, setTitleError] = useState<string | undefined>()
-  const [descriptionError, setDescriptionError] = useState<string | undefined>()
 
   const { t } = useTranslation()
 
@@ -208,7 +207,6 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
 
   useEffect(() => {
     setTitleError(fieldErrors?.title?.length ? fieldErrors.title[0] : undefined)
-    setDescriptionError(fieldErrors?.description?.length ? fieldErrors.description[0] : undefined)
   }, [fieldErrors, t])
 
   useEffect(() => {
@@ -346,9 +344,7 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
           value={description}
           onChange={onChangeDescription}
           aria-label={t('spaces.appointments.input.description.label')}
-          validationErrorText={descriptionError}
           testID="appointment-description"
-          isRequired
           showCharacterCount
           noOfVisibleLines={4}
           maxNoOfVisibleLines={8}

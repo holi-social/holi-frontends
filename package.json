@@ -13,12 +13,6 @@
       "**/jest-offline"
     ]
   },
-  "resolutions": {
-    "**/ts-invariant": "0.10.3",
-    "**/tslib": "2.5.0",
-    "**/@babel/core": "7.23.9",
-    "**/@types/react": "~18.2.14"
-  },
   "scripts": {
     "mobile:dev": "yarn workspace @holi/mobile dev",
     "mobile:dev_client": "yarn workspace @holi/mobile dev_client",
@@ -28,6 +22,7 @@
     "mobile:build_android_preview": "yarn workspace @holi/mobile build_android_preview",
     "mobile:build_ios": "yarn workspace @holi/mobile build_ios",
     "mobile:build_ios_sim": "yarn workspace @holi/mobile build_ios_sim",
+    "mobile:build_ios_dev": "yarn workspace @holi/mobile build_ios_dev",
     "mobile:build_ios_dev_sim": "yarn workspace @holi/mobile build_ios_dev_sim",
     "storybook:dev": "yarn workspace @holi/storybook dev",
     "storybook:build": "yarn workspace @holi/storybook build",
@@ -38,8 +33,8 @@
     "ui:generate-style-vars": "yarn workspace @holi/ui run generate-style-vars",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
-    "clean": "yarn workspaces run clean",
-    "clean:all": "yarn workspaces run clean:all && rimraf node_modules",
+    "clean": "yarn workspaces foreach -A run clean",
+    "clean:all": "yarn workspaces foreach -A run clean:all && rimraf node_modules",
     "test": "jest",
     "test:update": "jest -u",
     "test:watch": "jest --watch",
@@ -77,13 +72,13 @@
     "jest-when": "^3.6.0",
     "prettier": "^2.8.3",
     "react-test-renderer": "18.0.0",
+    "rimraf": "5.0.1",
     "turbo": "^1.7.2"
   },
-  "packageManager": "yarn@1.22.17",
+  "packageManager": "yarn@4.1.0",
   "expo-yarn-workspaces": {
     "symlinks": [
       "expo-constants"
     ]
-  },
-  "dependencies": {}
+  }
 }

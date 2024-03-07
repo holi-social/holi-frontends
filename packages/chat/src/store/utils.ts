@@ -1,26 +1,15 @@
 import { produce } from 'immer'
 import { Atom } from 'jotai'
-import { EventTimeline, EventType, type Room } from 'matrix-js-sdk'
 
 import {
-  type MatrixId,
-  RoomType,
-  type RoomWithSharedData,
-  type SpaceChildRoom,
-  type SpaceRoom,
-  type SpaceSharedDataContent,
-} from '@holi/chat/src/client/types'
-import { createChatMember, createChatMessage, getLastMessageEvent } from '@holi/chat/src/client/utils'
-import type {
-  AtomRecordGetter,
-  BaseChatRoom,
   ChatRoom,
-  HoliIdentity,
+  type MatrixId,
   PrivateChatRoom,
   SpaceChatRoom,
   SpaceChildChatRoom,
-} from '@holi/chat/src/store/types'
-import { HoliError } from '@holi/core/errors/classes/HoliError'
+  type SpaceSharedDataContent,
+} from '@holi/chat/src/client/types'
+import type { AtomRecordGetter, HoliIdentity } from '@holi/chat/src/store/types'
 import { chatServerName } from '@holi/core/helpers/config'
 
 /**
@@ -80,108 +69,7 @@ export const sortRoomByTimestamp = (roomA: ChatRoom, roomB: ChatRoom): number =>
   return timestampA < timestampB ? 1 : -1
 }
 
-/**
- * @description It returns one of the 3 (internal) chat rooms based
- * on the type of the RoomWithSharedData.
- * Types: `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
- */
-export const createChatRoom = (
-  roomWithSharedData: RoomWithSharedData,
-  homeserverUrl: string,
-  hasInvitation = false
-): ChatRoom => {
-  const baseChatRoom = createBaseChatRoom(
-    roomWithSharedData.room,
-    roomWithSharedData.type,
-    homeserverUrl,
-    hasInvitation
-  )
-
-  switch (roomWithSharedData.type) {
-    case 'private':
-      return createPrivateChatRoom(baseChatRoom)
-    case 'space':
-      return createSpaceChatRoom(baseChatRoom, roomWithSharedData)
-    case 'space.child':
-      return createSpaceChildChatRoom(baseChatRoom, roomWithSharedData)
-    default:
-      throw new HoliError('Unexpected ChatRoom: private, space and space.child supported')
-  }
-}
-
-export function createPrivateChatRoom(baseChatRoom: BaseChatRoom): PrivateChatRoom {
-  return {
-    type: 'private',
-    ...baseChatRoom,
-  }
-}
-
-export function createSpaceChatRoom(baseChatRoom: BaseChatRoom, spaceRoom: SpaceRoom): SpaceChatRoom {
-  return {
-    type: 'space',
-    content: {
-      roomId: spaceRoom.content.roomId,
-      holiSpaceId: spaceRoom.content.holiSpaceId,
-    },
-    ...baseChatRoom,
-  }
-}
-
-export function createSpaceChildChatRoom(
-  baseChatRoom: BaseChatRoom,
-  spaceChildRoom: SpaceChildRoom
-): SpaceChildChatRoom {
-  return {
-    type: 'space.child',
-    content: {
-      roomId: spaceChildRoom.content.roomId,
-      holiSpaceId: spaceChildRoom.content.holiSpaceId,
-      spaceName: spaceChildRoom.content.spaceName,
-      avatarDefaultColor: spaceChildRoom.content.avatarDefaultColor,
-      parentSpaceRoomId: spaceChildRoom.content.parentSpaceRoomId,
-    },
-    ...baseChatRoom,
-  }
-}
-
-/**
- * @description It creates the base for all 3 (internal) types of chats rooms
- * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
- */
-export function createBaseChatRoom(
-  room: Room,
-  roomType: RoomType,
-  homeserverUrl: string,
-  hasInvitation = false
-): BaseChatRoom {
-  const lastMessageEvent = getLastMessageEvent(room, roomType)
-  const lastMessage = lastMessageEvent && createChatMessage(room.roomId, lastMessageEvent)
-
-  const roomMxCreatorId = room.getCreator()
-  const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
-
-  const avatar = room.getMxcAvatarUrl() ?? undefined
-
-  return {
-    id: room.roomId,
-    name: room.name,
-    avatar,
-    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
-    hasInvitation,
-    lastMessage,
-    creator:
-      roomMxCreator &&
-      createChatMember(roomMxCreator, roomMxCreator.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true)),
-    members: room
-      .getMembers()
-      .map((member) => createChatMember(member, member.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true))),
-    timestamp:
-      room.getLastActiveTimestamp() > 0
-        ? room.getLastActiveTimestamp()
-        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
-  }
-}
-
+// TODO: move to the producer file
 const updateChatRoomNotificationCount = produce((chatRoom: ChatRoom, notificationCount: number) => {
   chatRoom.notificationCount = notificationCount
 })

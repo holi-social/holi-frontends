@@ -14,6 +14,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import AppointmentCalendarButton from '@holi/core/screens/appointments/components/AppointmentCalendarButton'
 import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
 import ShareAppointment from '@holi/core/screens/spaces/appointments/ShareAppointment'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
@@ -22,6 +23,7 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ExternalLink, Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -154,6 +156,7 @@ const AppointmentDetails = () => {
     {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: false,
     },
     true
   )
@@ -164,6 +167,7 @@ const AppointmentDetails = () => {
     {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: false,
     },
     true
   )
@@ -333,6 +337,8 @@ const AppointmentDetails = () => {
             />
           </View>
           <View style={styles.card}>
+            <AppointmentCalendarButton appointment={appointment} />
+            <HoliGap size="s" />
             <ShareAppointment
               space={space}
               appointment={appointment}

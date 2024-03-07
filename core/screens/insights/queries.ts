@@ -1,13 +1,33 @@
 import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
-import { PostFragment } from '@holi/core/screens/posts/queries'
+import { LinkFragment, PostFragment, RecommendationFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
+
+const QuotesFragment = gql`
+  ${LinkFragment}
+
+  fragment QuotesFragment on Quote {
+    id
+    text
+    author
+    authorProfession
+    link
+    linkPreview {
+      ...LinkFragment
+      icon
+    }
+    category
+    comment
+  }
+`
 
 const InsightWithPostsFragment = gql`
   ${UserAvatarFragment}
   ${PostFragment}
+  ${RecommendationFragment}
+  ${QuotesFragment}
 
   fragment InsightWithPosts on Insight {
     id
@@ -17,6 +37,7 @@ const InsightWithPostsFragment = gql`
     creator {
       ...UserAvatar
       aboutMe
+      firstName
     }
     headerImage
     headerImageBlurhash
@@ -26,6 +47,13 @@ const InsightWithPostsFragment = gql`
     }
     posts {
       ...PostFragment
+    }
+    isBookmarked
+    recommendations {
+      ...RecommendationFragment
+    }
+    quotes {
+      ...QuotesFragment
     }
   }
 `
@@ -65,6 +93,31 @@ export const lastInsightsQuery = gql`
 
 export type LastInsightsResponse = {
   lastInsights: Paged<Insight>
+}
+
+export const favoriteInsightsQuery = gql`
+  ${UserAvatarFragment}
+
+  query FavoriteInsights($offset: Int! = 0, $limit: Int! = 10) {
+    favoriteInsights(offset: $offset, limit: $limit) {
+      data {
+        id
+        title
+        datePublished
+        creator {
+          ...UserAvatar
+          aboutMe
+        }
+        headerImage
+        headerImageBlurhash
+      }
+      totalResults
+    }
+  }
+`
+
+export type FavoriteInsightsResponse = {
+  favoriteInsights: Paged<Insight>
 }
 
 export const insightById = gql`

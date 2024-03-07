@@ -57,6 +57,7 @@ export enum RouteName {
   LegalDocuments = 'LegalDocuments',
   AboutHoliApp = 'AboutHoliApp',
   Document = 'Document',
+  Favorites = 'Favorites',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

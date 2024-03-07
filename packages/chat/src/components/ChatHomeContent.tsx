@@ -52,6 +52,7 @@ const ChatHomeNeedToLogin = () => {
             />
           }
           secondText={t('loginRedirect.text')}
+          testID="chat-login"
           style={[styles.noResultsMessage]}
         >
           <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
@@ -84,6 +85,7 @@ const ChatHomeNoExistingRooms = () => {
           }
           secondText={t('chat.empty.headline')}
           style={[styles.noResultsMessage]}
+          testID="chat-no-result"
         >
           <HoliButton label={t('chat.empty.button.text')} onPress={() => navigate('/chat/start')}>
             {t('chat.empty.button.text')}
@@ -148,7 +150,6 @@ const tabRoomAtomsRecordAtom = atom<Record<string, ChatRoomAtom[]>>((get) => {
 
 const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const [selectedTabId = DEFAULT_TAB_ID] = useParam('activeTab')
-
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -188,12 +189,10 @@ const ChatHomeContent = () => {
   const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
   const chatInitialized = useChatInitialized()
 
-  if (!isLoading && !isLoggedIn) {
-    return <ChatHomeNeedToLogin />
-  }
+  if (!isLoading && !isLoggedIn) return <ChatHomeNeedToLogin />
 
   if (isLoading || !chatInitialized || !loggedInUser) {
-    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} testID="chat-home-loader" />
   }
 
   return <ChatHomeRoomList loggedInUser={loggedInUser} />

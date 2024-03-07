@@ -1,33 +1,50 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useLayoutEffect, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
+import React, { memo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import QuotesCarousel from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import { Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
-import { User } from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { MoreFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { colors } from '@holi/ui/styles/globalVars'
+import Spacing from '@holi/ui/foundations/Spacing'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+import RecommendationPreview from './components/RecommendationPreview'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -37,14 +54,16 @@ const { useParam } = createParamHooks<InsightDetailPageParams>()
 
 const InsightDetailPage = () => {
   const [insightId] = useParam('insightId')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const { width: screenWidth } = useClientWindowDimensions()
+
   const {
     data: { insightById: insight } = {},
-    loading: loadingInsight,
+    loading,
     refetch,
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
@@ -57,25 +76,38 @@ const InsightDetailPage = () => {
       logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId })
     },
   })
-  const initLoading = loadingInsight && !insight
   const setScreenOptions = useSetScreenOptions()
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      title: t('insights.insight.title', { title: insight?.title }),
       headerTransparent: true,
-      headerTintColor: colors.background10,
-      navigationCustomOptions: {
-        headerBackgroundGradient: true,
-        footerShown: false,
+      headerTintColor: colors.white100,
+      title: '',
+      headerRight: () => {
+        return (
+          insight && (
+            <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
+              <InsightDrawer insight={insight}>
+                <HoliIcon icon={MoreFilled} color={colors.white100} />
+              </InsightDrawer>
+            </FeatureToggleGuard>
+          )
+        )
       },
     })
-  }, [t, insight?.title, setScreenOptions])
+  }, [insight, setScreenOptions])
 
   const posts: Post[] = insight?.posts || []
-  const author = insight?.creator
+  const recommendations: Recommendation[] = insight?.recommendations || []
+  const quotes: Quote[] = insight?.quotes || []
+
+  const creator = insight?.creator
+  const recommendationsTitle =
+    recommendations.length > 1
+      ? t('insights.recommendations.title', { name: creator?.firstName, number: recommendations.length })
+      : t('insights.recommendations.title.single', { name: creator?.firstName })
 
   return (
     <>
@@ -89,109 +121,141 @@ const InsightDetailPage = () => {
         style={styles.wrapper}
         headerOverlap
       >
-        {/* Image section */}
-        {initLoading ? (
-          <View style={[mixins.container, styles.insightBackgroundImage]}>
-            <HoliSkeleton height="100%" width="100%" borderRadius={0} />
-          </View>
+        {insight && !loading ? (
+          <>
+            <HoliImageBackground
+              source={{ uri: insight.headerImage }}
+              resizeMode="cover"
+              style={[mixins.container, styles.bannerImage]}
+              imageStyle={styles.insightImage as ImageStyle}
+            />
+            <View style={[styles.content, mixins.container]}>
+              {!!insight.topic && (
+                <View style={styles.tag}>
+                  <HoliBadge>{insight.topic.title}</HoliBadge>
+                </View>
+              )}
+
+              <View style={styles.tag}>
+                <HoliHeading level="1" size="l" testID="insight-headline">
+                  {insight.title}
+                </HoliHeading>
+              </View>
+
+              {creator && (
+                <>
+                  <View style={styles.curator}>
+                    <HoliText style={styles.creationDetails}>
+                      <HoliText style={styles.date} color="gray300">
+                        {getRelativeDateString(insight.datePublished, i18n.language)}
+                      </HoliText>
+                      {' · '}
+                      <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
+                    </HoliText>
+                    <HoliButton
+                      transparent
+                      label={t('user.cards.modal.showInfo', { name: creator.fullName })}
+                      onPress={() => setShowCuratorModal(true)}
+                      style={styles.creatorInfoButton}
+                    >
+                      <View style={styles.creatorInfo}>
+                        <HoliAvatar
+                          imageSrc={creator.avatar}
+                          imageBlurhash={creator.avatarBlurhash}
+                          label={creator.fullName ?? ''}
+                          initials={creator.avatarLabel || ''}
+                          defaultColor={creator.avatarDefaultColor || ''}
+                          style={styles.creatorAvatar}
+                        />
+                        <View>
+                          <HoliText bold>{creator.fullName}</HoliText>
+                          <HoliText size="small">{t('global.independentJournalist')}</HoliText>
+                        </View>
+                      </View>
+                    </HoliButton>
+                  </View>
+
+                  <HoliModal
+                    label={t('user.cards.modal.showInfo', { name: creator.fullName })}
+                    show={showCuratorModal}
+                    onDismiss={() => setShowCuratorModal(false)}
+                  >
+                    <HoliUserCardsModalContent
+                      title={''}
+                      users={[creator]}
+                      onDismiss={() => setShowCuratorModal(false)}
+                    />
+                  </HoliModal>
+                </>
+              )}
+
+              <HoliRichTextOutput text={insight.description} allowAllLinks />
+            </View>
+          </>
         ) : (
-          <ImageBackground
-            source={{ uri: insight?.headerImage }}
-            resizeMode="cover"
-            style={[mixins.container, styles.insightBackgroundImage]}
-            imageStyle={styles.insightImage}
-          />
+          <Skeleton />
         )}
 
-        {/* Insight content */}
-        <View style={[mixins.container, styles.insightView]}>
-          <HoliText
-            size="small"
-            bold
-            style={{ color: colors.brandB300 }}
-            testID="insight-category"
-            loading={initLoading}
-          >
-            {insight?.topic?.title}
-          </HoliText>
-
-          <HoliGap size="xs" />
-          <HoliHeading
-            level="1"
-            size="xl"
-            testID="insight-headline"
-            loading={initLoading}
-            // large font size (-> radius=16) with multiple lines expected
-            skeletonOptions={{ numberOfLines: 2, borderRadius: 16 }}
-          >
-            {insight?.title}
-          </HoliHeading>
-
-          <HoliText style={styles.insightText} loading={initLoading} skeletonOptions={{ numberOfLines: 10 }}>
-            {insight?.description}
-          </HoliText>
-
-          {/* Author  */}
-          {(initLoading || author) && (
-            <View style={styles.authorInfo}>
-              <HoliButton
-                transparent
-                label={t('user.cards.modal.showInfo', { name: author?.fullName })}
-                onPress={initLoading ? undefined : () => setShowCuratorModal(true)}
-              >
-                <View style={styles.authorInfoInner}>
-                  <HoliAvatar
-                    imageSrc={author?.avatar}
-                    imageBlurhash={author?.avatarBlurhash}
-                    label={author?.fullName ?? ''}
-                    initials={author?.avatarLabel || ''}
-                    defaultColor={author?.avatarDefaultColor || ''}
-                    size="small"
-                    style={styles.authorInfoAvatar}
-                    loading={initLoading}
-                  />
-                  {initLoading ? (
-                    <HoliSkeleton width="40%" height={20} borderRadius={4} />
-                  ) : (
-                    <HoliText size="small" style={styles.authorInfoText}>
-                      <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author?.fullName }}>
-                        <HoliText size="small" />
-                      </Trans>
-                    </HoliText>
-                  )}
-                </View>
-              </HoliButton>
-            </View>
-          )}
-
-          {author && (
-            <HoliModal
-              label={t('user.cards.modal.showInfo', { name: author.fullName })}
-              show={showCuratorModal}
-              onDismiss={() => setShowCuratorModal(false)}
-              testID="insight-curator-modal"
+        {recommendations.length > 0 && (
+          <View style={[mixins.container, screenWidth <= dimensions.breakpointS ? { paddingHorizontal: 0 } : {}]}>
+            <HoliGap size="l" />
+            <View
+              style={[
+                styles.sectionTitle,
+                screenWidth <= dimensions.breakpointS ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
+              ]}
             >
-              <HoliUserCardsModalContent
-                title={''} // don't show any headline in modal
-                users={[author as User]}
-                onDismiss={() => setShowCuratorModal(false)}
-                testID="insight-curator"
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
+                width={37}
+                height={37}
+                label={recommendationsTitle}
+                isSvg
               />
-            </HoliModal>
-          )}
-        </View>
+              <HoliHeading>{recommendationsTitle}</HoliHeading>
+            </View>
+            <HoliGap size="s" />
+            <HoliCarousel
+              hideDotIndicators
+              marginHorizontal={20}
+              slides={recommendations.map((recommendation) => ({
+                children: (
+                  <View style={styles.carouselSlide}>
+                    <RecommendationPreview recommendation={recommendation} />
+                  </View>
+                ),
+              }))}
+            />
+          </View>
+        )}
 
-        {!!posts.length && (
+        {quotes.length > 0 && (
+          <View style={mixins.container}>
+            <HoliGap size="l" />
+            <View style={styles.sectionTitle}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
+                label="Quote"
+                width={37}
+                height={37}
+                isSvg
+              />
+              <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
+            </View>
+            <HoliGap size="s" />
+            <QuotesCarousel quotes={quotes} />
+            <HoliGap size="s" />
+          </View>
+        )}
+
+        {posts.length > 0 && (
           <View style={[mixins.container, styles.postList]}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {
-                /** FIXME convert to VirtualizedList, FlatList or SectionList */
-                posts.map((post) => (
-                  <HoliGridCell key={post.id}>
-                    <PostPreview post={post} insightId={insightId} />
-                  </HoliGridCell>
-                ))
-              }
+              {posts.map((post) => (
+                <HoliGridCell key={post.id}>
+                  <PostPreview post={post} insightId={insightId} />
+                </HoliGridCell>
+              ))}
             </HoliGridWrapper>
           </View>
         )}
@@ -200,12 +264,45 @@ const InsightDetailPage = () => {
   )
 }
 
+// Trying out Skeleton as a separate component, why?
+// i) Feels wrong that smaller atoms & molecules have to have 2 concerns eg show title or a skeleton. SRP FTW.
+// ii) There's lots of branches in the code to deal with an insight possibly being null -
+//      catch this early and we can rely on insight being present and the code is less complex
+// Cons - There's duplication and possible drift between real UI and Skeleton... but Skeleton only has to
+// be an approximation of the ui.
+
+const Skeleton = () => {
+  const mixins = useStyleMixins()
+
+  return (
+    <>
+      <View style={[mixins.container, styles.bannerImage]}>
+        <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+      </View>
+      <View style={[styles.content, mixins.container]}>
+        <View style={styles.tag}>
+          <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
+        </View>
+        <View style={styles.title}>
+          <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
+        </View>
+        <View style={styles.curator}>
+          <View style={styles.skeletonCurrator}>
+            <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
+            <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+          </View>
+        </View>
+        <HoliSkeleton height={256} width="100%" borderRadius={16} />
+      </View>
+    </>
+  )
+}
+
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.background20,
-    ...Platform.select({ web: { flex: 1 } }),
   },
-  insightBackgroundImage: {
+  bannerImage: {
     paddingHorizontal: 0,
     height: Platform.OS === 'web' ? 680 : 340,
     ...Platform.select({
@@ -215,41 +312,63 @@ const styles = StyleSheet.create({
       },
       native: { maxHeight: '50%' },
     }),
-  },
+  } as ImageStyle,
   insightImage: {
-    ...Platform.select({ web: { height: 'auto' } }),
+    ...Platform.select({ web: { height: '100%' } }),
   },
-  insightView: {
+  content: {
     backgroundColor: colors.background10,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    paddingTop: 40,
-    paddingBottom: 24,
-    ...Platform.select({ web: { paddingHorizontal: 20 } }),
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+    paddingTop: Spacing.xl,
+    paddingBottom: Spacing.lg,
+    paddingHorizontal: Spacing.xs,
   },
-  insightText: {
-    color: colors.foreground20,
-    marginTop: 24,
+  tag: {
+    marginBottom: Spacing['xs'],
   },
-  authorInfo: {
-    marginTop: 24,
+  title: {
+    marginBottom: Spacing.xs,
   },
-  authorInfoInner: {
+  curator: {
+    marginBottom: Spacing.md,
+  },
+  skeletonCurrator: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    gap: Spacing['3xs'],
     alignItems: 'center',
   },
-  authorInfoAvatar: {
-    marginRight: 16,
+  creatorInfoButton: {
+    maxWidth: dimensions.maxButtonWidth,
   },
-  authorInfoText: {
-    color: colors.foreground20,
+  creatorInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.gray100,
+    boxShadow: `0px 1px 0px 0px ${colors.gray100}`,
+    padding: Spacing.xxs,
   },
-  authorInfoName: {
-    color: colors.foreground30,
+  creatorAvatar: {
+    marginRight: Spacing.xs,
+  },
+  creationDetails: {
+    marginBottom: Spacing['3xs'],
+  },
+  date: {
+    textTransform: 'capitalize',
+  },
+  sectionTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing['3xs'],
+  },
+  carouselSlide: {
+    flex: 1,
   },
   postList: {
-    marginTop: 24,
+    marginTop: Spacing.md,
   },
 })
 

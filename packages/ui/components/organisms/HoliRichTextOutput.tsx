@@ -26,6 +26,8 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowA
    * with the highlighted fullName
    */
 
+  const isExternalLink = (url: string) => !url.includes('holi.social') && !url.includes('localhost')
+
   const textWithMentions = (() => {
     return text
       .split(REGEX_USER_MENTIONS)
@@ -74,7 +76,7 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowA
               label={link.title}
               size={linkSize}
               key={link.requestedUrl}
-              external
+              external={isExternalLink(link.requestedUrl)}
               color="brandB300"
             >
               {link.title}

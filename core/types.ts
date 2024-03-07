@@ -2,7 +2,7 @@ import { Space } from '@holi/core/screens/spaces/types'
 
 export interface Paged<T> {
   totalResults: number
-  data: T[]
+  data: readonly T[]
 }
 
 export type SpaceForMember = Pick<

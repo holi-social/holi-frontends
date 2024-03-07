@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 
 export enum FeatureToggleName {
@@ -14,6 +15,7 @@ export enum FeatureToggleName {
   NOTIFICATIONS = 'NOTIFICATIONS',
   FEED_DAILY_INSPIRATION = 'FEED_DAILY_INSPIRATION',
   SEARCH = 'SEARCH',
+  FAVORITES = 'FAVORITES',
 }
 
 export type FeatureToggleState = {
@@ -25,7 +27,7 @@ export type FeatureToggleState = {
 export const useFeatureToggle = (name?: FeatureToggleName) => {
   const { displayError } = useErrorHandling()
   const { loading, error, data } = useQuery<FeatureTogglesResponse>(featureTogglesQuery, {
-    fetchPolicy: 'cache-first', // answer query directly from cache, it will be refetched in background in handleAppStateChange
+    fetchPolicy: isSSR ? 'network-only' : 'cache-first', // do not rely on cache for SSR, but answer query directly from cache for client, it will be refetched in background in handleAppStateChange
     onError: (error) => {
       displayError(error, 'Failed to load feature toggle', {
         location: 'useFeatureToggle',

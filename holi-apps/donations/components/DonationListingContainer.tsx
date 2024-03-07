@@ -9,7 +9,7 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import DonationListing from '@holi-apps/donations/components/DonationListing'
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 
-const PROJECT_PAGE_SIZE = 10
+export const PROJECT_PAGE_SIZE = 10
 
 type DonationListingProps = {
   locationQuery?: string
@@ -28,7 +28,6 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
     variables: {
       location: locationQuery,
     },
-    fetchPolicy: 'cache-and-network',
   }
 
   return (

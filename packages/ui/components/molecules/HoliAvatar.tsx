@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccessibilityProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { AccessibilityProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -23,6 +23,8 @@ interface BaseProps {
   defaultColor?: string
   testID?: string
   style?: StyleProp<ViewStyle>
+  initialsFontWeight?: TextStyle['fontWeight']
+  initialsColor?: keyof typeof colors
 }
 
 interface Props extends BaseProps {
@@ -58,13 +60,13 @@ const HoliAvatar = ({
   'aria-hidden': ariaHidden,
   style,
   loading = false,
+  initialsColor,
+  initialsFontWeight = 'bold',
   ...props
 }: AvatarProps) => {
   const { t } = useTranslation()
-  const width = sizes[size || 'medium']
+  const width = sizes[size]
   const hasImage = !!imageSrc
-  const styles = getStyles(shape, width, defaultColor, hasImage)
-  const sizeClass = size || 'medium'
 
   const accessibilityPropsInitials: AccessibilityProps = {
     accessible: false,
@@ -72,15 +74,23 @@ const HoliAvatar = ({
     ...(ariaHidden ? { 'aria-hidden': ariaHidden } : {}),
     role: 'img',
   }
+  // initial font size is 45% of avatar width
+  const initialsFontSize = width * 0.45
 
   return (
     <View
       {...props}
       style={[
         styles.wrapper,
-        (size === 'large' || size === 'extralarge') && { borderColor: colors.foreground30 },
+        {
+          borderRadius: shape === 'circle' ? width / 2 : width * 0.15,
+          backgroundColor: hasImage ? colors.background20 : defaultColor,
+          borderColor: ['large', 'extralarge'].includes(size) ? colors.foreground30 : undefined,
+          borderWidth: ['large', 'extralarge'].includes(size) ? 2 : size === 'medium' ? 1 : 0,
+          width,
+          height: width,
+        },
         style,
-        styles[sizeClass],
         loading && { borderWidth: 0 },
       ]}
     >
@@ -96,7 +106,22 @@ const HoliAvatar = ({
         />
       )}
       {!loading && !hasImage && (
-        <HoliText style={styles.inititals} {...accessibilityPropsInitials}>
+        <HoliText
+          style={[
+            styles.inititals,
+            {
+              color: initialsColor
+                ? colors[initialsColor]
+                : tinycolor(defaultColor).isLight()
+                ? colors.foreground30
+                : colors.background10,
+              fontSize: initialsFontSize,
+              fontWeight: initialsFontWeight,
+              lineHeight: initialsFontSize * 1.2,
+            },
+          ]}
+          {...accessibilityPropsInitials}
+        >
           {initials}
         </HoliText>
       )}
@@ -106,51 +131,18 @@ const HoliAvatar = ({
 
 export default React.memo(HoliAvatar)
 
-const getStyles = (shape: AvatarShape, width: number, defaultColor: string, imageIsAvailable: boolean) => {
-  const initialsFontSize = (width / 10) * 4.5
-
-  return StyleSheet.create({
-    wrapper: {
-      borderRadius: shape === 'circle' ? width / 2 : width * 0.15,
-      backgroundColor: imageIsAvailable ? colors.background20 : defaultColor,
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden',
-    },
-    micro: {
-      width,
-      height: width,
-    },
-    small: {
-      width,
-      height: width,
-    },
-    medium: {
-      width,
-      height: width,
-      borderWidth: 1,
-    },
-    large: {
-      width,
-      height: width,
-      borderWidth: 2,
-    },
-    extralarge: {
-      width,
-      height: width,
-      borderWidth: 2,
-    },
-    image: {
-      height: '100%',
-      width: '100%',
-      resizeMode: 'contain',
-    },
-    inititals: {
-      fontSize: initialsFontSize,
-      textTransform: 'uppercase',
-      fontWeight: 'bold',
-      color: tinycolor(defaultColor).isLight() ? colors.foreground30 : colors.background10,
-      lineHeight: initialsFontSize * 1.2,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  wrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  image: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'contain',
+  },
+  inititals: {
+    textTransform: 'uppercase',
+  },
+})

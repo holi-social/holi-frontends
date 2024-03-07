@@ -1,9 +1,10 @@
 import {
   EventType,
+  IEvent,
   IRoomEvent,
   IStateEvent,
-  IStateEventWithRoomId,
   MatrixClient,
+  MatrixEvent,
   Preset,
   ReceiptType,
   Visibility,
@@ -12,19 +13,20 @@ import {
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
 import {
+  DM_ROOM_ID_FIXTURE,
   createChatClient,
   createMatrixClientMock,
   createMatrixEventMock,
   createRoomMemberMock,
   createRoomMock,
 } from '@holi/chat/src/test-utils'
-import { CHAT_ROOM_NAME_MOCK } from '@holi/chat/src/test-utils/matrix-mock-setup'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
 
 describe('ChatClient', () => {
+  const timestamp = 1706715917444
   const members: MatrixId[] = ['@david.m.rosen:holi.social', '@fusajiro.yamauchi:holi.social']
 
   let mxClient: jest.MockedObjectDeep<MatrixClient>
@@ -37,13 +39,13 @@ describe('ChatClient', () => {
 
   describe('createRoom() method', () => {
     it('create a direct message room', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
 
       const isDM = true
 
       const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
 
-      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
+      expect(room_id).toEqual(DM_ROOM_ID_FIXTURE)
       expect(mxClient.createRoom).toBeCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
@@ -63,13 +65,13 @@ describe('ChatClient', () => {
     })
 
     it('create a group 1:n room', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
 
       const isDirectMessage = false
       const name = '#general'
 
       const { room_id } = await client.createRoom(members, { isDirectMessage, name })
-      expect(room_id).toEqual(CHAT_ROOM_NAME_MOCK)
+      expect(room_id).toEqual(DM_ROOM_ID_FIXTURE)
       expect(mxClient.createRoom).toBeCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
@@ -81,7 +83,7 @@ describe('ChatClient', () => {
     })
 
     it('fails if no user IDs were passed', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: CHAT_ROOM_NAME_MOCK })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
 
       const members: string[] = []
       const isDirectMessage = true
@@ -143,70 +145,140 @@ describe('ChatClient', () => {
     })
   })
 
-  describe('getJoinedRoomsWithSharedData() method', () => {
-    it('empty room gives empty result', async () => {
-      const roomId = 'testRoomId'
-      const mockRoom = createRoomMock(roomId)
-      mxClient.getRooms.mockReturnValue([mockRoom])
+  describe('getChatRooms() method', () => {
+    it('should return an empty chat room array', () => {
+      mxClient.getRooms.mockReturnValue([])
 
-      const roomWithShareData = await client.getJoinedRoomsWithSharedData()
+      const chatRooms = client.getChatRooms()
 
-      expect(roomWithShareData).toStrictEqual([])
+      expect(chatRooms).toStrictEqual([])
     })
 
-    it('only rooms with join or invite membership status are returned', async () => {
+    it('should return a private chat room', () => {
+      const timelineEvents = [] as MatrixEvent[]
       const joinRoomId = 'testRoomIdJoin'
-      const mockRoomJoin = createRoomMock(joinRoomId)
+      const mockRoomJoin = createRoomMock(joinRoomId, { timelineEvents, timestamp })
       mockRoomJoin.getMyMembership.mockReturnValue(MembershipStatus.join)
 
-      const joinChildRoomId = 'testRoomIdJoin'
-      const mockRoomJoinChild = createRoomMock(joinChildRoomId)
-      mockRoomJoinChild.getMyMembership.mockReturnValue(MembershipStatus.join)
+      mxClient.getRooms.mockReturnValue([mockRoomJoin])
 
-      const mockRoomInvite = createRoomMock('testRoomIdInvite')
-      mockRoomInvite.getMyMembership.mockReturnValue(MembershipStatus.invite)
+      const chatRooms = client.getChatRooms()
 
-      const mockRoomOther = createRoomMock('testRoomIdOther')
-      mockRoomOther.getMyMembership.mockReturnValue(MembershipStatus.leave)
-
-      mxClient.getRooms.mockReturnValue([mockRoomJoin, mockRoomJoinChild, mockRoomInvite, mockRoomOther])
-
-      mxClient.roomState.mockReturnValueOnce(
-        Promise.resolve([
-          {
-            room_id: joinRoomId,
-            type: ChatRoomEvent.SharedData,
-            content: { holiSpaceId: 'bla' },
-          } as unknown as IStateEventWithRoomId,
-        ])
-      )
-      mxClient.roomState.mockReturnValueOnce(
-        Promise.resolve([
-          {
-            room_id: joinChildRoomId,
-            type: ChatRoomEvent.SharedData,
-            content: { holiSpaceId: 'bla', parentSpaceRoomId: 'parentId', spaceName: 'spaceName' },
-          } as unknown as IStateEventWithRoomId,
-        ])
-      )
-
-      const roomWithShareData = await client.getJoinedRoomsWithSharedData()
-
-      expect(roomWithShareData).toStrictEqual([
-        { room: mockRoomJoin, type: 'space', content: { holiSpaceId: 'bla', roomId: joinRoomId } },
+      expect(chatRooms).toStrictEqual([
         {
-          room: mockRoomJoinChild,
-          type: 'space.child',
-          content: {
-            roomId: joinChildRoomId,
-            holiSpaceId: 'bla',
-            spaceName: 'spaceName',
-            avatarDefaultColor: undefined,
-            parentSpaceRoomId: 'parentId',
-          },
+          avatar: undefined,
+          creator: null,
+          hasInvitation: false,
+          id: 'testRoomIdJoin',
+          lastMessage: undefined,
+          members: [],
+          name: undefined,
+          notificationCount: 0,
+          timestamp,
+          type: 'private',
         },
-        { room: mockRoomInvite, type: 'private' },
       ])
+    })
+
+    it('should return a space room with its child', () => {
+      const spaceName = 'holi space name'
+      const spaceChildName = '#general'
+      const spaceRoomId = 'spaceId'
+      const spaceChildRoomId = 'childId'
+      const holiSpaceId = 'holi-space-uuid'
+      const timelineEvents = [] as MatrixEvent[]
+      const notificationCount = 0
+
+      const spaceEventContent = {
+        roomId: spaceRoomId,
+        holiSpaceId: holiSpaceId,
+      }
+
+      const spaceChildEventContent = {
+        ...spaceEventContent,
+        spaceName,
+        avatarDefaultColor: '',
+        parentSpaceRoomId: spaceRoomId,
+      }
+
+      const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, spaceEventContent, {
+        content: spaceEventContent,
+        getTs: jest.fn(),
+      } as unknown as IEvent)
+
+      const spaceChildSharedDataEvent = createMatrixEventMock(
+        ChatRoomEvent.SharedData,
+        spaceChildRoomId,
+        spaceChildEventContent,
+        {
+          content: spaceChildEventContent,
+          getTs: jest.fn(),
+        } as unknown as IEvent
+      )
+
+      const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, spaceChildRoomId, {}, {
+        type: EventType.SpaceParent,
+        content: { canonical: true },
+        state_key: spaceRoomId,
+        room_id: spaceChildRoomId,
+      } as unknown as IEvent)
+
+      const spaceRoomMock = createRoomMock(spaceRoomId, {
+        timelineEvents,
+        timestamp,
+        name: spaceName,
+        isSpaceRoom: true,
+        stateEvents: [spaceSharedDataEvent],
+      })
+
+      const spaceChildRoomMock = createRoomMock(spaceChildRoomId, {
+        timelineEvents,
+        timestamp,
+        name: spaceChildName,
+        stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
+      })
+
+      const rooms = [spaceRoomMock, spaceChildRoomMock]
+
+      rooms.forEach((room) => {
+        room.getLastActiveTimestamp.mockReturnValue(timestamp)
+        room.getMyMembership.mockReturnValue(MembershipStatus.join)
+        room.getUnreadNotificationCount.mockReturnValue(notificationCount)
+      })
+
+      mxClient.getRooms.mockReturnValue(rooms)
+
+      const chatRooms = client.getChatRooms()
+
+      expect(chatRooms.length).toBe(2)
+
+      expect(chatRooms[0]).toStrictEqual({
+        id: spaceRoomId,
+        type: 'space',
+        avatar: undefined,
+        creator: null,
+        content: spaceEventContent,
+        hasInvitation: false,
+        lastMessage: undefined,
+        members: [],
+        name: spaceName,
+        notificationCount: notificationCount,
+        timestamp,
+      })
+
+      expect(chatRooms[1]).toStrictEqual({
+        id: spaceChildRoomId,
+        type: 'space.child',
+        avatar: undefined,
+        creator: null,
+        content: spaceChildEventContent,
+        hasInvitation: false,
+        lastMessage: undefined,
+        members: [],
+        name: spaceChildName,
+        notificationCount: notificationCount,
+        timestamp,
+      })
     })
   })
 

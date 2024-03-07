@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Animated, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Animated, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import type {
   LayoutChangeEvent,
   NativeScrollEvent,
@@ -10,6 +10,7 @@ import type {
   ViewStyle,
 } from 'react-native'
 
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { delayAnimation, useSettle } from '@holi/ui/helper'
 
 interface HoliStepperContextType {
@@ -99,7 +100,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   const [stepHeight, setStepHeight] = useState<number | undefined>(undefined)
 
   // Determine step width: start with window width and update on layout change
-  const { width: windowWidth } = useWindowDimensions()
+  const { width: windowWidth } = useClientWindowDimensions()
   const [viewWidth, setViewWidth] = useState(windowWidth)
   const handleLayout = useCallback((e: LayoutChangeEvent) => {
     const width = Math.round(e.nativeEvent.layout.width)
@@ -219,7 +220,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
             style={StyleSheet.flatten([
               styles.stepWrapper,
               {
-                width: viewWidth,
+                width: viewWidth ? viewWidth : '100%',
                 height: isActive ? 'auto' : stepHeight,
               },
             ])}

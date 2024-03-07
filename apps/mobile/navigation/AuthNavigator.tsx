@@ -8,6 +8,7 @@ import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import ChangeEmail from '@holi/core/screens/userprofile/ChangeEmail'
 import ChangeEmailVerification from '@holi/core/screens/userprofile/ChangeEmailVerification'
 import ChangePassword from '@holi/core/screens/userprofile/ChangePassword'
+import Favorites from '@holi/core/screens/userprofile/Favorites'
 import HelpSettings from '@holi/core/screens/userprofile/HelpSettings'
 import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import LegalDocuments from '@holi/core/screens/userprofile/LegalDocuments'
@@ -29,6 +30,7 @@ export type AuthStackScreensList = {
   LegalDocuments: undefined
   Document: undefined
   AboutHoliApp: undefined
+  Favorites: undefined
 }
 
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
@@ -121,6 +123,14 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen
         name={RouteName.AboutHoliApp}
         component={AboutHoliApp}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
+        name={RouteName.Favorites}
+        component={Favorites}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
