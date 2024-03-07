@@ -19,7 +19,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import RecommendedLink from './RecommendedLink'
+import LinkInfo from './LinkInfo'
 
 export type RecommendationDetailPageParams = {
   recommendationId: string
@@ -79,7 +79,7 @@ const RecommendationDetailPage = () => {
               style={styles.bannerImage}
             />
             <View style={styles.link}>
-              <RecommendedLink icon={recommendation.linkPreview.icon} link={recommendation.link} />
+              <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
               <HoliGap size="s" />
               <HoliHeading level="1" size="l" numberOfLines={3}>
                 {recommendation.linkPreview.title}

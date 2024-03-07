@@ -13,7 +13,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import RecommendedLink from './RecommendedLink'
+import LinkInfo from './LinkInfo'
 
 interface RecommendationPreviewProps {
   insightId: string
@@ -55,7 +55,7 @@ const RecommendationPreview = ({ insightId, recommendation }: RecommendationPrev
             </>
           )}
 
-          <RecommendedLink icon={recommendation.linkPreview.icon} link={recommendation.link} />
+          <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
         </View>
       </HoliButton>
     </View>

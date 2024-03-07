@@ -2,9 +2,8 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import LinkInfo from '@holi/core/screens/insights/recommendations/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { LinkM } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -20,7 +19,6 @@ export interface QuoteCardProps {
 
 const QuoteCard: React.FC<QuoteCardProps> = ({ quote }) => {
   const { t } = useTranslation()
-  const linkHost = new URL(quote.link).host.replace(/^(www.)/, '')
 
   return (
     <View style={styles.cardContainer}>
@@ -60,25 +58,7 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote }) => {
               {quote.linkPreview.title}
             </HoliHeading>
           </View>
-          <View style={styles.linkPreviewSourceLineContainer}>
-            {!!quote.linkPreview.icon && (
-              <View style={styles.linkPreviewFavicon}>
-                <HoliImage
-                  source={{ uri: quote.linkPreview.icon }}
-                  label={quote.linkPreview.title}
-                  style={{ width: 18, height: 18 }}
-                />
-              </View>
-            )}
-            {!quote.linkPreview.icon && (
-              <View style={[styles.linkPreviewFavicon, styles.linkPreviewDefaultIcon]}>
-                <HoliIcon icon={LinkM} size={18} color={colors.brandB300} />
-              </View>
-            )}
-            <HoliText size="extrasmall" color="gray300" numberOfLines={1}>
-              {linkHost}
-            </HoliText>
-          </View>
+          <LinkInfo link={quote.link} icon={quote.linkPreview.icon} size="sm" />
         </View>
       </View>
     </View>
@@ -129,25 +109,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     gap: Spacing['4xs'],
-  },
-
-  linkPreviewSourceLineContainer: {
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    gap: Spacing['3xs'],
-  },
-
-  linkPreviewFavicon: {
-    height: 24,
-    width: 24,
-    borderRadius: 4,
-    backgroundColor: colors.white200,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  linkPreviewDefaultIcon: {
-    backgroundColor: colors.brandB100,
   },
 })
