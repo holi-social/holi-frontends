@@ -195,7 +195,7 @@
   "global.hours": "Hours",
   "global.https.placeholder": "https://...",
   "global.imagepicker.failure": "Oops! A technical error occurred while loading the selected image! If you used a very big image on an older device, please try again with a smaller image.",
-  "global.independentJournalist": "Independent Journalist",
+  "global.journalist": "Journalist",
   "global.leavePage.confirmation.confirm": "Yes, leave",
   "global.leavePage.confirmation.description": "Do you really want to leave this page? All unsaved data will be lost.",
   "global.leavePage.confirmation.dismiss": "No, go back",
