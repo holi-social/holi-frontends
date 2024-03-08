@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Quote } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
@@ -94,14 +95,14 @@ const SourceCard: React.FC<Pick<QuoteCardProps, 'quote'>> = ({ quote }) => {
 }
 
 const InsightQuoteCard: React.FC<QuoteCardProps> = ({ insightId, quote }) => {
+  const { navigate } = useRouting()
+
   return (
-    <HoliLink label={quote.linkPreview.title} href={`/insights/${insightId}/quotes/${quote.id}`}>
-      <View style={styles.cardContainer}>
-        <QuoteCard quote={quote} />
-        <HoliGap size="xs" />
-        <SourceCard quote={quote} />
-      </View>
-    </HoliLink>
+    <Pressable style={styles.cardContainer} onPress={() => navigate(`/insights/${insightId}/quotes/${quote.id}`)}>
+      <QuoteCard quote={quote} />
+      <HoliGap size="xs" />
+      <SourceCard quote={quote} />
+    </Pressable>
   )
 }
 
