@@ -124,9 +124,9 @@ describe('cachePolicies', () => {
       // @ts-ignore
       const result = policy.merge(
         partialPageResults,
-        { totalResults: 5, data: [one, two, three, four] },
+        { totalResults: 5, data: [three, four] },
         {
-          args: { offset: 0, limit: 4 },
+          args: { offset: 2, limit: 4 },
         }
       )
       expect(result).toStrictEqual({ totalResults: 5, data: [one, two, three, four] })

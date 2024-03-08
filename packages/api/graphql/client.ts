@@ -100,6 +100,10 @@ export const createCache = () =>
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
           connectionStatusToMyself: alwaysReplacePolicy,
+          posts: pagedPolicy(['visibility']),
+          members: pagedPolicy(),
+          membershipRequests: pagedPolicy(),
+          invites: pagedPolicy(),
         },
       },
       SpacePaged: pagedPolicy(),
@@ -108,13 +112,13 @@ export const createCache = () =>
       SpaceInvitesPaged: pagedPolicy(),
       UserPaged: pagedPolicy(['substring']),
       PostPaged: pagedPolicy(),
-      AppointmentPaged: pagedPolicy(['statusType']),
+      AppointmentPaged: pagedPolicy(['spaceId', 'statusType']),
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appointments: {
-            keyArgs: ['statusType'],
+            keyArgs: ['spaceId', 'statusType'],
           },
           lastInsights: {
             keyArgs: [],
