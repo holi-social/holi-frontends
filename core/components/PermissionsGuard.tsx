@@ -32,13 +32,13 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   // "null" is used when we are SURE there is no logged in user
   const { userId } = useAuth()
 
-  if (userId === undefined) {
-    return <HoliLoader />
-  }
-
   if (forceRestrict) {
     navigate(redirectRoute || '/')
     return <></>
+  }
+
+  if (permissionType === PermissionsType.AUTH && userId === undefined) {
+    return <HoliLoader />
   }
 
   if (permissionType === PermissionsType.AUTH && userId === null) {
