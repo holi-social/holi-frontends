@@ -15,11 +15,9 @@ const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes }) =>
     <HoliCarousel
       hideDotIndicators
       marginHorizontal={spacing.xs}
-      slides={quotes.map((quote) => {
-        return {
-          children: <QuoteCard quote={quote} insightId={insightId} />,
-        }
-      })}
+      slides={quotes.map((quote) => ({
+        children: <QuoteCard quote={quote} insightId={insightId} />,
+      }))}
     />
   )
 }

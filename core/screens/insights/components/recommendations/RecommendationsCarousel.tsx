@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import { StyleSheet, View } from 'react-native'
 
 import RecommendationCard from '@holi/core/screens/insights/components/recommendations/RecommendationCard'
 import { Recommendation } from '@holi/core/screens/insights/types'
@@ -11,19 +10,9 @@ const RecommendationsCarousel: React.FC<{ recommendations: Recommendation[] }> =
       hideDotIndicators
       marginHorizontal={20}
       slides={recommendations.map((recommendation) => ({
-        children: (
-          <View style={recommendationCarouselStyles.carouselSlide}>
-            <RecommendationCard recommendation={recommendation} />
-          </View>
-        ),
+        children: <RecommendationCard recommendation={recommendation} />,
       }))}
     />
   )
 }
 export default memo(RecommendationsCarousel)
-
-const recommendationCarouselStyles = StyleSheet.create({
-  carouselSlide: {
-    flex: 1,
-  },
-})

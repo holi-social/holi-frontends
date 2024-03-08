@@ -19,11 +19,11 @@ interface RecommendationPreviewProps {
   recommendation: Recommendation
 }
 
-const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendation, ...props }) => {
+const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendation }) => {
   const { t } = useTranslation()
 
   return (
-    <View {...props} style={styles.card}>
+    <View style={styles.card}>
       <HoliButton
         label={recommendation.linkPreview.title}
         transparent
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.xs,
     borderWidth: 1,
     borderColor: colors.foreground10,
+    flex: 1,
   },
   image: {
     borderRadius: 6,

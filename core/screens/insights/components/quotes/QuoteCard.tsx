@@ -97,7 +97,7 @@ const InsightQuoteCard: React.FC<QuoteCardProps> = ({ insightId, quote }) => {
   const { navigate } = useRouting()
 
   return (
-    <Pressable style={styles.cardContainer} onPress={() => navigate(`/insights/${insightId}/quotes/${quote.id}`)}>
+    <Pressable style={styles.card} onPress={() => navigate(`/insights/${insightId}/quotes/${quote.id}`)}>
       <QuoteCard quote={quote} />
       <HoliGap size="xs" />
       <SourceCard quote={quote} />
@@ -108,7 +108,7 @@ const InsightQuoteCard: React.FC<QuoteCardProps> = ({ insightId, quote }) => {
 export default memo(InsightQuoteCard)
 
 const styles = StyleSheet.create({
-  cardContainer: {
+  card: {
     width: '100%',
     justifyContent: 'center',
     flex: 1,
