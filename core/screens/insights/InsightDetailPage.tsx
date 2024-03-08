@@ -197,7 +197,7 @@ const InsightDetailPage = () => {
         )}
 
         {recommendations.length > 0 && (
-          <View style={[mixins.container, screenWidth <= dimensions.breakpointS ? { paddingHorizontal: 0 } : {}]}>
+          <View style={[screenWidth <= dimensions.breakpointS ? { paddingHorizontal: 0 } : {}]}>
             <HoliGap size="l" />
             <View
               style={[
@@ -230,9 +230,9 @@ const InsightDetailPage = () => {
         )}
 
         {quotes.length > 0 && (
-          <View style={mixins.container}>
+          <View style={{ alignSelf: 'center', width: '100%', maxWidth: dimensions.maxScreenWidth }}>
             <HoliGap size="l" />
-            <View style={styles.sectionTitle}>
+            <View style={[styles.sectionTitle, mixins.container]}>
               <HoliLocalImage
                 imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
                 label="Quote"
