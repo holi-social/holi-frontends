@@ -9,7 +9,6 @@ import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -129,7 +128,7 @@ const InsightDetailPage = () => {
               style={[mixins.container, styles.bannerImage]}
               imageStyle={styles.insightImage as ImageStyle}
             />
-            <View style={[styles.content, mixins.container]}>
+            <View style={[styles.content, styles.centeredMaxWidthSection]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
                   <HoliBadge>{insight.topic.title}</HoliBadge>
@@ -232,7 +231,7 @@ const InsightDetailPage = () => {
         )}
 
         {posts.length > 0 && (
-          <View style={{ alignSelf: 'center', width: '100%', maxWidth: dimensions.maxScreenWidth }}>
+          <View style={styles.centeredMaxWidthSection}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
@@ -252,11 +251,10 @@ export const InsightCarouselSection: React.FC<{
   headingIcon: { asset: NodeRequire; label: string }
   children: React.ReactNode
 }> = ({ heading, headingIcon, children }) => {
-  const mixins = useStyleMixins()
   return (
-    <View style={{ alignSelf: 'center', width: '100%', maxWidth: dimensions.maxScreenWidth }}>
+    <View style={styles.centeredMaxWidthSection}>
       <HoliGap size="m" />
-      <View style={[styles.sectionTitle, mixins.container]}>
+      <View style={[styles.sectionTitle]}>
         <HoliLocalImage
           imageSource={headingIcon.asset as StaticImageData}
           label={headingIcon.label}
@@ -280,34 +278,35 @@ export const InsightCarouselSection: React.FC<{
 // Cons - There's duplication and possible drift between real UI and Skeleton... but Skeleton only has to
 // be an approximation of the ui.
 
-const Skeleton = () => {
-  const mixins = useStyleMixins()
-
-  return (
-    <>
-      <View style={[mixins.container, styles.bannerImage]}>
-        <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+const Skeleton = () => (
+  <>
+    <View style={[styles.bannerImage, styles.centeredMaxWidthSection]}>
+      <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+    </View>
+    <View style={[styles.content, styles.centeredMaxWidthSection]}>
+      <View style={styles.tag}>
+        <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
       </View>
-      <View style={[styles.content, mixins.container]}>
-        <View style={styles.tag}>
-          <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
-        </View>
-        <View style={styles.title}>
-          <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
-        </View>
-        <View style={styles.curator}>
-          <View style={styles.skeletonCurrator}>
-            <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
-            <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
-          </View>
-        </View>
-        <HoliSkeleton height={256} width="100%" borderRadius={16} />
+      <View style={styles.title}>
+        <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
       </View>
-    </>
-  )
-}
+      <View style={styles.curator}>
+        <View style={styles.skeletonCurator}>
+          <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
+          <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+        </View>
+      </View>
+      <HoliSkeleton height={256} width="100%" borderRadius={16} />
+    </View>
+  </>
+)
 
 const styles = StyleSheet.create({
+  centeredMaxWidthSection: {
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: dimensions.maxScreenWidth,
+  },
   wrapper: {
     backgroundColor: colors.background20,
   },
@@ -331,7 +330,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 32,
     paddingTop: Spacing.xl,
     paddingBottom: Spacing.lg,
-    paddingHorizontal: Spacing.xs,
+    paddingHorizontal: Spacing.md,
   },
   tag: {
     marginBottom: Spacing['xs'],
@@ -342,7 +341,7 @@ const styles = StyleSheet.create({
   curator: {
     marginBottom: Spacing.md,
   },
-  skeletonCurrator: {
+  skeletonCurator: {
     flexDirection: 'row',
     gap: Spacing['3xs'],
     alignItems: 'center',
@@ -353,14 +352,14 @@ const styles = StyleSheet.create({
   creatorInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 12,
+    borderRadius: dimensions.spacingXs,
     borderWidth: 1,
     borderColor: colors.gray100,
-    boxShadow: `0px 1px 0px 0px ${colors.gray100}`,
+    boxShadow: `0px 2px 0px 0px ${colors.gray100}`,
     padding: Spacing.xxs,
   },
   creatorAvatar: {
-    marginRight: Spacing.xs,
+    marginRight: Spacing.xxs,
   },
   creationDetails: {
     marginBottom: Spacing['3xs'],
@@ -372,6 +371,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing['3xs'],
+    paddingHorizontal: Spacing.md,
   },
   carouselSlide: {
     flex: 1,
