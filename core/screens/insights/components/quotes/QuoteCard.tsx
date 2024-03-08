@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
 
   linkPreviewImageContainer: {
     width: 86,
-    height: '100%',
     marginRight: Spacing.xxs,
   },
 
