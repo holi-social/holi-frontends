@@ -17,7 +17,7 @@ const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes }) =>
       marginHorizontal={spacing.xs}
       slides={quotes.map((quote) => {
         return {
-          children: <QuoteCard.Full quote={quote} insightId={insightId} />,
+          children: <QuoteCard quote={quote} insightId={insightId} />,
         }
       })}
     />

@@ -44,7 +44,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import RecommendationPreview from './components/RecommendationPreview'
+import RecommendationPreview from './components/recommendations/RecommendationCard'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -128,7 +128,7 @@ const InsightDetailPage = () => {
               style={[mixins.container, styles.bannerImage]}
               imageStyle={styles.insightImage as ImageStyle}
             />
-            <View style={[styles.content, styles.centeredMaxWidthSection]}>
+            <View style={[styles.content, styles.section]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
                   <HoliBadge>{insight.topic.title}</HoliBadge>
@@ -231,7 +231,7 @@ const InsightDetailPage = () => {
         )}
 
         {posts.length > 0 && (
-          <View style={styles.centeredMaxWidthSection}>
+          <View style={styles.section}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
@@ -252,7 +252,7 @@ export const InsightCarouselSection: React.FC<{
   children: React.ReactNode
 }> = ({ heading, headingIcon, children }) => {
   return (
-    <View style={styles.centeredMaxWidthSection}>
+    <View style={styles.section}>
       <HoliGap size="m" />
       <View style={[styles.sectionTitle]}>
         <HoliLocalImage
@@ -280,10 +280,10 @@ export const InsightCarouselSection: React.FC<{
 
 const Skeleton = () => (
   <>
-    <View style={[styles.bannerImage, styles.centeredMaxWidthSection]}>
+    <View style={[styles.bannerImage, styles.section]}>
       <HoliSkeleton height="100%" width="100%" borderRadius={0} />
     </View>
-    <View style={[styles.content, styles.centeredMaxWidthSection]}>
+    <View style={[styles.content, styles.section]}>
       <View style={styles.tag}>
         <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
       </View>
@@ -302,7 +302,7 @@ const Skeleton = () => (
 )
 
 const styles = StyleSheet.create({
-  centeredMaxWidthSection: {
+  section: {
     alignSelf: 'center',
     width: '100%',
     maxWidth: dimensions.maxScreenWidth,

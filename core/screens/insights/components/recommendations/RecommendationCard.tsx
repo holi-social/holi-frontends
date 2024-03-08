@@ -19,7 +19,7 @@ interface RecommendationPreviewProps {
   recommendation: Recommendation
 }
 
-const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommendation, ...props }) => {
+const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendation, ...props }) => {
   const { t } = useTranslation()
 
   return (
@@ -79,7 +79,7 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
   )
 }
 
-export default withProfiler(RecommendationPreview, { name: 'RecommendationPreview' })
+export default withProfiler(RecommendationCard, { name: 'RecommendationPreview' })
 
 const styles = StyleSheet.create({
   card: {

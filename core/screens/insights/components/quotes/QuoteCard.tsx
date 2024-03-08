@@ -105,11 +105,7 @@ const InsightQuoteCard: React.FC<QuoteCardProps> = ({ insightId, quote }) => {
   )
 }
 
-export default {
-  Quote: memo(QuoteCard),
-  Source: memo(SourceCard),
-  Full: memo(InsightQuoteCard),
-}
+export default memo(InsightQuoteCard)
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -117,7 +113,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-
   quoteCard: {
     backgroundColor: colors.background10,
     padding: Spacing.xxs,
@@ -126,7 +121,6 @@ const styles = StyleSheet.create({
     borderColor: colors.foreground10,
     height: 240,
   },
-
   sourceCard: {
     flexDirection: 'row',
     backgroundColor: colors.background10,
@@ -136,31 +130,26 @@ const styles = StyleSheet.create({
     borderColor: colors.foreground10,
     flex: 1,
   },
-
   linkPreviewImageContainer: {
     width: 86,
     marginRight: Spacing.xxs,
   },
-
   linkPreviewImage: {
     width: '100%',
     height: '100%',
     borderRadius: 8,
   },
-
   linkPreviewDetailsContainer: {
     flex: 1,
     justifyContent: 'space-between',
     gap: Spacing['4xs'],
   },
-
   linkPreviewSourceLineContainer: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
     alignItems: 'center',
     gap: Spacing['3xs'],
   },
-
   linkPreviewFavicon: {
     height: 24,
     width: 24,
@@ -169,7 +158,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   linkPreviewDefaultIcon: {
     backgroundColor: colors.brandB100,
   },
