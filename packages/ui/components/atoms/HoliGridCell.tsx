@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React from 'react'
-import { View, ViewStyle } from 'react-native'
+import React, { type PropsWithChildren } from 'react'
+import { View } from 'react-native'
 
 import { useGrid } from '@holi/ui/components/atoms/HoliGridWrapper'
 
 export interface HoliGridCellProps {
-  style: ViewStyle
   testID?: string
 }
 
-const HoliGridCell = ({ testID, children, style }: React.PropsWithChildren<Partial<HoliGridCellProps>>) => {
-  const { padding, width } = useGrid()
+const HoliGridCell = ({ testID, children }: PropsWithChildren<HoliGridCellProps>) => {
+  const { styles, id } = useGrid()
+
   return (
-    <View testID={testID} style={[style, { padding, width }]}>
+    <View testID={testID} style={styles} dataSet={{ media: id }}>
       {children}
     </View>
   )
