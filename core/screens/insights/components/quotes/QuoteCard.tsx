@@ -16,15 +16,22 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface QuoteCardProps {
-  insightId: string
   quote: Quote
-}
-
-type OptionalStyles = {
+  numberOfLines?: number
   style?: ViewStyle
 }
 
-const QuoteCard: React.FC<Pick<QuoteCardProps, 'quote'> & OptionalStyles> = ({ quote, style = {} }) => {
+export interface SourceCardProps {
+  quote: Quote
+}
+
+export interface QuoteAndSourceCardProps {
+  insightId: string
+  quote: Quote
+  quoteCardStyle?: ViewStyle
+}
+
+const QuoteCard: React.FC<QuoteCardProps> = ({ quote, numberOfLines, style = {} }) => {
   return (
     <View style={[styles.quoteCard, style]}>
       <HoliLocalImage
@@ -36,7 +43,7 @@ const QuoteCard: React.FC<Pick<QuoteCardProps, 'quote'> & OptionalStyles> = ({ q
         isSvg
       />
       <HoliGap size="s" />
-      <HoliText numberOfLines={5}>{quote.text}</HoliText>
+      <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
       <HoliGap size="xs" />
       <HoliText size="extrasmall" color="gray300">
         {quote.author} ∙ {quote.authorProfession}
@@ -45,7 +52,7 @@ const QuoteCard: React.FC<Pick<QuoteCardProps, 'quote'> & OptionalStyles> = ({ q
   )
 }
 
-const SourceCard: React.FC<Pick<QuoteCardProps, 'quote'>> = ({ quote }) => {
+const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
   const { t } = useTranslation()
   const linkHost = new URL(quote.link).host.replace(/^(www.)/, '')
 
@@ -93,19 +100,23 @@ const SourceCard: React.FC<Pick<QuoteCardProps, 'quote'>> = ({ quote }) => {
   )
 }
 
-const InsightQuoteCard: React.FC<QuoteCardProps> = ({ insightId, quote }) => {
+const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteCardStyle = {} }) => {
   const { navigate } = useRouting()
 
   return (
     <Pressable style={styles.card} onPress={() => navigate(`/insights/${insightId}/quotes/${quote.id}`)}>
-      <QuoteCard quote={quote} />
+      <QuoteCard quote={quote} numberOfLines={5} style={quoteCardStyle} />
       <HoliGap size="xs" />
       <SourceCard quote={quote} />
     </Pressable>
   )
 }
 
-export default memo(InsightQuoteCard)
+export default {
+  QuoteOnly: memo(QuoteCard),
+  SourceOnly: memo(SourceCard),
+  QuoteAndSource: memo(QuoteAndSourceCard),
+}
 
 const styles = StyleSheet.create({
   card: {

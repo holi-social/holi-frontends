@@ -87,20 +87,24 @@ const QuoteDetailPage = () => {
               />
             )}
             <View style={[mixins.container, styles.section, styles.curvedBottom]}>
-              <View style={{ flexDirection: 'row', gap: Spacing.xs, alignItems: 'center' }}>
-                {!!quote.linkPreview.icon && (
-                  <View style={styles.linkPreviewFavicon}>
-                    <HoliImage
-                      source={{ uri: quote.linkPreview.icon }}
-                      label={quote.linkPreview.title}
-                      style={{ width: 18, height: 18 }}
-                    />
-                  </View>
-                )}
-                <HoliText size="small" selectable={false}>
-                  {quote.linkPreview.siteName}
-                </HoliText>
-              </View>
+              {(!!quote.linkPreview.icon || !!quote.linkPreview.siteName) && (
+                <View style={{ flexDirection: 'row', gap: Spacing.xs, alignItems: 'center' }}>
+                  {!!quote.linkPreview.icon && (
+                    <View style={styles.linkPreviewFavicon}>
+                      <HoliImage
+                        source={{ uri: quote.linkPreview.icon }}
+                        label={quote.linkPreview.title}
+                        style={{ width: 18, height: 18 }}
+                      />
+                    </View>
+                  )}
+                  {!!quote.linkPreview.siteName && (
+                    <HoliText size="small" selectable={false}>
+                      {quote.linkPreview.siteName}
+                    </HoliText>
+                  )}
+                </View>
+              )}
 
               <HoliGap size="s" />
 
@@ -123,7 +127,7 @@ const QuoteDetailPage = () => {
               </View>
 
               <HoliGap size="s" />
-              <QuoteCard.Quote quote={quote} style={{ height: 'auto' }} />
+              <QuoteCard.QuoteOnly quote={quote} style={{ height: 'auto' }} />
               <HoliGap size="s" />
               <HoliText>{quote.comment}</HoliText>
             </View>
