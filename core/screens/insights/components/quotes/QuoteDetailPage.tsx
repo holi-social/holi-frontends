@@ -17,11 +17,11 @@ import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -129,7 +129,7 @@ const QuoteDetailPage = () => {
             </View>
           </>
         ) : (
-          <HoliLoader />
+          <Skeleton />
         )}
       </ScrollHeaderLayout.Refreshable>
       <View style={[mixins.container, styles.openLinkButton]}>
@@ -141,6 +141,23 @@ const QuoteDetailPage = () => {
             onPress={() => Linking.openURL(quote.link)}
           />
         )}
+      </View>
+    </>
+  )
+}
+
+const Skeleton = () => {
+  const mixins = useStyleMixins()
+
+  return (
+    <>
+      <View style={[mixins.container, styles.bannerImage]}>
+        <HoliSkeleton height={styles.bannerImage.height as number} width="100%" borderRadius={0} />
+      </View>
+      <View style={[mixins.container, styles.section]}>
+        <HoliSkeleton height={16} width="100%" borderRadius={0} />
+        <HoliGap size="s" />
+        <HoliSkeleton height={32} width="100%" borderRadius={0} />
       </View>
     </>
   )
