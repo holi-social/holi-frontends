@@ -30,6 +30,7 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -59,7 +60,6 @@ const InsightDetailPage = () => {
   const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
-  const { width: screenWidth } = useClientWindowDimensions()
 
   const {
     data: { insightById: insight } = {},
@@ -191,30 +191,20 @@ const InsightDetailPage = () => {
 
               <HoliRichTextOutput text={insight.description} allowAllLinks />
             </View>
+            <HoliGap size="s" />
           </>
         ) : (
           <Skeleton />
         )}
 
         {recommendations.length > 0 && (
-          <View style={[screenWidth <= dimensions.breakpointS ? { paddingHorizontal: 0 } : {}]}>
-            <HoliGap size="l" />
-            <View
-              style={[
-                styles.sectionTitle,
-                screenWidth <= dimensions.breakpointS ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
-              ]}
-            >
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
-                width={37}
-                height={37}
-                label={recommendationsTitle}
-                isSvg
-              />
-              <HoliHeading>{recommendationsTitle}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
+          <InsightCarouselSection
+            heading={recommendationsTitle}
+            headingIcon={{
+              asset: require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg'),
+              label: recommendationsTitle,
+            }}
+          >
             <HoliCarousel
               hideDotIndicators
               marginHorizontal={20}
@@ -226,30 +216,23 @@ const InsightDetailPage = () => {
                 ),
               }))}
             />
-          </View>
+          </InsightCarouselSection>
         )}
 
         {quotes.length > 0 && (
-          <View style={{ alignSelf: 'center', width: '100%', maxWidth: dimensions.maxScreenWidth }}>
-            <HoliGap size="l" />
-            <View style={[styles.sectionTitle, mixins.container]}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
-                label="Quote"
-                width={37}
-                height={37}
-                isSvg
-              />
-              <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
+          <InsightCarouselSection
+            heading={t('insights.quotes.title')}
+            headingIcon={{
+              asset: require('@holi/ui/assets/img/illustrations/illustration_people.svg'),
+              label: 'Quote',
+            }}
+          >
             <QuotesCarousel insightId={insight?.id} quotes={quotes} />
-            <HoliGap size="s" />
-          </View>
+          </InsightCarouselSection>
         )}
 
         {posts.length > 0 && (
-          <View style={[mixins.container, styles.postList]}>
+          <View style={{ alignSelf: 'center', width: '100%', maxWidth: dimensions.maxScreenWidth }}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
@@ -261,6 +244,32 @@ const InsightDetailPage = () => {
         )}
       </ScrollHeaderLayout.Refreshable>
     </>
+  )
+}
+
+export const InsightCarouselSection: React.FC<{
+  heading: string
+  headingIcon: { asset: NodeRequire; label: string }
+  children: React.ReactNode
+}> = ({ heading, headingIcon, children }) => {
+  const mixins = useStyleMixins()
+  return (
+    <View style={{ alignSelf: 'center', width: '100%', maxWidth: dimensions.maxScreenWidth }}>
+      <HoliGap size="m" />
+      <View style={[styles.sectionTitle, mixins.container]}>
+        <HoliLocalImage
+          imageSource={headingIcon.asset as StaticImageData}
+          label={headingIcon.label}
+          width={37}
+          height={37}
+          isSvg
+        />
+        <HoliHeading>{heading}</HoliHeading>
+      </View>
+      <HoliGap size="s" />
+      {children}
+      <HoliGap size="s" />
+    </View>
   )
 }
 
@@ -366,9 +375,6 @@ const styles = StyleSheet.create({
   },
   carouselSlide: {
     flex: 1,
-  },
-  postList: {
-    marginTop: Spacing.md,
   },
 })
 
