@@ -354,8 +354,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: dimensions.spacingXs,
     borderWidth: 1,
+    borderBottomWidth: 3,
     borderColor: colors.gray100,
-    boxShadow: `0px 2px 0px 0px ${colors.gray100}`,
     padding: Spacing.xxs,
   },
   creatorAvatar: {

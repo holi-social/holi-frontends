@@ -42,7 +42,9 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
           </>
         )}
         <View style={styles.description}>
-          <HoliBadge>{t(`insights.recommendations.category.${recommendation.category.toLowerCase()}`)}</HoliBadge>
+          <HoliBadge textSize="extrasmall">
+            {t(`insights.recommendations.category.${recommendation.category.toLowerCase()}`)}
+          </HoliBadge>
           <HoliGap size="s" />
 
           {recommendation.linkPreview.title && (
@@ -82,10 +84,10 @@ export default withProfiler(RecommendationPreview, { name: 'RecommendationPrevie
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.background10,
-    padding: Spacing.xxs,
-    borderRadius: 12,
+    padding: Spacing['3xs'],
+    borderRadius: Spacing.xs,
     borderWidth: 1,
-    borderColor: colors.background30,
+    borderColor: colors.foreground10,
   },
   image: {
     borderRadius: 6,

@@ -2,7 +2,6 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Quote } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -121,10 +120,10 @@ const styles = StyleSheet.create({
 
   quoteCard: {
     backgroundColor: colors.background10,
-    padding: Spacing.xs,
-    borderRadius: 12,
+    padding: Spacing.xxs,
+    borderRadius: Spacing.xs,
     borderWidth: 1,
-    borderColor: colors.background30,
+    borderColor: colors.foreground10,
     height: 240,
   },
 
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
     padding: Spacing['3xs'],
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: colors.background30,
+    borderColor: colors.foreground10,
     flex: 1,
   },
 
