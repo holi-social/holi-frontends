@@ -14,11 +14,10 @@ interface Props {
   showAvatar?: boolean
   isPrevMessageFromSameUser?: boolean
   isNextMessageFromSameUser?: boolean
-  roomType: string
   testID?: string
 }
 
-const RoomMessage = ({ holiUser, message, roomType, roomId, ...props }: Props) => {
+const RoomMessage = ({ holiUser, message, roomId, ...props }: Props) => {
   const membersRecord = useAtomValue(useMemo(() => roomMembersAtomCreator(roomId), [roomId]))
   const member = membersRecord[message.sender ?? '']
 
@@ -26,7 +25,6 @@ const RoomMessage = ({ holiUser, message, roomType, roomId, ...props }: Props) =
     case 'message':
       return <RoomTextMessage member={member} holiUser={holiUser} message={message} {...props} />
     case 'membership':
-      if (roomType === 'private') return
       return <RoomMembershipBadge member={member} user={holiUser} message={message} />
   }
 }

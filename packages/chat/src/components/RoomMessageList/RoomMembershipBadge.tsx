@@ -20,8 +20,8 @@ interface RoomMembershipBadgeProps {
 const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBadgeProps) => {
   const { t } = useTranslation()
   const content = message.content
-  // if Holi user wasn't found do not render the badge
-  if (!user || !isMsgMemberContent(content)) return null
+
+  if (!isMsgMemberContent(content)) return null
 
   return (
     <HoliBox padding={[8, 16]}>
@@ -39,14 +39,25 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
           <HoliBox padding={[4, 8, 4, 4]}>
             <View style={styles.content}>
               <HoliBox padding={[0, 6, 0, 0]}>
-                <HoliAvatar
-                  imageSrc={member?.avatar}
-                  imageBlurhash={user?.avatarBlurhash}
-                  label={user?.fullName ?? ''}
-                  initials={user?.avatarLabel ?? ''}
-                  defaultColor={user?.avatarDefaultColor ?? ''}
-                  size="micro"
-                />
+                {user ? (
+                  <HoliAvatar
+                    imageSrc={member?.avatar}
+                    imageBlurhash={user?.avatarBlurhash}
+                    label={user?.fullName ?? ''}
+                    initials={user?.avatarLabel ?? ''}
+                    defaultColor={user?.avatarDefaultColor ?? ''}
+                    size="micro"
+                  />
+                ) : (
+                  <HoliAvatar
+                    label={t('chat.user.deleted')}
+                    initials=":/"
+                    defaultColor={colors.brandColorD20}
+                    initialsColor="foreground30at48Percent"
+                    initialsFontWeight="500"
+                    size="micro"
+                  />
+                )}
               </HoliBox>
 
               <HoliText>
@@ -56,7 +67,7 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
                     i18nKey={
                       content.membership === 'join' ? 'chat.message.membership.join' : 'chat.message.membership.leave'
                     }
-                    values={{ user: user?.fullName }}
+                    values={{ user: user ? user?.fullName : t('chat.user.deleted') }}
                   >
                     <HoliText size="small" italic />
                   </Trans>
