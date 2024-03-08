@@ -15,7 +15,6 @@ import { RoomMessageListProps, isTextMessageItem } from './types'
 interface MessageDateGroup {
   title: string
   data: ChatRoomMessage[]
-  roomType: string
 }
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageDateGroup[] => {
@@ -50,7 +49,6 @@ const RoomMessageList = ({
   matrixIdToHoliUserRecord,
   starter,
   onScroll,
-  roomType,
   roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
@@ -79,7 +77,6 @@ const RoomMessageList = ({
               showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
               isPrevMessageFromSameUser={isPrevMessageFromSameUser}
               isNextMessageFromSameUser={isNextMessageFromSameUser}
-              roomType={roomType}
             />
           </View>
         )

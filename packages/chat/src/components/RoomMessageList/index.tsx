@@ -45,7 +45,6 @@ const RoomMessageList = ({
   matrixIdToHoliUserRecord,
   starter,
   onScroll,
-  roomType,
   roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
@@ -70,7 +69,6 @@ const RoomMessageList = ({
         return (
           <RoomMessage
             roomId={roomId}
-            roomType={roomType}
             message={message}
             holiUser={matrixIdToHoliUserRecord[message.sender ?? '']}
             showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
