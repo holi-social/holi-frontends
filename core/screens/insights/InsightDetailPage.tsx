@@ -19,6 +19,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import QuotesCarousel from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
 import { Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
@@ -37,14 +38,11 @@ import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import RecommendationPreview from './components/recommendations/RecommendationCard'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -204,17 +202,7 @@ const InsightDetailPage = () => {
               label: recommendationsTitle,
             }}
           >
-            <HoliCarousel
-              hideDotIndicators
-              marginHorizontal={20}
-              slides={recommendations.map((recommendation) => ({
-                children: (
-                  <View style={styles.carouselSlide}>
-                    <RecommendationPreview recommendation={recommendation} />
-                  </View>
-                ),
-              }))}
-            />
+            <RecommendationsCarousel recommendations={recommendations} />
           </InsightCarouselSection>
         )}
 
@@ -372,9 +360,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing['3xs'],
     paddingHorizontal: Spacing.md,
-  },
-  carouselSlide: {
-    flex: 1,
   },
 })
 
