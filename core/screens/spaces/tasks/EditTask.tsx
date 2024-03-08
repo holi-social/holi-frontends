@@ -40,7 +40,7 @@ const DEFAULT_SLOTS_AVAILABLE = 1
 
 const EditTask: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { navigateBack } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [taskId] = useParam('taskId')
@@ -225,6 +225,11 @@ const EditTask: React.VFC<ScreenProps> = () => {
       setSaveButtonDisabled(false)
     }
   }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
+
+  if (space && !task) {
+    replaceRoute('/404')
+    return
+  }
 
   // Error and loading states are handled the same way and just hide the component
   if (loadingSpace || errorSpace || !space) {

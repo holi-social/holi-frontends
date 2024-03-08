@@ -68,12 +68,15 @@ const AppointmentDetails = () => {
     called: calledAppointment,
   } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
     variables: { idOrSlug },
-    onError: (error) =>
-      !isNotFoundError(error) &&
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       logError(error, 'Failed to load appointment', {
         location: 'AppointmentDetails.appointmentByIdOrSlugQuery',
         idOrSlug,
-      }),
+      })
+    },
     skip: !idOrSlug,
   })
 
@@ -121,16 +124,8 @@ const AppointmentDetails = () => {
     })
   }, [setScreenOptions, t, renderActionDrawer])
 
-  if (loadingAppointment || loadingSpace || refreshing) {
+  if ((loadingAppointment && !appointment) || (loadingSpace && !space) || refreshing) {
     return <HoliLoader />
-  }
-
-  if (
-    (errorAppointment && isNotFoundError(errorAppointment)) ||
-    (calledAppointment && !loadingAppointment && !appointment)
-  ) {
-    replaceRoute('/404')
-    return <></>
   }
 
   // Error and loading states are handled the same way and just hide the component

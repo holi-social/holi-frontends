@@ -106,14 +106,14 @@ const TaskDetails = () => {
     })
   }, [renderActionDrawer, setScreenOptions, t])
 
+  if (space && !task) {
+    replaceRoute('/404')
+    return null
+  }
+
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !space || !task) {
     return <></>
-  }
-
-  if (!loading && space && !task) {
-    replaceRoute('/404')
-    return null
   }
 
   return (

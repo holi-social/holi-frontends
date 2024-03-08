@@ -33,7 +33,7 @@ const LinkHub = () => {
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
-  const { space } = useSpace(spaceIdOrName)
+  const { loading, error, space } = useSpace(spaceIdOrName)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -62,6 +62,10 @@ const LinkHub = () => {
         <HoliIcon icon={Add} size={20} />
       </HoliButton>
     )
+  }
+
+  if (loading || error || !space) {
+    return <></>
   }
 
   return (

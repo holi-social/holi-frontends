@@ -44,7 +44,7 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [toolId] = useParam('toolIdOrName')
-  const { navigateBack } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
@@ -123,7 +123,11 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     if (space) {
       const collaborationTools = space ? space.collaborationTools : []
       if (collaborationTools && collaborationTools.length > 0 && toolId) {
-        const digitalTool = collaborationTools.filter((tool) => tool.id === toolId)[0]
+        const digitalTool = collaborationTools.find((tool) => tool.id === toolId)
+        if (!digitalTool) {
+          replaceRoute('/404')
+          return
+        }
         const collectionType = COLLECTION_TYPES.filter(
           (collection_type) => collection_type === digitalTool.collectionType
         )[0]
@@ -140,7 +144,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         setCurrentThumbnailBlurhash(digitalTool.thumbnailBlurhash)
       }
     }
-  }, [space, toolId, t])
+  }, [space, toolId, t, replaceRoute])
 
   useEffect(() => {
     const resultSchema = UpdateCollaborationToolSchema.safeParse({

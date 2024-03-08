@@ -90,26 +90,36 @@ const EditAppointment: React.FC<ScreenProps> = () => {
     loading: loadingAppointment,
     error: errorAppointment,
     data: appointmentData,
-    called: calledAppointment,
   } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
     variables: { idOrSlug },
-    onError: (error) =>
-      !isNotFoundError(error) &&
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       logError(error, 'Failed to load appointment', {
         location: 'EditAppointment.appointmentByIdOrSlugQuery',
         idOrSlug,
-      }),
+      })
+    },
     skip: !idOrSlug,
   })
 
-  const { data, loading: loadingSpace } = useQuery<SpaceByIdResponse>(spaceByIdWithAllMembersQuery, {
+  const {
+    data,
+    loading: loadingSpace,
+    error: errorSpace,
+  } = useQuery<SpaceByIdResponse>(spaceByIdWithAllMembersQuery, {
     variables: { idOrName: spaceIdOrName },
     skip: !spaceIdOrName,
-    onError: (error) =>
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       logError(error, 'Failed to load space', {
         location: 'EditAppointment.spaceByIdWithAllMembersQuery',
         spaceIdOrName,
-      }),
+      })
+    },
   })
 
   const appointment = appointmentData?.appointment
@@ -282,11 +292,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
     return <HoliLoader />
   }
 
-  if (
-    (errorAppointment && isNotFoundError(errorAppointment)) ||
-    (calledAppointment && !loadingAppointment && !appointment)
-  ) {
-    replaceRoute('/404')
+  if (errorSpace || errorAppointment || !appointment || !space) {
     return <></>
   }
 
