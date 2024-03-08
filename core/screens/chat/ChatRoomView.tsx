@@ -163,7 +163,6 @@ const ChatRoomView = () => {
               ) : (
                 <RoomMessageList
                   roomId={room.id}
-                  roomType={room?.type}
                   messages={messages || []}
                   matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
                   starter={

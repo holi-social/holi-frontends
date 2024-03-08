@@ -37,7 +37,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
         location: 'InsightDrawer.bookmarkInsight',
         id,
       }),
-    refetchQueries: [{ query: insightById, variables: { id } }],
+    refetchQueries: [{ query: insightById, variables: { id } }, 'FavoriteInsights'],
   })
 
   const [removeInsightBookmark] = useMutation<RemoveInsightBookmark>(removeInsightBookmarkMutation, {
@@ -46,7 +46,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
         location: 'InsightDrawer.removeInsightBookmark',
         id,
       }),
-    refetchQueries: [{ query: insightById, variables: { id } }],
+    refetchQueries: [{ query: insightById, variables: { id } }, 'FavoriteInsights'],
   })
 
   const bookmarkInsightActionHandler = async () => {
