@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -13,7 +13,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface RecommendationPreviewProps {
   recommendation: Recommendation
@@ -21,6 +21,9 @@ interface RecommendationPreviewProps {
 
 const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendation }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={styles.card}>
@@ -81,38 +84,39 @@ const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendati
 
 export default withProfiler(RecommendationCard, { name: 'RecommendationPreview' })
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.background10,
-    padding: Spacing['3xs'],
-    borderRadius: Spacing.xs,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    flex: 1,
-  },
-  image: {
-    borderRadius: 6,
-    maxWidth: '100%',
-  },
-  description: {
-    paddingHorizontal: Spacing['3xs'],
-  },
-  link: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing['3xs'],
-  },
-  linkText: {
-    flex: 1,
-  },
-  favicon: {
-    height: 24,
-    width: 24,
-    borderRadius: 4,
-  },
-  missingFavicon: {
-    backgroundColor: colors.brandB100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    card: {
+      backgroundColor: theme.colors.background10,
+      padding: Spacing['3xs'],
+      borderRadius: Spacing.xs,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      flex: 1,
+    },
+    image: {
+      borderRadius: 6,
+      maxWidth: '100%',
+    },
+    description: {
+      paddingHorizontal: Spacing['3xs'],
+    },
+    link: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: Spacing['3xs'],
+    },
+    linkText: {
+      flex: 1,
+    },
+    favicon: {
+      height: 24,
+      width: 24,
+      borderRadius: 4,
+    },
+    missingFavicon: {
+      backgroundColor: theme.colors.brandB100,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  })

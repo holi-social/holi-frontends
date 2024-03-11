@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -14,7 +14,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface FavoriteCardProps {
   id: string
@@ -30,6 +30,9 @@ interface FavoriteCardProps {
 const FavoriteCard: React.FC<FavoriteCardProps> = ({ id, title, thumbnail, primaryLink, curator, published }) => {
   const { i18n } = useTranslation()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={styles.cardContainer}>
@@ -89,48 +92,49 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ id, title, thumbnail, prima
   )
 }
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    position: 'relative',
-    borderWidth: 1,
-    borderColor: colors.gray200,
-    backgroundColor: colors.white100,
-    borderRadius: 8,
-    margin: 8,
-    padding: 8,
-  },
-  cardContent: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  thumbnailContainer: {
-    width: 100,
-    height: 100,
-  },
-  thumbnail: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-  },
-  detailsContainer: {
-    flex: 1,
-    marginLeft: 8,
-    marginRight: 32,
-    justifyContent: 'space-between',
-  },
-  curatorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  curatorAvatar: {
-    marginRight: 8,
-  },
-  favoriteDrawer: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    zIndex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    cardContainer: {
+      position: 'relative',
+      borderWidth: 1,
+      borderColor: theme.colors.gray200,
+      backgroundColor: theme.colors.white100,
+      borderRadius: 8,
+      margin: 8,
+      padding: 8,
+    },
+    cardContent: {
+      flexDirection: 'row',
+      flex: 1,
+    },
+    thumbnailContainer: {
+      width: 100,
+      height: 100,
+    },
+    thumbnail: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 8,
+    },
+    detailsContainer: {
+      flex: 1,
+      marginLeft: 8,
+      marginRight: 32,
+      justifyContent: 'space-between',
+    },
+    curatorContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    curatorAvatar: {
+      marginRight: 8,
+    },
+    favoriteDrawer: {
+      position: 'absolute',
+      top: 10,
+      right: 10,
+      zIndex: 1,
+    },
+  })
 
 export default FavoriteCard

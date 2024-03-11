@@ -112,7 +112,7 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                   label={roomName}
                   initials=":/"
                   defaultColor={colors.brandColorD20}
-                  initialsColor="foreground30at48Percent"
+                  initialsColor={colors.foreground30at48Percent}
                   initialsFontWeight="500"
                   size="medium"
                 />

@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -13,7 +13,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface QuoteCardProps {
   quote: Quote
@@ -32,6 +32,8 @@ export interface QuoteAndSourceCardProps {
 }
 
 const QuoteCard: React.FC<QuoteCardProps> = ({ quote, numberOfLines, style = {} }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   return (
     <View style={[styles.quoteCard, style]}>
       <HoliLocalImage
@@ -54,6 +56,9 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, numberOfLines, style = {} 
 
 const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
   const linkHost = new URL(quote.link).host.replace(/^(www.)/, '')
 
   return (
@@ -102,6 +107,8 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
 
 const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteCardStyle = {} }) => {
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <Pressable style={styles.card} onPress={() => navigate(`/insights/${insightId}/quotes/${quote.id}`)}>
@@ -118,58 +125,59 @@ export default {
   QuoteAndSource: memo(QuoteAndSourceCard),
 }
 
-const styles = StyleSheet.create({
-  card: {
-    width: '100%',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  quoteCard: {
-    backgroundColor: colors.background10,
-    padding: Spacing.xxs,
-    borderRadius: Spacing.xs,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    height: 240,
-  },
-  sourceCard: {
-    flexDirection: 'row',
-    backgroundColor: colors.background10,
-    padding: Spacing['3xs'],
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    flex: 1,
-  },
-  linkPreviewImageContainer: {
-    width: 86,
-    marginRight: Spacing.xxs,
-  },
-  linkPreviewImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-  },
-  linkPreviewDetailsContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-    gap: Spacing['4xs'],
-  },
-  linkPreviewSourceLineContainer: {
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    gap: Spacing['3xs'],
-  },
-  linkPreviewFavicon: {
-    height: 24,
-    width: 24,
-    borderRadius: 4,
-    backgroundColor: colors.white200,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  linkPreviewDefaultIcon: {
-    backgroundColor: colors.brandB100,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    card: {
+      width: '100%',
+      justifyContent: 'center',
+      flex: 1,
+    },
+    quoteCard: {
+      backgroundColor: theme.colors.background10,
+      padding: Spacing.xxs,
+      borderRadius: Spacing.xs,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      height: 240,
+    },
+    sourceCard: {
+      flexDirection: 'row',
+      backgroundColor: theme.colors.background10,
+      padding: Spacing['3xs'],
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      flex: 1,
+    },
+    linkPreviewImageContainer: {
+      width: 86,
+      marginRight: Spacing.xxs,
+    },
+    linkPreviewImage: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 8,
+    },
+    linkPreviewDetailsContainer: {
+      flex: 1,
+      justifyContent: 'space-between',
+      gap: Spacing['4xs'],
+    },
+    linkPreviewSourceLineContainer: {
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      gap: Spacing['3xs'],
+    },
+    linkPreviewFavicon: {
+      height: 24,
+      width: 24,
+      borderRadius: 4,
+      backgroundColor: theme.colors.white200,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    linkPreviewDefaultIcon: {
+      backgroundColor: theme.colors.brandB100,
+    },
+  })

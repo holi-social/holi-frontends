@@ -8,7 +8,7 @@ import HoliConfirmation, {
   HoliConfirmationProps,
   useConfirmationState,
 } from '@holi/ui/components/molecules/HoliConfirmation'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface SwipeableProps {
   onSwipeLeft: () => void
@@ -28,6 +28,8 @@ const HoliSwipeable = ({
   children,
 }: React.PropsWithChildren<SwipeableProps>) => {
   const swipableRef = useRef<Swipeable | null>(null)
+  const { theme } = useTheme()
+  const styles = React.useMemo(() => getStyles(theme), [theme])
 
   const { setShow: showConfirmation, props: confirmationProps } = useConfirmationState({
     onConfirm: () => {
@@ -77,16 +79,17 @@ HoliSwipeable.displayName = 'HoliSwipeableItem'
 
 export default HoliSwipeable
 
-const styles = StyleSheet.create({
-  wrapper: {
-    width: 66,
-  },
-  swipeLeftButton: {
-    backgroundColor: colors.error300,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex', // for web
-    height: '100%',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      width: 66,
+    },
+    swipeLeftButton: {
+      backgroundColor: theme.colors.error300,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex', // for web
+      height: '100%',
+    },
+  })

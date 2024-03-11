@@ -1,14 +1,15 @@
 import { Platform, StyleSheet } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme } from '@holi/ui/styles/theme'
 
-export const commonStyles = StyleSheet.create({
-  headerTextShadow: Platform.select({
-    native: {
-      shadowColor: colors.foreground30,
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 0.5,
-      shadowRadius: 3,
-    },
-  }),
-})
+export const getCommonStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    headerTextShadow: Platform.select({
+      native: {
+        shadowColor: theme.colors.foreground30,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
+      },
+    }),
+  })

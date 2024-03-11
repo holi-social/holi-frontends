@@ -14,7 +14,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { commonStyles } from '@holi-apps/goodnews/common_styles'
+import { getCommonStyles } from '@holi-apps/goodnews/common_styles'
 import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
@@ -56,6 +56,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const commonStyles = useMemo(() => getCommonStyles(theme), [theme])
 
   const partnerModalState = useModalState()
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useTheme } from '@holi/ui/styles/theme'
 
-import { commonStyles } from '@holi-apps/goodnews/common_styles'
+import { getCommonStyles } from '@holi-apps/goodnews/common_styles'
 
 export type GoodNewsHeaderProps = {
   tintColor?: string
@@ -14,6 +15,8 @@ export type GoodNewsHeaderProps = {
 const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ formattedDate = undefined, ...props }) => {
   const { t } = useTranslation()
   const title = t('goodnews:app.name')
+  const { theme } = useTheme()
+  const commonStyles = useMemo(() => getCommonStyles(theme), [theme])
 
   return (
     <View>

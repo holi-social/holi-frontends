@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
@@ -23,7 +23,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type QuoteDetailPageParams = {
@@ -41,6 +41,9 @@ const QuoteDetailPage = () => {
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const {
     data: { insightById: insight } = {},
@@ -69,7 +72,7 @@ const QuoteDetailPage = () => {
       headerTintColor: colors.black300,
       headerShown: true,
     })
-  }, [quote, setScreenOptions, t])
+  }, [quote, setScreenOptions, t, colors.black300])
 
   return (
     <>
@@ -152,6 +155,8 @@ const QuoteDetailPage = () => {
 
 const Skeleton = () => {
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <>
@@ -167,67 +172,68 @@ const Skeleton = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-    paddingBottom: 124,
-  },
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+      paddingBottom: 124,
+    },
 
-  bannerImage: {
-    paddingHorizontal: 0,
-    height: Platform.OS === 'web' ? 680 : 340,
-    ...Platform.select({
-      web: {
-        maxHeight: '50vh',
-        objectFit: 'cover',
-      },
-      native: { maxHeight: '50%' },
-    }),
-  } as ImageStyle,
+    bannerImage: {
+      paddingHorizontal: 0,
+      height: Platform.OS === 'web' ? 680 : 340,
+      ...Platform.select({
+        web: {
+          maxHeight: '50vh',
+          objectFit: 'cover',
+        },
+        native: { maxHeight: '50%' },
+      }),
+    } as ImageStyle,
 
-  quoteImage: {
-    ...Platform.select({ web: { height: '100%' } }),
-  },
+    quoteImage: {
+      ...Platform.select({ web: { height: '100%' } }),
+    },
 
-  section: {
-    backgroundColor: colors.background10,
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.lg,
-    paddingHorizontal: Spacing.xs,
-  },
+    section: {
+      backgroundColor: theme.colors.background10,
+      paddingTop: Spacing.xl,
+      paddingBottom: Spacing.lg,
+      paddingHorizontal: Spacing.xs,
+    },
 
-  curvedBottom: {
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-  },
+    curvedBottom: {
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+    },
 
-  linkPreviewFavicon: {
-    height: 24,
-    width: 24,
-    borderRadius: 4,
-    backgroundColor: colors.white200,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    linkPreviewFavicon: {
+      height: 24,
+      width: 24,
+      borderRadius: 4,
+      backgroundColor: theme.colors.white200,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
 
-  curvedTop: {
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-  },
+    curvedTop: {
+      borderTopLeftRadius: 32,
+      borderTopRightRadius: 32,
+    },
 
-  openLinkButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    left: 0,
-    right: 0,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    ...Platform.select({
-      native: { position: 'absolute', bottom: 40 },
-      web: { position: 'fixed', bottom: 82 },
-    }),
-  },
-})
+    openLinkButton: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      left: 0,
+      right: 0,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      ...Platform.select({
+        native: { position: 'absolute', bottom: 40 },
+        web: { position: 'fixed', bottom: 82 },
+      }),
+    },
+  })
 
 export default memo(QuoteDetailPage)

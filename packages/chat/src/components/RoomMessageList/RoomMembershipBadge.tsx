@@ -56,7 +56,7 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
                     label={t('chat.user.deleted')}
                     initials=":/"
                     defaultColor={colors.brandColorD20}
-                    initialsColor="foreground30at48Percent"
+                    initialsColor={colors.foreground30at48Percent}
                     initialsFontWeight="500"
                     size="micro"
                   />
