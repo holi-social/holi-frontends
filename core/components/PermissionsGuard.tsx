@@ -3,6 +3,7 @@ import React, { memo } from 'react'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 export enum PermissionsType {
   SPACES = 'SPACES',
@@ -34,6 +35,10 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   if (forceRestrict) {
     navigate(redirectRoute || '/')
     return <></>
+  }
+
+  if (permissionType === PermissionsType.AUTH && userId === undefined) {
+    return <HoliLoader />
   }
 
   if (permissionType === PermissionsType.AUTH && userId === null) {

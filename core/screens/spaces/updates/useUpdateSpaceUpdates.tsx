@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Dispatch } from 'react'
 import { SetStateAction } from 'react'
 
+import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -42,7 +43,7 @@ export interface UseCreateOrUpdateSpacePost {
 
 export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: string): UseCreateOrUpdateSpacePost => {
   const { displayError } = useErrorHandling()
-  const { navigateBack } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
 
   //input fields
   const [title, setTitle] = useState<string>('')
@@ -62,6 +63,9 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       navigateBack()
       displayError(error, 'Failed to load space post', {
         location: 'useCreateOrUpdateSpacePost.PostById',

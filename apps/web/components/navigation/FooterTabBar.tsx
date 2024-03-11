@@ -101,7 +101,7 @@ const FooterTabBar = () => {
               isProfileLoginRegistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
             ]}
           >
-            {isLoggedIn ? t('profile.title') : t('auth.login')}
+            <span suppressHydrationWarning>{isLoggedIn ? t('profile.title') : t('auth.login')}</span>
           </HoliText>
         </LoginProfileButton>
       </View>

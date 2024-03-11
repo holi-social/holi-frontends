@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -22,11 +24,11 @@ const AboutSpaces = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
 
   const styles = getStyles(safeAreaInsetTop, screenWidth)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,

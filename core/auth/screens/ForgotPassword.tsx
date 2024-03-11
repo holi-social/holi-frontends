@@ -1,5 +1,5 @@
 import { RecoveryFlow } from '@ory/kratos-client'
-import React, { memo, useLayoutEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
@@ -9,6 +9,7 @@ import RecoverPasswordCode from '@holi/core/auth/components/RecoverPasswordCode'
 import RecoverPasswordForm from '@holi/core/auth/components/RecoverPasswordForm'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HoliWebView from '@holi/core/components/HoliWebView'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
@@ -25,7 +26,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
   const [flow, setFlow] = useState<RecoveryFlow>()
   const setScreenOptions = useSetScreenOptions()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!webview)
       setScreenOptions({
         headerTitle: () => (
