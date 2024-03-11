@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { DimensionValue, ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -36,6 +37,7 @@ const RecommendationDetailPage = () => {
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
+  const { t } = useTranslation()
 
   const { data: { insightById } = {}, refetch } = useQuery<InsightWithRecommendationResponse>(
     insightWithRecommendation,
@@ -48,7 +50,7 @@ const RecommendationDetailPage = () => {
           return replaceRoute('/404')
         }
         logError(error, 'Failed to load recommendation', {
-          location: 'RecommendationDetailPage.recommendationById',
+          location: 'RecommendationDetailPage.insightWithRecommendation',
           recommendationId,
         })
       },
@@ -60,12 +62,11 @@ const RecommendationDetailPage = () => {
   const recommendation = insightById?.recommendation
   const creator = insightById?.creator
 
-  //  TODO: use translated string
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      title: 'Top Recommendation',
+      title: t('insights.recommendations.title'),
     })
-  }, [setScreenOptions])
+  }, [t, setScreenOptions])
 
   return (
     <>
@@ -103,7 +104,7 @@ const RecommendationDetailPage = () => {
                     initials={creator.avatarLabel || ''}
                     defaultColor={creator.avatarDefaultColor || ''}
                   />
-                  <HoliText bold>{'Why I recommend this'}</HoliText>
+                  <HoliText bold>{t('insights.recommendations.creator_reason')}</HoliText>
                 </View>
               )}
               <HoliText>{recommendation.comment}</HoliText>
@@ -115,7 +116,7 @@ const RecommendationDetailPage = () => {
         <HoliButtonLoading
           style={styles.linkButton}
           role="link"
-          label="Open Link"
+          label={t('insights.recommendations.open_link')}
           icon={ShareBox}
           onPress={() => Linking.openURL(recommendation?.link || '')}
         />

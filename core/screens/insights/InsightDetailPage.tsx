@@ -106,8 +106,11 @@ const InsightDetailPage = () => {
   const creator = insight?.creator
   const recommendationsTitle =
     recommendations.length > 1
-      ? t('insights.recommendations.title', { name: creator?.firstName, number: recommendations.length })
-      : t('insights.recommendations.title.single', { name: creator?.firstName })
+      ? t('insights.recommendations.title.creator.multiple', {
+          name: creator?.firstName,
+          number: recommendations.length,
+        })
+      : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
 
   return (
     <>
