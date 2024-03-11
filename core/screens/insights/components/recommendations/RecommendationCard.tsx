@@ -19,11 +19,11 @@ interface RecommendationPreviewProps {
   recommendation: Recommendation
 }
 
-const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommendation, ...props }) => {
+const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendation }) => {
   const { t } = useTranslation()
 
   return (
-    <View {...props} style={styles.card}>
+    <View style={styles.card}>
       <HoliButton
         label={recommendation.linkPreview.title}
         transparent
@@ -42,7 +42,9 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
           </>
         )}
         <View style={styles.description}>
-          <HoliBadge>{t(`insights.recommendations.category.${recommendation.category.toLowerCase()}`)}</HoliBadge>
+          <HoliBadge textSize="extrasmall">
+            {t(`insights.recommendations.category.${recommendation.category.toLowerCase()}`)}
+          </HoliBadge>
           <HoliGap size="s" />
 
           {recommendation.linkPreview.title && (
@@ -77,15 +79,16 @@ const RecommendationPreview: React.FC<RecommendationPreviewProps> = ({ recommend
   )
 }
 
-export default withProfiler(RecommendationPreview, { name: 'RecommendationPreview' })
+export default withProfiler(RecommendationCard, { name: 'RecommendationPreview' })
 
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.background10,
-    padding: Spacing.xxs,
-    borderRadius: 12,
+    padding: Spacing['3xs'],
+    borderRadius: Spacing.xs,
     borderWidth: 1,
-    borderColor: colors.background30,
+    borderColor: colors.foreground10,
+    flex: 1,
   },
   image: {
     borderRadius: 6,

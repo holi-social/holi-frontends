@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Insight } from '@holi/core/screens/insights/types'
+import { Insight, InsightWithQuote } from '@holi/core/screens/insights/types'
 import { LinkFragment, PostFragment, RecommendationFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
@@ -132,4 +132,29 @@ export const insightById = gql`
 
 export type InsightByIdResponse = {
   insightById: Insight
+}
+
+export const insightWithQuoteById = gql`
+  ${QuotesFragment}
+  ${UserAvatarFragment}
+
+  query InsightWithQuoteById($insightId: UUID!, $quoteId: UUID!) {
+    insightById(id: $insightId) {
+      id
+      title
+      description
+      datePublished
+      creator {
+        ...UserAvatar
+        aboutMe
+        firstName
+      }
+      quote(id: $quoteId) {
+        ...QuotesFragment
+      }
+    }
+  }
+`
+export type InsightWithQuoteByIdResponse = {
+  insightById: InsightWithQuote
 }

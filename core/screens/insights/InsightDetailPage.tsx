@@ -9,7 +9,6 @@ import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -19,6 +18,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import QuotesCarousel from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
+import RecommendationsCarousel from '@holi/core/screens/insights/components/recommendations/RecommendationsCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import { Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
@@ -30,6 +30,7 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -37,14 +38,11 @@ import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import RecommendationPreview from './components/RecommendationPreview'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -59,7 +57,6 @@ const InsightDetailPage = () => {
   const { replaceRoute } = useRouting()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
-  const { width: screenWidth } = useClientWindowDimensions()
 
   const {
     data: { insightById: insight } = {},
@@ -129,7 +126,7 @@ const InsightDetailPage = () => {
               style={[mixins.container, styles.bannerImage]}
               imageStyle={styles.insightImage as ImageStyle}
             />
-            <View style={[styles.content, mixins.container]}>
+            <View style={[styles.content, styles.section]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
                   <HoliBadge>{insight.topic.title}</HoliBadge>
@@ -191,65 +188,38 @@ const InsightDetailPage = () => {
 
               <HoliRichTextOutput text={insight.description} allowAllLinks />
             </View>
+            <HoliGap size="s" />
           </>
         ) : (
           <Skeleton />
         )}
 
         {recommendations.length > 0 && (
-          <View style={[mixins.container, screenWidth <= dimensions.breakpointS ? { paddingHorizontal: 0 } : {}]}>
-            <HoliGap size="l" />
-            <View
-              style={[
-                styles.sectionTitle,
-                screenWidth <= dimensions.breakpointS ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
-              ]}
-            >
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
-                width={37}
-                height={37}
-                label={recommendationsTitle}
-                isSvg
-              />
-              <HoliHeading>{recommendationsTitle}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
-            <HoliCarousel
-              hideDotIndicators
-              marginHorizontal={20}
-              slides={recommendations.map((recommendation) => ({
-                children: (
-                  <View style={styles.carouselSlide}>
-                    <RecommendationPreview recommendation={recommendation} />
-                  </View>
-                ),
-              }))}
-            />
-          </View>
+          <InsightCarouselSection
+            heading={recommendationsTitle}
+            headingIcon={{
+              asset: require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg'),
+              label: recommendationsTitle,
+            }}
+          >
+            <RecommendationsCarousel recommendations={recommendations} />
+          </InsightCarouselSection>
         )}
 
         {quotes.length > 0 && (
-          <View style={mixins.container}>
-            <HoliGap size="l" />
-            <View style={styles.sectionTitle}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
-                label="Quote"
-                width={37}
-                height={37}
-                isSvg
-              />
-              <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
-            <QuotesCarousel quotes={quotes} />
-            <HoliGap size="s" />
-          </View>
+          <InsightCarouselSection
+            heading={t('insights.quotes.title')}
+            headingIcon={{
+              asset: require('@holi/ui/assets/img/illustrations/illustration_people.svg'),
+              label: 'Quote',
+            }}
+          >
+            <QuotesCarousel insightId={insight?.id} quotes={quotes} />
+          </InsightCarouselSection>
         )}
 
         {posts.length > 0 && (
-          <View style={[mixins.container, styles.postList]}>
+          <View style={styles.section}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
@@ -264,6 +234,31 @@ const InsightDetailPage = () => {
   )
 }
 
+export const InsightCarouselSection: React.FC<{
+  heading: string
+  headingIcon: { asset: NodeRequire; label: string }
+  children: React.ReactNode
+}> = ({ heading, headingIcon, children }) => {
+  return (
+    <View style={styles.section}>
+      <HoliGap size="m" />
+      <View style={[styles.sectionTitle]}>
+        <HoliLocalImage
+          imageSource={headingIcon.asset as StaticImageData}
+          label={headingIcon.label}
+          width={37}
+          height={37}
+          isSvg
+        />
+        <HoliHeading>{heading}</HoliHeading>
+      </View>
+      <HoliGap size="s" />
+      {children}
+      <HoliGap size="s" />
+    </View>
+  )
+}
+
 // Trying out Skeleton as a separate component, why?
 // i) Feels wrong that smaller atoms & molecules have to have 2 concerns eg show title or a skeleton. SRP FTW.
 // ii) There's lots of branches in the code to deal with an insight possibly being null -
@@ -271,34 +266,35 @@ const InsightDetailPage = () => {
 // Cons - There's duplication and possible drift between real UI and Skeleton... but Skeleton only has to
 // be an approximation of the ui.
 
-const Skeleton = () => {
-  const mixins = useStyleMixins()
-
-  return (
-    <>
-      <View style={[mixins.container, styles.bannerImage]}>
-        <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+const Skeleton = () => (
+  <>
+    <View style={[styles.bannerImage, styles.section]}>
+      <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+    </View>
+    <View style={[styles.content, styles.section]}>
+      <View style={styles.tag}>
+        <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
       </View>
-      <View style={[styles.content, mixins.container]}>
-        <View style={styles.tag}>
-          <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
-        </View>
-        <View style={styles.title}>
-          <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
-        </View>
-        <View style={styles.curator}>
-          <View style={styles.skeletonCurrator}>
-            <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
-            <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
-          </View>
-        </View>
-        <HoliSkeleton height={256} width="100%" borderRadius={16} />
+      <View style={styles.title}>
+        <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
       </View>
-    </>
-  )
-}
+      <View style={styles.curator}>
+        <View style={styles.skeletonCurator}>
+          <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
+          <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+        </View>
+      </View>
+      <HoliSkeleton height={256} width="100%" borderRadius={16} />
+    </View>
+  </>
+)
 
 const styles = StyleSheet.create({
+  section: {
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: dimensions.maxScreenWidth,
+  },
   wrapper: {
     backgroundColor: colors.background20,
   },
@@ -322,7 +318,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 32,
     paddingTop: Spacing.xl,
     paddingBottom: Spacing.lg,
-    paddingHorizontal: Spacing.xs,
+    paddingHorizontal: Spacing.md,
   },
   tag: {
     marginBottom: Spacing['xs'],
@@ -333,7 +329,7 @@ const styles = StyleSheet.create({
   curator: {
     marginBottom: Spacing.md,
   },
-  skeletonCurrator: {
+  skeletonCurator: {
     flexDirection: 'row',
     gap: Spacing['3xs'],
     alignItems: 'center',
@@ -344,14 +340,14 @@ const styles = StyleSheet.create({
   creatorInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 12,
+    borderRadius: dimensions.spacingXs,
     borderWidth: 1,
+    borderBottomWidth: 3,
     borderColor: colors.gray100,
-    boxShadow: `0px 1px 0px 0px ${colors.gray100}`,
     padding: Spacing.xxs,
   },
   creatorAvatar: {
-    marginRight: Spacing.xs,
+    marginRight: Spacing.xxs,
   },
   creationDetails: {
     marginBottom: Spacing['3xs'],
@@ -363,12 +359,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing['3xs'],
-  },
-  carouselSlide: {
-    flex: 1,
-  },
-  postList: {
-    marginTop: Spacing.md,
+    paddingHorizontal: Spacing.md,
   },
 })
 
