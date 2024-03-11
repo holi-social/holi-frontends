@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
-import { DimensionValue, ImageStyle, Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -10,10 +10,12 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { RecommendationByIdResponse, recommendationById } from '@holi/core/screens/insights/queries'
+import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
@@ -68,7 +70,7 @@ const RecommendationDetailPage = () => {
           onRefresh,
         }}
         style={styles.layout}
-        contentStyle={mixins.container}
+        contentStyle={[mixins.container, styles.container]}
         headerOverlap
       >
         {recommendation && (
@@ -104,6 +106,15 @@ const RecommendationDetailPage = () => {
           </>
         )}
       </ScrollHeaderLayout.Refreshable>
+      <View style={styles.footer}>
+        <HoliButtonLoading
+          style={styles.linkButton}
+          role="link"
+          label="Open Link"
+          icon={ShareBox}
+          onPress={() => Linking.openURL(recommendation?.link || '')}
+        />
+      </View>
     </>
   )
 }
@@ -119,15 +130,21 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  container: {
+    paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
+  },
   bannerImage: {
     paddingHorizontal: 0,
     width: '100%',
-    height: 200,
     ...Platform.select({
       web: {
+        height: 380,
         maxHeight: '50vh',
       },
-      native: { maxHeight: '50%' },
+      native: {
+        height: 200,
+        maxHeight: '50%',
+      },
     }),
   } as ImageStyle,
   link: {
@@ -149,6 +166,16 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.lg,
     paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.xs,
+  },
+  footer: {
+    width: '100%',
+    position: 'fixed',
+    bottom: dimensions.bottomBarHeight + 16,
+    padding: Spacing.xxs,
+  },
+  linkButton: {
+    maxWidth: dimensions.maxButtonWidth,
+    marginHorizontal: 'auto',
   },
 })
 
