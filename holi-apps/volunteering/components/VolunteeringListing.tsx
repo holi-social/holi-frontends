@@ -5,7 +5,6 @@ import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -55,7 +54,6 @@ const VolunteeringListing = ({
   const insets = useSafeAreaInsets()
   const styles = getStyles(insets.bottom)
   const { imageWidth } = useWindowDimensionsWithImageScaling()
-  const postGridItemsInRow = useBreakpointMatcher()
 
   const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
   const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
@@ -155,7 +153,7 @@ const VolunteeringListing = ({
           </View>
         )}
         <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
-          <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+          <HoliGridWrapper>
             {engagements.map((engagement) => (
               <HoliGridCell key={engagement.id}>
                 <HoliLink href={`/apps/volunteering/engagement/${engagement.id}`} label={engagement.title}>

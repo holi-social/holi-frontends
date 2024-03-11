@@ -27,20 +27,20 @@ interface Props extends BaseProps {
 
 type SpacesGridProps = SkeletonProps | Props
 
-const spaceBreakpointGridValues: [number, number][] = [
+const gridBreakpoints: [number, number][] = [
   [0, 2],
   [dimensions.breakpointM, 3],
   [dimensions.breakpointL, 4],
 ]
 
 const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<SpacesGridProps>) => {
-  const itemsInRow = useBreakpointMatcher(spaceBreakpointGridValues) ?? 2
+  const itemsInRow = useBreakpointMatcher(gridBreakpoints) ?? 2
   // approximation, because of padding images are a bit to large, but that's ok
   const { imageWidth } = useWindowDimensionsWithImageScaling({ relativeWidth: 1 / itemsInRow })
 
   return (
     <View style={[style]}>
-      <HoliGridWrapper itemsInRow={itemsInRow} gap={8}>
+      <HoliGridWrapper breakpoints={gridBreakpoints} gap={8}>
         {loading &&
           new Array(pageSize).fill(1).map((_, idx) => {
             return (

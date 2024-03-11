@@ -13,7 +13,8 @@
     "clean:all": "rimraf node_modules"
   },
   "dependencies": {
-    "@holi/icons": "^1.0.0"
+    "@holi/icons": "^1.0.0",
+    "react-native-media-query": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",

@@ -11,7 +11,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
   <View
     style={
       [
-        undefined,
         {
           "flexDirection": "row",
           "flexWrap": "wrap",
@@ -23,14 +22,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
     }
   >
     <View
+      dataSet={
+        {
+          "media": undefined,
+        }
+      }
       style={
-        [
-          undefined,
-          {
-            "padding": 8,
-            "width": "50%",
-          },
-        ]
+        {
+          "padding": 8,
+          "width": "50%",
+        }
       }
     >
       <View
@@ -845,14 +846,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       </View>
     </View>
     <View
+      dataSet={
+        {
+          "media": undefined,
+        }
+      }
       style={
-        [
-          undefined,
-          {
-            "padding": 8,
-            "width": "50%",
-          },
-        ]
+        {
+          "padding": 8,
+          "width": "50%",
+        }
       }
     >
       <View
@@ -1667,14 +1670,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       </View>
     </View>
     <View
+      dataSet={
+        {
+          "media": undefined,
+        }
+      }
       style={
-        [
-          undefined,
-          {
-            "padding": 8,
-            "width": "50%",
-          },
-        ]
+        {
+          "padding": 8,
+          "width": "50%",
+        }
       }
     >
       <View
