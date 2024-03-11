@@ -17,13 +17,19 @@ const HoliBadge = ({
   color = 'gray300',
   textSize = 'default',
   children,
-}: HoliBadgeProps) => (
-  <View style={[styles.tag, { backgroundColor: backgroundColor }]}>
-    <HoliText color={color} size={textSize}>
-      {children}
-    </HoliText>
-  </View>
-)
+}: HoliBadgeProps) => {
+  // if children is a string, encapsulate it into a HoliText component, otherwise render it as is
+  const transformedChildren =
+    typeof children === 'string' ? (
+      <HoliText color={color} size={textSize}>
+        {children}
+      </HoliText>
+    ) : (
+      children
+    )
+
+  return <View style={[styles.tag, { backgroundColor: backgroundColor }]}>{transformedChildren}</View>
+}
 
 const styles = StyleSheet.create({
   tag: {

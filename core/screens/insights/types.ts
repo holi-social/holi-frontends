@@ -53,7 +53,7 @@ export interface InsightWithQuote extends Insight {
 
 export interface Recommendation {
   id: string
-  category: string
+  category: ExternalContentCategory
   link: string
   linkPreview: Link
   comment: string

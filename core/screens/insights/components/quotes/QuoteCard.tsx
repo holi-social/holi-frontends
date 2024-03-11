@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/recommendations/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -10,7 +10,6 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -52,8 +51,6 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, numberOfLines, style = {} 
 }
 
 const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
-  const { t } = useTranslation()
-
   return (
     <View style={styles.sourceCard}>
       {!!quote.linkPreview.image && (
@@ -66,9 +63,7 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
         </View>
       )}
       <View style={styles.linkPreviewDetailsContainer}>
-        <HoliBadge textSize="extrasmall">
-          {t(`insights.recommendations.category.${quote.category.toLowerCase()}`)}
-        </HoliBadge>
+        <ExternalContentCategoryBadge category={quote.category} />
         <View>
           <HoliHeading level="2" size="s" selectable numberOfLines={2}>
             {quote.linkPreview.title}
