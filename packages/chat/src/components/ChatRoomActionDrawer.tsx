@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { ignoreUser, leaveRoom, useSetRemoveRoomAtom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { CloseCircle } from '@holi/icons/src/generated'
+import { CloseCircle, Delete } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -44,8 +44,8 @@ const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Prop
         showConfirmation
       >
         <HoliActionDrawer.Confirmation
-          confirmText={t('chat.actions.block.confimation.block')}
-          dismissText={t('chat.actions.block.confimation.cancel')}
+          confirmText={t('chat.actions.block.confirmation.block')}
+          dismissText={t('chat.actions.block.confirmation.cancel')}
           title={t('chat.actions.block', { name: chatPartnerFullName })}
           description={t('chat.actions.block.confirmation.text', { name: chatPartnerFullName })}
           testID="chat-room-block-confirmation"
@@ -56,7 +56,7 @@ const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Prop
       </HoliActionDrawer.Action>
 
       <HoliActionDrawer.Action
-        icon={CloseCircle}
+        icon={Delete}
         title={t('chat.actions.leave', { name: chatPartnerFullName })}
         iconColor={colors.error20}
         variant="danger"

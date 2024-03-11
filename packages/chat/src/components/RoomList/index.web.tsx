@@ -1,7 +1,9 @@
 import React from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 
-import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
+import { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
+import RoomItemDeletable from '@holi/chat/src/components/RoomList/RoomItemDeletable'
+import { leaveRoom } from '@holi/chat/src/store'
 import { onScreenScrollY } from '@holi/core/helpers'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -14,9 +16,9 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
   return (
     <FlatList
       data={roomAtoms}
-      renderItem={({ item: roomAtom }) => {
-        return <RoomItem roomAtom={roomAtom} loggedInUser={loggedInUser} />
-      }}
+      renderItem={({ item: roomAtom }) => (
+        <RoomItemDeletable roomAtom={roomAtom} loggedInUser={loggedInUser} onDelete={leaveRoom} />
+      )}
       ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
       ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
       keyExtractor={(item) => item.toString()}
@@ -37,6 +39,7 @@ export default RoomList
 const styles = StyleSheet.create({
   list: {
     height: '100%',
+    paddingHorizontal: 0,
   },
   listFooterSpacer: {
     height: dimensions.bottomBarHeight,
@@ -44,5 +47,8 @@ const styles = StyleSheet.create({
   listItemSeparator: {
     borderColor: colors.background30,
     borderTopWidth: 1,
+  },
+  listItemWrapper: {
+    backgroundColor: colors.background20,
   },
 })

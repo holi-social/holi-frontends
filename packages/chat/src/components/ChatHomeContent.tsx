@@ -17,6 +17,8 @@ import {
 } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { updateLayoutAnimation } from '@holi/core/helpers/updateLayoutAnimation'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -52,8 +54,8 @@ const ChatHomeNeedToLogin = () => {
             />
           }
           secondText={t('loginRedirect.text')}
-          testID="chat-login"
           style={[styles.noResultsMessage]}
+          testID="chat-login"
         >
           <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
             {t('loginRedirect.btnConfirm')}
@@ -158,6 +160,10 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
   const tabRoomAtomsRecord = useAtomValue(tabRoomAtomsRecordAtom)
 
+  // update layout animation when `selectedTabId` or amount of items in the tab changes
+  const layoutUpdateNeeded = tabRoomAtomsRecord[selectedTabId]?.length ?? 0
+  useIsomorphicLayoutEffect(() => updateLayoutAnimation(), [selectedTabId, layoutUpdateNeeded])
+
   if (!sortedRoomAtoms.length) {
     return <ChatHomeNoExistingRooms />
   }
@@ -176,7 +182,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
           inline
           style={styles.overlayButton}
           onPress={() => navigate('/chat/start')}
-          testID={'start-chat-button'}
+          testID="start-chat-button"
         >
           <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
         </HoliButton>
