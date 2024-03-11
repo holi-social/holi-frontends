@@ -16,12 +16,18 @@ const HoliBadge = ({ backgroundColor, color, textSize = 'default', children }: H
   const { theme } = useTheme()
   const { colors } = theme
 
-  return (
-    <View style={[styles.tag, { backgroundColor: backgroundColor || colors.white200 }]}>
+  // if children is a string, encapsulate it into a HoliText component, otherwise render it as is
+  const transformedChildren =
+    typeof children === 'string' ? (
       <HoliText color={color || (colors.gray300 as HoliTextColor)} size={textSize}>
         {children}
       </HoliText>
-    </View>
+    ) : (
+      children
+    )
+
+  return (
+    <View style={[styles.tag, { backgroundColor: backgroundColor || colors.white200 }]}>{transformedChildren}</View>
   )
 }
 
