@@ -1,8 +1,8 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import { Recommendation } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
@@ -10,7 +10,6 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -20,8 +19,6 @@ interface RecommendationPreviewProps {
 }
 
 const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendation }) => {
-  const { t } = useTranslation()
-
   return (
     <View style={styles.card}>
       <HoliButton
@@ -42,9 +39,7 @@ const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendati
           </>
         )}
         <View style={styles.description}>
-          <HoliBadge textSize="extrasmall">
-            {t(`insights.recommendations.category.${recommendation.category.toLowerCase()}`)}
-          </HoliBadge>
+          <ExternalContentCategoryBadge category={recommendation.category} />
           <HoliGap size="s" />
 
           {recommendation.linkPreview.title && (
