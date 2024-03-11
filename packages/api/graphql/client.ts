@@ -123,9 +123,6 @@ export const createCache = () =>
           lastInsights: {
             keyArgs: [],
           },
-          inspirationPosts: {
-            keyArgs: [],
-          },
           appDonations_projects: {
             keyArgs: ['location'],
           },
