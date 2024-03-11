@@ -1,24 +1,45 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ColorSchemeName, Platform } from 'react-native'
 
-export const setColorScheme = (value: ColorSchemeName) => {
-  if (Platform.OS !== 'web') return
-
-  if (value) {
-    localStorage.setItem('theme', value)
-    document.documentElement.setAttribute('data-theme', value)
-  }
-
-  // auto theme (system settings)
-  if (!value) {
-    localStorage.removeItem('theme')
-    document.documentElement.removeAttribute('data-theme')
+export const setColorScheme = async (value: ColorSchemeName) => {
+  // mobile
+  if (Platform.OS !== 'web') {
+    try {
+      if (value) {
+        await AsyncStorage.setItem('theme', value)
+      } else {
+        await AsyncStorage.removeItem('theme')
+      }
+    } catch (error) {
+      return
+    }
+  } else {
+    // web
+    if (value) {
+      localStorage.setItem('theme', value)
+      document.documentElement.setAttribute('data-theme', value)
+    } else {
+      localStorage.removeItem('theme')
+      document.documentElement.removeAttribute('data-theme')
+    }
   }
 }
 
-export const useColorScheme = () => {
-  if (Platform.OS !== 'web') return 'light' // TODO: get from asyncStorage for mobile
+export const getColorScheme = async () => {
+  let theme: string | undefined
 
-  const theme = localStorage.getItem('theme')
+  // mobile
+  if (Platform.OS !== 'web') {
+    try {
+      theme = (await AsyncStorage.getItem('theme')) || undefined
+    } catch (error) {
+      // Error saving theme
+    }
+    return theme
+  }
+
+  // web
+  theme = localStorage.getItem('theme') || undefined
 
   if (theme) {
     localStorage.setItem('theme', theme)

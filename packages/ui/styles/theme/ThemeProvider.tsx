@@ -1,18 +1,24 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'
-import { setColorScheme, useColorScheme } from '@holi/ui/styles/theme/colors'
-
-import { HoliTheme } from '.'
-import { useStyleMixins } from './mixins'
-import defaultTheme, { ThemeContext } from './theme'
+import defaultTheme, { HoliTheme, ThemeContext } from '@holi/ui/styles/theme'
+import { getColorScheme, setColorScheme } from '@holi/ui/styles/theme/colors'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ModalState = { [key: string]: boolean }
 
 export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWithChildren<{ theme?: HoliTheme }>) => {
-  const [mode, setMode] = useState(useColorScheme())
+  const [mode, setMode] = useState<string>()
   const isDark = mode === 'dark'
+
+  // get current theme on initialization
+  useEffect(() => {
+    if (!mode) {
+      getColorScheme().then((scheme) => setMode(scheme))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const toggleDarkMode = () => {
     const newMode = isDark ? 'light' : 'dark'
