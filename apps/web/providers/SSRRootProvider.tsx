@@ -4,6 +4,8 @@ import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { StyleSheet } from 'react-native'
 
+import ChatProvider from '@holi/chat/src/components/ChatProvider'
+import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
@@ -36,7 +38,11 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
           <ApolloProvider client={apolloWebClient}>
             <PortalProvider>
               <ToastProvider>
-                <LoginModalProvider>{children}</LoginModalProvider>
+                <LoginModalProvider>
+                  <ChatSessionInitializer>
+                    <ChatProvider>{children}</ChatProvider>
+                  </ChatSessionInitializer>
+                </LoginModalProvider>
               </ToastProvider>
             </PortalProvider>
           </ApolloProvider>
