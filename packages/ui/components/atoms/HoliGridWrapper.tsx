@@ -1,75 +1,32 @@
 import type { PropsWithChildren } from 'react'
 import React, { createContext, useContext } from 'react'
-import { FlexStyle, View } from 'react-native'
+import { View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import {
+  type Breakpoints,
+  type GridStyles,
+  createGridStyles,
+  defaultGridBreakpoints,
+} from '@holi/ui/components/utils/gridStyles'
 
 export interface HoliGridWrapperProps {
   gap?: number
   breakpoints?: Breakpoints
 }
 
-interface WidthStyleProp {
-  width?: FlexStyle['width']
-}
-
-interface ResponsiveWidthStyle extends WidthStyleProp {
-  [key: `@media${string}`]: {
-    width?: FlexStyle['width']
-  }
-}
-
-interface GridStyles extends ResponsiveWidthStyle {
-  padding: FlexStyle['padding']
-}
-
-export type Breakpoints = [number, number][]
-export type MediaIds = Record<string | number | symbol, string>
-
-const defaultBreakpoints: [number, number][] = [
-  [0, 1],
-  [dimensions.breakpointL, 2],
-]
-
-const createResponsiveWidth = (breakpoints: Breakpoints): ResponsiveWidthStyle => {
-  return breakpoints.reduce((styles: ResponsiveWidthStyle, item: [number, number]) => {
-    const [bp, value] = item
-    const styleProp: WidthStyleProp = { width: `${100 / value}%` }
-
-    if (bp === 0) return Object.assign(styles, styleProp)
-
-    return Object.assign(styles, {
-      [`@media (min-width: ${bp}px)`]: styleProp,
-    })
-  }, {})
-}
-
-const createGridStyles = (breakpoints: Breakpoints, gap: number) => {
-  return StyleSheet.create({
-    gridItem: {
-      ...createResponsiveWidth(breakpoints),
-      padding: gap / 2,
-    },
-  })
-}
-
-const { styles: defaultGridStyles, ids: defaultIds } = createGridStyles(defaultBreakpoints, 24)
-
 interface GridContextValue {
   styles: GridStyles
   id: string
 }
 
+const { styles: defaultGridStyles, ids: defaultIds } = createGridStyles(defaultGridBreakpoints, 24)
+
 const GridContext = createContext<GridContextValue>({
   styles: defaultGridStyles.gridItem,
   id: defaultIds.gridItem,
 })
-
-const GridProvider = ({ children, ...value }: React.PropsWithChildren<GridContextValue>) => {
-  return <GridContext.Provider value={value}>{children}</GridContext.Provider>
-}
 
 export const useGrid = () => {
   const context = useContext(GridContext)
@@ -81,10 +38,14 @@ export const useGrid = () => {
   return context
 }
 
+const GridProvider = ({ children, ...value }: React.PropsWithChildren<GridContextValue>) => {
+  return <GridContext.Provider value={value}>{children}</GridContext.Provider>
+}
+
 const HoliGridWrapper = ({
   children,
   gap = 24,
-  breakpoints = defaultBreakpoints,
+  breakpoints = defaultGridBreakpoints,
 }: PropsWithChildren<HoliGridWrapperProps>) => {
   const { styles: gridStyles, ids } = createGridStyles(breakpoints, gap)
 
