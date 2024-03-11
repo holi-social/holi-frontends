@@ -228,7 +228,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
 
   if (space && !task) {
     replaceRoute('/404')
-    return
+    return <></>
   }
 
   // Error and loading states are handled the same way and just hide the component
