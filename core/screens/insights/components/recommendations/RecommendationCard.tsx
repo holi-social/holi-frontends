@@ -19,6 +19,8 @@ interface RecommendationPreviewProps {
 }
 
 const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendation }) => {
+  const linkHost = new URL(recommendation.link).host.replace(/^(www.)/, '')
+
   return (
     <View style={styles.card}>
       <HoliButton
@@ -65,7 +67,7 @@ const RecommendationCard: React.FC<RecommendationPreviewProps> = ({ recommendati
               </View>
             )}
             <HoliText numberOfLines={1} size="small" style={styles.linkText}>
-              {recommendation.link}
+              {linkHost}
             </HoliText>
           </View>
         </View>
