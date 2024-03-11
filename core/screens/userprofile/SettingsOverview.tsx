@@ -8,7 +8,7 @@ import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useLogout } from '@holi/core/helpers'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import {
@@ -32,6 +32,7 @@ const SettingsOverview = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
+  const { ftEnabled } = useFeatureToggle(FeatureToggleName.THEME_TOGGLE)
   const { logout, isLoggingOut } = useLogout()
   const { theme, toggleDarkMode } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -99,12 +100,14 @@ const SettingsOverview = () => {
               testID="btn-about"
             />
           )}
-          <MoreOptionItem
-            label={t('global.theme.toggle')}
-            icon={theme.dark ? Sun : SunFilled}
-            onPress={toggleDarkMode}
-            style={styles.settingsItem}
-          />
+          {ftEnabled && (
+            <MoreOptionItem
+              label={t('global.theme.toggle')}
+              icon={theme.dark ? Sun : SunFilled}
+              onPress={toggleDarkMode}
+              style={styles.settingsItem}
+            />
+          )}
         </View>
 
         <View style={styles.separator} />
