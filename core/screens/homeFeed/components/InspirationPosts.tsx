@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -22,18 +21,17 @@ const POSTS_TEXT_LINES_SHOWN = 5
 
 const InspirationPostsList = () => {
   const { t } = useTranslation()
-  const postGridItemsInRow = useBreakpointMatcher()
 
   const { loading, data: posts, totalResults } = usePaginationContext<Post>()
   if (!loading && !totalResults) {
-    return <></>
+    return null
   }
 
   return (
     <>
       <HoliHeading size="l">{t('homeFeed.inspirationPosts.heading')}</HoliHeading>
       <HoliGap />
-      <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+      <HoliGridWrapper>
         {loading
           ? new Array(POSTS_PAGE_SIZE).fill(1).map((_, idx) => (
               <HoliGridCell key={idx}>
