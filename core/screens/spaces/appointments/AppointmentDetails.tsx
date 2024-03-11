@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -33,7 +33,8 @@ import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
@@ -56,6 +57,9 @@ const AppointmentDetails = () => {
 
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading: loadingSpace, error: errorSpace, space, refetch: refetchSpace } = useSpace(spaceIdOrName)
 
@@ -103,7 +107,7 @@ const AppointmentDetails = () => {
       ) : (
         <></>
       ),
-    [isAdmin, space, appointment, isAppointmentCreator, navigateBack]
+    [isAdmin, space, appointment, isAppointmentCreator, navigateBack, colors.foreground30]
   )
 
   useLayoutEffect(() => {
@@ -118,7 +122,7 @@ const AppointmentDetails = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t, renderActionDrawer])
+  }, [setScreenOptions, t, renderActionDrawer, colors.background10, styles.headerRight])
 
   if (loadingAppointment || loadingSpace || refreshing) {
     return <HoliLoader />
@@ -390,128 +394,129 @@ const AppointmentDetails = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    paddingBottom: 120,
-    minHeight: '100%',
-    paddingTop: dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh' as DimensionValue,
-      },
-    }),
-  },
-  contentStyle: {
-    paddingBottom: 0,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh' as DimensionValue,
-      },
-      native: {
-        paddingTop: dimensions.topBarHeight,
-      },
-    }),
-  },
-  smallScreenPadding: {
-    paddingHorizontal: 0,
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    gap: 14,
-  },
-  image: {
-    width: '100%',
-    aspectRatio: IMAGE_ASPECT_RATIO,
-    height: Platform.OS === 'web' ? '100%' : 'auto',
-  },
-  imageContainer: {
-    position: 'relative',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginBottom: 8,
-  },
-  card: {
-    padding: 16,
-    backgroundColor: colors.background10,
-    flexShrink: 1,
-    borderRadius: 24,
-    marginBottom: 2,
-  },
-  firstCard: {
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  noIconsContainer: {
-    marginLeft: 32,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  firstIconContainer: {
-    marginTop: 24,
-  },
-  iconGroupContainer: {
-    flex: 1,
-    marginTop: 16,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  iconGroupIcon: {
-    marginRight: 8,
-    marginTop: -2,
-  },
-  externalLinkButton: {
-    flex: 1,
-  },
-  iconGroupWithDescription: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 6,
-  },
-  iconGroupContainerDescription: {
-    marginTop: 2,
-    flex: 1,
-  },
-  description: {
-    marginTop: 16,
-  },
-  avatar: {
-    marginTop: 16,
-    marginRight: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatarName: {
-    marginLeft: 16,
-  },
-  detailsIconGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  detailsIcon: {
-    borderWidth: 1,
-    borderColor: colors.background20,
-    borderRadius: 50,
-    padding: 13,
-    marginRight: 16,
-  },
-  infoText: {
-    flex: 1,
-    ...Platform.select({
-      web: {
-        overflow: 'hidden',
-      },
-    }),
-  },
-  externalLinkIcon: {
-    marginTop: 2,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    defaultLayout: {
+      paddingBottom: 120,
+      minHeight: '100%',
+      paddingTop: dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh' as DimensionValue,
+        },
+      }),
+    },
+    contentStyle: {
+      paddingBottom: 0,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh' as DimensionValue,
+        },
+        native: {
+          paddingTop: dimensions.topBarHeight,
+        },
+      }),
+    },
+    smallScreenPadding: {
+      paddingHorizontal: 0,
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: 14,
+    },
+    image: {
+      width: '100%',
+      aspectRatio: IMAGE_ASPECT_RATIO,
+      height: Platform.OS === 'web' ? '100%' : 'auto',
+    },
+    imageContainer: {
+      position: 'relative',
+    },
+    titleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      marginBottom: 8,
+    },
+    card: {
+      padding: 16,
+      backgroundColor: theme.colors.background10,
+      flexShrink: 1,
+      borderRadius: 24,
+      marginBottom: 2,
+    },
+    firstCard: {
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+    },
+    noIconsContainer: {
+      marginLeft: 32,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+    firstIconContainer: {
+      marginTop: 24,
+    },
+    iconGroupContainer: {
+      flex: 1,
+      marginTop: 16,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+    iconGroupIcon: {
+      marginRight: 8,
+      marginTop: -2,
+    },
+    externalLinkButton: {
+      flex: 1,
+    },
+    iconGroupWithDescription: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 6,
+    },
+    iconGroupContainerDescription: {
+      marginTop: 2,
+      flex: 1,
+    },
+    description: {
+      marginTop: 16,
+    },
+    avatar: {
+      marginTop: 16,
+      marginRight: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    avatarName: {
+      marginLeft: 16,
+    },
+    detailsIconGroup: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    detailsIcon: {
+      borderWidth: 1,
+      borderColor: theme.colors.background20,
+      borderRadius: 50,
+      padding: 13,
+      marginRight: 16,
+    },
+    infoText: {
+      flex: 1,
+      ...Platform.select({
+        web: {
+          overflow: 'hidden',
+        },
+      }),
+    },
+    externalLinkIcon: {
+      marginTop: 2,
+    },
+  })
 
 export default memo(AppointmentDetails)

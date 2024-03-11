@@ -16,7 +16,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorsManageParams = {
@@ -32,6 +33,8 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const { error, space } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
@@ -48,7 +51,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
 
   if (error || !space) {
     return <></>

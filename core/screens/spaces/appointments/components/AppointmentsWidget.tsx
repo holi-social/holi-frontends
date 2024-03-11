@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -15,7 +15,8 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface AppointmentsWidgetProps {
   space: Space
@@ -33,6 +34,9 @@ interface NoAppointmentsAvailableProps {
 
 const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPress }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <HoliButton
       label={t('spaces.global.empty.instruction')}
@@ -61,6 +65,8 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
@@ -124,37 +130,38 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
 
 export default AppointmentsWidget
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: 16,
-  },
-  nonMemberContainer: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-  },
-  contentWrapper: {
-    padding: 8,
-  },
-  seeAllButtonContainer: {
-    alignSelf: 'center',
-  },
-  seeAllButton: {
-    backgroundColor: colors.background10,
-    marginTop: 16,
-  },
-  noAppointmentsDescriptionContainer: {
-    flex: 1,
-    width: '100%',
-    paddingHorizontal: 8,
-    marginTop: 24,
-  },
-  instruction: {
-    marginTop: 12,
-    alignSelf: 'center',
-    color: colors.foreground30,
-  },
-  descriptionText: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      paddingBottom: 16,
+    },
+    nonMemberContainer: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+    },
+    contentWrapper: {
+      padding: 8,
+    },
+    seeAllButtonContainer: {
+      alignSelf: 'center',
+    },
+    seeAllButton: {
+      backgroundColor: theme.colors.background10,
+      marginTop: 16,
+    },
+    noAppointmentsDescriptionContainer: {
+      flex: 1,
+      width: '100%',
+      paddingHorizontal: 8,
+      marginTop: 24,
+    },
+    instruction: {
+      marginTop: 12,
+      alignSelf: 'center',
+      color: theme.colors.foreground30,
+    },
+    descriptionText: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+  })

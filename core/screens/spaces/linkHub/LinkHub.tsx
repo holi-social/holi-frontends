@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
@@ -13,7 +13,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type LinkHubParams = {
   spaceIdOrName: string
@@ -28,6 +29,9 @@ const LinkHub = () => {
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -40,7 +44,7 @@ const LinkHub = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
   const onAddButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
   }
@@ -87,27 +91,28 @@ const LinkHub = () => {
 
 export default LinkHub
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: 10,
-    backgroundColor: colors.background20,
-  },
-  tabStyle: {
-    backgroundColor: colors.background20,
-    paddingBottom: 24,
-  },
-  overlayButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    bottom: dimensions.topBarHeight,
-    right: '50%',
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    justifyContent: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    defaultLayout: {
+      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      marginTop: 10,
+      backgroundColor: theme.colors.background20,
+    },
+    tabStyle: {
+      backgroundColor: theme.colors.background20,
+      paddingBottom: 24,
+    },
+    overlayButton: {
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      borderWidth: 1,
+      marginRight: 10,
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+      bottom: dimensions.topBarHeight,
+      right: '50%',
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      justifyContent: 'center',
+    },
+  })

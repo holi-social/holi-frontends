@@ -30,7 +30,8 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { useKeyboard } from '@holi/ui/helper'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CommentInputPageParams = {
@@ -57,8 +58,11 @@ const CommentInputPage = () => {
   const { user } = useLoggedInUser()
   const { height: screenHeight } = useWindowDimensions()
   const setScreenOptions = useSetScreenOptions()
-  const styles = useMemo(() => getStyles(screenHeight), [screenHeight])
   const { displayError } = useErrorHandling()
+
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
 
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
@@ -101,7 +105,7 @@ const CommentInputPage = () => {
           footerShown: false,
         },
       }),
-    [setScreenOptions, t]
+    [setScreenOptions, t, colors.background10]
   )
 
   /**
@@ -224,7 +228,7 @@ const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
 const SUGGESTIONS_DROPDOWN_HEIGHT = 150
 const SMALL_DEVICE_HEIGHT = 600
 
-const getStyles = (screenHeight: number) =>
+const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
       paddingTop: dimensions.topBarHeight + 40,
@@ -243,7 +247,7 @@ const getStyles = (screenHeight: number) =>
     },
     safeArea: {
       flex: 1,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
     },
     scrollView: {
       flex: 1,
@@ -292,8 +296,8 @@ const getStyles = (screenHeight: number) =>
     bottomBar: {
       width: '100%',
       borderTopWidth: 1,
-      borderTopColor: colors.background30,
-      backgroundColor: colors.background10,
+      borderTopColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
       ...Platform.select({
         web: {
           position: 'relative',
@@ -308,8 +312,8 @@ const getStyles = (screenHeight: number) =>
       paddingTop: 10,
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,
-      backgroundColor: colors.background10,
-      shadowColor: colors.foreground30,
+      backgroundColor: theme.colors.background10,
+      shadowColor: theme.colors.foreground30,
       shadowOffset: {
         width: 2,
         height: 2,
@@ -319,7 +323,7 @@ const getStyles = (screenHeight: number) =>
       borderRadius: 12,
       elevation: 4,
       borderTopWidth: 1,
-      borderTopColor: colors.background30,
+      borderTopColor: theme.colors.background30,
       ...Platform.select({
         web: {
           maxWidth: dimensions.maxScreenWidth,

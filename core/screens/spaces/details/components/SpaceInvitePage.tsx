@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
@@ -16,7 +16,8 @@ import { ArrowLeftS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceInviteViewParams = {
   spaceIdOrName: string
@@ -31,6 +32,9 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { loading, error, space } = useSpace(spaceIdOrName)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -45,7 +49,7 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
 
   if (loading) {
     return <HoliLoader />
@@ -74,23 +78,24 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  loading: {
-    paddingTop: 32,
-    flex: 1,
-    marginTop: Platform.OS === 'web' ? 40 : dimensions.topBarHeight + 44,
-    backgroundColor: colors.background30,
-    height: '100%',
-  },
-  layoutStyle: {
-    flex: 1,
-    height: '100%',
-  },
-  contentStyle: {
-    paddingTop: 0,
-    paddingBottom: 0,
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    loading: {
+      paddingTop: 32,
+      flex: 1,
+      marginTop: Platform.OS === 'web' ? 40 : dimensions.topBarHeight + 44,
+      backgroundColor: theme.colors.background30,
+      height: '100%',
+    },
+    layoutStyle: {
+      flex: 1,
+      height: '100%',
+    },
+    contentStyle: {
+      paddingTop: 0,
+      paddingBottom: 0,
+      flex: 1,
+    },
+  })
 
 export default SpaceInvitePage

@@ -1,13 +1,16 @@
-import * as React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const NotificationSettingsMaintenance = () => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={styles.wrapper}>
@@ -30,20 +33,21 @@ const NotificationSettingsMaintenance = () => {
 
 export default NotificationSettingsMaintenance
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.white100,
-    marginTop: 16,
-    marginHorizontal: 16,
-    paddingHorizontal: 16,
-    paddingBottom: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  header: {
-    marginVertical: 16,
-  },
-  message: {
-    maxWidth: dimensions.breakpointM,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.white100,
+      marginTop: 16,
+      marginHorizontal: 16,
+      paddingHorizontal: 16,
+      paddingBottom: 24,
+      borderRadius: 12,
+      alignItems: 'center',
+    },
+    header: {
+      marginVertical: 16,
+    },
+    message: {
+      maxWidth: dimensions.breakpointM,
+    },
+  })

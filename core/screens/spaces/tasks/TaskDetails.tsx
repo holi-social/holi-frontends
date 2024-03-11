@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -16,7 +16,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, More } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TaskDetailsParams = {
@@ -31,6 +32,9 @@ const TaskDetails = () => {
   const [taskId] = useParam('taskId')
   const setScreenOptions = useSetScreenOptions()
   const { navigate, replaceRoute } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -88,7 +92,7 @@ const TaskDetails = () => {
         )}
       </>
     ),
-    [isAdmin, t, isLoadingDeleteTask, deleteTask, navigate, space?.name, task?.id]
+    [isAdmin, t, isLoadingDeleteTask, deleteTask, navigate, space?.name, task?.id, colors.foreground30]
   )
 
   useLayoutEffect(() => {
@@ -103,7 +107,7 @@ const TaskDetails = () => {
         footerShown: false,
       },
     })
-  }, [renderActionDrawer, setScreenOptions, t])
+  }, [renderActionDrawer, setScreenOptions, t, styles.headerRight, colors.background10])
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !space || !task) {
@@ -131,41 +135,42 @@ const TaskDetails = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    paddingBottom: 120,
-    minHeight: '100%',
-    paddingTop: dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
-  },
-  contentStyle: {
-    paddingBottom: 0,
-    // paddingTop: dimensions.topBarHeight,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-        paddingTop: 12,
-      },
-      native: {
-        paddingTop: dimensions.topBarHeight,
-      },
-    }),
-  },
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: dimensions.topBarHeight + 50,
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    gap: 14,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    defaultLayout: {
+      paddingBottom: 120,
+      minHeight: '100%',
+      paddingTop: dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh',
+        },
+      }),
+    },
+    contentStyle: {
+      paddingBottom: 0,
+      // paddingTop: dimensions.topBarHeight,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh',
+          paddingTop: 12,
+        },
+        native: {
+          paddingTop: dimensions.topBarHeight,
+        },
+      }),
+    },
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: dimensions.topBarHeight + 50,
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: 14,
+    },
+  })
 
 export default memo(TaskDetails)

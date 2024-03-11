@@ -36,7 +36,8 @@ import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -52,6 +53,8 @@ const SpaceDetails = () => {
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName, {
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
@@ -260,7 +263,21 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [id, isAdmin, isMember, isWeb, navigate, renderActionDrawer, setScreenOptions, space, spaceRoom, spaceIdOrName, t])
+  }, [
+    id,
+    isAdmin,
+    isMember,
+    isWeb,
+    navigate,
+    renderActionDrawer,
+    setScreenOptions,
+    space,
+    spaceRoom,
+    spaceIdOrName,
+    t,
+    colors.background10,
+    colors.foreground30,
+  ])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)

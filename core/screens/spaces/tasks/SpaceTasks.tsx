@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -14,7 +14,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceTasksParams = {
@@ -40,6 +41,9 @@ const SpaceTasks = () => {
   const isCollaborator = isAdmin || isMember
 
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const navigateToCreateTask = () => navigate(`/spaces/${spaceIdOrName}/tasks/create`)
 
@@ -53,7 +57,7 @@ const SpaceTasks = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
 
   if (loading || !space) {
     return <></>
@@ -87,36 +91,37 @@ const SpaceTasks = () => {
 
 export default SpaceTasks
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    paddingBottom: 0,
-  },
-  defaultLayout: {
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-    paddingTop: dimensions.topBarHeight,
-  },
-  overlayButton: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 40,
-    right: '50%',
-    justifyContent: 'center',
-    borderWidth: 1,
-    shadowColor: colors.foreground30,
-    shadowOffset: {
-      width: 2,
-      height: 2,
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      paddingBottom: 0,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    overflow: 'visible',
-    zIndex: 1,
-    borderRadius: 84,
-    width: 56,
-    height: 56,
-    paddingHorizontal: 0,
-  },
-})
+    defaultLayout: {
+      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+      paddingTop: dimensions.topBarHeight,
+    },
+    overlayButton: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 40,
+      right: '50%',
+      justifyContent: 'center',
+      borderWidth: 1,
+      shadowColor: theme.colors.foreground30,
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 4,
+      overflow: 'visible',
+      zIndex: 1,
+      borderRadius: 84,
+      width: 56,
+      height: 56,
+      paddingHorizontal: 0,
+    },
+  })

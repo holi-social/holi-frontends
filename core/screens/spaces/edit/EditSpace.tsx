@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -42,7 +42,8 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 enum EditFields {
@@ -120,8 +121,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const statusBarHeight = Constants.statusBarHeight
   const windowWidth = useWindowDimensions().width
-
-  const styles = getStyles(statusBarHeight, windowWidth)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(statusBarHeight, windowWidth, theme), [statusBarHeight, windowWidth, theme])
 
   const { loading, error, space } = useSpace(spaceIdOrName)
 
@@ -403,7 +405,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   )
 }
 
-const getStyles = (statusBarHeight: number, windowWidth: number) =>
+const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliTheme) =>
   StyleSheet.create({
     defaultLayout: {
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
@@ -424,14 +426,14 @@ const getStyles = (statusBarHeight: number, windowWidth: number) =>
       paddingTop: dimensions.topBarHeight + statusBarHeight,
     },
     modalHeader: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
     },
     onboardingModalHeader: {
-      backgroundColor: colors.background30,
+      backgroundColor: theme.colors.background30,
     },
     header: {
       alignItems: 'center',
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       paddingBottom: 24,
     },
     editButton: {
@@ -448,13 +450,13 @@ const getStyles = (statusBarHeight: number, windowWidth: number) =>
       marginTop: 8,
     },
     requirements: {
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
     },
     container: {
       alignItems: 'center',
     },
     body: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       paddingTop: 24,
       paddingBottom: 72,
     },
@@ -468,7 +470,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number) =>
       flexShrink: 1,
     },
     chip: {
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       marginRight: 8,
       marginBottom: 8,
     },
@@ -499,7 +501,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number) =>
           height: '100%',
         },
       }),
-      backgroundColor: colors.background30,
+      backgroundColor: theme.colors.background30,
     },
     carouselContainer: {
       width: '100%',
@@ -514,7 +516,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number) =>
       }),
     },
     modal: {
-      backgroundColor: colors.background30,
+      backgroundColor: theme.colors.background30,
       height: windowWidth <= dimensions.breakpointXs ? '100%' : windowWidth > dimensions.breakpointXl ? '70%' : '80%',
     },
   })

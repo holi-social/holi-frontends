@@ -1,5 +1,5 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
@@ -37,7 +37,8 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChangeEmail = () => {
@@ -61,6 +62,8 @@ const ChangeEmail = () => {
   const [sessionToken, setSessionToken] = useState<string>()
   const safeSetSettingsFlow = useSafeDispatch(setSettingsFlow)
   const safeSetReauthFlow = useSafeDispatch(setReauthFlow)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const email = settingsFlow
     ? findInputNodeByNameAndType('traits.email', 'email', settingsFlow)?.attributes?.value
@@ -259,31 +262,32 @@ const ChangeEmail = () => {
 
 export default ChangeEmail
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-    flex: 1,
-    ...Platform.select({
-      web: {
-        minHeight: '100%',
-      },
-    }),
-  },
-  inner: {
-    flex: 1,
-    // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: dimensions.topBarHeight,
-    ...Platform.select({
-      web: {
-        paddingBottom: dimensions.bottomBarHeight,
-      },
-      android: {
-        paddingBottom: dimensions.bottomBarHeight,
-      },
-    }),
-  },
-  inputFieldsContainer: {
-    paddingTop: 24,
-    gap: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+      flex: 1,
+      ...Platform.select({
+        web: {
+          minHeight: '100%',
+        },
+      }),
+    },
+    inner: {
+      flex: 1,
+      // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
+      marginTop: dimensions.topBarHeight,
+      ...Platform.select({
+        web: {
+          paddingBottom: dimensions.bottomBarHeight,
+        },
+        android: {
+          paddingBottom: dimensions.bottomBarHeight,
+        },
+      }),
+    },
+    inputFieldsContainer: {
+      paddingTop: 24,
+      gap: 16,
+    },
+  })

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { Suspense, memo, useEffect } from 'react'
+import React, { Suspense, memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -36,7 +36,8 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 /** TODO: Suspence currently only works on web. To make it work for
@@ -56,6 +57,9 @@ const UserProfile = () => {
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { userId: authenticatedUserId, isLoggedIn } = useAuth()
   const [userId = ''] = useParam('userId')
@@ -142,7 +146,16 @@ const UserProfile = () => {
         </HoliActionDrawer.Drawer>
       ),
     })
-  }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
+  }, [
+    isLoadingBlockUser,
+    t,
+    userFullName,
+    blockUser,
+    reportContent,
+    isLoadingReport,
+    setScreenOptions,
+    colors.background10,
+  ])
 
   if (!userId || (loading && !user)) {
     // TODO: replace with proper loading indicator
@@ -253,38 +266,39 @@ const UserProfile = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'baseline',
-  },
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: dimensions.topBarHeight + 50,
-  },
-  chipRowContainer: {
-    marginTop: 24,
-  },
-  chip: {
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  headerEditButton: {
-    marginLeft: 24,
-    marginRight: Platform.OS === 'web' ? 24 : 0,
-  },
-  infoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 56,
-    paddingVertical: 72,
-  },
-  infoText: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-  profileContainer: {
-    paddingBottom: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'baseline',
+    },
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: dimensions.topBarHeight + 50,
+    },
+    chipRowContainer: {
+      marginTop: 24,
+    },
+    chip: {
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    headerEditButton: {
+      marginLeft: 24,
+      marginRight: Platform.OS === 'web' ? 24 : 0,
+    },
+    infoContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 56,
+      paddingVertical: 72,
+    },
+    infoText: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+    profileContainer: {
+      paddingBottom: 24,
+    },
+  })
 
 export default withProfiler(memo(UserProfile), { name: 'UserProfile' })

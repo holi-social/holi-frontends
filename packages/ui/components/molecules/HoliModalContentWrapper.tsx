@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   Keyboard,
   Platform,
@@ -17,7 +17,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapperProps {
@@ -55,6 +56,9 @@ const HoliModalContentWrapper = (
   const { isSoftkeyboardOpen } = useSoftKeyboard()
   const showFooter = !hideFooterWhenKeyboardIsOpen || !(isKeyboardOpen || isSoftkeyboardOpen)
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const content = (
     <>
       {!!headlineText?.length && (
@@ -111,37 +115,38 @@ const HoliModalContentWrapper = (
 
 export default React.forwardRef(HoliModalContentWrapper)
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    marginHorizontal: 'auto',
-    maxHeight: '100%',
-    width: '100%',
-    maxWidth: 800,
-    ...(Platform.OS === 'web' ? { flex: 1 } : {}),
-  },
-  keyboardPlaceHolder: {
-    // room when the softkeyboard is open
-    zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
-    height: 120,
-  },
-  actionButtonPlaceholder: {
-    height: 80,
-  },
-  actionButtonContainer: {
-    position: 'absolute',
-    zIndex: 1,
-    bottom: 32,
-    right: 0,
-    left: 0,
-    marginHorizontal: 24,
-    opacity: 1,
-  },
-  button: {
-    marginTop: 0,
-    maxWidth: dimensions.maxButtonWidth,
-  },
-  saveLoaderContainer: {
-    backgroundColor: colors.background10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      position: 'relative',
+      marginHorizontal: 'auto',
+      maxHeight: '100%',
+      width: '100%',
+      maxWidth: 800,
+      ...(Platform.OS === 'web' ? { flex: 1 } : {}),
+    },
+    keyboardPlaceHolder: {
+      // room when the softkeyboard is open
+      zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
+      height: 120,
+    },
+    actionButtonPlaceholder: {
+      height: 80,
+    },
+    actionButtonContainer: {
+      position: 'absolute',
+      zIndex: 1,
+      bottom: 32,
+      right: 0,
+      left: 0,
+      marginHorizontal: 24,
+      opacity: 1,
+    },
+    button: {
+      marginTop: 0,
+      maxWidth: dimensions.maxButtonWidth,
+    },
+    saveLoaderContainer: {
+      backgroundColor: theme.colors.background10,
+    },
+  })

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -13,7 +13,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const AboutSpaces = () => {
   const setScreenOptions = useSetScreenOptions()
@@ -24,7 +25,9 @@ const AboutSpaces = () => {
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { width: screenWidth } = useWindowDimensions()
 
-  const styles = getStyles(safeAreaInsetTop, screenWidth)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(safeAreaInsetTop, screenWidth, theme), [safeAreaInsetTop, screenWidth, theme])
 
   useEffect(() => {
     setScreenOptions({
@@ -39,7 +42,7 @@ const AboutSpaces = () => {
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowLeft} />),
       headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background20])
 
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
@@ -143,14 +146,14 @@ const AboutSpaces = () => {
 
 export default AboutSpaces
 
-const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
+const getStyles = (safeAreaInsetTop: number, screenWidth: number, theme: HoliTheme) =>
   StyleSheet.create({
     actionButton: {
       width: 327,
       borderWidth: 1,
     },
     sectionThreeContainer: {
-      backgroundColor: colors.brandColorD20,
+      backgroundColor: theme.colors.brandColorD20,
       paddingBottom: 24,
     },
     buttonContainer: {
@@ -165,7 +168,7 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
     },
     container: {
       paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       paddingBottom: 48,
       alignItems: 'center',
     },
@@ -210,7 +213,7 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
       marginBottom: 48,
     },
     sectionTwoContainer: {
-      backgroundColor: colors.brandColorC20,
+      backgroundColor: theme.colors.brandColorC20,
       paddingBottom: 24,
       marginBottom: screenWidth > dimensions.breakpointS ? 24 : 0,
       bottom: -1,
@@ -228,7 +231,7 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
     transparentCard: {
       ...Platform.select({ android: { paddingTop: safeAreaInsetTop, marginTop: 24 } }),
       paddingHorizontal: screenWidth > dimensions.breakpointM ? 0 : 16,
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       borderWidth: 0,
       paddingBottom: screenWidth < dimensions.breakpointM ? 24 : 48,
     },
@@ -236,6 +239,6 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number) =>
       paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 24,
     },
     scrollViewBackground: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
     },
   })

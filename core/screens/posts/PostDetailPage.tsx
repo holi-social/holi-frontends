@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useCallback, useRef } from 'react'
+import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -24,7 +24,8 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
@@ -58,6 +59,9 @@ const PostDetailPage = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { width: screenWidth } = useClientWindowDimensions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const scrollViewRef = useRef<ScrollView>(null)
 
@@ -87,7 +91,7 @@ const PostDetailPage = () => {
           footerShown: false,
         },
       }),
-    [setScreenOptions, title]
+    [setScreenOptions, title, colors.background10]
   )
 
   const scrollIntoView = useCallback(
@@ -178,41 +182,42 @@ const PostDetailPage = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  postContent: {
-    marginTop: 12,
-  },
-  commentsView: {
-    paddingHorizontal: 20,
-    ...Platform.select({
-      web: {
-        paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
-      },
-    }),
-  },
-  commentConnector: {
-    marginTop: 12,
-    marginHorizontal: 20,
-  },
-  comment: {
-    marginTop: 12,
-  },
-  postCommentWrapper: {
-    borderTopColor: colors.background30,
-    borderTopWidth: 1,
-    width: '100%',
-    height: COMMENT_BUTTON_CONTAINER_HEIGHT,
-    ...Platform.select({
-      web: {
-        position: 'fixed',
-        bottom: 0,
-      },
-    }),
-  },
-  postCommentButton: {
-    paddingTop: 18,
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    postContent: {
+      marginTop: 12,
+    },
+    commentsView: {
+      paddingHorizontal: 20,
+      ...Platform.select({
+        web: {
+          paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
+        },
+      }),
+    },
+    commentConnector: {
+      marginTop: 12,
+      marginHorizontal: 20,
+    },
+    comment: {
+      marginTop: 12,
+    },
+    postCommentWrapper: {
+      borderTopColor: theme.colors.background30,
+      borderTopWidth: 1,
+      width: '100%',
+      height: COMMENT_BUTTON_CONTAINER_HEIGHT,
+      ...Platform.select({
+        web: {
+          position: 'fixed',
+          bottom: 0,
+        },
+      }),
+    },
+    postCommentButton: {
+      paddingTop: 18,
+      flex: 1,
+    },
+  })
 
 export default withProfiler(memo(PostDetailPage), { name: 'PostDetailPage' })

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -14,7 +14,8 @@ import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/Video
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceVideoCallListParams = {
@@ -27,6 +28,9 @@ const SpaceVideoCallList = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -40,7 +44,7 @@ const SpaceVideoCallList = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
 
   return (
     <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
@@ -78,15 +82,16 @@ const WrappedSpaceVideoCallList = () => (
 
 export default WrappedSpaceVideoCallList
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    paddingBottom: 0,
-  },
-  defaultLayout: {
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-    paddingTop: dimensions.topBarHeight,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      paddingBottom: 0,
+    },
+    defaultLayout: {
+      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+      paddingTop: dimensions.topBarHeight,
+    },
+  })

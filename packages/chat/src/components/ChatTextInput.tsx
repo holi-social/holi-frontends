@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Platform, StyleSheet, TextInputKeyPressEventData } from 'react-native'
+import { Animated, Platform, StyleSheet, TextInputKeyPressEventData, ViewStyle } from 'react-native'
 
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -8,7 +8,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isAndroid = Platform.OS === 'android'
 
@@ -22,7 +23,7 @@ const isTextInputKeyPressEventDataWeb = (
   return Platform.OS === 'web'
 }
 
-const generateContainerStyles = (value: Animated.Value) => {
+const generateContainerStyles = (value: Animated.Value, styles: ViewStyle) => {
   const positionStyles = { transform: [{ translateY: value }] }
   return StyleSheet.flatten([styles.container, positionStyles])
 }
@@ -37,6 +38,9 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const positionRef = useRef(new Animated.Value(100))
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [messageText, setMessageText] = useState('')
 
@@ -65,7 +69,7 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   }
 
   return (
-    <Animated.View style={generateContainerStyles(positionRef.current)}>
+    <Animated.View style={generateContainerStyles(positionRef.current, styles)}>
       <HoliTextInput
         aria-label={t('chat.room.input.placeholder', { fullName: userName })}
         placeholder={t('chat.room.input.placeholder', { fullName: userName })}
@@ -101,36 +105,37 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    width: '100%',
-    maxWidth: dimensions.maxScreenWidth,
-    paddingHorizontal: 16,
-    paddingTop: 6,
-    paddingBottom: 24,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    borderBottomColor: colors.white100,
-    borderWidth: 2,
-    borderColor: colors.background30,
-    backgroundColor: colors.white100,
-  },
-  button: {
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    alignSelf: 'center',
-  },
-  textInputContainer: {
-    maxHeight: isAndroid ? 110 : 132,
-    backgroundColor: colors.white100,
-    flexShrink: 1,
-  },
-  textInput: {
-    borderWidth: 0,
-    paddingVertical: 0,
-    paddingHorizontal: 0,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+      paddingHorizontal: 16,
+      paddingTop: 6,
+      paddingBottom: 24,
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+      borderBottomColor: theme.colors.white100,
+      borderWidth: 2,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.white100,
+    },
+    button: {
+      paddingVertical: 8,
+      paddingHorizontal: 8,
+      alignSelf: 'center',
+    },
+    textInputContainer: {
+      maxHeight: isAndroid ? 110 : 132,
+      backgroundColor: theme.colors.white100,
+      flexShrink: 1,
+    },
+    textInput: {
+      borderWidth: 0,
+      paddingVertical: 0,
+      paddingHorizontal: 0,
+    },
+  })
