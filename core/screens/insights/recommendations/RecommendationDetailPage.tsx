@@ -9,7 +9,7 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { RecommendationByIdResponse, recommendationById } from '@holi/core/screens/insights/queries'
+import { InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
 import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -24,23 +24,25 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import LinkInfo from './LinkInfo'
 
 export type RecommendationDetailPageParams = {
+  insightId: string
   recommendationId: string
 }
 
 const { useParam } = createParamHooks<RecommendationDetailPageParams>()
 
 const RecommendationDetailPage = () => {
+  const [insightId] = useParam('insightId')
   const [recommendationId] = useParam('recommendationId')
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
 
-  const { data: { recommendationById: recommendation } = {}, refetch } = useQuery<RecommendationByIdResponse>(
-    recommendationById,
+  const { data: { insightById } = {}, refetch } = useQuery<InsightWithRecommendationResponse>(
+    insightWithRecommendation,
     {
-      variables: { id: recommendationId },
+      variables: { insightId, recommendationId },
       notifyOnNetworkStatusChange: true,
-      skip: !recommendationId,
+      skip: !insightId || !recommendationId,
       onError: (error) => {
         if (isNotFoundError(error)) {
           return replaceRoute('/404')
@@ -54,6 +56,9 @@ const RecommendationDetailPage = () => {
   )
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
+
+  const recommendation = insightById?.recommendation
+  const creator = insightById?.creator
 
   //  TODO: use translated string
   useIsomorphicLayoutEffect(() => {
@@ -88,15 +93,15 @@ const RecommendationDetailPage = () => {
               </HoliHeading>
             </View>
             <View style={styles.comment}>
-              {recommendation.insight && (
+              {creator && (
                 <View style={styles.recommender}>
                   <HoliAvatar
                     size="micro"
-                    imageSrc={recommendation.insight.creator.avatar}
-                    imageBlurhash={recommendation.insight.creator.avatarBlurhash}
-                    label={recommendation.insight.creator.fullName ?? ''}
-                    initials={recommendation.insight.creator.avatarLabel || ''}
-                    defaultColor={recommendation.insight.creator.avatarDefaultColor || ''}
+                    imageSrc={creator.avatar}
+                    imageBlurhash={creator.avatarBlurhash}
+                    label={creator.fullName ?? ''}
+                    initials={creator.avatarLabel || ''}
+                    defaultColor={creator.avatarDefaultColor || ''}
                   />
                   <HoliText bold>{'Why I recommend this'}</HoliText>
                 </View>
