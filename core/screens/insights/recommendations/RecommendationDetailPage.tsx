@@ -109,9 +109,6 @@ const RecommendationDetailPage = () => {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    marginTop: 80,
-  },
   layout: {
     minHeight: '100%',
     paddingTop: dimensions.topBarHeight,
@@ -135,8 +132,8 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   link: {
     backgroundColor: colors.background10,
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
+    borderBottomLeftRadius: Spacing.lg,
+    borderBottomRightRadius: Spacing.lg,
     paddingHorizontal: Spacing.xs,
     paddingVertical: Spacing.md,
     marginBottom: 2,
@@ -149,9 +146,8 @@ const styles = StyleSheet.create({
   },
   comment: {
     backgroundColor: colors.background10,
-    borderRadius: 32,
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.lg,
+    borderRadius: Spacing.lg,
+    paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.xs,
   },
 })
