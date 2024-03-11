@@ -177,9 +177,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { error, space } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-  })
+  const { error, space } = useSpace(spaceIdOrName)
 
   useLayoutEffect(() => {
     setScreenOptions({

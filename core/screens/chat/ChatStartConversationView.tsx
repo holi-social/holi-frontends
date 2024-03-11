@@ -1,8 +1,8 @@
-import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, Pressable, SafeAreaView, StyleSheet, View } from 'react-native'
 
+import { useLazyAbortableQuery } from '@holi/api/useLazyAbortableQuery'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
@@ -41,7 +41,6 @@ const ChatStartConversationView = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const [searchUserInputValue, setSearchUserInputValue] = useState('')
-  const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const initialInput = useRef(true)
 
@@ -60,18 +59,17 @@ const ChatStartConversationView = () => {
   }, [setScreenOptions, t, colors.background20])
 
   // BE API
-  const [fetchUserByName, { loading }] = useLazyQuery<UserByNameResponse>(userByNameQuery)
+  const [fetchUserByName, { data: { userByName: { data: users = [] } = {} } = {}, loading }] =
+    useLazyAbortableQuery<UserByNameResponse>(userByNameQuery)
   const getUsersByName = useCallback(
     async (userNameSubstr: string, offset = 0) => {
-      const { data: { userByName: { data: users = [] } = {} } = {} } = await fetchUserByName({
+      await fetchUserByName({
         variables: {
           substring: userNameSubstr,
           offset,
           limit: FIND_USER_BY_NAME_LIMIT,
         },
       })
-
-      setUsers(users)
     },
     [fetchUserByName]
   )

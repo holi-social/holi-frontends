@@ -203,7 +203,11 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
                 <View style={[mixins.container, styles.all]}>
                   <Pagination
                     query={spaceMembershipRequestsQuery}
-                    queryOptions={{ ...queryOptions, queryPath: 'spaceById.membershipRequests' }}
+                    queryOptions={{
+                      ...queryOptions,
+                      queryPath: 'spaceById.membershipRequests',
+                      fetchPolicy: 'cache-and-network',
+                    }}
                     fetchMoreButtonProps={{ style: styles.buttonContainer }}
                     fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
                     loadMoreOnScroll

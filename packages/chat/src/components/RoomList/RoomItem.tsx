@@ -3,14 +3,9 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { ChatRoomMessage } from '@holi/chat/src/client/types'
+import type { ChatRoom, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'
-import {
-  type ChatRoomAtom,
-  chatPartnerAtomCreator,
-  getHoliUserForChatMember,
-  setLatestMessagesAsRead,
-} from '@holi/chat/src/store'
+import { chatPartnerAtomCreator, getHoliUserForChatMember, setLatestMessagesAsRead } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { getInitials } from '@holi/core/helpers'
@@ -23,9 +18,8 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface RoomItemProps {
-  roomAtom: ChatRoomAtom
+  room: ChatRoom
   loggedInUser: User // optimization to not re-fetch the logged in user on scrolling
-  testID?: string
 }
 
 // nummeric constants to use for ItemLayout in FlatList
@@ -33,16 +27,13 @@ export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
+const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
+  const { i18n, t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-
-  const { i18n, t } = useTranslation()
-  const room = useAtomValue(roomAtom)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
-
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
   const isChatPartnerDeleted = !!chatPartner && !chatPartnerHoliUser

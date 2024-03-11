@@ -17,10 +17,11 @@
   },
   "peerDependencies": {
     "react": "18.2.0",
-    "react-native": "0.72.6"
+    "react-native": "0.72.10"
   },
   "devDependencies": {
     "jest": "^29.6.4",
+    "jest-offline": "^1.0.1",
     "jotai-devtools": "0.7.0"
   }
 }

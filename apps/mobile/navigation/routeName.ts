@@ -7,6 +7,7 @@ export enum RouteName {
   PostDetailPage = 'PostDetailPage',
   PostCommentInputPage = 'PostCommentInputPage',
   UserProfile = 'UserProfile',
+  InsightQuoteDetailPage = 'InsightQuoteDetailPage',
 
   // Spaces
   SpacesHome = 'SpacesHome',
@@ -57,6 +58,7 @@ export enum RouteName {
   LegalDocuments = 'LegalDocuments',
   AboutHoliApp = 'AboutHoliApp',
   Document = 'Document',
+  Favorites = 'Favorites',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

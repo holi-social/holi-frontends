@@ -4,13 +4,16 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useLogout } from '@holi/core/helpers'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import {
   AccountCircle,
+  Bookmark3Line,
   FolderLock,
   Help,
   Information,
@@ -62,6 +65,15 @@ const SettingsOverview = () => {
             onPress={() => navigate('/profile/settings/notifications')}
             style={styles.settingsItem}
           />
+          <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
+            <MoreOptionItem
+              label={t('profile.settings.favorites.title')}
+              icon={Bookmark3Line}
+              iconRightStyle="arrow"
+              onPress={() => navigate('/profile/settings/favorites')}
+              style={styles.settingsItem}
+            />
+          </FeatureToggleGuard>
           <MoreOptionItem
             label={t('profile.settings.help.title')}
             icon={Help}

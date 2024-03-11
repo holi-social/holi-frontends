@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client'
 import { VerificationFlow } from '@ory/kratos-client'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -5,7 +6,6 @@ import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliLoader, { useLoader } from '@holi//ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
-import client from '@holi/api/graphql/client'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -38,6 +38,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
   const { isLoggedIn } = useAuth()
   const { logout } = useLogout()
   const { openToast } = useToast()
+  const client = useApolloClient()
 
   const [code, setCode] = useState('')
 

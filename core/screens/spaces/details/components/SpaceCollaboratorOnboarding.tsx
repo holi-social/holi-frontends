@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/client'
+import { useApolloClient } from '@apollo/client'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import client from '@holi/api/graphql/client'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
@@ -43,6 +43,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   const { theme } = useTheme()
   const [message, setMessage] = useState<string>('')
   const { visible: infoVisible, show: infoShow, hide: infoHide } = useModalState()
+  const client = useApolloClient()
 
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()

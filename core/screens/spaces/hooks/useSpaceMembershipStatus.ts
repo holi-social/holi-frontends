@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
 import { SpaceMember } from '@holi/core/screens/spaces/types'
@@ -14,12 +14,15 @@ export const useSpaceMembershipStatus = (
   const [showBanner, setShowBanner] = useState(false)
   const [status, setStatus] = useState('')
 
-  const userId = initiallySelectedUserId
-
-  const [fetchUser, { loading, error, data: userData }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
+  const {
+    loading,
+    error,
+    data: userData,
+  } = useQuery<UserByIdResponse>(userByIdQuery, {
     variables: {
-      userId,
+      userId: initiallySelectedUserId,
     },
+    skip: !initiallySelectedUserId,
     fetchPolicy: 'network-only',
   })
 
@@ -43,12 +46,6 @@ export const useSpaceMembershipStatus = (
       setStatus('cancelled')
     }
   }, [error, initiallySelectedUserId, loading, spaceMembers?.data, userData])
-
-  useEffect(() => {
-    if (initiallySelectedUserId) {
-      fetchUser()
-    }
-  }, [fetchUser, initiallySelectedUserId])
 
   return { user, showBanner, status, loading }
 }

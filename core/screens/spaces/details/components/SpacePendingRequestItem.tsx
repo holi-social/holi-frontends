@@ -23,7 +23,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 
 type SpacePendingRequestsProps = {
   space: Space

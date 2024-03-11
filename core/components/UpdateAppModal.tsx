@@ -4,7 +4,7 @@ import Constants from 'expo-constants'
 import * as Notifications from 'expo-notifications'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AppState, AppStateStatus, BackHandler, Linking, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { AppState, AppStateStatus, BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { CheckAppVersionResponse, NeedUpdateType, checkAppVersionQuery } from '@holi/core/screens/homeFeed/queries'
@@ -90,52 +90,50 @@ const UpdateAppModal = () => {
   }, [data, error, showModal, isMandatory, isRecommended, modalDismissedOnce])
 
   return (
-    <SafeAreaView>
-      <HoliModal
-        label={t(`update.modal.${updateStatus}.headline`)}
-        show={showModal}
-        style={{ backgroundColor: colors.background20 }}
-        onDismiss={isRecommended ? dismissModal : undefined}
-      >
-        <View style={[styles.mainContainer, mixins.container]}>
-          <View style={styles.content}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_update.svg')}
-              width={119}
-              height={79}
-              label={t(`update.modal.${updateStatus}.headline`)}
-              isSvg
-            />
-            <HoliHeading level="2" size="m">
-              {t(`update.modal.${updateStatus}.headline`)}
-            </HoliHeading>
-            <HoliText align="center">{t(`update.modal.${updateStatus}.text`)}</HoliText>
-          </View>
-          <View style={styles.content}>
-            <HoliButton
-              label={t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
-              onPress={() => {
-                updateApp()
-              }}
-            >
-              {t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
-            </HoliButton>
-            {/* close app button only works on Android */}
-            {isMandatory && Platform.OS === 'android' && (
-              <HoliButton label={t('update.modal.closeApp ')} type="secondary" onPress={() => BackHandler.exitApp()}>
-                {t('update.modal.closeApp')}
-              </HoliButton>
-            )}
-            {/* modal is only dismissible for recommended updates */}
-            {isRecommended && (
-              <HoliButton label={t('update.modal.dismiss')} type="secondary" onPress={dismissModal}>
-                {t('update.modal.dismiss')}
-              </HoliButton>
-            )}
-          </View>
+    <HoliModal
+      label={t(`update.modal.${updateStatus}.headline`)}
+      show={showModal}
+      style={{ backgroundColor: colors.background20 }}
+      onDismiss={isRecommended ? dismissModal : undefined}
+    >
+      <View style={[styles.mainContainer, mixins.container]}>
+        <View style={styles.content}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_update.svg')}
+            width={119}
+            height={79}
+            label={t(`update.modal.${updateStatus}.headline`)}
+            isSvg
+          />
+          <HoliHeading level="2" size="m">
+            {t(`update.modal.${updateStatus}.headline`)}
+          </HoliHeading>
+          <HoliText align="center">{t(`update.modal.${updateStatus}.text`)}</HoliText>
         </View>
-      </HoliModal>
-    </SafeAreaView>
+        <View style={styles.content}>
+          <HoliButton
+            label={t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
+            onPress={() => {
+              updateApp()
+            }}
+          >
+            {t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
+          </HoliButton>
+          {/* close app button only works on Android */}
+          {isMandatory && Platform.OS === 'android' && (
+            <HoliButton label={t('update.modal.closeApp ')} type="secondary" onPress={() => BackHandler.exitApp()}>
+              {t('update.modal.closeApp')}
+            </HoliButton>
+          )}
+          {/* modal is only dismissible for recommended updates */}
+          {isRecommended && (
+            <HoliButton label={t('update.modal.dismiss')} type="secondary" onPress={dismissModal}>
+              {t('update.modal.dismiss')}
+            </HoliButton>
+          )}
+        </View>
+      </View>
+    </HoliModal>
   )
 }
 

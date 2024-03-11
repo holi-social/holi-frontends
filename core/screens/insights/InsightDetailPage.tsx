@@ -5,25 +5,32 @@ import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import QuotesCarousel from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
+import RecommendationsCarousel from '@holi/core/screens/insights/components/recommendations/RecommendationsCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import { Recommendation } from '@holi/core/screens/insights/types'
+import { Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
-import { User } from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { MoreFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -34,10 +41,9 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import RecommendationPreview from './components/RecommendationPreview'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -79,16 +85,33 @@ const InsightDetailPage = () => {
     setScreenOptions({
       headerTransparent: true,
       headerTintColor: colors.white100,
+      title: '',
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+      },
+      headerRight: () => {
+        return (
+          insight && (
+            <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
+              <InsightDrawer insight={insight}>
+                <HoliIcon icon={MoreFilled} color={colors.white100} />
+              </InsightDrawer>
+            </FeatureToggleGuard>
+          )
+        )
+      },
     })
-  }, [setScreenOptions, colors.white100])
+  }, [insight, setScreenOptions, colors.white100])
 
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
-  const author = insight?.creator
+  const quotes: Quote[] = insight?.quotes || []
+
+  const creator = insight?.creator
   const recommendationsTitle =
     recommendations.length > 1
-      ? t('insights.recommendations.title', { name: author?.firstName, number: recommendations.length })
-      : t('insights.recommendations.title.single', { name: author?.firstName })
+      ? t('insights.recommendations.title', { name: creator?.firstName, number: recommendations.length })
+      : t('insights.recommendations.title.single', { name: creator?.firstName })
 
   return (
     <>
@@ -110,8 +133,7 @@ const InsightDetailPage = () => {
               style={[mixins.container, styles.bannerImage]}
               imageStyle={styles.insightImage as ImageStyle}
             />
-
-            <View style={[styles.content, mixins.container]}>
+            <View style={[styles.content, styles.section]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
                   <HoliBadge>{insight.topic.title}</HoliBadge>
@@ -124,10 +146,10 @@ const InsightDetailPage = () => {
                 </HoliHeading>
               </View>
 
-              {author && (
+              {creator && (
                 <>
                   <View style={styles.curator}>
-                    <HoliText style={styles.authorInfoText}>
+                    <HoliText style={styles.creationDetails}>
                       <HoliText style={styles.date} color="gray300">
                         {getRelativeDateString(insight.datePublished, i18n.language)}
                       </HoliText>
@@ -136,37 +158,36 @@ const InsightDetailPage = () => {
                     </HoliText>
                     <HoliButton
                       transparent
-                      label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                      label={t('user.cards.modal.showInfo', { name: creator.fullName })}
                       onPress={() => setShowCuratorModal(true)}
+                      style={styles.creatorInfoButton}
                     >
-                      <View style={styles.authorInfoInner}>
+                      <View style={styles.creatorInfo}>
                         <HoliAvatar
-                          imageSrc={author.avatar}
-                          imageBlurhash={author.avatarBlurhash}
-                          label={author.fullName ?? ''}
-                          initials={author.avatarLabel || ''}
-                          defaultColor={author.avatarDefaultColor || ''}
-                          style={styles.authorInfoAvatar}
+                          imageSrc={creator.avatar}
+                          imageBlurhash={creator.avatarBlurhash}
+                          label={creator.fullName ?? ''}
+                          initials={creator.avatarLabel || ''}
+                          defaultColor={creator.avatarDefaultColor || ''}
+                          style={styles.creatorAvatar}
                         />
                         <View>
-                          <HoliText bold>{author.fullName}</HoliText>
-                          <HoliText size="small">{t('global.independentJournalist')}</HoliText>
+                          <HoliText bold>{creator.fullName}</HoliText>
+                          <HoliText size="small">{t('global.journalist')}</HoliText>
                         </View>
                       </View>
                     </HoliButton>
                   </View>
 
                   <HoliModal
-                    label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                    label={t('user.cards.modal.showInfo', { name: creator.fullName })}
                     show={showCuratorModal}
                     onDismiss={() => setShowCuratorModal(false)}
-                    testID="insight-curator-modal"
                   >
                     <HoliUserCardsModalContent
-                      title={''} // don't show any headline in modal
-                      users={[author as User]}
+                      title={''}
+                      users={[creator]}
                       onDismiss={() => setShowCuratorModal(false)}
-                      testID="insight-curator"
                     />
                   </HoliModal>
                 </>
@@ -174,37 +195,38 @@ const InsightDetailPage = () => {
 
               <HoliRichTextOutput text={insight.description} allowAllLinks />
             </View>
+            <HoliGap size="s" />
           </>
         ) : (
           <Skeleton />
         )}
 
         {recommendations.length > 0 && (
-          <View style={mixins.container}>
-            <HoliGap size="l" />
-            <View style={styles.sectionTitle}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
-                width={37}
-                height={37}
-                label={recommendationsTitle}
-                isSvg
-              />
-              <HoliHeading>{recommendationsTitle}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
-            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {recommendations.map((recommendation) => (
-                <HoliGridCell key={recommendation.id}>
-                  <RecommendationPreview recommendation={recommendation} />
-                </HoliGridCell>
-              ))}
-            </HoliGridWrapper>
-          </View>
+          <InsightCarouselSection
+            heading={recommendationsTitle}
+            headingIcon={{
+              asset: require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg'),
+              label: recommendationsTitle,
+            }}
+          >
+            <RecommendationsCarousel recommendations={recommendations} />
+          </InsightCarouselSection>
+        )}
+
+        {quotes.length > 0 && (
+          <InsightCarouselSection
+            heading={t('insights.quotes.title')}
+            headingIcon={{
+              asset: require('@holi/ui/assets/img/illustrations/illustration_people.svg'),
+              label: 'Quote',
+            }}
+          >
+            <QuotesCarousel insightId={insight?.id} quotes={quotes} />
+          </InsightCarouselSection>
         )}
 
         {posts.length > 0 && (
-          <View style={[mixins.container, styles.postList]}>
+          <View style={styles.section}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
@@ -219,6 +241,34 @@ const InsightDetailPage = () => {
   )
 }
 
+export const InsightCarouselSection: React.FC<{
+  heading: string
+  headingIcon: { asset: NodeRequire; label: string }
+  children: React.ReactNode
+}> = ({ heading, headingIcon, children }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
+  return (
+    <View style={styles.section}>
+      <HoliGap size="m" />
+      <View style={[styles.sectionTitle]}>
+        <HoliLocalImage
+          imageSource={headingIcon.asset as StaticImageData}
+          label={headingIcon.label}
+          width={37}
+          height={37}
+          isSvg
+        />
+        <HoliHeading>{heading}</HoliHeading>
+      </View>
+      <HoliGap size="s" />
+      {children}
+      <HoliGap size="s" />
+    </View>
+  )
+}
+
 // Trying out Skeleton as a separate component, why?
 // i) Feels wrong that smaller atoms & molecules have to have 2 concerns eg show title or a skeleton. SRP FTW.
 // ii) There's lots of branches in the code to deal with an insight possibly being null -
@@ -227,16 +277,14 @@ const InsightDetailPage = () => {
 // be an approximation of the ui.
 
 const Skeleton = () => {
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-
   return (
     <>
-      <View style={[mixins.container, styles.bannerImage]}>
+      <View style={[styles.bannerImage, styles.section]}>
         <HoliSkeleton height="100%" width="100%" borderRadius={0} />
       </View>
-      <View style={[styles.content, mixins.container]}>
+      <View style={[styles.content, styles.section]}>
         <View style={styles.tag}>
           <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
         </View>
@@ -244,7 +292,7 @@ const Skeleton = () => {
           <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
         </View>
         <View style={styles.curator}>
-          <View style={styles.skeletonCurrator}>
+          <View style={styles.skeletonCurator}>
             <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
             <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
           </View>
@@ -257,6 +305,11 @@ const Skeleton = () => {
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    section: {
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+    },
     wrapper: {
       backgroundColor: theme.colors.background20,
     },
@@ -280,49 +333,48 @@ const getStyles = (theme: HoliTheme) =>
       borderBottomRightRadius: 32,
       paddingTop: Spacing.xl,
       paddingBottom: Spacing.lg,
-      paddingHorizontal: Spacing.xs,
+      paddingHorizontal: Spacing.md,
     },
     tag: {
-      marginBottom: Spacing['3xs'],
+      marginBottom: Spacing['xs'],
     },
     title: {
       marginBottom: Spacing.xs,
     },
     curator: {
-      marginBottom: Spacing.lg,
+      marginBottom: Spacing.md,
     },
-    skeletonCurrator: {
+    skeletonCurator: {
       flexDirection: 'row',
       gap: Spacing['3xs'],
       alignItems: 'center',
     },
-    authorInfoInner: {
+    creatorInfoButton: {
+      maxWidth: dimensions.maxButtonWidth,
+    },
+    creatorInfo: {
       flexDirection: 'row',
       alignItems: 'center',
-      borderRadius: 12,
+      borderRadius: dimensions.spacingXs,
       borderWidth: 1,
+      borderBottomWidth: 3,
       borderColor: theme.colors.gray100,
-      padding: 12,
+      padding: Spacing.xxs,
     },
-    authorInfoAvatar: {
-      marginRight: 16,
+    creatorAvatar: {
+      marginRight: Spacing.xxs,
     },
-    authorInfoText: {
+    creationDetails: {
       marginBottom: Spacing['3xs'],
     },
     date: {
       textTransform: 'capitalize',
     },
-    authorInfoName: {
-      color: theme.colors.foreground30,
-    },
     sectionTitle: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-    },
-    postList: {
-      marginTop: 24,
+      paddingHorizontal: Spacing.md,
     },
   })
 

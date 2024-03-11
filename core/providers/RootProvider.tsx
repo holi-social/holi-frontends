@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 
-import client from '@holi/api/graphql/client'
+import { initializeClientSideApolloClient } from '@holi/api/graphql/client'
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
@@ -18,6 +18,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
+
+const client = initializeClientSideApolloClient()
 
 const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
   return (

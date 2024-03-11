@@ -36,9 +36,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const { error, space } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-  })
+  const { error, space } = useSpace(spaceIdOrName)
 
   useLayoutEffect(() => {
     setScreenOptions({

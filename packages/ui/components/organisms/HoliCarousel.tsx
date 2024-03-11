@@ -16,6 +16,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export interface HoliCarouselProps {
   slides: { title?: string; children: React.ReactNode }[]
   style?: StyleProp<ViewStyle>
+  hideDotIndicators?: boolean
   marginHorizontal?: number
 }
 
@@ -24,6 +25,7 @@ const isWeb = Platform.OS === 'web'
 const HoliCarousel: React.FC<HoliCarouselProps> = ({
   slides,
   style,
+  hideDotIndicators,
   marginHorizontal = 0, // margin between slide and device screen
 }: HoliCarouselProps) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
@@ -100,7 +102,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
         </ScrollView>
       )}
 
-      {!isWeb && slides.length > 1 && (
+      {!hideDotIndicators && !isWeb && slides.length > 1 && (
         <View style={styles.slideButtonsContainer} role="tablist" accessibilityOrientation="horizontal">
           {
             /** FIXME: convert to VirtualizedList, FlatList or SectionList */
@@ -175,7 +177,7 @@ const getStyles = (
       alignItems: 'center',
     },
     scrollViewStyle: {
-      overflowX: 'scroll',
+      overflowX: 'auto',
       width: '100%',
       flexDirection: 'row',
       scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',

@@ -17,6 +17,8 @@ import {
 } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { updateLayoutAnimation } from '@holi/core/helpers/updateLayoutAnimation'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -57,6 +59,7 @@ const ChatHomeNeedToLogin = () => {
           }
           secondText={t('loginRedirect.text')}
           style={[styles.noResultsMessage]}
+          testID="chat-login"
         >
           <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
             {t('loginRedirect.btnConfirm')}
@@ -91,6 +94,7 @@ const ChatHomeNoExistingRooms = () => {
           }
           secondText={t('chat.empty.headline')}
           style={[styles.noResultsMessage]}
+          testID="chat-no-result"
         >
           <HoliButton label={t('chat.empty.button.text')} onPress={() => navigate('/chat/start')}>
             {t('chat.empty.button.text')}
@@ -155,7 +159,6 @@ const tabRoomAtomsRecordAtom = atom<Record<string, ChatRoomAtom[]>>((get) => {
 
 const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const [selectedTabId = DEFAULT_TAB_ID] = useParam('activeTab')
-
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -166,6 +169,10 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
   const tabRoomAtomsRecord = useAtomValue(tabRoomAtomsRecordAtom)
+
+  // update layout animation when `selectedTabId` or amount of items in the tab changes
+  const layoutUpdateNeeded = tabRoomAtomsRecord[selectedTabId]?.length ?? 0
+  useIsomorphicLayoutEffect(() => updateLayoutAnimation(), [selectedTabId, layoutUpdateNeeded])
 
   if (!sortedRoomAtoms.length) {
     return <ChatHomeNoExistingRooms />
@@ -185,7 +192,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
           inline
           style={styles.overlayButton}
           onPress={() => navigate('/chat/start')}
-          testID={'start-chat-button'}
+          testID="start-chat-button"
         >
           <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
         </HoliButton>
@@ -200,12 +207,10 @@ const ChatHomeContent = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  if (!isLoading && !isLoggedIn) {
-    return <ChatHomeNeedToLogin />
-  }
+  if (!isLoading && !isLoggedIn) return <ChatHomeNeedToLogin />
 
   if (isLoading || !chatInitialized || !loggedInUser) {
-    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} testID="chat-home-loader" />
   }
 
   return <ChatHomeRoomList loggedInUser={loggedInUser} />

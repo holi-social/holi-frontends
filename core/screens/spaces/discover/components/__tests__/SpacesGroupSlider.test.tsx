@@ -26,10 +26,13 @@ const skill: Skill = { id: 'skill1', title: 'Skill 1', slug: 'skill-1' }
 global.console.error = jest.fn()
 global.console.warn = jest.fn()
 
-const discoverSpacesErrorMock = (
-  topicIds: string[],
-  skillIds: string[]
-): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => ({
+const discoverSpacesErrorMock = ({
+  topicIds,
+  skillIds,
+}: {
+  topicIds?: string[]
+  skillIds?: string[]
+}): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => ({
   request: {
     query: discoverSpacesQuery,
     variables: {
@@ -42,26 +45,29 @@ const discoverSpacesErrorMock = (
   error: new HoliError('Test error', 'test-error'),
 })
 
-const discoverSpacesDataMock = (
-  topicIds: string[],
-  skillIds: string[]
-): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => {
+const discoverSpacesDataMock = ({
+  topicIds,
+  skillIds,
+}: {
+  topicIds?: string[]
+  skillIds?: string[]
+}): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => {
   const spaces: Space[] = createSpaceList(5)
   const discoverSpaces: DiscoverSpacesGroup[] = [
-    ...topicIds.map((topicId) => ({
+    ...(topicIds?.map((topicId) => ({
       topicId,
       spaces: {
         data: spaces,
         totalResults: 100,
       },
-    })),
-    ...skillIds.map((skillId) => ({
+    })) || []),
+    ...(skillIds?.map((skillId) => ({
       skillId,
       spaces: {
         data: spaces,
         totalResults: 5,
       },
-    })),
+    })) || []),
   ]
   return {
     request: {
@@ -91,7 +97,7 @@ describe('SpacesGroupSlider', () => {
       )
 
     it('displays errors', async () => {
-      const { getByText, getAllByTestId } = renderTopic([discoverSpacesErrorMock(['topic1'], [])])
+      const { getByText, getAllByTestId } = renderTopic([discoverSpacesErrorMock({ topicIds: ['topic1'] })])
 
       expect(getByText('Topic 1')).toBeDefined()
 
@@ -106,7 +112,7 @@ describe('SpacesGroupSlider', () => {
 
     it('renders correctly with see more', async () => {
       const { getByText, queryAllByTestId, getAllByText, getAllByRole, getByTestId } = renderTopic([
-        discoverSpacesDataMock(['topic1'], []),
+        discoverSpacesDataMock({ topicIds: ['topic1'] }),
       ])
 
       expect(getByText('Topic 1')).toBeDefined()
@@ -159,7 +165,7 @@ describe('SpacesGroupSlider', () => {
       )
 
     it('displays errors', async () => {
-      const { getByText, getAllByTestId } = renderSkill([discoverSpacesErrorMock([], ['skill1'])])
+      const { getByText, getAllByTestId } = renderSkill([discoverSpacesErrorMock({ skillIds: ['skill1'] })])
 
       expect(getByText('Skill 1')).toBeDefined()
 
@@ -173,7 +179,9 @@ describe('SpacesGroupSlider', () => {
     })
 
     it('renders correctly without see more', async () => {
-      const { getByText, queryAllByTestId, getAllByText } = renderSkill([discoverSpacesDataMock([], ['skill1'])])
+      const { getByText, queryAllByTestId, getAllByText } = renderSkill([
+        discoverSpacesDataMock({ skillIds: ['skill1'] }),
+      ])
 
       expect(getByText('Skill 1')).toBeDefined()
 

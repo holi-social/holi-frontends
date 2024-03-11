@@ -151,7 +151,8 @@ export const spaceRoomAtomCreator = (id: string): Atom<SpaceChatRoom | null> =>
   atom<SpaceChatRoom | null>((get) => {
     const spaceRoom = get(spaceRoomAtomsAtom).find((roomAtom) => {
       if (!roomAtom) return false
-      return get(roomAtom).content.holiSpaceId === id
+      // get(roomAtom).content could be undefined first when user accepts invitation to the space
+      return get(roomAtom).content?.holiSpaceId === id
     })
 
     return spaceRoom ? get(spaceRoom) : null
