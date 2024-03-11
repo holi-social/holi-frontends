@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import React, { createContext, useContext } from 'react'
-import { FlexStyle, View, ViewStyle } from 'react-native'
+import { FlexStyle, View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -8,8 +8,6 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 
 export interface HoliGridWrapperProps {
   gap?: number
-  itemsInRow?: number
-  style?: ViewStyle
   breakpoints?: Breakpoints
 }
 
@@ -85,7 +83,6 @@ export const useGrid = () => {
 
 const HoliGridWrapper = ({
   children,
-  style, // TODO Remove style prop
   gap = 24,
   breakpoints = defaultBreakpoints,
 }: PropsWithChildren<HoliGridWrapperProps>) => {
@@ -93,7 +90,7 @@ const HoliGridWrapper = ({
 
   return (
     <View style={styles.outer}>
-      <View style={[style, styles.wrapper, { margin: -gap / 2 }]}>
+      <View style={[styles.wrapper, { margin: -gap / 2 }]}>
         <GridProvider id={ids.gridItem} styles={gridStyles.gridItem}>
           {children}
         </GridProvider>

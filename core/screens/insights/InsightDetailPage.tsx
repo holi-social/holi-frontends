@@ -8,7 +8,6 @@ import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -57,7 +56,6 @@ const InsightDetailPage = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { replaceRoute } = useRouting()
-  const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const { width: screenWidth } = useClientWindowDimensions()
 
@@ -250,7 +248,7 @@ const InsightDetailPage = () => {
 
         {posts.length > 0 && (
           <View style={[mixins.container, styles.postList]}>
-            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+            <HoliGridWrapper>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
                   <PostPreview post={post} insightId={insightId} />

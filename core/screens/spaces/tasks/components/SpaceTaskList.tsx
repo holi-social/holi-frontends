@@ -21,24 +21,19 @@ interface SpaceTaskListProps {
   preview?: boolean
 }
 
-const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
-  space,
-  isAdmin,
-  isCollaborator,
-  preview,
-}: SpaceTaskListProps) => {
+const gridBreakpoints: [number, number][] = [
+  [0, 1],
+  [dimensions.breakpointS, 2],
+  [dimensions.breakpointM, 3],
+  [dimensions.breakpointXxl, 4],
+]
+
+const SpaceTaskList = ({ space, isAdmin, isCollaborator, preview }: SpaceTaskListProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const itemsInRow = useBreakpointMatcher(gridBreakpoints) || 1
 
   const navigateToTasks = () => navigate(`/spaces/${space.name}/tasks`)
-
-  const itemsInRow =
-    useBreakpointMatcher([
-      [0, 1],
-      [dimensions.breakpointS, 2],
-      [dimensions.breakpointM, 3],
-      [dimensions.breakpointXxl, 4],
-    ]) || 1
 
   const allTasks = space.tasks || []
   const displayTasks = preview ? allTasks.slice(0, Math.max(itemsInRow, 2)) : allTasks
@@ -47,7 +42,7 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
     <>
       {allTasks.length > 0 ? (
         <>
-          <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+          <HoliGridWrapper breakpoints={gridBreakpoints} gap={16}>
             {displayTasks.map((task) => (
               <HoliGridCell key={task.id}>
                 <SpaceTaskTile

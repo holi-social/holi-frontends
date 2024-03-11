@@ -2,7 +2,6 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -16,14 +15,13 @@ export type InsightsProps = {
   loading?: boolean
 }
 
-const InsightList: React.VFC<InsightsProps> = (props) => {
-  const insightGridItemsInRow = useBreakpointMatcher()
+const InsightList = (props: InsightsProps) => {
   const loading = props.loading ?? false
 
   return (
     <View style={props.style}>
       {/* insights */}
-      <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
+      <HoliGridWrapper>
         {loading
           ? new Array(INSIGHT_PAGE_SIZE).fill(1).map((_, idx) => (
               <HoliGridCell key={idx}>

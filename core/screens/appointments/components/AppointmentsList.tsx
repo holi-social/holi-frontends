@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
@@ -18,7 +17,7 @@ interface AppointmentsListProps {
   space: Space
 }
 
-const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
+const AppointmentsList = ({ space }: AppointmentsListProps) => {
   const { data: appointments } = usePaginationContext<Appointment>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -26,17 +25,17 @@ const AppointmentsList: React.VFC<AppointmentsListProps> = ({ space }) => {
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
-  const itemsInRow = useBreakpointMatcher([
+  const gridBreakpoints: [number, number][] = [
     [0, 1],
     [dimensions.breakpointM, 2],
-  ])
+  ]
 
   const navigateToAddAppointmentPage = useCallback(() => {
     navigate(`/spaces/${space.name}/appointments/create`)
   }, [navigate, space.name])
 
   return appointments.length > 0 ? (
-    <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+    <HoliGridWrapper breakpoints={gridBreakpoints} gap={16}>
       {appointments.map((item) => (
         <HoliGridCell key={item.id}>
           <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
