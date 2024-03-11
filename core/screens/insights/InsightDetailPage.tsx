@@ -85,6 +85,9 @@ const InsightDetailPage = () => {
       headerTransparent: true,
       headerTintColor: colors.white100,
       title: '',
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+      },
       headerRight: () => {
         return (
           insight && (
