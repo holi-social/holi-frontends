@@ -174,7 +174,7 @@ const getStyles = (
       alignItems: 'center',
     },
     scrollViewStyle: {
-      overflowX: 'scroll',
+      overflowX: 'auto',
       width: '100%',
       flexDirection: 'row',
       scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
