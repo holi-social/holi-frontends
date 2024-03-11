@@ -14,6 +14,7 @@ import { InsightWithRecommendationResponse, insightWithRecommendation } from '@h
 import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -39,23 +40,24 @@ const RecommendationDetailPage = () => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 
-  const { data: { insightById } = {}, refetch } = useQuery<InsightWithRecommendationResponse>(
-    insightWithRecommendation,
-    {
-      variables: { insightId, recommendationId },
-      notifyOnNetworkStatusChange: true,
-      skip: !insightId || !recommendationId,
-      onError: (error) => {
-        if (isNotFoundError(error)) {
-          return replaceRoute('/404')
-        }
-        logError(error, 'Failed to load recommendation', {
-          location: 'RecommendationDetailPage.insightWithRecommendation',
-          recommendationId,
-        })
-      },
-    }
-  )
+  const {
+    data: { insightById } = {},
+    refetch,
+    loading,
+  } = useQuery<InsightWithRecommendationResponse>(insightWithRecommendation, {
+    variables: { insightId, recommendationId },
+    notifyOnNetworkStatusChange: true,
+    skip: !insightId || !recommendationId,
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
+      logError(error, 'Failed to load recommendation', {
+        location: 'RecommendationDetailPage.insightWithRecommendation',
+        recommendationId,
+      })
+    },
+  })
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -79,7 +81,7 @@ const RecommendationDetailPage = () => {
         contentStyle={[mixins.container, styles.container]}
         headerOverlap
       >
-        {recommendation && (
+        {recommendation && !loading ? (
           <>
             <HoliImageBackground
               source={{ uri: recommendation.linkPreview.image }}
@@ -110,20 +112,44 @@ const RecommendationDetailPage = () => {
               <HoliText>{recommendation.comment}</HoliText>
             </View>
           </>
+        ) : (
+          <Skeleton />
         )}
       </ScrollHeaderLayout.Refreshable>
-      <View style={styles.footer}>
-        <HoliButtonLoading
-          style={styles.linkButton}
-          role="link"
-          label={t('insights.recommendations.open_link')}
-          icon={ShareBox}
-          onPress={() => Linking.openURL(recommendation?.link || '')}
-        />
-      </View>
+      {recommendation && !loading && (
+        <View style={styles.footer}>
+          <HoliButtonLoading
+            style={styles.linkButton}
+            role="link"
+            label={t('insights.recommendations.open_link')}
+            icon={ShareBox}
+            onPress={() => Linking.openURL(recommendation?.link || '')}
+          />
+        </View>
+      )}
     </>
   )
 }
+
+const Skeleton = () => (
+  <>
+    <View style={[styles.bannerImage]}>
+      <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+    </View>
+    <View style={styles.link}>
+      <HoliSkeleton height={Spacing.md} width="40%" borderRadius={Spacing['3xs']} />
+      <HoliGap size="s" />
+      <HoliSkeleton height={Spacing.lg} width="60%" borderRadius={Spacing['3xs']} />
+    </View>
+    <View style={styles.comment}>
+      <View style={styles.recommender}>
+        <HoliSkeleton height={Spacing.md} width={Spacing.md} borderRadius={64} />
+        <HoliSkeleton height={Spacing.md} width={'60%'} borderRadius={Spacing['3xs']} />
+      </View>
+      <HoliSkeleton height={260} width={'100%'} borderRadius={Spacing['3xs']} />
+    </View>
+  </>
+)
 
 const styles = StyleSheet.create({
   layout: {
