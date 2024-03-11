@@ -72,7 +72,9 @@ export const addOrUpdateChatRoom = produce(
 )
 
 export const deleteChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roomId: string) => {
-  if (roomId in roomAtoms) delete roomAtoms[roomId]
+  if (roomId in roomAtoms) {
+    delete roomAtoms[roomId]
+  }
 })
 
 export const updateChatRoomName = produce((chatRoom: ChatRoom, content: RoomUpdatesContent) => {
