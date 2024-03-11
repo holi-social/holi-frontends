@@ -1,8 +1,9 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import LinkInfo from '@holi/core/screens/insights/recommendations/LinkInfo'
 import { Recommendation } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -14,18 +15,20 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RecommendationCardProps {
+  insightId: string
   recommendation: Recommendation
 }
 
-const RecommendationCard = ({ recommendation }: RecommendationCardProps) => {
+const RecommendationCard = ({ recommendation, insightId }: RecommendationCardProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   return (
     <View style={styles.card}>
       <HoliButton
         label={recommendation.linkPreview.title}
         transparent
-        onPress={() => Linking.openURL(recommendation.link)}
+        onPress={() => navigate(`/insights/${insightId}/recommendations/${recommendation.id}`)}
         testID="feed-insight-image-link"
       >
         {recommendation.linkPreview.image && (

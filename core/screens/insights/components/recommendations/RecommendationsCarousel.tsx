@@ -4,13 +4,18 @@ import RecommendationCard from '@holi/core/screens/insights/components/recommend
 import { Recommendation } from '@holi/core/screens/insights/types'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 
-const RecommendationsCarousel: React.FC<{ recommendations: Recommendation[] }> = ({ recommendations }) => {
+export interface RecommendationsCarouselProps {
+  insightId: string
+  recommendations: Recommendation[]
+}
+
+const RecommendationsCarousel = ({ recommendations, insightId }: RecommendationsCarouselProps) => {
   return (
     <HoliCarousel
       hideDotIndicators
       marginHorizontal={20}
       slides={recommendations.map((recommendation) => ({
-        children: <RecommendationCard recommendation={recommendation} />,
+        children: <RecommendationCard insightId={insightId} recommendation={recommendation} />,
       }))}
     />
   )
