@@ -1,7 +1,7 @@
 import { ApolloError, useMutation } from '@apollo/client'
+import { useApolloClient } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
-import client from '@holi/api/graphql/client'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import {
@@ -27,6 +27,7 @@ export const useSpaceJoinRequest = (
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
+  const client = useApolloClient()
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,

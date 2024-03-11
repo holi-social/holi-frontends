@@ -84,11 +84,8 @@ export default class ChatClient {
   private readonly mxClient: MatrixClient
   private readonly deviceToken: string | undefined
 
-  private isLastDmMember(roomState: RoomState, member: RoomMember): boolean {
-    const members = roomState.getMembers()
-    const creator = members.find((m) => m.powerLevel === 100)
-
-    return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
+  private isRoomWithNoMembers(roomState: RoomState): boolean {
+    return roomState.getMembers().every((member) => member.membership === MembershipStatus.leave)
   }
 
   private getSpaceEvents(room: Room) {
@@ -358,10 +355,6 @@ export default class ChatClient {
     await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', enabled)
   }
 
-  public forgetRoom = async (roomId: string, deleteRoom?: boolean): Promise<void> => {
-    await this.mxClient.forget(roomId, deleteRoom)
-  }
-
   public async joinRoom(roomId: string): Promise<Room | null> {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
@@ -375,6 +368,7 @@ export default class ChatClient {
 
   public async leaveRoom(roomId: string): Promise<void> {
     await this.mxClient.leave(roomId)
+    await this.mxClient.forget(roomId)
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {
@@ -433,14 +427,6 @@ export default class ChatClient {
     const membershipHandler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
       if (event.getType() !== EventType.RoomMember) return
 
-      // If the creator of the DM room is the last one we forget (delete) entirely the room
-      // Example usage when the invited member in a two people DM rejects an invitation.
-      if (this.isLastDmMember(roomState, member)) {
-        this.leaveRoom(roomState.roomId)
-          .then(() => this.forgetRoom(roomState.roomId, true))
-          .catch((err) => console.debug(`Probably the space room with ID "${roomState.roomId}" was deleted`, err))
-      }
-
       const avatarUrl = member.getAvatarUrl(this.mxClient.getHomeserverUrl(), 500, 500, 'scale', true, true)
       callback(roomState.roomId, createChatMember(member, avatarUrl), event.getContent().membership)
     }
@@ -483,6 +469,8 @@ export default class ChatClient {
   public subscribeToRoomNameEvent(callback: (chatRoom: ChatRoom) => void): () => void {
     const handleNameChange = (room: Room) => {
       if (!room) return
+      if (room.getMyMembership() === MembershipStatus.leave) return
+
       callback(this.createChatRoom(room))
     }
 

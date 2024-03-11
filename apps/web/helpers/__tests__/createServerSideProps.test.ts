@@ -22,7 +22,7 @@ jest.mock('@holi/web/environment', () => ({
 }))
 
 describe('createServerSideProps', () => {
-  const context = { req: {} } as NextPageContext
+  const context = { req: { url: '' } } as NextPageContext
   const mockedTranslations = { i18n: { key: 'value' } }
   const expectedI18nProps = {
     locale: 'en',
@@ -157,5 +157,14 @@ describe('createServerSideProps', () => {
     expect(props).toEqual({
       notFound: true,
     })
+  })
+
+  it('does not add any server side props if not the first request', async () => {
+    // @ts-ignore
+    const { props } = await createServerSideProps({ req: { url: '/_next/data/' } }, [])
+
+    expect(props).toStrictEqual({})
+    expect(mockInitializeApolloSSRClient).not.toHaveBeenCalled()
+    expect(mockLoadTranslations).not.toHaveBeenCalled()
   })
 })

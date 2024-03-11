@@ -1,4 +1,5 @@
 import { DocumentNode } from '@apollo/client'
+import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,7 +7,6 @@ import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import client from '@holi/api/graphql/client'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -46,6 +46,7 @@ const HomeFeed = () => {
   const { isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
+  const client = useApolloClient()
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()

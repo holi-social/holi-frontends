@@ -47,6 +47,10 @@ export interface Insight {
   recommendations?: Recommendation[]
 }
 
+export interface InsightWithQuote extends Insight {
+  quote: Quote
+}
+
 export interface Recommendation {
   id: string
   category: string

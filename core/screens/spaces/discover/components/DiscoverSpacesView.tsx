@@ -1,8 +1,9 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
@@ -53,7 +54,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
   const { openLoginModal } = useLoginModal()
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
 
   const { loadingTopics: loading, topics = [] } = useContext(SpaceTermContext)
 
@@ -70,7 +71,6 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
     isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
   }, [isLoggedIn, navigate, openLoginModal, t])
 
-  const { width } = useWindowDimensions()
   const aspectRatio = 188 / 324
 
   return (
@@ -105,8 +105,8 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
             resizeMode="contain"
-            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? width : 324}
-            height={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? aspectRatio * width : 188}
+            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? screenWidth : 324}
+            height={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? aspectRatio * screenWidth : 188}
             style={styles.compositionImage}
             label=""
           />
