@@ -8,7 +8,7 @@ import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 import { holiApiUrl } from '@holi/api/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
 
-import { alwaysReplacePolicy, pagedPolicy } from './cachePolicies'
+import { alwaysReplacePolicy, keyArgsWithoutLimitAndOffset, pagedPolicy } from './cachePolicies'
 import errorLink from './errorLink'
 import headerLink from './headerLink'
 
@@ -100,7 +100,7 @@ export const createCache = () =>
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
           connectionStatusToMyself: alwaysReplacePolicy,
-          posts: pagedPolicy(['visibility']),
+          posts: pagedPolicy(),
           members: pagedPolicy(),
           membershipRequests: pagedPolicy(),
           invites: pagedPolicy(),
@@ -110,21 +110,21 @@ export const createCache = () =>
       SpaceMemberPaged: pagedPolicy(),
       SpaceMembershipRequestPaged: pagedPolicy(),
       SpaceInvitesPaged: pagedPolicy(),
-      UserPaged: pagedPolicy(['substring']),
+      UserPaged: pagedPolicy(),
       PostPaged: pagedPolicy(),
-      AppointmentPaged: pagedPolicy(['spaceId', 'statusType']),
+      AppointmentPaged: pagedPolicy(),
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appointments: {
-            keyArgs: ['spaceId', 'statusType'],
+            keyArgs: keyArgsWithoutLimitAndOffset,
           },
           lastInsights: {
-            keyArgs: [],
+            keyArgs: keyArgsWithoutLimitAndOffset,
           },
           appDonations_projects: {
-            keyArgs: ['location'],
+            keyArgs: keyArgsWithoutLimitAndOffset,
           },
           appGoodNews_articles: {
             keyArgs: [],
@@ -172,6 +172,9 @@ export const createCache = () =>
           },
           connectedUsers: {
             keyArgs: [],
+          },
+          inspirationPosts: {
+            keyArgs: keyArgsWithoutLimitAndOffset,
           },
         },
       },
