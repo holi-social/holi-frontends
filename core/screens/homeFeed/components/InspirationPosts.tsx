@@ -17,7 +17,7 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const POSTS_PAGE_SIZE = 2
+export const POSTS_PAGE_SIZE = 2
 const POSTS_TEXT_LINES_SHOWN = 5
 
 const InspirationPostsList = () => {

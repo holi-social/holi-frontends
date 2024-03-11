@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 
-import { mergeIndexAwareOffsetLimitArray, pagedPolicy } from './cachePolicies'
+import { keyArgsWithoutLimitAndOffset, mergeIndexAwareOffsetLimitArray, pagedPolicy } from './cachePolicies'
 
 const one = { id: 1, __ref: 'TestType' }
 const oneOne = { id: 11, __ref: 'TestType' }
@@ -244,6 +244,15 @@ describe('cachePolicies', () => {
       // @ts-ignore
       const result = policy.read(partiallyNullPageResults, { args: { offset: 0, limit: 5 } })
       expect(result).toStrictEqual(undefined)
+    })
+  })
+
+  describe('keyArgsWithoutLimitAndOffset', () => {
+    it('should include all args except limit and offset', () => {
+      expect(keyArgsWithoutLimitAndOffset({ limit: 10, offset: 0 })).toEqual('{}')
+      expect(keyArgsWithoutLimitAndOffset({ limit: 10, offset: 0, location: 'Hamburg', spaceId: '123' })).toEqual(
+        '{"location":"Hamburg","spaceId":"123"}'
+      )
     })
   })
 })

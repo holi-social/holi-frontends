@@ -42,6 +42,12 @@ export function mergeIndexAwareOffsetLimitArray<T = Reference>(
   }
 }
 
+export const keyArgsWithoutLimitAndOffset = (args: Record<string, unknown> | null) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { limit, offset, ...otherArgs } = args || {}
+  return JSON.stringify(otherArgs)
+}
+
 /**
  * An index-aware pagination Apollo cache policy for cache items of type
  * Paged<T>.
@@ -59,7 +65,7 @@ export function mergeIndexAwareOffsetLimitArray<T = Reference>(
  * more elements left to fetch (`totalResults >= offset + limit`, see
  * HOLI-6474).
  */
-export function pagedPolicy<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<Paged<T>> {
+export function pagedPolicy<T = Reference>(keyArgs: KeyArgs = keyArgsWithoutLimitAndOffset): FieldPolicy<Paged<T>> {
   return {
     keyArgs,
     merge: (existing, incoming, options) => {
