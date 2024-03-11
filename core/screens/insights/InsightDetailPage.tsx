@@ -204,7 +204,7 @@ const InsightDetailPage = () => {
                   label: recommendationsTitle,
                 }}
               >
-                <RecommendationsCarousel insightId={insight?.id} recommendations={recommendations} />
+                <RecommendationsCarousel insightId={insight.id} recommendations={recommendations} />
               </InsightCarouselSection>
             )}
 
@@ -216,7 +216,7 @@ const InsightDetailPage = () => {
                   label: 'Quote',
                 }}
               >
-                <QuotesCarousel insightId={insight?.id} quotes={quotes} />
+                <QuotesCarousel insightId={insight.id} quotes={quotes} />
               </InsightCarouselSection>
             )}
           </>
