@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     }),
   },
   container: {
-    paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
+    paddingBottom: dimensions.bottomBarHeight + 100,
   },
   bannerImage: {
     paddingHorizontal: 0,
