@@ -9,7 +9,6 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -28,14 +27,12 @@ interface FilteredSpacesProps extends SpaceFilter {
 
 export const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid widths)
 
-const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
+const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: FilteredSpacesProps) => {
   const { displayError } = useErrorHandling()
   const client = useApolloClient()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { height: windowHeight } = useClientWindowDimensions()
-  const styles = getStyles(windowHeight)
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
@@ -60,9 +57,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
   }, [displayError, geolocationError, locationId, t])
 
   // Error state just hides the component
-  if (geolocationError) {
-    return <></>
-  }
+  if (geolocationError) return null
 
   const isLoading = loadingGeolocation || (locationId && !geolocationDetails)
 
@@ -86,7 +81,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
           refreshing,
           onRefresh,
         }}
-        style={styles.wrapper}
+        style={styles.container}
         testID="filtered-spaces-container"
       >
         <View style={mixins.container}>
@@ -115,18 +110,18 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
   )
 }
 
-const getStyles = (deviceHeight: number) =>
-  StyleSheet.create({
-    wrapper: {
-      backgroundColor: colors.background20,
-      minHeight: deviceHeight,
-    },
-    buttonContainer: {
-      marginTop: 20,
-    },
-    loadingGrid: {
-      marginTop: 32,
-    },
-  })
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flex: 1,
+    backgroundColor: colors.background20,
+  },
+  buttonContainer: {
+    marginTop: 20,
+  },
+  loadingGrid: {
+    marginTop: 32,
+  },
+})
 
 export default withProfiler(memo(FilteredSpaces), { name: 'FilteredSpaces' })
