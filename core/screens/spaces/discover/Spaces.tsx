@@ -113,7 +113,7 @@ const Spaces = () => {
   )
 
   if (loading) {
-    return <HoliLoader />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
   return (
