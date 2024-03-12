@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
-import LinkInfo from '@holi/core/screens/insights/recommendations/LinkInfo'
+import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'

@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import RecommendationCard from '@holi/core/screens/insights/components/recommendations/RecommendationCard'
+import RecommendationCard from '@holi/core/screens/insights/recommendations/RecommendationCard'
 import { Recommendation } from '@holi/core/screens/insights/types'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 

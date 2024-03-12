@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
-import QuoteDetailPage, { QuoteDetailPageParams } from '@holi/core/screens/insights/components/quotes/QuoteDetailPage'
+import QuoteDetailPage, { QuoteDetailPageParams } from '@holi/core/screens/insights/quotes/QuoteDetailPage'
 import RecommendationDetailPage, {
   RecommendationDetailPageParams,
 } from '@holi/core/screens/insights/recommendations/RecommendationDetailPage'

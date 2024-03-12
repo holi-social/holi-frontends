@@ -10,6 +10,7 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
 import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -22,8 +23,6 @@ import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBack
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import LinkInfo from './LinkInfo'
 
 export type RecommendationDetailPageParams = {
   insightId: string
