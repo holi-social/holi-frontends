@@ -88,10 +88,10 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
         startup_probe {
-          initial_delay_seconds = 2
-          period_seconds        = 1
-          timeout_seconds       = 1
-          failure_threshold     = 30
+          initial_delay_seconds = 30
+          period_seconds        = 5
+          timeout_seconds       = 5
+          failure_threshold     = 10
           http_get {
             path = "/"
           }
