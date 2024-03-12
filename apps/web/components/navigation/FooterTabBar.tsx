@@ -9,16 +9,15 @@ import LoginProfileButton from '@holi/core/navigation/components/LoginProfileBut
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FooterTabBar = () => {
   const { navigate } = useRouting()
   const { pathname } = useRouter() // Recognize 404 pages when `asPath` differs
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { isLoggedIn } = useAuth()
 
   const isHome = pathname === '/'
@@ -35,7 +34,7 @@ const FooterTabBar = () => {
       role="navigation"
       aria-label={t('navigation.bottomNavigation')}
     >
-      <View style={[mixins.container, styles.buttonContainer]}>
+      <HoliContainer flexDirection={'row'} justifyContent={'space-between'}>
         <HoliButton
           label={t('navigation.home')}
           inline
@@ -104,7 +103,7 @@ const FooterTabBar = () => {
             <span suppressHydrationWarning>{isLoggedIn ? t('profile.title') : t('auth.login')}</span>
           </HoliText>
         </LoginProfileButton>
-      </View>
+      </HoliContainer>
     </View>
   )
 }
@@ -118,15 +117,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
     borderTopWidth: 1,
     borderTopColor: colors.background30,
-    height: dimensions.bottomBarHeight,
-    maxHeight: dimensions.bottomBarHeight,
-  },
-  buttonContainer: {
-    flex: 1,
-    width: '100%',
-    maxWidth: dimensions.maxScreenWidth,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     height: dimensions.bottomBarHeight,
     maxHeight: dimensions.bottomBarHeight,
   },

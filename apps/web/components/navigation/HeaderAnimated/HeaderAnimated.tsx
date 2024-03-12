@@ -9,8 +9,8 @@ import { setScreenScrollY, useScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import HeaderAnimatedGradientBackground from './HeaderAnimatedGradientBackground'
 
@@ -56,7 +56,6 @@ export const useHeaderHideAnimation = () => {
 const HeaderAnimated = () => {
   const options = useScreenOptions()
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const headerHideAnimation = useHeaderHideAnimation()
 
   const {
@@ -98,8 +97,7 @@ const HeaderAnimated = () => {
           </>
         )}
       </View>
-
-      <View style={[mixins.container, styles.headerContent]}>
+      <HoliContainer flexDirection="row" justifyContent="center" alignItems="center">
         <View style={{ width: '100%' }}>
           <View style={[styles.sideHeaderElement, styles.leftHeaderElement]}>
             {typeof headerLeft === 'function' ? (
@@ -114,8 +112,6 @@ const HeaderAnimated = () => {
           <View style={styles.centerHeaderElement}>
             {typeof headerTitle === 'function' ? (
               headerTitle({ children: title || '', tintColor: headerTintColor })
-            ) : headerTitle !== undefined ? (
-              headerLeft
             ) : (
               <HeaderTitle tintColor={headerTintColor}>{title}</HeaderTitle>
             )}
@@ -129,7 +125,7 @@ const HeaderAnimated = () => {
             </View>
           )}
         </View>
-      </View>
+      </HoliContainer>
     </Animated.View>
   )
 }
@@ -143,12 +139,7 @@ const styles = StyleSheet.create({
     height: dimensions.topBarHeight,
     maxHeight: dimensions.topBarHeight,
   },
-  headerContent: {
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   sideHeaderElement: {
     position: 'absolute',
     top: '50%',
