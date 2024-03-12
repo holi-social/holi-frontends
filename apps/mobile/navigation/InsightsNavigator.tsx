@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
+import InsightsPage from '@holi/core/screens/insights/InsightsPage'
 import QuoteDetailPage, { QuoteDetailPageParams } from '@holi/core/screens/insights/components/quotes/QuoteDetailPage'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
@@ -11,6 +12,7 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type InsightsScreens = {
   [RouteName.InsightDetailPage]: InsightDetailPageParams
+  [RouteName.InsightsPage]: undefined
   [RouteName.InsightPostDetailPage]: PostDetailPageParams
   [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
   [RouteName.PostDetailPage]: PostDetailPageParams
@@ -32,6 +34,7 @@ const InsightsNavigator = () => {
       }}
     >
       <InsightsStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
+      <InsightsStack.Screen name={RouteName.InsightsPage} component={InsightsPage} />
       <InsightsStack.Screen name={RouteName.InsightPostDetailPage} component={PostDetailPage} />
       <InsightsStack.Screen name={RouteName.PostDetailPage} component={PostDetailPage} />
       <InsightsStack.Screen name={RouteName.InsightPostCommentInputPage} component={CommentInputPage} />
