@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -17,7 +18,7 @@ const GoodNewsAppHome = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,

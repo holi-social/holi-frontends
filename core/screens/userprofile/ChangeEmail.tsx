@@ -1,5 +1,5 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
@@ -27,6 +27,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -87,7 +88,7 @@ const ChangeEmail = () => {
     }
   }, [isLoggedIn, safeSetReauthFlow, displayError, safeSetSettingsFlow])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">

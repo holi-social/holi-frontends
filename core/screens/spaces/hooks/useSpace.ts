@@ -9,9 +9,6 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 export const useSpace = (spaceIdOrName?: string) => {
   const { displayError } = useErrorHandling()
   const { replaceRoute } = useRouting()
-  // On initial page load on web `spaceIdOrName` is undefined
-  // > will probably be solved with ssr
-  // see https://github.com/nandorojo/solito/issues/100
   const { loading, error, data, called, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network', // ensures that all required fields are eventually present for members
     variables: { idOrName: spaceIdOrName },

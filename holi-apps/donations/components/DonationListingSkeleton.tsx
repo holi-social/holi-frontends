@@ -2,7 +2,6 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -24,9 +23,7 @@ interface Props extends BaseProps {
 
 type DonationListingSkeletonProps = SkeletonProps | Props
 
-const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFiltering, amount, ...props }) => {
-  const postGridItemsInRow = useBreakpointMatcher()
-
+const DonationListingSkeleton = ({ isFiltering, amount, ...props }: DonationListingSkeletonProps) => {
   const skeletonItems = new Array(amount).fill(1).map((_, idx) => (
     <HoliGridCell key={idx}>
       <HoliSkeleton aspectRatio={327 / 214} borderRadius={24} height={'auto'} width={'100%'} />
@@ -55,9 +52,7 @@ const DonationListingSkeleton: React.FC<DonationListingSkeletonProps> = ({ isFil
       <PartnerInfoRowSkeleton />
       {isFiltering && <HoliText bold style={styles.searchQuery} loading skeletonOptions={{ width: '40%' }} />}
       <HoliGap />
-      <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
-        {skeletonItems}
-      </HoliGridWrapper>
+      <HoliGridWrapper gap={32}>{skeletonItems}</HoliGridWrapper>
     </View>
   )
 }

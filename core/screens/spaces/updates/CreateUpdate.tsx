@@ -1,7 +1,8 @@
-import React, { memo, useEffect, useLayoutEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -73,7 +74,7 @@ const CreateSpaceUpdate = () => {
     setImage(image)
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loading &&
       isMember &&
       setScreenOptions({

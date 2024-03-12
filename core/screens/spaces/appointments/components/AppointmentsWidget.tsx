@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
@@ -50,22 +49,16 @@ const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPre
   )
 }
 
-const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
-  space,
-  appointments,
-  totalResults,
-  isCollaborator,
-  style,
-}) => {
+const gridBreakpoints: [number, number][] = [
+  [0, 1],
+  [dimensions.breakpointM, 2],
+]
+
+const AppointmentsWidget = ({ space, appointments, totalResults, isCollaborator, style }: AppointmentsWidgetProps) => {
   const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-
-  const itemsInRow = useBreakpointMatcher([
-    [0, 1],
-    [dimensions.breakpointM, 2],
-  ])
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -95,7 +88,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
     >
       <View style={styles.contentWrapper}>
         {!!totalResults && (
-          <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+          <HoliGridWrapper breakpoints={gridBreakpoints} gap={16}>
             {appointments?.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
               <HoliGridCell key={item.id}>
                 <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />

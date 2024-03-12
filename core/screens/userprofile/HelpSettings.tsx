@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -6,6 +6,7 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Mail, Questionnaire } from '@holi/icons/src/generated'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -17,7 +18,7 @@ const HelpSettings = () => {
 
   const setScreenOptions = useSetScreenOptions()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.account.title') })
   }, [setScreenOptions, t])
 

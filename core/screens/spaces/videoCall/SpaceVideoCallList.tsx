@@ -3,13 +3,16 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -30,6 +33,8 @@ const SpaceVideoCallList = () => {
 
   const setScreenOptions = useSetScreenOptions()
 
+  const { loading, error, space } = useSpace(spaceIdOrName)
+
   useLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.videocall.header'),
@@ -42,31 +47,41 @@ const SpaceVideoCallList = () => {
     })
   }, [setScreenOptions, t])
 
+  if (loading || error || !space) {
+    return <></>
+  }
+
   return (
-    <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
-      <HoliBox padding={[24, 0]}>
-        <View style={mixins.container}>
-          <HoliBox padding={[0, 0, 24, 0]}>
-            <HoliText>{t('spaces.videocall.text')}</HoliText>
-          </HoliBox>
-          <HoliBox padding={[0, 0, 16, 0]}>
-            <CollaboratorAreaCard
-              title={t('spaces.videocall.schedule.heading')}
-              headerLeftIcon={CalendarCheck}
-              headerRightIcon={ArrowRightS}
-              onPressHeaderLeft={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
-              onPressHeaderRight={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
-              headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
-            />
-          </HoliBox>
-          <HoliBox padding={[0, 0, 16, 0]}>
-            <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon={VideoChat}>
-              <VideoCallLinks spaceIdOrName={spaceIdOrName} />
-            </CollaboratorAreaCard>
-          </HoliBox>
-        </View>
-      </HoliBox>
-    </ScrollHeaderLayout.Default>
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.MEMBER}
+    >
+      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
+        <HoliBox padding={[24, 0]}>
+          <View style={mixins.container}>
+            <HoliBox padding={[0, 0, 24, 0]}>
+              <HoliText>{t('spaces.videocall.text')}</HoliText>
+            </HoliBox>
+            <HoliBox padding={[0, 0, 16, 0]}>
+              <CollaboratorAreaCard
+                title={t('spaces.videocall.schedule.heading')}
+                headerLeftIcon={CalendarCheck}
+                headerRightIcon={ArrowRightS}
+                onPressHeaderLeft={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+                onPressHeaderRight={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+                headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
+              />
+            </HoliBox>
+            <HoliBox padding={[0, 0, 16, 0]}>
+              <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon={VideoChat}>
+                <VideoCallLinks spaceIdOrName={spaceIdOrName} />
+              </CollaboratorAreaCard>
+            </HoliBox>
+          </View>
+        </HoliBox>
+      </ScrollHeaderLayout.Default>
+    </PermissionsGuard>
   )
 }
 
