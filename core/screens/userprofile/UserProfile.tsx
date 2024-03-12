@@ -77,7 +77,7 @@ const UserProfile = () => {
   } = useQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: isSSR ? 'network-only' : 'cache-and-network',
-    skip: !userId, // userId is empty for initial page load
+    skip: !userId,
     onError: (error) => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
@@ -104,7 +104,7 @@ const UserProfile = () => {
 
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
     variables: { userId },
-    skip: !userId, // userId is empty for initial page load
+    skip: !userId,
     onError: (error) =>
       logError(error, 'Failed to load insights for user', {
         location: 'UserProfile.insightsByUserIdTotalResultsQuery',

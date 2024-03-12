@@ -1,9 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from '@storybook/addon-viewport'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 import { View } from 'react-native'
 
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper, { HoliGridWrapperProps } from '@holi/ui/components/atoms/HoliGridWrapper'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 export default {
   title: 'Atoms/HoliGridWrapper',
@@ -13,22 +17,40 @@ export default {
         component: 'HoliGridWrapper - grid component.',
       },
     },
+    viewport: {
+      viewports: {
+        ...INITIAL_VIEWPORTS,
+        ...MINIMAL_VIEWPORTS,
+      },
+      defaultViewport: 'iphonexsmax',
+    },
   },
-} as ComponentMeta<typeof HoliGridWrapper>
+} as Meta<typeof HoliGridWrapper>
 
-export const Primary: ComponentStory<typeof HoliGridWrapper> = ({ gap, itemsInRow }: HoliGridWrapperProps) => (
-  <HoliGridWrapper gap={gap} itemsInRow={itemsInRow} style={{ width: '100%' }}>
-    {Array.from('i'.repeat(22), (_, idx) => idx + 1).map((itm) => (
-      <HoliGridCell key={itm}>
-        <View style={{ padding: 48, backgroundColor: 'red', alignItems: 'center' }}>{itm}</View>
-      </HoliGridCell>
-    ))}
-  </HoliGridWrapper>
+export const Primary: StoryFn<typeof HoliGridWrapper> = ({ gap, breakpoints }: HoliGridWrapperProps) => (
+  <>
+    <HoliBox padding={[0, 0, 30, 0]}>
+      <HoliHeading size="s">Adjust the window dimensions on the tool bar.</HoliHeading>
+    </HoliBox>
+    <HoliGridWrapper gap={gap} breakpoints={breakpoints}>
+      {Array.from('i'.repeat(22), (_, idx) => idx + 1).map((itm) => (
+        <HoliGridCell key={itm}>
+          <View style={{ padding: 48, backgroundColor: colors.brandColorB20, alignItems: 'center' }}>{itm}</View>
+        </HoliGridCell>
+      ))}
+    </HoliGridWrapper>
+  </>
 )
+
+const gridBreakpoints: [number, number][] = [
+  [0, 2],
+  [dimensions.breakpointM, 3],
+  [dimensions.breakpointL, 4],
+]
 
 Primary.args = {
   gap: 24,
-  itemsInRow: 2,
+  breakpoints: gridBreakpoints,
 }
 
 Primary.argTypes = {
@@ -38,10 +60,9 @@ Primary.argTypes = {
     defaultValue: 24,
     control: { type: 'number' },
   },
-  itemsInRow: {
-    description: 'Amount of items in each row',
-    type: 'number',
-    defaultValue: 2,
-    control: { type: 'number' },
+  breakpoints: {
+    description:
+      'Based on the passed media query, you can pass an array containing tuples defining the grid item width.',
+    defaultValue: [dimensions.breakpointM, 3],
   },
 }

@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -6,6 +6,7 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
@@ -22,7 +23,7 @@ const AccountSettings = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.account.title') })
   }, [setScreenOptions, t])
 

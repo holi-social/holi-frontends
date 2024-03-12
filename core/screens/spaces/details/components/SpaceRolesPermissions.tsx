@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -179,7 +180,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
 
   const { error, space } = useSpace(spaceIdOrName)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.rolesAndPermissions.title'),

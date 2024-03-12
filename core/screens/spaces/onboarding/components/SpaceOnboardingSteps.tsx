@@ -1,11 +1,13 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -41,9 +43,8 @@ const SpaceOnboardingSteps = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { loading: fetchingSpace, space } = useSpace(spaceIdOrName)
+  const { loading: fetchingSpace, space, error: errorSpace } = useSpace(spaceIdOrName)
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [stepsList, setStepsList] = useState<OnboardingStep[]>(space?.onboarding?.steps || [{ text: '' }])
   const [hasEmptySteps, setHasEmptySteps] = useState(false)
   const [isNewStep, setIsNewStep] = useState(true)
@@ -59,7 +60,7 @@ const SpaceOnboardingSteps = () => {
     setHasEmptySteps(hasEmptySteps)
   }, [stepsList])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.onboarding.setup.nextSteps.title'),
       navigationCustomOptions: {
@@ -113,94 +114,100 @@ const SpaceOnboardingSteps = () => {
     { text: t('spaces.collaborate.onboarding.info.text3') },
   ]
 
-  if (space && !isAdmin) {
-    navigate(`/spaces/${spaceIdOrName}`)
+  if (fetchingSpace || errorSpace || !space) {
+    return <></>
   }
 
   return (
-    <DefaultLayout
-      scrollable={false}
-      headerOverlap={true}
-      style={styles.layoutStyle}
-      contentStyle={styles.contentStyle}
+    <PermissionsGuard
+      space={space}
+      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+      permissionType={PermissionsType.SPACES}
     >
-      <FormWrapper
-        saveButtonDisabled={fetchingSpace || hasEmptySteps}
-        style={styles.formWrapper}
-        buttonLabel={t('global.save')}
-        onSave={saveSteps}
-        scrollToInput={false}
-        keyboardShouldPersistTaps="handled"
-        renderProp={() => (
-          <>
-            <View style={styles.intro}>
-              <HoliText style={styles.desc}>{t('spaces.onboarding.steps.hint')}</HoliText>
-              <HoliButton
-                label={t('spaces.onboarding.steps.example.text')}
-                onPress={showExample}
-                transparent
-                style={styles.example}
-              >
-                {t('spaces.onboarding.steps.example.text')}
-              </HoliButton>
-            </View>
-            <View>
-              {stepsList.map((step, index) => (
-                <SpaceOnboardingStepInput
-                  key={index}
-                  index={index + 1}
-                  step={step}
-                  totalSteps={stepsList.length}
-                  handleChange={handleChange}
-                  removeStep={removeStep}
-                  isNewStep={isNewStep}
-                />
-              ))}
-              <HoliButton
-                label={t('spaces.onboarding.steps.add')}
-                onPress={addStep}
-                variant="medium"
-                type="secondary"
-                style={styles.addStepBtn}
-              >
-                <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
-                <HoliIcon icon={Add} size={16} />
-              </HoliButton>
-              {stepsList.length > 0 && (
+      <DefaultLayout
+        scrollable={false}
+        headerOverlap={true}
+        style={styles.layoutStyle}
+        contentStyle={styles.contentStyle}
+      >
+        <FormWrapper
+          saveButtonDisabled={fetchingSpace || hasEmptySteps}
+          style={styles.formWrapper}
+          buttonLabel={t('global.save')}
+          onSave={saveSteps}
+          scrollToInput={false}
+          keyboardShouldPersistTaps="handled"
+          renderProp={() => (
+            <>
+              <View style={styles.intro}>
+                <HoliText style={styles.desc}>{t('spaces.onboarding.steps.hint')}</HoliText>
                 <HoliButton
-                  label={t('spaces.onboarding.steps.preview.link')}
-                  onPress={showPreview}
+                  label={t('spaces.onboarding.steps.example.text')}
+                  onPress={showExample}
                   transparent
-                  style={styles.previewButton}
+                  style={styles.example}
                 >
-                  <View style={styles.preview}>
-                    <HoliIcon icon={Information} style={styles.previewIcon} />
-                    <HoliText bold>{t('spaces.onboarding.steps.preview.link')}</HoliText>
-                  </View>
+                  {t('spaces.onboarding.steps.example.text')}
                 </HoliButton>
-              )}
-            </View>
-          </>
-        )}
-      />
-      <HoliModal
-        show={exampleVisible}
-        label={t('spaces.onboarding.steps.example.label')}
-        onDismiss={hideExample}
-        style={styles.exampleWrapper}
-      >
-        <SpaceCollaboratorOnboardingSteps steps={exampleSteps} header={t('spaces.onboarding.steps.example.label')} />
-      </HoliModal>
+              </View>
+              <View>
+                {stepsList.map((step, index) => (
+                  <SpaceOnboardingStepInput
+                    key={index}
+                    index={index + 1}
+                    step={step}
+                    totalSteps={stepsList.length}
+                    handleChange={handleChange}
+                    removeStep={removeStep}
+                    isNewStep={isNewStep}
+                  />
+                ))}
+                <HoliButton
+                  label={t('spaces.onboarding.steps.add')}
+                  onPress={addStep}
+                  variant="medium"
+                  type="secondary"
+                  style={styles.addStepBtn}
+                >
+                  <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
+                  <HoliIcon icon={Add} size={16} />
+                </HoliButton>
+                {stepsList.length > 0 && (
+                  <HoliButton
+                    label={t('spaces.onboarding.steps.preview.link')}
+                    onPress={showPreview}
+                    transparent
+                    style={styles.previewButton}
+                  >
+                    <View style={styles.preview}>
+                      <HoliIcon icon={Information} style={styles.previewIcon} />
+                      <HoliText bold>{t('spaces.onboarding.steps.preview.link')}</HoliText>
+                    </View>
+                  </HoliButton>
+                )}
+              </View>
+            </>
+          )}
+        />
+        <HoliModal
+          show={exampleVisible}
+          label={t('spaces.onboarding.steps.example.label')}
+          onDismiss={hideExample}
+          style={styles.exampleWrapper}
+        >
+          <SpaceCollaboratorOnboardingSteps steps={exampleSteps} header={t('spaces.onboarding.steps.example.label')} />
+        </HoliModal>
 
-      <HoliModal
-        show={previewVisible}
-        label={t('spaces.onboarding.steps.preview.label')}
-        onDismiss={hidePreview}
-        style={styles.previewModal}
-      >
-        <SpaceCollaboratorOnboardingSteps steps={stepsList} header={t('spaces.collaborate.onboarding.info.header')} />
-      </HoliModal>
-    </DefaultLayout>
+        <HoliModal
+          show={previewVisible}
+          label={t('spaces.onboarding.steps.preview.label')}
+          onDismiss={hidePreview}
+          style={styles.previewModal}
+        >
+          <SpaceCollaboratorOnboardingSteps steps={stepsList} header={t('spaces.collaborate.onboarding.info.header')} />
+        </HoliModal>
+      </DefaultLayout>
+    </PermissionsGuard>
   )
 }
 

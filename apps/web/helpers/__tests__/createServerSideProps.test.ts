@@ -159,6 +159,48 @@ describe('createServerSideProps', () => {
     })
   })
 
+  it('should redirect to 404 page if creating the queries results in a NOT_FOUND error', async () => {
+    const createQueries = jest.fn().mockRejectedValueOnce(
+      new ApolloError({
+        graphQLErrors: [
+          new GraphQLError('Not found', {
+            extensions: {
+              code: 'NOT_FOUND',
+            },
+          }),
+        ],
+      })
+    )
+
+    const props = await createServerSideProps(context, createQueries)
+
+    expect(createQueries).toHaveBeenCalledWith(mockedClient)
+    expect(props).toEqual({
+      notFound: true,
+    })
+  })
+
+  it('should switch to client side rendering if creating the queries results fails', async () => {
+    const createQueries = jest.fn().mockRejectedValueOnce(
+      new ApolloError({
+        graphQLErrors: [
+          new GraphQLError('Forbidden', {
+            extensions: {
+              code: 'FORBIDDEN',
+            },
+          }),
+        ],
+      })
+    )
+
+    const props = await createServerSideProps(context, createQueries)
+
+    expect(createQueries).toHaveBeenCalledWith(mockedClient)
+    expect(props).toStrictEqual({
+      props: {},
+    })
+  })
+
   it('does not add any server side props if not the first request', async () => {
     // @ts-ignore
     const { props } = await createServerSideProps({ req: { url: '/_next/data/' } }, [])

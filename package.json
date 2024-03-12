@@ -79,5 +79,8 @@
     "symlinks": [
       "expo-constants"
     ]
+  },
+  "dependencies": {
+    "react-native-web": "^0.19.10"
   }
 }

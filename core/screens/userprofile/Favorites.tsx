@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import FavoritesList from '@holi/core/screens/favorites/components/FavoritesList'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -19,7 +20,7 @@ const Favorites = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.favorites.title') })
   }, [setScreenOptions, t])
 

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -63,7 +62,6 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
-  const postGridItemsInRow = useBreakpointMatcher()
 
   const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
@@ -153,7 +151,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             </HoliNoResults>
           </View>
         )}
-        <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
+        <HoliGridWrapper gap={32}>
           {projects
             // FIX: duplication in projects after loading more
             .map((project) => (

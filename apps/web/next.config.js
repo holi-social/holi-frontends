@@ -44,6 +44,8 @@ const nextConfig = {
     'react-native-safe-area-context',
     'react-native-svg',
     'react-native-swipe-gestures',
+    'react-native-media-query',
+    'react-native-web',
     'react-native-webview',
     'recyclerlistview',
     'expo-camera',

@@ -1,5 +1,5 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
@@ -27,6 +27,7 @@ import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -113,7 +114,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
     }
   }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (webview)
       setScreenOptions({
         headerLeft: () => null,

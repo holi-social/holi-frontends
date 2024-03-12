@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { getInitials } from '@holi/core/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -17,7 +18,7 @@ export interface SpaceAvatarProps {
 
 const SpaceAvatar = ({ space, size, loading = false, testID, style }: SpaceAvatarProps) => {
   const initials = getInitials(space?.title ?? '')
-  const { width: deviceWidth } = useWindowDimensions()
+  const { width: deviceWidth } = useClientWindowDimensions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

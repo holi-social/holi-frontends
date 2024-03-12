@@ -2,7 +2,6 @@ import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -25,11 +24,10 @@ interface Props extends BaseProps {
 
 type VolunteeringListingSkeletonProps = SkeletonProps | Props
 
-const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = ({ isFiltering, amount }) => {
+const VolunteeringListingSkeleton = ({ isFiltering, amount }: VolunteeringListingSkeletonProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const postGridItemsInRow = useBreakpointMatcher()
   const mixins = useStyleMixins()
   const logoWidth = 41
 
@@ -64,9 +62,7 @@ const VolunteeringListingSkeleton: React.FC<VolunteeringListingSkeletonProps> = 
       </View>
       {isFiltering && <HoliText bold style={styles.searchQuery} loading skeletonOptions={{ width: '40%' }} />}
       <HoliGap />
-      <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
-        {skeletonItems}
-      </HoliGridWrapper>
+      <HoliGridWrapper gap={32}>{skeletonItems}</HoliGridWrapper>
     </View>
   )
 }

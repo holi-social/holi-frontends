@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,6 +7,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
@@ -71,12 +72,15 @@ const AppointmentDetails = () => {
     called: calledAppointment,
   } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
     variables: { idOrSlug },
-    onError: (error) =>
-      !isNotFoundError(error) &&
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       logError(error, 'Failed to load appointment', {
         location: 'AppointmentDetails.appointmentByIdOrSlugQuery',
         idOrSlug,
-      }),
+      })
+    },
     skip: !idOrSlug,
   })
 
@@ -110,7 +114,7 @@ const AppointmentDetails = () => {
     [isAdmin, space, appointment, isAppointmentCreator, navigateBack, colors.foreground30]
   )
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
       headerTransparent: true,
@@ -124,16 +128,8 @@ const AppointmentDetails = () => {
     })
   }, [setScreenOptions, t, renderActionDrawer, colors.background10, styles.headerRight])
 
-  if (loadingAppointment || loadingSpace || refreshing) {
+  if ((loadingAppointment && !appointment) || (loadingSpace && !space) || refreshing) {
     return <HoliLoader />
-  }
-
-  if (
-    (errorAppointment && isNotFoundError(errorAppointment)) ||
-    (calledAppointment && !loadingAppointment && !appointment)
-  ) {
-    replaceRoute('/404')
-    return <></>
   }
 
   // Error and loading states are handled the same way and just hide the component

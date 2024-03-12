@@ -5351,6 +5351,7 @@ __metadata:
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-gesture-handler: "npm:~2.12.0"
     react-native-image-pan-zoom: "npm:^2.1.12"
+    react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.3.0"
     react-native-reanimated-carousel: "npm:^4.0.0-alpha.0"
     react-native-render-html: "npm:^6.3.4"
@@ -5413,6 +5414,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.23.9"
     "@holi/icons": "npm:^1.0.0"
     "@types/tinycolor2": "npm:1.4.3"
+    react-native-media-query: "npm:^2.0.1"
     react-test-renderer: "npm:18.0.0"
   peerDependencies:
     lottie-react: ^2.4.0
@@ -5456,8 +5458,9 @@ __metadata:
     react-indiana-drag-scroll: "npm:^2.2.0"
     react-intersection-observer: "npm:^9.5.2"
     react-native-gesture-handler: "npm:~2.12.0"
+    react-native-media-query: "npm:^2.0.1"
     react-native-svg-web: "npm:^1.0.9"
-    react-native-web: "npm:0.19.10"
+    react-native-web: "npm:^0.19.10"
     react-zoom-pan-pinch: "npm:^2.1.3"
     sharp: "npm:^0.32.0"
     typescript: "npm:^5.1.3"
@@ -14837,6 +14840,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"css-mediaquery@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "css-mediaquery@npm:0.1.2"
+  checksum: 10c0/b7825a78f52ce8a8198e004fcad0d7be1d3c9a0463ecd05ba31a0f2c94fb81468ad6f4d7bf715a6ca775696e7a17500c2a339b5216a6d0f789cbf78f9454d048
+  languageName: node
+  linkType: hard
+
 "css-select@npm:^4.1.3":
   version: 4.3.0
   resolution: "css-select@npm:4.3.0"
@@ -19021,6 +19031,7 @@ __metadata:
     jest-offline: "npm:^1.0.1"
     jest-when: "npm:^3.6.0"
     prettier: "npm:^2.8.3"
+    react-native-web: "npm:^0.19.10"
     react-test-renderer: "npm:18.0.0"
     rimraf: "npm:5.0.1"
     turbo: "npm:^1.7.2"
@@ -26715,6 +26726,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-media-query@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "react-native-media-query@npm:2.0.1"
+  dependencies:
+    css-mediaquery: "npm:^0.1.2"
+  peerDependencies:
+    react-native-web: ^0.18.0
+  checksum: 10c0/6dd5668d0f819d559ab6a639f2774a2cb9fc999e8157428c82583ef9ed5e43c45034bd4498c2ff01efb7c7245a2a1e7ac5953a2454a227344ed0ede420662b04
+  languageName: node
+  linkType: hard
+
 "react-native-phone-number-input@npm:^2.1.0":
   version: 2.1.0
   resolution: "react-native-phone-number-input@npm:2.1.0"
@@ -26857,7 +26879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-web@npm:0.19.10":
+"react-native-web@npm:0.19.10, react-native-web@npm:^0.19.10":
   version: 0.19.10
   resolution: "react-native-web@npm:0.19.10"
   dependencies:

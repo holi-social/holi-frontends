@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -8,6 +8,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -39,7 +40,7 @@ const DEFAULT_SLOTS_AVAILABLE = 1
 
 const EditTask: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { navigateBack } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [taskId] = useParam('taskId')
@@ -194,7 +195,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
     }
   }, [space, task, t])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loadingSpace &&
       isMember &&
       setScreenOptions({
@@ -227,6 +228,11 @@ const EditTask: React.VFC<ScreenProps> = () => {
     }
   }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
 
+  if (space && !task) {
+    replaceRoute('/404')
+    return <></>
+  }
+
   // Error and loading states are handled the same way and just hide the component
   if (loadingSpace || errorSpace || !space) {
     return <></>
@@ -238,6 +244,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
       forceRestrict={!isAdmin && !isTaskOwner}
+      redirectRoute={`/spaces/${spaceIdOrName}`}
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}

@@ -1,14 +1,18 @@
-import React, { useLayoutEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import AllTools from '@holi/core/screens/spaces/linkHub/components/AllTools'
 import SuggestedTools from '@holi/core/screens/spaces/linkHub/components/SuggestedTools'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -33,7 +37,9 @@ const LinkHub = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  useLayoutEffect(() => {
+  const { loading, error, space } = useSpace(spaceIdOrName)
+
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.toolKit.title'),
@@ -62,8 +68,16 @@ const LinkHub = () => {
     )
   }
 
+  if (loading || error || !space) {
+    return <></>
+  }
+
   return (
-    <>
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.MEMBER}
+    >
       <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
         <HoliTabs
           id="toolKit-tabs"
@@ -85,7 +99,7 @@ const LinkHub = () => {
         />
       </ScrollHeaderLayout.Default>
       <AddButton />
-    </>
+    </PermissionsGuard>
   )
 }
 

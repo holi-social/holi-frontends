@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
-import React, { useLayoutEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -66,7 +67,7 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
     variables: { idOrName: spaceIdOrName },
   })
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.appointments.title'),
       headerTransparent: true,

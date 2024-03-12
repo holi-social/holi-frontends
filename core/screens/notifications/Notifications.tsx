@@ -1,8 +1,9 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useLayoutEffect, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import NotificationsOverview from '@holi/core/screens/notifications/components/NotificationsOverview'
@@ -17,7 +18,7 @@ const Notifications = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  useLayoutEffect(
+  useIsomorphicLayoutEffect(
     () =>
       setScreenOptions({
         title,

@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -148,7 +149,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     [editField, setEditField, show]
   )
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,

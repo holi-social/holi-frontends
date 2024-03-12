@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -8,6 +8,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import { withProtocol } from '@holi/core/helpers/url'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -91,7 +92,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     }
   }, [t, url])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loadingSpace &&
       isMember &&
       setScreenOptions({
