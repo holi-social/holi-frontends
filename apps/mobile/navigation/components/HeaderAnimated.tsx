@@ -138,6 +138,7 @@ const HeaderAnimated = ({ back, options, route, navigation }: NativeStackHeaderP
             }
             headerTransparent={headerTransparent}
             headerTitleAlign={headerTitleAlign}
+            headerTitleStyle={{ color: colors.black300 }}
             {...restOptions}
           />
         </Animated.View>
