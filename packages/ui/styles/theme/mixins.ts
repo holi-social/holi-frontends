@@ -49,6 +49,11 @@ const useStyleMixins = () => {
   ])
 
   const dynamicStyles = StyleSheet.create({
+    /**
+     * @deprecated The container mixin should not be used and will be removed.
+     * It causes style flashes with SSR. Please use the `<HoliContainer />`
+     * instead.
+     */
     container: {
       alignSelf: 'center',
       width: '100%',
