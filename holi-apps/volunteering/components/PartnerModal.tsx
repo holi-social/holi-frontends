@@ -4,7 +4,7 @@
    However, JanOle and Max couldn't get it running on shorthand so we simply use
    it in other apps from volunteering app now
  */
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -19,6 +19,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import colors from '@holi/ui/styles/globalVars/colors'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { PartnerProps } from '@holi-apps/volunteering/types'
 
@@ -38,6 +39,8 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
   i18nNamespace = '',
 }: PartnerModalProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const i18nPrefix = (i18nNamespace ? i18nNamespace + ':' : '') + 'listing.partnerModal'
   const isMultiplePartners = Object.keys(partners).length > 1
 
@@ -55,6 +58,7 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
                 width={partner.wordmark.width || 100}
                 height={partner.wordmark.height || 100}
                 resizeMode={'contain'}
+                style={styles.partnerImage}
               />
             </HoliBox>
           )}
@@ -108,28 +112,36 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
 
 export default memo(PartnerModal)
 
-const styles = StyleSheet.create({
-  flexWrapper: {
-    flex: 1,
-    flexGrow: 1,
-  },
-  modal: {
-    backgroundColor: colors.background20,
-  },
-  cardContainer: {
-    gap: 16,
-  },
-  card: {
-    backgroundColor: colors.white100,
-    borderRadius: 8,
-    borderColor: colors.background30,
-    borderWidth: 1,
-  },
-  outlink: {
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: colors.background20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    flexWrapper: {
+      flex: 1,
+      flexGrow: 1,
+    },
+    modal: {
+      backgroundColor: colors.background20,
+    },
+    partnerImage: {
+      ...(theme.dark && {
+        padding: 7,
+        backgroundColor: theme.colors.light,
+        borderRadius: 4,
+      }),
+    },
+    cardContainer: {
+      gap: 16,
+    },
+    card: {
+      backgroundColor: colors.white100,
+      borderRadius: 8,
+      borderColor: colors.background30,
+      borderWidth: 1,
+    },
+    outlink: {
+      padding: 16,
+      borderRadius: 8,
+      backgroundColor: colors.background20,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+  })

@@ -48,7 +48,7 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
                     height={logoHeight}
                     label={headline ?? ''}
                     resizeMode="contain"
-                    style={{ backgroundColor: colors.white100 }}
+                    style={{ backgroundColor: colors.light }}
                   />
                 </View>
               )
