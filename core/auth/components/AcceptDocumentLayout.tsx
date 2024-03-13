@@ -17,6 +17,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface AgreementProps {
