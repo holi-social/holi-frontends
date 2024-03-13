@@ -114,7 +114,7 @@ const InsightDetailPage = () => {
 
   return (
     <>
-      <StatusBar style="light" animated />
+      <StatusBar animated />
 
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{

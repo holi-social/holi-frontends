@@ -34,7 +34,7 @@ const GoodNewsAppHome = () => {
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.APPS_GOODNEWS} featureNameKey="goodnews:maintenance.feature">
       <View testID={'goodnews-app-home'}>
-        <StatusBar style="light" animated />
+        <StatusBar animated />
 
         <ScrollHeaderLayout.Default
           bounces={false}
