@@ -108,9 +108,6 @@ const RootNavigator = () => {
           animation: 'slide_from_bottom',
           headerShown: true,
           headerTransparent: true,
-          // headerStyle: {
-          //   backgroundColor: colors.background10,
-          // },
         }}
       />
       <RootStack.Screen
@@ -120,6 +117,7 @@ const RootNavigator = () => {
           presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
+          headerTransparent: true,
         }}
       />
       <RootStack.Screen

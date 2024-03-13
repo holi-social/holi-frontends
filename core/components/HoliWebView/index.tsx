@@ -46,6 +46,8 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, theme, n
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
+  const injectedThemeJs = `(function(){ let window.localStorage.setItem('theme', ${theme.dark ? 'dark' : 'light'})})();`
+
   const errormessage = t('webview.error')
 
   const handleError = useCallback(
@@ -114,6 +116,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, theme, n
       {...webViewProps}
       source={addHeadersIfSourceUri(webViewProps.source, currentUri)}
       testID="web-view"
+      injectedJavaScript={injectedThemeJs}
     />
   )
 }
