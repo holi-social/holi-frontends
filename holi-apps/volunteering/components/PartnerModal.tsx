@@ -18,7 +18,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import colors from '@holi/ui/styles/globalVars/colors'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { PartnerProps } from '@holi-apps/volunteering/types'
@@ -51,15 +50,16 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
         <HoliBox padding={isMultiplePartners ? 24 : 0} layout={{ alignItems: 'flex-start' }}>
           {!!partner.wordmark && !!partner.wordmark?.src && (
             <HoliBox padding={[18, 0]}>
-              <HoliLocalImage
-                imageSource={partner.wordmark.src}
-                isSvg={partner.wordmark.isSvg}
-                label={''}
-                width={partner.wordmark.width || 100}
-                height={partner.wordmark.height || 100}
-                resizeMode={'contain'}
-                style={styles.partnerImage}
-              />
+              <View style={styles.partnerImage}>
+                <HoliLocalImage
+                  imageSource={partner.wordmark.src}
+                  isSvg={partner.wordmark.isSvg}
+                  label={''}
+                  width={partner.wordmark.width || 100}
+                  height={partner.wordmark.height || 100}
+                  resizeMode={'contain'}
+                />
+              </View>
             </HoliBox>
           )}
           <HoliBox padding={[32, 0, 0, 0]}>
@@ -119,7 +119,7 @@ const getStyles = (theme: HoliTheme) =>
       flexGrow: 1,
     },
     modal: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
     },
     partnerImage: {
       ...(theme.dark && {
@@ -132,15 +132,15 @@ const getStyles = (theme: HoliTheme) =>
       gap: 16,
     },
     card: {
-      backgroundColor: colors.white100,
+      backgroundColor: theme.colors.white100,
       borderRadius: 8,
-      borderColor: colors.background30,
+      borderColor: theme.colors.background30,
       borderWidth: 1,
     },
     outlink: {
       padding: 16,
       borderRadius: 8,
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
