@@ -107,6 +107,10 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
+          headerTransparent: true,
+          // headerStyle: {
+          //   backgroundColor: colors.background10,
+          // },
         }}
       />
       <RootStack.Screen
