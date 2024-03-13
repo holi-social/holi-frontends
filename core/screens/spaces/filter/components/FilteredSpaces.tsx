@@ -2,7 +2,7 @@ import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import StyleSheet from 'react-native-media-query'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -18,8 +18,8 @@ import FilteredSpacesList from '@holi/core/screens/spaces/filter/components/Filt
 import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface FilteredSpacesProps extends SpaceFilter {
   applyFilters: (filters: SpaceFilter) => void
@@ -30,9 +30,7 @@ export const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid 
 const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: FilteredSpacesProps) => {
   const { displayError } = useErrorHandling()
   const client = useApolloClient()
-
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
@@ -84,7 +82,7 @@ const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: Fil
         style={styles.container}
         testID="filtered-spaces-container"
       >
-        <View style={mixins.container}>
+        <HoliContainer>
           <FilteredSpacesHeading {...filters} />
           {isLoading ? (
             <SpacesGrid style={styles.loadingGrid} loading={true} pageSize={SPACES_PAGE_SIZE} />
@@ -98,7 +96,7 @@ const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: Fil
               <FilteredSpacesList pageSize={SPACES_PAGE_SIZE} />
             </Pagination>
           )}
-        </View>
+        </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
 
       <SpaceFilterModal
@@ -110,7 +108,7 @@ const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: Fil
   )
 }
 
-const styles = StyleSheet.create({
+const { styles } = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
