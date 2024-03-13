@@ -11,27 +11,35 @@ describe('renders correctly', () => {
         title="Test Title"
         description="Test Description"
         show={true}
+        confirmationButtonType="warning"
         onDismiss={() => null}
         onConfirm={() => null}
       />
     )
-    expect(screen.toJSON()).toMatchSnapshot()
+
+    expect(screen.getByText('Test Title')).toBeVisible()
+    expect(screen.getByText('Test Description')).toBeVisible()
+    expect(screen.getByText('confirmation.dismiss')).toBeVisible()
+    expect(screen.getByText('confirmation.confirm')).toBeVisible()
   })
-  it('renders correctly when open and confirmationButtonType is danger', () => {
+
+  it('renders red confirm button for confirmationButtonType warning', () => {
     render(
       <HoliConfirmation
         label="Test"
         title="Test Title"
         description="Test Description"
-        confirmationButtonType="danger"
+        confirmationButtonType="warning"
         show={true}
         onDismiss={() => null}
         onConfirm={() => null}
       />
     )
-    expect(screen.toJSON()).toMatchSnapshot()
+
+    expect(screen.getByTestId('holi-confirmation-confirm')).toHaveStyle({ backgroundColor: '#ffebec' })
   })
-  it('renders correctly when closed', () => {
+
+  it('does not render when closed', () => {
     render(
       <HoliConfirmation
         label="Test"
@@ -42,7 +50,8 @@ describe('renders correctly', () => {
         onConfirm={() => null}
       />
     )
-    expect(screen.toJSON()).toMatchSnapshot()
+
+    expect(screen.toJSON()).toBeNull()
   })
 })
 

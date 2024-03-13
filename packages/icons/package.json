@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.72.10",
-    "react-native-svg": "13.9.0"
+    "react-native": "0.73.4",
+    "react-native-svg": "14.1.0"
   },
   "devDependencies": {
     "@svgr/cli": "8.0.1",

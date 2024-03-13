@@ -17,6 +17,7 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
+import { colors } from '@holi/ui/styles/globalVars'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -79,7 +80,7 @@ const App = () => {
 
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar backgroundColor={colors.background10} style="dark" />
       <NavigationProvider>
         <RootProvider>
           <RootNavigator />

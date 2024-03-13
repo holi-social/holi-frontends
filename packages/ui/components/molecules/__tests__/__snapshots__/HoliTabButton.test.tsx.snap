@@ -49,6 +49,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
         "pointerEvents": "none",
       }
     }
+    testID="tab-button-tab"
   >
     <Text
       accessible={false}
@@ -119,6 +120,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
         "pointerEvents": "none",
       }
     }
+    testID="tab-button-tab"
   >
     <Text
       accessible={false}
@@ -189,6 +191,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
         "pointerEvents": "none",
       }
     }
+    testID="tab-button-tab"
   >
     <Text
       accessible={false}
@@ -259,6 +262,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
         "pointerEvents": "none",
       }
     }
+    testID="tab-button-tab"
   >
     <Text
       accessible={false}

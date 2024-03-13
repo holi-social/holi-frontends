@@ -53,7 +53,7 @@ it('should display truncated and full text from children', async () => {
     `"Infinite Scroll. Swipe, swipe, scroll down. Endless feeds without a frown .Likes and hearts and retweets to. Endless scrolling, what to do? A world of data, at our fingertips. Information flows, never skips. The internet,a boundless space. A virtual world we can embrace. From screens to apps, to cloud and more. Technology opens up the door. To new ideas, new ways to connect. A future we can’t yet predict. But in this world of endless …"`
   )
 
-  await fireEvent.press(readMoreBtn)
+  fireEvent.press(readMoreBtn)
   const readLessBtn = await screen.findByText('component.readMore.readLess')
   fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
   expect(readLessBtn).toBeTruthy()

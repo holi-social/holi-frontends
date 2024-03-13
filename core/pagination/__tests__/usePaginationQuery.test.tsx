@@ -1,6 +1,6 @@
 import { DocumentNode, OperationVariables } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 
@@ -223,8 +223,4 @@ describe('usePaginationQuery', () => {
     // It should not be possible to fetch another page
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
   })
-
-  // solve act() wrap warning
-  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
-  afterEach(cleanup)
 })

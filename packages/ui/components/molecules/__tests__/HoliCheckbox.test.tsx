@@ -43,7 +43,7 @@ describe('HoliCheckbox', () => {
       })
     })
 
-    it('does not get called when disabled', async () => {
+    it('does not get called when disabled', () => {
       const mockFn = jest.fn()
       const { getByTestId } = render(
         <HoliCheckbox aria-label="test" onSelect={mockFn} disabled={true} testID={testID} />

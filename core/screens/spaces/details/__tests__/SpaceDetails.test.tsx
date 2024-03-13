@@ -137,7 +137,7 @@ describe('SpaceDetails', () => {
 
     await act(async () => {
       jest.runAllTimers()
-      await waitFor(() => screen.getByText(space.title))
+      await waitFor(() => expect(screen.getByText(space.title)).toBeVisible())
     })
 
     expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' })

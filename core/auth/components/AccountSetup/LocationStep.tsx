@@ -2,7 +2,6 @@ import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
 
-import { ScrollToProps, useScrollToInputOnFocus } from '@holi//ui/helper/useScrollToInputOnFocus'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, {
   GeolocationLevel,
@@ -13,6 +12,7 @@ import { User } from '@holi/core/screens/userprofile/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { ScrollToProps, useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface LocationStepProps
