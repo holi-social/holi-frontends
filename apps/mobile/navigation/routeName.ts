@@ -2,6 +2,7 @@ export enum RouteName {
   // Feed Stack
   HomeFeed = 'HomeFeed',
   InsightDetailPage = 'InsightDetailPage',
+  InsightsPage = 'InsightsPage',
   InsightPostDetailPage = 'InsightPostDetailPage',
   InsightPostCommentInputPage = 'InsightPostCommentInputPage',
   PostDetailPage = 'PostDetailPage',
