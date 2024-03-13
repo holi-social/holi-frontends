@@ -275,7 +275,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     cardContainer: {
       width: '100%',
-      backgroundColor: 'white',
+      backgroundColor: theme.colors.background10,
       borderRadius: 32,
       padding: 24,
       marginTop: 2,
