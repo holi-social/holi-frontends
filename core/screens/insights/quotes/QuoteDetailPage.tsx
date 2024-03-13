@@ -11,12 +11,12 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import QuoteCard from '@holi/core/screens/insights/components/quotes/QuoteCard'
+import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
+import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
 import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -87,24 +87,7 @@ const QuoteDetailPage = () => {
               />
             )}
             <View style={[mixins.container, styles.section, styles.curvedBottom]}>
-              {(!!quote.linkPreview.icon || !!quote.linkPreview.siteName) && (
-                <View style={{ flexDirection: 'row', gap: Spacing.xs, alignItems: 'center' }}>
-                  {!!quote.linkPreview.icon && (
-                    <View style={styles.linkPreviewFavicon}>
-                      <HoliImage
-                        source={{ uri: quote.linkPreview.icon }}
-                        label={quote.linkPreview.title}
-                        style={{ width: 18, height: 18 }}
-                      />
-                    </View>
-                  )}
-                  {!!quote.linkPreview.siteName && (
-                    <HoliText size="small" selectable={false}>
-                      {quote.linkPreview.siteName}
-                    </HoliText>
-                  )}
-                </View>
-              )}
+              <LinkInfo icon={quote.linkPreview.icon} link={quote.link} />
 
               <HoliGap size="s" />
 
@@ -127,7 +110,7 @@ const QuoteDetailPage = () => {
               </View>
 
               <HoliGap size="s" />
-              <QuoteCard.QuoteOnly quote={quote} style={{ height: 'auto' }} />
+              <QuoteCard.QuoteOnly quote={quote} />
               <HoliGap size="s" />
               <HoliText>{quote.comment}</HoliText>
             </View>
@@ -199,15 +182,6 @@ const styles = StyleSheet.create({
   curvedBottom: {
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
-  },
-
-  linkPreviewFavicon: {
-    height: 24,
-    width: 24,
-    borderRadius: 4,
-    backgroundColor: colors.white200,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 
   curvedTop: {

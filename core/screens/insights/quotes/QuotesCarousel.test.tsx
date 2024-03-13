@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import QuotesCarousel, { quoteIconColors } from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
 import { ExternalContentCategory, Quote } from '@holi/core/screens/insights/types'
+
+import QuotesCarousel, { quoteIconColors } from './QuotesCarousel'
 
 const insightId = 'someInsightId'
 

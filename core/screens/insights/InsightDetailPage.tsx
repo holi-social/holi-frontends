@@ -16,9 +16,9 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
-import QuotesCarousel from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
-import RecommendationsCarousel from '@holi/core/screens/insights/components/recommendations/RecommendationsCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
+import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
 import { Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
@@ -104,8 +104,11 @@ const InsightDetailPage = () => {
   const creator = insight?.creator
   const recommendationsTitle =
     recommendations.length > 1
-      ? t('insights.recommendations.title', { name: creator?.firstName, number: recommendations.length })
-      : t('insights.recommendations.title.single', { name: creator?.firstName })
+      ? t('insights.recommendations.title.creator.multiple', {
+          name: creator?.firstName,
+          number: recommendations.length,
+        })
+      : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
 
   return (
     <>
@@ -190,33 +193,33 @@ const InsightDetailPage = () => {
               <HoliRichTextOutput text={insight.description} allowAllLinks />
             </View>
             <HoliGap size="s" />
+
+            {recommendations.length > 0 && (
+              <InsightCarouselSection
+                heading={recommendationsTitle}
+                headingIcon={{
+                  asset: require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg'),
+                  label: recommendationsTitle,
+                }}
+              >
+                <RecommendationsCarousel insightId={insight.id} recommendations={recommendations} />
+              </InsightCarouselSection>
+            )}
+
+            {quotes.length > 0 && (
+              <InsightCarouselSection
+                heading={t('insights.quotes.title')}
+                headingIcon={{
+                  asset: require('@holi/ui/assets/img/illustrations/illustration_people.svg'),
+                  label: 'Quote',
+                }}
+              >
+                <QuotesCarousel insightId={insight.id} quotes={quotes} />
+              </InsightCarouselSection>
+            )}
           </>
         ) : (
           <Skeleton />
-        )}
-
-        {recommendations.length > 0 && (
-          <InsightCarouselSection
-            heading={recommendationsTitle}
-            headingIcon={{
-              asset: require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg'),
-              label: recommendationsTitle,
-            }}
-          >
-            <RecommendationsCarousel recommendations={recommendations} />
-          </InsightCarouselSection>
-        )}
-
-        {quotes.length > 0 && (
-          <InsightCarouselSection
-            heading={t('insights.quotes.title')}
-            headingIcon={{
-              asset: require('@holi/ui/assets/img/illustrations/illustration_people.svg'),
-              label: 'Quote',
-            }}
-          >
-            <QuotesCarousel insightId={insight?.id} quotes={quotes} />
-          </InsightCarouselSection>
         )}
 
         {posts.length > 0 && (
@@ -235,7 +238,7 @@ const InsightDetailPage = () => {
   )
 }
 
-export const InsightCarouselSection: React.FC<{
+const InsightCarouselSection: React.FC<{
   heading: string
   headingIcon: { asset: NodeRequire; label: string }
   children: React.ReactNode
@@ -259,13 +262,6 @@ export const InsightCarouselSection: React.FC<{
     </View>
   )
 }
-
-// Trying out Skeleton as a separate component, why?
-// i) Feels wrong that smaller atoms & molecules have to have 2 concerns eg show title or a skeleton. SRP FTW.
-// ii) There's lots of branches in the code to deal with an insight possibly being null -
-//      catch this early and we can rely on insight being present and the code is less complex
-// Cons - There's duplication and possible drift between real UI and Skeleton... but Skeleton only has to
-// be an approximation of the ui.
 
 const Skeleton = () => (
   <>
