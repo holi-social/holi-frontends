@@ -35,7 +35,7 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
               source={{ uri: recommendation.linkPreview.image }}
               label={recommendation.link}
               style={styles.image}
-              resizeMode="contain"
+              resizeMode="cover"
             />
             <HoliGap size="s" />
           </>
@@ -72,8 +72,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    borderRadius: 6,
-    maxWidth: '100%',
+    borderRadius: Spacing.xs,
+    width: '100%',
+    height: 160,
   },
   description: {
     paddingHorizontal: Spacing['3xs'],
