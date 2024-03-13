@@ -17,7 +17,8 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
-import { useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
+import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -32,8 +33,6 @@ logDebug('App', 'starting app with config', config)
 const App = () => {
   const [isReady, setIsReady] = useState(false)
   const [initDone, setInitDone] = useState(false)
-  const { theme } = useTheme()
-  const { colors } = theme
 
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
   if (Platform.OS !== 'web') {
@@ -82,12 +81,14 @@ const App = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={colors.background10} style="dark" />
-      <NavigationProvider>
-        <RootProvider>
-          <RootNavigator />
-        </RootProvider>
-      </NavigationProvider>
+      <StatusBar backgroundColor={colors.background10} style="light" />
+      <ThemeProvider theme={defaultHoliTheme}>
+        <NavigationProvider>
+          <RootProvider>
+            <RootNavigator />
+          </RootProvider>
+        </NavigationProvider>
+      </ThemeProvider>
     </>
   )
 }
