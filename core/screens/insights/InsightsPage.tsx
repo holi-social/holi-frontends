@@ -1,16 +1,18 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers/logError'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import InsightList, { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
@@ -19,6 +21,7 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
@@ -32,7 +35,7 @@ const InsightsList = () => {
 
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
-  const { loading, data: insights, totalResults, error } = usePaginationContext<Insight>()
+  const { loading, data: insights, totalResults } = usePaginationContext<Insight>()
 
   const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
 
@@ -46,12 +49,9 @@ const InsightsList = () => {
     })
   }, [navigate, setScreenOptions, t])
 
-  if (error) {
-    logError(error, 'Failed to load insights', { location: 'InsightsOfTheWeekList' })
-    return <></>
-  }
-
   if (!loading && !totalResults) return <></>
+
+  if (loading) return <HoliLoader style={styles.loader} />
 
   const Headline = () => {
     return (
@@ -107,16 +107,25 @@ const InsightsList = () => {
 const InsightsPage = () => {
   const mixins = useStyleMixins()
 
-  const queryOptions = {
-    queryPath: 'lastInsights',
+  const queryOptions: PaginationQueryHookOptions = {
     pageSize: INSIGHT_PAGE_SIZE,
+    queryPath: 'lastInsights',
+    onError: (error) => {
+      logError(error, 'Failed to query insights', { location: 'InsightsOfTheWeek' })
+    },
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
 
   return (
     <ScrollHeaderLayout.Default style={styles.layout}>
       <View style={styles.sections}>
         <View style={mixins.container}>
-          <Pagination query={lastInsightsQuery} queryOptions={queryOptions} loadMoreOnScroll>
+          <Pagination
+            query={lastInsightsQuery}
+            queryOptions={queryOptions}
+            loadMoreOnScroll
+            scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+          >
             <InsightsList />
           </Pagination>
         </View>
@@ -125,14 +134,9 @@ const InsightsPage = () => {
   )
 }
 
-export default withProfiler(InsightsPage, { name: 'InsightsOfTheWeek' })
+export default withProfiler(InsightsPage, { name: 'InsightsPage' })
 
 const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-    paddingHorizontal: 16,
-    paddingTop: 24,
-  },
   insightList: {
     marginTop: 24,
   },
@@ -148,9 +152,21 @@ const styles = StyleSheet.create({
   layout: {
     paddingBottom: 80,
     backgroundColor: colors.background20,
+    ...(Platform.OS === 'web' && {
+      minHeight: '100vh',
+    }),
   },
   sections: {
     gap: 32,
     marginTop: 24,
+  },
+  loader: {
+    ...(Platform.OS === 'web' && {
+      minHeight: '80vh',
+    }),
+  },
+  loaderBottom: {
+    marginBottom: 24,
+    position: 'relative',
   },
 })
