@@ -1,22 +1,22 @@
 import React, { memo } from 'react'
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
-import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { LinkM, QuoteFilledOutlined } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface QuoteCardProps {
   quote: Quote
+  quoteColor: string
   numberOfLines?: number
-  style?: ViewStyle
 }
 
 export interface SourceCardProps {
@@ -26,20 +26,13 @@ export interface SourceCardProps {
 export interface QuoteAndSourceCardProps {
   insightId: string
   quote: Quote
-  quoteCardStyle?: ViewStyle
+  quoteColor: string
 }
 
-const QuoteCard: React.FC<QuoteCardProps> = ({ quote, numberOfLines, style = {} }) => {
+const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines }) => {
   return (
-    <View style={[styles.quoteCard, style]}>
-      <HoliLocalImage
-        imageSource={require('@holi/ui/assets/img/illustrations/illustrations_quote.svg')}
-        label="Quote icon"
-        width={26}
-        height={15}
-        resizeMode="contain"
-        isSvg
-      />
+    <View style={[styles.quoteCard]} testID={'quote-card-quote'}>
+      <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
       <HoliGap size="s" />
       <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
       <HoliGap size="xs" />
@@ -51,8 +44,10 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, numberOfLines, style = {} 
 }
 
 const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
+  const linkHost = new URL(quote.link).host.replace(/^(www.)/, '')
+
   return (
-    <View style={styles.sourceCard}>
+    <View style={styles.sourceCard} testID={'quote-card-source'}>
       {!!quote.linkPreview.image && (
         <View style={styles.linkPreviewImageContainer}>
           <HoliImage
@@ -69,18 +64,35 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
             {quote.linkPreview.title}
           </HoliHeading>
         </View>
-        <LinkInfo link={quote.link} icon={quote.linkPreview.icon} size="sm" color="gray300" />
+        <View style={styles.linkPreviewSourceLineContainer}>
+          {!!quote.linkPreview.icon && (
+            <View style={styles.linkPreviewFavicon}>
+              <HoliImage
+                source={{ uri: quote.linkPreview.icon }}
+                label={quote.linkPreview.title}
+                style={{ width: 18, height: 18 }}
+              />
+            </View>
+          )}
+          {!quote.linkPreview.icon && (
+            <View style={[styles.linkPreviewFavicon, styles.linkPreviewDefaultIcon]}>
+              <HoliIcon icon={LinkM} size={18} color={colors.brandB300} />
+            </View>
+          )}
+          <HoliText size="extrasmall" color="gray300" numberOfLines={1}>
+            {linkHost}
+          </HoliText>
+        </View>
       </View>
     </View>
   )
 }
 
-const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteCardStyle = {} }) => {
+const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteColor }) => {
   const { navigate } = useRouting()
-
   return (
     <Pressable style={styles.card} onPress={() => navigate(`/insights/${insightId}/quotes/${quote.id}`)}>
-      <QuoteCard quote={quote} numberOfLines={5} style={quoteCardStyle} />
+      <QuoteCard quote={quote} quoteColor={quoteColor} numberOfLines={5} />
       <HoliGap size="xs" />
       <SourceCard quote={quote} />
     </Pressable>
@@ -129,5 +141,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     gap: Spacing['4xs'],
+  },
+  linkPreviewSourceLineContainer: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    gap: Spacing['3xs'],
+  },
+  linkPreviewFavicon: {
+    height: 24,
+    width: 24,
+    borderRadius: 4,
+    backgroundColor: colors.white200,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  linkPreviewDefaultIcon: {
+    backgroundColor: colors.brandB100,
   },
 })

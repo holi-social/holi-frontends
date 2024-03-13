@@ -10,13 +10,22 @@ export interface QuotesCarouselProps {
   quotes: Quote[]
 }
 
+export const quoteIconColors = ['#FCFE8C', '#BEFC94', '#A3DAFC']
+
 const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes }) => {
   return (
     <HoliCarousel
       hideDotIndicators
       marginHorizontal={Spacing.xs}
-      slides={quotes.map((quote) => ({
-        children: <QuoteCard.QuoteAndSource quote={quote} insightId={insightId} />,
+      slides={quotes.map((quote, index) => ({
+        children: (
+          <QuoteCard.QuoteAndSource
+            quote={quote}
+            // use one of the three colors sequentially
+            quoteColor={quoteIconColors[index % 3]}
+            insightId={insightId}
+          />
+        ),
       }))}
     />
   )
