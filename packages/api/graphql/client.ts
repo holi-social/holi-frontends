@@ -8,7 +8,7 @@ import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 import { holiApiUrl } from '@holi/api/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
 
-import { alwaysReplacePolicy, keyArgsWithoutLimitAndOffset, pagedPolicy } from './cachePolicies'
+import { alwaysReplacePolicy, pagedPolicy } from './cachePolicies'
 import errorLink from './errorLink'
 import headerLink from './headerLink'
 
@@ -80,9 +80,6 @@ export const createCache = () =>
           sdgs: alwaysReplacePolicy,
         },
       },
-      InsightPaged: pagedPolicy(),
-      AppDonations_ProjectsResponse: pagedPolicy(),
-      AppVolunteering_EngagementsResponse: pagedPolicy(),
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
@@ -106,42 +103,29 @@ export const createCache = () =>
           invites: pagedPolicy(),
         },
       },
-      SpacePaged: pagedPolicy(),
-      SpaceMemberPaged: pagedPolicy(),
-      SpaceMembershipRequestPaged: pagedPolicy(),
-      SpaceInvitesPaged: pagedPolicy(),
-      UserPaged: pagedPolicy(),
-      PostPaged: pagedPolicy(),
-      AppointmentPaged: pagedPolicy(),
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
-          appointments: {
-            keyArgs: keyArgsWithoutLimitAndOffset,
-          },
-          lastInsights: {
-            keyArgs: keyArgsWithoutLimitAndOffset,
-          },
-          appDonations_projects: {
-            keyArgs: keyArgsWithoutLimitAndOffset,
-          },
+          appointments: pagedPolicy(),
+          lastInsights: pagedPolicy(),
+          appDonations_projects: pagedPolicy(),
           appGoodNews_articles: {
             keyArgs: [],
           },
-          appVolunteering_engagementOpportunities: {
+          appVolunteering_engagementOpportunities: pagedPolicy(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            keyArgs: (args: Record<string, any> | null) => {
+            (args: Record<string, any> | null) => {
               const { location, category } = args || {}
               return JSON.stringify({
                 location: location?.geolocation?.properties?.place_id,
                 category,
               })
-            },
-          },
-          spaces: {
+            }
+          ),
+          spaces: pagedPolicy(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            keyArgs: (args: Record<string, any> | null) => {
+            (args: Record<string, any> | null) => {
               // reminder: keep in sync with parameters of `spaces` in `Query`, always exclude offset and limit
               const { topicSlug, geolocation, skillSlugs, memberId } = args || {}
               return JSON.stringify({
@@ -150,8 +134,8 @@ export const createCache = () =>
                 skillSlugs,
                 memberId,
               })
-            },
-          },
+            }
+          ),
           discoverSpaces: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             keyArgs: (args: Record<string, any> | null) => {
@@ -164,18 +148,10 @@ export const createCache = () =>
               })
             },
           },
-          userByName: {
-            keyArgs: ['substring'],
-          },
-          spacesByName: {
-            keyArgs: ['substring'],
-          },
-          connectedUsers: {
-            keyArgs: [],
-          },
-          inspirationPosts: {
-            keyArgs: keyArgsWithoutLimitAndOffset,
-          },
+          userByName: pagedPolicy(),
+          spacesByName: pagedPolicy(),
+          connectedUsers: pagedPolicy(),
+          inspirationPosts: pagedPolicy(),
         },
       },
     },
