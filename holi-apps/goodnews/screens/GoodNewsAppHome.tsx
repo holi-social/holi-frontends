@@ -22,17 +22,17 @@ const GoodNewsAppHome = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
-      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerTitle: () => <GoodNewsHeader />,
+      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
-      headerTintColor: colors.background10,
+      headerTintColor: colors.light,
       navigationCustomOptions: {
         headerBackgroundGradient: true,
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t, colors.background10])
+  }, [setScreenOptions, t, colors.light])
 
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.APPS_GOODNEWS} featureNameKey="goodnews:maintenance.feature">

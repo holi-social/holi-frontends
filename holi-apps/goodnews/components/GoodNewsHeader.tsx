@@ -8,23 +8,23 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { getCommonStyles } from '@holi-apps/goodnews/common_styles'
 
 export type GoodNewsHeaderProps = {
-  tintColor?: string
   formattedDate?: string | undefined
 }
 
-const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ formattedDate = undefined, ...props }) => {
+const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ formattedDate = undefined }) => {
   const { t } = useTranslation()
   const title = t('goodnews:app.name')
   const { theme } = useTheme()
+  const { colors } = theme
   const commonStyles = useMemo(() => getCommonStyles(theme), [theme])
 
   return (
     <View>
-      <HoliText style={[commonStyles.headerTextShadow, { color: props.tintColor }]}>{title}</HoliText>
+      <HoliText style={[commonStyles.headerTextShadow, { color: colors.light }]}>{title}</HoliText>
       {formattedDate && (
         <HoliText
           size="extrasmall"
-          style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}
+          style={[commonStyles.headerTextShadow, { color: colors.light, alignSelf: 'center' }]}
           testID="goodnews-header-date"
         >
           {formattedDate}

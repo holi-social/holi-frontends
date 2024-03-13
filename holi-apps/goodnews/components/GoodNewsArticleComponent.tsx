@@ -143,7 +143,7 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: theme.colors.foreground30,
     },
     pictureCredit: {
-      color: theme.colors.background10,
+      color: theme.colors.light,
       paddingBottom: 8,
       paddingRight: 16,
       alignSelf: 'flex-end',

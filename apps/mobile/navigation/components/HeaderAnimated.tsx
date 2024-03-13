@@ -101,7 +101,7 @@ const HeaderAnimated = ({ back, options, route, navigation }: NativeStackHeaderP
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
             {headerBackgroundGradient && (
-              <LinearGradient colors={[colors.foreground30, 'transparent']} style={StyleSheet.absoluteFill} />
+              <LinearGradient colors={[colors.dark, 'transparent']} style={StyleSheet.absoluteFill} />
             )}
           </>
         )}

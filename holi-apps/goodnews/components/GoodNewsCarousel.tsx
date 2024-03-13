@@ -78,19 +78,19 @@ const GoodNewsCarousel = () => {
 
   useEffect(() => {
     setScreenOptions({
-      headerTitle: ({ tintColor }) => {
-        return <GoodNewsHeader tintColor={tintColor} formattedDate={activeArticleFormattedDate} />
+      headerTitle: () => {
+        return <GoodNewsHeader formattedDate={activeArticleFormattedDate} />
       },
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
-      headerTintColor: colors.background10,
+      headerTintColor: colors.light,
       navigationCustomOptions: {
         headerBackgroundGradient: true,
         footerShown: false,
       },
-      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
     })
-  }, [activeArticleFormattedDate, setScreenOptions, colors.background10])
+  }, [activeArticleFormattedDate, setScreenOptions, colors.light])
 
   useEffect(() => {
     if (paramArticleId) {
