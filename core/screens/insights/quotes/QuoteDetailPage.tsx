@@ -110,7 +110,7 @@ const QuoteDetailPage = () => {
               </View>
 
               <HoliGap size="s" />
-              <QuoteCard.QuoteOnly quote={quote} style={{ height: 'auto' }} />
+              <QuoteCard.QuoteOnly quote={quote} />
               <HoliGap size="s" />
               <HoliText>{quote.comment}</HoliText>
             </View>
