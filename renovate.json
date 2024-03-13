@@ -6,5 +6,30 @@
   ],
   "configMigration": true,
   "prConcurrentLimit": 5,
-  "osvVulnerabilityAlerts": true
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "matchSourceUrls": [
+        "https://github.com/expo/expo"
+      ],
+      "matchPackagePatterns": [
+        "^@react-native", 
+        "^react-native"
+      ],
+      "matchPackageNames": [
+        "@expo/vector-icons", 
+        "@stripe/stripe-react-native", 
+        "jest-expo", 
+        "lottie-react-native",
+        "react",
+        "react-dom",
+        "sentry-expo",
+        "@shopify/react-native-skia",
+        "@shopify/flash-list",
+        "@sentry/react-native"
+      ],
+      "groupName": "Expo managed dependencies",
+      "enabled": false
+    }
+  ]
 }
