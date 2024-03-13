@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -17,6 +17,7 @@ import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
@@ -38,8 +39,16 @@ const BottomTabsNavigator = () => {
       screenOptions={{
         tabBarShowLabel: true,
         tabBarStyle: {
+          ...Platform.select({
+            ios: {
+              height: parseInt(dimensions.bottomBarMobile),
+            },
+            android: {
+              height: parseInt(dimensions.bottomBarHeight),
+            },
+          }),
+          paddingTop: 6,
           backgroundColor: colors.background10,
-          paddingHorizontal: 0,
           borderTopWidth: StyleSheet.hairlineWidth,
           borderTopColor: colors.foreground20,
         },

@@ -3,6 +3,7 @@ export default {
   maxButtonWidth: '400',
   topBarHeight: '52',
   bottomBarHeight: '62',
+  bottomBarMobile: '92',
   loaderHeight: '66',
   breakpointXs: '375',
   breakpointS: '576',
