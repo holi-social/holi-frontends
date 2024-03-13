@@ -61,6 +61,9 @@ it('should create listeners for all existing rooms - createRoomsListeners', () =
 })
 
 it('should create listeners for all existing and incoming rooms - createRoomsListeners', () => {
+  // gregor: not sure why we need it for this test, but it appears to fix things
+  jest.restoreAllMocks()
+
   const Room = createRoomMock()
   const MatrixClient = createMxClientMock()
 

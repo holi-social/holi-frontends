@@ -10,11 +10,9 @@ describe('SpaceWelcome', () => {
 
     const image = getByRole('image')
     expect(image.props).toMatchObject({
-      source: [
-        {
-          uri: 'https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace-cover.jpg',
-        },
-      ],
+      source: {
+        uri: 'https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace-cover.jpg',
+      },
     })
     expect(getByText('Space description')).toBeDefined()
   })

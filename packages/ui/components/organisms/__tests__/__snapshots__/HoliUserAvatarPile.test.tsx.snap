@@ -44,41 +44,26 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     }
     testID="pile-avatar"
   >
-    <ViewManagerAdapter_ExpoImage
+    <Image
       accessibilityRole="image"
       accessible={true}
       aria-label="Dima Rosmait"
       contentFit="cover"
-      contentPosition={
-        {
-          "left": "50%",
-          "top": "50%",
-        }
-      }
-      height="100%"
-      onError={[Function]}
-      onLoad={[Function]}
-      onLoadStart={[Function]}
-      onProgress={[Function]}
-      placeholder={[]}
       role="img"
       source={
-        [
-          {
-            "height": 24,
-            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-1",
-            "width": 24,
-          },
-        ]
+        {
+          "height": 24,
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-1",
+          "width": 24,
+        }
       }
       style={
         {
           "height": "100%",
+          "resizeMode": "contain",
           "width": "100%",
         }
       }
-      transition={null}
-      width="100%"
     />
   </View>
   <View
@@ -163,41 +148,26 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     }
     testID="pile-avatar"
   >
-    <ViewManagerAdapter_ExpoImage
+    <Image
       accessibilityRole="image"
       accessible={true}
       aria-label="Thomas Mueller"
       contentFit="cover"
-      contentPosition={
-        {
-          "left": "50%",
-          "top": "50%",
-        }
-      }
-      height="100%"
-      onError={[Function]}
-      onLoad={[Function]}
-      onLoadStart={[Function]}
-      onProgress={[Function]}
-      placeholder={[]}
       role="img"
       source={
-        [
-          {
-            "height": 24,
-            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-2",
-            "width": 24,
-          },
-        ]
+        {
+          "height": 24,
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-2",
+          "width": 24,
+        }
       }
       style={
         {
           "height": "100%",
+          "resizeMode": "contain",
           "width": "100%",
         }
       }
-      transition={null}
-      width="100%"
     />
   </View>
   <View
@@ -282,41 +252,26 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     }
     testID="pile-avatar"
   >
-    <ViewManagerAdapter_ExpoImage
+    <Image
       accessibilityRole="image"
       accessible={true}
       aria-label="Peter Pan"
       contentFit="cover"
-      contentPosition={
-        {
-          "left": "50%",
-          "top": "50%",
-        }
-      }
-      height="100%"
-      onError={[Function]}
-      onLoad={[Function]}
-      onLoadStart={[Function]}
-      onProgress={[Function]}
-      placeholder={[]}
       role="img"
       source={
-        [
-          {
-            "height": 24,
-            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-3",
-            "width": 24,
-          },
-        ]
+        {
+          "height": 24,
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-3",
+          "width": 24,
+        }
       }
       style={
         {
           "height": "100%",
+          "resizeMode": "contain",
           "width": "100%",
         }
       }
-      transition={null}
-      width="100%"
     />
   </View>
 </View>

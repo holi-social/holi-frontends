@@ -1,7 +1,7 @@
 import { ImageSource } from 'expo-image'
 import React from 'react'
 import { AccessibilityProps, Image, ImageRequireSource, ImageSourcePropType, ImageURISource } from 'react-native'
-import { WithLocalSvg } from 'react-native-svg'
+import { WithLocalSvg } from 'react-native-svg/css'
 
 import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 

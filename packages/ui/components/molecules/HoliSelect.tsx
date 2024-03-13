@@ -287,6 +287,7 @@ const HoliSelect = ({
           role="menu"
           keyboardShouldPersistTaps="always"
           persistentScrollbar={true}
+          scrollEventThrottle={50}
           aria-label={t('multiselect.options')}
           accessibilityState={{ expanded: true }}
           onMomentumScrollBegin={setIsScrolling(true)}

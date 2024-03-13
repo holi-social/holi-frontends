@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 
-import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
 import CenteredImageHeadlineDescriptionLayout, {
   CenteredImageHeadlineDescriptionLayoutProps,
 } from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
@@ -13,6 +12,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,

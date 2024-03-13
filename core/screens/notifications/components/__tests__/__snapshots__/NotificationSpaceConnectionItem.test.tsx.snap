@@ -98,41 +98,26 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             }
             testID="space-avatar"
           >
-            <ViewManagerAdapter_ExpoImage
+            <Image
               accessibilityRole="image"
               accessible={true}
               aria-label="Foo"
               contentFit="cover"
-              contentPosition={
-                {
-                  "left": "50%",
-                  "top": "50%",
-                }
-              }
-              height="100%"
-              onError={[Function]}
-              onLoad={[Function]}
-              onLoadStart={[Function]}
-              onProgress={[Function]}
-              placeholder={[]}
               role="img"
               source={
-                [
-                  {
-                    "height": 40,
-                    "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
-                    "width": 40,
-                  },
-                ]
+                {
+                  "height": 40,
+                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                  "width": 40,
+                }
               }
               style={
                 {
                   "height": "100%",
+                  "resizeMode": "contain",
                   "width": "100%",
                 }
               }
-              transition={null}
-              width="100%"
             />
           </View>
         </View>
@@ -565,41 +550,26 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
             }
             testID="space-avatar"
           >
-            <ViewManagerAdapter_ExpoImage
+            <Image
               accessibilityRole="image"
               accessible={true}
               aria-label="Foo"
               contentFit="cover"
-              contentPosition={
-                {
-                  "left": "50%",
-                  "top": "50%",
-                }
-              }
-              height="100%"
-              onError={[Function]}
-              onLoad={[Function]}
-              onLoadStart={[Function]}
-              onProgress={[Function]}
-              placeholder={[]}
               role="img"
               source={
-                [
-                  {
-                    "height": 40,
-                    "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
-                    "width": 40,
-                  },
-                ]
+                {
+                  "height": 40,
+                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                  "width": 40,
+                }
               }
               style={
                 {
                   "height": "100%",
+                  "resizeMode": "contain",
                   "width": "100%",
                 }
               }
-              transition={null}
-              width="100%"
             />
           </View>
         </View>

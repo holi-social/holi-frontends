@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { ApiService } from '@novu/client'
 import { renderHook, waitFor } from '@testing-library/react-native'
 
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
@@ -17,13 +16,6 @@ jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 
-jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
-  useFeatureToggle: () => mockUseFeatureToggle(),
-  FeatureToggleName: {
-    NOTIFICATIONS: 'NOTIFICATIONS',
-  },
-}))
-
 jest.mock('@holi/core/screens/notifications/hooks/useNovuCredentials', () => ({
   useNovuCredentials: () => ({
     hmacHash: 'someHmacHash',
@@ -31,7 +23,12 @@ jest.mock('@holi/core/screens/notifications/hooks/useNovuCredentials', () => ({
   }),
 }))
 
-jest.mock('@novu/client')
+jest.mock('@novu/client', () => ({
+  ApiService: () => ({
+    initializeSession: mockInitializeSession,
+    setAuthorizationToken: mockSetAuthorizationToken,
+  }),
+}))
 
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
@@ -44,11 +41,6 @@ describe('useNotificationService', () => {
     mockUseLoggedInUser.mockReturnValue({ user: { id: subscriberId } })
     mockUseFeatureToggle.mockReturnValue({ ftEnabled: true })
     mockInitializeSession.mockResolvedValue({ token: 'someToken' })
-    // @ts-ignore
-    jest.mocked(ApiService).mockImplementation(() => ({
-      initializeSession: mockInitializeSession,
-      setAuthorizationToken: mockSetAuthorizationToken,
-    }))
   })
 
   it('should expose loading flag while initializing', async () => {
@@ -78,19 +70,7 @@ describe('useNotificationService', () => {
     mockUseLoggedInUser.mockReturnValue({})
     const { result } = renderHook(() => useNotificationService())
 
-    expect(ApiService).not.toHaveBeenCalled()
     expect(mockInitializeSession).not.toHaveBeenCalled()
     expect(result.current.isInitializing).toBeFalsy()
-  })
-
-  it('should not initialize the novu service and session if the feature toggle is disabled', () => {
-    mockUseFeatureToggle.mockReturnValue({ ftEnabled: false })
-    const { result } = renderHook(() => useNotificationService())
-
-    waitFor(() => {
-      expect(ApiService).not.toHaveBeenCalled()
-      expect(mockInitializeSession).not.toHaveBeenCalled()
-      expect(result.current.isInitializing).toBeFalsy()
-    })
   })
 })

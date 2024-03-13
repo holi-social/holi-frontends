@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { cleanup, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { act } from 'react-test-renderer'
@@ -117,8 +117,4 @@ describe('PaginationContext', () => {
     // The button to fetch more should be hidden now
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
   })
-
-  // solve act() wrap warning
-  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
-  afterEach(cleanup)
 })

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "*": ["node_modules/@types/*"],
       "@holi/mobile/*": ["apps/mobile/*"],
       "@holi/storybook/*": ["apps/storybook/*"],
       "@holi/web/*": ["apps/web/*"],

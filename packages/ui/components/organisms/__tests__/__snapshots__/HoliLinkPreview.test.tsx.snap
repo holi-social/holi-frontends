@@ -49,31 +49,16 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         ]
       }
     >
-      <ViewManagerAdapter_ExpoImage
+      <Image
         accessibilityRole="image"
         accessible={true}
         aria-label="Donate to animals on betterplace.org"
-        aspectRatio={1.9536423841059603}
-        backgroundColor={4293651435}
         contentFit="cover"
-        contentPosition={
-          {
-            "left": "50%",
-            "top": "50%",
-          }
-        }
-        onError={[Function]}
-        onLoad={[Function]}
-        onLoadStart={[Function]}
-        onProgress={[Function]}
-        placeholder={[]}
         role="img"
         source={
-          [
-            {
-              "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fbetterplace-assets.betterplace.org%2Fuploads%2Fhomepage%2Fhomepage%2Fhero_image_desktop%2F000%2F000%2F001%2Fcc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
-            },
-          ]
+          {
+            "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fbetterplace-assets.betterplace.org%2Fuploads%2Fhomepage%2Fhomepage%2Fhero_image_desktop%2F000%2F000%2F001%2Fcc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
+          }
         }
         style={
           {
@@ -83,8 +68,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           }
         }
         testID="link-preview-image"
-        transition={null}
-        width="100%"
       />
       <View
         style={

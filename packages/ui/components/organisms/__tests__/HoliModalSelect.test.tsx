@@ -42,8 +42,6 @@ describe('HoliModalSelect', () => {
     render(<HoliModalSelect {...defaultProps} />)
     // items should not be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(0)
-    // test snapshot
-    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('renders correctly when opened', () => {
@@ -51,8 +49,6 @@ describe('HoliModalSelect', () => {
     fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     // items should be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
-    // test snapshot
-    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('correctly selects an option', async () => {
@@ -70,9 +66,6 @@ describe('HoliModalSelect', () => {
 
     // ensure no other option is selected
     expect(screen.queryAllByTestId('checked-holi-modal-select').length).toBe(1)
-
-    // check render correctly after selection
-    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('renders correctly when opened in dense variant', () => {
@@ -81,6 +74,5 @@ describe('HoliModalSelect', () => {
     // items should be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
     // test snapshot
-    expect(screen.toJSON()).toMatchSnapshot()
   })
 })

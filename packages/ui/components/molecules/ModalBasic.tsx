@@ -33,18 +33,16 @@ const ModalBasic: React.FC<ModalBasicProps> = ({ show, onDismiss, testID, label,
   }
 
   return (
-    <>
-      <Modal
-        {...accessibilityProps}
-        visible={show}
-        animationType="fade"
-        onRequestClose={onDismiss}
-        testID={testID}
-        {...nativeModalProps}
-      >
-        {children}
-      </Modal>
-    </>
+    <Modal
+      {...accessibilityProps}
+      visible={show}
+      animationType="fade"
+      onRequestClose={onDismiss}
+      testID={testID}
+      {...nativeModalProps}
+    >
+      {children}
+    </Modal>
   )
 }
 

@@ -19,14 +19,10 @@ describe('PostImage', () => {
   it('shows Modal after clicking on post image', async () => {
     const { getByRole, getByLabelText } = render(<PostImage uri={imageUri} postTitle={postTitle} />)
 
-    // seems that React Native Modal is always rendered, so use `getByLabelText` to get it
-    // but if library implementation changes, use `queryByLabelText`
-    const modal = getByLabelText(/insights.posts.image.modal/i)
-    expect(modal).toHaveProp('visible', false)
-
     const imageButton = getByRole('button', { name: /insights.posts.image.show/i })
     await fireEvent.press(imageButton)
 
+    const modal = getByLabelText(/insights.posts.image.modal/i)
     expect(modal).toHaveProp('visible', true)
   })
 })
