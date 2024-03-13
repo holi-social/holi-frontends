@@ -17,6 +17,7 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
+import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -80,11 +81,13 @@ const App = () => {
   return (
     <>
       <StatusBar style="inverted" />
-      <NavigationProvider>
-        <RootProvider>
-          <RootNavigator />
-        </RootProvider>
-      </NavigationProvider>
+      <ThemeProvider theme={defaultHoliTheme}>
+        <NavigationProvider>
+          <RootProvider>
+            <RootNavigator />
+          </RootProvider>
+        </NavigationProvider>
+      </ThemeProvider>
     </>
   )
 }
