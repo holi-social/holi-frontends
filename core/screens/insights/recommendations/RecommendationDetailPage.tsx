@@ -66,6 +66,7 @@ const RecommendationDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.recommendations.title'),
+      headerTransparent: false,
     })
   }, [t, setScreenOptions])
 
@@ -200,10 +201,11 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: '100%',
-    position: 'fixed',
     padding: Spacing.xxs,
+    position: 'absolute',
+    bottom: Spacing.xs,
     ...Platform.select({
-      web: { bottom: dimensions.bottomBarHeight + 16 },
+      web: { position: 'fixed', bottom: dimensions.bottomBarHeight + Spacing.xs },
     }),
   },
   linkButton: {
