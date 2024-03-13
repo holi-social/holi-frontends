@@ -171,6 +171,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                                 "pointerEvents": "none",
                               }
                             }
+                            testID="tab-button-tab"
                           >
                             <Text
                               accessible={false}
@@ -261,6 +262,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                                 "pointerEvents": "none",
                               }
                             }
+                            testID="tab-button-tab"
                           >
                             <Text
                               accessible={false}
@@ -351,6 +353,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                                 "pointerEvents": "none",
                               }
                             }
+                            testID="tab-button-tab"
                           >
                             <Text
                               accessible={false}
@@ -544,48 +547,28 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               ]
                             }
                           >
-                            <ViewManagerAdapter_ExpoImage
+                            <Image
                               accessibilityRole="image"
                               accessible={true}
                               aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
-                              contentPosition={
-                                {
-                                  "left": "50%",
-                                  "top": "50%",
-                                }
-                              }
-                              height="100%"
-                              onError={[Function]}
-                              onLoad={[Function]}
-                              onLoadStart={[Function]}
-                              onProgress={[Function]}
-                              placeholder={
-                                [
-                                  {
-                                    "uri": "",
-                                  },
-                                ]
-                              }
+                              placeholder=""
                               role="img"
                               source={
-                                [
-                                  {
-                                    "height": 40,
-                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                    "width": 40,
-                                  },
-                                ]
+                                {
+                                  "height": 40,
+                                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                  "width": 40,
+                                }
                               }
                               style={
                                 {
                                   "height": "100%",
+                                  "resizeMode": "contain",
                                   "width": "100%",
                                 }
                               }
-                              transition={null}
-                              width="100%"
                             />
                           </View>
                           <View
@@ -703,48 +686,28 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               ]
                             }
                           >
-                            <ViewManagerAdapter_ExpoImage
+                            <Image
                               accessibilityRole="image"
                               accessible={true}
                               aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
-                              contentPosition={
-                                {
-                                  "left": "50%",
-                                  "top": "50%",
-                                }
-                              }
-                              height="100%"
-                              onError={[Function]}
-                              onLoad={[Function]}
-                              onLoadStart={[Function]}
-                              onProgress={[Function]}
-                              placeholder={
-                                [
-                                  {
-                                    "uri": "",
-                                  },
-                                ]
-                              }
+                              placeholder=""
                               role="img"
                               source={
-                                [
-                                  {
-                                    "height": 40,
-                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                    "width": 40,
-                                  },
-                                ]
+                                {
+                                  "height": 40,
+                                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                  "width": 40,
+                                }
                               }
                               style={
                                 {
                                   "height": "100%",
+                                  "resizeMode": "contain",
                                   "width": "100%",
                                 }
                               }
-                              transition={null}
-                              width="100%"
                             />
                           </View>
                           <View
@@ -862,48 +825,28 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               ]
                             }
                           >
-                            <ViewManagerAdapter_ExpoImage
+                            <Image
                               accessibilityRole="image"
                               accessible={true}
                               aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
-                              contentPosition={
-                                {
-                                  "left": "50%",
-                                  "top": "50%",
-                                }
-                              }
-                              height="100%"
-                              onError={[Function]}
-                              onLoad={[Function]}
-                              onLoadStart={[Function]}
-                              onProgress={[Function]}
-                              placeholder={
-                                [
-                                  {
-                                    "uri": "",
-                                  },
-                                ]
-                              }
+                              placeholder=""
                               role="img"
                               source={
-                                [
-                                  {
-                                    "height": 40,
-                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                    "width": 40,
-                                  },
-                                ]
+                                {
+                                  "height": 40,
+                                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                  "width": 40,
+                                }
                               }
                               style={
                                 {
                                   "height": "100%",
+                                  "resizeMode": "contain",
                                   "width": "100%",
                                 }
                               }
-                              transition={null}
-                              width="100%"
                             />
                           </View>
                           <View
@@ -1536,6 +1479,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 "pointerEvents": "none",
                               }
                             }
+                            testID="tab-button-tab"
                           >
                             <Text
                               accessible={false}
@@ -1628,6 +1572,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 "pointerEvents": "none",
                               }
                             }
+                            testID="tab-button-tab"
                           >
                             <Text
                               accessible={false}
@@ -1718,6 +1663,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 "pointerEvents": "none",
                               }
                             }
+                            testID="tab-button-tab"
                           >
                             <Text
                               accessible={false}
@@ -1911,48 +1857,28 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               ]
                             }
                           >
-                            <ViewManagerAdapter_ExpoImage
+                            <Image
                               accessibilityRole="image"
                               accessible={true}
                               aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
-                              contentPosition={
-                                {
-                                  "left": "50%",
-                                  "top": "50%",
-                                }
-                              }
-                              height="100%"
-                              onError={[Function]}
-                              onLoad={[Function]}
-                              onLoadStart={[Function]}
-                              onProgress={[Function]}
-                              placeholder={
-                                [
-                                  {
-                                    "uri": "",
-                                  },
-                                ]
-                              }
+                              placeholder=""
                               role="img"
                               source={
-                                [
-                                  {
-                                    "height": 40,
-                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                    "width": 40,
-                                  },
-                                ]
+                                {
+                                  "height": 40,
+                                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                  "width": 40,
+                                }
                               }
                               style={
                                 {
                                   "height": "100%",
+                                  "resizeMode": "contain",
                                   "width": "100%",
                                 }
                               }
-                              transition={null}
-                              width="100%"
                             />
                           </View>
                           <View
@@ -2070,48 +1996,28 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               ]
                             }
                           >
-                            <ViewManagerAdapter_ExpoImage
+                            <Image
                               accessibilityRole="image"
                               accessible={true}
                               aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
-                              contentPosition={
-                                {
-                                  "left": "50%",
-                                  "top": "50%",
-                                }
-                              }
-                              height="100%"
-                              onError={[Function]}
-                              onLoad={[Function]}
-                              onLoadStart={[Function]}
-                              onProgress={[Function]}
-                              placeholder={
-                                [
-                                  {
-                                    "uri": "",
-                                  },
-                                ]
-                              }
+                              placeholder=""
                               role="img"
                               source={
-                                [
-                                  {
-                                    "height": 40,
-                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                    "width": 40,
-                                  },
-                                ]
+                                {
+                                  "height": 40,
+                                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                  "width": 40,
+                                }
                               }
                               style={
                                 {
                                   "height": "100%",
+                                  "resizeMode": "contain",
                                   "width": "100%",
                                 }
                               }
-                              transition={null}
-                              width="100%"
                             />
                           </View>
                           <View
@@ -2229,48 +2135,28 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                               ]
                             }
                           >
-                            <ViewManagerAdapter_ExpoImage
+                            <Image
                               accessibilityRole="image"
                               accessible={true}
                               aria-hidden={true}
                               aria-label="Some Body"
                               contentFit="cover"
-                              contentPosition={
-                                {
-                                  "left": "50%",
-                                  "top": "50%",
-                                }
-                              }
-                              height="100%"
-                              onError={[Function]}
-                              onLoad={[Function]}
-                              onLoadStart={[Function]}
-                              onProgress={[Function]}
-                              placeholder={
-                                [
-                                  {
-                                    "uri": "",
-                                  },
-                                ]
-                              }
+                              placeholder=""
                               role="img"
                               source={
-                                [
-                                  {
-                                    "height": 40,
-                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                    "width": 40,
-                                  },
-                                ]
+                                {
+                                  "height": 40,
+                                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                  "width": 40,
+                                }
                               }
                               style={
                                 {
                                   "height": "100%",
+                                  "resizeMode": "contain",
                                   "width": "100%",
                                 }
                               }
-                              transition={null}
-                              width="100%"
                             />
                           </View>
                           <View
@@ -2436,47 +2322,27 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 ]
                               }
                             >
-                              <ViewManagerAdapter_ExpoImage
+                              <Image
                                 accessibilityRole="image"
                                 accessible={true}
                                 aria-label="Some Body"
                                 contentFit="cover"
-                                contentPosition={
-                                  {
-                                    "left": "50%",
-                                    "top": "50%",
-                                  }
-                                }
-                                height="100%"
-                                onError={[Function]}
-                                onLoad={[Function]}
-                                onLoadStart={[Function]}
-                                onProgress={[Function]}
-                                placeholder={
-                                  [
-                                    {
-                                      "uri": "",
-                                    },
-                                  ]
-                                }
+                                placeholder=""
                                 role="img"
                                 source={
-                                  [
-                                    {
-                                      "height": 40,
-                                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                      "width": 40,
-                                    },
-                                  ]
+                                  {
+                                    "height": 40,
+                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                    "width": 40,
+                                  }
                                 }
                                 style={
                                   {
                                     "height": "100%",
+                                    "resizeMode": "contain",
                                     "width": "100%",
                                   }
                                 }
-                                transition={null}
-                                width="100%"
                               />
                             </View>
                             <View
@@ -2854,16 +2720,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             </View>
                           </View>
                         </View>
-                        <Modal
-                          accessibilityLabel="spaces.collaborators.permissions.label"
-                          accessibilityViewIsModal={true}
-                          animationType="fade"
-                          hardwareAccelerated={false}
-                          onRequestClose={[Function]}
-                          testID="space-collaborators-permissions-modal"
-                          transparent={true}
-                          visible={false}
-                        />
                       </View>
                       <View
                         style={
@@ -2957,47 +2813,27 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 ]
                               }
                             >
-                              <ViewManagerAdapter_ExpoImage
+                              <Image
                                 accessibilityRole="image"
                                 accessible={true}
                                 aria-label="Some Body"
                                 contentFit="cover"
-                                contentPosition={
-                                  {
-                                    "left": "50%",
-                                    "top": "50%",
-                                  }
-                                }
-                                height="100%"
-                                onError={[Function]}
-                                onLoad={[Function]}
-                                onLoadStart={[Function]}
-                                onProgress={[Function]}
-                                placeholder={
-                                  [
-                                    {
-                                      "uri": "",
-                                    },
-                                  ]
-                                }
+                                placeholder=""
                                 role="img"
                                 source={
-                                  [
-                                    {
-                                      "height": 40,
-                                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                      "width": 40,
-                                    },
-                                  ]
+                                  {
+                                    "height": 40,
+                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                    "width": 40,
+                                  }
                                 }
                                 style={
                                   {
                                     "height": "100%",
+                                    "resizeMode": "contain",
                                     "width": "100%",
                                   }
                                 }
-                                transition={null}
-                                width="100%"
                               />
                             </View>
                             <View
@@ -3375,16 +3211,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             </View>
                           </View>
                         </View>
-                        <Modal
-                          accessibilityLabel="spaces.collaborators.permissions.label"
-                          accessibilityViewIsModal={true}
-                          animationType="fade"
-                          hardwareAccelerated={false}
-                          onRequestClose={[Function]}
-                          testID="space-collaborators-permissions-modal"
-                          transparent={true}
-                          visible={false}
-                        />
                       </View>
                       <View
                         style={
@@ -3478,47 +3304,27 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 ]
                               }
                             >
-                              <ViewManagerAdapter_ExpoImage
+                              <Image
                                 accessibilityRole="image"
                                 accessible={true}
                                 aria-label="Some Body"
                                 contentFit="cover"
-                                contentPosition={
-                                  {
-                                    "left": "50%",
-                                    "top": "50%",
-                                  }
-                                }
-                                height="100%"
-                                onError={[Function]}
-                                onLoad={[Function]}
-                                onLoadStart={[Function]}
-                                onProgress={[Function]}
-                                placeholder={
-                                  [
-                                    {
-                                      "uri": "",
-                                    },
-                                  ]
-                                }
+                                placeholder=""
                                 role="img"
                                 source={
-                                  [
-                                    {
-                                      "height": 40,
-                                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                      "width": 40,
-                                    },
-                                  ]
+                                  {
+                                    "height": 40,
+                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                    "width": 40,
+                                  }
                                 }
                                 style={
                                   {
                                     "height": "100%",
+                                    "resizeMode": "contain",
                                     "width": "100%",
                                   }
                                 }
-                                transition={null}
-                                width="100%"
                               />
                             </View>
                             <View
@@ -3896,16 +3702,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             </View>
                           </View>
                         </View>
-                        <Modal
-                          accessibilityLabel="spaces.collaborators.permissions.label"
-                          accessibilityViewIsModal={true}
-                          animationType="fade"
-                          hardwareAccelerated={false}
-                          onRequestClose={[Function]}
-                          testID="space-collaborators-permissions-modal"
-                          transparent={true}
-                          visible={false}
-                        />
                       </View>
                     </View>
                   </View>
@@ -4041,47 +3837,27 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 ]
                               }
                             >
-                              <ViewManagerAdapter_ExpoImage
+                              <Image
                                 accessibilityRole="image"
                                 accessible={true}
                                 aria-label="Some Body"
                                 contentFit="cover"
-                                contentPosition={
-                                  {
-                                    "left": "50%",
-                                    "top": "50%",
-                                  }
-                                }
-                                height="100%"
-                                onError={[Function]}
-                                onLoad={[Function]}
-                                onLoadStart={[Function]}
-                                onProgress={[Function]}
-                                placeholder={
-                                  [
-                                    {
-                                      "uri": "",
-                                    },
-                                  ]
-                                }
+                                placeholder=""
                                 role="img"
                                 source={
-                                  [
-                                    {
-                                      "height": 40,
-                                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                      "width": 40,
-                                    },
-                                  ]
+                                  {
+                                    "height": 40,
+                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                    "width": 40,
+                                  }
                                 }
                                 style={
                                   {
                                     "height": "100%",
+                                    "resizeMode": "contain",
                                     "width": "100%",
                                   }
                                 }
-                                transition={null}
-                                width="100%"
                               />
                             </View>
                             <View
@@ -4286,16 +4062,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             </View>
                           </View>
                         </View>
-                        <Modal
-                          accessibilityLabel="spaces.collaborators.permissions.label"
-                          accessibilityViewIsModal={true}
-                          animationType="fade"
-                          hardwareAccelerated={false}
-                          onRequestClose={[Function]}
-                          testID="space-collaborators-permissions-modal"
-                          transparent={true}
-                          visible={false}
-                        />
                       </View>
                       <View
                         style={
@@ -4389,47 +4155,27 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 ]
                               }
                             >
-                              <ViewManagerAdapter_ExpoImage
+                              <Image
                                 accessibilityRole="image"
                                 accessible={true}
                                 aria-label="Some Body"
                                 contentFit="cover"
-                                contentPosition={
-                                  {
-                                    "left": "50%",
-                                    "top": "50%",
-                                  }
-                                }
-                                height="100%"
-                                onError={[Function]}
-                                onLoad={[Function]}
-                                onLoadStart={[Function]}
-                                onProgress={[Function]}
-                                placeholder={
-                                  [
-                                    {
-                                      "uri": "",
-                                    },
-                                  ]
-                                }
+                                placeholder=""
                                 role="img"
                                 source={
-                                  [
-                                    {
-                                      "height": 40,
-                                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                      "width": 40,
-                                    },
-                                  ]
+                                  {
+                                    "height": 40,
+                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                    "width": 40,
+                                  }
                                 }
                                 style={
                                   {
                                     "height": "100%",
+                                    "resizeMode": "contain",
                                     "width": "100%",
                                   }
                                 }
-                                transition={null}
-                                width="100%"
                               />
                             </View>
                             <View
@@ -4634,16 +4380,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             </View>
                           </View>
                         </View>
-                        <Modal
-                          accessibilityLabel="spaces.collaborators.permissions.label"
-                          accessibilityViewIsModal={true}
-                          animationType="fade"
-                          hardwareAccelerated={false}
-                          onRequestClose={[Function]}
-                          testID="space-collaborators-permissions-modal"
-                          transparent={true}
-                          visible={false}
-                        />
                       </View>
                       <View
                         style={
@@ -4737,47 +4473,27 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 ]
                               }
                             >
-                              <ViewManagerAdapter_ExpoImage
+                              <Image
                                 accessibilityRole="image"
                                 accessible={true}
                                 aria-label="Some Body"
                                 contentFit="cover"
-                                contentPosition={
-                                  {
-                                    "left": "50%",
-                                    "top": "50%",
-                                  }
-                                }
-                                height="100%"
-                                onError={[Function]}
-                                onLoad={[Function]}
-                                onLoadStart={[Function]}
-                                onProgress={[Function]}
-                                placeholder={
-                                  [
-                                    {
-                                      "uri": "",
-                                    },
-                                  ]
-                                }
+                                placeholder=""
                                 role="img"
                                 source={
-                                  [
-                                    {
-                                      "height": 40,
-                                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                                      "width": 40,
-                                    },
-                                  ]
+                                  {
+                                    "height": 40,
+                                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                                    "width": 40,
+                                  }
                                 }
                                 style={
                                   {
                                     "height": "100%",
+                                    "resizeMode": "contain",
                                     "width": "100%",
                                   }
                                 }
-                                transition={null}
-                                width="100%"
                               />
                             </View>
                             <View
@@ -4982,16 +4698,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             </View>
                           </View>
                         </View>
-                        <Modal
-                          accessibilityLabel="spaces.collaborators.permissions.label"
-                          accessibilityViewIsModal={true}
-                          animationType="fade"
-                          hardwareAccelerated={false}
-                          onRequestClose={[Function]}
-                          testID="space-collaborators-permissions-modal"
-                          transparent={true}
-                          visible={false}
-                        />
                       </View>
                     </View>
                   </View>

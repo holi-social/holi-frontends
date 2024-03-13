@@ -1,5 +1,5 @@
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
@@ -15,6 +15,7 @@ const users: User[] = [
     avatarDefaultColor: 'green',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
     aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
+    identity: 'identity',
   },
   {
     id: '2',
@@ -24,6 +25,7 @@ const users: User[] = [
     avatarLabel: 'M',
     avatarDefaultColor: 'red',
     aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
+    identity: 'identity',
   },
   {
     id: '3',
@@ -34,6 +36,7 @@ const users: User[] = [
     avatarDefaultColor: 'blue',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
     aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
+    identity: 'identity',
   },
   {
     id: '4',
@@ -43,6 +46,7 @@ const users: User[] = [
     avatarLabel: 'S',
     avatarDefaultColor: 'yellow',
     aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
+    identity: 'identity',
   },
   {
     id: '5',
@@ -53,6 +57,7 @@ const users: User[] = [
     avatarDefaultColor: 'grey',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
     aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
+    identity: 'identity',
   },
   {
     id: '6',
@@ -62,6 +67,7 @@ const users: User[] = [
     avatarLabel: 'D',
     avatarDefaultColor: 'purple',
     aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
+    identity: 'identity',
   },
   {
     id: '7',
@@ -72,36 +78,25 @@ const users: User[] = [
     avatarDefaultColor: 'black',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
     aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
+    identity: 'identity',
   },
 ]
 
 describe('renders correctly', () => {
   it('renders correctly when open', () => {
-    const tree = renderer
-      .create(
-        <HoliCarousel
-          slides={users.map((user) => ({
-            children: <HoliUserCard style={{ width: '100%' }} user={user} />,
-          }))}
-        />
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
-
-describe('displays all slides at once with a horizontal scroll (web)', () => {
-  it('displays all slides', () => {
-    const testRenderer = renderer.create(
+    render(
       <HoliCarousel
         slides={users.map((user) => ({
           children: <HoliUserCard style={{ width: '100%' }} user={user} />,
         }))}
       />
     )
-    const HoliCarouselInstance = testRenderer.root
-    const slideInstances = HoliCarouselInstance.findAllByType(HoliUserCard)
 
-    expect(slideInstances.length).toBe(users.length)
+    expect(screen.getAllByTestId('user-card')).toHaveLength(users.length)
+
+    expect(screen.getAllByTestId('user-card')[0]).toHaveTextContent('Dima Rosmait')
+    expect(screen.getAllByTestId('user-card')[0]).toHaveTextContent(
+      'Lorem ipsum dolor sit amet, consectetur adipisici elit.'
+    )
   })
 })

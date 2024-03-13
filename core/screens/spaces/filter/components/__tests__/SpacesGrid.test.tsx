@@ -15,20 +15,16 @@ describe('SpacesGrid', () => {
     expect(images.length).toBe(12)
     const [coverImage, avatarImage] = images
 
-    expect(coverImage.props.source).toStrictEqual([
-      {
-        height: 240,
-        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:718:480/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace-cover.jpg',
-        width: 359,
-      },
-    ])
+    expect(coverImage.props.source).toStrictEqual({
+      height: 240,
+      uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:718:480/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace-cover.jpg',
+      width: 359,
+    })
 
-    expect(avatarImage.props.source).toStrictEqual([
-      {
-        height: 24,
-        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
-        width: 24,
-      },
-    ])
+    expect(avatarImage.props.source).toStrictEqual({
+      height: 24,
+      uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
+      width: 24,
+    })
   })
 })

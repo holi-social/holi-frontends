@@ -18,7 +18,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 interface Props {
   label: string
   id?: string
-  style: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
   disabled?: boolean
   disableFocusability?: boolean
   'aria-selected'?: boolean
@@ -72,7 +72,9 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
         style={[props.style, styles.base]}
         ref={ref}
       >
-        <View style={styles.content}>{content}</View>
+        <View style={styles.content} testID={'tab-button-tab'}>
+          {content}
+        </View>
       </Pressable>
     )
   }

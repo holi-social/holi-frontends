@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Dimensions, Image } from 'react-native'
 import ImageZoom from 'react-native-image-pan-zoom'
 
-import HoliImage from '@holi//ui/components/atoms/HoliImage'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 
 export type ImagePanZoomProps = {
   uri: string

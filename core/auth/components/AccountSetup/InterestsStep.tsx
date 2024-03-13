@@ -2,11 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import HoliLoader from '@holi//ui/components/molecules/HoliLoader'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
 import type { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 export interface UseUserChipsReturn {
   filterString: string

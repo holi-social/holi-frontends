@@ -20,7 +20,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { PartnerProps } from '@holi-apps/volunteering/types'
+import type { PartnerProps } from '@holi-apps/volunteering/types'
 
 type PartnerModalProps = {
   headline?: string

@@ -44,6 +44,7 @@ export const LinkFragment = gql`
     image
     siteName
     origin
+    icon
   }
 `
 
@@ -89,20 +90,6 @@ export const PostFragment = gql`
       HEART
     }
     isPublic
-  }
-`
-
-export const RecommendationFragment = gql`
-  ${LinkFragment}
-
-  fragment RecommendationFragment on Recommendation {
-    id
-    category
-    comment
-    link
-    linkPreview {
-      ...LinkFragment
-    }
   }
 `
 

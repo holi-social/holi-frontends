@@ -2,7 +2,6 @@ import { ApiService } from '@novu/client'
 import { useEffect, useRef, useState } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { novuApplicationIdentifier, novuBackendUrl } from '@holi/core/screens/notifications/config'
 import { useNovuCredentials } from '@holi/core/screens/notifications/hooks/useNovuCredentials'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -13,9 +12,7 @@ export const useNotificationService = () => {
   const novuServiceRef = useRef<ApiService | null>(null)
   const [isInitializing, setIsInitializing] = useState(false)
 
-  const { ftEnabled: isNotificationFeatureEnabled } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
-
-  const { hmacHash } = useNovuCredentials(isNotificationFeatureEnabled ? user?.id : undefined)
+  const { hmacHash } = useNovuCredentials(user?.id)
 
   useEffect(() => {
     if (user?.id && hmacHash) {

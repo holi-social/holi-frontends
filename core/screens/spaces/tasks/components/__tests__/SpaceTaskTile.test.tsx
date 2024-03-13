@@ -22,13 +22,11 @@ describe('SpaceTaskTile', () => {
     expect(getByText('spaces.input.task.regularity.PROJECT_BASED.title')).toBeDefined()
 
     const avatarImage = getAllByRole('image')[1] // the avatar is the second image (after thumbnail)
-    expect(avatarImage.props.source).toStrictEqual([
-      {
-        height: 64,
-        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
-        width: 64,
-      },
-    ])
+    expect(avatarImage.props.source).toStrictEqual({
+      height: 64,
+      uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
+      width: 64,
+    })
     expect(avatarImage.props['aria-label']).toEqual('Some Body')
   })
 })

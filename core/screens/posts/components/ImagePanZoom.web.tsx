@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
-import HoliImage from '@holi//ui/components/atoms/HoliImage'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 
 export type ImagePanZoomProps = {
   uri: string

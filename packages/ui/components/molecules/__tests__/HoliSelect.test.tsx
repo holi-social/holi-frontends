@@ -101,20 +101,20 @@ describe('SingleSelect', () => {
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly when opened', async () => {
+  it('renders correctly when opened', () => {
     render(<SingleSelect testID="test" />)
-    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('correctly filters options', async () => {
+  it('correctly filters options', () => {
     render(<SingleSelect testID="test" />)
-    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-    await fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly after selection', async () => {
+  it('renders correctly after selection', () => {
     render(<SingleSelect testID="test" />)
     fireEvent.press(screen.getByTestId('test-toggle-menu'))
     fireEvent.press(screen.getAllByTestId('test-item')[1])
@@ -122,23 +122,23 @@ describe('SingleSelect', () => {
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('calls onChange with selection', async () => {
+  it('calls onChange with selection', () => {
     const onChange = jest.fn()
     render(<HoliSelect aria-label="test" id="test" options={initialOptions} testID="test" onChange={onChange} />)
 
-    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
 
-    await fireEvent.press(screen.getAllByTestId('test-item')[1])
+    fireEvent.press(screen.getAllByTestId('test-item')[1])
     expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ id: '2' }))
   })
 
-  it('clears text input', async () => {
+  it('clears text input', () => {
     render(<SingleSelect testID="test" />)
-    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
     const input = screen.getByTestId('input')
     fireEvent(input, 'onChange', { nativeEvent: { text: 'di' } })
     expect(input).toHaveProp('value', 'di')
-    await fireEvent.press(screen.getByTestId('test-clear-input'))
+    fireEvent.press(screen.getByTestId('test-clear-input'))
     expect(input).toHaveProp('value', '')
   })
 })
@@ -149,25 +149,25 @@ describe('MultiSelect', () => {
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly when opened', async () => {
+  it('renders correctly when opened', () => {
     render(<MultiSelect testID="test" />)
-    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly after single selection', async () => {
+  it('renders correctly after single selection', () => {
     render(<MultiSelect testID="test" />)
-    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-    await fireEvent.press(screen.getAllByTestId('test-item')[1])
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent.press(screen.getAllByTestId('test-item')[1])
     expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly after multiple selections', async () => {
+  it('renders correctly after multiple selections', () => {
     render(<MultiSelect testID="test" />)
-    await fireEvent.press(screen.getByTestId('test-toggle-menu'))
-    await fireEvent.press(screen.getAllByTestId('test-item')[1])
-    await fireEvent.press(screen.getAllByTestId('test-item')[2])
+    fireEvent.press(screen.getByTestId('test-toggle-menu'))
+    fireEvent.press(screen.getAllByTestId('test-item')[1])
+    fireEvent.press(screen.getAllByTestId('test-item')[2])
     expect(screen.getByPlaceholderText('Label · 2')).toBeDefined()
     expect(screen.toJSON()).toMatchSnapshot()
   })

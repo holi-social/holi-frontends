@@ -1,8 +1,8 @@
 import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
-import QuoteDetailPage from '@holi/core/screens/insights/components/quotes/QuoteDetailPage'
 import { insightWithQuoteById } from '@holi/core/screens/insights/queries'
+import QuoteDetailPage from '@holi/core/screens/insights/quotes/QuoteDetailPage'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const InsightQuotePage: NextPage = () => <QuoteDetailPage />

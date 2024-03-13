@@ -1,15 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `
-<Modal
-  accessibilityLabel="Test"
-  accessibilityViewIsModal={true}
-  animationType="fade"
-  hardwareAccelerated={false}
-  onRequestClose={[Function]}
-  visible={false}
-/>
-`;
+exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `null`;
 
 exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
 <Modal

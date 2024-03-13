@@ -3,9 +3,10 @@ import { Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
+import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { LinkM, QuoteFilledOutlined } from '@holi/icons/src/generated'
+import { QuoteFilledOutlined } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -15,7 +16,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface QuoteCardProps {
   quote: Quote
-  quoteColor: string
+  quoteColor?: string
   numberOfLines?: number
 }
 
@@ -34,7 +35,11 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines 
   const styles = useMemo(() => getStyles(theme), [theme])
   return (
     <View style={[styles.quoteCard]} testID={'quote-card-quote'}>
-      <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
+      <HoliIcon
+        icon={QuoteFilledOutlined}
+        color={quoteColor || theme.colors.brandColorA10}
+        testID={'quote-card-quote-icon'}
+      />
       <HoliGap size="s" />
       <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
       <HoliGap size="xs" />
@@ -48,8 +53,6 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines 
 const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { colors } = theme
-  const linkHost = new URL(quote.link).host.replace(/^(www.)/, '')
 
   return (
     <View style={styles.sourceCard} testID={'quote-card-source'}>
@@ -69,25 +72,7 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
             {quote.linkPreview.title}
           </HoliHeading>
         </View>
-        <View style={styles.linkPreviewSourceLineContainer}>
-          {!!quote.linkPreview.icon && (
-            <View style={styles.linkPreviewFavicon}>
-              <HoliImage
-                source={{ uri: quote.linkPreview.icon }}
-                label={quote.linkPreview.title}
-                style={{ width: 18, height: 18 }}
-              />
-            </View>
-          )}
-          {!quote.linkPreview.icon && (
-            <View style={[styles.linkPreviewFavicon, styles.linkPreviewDefaultIcon]}>
-              <HoliIcon icon={LinkM} size={18} color={colors.brandB300} />
-            </View>
-          )}
-          <HoliText size="extrasmall" color="gray300" numberOfLines={1}>
-            {linkHost}
-          </HoliText>
-        </View>
+        <LinkInfo link={quote.link} icon={quote.linkPreview.icon} size="sm" color="gray300" />
       </View>
     </View>
   )
@@ -150,22 +135,5 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       justifyContent: 'space-between',
       gap: Spacing['4xs'],
-    },
-    linkPreviewSourceLineContainer: {
-      flexDirection: 'row',
-      flexWrap: 'nowrap',
-      alignItems: 'center',
-      gap: Spacing['3xs'],
-    },
-    linkPreviewFavicon: {
-      height: 24,
-      width: 24,
-      borderRadius: 4,
-      backgroundColor: theme.colors.white200,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    linkPreviewDefaultIcon: {
-      backgroundColor: theme.colors.brandB100,
     },
   })
