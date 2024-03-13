@@ -5361,6 +5361,7 @@ __metadata:
     lodash.groupby: "npm:^4.6.0"
     lodash.partition: "npm:^4.6.0"
     lottie-ios: "npm:4.3.3"
+    lottie-react-native: "npm:6.5.1"
     react: "npm:18.2.0"
     react-devtools: "npm:4.14.0"
     react-i18next: "npm:^12.1.5"
@@ -5434,13 +5435,13 @@ __metadata:
     "@babel/preset-env": "npm:^7.23.9"
     "@holi/icons": "npm:^1.0.0"
     "@types/tinycolor2": "npm:1.4.3"
-    lottie-react-native: "npm:6.5.1"
     react-native-media-query: "npm:^2.0.1"
     react-test-renderer: "npm:18.2.0"
     sass: "npm:1.49.9"
     sass3js: "npm:1.0.9"
   peerDependencies:
     lottie-react: 2.4.0
+    lottie-react-native: 6.5.1
     react: 18.2.0
     react-native: 0.73.4
     react-native-svg: 14.1.0
