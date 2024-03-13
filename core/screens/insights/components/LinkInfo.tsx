@@ -5,7 +5,7 @@ import { shortHost } from '@holi/core/helpers/url'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliText, { HoliTextColor } from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -13,13 +13,13 @@ type LinkInfoProps = {
   icon?: string
   link: string
   size?: 'md' | 'sm'
+  color?: HoliTextColor
 }
 
-const LinkInfo = ({ icon, link, size = 'md' }: LinkInfoProps) => {
+const LinkInfo = ({ icon, link, size = 'md', color = 'black300' }: LinkInfoProps) => {
   const site = shortHost(link)
   const dimension = size === 'sm' ? styles.sizeSm : styles.sizeMd
   const textSize = size === 'sm' ? 'extrasmall' : 'small'
-  const textColor = size === 'sm' ? 'gray300' : 'black300'
   const missingIconSize = size === 'sm' ? Spacing.xxs : Spacing.xs
 
   return (
@@ -31,7 +31,7 @@ const LinkInfo = ({ icon, link, size = 'md' }: LinkInfoProps) => {
           <HoliIcon icon={LinkM} size={missingIconSize} color={colors.brandB300} />
         </View>
       )}
-      <HoliText numberOfLines={1} size={textSize} color={textColor} style={styles.linkText}>
+      <HoliText numberOfLines={1} size={textSize} color={color} style={styles.linkText}>
         {site}
       </HoliText>
     </View>

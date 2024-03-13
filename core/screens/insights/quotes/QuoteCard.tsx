@@ -69,7 +69,7 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote }) => {
             {quote.linkPreview.title}
           </HoliHeading>
         </View>
-        <LinkInfo link={quote.link} icon={quote.linkPreview.icon} size="sm" />
+        <LinkInfo link={quote.link} icon={quote.linkPreview.icon} size="sm" color="gray300" />
       </View>
     </View>
   )
