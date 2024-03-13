@@ -81,7 +81,7 @@ const App = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={colors.background10} style="light" />
+      <StatusBar backgroundColor={colors.background10} style="dark" />
       <ThemeProvider theme={defaultHoliTheme}>
         <NavigationProvider>
           <RootProvider>
