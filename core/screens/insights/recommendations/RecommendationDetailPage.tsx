@@ -153,7 +153,6 @@ const Skeleton = () => (
 const styles = StyleSheet.create({
   layout: {
     minHeight: '100%',
-    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background20,
     ...Platform.select({
       web: {
@@ -162,6 +161,7 @@ const styles = StyleSheet.create({
     }),
   },
   container: {
+    paddingHorizontal: 0,
     paddingBottom: dimensions.bottomBarHeight + 100,
   },
   bannerImage: {
@@ -201,8 +201,10 @@ const styles = StyleSheet.create({
   footer: {
     width: '100%',
     position: 'fixed',
-    bottom: dimensions.bottomBarHeight + 16,
     padding: Spacing.xxs,
+    ...Platform.select({
+      web: { bottom: dimensions.bottomBarHeight + 16 },
+    }),
   },
   linkButton: {
     maxWidth: dimensions.maxButtonWidth,
