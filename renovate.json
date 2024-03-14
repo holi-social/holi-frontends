@@ -3,7 +3,9 @@
   "extends": [
     "config:recommended",
     "npm:unpublishSafe",
-    ":approveMajorUpdates"
+    ":approveMajorUpdates",
+    ":automergeTesters",
+    ":automergeLinters"
   ],
   "configMigration": true,
   "prConcurrentLimit": 5,
