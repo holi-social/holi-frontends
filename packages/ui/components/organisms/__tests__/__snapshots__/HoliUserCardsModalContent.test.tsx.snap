@@ -1739,7 +1739,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       <View
         style={
           {
-            "height": 80,
+            "height": 96,
           }
         }
       />
@@ -1819,6 +1819,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "maxWidth": 400,
             },
             {
+              "marginBottom": 0,
               "marginTop": 0,
               "maxWidth": 400,
             },
