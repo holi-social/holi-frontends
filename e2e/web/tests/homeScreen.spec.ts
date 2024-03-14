@@ -5,7 +5,6 @@ import {
   clickElementByTestId,
   donationsRequestTimeout,
   goodnewsRequestTimeout,
-  locateElementByTestId,
   loginAsE2EUser,
   proceedAsGuest,
   volunteeringRequestTimeout,
@@ -13,7 +12,6 @@ import {
 import { test } from './testmaster'
 
 test.setTimeout(120000)
-const insightLoadMoreTimeout = { timeout: 30000 }
 
 test.describe('@HomeScreen', () => {
   test('user journey', async ({ context, page, browserName }) => {
@@ -22,7 +20,7 @@ test.describe('@HomeScreen', () => {
 
     await testInsightsSection(page)
 
-    await testAllowPaginationForInsightList(page)
+    await testShowInsightsScreen(page)
 
     await testInsightsEditors(page)
 
@@ -38,17 +36,14 @@ test.describe('@HomeScreen', () => {
   })
 })
 
-const testAllowPaginationForInsightList = async (page: Page) => {
-  await page.waitForSelector(byTestId('btn-insights-list-load-more'))
+const testShowInsightsScreen = async (page: Page) => {
+  await page.waitForSelector(byTestId('btn-navigate-to-insights'))
 
-  const countListItems = async () => {
-    const listItems = await locateElementByTestId(page, 'feed-insight-image-link')
-    return await listItems.count()
-  }
+  // navigate to insights
+  await clickElementByTestId(page, 'btn-navigate-to-insights')
 
-  const listItemCountBefore = await countListItems()
-  await clickElementByTestId(page, 'btn-insights-list-load-more')
-  await expect.poll(countListItems, insightLoadMoreTimeout).toBeGreaterThan(listItemCountBefore)
+  // go home
+  await page.locator(byTestId('nav-button-back')).click()
 }
 
 const testAppUpdatesVisible = async (page: Page, app: string, timeout: number) => {

@@ -56,7 +56,9 @@ const InsightsList = () => {
   const Headline = () => {
     return (
       <>
-        <HoliHeading size="l">{t('insight.page.title')}</HoliHeading>
+        <HoliHeading size="l" testID="insights-page">
+          {t('insight.page.title')}
+        </HoliHeading>
         <HoliGap size="xs" />
         <HoliText>{t('insight.page.description')}</HoliText>
       </>
