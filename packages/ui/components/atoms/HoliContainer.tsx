@@ -8,22 +8,25 @@ export interface ContainerProps {
   alignItems?: FlexStyle['alignItems']
   flexDirection?: FlexStyle['flexDirection']
   justifyContent?: FlexStyle['justifyContent']
+  flex?: number
 }
 
-const generateStyles = ({ alignItems, flexDirection, justifyContent }: Required<ContainerProps>) => {
-  const { styles: dinamicStyles } = StyleSheet.create({ container: { alignItems, flexDirection, justifyContent } })
+const generateStyles = (flexStyles: ContainerProps) => {
+  if (Object.keys(flexStyles).length === 0) return null
+  const { styles: dinamicStyles } = StyleSheet.create({ container: { ...flexStyles } })
 
   return dinamicStyles.container
 }
 
 const HoliContainer = ({
   children,
+  flex,
   alignItems = 'stretch',
   flexDirection = 'column',
   justifyContent = 'flex-start',
 }: PropsWithChildren<ContainerProps>) => (
   <View
-    style={[styles.container, generateStyles({ alignItems, flexDirection, justifyContent })]}
+    style={[styles.container, generateStyles({ alignItems, flexDirection, justifyContent, flex })]}
     dataSet={{ media: ids.container }}
   >
     {children}
@@ -35,7 +38,6 @@ export default HoliContainer
 const { styles, ids } = StyleSheet.create({
   container: {
     display: 'flex',
-    flex: 1,
     alignSelf: 'center',
     width: '100%',
     maxWidth: dimensions.maxScreenWidth,

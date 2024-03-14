@@ -97,7 +97,7 @@ const HeaderAnimated = () => {
           </>
         )}
       </View>
-      <HoliContainer flexDirection="row" justifyContent="center" alignItems="center">
+      <HoliContainer flex={1} flexDirection="row" justifyContent="center" alignItems="center">
         <View style={{ width: '100%' }}>
           <View style={[styles.sideHeaderElement, styles.leftHeaderElement]}>
             {typeof headerLeft === 'function' ? (
@@ -113,7 +113,9 @@ const HeaderAnimated = () => {
             {typeof headerTitle === 'function' ? (
               headerTitle({ children: title || '', tintColor: headerTintColor })
             ) : (
-              <HeaderTitle tintColor={headerTintColor}>{title}</HeaderTitle>
+              <HeaderTitle tintColor={headerTintColor}>
+                {typeof headerTitle === 'string' ? headerTitle : title}
+              </HeaderTitle>
             )}
           </View>
 
