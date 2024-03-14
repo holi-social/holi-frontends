@@ -1,7 +1,10 @@
 import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import React from 'react'
 
-import ChatHome from '@holi/core/screens/chat/ChatHome'
+const ChatHome = dynamic(() => import('@holi/core/screens/chat/ChatHome'), {
+  ssr: false,
+})
 
 const ChatHomePage: NextPage = () => <ChatHome />
 

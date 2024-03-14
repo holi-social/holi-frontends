@@ -1,7 +1,10 @@
 import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import React from 'react'
 
-import ChatStartConversationView from '@holi/core/screens/chat/ChatStartConversationView'
+const ChatStartConversationView = dynamic(() => import('@holi/core/screens/chat/ChatStartConversationView'), {
+  ssr: false,
+})
 
 const ChatStartConversationPage: NextPage = () => <ChatStartConversationView />
 
