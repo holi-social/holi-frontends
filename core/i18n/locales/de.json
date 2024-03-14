@@ -269,6 +269,10 @@
   "insights.insight.bookmark.success": "In Favoriten gespeichert",
   "insights.insight.remove.bookmark.button": "Gespeichert in Favoriten",
   "insights.insight.remove.bookmark.success": "Aus Favoriten entfernt",
+  "insights.insight.share.message": "Dieser Insight hat mich inspiriert! Finde handverlesene Inhalte zu den großen Themen unserer Zeit in der holi App.",
+  "insights.recommendations.share.message": "Handverlesene Informationen zu den großen Themen unserer Zeit. Schau dir diesen Insight in der holi App an!",
+  "insights.quotes.share.message": "Lust auf inspirierende Geschichten? Schau dir diesen Insight Post in der holi App an!",
+
   "insights.post.delete.confirmation.description": "Möchtest du dieses Update wirklich löschen?",
   "insights.post.delete.confirmation.title": "Update löschen",
   "insights.post.delete.success": "Du hast das Update gelöscht",

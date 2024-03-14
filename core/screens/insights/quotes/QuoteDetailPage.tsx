@@ -8,13 +8,15 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
-import { ShareBox } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -22,6 +24,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -62,14 +65,38 @@ const QuoteDetailPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
+  const [, shareLink] = useShareLink({
+    link: `/insights/${insight?.id}/quotes/${quoteId}`,
+    linkType: LinkType.UNIVERSAL,
+    message: `${t('insights.quotes.share.message', {
+      title: quote?.linkPreview.title ?? '',
+      interpolation: { escapeValue: false },
+    })}`,
+  })
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.quotes.title'),
       headerTransparent: false,
       headerTintColor: colors.black300,
       headerShown: true,
+      headerRight: () => {
+        return (
+          <HoliActionDrawer.Drawer
+            label={t('global.moreOptions')}
+            buttonElement={<HoliIcon icon={MoreFilled} color={colors.black300} />}
+          >
+            <HoliActionDrawer.Action
+              icon={Share}
+              title={t('global.share')}
+              testID="btn-share-insight"
+              handleAction={shareLink}
+            />
+          </HoliActionDrawer.Drawer>
+        )
+      },
     })
-  }, [quote, setScreenOptions, t])
+  }, [quote, setScreenOptions, shareLink, t])
 
   return (
     <>
