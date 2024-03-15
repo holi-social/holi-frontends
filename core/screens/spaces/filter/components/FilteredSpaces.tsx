@@ -111,7 +111,6 @@ const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: Fil
 const { styles } = StyleSheet.create({
   container: {
     display: 'flex',
-    flex: 1,
     backgroundColor: colors.background20,
   },
   buttonContainer: {
