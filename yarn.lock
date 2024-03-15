@@ -5336,7 +5336,7 @@ __metadata:
     expo-constants: "npm:~15.4.5"
     expo-dev-client: "npm:~3.3.10"
     expo-device: "npm:~5.9.3"
-    expo-file-system: "npm:~16.0.6"
+    expo-file-system: "npm:~16.0.8"
     expo-image: "npm:~1.10.6"
     expo-image-manipulator: "npm:~11.8.0"
     expo-image-picker: "npm:~14.7.1"
@@ -17301,7 +17301,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-file-system@npm:~16.0.0, expo-file-system@npm:~16.0.6, expo-file-system@npm:~16.0.8":
+"expo-file-system@npm:~16.0.0, expo-file-system@npm:~16.0.8":
   version: 16.0.8
   resolution: "expo-file-system@npm:16.0.8"
   peerDependencies:
