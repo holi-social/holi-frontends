@@ -6,6 +6,7 @@ import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -32,10 +33,10 @@ import {
   engagementByIdQuery,
   trackEngagementViewMutation,
 } from '@holi-apps/volunteering/queries'
-import { Organizer, PartnerProps } from '@holi-apps/volunteering/types'
+import { Organizer } from '@holi-apps/volunteering/types'
 
 export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
-  [name: string]: PartnerProps
+  [name: string]: InfoModalItemProps
 } = {
   Voltastics: {
     logo: {

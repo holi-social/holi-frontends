@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -25,8 +26,6 @@ import DonationListingSkeleton from '@holi-apps/donations/components/DonationLis
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
-import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
-import { PartnerProps } from '@holi-apps/volunteering/types'
 
 type DonationListingProps = {
   locationQuery?: string
@@ -34,7 +33,7 @@ type DonationListingProps = {
 }
 
 const DONATIONS_IMG_SOURCES_MAPPING: {
-  [name: string]: PartnerProps
+  [name: string]: InfoModalItemProps
 } = {
   'betterplace.org': {
     logo: {
@@ -96,11 +95,11 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             partners={{ 'betterplace.org': partner }}
             onPress={showPartnerModal}
           />
-          <PartnerModal
-            partners={{ 'betterplace.org': partner }}
+          <InfoModal
+            items={{ 'betterplace.org': partner }}
             show={partnerModalVisible}
             onDismiss={closeModal}
-            i18nNamespace={'donations'}
+            i18nPrefix={'donations:listing.partnerModal'}
           />
         </>
       )}

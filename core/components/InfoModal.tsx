@@ -1,9 +1,3 @@
-/* TODO: Move this component to shared folder to use across all apps
-   It would be nice to have a folder @holi-app/shared/components to use
-   them across different apps to leverage reusability.
-   However, JanOle and Max couldn't get it running on shorthand so we simply use
-   it in other apps from volunteering app now
- */
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
@@ -14,46 +8,60 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import colors from '@holi/ui/styles/globalVars/colors'
 
-import type { PartnerProps } from '@holi-apps/volunteering/types'
-
-type PartnerModalProps = {
+export interface InfoModalProps {
   headline?: string
-  partners: { [name: string]: PartnerProps }
+  items: { [name: string]: InfoModalItemProps }
   show: boolean
   onDismiss: () => void
-  i18nNamespace: string
+  i18nPrefix: string
 }
 
-const PartnerModal: React.VFC<PartnerModalProps> = ({
+export type InfoModalItemProps = {
+  logo?: InfoModalAssetProps
+  wordmark?: InfoModalAssetProps
+  url?: string
+  headline?: string
+  text?: string
+  buttonText?: string
+}
+
+export type InfoModalAssetProps = {
+  src?: StaticImageData
+  height?: number
+  width?: number
+  isSvg?: boolean
+}
+
+const InfoModal: React.VFC<InfoModalProps> = ({
   headline,
-  partners,
+  items,
   show = false,
   onDismiss,
-  i18nNamespace = '',
-}: PartnerModalProps) => {
+  i18nPrefix = '',
+}: InfoModalProps) => {
   const { t } = useTranslation()
-  const i18nPrefix = (i18nNamespace ? i18nNamespace + ':' : '') + 'listing.partnerModal'
-  const isMultiplePartners = Object.keys(partners).length > 1
+  const isMultipleItems = Object.keys(items).length > 1
 
-  const partnerCard = (partnerKey: string) => {
-    const partner = partners[partnerKey]
+  const itemCard = (itemKey: string) => {
+    const item = items[itemKey]
     return (
-      <View style={isMultiplePartners ? styles.card : null} key={partnerKey}>
-        <HoliBox padding={isMultiplePartners ? 24 : 0} layout={{ alignItems: 'flex-start' }}>
-          {!!partner.wordmark && !!partner.wordmark?.src && (
+      <View style={isMultipleItems ? styles.card : null} key={itemKey}>
+        <HoliBox padding={isMultipleItems ? 24 : 0} layout={{ alignItems: 'flex-start' }}>
+          {!!item.wordmark && !!item.wordmark?.src && (
             <HoliBox padding={[18, 0]}>
               <HoliLocalImage
-                imageSource={partner.wordmark.src}
-                isSvg={partner.wordmark.isSvg}
+                imageSource={item.wordmark.src}
+                isSvg={!!item.wordmark.isSvg}
                 label={''}
-                width={partner.wordmark.width || 100}
-                height={partner.wordmark.height || 100}
+                width={item.wordmark.width || 100}
+                height={item.wordmark.height || 100}
                 resizeMode={'contain'}
               />
             </HoliBox>
@@ -61,15 +69,15 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
           <HoliBox padding={[32, 0, 0, 0]}>
             <HoliHeading level="1" size="l">
               {/*TODO: how to not render for optional props (headline, text, buttonText)? */}
-              {t(`${i18nPrefix}.${partnerKey}.headline`)}
+              {t(`${i18nPrefix}.${itemKey}.headline`)}
             </HoliHeading>
           </HoliBox>
           <HoliGap size="s" />
-          <HoliText>{t(`${i18nPrefix}.${partnerKey}.text`)}</HoliText>
+          <HoliText>{t(`${i18nPrefix}.${itemKey}.text`)}</HoliText>
           <HoliBox padding={[32, 0, 0, 0]} layout={{ alignSelf: 'stretch' }}>
-            <HoliButton transparent onPress={() => (partner.url ? Linking.openURL(partner.url) : null)} label={''}>
+            <HoliButton transparent onPress={() => (item.url ? Linking.openURL(item.url) : null)} label={''}>
               <View style={styles.outlink}>
-                <HoliText>{t(`${i18nPrefix}.${partnerKey}.buttonText`)}</HoliText>
+                <HoliText>{t(`${i18nPrefix}.${itemKey}.buttonText`)}</HoliText>
                 <HoliIcon icon={ShareBox} />
               </View>
             </HoliButton>
@@ -82,9 +90,9 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
   return (
     <HoliModal
       label={headline ?? ''}
-      style={[isMultiplePartners ? styles.flexWrapper : null, isMultiplePartners ? styles.modal : null]}
-      autoHeight={isMultiplePartners ? false : undefined}
-      relativeHeight={isMultiplePartners ? 1 : undefined}
+      style={[isMultipleItems ? styles.flexWrapper : null, isMultipleItems ? styles.modal : null]}
+      autoHeight={isMultipleItems ? false : undefined}
+      relativeHeight={isMultipleItems ? 1 : undefined}
       show={show}
       onDismiss={onDismiss}
       testID={'goodnews-partner-modal'}
@@ -92,12 +100,12 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
       <HoliModalContentWrapper
         actionButtonText={t('volunteering:shared.partner.modal.close')}
         onActionButtonPress={onDismiss}
-        style={isMultiplePartners ? styles.flexWrapper : null}
+        style={isMultipleItems ? styles.flexWrapper : null}
       >
         <HoliBox padding={[24, 24, 32, 24]}>
-          <View style={isMultiplePartners ? styles.cardContainer : null}>
-            {Object.keys(partners).map((partnerKey) => {
-              return partnerCard(partnerKey)
+          <View style={isMultipleItems ? styles.cardContainer : null}>
+            {Object.keys(items).map((itemKey) => {
+              return itemCard(itemKey)
             })}
           </View>
         </HoliBox>
@@ -106,7 +114,7 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
   )
 }
 
-export default memo(PartnerModal)
+export default memo(InfoModal)
 
 const styles = StyleSheet.create({
   flexWrapper: {
