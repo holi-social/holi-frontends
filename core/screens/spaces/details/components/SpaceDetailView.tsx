@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -6,9 +6,8 @@ import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeade
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
 import { Space } from '@holi/core/screens/spaces/types'
-import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
+import { SpaceUpdatesTab } from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
 import { Flag2, Flag2Filled, Pushpin, PushpinFilled, Sun, SunFilled } from '@holi/icons/src/generated'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -63,11 +62,7 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: Sp
             title: t('spaces.tab.updates'),
             titleIcons: [Flag2, Flag2Filled],
             style: styles.tabStyle,
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <SpaceUpdatesTabLazy space={space} style={[mixins.container, styles.tabItem]} />
-              </Suspense>
-            ),
+            children: <SpaceUpdatesTab space={space} style={[mixins.container, styles.tabItem]} />,
           },
           {
             title: t('spaces.tab.action'),

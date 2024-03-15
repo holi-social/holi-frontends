@@ -28,7 +28,7 @@ export interface SpaceUpdatesTabProps {
 
 export const POSTS_RESULT_PAGE_SIZE = 10
 
-const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
+export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()

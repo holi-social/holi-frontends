@@ -65,8 +65,8 @@ const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Prop
         showConfirmation
       >
         <HoliActionDrawer.Confirmation
-          confirmText={t('chat.actions.leave.confimation.leave')}
-          dismissText={t('chat.actions.leave.confimation.cancel')}
+          confirmText={t('chat.actions.leave.confirmation.leave')}
+          dismissText={t('chat.actions.leave.confirmation.cancel')}
           title={t('chat.actions.leave', { name: chatPartnerFullName })}
           description={t('chat.actions.leave.confirmation.text', { name: chatPartnerFullName })}
           testID="chat-room-leave-confirmation"

@@ -52,18 +52,14 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
       },
     })
 
-  return (
-    <>
-      {isInvited ? (
-        <HoliButtonLoading
-          inline
-          variant="small"
-          label={t('spaces.invite.btn.accept')}
-          onPress={approveConnectionRequest}
-        />
-      ) : null}
-    </>
-  )
+  return isInvited ? (
+    <HoliButtonLoading
+      inline
+      variant="small"
+      label={t('spaces.invite.btn.accept')}
+      onPress={approveConnectionRequest}
+    />
+  ) : null
 }
 
 export default SpaceAcceptInvitation
