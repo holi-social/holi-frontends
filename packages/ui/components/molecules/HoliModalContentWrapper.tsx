@@ -51,10 +51,10 @@ const HoliModalContentWrapper = (
   }: React.PropsWithChildren<HoliModalContentWrapperProps>,
   ref: React.ForwardedRef<ScrollView>
 ) => {
+  const mixins = useStyleMixins()
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
   const showFooter = !hideFooterWhenKeyboardIsOpen || !(isKeyboardOpen || isSoftkeyboardOpen)
-  const mixins = useStyleMixins()
   const content = (
     <>
       {!!headlineText?.length && (
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     height: 120,
   },
   actionButtonPlaceholder: {
-    height: 80,
+    height: 96,
   },
   actionButtonContainer: {
     position: 'absolute',
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 0,
+    marginBottom: 0,
     maxWidth: dimensions.maxButtonWidth,
   },
   saveLoaderContainer: {
