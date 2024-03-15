@@ -105,7 +105,7 @@ const getStyles = (theme: HoliTheme) =>
       right: '50%',
       justifyContent: 'center',
       paddingHorizontal: 20,
-      borderColor: theme.colors.background30,
+      borderColor: theme.colors.defaultBorder,
       borderWidth: 1,
       shadowColor: theme.colors.foreground30,
       shadowOffset: {
