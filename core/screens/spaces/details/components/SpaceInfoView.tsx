@@ -2,15 +2,18 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import InfoModal from '@holi/core/components/InfoModal'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelcome'
+import { SDG_INFO_MODAL_SOURCES_MAPPING } from '@holi/core/screens/spaces/edit/EditSpace'
 import { Space } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Phone } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceInfoViewProps = {
@@ -20,6 +23,9 @@ type SpaceInfoViewProps = {
 
 const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
   const { t } = useTranslation()
+
+  const { show: showInfoModal, hide: closeInfoModal, visible: infoModalVisible } = useModalState()
+  const partner = SDG_INFO_MODAL_SOURCES_MAPPING['sdg']
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
@@ -43,7 +49,7 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
         </SpaceSection>
       )}
       {!!sdgs.length && (
-        <SpaceSection title={t('spaces.spaceDetails.sdgs')}>
+        <SpaceSection title={t('spaces.spaceDetails.sdgs')} infoIcon onPressInfo={showInfoModal}>
           <View style={styles.listContainer}>
             {sdgs.map((sdg, index) => (
               <HoliChip
@@ -55,6 +61,12 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
               />
             ))}
           </View>
+          <InfoModal
+            items={{ sdg: partner }}
+            show={!!infoModalVisible}
+            onDismiss={closeInfoModal}
+            i18nPrefix={'spaces.input.sdgs.infoModal'}
+          />
         </SpaceSection>
       )}
       {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
