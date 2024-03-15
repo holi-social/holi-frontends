@@ -89,6 +89,7 @@ const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   return (
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
+
       <NavigationContainer
         ref={navigationRef}
         theme={navigationTheme}

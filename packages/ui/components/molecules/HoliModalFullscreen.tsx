@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
@@ -26,30 +26,26 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
   const { colors } = theme
 
   return (
-    <>
-      <StatusBar animated backgroundColor={backgroundColor || colors.foreground30} />
+    <ModalBasic show={show} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
+      <View style={[styles.modalContent, style, { backgroundColor: backgroundColor || colors.foreground30 }]}>
+        <SafeAreaView style={styles.closeBtnSafeArea}>
+          <View style={styles.closeBtnWrapper}>
+            <HoliButton
+              label={t('modal.close')}
+              onPress={onDismiss}
+              inline
+              transparent
+              style={styles.closeBtn}
+              testID="fullscreen-modal-close-btn"
+            >
+              <HoliIcon icon={Close} color={colors.background10} />
+            </HoliButton>
+          </View>
+        </SafeAreaView>
 
-      <ModalBasic show={show} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
-        <View style={[styles.modalContent, style, { backgroundColor: backgroundColor || colors.foreground30 }]}>
-          <SafeAreaView style={styles.closeBtnSafeArea}>
-            <View style={styles.closeBtnWrapper}>
-              <HoliButton
-                label={t('modal.close')}
-                onPress={onDismiss}
-                inline
-                transparent
-                style={styles.closeBtn}
-                testID="fullscreen-modal-close-btn"
-              >
-                <HoliIcon icon={Close} color={colors.background10} />
-              </HoliButton>
-            </View>
-          </SafeAreaView>
-
-          {children}
-        </View>
-      </ModalBasic>
-    </>
+        {children}
+      </View>
+    </ModalBasic>
   )
 }
 
