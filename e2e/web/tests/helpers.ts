@@ -321,3 +321,17 @@ export const retry = async (expectationFn: () => Promise<void>) => {
     timeout: 30_000,
   })
 }
+
+export const withSSR = async (
+  browser: Browser,
+  url: string,
+  actions: (page: Page, options?: { testSSR?: boolean }) => Promise<void>
+): Promise<void> => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto(url)
+
+  await actions(page, { testSSR: true })
+
+  await context.close()
+}
