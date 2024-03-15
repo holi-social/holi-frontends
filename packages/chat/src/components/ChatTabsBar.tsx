@@ -1,11 +1,11 @@
 import { atom, useAtomValue } from 'jotai'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { ChatRoom } from '@holi/chat/src/client/types'
 import { roomAtomsRecordAtom, spaceRoomIdToChildRoomsAtom, spaceRoomIdsAtom } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import i18n from '@holi/core/i18n'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { Tab } from '@holi/ui/components/organisms/HoliTabBar'
 import HoliTabBar from '@holi/ui/components/organisms/HoliTabBar'
@@ -14,12 +14,12 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export const DEFAULT_TAB_ID = 'all' as const
 
-export const tabsAtom = atom<Tab[]>((get) => {
+export const roomTabsAtom = atom<Tab[]>((get) => {
   const spaceRoomIds = get(spaceRoomIdsAtom)
   const roomsRecord = get(roomAtomsRecordAtom)
   const spaceRoomIdToChildRooms = get(spaceRoomIdToChildRoomsAtom)
 
-  const tabs: Tab[] = spaceRoomIds.reduce((tabs: Tab[], id) => {
+  return spaceRoomIds.reduce((tabs: Tab[], id) => {
     const roomAtom = roomsRecord[id]
 
     if (!roomAtom) return tabs
@@ -36,15 +36,6 @@ export const tabsAtom = atom<Tab[]>((get) => {
 
     return tabs
   }, [])
-
-  const defaultTab: Tab = {
-    id: DEFAULT_TAB_ID,
-    title: i18n.t('chat.tab.all'),
-  }
-
-  tabs.unshift(defaultTab)
-
-  return tabs
 })
 
 interface Props {
@@ -53,10 +44,16 @@ interface Props {
 
 const ChatTabBar = ({ selectedTabId }: Props) => {
   const { setParams, replaceRoute } = useRouting()
+  const { t } = useTranslation()
 
   const mixins = useStyleMixins()
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
-  const tabs = useAtomValue(tabsAtom)
+  const roomTabs = useAtomValue(roomTabsAtom)
+  const defaultTab: Tab = {
+    id: DEFAULT_TAB_ID,
+    title: t('chat.tab.all'),
+  }
+  const tabs = [defaultTab].concat(roomTabs)
 
   return (
     <HoliTabBar
