@@ -1,6 +1,5 @@
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
-import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
@@ -17,7 +16,6 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
-import { colors } from '@holi/ui/styles/globalVars'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 SplashScreen.preventAutoHideAsync()
@@ -81,7 +79,7 @@ const App = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={colors.background10} style="dark" />
+      {/* <StatusBar backgroundColor={colors.background10} style="light" /> */}
       <ThemeProvider theme={defaultHoliTheme}>
         <NavigationProvider>
           <RootProvider>

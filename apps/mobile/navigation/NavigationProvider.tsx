@@ -1,5 +1,6 @@
 import * as Linking from 'expo-linking'
 import * as Notifications from 'expo-notifications'
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 
 import type { LinkingOptions, Theme } from '@react-navigation/native'
@@ -84,17 +85,21 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const { theme } = useTheme()
   const navigationTheme = getNavigationTheme(theme)
+
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      theme={navigationTheme}
-      linking={rootLinkingConfig}
-      onReady={() => {
-        reactNativeTracingRoutingInstrumentation.registerNavigationContainer(navigationRef)
-      }}
-    >
-      {children}
-    </NavigationContainer>
+    <>
+      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
+      <NavigationContainer
+        ref={navigationRef}
+        theme={navigationTheme}
+        linking={rootLinkingConfig}
+        onReady={() => {
+          reactNativeTracingRoutingInstrumentation.registerNavigationContainer(navigationRef)
+        }}
+      >
+        {children}
+      </NavigationContainer>
+    </>
   )
 }
 
