@@ -93,7 +93,10 @@ const RecommendationDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
-      headerTransparent: false,
+      headerTransparent: true,
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+      },
     })
   }, [t, setScreenOptions, shareLink])
 

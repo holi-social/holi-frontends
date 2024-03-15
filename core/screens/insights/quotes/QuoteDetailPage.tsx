@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
@@ -80,7 +79,6 @@ const QuoteDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.quotes.title'),
-      headerTransparent: false,
       headerTintColor: colors.black300,
       headerShown: true,
       headerRight: () => {
@@ -98,13 +96,14 @@ const QuoteDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+      },
     })
   }, [quote, setScreenOptions, shareLink, t, colors.black300])
 
   return (
     <>
-      <StatusBar style="dark" animated />
-
       <ScrollHeaderLayout.Refreshable refreshableProps={{ refreshing, onRefresh }} style={styles.wrapper} headerOverlap>
         {quote && !loading ? (
           <>
