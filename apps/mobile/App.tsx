@@ -78,16 +78,13 @@ const App = () => {
   if (!isReady) return null
 
   return (
-    <>
-      {/* <StatusBar backgroundColor={colors.background10} style="light" /> */}
-      <ThemeProvider theme={defaultHoliTheme}>
-        <NavigationProvider>
-          <RootProvider>
-            <RootNavigator />
-          </RootProvider>
-        </NavigationProvider>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={defaultHoliTheme}>
+      <NavigationProvider>
+        <RootProvider>
+          <RootNavigator />
+        </RootProvider>
+      </NavigationProvider>
+    </ThemeProvider>
   )
 }
 
