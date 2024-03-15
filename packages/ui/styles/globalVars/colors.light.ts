@@ -53,6 +53,7 @@ export default {
   black300at48percent: '#2624247a',
   black300at32percent: '#26242452',
   black300at12percent: '#2624241f',
+  defaultBorder: '#ebebeb',
   backdropBackground: '#fff',
   skeletonInitialBackground: '#EBEBEB',
   skeletonGradient1: '#d9d9d900',
