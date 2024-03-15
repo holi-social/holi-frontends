@@ -82,7 +82,7 @@ const InsightDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: true,
-      headerTintColor: colors.white100,
+      headerTintColor: colors.light,
       title: '',
       navigationCustomOptions: {
         headerBackgroundGradient: true,
@@ -92,14 +92,14 @@ const InsightDetailPage = () => {
           insight && (
             <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
               <InsightDrawer insight={insight}>
-                <HoliIcon icon={MoreFilled} color={colors.white100} />
+                <HoliIcon icon={MoreFilled} color={colors.light} />
               </InsightDrawer>
             </FeatureToggleGuard>
           )
         )
       },
     })
-  }, [insight, setScreenOptions, colors.white100])
+  }, [insight, setScreenOptions, colors.light])
 
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
