@@ -30,7 +30,7 @@ export interface QuoteAndSourceCardProps {
   quoteColor: string
 }
 
-const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor = '#FCFE8C', numberOfLines }) => {
+const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines }) => {
   return (
     <View style={[styles.quoteCard]} testID={'quote-card-quote'}>
       <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     justifyContent: 'center',
-    flex: 1,
   },
   quoteCard: {
     backgroundColor: colors.background10,
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.xs,
     borderWidth: 1,
     borderColor: colors.foreground10,
-    height: 240,
+    flex: 1,
   },
   sourceCard: {
     flexDirection: 'row',
@@ -107,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.foreground10,
-    flex: 1,
+    height: 110,
   },
   linkPreviewImageContainer: {
     width: 86,
