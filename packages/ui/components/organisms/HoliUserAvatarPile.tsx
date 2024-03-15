@@ -65,33 +65,30 @@ const HoliUserAvatarPile = ({
   return (
     <>
       <View style={[style, styles.container]} testID={testID}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          uniqueUsers.slice(0, usersToShow).map((user, idx) => {
-            const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
+        {uniqueUsers.slice(0, usersToShow).map((user, idx) => {
+          const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
 
-            return (
-              <HoliAvatar
-                key={`${testID}-${user.id}`}
-                imageSrc={user.avatar}
-                imageBlurhash={user.avatarBlurhash}
-                label={user.fullName || t('user.profileView.anonymous')}
-                initials={user.avatarLabel}
-                defaultColor={user.avatarDefaultColor}
-                size={size}
-                style={[
-                  styles.avatar,
-                  {
-                    marginLeft: idx ? collapseDistance : 0,
-                    zIndex: idx * -1,
-                  },
-                ]}
-                testID="pile-avatar"
-                loading={loading}
-              />
-            )
-          })
-        }
+          return (
+            <HoliAvatar
+              key={`${testID}-${user.id}`}
+              imageSrc={user.avatar}
+              imageBlurhash={user.avatarBlurhash}
+              label={user.fullName || t('user.profileView.anonymous')}
+              initials={user.avatarLabel}
+              defaultColor={user.avatarDefaultColor}
+              size={size}
+              style={[
+                styles.avatar,
+                {
+                  marginLeft: idx ? collapseDistance : 0,
+                  zIndex: idx * -1,
+                },
+              ]}
+              testID="pile-avatar"
+              loading={loading}
+            />
+          )
+        })}
 
         {loading && (children || counter) && <HoliText size="small" style={styles.loadingCounter} loading />}
 

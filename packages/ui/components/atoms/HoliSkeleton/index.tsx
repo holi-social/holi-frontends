@@ -95,7 +95,7 @@ const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonPro
       backgroundColor: 'black', // masking is based on transparency
     },
     background: {
-      backgroundColor: theme.colors.skeletonGradient1,
+      backgroundColor: theme.colors.skeletonInitialBackground,
     },
     gradient: {
       height: '100%',
