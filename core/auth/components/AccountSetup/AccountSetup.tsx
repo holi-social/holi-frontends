@@ -226,7 +226,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 headlineText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
                 descriptionText={t('registration.accountSetup.firstSuccess.description')}
                 contentStyle={styles.stepContainer}
-                testID="account-setup-pre-registration-success-step"
               />
             </ScrollView>
           </HoliContainer>,
