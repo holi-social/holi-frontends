@@ -49,6 +49,7 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
         image={coverImage}
         blurhash={space.coverBlurhash}
         currentImageUri={space.cover}
+        instructions={t('global.upload.hint.horizontal')}
       />
     </EditSpaceModalWithFooter>
   )

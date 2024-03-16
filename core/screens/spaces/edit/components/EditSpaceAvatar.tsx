@@ -46,7 +46,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
         image={avatar}
         blurhash={space.avatarBlurhash}
         currentImageUri={space.avatar}
-        previewVariant="avatar"
+        previewVariant="space"
       />
     </EditSpaceModalWithFooter>
   )

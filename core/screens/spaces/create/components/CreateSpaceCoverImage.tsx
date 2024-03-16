@@ -34,6 +34,7 @@ const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
         description={t('spaces.input.coverImage.remove.description')}
         onUploadImage={onUploadImage}
         image={coverImage}
+        instructions={t('global.upload.hint.horizontal')}
       />
     </View>
   )

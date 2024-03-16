@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
-import { Image as ReactNativeImage } from 'react-native'
 
-import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
+import ImageUploader from '@holi/core/components/ImageUploader'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -34,97 +31,6 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   previewVariant = 'default',
 }: SpaceImageFormProps) => {
   const { t } = useTranslation()
-  const [uri, setImageUri] = useState<string | undefined>()
-
-  useEffect(() => {
-    setImageUri(currentImageUri)
-  }, [currentImageUri])
-
-  const removeImage = () => {
-    onUploadImage(null)
-    setImageUri(undefined)
-  }
-
-  const Uploader = () => {
-    return (
-      <View style={styles.imageUploader}>
-        {((image || uri) && (
-          <>
-            <View style={styles.imageContainer}>
-              {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
-              <ReactNativeImage
-                source={{ uri: image ? image.uri : uri }}
-                resizeMode="cover"
-                aria-label={t('spaces.input.coverImage.label')}
-                style={{
-                  aspectRatio: 1.5,
-                  borderRadius: 8,
-                  width: previewVariant === 'avatar' ? '30%' : '100%',
-                }}
-              />
-            </View>
-            <View style={styles.uploadButtonContainer}>
-              <HoliImagePicker
-                fileSizeLimitation={{
-                  type: 'resize',
-                  limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
-                  resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
-                }}
-                buttonProps={{
-                  label: t('spaces.input.coverImage.change.button.label'),
-                  testID: 'space-upload-image-btn',
-                  style: styles.imageUploadButton,
-                  inline: true,
-                }}
-                onPickImage={onUploadImage}
-              >
-                <HoliText numberOfLines={1}>{t('spaces.input.coverImage.change.button.label')}</HoliText>
-              </HoliImagePicker>
-
-              <HoliButton
-                label={t('spaces.input.coverImage.remove.button.label')}
-                onPress={removeImage}
-                testID="create-space-remove-image-btn"
-                style={styles.imageUploadButton}
-                inline
-              >
-                <HoliText numberOfLines={1}>{t('spaces.input.coverImage.remove.button.label')}</HoliText>
-              </HoliButton>
-            </View>
-          </>
-        )) || (
-          <View style={styles.uploadButtonContainer}>
-            <HoliImagePicker
-              fileSizeLimitation={{
-                type: 'resize',
-                limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
-                resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
-              }}
-              buttonProps={{
-                label: t('spaces.input.coverImage.upload.button.label'),
-                testID: 'space-upload-image-btn',
-                style: styles.imageUploadButton,
-              }}
-              onPickImage={onUploadImage}
-            >
-              <HoliText numberOfLines={1}>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
-            </HoliImagePicker>
-          </View>
-        )}
-        <Instructions />
-      </View>
-    )
-  }
-
-  const Instructions = () => {
-    return (
-      <View style={styles.instructionsContainer}>
-        <HoliText size="extrasmall" style={styles.instructions}>
-          {instructions ? instructions : t('spaces.input.coverImage.upload.hint')}
-        </HoliText>
-      </View>
-    )
-  }
 
   return (
     <View style={[styles.container, style]}>
@@ -141,7 +47,19 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
           {
             title: t('spaces.input.coverImage.tab.upload.title'),
             style: styles.tabStyle,
-            children: <Uploader />,
+            children: (
+              <ImageUploader
+                imageLabel={t('spaces.input.coverImage.label')}
+                uploadImageProps={{ testID: 'space-upload-image-btn' }}
+                changeImageProps={{ testID: 'space-upload-image-btn' }}
+                removeImageProps={{ testID: 'create-space-remove-image-btn' }}
+                image={image}
+                onUploadImage={onUploadImage}
+                currentImageUri={currentImageUri}
+                instructions={instructions}
+                previewVariant={previewVariant}
+              />
+            ),
           },
         ]}
       />

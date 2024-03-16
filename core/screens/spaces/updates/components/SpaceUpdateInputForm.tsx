@@ -112,7 +112,6 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
         image={image}
         blurhash={blurhash}
         currentImageUri={currentImageUri}
-        instructions={t('spaces.input.update.image.upload.hint')}
       />
     </>
   )
