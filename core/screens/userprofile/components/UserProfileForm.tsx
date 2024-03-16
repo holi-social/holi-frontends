@@ -12,6 +12,7 @@ import PlacesAutocomplete, {
   GeolocationSuggestion,
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { replaceSpecialChars } from '@holi/core/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -60,6 +61,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const scrollViewRef = useRef<ScrollView>(null)
   const { getScrollToProps } = usePositions()
   const { t } = useTranslation()
+  const { width: deviceWidth } = useClientWindowDimensions()
+
   const { handleGraphQLError, translateFieldErrors } = useFieldErrors({
     i18nPrefix: 'user.profile',
     handledFieldErrors: ['firstName', 'lastName', 'aboutMe', 'pronouns', 'location'],
@@ -142,7 +145,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           label={fullName}
           initials={user.avatarLabel}
           defaultColor={user.avatarDefaultColor}
-          size={getAvatarSize().size}
+          size={getAvatarSize(deviceWidth).size}
         />
       }
       resizeWidth={PROFILE_IMAGE_MAX_WIDTH}

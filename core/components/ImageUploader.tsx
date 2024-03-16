@@ -53,7 +53,8 @@ const ImageUploader = ({
   resizeWidth,
 }: ImageUploaderProps) => {
   const { t } = useTranslation()
-  const styles = createStyles(getAvatarSize().width)
+  const { width: deviceWidth } = useClientWindowDimensions()
+  const styles = createStyles(getAvatarSize(deviceWidth).width)
 
   const [imageUri, setImageUri] = useState<string | undefined>()
 
@@ -154,8 +155,7 @@ const ImageUploader = ({
 
 export default ImageUploader
 
-export const getAvatarSize = () => {
-  const { width: deviceWidth } = useClientWindowDimensions()
+export const getAvatarSize = (deviceWidth: number) => {
   const avatarSize: AvatarSize = deviceWidth > dimensions.breakpointL ? 'extralarge' : 'large'
   return { size: avatarSize, width: sizes[avatarSize] }
 }

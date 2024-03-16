@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { getAvatarSize } from '@holi/core/components/ImageUploader'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
@@ -21,6 +22,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
   const [avatar, setAvatar] = useState<HoliImageInfo | null>()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const { width: deviceWidth } = useClientWindowDimensions()
 
   const handleImageUpload = (image: HoliImageInfo | null) => {
     setAvatar(image)
@@ -37,13 +39,10 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
 
   const { t } = useTranslation()
 
+  const placeholderSpace = { avatar: avatar?.uri, avatarDefaultColor: space.avatarDefaultColor, title: space.title }
+
   const onSave = () =>
     updateSpace({ variables: { input: { id: space.id, avatar: avatar === null ? null : avatar?.blob } } })
-
-  const placeholderSpace = { ...space }
-  useEffect(() => {
-    placeholderSpace.avatar = avatar?.uri ?? ''
-  }, [placeholderSpace, avatar])
 
   return (
     <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>
@@ -54,7 +53,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
         blurhash={space.avatarBlurhash}
         currentImageUri={placeholderSpace.avatar}
         previewVariant="space"
-        placeholder={<SpaceAvatar space={placeholderSpace} size={getAvatarSize().size} />}
+        placeholder={<SpaceAvatar space={placeholderSpace} size={getAvatarSize(deviceWidth).size} />}
       />
     </EditSpaceModalWithFooter>
   )
