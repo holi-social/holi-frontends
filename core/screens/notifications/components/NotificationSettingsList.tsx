@@ -136,6 +136,8 @@ const WorkflowSettings = ({
   style: StyleProp<ViewStyle>
 }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={[styles.row, style]} testID={workflow.id}>
