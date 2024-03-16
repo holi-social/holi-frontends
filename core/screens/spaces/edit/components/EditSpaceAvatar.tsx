@@ -1,8 +1,10 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { getAvatarSize } from '@holi/core/components/ImageUploader'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
@@ -38,6 +40,11 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
   const onSave = () =>
     updateSpace({ variables: { input: { id: space.id, avatar: avatar === null ? null : avatar?.blob } } })
 
+  const placeholderSpace = { ...space }
+  useEffect(() => {
+    placeholderSpace.avatar = avatar?.uri ?? ''
+  }, [placeholderSpace, avatar])
+
   return (
     <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>
       <SpaceImageForm
@@ -45,8 +52,9 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
         onUploadImage={handleImageUpload}
         image={avatar}
         blurhash={space.avatarBlurhash}
-        currentImageUri={space.avatar}
+        currentImageUri={placeholderSpace.avatar}
         previewVariant="space"
+        placeholder={<SpaceAvatar space={placeholderSpace} size={getAvatarSize().size} />}
       />
     </EditSpaceModalWithFooter>
   )

@@ -18,6 +18,7 @@ export type SpaceImageFormProps = {
   currentImageUri?: string
   style?: ViewStyle
   previewVariant?: string
+  placeholder?: React.ReactNode
 }
 
 const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
@@ -29,6 +30,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   currentImageUri,
   style,
   previewVariant = 'default',
+  placeholder,
 }: SpaceImageFormProps) => {
   const { t } = useTranslation()
 
@@ -58,6 +60,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
                 currentImageUri={currentImageUri}
                 instructions={instructions}
                 previewVariant={previewVariant}
+                placeholder={placeholder}
               />
             ),
           },
