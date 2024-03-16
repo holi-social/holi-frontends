@@ -66,7 +66,7 @@ const getStyles = (theme: HoliTheme) =>
       width: 32,
       height: 32,
       borderRadius: 32 / 2,
-      backgroundColor: theme.colors.brandColorB10,
+      backgroundColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.brandColorB10,
       borderColor: theme.colors.brandColorB20,
       borderWidth: 1,
       flexShrink: 0,
