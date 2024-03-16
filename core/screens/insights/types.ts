@@ -58,3 +58,10 @@ export interface Recommendation {
   linkPreview: Link
   comment: string
 }
+
+export interface Initiative {
+  id: string
+  category: ExternalContentCategory
+  link: string
+  linkPreview: Link
+}
