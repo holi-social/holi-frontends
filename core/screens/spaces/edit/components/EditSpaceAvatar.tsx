@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getAvatarSize } from '@holi/core/components/ImageUploader'
@@ -51,7 +51,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
         onUploadImage={handleImageUpload}
         image={avatar}
         blurhash={space.avatarBlurhash}
-        currentImageUri={placeholderSpace.avatar}
+        currentImageUri={space.avatar}
         previewVariant="space"
         placeholder={<SpaceAvatar space={placeholderSpace} size={getAvatarSize(deviceWidth).size} />}
       />
