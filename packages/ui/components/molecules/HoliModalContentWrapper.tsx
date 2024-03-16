@@ -32,6 +32,7 @@ export interface HoliModalContentWrapperProps {
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   scrollable?: boolean
   hideFooterWhenKeyboardIsOpen?: boolean
+  footerStyle?: StyleProp<ViewStyle>
 }
 
 const HoliModalContentWrapper = (
@@ -48,6 +49,7 @@ const HoliModalContentWrapper = (
     testID = 'holi-modal-content',
     scrollable = true,
     hideFooterWhenKeyboardIsOpen = false,
+    footerStyle,
   }: React.PropsWithChildren<HoliModalContentWrapperProps>,
   ref: React.ForwardedRef<ScrollView>
 ) => {
@@ -75,7 +77,7 @@ const HoliModalContentWrapper = (
 
       {isSoftkeyboardOpen && <View style={styles.keyboardPlaceHolder} />}
 
-      {showFooter && <View style={styles.actionButtonPlaceholder} />}
+      {showFooter && <View style={[styles.actionButtonPlaceholder, footerStyle]} />}
     </>
   )
 
