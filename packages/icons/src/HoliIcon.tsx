@@ -25,7 +25,7 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
 
   return (
     <View testID={testID} style={style}>
-      <SvgIcon width={size} height={size} color={color || colors.gray300} />
+      <SvgIcon width={size} height={size} color={color || colors.foreground30} />
     </View>
   )
 }
