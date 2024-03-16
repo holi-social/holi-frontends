@@ -19,6 +19,7 @@ export interface ImageUploaderProps {
   image: HoliImageInfo | undefined | null
   currentImageUri?: string
   previewVariant?: string
+  placeholder?: React.ReactNode
   uploadImageProps?: {
     buttonLabel?: string
     testID?: string
@@ -43,6 +44,7 @@ const ImageUploader = ({
   image,
   currentImageUri,
   previewVariant = 'default',
+  placeholder,
   uploadImageProps,
   changeImageProps,
   removeImageProps,
@@ -121,6 +123,7 @@ const ImageUploader = ({
         </>
       )) || (
         <View style={styles.uploadButtonContainer}>
+          {placeholder}
           <HoliImagePicker
             fileSizeLimitation={{
               type: 'resize',

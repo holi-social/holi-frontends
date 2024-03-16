@@ -21,6 +21,7 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -121,6 +122,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     )
   }
 
+  const fullName = user.fullName || t('user.profileView.anonymous')
+
   const header = (
     <ImageUploader
       style={styles.header}
@@ -129,6 +132,16 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       onUploadImage={handleImageUpload}
       currentImageUri={pickedAvatar?.uri ?? user?.avatar ?? ''}
       previewVariant="avatar"
+      placeholder={
+        <HoliAvatar
+          imageSrc={user.avatar}
+          imageBlurhash={user.avatarBlurhash}
+          label={fullName}
+          initials={user.avatarLabel}
+          defaultColor={user.avatarDefaultColor}
+          size="large"
+        />
+      }
       resizeWidth={PROFILE_IMAGE_MAX_WIDTH}
     />
   )
