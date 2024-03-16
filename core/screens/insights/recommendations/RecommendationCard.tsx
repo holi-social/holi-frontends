@@ -9,6 +9,7 @@ import { Recommendation } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -36,6 +37,19 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
               label={recommendation.link}
               style={styles.image}
               resizeMode="cover"
+            />
+            <HoliGap size="s" />
+          </>
+        )}
+        {!recommendation.linkPreview.image && (
+          <>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
+              label={recommendation.link}
+              style={styles.image}
+              width={89}
+              height={88}
+              isSvg
             />
             <HoliGap size="s" />
           </>
@@ -74,17 +88,17 @@ const styles = StyleSheet.create({
       web: { marginBottom: 4 },
     }),
   },
-
   image: {
     borderRadius: Spacing.xs,
     width: '100%',
     height: 160,
+    backgroundColor: colors.gray100,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
   description: {
     paddingHorizontal: Spacing['3xs'],
   },
-
   hovered: {
     borderColor: colors.black300,
     shadowColor: colors.black300,
