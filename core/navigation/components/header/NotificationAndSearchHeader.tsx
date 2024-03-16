@@ -11,12 +11,16 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Notification2 } from '@holi/icons/src/generated'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
   const hasNewNotifications = useHasNewNotifications()
+  const {
+    theme: { colors },
+  } = useTheme()
 
   const { ftOff } = useFeatureToggle(FeatureToggleName.SEARCH)
 
@@ -29,11 +33,14 @@ const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
         onPress={() => {
           navigate('/notifications')
         }}
-        color={tintColor}
+        color={tintColor || colors.foreground30}
         testID="btn-to-notifications"
       />
 
-      <SearchButton onPress={!ftOff ? () => navigate('/search') : showFeatureNotImplementedToast} color={tintColor} />
+      <SearchButton
+        onPress={!ftOff ? () => navigate('/search') : showFeatureNotImplementedToast}
+        color={tintColor || colors.foreground30}
+      />
     </HoliHorizontalRow>
   )
 }
