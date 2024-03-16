@@ -1738,9 +1738,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       </View>
       <View
         style={
-          {
-            "height": 96,
-          }
+          [
+            {
+              "height": 96,
+            },
+            undefined,
+          ]
         }
       />
     </View>

@@ -1117,7 +1117,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               {
                 "alignSelf": "center",
                 "justifyContent": "flex-end",
-                "paddingBottom": 18,
                 "width": "100%",
               },
               undefined,
@@ -1134,7 +1133,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               {
                 "alignItems": "center",
                 "alignSelf": "center",
-                "height": 40,
+                "height": 22,
               }
             }
           >
@@ -1178,7 +1177,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     },
                   ],
                   {
-                    "padding": 15,
+                    "paddingVertical": 10,
                   },
                 ]
               }
@@ -1199,8 +1198,8 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                   style={
                     {
                       "backgroundColor": "#262424",
-                      "borderRadius": 4,
-                      "height": 4,
+                      "borderRadius": 2,
+                      "height": 2,
                       "opacity": 0.3,
                       "width": 40,
                     }

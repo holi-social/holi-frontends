@@ -2,14 +2,9 @@ import { useMutation } from '@apollo/client'
 import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
-import { Image as ReactNativeImage } from 'react-native'
 
 import ImageUploader from '@holi/core/components/ImageUploader'
-import {
-  CONTENT_IMAGE_MAX_WIDTH,
-  IMAGE_MAX_FILE_SIZE_BYTES,
-  PROFILE_IMAGE_MAX_WIDTH,
-} from '@holi/core/constants/constants'
+import { PROFILE_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, {
