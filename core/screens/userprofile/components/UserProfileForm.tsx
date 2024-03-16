@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import ImageUploader from '@holi/core/components/ImageUploader'
+import ImageUploader, { getAvatarSize } from '@holi/core/components/ImageUploader'
 import { PROFILE_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
@@ -48,10 +48,15 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
   )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const [currentImageUri, setCurrentImageUri] = useState<string>()
   const [pickedAvatar, setPickedAvatar] = useState<HoliImageInfo | null>()
   const handleImageUpload = (image: HoliImageInfo | null) => {
+    setCurrentImageUri(image?.uri)
     setPickedAvatar(image)
   }
+  useEffect(() => {
+    setCurrentImageUri(user?.avatar)
+  }, [user?.avatar])
   const scrollViewRef = useRef<ScrollView>(null)
   const { getScrollToProps } = usePositions()
   const { t } = useTranslation()
@@ -88,7 +93,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       aboutMe,
       pronouns,
       ...locationUpdate,
-      avatar: !pickedAvatar ? null : pickedAvatar?.blob,
+      avatar: pickedAvatar?.blob ?? null,
     }
 
     const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(input)
@@ -130,16 +135,14 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       imageLabel={t('user.profileView.avatar.input.label')}
       image={pickedAvatar}
       onUploadImage={handleImageUpload}
-      currentImageUri={pickedAvatar?.uri ?? user?.avatar ?? ''}
+      currentImageUri={currentImageUri}
       previewVariant="avatar"
       placeholder={
         <HoliAvatar
-          imageSrc={user.avatar}
-          imageBlurhash={user.avatarBlurhash}
           label={fullName}
           initials={user.avatarLabel}
           defaultColor={user.avatarDefaultColor}
-          size="large"
+          size={getAvatarSize().size}
         />
       }
       resizeWidth={PROFILE_IMAGE_MAX_WIDTH}
