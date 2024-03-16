@@ -6,6 +6,7 @@ import { Image as ReactNativeImage } from 'react-native'
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { AvatarSize, sizes } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -52,9 +53,7 @@ const ImageUploader = ({
   resizeWidth,
 }: ImageUploaderProps) => {
   const { t } = useTranslation()
-  const { width: deviceWidth } = useClientWindowDimensions()
-  const avatarSize = deviceWidth > dimensions.breakpointL ? 128 : 64
-  const styles = createStyles(avatarSize)
+  const styles = createStyles(getAvatarSize().width)
 
   const [imageUri, setImageUri] = useState<string | undefined>()
 
@@ -70,7 +69,7 @@ const ImageUploader = ({
   return (
     <View style={[styles.imageUploader, style]}>
       {((image || imageUri) && (
-        <>
+        <View style={styles.contentContainer}>
           <View style={styles.imageContainer}>
             {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
             <ReactNativeImage
@@ -120,25 +119,28 @@ const ImageUploader = ({
               <HoliText numberOfLines={1}>{removeImageProps?.buttonLabel ?? t('global.image.remove.label')}</HoliText>
             </HoliButton>
           </View>
-        </>
+        </View>
       )) || (
-        <View style={styles.uploadButtonContainer}>
-          {placeholder}
-          <HoliImagePicker
-            fileSizeLimitation={{
-              type: 'resize',
-              limitBytes: limitBytes ?? IMAGE_MAX_FILE_SIZE_BYTES,
-              resizeWidth: resizeWidth ?? CONTENT_IMAGE_MAX_WIDTH,
-            }}
-            buttonProps={{
-              label: uploadImageProps?.buttonLabel ?? t('global.image.upload.label'),
-              testID: uploadImageProps?.testID,
-              style: styles.imageUploadButton,
-            }}
-            onPickImage={onUploadImage}
-          >
-            <HoliText numberOfLines={1}>{uploadImageProps?.buttonLabel ?? t('global.image.upload.label')}</HoliText>
-          </HoliImagePicker>
+        <View style={styles.contentContainer}>
+          <View style={styles.imageContainer}>{placeholder}</View>
+          <View style={styles.uploadButtonContainer}>
+            <HoliImagePicker
+              fileSizeLimitation={{
+                type: 'resize',
+                limitBytes: limitBytes ?? IMAGE_MAX_FILE_SIZE_BYTES,
+                resizeWidth: resizeWidth ?? CONTENT_IMAGE_MAX_WIDTH,
+              }}
+              buttonProps={{
+                variant: 'medium',
+                label: uploadImageProps?.buttonLabel ?? t('global.image.upload.label'),
+                testID: uploadImageProps?.testID,
+                style: styles.imageUploadButton,
+              }}
+              onPickImage={onUploadImage}
+            >
+              <HoliText numberOfLines={1}>{uploadImageProps?.buttonLabel ?? t('global.image.upload.label')}</HoliText>
+            </HoliImagePicker>
+          </View>
         </View>
       )}
       <View style={styles.instructionsContainer}>
@@ -152,27 +154,14 @@ const ImageUploader = ({
 
 export default ImageUploader
 
-const createStyles = (avatarSize: number) =>
+export const getAvatarSize = () => {
+  const { width: deviceWidth } = useClientWindowDimensions()
+  const avatarSize: AvatarSize = deviceWidth > dimensions.breakpointL ? 'extralarge' : 'large'
+  return { size: avatarSize, width: sizes[avatarSize] }
+}
+
+const createStyles = (width: number) =>
   StyleSheet.create({
-    imageUploadButton: {
-      backgroundColor: colors.background10,
-    },
-    instructionsContainer: {
-      marginTop: 8,
-      justifyContent: 'center',
-    },
-    instructions: {
-      justifyContent: 'center',
-      textAlign: 'center',
-      color: colors.foreground20,
-    },
-    imageContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 16,
-      paddingBottom: 16,
-      width: '100%',
-    },
     imageUploader: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -182,6 +171,14 @@ const createStyles = (avatarSize: number) =>
           paddingVertical: 24,
         },
       }),
+    },
+    contentContainer: {
+      gap: 8,
+    },
+    imageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
     },
     uploadButtonContainer: {
       flex: 1,
@@ -196,16 +193,28 @@ const createStyles = (avatarSize: number) =>
       minHeight: 48,
       flexWrap: 'wrap',
     },
+    imageUploadButton: {
+      backgroundColor: colors.background10,
+    },
     avatarBase: {
       aspectRatio: 1,
-      width: avatarSize,
+      width: width,
       borderColor: colors.foreground30,
       borderWidth: 2,
     },
     avatarUser: {
-      borderRadius: avatarSize / 2,
+      borderRadius: width / 2,
     },
     avatarSpace: {
       borderRadius: 8,
+    },
+    instructionsContainer: {
+      marginTop: 8,
+      justifyContent: 'center',
+    },
+    instructions: {
+      justifyContent: 'center',
+      textAlign: 'center',
+      color: colors.foreground20,
     },
   })
