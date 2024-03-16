@@ -263,7 +263,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'flex-end',
     width: '100%',
-    paddingBottom: 18,
     ...Platform.select({
       web: {
         alignSelf: 'flex-end',
@@ -271,17 +270,17 @@ const styles = StyleSheet.create({
     }),
   },
   handle: {
-    height: 40,
+    height: 22,
     alignItems: 'center',
     alignSelf: 'center',
   },
   lineButton: {
-    padding: 15,
+    paddingVertical: 10,
   },
   line: {
     width: 40,
-    height: 4,
-    borderRadius: 4,
+    height: 2,
+    borderRadius: 2,
     backgroundColor: colors.foreground30,
     opacity: 0.3,
   },
