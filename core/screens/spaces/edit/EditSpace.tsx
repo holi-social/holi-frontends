@@ -203,7 +203,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 </HoliText>
                 <HoliIcon icon={Edit2} />
               </HoliButton>
-              <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
               <HoliGap />
               <HoliHeading level="1" size="m" testID="space-edit-title">
                 {space.title}
@@ -447,9 +446,6 @@ const getStyles = (statusBarHeight: number, windowWidth: number) =>
     },
     editTitleButton: {
       marginTop: 8,
-    },
-    requirements: {
-      color: colors.foreground20,
     },
     container: {
       alignItems: 'center',
