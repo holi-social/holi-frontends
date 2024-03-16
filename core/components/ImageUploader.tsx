@@ -54,7 +54,7 @@ const ImageUploader = ({
   const avatarSize = deviceWidth > dimensions.breakpointL ? 128 : 64
   const styles = createStyles(avatarSize)
 
-  const [uri, setImageUri] = useState<string | undefined>()
+  const [imageUri, setImageUri] = useState<string | undefined>()
 
   useEffect(() => {
     setImageUri(currentImageUri)
@@ -67,12 +67,12 @@ const ImageUploader = ({
 
   return (
     <View style={[styles.imageUploader, style]}>
-      {((image || uri) && (
+      {((image || imageUri) && (
         <>
           <View style={styles.imageContainer}>
             {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
             <ReactNativeImage
-              source={{ uri: image ? image.uri : uri }}
+              source={{ uri: image ? image.uri : imageUri }}
               resizeMode="cover"
               aria-label={imageLabel}
               style={
