@@ -182,6 +182,7 @@ const createStyles = (width: number) =>
     imageContainer: {
       justifyContent: 'center',
       alignItems: 'center',
+      width: '100%',
     },
     uploadButtonContainer: {
       flexDirection: 'row',
