@@ -74,7 +74,7 @@ const ImageUploader = ({
           <View style={styles.imageContainer}>
             {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
             <ReactNativeImage
-              source={{ uri: image ? image.uri : imageUri }}
+              source={{ uri: image?.uri ?? imageUri }}
               resizeMode="cover"
               aria-label={imageLabel}
               style={
