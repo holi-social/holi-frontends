@@ -170,12 +170,8 @@ const createStyles = (width: number) =>
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingVertical: 40,
-      ...Platform.select({
-        web: {
-          paddingVertical: 24,
-        },
-      }),
+      paddingHorizontal: 16,
+      paddingVertical: 16,
     },
     contentContainer: {
       justifyContent: 'center',
