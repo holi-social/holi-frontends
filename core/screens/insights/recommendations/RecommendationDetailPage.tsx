@@ -7,12 +7,14 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
-import { ShareBox } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -20,6 +22,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -63,11 +66,36 @@ const RecommendationDetailPage = () => {
   const recommendation = insightById?.recommendation
   const creator = insightById?.creator
 
+  const [, shareLink] = useShareLink({
+    link: `/insights/${insightId}/recommendations/${recommendationId}`,
+    linkType: LinkType.UNIVERSAL,
+    message: `${t('insights.recommendations.share.message', {
+      title: recommendation?.linkPreview.title ?? '',
+      interpolation: { escapeValue: false },
+    })}`,
+  })
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.recommendations.title'),
+      headerRight: () => {
+        return (
+          <HoliActionDrawer.Drawer
+            label={t('global.moreOptions')}
+            buttonElement={<HoliIcon icon={MoreFilled} color={colors.black300} />}
+          >
+            <HoliActionDrawer.Action
+              icon={Share}
+              title={t('global.share')}
+              testID="btn-share-insight"
+              handleAction={shareLink}
+            />
+          </HoliActionDrawer.Drawer>
+        )
+      },
+      headerTransparent: false,
     })
-  }, [t, setScreenOptions])
+  }, [t, setScreenOptions, shareLink])
 
   return (
     <>
@@ -87,7 +115,7 @@ const RecommendationDetailPage = () => {
               resizeMode="cover"
               style={styles.bannerImage}
             />
-            <View style={styles.link}>
+            <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
               <HoliGap size="s" />
               <HoliHeading level="1" size="l" numberOfLines={3}>
@@ -135,7 +163,7 @@ const Skeleton = () => (
     <View style={[styles.bannerImage]}>
       <HoliSkeleton height="100%" width="100%" borderRadius={0} />
     </View>
-    <View style={styles.link}>
+    <View style={[styles.header, styles.curvedTop, styles.curvedBottom]}>
       <HoliSkeleton height={Spacing.md} width="40%" borderRadius={Spacing['3xs']} />
       <HoliGap size="s" />
       <HoliSkeleton height={Spacing.lg} width="60%" borderRadius={Spacing['3xs']} />
@@ -153,7 +181,6 @@ const Skeleton = () => (
 const styles = StyleSheet.create({
   layout: {
     minHeight: '100%',
-    paddingTop: dimensions.topBarHeight,
     backgroundColor: colors.background20,
     ...Platform.select({
       web: {
@@ -162,7 +189,11 @@ const styles = StyleSheet.create({
     }),
   },
   container: {
+    paddingHorizontal: 0,
     paddingBottom: dimensions.bottomBarHeight + 100,
+  },
+  header: {
+    marginBottom: 2,
   },
   bannerImage: {
     paddingHorizontal: 0,
@@ -178,14 +209,6 @@ const styles = StyleSheet.create({
       },
     }),
   } as ImageStyle,
-  link: {
-    backgroundColor: colors.background10,
-    borderBottomLeftRadius: Spacing.lg,
-    borderBottomRightRadius: Spacing.lg,
-    paddingHorizontal: Spacing.xs,
-    paddingVertical: Spacing.md,
-    marginBottom: 2,
-  },
   recommender: {
     flexDirection: 'row',
     gap: Spacing['3xs'],
@@ -200,13 +223,30 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: '100%',
-    position: 'fixed',
-    bottom: dimensions.bottomBarHeight + 16,
     padding: Spacing.xxs,
+    position: 'absolute',
+    bottom: Spacing.xs,
+    ...Platform.select({
+      web: { position: 'fixed', bottom: dimensions.bottomBarHeight + Spacing.xs },
+    }),
   },
   linkButton: {
     maxWidth: dimensions.maxButtonWidth,
     marginHorizontal: 'auto',
+  },
+  section: {
+    backgroundColor: colors.background10,
+    paddingTop: Spacing.md,
+    paddingBottom: Spacing.xs,
+    paddingHorizontal: Spacing.xs,
+  },
+  curvedBottom: {
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+  },
+  curvedTop: {
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
   },
 })
 

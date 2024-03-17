@@ -17,13 +17,13 @@ describe('QuotesCarousel', () => {
     expect(screen.queryByTestId('quote-card-source')).not.toBeOnTheScreen()
   })
 
-  it('uses three colours repeatedly for four quote icons', () => {
-    const quotes: Quote[] = [aQuote(), aQuote(), aQuote(), aQuote()]
+  it('colours quote icon in four colours sequentially and repeats the colour sequence', () => {
+    const quotes: Quote[] = [aQuote(), aQuote(), aQuote(), aQuote(), aQuote()]
 
     render(<QuotesCarousel insightId={insightId} quotes={quotes} />)
 
-    expect(screen.queryAllByTestId('quote-card-quote')).toHaveLength(4)
-    expect(screen.queryAllByTestId('quote-card-source')).toHaveLength(4)
+    expect(screen.queryAllByTestId('quote-card-quote')).toHaveLength(5)
+    expect(screen.queryAllByTestId('quote-card-source')).toHaveLength(5)
 
     expect(
       screen
@@ -45,6 +45,11 @@ describe('QuotesCarousel', () => {
         },
         {
           "color": "${quoteIconColors[2]}",
+          "height": 24,
+          "width": 24,
+        },
+        {
+          "color": "${quoteIconColors[3]}",
           "height": 24,
           "width": 24,
         },

@@ -8,13 +8,15 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
-import { ShareBox } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -22,6 +24,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -62,14 +65,38 @@ const QuoteDetailPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
+  const [, shareLink] = useShareLink({
+    link: `/insights/${insight?.id}/quotes/${quoteId}`,
+    linkType: LinkType.UNIVERSAL,
+    message: `${t('insights.quotes.share.message', {
+      title: quote?.linkPreview.title ?? '',
+      interpolation: { escapeValue: false },
+    })}`,
+  })
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.quotes.title'),
       headerTransparent: false,
       headerTintColor: colors.black300,
       headerShown: true,
+      headerRight: () => {
+        return (
+          <HoliActionDrawer.Drawer
+            label={t('global.moreOptions')}
+            buttonElement={<HoliIcon icon={MoreFilled} color={colors.black300} />}
+          >
+            <HoliActionDrawer.Action
+              icon={Share}
+              title={t('global.share')}
+              testID="btn-share-insight"
+              handleAction={shareLink}
+            />
+          </HoliActionDrawer.Drawer>
+        )
+      },
     })
-  }, [quote, setScreenOptions, t])
+  }, [quote, setScreenOptions, shareLink, t])
 
   return (
     <>
@@ -86,18 +113,15 @@ const QuoteDetailPage = () => {
                 imageStyle={styles.quoteImage as ImageStyle}
               />
             )}
-            <View style={[mixins.container, styles.section, styles.curvedBottom]}>
+
+            <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={quote.linkPreview.icon} link={quote.link} />
-
               <HoliGap size="s" />
-
               <HoliHeading level="1">{quote.linkPreview.title}</HoliHeading>
             </View>
 
-            <HoliGap size="xs" />
-
             <View style={[mixins.container, styles.section, styles.curvedTop, styles.curvedBottom]}>
-              <View style={{ flexDirection: 'row', gap: Spacing.xs }}>
+              <View style={{ flexDirection: 'row', gap: Spacing.xxs }}>
                 <HoliAvatar
                   size="micro"
                   imageSrc={insight.creator.avatar}
@@ -155,7 +179,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background20,
     paddingBottom: 124,
   },
-
+  header: {
+    marginBottom: 2,
+  },
   bannerImage: {
     paddingHorizontal: 0,
     height: Platform.OS === 'web' ? 680 : 340,
@@ -171,24 +197,20 @@ const styles = StyleSheet.create({
   quoteImage: {
     ...Platform.select({ web: { height: '100%' } }),
   },
-
   section: {
     backgroundColor: colors.background10,
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.lg,
+    paddingTop: Spacing.md,
+    paddingBottom: Spacing.xs,
     paddingHorizontal: Spacing.xs,
   },
-
   curvedBottom: {
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
   },
-
   curvedTop: {
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
   },
-
   openLinkButton: {
     justifyContent: 'center',
     alignItems: 'center',

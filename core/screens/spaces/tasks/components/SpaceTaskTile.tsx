@@ -16,7 +16,6 @@ import {
   GlobeFilled,
   LockFilled,
   MapPin2Filled,
-  More,
   PhoneFilled,
   RefreshFilled,
   Time,
@@ -43,8 +42,8 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
-  isAdmin,
-  isCollaborator,
+  isAdmin = false,
+  isCollaborator = false,
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
@@ -59,7 +58,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
-  const isTaskOwner = task?.creator.id === userId
+  const isTaskOwner = isCollaborator && task?.creator.id === userId
 
   const handlePlaceholder = useCallback(() => {
     setShowPlaceholder(imageError || !task.thumbnail)
@@ -70,7 +69,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   }, [handlePlaceholder])
 
   return (
-    <View key={task.id} style={styles.taskItem} testID="space-task-tile">
+    <View style={styles.taskItem} testID="space-task-tile">
       <HoliButton
         transparent
         label={task.name}
@@ -126,12 +125,8 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             {task.name}
           </HoliText>
         </HoliButton>
-        {(isAdmin || isTaskOwner) && !showFullView && (
-          <HoliActionDrawer.Drawer
-            label={t('global.moreOptions')}
-            testID="btn-task-more-options"
-            buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
-          >
+        {(isTaskOwner || isAdmin) && !showFullView && (
+          <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options" variant="dark">
             <HoliActionDrawer.Action
               icon={Edit2}
               title={t('global.edit')}

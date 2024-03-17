@@ -23,6 +23,7 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -102,8 +103,12 @@ const PostDetailPage = () => {
     [isWeb]
   )
 
+  if (loading) {
+    return <HoliLoader />
+  }
+
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !post) {
+  if (error || !post) {
     return <></>
   }
 

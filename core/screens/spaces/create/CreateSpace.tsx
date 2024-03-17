@@ -165,7 +165,16 @@ const CreateSpace = () => {
 export default withProfiler(CreateSpace, { name: 'CreateSpace' })
 
 const styles = StyleSheet.create({
-  wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.background10 },
+  wrapper: {
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: colors.background10,
+    ...Platform.select({
+      web: {
+        height: '100%',
+      },
+    }),
+  },
   defaultLayout: {
     backgroundColor: colors.background10,
     paddingBottom: 0,
