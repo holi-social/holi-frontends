@@ -132,32 +132,6 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const fullName = user.fullName || t('user.profileView.anonymous')
 
-  const header = (
-    <ImageUploader
-      style={styles.header}
-      imageLabel={t('user.profileView.avatar.input.label')}
-      image={pickedAvatar}
-      onUploadImage={handleImageUpload}
-      currentImageUri={currentImageUri}
-      previewVariant="avatar"
-      placeholder={
-        <HoliAvatar
-          label={fullName}
-          initials={user.avatarLabel}
-          defaultColor={user.avatarDefaultColor}
-          size={getAvatarSize(deviceWidth).size}
-        />
-      }
-      resizeWidth={PROFILE_IMAGE_MAX_WIDTH}
-    />
-  )
-  const prependComponent = (
-    <>
-      {notificationComponent}
-      {header}
-    </>
-  )
-
   const onFocus = useCallback(
     (pos: Position) => {
       const scrollTo = scrollViewRef.current?.scrollTo
@@ -188,97 +162,111 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       <HoliModalContentWrapper
         actionButtonText={t('user.profileForm.save')}
         onActionButtonPress={submit}
-        prependChildren={prependComponent}
+        prependChildren={notificationComponent}
         loading={loading}
         keyboardShouldPersistTaps="handled"
         hideFooterWhenKeyboardIsOpen={true}
         testID={testID}
-        style={[styles.wrapper, styles.contentBackground]}
+        style={[styles.wrapper]}
         footerStyle={styles.contentBackground}
         ref={scrollViewRef}
       >
-        <View style={styles.contentBackground}>
-          <View style={[mixins.container, styles.mainContainer]}>
-            <HoliTextInput
-              value={firstName}
-              inputLabel={t('user.profileForm.firstName')}
-              aria-label={t('user.profileForm.firstName')}
-              placeholder={t('user.profileForm.firstNamePlaceholder')}
-              maxNoOfCharacters={30}
-              onChange={(text: string) => {
-                setFirstName(replaceSpecialChars(text))
-                resetErrorsForField('firstName')
-              }}
-              isRequired
-              style={styles.input}
-              validationErrorText={fieldErrors?.firstName?.join()}
-              inputProps={{ autoFocus: Platform.OS === 'web' }}
-              {...scrollToPropsFor('firstName')}
-              testID={'first-name'}
-            />
-            <HoliTextInput
-              value={lastName}
-              inputLabel={t('user.profileForm.lastName')}
-              aria-label={t('user.profileForm.lastName')}
-              placeholder={t('user.profileForm.lastNamePlaceholder')}
-              maxNoOfCharacters={30}
-              onChange={(text: string) => {
-                setLastName(replaceSpecialChars(text))
-                resetErrorsForField('lastName')
-              }}
-              style={styles.input}
-              validationErrorText={fieldErrors?.lastName?.join()}
-              {...scrollToPropsFor('lastName')}
-              testID={'last-name'}
-            />
-            <HoliTextInput
-              value={aboutMe}
-              inputLabel={t('user.profileForm.aboutMe')}
-              aria-label={t('user.profileForm.aboutMe')}
-              placeholder={t('user.profileForm.aboutMePlaceholder')}
-              validationErrorText={fieldErrors?.aboutMe?.join()}
-              onChange={(text: string) => {
-                setAboutMe(text)
-                resetErrorsForField('aboutMe')
-              }}
-              noOfVisibleLines={5}
-              maxNoOfVisibleLines={10}
-              maxNoOfCharacters={3000}
-              {...scrollToPropsFor('aboutme')}
-              style={styles.input}
-            />
-            <HoliTextInput
-              value={pronouns}
-              inputLabel={t('user.profileForm.pronouns')}
-              aria-label={t('user.profileForm.pronouns')}
-              placeholder={t('user.profileForm.pronounsPlaceholder')}
-              validationErrorText={fieldErrors?.pronouns?.join()}
-              onChange={(text: string) => {
-                setPronouns(text)
-                resetErrorsForField('pronouns')
-              }}
-              {...scrollToPropsFor('pronouns')}
-              style={styles.input}
-            />
-            <PlacesAutocomplete
-              label={t('user.profileForm.location')}
-              placeholder={t('user.profileForm.locationPlaceholder')}
-              id="user-location-input"
-              testID="user-location"
-              selected={selectedLocation}
-              value={locationQuery}
-              onClose={onLocationClose}
-              onChangeText={setLocationQuery}
-              style={styles.input}
-              suggestionsStyle={{ backgroundColor: colors.background10 }}
-              helperText={selectedLocation ? undefined : t('profile.location.validation.helper')}
-              validationErrorText={fieldErrors?.location?.join()}
-              level={GeolocationLevel.CITY}
-              fetchDetailsOnClose
-              {...scrollToPropsFor('location')}
-            />
+        <>
+          <ImageUploader
+            style={styles.header}
+            imageLabel={t('user.profileView.avatar.input.label')}
+            image={pickedAvatar}
+            onUploadImage={handleImageUpload}
+            currentImageUri={currentImageUri}
+            previewVariant="avatar"
+            placeholder={
+              <HoliAvatar
+                label={fullName}
+                initials={user.avatarLabel}
+                defaultColor={user.avatarDefaultColor}
+                size={getAvatarSize(deviceWidth).size}
+              />
+            }
+            resizeWidth={PROFILE_IMAGE_MAX_WIDTH}
+          />
+          <View style={styles.contentBackground}>
+            <View style={[mixins.container, styles.mainContainer]}>
+              <HoliTextInput
+                value={firstName}
+                inputLabel={t('user.profileForm.firstName')}
+                aria-label={t('user.profileForm.firstName')}
+                placeholder={t('user.profileForm.firstNamePlaceholder')}
+                maxNoOfCharacters={30}
+                onChange={(text: string) => {
+                  setFirstName(replaceSpecialChars(text))
+                  resetErrorsForField('firstName')
+                }}
+                isRequired
+                validationErrorText={fieldErrors?.firstName?.join()}
+                inputProps={{ autoFocus: Platform.OS === 'web' }}
+                {...scrollToPropsFor('firstName')}
+                testID={'first-name'}
+              />
+              <HoliTextInput
+                value={lastName}
+                inputLabel={t('user.profileForm.lastName')}
+                aria-label={t('user.profileForm.lastName')}
+                placeholder={t('user.profileForm.lastNamePlaceholder')}
+                maxNoOfCharacters={30}
+                onChange={(text: string) => {
+                  setLastName(replaceSpecialChars(text))
+                  resetErrorsForField('lastName')
+                }}
+                validationErrorText={fieldErrors?.lastName?.join()}
+                {...scrollToPropsFor('lastName')}
+                testID={'last-name'}
+              />
+              <HoliTextInput
+                value={aboutMe}
+                inputLabel={t('user.profileForm.aboutMe')}
+                aria-label={t('user.profileForm.aboutMe')}
+                placeholder={t('user.profileForm.aboutMePlaceholder')}
+                validationErrorText={fieldErrors?.aboutMe?.join()}
+                onChange={(text: string) => {
+                  setAboutMe(text)
+                  resetErrorsForField('aboutMe')
+                }}
+                noOfVisibleLines={5}
+                maxNoOfVisibleLines={10}
+                maxNoOfCharacters={3000}
+                {...scrollToPropsFor('aboutme')}
+              />
+              <HoliTextInput
+                value={pronouns}
+                inputLabel={t('user.profileForm.pronouns')}
+                aria-label={t('user.profileForm.pronouns')}
+                placeholder={t('user.profileForm.pronounsPlaceholder')}
+                validationErrorText={fieldErrors?.pronouns?.join()}
+                onChange={(text: string) => {
+                  setPronouns(text)
+                  resetErrorsForField('pronouns')
+                }}
+                {...scrollToPropsFor('pronouns')}
+              />
+              <PlacesAutocomplete
+                label={t('user.profileForm.location')}
+                placeholder={t('user.profileForm.locationPlaceholder')}
+                id="user-location-input"
+                testID="user-location"
+                selected={selectedLocation}
+                value={locationQuery}
+                onClose={onLocationClose}
+                onChangeText={setLocationQuery}
+                suggestionsStyle={{ backgroundColor: colors.background10 }}
+                helperText={selectedLocation ? undefined : t('profile.location.validation.helper')}
+                validationErrorText={fieldErrors?.location?.join()}
+                level={GeolocationLevel.CITY}
+                fetchDetailsOnClose
+                {...scrollToPropsFor('location')}
+              />
+            </View>
           </View>
-        </View>
+        </>
       </HoliModalContentWrapper>
     </ToastProvider>
   )
@@ -298,9 +286,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     paddingBottom: Platform.OS === 'ios' ? 250 : 0,
     marginTop: 30,
-  },
-  input: {
-    marginBottom: 16,
+    gap: 16,
   },
   notification: {
     ...StyleSheet.absoluteFillObject,

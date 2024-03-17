@@ -102,6 +102,7 @@ const ImageUploader = ({
                 label: changeImageProps?.buttonLabel ?? t('global.image.change.label'),
                 testID: changeImageProps?.testID,
                 style: styles.imageUploadButton,
+                type: 'secondary',
                 inline: true,
               }}
               onPickImage={onUploadImage}
@@ -110,6 +111,7 @@ const ImageUploader = ({
             </HoliImagePicker>
 
             <HoliButton
+              type="secondary"
               variant="medium"
               label={removeImageProps?.buttonLabel ?? t('global.image.remove.label')}
               onPress={removeImage}
@@ -136,6 +138,8 @@ const ImageUploader = ({
                 label: uploadImageProps?.buttonLabel ?? t('global.image.upload.label'),
                 testID: uploadImageProps?.testID,
                 style: styles.imageUploadButton,
+                type: 'secondary',
+                inline: true,
               }}
               onPickImage={onUploadImage}
             >
@@ -163,6 +167,7 @@ export const getAvatarSize = (deviceWidth: number) => {
 const createStyles = (width: number) =>
   StyleSheet.create({
     imageUploader: {
+      flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
       paddingVertical: 40,
@@ -173,28 +178,25 @@ const createStyles = (width: number) =>
       }),
     },
     contentContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
       gap: 8,
     },
     imageContainer: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: '100%',
     },
     uploadButtonContainer: {
-      flex: 1,
-      ...Platform.select({
-        web: {
-          flexDirection: 'row',
-        },
-      }),
+      flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
       gap: 8,
-      minHeight: 48,
       flexWrap: 'wrap',
     },
     imageUploadButton: {
-      backgroundColor: colors.background10,
+      // todo: remove padding style after rebranding of HoliButton
+      paddingHorizontal: 16,
     },
     avatarBase: {
       aspectRatio: 1,
