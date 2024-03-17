@@ -178,7 +178,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
             image={pickedAvatar}
             onUploadImage={handleImageUpload}
             currentImageUri={currentImageUri}
-            previewVariant="avatar"
+            imageVariant="userAvatar"
             placeholder={
               <HoliAvatar
                 label={fullName}

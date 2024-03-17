@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
+import { useFallbackImage } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { AvatarSize, sizes } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -19,7 +21,7 @@ export interface ImageUploaderProps {
   onUploadImage: (image: HoliImageInfo | null) => void
   image: HoliImageInfo | undefined | null
   currentImageUri?: string
-  previewVariant?: string
+  imageVariant?: string
   placeholder?: React.ReactNode
   uploadImageProps?: {
     buttonLabel?: string
@@ -44,7 +46,7 @@ const ImageUploader = ({
   onUploadImage,
   image,
   currentImageUri,
-  previewVariant = 'default',
+  imageVariant = 'default',
   placeholder,
   uploadImageProps,
   changeImageProps,
@@ -55,6 +57,7 @@ const ImageUploader = ({
   const { t } = useTranslation()
   const { width: deviceWidth } = useClientWindowDimensions()
   const styles = createStyles(getAvatarSize(deviceWidth).width)
+  const fallbackImageUri = useFallbackImage().uri
 
   const [imageUri, setImageUri] = useState<string | undefined>()
 
@@ -78,15 +81,11 @@ const ImageUploader = ({
               resizeMode="cover"
               aria-label={imageLabel}
               style={
-                previewVariant === 'avatar'
+                imageVariant === 'userAvatar'
                   ? [styles.avatarBase, styles.avatarUser]
-                  : previewVariant === 'space'
+                  : imageVariant === 'spaceAvatar'
                   ? [styles.avatarBase, styles.avatarSpace]
-                  : {
-                      aspectRatio: 1.5,
-                      borderRadius: 8,
-                      width: '100%',
-                    }
+                  : styles.image
               }
             />
           </View>
@@ -125,7 +124,9 @@ const ImageUploader = ({
         </View>
       )) || (
         <View style={styles.contentContainer}>
-          <View style={styles.imageContainer}>{placeholder}</View>
+          <View style={styles.imageContainer}>
+            {placeholder ?? <HoliImage source={{ uri: fallbackImageUri }} style={styles.image} label="" />}
+          </View>
           <View style={styles.uploadButtonContainer}>
             <HoliImagePicker
               fileSizeLimitation={{
@@ -194,6 +195,12 @@ const createStyles = (width: number) =>
     imageUploadButton: {
       // todo: remove padding style after rebranding of HoliButton
       paddingHorizontal: 16,
+    },
+    image: {
+      aspectRatio: 1.5,
+      borderRadius: 8,
+      width: '100%',
+      resizeMode: 'cover',
     },
     avatarBase: {
       aspectRatio: 1,

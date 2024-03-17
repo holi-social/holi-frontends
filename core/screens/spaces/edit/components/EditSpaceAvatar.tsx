@@ -55,7 +55,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
         image={avatar}
         blurhash={space.avatarBlurhash}
         currentImageUri={space.avatar}
-        previewVariant="space"
+        imageVariant="spaceAvatar"
         placeholder={<SpaceAvatar space={placeholderSpace} size={getAvatarSize(deviceWidth).size} />}
       />
     </EditSpaceModalWithFooter>

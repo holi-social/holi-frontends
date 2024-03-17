@@ -112,6 +112,7 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
         image={image}
         blurhash={blurhash}
         currentImageUri={currentImageUri}
+        instructions={t('global.upload.hint.horizontal')}
       />
     </>
   )

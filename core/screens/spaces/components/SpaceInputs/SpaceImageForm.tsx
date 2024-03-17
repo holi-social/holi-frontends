@@ -17,7 +17,7 @@ export type SpaceImageFormProps = {
   blurhash?: string | undefined
   currentImageUri?: string
   style?: ViewStyle
-  previewVariant?: string
+  imageVariant?: string
   placeholder?: React.ReactNode
 }
 
@@ -29,7 +29,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   image,
   currentImageUri,
   style,
-  previewVariant = 'default',
+  imageVariant = 'default',
   placeholder,
 }: SpaceImageFormProps) => {
   const { t } = useTranslation()
@@ -59,7 +59,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
                 onUploadImage={onUploadImage}
                 currentImageUri={currentImageUri}
                 instructions={instructions}
-                previewVariant={previewVariant}
+                imageVariant={imageVariant}
                 placeholder={placeholder}
               />
             ),
