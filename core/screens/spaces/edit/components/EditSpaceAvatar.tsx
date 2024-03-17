@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getAvatarSize } from '@holi/core/components/ImageUploader'
@@ -39,7 +39,10 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
 
   const { t } = useTranslation()
 
-  const placeholderSpace = { avatar: avatar?.uri, avatarDefaultColor: space.avatarDefaultColor, title: space.title }
+  const placeholderSpace = useMemo(
+    () => ({ avatar: avatar?.uri, avatarDefaultColor: space.avatarDefaultColor, title: space.title }),
+    [avatar?.uri, space.avatarDefaultColor, space.title]
+  )
 
   const onSave = () =>
     updateSpace({ variables: { input: { id: space.id, avatar: avatar === null ? null : avatar?.blob } } })
