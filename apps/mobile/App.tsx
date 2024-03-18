@@ -1,7 +1,7 @@
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
-import { PostHogProvider } from 'posthog-react-native'
-import React, { useEffect, useState } from 'react'
+import { PostHog, PostHogProvider } from 'posthog-react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
@@ -29,6 +29,11 @@ registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
 
 logDebug('App', 'starting app with config', config)
 
+// TODO HOLI-7673 make configurable via build profile
+const posthog = new PostHog('phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6', {
+  host: 'https://eu.posthog.com',
+})
+
 const App = () => {
   const [isReady, setIsReady] = useState(false)
   const [initDone, setInitDone] = useState(false)
@@ -53,21 +58,25 @@ const App = () => {
 
   const [fontsLoaded] = useFonts(fonts)
 
-  const init = async () => {
+  const onUserIdentified = (userId: string) => {
+    console.debug('Identified user', userId, posthog)
+    posthog.identify(userId)
+  }
+
+  const init = useCallback(async () => {
     try {
-      await Promise.all([initI18n(), initAuth(), initNotifications()])
+      await Promise.all([initI18n(), initAuth(onUserIdentified), initNotifications()])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
       setInitDone(true)
     }
-  }
+  }, [])
 
   useEffect(() => {
     init()
-
     return subscribeToDeviceTokenChanges()
-  }, [])
+  }, [init])
 
   useEffect(() => {
     if (fontsLoaded && initDone) {
@@ -81,12 +90,7 @@ const App = () => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <NavigationProvider>
-        <PostHogProvider
-          apiKey="phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6"
-          options={{
-            host: 'https://eu.posthog.com',
-          }}
-        >
+        <PostHogProvider client={posthog}>
           <RootProvider>
             <RootNavigator />
           </RootProvider>

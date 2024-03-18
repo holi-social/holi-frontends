@@ -3,6 +3,17 @@ const withHtml = require('@blunck/next-html')()
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 
+const postHogRewrites = [
+  {
+    source: '/ingest/static/:path*',
+    destination: process.env.NEXT_PUBLIC_POSTHOG_UI_HOST + '/static/:path*',
+  },
+  {
+    source: '/ingest/:path*',
+    destination: process.env.NEXT_PUBLIC_POSTHOG_UI_HOST + '/:path*',
+  },
+]
+
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -65,6 +76,7 @@ const nextConfig = {
     '@holi/api',
     '@holi/chat',
   ],
+  rewrites: () => postHogRewrites,
 }
 
 const sentryWebpackPluginOptions = {

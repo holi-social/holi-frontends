@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import { VerificationFlow } from '@ory/kratos-client'
+import { usePostHog } from 'posthog-js/react'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -39,6 +40,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
   const { logout } = useLogout()
   const { openToast } = useToast()
   const client = useApolloClient()
+  const posthog = usePostHog()
 
   const [code, setCode] = useState('')
 
@@ -105,7 +107,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
         payload: verificationFlowData,
       })
       await client.clearStore()
-      await setUserLoggedIn(session as OrySessionContext)
+      await setUserLoggedIn(session as OrySessionContext, (userId) => posthog.identify(userId))
     }
 
     openToast(toastMessage, HoliToastType.SUCCESS)
