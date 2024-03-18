@@ -115,18 +115,15 @@ const QuoteDetailPage = () => {
                 imageStyle={styles.quoteImage as ImageStyle}
               />
             )}
-            <View style={[mixins.container, styles.section, styles.curvedBottom]}>
+
+            <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={quote.linkPreview.icon} link={quote.link} />
-
               <HoliGap size="s" />
-
               <HoliHeading level="1">{quote.linkPreview.title}</HoliHeading>
             </View>
 
-            <HoliGap size="xs" />
-
             <View style={[mixins.container, styles.section, styles.curvedTop, styles.curvedBottom]}>
-              <View style={{ flexDirection: 'row', gap: Spacing.xs }}>
+              <View style={{ flexDirection: 'row', gap: Spacing.xxs }}>
                 <HoliAvatar
                   size="micro"
                   imageSrc={insight.creator.avatar}
@@ -187,6 +184,9 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background20,
       paddingBottom: 124,
     },
+    header: {
+      marginBottom: 2,
+    },
     bannerImage: {
       paddingHorizontal: 0,
       height: Platform.OS === 'web' ? 680 : 340,
@@ -198,13 +198,14 @@ const getStyles = (theme: HoliTheme) =>
         native: { maxHeight: '50%' },
       }),
     } as ImageStyle,
+
     quoteImage: {
       ...Platform.select({ web: { height: '100%' } }),
     },
     section: {
       backgroundColor: theme.colors.background10,
-      paddingTop: Spacing.xl,
-      paddingBottom: Spacing.lg,
+      paddingTop: Spacing.md,
+      paddingBottom: Spacing.xs,
       paddingHorizontal: Spacing.xs,
     },
     curvedBottom: {

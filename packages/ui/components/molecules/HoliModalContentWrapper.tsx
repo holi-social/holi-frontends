@@ -52,10 +52,10 @@ const HoliModalContentWrapper = (
   }: React.PropsWithChildren<HoliModalContentWrapperProps>,
   ref: React.ForwardedRef<ScrollView>
 ) => {
+  const mixins = useStyleMixins()
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
   const showFooter = !hideFooterWhenKeyboardIsOpen || !(isKeyboardOpen || isSoftkeyboardOpen)
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -131,7 +131,7 @@ const getStyles = (theme: HoliTheme) =>
       height: 120,
     },
     actionButtonPlaceholder: {
-      height: 80,
+      height: 96,
     },
     actionButtonContainer: {
       position: 'absolute',
@@ -144,6 +144,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     button: {
       marginTop: 0,
+      marginBottom: 0,
       maxWidth: dimensions.maxButtonWidth,
     },
     saveLoaderContainer: {

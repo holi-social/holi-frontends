@@ -122,7 +122,7 @@ const RecommendationDetailPage = () => {
               resizeMode="cover"
               style={styles.bannerImage}
             />
-            <View style={styles.link}>
+            <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
               <HoliGap size="s" />
               <HoliHeading level="1" size="l" numberOfLines={3}>
@@ -173,7 +173,7 @@ const Skeleton = () => {
       <View style={[styles.bannerImage]}>
         <HoliSkeleton height="100%" width="100%" borderRadius={0} />
       </View>
-      <View style={styles.link}>
+      <View style={[styles.header, styles.curvedTop, styles.curvedBottom]}>
         <HoliSkeleton height={Spacing.md} width="40%" borderRadius={Spacing['3xs']} />
         <HoliGap size="s" />
         <HoliSkeleton height={Spacing.lg} width="60%" borderRadius={Spacing['3xs']} />
@@ -204,6 +204,9 @@ const getStyles = (theme: HoliTheme) =>
       paddingHorizontal: 0,
       paddingBottom: dimensions.bottomBarHeight + 100,
     },
+    header: {
+      marginBottom: 2,
+    },
     bannerImage: {
       paddingHorizontal: 0,
       width: '100%',
@@ -218,14 +221,6 @@ const getStyles = (theme: HoliTheme) =>
         },
       }),
     } as ImageStyle,
-    link: {
-      backgroundColor: theme.colors.background10,
-      borderBottomLeftRadius: Spacing.lg,
-      borderBottomRightRadius: Spacing.lg,
-      paddingHorizontal: Spacing.xs,
-      paddingVertical: Spacing.md,
-      marginBottom: 2,
-    },
     recommender: {
       flexDirection: 'row',
       gap: Spacing['3xs'],
@@ -250,6 +245,20 @@ const getStyles = (theme: HoliTheme) =>
     linkButton: {
       maxWidth: dimensions.maxButtonWidth,
       marginHorizontal: 'auto',
+    },
+    section: {
+      backgroundColor: theme.colors.background10,
+      paddingTop: Spacing.md,
+      paddingBottom: Spacing.xs,
+      paddingHorizontal: Spacing.xs,
+    },
+    curvedBottom: {
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+    },
+    curvedTop: {
+      borderTopLeftRadius: 32,
+      borderTopRightRadius: 32,
     },
   })
 

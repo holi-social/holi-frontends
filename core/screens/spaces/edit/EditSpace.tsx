@@ -5,6 +5,7 @@ import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'reac
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -109,6 +110,20 @@ const onboardingContentList: Array<OnboardingCard> = [
   },
 ]
 
+export const SDG_INFO_MODAL_SOURCES_MAPPING: {
+  [name: string]: InfoModalItemProps
+} = {
+  sdg: {
+    wordmark: {
+      src: require('@holi/ui/assets/img/misc/sgd-wordmark.svg'),
+      width: 186,
+      height: 97,
+      isSvg: true,
+    },
+    url: 'https://sdgs.un.org/goals',
+  },
+}
+
 const EditSpace: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [isOnboarding] = useParam('onboarding')
@@ -135,6 +150,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       show()
     }
   }, [show, isOnboarding])
+
+  const { show: showInfoModal, hide: closeInfoModal, visible: infoModalVisible } = useModalState()
+  const partner = SDG_INFO_MODAL_SOURCES_MAPPING['sdg']
 
   const openEditModal = useCallback(
     (type: EditFields) => {
@@ -277,6 +295,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
                 <SpaceSection
                   title={t('spaces.spaceDetails.sdgs')}
+                  infoIcon
+                  onPressInfo={showInfoModal}
                   editable
                   onPressEdit={() => openEditModal(EditFields.SDGS)}
                   testID="space-edit-sdgs"
@@ -295,6 +315,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                       ))}
                     </View>
                   )}
+                  <InfoModal
+                    items={{ sdg: partner }}
+                    show={!!infoModalVisible}
+                    onDismiss={closeInfoModal}
+                    i18nPrefix={'spaces.input.sdgs.infoModal'}
+                  />
                 </SpaceSection>
                 <SpaceSection
                   title={t('spaces.spaceDetails.contact')}

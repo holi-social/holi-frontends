@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Edit2 } from '@holi/icons/src/generated'
+import { Edit2, Information } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -11,6 +11,8 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceSectionProps = {
   title: string
+  infoIcon?: boolean
+  onPressInfo?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   editable?: boolean
   onPressEdit?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
@@ -19,6 +21,8 @@ type SpaceSectionProps = {
 
 const SpaceSection = ({
   title,
+  infoIcon,
+  onPressInfo,
   editable,
   onPressEdit,
   style,
@@ -31,8 +35,15 @@ const SpaceSection = ({
 
   return (
     <View style={[styles.wrapper, style]} testID={testID}>
-      <View style={styles.headingContainer}>
-        <HoliHeading level="2">{title}</HoliHeading>
+      <View style={styles.rowContainer}>
+        <View style={styles.headingContainer}>
+          <HoliHeading level="2">{title}</HoliHeading>
+          {infoIcon && (
+            <HoliButton label={'infoLabel'} transparent inline onPress={onPressInfo}>
+              <HoliIcon icon={Information} color={theme.colors.foreground10} />
+            </HoliButton>
+          )}
+        </View>
         {editable && (
           <HoliButton
             style={styles.editButton}
@@ -60,10 +71,15 @@ const getStyles = (theme: HoliTheme) =>
       borderTopColor: theme.colors.background30,
       paddingVertical: 32,
     },
-    headingContainer: {
+    rowContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+    },
+    headingContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
     },
     body: {
       marginTop: 24,

@@ -2,6 +2,7 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -18,11 +19,9 @@ import { getCommonStyles } from '@holi-apps/goodnews/common_styles'
 import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
-import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
-import { PartnerProps } from '@holi-apps/volunteering/types'
 
 export const GOODNEWS_IMG_SOURCES_MAPPING: {
-  [name: string]: PartnerProps
+  [name: string]: InfoModalItemProps
 } = {
   'goodnews.eu': {
     logo: {
@@ -89,11 +88,11 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
           onPress={partnerModalState.show}
         />
         <HoliGap size="s" />
-        <PartnerModal
-          partners={{ 'goodnews.eu': partner }}
+        <InfoModal
+          items={{ 'goodnews.eu': partner }}
           show={partnerModalState.visible}
           onDismiss={partnerModalState.hide}
-          i18nNamespace={'goodnews'}
+          i18nPrefix={'goodnews:listing.partnerModal'}
         />
         <HoliText size="small" style={styles.source}>
           {article.source}

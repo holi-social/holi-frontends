@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
@@ -9,7 +9,6 @@ import { Recommendation } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -24,13 +23,14 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <View style={styles.card}>
-      <HoliButton
-        label={recommendation.linkPreview.title}
-        transparent
-        onPress={() => navigate(`/insights/${insightId}/recommendations/${recommendation.id}`)}
-        testID="feed-insight-image-link"
-      >
+    <Pressable
+      onPress={() => navigate(`/insights/${insightId}/recommendations/${recommendation.id}`)}
+      style={({ hovered }) => {
+        return hovered ? [styles.card, styles.hovered] : [styles.card]
+      }}
+      testID="feed-insight-image-link"
+    >
+      <View>
         {recommendation.linkPreview.image && (
           <>
             <HoliImage
@@ -57,8 +57,8 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
 
           <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
         </View>
-      </HoliButton>
-    </View>
+      </View>
+    </Pressable>
   )
 }
 
@@ -73,13 +73,28 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
+      ...Platform.select({
+        web: { marginBottom: 4 },
+      }),
     },
+
     image: {
       borderRadius: Spacing.xs,
       width: '100%',
       height: 160,
     },
+
     description: {
       paddingHorizontal: Spacing['3xs'],
+    },
+
+    hovered: {
+      borderColor: theme.colors.black300,
+      shadowColor: theme.colors.black300,
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.12,
     },
   })

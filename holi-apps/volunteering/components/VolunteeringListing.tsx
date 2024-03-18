@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import InfoModal from '@holi/core/components/InfoModal'
 import { logError } from '@holi/core/errors/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
@@ -26,7 +27,6 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
-import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
@@ -115,14 +115,13 @@ const VolunteeringListing = ({
             partners={allPartners}
             onPress={showPartnerModal}
           />
-          <PartnerModal
+          <InfoModal
             headline={t('volunteering:listing.partnerModal.headline')}
-            partners={allPartners}
+            items={allPartners}
             show={partnerModalVisible}
             onDismiss={closeModal}
-            i18nNamespace={'volunteering'}
+            i18nPrefix={'volunteering:listing.partnerModal'}
           />
-
           {isFiltering && (
             <View style={styles.headingRow}>
               <HoliText bold style={{ color: colors.foreground20 }}>

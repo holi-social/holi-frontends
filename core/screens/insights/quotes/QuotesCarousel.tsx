@@ -10,7 +10,7 @@ export interface QuotesCarouselProps {
   quotes: Quote[]
 }
 
-export const quoteIconColors = ['#FCFE8C', '#BEFC94', '#A3DAFC']
+export const quoteIconColors = ['#FCFE8C', '#BEFC94', '#A3DAFC', '#FFC046']
 
 const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes }) => {
   return (
@@ -21,8 +21,8 @@ const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes }) =>
         children: (
           <QuoteCard.QuoteAndSource
             quote={quote}
-            // use one of the three colors sequentially
-            quoteColor={quoteIconColors[index % 3]}
+            // use next one of the colors sequentially, repeatedly
+            quoteColor={quoteIconColors[index % quoteIconColors.length]}
             insightId={insightId}
           />
         ),
