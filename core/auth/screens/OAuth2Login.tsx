@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
+import { usePostHog } from 'posthog-js/react'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -26,6 +27,7 @@ export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProp
 // Only used for OAuth2 login flow on web, see apps/web/pages/oauth2/login.tsx
 // Performing direct redirects by changing window.location.href
 const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = false, ...redirectProps }) => {
+  const posthog = usePostHog()
   const { userId } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -81,7 +83,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
     try {
       const { data } = (await submitLoginFlow(flow, payload, undefined)) as { data: OrySessionContext }
       await client.clearStore()
-      await setUserLoggedIn(data)
+      await setUserLoggedIn(data, (userId) => posthog.identify(userId))
       confirmOAuth2Login()
       window.location.href = returnTo
     } catch (err) {

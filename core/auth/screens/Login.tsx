@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
+import { usePostHog } from 'posthog-js/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -29,6 +30,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
 const Login = () => {
+  const posthog = usePostHog()
   const { isLoggedOut } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -78,7 +80,7 @@ const Login = () => {
     try {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
-      await setUserLoggedIn(data)
+      await setUserLoggedIn(data, (userId) => posthog.identify(userId))
       await storeOnboardingState('finished')
 
       redirect()

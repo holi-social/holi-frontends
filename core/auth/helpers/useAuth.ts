@@ -10,10 +10,14 @@ import { logDebug } from '@holi/core/helpers/logging'
 const loggedInUserIdVar = makeVar<string | null | undefined>(undefined)
 
 // intended to be called from outside the context provider (e.g. login form)
-export const setUserLoggedIn = async (session: OrySessionContext): Promise<void> => {
+export const setUserLoggedIn = async (
+  session: OrySessionContext,
+  onUserIdentified: (userId: string) => void
+): Promise<void> => {
   logDebug('auth', 'setUserLoggedIn')
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
+  onUserIdentified(session.session.identity.id)
   // fetch and save Okuna user
   loggedInUserIdVar(session.session.identity.id)
 }

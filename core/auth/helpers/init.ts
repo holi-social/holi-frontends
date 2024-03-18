@@ -12,7 +12,10 @@ export const validateSessionWithOry = async (orySessionToken?: OrySessionToken):
     .then(({ data }) => (data?.active ? 'active' : 'expired'))
     .catch(() => 'invalid')
 
-export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionContext | null) => {
+export const onSessionLoadedFromStorage = async (
+  sessionFromStorage: OrySessionContext | null,
+  onUserIdentified: (userId: string) => void
+) => {
   if (sessionFromStorage === null) {
     logDebug('auth', 'no session found in storage')
     await setUserLoggedOut()
@@ -22,7 +25,7 @@ export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionC
 
       switch (sessionState) {
         case 'active':
-          await setUserLoggedIn(sessionFromStorage)
+          await setUserLoggedIn(sessionFromStorage, onUserIdentified)
           break
         case 'expired':
         case 'invalid':
@@ -37,7 +40,7 @@ export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionC
 }
 
 // Fetches the authentication session.
-export const initAuth = async () => {
+export const initAuth = async (onUserIdentified: (userId: string) => void) => {
   const session = await getSessionFromStorage()
-  await onSessionLoadedFromStorage(session)
+  await onSessionLoadedFromStorage(session, onUserIdentified)
 }

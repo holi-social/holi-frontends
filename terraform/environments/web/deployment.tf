@@ -59,6 +59,18 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
+          name  = "NEXT_PUBLIC_POSTHOG_KEY"
+          value = "<<TODO>>" // TODO HOLI-7673 replace with actual value
+        }
+        env {
+          name  = "NEXT_PUBLIC_POSTHOG_API_HOST"
+          value = "<<TODO>>" // TODO HOLI-7673 replace with actual value
+        }
+        env {
+          name  = "NEXT_PUBLIC_POSTHOG_UI_HOST"
+          value = "https://eu.posthog.com"
+        }
+        env {
           name  = "ORY_BASE_URL"
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }

@@ -1,4 +1,5 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
+import { usePostHog } from 'posthog-js/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
@@ -55,6 +56,7 @@ export type ChangePasswordParams = {
 const { useParam } = createParamHooks<ChangePasswordParams>()
 
 const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
+  const posthog = usePostHog()
   const [flow] = useParam('flow')
   const [webview] = useParam('webview')
   const { t, i18n } = useTranslation()
@@ -141,10 +143,10 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
       initForm()
     } else if (flow) {
       syncUserSessionFromOrySession().then((session) => {
-        if (session) setUserLoggedIn(session)
+        if (session) setUserLoggedIn(session, (userId) => posthog.identify(userId))
       })
     }
-  }, [initForm, isLoggedIn, flow])
+  }, [initForm, isLoggedIn, flow, posthog])
 
   const performPasswordChange = async () => {
     setRetypeError(undefined)

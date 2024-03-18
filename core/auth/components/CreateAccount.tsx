@@ -1,4 +1,5 @@
 import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import { usePostHog } from 'posthog-js/react'
 import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -43,6 +44,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
   const redirect = useRedirect()
   const { theme } = useTheme()
+  const posthog = usePostHog()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const initializeFlow = useCallback(() => {
@@ -93,10 +95,13 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
 
         // and only then load user
-        await setUserLoggedIn({
-          session: data.session,
-          session_token: data.session_token,
-        } as OrySessionContext)
+        await setUserLoggedIn(
+          {
+            session: data.session,
+            session_token: data.session_token,
+          } as OrySessionContext,
+          (userId) => posthog.identify(userId)
+        )
 
         onRegister()
         redirect()
