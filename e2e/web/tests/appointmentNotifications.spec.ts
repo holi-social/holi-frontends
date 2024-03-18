@@ -14,19 +14,17 @@ const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
 test.describe('@AppointmentNotifications', () => {
   test('space follower is notified about public appointment', async ({ userHandler, browserName }) => {
-    // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/login" is interrupted by another navigation to "http://localhost:3000/profile"`
-    test.skip(browserName === 'webkit', 'FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug')
+    test.skip(browserName === 'webkit', 'FIXME: Registration flow does not work in Safari')
+    const spaceName = randomSpaceName()
 
-    await userHandler.asRandomUser(async (adminA) => {
-      const spaceName = randomSpaceName()
-      await test.step('random user can create a space and becomes admin', async () => {
-        await createSpace(adminA, spaceName)
-      })
+    await userHandler.asRandomUser(async (admin) => {
+      await createSpace(admin, spaceName)
 
       await userHandler.asRandomUser(async (follower) => {
-        // when
         await followSpace(follower, spaceName)
-        await createSpaceAppointment(adminA)
+
+        // when
+        await createSpaceAppointment(admin)
 
         // then follower is notified
         await retry(async () => {
@@ -36,12 +34,10 @@ test.describe('@AppointmentNotifications', () => {
       })
 
       await test.step('space can be deleted', async () => {
-        await retry(async () => {
-          await adminA.goto('/spaces/' + spaceName)
-          await clickElementByTestId(adminA, 'space-options-btn')
-          await clickElementByTestId(adminA, 'space-delete')
-          await clickElementByTestId(adminA, 'space-delete-confirmation-confirm')
-        })
+        await admin.goto('/spaces/' + spaceName)
+        await clickElementByTestId(admin, 'space-options-btn')
+        await clickElementByTestId(admin, 'space-delete')
+        await clickElementByTestId(admin, 'space-delete-confirmation-confirm')
       })
     })
   })
