@@ -196,3 +196,17 @@ export type InsightWithRecommendationResponse = {
     recommendation: Recommendation
   }
 }
+
+export const UpdateInsightReactionMutation = gql`
+  ${InsightWithPostsFragment}
+
+  mutation UpdateInsightReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
+    updateInsightReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
+      ...InsightWithPostsFragment
+    }
+  }
+`
+
+export interface UpdateInsightReactionResponse {
+  insight: Insight
+}

@@ -3,9 +3,10 @@ import React from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import InsightReactions from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
-import { Recommendation } from '@holi/core/screens/insights/types'
+import { Insight, Recommendation } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -13,16 +14,16 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RecommendationCardProps {
-  insightId: string
+  insight: Insight
   recommendation: Recommendation
 }
 
-const RecommendationCard = ({ recommendation, insightId }: RecommendationCardProps) => {
+const RecommendationCard = ({ recommendation, insight }: RecommendationCardProps) => {
   const { navigate } = useRouting()
 
   return (
     <Pressable
-      onPress={() => navigate(`/insights/${insightId}/recommendations/${recommendation.id}`)}
+      onPress={() => navigate(`/insights/${insight.id}/recommendations/${recommendation.id}`)}
       style={({ hovered }) => {
         return hovered ? [styles.card, styles.hovered] : [styles.card]
       }}
@@ -52,7 +53,7 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
               <HoliGap size="s" />
             </>
           )}
-
+          <InsightReactions insight={insight} style={styles.reaction} />
           <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
         </View>
       </View>
@@ -93,5 +94,11 @@ const styles = StyleSheet.create({
       height: 3,
     },
     shadowOpacity: 0.12,
+  },
+
+  reaction: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
   },
 })

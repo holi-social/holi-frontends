@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+// import InsightReactions from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
@@ -35,13 +36,16 @@ export interface QuoteAndSourceCardProps {
 const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, style }) => {
   return (
     <View style={[styles.quoteCard, style]} testID={'quote-card-quote'}>
-      <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
-      <HoliGap size="s" />
-      <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
-      <HoliGap size="xs" />
-      <HoliText size="extrasmall" color="gray300">
-        {quote.author} ∙ {quote.authorProfession}
-      </HoliText>
+      <View>
+        <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
+        <HoliGap size="s" />
+        <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
+        <HoliGap size="xs" />
+        <HoliText size="extrasmall" color="gray300">
+          {quote.author} ∙ {quote.authorProfession}
+        </HoliText>
+      </View>
+      {/* <InsightReactions quote={quote} style={styles.reaction} /> */}
     </View>
   )
 }
@@ -108,6 +112,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.foreground10,
     flex: 1,
+    height: 240,
+    justifyContent: 'space-between',
   },
 
   sourceCard: {
@@ -148,5 +154,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     gap: Spacing['4xs'],
+  },
+  reaction: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
   },
 })

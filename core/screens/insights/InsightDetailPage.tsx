@@ -193,7 +193,6 @@ const InsightDetailPage = () => {
               <HoliRichTextOutput text={insight.description} allowAllLinks />
             </View>
             <HoliGap size="s" />
-
             {recommendations.length > 0 && (
               <InsightCarouselSection
                 heading={recommendationsTitle}
@@ -202,7 +201,7 @@ const InsightDetailPage = () => {
                   label: recommendationsTitle,
                 }}
               >
-                <RecommendationsCarousel insightId={insight.id} recommendations={recommendations} />
+                <RecommendationsCarousel insight={insight} recommendations={recommendations} />
               </InsightCarouselSection>
             )}
 
