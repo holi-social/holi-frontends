@@ -21,7 +21,7 @@ const InsightFavoritesList = () => {
       <View style={styles.noFavoritesContainer}>
         {/**TODO: change the source image to the actual illustration */}
         <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_digital_tools.svg')}
+          imageSource={require('@holi/ui/assets/img/illustrations/illustration_favorites.svg')}
           width={imageWidth}
           height={imageWidth * 0.7}
           label="no-favorites"
