@@ -6,10 +6,10 @@ import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
-const QuotesFragment = gql`
+export const QuoteFragment = gql`
   ${LinkFragment}
 
-  fragment QuotesFragment on Quote {
+  fragment QuoteFragment on Quote {
     id
     text
     author
@@ -20,6 +20,12 @@ const QuotesFragment = gql`
     }
     category
     comment
+    reactions {
+      HEART
+    }
+    myReaction {
+      HEART
+    }
   }
 `
 
@@ -34,6 +40,12 @@ export const RecommendationFragment = gql`
     linkPreview {
       ...LinkFragment
     }
+    reactions {
+      HEART
+    }
+    myReaction {
+      HEART
+    }
   }
 `
 
@@ -41,7 +53,7 @@ const InsightWithPostsFragment = gql`
   ${UserAvatarFragment}
   ${PostFragment}
   ${RecommendationFragment}
-  ${QuotesFragment}
+  ${QuoteFragment}
 
   fragment InsightWithPosts on Insight {
     id
@@ -67,7 +79,7 @@ const InsightWithPostsFragment = gql`
       ...RecommendationFragment
     }
     quotes {
-      ...QuotesFragment
+      ...QuoteFragment
     }
   }
 `
@@ -149,7 +161,7 @@ export type InsightByIdResponse = {
 }
 
 export const insightWithQuoteById = gql`
-  ${QuotesFragment}
+  ${QuoteFragment}
   ${UserAvatarFragment}
 
   query InsightWithQuoteById($insightId: UUID!, $quoteId: UUID!) {
@@ -164,7 +176,7 @@ export const insightWithQuoteById = gql`
         firstName
       }
       quote(id: $quoteId) {
-        ...QuotesFragment
+        ...QuoteFragment
       }
     }
   }
@@ -195,18 +207,4 @@ export type InsightWithRecommendationResponse = {
     creator: User
     recommendation: Recommendation
   }
-}
-
-export const UpdateInsightReactionMutation = gql`
-  ${InsightWithPostsFragment}
-
-  mutation UpdateInsightReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
-    updateInsightReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
-      ...InsightWithPostsFragment
-    }
-  }
-`
-
-export interface UpdateInsightReactionResponse {
-  insight: Insight
 }

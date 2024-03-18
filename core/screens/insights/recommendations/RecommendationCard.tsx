@@ -3,7 +3,7 @@ import React from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import InsightReactions from '@holi/core/screens/insights/InsightReactions'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Insight, Recommendation } from '@holi/core/screens/insights/types'
@@ -53,7 +53,7 @@ const RecommendationCard = ({ recommendation, insight }: RecommendationCardProps
               <HoliGap size="s" />
             </>
           )}
-          <InsightReactions insight={insight} style={styles.reaction} />
+          <InsightReactions item={recommendation} itemType={ItemType.RECOMMENDATION} style={styles.reaction} />
           <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
         </View>
       </View>
