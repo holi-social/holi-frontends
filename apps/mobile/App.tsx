@@ -1,5 +1,6 @@
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { PostHogProvider } from 'posthog-react-native'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
@@ -80,9 +81,16 @@ const App = () => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <NavigationProvider>
-        <RootProvider>
-          <RootNavigator />
-        </RootProvider>
+        <PostHogProvider
+          apiKey="phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6"
+          options={{
+            host: 'https://eu.posthog.com',
+          }}
+        >
+          <RootProvider>
+            <RootNavigator />
+          </RootProvider>
+        </PostHogProvider>
       </NavigationProvider>
     </ThemeProvider>
   )
