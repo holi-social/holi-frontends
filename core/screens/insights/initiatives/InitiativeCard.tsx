@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -9,8 +9,9 @@ import { Initiative } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface InitiativeCardProps {
   insightId: string
@@ -18,7 +19,10 @@ interface InitiativeCardProps {
 }
 
 const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
+  const [errorLoadingImage, setErrorLoadingImage] = useState(false)
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <Pressable
@@ -26,16 +30,30 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
       style={({ hovered }) => {
         return hovered ? [styles.card, styles.hovered] : [styles.card]
       }}
-      testID="insight-initiative-image-link"
+      testID="feed-insight-image-link"
     >
       <View>
-        {initiative.linkPreview.image && (
+        {!errorLoadingImage && initiative.linkPreview.image && (
           <>
             <HoliImage
               source={{ uri: initiative.linkPreview.image }}
               label={initiative.link}
               style={styles.image}
               resizeMode="cover"
+              onError={() => setErrorLoadingImage(true)}
+            />
+            <HoliGap size="s" />
+          </>
+        )}
+        {(errorLoadingImage || !initiative.linkPreview.image) && (
+          <>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
+              label={initiative.link}
+              style={styles.image}
+              width={89}
+              height={88}
+              isSvg
             />
             <HoliGap size="s" />
           </>
@@ -62,36 +80,37 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
 
 export default withProfiler(InitiativeCard, { name: 'InitiativeCard' })
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.background10,
-    padding: Spacing['3xs'],
-    borderRadius: Spacing.xs,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    flex: 1,
-    ...Platform.select({
-      web: { marginBottom: 4 },
-    }),
-  },
-
-  image: {
-    borderRadius: Spacing.xs,
-    width: '100%',
-    height: 160,
-  },
-
-  description: {
-    paddingHorizontal: Spacing['3xs'],
-  },
-
-  hovered: {
-    borderColor: colors.black300,
-    shadowColor: colors.black300,
-    shadowOffset: {
-      width: 0,
-      height: 3,
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    card: {
+      backgroundColor: theme.colors.background10,
+      padding: Spacing['3xs'],
+      borderRadius: Spacing.xs,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      flex: 1,
+      ...Platform.select({
+        web: { marginBottom: 4 },
+      }),
     },
-    shadowOpacity: 0.12,
-  },
-})
+
+    image: {
+      borderRadius: Spacing.xs,
+      width: '100%',
+      height: 160,
+    },
+
+    description: {
+      paddingHorizontal: Spacing['3xs'],
+    },
+
+    hovered: {
+      borderColor: theme.colors.black300,
+      shadowColor: theme.colors.black300,
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.12,
+    },
+  })
