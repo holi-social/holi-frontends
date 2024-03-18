@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import InsightFavoriteCard from '@holi/core/screens/favorites/components/InsightFavoriteCard'
@@ -19,7 +19,6 @@ const InsightFavoritesList = () => {
   const NoFavorites = () => {
     return (
       <View style={styles.noFavoritesContainer}>
-        {/**TODO: change the source image to the actual illustration */}
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_favorites.svg')}
           width={imageWidth}
@@ -51,7 +50,7 @@ const InsightFavoritesList = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     noFavoritesContainer: {
-      marginTop: 10,
+      marginTop: Platform.OS === 'web' ? 10 : 56,
       borderRadius: 16,
       borderWidth: 1,
       borderColor: theme.colors.background30,
