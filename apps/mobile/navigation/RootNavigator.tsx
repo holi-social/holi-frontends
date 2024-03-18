@@ -88,13 +88,10 @@ const RootNavigator = () => {
           },
         }}
       />
-
-      {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
       <RootStack.Screen
         name={RouteName.Notifications}
         component={Notifications}
         options={{
-          presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
         }}
