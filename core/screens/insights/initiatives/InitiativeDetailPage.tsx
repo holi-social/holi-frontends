@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
@@ -22,7 +22,8 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InitiativeDetailPageParams = {
@@ -39,6 +40,8 @@ const InitiativeDetailPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const {
     data: { insightById } = {},
@@ -52,7 +55,7 @@ const InitiativeDetailPage = () => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
       }
-      logError(error, 'Failed to load recommendation', {
+      logError(error, 'Failed to load initiative', {
         location: 'InitiativeDetailPage.insightWithInitiative',
         initiativeId,
       })
@@ -79,7 +82,7 @@ const InitiativeDetailPage = () => {
         return (
           <HoliActionDrawer.Drawer
             label={t('global.moreOptions')}
-            buttonElement={<HoliIcon icon={MoreFilled} color={colors.black300} />}
+            buttonElement={<HoliIcon icon={MoreFilled} color={theme.colors.black300} />}
           >
             <HoliActionDrawer.Action
               icon={Share}
@@ -92,7 +95,7 @@ const InitiativeDetailPage = () => {
       },
       headerTransparent: false,
     })
-  }, [t, setScreenOptions, shareLink])
+  }, [t, setScreenOptions, shareLink, theme.colors.black300])
 
   return (
     <>
@@ -139,96 +142,82 @@ const InitiativeDetailPage = () => {
   )
 }
 
-const Skeleton = () => (
-  <>
-    <View style={[styles.bannerImage]}>
-      <HoliSkeleton height="100%" width="100%" borderRadius={0} />
-    </View>
-    <View style={[styles.header, styles.curvedTop, styles.curvedBottom]}>
-      <HoliSkeleton height={Spacing.md} width="40%" borderRadius={Spacing['3xs']} />
-      <HoliGap size="s" />
-      <HoliSkeleton height={Spacing.lg} width="60%" borderRadius={Spacing['3xs']} />
-    </View>
-    <View style={styles.comment}>
-      <View style={styles.recommender}>
-        <HoliSkeleton height={Spacing.md} width={Spacing.md} borderRadius={64} />
-        <HoliSkeleton height={Spacing.md} width={'60%'} borderRadius={Spacing['3xs']} />
+const Skeleton = () => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  return (
+    <>
+      <View style={[styles.bannerImage]}>
+        <HoliSkeleton height="100%" width="100%" borderRadius={0} />
       </View>
-      <HoliSkeleton height={260} width={'100%'} borderRadius={Spacing['3xs']} />
-    </View>
-  </>
-)
+      <View style={[styles.header, styles.curvedTop, styles.curvedBottom]}>
+        <HoliSkeleton height={Spacing.md} width="40%" borderRadius={Spacing['3xs']} />
+        <HoliGap size="s" />
+        <HoliSkeleton height={Spacing.lg} width="60%" borderRadius={Spacing['3xs']} />
+      </View>
+    </>
+  )
+}
 
-const styles = StyleSheet.create({
-  layout: {
-    minHeight: '100%',
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh' as DimensionValue,
-      },
-    }),
-  },
-  container: {
-    paddingHorizontal: 0,
-    paddingBottom: dimensions.bottomBarHeight + 100,
-  },
-  header: {
-    marginBottom: 2,
-  },
-  bannerImage: {
-    paddingHorizontal: 0,
-    width: '100%',
-    ...Platform.select({
-      web: {
-        height: 380,
-        maxHeight: '50vh',
-      },
-      native: {
-        height: 200,
-        maxHeight: '50%',
-      },
-    }),
-  } as ImageStyle,
-  recommender: {
-    flexDirection: 'row',
-    gap: Spacing['3xs'],
-    alignItems: 'center',
-    marginBottom: Spacing.xs,
-  },
-  comment: {
-    backgroundColor: colors.background10,
-    borderRadius: Spacing.lg,
-    paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.xs,
-  },
-  footer: {
-    width: '100%',
-    padding: Spacing.xxs,
-    position: 'absolute',
-    bottom: Spacing.xs,
-    ...Platform.select({
-      web: { position: 'fixed', bottom: dimensions.bottomBarHeight + Spacing.xs },
-    }),
-  },
-  linkButton: {
-    maxWidth: dimensions.maxButtonWidth,
-    marginHorizontal: 'auto',
-  },
-  section: {
-    backgroundColor: colors.background10,
-    paddingTop: Spacing.md,
-    paddingBottom: Spacing.xs,
-    paddingHorizontal: Spacing.xs,
-  },
-  curvedBottom: {
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-  },
-  curvedTop: {
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layout: {
+      minHeight: '100%',
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh' as DimensionValue,
+        },
+      }),
+    },
+    container: {
+      paddingHorizontal: 0,
+      paddingBottom: dimensions.bottomBarHeight + 100,
+    },
+    header: {
+      marginBottom: 2,
+    },
+    bannerImage: {
+      paddingHorizontal: 0,
+      width: '100%',
+      ...Platform.select({
+        web: {
+          height: 380,
+          maxHeight: '50vh',
+        },
+        native: {
+          height: 200,
+          maxHeight: '50%',
+        },
+      }),
+    } as ImageStyle,
+    footer: {
+      width: '100%',
+      padding: Spacing.xxs,
+      position: 'absolute',
+      bottom: Spacing.xs,
+      ...Platform.select({
+        web: { position: 'fixed', bottom: dimensions.bottomBarHeight + Spacing.xs },
+      }),
+    },
+    linkButton: {
+      maxWidth: dimensions.maxButtonWidth,
+      marginHorizontal: 'auto',
+    },
+    section: {
+      backgroundColor: theme.colors.background10,
+      paddingTop: Spacing.md,
+      paddingBottom: Spacing.xs,
+      paddingHorizontal: Spacing.xs,
+    },
+    curvedBottom: {
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+    },
+    curvedTop: {
+      borderTopLeftRadius: 32,
+      borderTopRightRadius: 32,
+    },
+  })
 
 export default InitiativeDetailPage
