@@ -671,7 +671,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         selectable={true}
                         style={
                           {
-                            "color": "#262424",
+                            "color": "#000",
                             "fontFamily": "Circular Std Book",
                             "fontSize": 57.6,
                             "fontWeight": "bold",

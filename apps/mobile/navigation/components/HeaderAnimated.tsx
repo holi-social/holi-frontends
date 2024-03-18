@@ -18,7 +18,7 @@ import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { setScreenScrollY, useScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const HEADER_HEIGHT = 44
 
@@ -63,6 +63,8 @@ const useHeaderHideAnimation = (headerHeight = HEADER_HEIGHT) => {
 }
 
 const HeaderAnimated = ({ back, options, route, navigation }: NativeStackHeaderProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
   const {
     headerTitleAlign = 'center',
     headerTintColor,
@@ -99,7 +101,7 @@ const HeaderAnimated = ({ back, options, route, navigation }: NativeStackHeaderP
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
             {headerBackgroundGradient && (
-              <LinearGradient colors={[colors.foreground30, 'transparent']} style={StyleSheet.absoluteFill} />
+              <LinearGradient colors={[colors.dark, 'transparent']} style={StyleSheet.absoluteFill} />
             )}
           </>
         )}
@@ -136,6 +138,7 @@ const HeaderAnimated = ({ back, options, route, navigation }: NativeStackHeaderP
             }
             headerTransparent={headerTransparent}
             headerTitleAlign={headerTitleAlign}
+            headerTitleStyle={{ color: colors.black300 }}
             {...restOptions}
           />
         </Animated.View>

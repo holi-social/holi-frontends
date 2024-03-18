@@ -1,11 +1,12 @@
-import * as React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import { getInitials } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceAvatarProps {
   space?: Pick<Space, 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title'>
@@ -18,6 +19,8 @@ export interface SpaceAvatarProps {
 const SpaceAvatar = ({ space, size, loading = false, testID, style }: SpaceAvatarProps) => {
   const initials = getInitials(space?.title ?? '')
   const { width: deviceWidth } = useClientWindowDimensions()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const defaultSize = deviceWidth > dimensions.breakpointXl ? 'extralarge' : 'large'
 
@@ -38,15 +41,16 @@ const SpaceAvatar = ({ space, size, loading = false, testID, style }: SpaceAvata
 
 export default React.memo(SpaceAvatar)
 
-const styles = StyleSheet.create({
-  spaceAvatar: {
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: colors.foreground30,
-    maxWidth: 128,
-    maxHeight: 128,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    spaceAvatar: {
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+      borderWidth: 2,
+      borderColor: theme.colors.foreground30,
+      maxWidth: 128,
+      maxHeight: 128,
+    },
+  })

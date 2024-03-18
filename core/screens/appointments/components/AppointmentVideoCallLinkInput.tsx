@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -15,7 +15,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const autoGenerateJitsiUrl = () => {
@@ -66,6 +67,9 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
   const [urlError, setUrlError] = useState<string>()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
 
   const meetingProvider = getMeetingProvider(url)
 
@@ -238,98 +242,99 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
   )
 }
 
-const styles = StyleSheet.create({
-  buttonWrapper: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
-  buttonIcon: {
-    paddingLeft: 6,
-  },
-  card: {
-    padding: 16,
-    gap: 12,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: colors.background10,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.background20,
-  },
-  iconContainer: {
-    borderRadius: 8,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  placeholderIcon: {
-    backgroundColor: colors.background20,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  placeholderIconSM: {
-    height: 32,
-    width: 32,
-  },
-  placeholderIconMD: {
-    height: 40,
-    width: 40,
-  },
-  meetingProviderUrl: {
-    flex: 1,
-  },
-  meetingProviderInfo: {
-    paddingTop: 8,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    flex: 1,
-    alignSelf: 'stretch',
-  },
-  editButton: {
-    marginLeft: 12,
-  },
-  modalTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  modalTitle: {
-    maxWidth: '85%',
-  },
-  modalDescriptionContainer: {
-    marginTop: 16,
-  },
-  input: {
-    marginTop: 24,
-  },
-  modalOptionsContainer: {
-    marginTop: 24,
-    borderTopWidth: 1,
-    borderTopColor: colors.background30,
-    paddingBottom: dimensions.bottomBarHeight + 60,
-  },
-  modalOptionButton: {
-    flexDirection: 'row',
-    display: 'flex',
-    padding: 12,
-    alignItems: 'center',
-  },
-  modalOptionIcon: {
-    marginRight: 12,
-  },
-  overlayButton: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 40,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    width: 420,
-    maxWidth: '90%',
-  },
-  detailsContainer: {
-    alignItems: 'flex-start',
-    flex: 1,
-    paddingTop: 4,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    buttonWrapper: {
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+    },
+    buttonIcon: {
+      paddingLeft: 6,
+    },
+    card: {
+      padding: 16,
+      gap: 12,
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      backgroundColor: theme.colors.background10,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: theme.colors.background20,
+    },
+    iconContainer: {
+      borderRadius: 8,
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    placeholderIcon: {
+      backgroundColor: theme.colors.background20,
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    placeholderIconSM: {
+      height: 32,
+      width: 32,
+    },
+    placeholderIconMD: {
+      height: 40,
+      width: 40,
+    },
+    meetingProviderUrl: {
+      flex: 1,
+    },
+    meetingProviderInfo: {
+      paddingTop: 8,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      flex: 1,
+      alignSelf: 'stretch',
+    },
+    editButton: {
+      marginLeft: 12,
+    },
+    modalTitleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    modalTitle: {
+      maxWidth: '85%',
+    },
+    modalDescriptionContainer: {
+      marginTop: 16,
+    },
+    input: {
+      marginTop: 24,
+    },
+    modalOptionsContainer: {
+      marginTop: 24,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      paddingBottom: dimensions.bottomBarHeight + 60,
+    },
+    modalOptionButton: {
+      flexDirection: 'row',
+      display: 'flex',
+      padding: 12,
+      alignItems: 'center',
+    },
+    modalOptionIcon: {
+      marginRight: 12,
+    },
+    overlayButton: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 40,
+      justifyContent: 'center',
+      alignSelf: 'center',
+      width: 420,
+      maxWidth: '90%',
+    },
+    detailsContainer: {
+      alignItems: 'flex-start',
+      flex: 1,
+      paddingTop: 4,
+    },
+  })
 
 export default memo(AppointmentVideoCallLinkInput)

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react'
+import React, { SyntheticEvent, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -8,7 +8,7 @@ import { Loader } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SeeMoreProps {
   label?: string
@@ -21,6 +21,9 @@ export interface SeeMoreProps {
 const SeeMore: React.VFC<SeeMoreProps> = ({ label, loading = false, onPress, style, testID }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const labelSeeMore = label || t('global.seeMore')
   const cardImageSize = Platform.OS === 'web' ? 160 : screenWidth / 2 - 26
@@ -61,28 +64,29 @@ const SeeMore: React.VFC<SeeMoreProps> = ({ label, loading = false, onPress, sty
 
 export default SeeMore
 
-const styles = StyleSheet.create({
-  loadingContainer: {
-    width: 160,
-    height: 160,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.background20,
-  },
-  button: {
-    marginRight: Platform.OS === 'web' ? 24 : 48,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  textWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  text: {
-    color: colors.brandColorB30,
-    textAlign: 'center',
-    marginTop: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    loadingContainer: {
+      width: 160,
+      height: 160,
+      borderRadius: 8,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background20,
+    },
+    button: {
+      marginRight: Platform.OS === 'web' ? 24 : 48,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      flex: 1,
+    },
+    textWrapper: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
+    text: {
+      color: theme.colors.brandColorB30,
+      textAlign: 'center',
+      marginTop: 16,
+    },
+  })

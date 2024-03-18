@@ -6,7 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Discord, Facebook, Instagram, Linkedin, Links, Twitter, Whatsapp } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 type SpacePublicLinkProps = {
   link: SpaceLink
@@ -25,6 +25,8 @@ const IconBySpaceLinkType = {
 
 const SpacePublicLink: React.VFC<SpacePublicLinkProps> = ({ link, style }: SpacePublicLinkProps) => {
   const { url, name, type } = link
+  const { theme } = useTheme()
+  const { colors } = theme
 
   // For web URLs, the protocol ("http://", "https://") must be set accordingly: https://reactnative.dev/docs/linking
   const urlPrefix = !url.includes('http://') && !url.includes('https://') ? 'https://' : ''

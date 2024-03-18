@@ -18,7 +18,7 @@ import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -47,6 +47,8 @@ export type RootStackScreens = {
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
 const RootNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   return (
     <RootStack.Navigator
       initialRouteName={RouteName.BottomTabs}
@@ -102,6 +104,7 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
+          headerTransparent: true,
         }}
       />
       <RootStack.Screen
@@ -111,6 +114,7 @@ const RootNavigator = () => {
           presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
+          headerTransparent: true,
         }}
       />
       <RootStack.Screen

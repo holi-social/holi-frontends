@@ -1,4 +1,4 @@
-import React, { memo, useRef } from 'react'
+import React, { memo, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -11,7 +11,8 @@ import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { FilterType, filterTypes } from './types'
@@ -38,6 +39,8 @@ interface SearchFilterButton {
 }
 
 const FilterButton = ({ label, onPress, selected, loading }: SearchFilterButton) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   return (
     <HoliButtonLoading
       type="secondary"
@@ -54,6 +57,9 @@ const FilterButton = ({ label, onPress, selected, loading }: SearchFilterButton)
 const SearchContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const [query = ''] = useParam('query', singleParamConfig)
   const [selectedFilter] = useParam('filter', singleParamConfig)
@@ -137,36 +143,37 @@ const SearchContent = () => {
 
 export default memo(SearchContent)
 
-const styles = StyleSheet.create({
-  inner: {
-    flex: 1,
-    // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: dimensions.topBarHeight,
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  buttonList: {
-    flexGrow: 0,
-    flexShrink: 0,
-  },
-  buttonListContainer: {
-    gap: 8,
-    marginHorizontal: 16,
-    marginVertical: 12,
-  },
-  filterButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    flexBasis: 1,
-    ...Platform.select({
-      web: {
-        minWidth: 'fit-content',
-        maxWidth: '33%',
-      },
-    }),
-  },
-  filterButtonSelected: {
-    backgroundColor: colors.foreground30,
-    borderColor: colors.foreground30,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    inner: {
+      flex: 1,
+      // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
+      marginTop: dimensions.topBarHeight,
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+    buttonList: {
+      flexGrow: 0,
+      flexShrink: 0,
+    },
+    buttonListContainer: {
+      gap: 8,
+      marginHorizontal: 16,
+      marginVertical: 12,
+    },
+    filterButton: {
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      flexBasis: 1,
+      ...Platform.select({
+        web: {
+          minWidth: 'fit-content',
+          maxWidth: '33%',
+        },
+      }),
+    },
+    filterButtonSelected: {
+      backgroundColor: theme.colors.foreground30,
+      borderColor: theme.colors.foreground30,
+    },
+  })

@@ -4,7 +4,7 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 interface DonationProgressProps {
   progressPercentage: number
@@ -21,6 +21,9 @@ const DonationProgress = ({
   ...props
 }: DonationProgressProps) => {
   const { t, i18n } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+
   const styles = getStyles()
   const isSmall = size === 'small'
   const goalTextSize = size === 'large' ? 'default' : 'small'

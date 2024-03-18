@@ -14,7 +14,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface VideoCallLinkCardProps {
   videoCallLink: VideoCallLink
@@ -22,6 +22,9 @@ interface VideoCallLinkCardProps {
 const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: VideoCallLinkCardProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const navigateToVideoCall = useCallback(() => {
     if (Platform.OS === 'web') {
@@ -85,27 +88,28 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: 
 
 export default VideoCallLinkCard
 
-const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    backgroundColor: colors.background10,
-    padding: 16,
-    marginTop: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    alignItems: 'center',
-  },
-  cardContent: {
-    flex: 1,
-  },
-  detailText: {
-    color: colors.foreground20,
-  },
-  optionsLink: {
-    paddingBottom: 24,
-    borderBottomWidth: 1,
-    borderColor: colors.background30,
-    marginBottom: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    card: {
+      flexDirection: 'row',
+      backgroundColor: theme.colors.background10,
+      padding: 16,
+      marginTop: 16,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      alignItems: 'center',
+    },
+    cardContent: {
+      flex: 1,
+    },
+    detailText: {
+      color: theme.colors.foreground20,
+    },
+    optionsLink: {
+      paddingBottom: 24,
+      borderBottomWidth: 1,
+      borderColor: theme.colors.background30,
+      marginBottom: 24,
+    },
+  })

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
@@ -19,7 +19,7 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { numberToStringWithPad } from '@holi/ui/helper/date'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
 export enum INVITE_ONLY_TYPE {
@@ -137,6 +137,10 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
   const [titleError, setTitleError] = useState<string | undefined>()
 
   const { t } = useTranslation()
+
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
 
   // set options translations
   useEffect(() => {
@@ -431,75 +435,76 @@ const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
 
 export default AppointmentInputForm
 
-const styles = StyleSheet.create({
-  marginSeparator: {
-    marginTop: 24,
-  },
-  sectionWrapper: {
-    borderTopWidth: 1,
-    borderTopColor: colors.background30,
-    paddingTop: 24,
-    marginTop: 32,
-  },
-  videoCallItem: {
-    marginTop: 12,
-  },
-  thumbnailTitle: {
-    marginTop: 56,
-  },
-  thumbnailContainer: {
-    marginTop: 16,
-    padding: 16,
-    backgroundColor: colors.background10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  thumbnail: {
-    aspectRatio: 1,
-    width: '20%',
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  thumbnailSkeleton: {
-    backgroundColor: colors.brandColorB10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  uploadButtonContainer: {
-    gap: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageUploadButton: {
-    backgroundColor: colors.background10,
-    borderWidth: 1,
-  },
-  instructionsContainer: {
-    marginTop: 16,
-    justifyContent: 'center',
-  },
-  instructions: {
-    justifyContent: 'center',
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    marginSeparator: {
+      marginTop: 24,
+    },
+    sectionWrapper: {
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      paddingTop: 24,
+      marginTop: 32,
+    },
+    videoCallItem: {
+      marginTop: 12,
+    },
+    thumbnailTitle: {
+      marginTop: 56,
+    },
+    thumbnailContainer: {
+      marginTop: 16,
+      padding: 16,
+      backgroundColor: theme.colors.background10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    thumbnail: {
+      aspectRatio: 1,
+      width: '20%',
+      borderRadius: 8,
+      marginBottom: 16,
+    },
+    thumbnailSkeleton: {
+      backgroundColor: theme.colors.brandColorB10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    uploadButtonContainer: {
+      gap: 12,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    imageUploadButton: {
+      backgroundColor: theme.colors.background10,
+      borderWidth: 1,
+    },
+    instructionsContainer: {
+      marginTop: 16,
+      justifyContent: 'center',
+    },
+    instructions: {
+      justifyContent: 'center',
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
 
-  calendarButton: {
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.background10,
-    color: colors.foreground30,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: colors.background30,
-  },
-  calendarButtonHovered: {
-    borderColor: colors.foreground20,
-  },
-})
+    calendarButton: {
+      paddingVertical: 16,
+      paddingHorizontal: 12,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background10,
+      color: theme.colors.foreground30,
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: theme.colors.background30,
+    },
+    calendarButtonHovered: {
+      borderColor: theme.colors.foreground20,
+    },
+  })

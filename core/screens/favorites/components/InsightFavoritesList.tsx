@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,11 +7,13 @@ import InsightFavoriteCard from '@holi/core/screens/favorites/components/Insight
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const InsightFavoritesList = () => {
   const { data: insights } = usePaginationContext<Insight>()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const imageWidth = 251
 
   const NoFavorites = () => {
@@ -46,22 +48,23 @@ const InsightFavoritesList = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  noFavoritesContainer: {
-    marginTop: 10,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-    margin: 24,
-    padding: 24,
-    alignItems: 'center',
-  },
-  illustration: {
-    marginTop: 32,
-    marginBottom: 24,
-  },
-  noFavoritesDescription: { textAlign: 'center', marginTop: 8, color: colors.foreground30 },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    noFavoritesContainer: {
+      marginTop: 10,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+      margin: 24,
+      padding: 24,
+      alignItems: 'center',
+    },
+    illustration: {
+      marginTop: 32,
+      marginBottom: 24,
+    },
+    noFavoritesDescription: { textAlign: 'center', marginTop: 8, color: theme.colors.foreground30 },
+  })
 
 export default InsightFavoritesList

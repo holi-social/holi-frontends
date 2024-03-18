@@ -21,7 +21,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CATEGORY_ILLUSTRATIONS = {
@@ -41,6 +42,8 @@ const NOTIFICATION_CATEGORIES_IN_ORDER: NOTIFICATION_CATEGORY[] = [
 const NotificationSettingsList = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { ftMaintenance } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
   const { workflowPreferences, updatePreference, updatingPreferences, loading } = useNotificationPreferences()
@@ -133,6 +136,8 @@ const WorkflowSettings = ({
   style: StyleProp<ViewStyle>
 }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={[styles.row, style]} testID={workflow.id}>
@@ -196,27 +201,28 @@ const CategoryIllustration: React.FC<{ style: ViewStyle; category: NOTIFICATION_
 
 export default NotificationSettingsList
 
-const styles = StyleSheet.create({
-  loadingContainer: {
-    marginTop: dimensions.topBarHeight,
-  },
-  accountSettings: {
-    paddingHorizontal: 0,
-  },
-  row: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
-    paddingVertical: 12,
-  },
-  lastRow: {
-    paddingBottom: 0,
-    borderBottomWidth: 0,
-  },
-  section: {
-    paddingVertical: 24,
-    marginBottom: 2,
-  },
-  lastSection: {
-    marginBottom: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    loadingContainer: {
+      marginTop: dimensions.topBarHeight,
+    },
+    accountSettings: {
+      paddingHorizontal: 0,
+    },
+    row: {
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.background30,
+      paddingVertical: 12,
+    },
+    lastRow: {
+      paddingBottom: 0,
+      borderBottomWidth: 0,
+    },
+    section: {
+      paddingVertical: 24,
+      marginBottom: 2,
+    },
+    lastSection: {
+      marginBottom: 24,
+    },
+  })

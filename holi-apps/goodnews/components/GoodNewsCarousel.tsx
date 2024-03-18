@@ -12,7 +12,7 @@ import { logDebug } from '@holi/core/helpers/logging'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import {
   GoodNewsArticlesQueryArgs,
@@ -40,6 +40,8 @@ const GoodNewsCarousel = () => {
   const { i18n } = useTranslation()
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     goodNewsArticlesQuery,
@@ -76,19 +78,19 @@ const GoodNewsCarousel = () => {
 
   useEffect(() => {
     setScreenOptions({
-      headerTitle: ({ tintColor }) => {
-        return <GoodNewsHeader tintColor={tintColor} formattedDate={activeArticleFormattedDate} />
+      headerTitle: () => {
+        return <GoodNewsHeader formattedDate={activeArticleFormattedDate} />
       },
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
-      headerTintColor: colors.background10,
+      headerTintColor: colors.light,
       navigationCustomOptions: {
         headerBackgroundGradient: true,
         footerShown: false,
       },
-      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
     })
-  }, [activeArticleFormattedDate, setScreenOptions])
+  }, [activeArticleFormattedDate, setScreenOptions, colors.light])
 
   useEffect(() => {
     if (paramArticleId) {

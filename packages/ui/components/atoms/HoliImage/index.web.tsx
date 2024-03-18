@@ -5,7 +5,7 @@ import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { ImageSource, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-import styles from './styles.module.scss'
+import styles from './styles.module.css'
 
 const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined => {
   if (!Array.isArray(source)) {

@@ -20,7 +20,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const PAGE_SIZE = 10
 
@@ -34,6 +34,8 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const [withdrawn, setWithdrawn] = useState(false)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
@@ -159,35 +161,36 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-  },
-  userButton: {
-    flex: 1,
-  },
-  userButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    borderWidth: 1,
-  },
-  name: {
-    marginLeft: 16,
-    flex: 1,
-  },
-  muted: {
-    color: colors.foreground20,
-    paddingLeft: 8,
-  },
-  button: {
-    borderRadius: 50,
-    width: 40,
-    zIndex: 4,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 12,
+    },
+    userButton: {
+      flex: 1,
+    },
+    userButtonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    avatar: {
+      borderWidth: 1,
+    },
+    name: {
+      marginLeft: 16,
+      flex: 1,
+    },
+    muted: {
+      color: theme.colors.foreground20,
+      paddingLeft: 8,
+    },
+    button: {
+      borderRadius: 50,
+      width: 40,
+      zIndex: 4,
+    },
+  })
 
 export default SpaceInviteItem

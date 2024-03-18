@@ -12,7 +12,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const COLLECTION_TYPES = Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
 export interface DigitalToolInputFormProps {
@@ -46,6 +46,10 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   currentThumbnail,
 }: DigitalToolInputFormProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const collectionTypes = useMemo(
     () =>
       COLLECTION_TYPES.map((collectionType) => {
@@ -175,49 +179,50 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
 
 export default DigitalToolInputForm
 
-const styles = StyleSheet.create({
-  collectionOption: {
-    marginTop: 16,
-  },
-  thumbnailTitle: {
-    marginTop: 56,
-  },
-  thumbnailContainer: {
-    marginTop: 16,
-    padding: 16,
-    backgroundColor: colors.background10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  thumbnail: {
-    aspectRatio: 1,
-    width: '20%',
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  thumbnailSkeliton: {
-    backgroundColor: colors.brandColorB10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  uploadButtonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageUploadButton: {
-    backgroundColor: colors.background10,
-    borderWidth: 1,
-  },
-  instructionsContainer: {
-    marginTop: 16,
-    justifyContent: 'center',
-  },
-  instructions: {
-    justifyContent: 'center',
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    collectionOption: {
+      marginTop: 16,
+    },
+    thumbnailTitle: {
+      marginTop: 56,
+    },
+    thumbnailContainer: {
+      marginTop: 16,
+      padding: 16,
+      backgroundColor: theme.colors.background10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    thumbnail: {
+      aspectRatio: 1,
+      width: '20%',
+      borderRadius: 8,
+      marginBottom: 16,
+    },
+    thumbnailSkeliton: {
+      backgroundColor: theme.colors.brandColorB10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    uploadButtonContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    imageUploadButton: {
+      backgroundColor: theme.colors.background10,
+      borderWidth: 1,
+    },
+    instructionsContainer: {
+      marginTop: 16,
+      justifyContent: 'center',
+    },
+    instructions: {
+      justifyContent: 'center',
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+  })

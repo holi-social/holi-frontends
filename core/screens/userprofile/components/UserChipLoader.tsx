@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,12 +7,14 @@ import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type UserChipLoaderProps = UseUserChipsOptions
 
 const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject }: UserChipLoaderProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const {
     filterString,
     onFilterStringChange,
@@ -54,16 +56,17 @@ const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject }: UserChi
 
 export default UserChipLoader
 
-const styles = StyleSheet.create({
-  modalWrapper: {
-    flex: 1,
-  },
-  notification: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 16,
-    zIndex: 10,
-    backgroundColor: colors.background10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    modalWrapper: {
+      flex: 1,
+    },
+    notification: {
+      ...StyleSheet.absoluteFillObject,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginHorizontal: 16,
+      zIndex: 10,
+      backgroundColor: theme.colors.background10,
+    },
+  })

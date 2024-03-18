@@ -1,6 +1,6 @@
 import { RecoveryFlow } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 
@@ -11,12 +11,12 @@ import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-// import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const CODE_MAX_COUNT = 6
 
@@ -41,6 +41,8 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
   const [code, setCode] = useState('')
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const resendEmail = async () => {
     if (!flow) return false
@@ -160,26 +162,27 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
 
 export default RecoverPasswordCode
 
-const styles = StyleSheet.create({
-  inner: {
-    alignItems: 'center',
-    maxWidth: dimensions.breakpointL,
-  },
-  imageContainer: {
-    alignItems: 'center',
-  },
-  headline: {
-    fontWeight: '400',
-    textAlign: 'center',
-    marginTop: 64,
-  },
-  description: {
-    color: colors.foreground20,
-    marginTop: 16,
-    textAlign: 'center',
-  },
-  limitedBox: {
-    maxWidth: dimensions.breakpointS,
-    width: '100%',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    inner: {
+      alignItems: 'center',
+      maxWidth: dimensions.breakpointL,
+    },
+    imageContainer: {
+      alignItems: 'center',
+    },
+    headline: {
+      fontWeight: '400',
+      textAlign: 'center',
+      marginTop: 64,
+    },
+    description: {
+      color: theme.colors.foreground20,
+      marginTop: 16,
+      textAlign: 'center',
+    },
+    limitedBox: {
+      maxWidth: dimensions.breakpointS,
+      width: '100%',
+    },
+  })

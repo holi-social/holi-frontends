@@ -19,7 +19,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
@@ -55,6 +55,9 @@ const DONATIONS_IMG_SOURCES_MAPPING: {
 const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
@@ -186,25 +189,26 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
   )
 }
 
-const styles = StyleSheet.create({
-  searchQuery: {
-    color: colors.brandColorB30,
-  },
-  searchFilter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  noResultsMessage: {
-    marginTop: 24,
-  },
-  clearFilter: {
-    paddingLeft: 3,
-  },
-  category: {
-    color: colors.foreground20,
-    marginTop: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    searchQuery: {
+      color: theme.colors.brandColorB30,
+    },
+    searchFilter: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    noResultsMessage: {
+      marginTop: 24,
+    },
+    clearFilter: {
+      paddingLeft: 3,
+    },
+    category: {
+      color: theme.colors.foreground20,
+      marginTop: 8,
+    },
+  })
 
 export default DonationListing

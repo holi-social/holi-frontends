@@ -17,42 +17,39 @@ import DeviceRegistration from '@holi/core/screens/notifications/components/Devi
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const client = initializeClientSideApolloClient()
 
 const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
   return (
-    <ThemeProvider theme={defaultHoliTheme}>
-      {/* Necessary for loading e.g. translations on mobile */}
-      {/* TODO: replace with proper loading indicator */}
-      <Suspense
-        fallback={
-          <SafeArea style={styles.loadingContainer}>
-            <HoliText style={{ textAlign: 'center' }}>Loading...</HoliText>
-          </SafeArea>
-        }
-      >
-        <ErrorBoundary>
-          <ApolloProvider client={client}>
-            <ToastProvider>
-              <PortalProvider>
-                <SessionExpiryProtection>
-                  <FeatureTogglesFetcher />
-                  {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
-                  {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
-                  <LoginModalProvider>
-                    <ChatSessionInitializer>
-                      <ChatProvider>{children}</ChatProvider>
-                    </ChatSessionInitializer>
-                  </LoginModalProvider>
-                </SessionExpiryProtection>
-              </PortalProvider>
-            </ToastProvider>
-          </ApolloProvider>
-        </ErrorBoundary>
-      </Suspense>
-    </ThemeProvider>
+    // Necessary for loading e.g. translations on mobile.
+    // TODO: replace with proper loading indicator
+    <Suspense
+      fallback={
+        <SafeArea style={styles.loadingContainer}>
+          <HoliText style={{ textAlign: 'center' }}>Loading...</HoliText>
+        </SafeArea>
+      }
+    >
+      <ErrorBoundary>
+        <ApolloProvider client={client}>
+          <ToastProvider>
+            <PortalProvider>
+              <SessionExpiryProtection>
+                <FeatureTogglesFetcher />
+                {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
+                {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
+                <LoginModalProvider>
+                  <ChatSessionInitializer>
+                    <ChatProvider>{children}</ChatProvider>
+                  </ChatSessionInitializer>
+                </LoginModalProvider>
+              </SessionExpiryProtection>
+            </PortalProvider>
+          </ToastProvider>
+        </ApolloProvider>
+      </ErrorBoundary>
+    </Suspense>
   )
 }
 

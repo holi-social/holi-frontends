@@ -7,7 +7,8 @@ import { EmotionUnhappyNoeyes, UserSmile } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export enum HoliToastType {
   ERROR = 'ERROR',
@@ -48,6 +49,7 @@ export const ToastContext = createContext<ToastContextValue>({} as ToastContextV
 
 export const ToastProvider = ({ children }: React.PropsWithChildren<Partial<ToastContextValue>>) => {
   const [toasts, setToasts] = useState<Toast[]>([])
+
   const closeToast = useCallback(
     (id: string) => setToasts((currentToasts: Toast[]) => currentToasts.filter((toast) => toast.id !== id)),
     []
@@ -70,7 +72,8 @@ export const ToastProvider = ({ children }: React.PropsWithChildren<Partial<Toas
 
   const { width: deviceWidth } = useWindowDimensions()
   const firstToastType = toasts?.[0]?.type
-  const styles = useMemo(() => createStyles(deviceWidth, firstToastType), [deviceWidth, firstToastType])
+  const { theme } = useTheme()
+  const styles = useMemo(() => createStyles(deviceWidth, theme, firstToastType), [deviceWidth, theme, firstToastType])
 
   return (
     <ToastContext.Provider value={contextValue}>
@@ -100,8 +103,9 @@ export const useToast = () => useContext(ToastContext)
 export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, timeout, testID }) => {
   const { width: deviceWidth } = useWindowDimensions()
   const toastTimeout = timeout || selectTimeoutForType(type)
-
-  const styles = useMemo(() => createStyles(deviceWidth, type), [deviceWidth, type])
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => createStyles(deviceWidth, theme, type), [deviceWidth, theme, type])
 
   useEffect(() => {
     const timer = setTimeout(closeToast, toastTimeout)
@@ -134,7 +138,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
 
 export default HoliToast
 
-const createStyles = (deviceWidth: number, type?: HoliToastType) =>
+const createStyles = (deviceWidth: number, theme: HoliTheme, type?: HoliToastType) =>
   StyleSheet.create({
     wrapper: {
       top: 0,
@@ -143,7 +147,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       width: '100%',
       ...Platform.select({
         native: {
-          backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
+          backgroundColor: type === HoliToastType.ERROR ? theme.colors.error30 : theme.colors.brandColorB30,
         },
       }),
       ...(deviceWidth >= dimensions.breakpointL
@@ -164,7 +168,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
     toast: {
       padding: 20,
       flex: 1,
-      backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
+      backgroundColor: type === HoliToastType.ERROR ? theme.colors.error30 : theme.colors.brandColorB30,
       ...(deviceWidth >= dimensions.breakpointL
         ? {
             borderRadius: 10,
@@ -179,7 +183,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       justifyContent: 'center',
     },
     toastText: {
-      color: colors.background10,
+      color: theme.colors.background10,
       textAlign: 'center',
     },
     toastIcon: {

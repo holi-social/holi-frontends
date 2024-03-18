@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -23,7 +23,8 @@ import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceAppointmentsParams = RefreshOnNavigationParams & {
@@ -46,8 +47,10 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
   const setScreenOptions = useSetScreenOptions()
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const { height: screenHeight, width: screenWidth } = useWindowDimensions()
-  const styles = createStyles(screenHeight)
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
 
   const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
     skip: !spaceIdOrName,
@@ -171,7 +174,7 @@ const SpaceAppointments: React.VFC<SpaceAppointmentsParams> = () => {
   )
 }
 
-const createStyles = (screenHeight: number) =>
+const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       minHeight: '100%',
@@ -193,7 +196,7 @@ const createStyles = (screenHeight: number) =>
     },
     tabStyle: {
       flex: 1,
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       paddingBottom: 42,
     },
     all: {

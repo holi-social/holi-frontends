@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import Footer from '@holi/web/components/navigation/Footer'
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
-import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
+import navigationLayoutRootStyles from './NavigationLayoutRoot.module.css'
 
 const NavigationLayoutRoot = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()

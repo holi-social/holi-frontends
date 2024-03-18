@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -6,7 +6,7 @@ import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/Sp
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateSpaceTopicsProps = {
   onSelectSpaceTopics: (topics: Term[]) => void
@@ -20,6 +20,8 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
   const { t } = useTranslation()
   const { topics } = useContext(SpaceTermContext)
   const { setNextButtonEnabled } = useWizard()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useEffect(() => {
     setNextButtonEnabled(selectedTopics.length > 0)
@@ -41,17 +43,18 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
 }
 
 export default CreateSpaceTopics
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    width: '100%',
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
-    alignItems: 'center',
-    display: 'flex',
-    backgroundColor: colors.background10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      flex: 1,
+      width: '100%',
+      ...Platform.select({
+        web: {
+          minHeight: '100vh',
+        },
+      }),
+      alignItems: 'center',
+      display: 'flex',
+      backgroundColor: theme.colors.background10,
+    },
+  })

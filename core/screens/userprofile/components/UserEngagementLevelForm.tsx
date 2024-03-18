@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -16,7 +16,7 @@ import { Smiley } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 enum EngagementLevel {
   INTERESTED = 'INTERESTED',
@@ -48,7 +48,8 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
   const { height: deviceHeight } = useWindowDimensions()
   const buttonsContainerHeight = buttonsRelativeHeight * deviceHeight
-  const styles = getStyles(buttonsContainerHeight)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(buttonsContainerHeight, theme), [buttonsContainerHeight, theme])
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -153,7 +154,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   )
 }
 
-const getStyles = (buttonsContainerHeight: number) =>
+const getStyles = (buttonsContainerHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       flex: 1,
@@ -167,7 +168,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       justifyContent: 'center',
       marginHorizontal: 16,
       zIndex: 10,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
     },
     buttonsContainer: {
       marginTop: 60,
@@ -181,7 +182,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       flex: 1,
     },
     activeButton: {
-      backgroundColor: colors.brandColorA30,
+      backgroundColor: theme.colors.brandColorA30,
     },
     button: {
       borderWidth: 2,
@@ -199,7 +200,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       height: 50,
       borderWidth: 2,
       borderRadius: 100,
-      backgroundColor: colors.brandColorA30,
+      backgroundColor: theme.colors.brandColorA30,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',

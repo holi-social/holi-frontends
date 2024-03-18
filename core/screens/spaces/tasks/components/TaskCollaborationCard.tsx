@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,7 +11,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface TasksCardProps {
   isAdmin: boolean
@@ -24,6 +24,8 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space, s
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const isMember = isAdmin || isCollaborator
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const cardProps = {
     headerRightIcon: isMember ? Add : undefined,
@@ -93,37 +95,38 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space, s
 
 export default TasksCard
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-  },
-  seeAllButtonContainer: {
-    alignItems: 'center',
-  },
-  seeAllButton: {
-    bottom: 0,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  tasksListContainer: {
-    padding: 8,
-  },
-  empty: {
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingTop: 24,
-    paddingBottom: 16,
-  },
-  emptyMessage: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-  instruction: {
-    color: colors.foreground30,
-    alignSelf: 'center',
-    paddingTop: 12,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+    },
+    seeAllButtonContainer: {
+      alignItems: 'center',
+    },
+    seeAllButton: {
+      bottom: 0,
+      paddingHorizontal: 20,
+      borderWidth: 1,
+      marginTop: 16,
+      marginBottom: 8,
+    },
+    tasksListContainer: {
+      padding: 8,
+    },
+    empty: {
+      alignItems: 'center',
+      paddingHorizontal: 8,
+      paddingTop: 24,
+      paddingBottom: 16,
+    },
+    emptyMessage: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+    instruction: {
+      color: theme.colors.foreground30,
+      alignSelf: 'center',
+      paddingTop: 12,
+    },
+  })

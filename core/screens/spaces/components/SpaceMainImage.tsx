@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useFallbackImage } from '@holi/core/helpers'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceMainImageProps = {
   uri: string
@@ -20,6 +20,8 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 
 const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, blurhash, editable, onPress, style }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const fallbackImageUri = useFallbackImage().uri
 
@@ -52,42 +54,43 @@ const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, blurhash, 
   )
 }
 
-const styles = StyleSheet.create({
-  imageContainer: {
-    width: '100%',
-    aspectRatio: IMAGE_ASPECT_RATIO,
-    height: Platform.OS === 'web' ? '100%' : 'auto',
-    padding: 8,
-    borderWidth: 1,
-    borderRadius: 16,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-  },
-  wrapper: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  mainImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    borderRadius: 8,
-  },
-  editOverlay: {
-    width: '100%',
-    height: '100%',
-    flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    backgroundColor: colors.foreground30at48Percent,
-    borderRadius: 8,
-  },
-  editButton: {
-    position: 'absolute',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    imageContainer: {
+      width: '100%',
+      aspectRatio: IMAGE_ASPECT_RATIO,
+      height: Platform.OS === 'web' ? '100%' : 'auto',
+      padding: 8,
+      borderWidth: 1,
+      borderRadius: 16,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+    },
+    wrapper: {
+      width: '100%',
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    mainImage: {
+      width: '100%',
+      height: '100%',
+      resizeMode: 'cover',
+      borderRadius: 8,
+    },
+    editOverlay: {
+      width: '100%',
+      height: '100%',
+      flex: 1,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      backgroundColor: theme.colors.foreground30at48Percent,
+      borderRadius: 8,
+    },
+    editButton: {
+      position: 'absolute',
+    },
+  })
 
 export default SpaceMainImage
