@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -9,6 +9,7 @@ import { Recommendation } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -18,6 +19,7 @@ interface RecommendationCardProps {
 }
 
 const RecommendationCard = ({ recommendation, insightId }: RecommendationCardProps) => {
+  const [errorLoadingImage, setErrorLoadingImage] = useState(false)
   const { navigate } = useRouting()
 
   return (
@@ -29,13 +31,27 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
       testID="feed-insight-image-link"
     >
       <View>
-        {recommendation.linkPreview.image && (
+        {!errorLoadingImage && recommendation.linkPreview.image && (
           <>
             <HoliImage
               source={{ uri: recommendation.linkPreview.image }}
               label={recommendation.link}
               style={styles.image}
               resizeMode="cover"
+              onError={() => setErrorLoadingImage(true)}
+            />
+            <HoliGap size="s" />
+          </>
+        )}
+        {(errorLoadingImage || !recommendation.linkPreview.image) && (
+          <>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
+              label={recommendation.link}
+              style={styles.image}
+              width={89}
+              height={88}
+              isSvg
             />
             <HoliGap size="s" />
           </>
@@ -74,17 +90,17 @@ const styles = StyleSheet.create({
       web: { marginBottom: 4 },
     }),
   },
-
   image: {
     borderRadius: Spacing.xs,
     width: '100%',
     height: 160,
+    backgroundColor: colors.gray100,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
   description: {
     paddingHorizontal: Spacing['3xs'],
   },
-
   hovered: {
     borderColor: colors.black300,
     shadowColor: colors.black300,
