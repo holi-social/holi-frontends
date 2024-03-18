@@ -1,5 +1,6 @@
 import * as Linking from 'expo-linking'
 import * as Notifications from 'expo-notifications'
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 
 import type { LinkingOptions, Theme } from '@react-navigation/native'
@@ -10,20 +11,19 @@ import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
 import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
-import { colors } from '@holi/ui/styles/globalVars'
-import defaultHoliTheme from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const navigationRef = createNavigationContainerRef()
 
-const navigationTheme: Theme = {
+const getNavigationTheme = (currentTheme: HoliTheme): Theme => ({
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    notification: colors.brandColorB30,
-    background: colors.background10,
+    notification: currentTheme.colors.brandColorB30,
+    background: currentTheme.colors.background10,
   },
-  dark: defaultHoliTheme.dark,
-}
+  dark: currentTheme.dark,
+})
 
 // linking is done to configure deep linking (e.g. to get https://staging.dev.holi.social/profiles/dieter
 // or holi://profiles/dieter to open the corresponding screen on the app). See
@@ -82,17 +82,26 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   },
 }
 
-const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => (
-  <NavigationContainer
-    ref={navigationRef}
-    theme={navigationTheme}
-    linking={rootLinkingConfig}
-    onReady={() => {
-      reactNativeTracingRoutingInstrumentation.registerNavigationContainer(navigationRef)
-    }}
-  >
-    {children}
-  </NavigationContainer>
-)
+const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => {
+  const { theme } = useTheme()
+  const navigationTheme = getNavigationTheme(theme)
+
+  return (
+    <>
+      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
+
+      <NavigationContainer
+        ref={navigationRef}
+        theme={navigationTheme}
+        linking={rootLinkingConfig}
+        onReady={() => {
+          reactNativeTracingRoutingInstrumentation.registerNavigationContainer(navigationRef)
+        }}
+      >
+        {children}
+      </NavigationContainer>
+    </>
+  )
+}
 
 export default NavigationProvider

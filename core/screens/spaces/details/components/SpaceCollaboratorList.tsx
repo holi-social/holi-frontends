@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -9,7 +9,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { sizes } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceCollaboratorsProps = {
   space: Space
@@ -20,6 +20,8 @@ type SpaceCollaboratorsProps = {
 const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelectMember }) => {
   const { t } = useTranslation()
   const { user: loggedInUser } = useLoggedInUser()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { data: spaceMembers } = usePaginationContext<SpaceMember>()
 
@@ -71,33 +73,34 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
   )
 }
 
-const styles = StyleSheet.create({
-  admin: {
-    color: colors.foreground20,
-    paddingLeft: 8,
-  },
-  avatar: {
-    borderWidth: 1,
-  },
-  avatarButton: {
-    minHeight: sizes.medium,
-  },
-  collaborators: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 8,
-  },
-  titleContainer: {
-    marginLeft: 16,
-    flex: 1,
-  },
-  wrapper: {
-    justifyContent: 'center',
-    height: '100%',
-    paddingTop: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    admin: {
+      color: theme.colors.foreground20,
+      paddingLeft: 8,
+    },
+    avatar: {
+      borderWidth: 1,
+    },
+    avatarButton: {
+      minHeight: sizes.medium,
+    },
+    collaborators: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginVertical: 8,
+    },
+    titleContainer: {
+      marginLeft: 16,
+      flex: 1,
+    },
+    wrapper: {
+      justifyContent: 'center',
+      height: '100%',
+      paddingTop: 24,
+    },
+  })
 
 export default SpaceCollaborators

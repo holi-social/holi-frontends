@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -16,7 +16,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import { localizeDate } from '@holi/ui/helper/date'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type AppointmentCardProps = {
   appointment: Appointment
@@ -35,6 +35,9 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   const { navigate } = useRouting()
   const { userId, isLoggedIn } = useAuth()
   const [imageError, setImageError] = useState(false)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
 
   const currentLanguage = getLocale(i18n.language || '')
   const date = localizeDate(new Date(appointment.startDateTime), currentLanguage, {
@@ -217,103 +220,104 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    position: 'absolute',
-    width: '100%',
-    top: 8,
-  },
-  inviteOnly: {
-    padding: 2,
-    paddingRight: 4,
-    height: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  tagWithImage: {
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-    marginLeft: 6,
-  },
-  optionsWithImage: {
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-    marginRight: 6,
-  },
-  detailContainer: {
-    marginTop: 16,
-    minHeight: 40,
-  },
-  detailContainerWithoutHeader: {
-    marginTop: 0,
-  },
-  detailContainerWithImage: {
-    marginTop: 0,
-  },
-  clickOverlay: {
-    position: 'relative',
-    pointerEvents: 'auto',
-  },
-  flex1: {
-    flex: 1,
-  },
-  titleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginBottom: 8,
-  },
-  image: {
-    borderRadius: 8,
-    height: 166,
-    justifyContent: 'center',
-  },
-  imageContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  appointmentItem: {
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-    padding: 8,
-    flexShrink: 1,
-  },
-  iconsContainer: {
-    marginTop: 4,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  iconGroupContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    flexShrink: 1,
-    flex: 1,
-  },
-  iconGroupIcon: {
-    marginRight: 4,
-  },
-  iconGroupText: {
-    color: colors.foreground20,
-    marginRight: 8,
-    maxWidth: '90%',
-  },
-  noIconGroupText: {
-    color: colors.foreground20,
-    marginLeft: 16,
-    marginRight: 8,
-    maxWidth: '90%',
-  },
-  paddingBottom: {
-    paddingBottom: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      position: 'absolute',
+      width: '100%',
+      top: 8,
+    },
+    inviteOnly: {
+      padding: 2,
+      paddingRight: 4,
+      height: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    tagWithImage: {
+      borderRadius: 24,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+      marginLeft: 6,
+    },
+    optionsWithImage: {
+      borderRadius: 6,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+      marginRight: 6,
+    },
+    detailContainer: {
+      marginTop: 16,
+      minHeight: 40,
+    },
+    detailContainerWithoutHeader: {
+      marginTop: 0,
+    },
+    detailContainerWithImage: {
+      marginTop: 0,
+    },
+    clickOverlay: {
+      position: 'relative',
+      pointerEvents: 'auto',
+    },
+    flex1: {
+      flex: 1,
+    },
+    titleButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      marginBottom: 8,
+    },
+    image: {
+      borderRadius: 8,
+      height: 166,
+      justifyContent: 'center',
+    },
+    imageContainer: {
+      position: 'relative',
+      marginBottom: 16,
+    },
+    appointmentItem: {
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+      padding: 8,
+      flexShrink: 1,
+    },
+    iconsContainer: {
+      marginTop: 4,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+    iconGroupContainer: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      flexShrink: 1,
+      flex: 1,
+    },
+    iconGroupIcon: {
+      marginRight: 4,
+    },
+    iconGroupText: {
+      color: theme.colors.foreground20,
+      marginRight: 8,
+      maxWidth: '90%',
+    },
+    noIconGroupText: {
+      color: theme.colors.foreground20,
+      marginLeft: 16,
+      marginRight: 8,
+      maxWidth: '90%',
+    },
+    paddingBottom: {
+      paddingBottom: 8,
+    },
+  })
 
 export default memo(AppointmentCard)

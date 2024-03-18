@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -9,7 +9,7 @@ import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/H
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { GOODNEWS_IMG_SOURCES_MAPPING } from '@holi-apps/goodnews/components/GoodNewsArticleComponent'
@@ -32,6 +32,8 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
 }: GoodNewsTeaserComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { imageWidth, imageHeight } = useWindowDimensionsWithImageScaling({
     relativeHeight: relativeArticleImageHeightScaling,
@@ -118,63 +120,64 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  btnText: {
-    paddingVertical: 5,
-  },
-  container: {
-    flex: 1,
-  },
-  loadMoreBtn: {
-    width: 'auto',
-    borderWidth: 1,
-  },
-  description: {
-    textAlign: 'center',
-  },
-  lookingForMore: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    gap: 32,
-    paddingBottom: 72,
-  },
-  textLink: {
-    fontSize: undefined,
-    fontWeight: '500',
-  },
-  imageContainer: {
-    borderColor: colors.foreground30,
-    flex: 1,
-    width: '100%',
-    overflow: 'hidden',
-    borderTopRightRadius: 28,
-    borderTopLeftRadius: 28,
-    borderWidth: 1,
-    borderBottomWidth: 0,
-    bottom: 0,
-    ...Platform.select({
-      web: {
-        height: 400,
-      },
-    }),
-  },
-  mainImage: {
-    height: '100%',
-    width: '100%',
-    bottom: 0,
-    ...Platform.select({
-      web: {
-        height: 400,
-      },
-      // needed for mobile because of bug with borderRadius
-      ios: {
-        borderColor: colors.foreground30,
-        borderTopRightRadius: 27,
-        borderTopLeftRadius: 27,
-      },
-    }),
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    btnText: {
+      paddingVertical: 5,
+    },
+    container: {
+      flex: 1,
+    },
+    loadMoreBtn: {
+      width: 'auto',
+      borderWidth: 1,
+    },
+    description: {
+      textAlign: 'center',
+    },
+    lookingForMore: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: 32,
+      paddingBottom: 72,
+    },
+    textLink: {
+      fontSize: undefined,
+      fontWeight: '500',
+    },
+    imageContainer: {
+      borderColor: theme.colors.foreground30,
+      flex: 1,
+      width: '100%',
+      overflow: 'hidden',
+      borderTopRightRadius: 28,
+      borderTopLeftRadius: 28,
+      borderWidth: 1,
+      borderBottomWidth: 0,
+      bottom: 0,
+      ...Platform.select({
+        web: {
+          height: 400,
+        },
+      }),
+    },
+    mainImage: {
+      height: '100%',
+      width: '100%',
+      bottom: 0,
+      ...Platform.select({
+        web: {
+          height: 400,
+        },
+        // needed for mobile because of bug with borderRadius
+        ios: {
+          borderColor: theme.colors.foreground30,
+          borderTopRightRadius: 27,
+          borderTopLeftRadius: 27,
+        },
+      }),
+    },
+  })
 
 export default GoodNewsTeaserComponent

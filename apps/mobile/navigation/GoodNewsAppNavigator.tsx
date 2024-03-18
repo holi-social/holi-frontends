@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import GoodNewsAppHome from '@holi-apps/goodnews/screens/GoodNewsAppHome'
 
@@ -15,6 +15,8 @@ export type GoodNewsAppScreensList = {
 const GoodNewsAppStack = createNativeStackNavigator<GoodNewsAppScreensList>()
 
 const GoodNewsAppNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   return (
     <GoodNewsAppStack.Navigator
       initialRouteName={RouteName.GoodNewsAppHome}

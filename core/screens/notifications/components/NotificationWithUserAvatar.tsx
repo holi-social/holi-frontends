@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,7 +9,7 @@ import NotificationContentText from '@holi/core/screens/notifications/components
 import { NotificationProps, NotificationWithUser } from '@holi/core/screens/notifications/components/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface NotificationWithUserAvatarProps extends NotificationProps<NotificationWithUser> {
   href?: string
@@ -31,6 +31,9 @@ const NotificationWithUserAvatar = ({
   const { id: userId, avatar, avatarBlurhash, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
   href = href || `/profile/${userId}`
   const userFullName = fullName || t('user.profileView.anonymous')
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={style} testID={testID}>
@@ -76,26 +79,27 @@ const NotificationWithUserAvatar = ({
   )
 }
 
-const styles = StyleSheet.create({
-  link: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: '100%',
-    marginLeft: 12,
-  },
-  fontColorGray: {
-    color: colors.foreground20,
-  },
-  createdDate: {
-    marginTop: 4,
-  },
-  readStatus: {
-    marginLeft: 12,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    link: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    content: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: '100%',
+      marginLeft: 12,
+    },
+    fontColorGray: {
+      color: theme.colors.foreground20,
+    },
+    createdDate: {
+      marginTop: 4,
+    },
+    readStatus: {
+      marginLeft: 12,
+    },
+  })
 
 export default NotificationWithUserAvatar

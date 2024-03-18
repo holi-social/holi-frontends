@@ -1,16 +1,19 @@
 import { FlashList } from '@shopify/flash-list'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
 import RoomItemDeletable from '@holi/chat/src/components/RoomList/RoomItemDeletable'
 import { leaveRoom } from '@holi/chat/src/store'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { RoomListProps } from './types'
 
 const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <GestureHandlerRootView style={styles.wrapper}>
       <FlashList
@@ -29,13 +32,14 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
 
 export default memo(RoomList)
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    width: '100%',
-  },
-  listItemSeparator: {
-    borderColor: colors.background30,
-    borderTopWidth: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      flex: 1,
+      width: '100%',
+    },
+    listItemSeparator: {
+      borderColor: theme.colors.background30,
+      borderTopWidth: 1,
+    },
+  })

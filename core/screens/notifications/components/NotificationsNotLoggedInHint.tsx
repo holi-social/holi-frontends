@@ -6,7 +6,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export const NotificationsNotLoggedInHint: React.FC<{
@@ -18,6 +18,8 @@ export const NotificationsNotLoggedInHint: React.FC<{
   const firstText = t('loginRedirect.title')
   const secondText = t('loginRedirect.text')
   const label = t('loginRedirect.btnConfirm')
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const styles = StyleSheet.create({
     noResultsMessage: {

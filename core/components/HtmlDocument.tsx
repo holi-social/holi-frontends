@@ -9,6 +9,7 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logDebug } from '@holi/core/helpers/logging'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HtmlDocumentProps {
@@ -29,6 +30,7 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
   const { bottom } = useSafeAreaInsets()
   const styles = getStyles(bottom)
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
 
   useEffect(() => {
     if (needToLoad && !loading) {
@@ -80,6 +82,7 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
         webViewProps={{ source: { uri: url ? url.toString() : '' } }}
         style={styles.webView}
         navigateToExternalBrowser
+        theme={theme}
       />
     )
   } else {

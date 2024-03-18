@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
@@ -20,7 +20,8 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface FormWrapperProps extends ScrollViewProps {
@@ -63,6 +64,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
     }: FormWrapperProps,
     ref
   ) => {
+    const { theme } = useTheme()
     const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
     const [scrollContentHeight, setScrollContentHeight] = useState(0)
     const scrollViewRef = useRef<ScrollView>(null)
@@ -104,7 +106,8 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
     useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
     useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
 
-    const styles = createStyles(screenHeight)
+    const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
+    const { colors } = theme
 
     return (
       <KeyboardAvoidingView
@@ -172,7 +175,7 @@ FormWrapper.displayName = 'FormWrapper'
 
 export default FormWrapper
 
-const createStyles = (screenHeight: number) =>
+const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
       height: '100%', // prevents double scrollbars
@@ -215,8 +218,8 @@ const createStyles = (screenHeight: number) =>
       bottom: 0,
       width: '100%',
       borderTopWidth: 1,
-      borderTopColor: colors.background30,
-      backgroundColor: colors.background20,
+      borderTopColor: theme.colors.background30,
+      backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {
           position: 'relative',

@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const NewToolsTeaser: React.FC = () => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={styles.illustrationContainer}>
       <HoliLocalImage
@@ -28,17 +31,18 @@ const NewToolsTeaser: React.FC = () => {
 
 export default NewToolsTeaser
 
-const styles = StyleSheet.create({
-  illustrationContainer: {
-    marginTop: 32,
-    paddingBottom: 16,
-    alignItems: 'center',
-  },
-  illustration: {
-    marginBottom: 8,
-  },
-  emptyMessage: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    illustrationContainer: {
+      marginTop: 32,
+      paddingBottom: 16,
+      alignItems: 'center',
+    },
+    illustration: {
+      marginBottom: 8,
+    },
+    emptyMessage: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+  })

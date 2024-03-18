@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback, useState } from 'react'
+import React, { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleSheet, ViewStyle } from 'react-native'
 
@@ -6,7 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HandHeartThin, HandHeartThinFilledDarker, HandHeartThinFilledRaised } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type MouseEnterOutEvent = SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>
 
@@ -34,6 +34,8 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
   testID,
 }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const [hovered, setHovered] = useState(false)
 
   const notActiveText = fullName
@@ -79,7 +81,7 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
     >
       <HoliText
         selectable={false}
-        style={[styles.text, (active || hovered) && { color: 'black' }]}
+        style={[styles.text, (active || hovered) && !theme.dark && { color: theme.colors.black300 }]}
         testID={`${testID}-counter`}
       >
         {count}
@@ -91,30 +93,31 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
 
 export default HoliReactionsCount
 
-const styles = StyleSheet.create({
-  outer: {
-    width: 'auto',
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  text: {
-    color: colors.foreground20,
-    lineHeight: 24,
-    marginRight: 8,
-    marginBottom: -2,
-  },
-  visuallyHidden: {
-    ...Platform.select({
-      native: {
-        display: 'none',
-      },
-      default: {
-        // only hiding the element on web to prefetch the icon within first network call
-        visibility: 'hidden',
-        position: 'fixed',
-      },
-    }),
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    outer: {
+      width: 'auto',
+    },
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    text: {
+      color: theme.colors.foreground20,
+      lineHeight: 24,
+      marginRight: 8,
+      marginBottom: -2,
+    },
+    visuallyHidden: {
+      ...Platform.select({
+        native: {
+          display: 'none',
+        },
+        default: {
+          // only hiding the element on web to prefetch the icon within first network call
+          visibility: 'hidden',
+          position: 'fixed',
+        },
+      }),
+    },
+  })

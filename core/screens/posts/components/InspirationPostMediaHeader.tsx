@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,7 +9,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { getFormattedDate } from '@holi/ui/components/molecules/HoliMediaHeader'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const inspirationPostCategoryList = [
   {
@@ -44,6 +44,9 @@ export interface InspirationPostMediaHeaderProps {
 
 const InspirationPostMediaHeader = ({ post }: InspirationPostMediaHeaderProps) => {
   const { i18n } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const inspirationPostCategory = inspirationPostCategoryList.filter(
     (t) => post?.inspirationPostCategory?.slug.toLowerCase() === t.slug
   )[0]
@@ -77,21 +80,22 @@ const InspirationPostMediaHeader = ({ post }: InspirationPostMediaHeaderProps) =
 
 export default InspirationPostMediaHeader
 
-const styles = StyleSheet.create({
-  inspirationMediaHeader: {
-    gap: 16,
-  },
-  inspirationHeadingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  fallbackImage: {
-    width: 32,
-    height: 32,
-  },
-  inspirationDate: {
-    paddingBottom: 8,
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    inspirationMediaHeader: {
+      gap: 16,
+    },
+    inspirationHeadingRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    fallbackImage: {
+      width: 32,
+      height: 32,
+    },
+    inspirationDate: {
+      paddingBottom: 8,
+      color: theme.colors.foreground20,
+    },
+  })

@@ -10,7 +10,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   title: string
@@ -67,7 +67,9 @@ const HoliBlockItem = ({
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
-  const styles = isSmall ? stylesSmall : stylesLarge
+  const { theme } = useTheme()
+  const styles = isSmall ? getStylesSmall(theme) : getStylesLarge(theme)
+
   const fallbackImageUri = useFallbackImage().uri
   const largeImageWidth = cardWidthForImageScaling ? cardWidthForImageScaling - 2 * styles.container.padding : undefined
   const imageSource = isSmall
@@ -161,107 +163,109 @@ const HoliBlockItem = ({
 
 export default HoliBlockItem
 
-const stylesSmall = StyleSheet.create({
-  container: {
-    padding: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexGrow: 1,
-  },
-  mainSection: {
-    flexGrow: 2,
-    marginRight: 4,
-  },
-  blockItemInner: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-  },
-  imageContainer: {
-    position: 'relative',
-    width: SMALL_IMAGE_DIMENSION,
-    height: SMALL_IMAGE_DIMENSION,
-  },
-  image: {
-    borderRadius: SMALL_OUTER_BORDER_RADIUS,
-    height: '100%',
-  },
-  usersPile: {
-    maxWidth: '100%',
-    paddingVertical: 4,
-    paddingRight: 8,
-  },
-  usersPileText: {
-    color: colors.foreground20,
-  },
-  textContainer: {
-    flex: 1,
-    marginTop: 6,
-    marginLeft: 8,
-    justifyContent: 'center',
-  },
-  title: {},
-  subtitle: {
-    display: 'none',
-  },
-  description: {
-    display: 'none',
-  },
-  optionsButton: {
-    display: 'flex',
-    padding: 8,
-    borderRadius: 8,
-    maxHeight: 36,
-    backgroundColor: colors.background10,
-  },
-})
+const getStylesSmall = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 0,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexGrow: 1,
+    },
+    mainSection: {
+      flexGrow: 2,
+      marginRight: 4,
+    },
+    blockItemInner: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+    },
+    imageContainer: {
+      position: 'relative',
+      width: SMALL_IMAGE_DIMENSION,
+      height: SMALL_IMAGE_DIMENSION,
+    },
+    image: {
+      borderRadius: SMALL_OUTER_BORDER_RADIUS,
+      height: '100%',
+    },
+    usersPile: {
+      maxWidth: '100%',
+      paddingVertical: 4,
+      paddingRight: 8,
+    },
+    usersPileText: {
+      color: theme.colors.foreground20,
+    },
+    textContainer: {
+      flex: 1,
+      marginTop: 6,
+      marginLeft: 8,
+      justifyContent: 'center',
+    },
+    title: {},
+    subtitle: {
+      display: 'none',
+    },
+    description: {
+      display: 'none',
+    },
+    optionsButton: {
+      display: 'flex',
+      padding: 8,
+      borderRadius: 8,
+      maxHeight: 36,
+      backgroundColor: theme.colors.background10,
+    },
+  })
 
-const stylesLarge = StyleSheet.create({
-  container: {
-    padding: 8,
-    paddingBottom: 16,
-    borderRadius: LARGE_OUTER_BORDER_RADIUS,
-    backgroundColor: colors.background10,
-  },
-  mainSection: {
-    flexGrow: 1,
-  },
-  blockItemInner: {},
-  imageContainer: {
-    position: 'relative',
-    width: '100%',
-    marginBottom: 16,
-  },
-  image: {
-    aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
-    borderRadius: 8,
-    maxWidth: '100%',
-  },
-  usersPile: {
-    position: 'absolute',
-    left: 10,
-    bottom: 10,
-    padding: 4,
-    paddingRight: 8,
-    borderRadius: 24,
-    backgroundColor: colors.background10,
-  },
-  usersPileText: {},
-  textContainer: {
-    width: '100%',
-  },
-  title: {
-    marginTop: 4,
-  },
-  subtitle: {
-    display: 'flex',
-    color: colors.foreground20,
-  },
-  description: {
-    color: colors.foreground20,
-    marginTop: 4,
-  },
-  optionsButton: {},
-})
+const getStylesLarge = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 8,
+      paddingBottom: 16,
+      borderRadius: LARGE_OUTER_BORDER_RADIUS,
+      backgroundColor: theme.colors.background10,
+    },
+    mainSection: {
+      flexGrow: 1,
+    },
+    blockItemInner: {},
+    imageContainer: {
+      position: 'relative',
+      width: '100%',
+      marginBottom: 16,
+    },
+    image: {
+      aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
+      borderRadius: 8,
+      maxWidth: '100%',
+    },
+    usersPile: {
+      position: 'absolute',
+      left: 10,
+      bottom: 10,
+      padding: 4,
+      paddingRight: 8,
+      borderRadius: 24,
+      backgroundColor: theme.colors.background10,
+    },
+    usersPileText: {},
+    textContainer: {
+      width: '100%',
+    },
+    title: {
+      marginTop: 4,
+    },
+    subtitle: {
+      display: 'flex',
+      color: theme.colors.foreground20,
+    },
+    description: {
+      color: theme.colors.foreground20,
+      marginTop: 4,
+    },
+    optionsButton: {},
+  })

@@ -295,7 +295,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     {
                       "alignItems": "center",
                       "backgroundColor": "#fff",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,
@@ -379,7 +379,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     {
                       "alignItems": "center",
                       "backgroundColor": "#262424",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,
@@ -732,7 +732,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     {
                       "alignItems": "center",
                       "backgroundColor": "#fff",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,
@@ -1037,7 +1037,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     {
                       "alignItems": "center",
                       "backgroundColor": "#fff",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,
@@ -1121,7 +1121,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     {
                       "alignItems": "center",
                       "backgroundColor": "#262424",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,
@@ -1321,7 +1321,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     {
                       "alignItems": "center",
                       "backgroundColor": "#fff",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,
@@ -1886,7 +1886,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                     {
                       "alignItems": "center",
                       "backgroundColor": "#fff",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,
@@ -1970,7 +1970,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                     {
                       "alignItems": "center",
                       "backgroundColor": "#262424",
-                      "borderColor": undefined,
+                      "borderColor": "#ebebeb",
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "height": 24,

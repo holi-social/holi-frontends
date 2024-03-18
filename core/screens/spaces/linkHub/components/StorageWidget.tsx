@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -17,7 +17,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface StorageWidgetProps {
   space: Space
@@ -28,6 +28,8 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { visible, show, hide } = useModalState()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const navigateToStorageScreen = useCallback(() => {
     if (Platform.OS === 'web') {
@@ -138,56 +140,57 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
 
 export default StorageWidget
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    padding: 8,
-    paddingBottom: 16,
-    marginTop: 24,
-  },
-  instruction: {
-    marginTop: 12,
-    alignSelf: 'center',
-    color: colors.foreground30,
-  },
-  descriptionText: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-  carouselContainer: {
-    width: '100%',
-    flex: 1,
-    flexGrow: 1,
-    ...Platform.select({
-      web: {
-        paddingHorizontal: 24,
-      },
-      native: {
-        paddingHorizontal: 20,
-      },
-    }),
-    justifyContent: 'space-between',
-  },
-  modalContainer: {
-    paddingBottom: 20,
-  },
-  image: {
-    alignSelf: 'flex-start',
-    marginBottom: 32,
-  },
-  link: {
-    marginBottom: 32,
-    backgroundColor: colors.background20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderRadius: 8,
-    padding: 16,
-    width: '100%',
-  },
-  text: {
-    marginTop: 16,
-    marginBottom: 32,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      width: '100%',
+      padding: 8,
+      paddingBottom: 16,
+      marginTop: 24,
+    },
+    instruction: {
+      marginTop: 12,
+      alignSelf: 'center',
+      color: theme.colors.foreground30,
+    },
+    descriptionText: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+    carouselContainer: {
+      width: '100%',
+      flex: 1,
+      flexGrow: 1,
+      ...Platform.select({
+        web: {
+          paddingHorizontal: 24,
+        },
+        native: {
+          paddingHorizontal: 20,
+        },
+      }),
+      justifyContent: 'space-between',
+    },
+    modalContainer: {
+      paddingBottom: 20,
+    },
+    image: {
+      alignSelf: 'flex-start',
+      marginBottom: 32,
+    },
+    link: {
+      marginBottom: 32,
+      backgroundColor: theme.colors.background20,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderRadius: 8,
+      padding: 16,
+      width: '100%',
+    },
+    text: {
+      marginTop: 16,
+      marginBottom: 32,
+    },
+  })

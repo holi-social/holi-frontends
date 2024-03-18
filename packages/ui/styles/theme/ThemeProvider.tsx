@@ -1,13 +1,33 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { HoliTheme } from '.'
-import { useStyleMixins } from './mixins'
-import defaultTheme, { ThemeContext } from './theme'
+import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
+import colorsLight from '@holi/ui/styles/globalVars/colors.light'
+import defaultTheme, { HoliTheme, ThemeContext } from '@holi/ui/styles/theme'
+import { getColorScheme, setColorScheme } from '@holi/ui/styles/theme/colors'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ModalState = { [key: string]: boolean }
 
 export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWithChildren<{ theme?: HoliTheme }>) => {
-  const [isDark, toggleDarkMode] = React.useReducer((isDark) => !isDark, defaultTheme.dark)
+  const [mode, setMode] = useState<string>()
+  const isDark = mode === 'dark'
+
+  // get current theme on initialization
+  useEffect(() => {
+    if (!mode) {
+      getColorScheme().then((scheme) => setMode(scheme))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const toggleDarkMode = () => {
+    const newMode = isDark ? 'light' : 'dark'
+    setColorScheme(newMode)
+    setMode(newMode)
+  }
+
+  const colors = useMemo(() => (isDark ? colorsDark : colorsLight), [isDark])
+
   const [modalCurrentStatus, setModalCurrentStatus] = React.useState<ModalState>({})
   const anyModalOpen = useMemo(() => Object.values(modalCurrentStatus).some((value) => value), [modalCurrentStatus])
   const mixins = useStyleMixins()
@@ -26,7 +46,7 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
   return (
     <ThemeContext.Provider
       value={{
-        theme: { ...theme, dark: isDark, mixins },
+        theme: { ...theme, dark: isDark, mixins, colors },
         toggleDarkMode,
         modalIsOpen: anyModalOpen,
         setModalIsOpen,

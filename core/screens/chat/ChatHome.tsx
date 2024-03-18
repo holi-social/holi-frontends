@@ -15,13 +15,15 @@ import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChatHome = () => {
   const { t } = useTranslation()
   const title = t('chat.title')
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -43,7 +45,7 @@ const ChatHome = () => {
       ),
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, setScreenOptions, t, title])
+  }, [navigate, setScreenOptions, t, title, colors.background20])
   if (ftLoading) {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   } else if (ftMaintenance) {

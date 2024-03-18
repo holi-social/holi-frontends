@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import Constants from 'expo-constants'
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -19,7 +19,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
@@ -38,6 +39,10 @@ const DonationsAppHome = () => {
   const mixins = useStyleMixins()
   const { height: deviceHeight } = useWindowDimensions()
   const statusBarHeight = Constants.statusBarHeight
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [showSearchModal, setShowSearchModal] = useState(false)
   const closeModal = useCallback(() => {
     setShowSearchModal(false)
@@ -90,7 +95,7 @@ const DonationsAppHome = () => {
       headerRight: () =>
         Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
-  }, [navigate, setScreenOptions, t, title])
+  }, [navigate, setScreenOptions, t, title, colors.background10])
 
   return (
     <ScrollHeaderLayout.Refreshable
@@ -129,10 +134,11 @@ const WrappedDonationsAppHome = () => (
 
 export default memo(WrappedDonationsAppHome)
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    backgroundColor: colors.background20,
-    paddingBottom: 0,
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    defaultLayout: {
+      backgroundColor: theme.colors.background20,
+      paddingBottom: 0,
+      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+    },
+  })

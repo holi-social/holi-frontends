@@ -16,6 +16,7 @@ import StorageOnboardModal from '@holi/core/screens/spaces/linkHub/components/St
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceStorageParams = {
   spaceIdOrName: string
@@ -35,6 +36,7 @@ const SpaceStorage: React.FC = () => {
   const { visible, show, hide } = useModalState()
 
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_storage_is_onboarded')
+  const { theme } = useTheme()
 
   useEffect(() => {
     if (!isOnboarded) {
@@ -73,6 +75,7 @@ const SpaceStorage: React.FC = () => {
       <HoliWebView
         style={styles.webView}
         webViewProps={{ setSupportMultipleWindows: false, source: { uri: storageUrl } }}
+        theme={theme}
       />
     </DefaultLayout>
   )

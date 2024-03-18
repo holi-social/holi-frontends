@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -16,7 +16,7 @@ import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CommentProps extends ViewProps {
   comment: Comment
@@ -28,6 +28,9 @@ export interface CommentProps extends ViewProps {
 const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
   const { user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [isLoadingReport, reportContent] = useReportContent({
     id: comment.id,
     contentType: ContentType.POST_COMMENT,
@@ -112,37 +115,38 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background10,
-  },
-  header: {
-    flexDirection: 'row',
-  },
-  mediaHeaderLink: {
-    flexShrink: 1,
-    flexGrow: 1,
-  },
-  body: {
-    flexDirection: 'row',
-    marginTop: 12,
-  },
-  text: {
-    flex: 1,
-    marginLeft: 15,
-  },
-  commentConnector: {
-    marginHorizontal: 20,
-  },
-  commentContent: {
-    flex: 1,
-  },
-  reactionsBar: {
-    marginTop: 12,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background10,
+    },
+    header: {
+      flexDirection: 'row',
+    },
+    mediaHeaderLink: {
+      flexShrink: 1,
+      flexGrow: 1,
+    },
+    body: {
+      flexDirection: 'row',
+      marginTop: 12,
+    },
+    text: {
+      flex: 1,
+      marginLeft: 15,
+    },
+    commentConnector: {
+      marginHorizontal: 20,
+    },
+    commentContent: {
+      flex: 1,
+    },
+    reactionsBar: {
+      marginTop: 12,
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+    },
+  })
 
 export default CommentView

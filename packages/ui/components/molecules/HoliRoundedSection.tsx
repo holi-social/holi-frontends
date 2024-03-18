@@ -1,8 +1,8 @@
+import React, { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
-import * as React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliRoundedSectionProps {
   style?: StyleProp<ViewStyle>
@@ -11,6 +11,9 @@ export interface HoliRoundedSectionProps {
 }
 
 const HoliRoundedSection = ({ children, style, testID, first }: PropsWithChildren<HoliRoundedSectionProps>) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View testID={testID} style={[styles.container, ...[first ? styles.first : []], style]}>
       {children}
@@ -20,15 +23,16 @@ const HoliRoundedSection = ({ children, style, testID, first }: PropsWithChildre
 
 export default HoliRoundedSection
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    paddingBottom: 24,
-    borderRadius: 32,
-    backgroundColor: colors.background10,
-  },
-  first: {
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      paddingBottom: 24,
+      borderRadius: 32,
+      backgroundColor: theme.colors.background10,
+    },
+    first: {
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+    },
+  })

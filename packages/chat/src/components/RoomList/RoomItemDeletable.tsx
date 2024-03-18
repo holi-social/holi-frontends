@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,7 +11,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliSwipeable from '@holi/ui/components/molecules/HoliSwipeable'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   roomAtom: ChatRoomAtom
@@ -22,6 +23,10 @@ interface Props {
 
 const RoomItemDeletable = ({ onDelete, ...props }: Props) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
+
   const paddingHorizontal = useBreakpointMatcher([
     [0, 16],
     [dimensions.breakpointS, 32],
@@ -63,8 +68,9 @@ const RoomItemDeletable = ({ onDelete, ...props }: Props) => {
 
 export default RoomItemDeletable
 
-const styles = StyleSheet.create({
-  backgroundWrapper: {
-    backgroundColor: colors.background20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    backgroundWrapper: {
+      backgroundColor: theme.colors.background20,
+    },
+  })

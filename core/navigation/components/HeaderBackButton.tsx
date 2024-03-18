@@ -7,7 +7,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HeaderBackButtonProps extends Partial<HoliButtonProps> {
   label?: string
@@ -18,14 +18,11 @@ export interface HeaderBackButtonProps extends Partial<HoliButtonProps> {
   onPress?: () => void
 }
 
-const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
-  tintColor = colors.foreground30,
-  icon = ArrowLeft,
-  onPress,
-  ...props
-}) => {
+const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({ tintColor, icon = ArrowLeft, onPress, ...props }) => {
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   return (
     <HoliButton
@@ -36,7 +33,7 @@ const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
       testID="nav-button-back"
       {...props}
     >
-      <HoliIcon icon={icon} color={tintColor} />
+      <HoliIcon icon={icon} color={tintColor || colors.foreground30} />
     </HoliButton>
   )
 }

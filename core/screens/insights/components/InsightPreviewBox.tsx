@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -13,7 +13,7 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -32,6 +32,9 @@ type InsightPreviewBoxProps = SkeletonProps | Props
 const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   if (loading) {
     return (
@@ -107,17 +110,18 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
 
 export default withProfiler(InsightPreviewBox, { name: 'InsightPreviewBox' })
 
-const styles = StyleSheet.create({
-  mainImage: {
-    aspectRatio: 327 / 206,
-    borderRadius: 12,
-    width: '100%',
-    backgroundColor: colors.background30,
-  },
-  avatarPile: {
-    marginTop: 12,
-  },
-  textGrey: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    mainImage: {
+      aspectRatio: 327 / 206,
+      borderRadius: 12,
+      width: '100%',
+      backgroundColor: theme.colors.background30,
+    },
+    avatarPile: {
+      marginTop: 12,
+    },
+    textGrey: {
+      color: theme.colors.foreground20,
+    },
+  })

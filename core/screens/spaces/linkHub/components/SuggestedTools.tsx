@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -8,7 +8,7 @@ import { ChatPoll, Group, Plant, ShareBox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type Tool = {
@@ -24,6 +24,9 @@ const SuggestedTools: React.FC = () => {
   const mixins = useStyleMixins()
   const imageWidth = 285
   const imageHeight = 170
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const recommendedToolList: Tool[] = [
     {
@@ -106,55 +109,56 @@ const SuggestedTools: React.FC = () => {
 
 export default SuggestedTools
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  image: {
-    marginTop: 24,
-    alignSelf: 'center',
-  },
-  descriptionContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-  },
-  title: { marginBottom: 16, color: colors.foreground30 },
-  description: { color: colors.foreground20, textAlign: 'center' },
-  toolContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    backgroundColor: colors.background10,
-    padding: 16,
-    marginBottom: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  iconContainer: {
-    width: 40,
-    aspectRatio: 1,
-    backgroundColor: colors.brandColorB10,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  infoContainer: {
-    flex: 4,
-    flexDirection: 'column',
-    marginLeft: 12,
-  },
-  shareButtonContainer: {
-    justifyContent: 'center',
-  },
-  toolName: {
-    color: colors.foreground30,
-  },
-  toolOrg: {
-    color: colors.foreground20,
-  },
-  toolsContainer: {
-    marginTop: 32,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    image: {
+      marginTop: 24,
+      alignSelf: 'center',
+    },
+    descriptionContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 24,
+    },
+    title: { marginBottom: 16, color: theme.colors.foreground30 },
+    description: { color: theme.colors.foreground20, textAlign: 'center' },
+    toolContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      width: '100%',
+      backgroundColor: theme.colors.background10,
+      padding: 16,
+      marginBottom: 8,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    iconContainer: {
+      width: 40,
+      aspectRatio: 1,
+      backgroundColor: theme.colors.brandColorB10,
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    infoContainer: {
+      flex: 4,
+      flexDirection: 'column',
+      marginLeft: 12,
+    },
+    shareButtonContainer: {
+      justifyContent: 'center',
+    },
+    toolName: {
+      color: theme.colors.foreground30,
+    },
+    toolOrg: {
+      color: theme.colors.foreground20,
+    },
+    toolsContainer: {
+      marginTop: 32,
+    },
+  })

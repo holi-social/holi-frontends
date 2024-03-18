@@ -7,11 +7,13 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import NotificationSettingsList from '@holi/core/screens/notifications/components/NotificationSettingsList'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const NotificationSettings = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.notifications.title') })

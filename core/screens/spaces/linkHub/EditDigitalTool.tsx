@@ -30,7 +30,7 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type EditDigitalToolParams = {
   spaceIdOrName: string
@@ -60,6 +60,8 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const [inputValid, setInputValid] = useState(true)
   const { openToast } = useToast()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
@@ -111,7 +113,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, setScreenOptions])
+  }, [t, loadingSpace, setScreenOptions, colors.background20])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {

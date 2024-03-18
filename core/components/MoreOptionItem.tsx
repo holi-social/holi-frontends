@@ -7,7 +7,7 @@ import { ArrowRightS, ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export interface MoreOptionItemProps extends HoliButtonProps {
   icon?: HoliIconType
@@ -20,14 +20,18 @@ export interface MoreOptionItemProps extends HoliButtonProps {
 const MoreOptionItem = ({
   icon,
   iconRightStyle,
-  tintColor = colors.foreground30,
   loading = false,
   label,
   disabled,
   contentStyle,
   bold = true,
+  tintColor,
   ...buttonProps
 }: MoreOptionItemProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const color = tintColor || colors.foreground30
+
   return (
     <>
       <HoliButton
@@ -38,20 +42,20 @@ const MoreOptionItem = ({
         disabled={disabled}
         {...buttonProps}
       >
-        {!!icon && <HoliIcon icon={icon} color={tintColor} style={styles.icon} />}
+        {!!icon && <HoliIcon icon={icon} color={color} style={styles.icon} />}
 
-        <HoliText bold={bold} style={{ color: tintColor }}>
+        <HoliText bold={bold} style={{ color }}>
           {label}
         </HoliText>
 
         {iconRightStyle === 'arrow' && (
           <View style={styles.iconRight}>
-            <HoliIcon icon={ArrowRightS} color={tintColor} />
+            <HoliIcon icon={ArrowRightS} color={color} />
           </View>
         )}
         {iconRightStyle === 'outlink' && (
           <View style={styles.iconRight}>
-            <HoliIcon icon={ShareBox} color={tintColor} />
+            <HoliIcon icon={ShareBox} color={color} />
           </View>
         )}
       </HoliButton>

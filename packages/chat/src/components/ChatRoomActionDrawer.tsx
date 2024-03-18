@@ -7,7 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CloseCircle, Delete } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   chatPartner: ChatRoomMember
@@ -20,6 +20,8 @@ const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Prop
   const { navigate } = useRouting()
   const { openToast } = useToast()
   const removeRoom = useSetRemoveRoomAtom()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const handleBlockConfirmation = async () => {
     await ignoreUser(chatPartner.id)

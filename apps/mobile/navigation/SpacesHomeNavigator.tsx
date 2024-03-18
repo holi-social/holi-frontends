@@ -6,7 +6,7 @@ import Spaces from '@holi/core/screens/spaces/discover/Spaces'
 import FilteredSpaces from '@holi/core/screens/spaces/filter/FilteredSpacesPage'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type SpacesStackScreensList = {
   [RouteName.SpacesHome]: undefined
@@ -16,6 +16,8 @@ export type SpacesStackScreensList = {
 const SpacesStack = createNativeStackNavigator<SpacesStackScreensList>()
 
 const SpacesHomeNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   return (
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpacesHome}

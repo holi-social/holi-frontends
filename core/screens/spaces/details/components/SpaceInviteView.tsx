@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { z } from 'zod'
@@ -14,7 +14,8 @@ import { spaceInvitesQuery } from '@holi/core/screens/spaces/details/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
@@ -28,6 +29,8 @@ const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId, idOrName }) 
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const clearInput = useCallback(() => setSearchValue(''), [])
 
@@ -102,40 +105,41 @@ const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId, idOrName }) 
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    paddingTop: 12,
-    backgroundColor: colors.background30,
-  },
-  whom: {
-    display: 'flex',
-    ...Platform.select({
-      native: {
-        paddingTop: dimensions.topBarHeight + 52,
-      },
-      web: {
-        paddingTop: dimensions.topBarHeight + 24,
-      },
-    }),
-    paddingBottom: 8,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: 16,
-    width: '100%',
-  },
-  email: {
-    paddingVertical: 24,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    width: '100%',
-  },
-  input: {
-    marginTop: 16,
-  },
-  hint: {
-    marginTop: 6,
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      paddingTop: 12,
+      backgroundColor: theme.colors.background30,
+    },
+    whom: {
+      display: 'flex',
+      ...Platform.select({
+        native: {
+          paddingTop: dimensions.topBarHeight + 52,
+        },
+        web: {
+          paddingTop: dimensions.topBarHeight + 24,
+        },
+      }),
+      paddingBottom: 8,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 16,
+      width: '100%',
+    },
+    email: {
+      paddingVertical: 24,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      width: '100%',
+    },
+    input: {
+      marginTop: 16,
+    },
+    hint: {
+      marginTop: 6,
+      color: theme.colors.foreground20,
+    },
+  })
 
 export default SpaceInviteView

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import {
@@ -12,7 +12,7 @@ import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceTermsInputProps {
   title?: string
@@ -41,6 +41,9 @@ const SpaceTermsInput = ({
   const [orderedTerms, setOrderedTerms] = useState<SortedTerm[]>([])
   const [filteredTerms, setFilteredTerms] = useState<SortedTerm[]>([])
   const { height: deviceHeight } = useWindowDimensions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useEffect(() => {
     /*
@@ -121,46 +124,48 @@ const SpaceTermsInput = ({
 }
 
 export default SpaceTermsInput
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 24,
-    paddingBottom: 132,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  title: {
-    marginBottom: 16,
-  },
-  subTitle: {
-    marginBottom: 32,
-    color: colors.foreground20,
-  },
-  input: {
-    marginBottom: 16,
-  },
-  hintContainer: {
-    flexDirection: 'row',
-  },
-  infoIcon: { marginTop: 1 },
-  hint: {
-    marginLeft: 5,
-  },
-  chip: {
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  termsListContainer: {
-    marginTop: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flexShrink: 1,
-  },
-  flatlistContainer: {
-    paddingBottom: Platform.OS === 'web' ? 0 : 450,
-  },
-})
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: 24,
+      paddingBottom: 132,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+        },
+      }),
+    },
+    title: {
+      marginBottom: 16,
+    },
+    subTitle: {
+      marginBottom: 32,
+      color: theme.colors.foreground20,
+    },
+    input: {
+      marginBottom: 16,
+    },
+    hintContainer: {
+      flexDirection: 'row',
+    },
+    infoIcon: { marginTop: 1 },
+    hint: {
+      marginLeft: 5,
+    },
+    chip: {
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    termsListContainer: {
+      marginTop: 16,
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
+    },
+    flatlistContainer: {
+      paddingBottom: Platform.OS === 'web' ? 0 : 450,
+    },
+  })

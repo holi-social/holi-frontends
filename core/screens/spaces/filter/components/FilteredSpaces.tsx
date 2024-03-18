@@ -19,7 +19,7 @@ import FilteredSpacesList from '@holi/core/screens/spaces/filter/components/Filt
 import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface FilteredSpacesProps extends SpaceFilter {
@@ -35,7 +35,8 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { height: windowHeight } = useClientWindowDimensions()
-  const styles = getStyles(windowHeight)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(windowHeight, theme), [windowHeight, theme])
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
@@ -115,10 +116,10 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
   )
 }
 
-const getStyles = (deviceHeight: number) =>
+const getStyles = (deviceHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       minHeight: deviceHeight,
     },
     buttonContainer: {

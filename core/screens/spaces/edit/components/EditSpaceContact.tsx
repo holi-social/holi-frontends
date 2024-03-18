@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -9,7 +9,7 @@ import SpaceContactForm from '@holi/core/screens/spaces/components/SpaceInputs/S
 import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface EditSpaceContactProps {
   space: Space
@@ -17,6 +17,9 @@ interface EditSpaceContactProps {
 }
 
 const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }: EditSpaceContactProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [contactDescription, setContactDescription] = useState<string>(space.contactDescription || '')
   const [contactPhone, setContactPhone] = useState<string>(space.contactPhone || '')
   const [contactEmail, setContactEmail] = useState<string>(space.contactEmail || '')
@@ -90,15 +93,16 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
   )
 }
 
-const styles = StyleSheet.create({
-  layoutStyle: {
-    flex: 1,
-  },
-  contentStyle: {
-    flex: 1,
-    paddingBottom: 0,
-    backgroundColor: colors.background20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layoutStyle: {
+      flex: 1,
+    },
+    contentStyle: {
+      flex: 1,
+      paddingBottom: 0,
+      backgroundColor: theme.colors.background20,
+    },
+  })
 
 export default EditSpaceContact

@@ -9,7 +9,7 @@ import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/compone
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const keyboardDismissWrapper = (fn: () => void | Promise<void>) => {
@@ -98,6 +98,9 @@ const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID }) => {
   const { skippable } = currentStepOptions
   const progress = ((currentStep + 1) / stepCount) * 100
   const { percentage } = useProgressBarAnimation(progress)
+
+  const { theme } = useTheme()
+  const { colors } = theme
 
   return (
     <View style={[mixins.container, styles.progressBarContainer]}>

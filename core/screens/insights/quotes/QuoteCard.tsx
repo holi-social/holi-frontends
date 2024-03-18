@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -13,7 +13,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface QuoteCardProps {
   quote: Quote
@@ -34,6 +34,9 @@ export interface QuoteAndSourceCardProps {
 }
 
 const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, style }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={[styles.quoteCard, style]} testID={'quote-card-quote'}>
       <View>
@@ -51,6 +54,9 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines,
 }
 
 const SourceCard: React.FC<SourceCardProps> = ({ quote, style }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={[styles.sourceCard, style]} testID={'quote-card-source'}>
       {!!quote.linkPreview.image && (
@@ -76,8 +82,10 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote, style }) => {
 }
 
 const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteColor }) => {
+  const [hovered, setHovered] = useState(false)
   const { navigate } = useRouting()
-  const [hovered, setHovered] = useState<boolean>(false)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <Pressable
@@ -99,65 +107,66 @@ export default {
   QuoteAndSource: memo(QuoteAndSourceCard),
 }
 
-const styles = StyleSheet.create({
-  card: {
-    width: '100%',
-    justifyContent: 'center',
-  },
-
-  quoteCard: {
-    backgroundColor: colors.background10,
-    padding: Spacing.xxs,
-    borderRadius: Spacing.xs,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    flex: 1,
-    height: 240,
-    justifyContent: 'space-between',
-  },
-
-  sourceCard: {
-    flexDirection: 'row',
-    backgroundColor: colors.background10,
-    padding: Spacing['3xs'],
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    height: 110,
-    ...Platform.select({
-      web: { marginBottom: 4 },
-    }),
-  },
-
-  hovered: {
-    borderColor: colors.black300,
-    shadowColor: colors.black300,
-    shadowOffset: {
-      width: 0,
-      height: 3,
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    card: {
+      width: '100%',
+      justifyContent: 'center',
     },
-    shadowOpacity: 0.12,
-  },
 
-  linkPreviewImageContainer: {
-    width: 86,
-    marginRight: Spacing.xxs,
-  },
+    quoteCard: {
+      backgroundColor: theme.colors.background10,
+      padding: Spacing.xxs,
+      borderRadius: Spacing.xs,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      flex: 1,
+      height: 240,
+      justifyContent: 'space-between',
+    },
 
-  linkPreviewImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-  },
+    sourceCard: {
+      flexDirection: 'row',
+      backgroundColor: theme.colors.background10,
+      padding: Spacing['3xs'],
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      height: 110,
+      ...Platform.select({
+        web: { marginBottom: 4 },
+      }),
+    },
 
-  linkPreviewDetailsContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-    gap: Spacing['4xs'],
-  },
-  reaction: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-  },
-})
+    hovered: {
+      borderColor: theme.colors.black300,
+      shadowColor: theme.colors.black300,
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.12,
+    },
+
+    linkPreviewImageContainer: {
+      width: 86,
+      marginRight: Spacing.xxs,
+    },
+
+    linkPreviewImage: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 8,
+    },
+
+    linkPreviewDetailsContainer: {
+      flex: 1,
+      justifyContent: 'space-between',
+      gap: Spacing['4xs'],
+    },
+    reaction: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+    },
+  })

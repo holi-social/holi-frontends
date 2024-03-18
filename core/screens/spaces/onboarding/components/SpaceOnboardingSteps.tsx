@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -22,7 +22,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -39,6 +40,8 @@ const SpaceOnboardingSteps = () => {
   const { visible: previewVisible, show: showPreview, hide: hidePreview } = useModalState()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading: fetchingSpace, space, error: errorSpace } = useSpace(spaceIdOrName)
 
@@ -208,57 +211,58 @@ const SpaceOnboardingSteps = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  layoutStyle: {
-    height: '100%',
-  },
-  contentStyle: {
-    flex: 1,
-    paddingBottom: 0,
-    backgroundColor: colors.background20,
-    paddingTop: dimensions.topBarHeight,
-  },
-  formWrapper: {
-    height: '100%',
-  },
-  header: {
-    marginBottom: 24,
-  },
-  intro: {
-    paddingTop: 42,
-  },
-  desc: {
-    marginTop: 8,
-    marginBottom: 24,
-  },
-  exampleWrapper: {
-    paddingBottom: 24,
-  },
-  example: {
-    width: 'auto',
-    marginBottom: 40,
-    alignSelf: 'flex-start',
-  },
-  previewButton: {
-    marginBottom: dimensions.bottomBarHeight,
-  },
-  preview: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  previewIcon: {
-    marginRight: 4,
-  },
-  previewModal: {
-    paddingBottom: 24,
-  },
-  addStepBtn: {
-    marginTop: 24,
-    marginBottom: 24,
-    maxWidth: 320,
-    alignSelf: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layoutStyle: {
+      height: '100%',
+    },
+    contentStyle: {
+      flex: 1,
+      paddingBottom: 0,
+      backgroundColor: theme.colors.background20,
+      paddingTop: dimensions.topBarHeight,
+    },
+    formWrapper: {
+      height: '100%',
+    },
+    header: {
+      marginBottom: 24,
+    },
+    intro: {
+      paddingTop: 42,
+    },
+    desc: {
+      marginTop: 8,
+      marginBottom: 24,
+    },
+    exampleWrapper: {
+      paddingBottom: 24,
+    },
+    example: {
+      width: 'auto',
+      marginBottom: 40,
+      alignSelf: 'flex-start',
+    },
+    previewButton: {
+      marginBottom: dimensions.bottomBarHeight,
+    },
+    preview: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+    previewIcon: {
+      marginRight: 4,
+    },
+    previewModal: {
+      paddingBottom: 24,
+    },
+    addStepBtn: {
+      marginTop: 24,
+      marginBottom: 24,
+      maxWidth: 320,
+      alignSelf: 'center',
+    },
+  })
 
 export default SpaceOnboardingSteps

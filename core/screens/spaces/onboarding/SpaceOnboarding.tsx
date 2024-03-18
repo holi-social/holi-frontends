@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -16,7 +16,7 @@ import { ArrowRightS, Checkbox, Team } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceOnboardingParams = {
@@ -30,6 +30,8 @@ const SpaceOnboarding = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading, error, space } = useSpace(spaceIdOrName)
 
@@ -101,54 +103,55 @@ const SpaceOnboarding = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  layout: {
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      native: {
-        height: '100%',
-      },
-      web: {
-        minHeight: '100vh',
-      },
-    }),
-    paddingTop: 24,
-  },
-  desc: {
-    marginTop: 8,
-    marginBottom: 14,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  link: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-  },
-  icon: {
-    marginRight: 12,
-  },
-  textWrapper: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    width: '100%',
-    paddingRight: 12,
-  },
-  text: {
-    color: colors.foreground20,
-    marginTop: 4,
-    marginRight: 20,
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layout: {
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        native: {
+          height: '100%',
+        },
+        web: {
+          minHeight: '100vh',
+        },
+      }),
+      paddingTop: 24,
+    },
+    desc: {
+      marginTop: 8,
+      marginBottom: 14,
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+    },
+    link: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 16,
+      paddingVertical: 14,
+    },
+    icon: {
+      marginRight: 12,
+    },
+    textWrapper: {
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      width: '100%',
+      paddingRight: 12,
+    },
+    text: {
+      color: theme.colors.foreground20,
+      marginTop: 4,
+      marginRight: 20,
+    },
+    safeArea: {
+      flex: 1,
+      backgroundColor: theme.colors.background20,
+    },
+  })
 
 export default SpaceOnboarding

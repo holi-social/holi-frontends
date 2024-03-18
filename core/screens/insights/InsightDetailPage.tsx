@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
@@ -40,7 +40,8 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightDetailPageParams = {
@@ -55,6 +56,9 @@ const InsightDetailPage = () => {
   const mixins = useStyleMixins()
   const { replaceRoute } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const {
     data: { insightById: insight } = {},
@@ -78,7 +82,7 @@ const InsightDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: true,
-      headerTintColor: colors.white100,
+      headerTintColor: colors.light,
       title: '',
       navigationCustomOptions: {
         headerBackgroundGradient: true,
@@ -88,14 +92,14 @@ const InsightDetailPage = () => {
           insight && (
             <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
               <InsightDrawer insight={insight}>
-                <HoliIcon icon={MoreFilled} color={colors.white100} />
+                <HoliIcon icon={MoreFilled} color={colors.light} />
               </InsightDrawer>
             </FeatureToggleGuard>
           )
         )
       },
     })
-  }, [insight, setScreenOptions])
+  }, [insight, setScreenOptions, colors.light])
 
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
@@ -242,6 +246,9 @@ const InsightCarouselSection: React.FC<{
   headingIcon: { asset: NodeRequire; label: string }
   children: React.ReactNode
 }> = ({ heading, headingIcon, children }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={styles.section}>
       <HoliGap size="m" />
@@ -262,101 +269,111 @@ const InsightCarouselSection: React.FC<{
   )
 }
 
-const Skeleton = () => (
-  <>
-    <View style={[styles.bannerImage, styles.section]}>
-      <HoliSkeleton height="100%" width="100%" borderRadius={0} />
-    </View>
-    <View style={[styles.content, styles.section]}>
-      <View style={styles.tag}>
-        <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
+const Skeleton = () => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  return (
+    <>
+      <View style={[styles.bannerImage, styles.section]}>
+        <HoliSkeleton height="100%" width="100%" borderRadius={0} />
       </View>
-      <View style={styles.title}>
-        <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
-      </View>
-      <View style={styles.curator}>
-        <View style={styles.skeletonCurator}>
-          <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
-          <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+      <View style={[styles.content, styles.section]}>
+        <View style={styles.tag}>
+          <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
+        </View>
+        <View style={[styles.content, styles.section]}>
+          <View style={styles.tag}>
+            <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
+          </View>
+          <View style={styles.title}>
+            <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
+          </View>
+          <View style={styles.curator}>
+            <View style={styles.skeletonCurator}>
+              <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
+              <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+            </View>
+          </View>
+          <HoliSkeleton height={256} width="100%" borderRadius={16} />
         </View>
       </View>
-      <HoliSkeleton height={256} width="100%" borderRadius={16} />
-    </View>
-  </>
-)
+    </>
+  )
+}
 
-const styles = StyleSheet.create({
-  section: {
-    alignSelf: 'center',
-    width: '100%',
-    maxWidth: dimensions.maxScreenWidth,
-  },
-  wrapper: {
-    backgroundColor: colors.background20,
-  },
-  bannerImage: {
-    paddingHorizontal: 0,
-    height: Platform.OS === 'web' ? 680 : 340,
-    ...Platform.select({
-      web: {
-        maxHeight: '50vh',
-        objectFit: 'cover',
-      },
-      native: { maxHeight: '50%' },
-    }),
-  } as ImageStyle,
-  insightImage: {
-    ...Platform.select({ web: { height: '100%' } }),
-  },
-  content: {
-    backgroundColor: colors.background10,
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.lg,
-    paddingHorizontal: Spacing.md,
-  },
-  tag: {
-    marginBottom: Spacing['xs'],
-  },
-  title: {
-    marginBottom: Spacing.xs,
-  },
-  curator: {
-    marginBottom: Spacing.md,
-  },
-  skeletonCurator: {
-    flexDirection: 'row',
-    gap: Spacing['3xs'],
-    alignItems: 'center',
-  },
-  creatorInfoButton: {
-    maxWidth: dimensions.maxButtonWidth,
-  },
-  creatorInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: dimensions.spacingXs,
-    borderWidth: 1,
-    borderBottomWidth: 3,
-    borderColor: colors.gray100,
-    padding: Spacing.xxs,
-  },
-  creatorAvatar: {
-    marginRight: Spacing.xxs,
-  },
-  creationDetails: {
-    marginBottom: Spacing['3xs'],
-  },
-  date: {
-    textTransform: 'capitalize',
-  },
-  sectionTitle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing['3xs'],
-    paddingHorizontal: Spacing.md,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    section: {
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+    },
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+    },
+    bannerImage: {
+      paddingHorizontal: 0,
+      height: Platform.OS === 'web' ? 680 : 340,
+      ...Platform.select({
+        web: {
+          maxHeight: '50vh',
+          objectFit: 'cover',
+        },
+        native: { maxHeight: '50%' },
+      }),
+    } as ImageStyle,
+    insightImage: {
+      ...Platform.select({ web: { height: '100%' } }),
+    },
+    content: {
+      backgroundColor: theme.colors.background10,
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+      paddingTop: Spacing.xl,
+      paddingBottom: Spacing.lg,
+      paddingHorizontal: Spacing.md,
+    },
+    tag: {
+      marginBottom: Spacing['xs'],
+    },
+    title: {
+      marginBottom: Spacing.xs,
+    },
+    curator: {
+      marginBottom: Spacing.md,
+    },
+    skeletonCurator: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+      alignItems: 'center',
+    },
+    creatorInfoButton: {
+      maxWidth: dimensions.maxButtonWidth,
+    },
+    creatorInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: dimensions.spacingXs,
+      borderWidth: 1,
+      borderBottomWidth: 3,
+      borderColor: theme.colors.gray100,
+      padding: Spacing.xxs,
+    },
+    creatorAvatar: {
+      marginRight: Spacing.xxs,
+    },
+    creationDetails: {
+      marginBottom: Spacing['3xs'],
+    },
+    date: {
+      textTransform: 'capitalize',
+    },
+    sectionTitle: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: Spacing['3xs'],
+      paddingHorizontal: Spacing.md,
+    },
+  })
 
 export default withProfiler(memo(InsightDetailPage), { name: 'InsightDetailPage' })

@@ -10,15 +10,18 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const NotFound = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
+  const { theme } = useTheme()
+  const { colors } = theme
 
-  const styles = getStyles(safeAreaInsetTop)
+  const styles = getStyles(safeAreaInsetTop, theme)
 
   useEffect(() => {
     setScreenOptions({
@@ -40,7 +43,7 @@ const NotFound = () => {
       ),
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, setScreenOptions, t])
+  }, [navigate, setScreenOptions, t, colors.background20])
 
   return (
     <View style={styles.container}>
@@ -72,7 +75,7 @@ const NotFound = () => {
   )
 }
 
-const getStyles = (safeAreaInsetTop: number) =>
+const getStyles = (safeAreaInsetTop: number, theme: HoliTheme) =>
   StyleSheet.create({
     button: {
       marginTop: 24,
@@ -84,7 +87,7 @@ const getStyles = (safeAreaInsetTop: number) =>
       flexDirection: 'column',
       alignItems: 'center',
       gap: 24,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       borderRadius: 16,
       borderWidth: 1,
       borderColor: 'rgba(38, 36, 36, 0.12)',
@@ -93,7 +96,7 @@ const getStyles = (safeAreaInsetTop: number) =>
     container: {
       alignItems: 'center',
       height: '100%',
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       paddingHorizontal: 16,
       paddingTop: dimensions.topBarHeight + 24 + (Platform.OS !== 'web' ? safeAreaInsetTop : 0),
     },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,7 @@ import SpaceInviteItem from '@holi/core/screens/spaces/details/components/SpaceI
 import { Space, SpaceInvite } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpaceInvitesProps = {
@@ -25,6 +25,8 @@ const SpaceInvitesList: React.FC<SpaceInvitesProps> = ({ space, style }) => {
   const { data } = usePaginationContext<SpaceInvite>()
 
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useEffect(() => {
     setSpaceInvites(data)
@@ -57,25 +59,26 @@ const SpaceInvitesList: React.FC<SpaceInvitesProps> = ({ space, style }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  emptyContainer: {
-    padding: 24,
-    marginTop: 8,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.background10,
-  },
-  emptyTitle: {
-    marginTop: 24,
-    textAlign: 'center',
-  },
-  emptyDescription: {
-    marginTop: 8,
-    textAlign: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    emptyContainer: {
+      padding: 24,
+      marginTop: 8,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background10,
+    },
+    emptyTitle: {
+      marginTop: 24,
+      textAlign: 'center',
+    },
+    emptyDescription: {
+      marginTop: 8,
+      textAlign: 'center',
+    },
+  })
 
 export default SpaceInvitesList

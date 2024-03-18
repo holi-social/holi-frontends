@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -6,7 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 import type { ProjectInitiative } from '@holi-apps/donations/typings'
@@ -17,6 +17,9 @@ export type DonationInitiativeButtonProps = {
 
 const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const name = initiative.name
   return (
     <HoliButton
@@ -56,45 +59,46 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
 
 export default DonationInitiativeButton
 
-const styles = StyleSheet.create({
-  namePrefix: {
-    color: colors.foreground20,
-    flex: 1,
-  },
-  initiativeContent: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  initiativeName: {
-    color: colors.brandColorB30,
-  },
-  initiativeOrigin: {
-    color: colors.foreground20,
-    marginTop: 4,
-  },
-  initiative: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  initiativeDetails: {
-    justifyContent: 'space-between',
-    marginLeft: 12,
-    alignContent: 'center',
-    minWidth: 229,
-  },
-  initiativeImage: {
-    width: 56,
-    height: 56,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  projectSummary: {
-    marginVertical: 24,
-  },
-  projectDescription: {
-    color: colors.foreground20,
-    marginRight: 54,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    namePrefix: {
+      color: theme.colors.foreground20,
+      flex: 1,
+    },
+    initiativeContent: {
+      alignItems: 'center',
+      flexDirection: 'row',
+    },
+    initiativeName: {
+      color: theme.colors.brandColorB30,
+    },
+    initiativeOrigin: {
+      color: theme.colors.foreground20,
+      marginTop: 4,
+    },
+    initiative: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    initiativeDetails: {
+      justifyContent: 'space-between',
+      marginLeft: 12,
+      alignContent: 'center',
+      minWidth: 229,
+    },
+    initiativeImage: {
+      width: 56,
+      height: 56,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    projectSummary: {
+      marginVertical: 24,
+    },
+    projectDescription: {
+      color: theme.colors.foreground20,
+      marginRight: 54,
+    },
+  })

@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleProp, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HeaderTitleProps extends Partial<HoliTextProps> {
   style?: StyleProp<ViewStyle>
@@ -12,14 +12,9 @@ export interface HeaderTitleProps extends Partial<HoliTextProps> {
   testID?: string
 }
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({
-  children,
-  tintColor = colors.foreground30,
-  widthOfScreen,
-  size,
-  style,
-  ...props
-}) => {
+const HeaderTitle: React.FC<HeaderTitleProps> = ({ children, tintColor, widthOfScreen, size, style, ...props }) => {
+  const { theme } = useTheme()
+  const { colors } = theme
   const { width: screenWidth } = useWindowDimensions()
   const titleWidth = widthOfScreen ? Math.min(1, widthOfScreen) * screenWidth : undefined
 
@@ -32,7 +27,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
         size={size}
         {...props}
         numberOfLines={1}
-        style={[{ color: tintColor }, style]}
+        style={[{ color: tintColor || colors.foreground30 }, style]}
       >
         {children}
       </HoliText>

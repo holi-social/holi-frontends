@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -15,7 +15,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type DeleteAccountButtonProps = {
   style?: StyleProp<ViewStyle>
@@ -26,6 +26,9 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { logout, isLoggingOut } = useLogout()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [deleteAuthenticatedUser, { loading }] = useMutation<DeleteAuthenticatedUserResponse>(
     deleteAuthenticatedUserMutation,
@@ -79,13 +82,14 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
 
 export default DeleteAccountButton
 
-const styles = StyleSheet.create({
-  buttonContent: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  text: {
-    color: colors.error30,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    buttonContent: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      gap: 8,
+    },
+    text: {
+      color: theme.colors.error30,
+    },
+  })
