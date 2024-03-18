@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -19,6 +19,7 @@ interface RecommendationCardProps {
 }
 
 const RecommendationCard = ({ recommendation, insightId }: RecommendationCardProps) => {
+  const [errorLoadingImage, setErrorLoadingImage] = useState(false)
   const { navigate } = useRouting()
 
   return (
@@ -30,18 +31,19 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
       testID="feed-insight-image-link"
     >
       <View>
-        {recommendation.linkPreview.image && (
+        {!errorLoadingImage && recommendation.linkPreview.image && (
           <>
             <HoliImage
               source={{ uri: recommendation.linkPreview.image }}
               label={recommendation.link}
               style={styles.image}
               resizeMode="cover"
+              onError={() => setErrorLoadingImage(true)}
             />
             <HoliGap size="s" />
           </>
         )}
-        {!recommendation.linkPreview.image && (
+        {(errorLoadingImage || !recommendation.linkPreview.image) && (
           <>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
