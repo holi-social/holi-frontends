@@ -3,13 +3,12 @@
  **/
 import { StyleSheet } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme } from '@holi/ui/styles/theme'
 
 const styles = (theme: HoliTheme) =>
   StyleSheet.create({
     body: {
-      color: colors.foreground30,
+      color: theme.colors.foreground30,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
     },
@@ -22,7 +21,7 @@ const styles = (theme: HoliTheme) =>
       marginBottom: 20,
     },
     a: {
-      color: colors.brandColorB30,
+      color: theme.colors.brandColorB30,
     },
     p: {
       padding: 0,

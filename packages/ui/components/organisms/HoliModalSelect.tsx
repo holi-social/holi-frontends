@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -11,7 +11,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
@@ -59,7 +59,9 @@ const HoliModalSelect = <IDType extends string>({
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
-  const styles = getStyles(isDense)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(isDense, theme), [isDense, theme])
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
@@ -119,7 +121,16 @@ const HoliModalSelect = <IDType extends string>({
         />
       </HoliButton>
     ),
-    [styles.optionCardContent, styles.optionCard, styles.optionTextContainer, isDense, testID, handleOnChange]
+    [
+      styles.optionCardContent,
+      styles.optionCard,
+      styles.optionTextContainer,
+      isDense,
+      testID,
+      handleOnChange,
+      colors.foreground10,
+      colors.foreground30,
+    ]
   )
 
   return (
@@ -178,14 +189,14 @@ const HoliModalSelect = <IDType extends string>({
 
 export default HoliModalSelect
 
-const getStyles = (isDense: boolean) =>
+const getStyles = (isDense: boolean, theme: HoliTheme) =>
   StyleSheet.create({
     labelWrapper: {
       marginBottom: 6,
       flexDirection: 'row',
     },
     label: {
-      color: colors.foreground30,
+      color: theme.colors.foreground30,
     },
     button: {
       paddingVertical: 16,
@@ -193,20 +204,20 @@ const getStyles = (isDense: boolean) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor: colors.background10,
-      color: colors.foreground30,
+      backgroundColor: theme.colors.background10,
+      color: theme.colors.foreground30,
       borderRadius: 4,
       borderWidth: 2,
-      borderColor: colors.background30,
+      borderColor: theme.colors.background30,
     },
     buttonHovered: {
-      borderColor: colors.foreground20,
+      borderColor: theme.colors.foreground20,
     },
     placeholder: {
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
     },
     modal: {
-      backgroundColor: isDense ? colors.background10 : colors.background30,
+      backgroundColor: isDense ? theme.colors.background10 : theme.colors.background30,
     },
     optionsContainer: {
       marginTop: isDense ? 12 : 16,
@@ -221,10 +232,10 @@ const getStyles = (isDense: boolean) =>
       alignItems: 'flex-start',
       padding: isDense ? undefined : 16,
       paddingVertical: isDense ? 12 : undefined,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       borderRadius: 16,
       borderWidth: isDense ? 0 : 1,
-      borderColor: colors.background30,
+      borderColor: theme.colors.background30,
     },
     optionTextContainer: {
       flex: 1,
@@ -234,10 +245,10 @@ const getStyles = (isDense: boolean) =>
     },
     separator: {
       borderBottomWidth: 1,
-      borderBottomColor: colors.background30,
+      borderBottomColor: theme.colors.background30,
     },
     description: {
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
       paddingBottom: 24,
     },
     selectedOptionContainer: {

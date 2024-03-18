@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
@@ -9,7 +9,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceImageFormProps = {
   title?: string
@@ -35,6 +35,8 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
 }: SpaceImageFormProps) => {
   const { t } = useTranslation()
   const [uri, setImageUri] = useState<string | undefined>()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useEffect(() => {
     setImageUri(currentImageUri)
@@ -151,81 +153,82 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
 
 export default SpaceImageForm
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 24,
-    paddingBottom: 42,
-  },
-  title: {
-    marginBottom: 16,
-  },
-  subTitle: {
-    color: colors.foreground20,
-  },
-  imageUploadButton: {
-    backgroundColor: colors.background10,
-    minHeight: 48,
-  },
-  instructionsContainer: {
-    marginTop: 8,
-    justifyContent: 'center',
-  },
-  instructions: {
-    justifyContent: 'center',
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-  holiTabs: {
-    marginTop: 32,
-    backgroundColor: colors.background20,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  imageUploadContainer: {
-    marginBottom: 4,
-    marginHorizontal: 2,
-    paddingTop: 16,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    paddingBottom: 0,
-  },
-  tabStyle: {
-    width: '100%',
-    backgroundColor: colors.background10,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-  },
-  imageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    width: '100%',
-  },
-  imageUploader: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 16,
-    ...Platform.select({
-      web: {
-        paddingVertical: 42,
-      },
-    }),
-  },
-  uploadButtonContainer: {
-    flex: 1,
-    ...Platform.select({
-      web: {
-        flexDirection: 'row',
-      },
-    }),
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 8,
-    minHeight: 48,
-    flexWrap: 'wrap',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      paddingTop: 24,
+      paddingBottom: 42,
+    },
+    title: {
+      marginBottom: 16,
+    },
+    subTitle: {
+      color: theme.colors.foreground20,
+    },
+    imageUploadButton: {
+      backgroundColor: theme.colors.background10,
+      minHeight: 48,
+    },
+    instructionsContainer: {
+      marginTop: 8,
+      justifyContent: 'center',
+    },
+    instructions: {
+      justifyContent: 'center',
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+    holiTabs: {
+      marginTop: 32,
+      backgroundColor: theme.colors.background20,
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    imageUploadContainer: {
+      marginBottom: 4,
+      marginHorizontal: 2,
+      paddingTop: 16,
+      borderBottomLeftRadius: 8,
+      borderBottomRightRadius: 8,
+      paddingBottom: 0,
+    },
+    tabStyle: {
+      width: '100%',
+      backgroundColor: theme.colors.background10,
+      borderBottomLeftRadius: 8,
+      borderBottomRightRadius: 8,
+    },
+    imageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingBottom: 16,
+      width: '100%',
+    },
+    imageUploader: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 16,
+      ...Platform.select({
+        web: {
+          paddingVertical: 42,
+        },
+      }),
+    },
+    uploadButtonContainer: {
+      flex: 1,
+      ...Platform.select({
+        web: {
+          flexDirection: 'row',
+        },
+      }),
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 8,
+      minHeight: 48,
+      flexWrap: 'wrap',
+    },
+  })

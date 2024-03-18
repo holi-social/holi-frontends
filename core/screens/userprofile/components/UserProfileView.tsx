@@ -10,7 +10,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 interface UserProfileViewProps {
   user: User
@@ -19,6 +19,8 @@ interface UserProfileViewProps {
 
 const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const fullName = user.fullName || t('user.profileView.anonymous')
 

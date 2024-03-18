@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { GestureResponderEvent, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -7,7 +7,7 @@ import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
 import HoliText, { type HoliTextColor } from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliButtonLoadingProps extends HoliButtonProps {
@@ -35,6 +35,8 @@ const HoliButtonLoading = ({
 }: React.PropsWithChildren<HoliButtonLoadingProps & HoliButtonProps>) => {
   const [isProcessing, setProcessing] = useState(false)
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const onPressWrapper = async (event: React.SyntheticEvent | GestureResponderEvent) => {
     if (onPress) {
@@ -76,11 +78,12 @@ const HoliButtonLoading = ({
 
 export default HoliButtonLoading
 
-const styles = StyleSheet.create({
-  textDisabled: {
-    color: colors.foreground20,
-  },
-  icon: {
-    marginLeft: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    textDisabled: {
+      color: theme.colors.foreground20,
+    },
+    icon: {
+      marginLeft: 6,
+    },
+  })

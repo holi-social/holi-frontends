@@ -20,7 +20,7 @@ import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
@@ -34,6 +34,9 @@ const VolunteeringAppHome = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [showFilterModal, setShowFilterModal] = useState(false)
 
@@ -127,7 +130,7 @@ const VolunteeringAppHome = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
+  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, colors.background10, styles.dot])
 
   useEffect(() => {
     if (geolocationError) {
@@ -187,21 +190,22 @@ const WrappedVolunteeringAppHome = () => (
 
 export default memo(WrappedVolunteeringAppHome)
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    backgroundColor: colors.background20,
-    paddingBottom: 0,
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-  },
-  dot: {
-    backgroundColor: colors.brandColorB30,
-    height: 12,
-    width: 12,
-    borderRadius: 6,
-    position: 'absolute',
-    top: -2,
-    right: -2,
-    borderColor: colors.background10,
-    borderWidth: 2,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    defaultLayout: {
+      backgroundColor: theme.colors.background20,
+      paddingBottom: 0,
+      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+    },
+    dot: {
+      backgroundColor: theme.colors.brandColorB30,
+      height: 12,
+      width: 12,
+      borderRadius: 6,
+      position: 'absolute',
+      top: -2,
+      right: -2,
+      borderColor: theme.colors.background10,
+      borderWidth: 2,
+    },
+  })

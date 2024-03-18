@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -17,7 +17,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface EditSpaceLinksProps {
   space: Space
@@ -31,6 +32,8 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
   const { visible: visibleCreate, show: showCreate, hide: hideCreate } = useModalState()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [deleteLink] = useMutation(deleteSpaceLinkMutation, {
     onCompleted: () => {
@@ -122,35 +125,36 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: colors.background20,
-  },
-  subTitle: {
-    marginTop: 24,
-    marginBottom: 32,
-    color: colors.foreground20,
-  },
-  doneButton: {
-    maxWidth: dimensions.maxButtonWidth,
-    marginHorizontal: 'auto',
-  },
-  modal: {
-    backgroundColor: colors.background20,
-  },
-  wrapper: {
-    paddingBottom: Platform.OS === 'web' ? 0 : 100,
-  },
-  buttonContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  button: {
-    marginBottom: 32,
-  },
-  buttonText: {
-    marginRight: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    header: {
+      backgroundColor: theme.colors.background20,
+    },
+    subTitle: {
+      marginTop: 24,
+      marginBottom: 32,
+      color: theme.colors.foreground20,
+    },
+    doneButton: {
+      maxWidth: dimensions.maxButtonWidth,
+      marginHorizontal: 'auto',
+    },
+    modal: {
+      backgroundColor: theme.colors.background20,
+    },
+    wrapper: {
+      paddingBottom: Platform.OS === 'web' ? 0 : 100,
+    },
+    buttonContainer: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    button: {
+      marginBottom: 32,
+    },
+    buttonText: {
+      marginRight: 6,
+    },
+  })
 
 export default EditSpaceLinks

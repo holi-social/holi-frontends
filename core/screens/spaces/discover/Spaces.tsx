@@ -1,7 +1,7 @@
 import { DocumentNode, useQuery } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -25,7 +25,8 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Spaces = () => {
@@ -38,6 +39,9 @@ const Spaces = () => {
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
   const client = useApolloClient()
 
   let hasOwnSpaces = false
@@ -83,7 +87,7 @@ const Spaces = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions])
+  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions, colors.background10])
 
   const onChangeTab = (tabIndex: number) => {
     setActiveTab(tabIndex)
@@ -109,7 +113,7 @@ const Spaces = () => {
   )
 
   if (loading) {
-    return <HoliLoader />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
   return (
@@ -168,35 +172,36 @@ const Spaces = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  layout: {
-    ...(Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-      native: {
-        minHeight: '100%',
-      },
-    }) as ViewStyle),
-    backgroundColor: colors.background20,
-  },
-  discoverSpacesContainer: {
-    flex: 1,
-    paddingTop: 24,
-    paddingBottom: dimensions.bottomBarHeight,
-    minHeight: '100%',
-  },
-  holiTabs: {
-    flex: 1,
-    backgroundColor: colors.background10,
-  },
-  tabStyle: {
-    backgroundColor: colors.background20,
-  },
-  mySpacesContainer: {
-    paddingBottom: 24,
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layout: {
+      ...(Platform.select({
+        web: {
+          minHeight: '100vh',
+        },
+        native: {
+          minHeight: '100%',
+        },
+      }) as ViewStyle),
+      backgroundColor: theme.colors.background20,
+    },
+    discoverSpacesContainer: {
+      flex: 1,
+      paddingTop: 24,
+      paddingBottom: dimensions.bottomBarHeight,
+      minHeight: '100%',
+    },
+    holiTabs: {
+      flex: 1,
+      backgroundColor: theme.colors.background10,
+    },
+    tabStyle: {
+      backgroundColor: theme.colors.background20,
+    },
+    mySpacesContainer: {
+      paddingBottom: 24,
+      flex: 1,
+    },
+  })
 
 export default withProfiler(Spaces, { name: 'Spaces' })

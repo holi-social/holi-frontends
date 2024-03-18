@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -16,7 +16,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface UseConfirmation {
   show: boolean
@@ -91,8 +92,11 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const smallDeviceWidth = parseInt(dimensions.breakpointXs, 10) + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
-
-  const styles = createStyles(screenWidth, smallDeviceWidth, isSmallDevice)
+  const { theme } = useTheme()
+  const styles = useMemo(
+    () => getStyles(screenWidth, smallDeviceWidth, isSmallDevice, theme),
+    [screenWidth, smallDeviceWidth, isSmallDevice, theme]
+  )
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { 'aria-modal': true } : {}),
@@ -152,7 +156,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
 
 export default HoliConfirmation
 
-const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice: boolean) =>
+const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice: boolean, theme: HoliTheme) =>
   StyleSheet.create({
     modalContainer: {
       justifyContent: 'center',
@@ -160,7 +164,7 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
     },
     backdrop: {
       opacity: 0.4,
-      backgroundColor: colors.foreground30,
+      backgroundColor: theme.colors.backdropBackground,
       ...StyleSheet.absoluteFillObject,
     },
     modalView: {
@@ -168,11 +172,11 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
       padding: 24,
       margin: 25,
       alignSelf: 'center',
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       borderWidth: 2,
       borderRadius: 24,
-      borderColor: colors.foreground30,
-      shadowColor: colors.foreground30,
+      borderColor: theme.colors.foreground30,
+      shadowColor: theme.colors.foreground30,
       shadowOffset: {
         width: 0,
         height: 4,

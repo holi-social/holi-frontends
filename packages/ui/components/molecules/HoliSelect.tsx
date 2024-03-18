@@ -18,7 +18,7 @@ import { ArrowDownS, ArrowUpS, Check, Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliSelectOption = {
   id: string
@@ -75,7 +75,9 @@ const HoliSelect = ({
     []
   )
 
-  const styles = useMemo(() => getStyles(textInputHeight), [textInputHeight])
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(textInputHeight, theme), [textInputHeight, theme])
 
   const determineTextInputHeight = useCallback(
     (event: LayoutChangeEvent) => setTextInputHeight(event.nativeEvent.layout.height),
@@ -182,7 +184,7 @@ const HoliSelect = ({
         </View>
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, clearFocus, onSelect, styles, multiSelect]
+    [testID, setFocusAndOpen, clearFocus, onSelect, styles, multiSelect, colors.background10]
   )
 
   const noOptions = (
@@ -302,7 +304,7 @@ export default memo(HoliSelect)
 
 const LIST_ITEM_HEIGHT = 48
 
-const getStyles = (textInputHeight: number) =>
+const getStyles = (textInputHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     selectedOptionsPreview: {
       marginBottom: 6,
@@ -310,14 +312,14 @@ const getStyles = (textInputHeight: number) =>
     textInputOpened: {
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
-      borderColor: colors.brandColorB30,
+      borderColor: theme.colors.brandColorB30,
     },
     textInputLabelOpened: {
-      color: colors.brandColorB30,
+      color: theme.colors.brandColorB30,
     },
     optionsMenu: {
       maxHeight: LIST_ITEM_HEIGHT * 4,
-      borderColor: colors.brandColorB30,
+      borderColor: theme.colors.brandColorB30,
       borderWidth: 2,
       borderTopWidth: 0,
       borderBottomLeftRadius: 4,
@@ -325,7 +327,7 @@ const getStyles = (textInputHeight: number) =>
       position: 'absolute',
       width: '100%',
       top: textInputHeight - 3, // Display above bottom border of input field
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
     },
     listItem: {
       height: LIST_ITEM_HEIGHT,
@@ -342,7 +344,7 @@ const getStyles = (textInputHeight: number) =>
       height: 24,
       borderRadius: 24,
       borderWidth: 1,
-      borderColor: colors.foreground10,
+      borderColor: theme.colors.foreground10,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -351,7 +353,7 @@ const getStyles = (textInputHeight: number) =>
     },
     listItemIconContainerSelected: {
       borderWidth: 0,
-      backgroundColor: colors.foreground30,
+      backgroundColor: theme.colors.foreground30,
     },
     trailingIconContainer: {
       flexDirection: 'row',

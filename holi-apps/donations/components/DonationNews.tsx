@@ -10,7 +10,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { News } from '@holi-apps/donations/typings'
 
@@ -22,8 +22,10 @@ type DonationNewsProps = {
 
 const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...props }: DonationNewsProps) => {
   const { t, i18n } = useTranslation()
-  const styles = getStyles()
   const [mainNews, ...otherNews] = news
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const author: User | undefined = useMemo(() => {
     if (!mainNews || !mainNews.author) return undefined
@@ -117,11 +119,11 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
 
 export default DonationNews
 
-const getStyles = () =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     newsListing: {
       borderTopWidth: 1,
-      borderColor: colors.background30,
+      borderColor: theme.colors.background30,
       paddingTop: 18,
       marginTop: 18,
       flexDirection: 'row',

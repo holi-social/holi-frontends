@@ -1,14 +1,12 @@
-@import '@holi/ui/assets/fonts/CircularStd/style';
-@import '@holi/ui/styles/globalVars/colors';
-@import '@holi/ui/styles/globalVars/dimensions';
-@import '@holi/ui/styles/globalVars/fonts';
-@import '@holi/web/styles/common';
+@import url('@holi/ui/assets/fonts/CircularStd/style.css');
+@import url('@holi/ui/styles/globalVars/styles.css');
+@import url('@holi/web/styles/common.css');
 
 html,
 body {
   padding: 0;
   margin: 0;
-  // disable browser's default pull-to-refresh functionality
+  /* disable browser's default pull-to-refresh functionality */
   overscroll-behavior: none;
 }
 
@@ -18,11 +16,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  font-family: $font-family-web;
+  font-family: var(--font-family-web);
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  color: $foreground30;
+  color: var(--foreground30);
 }
 
 *,
@@ -33,14 +31,14 @@ html {
 }
 
 body {
-  background-color: $background10;
+  background-color: var(--background10);
 }
 
 html,
 body,
-body>div:first-child,
+body > div:first-child,
 div#__next,
-div#__next>main {
+div#__next > main {
   height: 100%;
 }
 
@@ -83,22 +81,21 @@ li {
   padding: 0;
 }
 
-[role=checkbox]:focus-visible>div:only-child {
-  border: solid 1px $brandColorB30 !important;
+[role='checkbox']:focus-visible > div:only-child {
+  border: solid 1px var(--brandColorB30) !important;
 }
 
-// "data-stepper-wrapper" is our custom data-set attributes for HoliStepper childe nodes
-// set 100% height for next three levels of children
-[data-stepper-wrapper="true"] {
-
-  &>*,
-  &>*>*,
-  &>*>*>* {
+/* "data-stepper-wrapper" is our custom data-set attributes for HoliStepper childe nodes
+set 100% height for next three levels of children */
+[data-stepper-wrapper='true'] {
+  & > *,
+  & > * > *,
+  & > * > * > * {
     height: 100%;
   }
 }
 
-// do not display header, if it does not have any children
+/* do not display header, if it does not have any children */
 header:empty {
   display: none;
 }

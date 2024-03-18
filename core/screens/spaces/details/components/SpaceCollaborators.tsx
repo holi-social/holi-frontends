@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -14,7 +14,7 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpaceCollaboratorsProps = {
@@ -33,6 +33,8 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: SPACE_MEMBER_PAGE_SIZE,
@@ -103,32 +105,33 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   )
 }
 
-const styles = StyleSheet.create({
-  admin: {
-    color: colors.foreground20,
-    paddingLeft: 8,
-  },
-  avatar: {
-    borderWidth: 1,
-  },
-  collaborators: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 8,
-  },
-  titleContainer: {
-    marginLeft: 16,
-    flex: 1,
-  },
-  wrapper: {
-    justifyContent: 'center',
-    paddingBottom: 24,
-  },
-  buttonContainer: {
-    marginTop: 20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    admin: {
+      color: theme.colors.foreground20,
+      paddingLeft: 8,
+    },
+    avatar: {
+      borderWidth: 1,
+    },
+    collaborators: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginVertical: 8,
+    },
+    titleContainer: {
+      marginLeft: 16,
+      flex: 1,
+    },
+    wrapper: {
+      justifyContent: 'center',
+      paddingBottom: 24,
+    },
+    buttonContainer: {
+      marginTop: 20,
+    },
+  })
 
 export default withProfiler(SpaceCollaborators, { name: 'SpaceCollaborators' })

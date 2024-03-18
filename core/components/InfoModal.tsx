@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -13,7 +13,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import colors from '@holi/ui/styles/globalVars/colors'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface InfoModalProps {
   headline?: string
@@ -47,6 +47,8 @@ const InfoModal: React.VFC<InfoModalProps> = ({
   i18nPrefix = '',
 }: InfoModalProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const isMultipleItems = Object.keys(items).length > 1
 
   const itemCard = (itemKey: string) => {
@@ -116,28 +118,36 @@ const InfoModal: React.VFC<InfoModalProps> = ({
 
 export default memo(InfoModal)
 
-const styles = StyleSheet.create({
-  flexWrapper: {
-    flex: 1,
-    flexGrow: 1,
-  },
-  modal: {
-    backgroundColor: colors.background20,
-  },
-  cardContainer: {
-    gap: 16,
-  },
-  card: {
-    backgroundColor: colors.white100,
-    borderRadius: 8,
-    borderColor: colors.background30,
-    borderWidth: 1,
-  },
-  outlink: {
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: colors.background20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    flexWrapper: {
+      flex: 1,
+      flexGrow: 1,
+    },
+    modal: {
+      backgroundColor: theme.colors.background20,
+    },
+    partnerImage: {
+      ...(theme.dark && {
+        padding: 7,
+        backgroundColor: theme.colors.light,
+        borderRadius: 4,
+      }),
+    },
+    cardContainer: {
+      gap: 16,
+    },
+    card: {
+      backgroundColor: theme.colors.white100,
+      borderRadius: 8,
+      borderColor: theme.colors.background30,
+      borderWidth: 1,
+    },
+    outlink: {
+      padding: 16,
+      borderRadius: 8,
+      backgroundColor: theme.colors.background20,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+  })

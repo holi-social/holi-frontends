@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -18,7 +18,7 @@ import {
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceLinkInputProps = {
   link: SpaceLink
@@ -41,6 +41,9 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
   const { t } = useTranslation()
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const { url, type, name } = link
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   // For web URLs, the protocol ("http://", "https://") must be set accordingly: https://reactnative.dev/docs/linking
   const urlPrefix = !url.includes('http://') && !url.includes('https://') ? 'https://' : ''
@@ -109,38 +112,39 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
 }
 export default memo(SpaceLinkInput)
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.background10,
-    borderRadius: 16,
-    marginBottom: 16,
-  },
-  upper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomColor: colors.background30,
-    borderBottomWidth: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  actions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 32,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    marginLeft: 8,
-  },
-  url: {
-    color: colors.foreground20,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: theme.colors.background10,
+      borderRadius: 16,
+      marginBottom: 16,
+    },
+    upper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomColor: theme.colors.background30,
+      borderBottomWidth: 1,
+      paddingHorizontal: 16,
+      paddingVertical: 16,
+    },
+    actions: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 32,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    text: {
+      marginLeft: 8,
+    },
+    url: {
+      color: theme.colors.foreground20,
+      paddingHorizontal: 16,
+      paddingVertical: 16,
+    },
+  })

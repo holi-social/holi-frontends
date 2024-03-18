@@ -1,0 +1,32 @@
+.container {
+  padding: 0 2rem;
+  background-color: var(--background10);
+}
+
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: var(--top-bar-height);
+  max-height: var(--top-bar-height);
+}
+
+.main {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--background10);
+}
+
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  height: var(--bottom-bar-height);
+  max-height: var(--bottom-bar-height);
+  display: flex;
+  justify-content: center;
+}

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliNoResultsProps = {
   firstText?: string
@@ -23,6 +23,8 @@ const HoliNoResults = ({
 }: React.PropsWithChildren<HoliNoResultsProps>) => {
   const { t } = useTranslation()
   const title = firstText || t('global.noResults')
+  const { theme } = useTheme()
+  const styles = React.useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={[styles.holiNoResults, style]} testID={testID}>
@@ -38,25 +40,26 @@ const HoliNoResults = ({
 
 export default HoliNoResults
 
-const styles = StyleSheet.create({
-  holiNoResults: {
-    alignItems: 'center',
-    borderRadius: 16,
-    paddingVertical: 40,
-    paddingHorizontal: 24,
-    backgroundColor: colors.background10,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  mediaContainer: {
-    alignItems: 'center',
-    paddingBottom: 24,
-  },
-  secondText: {
-    marginTop: 16,
-    textAlign: 'center',
-  },
-  childrenContainer: {
-    marginTop: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    holiNoResults: {
+      alignItems: 'center',
+      borderRadius: 16,
+      paddingVertical: 40,
+      paddingHorizontal: 24,
+      backgroundColor: theme.colors.background10,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    mediaContainer: {
+      alignItems: 'center',
+      paddingBottom: 24,
+    },
+    secondText: {
+      marginTop: 16,
+      textAlign: 'center',
+    },
+    childrenContainer: {
+      marginTop: 24,
+    },
+  })

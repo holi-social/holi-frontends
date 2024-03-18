@@ -1,7 +1,7 @@
 import { DocumentNode } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -25,8 +25,7 @@ import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -46,6 +45,8 @@ const HomeFeed = () => {
   const { isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
+  const { theme } = useTheme()
+  const colors = useMemo(() => theme.colors, [theme])
   const client = useApolloClient()
 
   const { navigate } = useRouting()
@@ -61,6 +62,28 @@ const HomeFeed = () => {
     FeatureToggleName.APPS_VOLUNTEERING
   )
 
+  const logo = useMemo(
+    () =>
+      theme.dark ? (
+        <HoliLocalImage
+          imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
+          isSvg
+          width={78}
+          height={24}
+          label={t('navigation.title')}
+        />
+      ) : (
+        <HoliLocalImage
+          imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+          isSvg
+          width={78}
+          height={24}
+          label={t('navigation.title')}
+        />
+      ),
+    [theme.dark, t]
+  )
+
   // TODO: when SSR is enabled we need to lazy load the header
   // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -71,20 +94,10 @@ const HomeFeed = () => {
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
-      headerLeft: () => (
-        <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
-            isSvg
-            width={78}
-            height={24}
-            label={t('navigation.title')}
-          />
-        </HoliButton>
-      ),
+      headerLeft: () => logo,
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, t, headerTitle, setScreenOptions])
+  }, [navigate, t, headerTitle, setScreenOptions, logo, colors.background10])
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({

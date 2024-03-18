@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,7 +11,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FooterTabBar = () => {
@@ -20,6 +21,8 @@ const FooterTabBar = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { isLoggedIn } = useAuth()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
@@ -111,37 +114,38 @@ const FooterTabBar = () => {
 
 export default FooterTabBar
 
-const styles = StyleSheet.create({
-  fullWidthContainer: {
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: colors.background10,
-    borderTopWidth: 1,
-    borderTopColor: colors.background30,
-    height: dimensions.bottomBarHeight,
-    maxHeight: dimensions.bottomBarHeight,
-  },
-  buttonContainer: {
-    flex: 1,
-    width: '100%',
-    maxWidth: dimensions.maxScreenWidth,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: dimensions.bottomBarHeight,
-    maxHeight: dimensions.bottomBarHeight,
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  activeTintColor: {
-    color: colors.foreground30,
-  },
-  inactiveTintColor: {
-    color: colors.foreground20,
-  },
-  buttonLabel: {
-    paddingTop: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    fullWidthContainer: {
+      width: '100%',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background10,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      height: dimensions.bottomBarHeight,
+      maxHeight: dimensions.bottomBarHeight,
+    },
+    buttonContainer: {
+      flex: 1,
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      height: dimensions.bottomBarHeight,
+      maxHeight: dimensions.bottomBarHeight,
+    },
+    button: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      alignItems: 'center',
+    },
+    activeTintColor: {
+      color: theme.colors.foreground30,
+    },
+    inactiveTintColor: {
+      color: theme.colors.foreground20,
+    },
+    buttonLabel: {
+      paddingTop: 8,
+    },
+  })

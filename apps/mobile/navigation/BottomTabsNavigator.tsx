@@ -16,7 +16,7 @@ import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
@@ -28,6 +28,9 @@ export type BottomTabsScreens = {
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
 const BottomTabsNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()

@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
 import HoliTimePicker from '@holi/ui/components/organisms/HoliTimePicker'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliDateAndTimePickerProps {
   onChangeDate: (hours: string) => void
@@ -34,6 +34,9 @@ const HoliDateAndTimePicker = ({
   isRequired,
   testID = 'holi-date-and-time-picker',
 }: HoliDateAndTimePickerProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={style} testID={testID}>
       {!!label && (
@@ -63,18 +66,19 @@ const HoliDateAndTimePicker = ({
 
 export default HoliDateAndTimePicker
 
-const styles = StyleSheet.create({
-  labelWrapper: {
-    marginBottom: 6,
-    flexDirection: 'row',
-  },
-  label: {
-    color: colors.foreground30,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-  },
-  dateInput: {
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    labelWrapper: {
+      marginBottom: 6,
+      flexDirection: 'row',
+    },
+    label: {
+      color: theme.colors.foreground30,
+    },
+    inputWrapper: {
+      flexDirection: 'row',
+    },
+    dateInput: {
+      flex: 1,
+    },
+  })

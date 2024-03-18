@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 
 import { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
 import RoomItemDeletable from '@holi/chat/src/components/RoomList/RoomItemDeletable'
 import { leaveRoom } from '@holi/chat/src/store'
 import { onScreenScrollY } from '@holi/core/helpers'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import type { RoomListProps } from './types'
 
 const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <FlatList
@@ -36,19 +39,20 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
 
 export default RoomList
 
-const styles = StyleSheet.create({
-  list: {
-    height: '100%',
-    paddingHorizontal: 0,
-  },
-  listFooterSpacer: {
-    height: dimensions.bottomBarHeight,
-  },
-  listItemSeparator: {
-    borderColor: colors.background30,
-    borderTopWidth: 1,
-  },
-  listItemWrapper: {
-    backgroundColor: colors.background20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    list: {
+      height: '100%',
+      paddingHorizontal: 0,
+    },
+    listFooterSpacer: {
+      height: dimensions.bottomBarHeight,
+    },
+    listItemSeparator: {
+      borderColor: theme.colors.background30,
+      borderTopWidth: 1,
+    },
+    listItemWrapper: {
+      backgroundColor: theme.colors.background20,
+    },
+  })

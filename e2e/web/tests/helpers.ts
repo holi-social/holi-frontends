@@ -75,18 +75,16 @@ export const registerUser = async (
   email: string,
   password: string
 ): Promise<void> => {
-  await retry(async () => {
-    await prepareForLoginOrRegistration(context, page)
+  await prepareForLoginOrRegistration(context, page)
 
-    await clickElementByTestId(page, 'btn-to-registration-form')
-    await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-    await clickElementByTestId(page, 'community-guidelines-checkbox')
-    await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
-    await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-    await clickElementByTestId(page, 'privacy-policy-checkbox')
-    await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
-    await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-  })
+  await clickElementByTestId(page, 'btn-to-registration-form')
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+  await clickElementByTestId(page, 'community-guidelines-checkbox')
+  await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+  await clickElementByTestId(page, 'privacy-policy-checkbox')
+  await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')

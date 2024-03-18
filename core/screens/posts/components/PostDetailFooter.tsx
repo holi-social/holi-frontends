@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface PostDetailFooterProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
@@ -13,7 +13,8 @@ interface PostDetailFooterProps {
 
 const PostDetailFooter: React.VFC<PostDetailFooterProps> = ({ onPress, style }) => {
   const { t } = useTranslation()
-
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   return (
     <HoliButton
       inline
@@ -30,18 +31,19 @@ const PostDetailFooter: React.VFC<PostDetailFooterProps> = ({ onPress, style }) 
 
 export default PostDetailFooter
 
-const styles = StyleSheet.create({
-  button: {
-    paddingHorizontal: 24,
-    backgroundColor: colors.background10,
-    ...Platform.select({
-      web: {
-        width: '100%',
-      },
-    }),
-  },
-  text: {
-    paddingTop: 9,
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    button: {
+      paddingHorizontal: 24,
+      backgroundColor: theme.colors.background10,
+      ...Platform.select({
+        web: {
+          width: '100%',
+        },
+      }),
+    },
+    text: {
+      paddingTop: 9,
+      color: theme.colors.foreground20,
+    },
+  })

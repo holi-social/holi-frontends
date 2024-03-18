@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface NotificationBadgeProps {
   visible: boolean
@@ -12,11 +12,14 @@ export interface NotificationBadgeProps {
 
 const NotificationBellBadge = ({
   visible,
-  backgroundColor = colors.background10,
+  backgroundColor,
   style,
   testID = 'notification-bell',
   children,
 }: React.PropsWithChildren<NotificationBadgeProps>) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
   const hasChildren = !!children
 
   return (
@@ -24,7 +27,11 @@ const NotificationBellBadge = ({
       {children}
       {visible && (
         <View
-          style={[styles.badge, !hasChildren && styles.standAlone, { borderColor: backgroundColor }]}
+          style={[
+            styles.badge,
+            !hasChildren && styles.standAlone,
+            { borderColor: backgroundColor || colors.background10 },
+          ]}
           testID={testID + '-with-badge'}
         />
       )}
@@ -36,22 +43,23 @@ export default NotificationBellBadge
 
 const BADGE_SIZE = 12
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    minWidth: BADGE_SIZE,
-  },
-  badge: {
-    position: 'absolute',
-    width: BADGE_SIZE,
-    height: BADGE_SIZE,
-    top: 0,
-    right: 0,
-    backgroundColor: colors.brandColorB30,
-    borderRadius: BADGE_SIZE / 2,
-    borderWidth: 2,
-  },
-  standAlone: {
-    top: 4,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      position: 'relative',
+      minWidth: BADGE_SIZE,
+    },
+    badge: {
+      position: 'absolute',
+      width: BADGE_SIZE,
+      height: BADGE_SIZE,
+      top: 0,
+      right: 0,
+      backgroundColor: theme.colors.brandColorB30,
+      borderRadius: BADGE_SIZE / 2,
+      borderWidth: 2,
+    },
+    standAlone: {
+      top: 4,
+    },
+  })

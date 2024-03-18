@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { Link } from '@holi/core/screens/posts/types'
@@ -6,13 +6,17 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface LinkContentProps extends Link {
   style?: StyleProp<ViewStyle>
 }
 
 const LinkContent: React.VFC<LinkContentProps> = ({ image, title, description, origin, style }) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={[styles.container, style]}>
       {!!image && <HoliImage style={styles.image} source={{ uri: image }} label={title} testID="link-preview-image" />}
@@ -38,37 +42,38 @@ const LinkContent: React.VFC<LinkContentProps> = ({ image, title, description, o
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 16,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  image: {
-    aspectRatio: 295 / 151,
-    width: '100%',
-    backgroundColor: colors.background30,
-  },
-  contentContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 16,
-    flexDirection: 'row',
-  },
-  textContainer: {
-    flex: 1,
-  },
-  shareIcon: {
-    marginLeft: 12,
-    marginTop: 4,
-  },
-  textMarginTop: {
-    marginTop: 8,
-  },
-  fontColor: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      borderRadius: 16,
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    image: {
+      aspectRatio: 295 / 151,
+      width: '100%',
+      backgroundColor: theme.colors.background30,
+    },
+    contentContainer: {
+      paddingHorizontal: 16,
+      paddingTop: 12,
+      paddingBottom: 16,
+      flexDirection: 'row',
+    },
+    textContainer: {
+      flex: 1,
+    },
+    shareIcon: {
+      marginLeft: 12,
+      marginTop: 4,
+    },
+    textMarginTop: {
+      marginTop: 8,
+    },
+    fontColor: {
+      color: theme.colors.foreground20,
+    },
+  })
 
 export default LinkContent

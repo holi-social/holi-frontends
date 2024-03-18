@@ -11,11 +11,14 @@ import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const AppsHub = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   useEffect(() => {
     setScreenOptions({
@@ -34,7 +37,7 @@ const AppsHub = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions])
+  }, [setScreenOptions, colors.background20])
 
   return (
     <DefaultLayout style={styles.container} backgroundColor={colors.background20} headerOverlap>

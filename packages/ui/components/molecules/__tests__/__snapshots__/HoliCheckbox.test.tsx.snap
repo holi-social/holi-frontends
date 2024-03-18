@@ -57,7 +57,7 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
           {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": undefined,
+            "borderColor": "#ebebeb",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,
@@ -247,7 +247,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
           {
             "alignItems": "center",
             "backgroundColor": "#262424",
-            "borderColor": undefined,
+            "borderColor": "#ebebeb",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,
@@ -549,7 +549,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
           {
             "alignItems": "center",
             "backgroundColor": "#262424",
-            "borderColor": undefined,
+            "borderColor": "#ebebeb",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,

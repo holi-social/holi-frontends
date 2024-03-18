@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -17,7 +17,7 @@ import { Add, Loader } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInviteUserSearchProps = {
   user: User
@@ -30,6 +30,8 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
   const userName = user.fullName || t('user.profileView.anonymous')
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [acceptRequestToJoin, { loading: loadingUserConnectionUpdate }] =
     useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
@@ -124,14 +126,15 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   )
 }
 
-const styles = StyleSheet.create({
-  userStatus: {
-    color: colors.foreground20,
-  },
-  button: {
-    paddingHorizontal: 6,
-    paddingVertical: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    userStatus: {
+      color: theme.colors.foreground20,
+    },
+    button: {
+      paddingHorizontal: 6,
+      paddingVertical: 6,
+    },
+  })
 
 export default SpaceInviteUserButton

@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -22,7 +22,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceCollaboratorOnboardingProps {
@@ -40,6 +40,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
 }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
   const [message, setMessage] = useState<string>('')
   const { visible: infoVisible, show: infoShow, hide: infoHide } = useModalState()
   const client = useApolloClient()
@@ -94,7 +95,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   }
 
   const insets = useSafeAreaInsets()
-  const styles = createStyles(insets.bottom)
+  const styles = useMemo(() => getStyles(insets.bottom, theme), [insets.bottom, theme])
 
   return (
     <>
@@ -189,11 +190,11 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   )
 }
 
-const createStyles = (bottomInsets: number) =>
+const getStyles = (bottomInsets: number, theme: HoliTheme) =>
   StyleSheet.create({
     modal: {
       flex: 1,
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       paddingBottom: 70,
       ...Platform.select({
         // TODO: Fix FormWrapper usage to avoid this
@@ -208,7 +209,7 @@ const createStyles = (bottomInsets: number) =>
     text: {
       marginTop: 16,
       marginBottom: 40,
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
     },
     imageContainer: {
       alignItems: 'flex-start',
@@ -222,7 +223,7 @@ const createStyles = (bottomInsets: number) =>
     },
     optional: {
       marginTop: -32,
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
     },
     info: {
       flexDirection: 'row',

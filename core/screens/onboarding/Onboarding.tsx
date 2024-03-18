@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
@@ -12,7 +12,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { OnboardingStateValue, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const { useParam } = createParamHooks()
 
@@ -36,6 +36,8 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   onOnboardingStateChange,
   afterAccountCreated,
 }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const { currentStep, goNext, goBack } = useStepper()
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
@@ -154,11 +156,12 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.background20,
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: theme.colors.background20,
+      flex: 1,
+    },
+  })
 
 export default withProfiler(Onboarding, { name: 'Onboarding' })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,7 +7,8 @@ import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type OnboardSpaceParams = {
   onboarding: string
@@ -52,9 +53,9 @@ interface SpaceOnboardModalProps {
 
 const SpaceOnboardModal = ({ visible, handleModalClose }: SpaceOnboardModalProps) => {
   const { t } = useTranslation()
-
+  const { theme } = useTheme()
   const windowWidth = useWindowDimensions().width
-  const styles = getStyles(windowWidth)
+  const styles = useMemo(() => getStyles(windowWidth, theme), [windowWidth, theme])
 
   const OnboardContent = () => {
     return (
@@ -95,7 +96,7 @@ const SpaceOnboardModal = ({ visible, handleModalClose }: SpaceOnboardModalProps
 
 export default SpaceOnboardModal
 
-const getStyles = (windowWidth: number) =>
+const getStyles = (windowWidth: number, theme: HoliTheme) =>
   StyleSheet.create({
     modalContentWrapper: {
       ...Platform.select({
@@ -108,10 +109,10 @@ const getStyles = (windowWidth: number) =>
           height: '100%',
         },
       }),
-      backgroundColor: colors.background30,
+      backgroundColor: theme.colors.background30,
     },
     modal: {
-      backgroundColor: colors.background30,
+      backgroundColor: theme.colors.background30,
       height: windowWidth <= dimensions.breakpointXs ? '100%' : windowWidth > dimensions.breakpointXl ? '70%' : '80%',
     },
     carouselContainer: {

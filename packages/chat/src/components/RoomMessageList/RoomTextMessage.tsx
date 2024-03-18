@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -13,7 +13,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   message: ChatRoomMessage
@@ -36,6 +36,9 @@ const RoomTextMessage = ({
 }: Props) => {
   const { i18n, t } = useTranslation()
   const locale = getLocale(i18n.language)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const myId = useAtomValue(loggedInMemberIdAtom)
   const isMyMessage = message.sender === myId
@@ -102,20 +105,21 @@ const RoomTextMessage = ({
 
 export default RoomTextMessage
 
-const styles = StyleSheet.create({
-  wrapper: {
-    borderColor: colors.background30,
-    borderWidth: 1,
-    borderRadius: 12,
-    backgroundColor: colors.white100,
-    flexShrink: 1,
-  },
-  rowWrapper: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-start',
-  },
-  date: {
-    alignItems: 'flex-end',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      borderColor: theme.colors.background30,
+      borderWidth: 1,
+      borderRadius: 12,
+      backgroundColor: theme.colors.white100,
+      flexShrink: 1,
+    },
+    rowWrapper: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-start',
+    },
+    date: {
+      alignItems: 'flex-end',
+    },
+  })

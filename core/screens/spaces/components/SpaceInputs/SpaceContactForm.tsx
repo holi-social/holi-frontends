@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,7 +9,7 @@ import SpaceContactPhoneInputWeb from '@holi/core/screens/spaces/components/Spac
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceContactFormProps extends Omit<FormWrapperProps, 'renderProp'> {
   onChangeContactDescription: (contactDescription: string) => void
@@ -37,6 +37,9 @@ const SpaceContactForm = ({
   style,
 }: SpaceContactFormProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <FormWrapper
       isModal={true}
@@ -77,24 +80,25 @@ const SpaceContactForm = ({
 
 export default SpaceContactForm
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 24,
-    paddingBottom: 50,
-  },
-  info: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginBottom: 24,
-  },
-  infoIcon: {
-    marginRight: 4,
-    color: colors.foreground20,
-  },
-  infoText: {
-    color: colors.foreground20,
-  },
-  inputContainer: {
-    marginTop: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      paddingTop: 24,
+      paddingBottom: 50,
+    },
+    info: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      marginBottom: 24,
+    },
+    infoIcon: {
+      marginRight: 4,
+      color: theme.colors.foreground20,
+    },
+    infoText: {
+      color: theme.colors.foreground20,
+    },
+    inputContainer: {
+      marginTop: 24,
+    },
+  })

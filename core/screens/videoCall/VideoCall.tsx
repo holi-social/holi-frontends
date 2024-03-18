@@ -16,6 +16,7 @@ import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const { useParam } = createParamHooks<VideoCallParams>()
 
@@ -26,6 +27,7 @@ const VideoCall: React.FC = () => {
   const styles = getStyles(deviceHeight)
   const setScreenOptions = useSetScreenOptions()
   const [webViewUrl, setWebViewUrl] = useState('')
+  const { theme } = useTheme()
 
   const fallbackUrl = jitsiUrl + '/' + roomName
   const videoCallApiUrl = holiApiGateway + '/api/video-call/' + roomName
@@ -92,7 +94,7 @@ const VideoCall: React.FC = () => {
   }
   return (
     <DefaultLayout hasFooterTabBar={false}>
-      <HoliWebView style={styles.webView} webViewProps={webViewProps} />
+      <HoliWebView style={styles.webView} webViewProps={webViewProps} theme={theme} />
     </DefaultLayout>
   )
 }

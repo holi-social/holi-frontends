@@ -4,6 +4,7 @@ import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle, useW
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useTheme } from '@holi/ui/styles/theme'
 
 interface AppUpdatesItemProps {
   appName: string
@@ -24,6 +25,8 @@ const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
   style,
   appName,
 }: AppUpdatesItemProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
@@ -47,7 +50,7 @@ const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
         {title}
       </HoliText>
       {typeof footer === 'string' ? (
-        <HoliText size="small" numberOfLines={2} selectable style={{ marginTop: 8, color: 'grey' }}>
+        <HoliText size="small" numberOfLines={2} selectable style={{ marginTop: 8, color: colors.gray300 }}>
           {footer}
         </HoliText>
       ) : (

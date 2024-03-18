@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { OnboardingStep } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorOnboardingStepsProps = {
@@ -19,6 +19,9 @@ const SpaceCollaboratorOnboardingSteps: React.FC<SpaceCollaboratorOnboardingStep
   style,
 }) => {
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <View style={[mixins.container, style]}>
       {header && (
@@ -44,45 +47,46 @@ const SpaceCollaboratorOnboardingSteps: React.FC<SpaceCollaboratorOnboardingStep
   )
 }
 
-const styles = StyleSheet.create({
-  header: {
-    marginBottom: 20,
-  },
-  wrapper: {
-    gap: 16,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 16,
-  },
-  count: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 32,
-    height: 32,
-    borderRadius: 32 / 2,
-    backgroundColor: colors.brandColorB10,
-    borderColor: colors.brandColorB20,
-    borderWidth: 1,
-    flexShrink: 0,
-  },
-  italic: {
-    fontStyle: 'italic',
-  },
-  textWrapper: {
-    flex: 1,
-    minHeight: 32,
-    justifyContent: 'center',
-    ...Platform.select({
-      web: {
-        flexWrap: 'wrap',
-      },
-    }),
-  },
-  text: {
-    lineHeight: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    header: {
+      marginBottom: 20,
+    },
+    wrapper: {
+      gap: 16,
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 16,
+    },
+    count: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 32,
+      height: 32,
+      borderRadius: 32 / 2,
+      backgroundColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.brandColorB10,
+      borderColor: theme.colors.brandColorB20,
+      borderWidth: 1,
+      flexShrink: 0,
+    },
+    italic: {
+      fontStyle: 'italic',
+    },
+    textWrapper: {
+      flex: 1,
+      minHeight: 32,
+      justifyContent: 'center',
+      ...Platform.select({
+        web: {
+          flexWrap: 'wrap',
+        },
+      }),
+    },
+    text: {
+      lineHeight: 24,
+    },
+  })
 
 export default SpaceCollaboratorOnboardingSteps

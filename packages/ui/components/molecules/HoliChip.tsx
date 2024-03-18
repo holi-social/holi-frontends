@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useMemo } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -15,7 +15,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Check } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type ChipProps = PressableProps & {
   text?: string
@@ -42,7 +42,9 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   numberOfLines,
   testID,
 }: ChipProps) => {
-  const styles = getStyles(checked)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(checked, theme), [theme, checked])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
@@ -101,11 +103,11 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
 
 export default HoliChip
 
-const getStyles = (checked = false) =>
+const getStyles = (checked = false, theme: HoliTheme) =>
   StyleSheet.create({
     holiChip: {
       borderRadius: 8,
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       alignSelf: 'flex-start',
       overflow: 'hidden',
       ...Platform.select({
@@ -129,32 +131,32 @@ const getStyles = (checked = false) =>
     text: {
       fontWeight: '400',
       fontSize: 14,
-      color: checked ? colors.background10 : colors.foreground20,
+      color: checked ? theme.colors.background10 : theme.colors.foreground20,
       lineHeight: 24,
     },
     iconView: {
       marginLeft: 1.5,
     },
     hovered: {
-      backgroundColor: checked ? colors.brandColorB20 : colors.background30,
+      backgroundColor: checked ? theme.colors.brandColorB20 : theme.colors.background30,
     },
     hoveredText: {
-      color: checked ? colors.background10 : colors.brandColorB30,
+      color: checked ? theme.colors.background10 : theme.colors.brandColorB30,
     },
     focused: {
-      outlineColor: colors.brandColorB30,
+      outlineColor: theme.colors.brandColorB30,
       borderRadius: 8,
       ...Platform.select({
         web: {
-          boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.brandColorB30 : colors.background20}`,
+          boxShadow: `0px 0px 0.7px 0.7px ${checked ? theme.colors.brandColorB30 : theme.colors.background20}`,
         },
       }),
     },
     pressed: {
-      backgroundColor: checked ? colors.brandColorB10 : colors.background20,
+      backgroundColor: checked ? theme.colors.brandColorB10 : theme.colors.background20,
     },
     checked: {
-      backgroundColor: colors.brandColorB30,
+      backgroundColor: theme.colors.brandColorB30,
       borderRadius: 24,
     },
   })
