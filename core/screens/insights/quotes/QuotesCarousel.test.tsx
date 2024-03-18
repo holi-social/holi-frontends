@@ -81,4 +81,10 @@ const aQuote = (text?: string) => ({
     requestedUrl: '',
     title: 'aTitle',
   },
+  reactions: {
+    HEART: 10,
+  },
+  myReaction: {
+    HEART: 10,
+  },
 })
