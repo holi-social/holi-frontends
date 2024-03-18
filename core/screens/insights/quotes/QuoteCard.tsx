@@ -164,6 +164,7 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'space-between',
       gap: Spacing['4xs'],
     },
+
     reaction: {
       position: 'absolute',
       bottom: 0,

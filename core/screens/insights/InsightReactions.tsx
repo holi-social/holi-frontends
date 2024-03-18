@@ -50,7 +50,7 @@ const InsightReactions: React.VFC<InsightReactionsProps> = ({ item, itemType, st
   const reactOnItem = () => {
     if (!user) {
       return openLoginModal({
-        description: t('insights.reactions.post.loginRedirect.text'),
+        description: t(`insights.${itemType.toLowerCase()}s.loginRedirect.text`),
       })
     }
     updateItemReaction({
