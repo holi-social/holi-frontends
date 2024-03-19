@@ -6,7 +6,7 @@ import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 import ChatStartConversationView from '@holi/core/screens/chat/ChatStartConversationView'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type ChatStackScreensList = {
   ChatRoom: undefined
@@ -16,6 +16,8 @@ export type ChatStackScreensList = {
 const ChatStack = createNativeStackNavigator<ChatStackScreensList>()
 
 const ChatStackNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   return (
     <ChatStack.Navigator
       initialRouteName={RouteName.ChatRoom}

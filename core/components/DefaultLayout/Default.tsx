@@ -3,7 +3,8 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const Default = React.forwardRef<ScrollView, LayoutProps>(
   (
@@ -13,13 +14,15 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
       style,
       contentStyle,
       children,
-      backgroundColor = colors.background10,
+      backgroundColor,
       testID,
       onScroll,
       ...scrollViewProps
     },
     ref
   ) => {
+    const { theme } = useTheme()
+    const { colors } = theme
     const isWeb = Platform.OS === 'web'
     const throttledScrollEventProps = useThrottledMobileScrollEvents({ onScroll })
 
@@ -38,13 +41,20 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
         testID={testID}
         {...throttledScrollEventProps}
         {...scrollViewProps}
-        contentContainerStyle={[styles.scrollLayout, { backgroundColor }, style]}
+        contentContainerStyle={[
+          styles.scrollLayout,
+          { backgroundColor: backgroundColor || colors.background10 },
+          style,
+        ]}
         ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
       >
         {contentView}
       </ScrollView>
     ) : (
-      <View testID={testID} style={[styles.scrollLayout, { backgroundColor }, style]}>
+      <View
+        testID={testID}
+        style={[styles.scrollLayout, { backgroundColor: backgroundColor || colors.background10 }, style]}
+      >
         {contentView}
       </View>
     )

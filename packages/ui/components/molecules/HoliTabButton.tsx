@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
 import {
   GestureResponderEvent,
@@ -13,7 +13,7 @@ import {
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   label: string
@@ -39,6 +39,9 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
     },
     ref
   ) => {
+    const { theme } = useTheme()
+    const styles = useMemo(() => getStyles(theme), [theme])
+
     const accessibilityProps: AccessibilityPropsWeb = {
       accessible: !disableFocusability,
       role: 'tab',
@@ -79,22 +82,23 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
 
 HoliTabButton.displayName = 'HoliTabButton'
 
-const styles = StyleSheet.create({
-  base: {
-    ...Platform.select({
-      web: {
-        display: 'inline-block',
-      },
-    }),
-    width: 'auto',
-  },
-  content: {
-    flexDirection: 'row',
-    pointerEvents: 'none',
-  },
-  textDisabled: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    base: {
+      ...Platform.select({
+        web: {
+          display: 'inline-block',
+        },
+      }),
+      width: 'auto',
+    },
+    content: {
+      flexDirection: 'row',
+      pointerEvents: 'none',
+    },
+    textDisabled: {
+      color: theme.colors.foreground20,
+    },
+  })
 
 export default HoliTabButton

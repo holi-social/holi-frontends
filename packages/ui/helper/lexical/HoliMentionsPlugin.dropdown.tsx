@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliLexicalMentionsDropdownProps = {
   optionsList: DropdownOption[]
@@ -20,6 +20,10 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
   onChooseOption,
   onMouseEnter = () => null,
 }) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [hightlightedIndex, setHightlightedIndex] = useState<number>(0)
 
   const onNativeMouseEnter = useCallback(
@@ -75,17 +79,18 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
 
 export default HoliLexicalMentionsDropdown
 
-const styles = StyleSheet.create({
-  suggestionsContainer: {
-    width: '100%',
-    backgroundColor: colors.background10,
-  },
-  suggestionItem: {
-    display: 'flex',
-    whiteSpace: 'nowrap',
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 7,
-    paddingBottom: 7,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    suggestionsContainer: {
+      width: '100%',
+      backgroundColor: theme.colors.background10,
+    },
+    suggestionItem: {
+      display: 'flex',
+      whiteSpace: 'nowrap',
+      paddingLeft: 20,
+      paddingRight: 20,
+      paddingTop: 7,
+      paddingBottom: 7,
+    },
+  })

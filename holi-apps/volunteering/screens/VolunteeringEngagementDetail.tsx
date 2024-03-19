@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -21,7 +22,8 @@ import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/H
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
@@ -32,10 +34,10 @@ import {
   engagementByIdQuery,
   trackEngagementViewMutation,
 } from '@holi-apps/volunteering/queries'
-import { Organizer, PartnerProps } from '@holi-apps/volunteering/types'
+import { Organizer } from '@holi-apps/volunteering/types'
 
 export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
-  [name: string]: PartnerProps
+  [name: string]: InfoModalItemProps
 } = {
   Voltastics: {
     logo: {
@@ -124,6 +126,8 @@ const VolunteeringEngagementDetail = () => {
   }, [setScreenOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading, data, refetch } = useQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery, {
     variables: {
@@ -243,75 +247,76 @@ const WrappedVolunteeringEngagementDetail = () => (
 
 export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
 
-const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: dimensions.topBarHeight + 50,
-  },
-  wrapper: {
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: colors.background30,
-  },
-  header: {
-    backgroundColor: colors.background30,
-  },
-  container: {
-    paddingBottom: 132,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-        paddingTop: dimensions.topBarHeight + 40,
-      },
-      web: {
-        paddingTop: dimensions.topBarHeight,
-      },
-    }),
-  },
-  cardContainer: {
-    width: '100%',
-    backgroundColor: 'white',
-    borderRadius: 32,
-    padding: 24,
-    marginTop: 2,
-  },
-  organizerInfoRow: {
-    display: 'flex',
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  organizerName: {
-    flex: 1,
-  },
-  partnerImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 16,
-  },
-  providerInfoRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
-  },
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: dimensions.topBarHeight + 50,
+    },
+    wrapper: {
+      alignItems: 'center',
+      flex: 1,
+      backgroundColor: theme.colors.background30,
+    },
+    header: {
+      backgroundColor: theme.colors.background30,
+    },
+    container: {
+      paddingBottom: 132,
+      paddingHorizontal: 0,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+          paddingTop: dimensions.topBarHeight + 40,
+        },
+        web: {
+          paddingTop: dimensions.topBarHeight,
+        },
+      }),
+    },
+    cardContainer: {
+      width: '100%',
+      backgroundColor: theme.colors.background10,
+      borderRadius: 32,
+      padding: 24,
+      marginTop: 2,
+    },
+    organizerInfoRow: {
+      display: 'flex',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    organizerName: {
+      flex: 1,
+    },
+    partnerImage: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      marginRight: 16,
+    },
+    providerInfoRow: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 16,
+    },
 
-  volunteeringButton: {
-    bottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    ...Platform.select({
-      native: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
-  },
-})
+    volunteeringButton: {
+      bottom: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      ...Platform.select({
+        native: {
+          position: 'absolute',
+        },
+        default: {
+          position: 'fixed',
+        },
+      }),
+    },
+  })

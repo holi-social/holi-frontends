@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -6,11 +6,11 @@ import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeade
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
 import { Space } from '@holi/core/screens/spaces/types'
-import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
+import { SpaceUpdatesTab } from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
 import { Flag2, Flag2Filled, Pushpin, PushpinFilled, Sun, SunFilled } from '@holi/icons/src/generated'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum SpaceDetailsTabs {
@@ -34,6 +34,9 @@ type SpaceDetailViewProps = {
 const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: SpaceDetailViewProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={[styles.wrapper, style]} testID="space-details-container">
@@ -59,11 +62,7 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: Sp
             title: t('spaces.tab.updates'),
             titleIcons: [Flag2, Flag2Filled],
             style: styles.tabStyle,
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <SpaceUpdatesTabLazy space={space} style={[mixins.container, styles.tabItem]} />
-              </Suspense>
-            ),
+            children: <SpaceUpdatesTab space={space} style={[mixins.container, styles.tabItem]} />,
           },
           {
             title: t('spaces.tab.action'),
@@ -79,22 +78,23 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: Sp
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    justifyContent: 'center',
-    paddingTop: 12,
-  },
-  header: {
-    backgroundColor: colors.background10,
-    paddingBottom: 24,
-  },
-  tabItem: {
-    paddingVertical: 32,
-  },
-  tabStyle: {
-    backgroundColor: colors.background20,
-    paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      justifyContent: 'center',
+      paddingTop: 12,
+    },
+    header: {
+      backgroundColor: theme.colors.background10,
+      paddingBottom: 24,
+    },
+    tabItem: {
+      paddingVertical: 32,
+    },
+    tabStyle: {
+      backgroundColor: theme.colors.background20,
+      paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 24,
+    },
+  })
 
 export default SpaceDetailView

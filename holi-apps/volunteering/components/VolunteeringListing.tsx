@@ -1,9 +1,10 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import InfoModal from '@holi/core/components/InfoModal'
 import { logError } from '@holi/core/errors/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
@@ -20,12 +21,12 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
-import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
@@ -52,7 +53,10 @@ const VolunteeringListing = ({
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
-  const styles = getStyles(insets.bottom)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(insets.bottom, theme), [insets.bottom, theme])
+
   const { imageWidth } = useWindowDimensionsWithImageScaling()
 
   const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
@@ -111,14 +115,13 @@ const VolunteeringListing = ({
             partners={allPartners}
             onPress={showPartnerModal}
           />
-          <PartnerModal
+          <InfoModal
             headline={t('volunteering:listing.partnerModal.headline')}
-            partners={allPartners}
+            items={allPartners}
             show={partnerModalVisible}
             onDismiss={closeModal}
-            i18nNamespace={'volunteering'}
+            i18nPrefix={'volunteering:listing.partnerModal'}
           />
-
           {isFiltering && (
             <View style={styles.headingRow}>
               <HoliText bold style={{ color: colors.foreground20 }}>
@@ -178,11 +181,11 @@ const VolunteeringListing = ({
 
 export default withProfiler(VolunteeringListing, { name: 'VolunteeringListing' })
 
-const getStyles = (bottomInset = 0) =>
+const getStyles = (bottomInset = 0, theme: HoliTheme) =>
   StyleSheet.create({
     list: {
       paddingTop: dimensions.topBarHeight,
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
     },
     loadMoreButton: {
       marginTop: 24,

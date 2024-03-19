@@ -15,7 +15,7 @@ import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface RoomItemProps {
   room: ChatRoom
@@ -29,6 +29,9 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 
 const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
@@ -109,7 +112,7 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                   label={roomName}
                   initials=":/"
                   defaultColor={colors.brandColorD20}
-                  initialsColor="foreground30at48Percent"
+                  initialsColor={colors.foreground30at48Percent}
                   initialsFontWeight="500"
                   size="medium"
                 />
@@ -170,39 +173,40 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
 
 export default memo(RoomItem)
 
-const styles = StyleSheet.create({
-  rowWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: '100%',
-    gap: 4,
-  },
-  unseenMessageIndicator: {
-    borderWidth: 2,
-    borderColor: colors.white100,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: colors.brandColorB30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-  },
-  nameDateRaw: {
-    justifyContent: 'space-between',
-  },
-  name: {
-    flexShrink: 1,
-  },
-  fontColorGray: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    rowWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 12,
+    },
+    content: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: '100%',
+      gap: 4,
+    },
+    unseenMessageIndicator: {
+      borderWidth: 2,
+      borderColor: theme.colors.white100,
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      backgroundColor: theme.colors.brandColorB30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+    },
+    nameDateRaw: {
+      justifyContent: 'space-between',
+    },
+    name: {
+      flexShrink: 1,
+    },
+    fontColorGray: {
+      color: theme.colors.foreground20,
+    },
+  })

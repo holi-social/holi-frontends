@@ -5,13 +5,16 @@ import { hasUnreadNotificationsAtom } from '@holi/chat/src/store'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Chat3Filled } from '@holi/icons/src/generated'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export interface ChatBottomTabsNavigatorItemProps {
   focused: boolean
 }
 
 const ChatBottomTabsNavigatorItem = ({ focused }: ChatBottomTabsNavigatorItemProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const hasUnreadNotifications = useAtomValue(hasUnreadNotificationsAtom)
 

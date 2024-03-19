@@ -10,7 +10,8 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import HeaderAnimatedGradientBackground from './HeaderAnimatedGradientBackground'
 
@@ -54,6 +55,8 @@ export const useHeaderHideAnimation = () => {
 }
 
 const HeaderAnimated = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   const options = useScreenOptions()
   const { t } = useTranslation()
   const headerHideAnimation = useHeaderHideAnimation()

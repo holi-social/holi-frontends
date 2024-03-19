@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
-import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.scss'
-import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
+import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.css'
+import sharedLayoutStyles from './NavigationLayoutRoot.module.css'
 
 const mergedStyles = { ...sharedLayoutStyles, ...donationsLayoutStyles }
 

@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,7 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
 import { Key2, Mail } from '@holi/icons/src/generated'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const AccountSettings = () => {
@@ -20,6 +20,8 @@ const AccountSettings = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.account.title') })
@@ -57,17 +59,18 @@ const AccountSettings = () => {
 
 export default memo(AccountSettings)
 
-const styles = StyleSheet.create({
-  accountSettings: {
-    paddingHorizontal: 24,
-  },
-  settingsItem: {
-    marginVertical: 24,
-  },
-  separator: {
-    width: '100%',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
-    height: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    accountSettings: {
+      paddingHorizontal: 24,
+    },
+    settingsItem: {
+      marginVertical: 24,
+    },
+    separator: {
+      width: '100%',
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.background30,
+      height: 1,
+    },
+  })

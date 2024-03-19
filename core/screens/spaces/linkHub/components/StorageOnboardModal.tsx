@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -7,7 +7,7 @@ import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type OnboardStorageParams = {
   onboarding: string
@@ -36,6 +36,8 @@ interface StorageOnboardModalProps {
 
 const StorageOnboardModal = ({ visible, handleModalClose }: StorageOnboardModalProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const OnboardContent = () => {
     return (
@@ -78,39 +80,40 @@ const StorageOnboardModal = ({ visible, handleModalClose }: StorageOnboardModalP
 
 export default StorageOnboardModal
 
-const styles = StyleSheet.create({
-  modalContentWrapper: {
-    ...Platform.select({
-      web: {
-        maxWidth: '100%',
-      },
-      native: {
-        flexShrink: 1,
-        height: '100%',
-      },
-    }),
-  },
-  modal: {
-    backgroundColor: colors.background30,
-  },
-  illustration: {
-    marginVertical: 16,
-  },
-  onboardCardContainer: {
-    paddingHorizontal: 24,
-    paddingTop: 0,
-    alignItems: 'center',
-    alignContent: 'center',
-    height: '100%',
-    flex: 1,
-  },
-  hint1: {
-    textAlign: 'center',
-    marginBottom: 16,
-    color: colors.foreground20,
-  },
-  hint2: {
-    marginTop: 24,
-    textAlign: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    modalContentWrapper: {
+      ...Platform.select({
+        web: {
+          maxWidth: '100%',
+        },
+        native: {
+          flexShrink: 1,
+          height: '100%',
+        },
+      }),
+    },
+    modal: {
+      backgroundColor: theme.colors.background30,
+    },
+    illustration: {
+      marginVertical: 16,
+    },
+    onboardCardContainer: {
+      paddingHorizontal: 24,
+      paddingTop: 0,
+      alignItems: 'center',
+      alignContent: 'center',
+      height: '100%',
+      flex: 1,
+    },
+    hint1: {
+      textAlign: 'center',
+      marginBottom: 16,
+      color: theme.colors.foreground20,
+    },
+    hint2: {
+      marginTop: 24,
+      textAlign: 'center',
+    },
+  })

@@ -1,5 +1,5 @@
 import { atom, useAtomValue } from 'jotai'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -31,13 +31,17 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChatHomeNeedToLogin = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
@@ -70,6 +74,9 @@ const ChatHomeNoExistingRooms = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
@@ -156,6 +163,9 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
   const tabRoomAtomsRecord = useAtomValue(tabRoomAtomsRecordAtom)
@@ -194,6 +204,8 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
 const ChatHomeContent = () => {
   const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
   const chatInitialized = useChatInitialized()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   if (!isLoading && !isLoggedIn) return <ChatHomeNeedToLogin />
 
@@ -206,29 +218,30 @@ const ChatHomeContent = () => {
 
 export default memo(ChatHomeContent)
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      web: {
-        minHeight: '100%',
-      },
-    }),
-  },
-  noResultsMessage: {
-    marginTop: 24,
-  },
-  overlayButtonWrapper: {
-    position: isWeb ? 'fixed' : 'absolute',
-    bottom: 0,
-  },
-  overlayButton: {
-    position: 'absolute',
-    bottom: (isWeb ? dimensions.bottomBarHeight : 0) + 12,
-    right: 12,
-    borderWidth: 1,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      flex: 1,
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          minHeight: '100%',
+        },
+      }),
+    },
+    noResultsMessage: {
+      marginTop: 24,
+    },
+    overlayButtonWrapper: {
+      position: isWeb ? 'fixed' : 'absolute',
+      bottom: 0,
+    },
+    overlayButton: {
+      position: 'absolute',
+      bottom: (isWeb ? dimensions.bottomBarHeight : 0) + 12,
+      right: 12,
+      borderWidth: 1,
+      paddingVertical: 16,
+      paddingHorizontal: 16,
+    },
+  })

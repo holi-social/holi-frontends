@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -12,13 +12,16 @@ import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FooterTabBar = () => {
   const { navigate } = useRouting()
   const { pathname } = useRouter() // Recognize 404 pages when `asPath` differs
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
@@ -110,28 +113,29 @@ const FooterTabBar = () => {
 
 export default FooterTabBar
 
-const styles = StyleSheet.create({
-  fullWidthContainer: {
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: colors.background10,
-    borderTopWidth: 1,
-    borderTopColor: colors.background30,
-    height: dimensions.bottomBarHeight,
-    maxHeight: dimensions.bottomBarHeight,
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  activeTintColor: {
-    color: colors.foreground30,
-  },
-  inactiveTintColor: {
-    color: colors.foreground20,
-  },
-  buttonLabel: {
-    paddingTop: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    fullWidthContainer: {
+      width: '100%',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background10,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      height: dimensions.bottomBarHeight,
+      maxHeight: dimensions.bottomBarHeight,
+    },
+    button: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      alignItems: 'center',
+    },
+    activeTintColor: {
+      color: theme.colors.foreground30,
+    },
+    inactiveTintColor: {
+      color: theme.colors.foreground20,
+    },
+    buttonLabel: {
+      paddingTop: 8,
+    },
+  })

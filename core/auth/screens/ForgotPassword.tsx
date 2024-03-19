@@ -14,6 +14,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export interface ForgotPasswordProps {
   webview?: boolean
@@ -25,6 +26,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
   const [email, setEmail] = useState('')
   const [flow, setFlow] = useState<RecoveryFlow>()
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
 
   useIsomorphicLayoutEffect(() => {
     if (!webview)
@@ -70,6 +72,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
         source: { uri: holiNextJSApiUrl + '/forgotPasswordWebView' },
         incognito: true,
       }}
+      theme={theme}
     />
   )
 }

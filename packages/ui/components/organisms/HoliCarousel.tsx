@@ -3,7 +3,7 @@ import { NativeScrollEvent, Platform, ScrollView, StyleProp, StyleSheet, View, V
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliCarouselProps {
   slides: { title?: string; children: React.ReactNode }[]
@@ -30,12 +30,14 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   const defaultSlideWidth = 350
   const horizontalScrollMinWidth = 600
 
+  const { theme } = useTheme()
   const styles = getStyles(
     screenWidth,
     marginHorizontal,
     marginBetweenSlides,
     defaultSlideWidth,
-    horizontalScrollMinWidth
+    horizontalScrollMinWidth,
+    theme
   )
 
   const handleOnScroll = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
@@ -153,7 +155,8 @@ const getStyles = (
   marginHorizontal: number,
   marginBetweenSlides: number,
   defaultSlideWidth: number,
-  horizontalScrollMinWidth: number
+  horizontalScrollMinWidth: number,
+  theme: HoliTheme
 ) =>
   StyleSheet.create({
     container: {
@@ -206,12 +209,12 @@ const getStyles = (
     slideButtonIcon: {
       width: 8,
       height: 8,
-      backgroundColor: colors.foreground30,
+      backgroundColor: theme.colors.foreground30,
       opacity: 0.3,
       borderRadius: 50,
     },
     activeSlideButtonIcon: {
-      backgroundColor: colors.foreground30,
+      backgroundColor: theme.colors.foreground30,
       opacity: 1,
     },
   })

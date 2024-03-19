@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { PlacesAutocompleteProps } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceLocationInputProps extends Partial<PlacesAutocompleteProps> {
   description: string
@@ -25,6 +25,8 @@ const SpaceLocationInput = ({
   location,
 }: SpaceLocationInputProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={styles.container}>
@@ -52,26 +54,28 @@ const SpaceLocationInput = ({
 }
 
 export default SpaceLocationInput
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background20,
-    paddingTop: 24,
-    paddingBottom: 50,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  subTitle: {
-    marginBottom: 32,
-    color: colors.foreground20,
-  },
-  input: {
-    marginBottom: 16,
-  },
-  suggestionsContainer: {
-    backgroundColor: colors.background10,
-  },
-})
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background20,
+      paddingTop: 24,
+      paddingBottom: 50,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+        },
+      }),
+    },
+    subTitle: {
+      marginBottom: 32,
+      color: theme.colors.foreground20,
+    },
+    input: {
+      marginBottom: 16,
+    },
+    suggestionsContainer: {
+      backgroundColor: theme.colors.background10,
+    },
+  })

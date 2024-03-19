@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -25,7 +25,7 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostContentProps = {
   post: Post
@@ -40,6 +40,8 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   const commenters = post.commenters.data
   const { navigate } = useRouting()
   const { user } = useLoggedInUser()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const editAction = useCallback(() => {
     navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
@@ -180,58 +182,59 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background10,
-  },
-  paddingHorizontal: {
-    paddingHorizontal: 24,
-  },
-  headerContainer: {
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  description: {
-    marginTop: 16,
-  },
-  linkPreview: {
-    marginTop: 16,
-    maxWidth: 420,
-    width: '100%',
-    alignSelf: 'center',
-  },
-  reactionsBar: {
-    marginTop: 21,
-    paddingLeft: 24,
-    paddingRight: 20,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  reactionsLink: {
-    height: 'auto',
-    display: 'flex',
-  },
-  inspirationMediaHeader: {
-    gap: 16,
-  },
-  inspirationHeadingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  fallbackImage: {
-    width: 32,
-    height: 32,
-  },
-  inspirationHeading: {
-    fontWeight: 'normal',
-  },
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background10,
+    },
+    paddingHorizontal: {
+      paddingHorizontal: 24,
+    },
+    headerContainer: {
+      justifyContent: 'space-between',
+      marginBottom: 20,
+    },
+    description: {
+      marginTop: 16,
+    },
+    linkPreview: {
+      marginTop: 16,
+      maxWidth: 420,
+      width: '100%',
+      alignSelf: 'center',
+    },
+    reactionsBar: {
+      marginTop: 21,
+      paddingLeft: 24,
+      paddingRight: 20,
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    reactionsLink: {
+      height: 'auto',
+      display: 'flex',
+    },
+    inspirationMediaHeader: {
+      gap: 16,
+    },
+    inspirationHeadingRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    fallbackImage: {
+      width: 32,
+      height: 32,
+    },
+    inspirationHeading: {
+      fontWeight: 'normal',
+    },
 
-  inspirationDate: {
-    paddingBottom: 8,
-    color: colors.foreground20,
-  },
-})
+    inspirationDate: {
+      paddingBottom: 8,
+      color: theme.colors.foreground20,
+    },
+  })
 
 export default PostContent

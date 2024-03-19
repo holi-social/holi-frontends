@@ -1,9 +1,6 @@
-@import '@holi/ui/styles/globalVars/colors';
-@import '@holi/ui/styles/globalVars/dimensions';
-
 .container {
   padding: 0 2rem;
-  background-color: $background10;
+  background-color: var(--background10);
 }
 
 .header {
@@ -13,8 +10,8 @@
   left: 0;
   right: 0;
   z-index: 10;
-  height: #{$top-bar-height}px;
-  max-height: #{$top-bar-height}px;
+  height: var(--top-bar-height);
+  max-height: var(--top-bar-height);
 }
 
 .main {
@@ -23,7 +20,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: $background10;
+  background-color: var(--background10);
 }
 
 .footer {
@@ -31,8 +28,8 @@
   position: fixed;
   bottom: 0;
   z-index: 10;
-  height: #{$bottom-bar-height}px;
-  max-height: #{$bottom-bar-height}px;
+  height: var(--bottom-bar-height);
+  max-height: var(--bottom-bar-height);
   display: flex;
   justify-content: center;
 }

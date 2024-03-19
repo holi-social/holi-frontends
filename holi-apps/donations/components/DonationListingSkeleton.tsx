@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -8,7 +8,7 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   isFiltering?: boolean
@@ -24,6 +24,9 @@ interface Props extends BaseProps {
 type DonationListingSkeletonProps = SkeletonProps | Props
 
 const DonationListingSkeleton = ({ isFiltering, amount, ...props }: DonationListingSkeletonProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const skeletonItems = new Array(amount).fill(1).map((_, idx) => (
     <HoliGridCell key={idx}>
       <HoliSkeleton aspectRatio={327 / 214} borderRadius={24} height={'auto'} width={'100%'} />
@@ -59,40 +62,41 @@ const DonationListingSkeleton = ({ isFiltering, amount, ...props }: DonationList
 
 export default withProfiler(DonationListingSkeleton, { name: 'DonationListingSkeleton' })
 
-const styles = StyleSheet.create({
-  spaceTop: {
-    marginTop: 16,
-    width: '100%',
-  },
-  skeletonContainer: {
-    marginVertical: 24,
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textContainer: {
-    padding: 16,
-    flex: 1,
-  },
-  heading: {
-    marginBottom: 3,
-  },
-  searchQuery: {
-    color: colors.brandColorB30,
-    marginTop: 16,
-  },
-  partnerInfoRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  partnerImage: {
-    borderRadius: 1 / 2,
-    borderColor: colors.foreground30,
-    overflow: 'hidden',
-    marginRight: 8,
-    marginLeft: 0,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    spaceTop: {
+      marginTop: 16,
+      width: '100%',
+    },
+    skeletonContainer: {
+      marginVertical: 24,
+    },
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    textContainer: {
+      padding: 16,
+      flex: 1,
+    },
+    heading: {
+      marginBottom: 3,
+    },
+    searchQuery: {
+      color: theme.colors.brandColorB30,
+      marginTop: 16,
+    },
+    partnerInfoRow: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    partnerImage: {
+      borderRadius: 1 / 2,
+      borderColor: theme.colors.foreground30,
+      overflow: 'hidden',
+      marginRight: 8,
+      marginLeft: 0,
+    },
+  })

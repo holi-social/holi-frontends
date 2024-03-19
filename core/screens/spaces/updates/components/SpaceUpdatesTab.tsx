@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -19,7 +19,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceUpdatesTabProps {
   space: Space
@@ -28,9 +28,12 @@ export interface SpaceUpdatesTabProps {
 
 export const POSTS_RESULT_PAGE_SIZE = 10
 
-const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
+export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
 
@@ -149,37 +152,38 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  buttonContainer: {
-    flexGrow: 1,
-    gap: 8,
-  },
-  buttonWrapper: {
-    paddingBottom: 12,
-  },
-  buttonSpacing: {
-    paddingHorizontal: 6,
-    paddingVertical: 8,
-    flex: 1,
-    ...Platform.select({
-      web: {
-        minWidth: 'fit-content',
-        maxWidth: '33%',
-      },
-    }),
-  },
-  buttonSelected: {
-    backgroundColor: colors.foreground30,
-    borderColor: colors.foreground30,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  loaderBottom: {
-    marginBottom: 24,
-    position: 'relative',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    buttonContainer: {
+      flexGrow: 1,
+      gap: 8,
+    },
+    buttonWrapper: {
+      paddingBottom: 12,
+    },
+    buttonSpacing: {
+      paddingHorizontal: 6,
+      paddingVertical: 8,
+      flex: 1,
+      ...Platform.select({
+        web: {
+          minWidth: 'fit-content',
+          maxWidth: '33%',
+        },
+      }),
+    },
+    buttonSelected: {
+      backgroundColor: theme.colors.foreground30,
+      borderColor: theme.colors.foreground30,
+    },
+    icon: {
+      marginRight: 5,
+    },
+    loaderBottom: {
+      marginBottom: 24,
+      position: 'relative',
+    },
+  })
 
 export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
   () => import('@holi/core/screens/spaces/updates/components/SpaceUpdatesTab')

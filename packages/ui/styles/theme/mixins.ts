@@ -1,45 +1,48 @@
+import { useMemo } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const staticStyles = StyleSheet.create({
-  inlineButtonFixDefault: {
-    transform: [{ translateY: Platform.select({ ios: 3, android: 4, default: 0 }) }],
-  },
-  inlineButtonFixSmall: {
-    transform: [{ translateY: Platform.select({ ios: 2, android: 4, default: 0 }) }],
-  },
-  inlineButtonFixMedium: {
-    transform: [{ translateY: Platform.select({ ios: 3, android: 5, default: 0 }) }],
-  },
-  moreButton: {
-    marginVertical: 24,
-    maxWidth: dimensions.maxButtonWidth,
-    alignSelf: 'center',
-  },
-  black300: {
-    color: colors.foreground30,
-  },
-  gray300: {
-    color: colors.foreground20,
-  },
-  gray200: {
-    color: colors.foreground10,
-  },
-  white100: {
-    color: colors.white100,
-  },
-  white200: {
-    color: colors.white200,
-  },
-  error200: {
-    color: colors.error20,
-  },
-  brandB300: {
-    color: colors.brandColorB30,
-  },
-})
+const getStaticStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    inlineButtonFixDefault: {
+      transform: [{ translateY: Platform.select({ ios: 3, android: 4, default: 0 }) }],
+    },
+    inlineButtonFixSmall: {
+      transform: [{ translateY: Platform.select({ ios: 2, android: 4, default: 0 }) }],
+    },
+    inlineButtonFixMedium: {
+      transform: [{ translateY: Platform.select({ ios: 3, android: 5, default: 0 }) }],
+    },
+    moreButton: {
+      marginVertical: 24,
+      maxWidth: dimensions.maxButtonWidth,
+      alignSelf: 'center',
+    },
+    black300: {
+      color: theme.colors.foreground30,
+    },
+    gray300: {
+      color: theme.colors.foreground20,
+    },
+    gray200: {
+      color: theme.colors.foreground10,
+    },
+    white100: {
+      color: theme.colors.white100,
+    },
+    white200: {
+      color: theme.colors.white200,
+    },
+    error200: {
+      color: theme.colors.error20,
+    },
+    brandB300: {
+      color: theme.colors.brandColorB30,
+    },
+  })
 
 const useStyleMixins = () => {
   const paddingHorizontal = useBreakpointMatcher([
@@ -47,6 +50,9 @@ const useStyleMixins = () => {
     [dimensions.breakpointS, 32],
     [dimensions.breakpointL, 64],
   ])
+
+  const { theme } = useTheme()
+  const staticStyles = useMemo(() => getStaticStyles(theme), [theme])
 
   const dynamicStyles = StyleSheet.create({
     /**

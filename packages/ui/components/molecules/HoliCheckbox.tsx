@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   AccessibilityProps,
   Animated,
@@ -17,7 +17,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Subtract } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliCheckboxShape = 'square' | 'round' | 'box'
 export type HoliCheckboxValue = boolean | 'mixed'
@@ -57,6 +57,8 @@ const HoliCheckbox = ({
   const checkboxRef = useRef(null)
   const scaleFactor = useRef(new Animated.Value(1)).current
   const hasError = !!errorMessage
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   useEffect(() => {
     if (autofocus) checkboxRef?.current?.focus()
@@ -143,59 +145,60 @@ const HoliCheckbox = ({
 
 export default HoliCheckbox
 
-const styles = StyleSheet.create({
-  checkboxContainer: {
-    alignItems: 'center',
-    flexWrap: 'nowrap',
-    flexDirection: 'row',
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 5,
-    borderWidth: 1,
-    backgroundColor: colors.background10,
-    borderColor: colors.background30Darker,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxSelected: {
-    backgroundColor: colors.foreground30,
-  },
-  checkboxDisabled: {
-    borderColor: colors.background30,
-    backgroundColor: colors.background30,
-    opacity: 0.6,
-  },
-  checkboxFocused: {
-    borderColor: colors.brandColorB30,
-  },
-  checkboxError: {
-    borderWidth: 2,
-    borderColor: colors.error30,
-    backgroundColor: colors.background10,
-  },
-  shapeRound: {
-    borderRadius: 24,
-  },
-  icon: {
-    color: colors.background10,
-  },
-  iconDisabled: {
-    color: colors.foreground20,
-  },
-  iconError: {
-    color: colors.foreground30,
-  },
-  label: {
-    marginLeft: 12,
-    flexShrink: 1,
-  },
-  labelDisabled: {
-    opacity: 0.6,
-  },
-  errorMessage: {
-    marginTop: 6,
-    color: colors.error30,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    checkboxContainer: {
+      alignItems: 'center',
+      flexWrap: 'nowrap',
+      flexDirection: 'row',
+    },
+    checkbox: {
+      width: 24,
+      height: 24,
+      borderRadius: 5,
+      borderWidth: 1,
+      backgroundColor: theme.colors.background10,
+      borderColor: theme.colors.background30,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    checkboxSelected: {
+      backgroundColor: theme.colors.foreground30,
+    },
+    checkboxDisabled: {
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background30,
+      opacity: 0.6,
+    },
+    checkboxFocused: {
+      borderColor: theme.colors.brandColorB30,
+    },
+    checkboxError: {
+      borderWidth: 2,
+      borderColor: theme.colors.error30,
+      backgroundColor: theme.colors.background10,
+    },
+    shapeRound: {
+      borderRadius: 24,
+    },
+    icon: {
+      color: theme.colors.background10,
+    },
+    iconDisabled: {
+      color: theme.colors.foreground20,
+    },
+    iconError: {
+      color: theme.colors.foreground30,
+    },
+    label: {
+      marginLeft: 12,
+      flexShrink: 1,
+    },
+    labelDisabled: {
+      opacity: 0.6,
+    },
+    errorMessage: {
+      marginTop: 6,
+      color: theme.colors.error30,
+    },
+  })

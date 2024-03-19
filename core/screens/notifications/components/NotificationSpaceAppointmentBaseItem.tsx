@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -10,7 +10,7 @@ import { NotificationAppointments, NotificationProps } from '@holi/core/screens/
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const NotificationSpaceAppointmentBaseItem = ({
   notification,
@@ -24,6 +24,10 @@ export const NotificationSpaceAppointmentBaseItem = ({
     content,
     options: { space },
   } = notification
+
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View
@@ -53,24 +57,25 @@ export const NotificationSpaceAppointmentBaseItem = ({
   )
 }
 
-export const styles = StyleSheet.create({
-  link: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: '100%',
-    marginLeft: 12,
-  },
-  fontColorGray: {
-    color: colors.foreground20,
-  },
-  createdDate: {
-    marginTop: 4,
-  },
-  readStatus: {
-    marginLeft: 12,
-  },
-})
+export const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    link: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    content: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: '100%',
+      marginLeft: 12,
+    },
+    fontColorGray: {
+      color: theme.colors.foreground20,
+    },
+    createdDate: {
+      marginTop: 4,
+    },
+    readStatus: {
+      marginLeft: 12,
+    },
+  })

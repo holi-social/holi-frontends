@@ -24,7 +24,7 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type CreateTaskParams = {
   spaceIdOrName: string
@@ -41,6 +41,8 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   // input fields
   const [name, setName] = useState('')
@@ -169,7 +171,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions])
+  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
 
   useEffect(() => {
     if (

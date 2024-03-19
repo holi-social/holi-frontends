@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -25,13 +25,15 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const InsightsList = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
@@ -44,10 +46,10 @@ const InsightsList = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
+      headerStyle: { backgroundColor: theme.colors.background10 },
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{'Insights'}</HeaderTitle>,
     })
-  }, [navigate, setScreenOptions, t])
+  }, [navigate, setScreenOptions, t, theme.colors.background10])
 
   if (!loading && !totalResults) return <></>
 
@@ -108,6 +110,8 @@ const InsightsList = () => {
 
 const InsightsPage = () => {
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: INSIGHT_PAGE_SIZE,
@@ -138,37 +142,38 @@ const InsightsPage = () => {
 
 export default withProfiler(InsightsPage, { name: 'InsightsPage' })
 
-const styles = StyleSheet.create({
-  insightList: {
-    marginTop: 24,
-  },
-  editorsButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  editorsButtonText: {
-    marginLeft: 10,
-    flex: 1,
-    flexWrap: 'wrap',
-  },
-  layout: {
-    paddingBottom: 80,
-    backgroundColor: colors.background20,
-    ...(Platform.OS === 'web' && {
-      minHeight: '100vh',
-    }),
-  },
-  sections: {
-    gap: 32,
-    marginTop: 24,
-  },
-  loader: {
-    ...(Platform.OS === 'web' && {
-      minHeight: '80vh',
-    }),
-  },
-  loaderBottom: {
-    marginBottom: 24,
-    position: 'relative',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    insightList: {
+      marginTop: 24,
+    },
+    editorsButtonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    editorsButtonText: {
+      marginLeft: 10,
+      flex: 1,
+      flexWrap: 'wrap',
+    },
+    layout: {
+      paddingBottom: 80,
+      backgroundColor: theme.colors.background20,
+      ...(Platform.OS === 'web' && {
+        minHeight: '100vh',
+      }),
+    },
+    sections: {
+      gap: 32,
+      marginTop: 24,
+    },
+    loader: {
+      ...(Platform.OS === 'web' && {
+        minHeight: '80vh',
+      }),
+    },
+    loaderBottom: {
+      marginBottom: 24,
+      position: 'relative',
+    },
+  })

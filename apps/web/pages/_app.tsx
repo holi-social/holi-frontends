@@ -14,7 +14,7 @@ import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
 import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
-import '@holi/web/styles/globals.scss'
+import '@holi/web/styles/globals.css'
 import { NextJSPageProps } from '@holi/web/types'
 
 export interface AppPropsWithLayout extends AppProps {

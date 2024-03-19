@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface CollaboratorAreaCardProps {
   headerLeftIcon?: HoliIconType
@@ -34,6 +34,10 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   testID = 'collaboration-area-card',
 }: CollaboratorAreaCardProps) => {
   const size = isCollaborator ? 'default' : 'large'
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const Header = () => {
     return (
       <View style={isCollaborator ? styles.headerContainer : styles.collaboratorHeaderContainer}>
@@ -83,39 +87,40 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
 
 export default CollaboratorAreaCard
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background10,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  headerContainer: {
-    padding: 16,
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  collaboratorHeaderContainer: {
-    paddingLeft: 8,
-    paddingTop: 16,
-    paddingBottom: 8,
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerTitleContainer: {
-    flex: 4,
-    justifyContent: 'center',
-  },
-  headerTitle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerRightButton: {
-    alignSelf: 'flex-end',
-  },
-  contentContainer: {
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background10,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    headerContainer: {
+      padding: 16,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    collaboratorHeaderContainer: {
+      paddingLeft: 8,
+      paddingTop: 16,
+      paddingBottom: 8,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    headerTitleContainer: {
+      flex: 4,
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    headerRightButton: {
+      alignSelf: 'flex-end',
+    },
+    contentContainer: {
+      flex: 1,
+    },
+  })

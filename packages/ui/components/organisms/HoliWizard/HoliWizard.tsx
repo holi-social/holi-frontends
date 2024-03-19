@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react'
+import React, { Children, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -6,7 +6,7 @@ import FormWrapper from '@holi/core/components/FormWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliProgressBar, useProgressBarAnimation } from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HoliWizardProps {
@@ -21,6 +21,9 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const [currentStep, setCurrentStep] = useState(0)
     const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
     const mixins = useStyleMixins()
+    const { theme } = useTheme()
+    const { colors } = theme
+    const styles = useMemo(() => getStyles(theme), [theme])
 
     const arrayChildren = Children.toArray(children)
     const stepCount = arrayChildren.length
@@ -92,30 +95,31 @@ HoliWizard.displayName = 'HoliWizard'
 
 export default HoliWizard
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
-  scrollView: {
-    width: '100%',
-  },
-  stepCountContainer: {
-    alignSelf: 'flex-start',
-    marginTop: 12,
-  },
-  progressBarContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    paddingTop: 42,
-  },
-  bottomBar: {
-    backgroundColor: colors.background10,
-    ...Platform.select({
-      web: {
-        borderTopColor: 'transparent',
-        position: 'fixed',
-        alignSelf: 'center',
-      },
-    }),
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'center',
+    },
+    scrollView: {
+      width: '100%',
+    },
+    stepCountContainer: {
+      alignSelf: 'flex-start',
+      marginTop: 12,
+    },
+    progressBarContainer: {
+      width: '100%',
+      justifyContent: 'center',
+      paddingTop: 42,
+    },
+    bottomBar: {
+      backgroundColor: theme.colors.background10,
+      ...Platform.select({
+        web: {
+          borderTopColor: 'transparent',
+          position: 'fixed',
+          alignSelf: 'center',
+        },
+      }),
+    },
+  })

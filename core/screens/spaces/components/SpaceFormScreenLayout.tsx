@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -11,7 +11,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { useKeyboard } from '@holi/ui/helper'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceFormScreenLayoutProps {
@@ -40,6 +41,8 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')
   const { isKeyboardOpen } = useKeyboard()
   const hideFooter = Platform.OS === 'android' && isKeyboardOpen
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <SpaceTermContextProvider>
@@ -110,46 +113,47 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
 
 export default SpaceFormScreenLayout
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    backgroundColor: colors.background20,
-    paddingTop: 16,
-  },
-  contentStyle: {
-    paddingBottom: 0,
-  },
-  container: {
-    flex: 1,
-    paddingBottom: 132,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  description: {
-    marginBottom: 32,
-    marginTop: 16,
-    color: colors.foreground20,
-  },
-  footerContainer: {
-    width: '100%',
-    position: 'absolute',
-    bottom: 0,
-  },
-  footer: {
-    bottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 10,
-    ...Platform.select({
-      web: {
-        alignSelf: 'center',
-        position: 'fixed',
-      },
-    }),
-  },
-  footerButton: {
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    defaultLayout: {
+      backgroundColor: theme.colors.background20,
+      paddingTop: 16,
+    },
+    contentStyle: {
+      paddingBottom: 0,
+    },
+    container: {
+      flex: 1,
+      paddingBottom: 132,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+        },
+      }),
+    },
+    description: {
+      marginBottom: 32,
+      marginTop: 16,
+      color: theme.colors.foreground20,
+    },
+    footerContainer: {
+      width: '100%',
+      position: 'absolute',
+      bottom: 0,
+    },
+    footer: {
+      bottom: 40,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 10,
+      ...Platform.select({
+        web: {
+          alignSelf: 'center',
+          position: 'fixed',
+        },
+      }),
+    },
+    footerButton: {
+      flex: 1,
+    },
+  })

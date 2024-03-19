@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
 import { Dimensions, StyleSheet, View } from 'react-native'
@@ -6,7 +6,8 @@ import { Dimensions, StyleSheet, View } from 'react-native'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type OnboardingCard = {
   image: StaticImageData
@@ -22,11 +23,11 @@ type OnboardCardProps = {
 
 const SpaceOnboardCard = ({ content, imgWidth, imgHeight }: OnboardCardProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const screenWidth = Dimensions.get('window').width
-
   const adjustedImgWidth = screenWidth < dimensions.breakpointXs ? imgWidth * 0.6 : imgWidth
-
   const adjustedImgHeight = screenWidth <= dimensions.breakpointXs ? imgHeight * 0.6 : imgHeight
 
   return (
@@ -53,27 +54,28 @@ const SpaceOnboardCard = ({ content, imgWidth, imgHeight }: OnboardCardProps) =>
 
 export default SpaceOnboardCard
 
-const styles = StyleSheet.create({
-  illustration: {
-    marginBottom: 8,
-  },
-  onboardCardContainer: {
-    padding: 24,
-    paddingBottom: 8,
-    borderWidth: 1,
-    borderRadius: 16,
-    borderColor: colors.foreground30,
-    alignItems: 'center',
-    alignContent: 'center',
-    backgroundColor: colors.background20,
-    height: '100%',
-    flex: 1,
-  },
-  onboardingDescription: {
-    marginTop: 24,
-    textAlign: 'center',
-  },
-  onboardingInstruction: {
-    marginTop: 12,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    illustration: {
+      marginBottom: 8,
+    },
+    onboardCardContainer: {
+      padding: 24,
+      paddingBottom: 8,
+      borderWidth: 1,
+      borderRadius: 16,
+      borderColor: theme.colors.foreground30,
+      alignItems: 'center',
+      alignContent: 'center',
+      backgroundColor: theme.colors.background20,
+      height: '100%',
+      flex: 1,
+    },
+    onboardingDescription: {
+      marginTop: 24,
+      textAlign: 'center',
+    },
+    onboardingInstruction: {
+      marginTop: 12,
+    },
+  })

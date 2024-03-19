@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import type { LayoutChangeEvent, ScrollView, StyleProp, ViewStyle } from 'react-native'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -9,7 +9,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHorizontalScrollContainer from '@holi/ui/components/atoms/HoliHorizontalScrollContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface Tab {
   id?: string | number // ID is optional, if it is not passed tab's `index` in array will be used
@@ -39,6 +39,10 @@ const HoliTabBar: React.FC<TabListProps> = ({
   tabBarStyle,
   onPress,
 }) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { width: screenWidth } = useClientWindowDimensions()
   const scrollViewRef = useRef<ScrollView | null>(null)
   // tab button width can be maximum 66% of the screen width
@@ -113,39 +117,40 @@ const HoliTabBar: React.FC<TabListProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  botomLineSeperator: {
-    width: '100%',
-    borderBottomColor: colors.background30,
-    borderBottomWidth: 2,
-    position: 'absolute',
-    bottom: 0,
-  },
-  tabButtonsContainer: {
-    flexDirection: 'row',
-  },
-  tabButton: {
-    paddingVertical: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 'auto',
-    borderBottomWidth: 2,
-    borderBottomColor: 'transparent',
-  },
-  tabButtonIcon: {
-    marginRight: 8,
-  },
-  tabButtonText: {
-    fontSize: 16,
-    color: colors.foreground20,
-  },
-  activeTabButton: {
-    borderBottomColor: colors.foreground30,
-  },
-  activeTabButtonText: {
-    color: colors.foreground30,
-    fontWeight: '500',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    botomLineSeperator: {
+      width: '100%',
+      borderBottomColor: theme.colors.background30,
+      borderBottomWidth: 2,
+      position: 'absolute',
+      bottom: 0,
+    },
+    tabButtonsContainer: {
+      flexDirection: 'row',
+    },
+    tabButton: {
+      paddingVertical: 12,
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 'auto',
+      borderBottomWidth: 2,
+      borderBottomColor: 'transparent',
+    },
+    tabButtonIcon: {
+      marginRight: 8,
+    },
+    tabButtonText: {
+      fontSize: 16,
+      color: theme.colors.foreground20,
+    },
+    activeTabButton: {
+      borderBottomColor: theme.colors.foreground30,
+    },
+    activeTabButtonText: {
+      color: theme.colors.foreground30,
+      fontWeight: '500',
+    },
+  })
 
 export default HoliTabBar

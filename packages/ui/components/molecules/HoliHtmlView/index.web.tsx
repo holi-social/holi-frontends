@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
 
-import './styles.scss'
+import './styles.css'
 
 export type HoliHtmlViewProps = {
   html: string

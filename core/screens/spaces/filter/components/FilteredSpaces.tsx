@@ -19,7 +19,7 @@ import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface FilteredSpacesProps extends SpaceFilter {
   applyFilters: (filters: SpaceFilter) => void
@@ -31,6 +31,8 @@ const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: Fil
   const { displayError } = useErrorHandling()
   const client = useApolloClient()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme).styles, [theme])
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
@@ -108,17 +110,18 @@ const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: Fil
   )
 }
 
-const { styles } = StyleSheet.create({
-  container: {
-    display: 'flex',
-    backgroundColor: colors.background20,
-  },
-  buttonContainer: {
-    marginTop: 20,
-  },
-  loadingGrid: {
-    marginTop: 32,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      display: 'flex',
+      backgroundColor: theme.colors.background20,
+    },
+    buttonContainer: {
+      marginTop: 20,
+    },
+    loadingGrid: {
+      marginTop: 32,
+    },
+  })
 
 export default withProfiler(memo(FilteredSpaces), { name: 'FilteredSpaces' })

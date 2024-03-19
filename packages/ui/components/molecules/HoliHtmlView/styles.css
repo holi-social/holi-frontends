@@ -1,4 +1,4 @@
-@import '@holi/ui/styles/globalVars/colors';
+@import url('@holi/ui/styles/globalVars/styles.css');
 
 .html-view {
   h1 {
@@ -17,9 +17,10 @@
     margin-top: 20px;
   }
   a {
-    color: $brandColorB30;
+    color: var(--brandColorB30);
   }
-  ol, ul {
+  ol,
+  ul {
     padding: 0 0 0 2em;
   }
   ol > li {
