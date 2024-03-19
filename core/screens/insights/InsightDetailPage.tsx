@@ -389,11 +389,19 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-      paddingHorizontal: Spacing.xs,
+      ...Platform.select({
+        native: {
+          paddingHorizontal: Spacing.xs,
+        },
+      }),
     },
     posts: {
       marginBottom: 36,
-      paddingHorizontal: Spacing.xs,
+      ...Platform.select({
+        native: {
+          paddingHorizontal: Spacing.xs,
+        },
+      }),
     },
   })
 
