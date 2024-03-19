@@ -302,7 +302,7 @@
   "insights.posts.image.modal": "Fullscreen image for post {{title}}",
   "insights.posts.image.show": "Show fullscreen image for post {{title}}",
   "insights.quotes.detail.subtitle": "Why I recommend this content",
-  "insights.quotes.detail.visitLinkButton.label": "Learn more",
+  "global.visitLinkButton.label": "Learn more",
   "insights.quotes.share.message": "Looking for inspiring stories? Check out this Insight post in the holi app!",
   "insights.quotes.title": "Experiences and Perspectives",
   "insights.reactions.comment.like": "Thank {{name}} for sharing the comment",

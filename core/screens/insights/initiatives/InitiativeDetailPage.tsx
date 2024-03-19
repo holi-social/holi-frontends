@@ -93,9 +93,13 @@ const InitiativeDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
-      headerTransparent: false,
+      headerShown: true,
+      headerTransparent: true,
+      headerStyle: {
+        backgroundColor: theme.colors.background10,
+      },
     })
-  }, [t, setScreenOptions, shareLink, theme.colors.black300])
+  }, [t, setScreenOptions, shareLink, theme.colors.black300, theme.colors.background10])
 
   return (
     <>
@@ -106,7 +110,6 @@ const InitiativeDetailPage = () => {
         }}
         style={styles.layout}
         contentStyle={[mixins.container, styles.container]}
-        headerOverlap
       >
         {initiative && !loading ? (
           <>
@@ -132,7 +135,7 @@ const InitiativeDetailPage = () => {
           <HoliButtonLoading
             style={styles.linkButton}
             role="link"
-            label={t('insights.initiatives.open_link')}
+            label={t('global.visitLinkButton.label')}
             icon={ShareBox}
             onPress={() => Linking.openURL(initiative?.link || '')}
           />
@@ -162,6 +165,7 @@ const Skeleton = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
+      paddingTop: 42,
       minHeight: '100%',
       backgroundColor: theme.colors.background20,
       ...Platform.select({
