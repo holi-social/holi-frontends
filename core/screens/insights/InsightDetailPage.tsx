@@ -81,9 +81,10 @@ const InsightDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
-      headerTintColor: colors.light,
       title: '',
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerStyle: { backgroundColor: 'transparent' },
       navigationCustomOptions: {
         headerBackgroundGradient: true,
       },
@@ -98,8 +99,24 @@ const InsightDetailPage = () => {
           )
         )
       },
+      headerTitle: () => null,
+      ...(Platform.OS === 'web'
+        ? {
+            headerLeft: () => (
+              <HoliButton label="" onPress={() => replaceRoute('/')} transparent inline>
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
+                  isSvg
+                  width={78}
+                  height={24}
+                  label={t('navigation.title')}
+                />
+              </HoliButton>
+            ),
+          }
+        : {}),
     })
-  }, [insight, setScreenOptions, colors.light])
+  }, [insight, setScreenOptions, colors.light, replaceRoute, t])
 
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
