@@ -318,7 +318,7 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       padding: 16,
       borderWidth: 1,
-      borderColor: theme.colors.foreground10,
+      borderColor: theme.colors.defaultBorder,
       borderRadius: 12,
       backgroundColor: theme.colors.background10,
     },

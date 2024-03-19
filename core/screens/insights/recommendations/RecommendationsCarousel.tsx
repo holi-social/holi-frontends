@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import { Platform } from 'react-native'
 
 import RecommendationCard from '@holi/core/screens/insights/recommendations/RecommendationCard'
 import { Recommendation } from '@holi/core/screens/insights/types'
@@ -15,7 +14,7 @@ const RecommendationsCarousel = ({ recommendations, insightId }: Recommendations
   return (
     <HoliCarousel
       hideDotIndicators
-      marginHorizontal={Platform.OS !== 'web' ? Spacing.xs : undefined}
+      marginHorizontal={Spacing.xs}
       slides={recommendations.map((recommendation) => ({
         children: <RecommendationCard insightId={insightId} recommendation={recommendation} />,
       }))}
