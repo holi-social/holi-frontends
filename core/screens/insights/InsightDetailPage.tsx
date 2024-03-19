@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
+import { Dimensions, ImageStyle, Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -58,8 +58,10 @@ const InsightDetailPage = () => {
   const { replaceRoute } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const { theme } = useTheme()
+  const windowWidth = Dimensions.get('window').width
   const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, windowWidth), [theme, windowWidth])
+  const carouselMarginHorizontal = windowWidth < dimensions.breakpointL ? Spacing.xs : 0
 
   const {
     data: { insightById: insight } = {},
@@ -210,7 +212,11 @@ const InsightDetailPage = () => {
                   label: recommendationsTitle,
                 }}
               >
-                <RecommendationsCarousel insightId={insight.id} recommendations={recommendations} />
+                <RecommendationsCarousel
+                  insightId={insight.id}
+                  recommendations={recommendations}
+                  marginHorizontal={carouselMarginHorizontal}
+                />
               </InsightCarouselSection>
             )}
 
@@ -222,7 +228,7 @@ const InsightDetailPage = () => {
                   label: 'Quote',
                 }}
               >
-                <QuotesCarousel insightId={insight.id} quotes={quotes} />
+                <QuotesCarousel insightId={insight.id} quotes={quotes} marginHorizontal={carouselMarginHorizontal} />
               </InsightCarouselSection>
             )}
 
@@ -264,7 +270,7 @@ const InsightCarouselSection: React.FC<{
   children: React.ReactNode
 }> = ({ heading, headingIcon, children }) => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, Dimensions.get('window').width), [theme])
 
   return (
     <View style={styles.section}>
@@ -288,7 +294,7 @@ const InsightCarouselSection: React.FC<{
 
 const Skeleton = () => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, Dimensions.get('window').width), [theme])
   return (
     <>
       <View style={[styles.bannerImage, styles.section]}>
@@ -318,7 +324,7 @@ const Skeleton = () => {
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, windowWidth: number) =>
   StyleSheet.create({
     section: {
       alignSelf: 'center',
@@ -389,19 +395,11 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-      ...Platform.select({
-        native: {
-          paddingHorizontal: Spacing.xs,
-        },
-      }),
+      ...(windowWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
     },
     posts: {
       marginBottom: 36,
-      ...Platform.select({
-        native: {
-          paddingHorizontal: Spacing.xs,
-        },
-      }),
+      ...(windowWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
     },
   })
 
