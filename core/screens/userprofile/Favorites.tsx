@@ -46,6 +46,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: 0,
     },
     defaultLayout: {
+      marginTop: Platform.OS === 'web' ? 10 : 56,
       minHeight: Platform.OS === 'web' ? '100vh' : '100%',
       backgroundColor: theme.colors.background20,
       paddingTop: dimensions.topBarHeight,
