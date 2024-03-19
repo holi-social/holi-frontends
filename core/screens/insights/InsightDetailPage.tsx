@@ -100,7 +100,6 @@ const InsightDetailPage = () => {
           )
         )
       },
-      headerTitle: () => null,
       ...(Platform.OS === 'web'
         ? {
             headerLeft: () => (
