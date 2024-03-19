@@ -103,11 +103,7 @@ export default {
           data: [
             {
               scheme: 'https',
-              host: 'app.holi.social',
-            },
-            {
-              scheme: 'https',
-              host: 'staging.dev.holi.social',
+              host: '*.holi.social',
             },
           ],
           category: ['BROWSABLE', 'DEFAULT'],
