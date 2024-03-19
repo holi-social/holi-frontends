@@ -3,7 +3,6 @@ import React, { memo } from 'react'
 import RecommendationCard from '@holi/core/screens/insights/recommendations/RecommendationCard'
 import { Recommendation } from '@holi/core/screens/insights/types'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import Spacing from '@holi/ui/foundations/Spacing'
 
 export interface RecommendationsCarouselProps {
   insightId: string
@@ -14,7 +13,7 @@ const RecommendationsCarousel = ({ recommendations, insightId }: Recommendations
   return (
     <HoliCarousel
       hideDotIndicators
-      marginHorizontal={Spacing.xs}
+      marginHorizontal={20}
       slides={recommendations.map((recommendation) => ({
         children: <RecommendationCard insightId={insightId} recommendation={recommendation} />,
       }))}

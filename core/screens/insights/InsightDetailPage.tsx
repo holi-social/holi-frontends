@@ -243,7 +243,7 @@ const InsightDetailPage = () => {
         )}
 
         {posts.length > 0 && (
-          <View style={[styles.section, styles.posts]}>
+          <View style={styles.section}>
             <HoliGridWrapper>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
@@ -389,11 +389,7 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-      paddingHorizontal: Spacing.xs,
-    },
-    posts: {
-      marginBottom: 36,
-      paddingHorizontal: Spacing.xs,
+      paddingHorizontal: Spacing.md,
     },
   })
 
