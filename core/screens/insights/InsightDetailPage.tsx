@@ -16,10 +16,11 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
 import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
-import { Quote, Recommendation } from '@holi/core/screens/insights/types'
+import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -121,6 +122,7 @@ const InsightDetailPage = () => {
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
+  const initiatives: Initiative[] = insight?.initiatives || []
 
   const creator = insight?.creator
   const recommendationsTitle =
@@ -130,6 +132,8 @@ const InsightDetailPage = () => {
           number: recommendations.length,
         })
       : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
+
+  const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
 
   return (
     <>
@@ -236,6 +240,18 @@ const InsightDetailPage = () => {
                 }}
               >
                 <QuotesCarousel insightId={insight.id} quotes={quotes} />
+              </InsightCarouselSection>
+            )}
+
+            {initiatives.length > 0 && (
+              <InsightCarouselSection
+                heading={initiativesTitle}
+                headingIcon={{
+                  asset: require('@holi/ui/assets/img/illustrations/illustration_insight_initiatives.svg'),
+                  label: initiativesTitle,
+                }}
+              >
+                <InitiativesCarousel insightId={insight.id} initiatives={initiatives} />
               </InsightCarouselSection>
             )}
           </>

@@ -90,7 +90,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
 }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
-  const smallDeviceWidth = parseInt(dimensions.breakpointXs, 10) + 50
+  const smallDeviceWidth = dimensions.breakpointXs + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
   const { theme } = useTheme()
   const styles = useMemo(

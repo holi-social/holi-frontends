@@ -150,7 +150,7 @@ const QuoteDetailPage = () => {
         {quote && !loading && (
           <HoliButtonLoading
             icon={ShareBox}
-            label={t('insights.quotes.detail.visitLinkButton.label')}
+            label={t('global.visitLinkButton.label')}
             onPress={() => Linking.openURL(quote.link)}
           />
         )}

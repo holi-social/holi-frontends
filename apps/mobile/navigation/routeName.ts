@@ -8,6 +8,7 @@ export enum RouteName {
   PostDetailPage = 'PostDetailPage',
   PostCommentInputPage = 'PostCommentInputPage',
   RecommendationDetailPage = 'RecommendationDetailPage',
+  InitiativeDetailPage = 'InitiativeDetailPage',
   UserProfile = 'UserProfile',
   InsightQuoteDetailPage = 'InsightQuoteDetailPage',
 
