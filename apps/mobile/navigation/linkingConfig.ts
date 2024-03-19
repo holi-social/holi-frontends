@@ -60,6 +60,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
         [RouteName.InsightQuoteDetailPage]: 'insights/:insightId/quotes/:quoteId',
         [RouteName.RecommendationDetailPage]: 'insights/:insightId/recommendations/:recommendationId',
+        [RouteName.InitiativeDetailPage]: 'insights/:insightId/initiatives/:initiativeId',
       },
     },
 

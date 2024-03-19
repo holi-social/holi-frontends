@@ -55,6 +55,7 @@ const InsightWithPostsFragment = gql`
   ${PostFragment}
   ${RecommendationFragment}
   ${QuotesFragment}
+  ${InitiativeFragment}
 
   fragment InsightWithPosts on Insight {
     id
@@ -81,6 +82,9 @@ const InsightWithPostsFragment = gql`
     }
     quotes {
       ...QuotesFragment
+    }
+    initiatives {
+      ...InitiativeFragment
     }
   }
 `
