@@ -3,20 +3,20 @@ import React, { memo } from 'react'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
 import { Quote } from '@holi/core/screens/insights/types'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 export interface QuotesCarouselProps {
   insightId: string
-  marginHorizontal: number
   quotes: Quote[]
 }
 
 export const quoteIconColors = ['#FCFE8C', '#BEFC94', '#A3DAFC', '#FFC046']
 
-const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes, marginHorizontal }) => {
+const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes }) => {
   return (
     <HoliCarousel
       hideDotIndicators
-      marginHorizontal={marginHorizontal}
+      marginHorizontal={Spacing.xs}
       slides={quotes.map((quote, index) => ({
         children: (
           <QuoteCard.QuoteAndSource
