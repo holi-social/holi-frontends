@@ -1,4 +1,4 @@
-import { BrowserContext, Page, expect } from '@playwright/test'
+import { Browser, BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -8,22 +8,33 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   volunteeringRequestTimeout,
+  withSSR,
 } from './helpers'
 import { test } from './testmaster'
 
 test.setTimeout(120000)
 
 test.describe('@Volunteering', () => {
-  test('user journey', async ({ browserName, context, page }) => {
+  test('user journey', async ({ browser, browserName, context, page }) => {
     test.skip(browserName === 'firefox', 'Waiting for fix to HOLI-3640')
     //prepare
     await proceedAsGuest(page)
 
     await testIsAccessibleFromHomeScreen(page)
+
     await testAllowsPagination(page)
+    await withSSR(browser, page.url(), testDisplaysList)
+
+    // click first element in list
+    await clickElementByTestId(page, 'btn-to-volunteering-engagement')
     await testDisplaysEngagementDetails(context, page)
+    await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
+    // navigate back
+    await clickElementByTestId(page, 'nav-button-back')
+    await page.waitForSelector(byTestId('volunteering-list-container'))
+
     await testFilteringByLocation(page)
-    await testDisplaysFilterResults(page)
+    await testDisplaysFilterResults(browser, page)
   })
 })
 
@@ -51,9 +62,13 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'volunteering-updates-load-more-button')
 }
 
-const testAllowsPagination = async (page: Page) => {
+const testDisplaysList = async (page: Page) => {
   await page.waitForSelector(byTestId('volunteering-list-container'))
   await page.waitForSelector(byTestId('btn-to-volunteering-engagement'))
+}
+
+const testAllowsPagination = async (page: Page) => {
+  await testDisplaysList(page)
   const countListItems = async () => {
     const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
     return await listItems.count()
@@ -67,11 +82,16 @@ const testAllowsPagination = async (page: Page) => {
   await checkAccessibility(page)
 }
 
-const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page) => {
-  // click first element in list
-  await clickElementByTestId(page, 'btn-to-volunteering-engagement')
-
+const testDisplaysEngagementDetailsCommon = async (page: Page) => {
   await page.waitForSelector(byTestId('volunteering-detailview-container'))
+
+  await page.waitForSelector(byTestId('volunteering-engagement-title'))
+  await page.waitForSelector(byTestId('volunteering-engagement-description'))
+  await page.waitForSelector(byTestId('volunteering-engagement-categories'))
+}
+
+const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page) => {
+  await testDisplaysEngagementDetailsCommon(page)
 
   await checkAccessibility(page)
 
@@ -84,10 +104,10 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
     clickElementByTestId(page, 'volunteering-engagement-get-in-touch-btn'), // opens a new tab
   ])
   await engagementPage.close() // close newly opened tab
+}
 
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('volunteering-list-container'))
+const testDisplaysFilterResultsCommon = async (page: Page) => {
+  await page.waitForSelector(byTestId('volunteering-list-filtered'))
 }
 
 const testFilteringByLocation = async (page: Page) => {
@@ -105,10 +125,10 @@ const testFilteringByLocation = async (page: Page) => {
   await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
 
   // check if the filtered volunteering container is shown
-  await page.waitForSelector(byTestId('volunteering-list-filtered'))
+  await testDisplaysFilterResultsCommon(page)
 }
 
-const testDisplaysFilterResults = async (page: Page) => {
+const testDisplaysFilterResults = async (browser: Browser, page: Page) => {
   // navigate to detail view
   await clickElementByTestId(page, 'btn-to-volunteering-engagement')
 
@@ -118,7 +138,8 @@ const testDisplaysFilterResults = async (page: Page) => {
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
   // expect filtered list
-  await page.waitForSelector(byTestId('volunteering-list-filtered'))
+  await testDisplaysFilterResultsCommon(page)
+  await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
 
   await clickElementByTestId(page, 'btn-to-volunteering-filter-modal')
 
