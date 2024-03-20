@@ -55,7 +55,7 @@ const InsightReactions: React.VFC<InsightReactionsProps> = ({ item, itemType, st
     }
     updateItemReaction({
       variables: {
-        id: item.id,
+        [`${itemType.toLowerCase()}Id`]: item.id,
         reactionType: ReactionType.HEART,
         reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
       },

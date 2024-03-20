@@ -167,7 +167,7 @@ const getStyles = (theme: HoliTheme) =>
 
     reaction: {
       position: 'absolute',
-      bottom: 0,
-      right: 0,
+      bottom: 2,
+      right: 8,
     },
   })
