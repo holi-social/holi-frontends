@@ -97,6 +97,7 @@ const InsightWithPostsFragment = gql`
     }
     initiatives {
       ...InitiativeFragment
+    }
   }
 `
 
