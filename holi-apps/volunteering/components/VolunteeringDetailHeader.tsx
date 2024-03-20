@@ -27,10 +27,10 @@ const VolunteeringDetailHeader: React.FC<VolunteeringDetailHeaderProps> = ({
     <View style={styles.container}>
       <HoliImage source={uri ? { uri, width: imageWidth } : []} label={engagement.title} style={styles.image} />
       <View style={styles.detailContainer}>
-        <HoliText size={'small'} style={styles.categoryText}>
+        <HoliText size={'small'} style={styles.categoryText} testID="volunteering-engagement-categories">
           {engagement.categories[0]}
         </HoliText>
-        <HoliHeading level="1" size="l">
+        <HoliHeading level="1" size="l" testID="volunteering-engagement-title">
           {engagement.title}
         </HoliHeading>
         {!!engagement.location && (

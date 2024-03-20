@@ -1,4 +1,4 @@
-import { BrowserContext, Page, expect } from '@playwright/test'
+import { Browser, BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -8,6 +8,7 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   waitForAnimationEnd,
+  withSSR,
 } from './helpers'
 import { inputSpaceNameAndGoal } from './helpers/spaces'
 import { UserHandler, test } from './testmaster'
@@ -15,7 +16,7 @@ import { UserHandler, test } from './testmaster'
 test.setTimeout(240000)
 
 test.describe('@Spaces', () => {
-  test('user journey', async ({ browserName, context, page, userHandler }) => {
+  test('user journey', async ({ browser, browserName, context, page, userHandler }) => {
     test.skip(
       browserName === 'webkit',
       'webkit fails regularly due to timing, race conditions, in a flaky way. Due to time constraints, we disabled the suite.'
@@ -26,9 +27,17 @@ test.describe('@Spaces', () => {
     await proceedAsGuest(page)
 
     await testAccessibleFromHomeScreen(page)
+
     await testDisplaysMultipleGroups(page)
-    await testFiltering(page)
+    await withSSR(browser, page.url(), testDisplaysMultipleGroupsCommon)
+
+    await testFiltering(browser, page)
+
+    // click first element on page
+    await clickElementByTestId(page, 'space-link')
     await testDisplaysSpaceDetails(page)
+    await withSSR(browser, page.url(), testDisplaysSpaceDetailsCommon)
+
     await testShareSpace(browserName, page)
     await testCreatingEditingDeletingASpace(context, page, userHandler)
   })
@@ -42,6 +51,12 @@ const testAccessibleFromHomeScreen = async (page: Page) => {
 }
 
 const testDisplaysMultipleGroups = async (page: Page) => {
+  await testDisplaysMultipleGroupsCommon(page)
+
+  await checkAccessibility(page)
+}
+
+const testDisplaysMultipleGroupsCommon = async (page: Page) => {
   const countGroups = async () => await (await locateElementByTestId(page, 'spaces-group-slider')).count()
   const countSpaces = async () => await (await locateElementByTestId(page, 'space-link')).count()
 
@@ -49,11 +64,9 @@ const testDisplaysMultipleGroups = async (page: Page) => {
 
   await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(0)
   await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(0)
-
-  await checkAccessibility(page)
 }
 
-const testFiltering = async (page: Page) => {
+const testFiltering = async (browser: Browser, page: Page) => {
   await clickElementByTestId(page, 'btn-filter-spaces')
   // wait until modal is opened
   await page.locator('[role="dialog"]').waitFor()
@@ -68,8 +81,9 @@ const testFiltering = async (page: Page) => {
   // click filter confirmation button
   await clickElementByTestId(page, 'holi-modal-content-close-btn')
 
-  // check if the filtered spaces container is shown
-  await page.waitForSelector(byTestId('filtered-spaces-container'))
+  await testDisplaysFilterResults(page)
+
+  await withSSR(browser, page.url(), testDisplaysFilterResults)
 
   // reset filter:
   // open filter modal again
@@ -85,19 +99,13 @@ const testFiltering = async (page: Page) => {
   await page.waitForSelector(byTestId('spaces-container'))
 }
 
+const testDisplaysFilterResults = async (page: Page) => {
+  // check if the filtered spaces container is shown
+  await page.waitForSelector(byTestId('filtered-spaces-container'))
+}
+
 const testDisplaysSpaceDetails = async (page: Page) => {
-  // click first element on page
-  await clickElementByTestId(page, 'space-link')
-
-  await page.waitForSelector(byTestId('space-details-container'))
-
-  await page.waitForSelector(byTestId('space-header'))
-
-  await page.waitForSelector(byTestId('space-avatar'))
-
-  await page.waitForSelector(byTestId('space-title'))
-
-  await page.waitForSelector(byTestId('space-description'))
+  await testDisplaysSpaceDetailsCommon(page)
 
   await clickElementByTestId(page, 'btn-to-open-space-collaborators-modal')
   // wait until modal is opened
@@ -114,6 +122,18 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 
   const spaceUrlPrefix = '/spaces/'
   expect(page.url()).toContain(spaceUrlPrefix)
+}
+
+const testDisplaysSpaceDetailsCommon = async (page: Page) => {
+  await page.waitForSelector(byTestId('space-details-container'))
+
+  await page.waitForSelector(byTestId('space-header'))
+
+  await page.waitForSelector(byTestId('space-avatar'))
+
+  await page.waitForSelector(byTestId('space-title'))
+
+  await page.waitForSelector(byTestId('space-description'))
 }
 
 const testShareSpace = async (browserName: string, page: Page) => {

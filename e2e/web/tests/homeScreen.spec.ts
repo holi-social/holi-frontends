@@ -1,4 +1,4 @@
-import { BrowserContext, Page, expect } from '@playwright/test'
+import { Browser, BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -8,21 +8,26 @@ import {
   loginAsE2EUser,
   proceedAsGuest,
   volunteeringRequestTimeout,
+  withSSR,
 } from './helpers'
 import { test } from './testmaster'
 
 test.setTimeout(120000)
 
 test.describe('@HomeScreen', () => {
-  test('user journey', async ({ context, page, browserName }) => {
+  test('user journey', async ({ browser, context, page, browserName }) => {
     // prepare
     await proceedAsGuest(page)
 
-    await testInsightsSection(page)
+    await withSSR(browser, page.url(), testDisplaysHomeScreenContent)
+
+    await testInsightsSection(browser, page)
+
+    await testInsightsEditors(page)
 
     await testShowInsightsScreen(page)
 
-    await testInsightsEditors(page)
+    await testPostScreen(browser, page)
 
     await testAppUpdatesVisible(page, 'donations', donationsRequestTimeout)
 
@@ -35,6 +40,20 @@ test.describe('@HomeScreen', () => {
     await testUserSuggestions(page, context)
   })
 })
+
+const testDisplaysHomeScreenContent = async (page: Page) => {
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('home-feed-inspiration-posts-heading'))
+  await page.waitForSelector(byTestId('btn-navigate-to-insights'))
+  await page.waitForSelector(byTestId('donations-app-updates-list'))
+  await page.waitForSelector(byTestId('goodnews-app-updates-list'))
+  await page.waitForSelector(byTestId('volunteering-app-updates-list'))
+}
+
+const testDisplaysInsightDetails = async (page: Page) => {
+  await page.waitForSelector(byTestId('insight-headline'))
+  await page.waitForSelector(byTestId('insight-description'))
+}
 
 const testShowInsightsScreen = async (page: Page) => {
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
@@ -52,14 +71,20 @@ const testAppUpdatesVisible = async (page: Page, app: string, timeout: number) =
   await page.waitForSelector(byTestId(`${app}-updates-item`), { timeout: timeout })
 }
 
-const testInsightsSection = async (page: Page) => {
+const testInsightsSection = async (browser: Browser, page: Page) => {
   // has feed insight headline
   await page.waitForSelector(byTestId('home-feed-insights-heading'))
 
   // has feed insight items and clicking them leads to insight detail page
   await clickElementByTestId(page, 'feed-insight-image-link')
   await page.waitForURL('**/insights/**')
-  await page.goto('/')
+
+  await testDisplaysInsightDetails(page)
+  await withSSR(browser, page.url(), testDisplaysInsightDetails)
+
+  // navigate back
+  await page.locator(byTestId('btn-to-home-view')).click()
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }
 const testInsightsEditors = async (page: Page) => {
   // opens editors list upon clicking in avatar pile and shows insight editor cards
@@ -78,4 +103,21 @@ const testUserSuggestions = async (page: Page, context: BrowserContext) => {
   await page.locator(byTestId('btn-to-home-view')).click()
   await page.waitForSelector(byTestId('user-suggestions'))
   await expect(page.locator(byTestId('user-card-suggestion'))).toHaveCount(10)
+}
+
+const testDisplaysPostDetails = async (page: Page) => {
+  await page.waitForSelector(byTestId('post-detail-view'))
+  await page.waitForSelector(byTestId('post-content-container'))
+}
+
+const testPostScreen = async (browser: Browser, page: Page) => {
+  // click on first post
+  await clickElementByTestId(page, 'btn-to-post')
+
+  await testDisplaysPostDetails(page)
+  await withSSR(browser, page.url(), testDisplaysPostDetails)
+
+  // navigate back
+  await page.locator(byTestId('nav-button-back')).click()
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }
