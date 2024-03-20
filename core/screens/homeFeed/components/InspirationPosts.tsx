@@ -29,7 +29,9 @@ const InspirationPostsList = () => {
 
   return (
     <>
-      <HoliHeading size="l">{t('homeFeed.inspirationPosts.heading')}</HoliHeading>
+      <HoliHeading size="l" testID="home-feed-inspiration-posts-heading">
+        {t('homeFeed.inspirationPosts.heading')}
+      </HoliHeading>
       <HoliGap />
       <HoliGridWrapper>
         {loading

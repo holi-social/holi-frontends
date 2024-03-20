@@ -214,7 +214,7 @@ const InsightDetailPage = () => {
                 </>
               )}
 
-              <HoliRichTextOutput text={insight.description} allowAllLinks />
+              <HoliRichTextOutput testID="insight-description" text={insight.description} allowAllLinks />
             </View>
             <HoliGap size="s" />
 
