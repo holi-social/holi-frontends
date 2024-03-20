@@ -199,12 +199,13 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       <HoliWizard
         steps={[
           // Names step
-          <HoliContainer key="names">
-            <ScrollView
-              ref={namesScrollViewRef}
-              contentContainerStyle={styles.stepContainer}
-              testID="account-setup-names-step"
-            >
+          <ScrollView
+            ref={namesScrollViewRef}
+            contentContainerStyle={styles.stepContainer}
+            testID="account-setup-names-step"
+            key="names"
+          >
+            <HoliContainer flex={undefined}>
               <HoliGap size="l" />
               <NamesStep
                 names={names}
@@ -212,14 +213,15 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 scrollToInputWithId={scrollToNamesInputWithId}
                 fieldErrors={namesFieldErrors}
               />
-            </ScrollView>
-          </HoliContainer>,
+            </HoliContainer>
+          </ScrollView>,
           // Pre-Success step
-          <HoliContainer key="pre-success">
-            <ScrollView
-              contentContainerStyle={styles.stepContainerCentered}
-              testID="account-setup-pre-registration-success-step"
-            >
+          <ScrollView
+            contentContainerStyle={styles.stepContainerCentered}
+            testID="account-setup-pre-registration-success-step"
+            key="pre-success"
+          >
+            <HoliContainer flex={undefined}>
               <CenteredImageHeadlineDescriptionLayout
                 imageSource={require('@holi/ui/assets/img/illustrations/registration_pre_success.svg')}
                 imageLabelText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
@@ -227,15 +229,16 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 descriptionText={t('registration.accountSetup.firstSuccess.description')}
                 contentStyle={styles.stepContainer}
               />
-            </ScrollView>
-          </HoliContainer>,
+            </HoliContainer>
+          </ScrollView>,
           // Interests step
-          <HoliContainer key="interests">
-            <ScrollView
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={styles.stepContainer}
-              testID="account-setup-interests-step"
-            >
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.stepContainer}
+            testID="account-setup-interests-step"
+            key="interests"
+          >
+            <HoliContainer flex={undefined}>
               <HoliGap size="l" />
               <InterestsStep
                 filterString={filterString}
@@ -245,16 +248,17 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 loading={loadingUserInterests}
                 keyInUserObject={keyInUserObject}
               />
-            </ScrollView>
-          </HoliContainer>,
+            </HoliContainer>
+          </ScrollView>,
           // Location step
-          <HoliContainer key="location">
-            <ScrollView
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={styles.stepContainer}
-              testID="account-setup-location-step"
-              ref={locationScrollViewRef}
-            >
+          <ScrollView
+            key="location"
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.stepContainer}
+            testID="account-setup-location-step"
+            ref={locationScrollViewRef}
+          >
+            <HoliContainer flex={undefined}>
               <HoliGap size="l" />
               <LocationStep
                 selected={selectedLocation}
@@ -264,11 +268,15 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 validationErrorText={locationValidationErrorText}
                 scrollToInputWithId={scrollToLocationInputWithId}
               />
-            </ScrollView>
-          </HoliContainer>,
+            </HoliContainer>
+          </ScrollView>,
           // Success step
-          <HoliContainer key="success">
-            <ScrollView contentContainerStyle={styles.stepContainerCentered} testID="account-setup-success-step">
+          <ScrollView
+            contentContainerStyle={styles.stepContainerCentered}
+            testID="account-setup-success-step"
+            key="success"
+          >
+            <HoliContainer flex={undefined}>
               <CenteredImageHeadlineDescriptionLayout
                 imageSource={require('@holi/ui/assets/img/illustrations/registration_success.svg')}
                 imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
@@ -276,8 +284,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 descriptionText={t('registration.accountSetup.success.description')}
                 contentStyle={styles.stepContainer}
               />
-            </ScrollView>
-          </HoliContainer>,
+            </HoliContainer>
+          </ScrollView>,
         ]}
         stepOptions={ACCOUNT_SETUP_STEP_OPTIONS}
         getSubmitButtonLabel={getSubmitButtonLabel}
@@ -294,11 +302,9 @@ export default AccountSetup
 const styles = StyleSheet.create({
   stepContainer: {
     display: 'flex',
-    flex: 1,
     paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom + 48,
   },
   stepContainerCentered: {
     display: 'flex',
-    flex: 1,
   },
 })
