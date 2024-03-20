@@ -229,7 +229,7 @@ describe('useNotificationPreferences', () => {
     })
   })
 
-  it('should log error when intitial fetch fails', async () => {
+  it('should log error when initial fetch fails', async () => {
     const { result } = renderHook(() => useNotificationPreferences(), {
       wrapper: ({ children }) => <MockedProvider mocks={[preferencesRequestFailure]}>{children}</MockedProvider>,
     })

@@ -1,5 +1,4 @@
 .idea
-.husky
 .vscode
 node_modules
 apps/mobile/.expo

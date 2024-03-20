@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import InsightsPage from '@holi/core/screens/insights/InsightsPage'
+import InitiativeDetailPage from '@holi/core/screens/insights/initiatives/InitiativeDetailPage'
 import QuoteDetailPage, { QuoteDetailPageParams } from '@holi/core/screens/insights/quotes/QuoteDetailPage'
 import RecommendationDetailPage, {
   RecommendationDetailPageParams,
@@ -44,6 +45,7 @@ const InsightsNavigator = () => {
       <InsightsStack.Screen name={RouteName.InsightPostCommentInputPage} component={CommentInputPage} />
       <InsightsStack.Screen name={RouteName.PostCommentInputPage} component={CommentInputPage} />
       <InsightsStack.Screen name={RouteName.RecommendationDetailPage} component={RecommendationDetailPage} />
+      <InsightsStack.Screen name={RouteName.InitiativeDetailPage} component={InitiativeDetailPage} />
       <InsightsStack.Screen name={RouteName.InsightQuoteDetailPage} component={QuoteDetailPage} />
     </InsightsStack.Navigator>
   )

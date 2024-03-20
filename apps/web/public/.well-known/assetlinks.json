@@ -1,14 +1,12 @@
 [
-    {
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "{social.holi.app}",
-        "sha256_cert_fingerprints": [
-          // Supports multiple fingerprints for different apps and keys
-          "{05:42:A2:C1:B0:B2:B2:19:EC:4D:4B:B1:99:72:51:69:F1:1C:A4:96:E9:52:7D:C4:DE:3B:D7:E8:A2:5C:B1:F2}"
-        ]
-      }
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "social.holi.app",
+      "sha256_cert_fingerprints": [
+        "05:42:A2:C1:B0:B2:B2:19:EC:4D:4B:B1:99:72:51:69:F1:1C:A4:96:E9:52:7D:C4:DE:3B:D7:E8:A2:5C:B1:F2"
+      ]
     }
-  ]
-  
+  }
+]

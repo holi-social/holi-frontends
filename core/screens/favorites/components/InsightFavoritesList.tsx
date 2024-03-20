@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import InsightFavoriteCard from '@holi/core/screens/favorites/components/InsightFavoriteCard'
@@ -50,7 +50,6 @@ const InsightFavoritesList = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     noFavoritesContainer: {
-      marginTop: Platform.OS === 'web' ? 10 : 56,
       borderRadius: 16,
       borderWidth: 1,
       borderColor: theme.colors.background30,
