@@ -118,5 +118,6 @@ const getStyles = (theme: HoliTheme) =>
       position: 'absolute',
       bottom: 0,
       right: 0,
+      zIndex: 2,
     },
   })
