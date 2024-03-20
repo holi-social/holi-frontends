@@ -95,6 +95,8 @@ const InsightWithPostsFragment = gql`
     quotes {
       ...QuoteFragment
     }
+    initiatives {
+      ...InitiativeFragment
   }
 `
 
