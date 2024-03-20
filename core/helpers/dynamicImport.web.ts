@@ -2,6 +2,8 @@ import type { DynamicOptions, Loader } from 'next/dist/shared/lib/dynamic'
 import dynamic from 'next/dynamic'
 import type { ComponentType, LazyExoticComponent } from 'react'
 
+import { DynamicImportOptions } from '@holi/core/helpers/dynamicImport.shared'
+
 type HoliLazyComponent<T> = LazyExoticComponent<ComponentType<T>> | ComponentType<T>
 type NextJSDynamicImport<T> = DynamicOptions<T> | Loader<T>
 
@@ -10,6 +12,9 @@ type NextJSDynamicImport<T> = DynamicOptions<T> | Loader<T>
  * `React.lazy` and throws an error when using it. They offer their
  * implementation named dynamic, which uses parts of React lazy. On the native
  * host, speak in React Native; we can use React's native lazy.  */
-export const dynamicImport = <T>(importHandler: NextJSDynamicImport<T>): HoliLazyComponent<T> => {
-  return dynamic<T>(importHandler)
+export const dynamicImport = <T>(
+  importHandler: NextJSDynamicImport<T>,
+  options?: DynamicImportOptions
+): HoliLazyComponent<T> => {
+  return dynamic<T>(importHandler, options)
 }
