@@ -89,6 +89,9 @@ export const registerUser = async (
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
 
+  await expect(emailInput).toBeVisible()
+  await expect(passwordInput).toBeVisible()
+
   await emailInput.fill(email)
   await passwordInput.fill(password)
 
@@ -317,7 +320,7 @@ export const retry = async (expectationFn: () => Promise<void>) => {
   await expect(async () => {
     await expectationFn()
   }).toPass({
-    intervals: [2_000],
-    timeout: 30_000,
+    intervals: [3_000],
+    timeout: 20_000,
   })
 }
