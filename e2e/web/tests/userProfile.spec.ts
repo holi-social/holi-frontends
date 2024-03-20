@@ -1,7 +1,14 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser, waitForAnimationEnd } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  loginAsE2EUser,
+  waitForAnimationEnd,
+  withSSR,
+} from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -10,7 +17,7 @@ require('dotenv').config({ path: '.envrc' })
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {
-  test('user journey', async ({ page, context, userHandler, browserName }) => {
+  test('user journey', async ({ browser, page, context, userHandler, browserName }) => {
     await loginAsE2EUser(context, page)
 
     // fill the interests, skills and sdgs for visiting the profile later
@@ -20,11 +27,7 @@ test.describe('@Profile', () => {
 
     // now test with a generated user for not messing too much with the profile of the E2E user
     await userHandler.asRandomUser(async (page) => {
-      await page.waitForSelector(byTestId('user-profile-full-name'))
-
-      await page.waitForSelector(byTestId('user-profile-interests'))
-      await page.waitForSelector(byTestId('user-profile-sdgs'))
-      await page.waitForSelector(byTestId('user-profile-skills'))
+      await testDisplaysProfileDetails(page)
 
       await checkAccessibility(page)
       await clickElementByTestId(page, 'btn-open-profile-edit-view')
@@ -58,16 +61,22 @@ test.describe('@Profile', () => {
       // visiting another user's profile should show the correct information
       const userId = process.env.E2E_USER_ID || 'empty'
       await page.goto('/profile/' + userId)
-      await page.waitForSelector(byTestId('user-profile-full-name'))
-      await page.waitForSelector(byTestId('user-profile-interests'))
-      await page.waitForSelector(byTestId('user-profile-sdgs'))
-      await page.waitForSelector(byTestId('user-profile-skills'))
+
+      await testDisplaysProfileDetails(page)
+      await withSSR(browser, page.url(), testDisplaysProfileDetails)
 
       // FIXME: Currently the a11y rule "scrollable-region-focusable" is violated by the HoliStepper, see https://holi.atlassian.net/browse/HOLI-4295
       // await checkAccessibility(page)
     })
   })
 })
+
+const testDisplaysProfileDetails = async (page: Page) => {
+  await page.waitForSelector(byTestId('user-profile-full-name'))
+  await page.waitForSelector(byTestId('user-profile-interests'))
+  await page.waitForSelector(byTestId('user-profile-sdgs'))
+  await page.waitForSelector(byTestId('user-profile-skills'))
+}
 
 const checkChipsSelection = async (page: Page, what: string) => {
   await deselectAll(page, what)
