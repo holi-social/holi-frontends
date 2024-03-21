@@ -23,10 +23,8 @@ test.describe('@AppointmentNotifications', () => {
       await userHandler.asRandomUser(async (follower) => {
         await followSpace(follower, spaceName)
 
-        // when
         await createSpaceAppointment(admin)
 
-        // then follower is notified
         await retry(async () => {
           await follower.goto('/notifications')
           await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
@@ -46,10 +44,8 @@ test.describe('@AppointmentNotifications', () => {
 async function followSpace(user: Page, spaceName: string) {
   return test.step('user follows space', async () => {
     await user.goto('/spaces/' + spaceName)
-
     await clickElementByTestId(user, 'follow-btn')
-
-    await locateElementByTestId(user, 'unfollow-btn')
+    await expect(await locateElementByTestId(user, 'unfollow-btn')).toBeVisible()
   })
 }
 
@@ -57,10 +53,11 @@ async function createSpaceAppointment(adminA: Page) {
   await test.step('admin creates appointment', async () => {
     await clickElementByTestId(adminA, GET_INVOLVED_SPACE_TAB_TEST_ID)
     // wait for animation of tab to end
-    await adminA.waitForTimeout(500)
+    await adminA.waitForTimeout(1000)
     await clickElementByTestId(adminA, APPOINTMENT_CREATE_BUTTON_TEST_ID)
 
     const titleField = await locateElementByTestId(adminA, 'appointment-title-input')
+    await expect(titleField).toBeVisible()
     await titleField.fill('E2E Party')
 
     // advance the starting time to have the appointment in the future

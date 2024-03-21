@@ -199,7 +199,10 @@ const VolunteeringEngagementDetail = () => {
 
   const AboutVolunteering = ({ description, organizer }: AboutVolunteeringProps) => {
     return (
-      <View style={[styles.cardContainer, windowWidth > 0 && { maxWidth: windowWidth }]}>
+      <View
+        style={[styles.cardContainer, windowWidth > 0 && { maxWidth: windowWidth }]}
+        testID="volunteering-engagement-description"
+      >
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
         <RenderHtml source={{ html: `${description}` }} contentWidth={windowWidth} />
         {organizer && <Organizer organizer={organizer} />}

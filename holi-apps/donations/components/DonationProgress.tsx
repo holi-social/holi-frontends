@@ -12,12 +12,14 @@ interface DonationProgressProps {
   category?: string
   size?: 'default' | 'small' | 'large'
   style?: ViewStyle | ViewStyle[]
+  testID?: string
 }
 
 const DonationProgress = ({
   progressPercentage,
   openAmountInCents,
   size = 'default',
+  testID,
   ...props
 }: DonationProgressProps) => {
   const { t, i18n } = useTranslation()
@@ -38,7 +40,7 @@ const DonationProgress = ({
   }, [openAmountInCents, i18n.language])
 
   return (
-    <View style={[props?.style]}>
+    <View style={[props?.style]} testID={testID}>
       <View style={styles.goals}>
         <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.foreground20 }}>
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}

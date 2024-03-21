@@ -95,7 +95,7 @@ const DonationsAppProjectDetail = () => {
         <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
           <View style={styles.header}>
-            <HoliHeading level="1" size="l">
+            <HoliHeading level="1" size="l" testID="donations-project-title">
               {project.title}
             </HoliHeading>
             <View style={styles.location}>
@@ -110,8 +110,9 @@ const DonationsAppProjectDetail = () => {
             openAmountInCents={project.openAmountInCents}
             size="large"
             style={styles.card}
+            testID="donations-project-progress"
           />
-          <View style={[styles.card, { paddingVertical: 24 }]}>
+          <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
             <DonationInitiativeButton initiative={project.initiative} />
             <HoliText size={'large'} style={{ marginVertical: 24 }}>
               &ldquo;{project.summary}&rdquo;

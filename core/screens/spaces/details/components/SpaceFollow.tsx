@@ -86,6 +86,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
           style={style}
+          loading={!isLoggedIn}
           testID="follow-btn"
         />
       )}

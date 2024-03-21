@@ -89,6 +89,11 @@ export const registerUser = async (
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
 
+  await expect(async () => {
+    await expect(emailInput).toBeVisible()
+    await expect(passwordInput).toBeVisible()
+  }).toPass()
+
   await emailInput.fill(email)
   await passwordInput.fill(password)
 
@@ -126,13 +131,14 @@ export const finishAccountSetup = async (
   // provide user names
   const firstNameInput = await locateElementByTestId(page, 'first-name-input')
   await firstNameInput.fill(firstName)
+
   const lastNameInput = await locateElementByTestId(page, 'last-name-input')
   await lastNameInput.fill(lastName)
   // submit
   await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // submit pre-success step
-  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step-headline'))
+  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step'))
   await clickElementByTestId(page, 'holi-wizard-save-btn')
   // skip interests step
   await page.waitForSelector(byTestId('account-setup-interests-step-headline'))
@@ -317,7 +323,21 @@ export const retry = async (expectationFn: () => Promise<void>) => {
   await expect(async () => {
     await expectationFn()
   }).toPass({
-    intervals: [2_000],
-    timeout: 30_000,
+    intervals: [3_000],
+    timeout: 20_000,
   })
+}
+
+export const withSSR = async (
+  browser: Browser,
+  url: string,
+  actions: (page: Page, options?: { testSSR?: boolean }) => Promise<void>
+): Promise<void> => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto(url)
+
+  await actions(page, { testSSR: true })
+
+  await context.close()
 }
