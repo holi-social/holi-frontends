@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
 import AppTile from '@holi/core/screens/appsHub/components/AppTile'
@@ -22,7 +21,7 @@ const AppsDrawer: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
-  const { width: screenWidth } = useClientWindowDimensions()
+  const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const [modalIsVisible, setModalIsVisible] = useState(false)
   const { theme } = useTheme()
@@ -47,25 +46,33 @@ const AppsDrawer: React.FC = () => {
   return (
     <>
       {/* Floating apps button */}
-      <HoliButton
-        label={t('apps.drawer.open.btn.label')}
-        type="secondary"
-        testID="home-apps-button"
-        inline
-        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-        onPress={() => {
-          // if pressed too soon, the state is set to true, but the modal is not shown.
-          // crude mechanism to recover from this state.
-          // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-          modalIsVisible && setModalIsVisible(false)
-          setModalIsVisible(true)
-        }}
+      <View
+        style={[
+          styles.overlayContainer,
+          // @ts-ignore percentage only supported and used for web
+          { transform: [{ translateX: Platform.OS === 'web' ? '-50%' : -screenOffset }] },
+        ]}
       >
-        <HoliText size="small" bold>
-          {t('apps.drawer.open.btn.text')}
-        </HoliText>
-        <HoliIcon icon={Apps} size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
-      </HoliButton>
+        <HoliButton
+          label={t('apps.drawer.open.btn.label')}
+          type="secondary"
+          testID="home-apps-button"
+          inline
+          style={styles.overlayButton}
+          onPress={() => {
+            // if pressed too soon, the state is set to true, but the modal is not shown.
+            // crude mechanism to recover from this state.
+            // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+            modalIsVisible && setModalIsVisible(false)
+            setModalIsVisible(true)
+          }}
+        >
+          <HoliText size="small" bold>
+            {t('apps.drawer.open.btn.text')}
+          </HoliText>
+          <HoliIcon icon={Apps} size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
+        </HoliButton>
+      </View>
 
       {/* Apps modal (drawer) */}
       <HoliModal
@@ -99,10 +106,16 @@ export default AppsDrawer
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    overlayButton: {
+    overlayContainer: {
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',
       bottom: (Platform.OS === 'web' ? dimensions.bottomBarHeight : 0) + 16,
-      right: '50%',
+      alignItems: 'flex-end',
+      left: '50%',
+    },
+    overlayButton: {
+      transform: [{ translateX: -16 }],
       justifyContent: 'center',
       paddingHorizontal: 20,
       borderColor: theme.colors.defaultBorder,
