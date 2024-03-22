@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Initiative } from '@holi/core/screens/insights/types'
@@ -73,6 +74,7 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
 
           <LinkInfo icon={initiative.linkPreview.icon} link={initiative.link} />
         </View>
+        <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} style={styles.reaction} />
       </View>
     </Pressable>
   )
@@ -112,5 +114,11 @@ const getStyles = (theme: HoliTheme) =>
         height: 3,
       },
       shadowOpacity: 0.12,
+    },
+
+    reaction: {
+      position: 'absolute',
+      bottom: 2,
+      right: 8,
     },
   })

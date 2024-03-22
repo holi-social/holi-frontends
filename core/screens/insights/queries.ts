@@ -59,6 +59,12 @@ export const InitiativeFragment = gql`
     linkPreview {
       ...LinkFragment
     }
+    reactions {
+      HEART
+    }
+    myReaction {
+      HEART
+    }
   }
 `
 
