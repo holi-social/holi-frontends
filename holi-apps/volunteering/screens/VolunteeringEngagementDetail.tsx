@@ -63,18 +63,18 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
       height: 24,
       isSvg: true,
     },
-    url: 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch',
+    url: 'https://aktion-mensch.de/ueber-uns/die-aktion-mensch',
   },
   'vostel.de': {
     logo: {
-      src: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
-      isSvg: false,
+      src: require('@holi/ui/assets/img/volunteering/vostel-logo.svg'),
+      isSvg: true,
     },
     wordmark: {
-      src: require('@holi/ui/assets/img/volunteering/vostel-wordmark.png'),
-      width: 73,
+      src: require('@holi/ui/assets/img/volunteering/vostel-wordmark.svg'),
+      width: 71,
       height: 24,
-      isSvg: false,
+      isSvg: true,
     },
     url: 'https://vostel.de/de/ueber_vostel',
   },
@@ -85,8 +85,8 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
     },
     wordmark: {
       src: require('@holi/ui/assets/img/volunteering/gonature-wordmark.svg'),
-      width: 132,
-      height: 42,
+      width: 76,
+      height: 24,
       isSvg: true,
     },
     url: 'https://gonature.de/ueber-uns',
@@ -98,11 +98,24 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
     },
     wordmark: {
       src: require('@holi/ui/assets/img/volunteering/govolunteer-wordmark.svg'),
-      width: 178,
-      height: 36,
+      width: 119,
+      height: 24,
       isSvg: true,
     },
     url: 'https://govolunteer.com/ueber-uns',
+  },
+  'German Volunteers': {
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/german-volunteers-logo.svg'),
+      isSvg: true,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/german-volunteers-wordmark.svg'),
+      width: 46,
+      height: 24,
+      isSvg: true,
+    },
+    url: 'https://germanvolunteers.de/uber-uns',
   },
 }
 
@@ -174,7 +187,7 @@ const VolunteeringEngagementDetail = () => {
     <VolunteeringPartnerCard
       headline={t('volunteering:engagementDetail.provider')}
       name={engagement.source}
-      partner={VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]}
+      partner={partner}
     />
   )
 
