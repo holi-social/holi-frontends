@@ -70,4 +70,6 @@ export interface Initiative {
   category: ExternalContentCategory
   link: string
   linkPreview: Link
+  reactions: ReactionCounts
+  myReaction: ReactionCounts
 }

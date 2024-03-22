@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
-import { QuoteFragment, RecommendationFragment } from '@holi/core/screens/insights/queries'
-import { Quote, Recommendation } from '@holi/core/screens/insights/types'
+import { InitiativeFragment, QuoteFragment, RecommendationFragment } from '@holi/core/screens/insights/queries'
+import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 
 export const bookmarkInsightMutation = gql`
   mutation BookmarkInsight($insightId: UUID!) {
@@ -61,4 +61,26 @@ export const UpdateRecommendationReactionMutation = gql`
 
 export interface UpdateRecommendationReactionResponse {
   recommendation: Recommendation
+}
+
+export const UpdateInitiativeReactionMutation = gql`
+  ${InitiativeFragment}
+
+  mutation UpdateInitiativeReaction(
+    $initiativeId: UUID!
+    $reactionType: ReactionType!
+    $reactionAction: ReactionAction!
+  ) {
+    updateInitiativeReaction(
+      initiativeId: $initiativeId
+      reactionType: $reactionType
+      reactionAction: $reactionAction
+    ) {
+      ...InitiativeFragment
+    }
+  }
+`
+
+export interface UpdateInitiativeReactionResponse {
+  initiative: Initiative
 }
