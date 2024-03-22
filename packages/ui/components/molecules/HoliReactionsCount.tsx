@@ -11,7 +11,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export type MouseEnterOutEvent = SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>
 
 export interface HoliReactionsCountProps {
-  type: 'post' | 'comment'
+  type: 'post' | 'comment' | 'insight'
   fullName?: string
   count?: number
   active?: boolean

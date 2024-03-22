@@ -21,13 +21,12 @@ export interface Quote {
   text: string
   author: string
   authorProfession: string
-
   link: string
   linkPreview: Link
-
   category: ExternalContentCategory
-
   comment: string
+  reactions: ReactionCounts
+  myReaction: ReactionCounts
 }
 
 export interface Insight {
@@ -58,6 +57,12 @@ export interface Recommendation {
   link: string
   linkPreview: Link
   comment: string
+  reactions: ReactionCounts
+  myReaction: ReactionCounts
+}
+
+export interface ReactionCounts {
+  HEART: number
 }
 
 export interface Initiative {

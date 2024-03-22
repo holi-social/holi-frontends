@@ -3,9 +3,10 @@ import React, { useMemo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
-import { Recommendation } from '@holi/core/screens/insights/types'
+import { Insight, Recommendation } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -14,11 +15,11 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface RecommendationCardProps {
-  insightId: string
+  insight: Insight
   recommendation: Recommendation
 }
 
-const RecommendationCard = ({ recommendation, insightId }: RecommendationCardProps) => {
+const RecommendationCard = ({ recommendation, insight }: RecommendationCardProps) => {
   const [errorLoadingImage, setErrorLoadingImage] = useState(false)
   const { navigate } = useRouting()
   const { theme } = useTheme()
@@ -26,7 +27,7 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
 
   return (
     <Pressable
-      onPress={() => navigate(`/insights/${insightId}/recommendations/${recommendation.id}`)}
+      onPress={() => navigate(`/insights/${insight.id}/recommendations/${recommendation.id}`)}
       style={({ hovered }) => {
         return hovered ? [styles.card, styles.hovered] : [styles.card]
       }}
@@ -70,7 +71,7 @@ const RecommendationCard = ({ recommendation, insightId }: RecommendationCardPro
               <HoliGap size="s" />
             </>
           )}
-
+          <InsightReactions item={recommendation} itemType={ItemType.RECOMMENDATION} style={styles.reaction} />
           <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
         </View>
       </View>
@@ -112,5 +113,11 @@ const getStyles = (theme: HoliTheme) =>
         height: 3,
       },
       shadowOpacity: 0.12,
+    },
+    reaction: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      zIndex: 2,
     },
   })

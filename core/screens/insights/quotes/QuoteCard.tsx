@@ -2,6 +2,7 @@ import React, { memo, useMemo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
@@ -38,13 +39,16 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines,
 
   return (
     <View style={[styles.quoteCard, style]} testID={'quote-card-quote'}>
-      <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
-      <HoliGap size="s" />
-      <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
-      <HoliGap size="xs" />
-      <HoliText size="extrasmall" color="gray300">
-        {quote.author} ∙ {quote.authorProfession}
-      </HoliText>
+      <View>
+        <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
+        <HoliGap size="s" />
+        <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
+        <HoliGap size="xs" />
+        <HoliText size="extrasmall" color="gray300">
+          {quote.author} ∙ {quote.authorProfession}
+        </HoliText>
+      </View>
+      <InsightReactions item={quote} itemType={ItemType.QUOTE} style={styles.reaction} />
     </View>
   )
 }
@@ -117,6 +121,8 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
+      height: 240,
+      justifyContent: 'space-between',
     },
 
     sourceCard: {
@@ -157,5 +163,11 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       justifyContent: 'space-between',
       gap: Spacing['4xs'],
+    },
+
+    reaction: {
+      position: 'absolute',
+      bottom: 2,
+      right: 8,
     },
   })
