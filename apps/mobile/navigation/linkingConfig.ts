@@ -53,6 +53,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.Insights]: {
       screens: {
         [RouteName.InsightsPage]: 'insights',
+        [RouteName.InsightsCurationPrinciples]: 'insights/curationPrinciples',
         [RouteName.InsightDetailPage]: 'insights/:insightId',
         [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
         [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
