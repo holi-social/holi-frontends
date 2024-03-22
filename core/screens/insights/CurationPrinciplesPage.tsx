@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Linking, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -23,9 +23,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CircledNumber = ({ number }: { number: number }) => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, false), [theme])
 
-  // TODO(alex): This doesn't show on iOS for some reason
   return (
     <View style={styles.circledNumber}>
       <HoliText>{number}</HoliText>
@@ -39,13 +38,16 @@ const CurationPrinciplesPage: React.FC = () => {
   const { navigate } = useRouting()
 
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
   const mixins = useStyleMixins()
+
+  const { width: screenWidth } = useWindowDimensions()
+  const isWideLayout = screenWidth >= dimensions.breakpointS
 
   const { data, loading } = useQuery<InsightAuthorsResponse>(insightAuthors, {
     variables: { limit: 30 },
   })
 
+  const styles = useMemo(() => getStyles(theme, isWideLayout), [theme, isWideLayout])
   const authors = data?.insightAuthors?.data || []
 
   const slides = [...Array(3)].map((_, index) => {
@@ -140,7 +142,7 @@ const CurationPrinciplesPage: React.FC = () => {
           </View>
         </View>
 
-        <View style={Platform.OS === 'web' ? [mixins.container] : []}>
+        <View style={isWideLayout ? [mixins.container] : []}>
           <View style={[mixins.container, styles.section, styles.partnersSection]}>
             <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
               {t('insights.curationPrinciples.partners.heading')}
@@ -202,7 +204,7 @@ const CurationPrinciplesPage: React.FC = () => {
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
   StyleSheet.create({
     wrapper: {
       backgroundColor: theme.colors.background20,
@@ -225,9 +227,8 @@ const getStyles = (theme: HoliTheme) =>
 
     circledNumber: {
       backgroundColor: theme.colors.brandB200,
-      height: 8,
-      width: 8,
-      padding: 12,
+      height: 32,
+      width: 32,
       borderWidth: 1,
       borderRadius: 200,
       alignItems: 'center',
@@ -254,10 +255,7 @@ const getStyles = (theme: HoliTheme) =>
     },
 
     partnersSection: {
-      ...Platform.select({
-        web: { marginTop: Spacing.lg },
-        native: { marginTop: -1 },
-      }),
+      ...(isWideLayout ? { marginTop: Spacing.lg } : { marginTop: -1 }),
       backgroundColor: theme.colors.brandA200,
     },
 
