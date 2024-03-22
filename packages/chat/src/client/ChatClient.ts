@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next'
 import {
   ClientEvent,
   Direction,
@@ -84,10 +85,6 @@ export default class ChatClient {
   private readonly mxClient: MatrixClient
   private readonly deviceToken: string | undefined
 
-  private isRoomWithNoMembers(roomState: RoomState): boolean {
-    return roomState.getMembers().every((member) => member.membership === MembershipStatus.leave)
-  }
-
   private getSpaceEvents(room: Room) {
     const state = room.getLiveTimeline().getState(Direction.Forward)
     // we only look at the last event, if there should be more than one
@@ -166,7 +163,7 @@ export default class ChatClient {
     return Object.fromEntries(spaceIdToChildIdsMap.entries())
   }
 
-  public constructor(credentials: ChatCredentials) {
+  public constructor(credentials: ChatCredentials, t: TFunction<'translation', undefined, 'translation'>) {
     if (
       !credentials ||
       !credentials.baseUrl ||
@@ -179,7 +176,7 @@ export default class ChatClient {
 
     const options: ICreateClientOpts = {
       ...credentials,
-      roomNameGenerator,
+      roomNameGenerator: roomNameGenerator(t),
       timelineSupport: true,
       scheduler: new MatrixScheduler(),
     }
@@ -290,22 +287,11 @@ export default class ChatClient {
       throw new HoliChatClientError('createRoom', 'Chat rooms must be created with at least one member')
     }
 
-    const dmInitialState = [
-      {
-        type: 'm.room.guest_access',
-        state_key: 'dm_room',
-        content: {
-          guest_access: 'can_join',
-        },
-      },
-    ]
-
     const options: ICreateRoomOpts = {
       is_direct: isDirectMessage,
       preset: isPrivate ? Preset.PrivateChat : Preset.PublicChat,
       visibility: isPrivate ? Visibility.Private : Visibility.Public,
       ...(name ? { name } : {}),
-      ...(isDirectMessage ? { initial_state: dmInitialState } : {}),
     }
 
     return await this.mxClient.createRoom({ ...options, invite: userIds })

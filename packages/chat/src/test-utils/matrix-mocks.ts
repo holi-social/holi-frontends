@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import {
   Direction,
   EmittedEvents,
@@ -28,7 +29,7 @@ const chatClientOptions = {
   userId: '@someone:chat.holi.social',
 }
 
-export const createChatClient = () => new ChatClient(chatClientOptions)
+export const createChatClient = () => new ChatClient(chatClientOptions, t)
 
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
 export const asMutable = <T>(value: T) => value as Mutable<T>

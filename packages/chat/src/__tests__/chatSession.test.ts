@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import { ClientEvent, IPushRule, PushRuleKind, RuleId } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 import { Platform } from 'react-native'
@@ -119,7 +120,7 @@ describe('startChat', () => {
       ignoreChatAdminPushRule,
     ]
 
-    await startChat(testToken)
+    await startChat(t, testToken)
 
     expect(mockAddPushRule).toHaveBeenCalledTimes(1)
     expect(mockAddPushRule).toHaveBeenCalledWith(...irgnoreChatAdminRuleArgs)
@@ -134,7 +135,7 @@ describe('startChat', () => {
       mockRemovePusher = jest.fn()
       mockSetPusher = jest.fn()
 
-      await startChat(testToken)
+      await startChat(t, testToken)
 
       expect(mockRemovePusher).toHaveBeenCalledTimes(1)
       expect(mockSetPusher).toHaveBeenCalledTimes(1)
@@ -174,7 +175,7 @@ describe('startChat', () => {
       mockRemovePusher = jest.fn()
       mockSetPusher = jest.fn()
 
-      await startChat(testToken)
+      await startChat(t, testToken)
 
       expect(mockRemovePusher).toHaveBeenCalledTimes(1)
       expect(mockSetPusher).toHaveBeenCalledTimes(1)

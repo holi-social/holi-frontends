@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { joinRoom, leaveRoom } from '@holi/chat/src/store'
+import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -41,6 +42,8 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
     }
   }
 
+  const chatPartnerName = member?.name || user?.fullName || t('user.profileView.anonymous')
+
   return (
     <View style={styles.container}>
       <HoliCardBoard.Card>
@@ -50,14 +53,14 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
               <HoliAvatar
                 imageSrc={member?.avatar ?? user?.avatar}
                 imageBlurhash={user?.avatarBlurhash}
-                label={member?.name || user.fullName || ''}
-                initials={user?.avatarLabel || ''}
-                defaultColor={user?.avatarDefaultColor || ''}
+                label={chatPartnerName}
+                initials={getChatInitials(member?.name) || user?.avatarLabel || ''}
+                defaultColor={getDefaultAvatarColor(member?.name) || user?.avatarDefaultColor || ''}
                 size="large"
                 loading={userIsLoading}
               />
               <View>
-                <HoliHeading size="m">{user.fullName}</HoliHeading>
+                <HoliHeading size="m">{chatPartnerName}</HoliHeading>
                 {!!user?.pronouns && <HoliText color="gray300">{user?.pronouns}</HoliText>}
               </View>
             </>
@@ -65,9 +68,7 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
         </HoliCardBoard.Slot>
         <HoliDivider />
         <HoliCardBoard.Slot>
-          <HoliText color="gray300">
-            {t('chat.invitation.copy', { fullName: user?.fullName ?? 'Anonymous User' })}
-          </HoliText>
+          <HoliText color="gray300">{t('chat.invitation.copy', { fullName: chatPartnerName })}</HoliText>
           <View style={styles.buttons}>
             <HoliButton inline label={t('chat.invitation.reject')} type="secondary" onPress={handleRejectRoom}>
               {t('chat.invitation.reject')}
