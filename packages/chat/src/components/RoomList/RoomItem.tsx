@@ -5,9 +5,9 @@ import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoom, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'
-import { chatPartnerAtomCreator, getHoliUserForChatMember, setLatestMessagesAsRead } from '@holi/chat/src/store'
+import { chatPartnerAtomCreator, setLatestMessagesAsRead } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
-import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
+import { getChatInitials, getChatMemberName, getDefaultAvatarColor, isMatrixId } from '@holi/chat/src/utils'
 import { getInitials } from '@holi/core/helpers'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -30,59 +30,33 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
+  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp, members } = room
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
-  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
-  const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
-  const isChatPartnerDeleted = !!chatPartner && !chatPartnerHoliUser
 
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
-  const roomName = isSpaceRoom ? room.content.spaceName : chatPartnerHoliUser?.fullName ?? t('chat.user.deleted')
-
-  const lastMessageMember = room.members.find(({ id }) => id === lastMessage?.sender)
-  const lastMessageHoliUser = getHoliUserForChatMember(lastMessageMember, matrixIdToHoliUserRecord)
+  const roomName = isSpaceRoom ? room.content.spaceName : room.name
 
   const handleOnPress = async () => {
     await setLatestMessagesAsRead(roomId)
   }
 
-  if (loading) {
-    return (
-      <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
-        <View testID={testID + '-skeleton'} style={styles.rowWrapper}>
-          <View>
-            <HoliAvatar size="medium" loading />
-          </View>
-
-          <View style={styles.content}>
-            <View style={[styles.rowWrapper, styles.nameDateRaw]}>
-              <View style={{ flex: 1 }}>
-                <HoliText bold loading />
-              </View>
-            </View>
-
-            <HoliText skeletonOptions={{ width: '100%' }} loading />
-          </View>
-        </View>
-      </HoliBox>
-    )
-  }
-
-  const getChatMessage = (message: ChatRoomMessage, userName: string, isSpaceRoom = false): string | null => {
+  const getChatMessage = (message: ChatRoomMessage, isSpaceRoom = false): string | null => {
     if (isMsgTextContent(message.content)) {
-      return (isSpaceRoom ? `${userName}: ` : ' ') + message.content.body
+      if (isSpaceRoom) {
+        return members.find((m) => m.id == message.sender)?.name + ': ' + (message.content.body ?? '')
+      }
+      return message.content.body ?? ''
     }
 
     if (isMsgMemberContent(message.content)) {
       switch (message.content.membership) {
         case 'join':
-          return t('chat.room.lastMessage.membership.join', { user: userName })
+          return t('chat.room.lastMessage.membership.join', { user: getChatMemberName(t, message.content.name) })
         case 'leave':
-          return t('chat.room.lastMessage.membership.leave', { user: userName })
+          return t('chat.room.lastMessage.membership.leave', { user: getChatMemberName(t, message.content.name) })
         default:
           return null
       }
@@ -107,22 +81,22 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                 size="medium"
               />
             ) : chatPartner ? (
-              isChatPartnerDeleted ? (
+              isMatrixId(chatPartner.name) ? (
                 <HoliAvatar
                   label={roomName}
-                  initials=":/"
-                  defaultColor={colors.brandColorD20}
-                  initialsColor={colors.foreground30at48Percent}
+                  imageSrc={chatPartner.avatar ?? ''}
+                  initials={getChatInitials(chatPartner.name)}
+                  defaultColor={getDefaultAvatarColor(chatPartner.name)}
+                  initialsColor="foreground30at48Percent"
                   initialsFontWeight="500"
                   size="medium"
                 />
               ) : (
                 <HoliAvatar
                   label={roomName}
-                  imageSrc={chatPartner?.avatar ?? ''}
-                  imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
-                  initials={chatPartnerHoliUser?.avatarLabel ?? ''}
-                  defaultColor={chatPartnerHoliUser?.avatarDefaultColor ?? ''}
+                  imageSrc={chatPartner.avatar ?? ''}
+                  initials={getChatInitials(chatPartner.name)}
+                  defaultColor={getDefaultAvatarColor(chatPartner.name)}
                   size="medium"
                 />
               )
@@ -150,14 +124,13 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
               )}
             </View>
 
-            {hasInvitation && (
+            {hasInvitation ? (
               <HoliText numberOfLines={1} color="brandB300">
                 {t('chat.invitation.newconversation')}
               </HoliText>
-            )}
-            {lastMessage ? (
+            ) : lastMessage ? (
               <HoliText numberOfLines={1} color="gray300">
-                {getChatMessage(lastMessage, lastMessageHoliUser?.fullName ?? '', isSpaceRoom)}
+                {getChatMessage(lastMessage, isSpaceRoom)}
               </HoliText>
             ) : (
               <HoliText numberOfLines={1} color="gray300">

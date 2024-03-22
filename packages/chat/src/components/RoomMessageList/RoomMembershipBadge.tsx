@@ -4,6 +4,8 @@ import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent } from '@holi/chat/src/client/utils'
+import { getChatInitials, getChatMemberName, getDefaultAvatarColor } from '@holi/chat/src/utils'
+import { chatAdminUserId } from '@holi/core/helpers/config'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -25,6 +27,8 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
   const content = message.content
 
   if (!isMsgMemberContent(content)) return null
+  if (member?.id == chatAdminUserId) return null
+  const name = getChatMemberName(t, member?.name)
 
   return (
     <HoliBox padding={[8, 16]}>
@@ -42,25 +46,14 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
           <HoliBox padding={[4, 8, 4, 4]}>
             <View style={styles.content}>
               <HoliBox padding={[0, 6, 0, 0]}>
-                {user ? (
-                  <HoliAvatar
-                    imageSrc={member?.avatar}
-                    imageBlurhash={user?.avatarBlurhash}
-                    label={user?.fullName ?? ''}
-                    initials={user?.avatarLabel ?? ''}
-                    defaultColor={user?.avatarDefaultColor ?? ''}
-                    size="micro"
-                  />
-                ) : (
-                  <HoliAvatar
-                    label={t('chat.user.deleted')}
-                    initials=":/"
-                    defaultColor={colors.brandColorD20}
-                    initialsColor={colors.foreground30at48Percent}
-                    initialsFontWeight="500"
-                    size="micro"
-                  />
-                )}
+                <HoliAvatar
+                  imageSrc={member?.avatar}
+                  imageBlurhash={user?.avatarBlurhash}
+                  label={name}
+                  initials={getChatInitials(member?.name)}
+                  defaultColor={getDefaultAvatarColor(member?.name)}
+                  size="micro"
+                />
               </HoliBox>
 
               <HoliText>
@@ -70,7 +63,7 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
                     i18nKey={
                       content.membership === 'join' ? 'chat.message.membership.join' : 'chat.message.membership.leave'
                     }
-                    values={{ user: user ? user?.fullName : t('chat.user.deleted') }}
+                    values={{ user: name }}
                   >
                     <HoliText size="small" italic />
                   </Trans>

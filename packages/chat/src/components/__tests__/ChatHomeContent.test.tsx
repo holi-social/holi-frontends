@@ -164,7 +164,7 @@ describe('ChatHomeContent Component', () => {
     expect(await screen.findByTestId('chat-home-loader')).toBeOnTheScreen()
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(MEMBER1_FIXTURE.name)
+    expect(displayedRoom).toHaveTextContent(roomName)
   })
 
   it('should render existing room with pending invitation', async () => {

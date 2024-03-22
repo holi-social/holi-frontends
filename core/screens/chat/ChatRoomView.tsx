@@ -19,6 +19,7 @@ import {
   useRoomById,
 } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
+import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -90,17 +91,22 @@ const ChatRoomView = () => {
 
         switch (room?.type) {
           case 'private':
-            return !!chatPartnerHoliUser && !!chatPartner ? (
+            return chatPartnerHoliUser ? (
               <ChatRoomHeaderTitle
                 href={'/profile/' + chatPartnerHoliUser.id}
                 name={room.name}
-                imageSrc={chatPartner.avatar}
+                imageSrc={chatPartner?.avatar}
                 imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
-                initials={chatPartnerHoliUser.avatarLabel}
-                defaultColor={chatPartnerHoliUser.avatarDefaultColor}
+                initials={getChatInitials(chatPartner?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
               />
             ) : (
-              <ChatRoomHeaderTitle name={t('chat.user.deleted')} initials=":/" defaultColor={colors.brandColorD20} />
+              <ChatRoomHeaderTitle
+                name={room.name}
+                imageSrc={chatPartner?.avatar}
+                initials={getChatInitials(chatPartner?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
+              />
             )
 
           case 'space.child':

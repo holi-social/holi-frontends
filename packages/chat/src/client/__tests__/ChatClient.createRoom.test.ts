@@ -52,15 +52,6 @@ describe('ChatClient', () => {
         is_direct: isDM,
         preset: 'private_chat',
         visibility: 'private',
-        initial_state: [
-          {
-            type: 'm.room.guest_access',
-            state_key: 'dm_room',
-            content: {
-              guest_access: 'can_join',
-            },
-          },
-        ],
       })
     })
 

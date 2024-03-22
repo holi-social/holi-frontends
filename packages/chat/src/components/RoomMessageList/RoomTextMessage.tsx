@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgTextContent } from '@holi/chat/src/client/utils'
 import { loggedInMemberIdAtom } from '@holi/chat/src/store'
+import { getChatInitials, getChatMemberName, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { getTimeFormat } from '@holi/core/i18n/helpers/dateHelper'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -37,7 +38,6 @@ const RoomTextMessage = ({
   const { i18n, t } = useTranslation()
   const locale = getLocale(i18n.language)
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const myId = useAtomValue(loggedInMemberIdAtom)
@@ -55,23 +55,14 @@ const RoomTextMessage = ({
       <View style={[styles.rowWrapper, { flexDirection: isMyMessage ? 'row-reverse' : 'row' }]}>
         {showAvatar ? (
           <HoliBox padding={isMyMessage ? [0, 0, 0, 8] : [0, 8, 0, 0]}>
-            {holiUser ? (
-              <HoliAvatar
-                imageSrc={member?.avatar}
-                imageBlurhash={holiUser?.avatarBlurhash}
-                label={holiUser?.fullName ?? ''}
-                initials={holiUser?.avatarLabel ?? ''}
-                defaultColor={holiUser?.avatarDefaultColor ?? ''}
-                size="micro"
-              />
-            ) : (
-              <HoliAvatar
-                label={t('chat.user.deleted')}
-                initials=":/"
-                defaultColor={colors.brandColorD20}
-                size="micro"
-              />
-            )}
+            <HoliAvatar
+              imageSrc={member?.avatar}
+              imageBlurhash={holiUser?.avatarBlurhash}
+              label={getChatMemberName(t, member?.name)}
+              initials={getChatInitials(member?.name)}
+              defaultColor={getDefaultAvatarColor(member?.name)}
+              size="micro"
+            />
           </HoliBox>
         ) : (
           <HoliBox padding={[0, 16]} />
@@ -81,7 +72,7 @@ const RoomTextMessage = ({
           <HoliBox padding={[4, 8, 8, 8]}>
             {!isMyMessage && !isPrevMessageFromSameUser && (
               <HoliBox padding={[0, 0, 4, 0]}>
-                <HoliText bold>{holiUser?.fullName}</HoliText>
+                <HoliText bold>{getChatMemberName(t, member?.name)}</HoliText>
               </HoliBox>
             )}
 

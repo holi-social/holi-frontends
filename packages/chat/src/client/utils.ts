@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next'
 import {
   ClientEvent,
   EventTimeline,
@@ -40,6 +41,7 @@ import {
   type SpaceChildSharedDataContent,
   type SpaceRoom,
 } from '@holi/chat/src/client/types'
+import { getChatMemberName } from '@holi/chat/src/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatAdminUserId } from '@holi/core/helpers/config'
 
@@ -74,17 +76,29 @@ export const hasRoomUpdatesType = (type: unknown): type is RoomUpdatesType => {
  * @description A function passed on Matrix createClient to override default
  * room names.
  */
-export const roomNameGenerator = (roomId: string, state: RoomNameState): string | null => {
-  switch (state.type) {
-    case RoomNameType.Actual:
-      return state.name
-    case RoomNameType.EmptyRoom:
-      return ''
-    case RoomNameType.Generated:
-      return state.names.join(', ')
-    default:
-      return null
+export const roomNameGenerator = (t: TFunction<'translation', undefined, 'translation'>) => {
+  return (roomId: string, state: RoomNameState): string | null => {
+    switch (state.type) {
+      case RoomNameType.Actual:
+        return state.name
+      case RoomNameType.EmptyRoom:
+        if (state.oldName) {
+          return `${t('chat.emptyRoom')} (${t('chat.emptyRoom.was')} ${state.oldName})`
+        } else {
+          return t('chat.emptyRoom')
+        }
+      case RoomNameType.Generated:
+        return (
+          (state.subtype === 'Inviting' ? t('chat.inviting') + ' ' : '') + filterMatrixIds(t, state.names).join(', ')
+        )
+      default:
+        return null
+    }
   }
+}
+
+export const filterMatrixIds = (t: TFunction<'translation', undefined, 'translation'>, names: string[]): string[] => {
+  return names.map((name) => getChatMemberName(t, name))
 }
 
 /**
@@ -360,11 +374,7 @@ export const getLastMessageEvent = (room: Room, roomType: ChatRoomType): IRoomEv
 
   const timelineEvents = room.getLiveTimeline().getEvents()
   const event = timelineEvents.findLast((event) => {
-    if (roomType === 'space.child') {
-      return isMessageEvent(event) || (isMembershipEvent(event) && isJoinOrLeaveEvent(event))
-    } else {
-      return isMessageEvent(event)
-    }
+    return isMessageEvent(event) || (isMembershipEvent(event) && isJoinOrLeaveEvent(event))
   })?.event
 
   return event && isIRoomEvent(event) ? event : undefined
