@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -9,8 +8,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
-import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
-import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -76,16 +74,8 @@ const CurationPrinciplesPage: React.FC = () => {
     })
   })
 
-  const authorGridBreakpoints: [number, number][] = [
-    [1, 1],
-    [dimensions.breakpointXs, 3],
-    [dimensions.breakpointS, 5],
-  ]
-
   return (
     <>
-      <StatusBar style="dark" animated />
-
       <ScrollHeaderLayout.Default style={styles.wrapper} headerOverlap={Platform.OS !== 'web'}>
         <View style={[mixins.container, { gap: Spacing.xs, paddingTop: Spacing.md }]}>
           <HoliHeading level="1">{t('insights.curationPrinciples.intro.heading')}</HoliHeading>
@@ -103,44 +93,51 @@ const CurationPrinciplesPage: React.FC = () => {
           <HoliCarousel slides={slides} marginHorizontal={Spacing.xs} />
         </View>
 
-        <View style={Platform.OS === 'web' ? [mixins.container] : []}>
-          <View style={[mixins.container, styles.section, styles.contributorSection]}>
+        <HoliContainer>
+          <View style={[styles.section, styles.contributorSection]}>
             <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
               {t('insights.curationPrinciples.curators.heading')}
             </HoliHeading>
 
-            {/* TODO(alex): last row should be centered if it doesn't contain max amount of items */}
-            <HoliGridWrapper breakpoints={authorGridBreakpoints}>
-              {(loading || !authors) &&
-                [...new Array(5).keys()].map((i) => (
-                  <HoliGridCell key={i}>
-                    <View style={styles.contributor}>
-                      <HoliAvatar loading label={`Author ${i}`} />
-                      <HoliText size="small" align="center" loading />
-                    </View>
-                  </HoliGridCell>
+            {(loading || !authors) &&
+              [...new Array(5).keys()].map((i) => (
+                <View style={styles.contributor} key={i}>
+                  <HoliAvatar loading label={`Author ${i}`} />
+                  <HoliText
+                    size="small"
+                    align="center"
+                    numberOfLines={1}
+                    loading
+                    ellipsizeMode="tail"
+                    style={styles.contributorName}
+                  />
+                </View>
+              ))}
+            {!loading && authors && (
+              <View style={styles.contributors}>
+                {authors.map((author) => (
+                  <Pressable
+                    key={author.id}
+                    style={styles.contributor}
+                    onPress={() => navigate(`/profile/${author.id}`)}
+                  >
+                    <HoliAvatar
+                      imageSrc={author.avatar}
+                      loading={loading || !author}
+                      imageBlurhash={author.avatarBlurhash}
+                      label={author.avatarLabel}
+                      defaultColor={author.avatarDefaultColor}
+                      initials={author.avatarLabel}
+                    />
+                    <HoliText size="small" align="center">
+                      {author.fullName}
+                    </HoliText>
+                  </Pressable>
                 ))}
-              {!loading &&
-                authors &&
-                authors.map((author) => (
-                  <HoliGridCell key={author.id}>
-                    <Pressable style={styles.contributor} onPress={() => navigate(`/profile/${author.id}`)}>
-                      <HoliAvatar
-                        imageSrc={author.avatar}
-                        loading={loading || !author}
-                        imageBlurhash={author.avatarBlurhash}
-                        label={author.avatarLabel}
-                        defaultColor={author.avatarDefaultColor}
-                      />
-                      <HoliText size="small" align="center">
-                        {author.fullName}
-                      </HoliText>
-                    </Pressable>
-                  </HoliGridCell>
-                ))}
-            </HoliGridWrapper>
+              </View>
+            )}
           </View>
-        </View>
+        </HoliContainer>
 
         <View style={isWideLayout ? [mixins.container] : []}>
           <View style={[mixins.container, styles.section, styles.partnersSection]}>
@@ -248,10 +245,23 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
       backgroundColor: theme.colors.brandD200,
     },
 
+    contributors: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: 12,
+    },
+
     contributor: {
       justifyContent: 'center',
       alignItems: 'center',
       gap: Spacing['3xs'],
+      width: 110,
+    },
+
+    contributorName: {
+      flex: 1,
+      paddingHorizontal: 2,
     },
 
     partnersSection: {
