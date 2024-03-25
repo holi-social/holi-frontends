@@ -1,6 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
-import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
@@ -9,12 +8,7 @@ import { concat, mergeDeepRight, pick, pipe, uniqBy } from 'ramda'
 import { holiApiUrl } from '@holi/api/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
 
-import {
-  alwaysReplacePolicy,
-  indexAwareOffsetLimitPagination,
-  nestedPaginationPolicy,
-  pagedPolicy,
-} from './cachePolicies'
+import { alwaysReplacePolicy, pagedPolicy } from './cachePolicies'
 import errorLink from './errorLink'
 import headerLink from './headerLink'
 
@@ -86,13 +80,6 @@ export const createCache = () =>
           sdgs: alwaysReplacePolicy,
         },
       },
-      InsightPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
-      AppDonations_ProjectsResponse: pagedPolicy(),
-      AppVolunteering_EngagementsResponse: pagedPolicy(),
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
@@ -104,94 +91,41 @@ export const createCache = () =>
       },
       Space: {
         fields: {
-          members: alwaysReplacePolicy,
-          membershipRequests: alwaysReplacePolicy,
           tasks: alwaysReplacePolicy,
           sdgs: alwaysReplacePolicy,
           topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
-          posts: {
-            keyArgs: ['idOrName', 'visibility'],
-          },
-        },
-      },
-      SpacePaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
-      SpaceMemberPaged: {
-        fields: {
-          // Only allow pagination on the space detail or subordinated screens, recognizable by `idOrName`
-          data: {
-            merge: nestedPaginationPolicy(['idOrName']).merge,
-          },
-        },
-      },
-      SpaceMembershipRequestPaged: {
-        fields: {
-          // Only allow pagination on the space detail screen, recognizable by `idOrName`
-          data: nestedPaginationPolicy(['idOrName']),
-        },
-      },
-      SpaceInvitesPaged: {
-        fields: {
-          // Only allow pagination on the space detail screen, recognizable by `idOrName`
-          data: nestedPaginationPolicy(['idOrName']),
-        },
-      },
-      UserPaged: {
-        fields: {
-          data: {
-            keyArgs: ['substring'],
-            merge: indexAwareOffsetLimitPagination().merge,
-            read: offsetLimitPagination().read,
-          },
-        },
-      },
-      PostPaged: {
-        fields: {
-          data: {
-            merge: indexAwareOffsetLimitPagination().merge,
-            read: offsetLimitPagination().read,
-          },
-        },
-      },
-      AppointmentPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
+          connectionStatusToMyself: alwaysReplacePolicy,
+          posts: pagedPolicy(),
+          members: pagedPolicy(),
+          membershipRequests: pagedPolicy(),
+          invites: pagedPolicy(),
         },
       },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
-          appointments: {
-            keyArgs: ['statusType'],
-          },
-          lastInsights: {
-            keyArgs: [],
-          },
-          appDonations_projects: {
-            keyArgs: ['location'],
-          },
+          appointments: pagedPolicy(),
+          lastInsights: pagedPolicy(),
+          appDonations_projects: pagedPolicy(),
           appGoodNews_articles: {
             keyArgs: [],
           },
-          appVolunteering_engagementOpportunities: {
+          appVolunteering_engagementOpportunities: pagedPolicy(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            keyArgs: (args: Record<string, any> | null) => {
+            (args: Record<string, any> | null) => {
               const { location, category } = args || {}
               return JSON.stringify({
                 location: location?.geolocation?.properties?.place_id,
                 category,
               })
-            },
-          },
-          spaces: {
+            }
+          ),
+          spaces: pagedPolicy(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            keyArgs: (args: Record<string, any> | null) => {
+            (args: Record<string, any> | null) => {
               // reminder: keep in sync with parameters of `spaces` in `Query`, always exclude offset and limit
               const { topicSlug, geolocation, skillSlugs, memberId } = args || {}
               return JSON.stringify({
@@ -200,8 +134,8 @@ export const createCache = () =>
                 skillSlugs,
                 memberId,
               })
-            },
-          },
+            }
+          ),
           discoverSpaces: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             keyArgs: (args: Record<string, any> | null) => {
@@ -214,15 +148,10 @@ export const createCache = () =>
               })
             },
           },
-          userByName: {
-            keyArgs: ['substring'],
-          },
-          spacesByName: {
-            keyArgs: ['substring'],
-          },
-          connectedUsers: {
-            keyArgs: [],
-          },
+          userByName: pagedPolicy(),
+          spacesByName: pagedPolicy(),
+          connectedUsers: pagedPolicy(),
+          inspirationPosts: pagedPolicy(),
         },
       },
     },

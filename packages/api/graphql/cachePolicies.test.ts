@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 
-import { indexAwareOffsetLimitPagination, mergeIndexAwareOffsetLimitArray, pagedPolicy } from './cachePolicies'
+import { keyArgsWithoutLimitAndOffset, mergeIndexAwareOffsetLimitArray, pagedPolicy } from './cachePolicies'
 
 const one = { id: 1, __ref: 'TestType' }
 const oneOne = { id: 11, __ref: 'TestType' }
@@ -13,12 +13,12 @@ const five = { id: 5, __ref: 'TestType' }
 describe('cachePolicies', () => {
   describe('mergeIndexAwareOffsetLimitArray', () => {
     it('should add new entries to empty cache', () => {
-      const result = mergeIndexAwareOffsetLimitArray(undefined, [one, two], { variables: { offset: 0, limit: 2 } })
+      const result = mergeIndexAwareOffsetLimitArray(undefined, [one, two], { args: { offset: 0, limit: 2 } })
       expect(result).toStrictEqual([one, two])
     })
 
     it('should add new entries to non-empty cache', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [three, four], { variables: { offset: 2, limit: 2 } })
+      const result = mergeIndexAwareOffsetLimitArray([one, two], [three, four], { args: { offset: 2, limit: 2 } })
       expect(result).toStrictEqual([one, two, three, four])
     })
 
@@ -34,80 +34,36 @@ describe('cachePolicies', () => {
     })
 
     it('should add new entries to non-empty cache (with empty slots)', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [four, five], { variables: { offset: 3, limit: 2 } })
+      const result = mergeIndexAwareOffsetLimitArray([one, two], [four, five], { args: { offset: 3, limit: 2 } })
       expect(result).toStrictEqual([one, two, null, four, five])
     })
 
     it('should concatenate if non-overlapping', () => {
       const result = mergeIndexAwareOffsetLimitArray([one, two], [one, two, three, four], {
-        variables: { offset: 0, limit: 4 },
+        args: { offset: 0, limit: 4 },
       })
       expect(result).toStrictEqual([one, two, three, four])
     })
 
     it('should update existing entries', () => {
       const result = mergeIndexAwareOffsetLimitArray([one, two], [oneOne, twoTwo], {
-        variables: { offset: 0, limit: 2 },
+        args: { offset: 0, limit: 2 },
       })
       expect(result).toStrictEqual([oneOne, twoTwo])
     })
 
     it('should update and concatenate', () => {
       const result = mergeIndexAwareOffsetLimitArray([one, two], [oneOne, twoTwo, three, four], {
-        variables: { offset: 0, limit: 4 },
+        args: { offset: 0, limit: 4 },
       })
       expect(result).toStrictEqual([oneOne, twoTwo, three, four])
     })
 
     it('should update at correct indices', () => {
       const result = mergeIndexAwareOffsetLimitArray([one, two, three, four, five], [oneOne, twoTwo], {
-        variables: { offset: 2, limit: 2 },
+        args: { offset: 2, limit: 2 },
       })
       expect(result).toStrictEqual([one, two, oneOne, twoTwo, five])
-    })
-  })
-
-  describe('indexAwareOffsetLimitPagination.read', () => {
-    const policy = indexAwareOffsetLimitPagination()
-
-    it('should return miss for empty cache', () => {
-      // @ts-ignore
-      const result = policy.read(undefined, { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual(undefined)
-    })
-
-    it('should return hit if result is present', () => {
-      // @ts-ignore
-      const result = policy.read([one, two], { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual([one, two])
-    })
-
-    it('should return hit with all cached data (with offset + limit)', () => {
-      // we want read to always return all cached data, otherwise fetchMore wouldn't work
-      // @ts-ignore
-      const result = policy.read([one, two, three, four, five], { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual([one, two, three, four, five])
-    })
-
-    it('should return hit with all cached data (without offset + limit)', () => {
-      // we want read to always return all cached data, otherwise fetchMore wouldn't work
-      // @ts-ignore
-      const result = policy.read([one, two, three, four, five])
-      expect(result).toStrictEqual([one, two, three, four, five])
-    })
-
-    it('should return miss if cache contains empty slots (not within requested range)', () => {
-      // given that we always return all cached data, we shouldn't display lists with empty values
-      // returning undefined results in Apollo Client executing a network query after which required data will be present
-      // @ts-ignore
-      const result = policy.read([one, two, null, four, five], { variables: { offset: 0, limit: 2 } })
-      expect(result).toStrictEqual(undefined)
-    })
-
-    it('should return miss if cache contains empty slots (within requested range)', () => {
-      // @ts-ignore
-      const result = policy.read([one, two, null, four, five], { variables: { offset: 0, limit: 5 } })
-      expect(result).toStrictEqual(undefined)
     })
   })
 
@@ -132,13 +88,13 @@ describe('cachePolicies', () => {
 
     it('should add new entries to empty cache', () => {
       // @ts-ignore
-      const result = policy.merge(undefined, partialPageResults, { variables: { offset: 0, limit: 2 } })
+      const result = policy.merge(undefined, partialPageResults, { args: { offset: 0, limit: 2 } })
       expect(result).toStrictEqual(partialPageResults)
     })
 
     it('should add new entries to non-empty cache', () => {
       // @ts-ignore
-      const result = policy.merge(partialPageResults, partialPageResultsOffset2, { variables: { offset: 2, limit: 2 } })
+      const result = policy.merge(partialPageResults, partialPageResultsOffset2, { args: { offset: 2, limit: 2 } })
       expect(result).toStrictEqual({ totalResults: 5, data: [one, two, three, four] })
     })
 
@@ -157,7 +113,7 @@ describe('cachePolicies', () => {
 
     it('should add new entries to non-empty cache (with empty slots)', () => {
       // @ts-ignore
-      const result = policy.merge(partialPageResults, partialPageResultsOffset3, { variables: { offset: 3, limit: 2 } })
+      const result = policy.merge(partialPageResults, partialPageResultsOffset3, { args: { offset: 3, limit: 2 } })
       expect(result).toStrictEqual({
         totalResults: 5,
         data: [one, two, null, four, five],
@@ -168,9 +124,9 @@ describe('cachePolicies', () => {
       // @ts-ignore
       const result = policy.merge(
         partialPageResults,
-        { totalResults: 5, data: [one, two, three, four] },
+        { totalResults: 5, data: [three, four] },
         {
-          variables: { offset: 0, limit: 4 },
+          args: { offset: 2, limit: 4 },
         }
       )
       expect(result).toStrictEqual({ totalResults: 5, data: [one, two, three, four] })
@@ -178,7 +134,7 @@ describe('cachePolicies', () => {
 
     it('should update existing entries', () => {
       // @ts-ignore
-      const result = policy.merge(partialPageResults, updatedPageResults, { variables: { offset: 0, limit: 2 } })
+      const result = policy.merge(partialPageResults, updatedPageResults, { args: { offset: 0, limit: 2 } })
       expect(result).toStrictEqual(updatedPageResults)
     })
 
@@ -186,7 +142,7 @@ describe('cachePolicies', () => {
       const incoming = { totalResults: 5, data: [oneOne, twoTwo, three, four] }
       // @ts-ignore
       const result = policy.merge(partialPageResults, incoming, {
-        variables: { offset: 0, limit: 4 },
+        args: { offset: 0, limit: 4 },
       })
       expect(result).toStrictEqual(incoming)
     })
@@ -200,14 +156,35 @@ describe('cachePolicies', () => {
         },
         updatedPageResults,
         {
-          variables: { offset: 2, limit: 2 },
+          args: { offset: 2, limit: 2 },
         }
       )
       expect(result).toStrictEqual({ totalResults: 5, data: [one, two, oneOne, twoTwo, five] })
     })
+
+    it('should replace list if it was shortened', () => {
+      const existing = { totalResults: 4, data: [one, two, three, four] }
+      const incoming = { totalResults: 3, data: [one, two, three] }
+      // @ts-ignore
+      const result = policy.merge(existing, incoming, {
+        args: { offset: 0, limit: 4 },
+      })
+      expect(result).toStrictEqual(incoming)
+    })
+
+    it('should replace with offset if list was shortened', () => {
+      const existing = { totalResults: 4, data: [one, two, three, four] }
+      const incoming = { totalResults: 3, data: [three] }
+      const expected = { totalResults: 3, data: [one, two, three] }
+      // @ts-ignore
+      const result = policy.merge(existing, incoming, {
+        args: { offset: 2, limit: 4 },
+      })
+      expect(result).toStrictEqual(expected)
+    })
   })
 
-  describe('pagesPolicy.read', () => {
+  describe('pagedPolicy.read', () => {
     const policy = pagedPolicy()
     const partialPageResults = {
       totalResults: 5,
@@ -224,27 +201,27 @@ describe('cachePolicies', () => {
 
     it('should return miss for empty cache', () => {
       // @ts-ignore
-      const result = policy.read(undefined, { variables: { offset: 0, limit: 2 } })
+      const result = policy.read(undefined, { args: { offset: 0, limit: 2 } })
       expect(result).toStrictEqual(undefined)
     })
 
     it('should return hit if result is present', () => {
       // @ts-ignore
-      const result = policy.read(partialPageResults, { variables: { offset: 0, limit: 2 } })
+      const result = policy.read(partialPageResults, { args: { offset: 0, limit: 2 } })
       expect(result).toStrictEqual(partialPageResults)
     })
 
     it('should return hit with all cached data (with offset + limit)', () => {
       // we want read to always return all cached data, otherwise fetchMore wouldn't work
       // @ts-ignore
-      const result = policy.read(fullPageResults, { variables: { offset: 0, limit: 2 } })
+      const result = policy.read(fullPageResults, { args: { offset: 0, limit: 2 } })
       expect(result).toStrictEqual(fullPageResults)
     })
 
     it('should return hit with all cached data (with offset + limit but less total results)', () => {
       // cached data is less than requested, but there are no more total results
       // @ts-ignore
-      const result = policy.read(fullPageResults, { variables: { offset: 0, limit: 10 } })
+      const result = policy.read(fullPageResults, { args: { offset: 0, limit: 10 } })
       expect(result).toStrictEqual(fullPageResults)
     })
 
@@ -259,14 +236,23 @@ describe('cachePolicies', () => {
       // given that we always return all cached data, we shouldn't display lists with empty values
       // returning undefined results in Apollo Client executing a network query after which required data will be present
       // @ts-ignore
-      const result = policy.read(partiallyNullPageResults, { variables: { offset: 0, limit: 2 } })
+      const result = policy.read(partiallyNullPageResults, { args: { offset: 0, limit: 2 } })
       expect(result).toStrictEqual(undefined)
     })
 
     it('should return miss if cache contains empty slots (within requested range)', () => {
       // @ts-ignore
-      const result = policy.read(partiallyNullPageResults, { variables: { offset: 0, limit: 5 } })
+      const result = policy.read(partiallyNullPageResults, { args: { offset: 0, limit: 5 } })
       expect(result).toStrictEqual(undefined)
+    })
+  })
+
+  describe('keyArgsWithoutLimitAndOffset', () => {
+    it('should include all args except limit and offset', () => {
+      expect(keyArgsWithoutLimitAndOffset({ limit: 10, offset: 0 })).toEqual('{}')
+      expect(keyArgsWithoutLimitAndOffset({ limit: 10, offset: 0, location: 'Hamburg', spaceId: '123' })).toEqual(
+        '{"location":"Hamburg","spaceId":"123"}'
+      )
     })
   })
 })
