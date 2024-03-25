@@ -242,7 +242,7 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
 
     contributorSection: {
       marginTop: Spacing.md,
-      backgroundColor: theme.colors.brandD200,
+      backgroundColor: theme.dark ? theme.colors.brandD300 : theme.colors.brandD200,
     },
 
     contributors: {
@@ -271,7 +271,7 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
 
     partner: {
       padding: 8,
-      backgroundColor: theme.colors.background20,
+      backgroundColor: theme.colors.light,
       borderColor: theme.colors.black300,
       borderWidth: 1,
       borderRadius: 8,
