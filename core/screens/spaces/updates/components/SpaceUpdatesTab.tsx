@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -184,9 +183,5 @@ const getStyles = (theme: HoliTheme) =>
       position: 'relative',
     },
   })
-
-export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
-  () => import('@holi/core/screens/spaces/updates/components/SpaceUpdatesTab')
-)
 
 export default withProfiler(SpaceUpdatesTab, { name: 'SpaceUpdatesTab' })

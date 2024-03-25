@@ -7,7 +7,7 @@ import { useSubscribeToChat } from '@holi/chat/src/store'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { logDebug } from '@holi/core/helpers/logging'
 
-export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./ChatDevTools'))
+export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./ChatDevTools'), { ssr: false })
 
 const ChatStore = () => {
   logDebug('ChatStore', 'subscribeToChat')
