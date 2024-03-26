@@ -82,18 +82,18 @@ const CurationPrinciplesPage: React.FC = () => {
     <>
       <ScrollHeaderLayout.Default style={styles.wrapper}>
         <HoliContainer>
-          <View style={{ gap: Spacing.xs, paddingTop: Spacing.md }}>
+          <View style={styles.intro}>
             <HoliHeading level="1">{t('insights.curationPrinciples.intro.heading')}</HoliHeading>
             <HoliText>{t('insights.curationPrinciples.intro.description')}</HoliText>
           </View>
 
-          <View
-            style={[{ gap: Spacing.xs, paddingTop: Spacing.md, width: '100%', maxWidth: dimensions.maxScreenWidth }]}
-          >
+          <View style={styles.heading}>
             <HoliHeading level="1">{t('insights.curationPrinciples.principles.heading')}</HoliHeading>
-            {/* TODO(alex): This has the same alignment issues as previously with the carousel */}
-            <HoliCarousel slides={slides} marginHorizontal={Spacing.xs} />
           </View>
+        </HoliContainer>
+
+        <HoliContainer paddingHorizontal={0}>
+          <HoliCarousel slides={slides} marginHorizontal={Spacing.xs} />
         </HoliContainer>
 
         <HoliContainer paddingHorizontal={0}>
@@ -206,6 +206,19 @@ const CurationPrinciplesPage: React.FC = () => {
 
 const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
   StyleSheet.create({
+    intro: {
+      gap: Spacing.xs,
+      paddingTop: Spacing.md,
+    },
+
+    heading: {
+      gap: Spacing.xs,
+      paddingTop: Spacing.md,
+      paddingBottom: Spacing.sm,
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+    },
+
     wrapper: {
       backgroundColor: theme.colors.background20,
       ...Platform.select({
