@@ -272,11 +272,12 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'center',
-      gap: 12,
+      columnGap: isWideLayout ? Spacing.xs : Spacing['3xs'],
+      rowGap: Spacing.md,
     },
 
     contributor: {
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'center',
       gap: Spacing['3xs'],
       width: 110,
