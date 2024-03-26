@@ -17,7 +17,6 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CircledNumber = ({ number }: { number: number }) => {
   const { theme } = useTheme()
@@ -36,7 +35,6 @@ const CurationPrinciplesPage: React.FC = () => {
   const { navigate } = useRouting()
 
   const { theme } = useTheme()
-  const mixins = useStyleMixins()
 
   const { width: screenWidth } = useWindowDimensions()
   const isWideLayout = screenWidth >= dimensions.breakpointS
@@ -77,23 +75,22 @@ const CurationPrinciplesPage: React.FC = () => {
   return (
     <>
       <ScrollHeaderLayout.Default style={styles.wrapper} headerOverlap={Platform.OS !== 'web'}>
-        <View style={[mixins.container, { gap: Spacing.xs, paddingTop: Spacing.md }]}>
-          <HoliHeading level="1">{t('insights.curationPrinciples.intro.heading')}</HoliHeading>
-          <HoliText>{t('insights.curationPrinciples.intro.description')}</HoliText>
-        </View>
-
-        <View
-          style={[
-            mixins.container,
-            { gap: Spacing.xs, paddingTop: Spacing.md, width: '100%', maxWidth: dimensions.maxScreenWidth },
-          ]}
-        >
-          <HoliHeading level="1">{t('insights.curationPrinciples.principles.heading')}</HoliHeading>
-          {/* TODO(alex): This has the same alignment issues as previously with the carousel */}
-          <HoliCarousel slides={slides} marginHorizontal={Spacing.xs} />
-        </View>
-
         <HoliContainer>
+          <View style={{ gap: Spacing.xs, paddingTop: Spacing.md }}>
+            <HoliHeading level="1">{t('insights.curationPrinciples.intro.heading')}</HoliHeading>
+            <HoliText>{t('insights.curationPrinciples.intro.description')}</HoliText>
+          </View>
+
+          <View
+            style={[{ gap: Spacing.xs, paddingTop: Spacing.md, width: '100%', maxWidth: dimensions.maxScreenWidth }]}
+          >
+            <HoliHeading level="1">{t('insights.curationPrinciples.principles.heading')}</HoliHeading>
+            {/* TODO(alex): This has the same alignment issues as previously with the carousel */}
+            <HoliCarousel slides={slides} marginHorizontal={Spacing.xs} />
+          </View>
+        </HoliContainer>
+
+        <HoliContainer paddingHorizontal={0}>
           <View style={[styles.section, styles.contributorSection]}>
             <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
               {t('insights.curationPrinciples.curators.heading')}
@@ -139,8 +136,8 @@ const CurationPrinciplesPage: React.FC = () => {
           </View>
         </HoliContainer>
 
-        <View style={isWideLayout ? [mixins.container] : []}>
-          <View style={[mixins.container, styles.section, styles.partnersSection]}>
+        <HoliContainer paddingHorizontal={0}>
+          <View style={[styles.section, styles.partnersSection]}>
             <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
               {t('insights.curationPrinciples.partners.heading')}
             </HoliHeading>
@@ -195,7 +192,7 @@ const CurationPrinciplesPage: React.FC = () => {
               </Pressable>
             </View>
           </View>
-        </View>
+        </HoliContainer>
       </ScrollHeaderLayout.Default>
     </>
   )
@@ -234,6 +231,7 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
 
     section: {
       paddingVertical: Spacing.xl,
+      paddingHorizontal: Spacing.xs,
       borderRadius: 24,
       borderWidth: 1,
       borderColor: theme.colors.black300,
