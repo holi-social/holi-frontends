@@ -5,6 +5,7 @@ import { Linking, Platform, Pressable, StyleSheet, View, useWindowDimensions } f
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
@@ -67,14 +68,19 @@ const CurationPrinciplesPage: React.FC = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      title: t('insights.curationPrinciples.title'),
-      headerTransparent: false,
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: theme.colors.background10 },
+      headerTitle: ({ tintColor }) => (
+        <HeaderTitle tintColor={tintColor}>{t('insights.curationPrinciples.title')}</HeaderTitle>
+      ),
     })
-  })
+  }, [theme.colors.background10, t])
 
   return (
     <>
-      <ScrollHeaderLayout.Default style={styles.wrapper} headerOverlap={Platform.OS !== 'web'}>
+      <ScrollHeaderLayout.Default style={styles.wrapper}>
         <HoliContainer>
           <View style={{ gap: Spacing.xs, paddingTop: Spacing.md }}>
             <HoliHeading level="1">{t('insights.curationPrinciples.intro.heading')}</HoliHeading>
