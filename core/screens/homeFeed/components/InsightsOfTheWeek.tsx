@@ -107,8 +107,7 @@ const InsightsOfTheWeek = () => {
       <InsightList style={styles.insightList} loading={!!loading} insights={insights} />
       <HoliButtonLoading
         type="secondary"
-        label={t('global.seeMore')}
-        loadingLabel={t('global.loading')}
+        label={t('insights.discoverMore')}
         onPress={() => goToInsights()}
         testID="btn-navigate-to-insights"
         style={mixins.moreButton}
