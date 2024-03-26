@@ -9,6 +9,7 @@ export interface ContainerProps {
   flexDirection?: FlexStyle['flexDirection']
   justifyContent?: FlexStyle['justifyContent']
   flex?: number
+  paddingHorizontal?: number
 }
 
 const generateStyles = (flexStyles: ContainerProps) => {
@@ -24,9 +25,10 @@ const HoliContainer = ({
   alignItems = 'stretch',
   flexDirection = 'column',
   justifyContent = 'flex-start',
+  paddingHorizontal = 16,
 }: PropsWithChildren<ContainerProps>) => (
   <View
-    style={[styles.container, generateStyles({ alignItems, flexDirection, justifyContent, flex })]}
+    style={[styles.container, generateStyles({ alignItems, flexDirection, justifyContent, flex, paddingHorizontal })]}
     dataSet={{ media: ids.container }}
   >
     {children}
@@ -41,7 +43,6 @@ const { styles, ids } = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     maxWidth: dimensions.maxScreenWidth,
-    paddingHorizontal: 16,
 
     [`@media (min-width: ${dimensions.breakpointS}px)`]: {
       paddingRight: 32,
