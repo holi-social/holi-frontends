@@ -55,11 +55,13 @@ const CurationPrinciplesPage: React.FC = () => {
         <View style={{ gap: Spacing['3xs'], width: '100%', justifyContent: 'center' }} key={index}>
           <View style={styles.card}>
             <CircledNumber number={sequenceNumber} />
-            <HoliText>{t(`insights.curationPrinciples.principles.${sequenceNumber}`)}</HoliText>
+            <HoliText style={styles.cardText}>{t(`insights.curationPrinciples.principles.${sequenceNumber}`)}</HoliText>
           </View>
           <View style={styles.card}>
             <CircledNumber number={sequenceNumber + 1} />
-            <HoliText>{t(`insights.curationPrinciples.principles.${sequenceNumber + 1}`)}</HoliText>
+            <HoliText style={styles.cardText}>
+              {t(`insights.curationPrinciples.principles.${sequenceNumber + 1}`)}
+            </HoliText>
           </View>
         </View>
       ),
@@ -76,7 +78,7 @@ const CurationPrinciplesPage: React.FC = () => {
         <HeaderTitle tintColor={tintColor}>{t('insights.curationPrinciples.title')}</HeaderTitle>
       ),
     })
-  }, [theme.colors.background10, t])
+  }, [theme.colors.background10, t, setScreenOptions])
 
   return (
     <>
@@ -236,6 +238,10 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
       flex: 1,
       flexDirection: 'row',
       gap: Spacing.xxs,
+    },
+
+    cardText: {
+      flex: 1,
     },
 
     circledNumber: {
