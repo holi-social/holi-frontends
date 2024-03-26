@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers/logError'
@@ -29,6 +29,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -55,9 +56,78 @@ const InsightsList = () => {
     })
   }, [navigate, setScreenOptions, t, theme.colors.background10])
 
+  const { width: screenWidth } = useWindowDimensions()
+  const [isWideLayout, setWideLayout] = useState<boolean>(false)
+
+  useIsomorphicLayoutEffect(() => {
+    if (screenWidth >= dimensions.breakpointS) {
+      setWideLayout(true)
+    }
+  }, [isWideLayout, screenWidth])
+
   if (!loading && !totalResults) return <></>
 
   if (loading) return <HoliLoader style={styles.loader} />
+
+  const CurationPrinciplesCardSmall = () => (
+    <Pressable onPress={() => navigate('/insights/curationPrinciples')} style={styles.curationPrinciplesCard}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing['3xs'] }}>
+        <HoliLocalImage
+          imageSource={require('@holi/ui/assets/img/illustrations/illustration_news.svg')}
+          label={t('insights.curationPrinciples.title')}
+          height={36}
+          width={62}
+          isSvg
+        />
+        <HoliText bold>{t('insights.curationPrinciples.title')}</HoliText>
+      </View>
+      <HoliIcon icon={ArrowRightS} />
+    </Pressable>
+  )
+
+  const CurationPrinciplesCardLarge = () => {
+    const baseStyles = [styles.curationPrinciplesCard, { padding: Spacing.xs }]
+
+    return (
+      <Pressable
+        onPress={() => navigate('/insights/curationPrinciples')}
+        style={({ hovered }) => (hovered ? [...baseStyles, styles.curationPrinciplesCardHovered] : baseStyles)}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.xs, flexShrink: 1 }}>
+          <View
+            style={{
+              height: 120,
+              paddingVertical: Spacing.lg,
+              paddingHorizontal: Spacing.md,
+              backgroundColor: theme.colors.background20,
+              justifyContent: 'center',
+              borderRadius: 8,
+            }}
+          >
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_news_sparkle.svg')}
+              label={t('insights.curationPrinciples.title')}
+              height={80}
+              width={110}
+              resizeMode="contain"
+              isSvg
+            />
+          </View>
+
+          <View style={{ flex: 1, height: 120, justifyContent: 'space-between' }}>
+            <HoliHeading level="2">{t('insights.curationPrinciples.title')}</HoliHeading>
+            <HoliText numberOfLines={2} color="gray300">
+              {t('insights.curationPrinciples.intro.description')}
+            </HoliText>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <HoliText bold>{t('insights.curationPrinciples.learnMore')}</HoliText>
+              <HoliIcon icon={ArrowRightS} />
+            </View>
+          </View>
+        </View>
+      </Pressable>
+    )
+  }
 
   const Headline = () => {
     return (
@@ -107,20 +177,7 @@ const InsightsList = () => {
         />
       </HoliModal>
 
-      {/* TODO(alex): adapt for web/larger design */}
-      <Pressable onPress={() => navigate('/insights/curationPrinciples')} style={styles.curationPrinciplesCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing['3xs'] }}>
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_news.svg')}
-            label={t('insights.curationPrinciples.title')}
-            height={36}
-            width={62}
-            isSvg
-          />
-          <HoliText bold>{t('insights.curationPrinciples.title')}</HoliText>
-        </View>
-        <HoliIcon icon={ArrowRightS} />
-      </Pressable>
+      {isWideLayout ? <CurationPrinciplesCardLarge /> : <CurationPrinciplesCardSmall />}
 
       <InsightList loading={!!loading} insights={insights} />
     </>
@@ -204,5 +261,15 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       marginVertical: Spacing.md,
+    },
+
+    curationPrinciplesCardHovered: {
+      borderColor: theme.colors.black300,
+      shadowColor: theme.colors.black300,
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.12,
     },
   })
