@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers/logError'
@@ -16,15 +16,19 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import InsightList, { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowRightS } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -103,7 +107,22 @@ const InsightsList = () => {
         />
       </HoliModal>
 
-      <InsightList style={styles.insightList} loading={!!loading} insights={insights} />
+      {/* TODO(alex): adapt for web/larger design */}
+      <Pressable onPress={() => navigate('/insights/curationPrinciples')} style={styles.curationPrinciplesCard}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing['3xs'] }}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_news.svg')}
+            label={t('insights.curationPrinciples.title')}
+            height={36}
+            width={62}
+            isSvg
+          />
+          <HoliText bold>{t('insights.curationPrinciples.title')}</HoliText>
+        </View>
+        <HoliIcon icon={ArrowRightS} />
+      </Pressable>
+
+      <InsightList loading={!!loading} insights={insights} />
     </>
   )
 }
@@ -144,9 +163,6 @@ export default withProfiler(InsightsPage, { name: 'InsightsPage' })
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    insightList: {
-      marginTop: 24,
-    },
     editorsButtonContent: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -175,5 +191,18 @@ const getStyles = (theme: HoliTheme) =>
     loaderBottom: {
       marginBottom: 24,
       position: 'relative',
+    },
+
+    curationPrinciplesCard: {
+      flexDirection: 'row',
+      width: '100%',
+      padding: Spacing['3xs'],
+      backgroundColor: theme.colors.background10,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: theme.colors.gray200,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginVertical: Spacing.md,
     },
   })

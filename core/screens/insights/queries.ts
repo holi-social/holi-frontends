@@ -254,3 +254,18 @@ export type InsightWithInitiativeResponse = {
     initiative: Initiative
   }
 }
+
+export const insightAuthors = gql`
+  ${UserAvatarFragment}
+
+  query InsightAuthors($limit: Int! = 10, $offset: Int! = 0) {
+    insightAuthors(limit: $limit, offset: $offset) {
+      data {
+        ...UserAvatar
+      }
+    }
+  }
+`
+export type InsightAuthorsResponse = {
+  insightAuthors: Paged<User>
+}
