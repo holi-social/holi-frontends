@@ -10,6 +10,7 @@ export interface HoliCarouselProps {
   style?: StyleProp<ViewStyle>
   hideDotIndicators?: boolean
   marginHorizontal?: number
+  slideWidth?: number
 }
 
 const isWeb = Platform.OS === 'web'
@@ -18,6 +19,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   slides,
   style,
   hideDotIndicators,
+  slideWidth,
   marginHorizontal = 0, // margin between slide and device screen
 }: HoliCarouselProps) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
@@ -26,8 +28,10 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   const { width: screenWidth } = useClientWindowDimensions()
 
   const marginBetweenSlides = 8 // margin between slides
-  const scrollingOffset = screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
-  const defaultSlideWidth = 350
+  const scrollingOffset = slideWidth
+    ? slideWidth + marginBetweenSlides
+    : screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
+  const defaultSlideWidth = slideWidth || 350
   const horizontalScrollMinWidth = 600
 
   const { theme } = useTheme()
@@ -37,7 +41,8 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
     marginBetweenSlides,
     defaultSlideWidth,
     horizontalScrollMinWidth,
-    theme
+    theme,
+    slideWidth
   )
 
   const handleOnScroll = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
@@ -156,7 +161,8 @@ const getStyles = (
   marginBetweenSlides: number,
   defaultSlideWidth: number,
   horizontalScrollMinWidth: number,
-  theme: HoliTheme
+  theme: HoliTheme,
+  slideWidth?: number
 ) =>
   StyleSheet.create({
     container: {
@@ -169,21 +175,28 @@ const getStyles = (
       alignItems: 'center',
     },
     scrollViewStyle: {
-      overflowX: 'auto',
       width: '100%',
       flexDirection: 'row',
-      scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
+      ...Platform.select({
+        web: {
+          scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
+        },
+      }),
     },
     slideContainer: {
       flexDirection: 'row',
       height: '100%',
-      width: screenWidth - marginHorizontal * 2,
+      width: slideWidth ? slideWidth : screenWidth - marginHorizontal * 2,
       marginLeft: marginBetweenSlides,
       marginRight: 0,
       ...Platform.select({
         web: {
           scrollSnapAlign: 'center',
-          width: screenWidth < horizontalScrollMinWidth ? screenWidth - marginHorizontal * 2 : defaultSlideWidth,
+          width: slideWidth
+            ? slideWidth
+            : screenWidth < horizontalScrollMinWidth
+            ? screenWidth - marginHorizontal * 2
+            : defaultSlideWidth,
           paddingRight: 0,
         },
       }),

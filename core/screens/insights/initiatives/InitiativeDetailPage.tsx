@@ -113,11 +113,13 @@ const InitiativeDetailPage = () => {
       >
         {initiative && !loading ? (
           <>
-            <HoliImageBackground
-              source={{ uri: initiative.linkPreview.image }}
-              resizeMode="cover"
-              style={styles.bannerImage}
-            />
+            {initiative.linkPreview.image && (
+              <HoliImageBackground
+                source={{ uri: initiative.linkPreview.image }}
+                resizeMode="cover"
+                style={styles.bannerImage}
+              />
+            )}
             <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={initiative.linkPreview.icon} link={initiative.link} />
               <HoliGap size="s" />

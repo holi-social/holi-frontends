@@ -8,6 +8,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -25,6 +26,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -78,9 +80,10 @@ const QuoteDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      title: t('insights.quotes.title'),
-      headerTintColor: colors.black300,
-      headerShown: true,
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerStyle: { backgroundColor: theme.colors.background10 },
+      headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
       headerRight: () => {
         return (
           <HoliActionDrawer.Drawer
@@ -96,11 +99,8 @@ const QuoteDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
-      navigationCustomOptions: {
-        headerBackgroundGradient: true,
-      },
     })
-  }, [quote, setScreenOptions, shareLink, t, colors.black300])
+  }, [quote, setScreenOptions, shareLink, t, colors.black300, theme.colors.background10])
 
   return (
     <>
@@ -136,7 +136,7 @@ const QuoteDetailPage = () => {
               </View>
 
               <HoliGap size="s" />
-              <QuoteCard.QuoteOnly quote={quote} />
+              <QuoteCard.QuoteOnly quote={quote} quoteColor="#A3DAFC" />
               <HoliGap size="s" />
               <HoliText>{quote.comment}</HoliText>
             </View>
@@ -166,7 +166,7 @@ const Skeleton = () => {
 
   return (
     <>
-      <View style={[mixins.container, styles.bannerImage]}>
+      <View style={[mixins.container, styles.bannerImage, styles.wrapper]}>
         <HoliSkeleton height={styles.bannerImage.height as number} width="100%" borderRadius={0} />
       </View>
       <View style={[mixins.container, styles.section]}>
@@ -183,19 +183,21 @@ const getStyles = (theme: HoliTheme) =>
     wrapper: {
       backgroundColor: theme.colors.background20,
       paddingBottom: 124,
+      ...(Platform.OS !== 'web' && { paddingTop: dimensions.topBarHeight + Spacing.xxl }),
     },
     header: {
       marginBottom: 2,
     },
     bannerImage: {
       paddingHorizontal: 0,
-      height: Platform.OS === 'web' ? 680 : 340,
+      aspectRatio: 375 / 202,
       ...Platform.select({
         web: {
+          height: 680,
           maxHeight: '50vh',
           objectFit: 'cover',
         },
-        native: { maxHeight: '50%' },
+        native: { maxHeight: '50%', aspectRatio: 375 / 202 },
       }),
     } as ImageStyle,
 
@@ -220,6 +222,7 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 16,
+      maxWidth: dimensions.maxButtonWidth,
       left: 0,
       right: 0,
       marginLeft: 'auto',

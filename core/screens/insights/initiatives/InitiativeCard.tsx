@@ -47,17 +47,16 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
           </>
         )}
         {(errorLoadingImage || !initiative.linkPreview.image) && (
-          <>
+          <View style={styles.imageWrapper}>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
               label={initiative.link}
-              style={styles.image}
-              width={89}
+              width={88}
               height={88}
               isSvg
             />
             <HoliGap size="s" />
-          </>
+          </View>
         )}
         <View style={styles.description}>
           <ExternalContentCategoryBadge category={initiative.category} />
@@ -95,9 +94,17 @@ const getStyles = (theme: HoliTheme) =>
         web: { marginBottom: 4 },
       }),
     },
-
+    imageWrapper: {
+      borderRadius: Spacing['3xs'],
+      width: '100%',
+      height: 160,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: theme.colors.gray100,
+      marginBottom: Spacing.xs,
+    },
     image: {
-      borderRadius: Spacing.xs,
+      borderRadius: Spacing['3xs'],
       width: '100%',
       height: 160,
     },
