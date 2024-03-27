@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -10,6 +10,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
+import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -30,22 +32,11 @@ const CircledNumber = ({ number }: { number: number }) => {
   )
 }
 
-const CurationPrinciplesPage: React.FC = () => {
+const PrinciplesSectionCarousel: React.FC = () => {
   const { t } = useTranslation()
-  const setScreenOptions = useSetScreenOptions()
-  const { navigate } = useRouting()
 
   const { theme } = useTheme()
-
-  const { width: screenWidth } = useWindowDimensions()
-  const isWideLayout = screenWidth >= dimensions.breakpointS
-
-  const { data, loading } = useQuery<InsightAuthorsResponse>(insightAuthors, {
-    variables: { limit: 30 },
-  })
-
-  const styles = useMemo(() => getStyles(theme, isWideLayout), [theme, isWideLayout])
-  const authors = data?.insightAuthors?.data || []
+  const styles = useMemo(() => getStyles(theme, false), [theme])
 
   const slides = [...Array(3)].map((_, index) => {
     const sequenceNumber = index * 2 + 1
@@ -67,6 +58,51 @@ const CurationPrinciplesPage: React.FC = () => {
       ),
     }
   })
+
+  return <HoliCarousel slides={slides} marginHorizontal={Spacing.xs} />
+}
+
+const PrinciplesSectionGrid: React.FC = () => {
+  const { t } = useTranslation()
+
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme, true), [theme])
+
+  return (
+    <HoliGridWrapper breakpoints={[[1, 2]]} gap={Spacing.xxs}>
+      {[1, 4, 2, 5, 3, 6].map((principle) => (
+        <HoliGridCell key={principle}>
+          <View style={styles.card}>
+            <CircledNumber number={principle} />
+            <HoliText style={styles.cardText}>{t(`insights.curationPrinciples.principles.${principle}`)}</HoliText>
+          </View>
+        </HoliGridCell>
+      ))}
+    </HoliGridWrapper>
+  )
+}
+
+const CurationPrinciplesPage: React.FC = () => {
+  const { t } = useTranslation()
+  const setScreenOptions = useSetScreenOptions()
+  const { navigate } = useRouting()
+
+  const { width: screenWidth } = useWindowDimensions()
+  const [isWideLayout, setWideLayout] = useState<boolean>(false)
+
+  useIsomorphicLayoutEffect(() => {
+    if (screenWidth >= dimensions.breakpointS) {
+      setWideLayout(true)
+    }
+  }, [isWideLayout, screenWidth])
+
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme, isWideLayout), [theme, isWideLayout])
+
+  const { data, loading } = useQuery<InsightAuthorsResponse>(insightAuthors, {
+    variables: { limit: 30 },
+  })
+  const authors = data?.insightAuthors?.data || []
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -95,7 +131,7 @@ const CurationPrinciplesPage: React.FC = () => {
         </HoliContainer>
 
         <HoliContainer paddingHorizontal={0}>
-          <HoliCarousel slides={slides} marginHorizontal={Spacing.xs} />
+          {isWideLayout ? <PrinciplesSectionGrid /> : <PrinciplesSectionCarousel />}
         </HoliContainer>
 
         <HoliContainer paddingHorizontal={0}>
