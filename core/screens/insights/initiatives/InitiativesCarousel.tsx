@@ -6,14 +6,17 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 
 export interface InitiativesCarouselProps {
   insightId: string
+  marginHorizontal: number
   initiatives: Initiative[]
+  slideWidth?: number
 }
 
-const InitiativesCarousel = ({ initiatives, insightId }: InitiativesCarouselProps) => {
+const InitiativesCarousel = ({ initiatives, insightId, marginHorizontal, slideWidth }: InitiativesCarouselProps) => {
   return (
     <HoliCarousel
       hideDotIndicators
-      marginHorizontal={20}
+      marginHorizontal={marginHorizontal}
+      slideWidth={slideWidth}
       slides={initiatives.map((initiative) => ({
         children: <InitiativeCard insightId={insightId} initiative={initiative} />,
       }))}

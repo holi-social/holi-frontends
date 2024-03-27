@@ -3,11 +3,12 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
+import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -35,7 +36,6 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -59,7 +59,9 @@ const InsightDetailPage = () => {
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { width: screenWidth } = useClientWindowDimensions()
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
+  const carouselMarginHorizontal = screenWidth < dimensions.breakpointL ? Spacing.xs : 0
 
   const {
     data: { insightById: insight } = {},
@@ -82,10 +84,9 @@ const InsightDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerTransparent: true,
+      headerTintColor: colors.light,
       title: '',
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerStyle: { backgroundColor: 'transparent' },
       navigationCustomOptions: {
         headerBackgroundGradient: true,
       },
@@ -100,30 +101,16 @@ const InsightDetailPage = () => {
           )
         )
       },
-      ...(Platform.OS === 'web'
-        ? {
-            headerLeft: () => (
-              <HoliButton label="" onPress={() => replaceRoute('/')} transparent inline>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
-                  isSvg
-                  width={78}
-                  height={24}
-                  label={t('navigation.title')}
-                />
-              </HoliButton>
-            ),
-          }
-        : {}),
     })
-  }, [insight, setScreenOptions, colors.light, replaceRoute, t])
+  }, [insight, setScreenOptions, colors.light])
 
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
-
   const creator = insight?.creator
+  const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
+  const cardWidth = 330
   const recommendationsTitle =
     recommendations.length > 1
       ? t('insights.recommendations.title.creator.multiple', {
@@ -131,8 +118,6 @@ const InsightDetailPage = () => {
           number: recommendations.length,
         })
       : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
-
-  const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
 
   return (
     <>
@@ -177,11 +162,11 @@ const InsightDetailPage = () => {
                       {' · '}
                       <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
                     </HoliText>
-                    <HoliButton
-                      transparent
-                      label={t('user.cards.modal.showInfo', { name: creator.fullName })}
+                    <Pressable
                       onPress={() => setShowCuratorModal(true)}
-                      style={styles.creatorInfoButton}
+                      style={({ hovered }) => {
+                        return hovered ? [styles.creatorInfoButtonHovered] : [styles.creatorInfoButton]
+                      }}
                     >
                       <View style={styles.creatorInfo}>
                         <HoliAvatar
@@ -197,7 +182,7 @@ const InsightDetailPage = () => {
                           <HoliText size="small">{t('global.journalist')}</HoliText>
                         </View>
                       </View>
-                    </HoliButton>
+                    </Pressable>
                   </View>
 
                   <HoliModal
@@ -225,7 +210,12 @@ const InsightDetailPage = () => {
                   label: recommendationsTitle,
                 }}
               >
-                <RecommendationsCarousel insight={insight} recommendations={recommendations} />
+                <RecommendationsCarousel
+                  insight={insight}
+                  recommendations={recommendations}
+                  marginHorizontal={carouselMarginHorizontal}
+                  slideWidth={cardWidth}
+                />
               </InsightCarouselSection>
             )}
 
@@ -237,7 +227,12 @@ const InsightDetailPage = () => {
                   label: 'Quote',
                 }}
               >
-                <QuotesCarousel insightId={insight.id} quotes={quotes} />
+                <QuotesCarousel
+                  insightId={insight.id}
+                  quotes={quotes}
+                  marginHorizontal={carouselMarginHorizontal}
+                  slideWidth={cardWidth}
+                />
               </InsightCarouselSection>
             )}
 
@@ -249,24 +244,28 @@ const InsightDetailPage = () => {
                   label: initiativesTitle,
                 }}
               >
-                <InitiativesCarousel insightId={insight.id} initiatives={initiatives} />
+                <InitiativesCarousel
+                  insightId={insight.id}
+                  initiatives={initiatives}
+                  marginHorizontal={carouselMarginHorizontal}
+                  slideWidth={cardWidth}
+                />
               </InsightCarouselSection>
+            )}
+            {posts.length > 0 && (
+              <View style={[styles.section, styles.posts]}>
+                <HoliGridWrapper>
+                  {posts.map((post) => (
+                    <HoliGridCell key={post.id}>
+                      <PostPreview post={post} insightId={insightId} />
+                    </HoliGridCell>
+                  ))}
+                </HoliGridWrapper>
+              </View>
             )}
           </>
         ) : (
           <Skeleton />
-        )}
-
-        {posts.length > 0 && (
-          <View style={styles.section}>
-            <HoliGridWrapper>
-              {posts.map((post) => (
-                <HoliGridCell key={post.id}>
-                  <PostPreview post={post} insightId={insightId} />
-                </HoliGridCell>
-              ))}
-            </HoliGridWrapper>
-          </View>
         )}
       </ScrollHeaderLayout.Refreshable>
     </>
@@ -279,7 +278,8 @@ const InsightCarouselSection: React.FC<{
   children: React.ReactNode
 }> = ({ heading, headingIcon, children }) => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { width: screenWidth } = useClientWindowDimensions()
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
 
   return (
     <View style={styles.section}>
@@ -303,7 +303,9 @@ const InsightCarouselSection: React.FC<{
 
 const Skeleton = () => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { width: screenWidth } = useClientWindowDimensions()
+
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
   return (
     <>
       <View style={[styles.bannerImage, styles.section]}>
@@ -313,7 +315,7 @@ const Skeleton = () => {
         <View style={styles.tag}>
           <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
         </View>
-        <View style={[styles.content, styles.section]}>
+        <View style={styles.section}>
           <View style={styles.tag}>
             <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
           </View>
@@ -333,7 +335,7 @@ const Skeleton = () => {
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, screenWidth: number) =>
   StyleSheet.create({
     section: {
       alignSelf: 'center',
@@ -381,14 +383,30 @@ const getStyles = (theme: HoliTheme) =>
     },
     creatorInfoButton: {
       maxWidth: dimensions.maxButtonWidth,
+      borderRadius: dimensions.spacingXs,
+      borderWidth: 1,
+      borderColor: theme.colors.gray100,
+      shadowColor: theme.colors.gray100,
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+    },
+    creatorInfoButtonHovered: {
+      maxWidth: dimensions.maxButtonWidth,
+      borderRadius: dimensions.spacingXs,
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+      shadowColor: theme.colors.black300,
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.12,
     },
     creatorInfo: {
       flexDirection: 'row',
       alignItems: 'center',
-      borderRadius: dimensions.spacingXs,
-      borderWidth: 1,
-      borderBottomWidth: 3,
-      borderColor: theme.colors.gray100,
       padding: Spacing.xxs,
     },
     creatorAvatar: {
@@ -404,7 +422,14 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-      paddingHorizontal: Spacing.md,
+      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+    },
+    posts: {
+      marginBottom: 36,
+      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+    },
+    postCard: {
+      width: 304,
     },
   })
 

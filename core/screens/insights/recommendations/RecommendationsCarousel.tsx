@@ -6,14 +6,22 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 
 export interface RecommendationsCarouselProps {
   insight: Insight
+  marginHorizontal: number
+  slideWidth: number
   recommendations: Recommendation[]
 }
 
-const RecommendationsCarousel = ({ recommendations, insight }: RecommendationsCarouselProps) => {
+const RecommendationsCarousel = ({
+  recommendations,
+  insight,
+  marginHorizontal,
+  slideWidth,
+}: RecommendationsCarouselProps) => {
   return (
     <HoliCarousel
       hideDotIndicators
-      marginHorizontal={20}
+      slideWidth={slideWidth}
+      marginHorizontal={marginHorizontal}
       slides={recommendations.map((recommendation) => ({
         children: <RecommendationCard insight={insight} recommendation={recommendation} />,
       }))}
