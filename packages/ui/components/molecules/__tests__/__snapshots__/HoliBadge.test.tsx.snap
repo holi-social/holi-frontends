@@ -6,7 +6,7 @@ exports[`HoliBadge renders correctly with styling props 1`] = `
     [
       {
         "alignSelf": "flex-start",
-        "borderRadius": 12,
+        "borderRadius": 40,
         "paddingHorizontal": 12,
         "paddingVertical": 4,
       },
@@ -41,7 +41,7 @@ exports[`HoliBadge renders default styling correctly without any props 1`] = `
     [
       {
         "alignSelf": "flex-start",
-        "borderRadius": 12,
+        "borderRadius": 40,
         "paddingHorizontal": 12,
         "paddingVertical": 4,
       },

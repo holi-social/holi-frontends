@@ -8,6 +8,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -81,7 +82,12 @@ const RecommendationDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      title: t('insights.recommendations.title'),
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerStyle: { backgroundColor: theme.colors.background10 },
+      headerTitle: ({ tintColor }) => (
+        <HeaderTitle tintColor={tintColor}>{t('insights.recommendations.title')}</HeaderTitle>
+      ),
       headerRight: () => {
         return (
           <HoliActionDrawer.Drawer
@@ -97,12 +103,8 @@ const RecommendationDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
-      headerTransparent: true,
-      navigationCustomOptions: {
-        headerBackgroundGradient: true,
-      },
     })
-  }, [t, setScreenOptions, shareLink, colors.black300])
+  }, [t, setScreenOptions, shareLink, colors.black300, theme.colors.background10])
 
   return (
     <>
@@ -113,15 +115,16 @@ const RecommendationDetailPage = () => {
         }}
         style={styles.layout}
         contentStyle={[mixins.container, styles.container]}
-        headerOverlap
       >
         {recommendation && !loading ? (
-          <>
-            <HoliImageBackground
-              source={{ uri: recommendation.linkPreview.image }}
-              resizeMode="cover"
-              style={styles.bannerImage}
-            />
+          <View style={styles.content}>
+            {recommendation.linkPreview.image && (
+              <HoliImageBackground
+                source={{ uri: recommendation.linkPreview.image }}
+                resizeMode="cover"
+                style={styles.bannerImage}
+              />
+            )}
             <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
               <HoliGap size="s" />
@@ -145,7 +148,7 @@ const RecommendationDetailPage = () => {
               )}
               <HoliText>{recommendation.comment}</HoliText>
             </View>
-          </>
+          </View>
         ) : (
           <Skeleton />
         )}
@@ -193,16 +196,21 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
       minHeight: '100%',
-      backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {
           minHeight: '100vh' as DimensionValue,
         },
       }),
+      backgroundColor: theme.colors.background20,
     },
     container: {
       paddingHorizontal: 0,
       paddingBottom: dimensions.bottomBarHeight + 100,
+      paddingTop: dimensions.topBarHeight - Spacing['3xs'],
+    },
+    content: {
+      minHeight: '100%',
+      backgroundColor: theme.colors.background20,
     },
     header: {
       marginBottom: 2,
