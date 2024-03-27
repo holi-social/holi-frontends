@@ -124,7 +124,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           disabled={showFullView}
           style={[styles.clickOverlay, { flex: 1 }]}
         >
-          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
+          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })} testID="task-title">
             {task.name}
           </HoliText>
         </HoliButton>
@@ -223,9 +223,6 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
         </HoliButton>
       ) : (
         <View style={styles.descriptionContainer}>
-          <HoliText color="gray300" size="small">
-            {task.description}
-          </HoliText>
           <HoliRichTextOutput
             text={task.description}
             color="gray300"
