@@ -47,17 +47,16 @@ const RecommendationCard = ({ recommendation, insight }: RecommendationCardProps
           </>
         )}
         {(errorLoadingImage || !recommendation.linkPreview.image) && (
-          <>
+          <View style={styles.imageWrapper}>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
               label={recommendation.link}
-              style={styles.image}
-              width={89}
+              width={88}
               height={88}
               isSvg
             />
             <HoliGap size="s" />
-          </>
+          </View>
         )}
         <View style={styles.description}>
           <ExternalContentCategoryBadge category={recommendation.category} />
@@ -71,10 +70,10 @@ const RecommendationCard = ({ recommendation, insight }: RecommendationCardProps
               <HoliGap size="s" />
             </>
           )}
-          <InsightReactions item={recommendation} itemType={ItemType.RECOMMENDATION} style={styles.reaction} />
           <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
         </View>
       </View>
+      <InsightReactions item={recommendation} itemType={ItemType.RECOMMENDATION} style={styles.reaction} />
     </Pressable>
   )
 }
@@ -90,17 +89,24 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
+      height: 356,
       ...Platform.select({
         web: { marginBottom: 4 },
       }),
     },
-    image: {
-      borderRadius: Spacing.xs,
+    imageWrapper: {
+      borderRadius: Spacing['3xs'],
       width: '100%',
       height: 160,
-      backgroundColor: theme.colors.gray100,
       alignItems: 'center',
       justifyContent: 'center',
+      backgroundColor: theme.colors.gray100,
+      marginBottom: Spacing.xs,
+    },
+    image: {
+      borderRadius: Spacing['3xs'],
+      width: '100%',
+      height: 160,
     },
     description: {
       paddingHorizontal: Spacing['3xs'],
@@ -116,8 +122,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     reaction: {
       position: 'absolute',
-      bottom: 0,
-      right: 0,
-      zIndex: 2,
+      bottom: 12,
+      right: 16,
     },
   })

@@ -34,7 +34,7 @@ const HoliBadge = ({ backgroundColor, color, textSize = 'default', children }: H
 const styles = StyleSheet.create({
   tag: {
     alignSelf: 'flex-start',
-    borderRadius: 12,
+    borderRadius: 40,
     paddingVertical: Spacing['4xs'],
     paddingHorizontal: Spacing.xxs,
   },

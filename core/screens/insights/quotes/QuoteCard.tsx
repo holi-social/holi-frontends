@@ -39,15 +39,13 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines,
 
   return (
     <View style={[styles.quoteCard, style]} testID={'quote-card-quote'}>
-      <View>
-        <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} />
-        <HoliGap size="s" />
-        <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
-        <HoliGap size="xs" />
-        <HoliText size="extrasmall" color="gray300">
-          {quote.author} ∙ {quote.authorProfession}
-        </HoliText>
-      </View>
+      <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} size={26} />
+      <HoliGap size="xs" />
+      <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
+      <HoliGap size="xs" />
+      <HoliText size="extrasmall" color="gray300" style={styles.author}>
+        {quote.author} ∙ {quote.authorProfession}
+      </HoliText>
       <InsightReactions item={quote} itemType={ItemType.QUOTE} style={styles.reaction} />
     </View>
   )
@@ -121,8 +119,6 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
-      height: 240,
-      justifyContent: 'space-between',
     },
 
     sourceCard: {
@@ -167,7 +163,11 @@ const getStyles = (theme: HoliTheme) =>
 
     reaction: {
       position: 'absolute',
-      bottom: 2,
-      right: 8,
+      bottom: 12,
+      right: 16,
+    },
+
+    author: {
+      marginBottom: 57,
     },
   })

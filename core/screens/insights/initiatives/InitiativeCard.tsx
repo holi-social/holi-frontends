@@ -47,17 +47,16 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
           </>
         )}
         {(errorLoadingImage || !initiative.linkPreview.image) && (
-          <>
+          <View style={styles.imageWrapper}>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
               label={initiative.link}
-              style={styles.image}
-              width={89}
+              width={88}
               height={88}
               isSvg
             />
             <HoliGap size="s" />
-          </>
+          </View>
         )}
         <View style={styles.description}>
           <ExternalContentCategoryBadge category={initiative.category} />
@@ -74,8 +73,8 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
 
           <LinkInfo icon={initiative.linkPreview.icon} link={initiative.link} />
         </View>
-        <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} style={styles.reaction} />
       </View>
+      <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} style={styles.reaction} />
     </Pressable>
   )
 }
@@ -91,21 +90,28 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
+      height: 380,
       ...Platform.select({
         web: { marginBottom: 4 },
       }),
     },
-
+    imageWrapper: {
+      borderRadius: Spacing['3xs'],
+      width: '100%',
+      height: 160,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: theme.colors.gray100,
+      marginBottom: Spacing.xs,
+    },
     image: {
-      borderRadius: Spacing.xs,
+      borderRadius: Spacing['3xs'],
       width: '100%',
       height: 160,
     },
-
     description: {
       paddingHorizontal: Spacing['3xs'],
     },
-
     hovered: {
       borderColor: theme.colors.black300,
       shadowColor: theme.colors.black300,
@@ -115,10 +121,9 @@ const getStyles = (theme: HoliTheme) =>
       },
       shadowOpacity: 0.12,
     },
-
     reaction: {
       position: 'absolute',
-      bottom: 2,
-      right: 8,
+      bottom: 12,
+      right: 16,
     },
   })

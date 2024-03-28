@@ -52,7 +52,7 @@ default:
     - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
   tags:
-    - holi-big
+    - 4cpu-4gb
 
 # end job templates
 
@@ -72,7 +72,7 @@ web_build:
     expire_in: 1 week
   interruptible: true
   tags:
-    - holi-big
+    - 4cpu-4gb
   except:
     - /^noweb\/.*/
 
@@ -91,7 +91,7 @@ storybook_publish:
     expire_in: 1 week
   interruptible: true
   tags:
-    - holi-huge
+    - 4cpu-16gb
   only:
     refs:
       - main

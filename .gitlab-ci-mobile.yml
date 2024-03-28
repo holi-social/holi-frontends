@@ -14,7 +14,7 @@
     - 'eas update --channel=${EXPO_PUBLISH_RELEASE_CHANNEL} --auto'
   interruptible: true
   tags:
-    - holi-huge
+    - 4cpu-16gb
 
 .mobile_build:
   image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
@@ -78,7 +78,7 @@
   interruptible: true
   timeout: 2 hours
   tags:
-    - holi-big
+    - 4cpu-4gb
 
 .mobile_e2e_android:
   extends: .mobile_e2e

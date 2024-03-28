@@ -14,7 +14,7 @@ const InsightFavoritesList = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const imageWidth = 251
+  const imageWidth = 230
 
   const NoFavorites = () => {
     return (
