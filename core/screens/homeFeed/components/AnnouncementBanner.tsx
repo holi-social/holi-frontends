@@ -1,23 +1,16 @@
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const TestingBanner = () => {
-  const { t } = useTranslation()
+const AnnouncementBanner: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  return (
-    <View style={styles.banner}>
-      <HoliText>{t('homeFeed.testingBanner')}</HoliText>
-    </View>
-  )
+  return <View style={styles.banner}>{children}</View>
 }
 
-export default TestingBanner
+export default AnnouncementBanner
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
