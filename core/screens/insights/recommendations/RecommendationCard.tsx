@@ -70,10 +70,10 @@ const RecommendationCard = ({ recommendation, insight }: RecommendationCardProps
               <HoliGap size="s" />
             </>
           )}
-          <InsightReactions item={recommendation} itemType={ItemType.RECOMMENDATION} style={styles.reaction} />
           <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
         </View>
       </View>
+      <InsightReactions item={recommendation} itemType={ItemType.RECOMMENDATION} style={styles.reaction} />
     </Pressable>
   )
 }
@@ -89,6 +89,7 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
+      height: 356,
       ...Platform.select({
         web: { marginBottom: 4 },
       }),
@@ -106,9 +107,6 @@ const getStyles = (theme: HoliTheme) =>
       borderRadius: Spacing['3xs'],
       width: '100%',
       height: 160,
-      backgroundColor: theme.colors.gray100,
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     description: {
       paddingHorizontal: Spacing['3xs'],
@@ -124,8 +122,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     reaction: {
       position: 'absolute',
-      bottom: 0,
-      right: 0,
-      zIndex: 2,
+      bottom: 12,
+      right: 16,
     },
   })

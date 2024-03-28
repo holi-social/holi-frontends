@@ -73,8 +73,8 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
 
           <LinkInfo icon={initiative.linkPreview.icon} link={initiative.link} />
         </View>
-        <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} style={styles.reaction} />
       </View>
+      <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} style={styles.reaction} />
     </Pressable>
   )
 }
@@ -90,6 +90,7 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
+      height: 380,
       ...Platform.select({
         web: { marginBottom: 4 },
       }),
@@ -108,11 +109,9 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       height: 160,
     },
-
     description: {
       paddingHorizontal: Spacing['3xs'],
     },
-
     hovered: {
       borderColor: theme.colors.black300,
       shadowColor: theme.colors.black300,
@@ -122,10 +121,9 @@ const getStyles = (theme: HoliTheme) =>
       },
       shadowOpacity: 0.12,
     },
-
     reaction: {
       position: 'absolute',
-      bottom: 2,
-      right: 8,
+      bottom: 12,
+      right: 16,
     },
   })
