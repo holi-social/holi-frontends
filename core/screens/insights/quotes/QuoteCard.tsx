@@ -2,6 +2,7 @@ import React, { memo, useMemo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { Quote } from '@holi/core/screens/insights/types'
@@ -42,9 +43,10 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines,
       <HoliGap size="xs" />
       <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
       <HoliGap size="xs" />
-      <HoliText size="extrasmall" color="gray300">
+      <HoliText size="extrasmall" color="gray300" style={styles.author}>
         {quote.author} ∙ {quote.authorProfession}
       </HoliText>
+      <InsightReactions item={quote} itemType={ItemType.QUOTE} style={styles.reaction} />
     </View>
   )
 }
@@ -161,7 +163,11 @@ const getStyles = (theme: HoliTheme) =>
 
     reaction: {
       position: 'absolute',
-      bottom: 2,
-      right: 8,
+      bottom: 12,
+      right: 16,
+    },
+
+    author: {
+      marginBottom: 57,
     },
   })
