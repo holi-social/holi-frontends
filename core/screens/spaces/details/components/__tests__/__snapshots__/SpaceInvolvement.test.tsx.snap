@@ -352,6 +352,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        testID="task-title"
                       >
                         Task title
                       </Text>
@@ -1155,6 +1156,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        testID="task-title"
                       >
                         Task title
                       </Text>

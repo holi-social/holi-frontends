@@ -39,7 +39,7 @@ test.describe('@Spaces', () => {
     await withSSR(browser, page.url(), testDisplaysSpaceDetailsCommon)
 
     await testShareSpace(browserName, page)
-    await testCreatingEditingDeletingASpace(context, page, userHandler)
+    await testCreatingEditingDeletingASpace(browser, context, page, userHandler)
   })
 })
 
@@ -166,7 +166,12 @@ const numberOfEditedTerms = 2
 const initialName = 'e2e space name'
 const initialGoal = 'e2e space goal'
 
-const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
+const testCreatingEditingDeletingASpace = async (
+  browser: Browser,
+  context: BrowserContext,
+  page: Page,
+  userHandler: UserHandler
+) => {
   // create the space as a random user, so it gets cleaned up together with the user after the test, even if it fails
   await userHandler.asRandomUser(async (page) => {
     await createSpace(page, numberOfInitialTerms, initialName, initialGoal)
@@ -234,7 +239,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     await clickElementByTestId(page, 'space-edit-close')
 
-    await testAddEditDeleteTask(page)
+    await testAddEditDeleteTask(browser, page)
 
     // test digital tools
     await testAddEditDeleteDigitalTool(page)
@@ -431,7 +436,13 @@ const inputSpaceLocation = async (page: Page, location: string) => {
   await locationInput.fill(location)
 }
 
-const testAddEditDeleteTask = async (page: Page) => {
+const testDisplaysTaskDetails = async (page: Page) => {
+  await page.waitForSelector(byTestId('space-task-tile'))
+  await page.waitForSelector(byTestId('task-title'))
+  await page.waitForSelector(byTestId('task-description'))
+}
+
+const testAddEditDeleteTask = async (browser: Browser, page: Page) => {
   // create task
   const taskTitle = 'E2E task'
   const taskDescription = 'E2E task description'
@@ -446,7 +457,11 @@ const testAddEditDeleteTask = async (page: Page) => {
   await clickElementByTestId(page, 'btn-right-space-tasks-card')
   await checkAccessibility(page)
   await inputTaskInfo(page, taskTitle, taskDescription)
+
+  // check task details
   await expect(page.getByText(taskTitle).first()).toBeVisible()
+  await testDisplaysTaskDetails(page)
+  withSSR(browser, page.url(), testDisplaysTaskDetails)
 
   // edit task
   const editedTaskTitle = 'E2E edited task'

@@ -2707,6 +2707,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                               "userSelect": "auto",
                                             }
                                           }
+                                          testID="task-title"
                                         >
                                           Task title
                                         </Text>
@@ -3510,6 +3511,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                               "userSelect": "auto",
                                             }
                                           }
+                                          testID="task-title"
                                         >
                                           Task title
                                         </Text>

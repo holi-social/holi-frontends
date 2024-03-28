@@ -15,11 +15,12 @@ import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskT
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, More } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -38,9 +39,8 @@ const TaskDetails = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
-  const { loading, error, space, refetch } = useSpace(spaceIdOrName)
+  const { error, space, refetch } = useSpace(spaceIdOrName)
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const task = (space?.tasks || []).find((t) => t.id === taskId)
@@ -116,51 +116,50 @@ const TaskDetails = () => {
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space || !task) {
+  if (error || !space || !task) {
     return <></>
   }
 
   return (
-    <>
+    <SafeAreaProvider style={styles.safeAreaProvider}>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
       >
-        <View style={mixins.container}>
+        <HoliContainer>
           <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
-        </View>
+        </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
-    </>
+    </SafeAreaProvider>
   )
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    safeAreaProvider: {
+      flex: 1,
+      display: 'flex',
+      minHeight: '100%',
+    },
     defaultLayout: {
       paddingBottom: 120,
       minHeight: '100%',
       paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh',
-        },
-      }),
     },
     contentStyle: {
       paddingBottom: 0,
-      // paddingTop: dimensions.topBarHeight,
       ...Platform.select({
         web: {
-          minHeight: '100vh',
           paddingTop: 12,
         },
         native: {
           paddingTop: dimensions.topBarHeight,
         },
       }),
+      minHeight: '100%',
     },
     messageContainer: {
       alignItems: 'center',
