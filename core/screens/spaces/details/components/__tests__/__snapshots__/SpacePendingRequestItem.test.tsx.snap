@@ -1044,7 +1044,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               },
             ],
             {
-              "backgroundColor": "#fff",
+              "backgroundColor": "#262424",
               "bottom": 0,
               "left": 0,
               "opacity": 0.4,
@@ -1072,7 +1072,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
             onAccessibilityEscape={[Function]}
             style={
               {
-                "backgroundColor": "#fff",
+                "backgroundColor": "#262424",
                 "bottom": 0,
                 "left": 0,
                 "opacity": 0.4,
