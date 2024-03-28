@@ -118,7 +118,7 @@ const CurationPrinciplesPage: React.FC = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Default style={styles.wrapper}>
+      <ScrollHeaderLayout.Default style={styles.wrapper} headerOverlap>
         <HoliContainer>
           <View style={styles.intro}>
             <HoliHeading level="1">{t('insights.curationPrinciples.intro.heading')}</HoliHeading>
@@ -260,7 +260,17 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
     wrapper: {
       backgroundColor: theme.colors.background20,
       ...Platform.select({
-        web: { paddingBottom: Spacing.lg },
+        web: {
+          minHeight: '100%',
+          paddingTop: dimensions.topBarHeight,
+          paddingBottom: Spacing.lg,
+        },
+        ios: {
+          paddingTop: dimensions.topBarHeight + Spacing.xxl,
+        },
+        android: {
+          paddingTop: dimensions.topBarHeight + Spacing.lg,
+        },
       }),
     },
 
