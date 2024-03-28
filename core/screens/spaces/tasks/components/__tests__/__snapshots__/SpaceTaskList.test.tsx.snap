@@ -223,6 +223,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                testID="task-title"
               >
                 Task title
               </Text>
@@ -1026,6 +1027,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                testID="task-title"
               >
                 Task title
               </Text>
@@ -1829,6 +1831,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                testID="task-title"
               >
                 Task title
               </Text>
