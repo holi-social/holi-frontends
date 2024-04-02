@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -86,6 +86,12 @@ const PostPreview = ({
   }, [navigate, postUrl])
 
   const isCurrentUserPostCreator = post?.creator.id === loggedInUser?.id
+
+  const [hasMounted, setHasMounted] = useState(false)
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
@@ -241,16 +247,18 @@ const PostPreview = ({
           </View>
         )}
         {/* Post content */}
-        <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
-          <HoliRichTextOutput
-            text={post?.text || ''}
-            users={post?.mentions || []}
-            links={post?.links || []}
-            allowAllLinks
-            size="default"
-            color="gray300"
-          />
-        </HoliReadMore>
+        {hasMounted && (
+          <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
+            <HoliRichTextOutput
+              text={post?.text || ''}
+              users={post?.mentions || []}
+              links={post?.links || []}
+              allowAllLinks
+              size="default"
+              color="gray300"
+            />
+          </HoliReadMore>
+        )}
       </HoliLink>
 
       {/* Post image */}
