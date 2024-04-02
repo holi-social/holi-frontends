@@ -33,6 +33,7 @@ import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/type
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
@@ -46,7 +47,6 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 enum EditFields {
   NAME = 'NAME',
@@ -131,7 +131,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
 
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
@@ -243,7 +242,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
             {/* Body */}
             <View style={styles.body}>
-              <View style={mixins.container}>
+              <HoliContainer>
                 <SpaceMainImage
                   uri={space.cover}
                   label={space.title}
@@ -366,7 +365,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                     </View>
                   )}
                 </SpaceSection>
-              </View>
+              </HoliContainer>
             </View>
           </View>
         </ScrollHeaderLayout.Default>

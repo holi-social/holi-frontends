@@ -10,6 +10,7 @@ export interface ContainerProps {
   justifyContent?: FlexStyle['justifyContent']
   flex?: number
   paddingHorizontal?: number
+  testID?: string
 }
 
 const generateStyles = (flexStyles: ContainerProps) => {
@@ -26,10 +27,12 @@ const HoliContainer = ({
   flexDirection = 'column',
   justifyContent = 'flex-start',
   paddingHorizontal = 16,
+  testID = 'holi-container',
 }: PropsWithChildren<ContainerProps>) => (
   <View
     style={[styles.container, generateStyles({ alignItems, flexDirection, justifyContent, flex, paddingHorizontal })]}
     dataSet={{ media: ids.container }}
+    testID={testID}
   >
     {children}
   </View>

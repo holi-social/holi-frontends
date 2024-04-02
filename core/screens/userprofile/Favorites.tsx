@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -9,14 +9,13 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import FavoritesList from '@holi/core/screens/favorites/components/FavoritesList'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Favorites = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -29,9 +28,9 @@ const Favorites = () => {
       <LoginProtection>
         <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
           <HoliBox padding={[24, 0]}>
-            <View style={mixins.container}>
+            <HoliContainer>
               <FavoritesList />
-            </View>
+            </HoliContainer>
           </HoliBox>
         </ScrollHeaderLayout.Default>
       </LoginProtection>

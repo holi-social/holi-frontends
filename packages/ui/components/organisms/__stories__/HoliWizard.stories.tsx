@@ -2,12 +2,12 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const StepOne = () => {
   const { setNextButtonEnabled } = useWizard()
@@ -88,16 +88,14 @@ export default {
 } as ComponentMeta<typeof HoliWizard>
 
 const Template: ComponentStory<typeof HoliWizard> = ({ ...args }) => {
-  const mixins = useStyleMixins()
-
   return (
-    <View style={mixins.container}>
+    <HoliContainer>
       <HoliWizard {...args}>
         <StepOne />
         <StepTwo />
         <StepThree />
       </HoliWizard>
-    </View>
+    </HoliContainer>
   )
 }
 

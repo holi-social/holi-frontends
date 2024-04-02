@@ -13,11 +13,11 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, Checkbox, Team } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceOnboardingParams = {
   spaceIdOrName: string
@@ -29,7 +29,6 @@ const SpaceOnboarding = () => {
   const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const setScreenOptions = useSetScreenOptions()
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -58,7 +57,7 @@ const SpaceOnboarding = () => {
     >
       <SafeAreaView style={styles.safeArea}>
         <ScrollHeaderLayout.Default style={styles.layout}>
-          <View style={mixins.container}>
+          <HoliContainer>
             <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
             <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
             <HoliLink
@@ -96,7 +95,7 @@ const SpaceOnboarding = () => {
                 <HoliIcon icon={ArrowRightS} />
               </View>
             </HoliButton>
-          </View>
+          </HoliContainer>
         </ScrollHeaderLayout.Default>
       </SafeAreaView>
     </PermissionsGuard>
