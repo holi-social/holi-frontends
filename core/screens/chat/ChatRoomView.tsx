@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -170,44 +170,47 @@ const ChatRoomView = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-      <KeyboardAvoidingViewWrapper
-        renderProp={() => (
-          <View style={styles.container}>
-            <View style={styles.listContainer}>
-              {room.hasInvitation ? (
-                <ChatProfileCard
-                  member={chatPartner}
-                  roomId={roomId}
-                  user={chatPartnerHoliUser}
-                  userIsLoading={loadingUsers}
-                />
-              ) : (
-                <RoomMessageList
-                  roomId={room.id}
-                  messages={messages || []}
-                  matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-                  starter={
-                    amIRoomCreator &&
-                    chatPartnerHoliUser && (
-                      <View style={styles.listStage}>
-                        <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-                      </View>
-                    )
-                  }
-                  onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                    const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
-
-                    if (needToLoad) {
-                      requestMessages(roomId, false)
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingViewWrapper
+          renderProp={() => (
+            <View style={styles.container}>
+              <View style={styles.listContainer}>
+                {room.hasInvitation ? (
+                  <ChatProfileCard
+                    member={chatPartner}
+                    roomId={roomId}
+                    user={chatPartnerHoliUser}
+                    userIsLoading={loadingUsers}
+                  />
+                ) : (
+                  <RoomMessageList
+                    roomId={room.id}
+                    messages={messages || []}
+                    matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+                    starter={
+                      amIRoomCreator &&
+                      chatPartnerHoliUser && (
+                        <View style={styles.listStage}>
+                          <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+                        </View>
+                      )
                     }
-                  }}
-                />
-              )}
+                    onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                      const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+
+                      if (needToLoad) {
+                        requestMessages(roomId, false)
+                      }
+                    }}
+                  />
+                )}
+              </View>
+
+              <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
             </View>
-            <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
-          </View>
-        )}
-      />
+          )}
+        />
+      </SafeAreaView>
     </PermissionsGuard>
   )
 }
@@ -216,6 +219,9 @@ export default ChatRoomView
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    safeArea: {
+      flex: 1,
+    },
     headerTitle: {
       alignItems: 'center',
       flexDirection: 'row',
