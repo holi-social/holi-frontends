@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers/logError'
@@ -19,6 +19,7 @@ import { Insight } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -31,7 +32,6 @@ import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCar
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const InsightsList = () => {
   const { t } = useTranslation()
@@ -185,7 +185,6 @@ const InsightsList = () => {
 }
 
 const InsightsPage = () => {
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -201,7 +200,7 @@ const InsightsPage = () => {
   return (
     <ScrollHeaderLayout.Default style={styles.layout} headerOverlap>
       <View style={styles.sections}>
-        <View style={mixins.container}>
+        <HoliContainer>
           <Pagination
             query={lastInsightsQuery}
             queryOptions={queryOptions}
@@ -210,7 +209,7 @@ const InsightsPage = () => {
           >
             <InsightsList />
           </Pagination>
-        </View>
+        </HoliContainer>
       </View>
     </ScrollHeaderLayout.Default>
   )
@@ -234,7 +233,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {
-          minHeight: '100vh',
+          minHeight: '100vh' as DimensionValue,
           paddingTop: dimensions.topBarHeight,
         },
         ios: {
@@ -251,7 +250,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     loader: {
       ...(Platform.OS === 'web' && {
-        minHeight: '80vh',
+        minHeight: '80vh' as DimensionValue,
       }),
     },
     loaderBottom: {
