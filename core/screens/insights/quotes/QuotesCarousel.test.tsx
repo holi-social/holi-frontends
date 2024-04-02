@@ -11,7 +11,7 @@ describe('QuotesCarousel', () => {
   it('does not render cards when no quotes supplied', () => {
     const quotes: Quote[] = []
 
-    render(<QuotesCarousel insightId={insightId} quotes={quotes} />)
+    render(<QuotesCarousel insightId={insightId} quotes={quotes} marginHorizontal={4} />)
 
     expect(screen.queryByTestId('quote-card-quote')).not.toBeOnTheScreen()
     expect(screen.queryByTestId('quote-card-source')).not.toBeOnTheScreen()
