@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  DimensionValue,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -237,7 +238,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       ...Platform.select({
         web: {
           paddingTop: dimensions.topBarHeight + 10,
-          height: '100vh',
+          height: '100vh' as DimensionValue,
           marginHorizontal: 'auto',
         },
         android: {

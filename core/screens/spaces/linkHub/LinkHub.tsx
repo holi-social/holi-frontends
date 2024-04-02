@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -108,7 +108,7 @@ export default LinkHub
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     defaultLayout: {
-      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
       marginTop: 10,
       backgroundColor: theme.colors.background20,
     },

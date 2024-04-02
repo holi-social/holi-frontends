@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -185,7 +185,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background10,
       paddingBottom: 0,
       width: '100%',
-      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
     },
     container: {
       flex: 1,

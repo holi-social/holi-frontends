@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -103,7 +103,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: 0,
     },
     defaultLayout: {
-      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
       marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
       paddingTop: dimensions.topBarHeight,

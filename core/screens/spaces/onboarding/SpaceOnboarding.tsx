@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -108,10 +108,10 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background20,
       ...Platform.select({
         native: {
-          height: '100%',
+          height: '100%' as DimensionValue,
         },
         web: {
-          minHeight: '100vh',
+          minHeight: '100vh' as DimensionValue,
         },
       }),
       paddingTop: 24,

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -50,7 +50,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       ...Platform.select({
         web: {
-          minHeight: '100vh',
+          minHeight: '100vh' as DimensionValue,
         },
       }),
       alignItems: 'center',
