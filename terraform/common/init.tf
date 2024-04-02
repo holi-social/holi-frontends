@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "holi-shared-terraform-state"
-    prefix = "mvp-shared"
+    prefix = "frontends-common"
   }
 }
 
