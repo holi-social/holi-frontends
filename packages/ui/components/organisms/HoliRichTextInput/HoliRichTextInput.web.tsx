@@ -145,7 +145,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     inputDiv: {
       paddingLeft: 20,
-      paddingRigjt: 20,
+      paddingRight: 20,
       paddingTop: 10,
       paddingBottom: 10,
     },
