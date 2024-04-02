@@ -11,7 +11,8 @@ import {
 } from '../../helpers/selectors'
 
 describe('@Comment', () => {
-  it('creates a comment and displays it in the post page.', async () => {
+  // TODO: Commenting has been briefly removed from the insight detail page and should be back once HOLI-7390 is finished
+  xit('creates a comment and displays it in the post page.', async () => {
     await registerNewUser()
 
     // go to home feed
