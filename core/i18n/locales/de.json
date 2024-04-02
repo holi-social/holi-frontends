@@ -618,7 +618,7 @@
   "spaces.appointments.input.endDate.title": "Endet am",
   "spaces.appointments.input.inviteOnly.INVITE_ONLY.description": "Beschränkt auf Mitwirkende innerhalb eines Spaces.",
   "spaces.appointments.input.inviteOnly.INVITE_ONLY.title": "Nur Teilnehmer",
-  "spaces.appointments.input.inviteOnly.PUBLIC.description": "Nur Admins können öffentliche Termine erstellen.",
+  "spaces.appointments.input.inviteOnly.PUBLIC.description": "Der Termin ist öffentlich und für jeden einsehbar. Nur Admins können öffentliche Termine erstellen.",
   "spaces.appointments.input.inviteOnly.PUBLIC.title": "Jeder auf oder an holi",
   "spaces.appointments.input.inviteOnly.title": "Wer kann an dem Termin teilnehmen?",
   "spaces.appointments.input.permission.ADMINS.description": "Nur du und Admins innerhalb des Spaces können den Termin bearbeiten.",
