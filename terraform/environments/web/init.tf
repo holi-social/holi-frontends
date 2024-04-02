@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "holi-shared-terraform-state"
-    prefix = "mvp-web"
+    prefix = "frontends-environments"
   }
 }
 
@@ -13,11 +13,11 @@ data "terraform_remote_state" "holi_infra_state" {
   }
 }
 
-data "terraform_remote_state" "holi_mvp_shared_state" {
+data "terraform_remote_state" "holi_frontends_common_state" {
   backend = "gcs"
   config = {
     bucket = "holi-shared-terraform-state"
-    prefix = "mvp-shared"
+    prefix = "frontends-common"
   }
 }
 
