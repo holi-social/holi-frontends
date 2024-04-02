@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -10,6 +10,7 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -71,7 +72,7 @@ const InspirationPosts = () => {
   }
 
   return (
-    <View style={mixins.container}>
+    <HoliContainer>
       <Pagination
         query={inspirationPostsQuery}
         queryOptions={queryOptions}
@@ -84,7 +85,7 @@ const InspirationPosts = () => {
       >
         <InspirationPostsList />
       </Pagination>
-    </View>
+    </HoliContainer>
   )
 }
 

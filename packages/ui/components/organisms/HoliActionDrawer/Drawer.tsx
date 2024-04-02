@@ -1,15 +1,15 @@
 import type { PropsWithChildren } from 'react'
 import React, { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { More } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface ActionDrawerContentProps {
   showDrawer: () => void
@@ -47,7 +47,6 @@ export const Drawer = ({
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
   const { visible: visibleModal, show: showModal, hide: hideModal } = useModalState()
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const { colors } = theme
 
@@ -72,7 +71,7 @@ export const Drawer = ({
         label={t('global.moreOptions')}
         style={StyleSheet.flatten([styles.modal, { paddingBottom: safeAreaBottom || 18 }])}
       >
-        <View style={mixins.container}>{children}</View>
+        <HoliContainer>{children}</HoliContainer>
       </HoliModal>
     </ActionDrawerContext.Provider>
   )

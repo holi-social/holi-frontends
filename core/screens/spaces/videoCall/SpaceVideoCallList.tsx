@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -16,10 +16,10 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
@@ -29,7 +29,6 @@ const { useParam } = createParamHooks<SpaceVideoCallListParams>()
 const SpaceVideoCallList = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const { colors } = theme
@@ -63,7 +62,7 @@ const SpaceVideoCallList = () => {
     >
       <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
-          <View style={mixins.container}>
+          <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
               <HoliText>{t('spaces.videocall.text')}</HoliText>
             </HoliBox>
@@ -82,7 +81,7 @@ const SpaceVideoCallList = () => {
                 <VideoCallLinks spaceIdOrName={spaceIdOrName} />
               </CollaboratorAreaCard>
             </HoliBox>
-          </View>
+          </HoliContainer>
         </HoliBox>
       </ScrollHeaderLayout.Default>
     </PermissionsGuard>

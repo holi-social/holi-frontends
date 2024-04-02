@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -14,10 +14,10 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceTasksParams = {
   spaceIdOrName: string
@@ -26,7 +26,6 @@ const { useParam } = createParamHooks<SpaceTasksParams>()
 
 const SpaceTasks = () => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
   const [spaceIdOrName] = useParam('spaceIdOrName')
@@ -77,11 +76,11 @@ const SpaceTasks = () => {
       )}
       <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
-          <View style={mixins.container}>
+          <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
               <SpaceTaskList space={space} isAdmin={isAdmin} isCollaborator={isCollaborator} />
             </HoliBox>
-          </View>
+          </HoliContainer>
         </HoliBox>
       </ScrollHeaderLayout.Default>
     </>

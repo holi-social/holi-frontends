@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
@@ -11,15 +11,14 @@ import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const UserSuggestions: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const mixins = useStyleMixins()
   const limit = 10
 
   // TODO: remove after implementing the feature
@@ -58,7 +57,7 @@ const UserSuggestions: React.FC = () => {
 
   return (
     <HoliBox padding={[32, 0, 0, 0]}>
-      <View style={mixins.container} testID="user-suggestions">
+      <HoliContainer testID="user-suggestions">
         {/* Headline */}
         <HoliHeading level="2" size="l">
           {t('homeFeed.userSuggestions.title')}
@@ -73,7 +72,7 @@ const UserSuggestions: React.FC = () => {
             <SeeMore loading={loading} onPress={showFeatureNotImplementedToast} style={styles.listItem} />
           }
         />
-      </View>
+      </HoliContainer>
     </HoliBox>
   )
 }

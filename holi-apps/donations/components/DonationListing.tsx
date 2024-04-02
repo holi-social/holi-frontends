@@ -9,6 +9,7 @@ import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -20,7 +21,6 @@ import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
@@ -54,7 +54,6 @@ const DONATIONS_IMG_SOURCES_MAPPING: {
 
 const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -129,7 +128,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
       )}
       <HoliBox padding={[24, 0, 24, 0]}>
         {isFiltering && !projects.length && (
-          <View style={mixins.container}>
+          <HoliContainer>
             <HoliNoResults
               firstText={t('donations:donationListing.search.empty.tagline')}
               media={
@@ -148,7 +147,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                 {t('search.filter.reset')}
               </HoliButton>
             </HoliNoResults>
-          </View>
+          </HoliContainer>
         )}
         <HoliGridWrapper gap={32}>
           {projects

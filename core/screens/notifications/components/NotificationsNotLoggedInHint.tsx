@@ -1,19 +1,18 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export const NotificationsNotLoggedInHint: React.FC<{
   onPress: () => void
 }> = (props) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   const firstText = t('loginRedirect.title')
   const secondText = t('loginRedirect.text')
@@ -29,7 +28,7 @@ export const NotificationsNotLoggedInHint: React.FC<{
 
   return (
     <ScrollHeaderLayout.Default backgroundColor={colors.background30}>
-      <View style={mixins.container}>
+      <HoliContainer>
         <HoliNoResults
           firstText={firstText}
           media={
@@ -48,7 +47,7 @@ export const NotificationsNotLoggedInHint: React.FC<{
             {label}
           </HoliButton>
         </HoliNoResults>
-      </View>
+      </HoliContainer>
     </ScrollHeaderLayout.Default>
   )
 }
