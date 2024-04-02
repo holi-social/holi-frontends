@@ -8,6 +8,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { useDebounce } from '@holi/ui/helper'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -25,7 +26,7 @@ const isTextInputKeyPressEventDataWeb = (
 
 const generateContainerStyles = (value: Animated.Value, styles: ViewStyle) => {
   const positionStyles = { transform: [{ translateY: value }] }
-  return StyleSheet.flatten([styles.container, positionStyles])
+  return StyleSheet.flatten([styles, positionStyles])
 }
 
 interface Props {
@@ -36,45 +37,80 @@ interface Props {
 
 export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   const { t } = useTranslation()
-  const { displayError } = useErrorHandling()
-  const positionRef = useRef(new Animated.Value(100))
   const { theme } = useTheme()
-  const { colors } = theme
+  const { displayError } = useErrorHandling()
+
+  const [inputValue, setInputValue] = useState('')
   const styles = useMemo(() => getStyles(theme), [theme])
+  const positionAnimRef = useRef(new Animated.Value(100))
+  const fadeAnimRef = useRef(new Animated.Value(0))
 
-  const [messageText, setMessageText] = useState('')
+  const { colors } = theme
 
-  useEffect(() => {
-    if (!isVisible) return
-    Animated.timing(positionRef.current, {
-      toValue: 0,
-      duration: 500,
+  const fadeIn = () => {
+    Animated.timing(fadeAnimRef.current, {
+      toValue: 1,
+      duration: 200,
       useNativeDriver: true,
     }).start()
-  }, [isVisible])
+  }
+
+  const debouncedFadeIn = useDebounce(fadeIn, 200)
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnimRef.current, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start()
+  }
+
+  const handleChange = (value: string) => {
+    if (value.trim().length === 0) {
+      fadeOut()
+    } else {
+      debouncedFadeIn()
+    }
+
+    setInputValue(value)
+  }
 
   const handleSendMessage = async () => {
-    const text = messageText.trim()
-    if (!text) return
+    const text = inputValue.trim()
+
+    if (text.length === 0) {
+      fadeOut()
+      return
+    }
 
     try {
-      setMessageText('')
+      setInputValue('')
       await sendMessage({ roomId, text })
+      fadeOut()
     } catch (err) {
-      setMessageText(text)
+      setInputValue(text)
       displayError(err, 'Could not send chat message', {
         location: 'ChatTextInput.handleSendMessage',
       })
     }
   }
 
+  useEffect(() => {
+    if (!isVisible) return
+    Animated.timing(positionAnimRef.current, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start()
+  }, [isVisible])
+
   return (
-    <Animated.View style={generateContainerStyles(positionRef.current, styles)}>
+    <Animated.View style={generateContainerStyles(positionAnimRef.current, styles.container)}>
       <HoliTextInput
         aria-label={t('chat.room.input.placeholder', { fullName: userName })}
         placeholder={t('chat.room.input.placeholder', { fullName: userName })}
-        value={messageText}
-        onChange={setMessageText}
+        value={inputValue}
+        onChange={handleChange}
         style={styles.textInputContainer}
         inputStyle={styles.textInput}
         maxNoOfVisibleLines={5}
@@ -92,15 +128,17 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
         }}
         testID={'chat-message-input'}
       />
-      <HoliButton
-        label={t('chat.room.sendButton.label')}
-        disabled={!messageText.trim()}
-        onPress={handleSendMessage}
-        inline
-        style={styles.button}
-      >
-        <HoliIcon icon={SendPlane} size={20} color={colors.foreground30} />
-      </HoliButton>
+      <Animated.View style={{ opacity: fadeAnimRef.current }}>
+        <HoliButton
+          label={t('chat.room.sendButton.label')}
+          disabled={inputValue.trim().length === 0}
+          onPress={handleSendMessage}
+          inline
+          style={styles.button}
+        >
+          <HoliIcon icon={SendPlane} size={20} color={colors.foreground30} />
+        </HoliButton>
+      </Animated.View>
     </Animated.View>
   )
 }
@@ -114,8 +152,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       maxWidth: dimensions.maxScreenWidth,
       paddingHorizontal: 16,
-      paddingTop: 6,
-      paddingBottom: 24,
+      paddingVertical: 12,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
       borderBottomColor: theme.colors.white100,
