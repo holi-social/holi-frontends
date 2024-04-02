@@ -231,32 +231,27 @@ const PostPreview = ({
       {/* Inspiration posts media header */}
       <InspirationPostMediaHeader post={post} />
 
-      {/* Post title */}
-      {!!post?.title && (
-        <View style={styles.postTitleLink}>
-          <HoliLink
-            href={getPostUrl(post?.id, insightId, spaceIdOrName)}
-            label={post?.title || ''}
-            testID="btn-to-post"
-          >
+      <HoliLink href={getPostUrl(post?.id, insightId, spaceIdOrName)} label={post?.title || ''} testID="btn-to-post">
+        {/* Post title */}
+        {!!post?.title && (
+          <View style={styles.postTitleLink}>
             <HoliHeading level="3" size="s">
               {post?.title}
             </HoliHeading>
-          </HoliLink>
-        </View>
-      )}
-
-      {/* Post content */}
-      <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
-        <HoliRichTextOutput
-          text={post?.text || ''}
-          users={post?.mentions || []}
-          links={post?.links || []}
-          allowAllLinks
-          size="default"
-          color="gray300"
-        />
-      </HoliReadMore>
+          </View>
+        )}
+        {/* Post content */}
+        <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
+          <HoliRichTextOutput
+            text={post?.text || ''}
+            users={post?.mentions || []}
+            links={post?.links || []}
+            allowAllLinks
+            size="default"
+            color="gray300"
+          />
+        </HoliReadMore>
+      </HoliLink>
 
       {/* Post image */}
       {post?.image && (
