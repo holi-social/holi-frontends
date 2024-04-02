@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
+import { DimensionValue, Platform, SafeAreaView, StyleSheet } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -49,7 +49,7 @@ const getStyles = (theme: HoliTheme) =>
       height: '100%',
       ...Platform.select({
         web: {
-          minHeight: '100vh',
+          minHeight: '100vh' as DimensionValue,
         },
       }),
       backgroundColor: theme.colors.background30,

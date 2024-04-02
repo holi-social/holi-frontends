@@ -2,7 +2,7 @@ import { useApolloClient } from '@apollo/client'
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -139,6 +139,6 @@ const getStyles = (theme: HoliTheme) =>
     defaultLayout: {
       backgroundColor: theme.colors.background20,
       paddingBottom: 0,
-      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
     },
   })

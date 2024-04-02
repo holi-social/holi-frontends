@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -46,7 +46,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     defaultLayout: {
       marginTop: Platform.OS === 'web' ? 10 : 56,
-      minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
       backgroundColor: theme.colors.background20,
       paddingTop: dimensions.topBarHeight,
     },
