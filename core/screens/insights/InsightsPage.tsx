@@ -198,7 +198,7 @@ const InsightsPage = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.layout} headerOverlap>
+    <ScrollHeaderLayout.Default style={styles.layout}>
       <View style={styles.sections}>
         <HoliContainer>
           <Pagination
@@ -231,17 +231,8 @@ const getStyles = (theme: HoliTheme) =>
     layout: {
       paddingBottom: 80,
       backgroundColor: theme.colors.background20,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh' as DimensionValue,
-          paddingTop: dimensions.topBarHeight,
-        },
-        ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxl,
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.lg,
-        },
+      ...(Platform.OS === 'web' && {
+        minHeight: '100vh' as DimensionValue,
       }),
     },
     sections: {
