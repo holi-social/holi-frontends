@@ -25,8 +25,8 @@ const CreatePost = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="m">
-          {t('spaces.create.title')}
+        <HoliHeading level="1" size="s">
+          {t('individuals.post.create.title')}
         </HoliHeading>
       ),
       headerTransparent: true,
