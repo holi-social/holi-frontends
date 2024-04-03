@@ -175,7 +175,7 @@ const PostDetailPage = () => {
               isLoggedIn
                 ? navigate(getPostCommentUrl())
                 : openLoginModal({
-                    description: t('insights.posts.comments.loginRedirect.text'),
+                    description: t('comments.loginRedirect.text'),
                   })
             }
           />

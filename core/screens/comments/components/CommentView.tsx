@@ -53,7 +53,7 @@ const CommentView = ({ updateReactionMutation, comment, postId, style, ...props 
   const reactOnComment = () => {
     if (!isLoggedIn) {
       return openLoginModal({
-        description: t('insights.posts.comments.react.loginRedirect.text'),
+        description: t('comments.react.loginRedirect.text'),
       })
     }
     updateReaction({
@@ -98,9 +98,9 @@ const CommentView = ({ updateReactionMutation, comment, postId, style, ...props 
                   showConfirmation
                 >
                   <HoliActionDrawer.Confirmation
-                    title={t('insights.posts.comment.report.confirmation.title')}
-                    description={t('insights.posts.comment.report.confirmation.description')}
-                    testID="space-report"
+                    title={t('comment.report.confirmation.title')}
+                    description={t('comment.report.confirmation.description')}
+                    testID="comment-report"
                     handleConfirmation={reportContent}
                     hasDismissBtn
                     requireLogin
@@ -112,16 +112,16 @@ const CommentView = ({ updateReactionMutation, comment, postId, style, ...props 
                 <HoliActionDrawer.Action
                   isLoading={isLoadingDeleteComment}
                   icon={Delete}
-                  title={t('insights.posts.comment.delete.title')}
+                  title={t('comment.delete.title')}
                   variant="danger"
                   testID="delete-comment-button"
                   showConfirmation
                 >
                   <HoliActionDrawer.Confirmation
-                    title={t('insights.posts.comment.delete.title')}
-                    description={t('insights.posts.comment.delete.confirmation.description')}
-                    dismissText={t('insights.posts.comment.delete.confirmation.dismiss')}
-                    confirmText={t('insights.posts.comment.delete.confirmation.confirm')}
+                    title={t('comment.delete.title')}
+                    description={t('comment.delete.confirmation.description')}
+                    dismissText={t('comment.delete.confirmation.dismiss')}
+                    confirmText={t('comment.delete.confirmation.confirm')}
                     testID="delete-comment"
                     handleConfirmation={deleteComment}
                     buttonType="warning"
