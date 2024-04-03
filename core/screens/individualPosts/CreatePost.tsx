@@ -24,13 +24,11 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      animation: 'slide_from_bottom',
       headerTitle: () => (
         <HoliHeading level="1" size="m">
           {t('spaces.create.title')}
         </HoliHeading>
       ),
-      headerStyle: { backgroundColor: colors.background20 },
       headerTransparent: true,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor="black" />,
       navigationCustomOptions: {
@@ -40,13 +38,11 @@ const CreatePost = () => {
   }, [colors.background20, navigateBack, setScreenOptions, t])
 
   return (
-    /*     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/">
-     */
-    <View style={styles.layout}>
-      <HoliText style={styles.text}>Individual Posts are here!</HoliText>
-    </View>
-    /*     </PermissionsGuard>
-     */
+    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/">
+      <View style={styles.layout}>
+        <HoliText style={styles.text}>Individual Posts are here!</HoliText>
+      </View>
+    </PermissionsGuard>
   )
 }
 

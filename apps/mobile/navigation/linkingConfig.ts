@@ -136,7 +136,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.VolunteeringAppEngagmentDetail]: 'apps/volunteering/engagement/:engagementId',
       },
     },
-    [RouteName.CreatePost]: 'createPost',
+    [RouteName.CreatePost]: {
+      screens: {
+        [RouteName.CreatePost]: 'createPost',
+      },
+    },
   },
 }
 

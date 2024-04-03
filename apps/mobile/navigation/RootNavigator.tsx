@@ -157,7 +157,11 @@ const RootNavigator = () => {
         component={CreatePost}
         options={{
           animation: 'slide_from_bottom',
-          headerShown: false,
+          headerShown: true,
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: colors.background20,
+          },
         }}
       />
     </RootStack.Navigator>
