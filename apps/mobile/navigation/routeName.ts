@@ -102,4 +102,7 @@ export enum RouteName {
   Registration = 'Registration',
   ForgotPassword = 'ForgotPassword',
   Onboarding = 'Onboarding',
+
+  // Individual Posts
+  CreatePost = 'CreatePost',
 }
