@@ -25,7 +25,7 @@ import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -47,6 +47,7 @@ const HomeFeed = () => {
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
+  const styles = useMemo(() => getStyles(theme), [theme])
   const client = useApolloClient()
 
   const { navigate } = useRouting()
@@ -92,12 +93,12 @@ const HomeFeed = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
+      headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => null,
       headerLeft: () => logo,
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, t, headerTitle, setScreenOptions, logo, colors.background10])
+  }, [navigate, t, headerTitle, setScreenOptions, logo, colors.background20])
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
@@ -140,13 +141,16 @@ const HomeFeed = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  layout: {
-    paddingBottom: 80,
-  },
-  sections: {
-    gap: 32,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layout: {
+      backgroundColor: theme.colors.background20,
+      paddingBottom: 80,
+    },
+    sections: {
+      backgroundColor: theme.colors.background20,
+      gap: 32,
+    },
+  })
 
 export default withProfiler(memo(HomeFeed), { name: 'HomeFeed' })
