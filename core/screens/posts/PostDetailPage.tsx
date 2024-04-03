@@ -14,6 +14,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { ContentType } from '@holi/core/queries'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
@@ -156,6 +157,7 @@ const PostDetailPage = () => {
                     key={comment.id}
                     comment={comment}
                     postId={post.id}
+                    reportContentType={ContentType.POST_COMMENT}
                     style={styles.comment}
                     onLayout={scrollToFirstComment || isCommentToScroll ? scrollIntoView : undefined}
                     updateReactionMutation={UpdatePostCommentReactionMutation}

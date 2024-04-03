@@ -25,11 +25,12 @@ export interface CommentProps extends ViewProps {
   updateReactionMutation: DocumentNode
   comment: Comment
   postId: string
+  reportContentType: ContentType
   created?: string
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView = ({ updateReactionMutation, comment, postId, style, ...props }: CommentProps) => {
+const CommentView = ({ updateReactionMutation, comment, postId, reportContentType, style, ...props }: CommentProps) => {
   const { user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -44,7 +45,7 @@ const CommentView = ({ updateReactionMutation, comment, postId, style, ...props 
 
   const [updateReaction] = useMutation(updateReactionMutation, {
     onError: (error) =>
-      displayError(error, 'Failed to update post comment reaction', {
+      displayError(error, 'Failed to update comment reaction', {
         location: 'CommentReactions.updateReaction',
         commentId: comment.id,
       }),
@@ -67,7 +68,7 @@ const CommentView = ({ updateReactionMutation, comment, postId, style, ...props 
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: comment.id,
-    contentType: ContentType.POST_COMMENT,
+    contentType: reportContentType,
     successMsg: t('global.report.successMessage'),
   })
   const isCurrentUserCommentCreator = comment.creator.id === loggedInUser?.id
@@ -87,7 +88,7 @@ const CommentView = ({ updateReactionMutation, comment, postId, style, ...props 
 
         <HoliColumn>
           <SafeAreaProvider>
-            <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="comment-three-dot-menu-button">
+            <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
               {/* reporting own content makes no sense, so we hide this option */}
               {!isCurrentUserCommentCreator && (
                 <HoliActionDrawer.Action
