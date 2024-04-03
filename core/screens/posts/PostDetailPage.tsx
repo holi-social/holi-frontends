@@ -14,12 +14,12 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
-import CommentView from '@holi/core/screens/posts/components/CommentView'
+import CommentView from '@holi/core/screens/comments/components/CommentView'
+import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
-import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
-import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { PostById, PostByIdResponse, UpdatePostCommentReactionMutation } from '@holi/core/screens/posts/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -158,6 +158,7 @@ const PostDetailPage = () => {
                     postId={post.id}
                     style={styles.comment}
                     onLayout={scrollToFirstComment || isCommentToScroll ? scrollIntoView : undefined}
+                    updateReactionMutation={UpdatePostCommentReactionMutation}
                   />
                 )
               })}

@@ -1,35 +1,69 @@
+import { DocumentNode, useMutation } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import useDeleteComment from '@holi/core/hooks/useDeleteComment'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
-import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
-import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
-import { Comment } from '@holi/core/screens/posts/types'
+import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
+import { Comment, ReactionAction, ReactionType } from '@holi/core/screens/comments/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CommentProps extends ViewProps {
+  updateReactionMutation: DocumentNode
   comment: Comment
   postId: string
   created?: string
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
+const CommentView = ({ updateReactionMutation, comment, postId, style, ...props }: CommentProps) => {
   const { user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
+  const { displayError } = useErrorHandling()
+
+  const heartReactions = comment.reactions.HEART
+  const currentUserHasReacted = !!comment.myReaction.HEART
+
+  const [updateReaction] = useMutation(updateReactionMutation, {
+    onError: (error) =>
+      displayError(error, 'Failed to update post comment reaction', {
+        location: 'CommentReactions.updateReaction',
+        commentId: comment.id,
+      }),
+  })
+
+  const reactOnComment = () => {
+    if (!isLoggedIn) {
+      return openLoginModal({
+        description: t('insights.posts.comments.react.loginRedirect.text'),
+      })
+    }
+    updateReaction({
+      variables: {
+        id: comment.id,
+        reactionType: ReactionType.HEART,
+        reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
+      },
+    })
+  }
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: comment.id,
@@ -107,7 +141,14 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
           <HoliRichTextOutput text={comment.text} users={comment.mentions || []} style={styles.text} allowAllLinks />
 
           <View style={styles.reactionsBar}>
-            <CommentReactions comment={comment} />
+            <HoliReactionsCount
+              onPress={reactOnComment}
+              type="comment"
+              count={heartReactions}
+              active={currentUserHasReacted}
+              fullName={comment.creator.fullName}
+              testID="btn-react-to-comment-HEART"
+            />
           </View>
         </View>
       </View>

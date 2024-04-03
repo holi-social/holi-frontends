@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import CommentView from '@holi/core/screens/posts/components/CommentView'
+import CommentView from '@holi/core/screens/comments/components/CommentView'
 import { comment, post } from '@holi/core/screens/posts/components/__tests__/testData'
 
 jest.unmock('react-native-safe-area-context')

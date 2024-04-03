@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client/core'
 
-import { Comment, Post } from '@holi/core/screens/posts/types'
+import { Comment } from '@holi/core/screens/comments/types'
+import { Post } from '@holi/core/screens/posts/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const PostCommentFragment = gql`
