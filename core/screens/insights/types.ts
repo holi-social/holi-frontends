@@ -45,6 +45,7 @@ export interface Insight {
   isBookmarked?: boolean
   recommendations?: Recommendation[]
   initiatives?: Initiative[]
+  discussions?: Discussion[]
 }
 
 export interface InsightWithQuote extends Insight {
@@ -72,4 +73,9 @@ export interface Initiative {
   linkPreview: Link
   reactions: ReactionCounts
   myReaction: ReactionCounts
+}
+
+export interface Discussion {
+  id: string
+  question: string
 }
