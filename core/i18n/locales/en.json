@@ -278,6 +278,7 @@
   "homeFeed.testingBanner": "Beta release for testing only",
   "homeFeed.userSuggestions.avatarAltText": "Profile picture of {{name}}",
   "homeFeed.userSuggestions.title": "Welcome new users",
+  "individuals.post.create.title": "Create new post",
   "insight.curatedBy": "curated by",
   "insight.page.curatedBy": "curated by journalistic partners",
   "insight.page.description": "Topical deep-dives that help us to understand the major challenges of our time.",
