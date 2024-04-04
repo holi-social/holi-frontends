@@ -20,11 +20,11 @@ const PostDetailFooter: React.VFC<PostDetailFooterProps> = ({ onPress, style }) 
       inline
       transparent
       style={[styles.button, style]}
-      label={t('insights.posts.comments.create_comment_button')}
+      label={t('comments.create_comment_button')}
       onPress={onPress}
       testID="post-detail-footer"
     >
-      <HoliText style={styles.text}>{t('insights.posts.comments.create_comment_button')}</HoliText>
+      <HoliText style={styles.text}>{t('comments.create_comment_button')}</HoliText>
     </HoliButton>
   )
 }

@@ -96,7 +96,7 @@ const PostPreview = ({
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
       openLoginModal({
-        description: t('insights.posts.comments.loginRedirect.text'),
+        description: t('comments.loginRedirect.text'),
       })
       // return false prevents link execution
       return false
@@ -288,7 +288,7 @@ const PostPreview = ({
           <View style={styles.reactionsLink}>
             <HoliLink
               href={`${getPostUrl(post?.id, insightId, spaceIdOrName)}?commentId=first`}
-              label={t('insights.posts.comments.link')}
+              label={t('comments.link')}
             >
               <HoliUserAvatarPile users={commenters || []} usersToShow={3} collapse>
                 {t('insights.post.response', { count: post?.numberOfComments })}
@@ -297,11 +297,7 @@ const PostPreview = ({
           </View>
         ) : (
           <View style={styles.noCommentsYetMessage}>
-            <HoliLink
-              href={commentUrl}
-              label={t('insights.posts.comments.create_comment_button')}
-              onPress={onPressCommentLink}
-            >
+            <HoliLink href={commentUrl} label={t('comments.create_comment_button')} onPress={onPressCommentLink}>
               <HoliText size="small" style={{ color: colors.foreground20 }}>
                 {t('insights.post.no-comment-yet')}
               </HoliText>

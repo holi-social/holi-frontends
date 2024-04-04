@@ -1,4 +1,4 @@
-import { Comment } from '@holi/core/screens/posts/types'
+import { Comment } from '@holi/core/screens/comments/types'
 import { User } from '@holi/core/screens/userprofile/types'
 
 export const getPostCommenters = (comments: Comment[]) =>
