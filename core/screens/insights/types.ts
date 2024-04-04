@@ -45,6 +45,7 @@ export interface Insight {
   isFavorite?: boolean
   recommendations?: Recommendation[]
   initiatives?: Initiative[]
+  discussions?: Discussion[]
 }
 
 export interface InsightWithQuote extends Insight {
@@ -86,4 +87,9 @@ export interface UserFavorite {
   bookmarkId: string
   bookmarkType: string
   bookmarkItem: Insight | Quote | Recommendation | Initiative
+}
+
+export interface Discussion {
+  id: string
+  question: string
 }
