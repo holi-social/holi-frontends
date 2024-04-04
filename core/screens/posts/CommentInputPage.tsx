@@ -19,8 +19,8 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
+import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
-import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -80,7 +80,7 @@ const CommentInputPage = () => {
     CreatePostCommentMutation,
     {
       onCompleted: () => {
-        openToast(t('insights.posts.comments.success'), HoliToastType.SUCCESS)
+        openToast(t('comments.success'), HoliToastType.SUCCESS)
         navigateBack()
       },
       onError: (error) => {
@@ -100,7 +100,7 @@ const CommentInputPage = () => {
   useLayoutEffect(
     () =>
       setScreenOptions({
-        title: t('insights.posts.comments.title'),
+        title: t('comments.title'),
         headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
@@ -181,7 +181,7 @@ const CommentInputPage = () => {
                     size="small"
                   />
                   <HoliRichTextInput
-                    placeholder={t('insights.posts.comments.placeholder')}
+                    placeholder={t('comments.placeholder')}
                     autofocus={true}
                     onChange={setText}
                     style={styles.textInput}
@@ -203,7 +203,7 @@ const CommentInputPage = () => {
             <View style={[styles.buttonContainer, mixins.container]}>
               <HoliButton
                 disabled={!text.trim().length || createCommentLoading}
-                label={t('insights.posts.comments.button')}
+                label={t('comments.button')}
                 variant="small"
                 inline
                 onPress={() =>
@@ -215,7 +215,7 @@ const CommentInputPage = () => {
                 }
                 testID="btn-submit-comment"
               >
-                {t('insights.posts.comments.button')}
+                {t('comments.button')}
               </HoliButton>
             </View>
           </View>

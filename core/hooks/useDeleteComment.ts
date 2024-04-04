@@ -19,7 +19,7 @@ const useDeleteComment = (id: string, postId: string, handleConfirm?: () => void
     {
       variables: { id },
       onCompleted: () => {
-        openToast(t('insights.posts.comment.delete.success'), HoliToastType.SUCCESS)
+        openToast(t('comment.delete.success'), HoliToastType.SUCCESS)
         handleConfirm?.()
       },
       onError: (error: ApolloError) => {

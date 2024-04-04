@@ -2,8 +2,10 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import CommentView from '@holi/core/screens/posts/components/CommentView'
+import { ContentType } from '@holi/core/queries'
+import CommentView from '@holi/core/screens/comments/components/CommentView'
 import { comment, post } from '@holi/core/screens/posts/components/__tests__/testData'
+import { UpdatePostCommentReactionMutation } from '@holi/core/screens/posts/queries'
 
 jest.unmock('react-native-safe-area-context')
 
@@ -11,7 +13,12 @@ describe('CommentView', () => {
   it('renders correctly', () => {
     const { getByText, getByTestId } = render(
       <MockedProvider addTypename={false}>
-        <CommentView postId={post.id} comment={comment} />
+        <CommentView
+          postId={post.id}
+          comment={comment}
+          updateReactionMutation={UpdatePostCommentReactionMutation}
+          reportContentType={ContentType.POST_COMMENT}
+        />
       </MockedProvider>
     )
 

@@ -1,3 +1,4 @@
+import { Comment } from '@holi/core/screens/comments/types'
 import type { Space } from '@holi/core/screens/spaces/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import { Term } from '@holi/core/screens/userprofile/types'
@@ -17,16 +18,6 @@ export interface ReactionCounts {
 }
 
 export type InspirationPostCategory = Term
-
-export interface Comment {
-  id: string
-  text: string
-  creator: User
-  created?: string // "2022-10-06T17:50:41.661594+00:00"
-  mentions?: User[]
-  myReaction: ReactionCounts
-  reactions: ReactionCounts
-}
 
 export interface PostImage {
   id: string
