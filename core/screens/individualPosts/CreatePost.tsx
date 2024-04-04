@@ -38,7 +38,7 @@ const CreatePost = () => {
   }, [colors.background20, navigateBack, setScreenOptions, t])
 
   return (
-    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/">
+    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/login">
       <View style={styles.layout}>
         <HoliText style={styles.text}>Individual Posts are here!</HoliText>
       </View>
