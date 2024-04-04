@@ -63,9 +63,8 @@ const AppsDrawer: React.FC = () => {
             // if pressed too soon, the state is set to true, but the modal is not shown.
             // crude mechanism to recover from this state.
             // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-            // modalIsVisible && setModalIsVisible(false)
-            // setModalIsVisible(true)
-            navigate('/createPost')
+            modalIsVisible && setModalIsVisible(false)
+            setModalIsVisible(true)
           }}
         >
           <HoliText size="small" bold>
