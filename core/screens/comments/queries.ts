@@ -17,6 +17,7 @@ export const commentsMetadata = gql`
         }
       }
       commenters(limit: 5) {
+        totalResults
         data {
           ...UserAvatar
         }
