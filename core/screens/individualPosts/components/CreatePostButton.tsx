@@ -34,8 +34,8 @@ const CreatePostButton: React.FC = () => {
         <HoliButton
           label={t('individuals.post.create.title')}
           testID="create-post-button"
-          inline
           style={styles.overlayButton}
+          transparent={Platform.OS !== 'web'}
           onPress={() => {
             navigateToCreatePost()
           }}
@@ -66,6 +66,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingHorizontal: 20,
       borderColor: theme.colors.foreground30,
       borderWidth: 1,
+      borderRadius: 84,
       shadowColor: theme.colors.foreground30,
       shadowOffset: {
         width: 2,
