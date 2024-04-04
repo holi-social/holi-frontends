@@ -15,13 +15,13 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -134,8 +134,8 @@ const HomeFeed = () => {
         </View>
       </ScrollHeaderLayout.Refreshable>
 
-      {/* AppsDrawer needs to be outside of the Layout */}
-      <AppsDrawer />
+      {/* CreatePostButton needs to be outside of the Layout */}
+      <CreatePostButton />
     </>
   )
 }
