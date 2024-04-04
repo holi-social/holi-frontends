@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -23,8 +22,7 @@ const DiscussionSection = ({ children }: { children: React.ReactNode }) => {
         />
         <HoliHeading>{t('insights.discussions.title')}</HoliHeading>
       </View>
-      <HoliGap size="m" />
-      {children}
+      <View style={styles.children}>{children}</View>
     </View>
   )
 }
@@ -46,6 +44,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing['3xs'],
+    marginBottom: Spacing.md,
+  },
+  children: {
+    flexDirection: 'column',
+    gap: Spacing.xs,
   },
 })
 

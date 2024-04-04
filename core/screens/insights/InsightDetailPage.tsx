@@ -17,6 +17,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionSection from '@holi/core/screens/insights/discussions/DiscussionsSections'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
@@ -254,7 +255,13 @@ const InsightDetailPage = () => {
                 />
               </InsightCarouselSection>
             )}
-            {discussions.length > 0 && <DiscussionSection>{discussions.map((d) => d.question)}</DiscussionSection>}
+            {discussions.length > 0 && (
+              <DiscussionSection>
+                {discussions.map((d) => (
+                  <DiscussionCard key={d.id} discussion={d} />
+                ))}
+              </DiscussionSection>
+            )}
             {posts.length > 0 && (
               <View style={[styles.section, styles.posts]}>
                 <HoliGridWrapper>
