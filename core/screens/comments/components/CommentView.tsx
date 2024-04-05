@@ -11,7 +11,7 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { Comment, ReactionAction, ReactionType } from '@holi/core/screens/comments/types'
+import { Comment, CommentableType, ReactionAction, ReactionType } from '@holi/core/screens/comments/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
@@ -24,13 +24,22 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export interface CommentProps extends ViewProps {
   updateReactionMutation: DocumentNode
   comment: Comment
-  postId: string
+  commentableId: string
   reportContentType: ContentType
+  commentableType: CommentableType
   created?: string
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView = ({ updateReactionMutation, comment, postId, reportContentType, style, ...props }: CommentProps) => {
+const CommentView = ({
+  updateReactionMutation,
+  comment,
+  commentableId,
+  reportContentType,
+  commentableType,
+  style,
+  ...props
+}: CommentProps) => {
   const { user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -72,7 +81,7 @@ const CommentView = ({ updateReactionMutation, comment, postId, reportContentTyp
     successMsg: t('global.report.successMessage'),
   })
   const isCurrentUserCommentCreator = comment.creator.id === loggedInUser?.id
-  const [isLoadingDeleteComment, deleteComment] = useDeleteComment(comment.id, postId)
+  const [isLoadingDeleteComment, deleteComment] = useDeleteComment(comment.id, commentableId, commentableType)
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
