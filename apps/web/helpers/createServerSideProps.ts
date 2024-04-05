@@ -42,7 +42,12 @@ export const createServerSideProps = async (
     const queriesToExecute = typeof queries === 'function' ? await queries(client) : queries
 
     const results = await Promise.allSettled(
-      queriesToExecute.filter((query) => !query.skip).map((query) => client.query(query))
+      queriesToExecute
+        .filter((query) => !query.skip)
+        .map((query) => {
+          const newQuery = { ...query, context: { headers: req.headers } }
+          return client.query(newQuery)
+        })
     )
 
     const wasNotFound = results.some((result) => result.status === 'rejected' && isNotFoundError(result.reason))
