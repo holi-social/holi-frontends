@@ -16,12 +16,13 @@ const insight: Insight = {
   headerImageBlurhash: '',
   topic: { id: '1', title: 'Topic 1', slug: 'topic1', isDiscoverSpacesDefault: false },
   posts: [],
+  quotes: [],
   numberOfPosts: 0,
   involvedUsers: {
     totalResults: 0,
     data: [],
   },
-  isBookmarked: false,
+  isFavorite: false,
 }
 
 export const createInsightList = (length = 3) =>

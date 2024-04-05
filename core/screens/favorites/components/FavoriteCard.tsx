@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FavoriteDrawer from '@holi/core/screens/favorites/components/FavoritesDrawer'
-import { User } from '@holi/core/screens/userprofile/types'
+import { BookmarkType, Insight, UserFavorite } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import AccountCircleFilled from '@holi/icons/src/generated/AccountCircleFilled'
 import MoreFilled from '@holi/icons/src/generated/MoreFilled'
@@ -17,79 +17,76 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface FavoriteCardProps {
-  id: string
-  title: string
-  thumbnail?: string
-  primaryLink: string
-  curator?: User
-  published?: string
-  externalLink?: string
-  contentType?: string
+  item: UserFavorite
 }
 
-const FavoriteCard: React.FC<FavoriteCardProps> = ({ id, title, thumbnail, primaryLink, curator, published }) => {
+const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
   const { i18n } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { bookmarkItem, bookmarkType } = item
 
-  return (
-    <View style={styles.cardContainer}>
-      <View style={styles.favoriteDrawer}>
-        <FavoriteDrawer id={id}>
-          <HoliIcon icon={MoreFilled} />
-        </FavoriteDrawer>
-      </View>
-      <HoliButton transparent inline label={title} onPress={() => navigate(primaryLink)}>
-        <View style={styles.cardContent}>
-          <View style={styles.thumbnailContainer}>
-            {thumbnail ? (
-              <HoliImage source={{ uri: thumbnail }} style={styles.thumbnail} label={title} />
-            ) : (
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_thumbnail_placeholder.svg')}
-                isSvg
-                label={title}
-                width={100}
-                height={100}
-              />
-            )}
-          </View>
-          <View style={styles.detailsContainer}>
-            <HoliText ellipsizeMode="tail" numberOfLines={2} bold>
-              {title}
-            </HoliText>
-            {curator && (
-              <View style={styles.curatorContainer}>
-                {curator.avatar ? (
-                  <HoliAvatar
-                    imageSrc={curator.avatar}
-                    imageBlurhash={curator.avatarBlurhash}
-                    label={curator.fullName}
-                    initials={curator.avatarLabel || ''}
-                    defaultColor={curator.avatarDefaultColor || ''}
-                    size="micro"
-                    style={styles.curatorAvatar}
-                  />
-                ) : (
-                  <HoliIcon style={styles.curatorAvatar} icon={AccountCircleFilled} color={colors.gray200} />
-                )}
-                <HoliText size="small" color="gray300">
-                  {curator.fullName}
-                </HoliText>
-              </View>
-            )}
-            {published && (
-              <HoliText size="extrasmall" color="gray300">
-                {getRelativeDateString(published, i18n.language)}
-              </HoliText>
-            )}
-          </View>
+  if (bookmarkType === BookmarkType.INSIGHT) {
+    const insight = bookmarkItem as Insight
+    return (
+      <View style={styles.cardContainer} testID={'favorites-card'}>
+        <View style={styles.favoriteDrawer}>
+          <FavoriteDrawer item={item}>
+            <HoliIcon icon={MoreFilled} />
+          </FavoriteDrawer>
         </View>
-      </HoliButton>
-    </View>
-  )
+        <HoliButton transparent inline label={insight.title} onPress={() => navigate(`/insights/${insight.id}`)}>
+          <View style={styles.cardContent}>
+            <View style={styles.thumbnailContainer}>
+              {insight.headerImage ? (
+                <HoliImage source={{ uri: insight.headerImage }} style={styles.thumbnail} label={insight.title} />
+              ) : (
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_thumbnail_placeholder.svg')}
+                  isSvg
+                  label={insight.title}
+                  width={100}
+                  height={100}
+                />
+              )}
+            </View>
+            <View style={styles.detailsContainer}>
+              <HoliText ellipsizeMode="tail" numberOfLines={2} bold>
+                {insight.title}
+              </HoliText>
+              {insight.creator && (
+                <View style={styles.curatorContainer}>
+                  {insight.creator.avatar ? (
+                    <HoliAvatar
+                      imageSrc={insight.creator.avatar}
+                      imageBlurhash={insight.creator.avatarBlurhash}
+                      label={insight.creator.fullName}
+                      initials={insight.creator.avatarLabel || ''}
+                      defaultColor={insight.creator.avatarDefaultColor || ''}
+                      size="micro"
+                      style={styles.curatorAvatar}
+                    />
+                  ) : (
+                    <HoliIcon style={styles.curatorAvatar} icon={AccountCircleFilled} color={colors.gray200} />
+                  )}
+                  <HoliText size="small" color="gray300">
+                    {insight.creator.fullName}
+                  </HoliText>
+                </View>
+              )}
+              {insight.datePublished && (
+                <HoliText size="extrasmall" color="gray300">
+                  {getRelativeDateString(insight.datePublished, i18n.language)}
+                </HoliText>
+              )}
+            </View>
+          </View>
+        </HoliButton>
+      </View>
+    )
+  }
 }
 
 const getStyles = (theme: HoliTheme) =>

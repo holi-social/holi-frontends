@@ -42,7 +42,7 @@ export interface Insight {
   numberOfPosts: number
   involvedUsers: Paged<User>
   quotes: Quote[]
-  isBookmarked?: boolean
+  isFavorite?: boolean
   recommendations?: Recommendation[]
   initiatives?: Initiative[]
 }
@@ -72,4 +72,18 @@ export interface Initiative {
   linkPreview: Link
   reactions: ReactionCounts
   myReaction: ReactionCounts
+}
+
+export enum BookmarkType {
+  INSIGHT = 'INSIGHT',
+  QUOTE = 'QUOTE',
+  RECOMMENDATION = 'RECOMMENDATION',
+  INITIATIVE = 'INITIATIVE',
+}
+
+export interface UserFavorite {
+  id: string
+  bookmarkId: string
+  bookmarkType: string
+  bookmarkItem: Insight | Quote | Recommendation | Initiative
 }
