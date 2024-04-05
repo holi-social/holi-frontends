@@ -7,13 +7,13 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
-  BookmarkInsightResponse,
-  RemoveInsightBookmark,
-  bookmarkInsightMutation,
-  removeInsightBookmarkMutation,
+  BookmarkResponse,
+  UnbookmarkResponse,
+  bookmarkMutation,
+  unbookmarkMutation,
 } from '@holi/core/screens/insights/mutations'
-import { insightById } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
+import { favoritesQuery, insightById } from '@holi/core/screens/insights/queries'
+import { BookmarkType, Insight } from '@holi/core/screens/insights/types'
 import { Bookmark3Line, BookmarkFill, BookmarkLine, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -30,36 +30,36 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
 
-  const { id, isBookmarked } = insight
+  const { id, isFavorite } = insight
 
-  const [bookmarkInsight] = useMutation<BookmarkInsightResponse>(bookmarkInsightMutation, {
+  const [bookmark] = useMutation<BookmarkResponse>(bookmarkMutation, {
     onError: (error) =>
       displayError(error, 'Failed to bookmark insight', {
         location: 'InsightDrawer.bookmarkInsight',
         id,
       }),
-    refetchQueries: [{ query: insightById, variables: { id } }, 'FavoriteInsights'],
+    refetchQueries: [{ query: insightById, variables: { id } }, favoritesQuery],
   })
 
-  const [removeInsightBookmark] = useMutation<RemoveInsightBookmark>(removeInsightBookmarkMutation, {
+  const [unbookmark] = useMutation<UnbookmarkResponse>(unbookmarkMutation, {
     onError: (error) =>
       displayError(error, 'Failed to remove insight bookmark', {
-        location: 'InsightDrawer.removeInsightBookmark',
+        location: 'InsightDrawer.unbookmark',
         id,
       }),
-    refetchQueries: [{ query: insightById, variables: { id } }, 'FavoriteInsights'],
+    refetchQueries: [{ query: insightById, variables: { id } }, favoritesQuery],
   })
 
   const bookmarkInsightActionHandler = async () => {
     if (isLoggedIn) {
-      await bookmarkInsight({ variables: { insightId: id } })
+      await bookmark({ variables: { bookmarkId: id, bookmarkType: BookmarkType.INSIGHT } })
       openToast(t('insights.insight.bookmark.success'), HoliToastType.SUCCESS)
     }
     navigate('/login')
   }
 
-  const removeInsightBookmarkActionHandler = async () => {
-    await removeInsightBookmark({ variables: { insightId: id } })
+  const unbookmarkActionHandler = async () => {
+    await unbookmark({ variables: { bookmarkId: id, bookmarkType: BookmarkType.INSIGHT } })
     openToast(t('insights.insight.remove.bookmark.success'), HoliToastType.SUCCESS)
   }
 
@@ -77,23 +77,19 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   })
 
   return (
-    <HoliActionDrawer.Drawer
-      label={t('global.moreOptions')}
-      testID="btn-appointment-more-options"
-      buttonElement={children}
-    >
+    <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-insight-more-options" buttonElement={children}>
       <HoliActionDrawer.Action
         icon={Share}
         title={t('global.share')}
         testID="btn-share-insight"
         handleAction={shareLink}
       />
-      {isBookmarked ? (
+      {isFavorite ? (
         <HoliActionDrawer.Action
           icon={BookmarkFill}
           title={t('insights.insight.remove.bookmark.button')}
           testID="btn-remove-insight-bookmark"
-          handleAction={removeInsightBookmarkActionHandler}
+          handleAction={unbookmarkActionHandler}
         />
       ) : (
         <HoliActionDrawer.Action

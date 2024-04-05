@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
 import { LinkFragment } from '@holi/core/screens/comments/queries'
-import { Initiative, Insight, InsightWithQuote, Recommendation } from '@holi/core/screens/insights/types'
+import { Initiative, Insight, InsightWithQuote, Recommendation, UserFavorite } from '@holi/core/screens/insights/types'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -95,7 +95,7 @@ const InsightWithPostsFragment = gql`
     posts {
       ...PostFragment
     }
-    isBookmarked
+    isFavorite
     recommendations {
       ...RecommendationFragment
     }
@@ -145,29 +145,36 @@ export type LastInsightsResponse = {
   lastInsights: Paged<Insight>
 }
 
-export const favoriteInsightsQuery = gql`
+export const favoritesQuery = gql`
   ${UserAvatarFragment}
 
-  query FavoriteInsights($offset: Int! = 0, $limit: Int! = 10) {
-    favoriteInsights(offset: $offset, limit: $limit) {
+  query Favorites($offset: Int! = 0, $limit: Int! = 10) {
+    favorites(offset: $offset, limit: $limit) {
       data {
         id
-        title
-        datePublished
-        creator {
-          ...UserAvatar
-          aboutMe
+        bookmarkId
+        bookmarkType
+        bookmarkItem {
+          ... on Insight {
+            id
+            title
+            datePublished
+            creator {
+              ...UserAvatar
+              aboutMe
+            }
+            headerImage
+            headerImageBlurhash
+          }
         }
-        headerImage
-        headerImageBlurhash
       }
       totalResults
     }
   }
 `
 
-export type FavoriteInsightsResponse = {
-  favoriteInsights: Paged<Insight>
+export type FavoritesResponse = {
+  favorites: Paged<UserFavorite>
 }
 
 export const insightById = gql`
