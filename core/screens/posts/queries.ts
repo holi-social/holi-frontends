@@ -1,30 +1,8 @@
 import { gql } from '@apollo/client/core'
 
-import { LinkFragment } from '@holi/core/screens/comments/queries'
+import { LinkFragment, PostCommentFragment } from '@holi/core/screens/comments/queries'
 import { Post } from '@holi/core/screens/posts/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
-
-export const PostCommentFragment = gql`
-  ${UserAvatarFragment}
-  fragment PostCommentFull on PostComment {
-    id
-    text
-    created
-    creator {
-      ...UserAvatar
-    }
-    mentions {
-      id
-      fullName
-    }
-    myReaction {
-      HEART
-    }
-    reactions {
-      HEART
-    }
-  }
-`
 
 export const PostImageFragment = gql`
   fragment PostImageData on PostImage {
@@ -107,7 +85,7 @@ export const PostDetailsFragment = gql`
       }
     }
     comments {
-      ...PostCommentFull
+      ...CommentFull
     }
     image {
       ...PostImageData

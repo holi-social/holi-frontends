@@ -1,36 +1,7 @@
 import { gql } from '@apollo/client/core'
 
-import { LinkFragment } from '@holi/core/screens/comments/queries'
+import { CommentFragment } from '@holi/core/screens/comments/queries'
 import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
-
-export const CommentFragment = gql`
-  ${UserAvatarFragment}
-  ${LinkFragment}
-
-  fragment CommentFull on Comment {
-    id
-    text
-    created
-    modified
-    creator {
-      ...UserAvatar
-    }
-    links {
-      ...LinkFragment
-    }
-    mentions {
-      id
-      fullName
-    }
-    myReaction {
-      HEART
-    }
-    reactions {
-      HEART
-    }
-  }
-`
 
 export type CreateCommentInput = {
   commentableId: string
