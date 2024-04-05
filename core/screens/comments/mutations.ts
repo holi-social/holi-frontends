@@ -53,7 +53,7 @@ export type CreateCommentResponse = {
 }
 
 export type CommentReactionInput = {
-  commendId: string
+  commentId: string
   reactionType: ReactionType
 }
 
@@ -67,11 +67,11 @@ export const AddReactionToCommentMutation = gql`
   }
 `
 
-export const RemoveReactionToCommentMutation = gql`
+export const RemoveReactionFromCommentMutation = gql`
   ${CommentFragment}
 
-  mutation RemoveReactionToComment($input: CommentReactionInput!) {
-    removeReactionToComment(input: $input) {
+  mutation RemoveReactionFromComment($input: CommentReactionInput!) {
+    removeReactionFromComment(input: $input) {
       ...CommentFull
     }
   }

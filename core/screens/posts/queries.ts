@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client/core'
 
 import { LinkFragment } from '@holi/core/screens/comments/queries'
-import { Comment } from '@holi/core/screens/comments/types'
 import { Post } from '@holi/core/screens/posts/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
@@ -144,32 +143,6 @@ export type PostByIdResponse = {
   postById: Post
 }
 
-export type CreatePostCommentInput = {
-  postId: string
-  text: string
-}
-
-export const CreatePostCommentMutation = gql`
-  ${PostDetailsFragment}
-  ${PostCommentFragment}
-
-  mutation CreatePostComment($input: CreatePostCommentInput!) {
-    updatePostComment(input: $input) {
-      postComment {
-        ...PostCommentFull
-      }
-      postById {
-        ...PostFull
-      }
-    }
-  }
-`
-
-export type CreatePostCommentResponse = {
-  postComment: Comment
-  postById: Post
-}
-
 export const UpdatePostReactionMutation = gql`
   ${PostFragment}
 
@@ -183,29 +156,3 @@ export const UpdatePostReactionMutation = gql`
 export interface UpdatePostReactionResponse {
   post: Post
 }
-
-export const UpdatePostCommentReactionMutation = gql`
-  ${PostCommentFragment}
-
-  mutation UpdatePostCommentReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
-    updatePostCommentReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
-      ...PostCommentFull
-    }
-  }
-`
-
-export interface UpdatePostCommentReactionResponse {
-  postComment: Comment
-}
-
-export interface DeletePostCommentResponse {
-  success: boolean
-}
-
-export const DeletePostCommentMutation = gql`
-  mutation DeletePostComment($id: UUID!) {
-    deletePostComment(id: $id) {
-      success
-    }
-  }
-`

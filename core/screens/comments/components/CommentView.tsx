@@ -1,4 +1,4 @@
-import { DocumentNode, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
@@ -11,7 +11,8 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { Comment, CommentableType, ReactionAction, ReactionType } from '@holi/core/screens/comments/types'
+import { AddReactionToCommentMutation, RemoveReactionFromCommentMutation } from '@holi/core/screens/comments/mutations'
+import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
@@ -22,7 +23,6 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CommentProps extends ViewProps {
-  updateReactionMutation: DocumentNode
   comment: Comment
   commentableId: string
   reportContentType: ContentType
@@ -31,15 +31,7 @@ export interface CommentProps extends ViewProps {
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView = ({
-  updateReactionMutation,
-  comment,
-  commentableId,
-  reportContentType,
-  commentableType,
-  style,
-  ...props
-}: CommentProps) => {
+const CommentView = ({ comment, commentableId, reportContentType, commentableType, style, ...props }: CommentProps) => {
   const { user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -52,10 +44,18 @@ const CommentView = ({
   const heartReactions = comment.reactions.HEART
   const currentUserHasReacted = !!comment.myReaction.HEART
 
-  const [updateReaction] = useMutation(updateReactionMutation, {
+  const [addReaction, { loading: loadingAddReaction }] = useMutation(AddReactionToCommentMutation, {
     onError: (error) =>
-      displayError(error, 'Failed to update comment reaction', {
-        location: 'CommentReactions.updateReaction',
+      displayError(error, 'Failed to add comment reaction', {
+        location: 'CommentReactions.addReaction',
+        commentId: comment.id,
+      }),
+  })
+
+  const [removeReaction, { loading: loadingRemoveReaction }] = useMutation(RemoveReactionFromCommentMutation, {
+    onError: (error) =>
+      displayError(error, 'Failed to remove comment reaction', {
+        location: 'CommentReactions.removeReaction',
         commentId: comment.id,
       }),
   })
@@ -66,13 +66,28 @@ const CommentView = ({
         description: t('comments.react.loginRedirect.text'),
       })
     }
-    updateReaction({
-      variables: {
-        id: comment.id,
-        reactionType: ReactionType.HEART,
-        reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
-      },
-    })
+
+    if (loadingAddReaction || loadingRemoveReaction) return
+
+    if (!currentUserHasReacted) {
+      addReaction({
+        variables: {
+          input: {
+            commentId: comment.id,
+            reactionType: ReactionType.HEART,
+          },
+        },
+      })
+    } else {
+      removeReaction({
+        variables: {
+          input: {
+            commentId: comment.id,
+            reactionType: ReactionType.HEART,
+          },
+        },
+      })
+    }
   }
 
   const [isLoadingReport, reportContent] = useReportContent({
