@@ -12,6 +12,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import StartDiscussion from './StartDiscussion'
+
 interface DiscussionCardProps {
   discussion: Discussion
 }
@@ -33,15 +35,15 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
   const latestCommenters: readonly User[] = commenters?.data || []
 
   return (
-    <View style={styles.card}>
+    <View style={styles.container}>
       <HoliText style={styles.question}>{discussion.question}</HoliText>
-      {latestCommenters.length > 0 ? <View>comments</View> : <View>No comments</View>}
+      {latestCommenters.length > 0 ? <View>comments</View> : <StartDiscussion />}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  card: {
+  container: {
     padding: Spacing.xs,
     backgroundColor: colors.background10,
     borderColor: colors.black300,

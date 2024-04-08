@@ -297,6 +297,7 @@
   "insights.curationPrinciples.title": "Wie wir Inhalte auswählen",
   "insights.discoverMore": "Mehr entdecken",
   "insights.discussions.title": "Diskutiere mit...",
+  "insights.discussions.start": "Antworte und starte die Diskussion...",
   "insights.editors.discussing": "{{count}} diskutiert",
   "insights.editors.discussing_plural": "{{count}} diskutieren",
   "insights.editors.editedBy": "kuratiert von holi & Gästen",
