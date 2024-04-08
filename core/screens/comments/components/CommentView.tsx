@@ -1,17 +1,15 @@
-import { useMutation } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import useDeleteComment from '@holi/core/hooks/useDeleteComment'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { AddReactionToCommentMutation, RemoveReactionFromCommentMutation } from '@holi/core/screens/comments/mutations'
+import useDeleteComment from '@holi/core/screens/comments/hooks/useDeleteComment'
+import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComment'
 import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Delete, Flag } from '@holi/icons/src/generated'
@@ -39,26 +37,22 @@ const CommentView = ({ comment, commentableId, reportContentType, commentableTyp
 
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
-  const { displayError } = useErrorHandling()
+
+  const [isLoadingReport, reportContent] = useReportContent({
+    id: comment.id,
+    contentType: reportContentType,
+    successMsg: t('global.report.successMessage'),
+  })
+
+  const [isLoadingDeleteComment, deleteComment] = useDeleteComment(comment.id, commentableId, commentableType)
+
+  const [addReaction, removeReaction, loadingAddReaction, loadingRemoveReaction] = useReactOnComment(
+    comment.id,
+    ReactionType.HEART
+  )
 
   const heartReactions = comment.reactions.HEART
   const currentUserHasReacted = !!comment.myReaction.HEART
-
-  const [addReaction, { loading: loadingAddReaction }] = useMutation(AddReactionToCommentMutation, {
-    onError: (error) =>
-      displayError(error, 'Failed to add comment reaction', {
-        location: 'CommentReactions.addReaction',
-        commentId: comment.id,
-      }),
-  })
-
-  const [removeReaction, { loading: loadingRemoveReaction }] = useMutation(RemoveReactionFromCommentMutation, {
-    onError: (error) =>
-      displayError(error, 'Failed to remove comment reaction', {
-        location: 'CommentReactions.removeReaction',
-        commentId: comment.id,
-      }),
-  })
 
   const reactOnComment = () => {
     if (!isLoggedIn) {
@@ -70,33 +64,13 @@ const CommentView = ({ comment, commentableId, reportContentType, commentableTyp
     if (loadingAddReaction || loadingRemoveReaction) return
 
     if (!currentUserHasReacted) {
-      addReaction({
-        variables: {
-          input: {
-            commentId: comment.id,
-            reactionType: ReactionType.HEART,
-          },
-        },
-      })
+      addReaction()
     } else {
-      removeReaction({
-        variables: {
-          input: {
-            commentId: comment.id,
-            reactionType: ReactionType.HEART,
-          },
-        },
-      })
+      removeReaction()
     }
   }
 
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: comment.id,
-    contentType: reportContentType,
-    successMsg: t('global.report.successMessage'),
-  })
   const isCurrentUserCommentCreator = comment.creator.id === loggedInUser?.id
-  const [isLoadingDeleteComment, deleteComment] = useDeleteComment(comment.id, commentableId, commentableType)
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
