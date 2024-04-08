@@ -9,6 +9,7 @@ import { ComentableType } from '@holi/core/screens/comments/types'
 import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
 import { Discussion } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -41,7 +42,9 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
   return (
     <View style={styles.container}>
       <HoliText bold>{discussion.question}</HoliText>
-      {latestCommenters.length > 0 ? (
+      {loading ? (
+        <LoadingSkeleton />
+      ) : latestCommenters.length > 0 ? (
         <>
           {topComment && (
             <ResponsesContainer>
@@ -74,6 +77,8 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
     </View>
   )
 }
+
+const LoadingSkeleton = () => <HoliSkeleton width="100%" height={60} borderRadius={4} />
 
 const styles = StyleSheet.create({
   container: {
