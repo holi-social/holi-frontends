@@ -75,6 +75,9 @@ export enum RouteName {
   VolunteeringAppHome = 'VolunteeringAppHome',
   VolunteeringAppEngagmentDetail = 'VolunteeringAppEngagmentDetail',
 
+  // Challenges app
+  ChallengesAppHome = 'ChallengesAppHome',
+
   // Video call
   VideoCall = 'VideoCall',
 
@@ -90,6 +93,7 @@ export enum RouteName {
   Chat = 'Chat',
   Auth = 'Auth',
   Search = 'Search',
+  ChallengesApp = 'ChallengesApp',
   DonationsApp = 'DonationsApp',
   GoodNewsApp = 'GoodNewsApp',
   VolunteeringApp = 'VolunteeringApp',
