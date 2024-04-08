@@ -22,3 +22,7 @@ export interface Comment {
   myReaction: ReactionCounts
   reactions: ReactionCounts
 }
+
+export enum CommentableType {
+  POST = 'POST',
+}

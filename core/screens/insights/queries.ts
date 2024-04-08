@@ -1,7 +1,8 @@
 import { gql } from '@apollo/client/core'
 
+import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { Initiative, Insight, InsightWithQuote, Recommendation, UserFavorite } from '@holi/core/screens/insights/types'
-import { LinkFragment, PostFragment } from '@holi/core/screens/posts/queries'
+import { PostFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
