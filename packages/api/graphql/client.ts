@@ -80,6 +80,13 @@ export const createCache = () =>
           sdgs: alwaysReplacePolicy,
         },
       },
+      Comment: {
+        fields: {
+          interests: alwaysReplacePolicy,
+          skills: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
+        },
+      },
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
@@ -111,6 +118,9 @@ export const createCache = () =>
           lastInsights: pagedPolicy(),
           appDonations_projects: pagedPolicy(),
           appGoodNews_articles: {
+            keyArgs: [],
+          },
+          comments: {
             keyArgs: [],
           },
           appVolunteering_engagementOpportunities: pagedPolicy(

@@ -4,8 +4,8 @@ import React from 'react'
 
 import { ContentType } from '@holi/core/queries'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
+import { CommentableType } from '@holi/core/screens/comments/types'
 import { comment, post } from '@holi/core/screens/posts/components/__tests__/testData'
-import { UpdatePostCommentReactionMutation } from '@holi/core/screens/posts/queries'
 
 jest.unmock('react-native-safe-area-context')
 
@@ -14,9 +14,9 @@ describe('CommentView', () => {
     const { getByText, getByTestId } = render(
       <MockedProvider addTypename={false}>
         <CommentView
-          postId={post.id}
+          commentableId={post.id}
+          commentableType={CommentableType.POST}
           comment={comment}
-          updateReactionMutation={UpdatePostCommentReactionMutation}
           reportContentType={ContentType.POST_COMMENT}
         />
       </MockedProvider>

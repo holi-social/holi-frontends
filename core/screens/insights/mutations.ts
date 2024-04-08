@@ -3,30 +3,6 @@ import { gql } from '@apollo/client/core'
 import { InitiativeFragment, QuoteFragment, RecommendationFragment } from '@holi/core/screens/insights/queries'
 import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 
-export const bookmarkInsightMutation = gql`
-  mutation BookmarkInsight($insightId: UUID!) {
-    bookmarkInsight(insightId: $insightId) {
-      success
-    }
-  }
-`
-
-export const removeInsightBookmarkMutation = gql`
-  mutation RemoveInsightBookmark($insightId: UUID!) {
-    removeInsightBookmark(insightId: $insightId) {
-      success
-    }
-  }
-`
-
-export interface BookmarkInsightResponse {
-  success: boolean
-}
-
-export interface RemoveInsightBookmark {
-  success: boolean
-}
-
 export const UpdateQuoteReactionMutation = gql`
   ${QuoteFragment}
 
@@ -83,4 +59,28 @@ export const UpdateInitiativeReactionMutation = gql`
 
 export interface UpdateInitiativeReactionResponse {
   initiative: Initiative
+}
+
+export const bookmarkMutation = gql`
+  mutation Bookmark($bookmarkId: UUID!, $bookmarkType: BookmarkType!) {
+    bookmark(bookmarkId: $bookmarkId, bookmarkType: $bookmarkType) {
+      success
+    }
+  }
+`
+
+export interface BookmarkResponse {
+  success: boolean
+}
+
+export const unbookmarkMutation = gql`
+  mutation Unbookmark($bookmarkId: UUID!, $bookmarkType: BookmarkType!) {
+    unbookmark(bookmarkId: $bookmarkId, bookmarkType: $bookmarkType) {
+      success
+    }
+  }
+`
+
+export interface UnbookmarkResponse {
+  success: boolean
 }

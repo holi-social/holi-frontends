@@ -14,8 +14,8 @@ import { initChatClient } from '@holi/chat/src/store'
 import {
   ADMIN_FIXTURE,
   CREATOR_FIXTURE,
-  DM_MEMBERS_FIXTURE,
-  DM_ROOM_ID_FIXTURE,
+  DM_MEMBERS,
+  DM_ROOM_ID,
   HOLI_CREATOR_FIXTURE,
   HOLI_CREATOR_ID_FIXTURE,
   HOLI_DM_USERS_FIXTURE,
@@ -24,11 +24,11 @@ import {
   HOLI_SPACE_USERS_FIXTURE,
   MEMBER1_FIXTURE,
   MEMBER2_FIXTURE,
-  NOTIFICATION_COUNT_FIXTURE,
-  SPACE_CHILD_EVENT_CONTENT_FIXTURE,
+  NOTIFICATION_COUNT,
+  SPACE_CHILD_EVENT_CONTENT,
   SPACE_CHILD_ROOM_ID_FIXTURE,
   SPACE_CHILD_ROOM_NAME_FIXTURE,
-  SPACE_EVENT_CONTENT_FIXTURE,
+  SPACE_EVENT_CONTENT,
   SPACE_MEMBERS_FIXTURE,
   SPACE_ROOM_ID_FIXTURE,
   SPACE_ROOM_NAME_FIXTURE,
@@ -114,7 +114,7 @@ describe('ChatRoomView', () => {
   })
 
   it('should show an invitation screen for new rooms', async () => {
-    useParamMock({ roomId: DM_ROOM_ID_FIXTURE })
+    useParamMock({ roomId: DM_ROOM_ID })
     useAuthMock.mockReturnValue({
       userId: HOLI_MEMBER1_ID_FIXTURE,
       isLoggedIn: true,
@@ -123,10 +123,10 @@ describe('ChatRoomView', () => {
     })
 
     const roomName = CREATOR_FIXTURE.name
-    const roomMock = createRoomMock(DM_ROOM_ID_FIXTURE, {
-      members: DM_MEMBERS_FIXTURE,
+    const roomMock = createRoomMock(DM_ROOM_ID, {
+      members: DM_MEMBERS,
       timelineEvents: [],
-      unreadNotificationCount: NOTIFICATION_COUNT_FIXTURE,
+      unreadNotificationCount: NOTIFICATION_COUNT,
       creatorId: CREATOR_FIXTURE.id,
       myMembership: MembershipStatus.invite,
       getMember: MEMBER1_FIXTURE,
@@ -144,7 +144,7 @@ describe('ChatRoomView', () => {
       <MockedProvider
         mocks={[
           getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS_FIXTURE, HOLI_DM_USERS_FIXTURE),
+          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
         addTypename={true}
         defaultOptions={defaultOptions}
@@ -165,7 +165,7 @@ describe('ChatRoomView', () => {
   })
 
   it('should render a DM chat room', async () => {
-    useParamMock({ roomId: DM_ROOM_ID_FIXTURE })
+    useParamMock({ roomId: DM_ROOM_ID })
     useAuthMock.mockReturnValue({
       userId: HOLI_CREATOR_ID_FIXTURE,
       isLoggedIn: true,
@@ -174,10 +174,10 @@ describe('ChatRoomView', () => {
     })
 
     const roomName = 'room-name'
-    const roomMock = createRoomMock(DM_ROOM_ID_FIXTURE, {
-      members: DM_MEMBERS_FIXTURE,
+    const roomMock = createRoomMock(DM_ROOM_ID, {
+      members: DM_MEMBERS,
       timelineEvents: [],
-      unreadNotificationCount: NOTIFICATION_COUNT_FIXTURE,
+      unreadNotificationCount: NOTIFICATION_COUNT,
       creatorId: CREATOR_FIXTURE.id,
       myMembership: MembershipStatus.join,
       getMember: CREATOR_FIXTURE,
@@ -191,7 +191,7 @@ describe('ChatRoomView', () => {
     const msgBody = 'a very well crafted message'
     const msg: IRoomEvent = {
       type: EventType.RoomMessage,
-      room_id: DM_ROOM_ID_FIXTURE,
+      room_id: DM_ROOM_ID,
       sender: MEMBER2_FIXTURE.id,
       content: {
         body: msgBody,
@@ -208,7 +208,7 @@ describe('ChatRoomView', () => {
       <MockedProvider
         mocks={[
           getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS_FIXTURE, HOLI_DM_USERS_FIXTURE),
+          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
         addTypename={true}
         defaultOptions={defaultOptions}
@@ -237,7 +237,7 @@ describe('ChatRoomView', () => {
     })
 
     const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
-      content: SPACE_EVENT_CONTENT_FIXTURE,
+      content: SPACE_EVENT_CONTENT,
     } as unknown as IEvent)
 
     const spaceChildSharedDataEvent = createMatrixEventMock(
@@ -245,7 +245,7 @@ describe('ChatRoomView', () => {
       SPACE_CHILD_ROOM_ID_FIXTURE,
       undefined,
       {
-        content: SPACE_CHILD_EVENT_CONTENT_FIXTURE,
+        content: SPACE_CHILD_EVENT_CONTENT,
       } as unknown as IEvent
     )
 

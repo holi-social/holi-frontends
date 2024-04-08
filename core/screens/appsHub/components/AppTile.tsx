@@ -9,22 +9,23 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type HoliApp = {
+export interface HoliApp {
   id: string
   icon: HoliIconType
   translationKey: string
   featureToggleName?: FeatureToggleName
-  path?: string
   hasUpdates: boolean
+  path?: string
+  active: boolean
 }
 
-type AppTileProps = {
+export interface AppTileProps {
   appData: HoliApp
   onPress?: (appData: HoliApp) => void
   style?: StyleProp<ViewStyle>
 }
 
-const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTileProps) => {
+const AppTile = ({ appData, onPress, style }: AppTileProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
@@ -40,7 +41,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
     }
   }, [onPress, isActive, appData])
 
-  if (ftOff) return <></>
+  if (ftOff) return null
 
   return (
     <HoliButton
@@ -90,11 +91,11 @@ const getStyles = (theme: HoliTheme) =>
     contentContainer: {
       width: tileWidth + 2, // container width should be wider than the tileWidth to avoid the title text breaking
       overflow: 'hidden',
-      wordBreak: 'break-word',
       padding: 0,
       ...Platform.select({
         web: {
           alignSelf: 'baseline',
+          wordBreak: 'break-word',
         },
       }),
     },

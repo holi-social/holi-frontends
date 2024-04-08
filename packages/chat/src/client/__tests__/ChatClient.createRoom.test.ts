@@ -13,7 +13,7 @@ import {
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomEvent, MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
 import {
-  DM_ROOM_ID_FIXTURE,
+  DM_ROOM_ID,
   createChatClient,
   createMatrixClientMock,
   createMatrixEventMock,
@@ -39,13 +39,13 @@ describe('ChatClient', () => {
 
   describe('createRoom() method', () => {
     it('create a direct message room', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID })
 
       const isDM = true
 
       const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
 
-      expect(room_id).toEqual(DM_ROOM_ID_FIXTURE)
+      expect(room_id).toEqual(DM_ROOM_ID)
       expect(mxClient.createRoom).toBeCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
@@ -56,13 +56,13 @@ describe('ChatClient', () => {
     })
 
     it('create a group 1:n room', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID })
 
       const isDirectMessage = false
       const name = '#general'
 
       const { room_id } = await client.createRoom(members, { isDirectMessage, name })
-      expect(room_id).toEqual(DM_ROOM_ID_FIXTURE)
+      expect(room_id).toEqual(DM_ROOM_ID)
       expect(mxClient.createRoom).toBeCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
@@ -74,7 +74,7 @@ describe('ChatClient', () => {
     })
 
     it('fails if no user IDs were passed', async () => {
-      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID_FIXTURE })
+      mxClient.createRoom.mockResolvedValue({ room_id: DM_ROOM_ID })
 
       const members: string[] = []
       const isDirectMessage = true

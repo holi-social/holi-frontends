@@ -1,34 +1,74 @@
 import { gql } from '@apollo/client/core'
 
-import { Comment } from '@holi/core/screens/comments/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
-import type { Paged } from '@holi/core/types'
 
-export const commentsMetadata = gql`
+export const LinkFragment = gql`
+  fragment LinkFragment on LinkPreview {
+    requestedUrl
+    url
+    title
+    description
+    type
+    image
+    siteName
+    origin
+    icon
+  }
+`
+
+// TODO: should we still get PostComment type from BE? Shouldn't it be generic? This leads to the redundant CommentFragment below
+export const PostCommentFragment = gql`
   ${UserAvatarFragment}
+  ${LinkFragment}
 
-  query CommentsMetadata($commentableId: UUID!, $commentableType: CommentableType!) {
-    commentable(id: $commentableId, type: $commentableType) {
-      topComment {
-        text
-        creator {
-          ...UserAvatar
-        }
-      }
-      commenters(limit: 5) {
-        totalResults
-        data {
-          ...UserAvatar
-        }
-      }
+  fragment CommentFull on PostComment {
+    id
+    text
+    created
+    modified
+    creator {
+      ...UserAvatar
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
+    }
+    myReaction {
+      HEART
+    }
+    reactions {
+      HEART
     }
   }
 `
 
-export type CommentsMetadataResponse = {
-  commentable: {
-    topComment?: Comment
-    commenters: Paged<User>
+export const CommentFragment = gql`
+  ${UserAvatarFragment}
+  ${LinkFragment}
+
+  fragment CommentFull on Comment {
+    id
+    text
+    created
+    modified
+    creator {
+      ...UserAvatar
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
+    }
+    myReaction {
+      HEART
+    }
+    reactions {
+      HEART
+    }
   }
-}
+`

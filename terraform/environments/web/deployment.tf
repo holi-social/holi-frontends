@@ -63,6 +63,9 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
+          name = "HOLI_CHALLENGES_APP" == "production" ? "Https://challenges.holi.social" : "https://staging.challenges-dev.holi.social"
+        }
+        env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
           value_from {
             secret_key_ref {

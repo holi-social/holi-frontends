@@ -1,0 +1,52 @@
+import { FetchResult, useMutation } from '@apollo/client'
+
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { AddReactionToCommentMutation, RemoveReactionFromCommentMutation } from '@holi/core/screens/comments/mutations'
+import { ReactionType } from '@holi/core/screens/comments/types'
+
+type ReactionFunction = (options?: {
+  variables: {
+    input: {
+      commentId: string
+      reactionType: ReactionType
+    }
+  }
+}) => Promise<FetchResult>
+
+type UseReactOnComment = [ReactionFunction, ReactionFunction, boolean, boolean]
+
+const useReactOnComment = (id: string, reactionType: ReactionType): UseReactOnComment => {
+  const { displayError } = useErrorHandling()
+
+  const [addReaction, { loading: loadingAddReaction }] = useMutation(AddReactionToCommentMutation, {
+    variables: {
+      input: {
+        commentId: id,
+        reactionType,
+      },
+    },
+    onError: (error) =>
+      displayError(error, 'Failed to add comment reaction', {
+        location: 'CommentReactions.addReaction',
+        commentId: id,
+      }),
+  })
+
+  const [removeReaction, { loading: loadingRemoveReaction }] = useMutation(RemoveReactionFromCommentMutation, {
+    variables: {
+      input: {
+        commentId: id,
+        reactionType,
+      },
+    },
+    onError: (error) =>
+      displayError(error, 'Failed to remove comment reaction', {
+        location: 'CommentReactions.removeReaction',
+        commentId: id,
+      }),
+  })
+
+  return [addReaction, removeReaction, loadingAddReaction, loadingRemoveReaction]
+}
+
+export default useReactOnComment

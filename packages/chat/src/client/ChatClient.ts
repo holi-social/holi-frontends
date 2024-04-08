@@ -506,7 +506,6 @@ export default class ChatClient {
       // have yet. To provide symmetry with Matrix, we wait for `SpaceParent`
       // events.
       if (eventType !== ChatRoomEvent.SharedData && eventType !== EventType.SpaceParent) return
-      if (isSharedDataChildContent(event.getEffectiveEvent().content)) return
 
       this.mxClient.roomState(room.roomId).then(() => {
         const chatRoom = this.createChatRoom(room)

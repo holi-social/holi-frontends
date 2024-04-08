@@ -14,9 +14,11 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const HomeFeedHeader: React.FC = () => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
 
   const { user } = useLoggedInUser()
 
@@ -28,13 +30,15 @@ const HomeFeedHeader: React.FC = () => {
         <>
           <HoliGap size="s" />
           <AnnouncementBanner>
-            <HoliText>
+            <HoliText color={theme.dark ? 'white200' : 'black300'}>
               <Trans t={t} i18nKey="homeFeed.banner.privacyPolicyUpdated">
                 <HoliTextLink
                   label={t('profile.settings.legalDocuments.privacyPolicy')}
                   href="/profile/settings/legalDocuments/document?type=privacyPolicy"
                 >
-                  <HoliText style={{ textDecorationLine: 'underline' }}>Datenschutzhinweise</HoliText>
+                  <HoliText style={{ textDecorationLine: 'underline' }} color={theme.dark ? 'white200' : 'black300'}>
+                    Datenschutzhinweise
+                  </HoliText>
                 </HoliTextLink>
               </Trans>
             </HoliText>

@@ -210,11 +210,11 @@ describe('ChatClient', () => {
       await listener(spaceSharedDataEvent, spaceRoomMock)
       await listener(spaceChildSharedDataEvent, spaceChildRoomMock)
 
-      expect(callback).toBeCalledTimes(1)
+      expect(callback).toBeCalledTimes(2)
 
       await listener(spaceParentEvent, spaceChildRoomMock)
 
-      expect(callback).toBeCalledTimes(2)
+      expect(callback).toBeCalledTimes(3)
       expect(callback).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -224,6 +224,13 @@ describe('ChatClient', () => {
       )
       expect(callback).toHaveBeenNthCalledWith(
         2,
+        expect.objectContaining({
+          type: 'space.child',
+          content: spaceChildEventContent,
+        })
+      )
+      expect(callback).toHaveBeenNthCalledWith(
+        3,
         expect.objectContaining({
           type: 'space.child',
           content: spaceChildEventContent,

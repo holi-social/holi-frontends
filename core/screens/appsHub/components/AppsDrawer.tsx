@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
-import AppTile from '@holi/core/screens/appsHub/components/AppTile'
+import AppTile, { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Apps, ArrowRightS } from '@holi/icons/src/generated'
@@ -17,7 +16,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const AppsDrawer: React.FC = () => {
+const AppsDrawer = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -28,20 +27,16 @@ const AppsDrawer: React.FC = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
 
-  const onAppButtonClick = useCallback(
-    ({ path }: HoliApp) => {
-      if (path) {
-        setModalIsVisible(false)
-        navigate(path)
-      }
-    },
-    [navigate]
-  )
+  const onAppButtonClick = ({ path }: HoliApp) => {
+    if (!path) return
+    setModalIsVisible(false)
+    navigate(path)
+  }
 
-  const navigateToAppsHub = useCallback(() => {
+  const navigateToAppsHub = () => {
     setModalIsVisible(false)
     navigate('/appsHub')
-  }, [navigate])
+  }
 
   return (
     <>
@@ -85,7 +80,7 @@ const AppsDrawer: React.FC = () => {
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="1">{t('apps.drawer.title')}</HoliHeading>
           <View style={styles.listContents}>
-            {APP_SWIPER_APPS.map((app) => (
+            {APP_SWIPER_APPS.filter((app) => app.active).map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </View>

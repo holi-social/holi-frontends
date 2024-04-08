@@ -5189,6 +5189,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@holi-apps/challenges@npm:*, @holi-apps/challenges@workspace:holi-apps/challenges":
+  version: 0.0.0-use.local
+  resolution: "@holi-apps/challenges@workspace:holi-apps/challenges"
+  languageName: unknown
+  linkType: soft
+
 "@holi-apps/donations@npm:*, @holi-apps/donations@workspace:holi-apps/donations":
   version: 0.0.0-use.local
   resolution: "@holi-apps/donations@workspace:holi-apps/donations"
@@ -5308,6 +5314,7 @@ __metadata:
     "@formatjs/intl-locale": "npm:^3.0.7"
     "@formatjs/intl-pluralrules": "npm:^5.1.4"
     "@formatjs/intl-relativetimeformat": "npm:^11.1.4"
+    "@holi-apps/challenges": "npm:*"
     "@holi-apps/donations": "npm:*"
     "@holi-apps/goodnews": "npm:*"
     "@holi-apps/volunteering": "npm:*"

@@ -5,26 +5,14 @@ import { ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/sr
 import { createChatRoomResult, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-mocks'
 import { User } from '@holi/core/screens/userprofile/types'
 
-export const DM_ROOM_ID_FIXTURE = 'room-id'
-export const NOTIFICATION_COUNT_FIXTURE = 0
+export const DM_ROOM_ID = 'room-id'
+export const NOTIFICATION_COUNT = 0
 export const SPACE_ROOM_ID_FIXTURE = '!space.room:holi.social'
 export const SPACE_ROOM_NAME_FIXTURE = 'space'
 export const SPACE_CHILD_ROOM_ID_FIXTURE = '!general:holi.social'
 export const SPACE_CHILD_ROOM_NAME_FIXTURE = '#general'
 export const HOLI_SPACE_ID_FIXTURE = 'holi-uuid'
 export const TIMESTAMP_FIXTURE = 1706703410441
-
-export const SPACE_EVENT_CONTENT_FIXTURE = {
-  holiSpaceId: HOLI_SPACE_ID_FIXTURE,
-  roomId: SPACE_ROOM_ID_FIXTURE,
-}
-
-export const SPACE_CHILD_EVENT_CONTENT_FIXTURE = {
-  ...SPACE_EVENT_CONTENT_FIXTURE,
-  spaceName: SPACE_ROOM_NAME_FIXTURE,
-  avatarDefaultColor: '#7BD7EA',
-  parentSpaceRoomId: SPACE_ROOM_ID_FIXTURE,
-}
 
 export const ADMIN_FIXTURE: ChatRoomMember = {
   avatar: undefined,
@@ -93,10 +81,22 @@ export const HOLI_MEMBER2_FIXTURE: User = {
   avatarLabel: 'NM',
 }
 
-export const DM_MEMBERS_FIXTURE = [CREATOR_FIXTURE, MEMBER1_FIXTURE, MEMBER2_FIXTURE]
+export const DM_MEMBERS = [CREATOR_FIXTURE, MEMBER1_FIXTURE, MEMBER2_FIXTURE]
 export const SPACE_MEMBERS_FIXTURE = [ADMIN_FIXTURE, MEMBER1_FIXTURE, MEMBER2_FIXTURE]
 export const HOLI_DM_USERS_FIXTURE = [HOLI_CREATOR_FIXTURE, HOLI_MEMBER1_FIXTURE, HOLI_MEMBER2_FIXTURE]
 export const HOLI_SPACE_USERS_FIXTURE = [HOLI_MEMBER1_FIXTURE, HOLI_MEMBER2_FIXTURE]
+
+export const SPACE_EVENT_CONTENT = {
+  holiSpaceId: HOLI_SPACE_ID_FIXTURE,
+  roomId: SPACE_ROOM_ID_FIXTURE,
+}
+
+export const SPACE_CHILD_EVENT_CONTENT = {
+  ...SPACE_EVENT_CONTENT,
+  spaceName: SPACE_ROOM_NAME_FIXTURE,
+  avatarDefaultColor: '#7BD7EA',
+  parentSpaceRoomId: SPACE_ROOM_ID_FIXTURE,
+}
 
 // Message helpers
 export const msgEvent = (roomId: string, senderId: string, eventNr: number): IEvent => {

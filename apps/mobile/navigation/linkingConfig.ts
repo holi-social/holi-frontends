@@ -119,6 +119,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.VideoCall]: 'video-call/:roomName',
 
     // Apps from the HOLI store
+    [RouteName.ChallengesApp]: {
+      screens: {
+        [RouteName.ChallengesAppHome]: 'apps/challenges',
+      },
+    },
     [RouteName.DonationsApp]: {
       screens: {
         [RouteName.DonationsAppHome]: 'apps/donations',
@@ -134,6 +139,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       screens: {
         [RouteName.VolunteeringAppHome]: 'apps/volunteering',
         [RouteName.VolunteeringAppEngagmentDetail]: 'apps/volunteering/engagement/:engagementId',
+      },
+    },
+    [RouteName.CreatePost]: {
+      screens: {
+        [RouteName.CreatePost]: 'createPost',
       },
     },
   },
