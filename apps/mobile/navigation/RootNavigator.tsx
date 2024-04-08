@@ -11,6 +11,7 @@ import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
+import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
@@ -33,6 +34,7 @@ export type RootStackScreens = {
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
 
+  [RouteName.ChallengesApp]: undefined
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
@@ -118,6 +120,14 @@ const RootNavigator = () => {
           animation: 'slide_from_bottom',
           headerShown: true,
           headerTransparent: true,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.ChallengesApp}
+        component={ChallengesAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
         }}
       />
       <RootStack.Screen

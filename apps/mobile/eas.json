@@ -28,7 +28,8 @@
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
       }
     },
     "development-simulator": {
@@ -53,7 +54,8 @@
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
       },
       "ios": {
         "simulator": true
@@ -81,7 +83,8 @@
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
       }
     },
     "production": {
@@ -104,7 +107,8 @@
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "unwXQBqcNfF1",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
+        "HOLI_CHALLENGES_APP": "https://challenges.holi.social"
       }
     },
     "simulator": {
@@ -127,7 +131,8 @@
         "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191",
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
-        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co"
+        "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
       },
       "ios": {
         "simulator": true

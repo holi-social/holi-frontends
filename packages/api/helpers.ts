@@ -1,6 +1,6 @@
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 
-interface AuthorizationHeaders {
+export interface AuthorizationHeaders {
   [key: string]: string
 }
 

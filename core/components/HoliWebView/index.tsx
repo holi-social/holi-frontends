@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
-import { WebView } from 'react-native-webview'
+import { BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
+import { WebView, WebViewNavigation } from 'react-native-webview'
 import { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
 import { useNavigation } from '@react-navigation/native'
@@ -18,16 +18,12 @@ const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewS
   return !!value && 'uri' in value
 }
 
-const addHeadersIfSourceUri = (
-  value: WebViewSource | undefined,
-  uri: string | undefined
-): WebViewSource | undefined => {
-  if (!isWebViewSourceUri(value) || !uri) {
+const addHeadersIfSourceUri = (value: WebViewSource | undefined): WebViewSource | undefined => {
+  if (!isWebViewSourceUri(value)) {
     return value
   }
   return {
     ...value,
-    uri,
     headers: {
       ...value.headers,
       [mobileWebviewHeader]: 'true',
@@ -35,14 +31,18 @@ const addHeadersIfSourceUri = (
   } as WebViewSourceUri
 }
 
-const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, theme, navigateToExternalBrowser = false }) => {
+const HoliWebView: React.FC<HoliWebViewProps> = ({
+  style,
+  webViewProps,
+  theme,
+  navigateToExternalBrowser = false,
+  allowsBackForwardNavigationGesturesMultiOS = true,
+}) => {
   const webViewRef = useRef<WebView>(null)
+
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const navigation = useNavigation()
-  const [currentUri, setCurrentUri] = useState(
-    isWebViewSourceUri(webViewProps?.source) ? webViewProps.source?.uri : undefined
-  )
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -61,14 +61,34 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, theme, n
     [displayError, errormessage]
   )
 
+  let canGoBack = false
+  const onNavigationStateChange = (navState: WebViewNavigation) => {
+    canGoBack = navState.canGoBack
+  }
+
+  const onAndroidBackPress = () => {
+    if (webViewRef.current && canGoBack) {
+      webViewRef.current.goBack()
+      return true
+    }
+    return false
+  }
+
   useEffect(() => {
     const webView = webViewRef.current
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      return webView?.injectJavaScript('window.dispatchEvent( new Event("unload") );')
-    })
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
+    }
 
-    return unsubscribe
-  }, [navigation])
+    return () => {
+      if (Platform.OS === 'android') {
+        BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress)
+      }
+      navigation.addListener('beforeRemove', () => {
+        return webView?.injectJavaScript('window.dispatchEvent( new Event("unload") );')
+      })
+    }
+  })
 
   const renderError = () => (
     <View style={styles.messageContainer}>
@@ -89,17 +109,10 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, theme, n
         // don't follow the link in webview itself
         return false
       } else {
-        // Force rerender to pass custom header, see
-        // https://github.com/react-native-webview/react-native-webview/blob/master/docs/Guide.md#working-with-custom-headers-sessions-and-cookies
-        if (request.url === currentUri) {
-          return true
-        }
-        setCurrentUri(request.url)
-        // FIXME: Open issue for ios: onShouldStartLoadWithRequest not called after redirect, see https://github.com/react-native-webview/react-native-webview/issues/3153
-        return Platform.OS !== 'android'
+        return true
       }
     },
-    [currentUri, navigateToExternalBrowser, webViewProps.source]
+    [navigateToExternalBrowser, webViewProps.source]
   )
 
   return (
@@ -109,12 +122,14 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, theme, n
       onError={handleError('onError')}
       onHttpError={handleError('onHttpError')}
       onRenderProcessGone={handleError('onRenderProcessGone')}
+      onNavigationStateChange={onNavigationStateChange}
       startInLoadingState={true}
       renderLoading={() => <HoliLoader style={styles.loaderContainer} />}
       renderError={renderError}
       onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+      allowsBackForwardNavigationGestures={allowsBackForwardNavigationGesturesMultiOS}
       {...webViewProps}
-      source={addHeadersIfSourceUri(webViewProps.source, currentUri)}
+      source={addHeadersIfSourceUri(webViewProps.source)}
       testID="web-view"
       injectedJavaScript={injectedThemeJs}
     />

@@ -28,9 +28,8 @@ const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardPro
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { ftLoading, ftOff, ftMaintenance } = useFeatureToggle(toggleName)
-
   const { theme } = useTheme()
+  const { ftLoading, ftOff, ftMaintenance } = useFeatureToggle(toggleName)
   const styles = useMemo(() => getStyles(theme), [theme])
 
   if (ftLoading) {
@@ -58,7 +57,7 @@ const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardPro
     return noLayout ? content : <DefaultLayout>{content}</DefaultLayout>
   }
 
-  return children as React.ReactElement
+  return <>{children}</>
 }
 
 export default memo(FeatureToggleGuard)
