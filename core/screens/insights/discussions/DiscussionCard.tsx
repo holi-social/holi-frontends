@@ -6,9 +6,11 @@ import { StyleSheet, View } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { ComentableType } from '@holi/core/screens/comments/types'
+import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
 import { Discussion } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -21,7 +23,7 @@ interface DiscussionCardProps {
 const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
   const { t } = useTranslation()
 
-  const { data: { topComment, commenters } = {}, loading } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
+  const { data: { commentable } = {}, loading } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
     variables: { commentableId: discussion.id, commentableType: ComentableType.DISCUSSION },
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
@@ -32,12 +34,39 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
     },
   })
 
-  const latestCommenters: readonly User[] = commenters?.data || []
+  const latestCommenters: readonly User[] = commentable?.commenters?.data || []
+  const topComment = commentable?.topComment
 
   return (
     <View style={styles.container}>
       <HoliText style={styles.question}>{discussion.question}</HoliText>
-      {latestCommenters.length > 0 ? <View>comments</View> : <StartDiscussion />}
+      {latestCommenters.length > 0 ? (
+        topComment && (
+          <ResponsesContainer>
+            <View style={styles.topComment}>
+              <HoliAvatar
+                imageSrc={topComment.creator.avatar}
+                imageBlurhash={topComment.creator.avatarBlurhash}
+                label={topComment.creator.fullName || t('user.profileView.anonymous')}
+                initials={topComment.creator.avatarLabel || ''}
+                defaultColor={topComment.creator.avatarDefaultColor || ''}
+                size="micro"
+              />
+
+              <View style={styles.comment}>
+                <HoliText size="small" bold>
+                  {topComment.creator.fullName || t('user.profileView.anonymous')}
+                </HoliText>
+                <HoliText size="small" color="gray300" numberOfLines={2}>
+                  {topComment.text}
+                </HoliText>
+              </View>
+            </View>
+          </ResponsesContainer>
+        )
+      ) : (
+        <StartDiscussion />
+      )}
     </View>
   )
 }
@@ -53,6 +82,16 @@ const styles = StyleSheet.create({
   },
   question: {
     marginBottom: Spacing.xxs,
+  },
+  topComment: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: Spacing['3xs'],
+  },
+  comment: {
+    display: 'flex',
+    flexShrink: 1,
+    gap: Spacing['4xs'],
   },
 })
 

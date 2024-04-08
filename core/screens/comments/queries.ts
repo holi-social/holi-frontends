@@ -27,6 +27,8 @@ export const commentsMetadata = gql`
 `
 
 export type CommentsMetadataResponse = {
-  topComment?: Comment
-  commenters: Paged<User>
+  commentable: {
+    topComment?: Comment
+    commenters: Paged<User>
+  }
 }
