@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
-import { ComentableType } from '@holi/core/screens/comments/types'
+import { CommentableType } from '@holi/core/screens/comments/types'
 import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
 import { Discussion } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -26,7 +26,7 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
   const { t } = useTranslation()
 
   const { data: { commentable } = {}, loading } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
-    variables: { commentableId: discussion.id, commentableType: ComentableType.DISCUSSION },
+    variables: { commentableId: discussion.id, commentableType: CommentableType.DISCUSSION },
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
       logError(error, 'Failed to load discussion comments metadata', {
