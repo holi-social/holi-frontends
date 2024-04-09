@@ -423,6 +423,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       alignItems: 'center',
       gap: Spacing['3xs'],
       ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+      maxWidth: '95%',
     },
     posts: {
       marginBottom: 36,
