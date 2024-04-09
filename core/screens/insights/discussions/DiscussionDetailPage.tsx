@@ -11,6 +11,8 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import Comments from '@holi/core/screens/comments/components/Comments'
+import { CommentableType } from '@holi/core/screens/comments/types'
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -88,6 +90,7 @@ const DiscussionDetailPage = () => {
         ) : (
           <LoadingSkeleton />
         )}
+        {discussionId && <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />}
       </HoliContainer>
     </ScrollHeaderLayout.Refreshable>
   )

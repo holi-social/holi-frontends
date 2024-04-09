@@ -103,3 +103,24 @@ export type CommentsMetadataResponse = {
     commenters: Paged<User>
   }
 }
+
+export const commentsByCommentable = gql`
+  ${CommentFragment}
+
+  query Comments($commentableId: UUID!, $commentableType: CommentableType!) {
+    commentable(id: $commentableId, type: $commentableType) {
+      comments() {
+        totalResults
+        data {
+          ...CommentFull
+        }
+      }
+    }
+  }
+`
+
+export type CommentsResponse = {
+  commentable: {
+    comments: Paged<Comment>
+  }
+}
