@@ -25,4 +25,5 @@ export interface Comment {
 
 export enum CommentableType {
   POST = 'POST',
+  DISCUSSION = 'DISCUSSION',
 }

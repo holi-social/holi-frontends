@@ -17,11 +17,13 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
+import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
 import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
-import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
+import { Discussion, Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -108,6 +110,7 @@ const InsightDetailPage = () => {
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
+  const discussions: Discussion[] = insight?.discussions || []
   const creator = insight?.creator
   const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
   const cardWidth = 330
@@ -236,7 +239,7 @@ const InsightDetailPage = () => {
               </InsightCarouselSection>
             )}
 
-            {initiatives.length > 0 && (
+            {initiatives.length == 0 && (
               <InsightCarouselSection
                 heading={initiativesTitle}
                 headingIcon={{
@@ -251,6 +254,13 @@ const InsightDetailPage = () => {
                   slideWidth={cardWidth}
                 />
               </InsightCarouselSection>
+            )}
+            {discussions.length > 0 && (
+              <DiscussionsSection>
+                {discussions.map((d) => (
+                  <DiscussionCard key={d.id} discussion={d} />
+                ))}
+              </DiscussionsSection>
             )}
             {posts.length > 0 && (
               <View style={[styles.section, styles.posts]}>
@@ -283,7 +293,6 @@ const InsightCarouselSection: React.FC<{
 
   return (
     <View style={styles.section}>
-      <HoliGap size="m" />
       <View style={[styles.sectionTitle]}>
         <HoliLocalImage
           imageSource={headingIcon.asset as StaticImageData}
@@ -296,7 +305,6 @@ const InsightCarouselSection: React.FC<{
       </View>
       <HoliGap size="s" />
       {children}
-      <HoliGap size="s" />
     </View>
   )
 }
@@ -341,6 +349,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       alignSelf: 'center',
       width: '100%',
       maxWidth: dimensions.maxScreenWidth,
+      marginBottom: Spacing.xl,
     },
     wrapper: {
       backgroundColor: theme.colors.background20,

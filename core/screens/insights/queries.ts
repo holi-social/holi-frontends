@@ -105,6 +105,10 @@ const InsightWithPostsFragment = gql`
     initiatives {
       ...InitiativeFragment
     }
+    discussions {
+      id
+      question
+    }
   }
 `
 
