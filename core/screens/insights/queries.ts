@@ -281,3 +281,19 @@ export const insightAuthors = gql`
 export type InsightAuthorsResponse = {
   insightAuthors: Paged<User>
 }
+
+export const discussionById = gql`
+  query Discussion($discussionId: UUID!) {
+    discussionById(id: $discussionId) {
+      id
+      question
+    }
+  }
+`
+
+export type DiscussionResponse = {
+  discussionById: {
+    id: string
+    question: string
+  }
+}

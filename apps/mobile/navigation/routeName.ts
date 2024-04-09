@@ -12,6 +12,7 @@ export enum RouteName {
   UserProfile = 'UserProfile',
   InsightQuoteDetailPage = 'InsightQuoteDetailPage',
   InsightsCurationPrinciples = 'InsightsCurationPrinciples',
+  DiscussionDetailPage = 'DiscussionDetailPage',
 
   // Spaces
   SpacesHome = 'SpacesHome',

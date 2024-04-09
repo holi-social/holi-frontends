@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
 import { logError } from '@holi/core/errors/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
@@ -25,6 +26,7 @@ interface DiscussionCardProps {
 
 const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   const { data: { commentable } = {}, loading } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
     variables: { commentableId: discussion.id, commentableType: CommentableType.DISCUSSION },
@@ -48,27 +50,29 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
       ) : latestCommenters.length > 0 ? (
         <>
           {topComment && (
-            <ResponsesContainer>
-              <View style={styles.topComment}>
-                <HoliAvatar
-                  imageSrc={topComment.creator.avatar}
-                  imageBlurhash={topComment.creator.avatarBlurhash}
-                  label={topComment.creator.fullName || t('user.profileView.anonymous')}
-                  initials={topComment.creator.avatarLabel || ''}
-                  defaultColor={topComment.creator.avatarDefaultColor || ''}
-                  size="micro"
-                />
+            <Pressable onPress={() => navigate(`/insights/1234/discussions/${discussion.id}`)}>
+              <ResponsesContainer>
+                <View style={styles.topComment}>
+                  <HoliAvatar
+                    imageSrc={topComment.creator.avatar}
+                    imageBlurhash={topComment.creator.avatarBlurhash}
+                    label={topComment.creator.fullName || t('user.profileView.anonymous')}
+                    initials={topComment.creator.avatarLabel || ''}
+                    defaultColor={topComment.creator.avatarDefaultColor || ''}
+                    size="micro"
+                  />
 
-                <View style={styles.comment}>
-                  <HoliText size="small" bold>
-                    {topComment.creator.fullName || t('user.profileView.anonymous')}
-                  </HoliText>
-                  <HoliText size="small" color="gray300" numberOfLines={2}>
-                    {topComment.text}
-                  </HoliText>
+                  <View style={styles.comment}>
+                    <HoliText size="small" bold>
+                      {topComment.creator.fullName || t('user.profileView.anonymous')}
+                    </HoliText>
+                    <HoliText size="small" color="gray300" numberOfLines={2}>
+                      {topComment.text}
+                    </HoliText>
+                  </View>
                 </View>
-              </View>
-            </ResponsesContainer>
+              </ResponsesContainer>
+            </Pressable>
           )}
           <HoliUserAvatarPile users={latestCommenters} collapse counter />
         </>
