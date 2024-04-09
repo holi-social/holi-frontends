@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -17,10 +18,12 @@ const CreatePost = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
-  const { navigateBack } = useRouting()
+  const { navigateBack, navigate } = useRouting()
   const { t } = useTranslation()
 
   const setScreenOptions = useSetScreenOptions()
+
+  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -36,6 +39,10 @@ const CreatePost = () => {
       },
     })
   }, [colors.background20, navigateBack, setScreenOptions, t])
+
+  if (!ftLoading && !ftEnabled) {
+    navigate('/404')
+  }
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/login">

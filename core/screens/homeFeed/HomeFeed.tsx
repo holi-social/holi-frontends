@@ -22,6 +22,7 @@ import InspirationPosts from '@holi/core/screens/homeFeed/components/Inspiration
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -61,6 +62,8 @@ const HomeFeed = () => {
   const { ftEnabled: ftEnabledVolunteering, ftPreview: ftPreviewVolunteering } = useFeatureToggle(
     FeatureToggleName.APPS_VOLUNTEERING
   )
+
+  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   const logo = useMemo(
     () =>
@@ -134,8 +137,8 @@ const HomeFeed = () => {
         </View>
       </ScrollHeaderLayout.Refreshable>
 
-      {/* AppsDrawer needs to be outside of the Layout */}
-      <AppsDrawer />
+      {/* AppsDrawer & CreatePostButton need to be outside of the Layout */}
+      {ftEnabledPosts ? <CreatePostButton /> : <AppsDrawer />}
     </>
   )
 }
