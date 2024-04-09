@@ -7,7 +7,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
-const DiscussionSection = ({ children }: { children: React.ReactNode }) => {
+const DiscussionsSection = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation()
 
   return (
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DiscussionSection
+export default DiscussionsSection

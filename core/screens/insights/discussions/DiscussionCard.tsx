@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import StyleSheet from 'react-native-media-query'
 
 import { logError } from '@holi/core/errors/helpers'
 import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
@@ -14,7 +15,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 import StartDiscussion from './StartDiscussion'
 
@@ -40,7 +41,7 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
   const topComment = commentable?.topComment
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} dataSet={{ media: ids.container }}>
       <HoliText bold>{discussion.question}</HoliText>
       {loading ? (
         <LoadingSkeleton />
@@ -80,7 +81,7 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
 
 const LoadingSkeleton = () => <HoliSkeleton width="100%" height={60} borderRadius={4} />
 
-const styles = StyleSheet.create({
+const { styles, ids } = StyleSheet.create({
   container: {
     display: 'flex',
     gap: Spacing.xxs,
@@ -89,7 +90,9 @@ const styles = StyleSheet.create({
     borderColor: colors.black300,
     borderWidth: 1,
     borderRadius: 16,
-    marginBottom: Spacing.xl,
+    [`@media (min-width: ${dimensions.breakpointM}px)`]: {
+      padding: Spacing.md,
+    },
   },
   topComment: {
     display: 'flex',
