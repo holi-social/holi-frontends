@@ -48,6 +48,6 @@ export const useFeatureToggle = (name?: FeatureToggleName) => {
     ftEnabled: loading ? undefined : status === FeatureToggleStatus.PRODUCTION,
     ftMaintenance: loading ? undefined : status === FeatureToggleStatus.MAINTENANCE,
     ftPreview: loading ? undefined : status === FeatureToggleStatus.PREVIEW,
-    ftOff: loading ? undefined : status === FeatureToggleStatus.OFF,
+    ftOff: loading ? undefined : !status || status === FeatureToggleStatus.OFF,
   }
 }
