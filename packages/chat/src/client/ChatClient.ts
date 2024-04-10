@@ -1,4 +1,4 @@
-import type { TFunction } from 'i18next'
+import { TFunction } from 'i18next'
 import {
   ClientEvent,
   Direction,
@@ -232,10 +232,10 @@ export default class ChatClient {
    *
    * @returns a successful promise if succeed
    */
-  public async configurePusher(t: TFunction<'translation', undefined, 'translation'>): Promise<void> {
+  public async configurePusher(): Promise<void> {
     if (this.deviceToken) {
       // delegate to Platform-specific implementation (currently no-op for Web)
-      return configurePusher(this.mxClient, this.deviceToken, t)
+      return configurePusher(this.mxClient, this.deviceToken)
     }
   }
 
