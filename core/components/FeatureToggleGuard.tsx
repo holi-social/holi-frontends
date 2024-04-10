@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { type PropsWithChildren, memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -18,34 +18,63 @@ interface FeatureToggleGuardProps {
   style?: StyleProp<ViewStyle>
 }
 
-const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardProps>> = ({
+const FeatureToggleGuard = ({
   toggleName,
   featureNameKey,
   style,
   noLayout = false,
   children,
-}) => {
-  const { t } = useTranslation()
-  const mixins = useStyleMixins()
-
+}: PropsWithChildren<FeatureToggleGuardProps>) => {
   const { theme } = useTheme()
   const { ftLoading, ftOff, ftMaintenance } = useFeatureToggle(toggleName)
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  if (ftLoading) {
-    const content = (
-      <View style={styles.loader}>
+  if (ftLoading) return <Loading styles={styles} hasLayout={noLayout} />
+  if (ftOff) return null
+  if (ftMaintenance) return <Maintenance styles={styles} hasLayout={noLayout} name={featureNameKey} style={style} />
+
+  return children
+}
+
+export default memo(FeatureToggleGuard)
+
+interface ConditionalLayoutProps {
+  hasLayout: boolean
+}
+
+function ConditionalLayout({ children, hasLayout }: PropsWithChildren<ConditionalLayoutProps>) {
+  return hasLayout ? children : <DefaultLayout>{children}</DefaultLayout>
+}
+
+interface LoadingProps extends ConditionalLayoutProps {
+  styles: ReturnType<typeof getStyles>
+}
+
+function Loading({ hasLayout, styles }: LoadingProps) {
+  return (
+    <ConditionalLayout hasLayout={hasLayout}>
+      <View style={styles.loader} testID="feature-toggle-guard-loader">
         <HoliLottie animType="loader" />
       </View>
-    )
-    return noLayout ? content : <DefaultLayout>{content}</DefaultLayout>
-  } else if (ftOff) {
-    return <></>
-  } else if (ftMaintenance) {
-    const content = (
+    </ConditionalLayout>
+  )
+}
+
+interface MaintenanceContentProps extends ConditionalLayoutProps {
+  styles: ReturnType<typeof getStyles>
+  name: string
+  style?: StyleProp<ViewStyle>
+}
+
+function Maintenance({ style, styles, hasLayout, name }: MaintenanceContentProps) {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+
+  return (
+    <ConditionalLayout hasLayout={hasLayout}>
       <CollaboratorAreaCard
         headerLeftIcon={Zzz}
-        title={t('global.maintenance.title', { feature: t(featureNameKey) })}
+        title={t('global.maintenance.title', { feature: t(name) })}
         disabled={true}
         style={[mixins.container, styles.container, style]}
       >
@@ -53,14 +82,9 @@ const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardPro
           {t('global.maintenance.description')}
         </HoliText>
       </CollaboratorAreaCard>
-    )
-    return noLayout ? content : <DefaultLayout>{content}</DefaultLayout>
-  }
-
-  return <>{children}</>
+    </ConditionalLayout>
+  )
 }
-
-export default memo(FeatureToggleGuard)
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
