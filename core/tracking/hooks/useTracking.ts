@@ -1,13 +1,17 @@
 import { usePostHog } from 'posthog-react-native'
 
-const useTracking = () => {
+import { TrackingEvent } from '@holi/core/tracking/events'
+
+import { TrackingHook } from './trackingHook'
+
+const useTracking = (): TrackingHook => {
   const posthog = usePostHog()
 
-  const capture = (eventName: string, eventProperties?: object) => {
-    posthog.capture(eventName, eventProperties)
+  const trackEvent = (event: TrackingEvent) => {
+    posthog.capture(event)
   }
 
-  return { capture }
+  return { trackEvent }
 }
 
 export default useTracking
