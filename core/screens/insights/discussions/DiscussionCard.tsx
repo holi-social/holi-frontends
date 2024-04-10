@@ -78,7 +78,7 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
           <HoliUserAvatarPile users={latestCommenters} collapse counter />
         </>
       ) : (
-        <StartDiscussion insightId={insightId} />
+        <StartDiscussion discussionId={discussion.id} insightId={insightId} />
       )}
     </View>
   )
