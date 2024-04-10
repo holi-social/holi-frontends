@@ -18,6 +18,7 @@ import {
   updateSpacePostMutation,
 } from '@holi/core/screens/spaces/updates/mutations'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 export interface UseCreateOrUpdateSpacePost {
@@ -44,6 +45,7 @@ export interface UseCreateOrUpdateSpacePost {
 export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: string): UseCreateOrUpdateSpacePost => {
   const { displayError } = useErrorHandling()
   const { navigateBack, replaceRoute } = useRouting()
+  const tracking = useTracking()
 
   //input fields
   const [title, setTitle] = useState<string>('')
@@ -90,7 +92,10 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const [createSpacePost, { loading: loadingCreateMutation }] = useMutation<CreateSpacePostMutationResponse>(
     createSpacePostMutation,
     {
-      onCompleted: () => navigateBack(),
+      onCompleted: () => {
+        tracking.capture('space_update_posted')
+        navigateBack()
+      },
       onError: (error) =>
         displayError(error, 'Failed to create space post', {
           location: 'useCreateOrUpdateSpacePost.createSpacePost',
