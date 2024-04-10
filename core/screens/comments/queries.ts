@@ -109,7 +109,7 @@ export const commentsByCommentable = gql`
 
   query Comments($commentableId: UUID!, $commentableType: CommentableType!) {
     commentable(id: $commentableId, type: $commentableType) {
-      comments() {
+      comments {
         totalResults
         data {
           ...CommentFull

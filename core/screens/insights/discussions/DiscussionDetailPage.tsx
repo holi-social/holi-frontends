@@ -90,7 +90,11 @@ const DiscussionDetailPage = () => {
         ) : (
           <LoadingSkeleton />
         )}
-        {discussionId && <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />}
+        {discussionId && (
+          <View style={styles.commentsContainer}>
+            <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />
+          </View>
+        )}
       </HoliContainer>
     </ScrollHeaderLayout.Refreshable>
   )
@@ -126,6 +130,12 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: colors.black300,
       borderWidth: 1,
       borderRadius: Spacing.xs,
+    },
+    commentsContainer: {
+      padding: Spacing.xs,
+      backgroundColor: colors.background10,
+      borderBottomLeftRadius: Spacing.lg,
+      borderBottomRightRadius: Spacing.lg,
     },
   })
 
