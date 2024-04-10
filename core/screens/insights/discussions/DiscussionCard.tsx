@@ -22,9 +22,10 @@ import StartDiscussion from './StartDiscussion'
 
 interface DiscussionCardProps {
   discussion: Discussion
+  insightId: string
 }
 
-const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
+const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
@@ -50,15 +51,15 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
       ) : latestCommenters.length > 0 ? (
         <>
           {topComment && (
-            <Pressable onPress={() => navigate(`/insights/1234/discussions/${discussion.id}`)}>
+            <Pressable onPress={() => navigate(`/insights/${insightId}/discussions/${discussion.id}`)}>
               <ResponsesContainer>
                 <View style={styles.topComment}>
                   <HoliAvatar
                     imageSrc={topComment.creator.avatar}
                     imageBlurhash={topComment.creator.avatarBlurhash}
                     label={topComment.creator.fullName || t('user.profileView.anonymous')}
-                    initials={topComment.creator.avatarLabel || ''}
-                    defaultColor={topComment.creator.avatarDefaultColor || ''}
+                    initials={topComment.creator.avatarLabel}
+                    defaultColor={topComment.creator.avatarDefaultColor}
                     size="micro"
                   />
 
@@ -77,7 +78,7 @@ const DiscussionCard = ({ discussion }: DiscussionCardProps) => {
           <HoliUserAvatarPile users={latestCommenters} collapse counter />
         </>
       ) : (
-        <StartDiscussion />
+        <StartDiscussion insightId={insightId} />
       )}
     </View>
   )

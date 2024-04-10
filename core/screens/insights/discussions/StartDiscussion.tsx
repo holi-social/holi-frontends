@@ -8,7 +8,11 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-const StartDiscussion = () => {
+export type StartDiscussionProps = {
+  insightId: string
+}
+
+const StartDiscussion = ({ insightId }: StartDiscussionProps) => {
   const { t } = useTranslation()
   const { user, isLoggedIn } = useLoggedInUser()
 
@@ -20,8 +24,8 @@ const StartDiscussion = () => {
             imageSrc={user.avatar}
             imageBlurhash={user.avatarBlurhash}
             label={user.fullName || t('user.profileView.anonymous')}
-            initials={user.avatarLabel || ''}
-            defaultColor={user.avatarDefaultColor || ''}
+            initials={user.avatarLabel}
+            defaultColor={user.avatarDefaultColor}
             size="micro"
           />
         )}
