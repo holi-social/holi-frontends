@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -11,9 +11,12 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
+import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -32,9 +35,12 @@ const DiscussionDetailPage = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
-  const { replaceRoute } = useRouting()
+  const { replaceRoute, navigate } = useRouting()
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
 
   const [discussionId] = useParam('discussionId')
+  const [insightId] = useParam('insightId')
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -65,6 +71,9 @@ const DiscussionDetailPage = () => {
       headerBackVisible: true,
       headerTransparent: true,
       headerStyle: { backgroundColor: theme.colors.background10 },
+      navigationCustomOptions: {
+        footerShown: false,
+      },
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
       ),
@@ -72,31 +81,50 @@ const DiscussionDetailPage = () => {
   }, [theme.colors.background10, t, setScreenOptions])
 
   return (
-    <ScrollHeaderLayout.Refreshable
-      refreshableProps={{
-        refreshing,
-        onRefresh,
-      }}
-      style={styles.wrapper}
-      headerOverlap
-    >
-      <HoliContainer>
-        {discussion && !loading ? (
-          <View style={styles.questionContainer}>
-            <View style={styles.question}>
-              <HoliText bold>{discussion.question}</HoliText>
+    <>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          refreshing,
+          onRefresh,
+        }}
+        style={styles.wrapper}
+        headerOverlap
+      >
+        <HoliContainer>
+          {discussion && !loading ? (
+            <View style={styles.questionContainer}>
+              <View style={styles.question}>
+                <HoliText bold>{discussion.question}</HoliText>
+              </View>
             </View>
-          </View>
-        ) : (
-          <LoadingSkeleton />
-        )}
-        {discussionId && (
-          <View style={styles.commentsContainer}>
-            <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />
-          </View>
-        )}
-      </HoliContainer>
-    </ScrollHeaderLayout.Refreshable>
+          ) : (
+            <LoadingSkeleton />
+          )}
+          {discussionId && (
+            <View style={styles.commentsContainer}>
+              <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />
+            </View>
+          )}
+        </HoliContainer>
+      </ScrollHeaderLayout.Refreshable>
+
+      <SafeAreaView>
+        <View style={styles.commentWrapper}>
+          <HoliContainer flex={1}>
+            <PostDetailFooter
+              style={[styles.commentButton]}
+              onPress={() =>
+                isLoggedIn
+                  ? navigate(`/insights/${insightId}/discussions/${discussionId}/comment`)
+                  : openLoginModal({
+                      description: t('comments.loginRedirect.text'),
+                    })
+              }
+            />
+          </HoliContainer>
+        </View>
+      </SafeAreaView>
+    </>
   )
 }
 
@@ -136,6 +164,23 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
+    },
+    commentWrapper: {
+      backgroundColor: theme.colors.background10,
+      borderTopColor: theme.colors.background30,
+      borderTopWidth: 1,
+      width: '100%',
+      height: 74,
+      ...Platform.select({
+        web: {
+          position: 'fixed',
+          bottom: 0,
+        },
+      }),
+    },
+    commentButton: {
+      paddingTop: 18,
+      flex: 1,
     },
   })
 
