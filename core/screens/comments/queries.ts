@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Comment } from '@holi/core/screens/comments/types'
+import { Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
@@ -24,7 +24,7 @@ export const PostCommentFragment = gql`
   ${UserAvatarFragment}
   ${LinkFragment}
 
-  fragment CommentFull on PostComment {
+  fragment PostCommentFull on PostComment {
     id
     text
     created
@@ -81,6 +81,8 @@ export const commentsMetadata = gql`
 
   query CommentsMetadata($commentableId: UUID!, $commentableType: CommentableType!) {
     commentable(id: $commentableId, type: $commentableType) {
+      id
+      type
       topComment {
         text
         creator {
@@ -99,6 +101,8 @@ export const commentsMetadata = gql`
 
 export type CommentsMetadataResponse = {
   commentable: {
+    id: string
+    type: CommentableType
     topComment?: Comment
     commenters: Paged<User>
   }
@@ -109,6 +113,8 @@ export const commentsByCommentable = gql`
 
   query Comments($commentableId: UUID!, $commentableType: CommentableType!) {
     commentable(id: $commentableId, type: $commentableType) {
+      id
+      type
       comments {
         totalResults
         data {
@@ -121,6 +127,8 @@ export const commentsByCommentable = gql`
 
 export type CommentsResponse = {
   commentable: {
+    id: string
+    type: CommentableType
     comments: Paged<Comment>
   }
 }

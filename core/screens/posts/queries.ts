@@ -85,7 +85,7 @@ export const PostDetailsFragment = gql`
       }
     }
     comments {
-      ...CommentFull
+      ...PostCommentFull
     }
     image {
       ...PostImageData
