@@ -14,12 +14,12 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
+import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -90,16 +90,8 @@ const DiscussionDetailPage = () => {
         style={styles.wrapper}
         headerOverlap
       >
-        <HoliContainer>
-          {discussion && !loading ? (
-            <View style={styles.questionContainer}>
-              <View style={styles.question}>
-                <HoliText bold>{discussion.question}</HoliText>
-              </View>
-            </View>
-          ) : (
-            <LoadingSkeleton />
-          )}
+        <HoliContainer paddingHorizontal={0}>
+          {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
           {discussionId && (
             <View style={styles.commentsContainer}>
               <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />
@@ -147,17 +139,6 @@ const getStyles = (theme: HoliTheme) =>
           paddingTop: dimensions.topBarHeight + Spacing.lg,
         },
       }),
-    },
-    questionContainer: {
-      padding: Spacing.xs,
-      backgroundColor: colors.brandA200,
-    },
-    question: {
-      padding: Spacing.xs,
-      backgroundColor: theme.colors.background20,
-      borderColor: colors.black300,
-      borderWidth: 1,
-      borderRadius: Spacing.xs,
     },
     commentsContainer: {
       padding: Spacing.xs,
