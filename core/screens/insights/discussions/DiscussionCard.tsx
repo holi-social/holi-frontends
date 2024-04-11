@@ -20,7 +20,7 @@ import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 import StartDiscussion from './StartDiscussion'
 
-interface DiscussionCardProps {
+type DiscussionCardProps = {
   discussion: Discussion
   insightId: string
 }

@@ -10,7 +10,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-export type StartDiscussionProps = {
+type StartDiscussionProps = {
   discussionId: string
   insightId: string
 }
