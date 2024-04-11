@@ -17,7 +17,7 @@ type CommentsProps = {
 const Comments = ({ commentableId, commentableType }: CommentsProps) => {
   const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType },
-    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'cache-and-network',
     onError: (error) => {
       logError(error, 'Failed to load comments', {
         location: 'Comments',
