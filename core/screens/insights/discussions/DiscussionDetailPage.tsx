@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
@@ -82,6 +83,8 @@ const DiscussionDetailPage = () => {
 
   return (
     <>
+      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
+
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           refreshing,
@@ -133,10 +136,10 @@ const getStyles = (theme: HoliTheme) =>
           paddingBottom: Spacing.lg,
         },
         ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxl,
+          paddingTop: dimensions.topBarHeight + Spacing.xxs,
         },
         android: {
-          paddingTop: dimensions.topBarHeight + Spacing.lg,
+          paddingTop: dimensions.topBarHeight + Spacing.xxl,
         },
       }),
     },
