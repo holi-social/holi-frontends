@@ -21,6 +21,7 @@ import { logError, logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatServerLoginUrl } from '@holi/core/helpers/config'
 import { chatServerUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
+import { registerDeviceTokenListener } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 
 import { chatReloadCounter, setChatConnected, setChatInitialized } from './chatState'
 
@@ -91,6 +92,9 @@ export const startChat = async (
     initChatClient(chatClient)
     await chatClient.configurePusher(t).catch((e) => {
       logError(e, 'Could not set up push notifications for chat', { location: 'chatSession.startChat.configurePusher' })
+    })
+    registerDeviceTokenListener((token) => {
+      chatClient?.updateDeviceToken(token, t)
     })
     setChatConnected(true)
   } finally {
