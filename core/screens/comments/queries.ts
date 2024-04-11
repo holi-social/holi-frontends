@@ -82,11 +82,11 @@ export type CommentsMetadataResponse = {
 export const commentsByCommentable = gql`
   ${CommentFragment}
 
-  query Comments($commentableId: UUID!, $commentableType: CommentableType!) {
+  query Comments($commentableId: UUID!, $commentableType: CommentableType!, $offset: Int! = 0, $limit: Int! = 100) {
     commentable(id: $commentableId, type: $commentableType) {
       id
       type
-      comments {
+      comments(offset: $offset, limit: $limit) {
         totalResults
         data {
           ...CommentFull
