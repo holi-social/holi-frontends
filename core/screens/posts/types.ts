@@ -52,7 +52,6 @@ export interface Post {
   isEdited?: boolean
   isClosed?: boolean
   isDeleted?: boolean
-  comments?: Comment[]
   space?: Space
   status?: string // 'P'
   mediaWidth?: number

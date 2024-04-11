@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { LinkFragment, PostCommentFragment } from '@holi/core/screens/comments/queries'
+import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { Post } from '@holi/core/screens/posts/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
@@ -60,7 +60,6 @@ export const PostFragment = gql`
 
 export const PostDetailsFragment = gql`
   ${UserAvatarFragment}
-  ${PostCommentFragment}
   ${PostImageFragment}
   ${LinkFragment}
 
@@ -83,9 +82,6 @@ export const PostDetailsFragment = gql`
       data {
         ...UserAvatar
       }
-    }
-    comments {
-      ...PostCommentFull
     }
     image {
       ...PostImageData

@@ -17,7 +17,9 @@ import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
+import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
+import { Comment } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
@@ -67,7 +69,7 @@ const PostDetailPage = () => {
 
   const isWeb = Platform.OS === 'web'
 
-  const { loading, error, data, refetch } = useQuery<PostByIdResponse>(PostById, {
+  const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
@@ -77,10 +79,23 @@ const PostDetailPage = () => {
       logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId })
     },
   })
+
+  const { data: { commentable } = {}, refetch } = useQuery<CommentsResponse>(commentsByCommentable, {
+    variables: { commentableId: postId, commentableType: CommentableType.POST },
+    skip: !postId,
+    fetchPolicy: 'cache-and-network',
+    onError: (error) => {
+      logError(error, 'Failed to load comments', {
+        location: 'Comments',
+        variables: { commentableId: postId, commentableType: CommentableType.POST },
+      })
+    },
+  })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const post = data?.postById
   const title = post?.title
+  const comments: readonly Comment[] = commentable?.comments?.data || []
 
   useIsomorphicLayoutEffect(
     () =>
@@ -117,8 +132,6 @@ const PostDetailPage = () => {
   if (error || !post) {
     return <></>
   }
-
-  const comments = post.comments || []
 
   const hasVisibilityIcon = spaceIdOrName !== '' && isMember
 

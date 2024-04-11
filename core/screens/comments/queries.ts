@@ -19,35 +19,6 @@ export const LinkFragment = gql`
   }
 `
 
-// TODO: should we still get PostComment type from BE? Shouldn't it be generic? This leads to the redundant CommentFragment below
-export const PostCommentFragment = gql`
-  ${UserAvatarFragment}
-  ${LinkFragment}
-
-  fragment PostCommentFull on PostComment {
-    id
-    text
-    created
-    modified
-    creator {
-      ...UserAvatar
-    }
-    links {
-      ...LinkFragment
-    }
-    mentions {
-      id
-      fullName
-    }
-    myReaction {
-      HEART
-    }
-    reactions {
-      HEART
-    }
-  }
-`
-
 export const CommentFragment = gql`
   ${UserAvatarFragment}
   ${LinkFragment}
