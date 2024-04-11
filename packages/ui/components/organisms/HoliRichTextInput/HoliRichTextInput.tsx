@@ -192,6 +192,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
         placeholder={placeholder}
         containerStyle={[styles.mentionsStyles, props.style]}
         style={styles.input}
+        placeholderTextColor={theme.dark ? theme.colors.foreground10 : undefined}
         editable={!disabled}
         maxLength={props.maxNoOfCharacters}
         testID={(props.testID || 'richtext-component') + '-input'}
