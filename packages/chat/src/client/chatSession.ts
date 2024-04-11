@@ -3,7 +3,7 @@ import fetch from 'cross-fetch'
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
 // We need this lightweight polyfill to support mobile.
 import 'fast-text-encoding'
-import type { TFunction } from 'i18next'
+import { TFunction } from 'i18next'
 import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
@@ -89,7 +89,7 @@ export const startChat = async (
 
     await chatClient.start(() => unknownTokenHandler(t, deviceToken))
     initChatClient(chatClient)
-    await chatClient.configurePusher(t).catch((e) => {
+    await chatClient.configurePusher().catch((e) => {
       logError(e, 'Could not set up push notifications for chat', { location: 'chatSession.startChat.configurePusher' })
     })
     setChatConnected(true)
