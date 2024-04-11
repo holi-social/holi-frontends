@@ -5,7 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import CurationPrinciplesPage from '@holi/core/screens/insights/CurationPrinciplesPage'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import InsightsPage from '@holi/core/screens/insights/InsightsPage'
-import { DiscussionCommentPageParams } from '@holi/core/screens/insights/discussions/DiscussionCommentPage'
+import DiscussionCommentPage, {
+  DiscussionCommentPageParams,
+} from '@holi/core/screens/insights/discussions/DiscussionCommentPage'
 import DiscussionDetailPage, {
   DiscussionDetailPageParams,
 } from '@holi/core/screens/insights/discussions/DiscussionDetailPage'
