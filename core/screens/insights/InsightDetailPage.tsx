@@ -346,7 +346,7 @@ const InsightDetailPage = () => {
             {discussions.length > 0 && (
               <DiscussionsSection>
                 {discussions.map((d) => (
-                  <DiscussionCard key={d.id} discussion={d} />
+                  <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
                 ))}
               </DiscussionsSection>
             )}

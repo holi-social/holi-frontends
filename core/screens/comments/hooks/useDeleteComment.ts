@@ -39,8 +39,8 @@ const useDeleteComment = (
       },
       refetchQueries:
         commentableType === CommentableType.POST
-          ? [{ query: PostById, variables: { id: commentableId }, fetchPolicy: 'network-only' }]
-          : [],
+          ? ['Comments', { query: PostById, variables: { id: commentableId }, fetchPolicy: 'network-only' }]
+          : ['Comments'],
     }
   )
 

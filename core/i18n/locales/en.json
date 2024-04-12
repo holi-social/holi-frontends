@@ -313,6 +313,7 @@
   "insights.curatorModal.profileLink": "Visit profile",
   "insights.discoverMore": "Discover more",
   "insights.discussions.title": "Discuss with...",
+  "insights.discussions.pageTitle": "Discussion room",
   "insights.discussions.start": "Answer to start the discussion...",
   "insights.editors.discussing": "{{count}} discussing",
   "insights.editors.discussing_plural": "{{count}} discussing",
