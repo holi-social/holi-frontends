@@ -1,4 +1,3 @@
-import { Comment } from '@holi/core/screens/comments/types'
 import type { Space } from '@holi/core/screens/spaces/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import { Term } from '@holi/core/screens/userprofile/types'
