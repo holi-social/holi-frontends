@@ -83,7 +83,7 @@ const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in val
  */
 export default class ChatClient {
   private readonly mxClient: MatrixClient
-  private readonly deviceToken: string | undefined
+  private deviceToken: string | undefined
 
   private getSpaceEvents(room: Room) {
     const state = room.getLiveTimeline().getState(Direction.Forward)
@@ -225,6 +225,14 @@ export default class ChatClient {
         unknownTokenHandler()
       })
     })
+  }
+
+  public async updateDeviceToken(
+    deviceToken: string,
+    t: TFunction<'translation', undefined, 'translation'>
+  ): Promise<void> {
+    this.deviceToken = deviceToken
+    return this.configurePusher(t)
   }
 
   /**
