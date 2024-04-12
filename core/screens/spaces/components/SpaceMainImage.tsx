@@ -8,7 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceMainImageProps = {
-  uri: string
+  uri?: string
   label: string
   blurhash?: string
   editable?: boolean

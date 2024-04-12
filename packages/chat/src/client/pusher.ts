@@ -1,4 +1,5 @@
 import * as Device from 'expo-device'
+import type { TFunction } from 'i18next'
 import {
   ConditionKind,
   type IPushRule,
@@ -18,7 +19,11 @@ import { logDebug } from '@holi/core/helpers/logging'
  *
  * @returns a successful promise if succeed
  */
-export const configurePusher = async (mxClient: MatrixClient, pushkey: string): Promise<void> => {
+export const configurePusher = async (
+  mxClient: MatrixClient,
+  pushkey: string,
+  t: TFunction<'translation', undefined, 'translation'>
+): Promise<void> => {
   const tokenType = Platform.OS
 
   const pushers: { pushers: IPusher[] } = await mxClient.getPushers()
@@ -41,13 +46,16 @@ export const configurePusher = async (mxClient: MatrixClient, pushkey: string): 
   await configurePushRules(mxClient)
 
   if (tokenType === 'android' || tokenType === 'ios') {
-    const app_id = tokenType === 'ios' ? 'social.holi.ios' : 'social.holi'
     let default_payload
+    const app_id = tokenType === 'ios' ? 'social.holi.ios' : 'social.holi'
+    const payload_title = t('chat.push.message.title')
+    const payload_message = t('chat.push.message.body')
+
     if (tokenType === 'android') {
       // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
       default_payload = {
-        title: 'holi Chat',
-        message: 'You have a new message or invitation.',
+        title: payload_title,
+        message: payload_message,
         // Android: using the default channel explicitly which ensures higher notification priority
         // https://github.com/expo/expo/blob/main/packages/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/builders/ChannelAwareNotificationBuilder.java#L25
         channelId: 'expo_notifications_fallback_notification_channel',
@@ -59,8 +67,8 @@ export const configurePusher = async (mxClient: MatrixClient, pushkey: string): 
       default_payload = {
         aps: {
           alert: {
-            title: 'holi Chat',
-            body: 'You have a new message or invitation.',
+            title: payload_title,
+            body: payload_message,
           },
           // badge: 0, // doesn't seem to work, is set to `1` on server
         },

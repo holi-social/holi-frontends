@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import {
   ClientEvent,
   Direction,
@@ -83,7 +83,7 @@ const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in val
  */
 export default class ChatClient {
   private readonly mxClient: MatrixClient
-  private readonly deviceToken: string | undefined
+  private deviceToken: string | undefined
 
   private getSpaceEvents(room: Room) {
     const state = room.getLiveTimeline().getState(Direction.Forward)
@@ -227,15 +227,23 @@ export default class ChatClient {
     })
   }
 
+  public async updateDeviceToken(
+    deviceToken: string,
+    t: TFunction<'translation', undefined, 'translation'>
+  ): Promise<void> {
+    this.deviceToken = deviceToken
+    return this.configurePusher(t)
+  }
+
   /**
    * Configures push notifications to use holi push notification gateway (Sygnal)
    *
    * @returns a successful promise if succeed
    */
-  public async configurePusher(): Promise<void> {
+  public async configurePusher(t: TFunction<'translation', undefined, 'translation'>): Promise<void> {
     if (this.deviceToken) {
       // delegate to Platform-specific implementation (currently no-op for Web)
-      return configurePusher(this.mxClient, this.deviceToken)
+      return configurePusher(this.mxClient, this.deviceToken, t)
     }
   }
 
