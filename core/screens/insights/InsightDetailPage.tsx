@@ -38,10 +38,11 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -57,7 +58,7 @@ const InsightDetailPage = () => {
   const [insightId] = useParam('insightId')
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
-  const { replaceRoute } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
@@ -122,6 +123,80 @@ const InsightDetailPage = () => {
         })
       : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
 
+  const curatorInfo1 = [
+    t('insights.curationPrinciples.principles.1'),
+    t('insights.curationPrinciples.principles.2'),
+    t('insights.curationPrinciples.principles.3'),
+    t('insights.curationPrinciples.principles.4'),
+  ]
+  const curatorInfo2 = [t('insights.curationPrinciples.principles.5'), t('insights.curationPrinciples.principles.6')]
+
+  const curatorSlides = [
+    <View style={styles.slide} key={1}>
+      <HoliText size="extralarge" style={styles.slideHeader}>
+        {t('insights.curatorModal.header1')}
+      </HoliText>
+      <View style={styles.slideWrapper}>
+        {creator && (
+          <>
+            <HoliAvatar
+              imageSrc={creator.avatar}
+              imageBlurhash={creator.avatarBlurhash}
+              label={creator.fullName || t('user.profileView.anonymous')}
+              initials={creator.avatarLabel}
+              defaultColor={creator.avatarDefaultColor}
+              size="extralarge"
+            />
+            <HoliText style={{ marginVertical: 8 }} size="large">
+              {creator.fullName}
+            </HoliText>
+            <HoliButton
+              variant="small"
+              inline
+              onPress={() => navigate(`/profile/${creator.id}`)}
+              label={t('modal.close')}
+              style={{ width: 120 }}
+            >
+              {t('insights.curatorModal.profileLink')}
+            </HoliButton>
+            <HoliText style={{ marginTop: 8 }} numberOfLines={8}>
+              {creator.aboutMe}
+            </HoliText>
+          </>
+        )}
+      </View>
+    </View>,
+    <View style={styles.slide} key={2}>
+      <HoliText size="extralarge" style={styles.slideHeader}>
+        {t('insights.curatorModal.header2')}
+      </HoliText>
+      <View style={styles.slideWrapper}>
+        {curatorInfo1.map((copy, index) => (
+          <View style={styles.row} key={index}>
+            <View style={styles.count}>
+              <HoliText>{index + 1}</HoliText>
+            </View>
+            <HoliText style={styles.copy}>{copy}</HoliText>
+          </View>
+        ))}
+      </View>
+    </View>,
+    <View style={styles.slide} key={3}>
+      <HoliText size="extralarge" style={styles.slideHeader}>
+        {t('insights.curatorModal.header3')}
+      </HoliText>
+      <View style={styles.slideWrapper}>
+        {curatorInfo2.map((copy, index) => (
+          <View style={styles.row} key={index}>
+            <View style={styles.count}>
+              <HoliText>{index + 1}</HoliText>
+            </View>
+            <HoliText style={styles.copy}>{copy}</HoliText>
+          </View>
+        ))}
+      </View>
+    </View>,
+  ]
   return (
     <>
       <StatusBar style="light" animated />
@@ -192,12 +267,25 @@ const InsightDetailPage = () => {
                     label={t('user.cards.modal.showInfo', { name: creator.fullName })}
                     show={showCuratorModal}
                     onDismiss={() => setShowCuratorModal(false)}
+                    style={{ backgroundColor: colors.background30 }}
                   >
-                    <HoliUserCardsModalContent
-                      title={''}
-                      users={[creator]}
-                      onDismiss={() => setShowCuratorModal(false)}
+                    <HoliCarousel
+                      marginHorizontal={Spacing.md}
+                      hideDotIndicators={false}
+                      slides={curatorSlides.map((slide) => ({
+                        children: slide,
+                      }))}
                     />
+                    <View>
+                      <HoliButton
+                        inline
+                        style={styles.close}
+                        onPress={() => setShowCuratorModal(false)}
+                        label={t('modal.close')}
+                      >
+                        {t('insights.curatorModal.close')}
+                      </HoliButton>
+                    </View>
                   </HoliModal>
                 </>
               )}
@@ -440,6 +528,47 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     postCard: {
       width: 304,
+    },
+    slide: {
+      flex: 1,
+    },
+    slideWrapper: {
+      height: '80%',
+      backgroundColor: theme.colors.white100,
+      padding: Spacing.md,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+      marginBottom: Spacing.md,
+      overflow: 'hidden',
+    },
+    slideHeader: {
+      marginBottom: Spacing.sm,
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: Spacing.xs,
+      padding: Spacing['3xs'],
+    },
+    count: {
+      borderRadius: 100,
+      backgroundColor: theme.colors.brandB200,
+      width: 32,
+      height: 32,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+    },
+    copy: {
+      flexWrap: 'wrap',
+      flex: 1,
+    },
+    close: {
+      marginHorizontal: 'auto',
+      paddingHorizontal: 42,
+      marginVertical: Spacing.md,
     },
   })
 
