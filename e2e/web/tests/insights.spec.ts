@@ -19,11 +19,11 @@ test.describe('@Insights', () => {
       await expect(user.getByTestId('more-options-modal-animatedview')).toBeVisible()
 
       // then a toast is displayed
-      await clickElementByTestIdAndWaitForToast(user, 'btn-bookmark-insight', 'toast-SUCCESS')
+      await clickElementByTestIdAndWaitForToast(user, 'btn-favorite-insight', 'toast-SUCCESS')
 
       // and the drawer menu entry changes to remove favorite
       await clickElementByTestId(user, 'btn-insight-more-options')
-      await expect(user.getByTestId('btn-remove-insight-bookmark')).toBeVisible()
+      await expect(user.getByTestId('btn-remove-insight-favorite')).toBeVisible()
 
       // and the list of favorites contains the insight
       await clickElementByTestId(user, 'btn-see-all-favorites')
@@ -34,7 +34,7 @@ test.describe('@Insights', () => {
       // when un-favoriting
       await clickElementByTestId(user, 'btn-favorites-more-options')
       await expect(user.getByTestId('more-options-modal-animatedview')).toBeVisible()
-      await clickElementByTestIdAndWaitForToast(user, 'btn-remove-favorite-bookmark', 'toast-SUCCESS')
+      await clickElementByTestIdAndWaitForToast(user, 'btn-remove-favorite', 'toast-SUCCESS')
 
       // then the card isn't shown anymore and the empty placeholder illustration shown
       await expect(user.getByTestId('favorites-card')).not.toBeVisible()
@@ -45,7 +45,7 @@ test.describe('@Insights', () => {
       await expect(user.getByTestId('insight-headline')).toBeVisible()
       await clickElementByTestId(user, 'btn-insight-more-options')
       await expect(user.getByTestId('more-options-modal-animatedview')).toBeVisible()
-      await expect(user.getByTestId('btn-bookmark-insight')).toBeVisible()
+      await expect(user.getByTestId('btn-favorite-insight')).toBeVisible()
     })
   })
 })

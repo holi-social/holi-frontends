@@ -162,6 +162,7 @@ export const createCache = () =>
           spacesByName: pagedPolicy(),
           connectedUsers: pagedPolicy(),
           inspirationPosts: pagedPolicy(),
+          favorites: pagedPolicy(),
         },
       },
     },
