@@ -6,14 +6,16 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { FavoriteType } from '@holi/core/screens/favorites/model'
 import {
-  BookmarkResponse,
-  UnbookmarkResponse,
-  bookmarkMutation,
-  unbookmarkMutation,
-} from '@holi/core/screens/insights/mutations'
-import { favoritesQuery, insightById } from '@holi/core/screens/insights/queries'
-import { BookmarkType, Insight } from '@holi/core/screens/insights/types'
+  FavoriteResponse,
+  UnfavoriteResponse,
+  favoriteMutation,
+  unfavoriteMutation,
+} from '@holi/core/screens/favorites/mutation'
+import { favoritesQuery } from '@holi/core/screens/favorites/queries'
+import { insightById } from '@holi/core/screens/insights/queries'
+import { Insight } from '@holi/core/screens/insights/types'
 import { Bookmark3Line, BookmarkFill, BookmarkLine, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -32,35 +34,35 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
 
   const { id, isFavorite } = insight
 
-  const [bookmark] = useMutation<BookmarkResponse>(bookmarkMutation, {
+  const [favorite] = useMutation<FavoriteResponse>(favoriteMutation, {
     onError: (error) =>
-      displayError(error, 'Failed to bookmark insight', {
-        location: 'InsightDrawer.bookmarkInsight',
+      displayError(error, 'Failed to favorite insight', {
+        location: 'InsightDrawer.favoriteInsight',
         id,
       }),
     refetchQueries: [{ query: insightById, variables: { id } }, favoritesQuery],
   })
 
-  const [unbookmark] = useMutation<UnbookmarkResponse>(unbookmarkMutation, {
+  const [unfavorite] = useMutation<UnfavoriteResponse>(unfavoriteMutation, {
     onError: (error) =>
-      displayError(error, 'Failed to remove insight bookmark', {
-        location: 'InsightDrawer.unbookmark',
+      displayError(error, 'Failed to remove insight favorite', {
+        location: 'InsightDrawer.unfavorite',
         id,
       }),
     refetchQueries: [{ query: insightById, variables: { id } }, favoritesQuery],
   })
 
-  const bookmarkInsightActionHandler = async () => {
+  const favoriteInsightActionHandler = async () => {
     if (isLoggedIn) {
-      await bookmark({ variables: { bookmarkId: id, bookmarkType: BookmarkType.INSIGHT } })
-      openToast(t('insights.insight.bookmark.success'), HoliToastType.SUCCESS)
+      await favorite({ variables: { favoritableId: id, favoritableType: FavoriteType.INSIGHT } })
+      openToast(t('insights.insight.favorite.success'), HoliToastType.SUCCESS)
     }
     navigate('/login')
   }
 
-  const unbookmarkActionHandler = async () => {
-    await unbookmark({ variables: { bookmarkId: id, bookmarkType: BookmarkType.INSIGHT } })
-    openToast(t('insights.insight.remove.bookmark.success'), HoliToastType.SUCCESS)
+  const unfavoriteActionHandler = async () => {
+    await unfavorite({ variables: { favoritableId: id, favoritableType: FavoriteType.INSIGHT } })
+    openToast(t('insights.insight.remove.favorite.success'), HoliToastType.SUCCESS)
   }
 
   const seeAllFavoritesActionHandler = async () => {
@@ -87,16 +89,16 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
       {isFavorite ? (
         <HoliActionDrawer.Action
           icon={BookmarkFill}
-          title={t('insights.insight.remove.bookmark.button')}
-          testID="btn-remove-insight-bookmark"
-          handleAction={unbookmarkActionHandler}
+          title={t('insights.insight.remove.favorite.button')}
+          testID="btn-remove-insight-favorite"
+          handleAction={unfavoriteActionHandler}
         />
       ) : (
         <HoliActionDrawer.Action
           icon={BookmarkLine}
-          title={t('insights.insight.bookmark.button')}
-          testID="btn-bookmark-insight"
-          handleAction={bookmarkInsightActionHandler}
+          title={t('insights.insight.favorite.button')}
+          testID="btn-favorite-insight"
+          handleAction={favoriteInsightActionHandler}
         />
       )}
       {isLoggedIn && (

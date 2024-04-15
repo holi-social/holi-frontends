@@ -60,27 +60,3 @@ export const UpdateInitiativeReactionMutation = gql`
 export interface UpdateInitiativeReactionResponse {
   initiative: Initiative
 }
-
-export const bookmarkMutation = gql`
-  mutation Bookmark($bookmarkId: UUID!, $bookmarkType: BookmarkType!) {
-    bookmark(bookmarkId: $bookmarkId, bookmarkType: $bookmarkType) {
-      success
-    }
-  }
-`
-
-export interface BookmarkResponse {
-  success: boolean
-}
-
-export const unbookmarkMutation = gql`
-  mutation Unbookmark($bookmarkId: UUID!, $bookmarkType: BookmarkType!) {
-    unbookmark(bookmarkId: $bookmarkId, bookmarkType: $bookmarkType) {
-      success
-    }
-  }
-`
-
-export interface UnbookmarkResponse {
-  success: boolean
-}

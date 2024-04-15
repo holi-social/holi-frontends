@@ -1,0 +1,6 @@
+export enum FavoriteType {
+  INSIGHT = 'INSIGHT',
+  QUOTE = 'QUOTE',
+  RECOMMENDATION = 'RECOMMENDATION',
+  INITIATIVE = 'INITIATIVE',
+}

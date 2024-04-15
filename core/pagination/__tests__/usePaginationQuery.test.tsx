@@ -1,6 +1,6 @@
 import { DocumentNode, OperationVariables } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 
@@ -61,19 +61,12 @@ const TestComponent: React.FC<TestComponentProps> = ({
     }
   )
 
-  if (loading) {
-    return <Text>Loading</Text>
-  }
-  if (isFetchingMore) {
-    return <Text>Fetching more</Text>
-  }
-  if (error) {
-    return <Text>{error.message}</Text>
-  }
-
   return (
     <View>
-      <Text>{totalResults} results</Text>
+      {loading && <Text>Loading</Text>}
+      {isFetchingMore && <Text>Fetching more</Text>}
+      {error && <Text>{error.message}</Text>}
+      {data && <Text>{totalResults} results</Text>}
       {data.map((element) => (
         <Text key={element.id} testID="element">
           {element.id}
@@ -104,7 +97,7 @@ describe('usePaginationQuery', () => {
       </MockedProvider>
     )
 
-    expect(await screen.findByText('Test error'))
+    expect(await screen.findByText('Network error'))
   })
 
   it('should expose total results', async () => {
@@ -124,7 +117,7 @@ describe('usePaginationQuery', () => {
       </MockedProvider>
     )
 
-    expect(await screen.findByText('50 results'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
   })
 
@@ -147,7 +140,7 @@ describe('usePaginationQuery', () => {
       </MockedProvider>
     )
 
-    expect(await screen.findByText('50 results'))
+    expect(await screen.findByText(totalResults + ' results'))
 
     await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
@@ -165,21 +158,20 @@ describe('usePaginationQuery', () => {
     )
 
     // See first page
-    expect(await screen.findByText('50 results'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
 
-    // Fetch second page
     await fireEvent.press(screen.getByTestId('btn-fetch-more'))
-
-    expect(await screen.findByText('Fetching more'))
-    expect(await screen.findByText('50 results'))
+    // Fetch second page
+    await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
     await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
 
-    expect(await screen.findByText('Fetching more'))
-    expect(await screen.findByText('50 results'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
 
     // It should not be possible to fetch another page
@@ -203,21 +195,21 @@ describe('usePaginationQuery', () => {
     )
 
     // See first page
-    expect(await screen.findByText('50 results'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
 
     // Fetch second page
     await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
-    expect(await screen.findByText('Fetching more'))
-    expect(await screen.findByText('50 results'))
+    await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
     await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
-    expect(await screen.findByText('Fetching more'))
-    expect(await screen.findByText('50 results'))
+    await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
 
     // It should not be possible to fetch another page

@@ -4,22 +4,24 @@ import { StyleSheet, View } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import FavoriteCard from '@holi/core/screens/favorites/components/FavoriteCard'
-import { UserFavorite } from '@holi/core/screens/insights/types'
+import { Favorites } from '@holi/core/screens/favorites/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const FavoritesList = () => {
-  const { data: favorites, loading } = usePaginationContext<UserFavorite>()
+  const { data: favorites, loading } = usePaginationContext<Favorites>()
 
   if (loading) return <HoliLoader />
 
   return favorites.length > 0 ? (
     <View testID={'favorites-list'}>
-      {favorites.map((favorite) => (
-        <FavoriteCard item={favorite} key={favorite.id} />
-      ))}
+      {favorites
+        .filter((favorite) => !!favorite)
+        .map((favorite) => (
+          <FavoriteCard item={favorite} key={favorite.id} />
+        ))}
     </View>
   ) : (
     <EmptyFavorites />
