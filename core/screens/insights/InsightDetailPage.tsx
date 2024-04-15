@@ -147,8 +147,11 @@ const InsightDetailPage = () => {
               defaultColor={creator.avatarDefaultColor}
               size="extralarge"
             />
-            <HoliText style={{ marginVertical: 8 }} size="large">
+            <HoliText style={{ marginTop: 8 }} size="large">
               {creator.fullName}
+            </HoliText>
+            <HoliText size="small" style={styles.subline}>
+              {t('insights.curatorModal.subline')}
             </HoliText>
             <HoliButton
               variant="small"
@@ -564,6 +567,11 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     copy: {
       flexWrap: 'wrap',
       flex: 1,
+    },
+    subline: {
+      color: theme.colors.foreground20,
+      marginTop: 4,
+      marginBottom: 8,
     },
     close: {
       marginHorizontal: 'auto',
