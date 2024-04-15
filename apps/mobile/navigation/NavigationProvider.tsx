@@ -6,12 +6,14 @@ import React from 'react'
 import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
 
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
 import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+const logger = getLogger('NavigationProvider')
 
 export const navigationRef = createNavigationContainerRef()
 
@@ -40,20 +42,20 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 
     const url = await Linking.getInitialURL()
     if (url != null) {
-      logDebug('LinkingOptions.getInitialURL', 'opening direct deep link', url)
+      logger.debug('LinkingOptions.getInitialURL', 'opening direct deep link', url)
       return url
     }
 
     const response = await Notifications.getLastNotificationResponseAsync()
     if (response) {
-      logDebug(
+      logger.debug(
         'LinkingOptions.getInitialURL',
         'received response from push interaction, while app was closed',
         JSON.stringify(response)
       )
       const url = transformPushInteractionToUrl(response)
       if (url) {
-        logDebug('LinkingOptions.getInitialURL', 'navigate to deep link from push interaction', url)
+        logger.debug('LinkingOptions.getInitialURL', 'navigate to deep link from push interaction', url)
         return url
       }
     }
@@ -61,16 +63,16 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   subscribe: (listener) => {
     // listen to incoming links from deep linking, while app is active or in background
     const eventListenerSubscription = Linking.addEventListener('url', ({ url }: { url: string }) => {
-      logDebug('LinkingOptions.subscribe', 'received url from deeplinking', url)
+      logger.debug('LinkingOptions.subscribe', 'received url from deeplinking', url)
       listener(url)
     })
 
     // listen to expo push notifications, while app is active or in background
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-      logDebug('LinkingOptions.subscribe', 'received response from push interaction', JSON.stringify(response))
+      logger.debug('LinkingOptions.subscribe', 'received response from push interaction', JSON.stringify(response))
       const url = transformPushInteractionToUrl(response)
       if (url) {
-        logDebug('LinkingOptions.subscribe', 'navigate to deep link from push interaction', url)
+        logger.debug('LinkingOptions.subscribe', 'navigate to deep link from push interaction', url)
         listener(url)
       }
     })

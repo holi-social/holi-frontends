@@ -3,9 +3,11 @@ import type { NotificationContentInput } from 'expo-notifications'
 
 import { type Route } from '@react-navigation/native'
 
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { NotificationPayload } from '@holi/mobile/notifications'
+
+const logger = getLogger('Notifications')
 
 interface AndroidUnknownMessageContent {
   msgtype: string | undefined
@@ -101,7 +103,7 @@ const parseToSygnalEvent = (
       ...rest,
     } as SygnalEvent
   } catch (e) {
-    logDebug('parseToSygnalEvent', 'error while parsing', e)
+    logger.debug('parseToSygnalEvent', 'error while parsing', e)
     return undefined
   }
 }
@@ -201,12 +203,12 @@ export const handleForegroundChatMessage = async (
   data: NotificationPayload | undefined
 ) => {
   const event = parseToSygnalEvent(data)
-  logDebug('handleForegroundChatMessage', 'using sygnal event', JSON.stringify(event))
+  logger.debug('handleForegroundChatMessage', 'using sygnal event', JSON.stringify(event))
 
   if (event && navigationStateAllowsPushDisplayFor(event.room_id, currentRoute)) {
     const content = generateNotificationContent(event)
     if (content) {
-      logDebug('handleForegroundChatMessage', 'scheduling notification', JSON.stringify(content))
+      logger.debug('handleForegroundChatMessage', 'scheduling notification', JSON.stringify(content))
       await Notifications.scheduleNotificationAsync({
         content,
         // Android:
@@ -217,7 +219,7 @@ export const handleForegroundChatMessage = async (
         trigger: null, // `null` means to schedule directly
       })
     } else {
-      logDebug('handleForegroundChatMessage', 'skipping push notification')
+      logger.debug('handleForegroundChatMessage', 'skipping push notification')
     }
   }
 }

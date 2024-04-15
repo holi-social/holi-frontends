@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "storybook build",
-    "clean": "rimraf storybook-static",
-    "clean:all": "yarn clean && rimraf node_modules",
+    "clean": "npx rimraf storybook-static",
+    "clean:all": "yarn clean && npx rimraf node_modules",
     "dev": "storybook dev -p 6006",
     "lint": "TIMING=1 eslint .",
     "publish-library": "yarn run chromatic --ci -b build --exit-zero-on-changes",
