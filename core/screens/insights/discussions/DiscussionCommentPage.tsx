@@ -61,9 +61,7 @@ const DiscussionCommentPage = () => {
     discussion &&
     user && (
       <CommentForm commentableId={discussion.id} commentableType={CommentableType.DISCUSSION} user={user}>
-        <HoliContainer paddingHorizontal={0}>
-          <DiscussionHeader question={discussion.question} />
-        </HoliContainer>
+        <DiscussionHeader question={discussion.question} />
       </CommentForm>
     )
   )
