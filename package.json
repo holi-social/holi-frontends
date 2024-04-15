@@ -33,7 +33,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "clean": "yarn workspaces foreach -A run clean",
-    "clean:all": "yarn workspaces foreach -A run clean:all && rimraf node_modules",
+    "clean:all": "yarn workspaces foreach -A run clean:all && npx rimraf node_modules",
     "test": "jest",
     "test:update": "jest -u",
     "test:watch": "jest --watch",
@@ -70,7 +70,6 @@
     "jest-when": "^3.6.0",
     "prettier": "^2.8.3",
     "react-test-renderer": "18.2.0",
-    "rimraf": "5.0.1",
     "turbo": "^1.7.2"
   },
   "packageManager": "yarn@4.1.0",

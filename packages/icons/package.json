@@ -12,7 +12,6 @@
     "react-native-svg": "14.1.0"
   },
   "devDependencies": {
-    "@svgr/cli": "8.0.1",
-    "rimraf": "5.0.1"
+    "@svgr/cli": "8.0.1"
   }
 }

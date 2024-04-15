@@ -5,9 +5,11 @@ import { Platform } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { useDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { RegisterDeviceResponse, registerDeviceMutation } from '@holi/core/screens/notifications/mutations'
+
+const logger = getLogger('Notifications')
 
 const DeviceRegistration = () => {
   const { isLoggedIn } = useAuth()
@@ -21,13 +23,13 @@ const DeviceRegistration = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      logDebug('DeviceRegistration', "ignoring device token because user isn't logged in")
+      logger.debug('DeviceRegistration', "ignoring device token because user isn't logged in")
       return
     } else if (!deviceToken) {
-      logDebug('DeviceRegistration', "ignoring device token because it's missing")
+      logger.debug('DeviceRegistration', "ignoring device token because it's missing")
       return
     } else {
-      logDebug('DeviceRegistration', 'registering device token', deviceToken, Platform.OS.toUpperCase())
+      logger.debug('DeviceRegistration', 'registering device token', deviceToken, Platform.OS.toUpperCase())
       registerDevice({
         variables: {
           input: {

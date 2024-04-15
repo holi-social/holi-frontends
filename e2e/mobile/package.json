@@ -12,8 +12,8 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "clean": "rimraf output",
-    "clean:all": "yarn clean && rimraf node_modules",
+    "clean": "npx rimraf output",
+    "clean:all": "yarn clean && npx rimraf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "lint": "TIMING=1 eslint .",
     "prepare:android": "./scripts/prepare_android.sh",

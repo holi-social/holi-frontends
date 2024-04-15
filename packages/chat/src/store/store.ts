@@ -49,8 +49,10 @@ import {
 } from '@holi/chat/src/store/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import type { User as HoliUser } from '@holi/core/screens/userprofile/types'
+
+const logger = getLogger('Chat')
 
 let chatClient: ChatClient | undefined = undefined
 export const initChatClient = (newChatClient: ChatClient | undefined) => {
@@ -205,14 +207,14 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const ignoredUsers = client.getIgnoredUsers()
   const addRoomAtom = (chatRoom: ChatRoom) => {
     setAtom([chatRoom], ignoredUsers)
-    logDebug('Chat.store [subscription room creation]', 'adding room ' + chatRoom.id + 'to store')
+    logger.debug('Chat.store [subscription room creation]', 'adding room ' + chatRoom.id + 'to store')
   }
 
   /**
    * Initial load
    */
   setAtom(client.getChatRooms(), ignoredUsers)
-  logDebug('Chat.store [init]', 'adding rooms to store')
+  logger.debug('Chat.store [init]', 'adding rooms to store')
   setChatInitialized(true)
 
   /**

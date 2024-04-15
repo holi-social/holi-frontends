@@ -37,7 +37,7 @@
   },
   "scripts": {
     "clean": "echo 'nothing to be done'",
-    "clean:all": "rimraf node_modules",
+    "clean:all": "npx rimraf node_modules",
     "lint": "TIMING=1 eslint .",
     "test": "jest",
     "test:update": "jest -u",

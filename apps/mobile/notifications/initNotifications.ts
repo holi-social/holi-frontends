@@ -13,10 +13,12 @@ import { Platform } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isDevice } from '@holi/core/helpers/isDevice'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { handleForegroundChatMessage, isChatNotification } from '@holi/mobile/notifications/chatNotifications'
+
+const logger = getLogger('Notifications')
 
 const permissionRequestedStorageKey = 'notification_permission_requested'
 
@@ -45,13 +47,16 @@ export const initNotifications = async () => {
     markDeviceTokenAsInitialized()
     return Promise.resolve()
   } else {
-    logDebug('initNotifications', 'initializing notifications')
+    logger.debug('initNotifications', 'initializing notifications')
     const responseStatus = await getOrRequestNotificationPermission()
-    logDebug('initNotifications', 'permission response', responseStatus)
+    logger.debug('initNotifications', 'permission response', responseStatus)
 
     // iOS also has PROVISIONAL and EPHEMERAL, but we don't request those, so we are fine
     if (responseStatus === PermissionStatus.GRANTED) {
-      logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler and device token')
+      logger.debug(
+        'initNotifications',
+        'notification permissions granted, setting up notificationHandler and device token'
+      )
 
       initDeviceToken()
 
@@ -92,12 +97,12 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#setnotificationhandlerhandler
   Notifications.setNotificationHandler({
     handleNotification: async (notification: Notification): Promise<NotificationBehavior> => {
-      logDebug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
+      logger.debug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
       return handleForegroundNotification(notification)
     },
     handleSuccess: async (notificationId) => {
       // could be used for tracking
-      logDebug('foregroundNotificationHandler', 'notification success', notificationId)
+      logger.debug('foregroundNotificationHandler', 'notification success', notificationId)
     },
     handleError: async (notificationId, error) => {
       logError(error, 'Failed to handle foreground notification', {
@@ -128,7 +133,11 @@ export const registerHandleNotificationsWhenAppIsInBackground = async () => {
           }
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const notification = (data as any).notification
-          logDebug('backgroundNotificationHandler', 'received background notification', JSON.stringify(notification))
+          logger.debug(
+            'backgroundNotificationHandler',
+            'received background notification',
+            JSON.stringify(notification)
+          )
           // This is just left in to demonstrate how to receive notifications in the background.
           // We can't prevent background notifications from appearing when they have a valid notification payload.
           // But we need this handler for closed app notifications, so we should not send another notification here.

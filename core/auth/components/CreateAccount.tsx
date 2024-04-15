@@ -14,7 +14,7 @@ import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -23,6 +23,8 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+const logger = getLogger('CreateAccount')
 
 const isWeb = Platform.OS === 'web'
 
@@ -86,7 +88,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           throw err
         }
 
-        logDebug('CreateAccount', 'registration was successful')
+        logger.debug('CreateAccount', 'registration was successful')
 
         const verificationFlowData = getVerificationFlowFromRegistration(data)
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`

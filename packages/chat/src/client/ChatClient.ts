@@ -23,7 +23,7 @@ import {
   createClient,
 } from 'matrix-js-sdk'
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
-import { logger } from 'matrix-js-sdk/lib/logger'
+import { logger as matrixLogger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { configurePusher } from '@holi/chat/src/client/pusher'
@@ -64,12 +64,14 @@ import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
 import { environment } from '@holi/core/helpers/environment'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+
+const logger = getLogger('Chat')
 
 // Disable matrix-js-sdk logging for Staging and Production
 if ([EnvironmentId.PRODUCTION, EnvironmentId.STAGING].some((value) => value === environment)) {
-  logger.disableAll()
+  matrixLogger.disableAll()
 }
 
 // TODO: make the client accessible to window for development.
@@ -204,7 +206,7 @@ export default class ChatClient {
    * @returns promise that completes when client has intialized (technically: when the client has reached SyncState.Prepared)
    */
   public async start(unknownTokenHandler: () => void, options?: IStartClientOpts): Promise<void> {
-    logDebug('ChatClient.start', `starting chat client with options=${options}`)
+    logger.debug('ChatClient.start', `starting chat client with options=${options}`)
     try {
       await this.mxClient.startClient(options)
     } catch (err) {
@@ -216,7 +218,7 @@ export default class ChatClient {
       // TODO: Implement soft logout and reconnect
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
-        logDebug('ChatClient', 'received sync event', { state, lastState })
+        logger.debug('ChatClient', 'received sync event', { state, lastState })
         if (state === SyncState.Prepared) {
           resolve()
         }

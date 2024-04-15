@@ -12,7 +12,9 @@ import {
 import { Platform } from 'react-native'
 
 import { chatAdminName, chatPushGatewayUrl } from '@holi/core/helpers/config'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
+
+const logger = getLogger('Chat')
 
 /**
  * Configures push notifications to use holi push notification gateway (Sygnal)
@@ -33,7 +35,7 @@ export const configurePusher = async (
         return pusher.pushkey === pushkey
       })
       .map((pusher) => {
-        logDebug(
+        logger.debug(
           'ChatClient.configurePusher',
           'removing existing pusher for device push key',
           pushkey,
@@ -101,16 +103,16 @@ export const configurePusher = async (
       enabled: true,
     }
 
-    logDebug('ChatClient.configurePusher', 'configure sygnal pusher', JSON.stringify(pusherRequest))
+    logger.debug('ChatClient.configurePusher', 'configure sygnal pusher', JSON.stringify(pusherRequest))
 
     await mxClient?.setPusher(pusherRequest).catch((err) => {
       // TODO handle properly
-      logDebug('ChatClient.configurePusher', 'error setting pusher', err)
+      logger.debug('ChatClient.configurePusher', 'error setting pusher', err)
     })
 
-    logDebug('ChatClient.configurePusher', 'sygnal chat pusher successfully configured')
+    logger.debug('ChatClient.configurePusher', 'sygnal chat pusher successfully configured')
   } else {
-    logDebug('ChatClient.configurePusher', 'not an ios or android token, skipping pusher configuration')
+    logger.debug('ChatClient.configurePusher', 'not an ios or android token, skipping pusher configuration')
   }
 }
 
@@ -143,5 +145,5 @@ async function configurePushRules(mxClient: MatrixClient): Promise<void> {
   await mxClient.addPushRule('global', PushRuleKind.Override, IGNORE_CHAT_ADMIN_RULE_ID, ignoreChatAdminPushRule)
 
   const rules = await mxClient.getPushRules()
-  logDebug('ChatClient.configurePusher', 'existing push rules', JSON.stringify(rules))
+  logger.debug('ChatClient.configurePusher', 'existing push rules', JSON.stringify(rules))
 }

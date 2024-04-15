@@ -7,7 +7,7 @@
     "lint": "TIMING=1 eslint .",
     "test": "jest",
     "clean": "echo 'nothing to be done'",
-    "clean:all": "rimraf node_modules"
+    "clean:all": "npx rimraf node_modules"
   },
   "dependencies": {
     "cross-fetch": "^3.1.6",
