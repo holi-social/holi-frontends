@@ -13,7 +13,7 @@ type VolunteeringCardContentProps = {
   engagement: VolunteeringEngagement
 }
 
-const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props) => {
+const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = (props) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme

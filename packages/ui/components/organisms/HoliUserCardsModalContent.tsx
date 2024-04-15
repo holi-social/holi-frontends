@@ -17,7 +17,7 @@ export type HoliUserCardsModalContentProps = {
   testID?: string
 }
 
-const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
+const HoliUserCardsModalContent: React.FC<HoliUserCardsModalContentProps> = ({
   users,
   onDismiss,
   category,

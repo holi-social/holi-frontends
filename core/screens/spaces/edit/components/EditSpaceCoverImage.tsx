@@ -15,7 +15,7 @@ type EditSpaceCoverImageProps = {
   onDismiss: () => void
 }
 
-const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
+const EditSpaceCoverImage: React.FC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
   const [coverImage, setCoverImage] = useState<HoliImageInfo | null>()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()

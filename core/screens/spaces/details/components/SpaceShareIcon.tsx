@@ -12,7 +12,7 @@ type SpaceShareIconProps = {
   title?: string | null
 }
 
-const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ spaceIdOrName, title, color }: SpaceShareIconProps) => {
+const SpaceShareIcon: React.FC<SpaceShareIconProps> = ({ spaceIdOrName, title, color }: SpaceShareIconProps) => {
   const { t } = useTranslation()
   const [, shareLink] = useShareLink({
     link: `/spaces/${spaceIdOrName}`,

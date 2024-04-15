@@ -20,7 +20,7 @@ interface EditSpaceLinkProps {
   onDismiss: () => void
 }
 
-const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }: EditSpaceLinkProps) => {
+const EditSpaceLink: React.FC<EditSpaceLinkProps> = ({ space, link, onDismiss }: EditSpaceLinkProps) => {
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
   const [url, setUrl] = useState<string>(link.url || '')

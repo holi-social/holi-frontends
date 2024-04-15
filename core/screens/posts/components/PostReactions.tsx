@@ -16,7 +16,7 @@ export interface PostReactionsProps {
   style?: ViewStyle
 }
 
-const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style }) => {
+const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()

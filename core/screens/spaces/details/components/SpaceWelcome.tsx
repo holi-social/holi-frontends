@@ -13,7 +13,7 @@ type SpaceWelcomeProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceWelcome: React.VFC<SpaceWelcomeProps> = ({ space, style }) => {
+const SpaceWelcome: React.FC<SpaceWelcomeProps> = ({ space, style }) => {
   const { t } = useTranslation()
   return (
     <View style={style}>

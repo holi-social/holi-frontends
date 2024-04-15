@@ -21,7 +21,7 @@ export type HoliUserCardProps = {
   label?: string
 }
 
-const HoliUserCard: React.VFC<HoliUserCardProps> = ({
+const HoliUserCard: React.FC<HoliUserCardProps> = ({
   user,
   variant = 'normal',
   testID,

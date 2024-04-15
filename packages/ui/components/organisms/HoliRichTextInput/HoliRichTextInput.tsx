@@ -31,7 +31,7 @@ export type HoliRichTextInputProps = {
   maxNoOfCharacters?: number
 }
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
   autofocus = false,

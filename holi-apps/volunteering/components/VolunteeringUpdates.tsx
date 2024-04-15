@@ -21,7 +21,7 @@ type VolunteeringUpdatesProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: VolunteeringUpdatesProps) => {
+const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: VolunteeringUpdatesProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 

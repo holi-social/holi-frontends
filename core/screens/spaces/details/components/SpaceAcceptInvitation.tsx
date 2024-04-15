@@ -15,7 +15,7 @@ export type SpaceAcceptInvitationProps = {
   space: Space
 }
 
-const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space }) => {
+const SpaceAcceptInvitation: React.FC<SpaceAcceptInvitationProps> = ({ space }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()

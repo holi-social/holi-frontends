@@ -10,12 +10,12 @@ export type FieldError = {
 export type FieldErrors = { [key: string]: FieldError[] }
 
 export const isErrorOfType = (error: Pick<ApolloError, 'graphQLErrors'>, errorCodes: graphQLErrorCode[]) =>
-  error.graphQLErrors?.some((graphQLError) => errorCodes.includes(graphQLError.extensions?.code))
+  error.graphQLErrors?.some((graphQLError) => errorCodes.includes(graphQLError.extensions?.code as graphQLErrorCode))
 
 export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): FieldErrors | undefined => {
   const errors = error.graphQLErrors.length && error.graphQLErrors[0].extensions?.errors
   try {
-    return errors ? JSON.parse(errors) : undefined
+    return errors ? JSON.parse(errors as string) : undefined
   } catch (e) {
     return undefined
   }
@@ -26,12 +26,7 @@ export const isNotFoundError = (error: Pick<ApolloError, 'graphQLErrors'>) => is
 export const isForbiddenError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, ['FORBIDDEN'])
 
 export const isServerError = (error: unknown): error is ServerError => {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'statusCode' in error &&
-    typeof (error as ServerError).statusCode === 'number'
-  )
+  return typeof error === 'object' && error !== null && 'statusCode' in error
 }
 
 export const isUnauthorizedError = (error: unknown): boolean => {

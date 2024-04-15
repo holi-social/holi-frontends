@@ -76,7 +76,7 @@ export const useConfirmationState = ({
   }
 }
 
-const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
+const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   show = false,
   label,
   title,

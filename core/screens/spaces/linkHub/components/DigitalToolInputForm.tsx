@@ -31,7 +31,7 @@ export interface DigitalToolInputFormProps {
   currentThumbnail?: string
 }
 
-const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
+const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
   onChangeUrl,
   onChangeTitle,
   onChangeDescription,

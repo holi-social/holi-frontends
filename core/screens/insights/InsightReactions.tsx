@@ -30,7 +30,7 @@ export interface InsightReactionsProps {
   style?: ViewStyle
 }
 
-const InsightReactions: React.VFC<InsightReactionsProps> = ({ item, itemType, style }) => {
+const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, style }) => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()

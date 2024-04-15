@@ -29,6 +29,7 @@ export type InsightsScreens = {
   [RouteName.PostDetailPage]: PostDetailPageParams
   [RouteName.PostCommentInputPage]: CommentInputPageParams
   [RouteName.RecommendationDetailPage]: RecommendationDetailPageParams
+  [RouteName.InitiativeDetailPage]: InitiativeDetailPageParams
   [RouteName.InsightQuoteDetailPage]: QuoteDetailPageParams
   [RouteName.InsightsCurationPrinciples]: undefined
   [RouteName.DiscussionDetailPage]: DiscussionDetailPageParams

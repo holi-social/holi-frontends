@@ -23,7 +23,7 @@ export type SpaceImageFormProps = {
   previewVariant?: string
 }
 
-const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
+const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
   title,
   description,
   instructions,

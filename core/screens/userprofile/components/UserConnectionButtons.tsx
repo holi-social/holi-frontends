@@ -18,7 +18,7 @@ type UserConnectionButtonsProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
+const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, style }) => {
   const { connect, disconnect, error, loading } = useUserConnection()
   const { isLoggedIn } = useLoggedInUser()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)

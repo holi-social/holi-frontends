@@ -23,7 +23,7 @@ const IconBySpaceLinkType = {
   OTHER: Links,
 }
 
-const SpacePublicLink: React.VFC<SpacePublicLinkProps> = ({ link, style }: SpacePublicLinkProps) => {
+const SpacePublicLink: React.FC<SpacePublicLinkProps> = ({ link, style }: SpacePublicLinkProps) => {
   const { url, name, type } = link
   const { theme } = useTheme()
   const { colors } = theme

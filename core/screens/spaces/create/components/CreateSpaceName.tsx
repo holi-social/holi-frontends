@@ -18,7 +18,7 @@ export type CreateSpaceNameProps = {
   spaceGoalErrors?: string[]
 }
 
-const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
+const CreateSpaceName: React.FC<CreateSpaceNameProps> = ({
   onChangeSpaceName,
   onChangeSpaceGoal,
   spaceName,

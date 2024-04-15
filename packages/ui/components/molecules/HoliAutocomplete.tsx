@@ -26,7 +26,7 @@ interface AutocompleteItemProps {
   isLast: boolean
   testID?: string
 }
-const HoliAutocompleteItem: React.VFC<AutocompleteItemProps> = ({
+const HoliAutocompleteItem: React.FC<AutocompleteItemProps> = ({
   suggestion,
   onBlur,
   onFocus,

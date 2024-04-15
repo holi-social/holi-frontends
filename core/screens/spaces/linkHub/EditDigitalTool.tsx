@@ -41,7 +41,7 @@ const { useParam } = createParamHooks<EditDigitalToolParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const EditDigitalTool: React.VFC<ScreenProps> = () => {
+const EditDigitalTool: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [toolId] = useParam('toolIdOrName')
   const { navigateBack, replaceRoute } = useRouting()

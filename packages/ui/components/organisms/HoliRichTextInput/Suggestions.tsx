@@ -13,7 +13,7 @@ export type HoliRichTextInputSuggestionsProps = {
   testID: string
 }
 
-const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps> = ({
+const HoliRichTextInputSuggestions: React.FC<HoliRichTextInputSuggestionsProps> = ({
   options = [],
   onChooseSuggestion,
   testID,

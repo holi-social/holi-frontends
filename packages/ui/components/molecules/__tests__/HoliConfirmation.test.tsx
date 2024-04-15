@@ -12,8 +12,8 @@ describe('renders correctly', () => {
         description="Test Description"
         show={true}
         confirmationButtonType="warning"
-        onDismiss={() => null}
-        onConfirm={() => null}
+        onDismiss={() => undefined}
+        onConfirm={() => undefined}
       />
     )
 
@@ -31,8 +31,8 @@ describe('renders correctly', () => {
         description="Test Description"
         confirmationButtonType="warning"
         show={true}
-        onDismiss={() => null}
-        onConfirm={() => null}
+        onDismiss={() => undefined}
+        onConfirm={() => undefined}
       />
     )
 
@@ -46,8 +46,8 @@ describe('renders correctly', () => {
         title="Test Title"
         description="Test Description"
         show={false}
-        onDismiss={() => null}
-        onConfirm={() => null}
+        onDismiss={() => undefined}
+        onConfirm={() => undefined}
       />
     )
 
@@ -64,7 +64,7 @@ describe('calls onConfirm prop function correctly', () => {
         title="Test Title"
         description="Test Description"
         show={true}
-        onDismiss={() => null}
+        onDismiss={() => undefined}
         onConfirm={mockFn}
         testID="test"
       />

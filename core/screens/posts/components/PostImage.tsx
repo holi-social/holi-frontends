@@ -51,7 +51,7 @@ const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   },
 ]
 
-const PostImage: React.VFC<PostImageProps> = ({ loading, uri, imageBlurhash, width, height, postTitle }) => {
+const PostImage: React.FC<PostImageProps> = ({ loading, uri, imageBlurhash, width, height, postTitle }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

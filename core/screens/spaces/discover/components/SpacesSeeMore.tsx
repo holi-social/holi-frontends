@@ -13,7 +13,7 @@ type SpacesSeeMoreProps = {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
-const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({ style, label, testID, onPress }: SpacesSeeMoreProps) => {
+const SpacesSeeMore: React.FC<SpacesSeeMoreProps> = ({ style, label, testID, onPress }: SpacesSeeMoreProps) => {
   const { t } = useTranslation()
   const defaultLabel = t('spaces.seeMore')
 

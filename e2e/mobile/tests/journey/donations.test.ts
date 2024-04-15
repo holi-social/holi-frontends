@@ -1,3 +1,6 @@
+// eslint-disable-next-line prettier/prettier
+import { target } from '@holi/e2e-mobile/global'
+
 import { scrollUp } from '../../helpers/gestures'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {

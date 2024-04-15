@@ -29,7 +29,7 @@ type SpaceHeaderProps = {
 const sortUsersByFirstName = (users: User[]) =>
   users.sort((userA, userB) => (userA.fullName || '').localeCompare(userB.fullName || ''))
 
-const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
+const SpaceHeader: React.FC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

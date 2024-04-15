@@ -8,6 +8,7 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 const users: User[] = [
   {
     id: '1',
+    identity: 'dima-rosmait',
     fullName: 'Dima Rosmait',
     firstName: 'Dima',
     lastName: 'Rosmait',
@@ -18,6 +19,7 @@ const users: User[] = [
   },
   {
     id: '2',
+    identity: 'max-mustermann',
     fullName: 'Max Mustermann',
     firstName: 'Max',
     lastName: 'Mustermann',
@@ -27,6 +29,7 @@ const users: User[] = [
   },
   {
     id: '3',
+    identity: 'thomas-mueller',
     fullName: 'Thomas Mueller',
     firstName: 'Thomas',
     lastName: 'Mueller',
@@ -37,6 +40,7 @@ const users: User[] = [
   },
   {
     id: '4',
+    identity: 'sandra-kasandra',
     fullName: 'Sandra Kasandra',
     firstName: 'Sandra',
     lastName: 'Kasandra',
@@ -46,6 +50,7 @@ const users: User[] = [
   },
   {
     id: '5',
+    identity: 'peter-pan',
     fullName: 'Peter Pan',
     firstName: 'Peter',
     lastName: 'Pan',
@@ -56,6 +61,7 @@ const users: User[] = [
   },
   {
     id: '6',
+    identity: 'donald-duck',
     fullName: 'Donald Duck',
     firstName: 'Donald',
     lastName: 'Duck',
@@ -65,6 +71,7 @@ const users: User[] = [
   },
   {
     id: '7',
+    identity: 'lionel-messi',
     fullName: 'Lionel Messi',
     firstName: 'Lionel',
     lastName: 'Messi',

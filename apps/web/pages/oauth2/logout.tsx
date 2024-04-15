@@ -57,11 +57,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     } catch (error) {
       logger.error({
         message: 'Error rejecting logout request',
+        // @ts-ignore
         error: error?.response?.data || error,
       })
       return {
         props: {
           ...defaultProps,
+          // @ts-ignore
           error: error?.response?.data || error.toString(),
           errorContext: {
             location: 'oauth2.logout.rejectOAuth2LogoutRequest',

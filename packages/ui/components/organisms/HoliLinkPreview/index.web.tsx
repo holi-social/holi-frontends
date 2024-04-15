@@ -6,7 +6,7 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import LinkContent from './LinkContent'
 import { HoliLinkPreviewProps } from './holiLinkPreviewProps'
 
-const HoliLinkPreview: React.VFC<HoliLinkPreviewProps> = ({ previewData, onPress, label, style }) => {
+const HoliLinkPreview: React.FC<HoliLinkPreviewProps> = ({ previewData, onPress, label, style }) => {
   return (
     <View style={style}>
       <HoliLink href={previewData.requestedUrl} label={label || previewData.title} external onPress={onPress}>

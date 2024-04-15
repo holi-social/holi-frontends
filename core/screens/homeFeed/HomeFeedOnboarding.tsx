@@ -7,7 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HomeFeed, { HomeFeedProps } from '@holi/core/screens/homeFeed/HomeFeed'
 import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 
-const HomeFeedOnboarding: React.VFC<HomeFeedProps> = (props) => {
+const HomeFeedOnboarding: React.FC<HomeFeedProps> = (props) => {
   const { navigate } = useRouting()
   const { storedOnboardingState } = useStoredOnboardingState()
   const { isFocused } = useNavigation()

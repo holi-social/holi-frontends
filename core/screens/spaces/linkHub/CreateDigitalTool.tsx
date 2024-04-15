@@ -37,7 +37,7 @@ const { useParam } = createParamHooks<CreateDigitalToolParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const CreateDigitalTool: React.VFC<ScreenProps> = () => {
+const CreateDigitalTool: React.FC<ScreenProps> = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const [spaceIdOrName] = useParam('spaceIdOrName')
