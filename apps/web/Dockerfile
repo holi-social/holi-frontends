@@ -41,4 +41,4 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # This can be used to enable CPU profiling
 # CMD [ "sh", "-c", "echo Staring && node --cpu-prof --cpu-prof-dir=/mount/main --require=./server-preload.js server.js"]
 
-CMD ["node", "--initial-heap-size=200", "--trace-gc", "--require", "./server-preload.js", "server.js"]
+CMD ["node", "--initial-heap-size=500", "--max-heap-size=900", "--trace-gc", "--require", "./server-preload.js", "server.js"]
