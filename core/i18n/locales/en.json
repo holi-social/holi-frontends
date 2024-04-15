@@ -888,7 +888,7 @@
   "spaces.input.task.visibility.label": "Who can see this task?",
   "spaces.input.task.visibility.placeholder": "Choose visibility…",
   "spaces.input.topics.description": "Topics will convey the leading causes your Space will uplift and focus on.",
-  "spaces.input.topics.hint": "Select at least one topic and maximum of six",
+  "spaces.input.topics.hint": "Select at least 1 topic and a maximum of 6",
   "spaces.input.topics.search": "Search a topic",
   "spaces.input.topics.title": "Topics",
   "spaces.input.update.content.label": "Update content",
