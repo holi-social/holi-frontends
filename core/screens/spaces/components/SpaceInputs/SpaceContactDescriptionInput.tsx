@@ -9,7 +9,7 @@ export interface SpaceContactDescriptionInputProps extends Partial<HoliTextInput
   errorMessage?: string
 }
 
-const SpaceContactDescriptionInput: React.VFC<SpaceContactDescriptionInputProps> = ({
+const SpaceContactDescriptionInput: React.FC<SpaceContactDescriptionInputProps> = ({
   onChange,
   value,
   errorMessage,

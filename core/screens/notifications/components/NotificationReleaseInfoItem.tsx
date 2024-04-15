@@ -10,7 +10,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const NotificationReleaseInfoItem: React.VFC<NotificationProps<NotificationReleaseInfo>> = ({
+const NotificationReleaseInfoItem: React.FC<NotificationProps<NotificationReleaseInfo>> = ({
   notification,
   style,
   testID = '',

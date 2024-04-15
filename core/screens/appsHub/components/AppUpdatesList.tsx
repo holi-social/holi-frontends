@@ -28,7 +28,7 @@ type AppUpdatesListProps = {
   testID?: string
 }
 
-const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
+const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
   appName,
   renderItem,
   data,

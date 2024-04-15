@@ -36,7 +36,7 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const DEFAULT_SLOTS_AVAILABLE = 1
 
-const CreateTask: React.VFC<ScreenProps> = () => {
+const CreateTask: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()

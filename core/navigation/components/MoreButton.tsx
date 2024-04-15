@@ -16,7 +16,7 @@ type MoreButtonProps = {
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
-const MoreButton: React.VFC<MoreButtonProps> = ({
+const MoreButton: React.FC<MoreButtonProps> = ({
   label,
   icon = More,
   tintColor,

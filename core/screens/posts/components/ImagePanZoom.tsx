@@ -11,7 +11,7 @@ export type ImagePanZoomProps = {
   blurhash?: string
 }
 
-const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle, blurhash }) => {
+const ImagePanZoom: React.FC<ImagePanZoomProps> = ({ uri, postTitle, blurhash }) => {
   const { t } = useTranslation()
   const [imageSize, setImageSize] = useState(() => ({ width: 0, height: 0 }))
 

@@ -1,4 +1,5 @@
 import httpProxy from 'http-proxy'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const API_URL = process.env.HOLI_API_GATEWAY
 const proxy = httpProxy.createProxyServer()
@@ -10,7 +11,7 @@ export const config = {
   },
 }
 
-const handler = (req, res) => {
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
   proxy.web(req, res, { target: API_URL, autoRewrite: false, changeOrigin: true })
 }
 

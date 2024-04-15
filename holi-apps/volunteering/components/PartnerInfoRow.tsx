@@ -16,7 +16,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { PartnerInfoRowProps } from '@holi-apps/volunteering/types'
 
-const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
+const PartnerInfoRow: React.FC<PartnerInfoRowProps> = ({
   headline,
   rowText,
   showOutlinkIcon = true,

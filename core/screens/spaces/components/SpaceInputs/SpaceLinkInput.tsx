@@ -37,7 +37,7 @@ const IconBySpaceLinkType = {
   OTHER: Links,
 }
 
-const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete }: SpaceLinkInputProps) => {
+const SpaceLinkInput: React.FC<SpaceLinkInputProps> = ({ link, onEdit, onDelete }: SpaceLinkInputProps) => {
   const { t } = useTranslation()
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const { url, type, name } = link

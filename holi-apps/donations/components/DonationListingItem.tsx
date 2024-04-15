@@ -15,7 +15,7 @@ type DonationListingItemProps = {
   project: Project
 }
 
-const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
+const DonationListingItem: React.FC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
   const { navigate } = useRouting()
   const { title, categories, progressPercentage, openAmountInCents, picture } = project
   const { imageWidth } = useWindowDimensionsWithImageScaling()

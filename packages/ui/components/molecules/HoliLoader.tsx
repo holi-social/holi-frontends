@@ -22,7 +22,7 @@ export const useLoader = () => {
   }
 }
 
-const HoliLoader: React.VFC<HoliLoaderProps> = ({ style, testID }) => {
+const HoliLoader: React.FC<HoliLoaderProps> = ({ style, testID }) => {
   const loader = (
     <View style={styles.loader}>
       <HoliLottie animType="loader" />

@@ -10,7 +10,7 @@ export interface SpaceInviteProps {
   space: Space
 }
 
-const SpaceInvite: React.VFC<SpaceInviteProps> = ({ space }) => {
+const SpaceInvite: React.FC<SpaceInviteProps> = ({ space }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 

@@ -18,7 +18,7 @@ global.console.error = mockConsoleError
 
 type ErrorComponentProps = { displayMessage?: string }
 
-const ErrorComponent: React.VFC<ErrorComponentProps> = ({ displayMessage }) => {
+const ErrorComponent: React.FC<ErrorComponentProps> = ({ displayMessage }) => {
   const { displayError } = useErrorHandling()
 
   displayError(new HoliError('Test Error'), 'Test Error', {

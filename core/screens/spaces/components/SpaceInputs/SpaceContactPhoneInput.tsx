@@ -11,7 +11,7 @@ export type SpaceContactPhoneInputProps = {
 }
 
 // draft for HOLI-3549: Space contact info: add phone number format validation and design
-const SpaceContactPhoneInput: React.VFC<SpaceContactPhoneInputProps> = ({
+const SpaceContactPhoneInput: React.FC<SpaceContactPhoneInputProps> = ({
   onChange,
   value,
 }: SpaceContactPhoneInputProps) => {

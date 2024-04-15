@@ -22,7 +22,7 @@ export interface HoliReactionsCountProps {
   testID?: string
 }
 
-const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
+const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
   type,
   fullName,
   count = 0,

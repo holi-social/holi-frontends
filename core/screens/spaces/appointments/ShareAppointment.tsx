@@ -18,7 +18,7 @@ type ShareAppointmentProps = {
   startTime: string
 }
 
-const ShareAppointment: React.VFC<ShareAppointmentProps> = ({
+const ShareAppointment: React.FC<ShareAppointmentProps> = ({
   space,
   appointment,
   isMobile,

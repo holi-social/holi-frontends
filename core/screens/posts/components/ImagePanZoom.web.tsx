@@ -10,7 +10,7 @@ export type ImagePanZoomProps = {
   postTitle: string
 }
 
-const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle }) => {
+const ImagePanZoom: React.FC<ImagePanZoomProps> = ({ uri, postTitle }) => {
   const { t } = useTranslation()
 
   return (

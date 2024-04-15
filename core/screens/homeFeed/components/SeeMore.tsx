@@ -18,7 +18,7 @@ export interface SeeMoreProps {
   testID?: string
 }
 
-const SeeMore: React.VFC<SeeMoreProps> = ({ label, loading = false, onPress, style, testID }) => {
+const SeeMore: React.FC<SeeMoreProps> = ({ label, loading = false, onPress, style, testID }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
   const { theme } = useTheme()

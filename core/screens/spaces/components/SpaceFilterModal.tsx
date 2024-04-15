@@ -28,7 +28,7 @@ type SpaceFilterModalProps = {
   applyFilters: (filter: SpaceFilter) => void
 }
 
-const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
+const SpaceFilterModal: React.FC<SpaceFilterModalProps> = ({
   filters = {},
   initialLocationSelection,
   applyFilters,

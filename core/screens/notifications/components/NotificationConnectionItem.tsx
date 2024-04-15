@@ -19,7 +19,7 @@ const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.CONNECTION_ACCEPTED ||
   notificationType === NotificationType.CONNECTION_CONFIRMED
 
-const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnection>> = ({
+const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnection>> = ({
   notification,
   style,
   testID,

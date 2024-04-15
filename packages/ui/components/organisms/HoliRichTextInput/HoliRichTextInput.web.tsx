@@ -24,7 +24,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { HoliRichTextInputProps } from './HoliRichTextInput'
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
   autofocus = false,

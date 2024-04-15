@@ -7,7 +7,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 
-const FilteredSpacesHeading: React.VFC<SpaceFilter> = ({ topicSlug, locationId, skillSlugs = [] }) => {
+const FilteredSpacesHeading: React.FC<SpaceFilter> = ({ topicSlug, locationId, skillSlugs = [] }) => {
   const { t } = useTranslation()
   const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)

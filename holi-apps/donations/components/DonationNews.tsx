@@ -20,7 +20,7 @@ type DonationNewsProps = {
   style?: ViewStyle | ViewStyle[]
 }
 
-const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...props }: DonationNewsProps) => {
+const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...props }: DonationNewsProps) => {
   const { t, i18n } = useTranslation()
   const [mainNews, ...otherNews] = news
   const { theme } = useTheme()

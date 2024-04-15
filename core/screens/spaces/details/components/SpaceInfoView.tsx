@@ -21,7 +21,7 @@ type SpaceInfoViewProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
+const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme

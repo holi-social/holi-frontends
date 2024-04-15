@@ -14,7 +14,7 @@ type LocationContainerProps = {
   fontColor?: string
 }
 
-const LocationContainer: React.VFC<LocationContainerProps> = ({
+const LocationContainer: React.FC<LocationContainerProps> = ({
   locationName,
   iconSize = 14,
   iconColor,

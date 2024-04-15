@@ -96,7 +96,7 @@ export interface AppointmentInputFormProps {
   isAdmin?: boolean
 }
 
-const AppointmentInputForm: React.VFC<AppointmentInputFormProps> = ({
+const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
   title,
   description,
   inviteOnly,

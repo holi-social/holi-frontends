@@ -19,7 +19,7 @@ interface CreateSpaceLinksProps {
   onDismiss: () => void
 }
 
-const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }: CreateSpaceLinksProps) => {
+const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }: CreateSpaceLinksProps) => {
   const { openToast } = useToast()
   const [url, setUrl] = useState<string>('')
   const [name, setName] = useState<string>('')

@@ -16,7 +16,7 @@ export interface HoliSwitchProps {
   testID?: string
 }
 
-const HoliSwitch: React.VFC<HoliSwitchProps> = ({
+const HoliSwitch: React.FC<HoliSwitchProps> = ({
   switchOn,
   onPress,
   size = 'medium',

@@ -63,7 +63,7 @@ const rejectConsentRequest = async (defaultProps: OAuth2DefaultProps, consentCha
       },
     })
     return serverSideRedirect(rejectResponse.redirect_to)
-  } catch (error) {
+  } catch (/* eslint-disable @typescript-eslint/no-explicit-any */ error: any) {
     logger.error({
       message: 'Error rejecting login request',
       error: error?.response?.data || error,
@@ -119,7 +119,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const session = await createSession(consentRequest.subject)
 
     return acceptConsentRequest(consentChallenge, session, consentRequest)
-  } catch (error) {
+  } catch (/* eslint-disable @typescript-eslint/no-explicit-any */ error: any) {
     // Try to reject consent request in case an error occurs
     const message = error?.message || error || 'Unknown error'
     logger.error({

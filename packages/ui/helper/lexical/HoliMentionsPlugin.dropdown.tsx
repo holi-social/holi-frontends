@@ -14,7 +14,7 @@ export type HoliLexicalMentionsDropdownProps = {
   onMouseEnter?: (i: number, option: DropdownOption) => void
 }
 
-const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> = ({
+const HoliLexicalMentionsDropdown: React.FC<HoliLexicalMentionsDropdownProps> = ({
   optionsList,
   selectedIndex = 0,
   onChooseOption,

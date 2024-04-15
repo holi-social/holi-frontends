@@ -15,7 +15,7 @@ type EditSpaceAvatarProps = {
   onDismiss: () => void
 }
 
-const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: EditSpaceAvatarProps) => {
+const EditSpaceAvatar: React.FC<EditSpaceAvatarProps> = ({ space, onDismiss }: EditSpaceAvatarProps) => {
   const [avatar, setAvatar] = useState<HoliImageInfo | null>()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()

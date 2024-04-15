@@ -7,7 +7,7 @@ export type CommentConnectorProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const VerticalLine: React.VFC<CommentConnectorProps> = ({ style }) => {
+const VerticalLine: React.FC<CommentConnectorProps> = ({ style }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

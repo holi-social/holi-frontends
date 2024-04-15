@@ -15,7 +15,7 @@ type VolunteeringPartnerContainerProps = {
   partner: PartnerProps
 }
 
-const VolunteeringPartnerCard: React.VFC<VolunteeringPartnerContainerProps> = ({
+const VolunteeringPartnerCard: React.FC<VolunteeringPartnerContainerProps> = ({
   headline,
   name,
   partner,

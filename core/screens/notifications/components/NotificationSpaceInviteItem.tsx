@@ -24,7 +24,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 const isNotificationInvitationDeclined = ({ notificationType }: NotificationSpaceConnection) =>
   notificationType === NotificationType.COMMUNITY_INVITE_DECLINED
 
-const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpaceConnection>> = ({
+const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceConnection>> = ({
   notification,
   style,
   testID,

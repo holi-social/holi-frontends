@@ -49,7 +49,7 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.SPACE_APPOINTMENT_DELETION,
 ]
 
-const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
+const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props }) => {
   const { notificationType } = notification
 
   switch (notificationType) {

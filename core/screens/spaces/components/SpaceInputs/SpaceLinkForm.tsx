@@ -15,7 +15,7 @@ export type SpaceLinksFormProps = {
   validationErrorTextName?: string
 }
 
-const SpaceLinksForm: React.VFC<SpaceLinksFormProps> = ({
+const SpaceLinksForm: React.FC<SpaceLinksFormProps> = ({
   onChangeUrl,
   onChangeName,
   title,

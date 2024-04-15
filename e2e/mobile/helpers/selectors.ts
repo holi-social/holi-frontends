@@ -1,3 +1,6 @@
+// eslint-disable-next-line prettier/prettier
+import { Appium, platform } from '@holi/e2e-mobile/global'
+// eslint-disable-next-line prettier/prettier
 import type { Element, ElementArray } from 'webdriverio'
 
 import { doSwipe, getDeviceScreenSize, scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
@@ -41,12 +44,14 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 }
 
 export const setImplicitTimeout = async (timeout: number) => {
+  // @ts-ignore
   Appium.options.currentImplicitTimeout = timeout
   await Appium.setImplicitTimeout(timeout)
 }
 
 export const resetImplicitTimeout = async () => {
-  await setImplicitTimeout(Appium.options.waitforTimeout)
+  // @ts-ignore
+  await setImplicitTimeout(Appium.options.waitForTimeout)
 }
 
 export const withImplicitTimeout = async <T>(timeout: number, fn: () => Promise<T>) => {
@@ -69,6 +74,7 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
   return withImplicitTimeout(timeout, async () => {
     let found = false
     let count = 0
+    // @ts-ignore
     const max = Appium.options.waitforTimeout / 1000
     while (!found && count < max) {
       const foundAll = await Promise.all(

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 
-const HoliSeparatedList: React.VFC<HoliTextProps> = ({ children, ...props }) => {
+const HoliSeparatedList: React.FC<HoliTextProps> = ({ children, ...props }) => {
   const { t } = useTranslation()
 
   if (!children) {
