@@ -16,7 +16,7 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
-import { Tracking } from '@holi/mobile/tracking'
+import { TrackingProvider } from '@holi/mobile/providers/TrackingProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const logger = getLogger('AppInit')
@@ -55,20 +55,15 @@ const App = () => {
 
   const [fontsLoaded] = useFonts(fonts)
 
-  // TODO HOLI-7894 call identify inside posthog provider
-  const onUserIdentified = (userId: string) => {
-    console.debug('Identified user', userId)
-    //posthog.identify(userId)
-  }
-
   const init = useCallback(async () => {
     try {
-      await Promise.all([initI18n(), initAuth(onUserIdentified), initNotifications()])
+      await Promise.all([initI18n(), initAuth(), initNotifications()])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
       setInitDone(true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -88,11 +83,11 @@ const App = () => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <NavigationProvider>
-        <Tracking>
+        <TrackingProvider>
           <RootProvider>
             <RootNavigator />
           </RootProvider>
-        </Tracking>
+        </TrackingProvider>
       </NavigationProvider>
     </ThemeProvider>
   )

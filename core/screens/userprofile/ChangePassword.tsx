@@ -1,5 +1,4 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
-import { usePostHog } from 'posthog-js/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
@@ -33,6 +32,7 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -56,7 +56,7 @@ export type ChangePasswordParams = {
 const { useParam } = createParamHooks<ChangePasswordParams>()
 
 const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
-  const posthog = usePostHog()
+  const tracking = useTracking()
   const [flow] = useParam('flow')
   const [webview] = useParam('webview')
   const { t, i18n } = useTranslation()
@@ -143,10 +143,10 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
       initForm()
     } else if (flow) {
       syncUserSessionFromOrySession().then((session) => {
-        if (session) setUserLoggedIn(session, (userId) => posthog.identify(userId))
+        if (session) setUserLoggedIn(session)
       })
     }
-  }, [initForm, isLoggedIn, flow, posthog])
+  }, [initForm, isLoggedIn, flow, tracking])
 
   const performPasswordChange = async () => {
     setRetypeError(undefined)

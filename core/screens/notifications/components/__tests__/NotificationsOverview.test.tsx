@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { LastSeenNotificationMutation, notificationsQuery } from '@holi/core/screens/notifications/queries'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
@@ -12,8 +12,19 @@ import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 global.console.error = jest.fn()
 global.console.warn = jest.fn()
 
-const loggedIn = () => ({ userId: '123' })
-const loggedOut = () => ({ userId: null })
+const loggedIn = (): LoginState => ({
+  loginState: 'loggedIn',
+  isUnknown: false,
+  isLoggedOut: false,
+  isLoggedIn: true,
+  userId: '123',
+})
+const loggedOut = (): LoginState => ({
+  loginState: 'loggedOut',
+  isUnknown: false,
+  isLoggedOut: true,
+  isLoggedIn: false,
+})
 const useAuthMock = useAuth as jest.Mock
 const mockUseNotifications = jest.fn()
 

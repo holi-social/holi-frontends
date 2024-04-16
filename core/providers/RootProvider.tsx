@@ -14,6 +14,7 @@ import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
+import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -33,20 +34,22 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
     >
       <ErrorBoundary>
         <ApolloProvider client={client}>
-          <ToastProvider>
-            <PortalProvider>
-              <SessionExpiryProtection>
-                <FeatureTogglesFetcher />
-                {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
-                {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
-                <LoginModalProvider>
-                  <ChatSessionInitializer>
-                    <ChatProvider>{children}</ChatProvider>
-                  </ChatSessionInitializer>
-                </LoginModalProvider>
-              </SessionExpiryProtection>
-            </PortalProvider>
-          </ToastProvider>
+          <TrackingInitializer>
+            <ToastProvider>
+              <PortalProvider>
+                <SessionExpiryProtection>
+                  <FeatureTogglesFetcher />
+                  {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
+                  {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
+                  <LoginModalProvider>
+                    <ChatSessionInitializer>
+                      <ChatProvider>{children}</ChatProvider>
+                    </ChatSessionInitializer>
+                  </LoginModalProvider>
+                </SessionExpiryProtection>
+              </PortalProvider>
+            </ToastProvider>
+          </TrackingInitializer>
         </ApolloProvider>
       </ErrorBoundary>
     </Suspense>

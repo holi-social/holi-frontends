@@ -27,21 +27,18 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   children,
 }) => {
   const { navigate } = useRouting()
-
-  // "undefined" is used when we do not know yet, if user is logged in (loading state)
-  // "null" is used when we are SURE there is no logged in user
-  const { userId } = useAuth()
+  const { loginState } = useAuth()
 
   if (forceRestrict) {
     navigate(redirectRoute || '/')
     return <></>
   }
 
-  if (permissionType === PermissionsType.AUTH && userId === undefined) {
+  if (permissionType === PermissionsType.AUTH && loginState === 'unknown') {
     return <HoliLoader />
   }
 
-  if (permissionType === PermissionsType.AUTH && userId === null) {
+  if (permissionType === PermissionsType.AUTH && loginState === 'loggedOut') {
     navigate(redirectRoute || '/')
     return <></>
   }

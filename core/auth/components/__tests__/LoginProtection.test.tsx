@@ -4,12 +4,24 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
-const loggedIn = () => ({ userId: '123' })
-const loggedOut = () => ({ userId: null })
-const useAuthMock = useAuth as jest.Mock
+const loggedIn = (): LoginState => {
+  return {
+    loginState: 'loggedIn',
+    isUnknown: false,
+    isLoggedOut: false,
+    isLoggedIn: true,
+    userId: '123',
+  }
+}
+const loggedOut = (): LoginState => ({
+  loginState: 'loggedOut',
+  isUnknown: false,
+  isLoggedOut: true,
+  isLoggedIn: false,
+})
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: jest.fn(),
@@ -19,6 +31,8 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
 jest.mock('@holi/core/helpers/url', () => ({
   getDocumentURL: () => new URL('https://localhost:3000').href,
 }))
+
+const useAuthMock = useAuth as jest.Mock
 
 const authenticatedUserRequest = {
   request: {
@@ -60,7 +74,7 @@ describe('renders correctly', () => {
   })
 
   it('renders fallback content when logged out and no other content was provided', async () => {
-    useAuthMock.mockImplementation(loggedOut)
+    useAuthMock.mockReturnValue(loggedOut)
 
     const { queryByText } = render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>

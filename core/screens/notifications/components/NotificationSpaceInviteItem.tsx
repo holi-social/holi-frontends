@@ -36,7 +36,7 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
 
   const { displayError } = useErrorHandling()
 
-  const { userId } = useAuth()
+  const loginState = useAuth()
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
@@ -93,7 +93,8 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
     }
     if (inviteAccepted) return 'notifications.space.invite.accepted.message'
     if (inviteDeclined) {
-      return !isInvitationDeclinedNotification || userId === notification.options.user.id
+      return !isInvitationDeclinedNotification ||
+        (loginState.isLoggedIn && loginState.userId === notification.options.user.id)
         ? 'notifications.space.invite.ignored.message'
         : 'notifications.space.invite.declined.message'
     }
@@ -127,13 +128,15 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
     </HoliButton>,
   ]
 
+  if (!loginState.isLoggedIn) return <HoliLoader />
+
   return (
     <View testID={testID}>
       <NotificationSpaceItem
         notification={notification}
         i18nKey={getI18Key()}
         style={style}
-        testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
+        testID={`${testID ? testID + '-' : ''}notification-item_${loginState.userId}_${notification.options.user.id}`}
       >
         {showButtons && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>

@@ -3,7 +3,7 @@
 exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 1`] = `
 <View>
   <View
-    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+    testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
     <View
       accessibilityLabel="Foo"
@@ -449,7 +449,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
 exports[`NotificationSpaceInviteItem with novu notifications notification for membership request matches snapshot 1`] = `
 <View>
   <View
-    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+    testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
     <View
       accessibilityLabel="Foo"

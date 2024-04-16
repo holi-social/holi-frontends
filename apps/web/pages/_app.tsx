@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { appWithI18Next } from 'ni18n'
 import pino from 'pino'
-import { usePostHog } from 'posthog-js/react'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode, useEffect } from 'react'
@@ -10,12 +9,13 @@ import React, { ReactElement, ReactNode, useEffect } from 'react'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
+import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { featureFlag } from '@holi/web/environment'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
-import { Tracking } from '@holi/web/pages/tracking'
 import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
 import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
+import { TrackingProvider } from '@holi/web/providers/TrackingProvider'
 import '@holi/web/styles/globals.css'
 import { NextJSPageProps } from '@holi/web/types'
 
@@ -33,19 +33,18 @@ pino().debug('Avoid treeshaking of externally included logging framework by next
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
-  const posthog = usePostHog()
 
-  // TODO HOLI-7894 call identify inside posthog provider
   useEffect(() => {
     // Init authentication
-    initAuth((userId) => posthog.identify(userId)).catch((error) =>
+    initAuth().catch((error) =>
       logError(error, 'Error initializing authentication', {
         location: '_app.initAuth',
       })
     )
     // Currently we do not support push notifications for web
     markDeviceTokenAsInitialized()
-  }, [posthog])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
@@ -54,13 +53,15 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
   return (
-    <Tracking>
-      {featureFlag.enableSSR ? (
-        <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
-      ) : (
-        <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-      )}
-    </Tracking>
+    <TrackingProvider>
+      <TrackingInitializer>
+        {featureFlag.enableSSR ? (
+          <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
+        ) : (
+          <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
+        )}
+      </TrackingInitializer>
+    </TrackingProvider>
   )
 }
 

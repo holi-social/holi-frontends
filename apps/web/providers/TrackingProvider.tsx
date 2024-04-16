@@ -4,6 +4,9 @@ import { PostHogProvider } from 'posthog-js/react'
 import React, { useEffect } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
+import { getLogger } from '@holi/core/helpers/logging'
+
+const logger = getLogger('Tracking')
 
 // don't actually set a host. the browser knows the origin of the request.
 const POSTHOG_API_HOST = '/ingest'
@@ -27,11 +30,12 @@ if (trackingEnabled) {
   }
 }
 
-export const Tracking = ({ children }: { children?: React.ReactNode }) => {
-  return trackingEnabled ? <PostHogWrapper>{children}</PostHogWrapper> : <>{children}</>
+export const TrackingProvider = ({ children }: { children?: React.ReactNode }) => {
+  logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled)
+  return trackingEnabled ? <PostHogProviderWrapper>{children}</PostHogProviderWrapper> : <>{children}</>
 }
 
-const PostHogWrapper = ({ children }: { children?: React.ReactNode }) => {
+const PostHogProviderWrapper = ({ children }: { children?: React.ReactNode }) => {
   const router = useRouter()
 
   useEffect(() => {
@@ -47,4 +51,4 @@ const PostHogWrapper = ({ children }: { children?: React.ReactNode }) => {
   return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
 
-export default Tracking
+export default TrackingProvider

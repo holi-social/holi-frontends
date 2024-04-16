@@ -18,7 +18,6 @@ import {
   updateSpacePostMutation,
 } from '@holi/core/screens/spaces/updates/mutations'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
-import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
@@ -94,7 +93,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     createSpacePostMutation,
     {
       onCompleted: () => {
-        tracking.trackEvent(TrackingEvent.SpaceUpdatePosted)
+        tracking.trackEvent({ name: 'space_update_posted' })
         navigateBack()
       },
       onError: (error) =>

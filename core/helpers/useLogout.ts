@@ -23,7 +23,7 @@ const isLoggingOutVar = makeVar(false)
 export let isProcessingLogout = false
 
 export const useLogout = () => {
-  const { userId } = useAuth()
+  const { loginState } = useAuth()
   const isLoggingOut = useReactiveVar(isLoggingOutVar)
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -49,7 +49,7 @@ export const useLogout = () => {
           }
         }
 
-        if (isProcessingLogout || isLoggingOut || userId === null) {
+        if (isProcessingLogout || isLoggingOut || loginState === 'loggedOut') {
           redirect()
           return
         }
@@ -77,7 +77,7 @@ export const useLogout = () => {
           redirect()
         }
       },
-      [isLoggingOut, userId, navigate, client, openToast, t]
+      [isLoggingOut, loginState, navigate, client, openToast, t]
     ),
     isLoggingOut,
   }

@@ -1,5 +1,4 @@
 import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import { usePostHog } from 'posthog-js/react'
 import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -34,7 +33,7 @@ interface CreateAccountProps {
 }
 
 const CreateAccount = ({ onRegister }: CreateAccountProps) => {
-  const { userId } = useAuth()
+  const { isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
@@ -46,11 +45,10 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
   const redirect = useRedirect()
   const { theme } = useTheme()
-  const posthog = usePostHog()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const initializeFlow = useCallback(() => {
-    if (userId) return
+    if (isLoggedIn) return
 
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
@@ -63,7 +61,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           location: 'CreateAccount.initRegistrationFlow',
         })
       )
-  }, [userId, t, safeSetFlow, displayError])
+  }, [isLoggedIn, t, safeSetFlow, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => {
@@ -97,13 +95,10 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
 
         // and only then load user
-        await setUserLoggedIn(
-          {
-            session: data.session,
-            session_token: data.session_token,
-          } as OrySessionContext,
-          (userId) => posthog.identify(userId)
-        )
+        await setUserLoggedIn({
+          session: data.session,
+          session_token: data.session_token,
+        } as OrySessionContext)
 
         onRegister()
         redirect()
