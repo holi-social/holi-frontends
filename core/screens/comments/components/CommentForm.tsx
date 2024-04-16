@@ -18,8 +18,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
+import { commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
-import { PostById } from '@holi/core/screens/posts/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -69,10 +69,9 @@ const CommentForm = ({ commentableId, commentableType, user, children }: Comment
         commentableId,
       })
     },
-    refetchQueries:
-      commentableType === CommentableType.POST
-        ? ['Comments', { query: PostById, variables: { id: commentableId }, fetchPolicy: 'network-only' }]
-        : ['Comments'],
+    refetchQueries: [
+      { query: commentsMetadata, variables: { commentableId, commentableType }, fetchPolicy: 'network-only' },
+    ],
   })
 
   /**
