@@ -168,7 +168,7 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
 
 const { useParam } = createParamHooks<SpaceRolesPermissionsParams>()
 
-const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
+const SpaceRolesPermissions: React.FC<SpaceRolesPermissionsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()

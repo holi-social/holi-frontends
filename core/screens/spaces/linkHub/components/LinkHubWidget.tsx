@@ -46,7 +46,7 @@ const NoToolsAvailable: React.FC<NoToolsAvailableProps> = ({ onPress }) => {
   )
 }
 
-const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
+const LinkHubWidget: React.FC<LinkHubWidgetProps> = ({ space, style }) => {
   const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()

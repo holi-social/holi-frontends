@@ -23,7 +23,7 @@ type VolunteeringFilterFormProps = {
   clearFilters?: () => void
 }
 
-const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
+const VolunteeringFilterForm: React.FC<VolunteeringFilterFormProps> = ({
   onSubmit,
   filters = {},
   initialLocationSelection,

@@ -16,7 +16,7 @@ interface EditSpaceContactProps {
   onDismiss: () => void
 }
 
-const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }: EditSpaceContactProps) => {
+const EditSpaceContact: React.FC<EditSpaceContactProps> = ({ space, onDismiss }: EditSpaceContactProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

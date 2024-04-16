@@ -5,6 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import CurationPrinciplesPage from '@holi/core/screens/insights/CurationPrinciplesPage'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import InsightsPage from '@holi/core/screens/insights/InsightsPage'
+import DiscussionCommentPage, {
+  DiscussionCommentPageParams,
+} from '@holi/core/screens/insights/discussions/DiscussionCommentPage'
+import DiscussionDetailPage, {
+  DiscussionDetailPageParams,
+} from '@holi/core/screens/insights/discussions/DiscussionDetailPage'
 import InitiativeDetailPage from '@holi/core/screens/insights/initiatives/InitiativeDetailPage'
 import QuoteDetailPage, { QuoteDetailPageParams } from '@holi/core/screens/insights/quotes/QuoteDetailPage'
 import RecommendationDetailPage, {
@@ -23,8 +29,11 @@ export type InsightsScreens = {
   [RouteName.PostDetailPage]: PostDetailPageParams
   [RouteName.PostCommentInputPage]: CommentInputPageParams
   [RouteName.RecommendationDetailPage]: RecommendationDetailPageParams
+  [RouteName.InitiativeDetailPage]: InitiativeDetailPageParams
   [RouteName.InsightQuoteDetailPage]: QuoteDetailPageParams
   [RouteName.InsightsCurationPrinciples]: undefined
+  [RouteName.DiscussionDetailPage]: DiscussionDetailPageParams
+  [RouteName.DiscussionCommentPage]: DiscussionCommentPageParams
 }
 
 const InsightsStack = createNativeStackNavigator<InsightsScreens>()
@@ -50,6 +59,8 @@ const InsightsNavigator = () => {
       <InsightsStack.Screen name={RouteName.InitiativeDetailPage} component={InitiativeDetailPage} />
       <InsightsStack.Screen name={RouteName.InsightQuoteDetailPage} component={QuoteDetailPage} />
       <InsightsStack.Screen name={RouteName.InsightsCurationPrinciples} component={CurationPrinciplesPage} />
+      <InsightsStack.Screen name={RouteName.DiscussionDetailPage} component={DiscussionDetailPage} />
+      <InsightsStack.Screen name={RouteName.DiscussionCommentPage} component={DiscussionCommentPage} />
     </InsightsStack.Navigator>
   )
 }

@@ -8,7 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceMainImageProps = {
-  uri: string
+  uri?: string
   label: string
   blurhash?: string
   editable?: boolean
@@ -18,7 +18,7 @@ type SpaceMainImageProps = {
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
-const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, blurhash, editable, onPress, style }) => {
+const SpaceMainImage: React.FC<SpaceMainImageProps> = ({ uri, label, blurhash, editable, onPress, style }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

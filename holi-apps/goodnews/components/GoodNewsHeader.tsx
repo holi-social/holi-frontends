@@ -11,7 +11,7 @@ export type GoodNewsHeaderProps = {
   formattedDate?: string | undefined
 }
 
-const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ formattedDate = undefined }) => {
+const GoodNewsHeader: React.FC<GoodNewsHeaderProps> = ({ formattedDate = undefined }) => {
   const { t } = useTranslation()
   const title = t('goodnews:app.name')
   const { theme } = useTheme()

@@ -18,7 +18,7 @@ interface EditSpaceLocationProps {
   onDismiss: () => void
 }
 
-const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
+const EditSpaceLocation: React.FC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

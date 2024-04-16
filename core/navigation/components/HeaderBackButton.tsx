@@ -18,7 +18,7 @@ export interface HeaderBackButtonProps extends Partial<HoliButtonProps> {
   onPress?: () => void
 }
 
-const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({ tintColor, icon = ArrowLeft, onPress, ...props }) => {
+const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({ tintColor, icon = ArrowLeft, onPress, ...props }) => {
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
   const { theme } = useTheme()

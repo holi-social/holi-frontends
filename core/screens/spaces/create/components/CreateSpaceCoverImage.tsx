@@ -12,7 +12,7 @@ interface CreateSpaceCoverImageProps {
   coverImage: HoliImageInfo | undefined
 }
 
-const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
+const CreateSpaceCoverImage: React.FC<CreateSpaceCoverImageProps> = ({
   onUploadImage,
   coverImage,
 }: CreateSpaceCoverImageProps) => {

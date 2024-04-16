@@ -20,7 +20,7 @@ interface CollaboratorAreaCardProps {
   testID?: string
   isCollaborator?: boolean
 }
-const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
+const CollaboratorAreaCard: React.FC<CollaboratorAreaCardProps> = ({
   headerLeftIcon,
   headerRightIcon,
   headerRightButtonLabel,

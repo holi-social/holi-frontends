@@ -22,7 +22,7 @@ type GoodNewsUpdatesProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpdatesProps) => {
+const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
 

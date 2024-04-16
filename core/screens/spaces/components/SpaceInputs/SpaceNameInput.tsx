@@ -7,7 +7,7 @@ export interface SpaceNameInputProps extends Partial<HoliTextInputProps> {
   errorMessage?: string
 }
 
-const SpaceNameInput: React.VFC<SpaceNameInputProps> = ({
+const SpaceNameInput: React.FC<SpaceNameInputProps> = ({
   onChange,
   value,
   errorMessage,

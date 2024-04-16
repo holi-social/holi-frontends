@@ -2,7 +2,7 @@ import React, { RefObject, createRef, useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2 } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -10,6 +10,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import data from './dummy_data.json'
+
+const logger = getLogger('Other')
 
 const CardSwiper = () => {
   const { theme } = useTheme()
@@ -22,7 +24,7 @@ const CardSwiper = () => {
 
   const onSwipe = (index: number, direction: string) => {
     if (index === lastIndex) return
-    logDebug('CardSwiper', 'onSwipe', index, direction)
+    logger.debug('CardSwiper', 'onSwipe', index, direction)
     lastIndex = index
   }
 
@@ -33,7 +35,7 @@ const CardSwiper = () => {
       const swipeX = swiper.current.state.drag.x._value
       // @ts-ignore
       const swipeY = swiper.current.state.drag.y._value
-      logDebug('CardSwiper', 'onSwiped end', swipeX, swipeY)
+      logger.debug('CardSwiper', 'onSwiped end', swipeX, swipeY)
     }
   }
 

@@ -21,6 +21,7 @@ import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/co
 import { CommentableType } from '@holi/core/screens/comments/types'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { User } from '@holi/core/screens/userprofile/types'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -70,8 +71,8 @@ const CommentForm = ({ commentableId, commentableType, user, children }: Comment
     },
     refetchQueries:
       commentableType === CommentableType.POST
-        ? [{ query: PostById, variables: { id: commentableId }, fetchPolicy: 'network-only' }]
-        : [],
+        ? ['Comments', { query: PostById, variables: { id: commentableId }, fetchPolicy: 'network-only' }]
+        : ['Comments'],
   })
 
   /**
@@ -110,75 +111,77 @@ const CommentForm = ({ commentableId, commentableType, user, children }: Comment
   }, [])
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <SafeAreaView style={styles.safeArea}>
-        <HoliKeyboardSaveView onHeightChange={onHeightChange}>
-          <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
-            <View
-              onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
-              style={styles.scrollContent}
-            >
-              {!!children && <View style={styles.childrenView}>{children}</View>}
+    <HoliContainer paddingHorizontal={0}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+        <SafeAreaView style={styles.safeArea}>
+          <HoliKeyboardSaveView onHeightChange={onHeightChange}>
+            <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
+              <View
+                onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
+                style={styles.scrollContent}
+              >
+                {!!children && <View style={styles.childrenView}>{children}</View>}
 
-              {/* Comment input block */}
-              <View style={mixins.container}>
-                <VerticalLine style={styles.verticalLine} />
+                {/* Comment input block */}
+                <View style={mixins.container}>
+                  <VerticalLine style={styles.verticalLine} />
 
-                <View style={styles.inputContainer}>
-                  <HoliAvatar
-                    imageSrc={user.avatar}
-                    imageBlurhash={user.avatarBlurhash}
-                    label={user.fullName || t('user.profileView.anonymous')}
-                    initials={user.avatarLabel || ''}
-                    defaultColor={user.avatarDefaultColor || ''}
-                    size="small"
-                  />
-                  <HoliRichTextInput
-                    placeholder={t('comments.placeholder')}
-                    autofocus={true}
-                    onChange={setText}
-                    style={styles.textInput}
-                    testID="post-comment"
-                    showCharacterCount={true}
-                    maxNoOfCharacters={1500}
-                    maxSuggestionOptions={30}
-                  />
+                  <View style={styles.inputContainer}>
+                    <HoliAvatar
+                      imageSrc={user.avatar}
+                      imageBlurhash={user.avatarBlurhash}
+                      label={user.fullName || t('user.profileView.anonymous')}
+                      initials={user.avatarLabel || ''}
+                      defaultColor={user.avatarDefaultColor || ''}
+                      size="small"
+                    />
+                    <HoliRichTextInput
+                      placeholder={t('comments.placeholder')}
+                      autofocus={true}
+                      onChange={setText}
+                      style={styles.textInput}
+                      testID="post-comment"
+                      showCharacterCount={true}
+                      maxNoOfCharacters={1500}
+                      maxSuggestionOptions={30}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          </ScrollView>
+            </ScrollView>
 
-          {/* Bottom Bar */}
-          <View style={[styles.bottomBar]}>
-            {/* Suggestions*/}
-            <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
+            {/* Bottom Bar */}
+            <View style={[styles.bottomBar]}>
+              {/* Suggestions*/}
+              <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
 
-            <View style={[styles.buttonContainer, mixins.container]}>
-              <HoliButton
-                disabled={!text.trim().length || createCommentLoading}
-                label={t('comments.button')}
-                variant="small"
-                inline
-                onPress={() =>
-                  addComment({
-                    variables: {
-                      input: {
-                        text: text.trim(),
-                        commentableId,
-                        commentableType,
+              <View style={[styles.buttonContainer, mixins.container]}>
+                <HoliButton
+                  disabled={!text.trim().length || createCommentLoading}
+                  label={t('comments.button')}
+                  variant="small"
+                  inline
+                  onPress={() =>
+                    addComment({
+                      variables: {
+                        input: {
+                          text: text.trim(),
+                          commentableId,
+                          commentableType,
+                        },
                       },
-                    },
-                  })
-                }
-                testID="btn-submit-comment"
-              >
-                {t('comments.button')}
-              </HoliButton>
+                    })
+                  }
+                  testID="btn-submit-comment"
+                >
+                  {t('comments.button')}
+                </HoliButton>
+              </View>
             </View>
-          </View>
-        </HoliKeyboardSaveView>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+          </HoliKeyboardSaveView>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
+    </HoliContainer>
   )
 }
 
@@ -191,6 +194,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
     pageView: {
       paddingTop: dimensions.topBarHeight + 40,
       height: '100%', // prevents double scrollbars
+      width: '100%',
       overflow: 'hidden',
       ...Platform.select({
         web: {

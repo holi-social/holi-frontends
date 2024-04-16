@@ -11,7 +11,7 @@ interface PostDetailFooterProps {
   style?: StyleProp<ViewStyle>
 }
 
-const PostDetailFooter: React.VFC<PostDetailFooterProps> = ({ onPress, style }) => {
+const PostDetailFooter: React.FC<PostDetailFooterProps> = ({ onPress, style }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

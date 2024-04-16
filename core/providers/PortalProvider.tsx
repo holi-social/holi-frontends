@@ -30,7 +30,7 @@ export type PortalGateProps = {
   gateName: string
   style?: StyleProp<ViewStyle>
 }
-export const PortalGate: React.VFC<PortalGateProps> = ({ gateName, style }) => {
+export const PortalGate: React.FC<PortalGateProps> = ({ gateName, style }) => {
   const { gates } = usePortals()
 
   if (!gates[gateName]) return null

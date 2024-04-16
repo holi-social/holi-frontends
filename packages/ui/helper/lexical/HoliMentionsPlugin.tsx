@@ -33,7 +33,7 @@ export type HoliMentionsPluginProps = {
   findUsersByName: (substring: string) => Promise<User[]>
 }
 
-const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
+const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
   minSearchChars,
   maxSuggestionOptions,
   debounceDelay,
@@ -312,11 +312,13 @@ const createSpan = (match?: string) => {
 const createMentionSpan = (usersList: User[], match?: string) => {
   if (!match || !usersList) return ''
   const userId = match.slice(1)
-  const userName = usersList.find((user) => user.id === userId)?.name || ''
+  const userName = usersList.find((user) => user.id === userId)?.fullName || ''
   // TODO: reuse $createMentionNode !!
   // return $createMentionNode(userName, userId, `@${userName}`)
   return `<span ${MENTION_DATA_ATTR}="${userId}">${userName}</span>`
 }
+
+// noinspection JSUnusedGlobalSymbols
 export const $getHtmlStringFromPureText = (textWithMentions: string, usersList: User[]): string | undefined => {
   const regex = /@\w*/g
   const allMentions = textWithMentions.match(regex)
@@ -345,16 +347,20 @@ const createNode = (type: 'root' | 'paragraph' | 'text', text?: string) => {
     indent: 0,
     type: type,
     version: 1,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    children: [] as any[],
     ...(type === 'text' && { text, mode: 'normal' }),
   }
 }
+// noinspection JSUnusedGlobalSymbols
 export const $createJsonFromPureText = (textWithMentions: string, usersList: User[]) => {
   const regex = /@\w*/g
   const allMentions = textWithMentions.match(regex)
   const textParts = textWithMentions.split(regex)
   const rootNode = createNode('root')
   const pNode = createNode('paragraph')
-  const children = []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const children: any[] = []
   textParts.map((part, index) => {
     if (part && part !== '') {
       const textNode = createNode('text', part)

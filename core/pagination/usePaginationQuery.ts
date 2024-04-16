@@ -41,7 +41,7 @@ function usePaginationQuery<TData>(
     },
   })
 
-  const { data = [], totalResults = 0 } = at<Paged<TData>>(pagedData, queryPath)[0] || {}
+  const { data = [], totalResults = 0 } = at<Paged<TData>>(pagedData, queryPath)[0] ?? {}
 
   const initialLoading = loading && !pagedData
   const canFetchMore = !initialLoading && data.length < totalResults

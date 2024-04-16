@@ -8,7 +8,7 @@
     "test:watch": "jest --watch",
     "test:watchAll": "jest --watchAll",
     "clean": "echo 'nothing to be done'",
-    "clean:all": "rimraf node_modules"
+    "clean:all": "npx rimraf node_modules"
   },
   "dependencies": {
     "@holi/icons": "^1.0.0",

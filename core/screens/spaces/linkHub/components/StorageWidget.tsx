@@ -24,7 +24,7 @@ interface StorageWidgetProps {
   style?: StyleProp<ViewStyle>
 }
 
-const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
+const StorageWidget: React.FC<StorageWidgetProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { visible, show, hide } = useModalState()

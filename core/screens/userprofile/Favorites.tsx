@@ -12,7 +12,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import FavoritesList from '@holi/core/screens/favorites/components/FavoritesList'
-import { favoritesQuery } from '@holi/core/screens/insights/queries'
+import { favoritesQuery } from '@holi/core/screens/favorites/queries'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -31,7 +31,7 @@ const Favorites = () => {
   const { displayError } = useErrorHandling()
 
   const queryOptions: PaginationQueryHookOptions = {
-    pageSize: 20,
+    pageSize: 10,
     queryPath: 'favorites',
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     onError: (error) => {

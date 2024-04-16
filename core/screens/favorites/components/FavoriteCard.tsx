@@ -5,7 +5,9 @@ import { StyleSheet, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FavoriteDrawer from '@holi/core/screens/favorites/components/FavoritesDrawer'
-import { BookmarkType, Insight, UserFavorite } from '@holi/core/screens/insights/types'
+import { FavoriteType } from '@holi/core/screens/favorites/model'
+import { Favorites } from '@holi/core/screens/favorites/types'
+import { Insight } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import AccountCircleFilled from '@holi/icons/src/generated/AccountCircleFilled'
 import MoreFilled from '@holi/icons/src/generated/MoreFilled'
@@ -17,7 +19,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface FavoriteCardProps {
-  item: UserFavorite
+  item: Favorites
 }
 
 const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
@@ -26,10 +28,10 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { bookmarkItem, bookmarkType } = item
+  const { favoritable, favoritableType } = item
 
-  if (bookmarkType === BookmarkType.INSIGHT) {
-    const insight = bookmarkItem as Insight
+  if (favoritableType === FavoriteType.INSIGHT) {
+    const insight = favoritable as Insight
     return (
       <View style={styles.cardContainer} testID={'favorites-card'}>
         <View style={styles.favoriteDrawer}>

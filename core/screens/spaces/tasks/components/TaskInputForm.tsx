@@ -63,7 +63,7 @@ export interface TaskInputFormProps {
   isAdmin?: boolean
 }
 
-const TaskInputForm: React.VFC<TaskInputFormProps> = ({
+const TaskInputForm: React.FC<TaskInputFormProps> = ({
   name,
   description,
   visibility,

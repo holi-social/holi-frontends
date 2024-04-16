@@ -12,7 +12,7 @@ type SpaceShareProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
+const SpaceShare: React.FC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
   const { t } = useTranslation()
   const [, shareLink] = useShareLink({
     link: `/spaces/${space.name}`,

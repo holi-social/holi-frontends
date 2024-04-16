@@ -148,9 +148,9 @@ describe('startChat', () => {
         app_id: 'social.holi',
         data: {
           default_payload: {
+            title: 'chat.push.message.title',
+            message: 'chat.push.message.body',
             channelId: 'expo_notifications_fallback_notification_channel',
-            title: 'holi Chat',
-            message: 'You have a new message or invitation.',
             experienceId: '@holistic-foundation/projectholi',
             scopeKey: '@holistic-foundation/projectholi',
           },
@@ -190,8 +190,8 @@ describe('startChat', () => {
           default_payload: {
             aps: {
               alert: {
-                title: 'holi Chat',
-                body: 'You have a new message or invitation.',
+                title: 'chat.push.message.title',
+                body: 'chat.push.message.body',
               },
             },
             experienceId: '@holistic-foundation/projectholi',

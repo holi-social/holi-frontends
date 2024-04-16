@@ -3,7 +3,7 @@ import fetch from 'cross-fetch'
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
 // We need this lightweight polyfill to support mobile.
 import 'fast-text-encoding'
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
@@ -20,9 +20,12 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError, logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatServerLoginUrl } from '@holi/core/helpers/config'
 import { chatServerUrl } from '@holi/core/helpers/config'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
+import { registerDeviceTokenListener } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 
 import { chatReloadCounter, setChatConnected, setChatInitialized } from './chatState'
+
+const logger = getLogger('Chat')
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -63,7 +66,7 @@ export const startChat = async (
   if (isStarting || isStopping || chatClient?.isRunning()) return
 
   isStarting = true
-  logDebug('chatSession.startChat', 'isStarting')
+  logger.debug('chatSession.startChat', 'isStarting')
 
   try {
     // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
@@ -89,8 +92,11 @@ export const startChat = async (
 
     await chatClient.start(() => unknownTokenHandler(t, deviceToken))
     initChatClient(chatClient)
-    await chatClient.configurePusher().catch((e) => {
+    await chatClient.configurePusher(t).catch((e) => {
       logError(e, 'Could not set up push notifications for chat', { location: 'chatSession.startChat.configurePusher' })
+    })
+    registerDeviceTokenListener((token) => {
+      chatClient?.updateDeviceToken(token, t)
     })
     setChatConnected(true)
   } finally {
@@ -103,7 +109,7 @@ const stopChat = async () => {
 
   isStopping = true
   isStarting = false // stopping has priority over starting. This is particularly important for re-connecting in case of startup failures
-  logDebug('chatSession.stopChat', 'isStopping')
+  logger.debug('chatSession.stopChat', 'isStopping')
   setChatInitialized(false)
   setChatConnected(false)
   chatReloadCounter(chatReloadCounter() + 1)

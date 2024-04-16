@@ -38,7 +38,7 @@ type SpacePermissionsProps = {
   displayMemberActions?: boolean // set to false if no "Set as Admin" or "Remove from space" actions should be present
 }
 
-const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
+const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   space,
   user,
   handleNavigation,

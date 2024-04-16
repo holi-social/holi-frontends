@@ -6,7 +6,7 @@ import { Platform } from 'react-native'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { initI18n } from '@holi/core/i18n'
 import RootProvider from '@holi/core/providers/RootProvider'
 import { subscribeToDeviceTokenChanges } from '@holi/core/screens/notifications/helpers/useDeviceToken'
@@ -19,6 +19,8 @@ import {
 } from '@holi/mobile/notifications/initNotifications'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
+const logger = getLogger('AppInit')
+
 SplashScreen.preventAutoHideAsync()
 
 registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
@@ -27,7 +29,7 @@ registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
   })
 )
 
-logDebug('App', 'starting app with config', config)
+logger.debug('App', 'starting app with config', config)
 
 // TODO HOLI-7673 make configurable via build profile
 const posthog = new PostHog('phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6', {

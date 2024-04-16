@@ -1,7 +1,9 @@
-import { AppointmentInput } from '@holi/core/screens/appointments/types'
+import { AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
+import { Post } from '@holi/core/screens/posts/types'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import {
   LocationType,
+  Onboarding,
   Regularity,
   Space,
   SpaceInvite,
@@ -9,12 +11,17 @@ import {
   SpaceLinkType,
   SpaceMember,
   SpaceMembershipRequest,
+  SpaceSection,
+  SpaceSectionType,
   Task,
   VisibilityType,
 } from '@holi/core/screens/spaces/types'
-import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import { Skill, Topic, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
+
+export type WithTypename = {
+  __typename: string
+}
 
 export const locationId = '123'
 const geolocation = {
@@ -23,7 +30,7 @@ const geolocation = {
   __typename: 'GeolocationPoint',
 }
 
-export const topics: Topic[] = [
+export const topics: (Topic & WithTypename)[] = [
   {
     id: 'ANIMAL_WELFARE',
     title: 'Animal Welfare',
@@ -40,7 +47,7 @@ export const topics: Topic[] = [
   },
 ]
 
-const skills: Skill[] = [
+const skills: (Skill & WithTypename)[] = [
   {
     id: 'COMMUNICATION_SKILLS',
     title: 'Communication skills',
@@ -55,7 +62,7 @@ const skills: Skill[] = [
   },
 ]
 
-export const user: User = {
+export const user: User & WithTypename = {
   id: '1',
   firstName: 'Some',
   lastName: 'Body',
@@ -90,18 +97,13 @@ export const authenticatedUser = {
   identity: 'ee',
 }
 
-export const membership: SpaceMember = {
+export const membership: SpaceMember & WithTypename = {
   id: '1',
   user,
+  data: undefined,
   isAdministrator: false,
   created: '2022-11-21T12:34:56Z',
   __typename: 'SpaceMember',
-}
-
-export const userWithLocation = {
-  ...user,
-  location: 'Hamburg, Germany',
-  geolocationId: locationId,
 }
 
 const members = [1, 2, 3].map((id) => ({
@@ -113,7 +115,7 @@ const members = [1, 2, 3].map((id) => ({
   },
 }))
 
-export const pagedMembers: Paged<SpaceMember> = {
+export const pagedMembers: Paged<SpaceMember> & WithTypename = {
   totalResults: members.length,
   data: members,
   __typename: 'SpaceMemberPaged',
@@ -138,48 +140,53 @@ const invites = [1, 2, 3].map((id) => ({
   __typename: 'SpaceInvite',
 }))
 
-const appointments = [1, 2, 3].map((title) => ({
-  title: `invite-title-${title}`,
-  __typename: 'Appointment',
-}))
+const appointmentInputs: AppointmentInput[] = [1, 2, 3].map(
+  (number) =>
+    ({
+      id: 'appointment-' + number,
+      spaceId: 'space-xyz',
+      inviteOnly: false,
+      startDateTime: '2024-04-12T07:39:03Z',
+      endDateTime: '2024-04-12T09:39:03Z',
+      permission: PermissionsType.PARTICIPANTS,
+      creator: user,
+      description: 'appointment-' + number,
+      title: `invite-title-${number}`,
+      __typename: 'AppointmentInput',
+    } as AppointmentInput)
+)
 
-export const pagedMembershipRequests: Paged<SpaceMembershipRequest> = {
+export const pagedMembershipRequests: Paged<SpaceMembershipRequest> & WithTypename = {
   totalResults: membershipRequests.length,
   data: membershipRequests,
   __typename: 'SpaceMembershipRequestPaged',
 }
 
-const emptyPagedMembershipRequests: Paged<SpaceMembershipRequest> = {
+const emptyPagedMembershipRequests: Paged<SpaceMembershipRequest> & WithTypename = {
   totalResults: 0,
   data: [],
   __typename: 'SpaceMembershipRequestPaged',
 }
 
-export const pagedInvites: Paged<SpaceInvite> = {
+export const pagedInvites: Paged<SpaceInvite> & WithTypename = {
   totalResults: invites.length,
   data: invites,
   __typename: 'SpaceInvitePaged',
 }
 
-const emptyPagedInvites: Paged<SpaceInvite> = {
-  totalResults: 0,
-  data: [],
-  __typename: 'SpaceInvitePaged',
-}
-
-export const pagedAppointments: Paged<AppointmentInput> = {
+export const pagedAppointments: Paged<AppointmentInput> & WithTypename = {
   totalResults: invites.length,
-  data: appointments,
+  data: appointmentInputs,
   __typename: 'AppointmentPaged',
 }
 
-const emptyPagedAppointments: Paged<AppointmentInput> = {
+const emptyPagedAppointments: Paged<AppointmentInput> & WithTypename = {
   totalResults: 0,
   data: [],
   __typename: 'AppointmentPaged',
 }
 
-export const task: Task = {
+export const task: Task & WithTypename = {
   id: 'id',
   name: 'Task title',
   description: 'Task description',
@@ -204,7 +211,7 @@ const tasks = [1, 2, 3].map((id) => ({
   id: `task-${id}`,
 }))
 
-export const links: SpaceLink[] = [
+export const links: (SpaceLink & WithTypename)[] = [
   {
     url: 'www.facebook.com',
     type: SpaceLinkType.FACEBOOK,
@@ -221,7 +228,7 @@ export const links: SpaceLink[] = [
   },
 ]
 
-export const space: Space = {
+export const space: Space & WithTypename = {
   id: '1',
   title: 'Space title',
   description: 'Space description',
@@ -240,13 +247,12 @@ export const space: Space = {
   avatarDefaultColor: '#000',
   name: 'space-title',
   membershipRequests: emptyPagedMembershipRequests,
-  invites: emptyPagedInvites,
   appointments: emptyPagedAppointments,
   sdgs: [],
   onboarding: {
     steps: [],
     __typename: 'Onboarding',
-  },
+  } as Onboarding,
   contactPhone: '',
   contactDescription: '',
   contactEmail: '',
@@ -258,7 +264,7 @@ export const space: Space = {
     totalResults: 0,
     data: [],
     __typename: 'PostPaged',
-  },
+  } as Paged<Post>,
   __typename: 'Space',
 }
 

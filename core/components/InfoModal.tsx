@@ -39,7 +39,7 @@ export type InfoModalAssetProps = {
   isSvg?: boolean
 }
 
-const InfoModal: React.VFC<InfoModalProps> = ({
+const InfoModal: React.FC<InfoModalProps> = ({
   headline,
   items,
   show = false,

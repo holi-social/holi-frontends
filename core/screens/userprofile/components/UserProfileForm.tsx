@@ -39,7 +39,7 @@ type UserProfileFormProps = {
   testId?: string
 }
 
-const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
+const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')

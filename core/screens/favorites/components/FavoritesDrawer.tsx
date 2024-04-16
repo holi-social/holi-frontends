@@ -5,15 +5,17 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import { UnbookmarkResponse, unbookmarkMutation } from '@holi/core/screens/insights/mutations'
-import { favoritesQuery, insightById } from '@holi/core/screens/insights/queries'
-import { Insight, UserFavorite } from '@holi/core/screens/insights/types'
+import { UnfavoriteResponse, unfavoriteMutation } from '@holi/core/screens/favorites/mutation'
+import { favoritesQuery } from '@holi/core/screens/favorites/queries'
+import { Favorites } from '@holi/core/screens/favorites/types'
+import { insightById } from '@holi/core/screens/insights/queries'
+import { Insight } from '@holi/core/screens/insights/types'
 import { Bookmark2Line, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 
 type FavoriteDrawerProps = {
-  item: UserFavorite
+  item: Favorites
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
 }
@@ -24,37 +26,37 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ item, children }: Favor
   const { openToast } = useToast()
 
   const [, shareInsightLink] = useShareLink({
-    link: `/insights/${item.bookmarkId}`,
+    link: `/insights/${item.favoritableId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.insight.share.message', {
-      title: (item.bookmarkItem as Insight).title,
+      title: (item.favoritable as Insight).title,
       interpolation: { escapeValue: false },
     })}`,
   })
 
-  const [unbookmark] = useMutation<UnbookmarkResponse>(unbookmarkMutation, {
+  const [unfavorite] = useMutation<UnfavoriteResponse>(unfavoriteMutation, {
     onError: (error) =>
-      displayError(error, 'Failed to remove bookmark', {
-        location: 'FavoriteDrawer.unbookmark',
+      displayError(error, 'Failed to remove favorite', {
+        location: 'FavoriteDrawer.unfavorite',
       }),
     refetchQueries: [
       favoritesQuery,
       {
         query: insightById,
         variables: {
-          id: item.bookmarkId,
+          id: item.favoritableId,
         },
       },
     ],
   })
 
-  const removeInsightBookmarkActionHandler = async () => {
-    await unbookmark({ variables: { bookmarkId: item.bookmarkId, bookmarkType: item.bookmarkType } })
+  const removeInsightFavoriteActionHandler = async () => {
+    await unfavorite({ variables: { favoritableId: item.favoritableId, favoritableType: item.favoritableType } })
     openToast(t('insights.insight.remove.bookmark.success'), HoliToastType.SUCCESS)
   }
 
   const shareInsightActionHandler = async () => {
-    if ('INSIGHT' === item.bookmarkType) {
+    if ('INSIGHT' === item.favoritableType) {
       await shareInsightLink()
     }
   }
@@ -65,7 +67,7 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ item, children }: Favor
       testID="btn-favorites-more-options"
       buttonElement={children}
     >
-      {'INSIGHT' === item.bookmarkType && (
+      {'INSIGHT' === item.favoritableType && (
         <HoliActionDrawer.Action
           icon={Share}
           title={t('global.share')}
@@ -77,8 +79,8 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ item, children }: Favor
       <HoliActionDrawer.Action
         icon={Bookmark2Line}
         title={t('favorites.remove.bookmark.button')}
-        testID="btn-remove-favorite-bookmark"
-        handleAction={removeInsightBookmarkActionHandler}
+        testID="btn-remove-favorite"
+        handleAction={removeInsightFavoriteActionHandler}
       />
     </HoliActionDrawer.Drawer>
   )

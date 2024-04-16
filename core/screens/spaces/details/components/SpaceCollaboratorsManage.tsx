@@ -29,7 +29,7 @@ const { useParam } = createParamHooks<SpaceCollaboratorsManageParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
+const SpaceCollaboratorsManage: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()

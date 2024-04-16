@@ -13,7 +13,7 @@ export type CreateSpaceTopicsProps = {
   selectedTopics: Term[]
 }
 
-const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
+const CreateSpaceTopics: React.FC<CreateSpaceTopicsProps> = ({
   onSelectSpaceTopics,
   selectedTopics,
 }: CreateSpaceTopicsProps) => {

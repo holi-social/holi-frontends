@@ -7,7 +7,7 @@ export interface SpaceGoalInputProps extends Partial<HoliTextInputProps> {
   errorMessage?: string
 }
 
-const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({
+const SpaceGoalInput: React.FC<SpaceGoalInputProps> = ({
   onChange,
   value,
   errorMessage,

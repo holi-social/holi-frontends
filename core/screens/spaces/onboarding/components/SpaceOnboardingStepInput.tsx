@@ -17,7 +17,7 @@ export type SpaceOnboardingStepInputProps = {
   isNewStep: boolean
 }
 
-const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
+const SpaceOnboardingStepInput: React.FC<SpaceOnboardingStepInputProps> = ({
   step,
   index,
   totalSteps,

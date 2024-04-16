@@ -31,7 +31,7 @@ export type HoliRichTextInputProps = {
   maxNoOfCharacters?: number
 }
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
   autofocus = false,
@@ -192,6 +192,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
         placeholder={placeholder}
         containerStyle={[styles.mentionsStyles, props.style]}
         style={styles.input}
+        placeholderTextColor={theme.dark ? theme.colors.foreground10 : undefined}
         editable={!disabled}
         maxLength={props.maxNoOfCharacters}
         testID={(props.testID || 'richtext-component') + '-input'}

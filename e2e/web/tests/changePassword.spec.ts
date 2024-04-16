@@ -1,19 +1,11 @@
-import {
-  byTestId,
-  clickElementByTestId,
-  clickElementByTestIdAndWaitForToast,
-  clickElementByTestIdAndWaitForToastFinish,
-  gotoFillAndSubmitLogin,
-  locateElementByTestId,
-  newUserEmail,
-  randomPassword,
-} from './helpers'
+import { byTestId, clickElementByTestId, locateElementByTestId, newUserEmail, randomPassword } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
 test.describe('@ChangePassword', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   test('user journey', async ({ userHandler, context }) => {
     const email = newUserEmail()
     const oldPassword = randomPassword()

@@ -14,8 +14,9 @@ import {
 import { AxiosError } from 'axios'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 
+const logger = getLogger('Other')
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name', 'traits.identity']
 
 export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
@@ -141,7 +142,7 @@ export const handleFormSubmitError = (
           }
         }
 
-        logDebug('auth/helpers/form.handleFormSubmitError', 'form validation failed')
+        logger.debug('auth/helpers/form.handleFormSubmitError', 'form validation failed')
         // The error response data contains a flow with error messages.
         // With this data, the view can display the errors.
         setFlow(err.response.data)

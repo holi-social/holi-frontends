@@ -9,7 +9,7 @@ import {
 } from '@holi/core/screens/notifications/components/types'
 import { assertUnreachable } from '@holi/ui/helper/assertUnreachable'
 
-const NotificationSpacePermissionsItem: React.VFC<NotificationProps<NotificationSpacePermissions>> = ({
+const NotificationSpacePermissionsItem: React.FC<NotificationProps<NotificationSpacePermissions>> = ({
   notification,
   style,
   testID,

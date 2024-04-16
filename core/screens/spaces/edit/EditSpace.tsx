@@ -78,6 +78,7 @@ export type EditSpaceParams = {
 const { useParam } = createParamHooks<EditSpaceParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
+
 type OnboardingCard = {
   image: StaticImageData
   description: string
@@ -124,7 +125,7 @@ export const SDG_INFO_MODAL_SOURCES_MAPPING: {
   },
 }
 
-const EditSpace: React.VFC<ScreenProps> = () => {
+const EditSpace: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [isOnboarding] = useParam('onboarding')
   const [editField, setEditField] = useState<EditFields | null>(null)

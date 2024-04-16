@@ -17,7 +17,7 @@ export type SpaceMoreActionsProps = {
   space: Space
 }
 
-const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
+const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()

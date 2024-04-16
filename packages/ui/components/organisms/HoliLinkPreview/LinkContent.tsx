@@ -12,7 +12,7 @@ export interface LinkContentProps extends Link {
   style?: StyleProp<ViewStyle>
 }
 
-const LinkContent: React.VFC<LinkContentProps> = ({ image, title, description, origin, style }) => {
+const LinkContent: React.FC<LinkContentProps> = ({ image, title, description, origin, style }) => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
