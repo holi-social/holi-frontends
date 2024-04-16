@@ -37,9 +37,10 @@ export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
   commentableType: CommentableType
   user: User
+  redirectRoute?: string
 }
 
-const CommentForm = ({ commentableId, commentableType, user, children }: CommentFormProps) => {
+const CommentForm = ({ commentableId, commentableType, user, redirectRoute, children }: CommentFormProps) => {
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
@@ -58,7 +59,11 @@ const CommentForm = ({ commentableId, commentableType, user, children }: Comment
   const [addComment, { loading: createCommentLoading }] = useMutation<CreateCommentResponse>(AddCommentMutation, {
     onCompleted: () => {
       openToast(t('comments.success'), HoliToastType.SUCCESS)
-      navigateBack()
+      if (redirectRoute) {
+        replaceRoute(redirectRoute)
+      } else {
+        navigateBack()
+      }
     },
     onError: (error) => {
       if (isNotFoundError(error)) {

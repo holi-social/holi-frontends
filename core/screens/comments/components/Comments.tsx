@@ -32,6 +32,8 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
   const latestCommenters = commentable?.commenters?.data || []
   const comments = commentable?.comments?.data || []
 
+  if (!comments.length) return <></>
+
   return (
     <>
       <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
