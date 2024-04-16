@@ -127,6 +127,7 @@ const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRa
 const getStyles = ({ colors }: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
+      height: '100%',
       backgroundColor: colors.background20,
       ...Platform.select({
         web: {

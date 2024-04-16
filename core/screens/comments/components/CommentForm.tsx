@@ -124,7 +124,7 @@ const CommentForm = ({ commentableId, commentableType, user, redirectRoute, chil
                 onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
                 style={styles.scrollContent}
               >
-                {!!children && <View style={styles.childrenView}>{children}</View>}
+                {children}
 
                 {/* Comment input block */}
                 <View style={mixins.container}>
@@ -202,7 +202,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       overflow: 'hidden',
       ...Platform.select({
         web: {
-          paddingTop: dimensions.topBarHeight + 10,
+          paddingTop: dimensions.topBarHeight,
           height: '100vh' as DimensionValue,
           marginHorizontal: 'auto',
         },
@@ -210,9 +210,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
           paddingBottom: 0,
         },
       }),
-    },
-    childrenView: {
-      marginTop: Spacing.xxs,
     },
     safeArea: {
       flex: 1,
