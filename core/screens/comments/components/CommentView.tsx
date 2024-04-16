@@ -18,6 +18,7 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CommentProps extends ViewProps {
@@ -186,6 +187,7 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       flexDirection: 'row',
       justifyContent: 'flex-end',
+      marginBottom: Spacing['3xs'],
     },
   })
 

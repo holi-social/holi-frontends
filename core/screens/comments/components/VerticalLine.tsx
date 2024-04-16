@@ -17,7 +17,7 @@ const VerticalLine: React.FC<CommentConnectorProps> = ({ style }) => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     connector: {
-      minHeight: 24,
+      minHeight: 20,
       width: 0,
       borderWidth: 0.5,
       borderColor: theme.colors.background30,

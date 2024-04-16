@@ -232,14 +232,12 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       }),
     },
     verticalLine: {
-      marginTop: 16,
-      marginBottom: 10,
+      marginTop: Spacing['3xs'],
+      marginBottom: Spacing['3xs'],
       marginHorizontal: 20,
-      minHeight: 50,
-      ...Platform.select({ web: { minHeight: 75 } }),
+      minHeight: Spacing.xl,
     },
     inputContainer: {
-      marginTop: 16,
       lineHeight: 22,
       flexDirection: 'row',
     },

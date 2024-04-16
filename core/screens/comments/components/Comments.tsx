@@ -8,7 +8,6 @@ import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
-import { Comment } from '@holi/core/screens/comments/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -30,19 +29,19 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
     },
   })
 
-  const latestCommenters: readonly User[] = commentable?.commenters?.data || []
-  const comments: readonly Comment[] = commentable?.comments?.data || []
+  const latestCommenters = commentable?.commenters?.data || []
+  const comments = commentable?.comments?.data || []
 
   return (
     <>
       <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
-        <HoliUserAvatarPile users={latestCommenters} collapse counter />
+        <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
       </View>
       <View style={styles.commentersLine}>
         <VerticalLine />
       </View>
-      {comments.map((comment) => {
-        return (
+      <View style={styles.commentsContainer}>
+        {comments.map((comment) => (
           <CommentView
             key={comment.id}
             comment={comment}
@@ -50,8 +49,8 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
             commentableType={commentableType}
             reportContentType={ContentType.POST_COMMENT}
           />
-        )
-      })}
+        ))}
+      </View>
     </>
   )
 }
@@ -66,6 +65,9 @@ const styles = StyleSheet.create({
   commentersLine: {
     marginLeft: Spacing.sm,
     marginVertical: Spacing['3xs'],
+  },
+  commentsContainer: {
+    gap: Spacing.xs,
   },
 })
 
