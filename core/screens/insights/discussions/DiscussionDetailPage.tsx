@@ -51,7 +51,6 @@ const DiscussionDetailPage = () => {
     loading,
   } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
-    notifyOnNetworkStatusChange: true,
     skip: !discussionId,
     onError: (error) => {
       if (isNotFoundError(error)) {

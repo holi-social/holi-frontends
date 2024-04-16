@@ -348,7 +348,11 @@ export default class ChatClient {
   public async setPushNotificationsEnabled(enabled: boolean) {
     // enable this master push rule to disable push notifications
     // https://spec.matrix.org/v1.8/client-server-api/#default-override-rules
-    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', enabled)
+
+    // Attention – inverted thinking ahead
+    // To prevent them, we enable an empty global matrix override rule, that supresses push processing
+    const supressPushNotifications = !enabled
+    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', supressPushNotifications)
   }
 
   public async joinRoom(roomId: string): Promise<Room | null> {
