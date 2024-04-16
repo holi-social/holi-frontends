@@ -350,7 +350,7 @@ export default class ChatClient {
     // https://spec.matrix.org/v1.8/client-server-api/#default-override-rules
 
     // Attention – inverted thinking ahead
-    // To prevent them, we enable a empty global matrix override rule, that supresses push processing
+    // To prevent them, we enable an empty global matrix override rule, that supresses push processing
     const supressPushNotifications = !enabled
     await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', supressPushNotifications)
   }

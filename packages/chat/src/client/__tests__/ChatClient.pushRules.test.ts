@@ -23,9 +23,9 @@ describe('ChatClient', () => {
     expect(enabled).toBeTruthy()
   })
 
-  it('should update enabled state of push notifications', async () => {
+  it('enabling push notifications should deactivate the overriding empty global push master rule', async () => {
     await client.setPushNotificationsEnabled(true)
 
-    expect(mxClient.setPushRuleEnabled).toHaveBeenCalledWith('global', PushRuleKind.Override, '.m.rule.master', true)
+    expect(mxClient.setPushRuleEnabled).toHaveBeenCalledWith('global', PushRuleKind.Override, '.m.rule.master', false)
   })
 })
