@@ -135,7 +135,7 @@ const getStyles = ({ colors }: HoliTheme) =>
           paddingBottom: Spacing.lg,
         },
         ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxs,
+          paddingTop: dimensions.topBarHeight + Spacing.xl,
         },
         android: {
           paddingTop: dimensions.topBarHeight + Spacing.xxl,
