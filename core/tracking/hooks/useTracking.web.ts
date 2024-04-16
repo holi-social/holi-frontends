@@ -11,7 +11,27 @@ const useTracking = (): TrackingHook => {
     posthog.capture(event)
   }
 
-  return { trackEvent }
+  const optedIn = () => {
+    return posthog.has_opted_in_capturing()
+  }
+
+  const optIn = async () => {
+    posthog.opt_in_capturing()
+  }
+
+  const optOut = async () => {
+    posthog.opt_out_capturing()
+  }
+
+  const identify = (userId: string) => {
+    posthog.identify(userId)
+  }
+
+  const reset = () => {
+    posthog.reset()
+  }
+
+  return { trackEvent, optedIn, optIn, optOut, identify, reset }
 }
 
 export default useTracking
