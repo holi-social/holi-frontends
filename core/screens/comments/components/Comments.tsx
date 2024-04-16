@@ -40,18 +40,17 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
       <View style={styles.commentersLine}>
         <VerticalLine />
       </View>
-      {comments.map((comment, index) => {
-        return (
+      <View style={styles.commentsContainer}>
+        {comments.map((comment) => (
           <CommentView
             key={comment.id}
             comment={comment}
             commentableId={commentableId}
             commentableType={commentableType}
             reportContentType={ContentType.POST_COMMENT}
-            style={!!index && styles.commentCard} // avoid unnecessary margin on the first item
           />
-        )
-      })}
+        ))}
+      </View>
     </>
   )
 }
@@ -67,8 +66,8 @@ const styles = StyleSheet.create({
     marginLeft: Spacing.sm,
     marginVertical: Spacing['3xs'],
   },
-  commentCard: {
-    marginTop: Spacing.xs,
+  commentsContainer: {
+    gap: Spacing.xs,
   },
 })
 
