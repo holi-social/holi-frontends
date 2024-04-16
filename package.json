@@ -72,7 +72,7 @@
     "react-test-renderer": "18.2.0",
     "turbo": "^1.7.2"
   },
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.1.1",
   "expo-yarn-workspaces": {
     "symlinks": [
       "expo-constants"
