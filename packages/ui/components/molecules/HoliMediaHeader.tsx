@@ -104,16 +104,11 @@ const getStyles = (theme: HoliTheme) =>
     titleContainer: {
       flexDirection: 'column',
       marginHorizontal: 16,
-      marginBottom: 16,
       flex: 1,
     },
     date: {
       marginTop: 4,
       color: theme.colors.foreground20,
-    },
-    visibility: {
-      marginRight: 4,
-      marginBottom: 16,
     },
   })
 
