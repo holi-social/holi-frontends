@@ -5416,7 +5416,7 @@ __metadata:
     "@holi/ui": "npm:*"
     "@ory/client": "npm:^1.1.21"
     "@react-native-async-storage/async-storage": "npm:1.21.0"
-    "@react-native-community/datetimepicker": "npm:7.6.1"
+    "@react-native-community/datetimepicker": "npm:7.6.4"
     "@react-native-community/netinfo": "npm:11.1.0"
     "@react-native-masked-view/masked-view": "npm:0.3.0"
     "@react-navigation/bottom-tabs": "npm:^6.4.0"
@@ -7947,12 +7947,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/datetimepicker@npm:7.6.1":
-  version: 7.6.1
-  resolution: "@react-native-community/datetimepicker@npm:7.6.1"
+"@react-native-community/datetimepicker@npm:7.6.4":
+  version: 7.6.4
+  resolution: "@react-native-community/datetimepicker@npm:7.6.4"
   dependencies:
     invariant: "npm:^2.2.4"
-  checksum: 10c0/20d9b35747532e2031b981305f16998e1bd4c651e2c44cd65c4dd5bd4ebe66fd0ed49292bc6883821faf56c1cb3698b16c2b8fb1e9782b8c6f00f3506cf8ee55
+  checksum: 10c0/527920b03cf887138fd06ef2c643f7c8e6b2c8b3d93a6d88f491e2ab8bb30bcdd25d1f2db895bcbfbcafeadfeff90728764a16e5f50d70214b11cc375a68374a
   languageName: node
   linkType: hard
 
