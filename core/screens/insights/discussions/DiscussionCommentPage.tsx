@@ -11,7 +11,6 @@ import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionCommentPageParams = {
@@ -61,9 +60,7 @@ const DiscussionCommentPage = () => {
     discussion &&
     user && (
       <CommentForm commentableId={discussion.id} commentableType={CommentableType.DISCUSSION} user={user}>
-        <HoliContainer paddingHorizontal={0}>
-          <DiscussionHeader question={discussion.question} />
-        </HoliContainer>
+        <DiscussionHeader question={discussion.question} />
       </CommentForm>
     )
   )

@@ -86,6 +86,12 @@ export const commentsByCommentable = gql`
     commentable(id: $commentableId, type: $commentableType) {
       id
       type
+      commenters(limit: 5) {
+        totalResults
+        data {
+          ...UserAvatar
+        }
+      }
       comments(offset: $offset, limit: $limit) {
         totalResults
         data {
@@ -101,5 +107,6 @@ export type CommentsResponse = {
     id: string
     type: CommentableType
     comments: Paged<Comment>
+    commenters: Paged<User>
   }
 }
