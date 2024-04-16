@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
@@ -16,7 +16,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import StartDiscussion from './StartDiscussion'
 
@@ -27,7 +28,10 @@ type DiscussionCardProps = {
 
 const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
   const { navigate } = useRouting()
+
+  const { styles, ids } = useMemo(() => getStyles(theme), [theme])
 
   const { data: { commentable } = {}, loading } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
     variables: { commentableId: discussion.id, commentableType: CommentableType.DISCUSSION },
@@ -86,29 +90,30 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
 
 const LoadingSkeleton = () => <HoliSkeleton width="100%" height={60} borderRadius={4} />
 
-const { styles, ids } = StyleSheet.create({
-  container: {
-    display: 'flex',
-    gap: Spacing.xxs,
-    padding: Spacing.xs,
-    backgroundColor: colors.background10,
-    borderColor: colors.black300,
-    borderWidth: 1,
-    borderRadius: 16,
-    [`@media (min-width: ${dimensions.breakpointM}px)`]: {
-      padding: Spacing.md,
+const getStyles = ({ colors }: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      display: 'flex',
+      gap: Spacing.xxs,
+      padding: Spacing.xs,
+      backgroundColor: colors.background10,
+      borderColor: colors.black300,
+      borderWidth: 1,
+      borderRadius: 16,
+      [`@media (min-width: ${dimensions.breakpointM}px)`]: {
+        padding: Spacing.md,
+      },
     },
-  },
-  topComment: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: Spacing['3xs'],
-  },
-  comment: {
-    display: 'flex',
-    flexShrink: 1,
-    gap: Spacing['4xs'],
-  },
-})
+    topComment: {
+      display: 'flex',
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+    },
+    comment: {
+      display: 'flex',
+      flexShrink: 1,
+      gap: Spacing['4xs'],
+    },
+  })
 
 export default DiscussionCard
