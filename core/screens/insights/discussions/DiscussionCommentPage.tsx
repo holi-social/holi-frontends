@@ -16,6 +16,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionCommentPageParams = {
   discussionId: string
+  commentId: string
 }
 
 const { useParam } = createParamHooks<DiscussionCommentPageParams>()

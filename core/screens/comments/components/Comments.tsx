@@ -9,12 +9,13 @@ import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comm
 import { CommentableType } from '@holi/core/screens/comments/types'
 import { Comment } from '@holi/core/screens/comments/types'
 
-type CommentsProps = {
+interface CommentsProps {
   commentableId: string
   commentableType: CommentableType
+  isCommentable?: boolean // isCommentable allows users to create a second level comment (reply to a comment)
 }
 
-const Comments = ({ commentableId, commentableType }: CommentsProps) => {
+const Comments = ({ commentableId, commentableType, isCommentable }: CommentsProps) => {
   const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType },
     fetchPolicy: 'cache-and-network',
@@ -38,6 +39,7 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
             commentableId={commentableId}
             commentableType={commentableType}
             reportContentType={ContentType.POST_COMMENT}
+            {...(isCommentable ? { onPressComment: () => null } : {})}
           />
         )
       })}

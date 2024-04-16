@@ -14,10 +14,14 @@ import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comme
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CommentProps extends ViewProps {
@@ -26,10 +30,19 @@ export interface CommentProps extends ViewProps {
   reportContentType: ContentType
   commentableType: CommentableType
   created?: string
+  onPressComment?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView = ({ comment, commentableId, reportContentType, commentableType, style, ...props }: CommentProps) => {
+const CommentView = ({
+  comment,
+  commentableId,
+  reportContentType,
+  commentableType,
+  onPressComment,
+  style,
+  ...props
+}: CommentProps) => {
   const { user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -139,7 +152,30 @@ const CommentView = ({ comment, commentableId, reportContentType, commentableTyp
         <View style={styles.commentContent}>
           <HoliRichTextOutput text={comment.text} users={comment.mentions || []} style={styles.text} allowAllLinks />
 
-          <View style={styles.reactionsBar}>
+          <View style={[styles.reactionsBar, !onPressComment && styles.reactionsBarWithoutComment]}>
+            {!!onPressComment && (
+              <HoliButton
+                transparent
+                inline
+                label={t('comments.create_comment_button')}
+                contentStyle={styles.addComment}
+              >
+                {!!loggedInUser && (
+                  <HoliAvatar
+                    imageSrc={loggedInUser.avatar}
+                    imageBlurhash={loggedInUser.avatarBlurhash}
+                    label={loggedInUser.fullName ?? ''}
+                    initials={loggedInUser.avatarLabel || ''}
+                    defaultColor={loggedInUser.avatarDefaultColor || ''}
+                    size="micro"
+                  />
+                )}
+                <HoliText disabled size="small" color="gray300">
+                  {t('comments.create_comment_button')}
+                </HoliText>
+              </HoliButton>
+            )}
+
             <HoliReactionsCount
               onPress={reactOnComment}
               type="comment"
@@ -183,9 +219,21 @@ const getStyles = (theme: HoliTheme) =>
     },
     reactionsBar: {
       marginTop: 12,
+      marginLeft: 15,
       alignItems: 'center',
       flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: Spacing.sm,
+    },
+    reactionsBarWithoutComment: {
       justifyContent: 'flex-end',
+      marginBottom: 0,
+    },
+    addComment: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
     },
   })
 

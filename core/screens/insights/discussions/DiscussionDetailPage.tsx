@@ -97,7 +97,7 @@ const DiscussionDetailPage = () => {
           {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
           {discussionId && (
             <View style={styles.commentsContainer}>
-              <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />
+              <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} isCommentable />
             </View>
           )}
         </HoliContainer>
