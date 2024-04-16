@@ -22,7 +22,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionDetailPageParams = {
@@ -124,10 +124,10 @@ const DiscussionDetailPage = () => {
 
 const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRadius={0} />
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = ({ colors }: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: theme.colors.background20,
+      backgroundColor: colors.background20,
       ...Platform.select({
         web: {
           minHeight: '100%',
@@ -149,8 +149,8 @@ const getStyles = (theme: HoliTheme) =>
       borderBottomRightRadius: Spacing.lg,
     },
     commentWrapper: {
-      backgroundColor: theme.colors.background10,
-      borderTopColor: theme.colors.background30,
+      backgroundColor: colors.background10,
+      borderTopColor: colors.background30,
       borderTopWidth: 1,
       width: '100%',
       height: 74,
