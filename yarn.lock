@@ -10340,11 +10340,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react-native@npm:11.5.1":
-  version: 11.5.1
-  resolution: "@testing-library/react-native@npm:11.5.1"
+"@testing-library/react-native@npm:11.5.4":
+  version: 11.5.4
+  resolution: "@testing-library/react-native@npm:11.5.4"
   dependencies:
-    pretty-format: "npm:^29.4.0"
+    pretty-format: "npm:^29.0.0"
   peerDependencies:
     jest: ">=28.0.0"
     react: ">=16.8.0"
@@ -10353,7 +10353,7 @@ __metadata:
   peerDependenciesMeta:
     jest:
       optional: true
-  checksum: 10c0/3491f149773919dce360a6d12c1a5d507cb6313662b0af5b1f75bac1a0be88c244559a5a31eb4987e78fdb8f1d8bd1c8a885ff0689645b8d0cf0e847b9cdcc0f
+  checksum: 10c0/16849e7c1527021e79dd6921346d397d728ac15dffef04c379098800bb2e32b1e3deff3033fd371f5f6cde5d2f1e005f7f5d7e1506ea189fa27a7362f2ac7707
   languageName: node
   linkType: hard
 
@@ -19213,7 +19213,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:^5.16.5"
     "@testing-library/jest-native": "npm:^5.4.1"
     "@testing-library/react-hooks": "npm:^8.0.1"
-    "@testing-library/react-native": "npm:11.5.1"
+    "@testing-library/react-native": "npm:11.5.4"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.0.0"
     "@types/jest": "npm:^29.4.0"
     "@types/jest-when": "npm:^3.5.5"
@@ -25859,7 +25859,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^29.0.0, pretty-format@npm:^29.0.3, pretty-format@npm:^29.4.0, pretty-format@npm:^29.5.0":
+"pretty-format@npm:^29.0.0, pretty-format@npm:^29.0.3, pretty-format@npm:^29.5.0":
   version: 29.5.0
   resolution: "pretty-format@npm:29.5.0"
   dependencies:
