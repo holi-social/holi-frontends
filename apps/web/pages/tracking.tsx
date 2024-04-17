@@ -46,3 +46,5 @@ const PostHogWrapper = ({ children }: { children?: React.ReactNode }) => {
 
   return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
+
+export default Tracking

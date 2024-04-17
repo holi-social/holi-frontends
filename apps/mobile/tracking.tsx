@@ -15,3 +15,5 @@ const posthog = trackingEnabled
 export const Tracking = ({ children }: { children?: React.ReactNode }) => {
   return posthog ? <PostHogProvider client={posthog}>{children}</PostHogProvider> : <>{children}</>
 }
+
+export default Tracking
