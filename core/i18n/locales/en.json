@@ -282,6 +282,8 @@
   "homeFeed.userSuggestions.avatarAltText": "Profile picture of {{name}}",
   "homeFeed.userSuggestions.title": "Welcome new users",
   "individuals.post.create.title": "Create new post",
+  "individuals.post.create.category.input.title": "Add a catchy title...",
+  "individuals.post.create.category.input.description": "Share knowledge or initiate conversations on topics that matter to you and the community...",
   "individuals.post.create.category.title": "What would you like to share?",
   "individuals.post.category.name.topic": "Topic for conversations",
   "individuals.post.category.name.experience": "Personal experience",
