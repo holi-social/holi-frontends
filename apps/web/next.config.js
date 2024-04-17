@@ -2,6 +2,7 @@
 const withHtml = require('@blunck/next-html')()
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
+const { defaultLocale, locales } = require('../../core/i18n/locales.cjs')
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -24,9 +25,8 @@ const nextConfig = {
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
   i18n: {
-    locales: ['en', 'de'],
-    defaultLocale: 'en',
-    localeDetection: false,
+    locales,
+    defaultLocale,
   },
   compiler: {
     // Remove console outputs in production builds, see https://nextjs.org/docs/advanced-features/compiler#remove-console

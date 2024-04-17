@@ -31,7 +31,6 @@ describe('createServerSideProps', () => {
   }
   const expectedI18nProps = {
     __APOLLO_STATE__: mockedCache,
-    locale: 'en',
     ...mockedTranslations,
   }
   const query1 = {
