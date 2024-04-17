@@ -98,19 +98,23 @@ const DiscussionDetailPage = () => {
         }}
         style={styles.wrapper}
         headerOverlap
-        scrollable
+        scrollEnabled={false}
+        scrollable={false}
+        contentStyle={styles.wrapperContent}
       >
         <HoliContainer paddingHorizontal={0}>
-          {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
-          {discussionId && (
-            <View style={styles.commentsContainer}>
-              <Comments
-                commentableType={CommentableType.DISCUSSION}
-                commentableId={discussionId}
-                onPressCreateComment={onPressCreateComment}
-              />
-            </View>
-          )}
+          <ScrollView style={styles.scrollView}>
+            {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
+            {discussionId && (
+              <View style={styles.commentsContainer}>
+                <Comments
+                  commentableType={CommentableType.DISCUSSION}
+                  commentableId={discussionId}
+                  onPressCreateComment={onPressCreateComment}
+                />
+              </View>
+            )}
+          </ScrollView>
         </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
 
@@ -137,15 +141,21 @@ const getStyles = ({ colors }: HoliTheme) =>
         web: {
           minHeight: '100%',
           paddingTop: dimensions.topBarHeight,
-          paddingBottom: Spacing.lg,
+          paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
         ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xl,
+          paddingTop: dimensions.topBarHeight + Spacing.xl - 2,
         },
         android: {
           paddingTop: dimensions.topBarHeight + Spacing.xxl,
         },
       }),
+    },
+    wrapperContent: {
+      paddingBottom: 0,
+    },
+    scrollView: {
+      height: '100%',
     },
     commentsContainer: {
       paddingHorizontal: Spacing.xs,
