@@ -60,15 +60,11 @@ resource "google_cloud_run_service" "mvp_web" {
         }
         env {
           name  = "NEXT_PUBLIC_POSTHOG_KEY"
-          value = "<<TODO>>" // TODO HOLI-7673 replace with actual value
+          value = local.posthog_key
         }
         env {
-          name  = "NEXT_PUBLIC_POSTHOG_API_HOST"
-          value = "<<TODO>>" // TODO HOLI-7673 replace with actual value
-        }
-        env {
-          name  = "NEXT_PUBLIC_POSTHOG_UI_HOST"
-          value = "https://eu.posthog.com"
+          name  = "NEXT_PUBLIC_POSTHOG_HOST"
+          value = local.posthog_host
         }
         env {
           name  = "ORY_BASE_URL"

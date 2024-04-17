@@ -33,3 +33,7 @@ export const jitsiUrl = (() => {
     environment === EnvironmentId.PRODUCTION ? 'https://meet.holi.social' : 'https://development.meet.holi.social'
   return process.env.NEXT_PUBLIC_JITSI_URL || baseUrl
 })()
+
+export const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+
+export const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST

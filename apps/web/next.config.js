@@ -3,16 +3,23 @@ const withHtml = require('@blunck/next-html')()
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 
-const postHogRewrites = [
-  {
-    source: '/ingest/static/:path*',
-    destination: process.env.NEXT_PUBLIC_POSTHOG_UI_HOST + '/static/:path*',
-  },
-  {
-    source: '/ingest/:path*',
-    destination: process.env.NEXT_PUBLIC_POSTHOG_UI_HOST + '/:path*',
-  },
-]
+const postHogRewrites = (() => {
+  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
+  if (posthogHost !== undefined && posthogHost.trim().length > 0) {
+    return [
+      {
+        source: '/ingest/static/:path*',
+        destination: posthogHost + '/static/:path*',
+      },
+      {
+        source: '/ingest/:path*',
+        destination: posthogHost + '/:path*',
+      },
+    ]
+  } else {
+    return []
+  }
+})()
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {

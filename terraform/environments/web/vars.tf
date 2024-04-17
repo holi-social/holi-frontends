@@ -9,4 +9,7 @@ locals {
   # in production, we work against prod apis, in staging and feature envs, we use the staging apis
   holi_api_gateway = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}"
   holi_api_url     = "${local.holi_api_gateway}/graphql"
+
+  posthog_key      = local.environment == "production" ? "" : "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6"
+  posthog_host     = local.environment == "production" ? "" : "https://eu.posthog.com"
 }
