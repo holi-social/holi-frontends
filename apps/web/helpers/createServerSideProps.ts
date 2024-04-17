@@ -3,6 +3,7 @@ import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { isNotFoundError } from '@holi/core/errors/helpers'
+import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
 import { addApolloSSRState } from '@holi/web/helpers/useApolloSSRClient'
@@ -29,17 +30,15 @@ export const createServerSideProps = async (
   }
 
   const props = await addTranslations(req, {})
-
-  if (typeof queries !== 'function' && !queries.length) {
-    return {
-      props,
-    }
-  }
-
   const client = initializeApolloSSRClient()
 
   try {
-    const queriesToExecute = typeof queries === 'function' ? await queries(client) : queries
+    const queriesToExecute = [
+      ...(typeof queries === 'function' ? await queries(client) : queries),
+      {
+        query: featureTogglesQuery,
+      },
+    ]
 
     const results = await Promise.allSettled(
       queriesToExecute
