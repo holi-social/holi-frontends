@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -98,6 +98,7 @@ const DiscussionDetailPage = () => {
         }}
         style={styles.wrapper}
         headerOverlap
+        scrollable
       >
         <HoliContainer paddingHorizontal={0}>
           {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
@@ -130,6 +131,7 @@ const getStyles = ({ colors }: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       height: '100%',
+      flex: 1,
       backgroundColor: colors.background20,
       ...Platform.select({
         web: {

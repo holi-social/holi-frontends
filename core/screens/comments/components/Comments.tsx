@@ -76,11 +76,9 @@ const Comments = ({ commentableId, commentableType, onPressCreateComment }: Comm
 
 const Skeleton = () => {
   return (
-    <View>
-      <View style={styles.skeletonContainer}>
-        <HoliSkeleton height={Spacing.sm} width={Spacing.sm} borderRadius={12} />
-        <HoliSkeleton height={Spacing.xxl} width={'100%'} borderRadius={16} />
-      </View>
+    <View style={styles.skeletonContainer}>
+      <HoliSkeleton height={Spacing.sm} width={Spacing.sm} borderRadius={12} />
+      <HoliSkeleton height={Spacing.xxl} width={'80%'} borderRadius={16} />
     </View>
   )
 }
