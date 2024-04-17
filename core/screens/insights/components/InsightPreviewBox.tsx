@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -11,6 +12,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -31,7 +33,7 @@ type InsightPreviewBoxProps = SkeletonProps | Props
 
 const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading, ...props }) => {
   const { navigate } = useRouting()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -87,9 +89,29 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
 
         {!!insight.creator && (
           <HoliBox padding={[8, 0, 0, 0]}>
-            <HoliText size="small" style={styles.textGrey} selectable>
-              {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
-            </HoliText>
+            <View style={styles.container}>
+              <View style={styles.row}>
+                <HoliAvatar
+                  imageSrc={insight.creator.avatar}
+                  imageBlurhash={insight.creator.avatarBlurhash}
+                  label={insight.creator.fullName || t('user.profileView.anonymous')}
+                  initials={insight.creator.avatarLabel}
+                  defaultColor={insight.creator.avatarDefaultColor}
+                  size="micro"
+                  testID="insight-curator"
+                  style={styles.avatar}
+                />
+                <HoliText size="small" style={styles.textGrey}>
+                  {insight.creator.fullName}
+                </HoliText>
+                <HoliText size="large" style={styles.dot}>
+                  &middot;
+                </HoliText>
+                <HoliText size="small" style={styles.textGrey}>
+                  {getRelativeDateString(insight.datePublished, i18n.language)}
+                </HoliText>
+              </View>
+            </View>
           </HoliBox>
         )}
 
@@ -118,10 +140,25 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       backgroundColor: theme.colors.background30,
     },
+    avatar: {
+      marginRight: 8,
+    },
+    dot: {
+      color: theme.colors.brandB300,
+      marginRight: 4,
+      marginLeft: 4,
+    },
     avatarPile: {
       marginTop: 12,
     },
     textGrey: {
       color: theme.colors.foreground20,
+    },
+    container: {
+      flex: 1,
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
     },
   })

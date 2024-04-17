@@ -1,19 +1,22 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Pressable, View } from 'react-native'
+import { View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
 import { Discussion } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -29,9 +32,11 @@ type DiscussionCardProps = {
 const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
+  const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
+  const { openLoginModal } = useLoginModal()
 
-  const { styles, ids } = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useMemo(() => getStyles(theme), [theme])
 
   const { data: { commentable } = {}, loading } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
     variables: { commentableId: discussion.id, commentableType: CommentableType.DISCUSSION },
@@ -47,44 +52,60 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
   const latestCommenters: readonly User[] = commentable?.commenters?.data || []
   const topComment = commentable?.topComment
 
+  const onPress = () => {
+    if (latestCommenters.length > 0) {
+      navigate(`/insights/${insightId}/discussions/${discussion.id}`)
+    } else {
+      isLoggedIn
+        ? navigate(`/insights/${insightId}/discussions/${discussion.id}/comment`)
+        : openLoginModal({
+            description: t('comments.loginRedirect.text'),
+          })
+    }
+  }
+
   return (
-    <View style={styles.container} dataSet={{ media: ids.container }}>
+    <HoliButton
+      transparent
+      inline
+      contentStyle={styles.container}
+      label={t('insights.discussions.title')}
+      onPress={onPress}
+    >
       <HoliText bold>{discussion.question}</HoliText>
       {loading ? (
         <LoadingSkeleton />
       ) : latestCommenters.length > 0 ? (
         <>
           {topComment && (
-            <Pressable onPress={() => navigate(`/insights/${insightId}/discussions/${discussion.id}`)}>
-              <ResponsesContainer>
-                <View style={styles.topComment}>
-                  <HoliAvatar
-                    imageSrc={topComment.creator.avatar}
-                    imageBlurhash={topComment.creator.avatarBlurhash}
-                    label={topComment.creator.fullName || t('user.profileView.anonymous')}
-                    initials={topComment.creator.avatarLabel}
-                    defaultColor={topComment.creator.avatarDefaultColor}
-                    size="micro"
-                  />
+            <ResponsesContainer>
+              <View style={styles.topComment}>
+                <HoliAvatar
+                  imageSrc={topComment.creator.avatar}
+                  imageBlurhash={topComment.creator.avatarBlurhash}
+                  label={topComment.creator.fullName || t('user.profileView.anonymous')}
+                  initials={topComment.creator.avatarLabel}
+                  defaultColor={topComment.creator.avatarDefaultColor}
+                  size="micro"
+                />
 
-                  <View style={styles.comment}>
-                    <HoliText size="small" bold>
-                      {topComment.creator.fullName || t('user.profileView.anonymous')}
-                    </HoliText>
-                    <HoliText size="small" color="gray300" numberOfLines={2}>
-                      {topComment.text}
-                    </HoliText>
-                  </View>
+                <View style={styles.comment}>
+                  <HoliText size="small" bold>
+                    {topComment.creator.fullName || t('user.profileView.anonymous')}
+                  </HoliText>
+                  <HoliText size="small" color="gray300" numberOfLines={2}>
+                    {topComment.text}
+                  </HoliText>
                 </View>
-              </ResponsesContainer>
-            </Pressable>
+              </View>
+            </ResponsesContainer>
           )}
-          <HoliUserAvatarPile users={latestCommenters} collapse counter />
+          <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
         </>
       ) : (
-        <StartDiscussion discussionId={discussion.id} insightId={insightId} />
+        <StartDiscussion />
       )}
-    </View>
+    </HoliButton>
   )
 }
 

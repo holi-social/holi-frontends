@@ -15,6 +15,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionCommentPageParams = {
   discussionId: string
+  insightId: string
 }
 
 const { useParam } = createParamHooks<DiscussionCommentPageParams>()
@@ -24,6 +25,7 @@ const DiscussionCommentPage = () => {
   const { user } = useLoggedInUser()
   const setScreenOptions = useSetScreenOptions()
   const [discussionId] = useParam('discussionId')
+  const [insightId] = useParam('insightId')
   const { replaceRoute } = useRouting()
 
   const { theme } = useTheme()
@@ -59,7 +61,12 @@ const DiscussionCommentPage = () => {
   return (
     discussion &&
     user && (
-      <CommentForm commentableId={discussion.id} commentableType={CommentableType.DISCUSSION} user={user}>
+      <CommentForm
+        commentableId={discussion.id}
+        commentableType={CommentableType.DISCUSSION}
+        user={user}
+        redirectRoute={`/insights/${insightId}/discussions/${discussion.id}`}
+      >
         <DiscussionHeader question={discussion.question} />
       </CommentForm>
     )

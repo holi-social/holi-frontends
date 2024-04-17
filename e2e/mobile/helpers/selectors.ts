@@ -1,8 +1,7 @@
 // eslint-disable-next-line prettier/prettier
-import { Appium, platform } from '@holi/e2e-mobile/global'
-// eslint-disable-next-line prettier/prettier
 import type { Element, ElementArray } from 'webdriverio'
 
+import { Appium, platform } from '../global'
 import { doSwipe, getDeviceScreenSize, scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 import { delay } from './time'
 
