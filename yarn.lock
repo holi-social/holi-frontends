@@ -5474,11 +5474,11 @@ __metadata:
     react-native-image-pan-zoom: "npm:^2.1.12"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.6.2"
-    react-native-reanimated-carousel: "npm:^4.0.0-alpha.0"
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:4.8.2"
     react-native-screens: "npm:~3.29.0"
     react-native-svg: "npm:14.1.0"
+    react-native-swiper: "npm:^1.6.0"
     react-native-webview: "npm:13.6.4"
     react-spring: "npm:^8.0.27"
     sentry-expo: "npm:~7.2.0"
@@ -5584,6 +5584,7 @@ __metadata:
     react-native-web: "npm:^0.19.10"
     react-zoom-pan-pinch: "npm:^2.1.3"
     sharp: "npm:^0.32.0"
+    swiper: "npm:^11.1.0"
     typescript: "npm:^5.3.0"
     xss: "npm:^1.0.14"
   languageName: unknown
@@ -26884,18 +26885,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated-carousel@npm:^4.0.0-alpha.0":
-  version: 4.0.0-alpha.0
-  resolution: "react-native-reanimated-carousel@npm:4.0.0-alpha.0"
-  peerDependencies:
-    react: ">=18.0.0"
-    react-native: ">=0.70.3"
-    react-native-gesture-handler: ">=2.9.0"
-    react-native-reanimated: ">=3.0.0"
-  checksum: 10c0/e91f4dad341304f80411d132f34e414fcb58fee6d9bdc7ad48163990a67800d148a42511489fe1176fe7570e8afa40f14387a2c8994c1cfadc97d36e01210b2e
-  languageName: node
-  linkType: hard
-
 "react-native-reanimated@npm:~3.6.2":
   version: 3.6.3
   resolution: "react-native-reanimated@npm:3.6.3"
@@ -26988,6 +26977,15 @@ __metadata:
   version: 1.0.5
   resolution: "react-native-swipe-gestures@npm:1.0.5"
   checksum: 10c0/33bb8bd402de82ed751a8f1913fe7e02ddc533edb7178bf9e499387b93d0d14154cef120f273c554bb988ad1ba87165b80be213611cb92af8875f2380ec7878b
+  languageName: node
+  linkType: hard
+
+"react-native-swiper@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "react-native-swiper@npm:1.6.0"
+  dependencies:
+    prop-types: "npm:^15.5.10"
+  checksum: 10c0/5cddf220f8a910b82220aafd1b17a51dd6d2cc2cab14304c133409b2198f88ff8de9cde016f2d1ca1e0f2c742500bc2db98db4b44317ad49feea9d68747b596e
   languageName: node
   linkType: hard
 
@@ -29754,6 +29752,13 @@ __metadata:
     "@swc/core": ^1.2.147
     webpack: ">=2"
   checksum: 10c0/cb3f9b116fbd292b881e804a4fe66cd6d543a7de2572f5a68e067e4780ee2d59a8da87a90736ba6e8e286e4368c98214ae3486b1b872080292814e5d3062f09c
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "swiper@npm:11.1.0"
+  checksum: 10c0/dd144b3580146508f01b551ce4c5895d2d7f4fa49dd98f361ba549dcca17f440eff603669a5416f98d21ac9ce828c11c5eed966a96434b3fda101bc332714992
   languageName: node
   linkType: hard
 
