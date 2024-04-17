@@ -1,6 +1,3 @@
-// global switch if debug logging should be on
-export const IS_DEBUG_LOGGING_ENABLED = __DEV__
-
 // debug by default if component is not configured in DEBUG_LOG_COMPONENTS
 export const DEBUG_LOG_BY_DEFAULT = true
 
