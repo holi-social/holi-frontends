@@ -80,6 +80,13 @@ const DiscussionDetailPage = () => {
     })
   }, [theme.colors.background10, t, setScreenOptions])
 
+  const onPressCreateComment = () =>
+    isLoggedIn
+      ? navigate(`/insights/${insightId}/discussions/${discussionId}/comment`)
+      : openLoginModal({
+          description: t('comments.loginRedirect.text'),
+        })
+
   return (
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
@@ -96,7 +103,11 @@ const DiscussionDetailPage = () => {
           {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
           {discussionId && (
             <View style={styles.commentsContainer}>
-              <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />
+              <Comments
+                commentableType={CommentableType.DISCUSSION}
+                commentableId={discussionId}
+                onPressCreateComment={onPressCreateComment}
+              />
             </View>
           )}
         </HoliContainer>
@@ -105,16 +116,7 @@ const DiscussionDetailPage = () => {
       <SafeAreaView>
         <View style={styles.commentWrapper}>
           <HoliContainer flex={1}>
-            <PostDetailFooter
-              style={[styles.commentButton]}
-              onPress={() =>
-                isLoggedIn
-                  ? navigate(`/insights/${insightId}/discussions/${discussionId}/comment`)
-                  : openLoginModal({
-                      description: t('comments.loginRedirect.text'),
-                    })
-              }
-            />
+            <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
           </HoliContainer>
         </View>
       </SafeAreaView>
@@ -127,6 +129,7 @@ const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRa
 const getStyles = ({ colors }: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
+      height: '100%',
       backgroundColor: colors.background20,
       ...Platform.select({
         web: {
@@ -143,7 +146,8 @@ const getStyles = ({ colors }: HoliTheme) =>
       }),
     },
     commentsContainer: {
-      padding: Spacing.xs,
+      paddingHorizontal: Spacing.xs,
+      paddingVertical: Spacing.sm,
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
