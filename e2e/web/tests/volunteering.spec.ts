@@ -39,8 +39,7 @@ test.describe('@Volunteering', () => {
 })
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
-  await clickElementByTestId(page, 'home-apps-button')
-  await clickElementByTestId(page, 'app-tile-volunteering')
+  await clickElementByTestId(page, 'volunteering-updates-heading')
 
   await page.waitForSelector(byTestId('volunteering-list-container'))
   expect(page.url()).toContain('/apps/volunteering')
