@@ -68,55 +68,50 @@ const CreatePost = () => {
     setShowModal(false)
   }
 
-  if (!ftLoading && !ftEnabled) {
-    navigate('/404')
-  }
+  // if (!ftLoading && !ftEnabled) {
+  //   navigate('/404')
+  // }
 
   return (
-    <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-      <View style={styles.layout}>
-        <View style={{ marginTop: 150, alignItems: 'center' }}>
-          <HoliHeading level="1" size="s">
-            {selectedCategory}
-          </HoliHeading>
-        </View>
-        <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <HeaderBackButton
-                icon={Close}
-                onPress={() => navigateBack()}
-                tintColor="black"
-                style={styles.backButton}
-              />
-              <HoliHeading level="1" size="s">
-                {t('individuals.post.create.title')}
-              </HoliHeading>
-            </View>
-            <HoliText size="large" style={styles.modalTitle}>
-              {t('individuals.post.create.category.title')}
-            </HoliText>
-            <View style={styles.categoryContainer}>
-              {Categories.map((category) => (
-                <React.Fragment key={category.name}>
-                  <Pressable
-                    style={({ hovered }) => [styles.category, hovered ? styles.categoryHovered : styles.category]}
-                    onPress={() => modalPress(category.name)}
-                  >
-                    <View style={styles.content}>
-                      <HoliLocalImage imageSource={category.image} width={40} height={40} isSvg label={''} />
-                      <HoliText bold style={styles.text}>
-                        {category.name}
-                      </HoliText>
-                    </View>
-                  </Pressable>
-                </React.Fragment>
-              ))}
-            </View>
-          </View>
-        </HoliModal>
+    //  <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
+    <View style={styles.layout}>
+      <View style={{ marginTop: 150, alignItems: 'center' }}>
+        <HoliHeading level="1" size="s">
+          {selectedCategory}
+        </HoliHeading>
       </View>
-    </FeatureToggleGuard>
+      <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
+        <View style={styles.modalContent}>
+          <View style={styles.modalHeader}>
+            <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor="black" style={styles.backButton} />
+            <HoliHeading level="1" size="s">
+              {t('individuals.post.create.title')}
+            </HoliHeading>
+          </View>
+          <HoliText size="large" style={styles.modalTitle}>
+            {t('individuals.post.create.category.title')}
+          </HoliText>
+          <View style={styles.categoryContainer}>
+            {Categories.map((category) => (
+              <React.Fragment key={category.name}>
+                <Pressable
+                  style={({ hovered }) => [styles.category, hovered ? styles.categoryHovered : styles.category]}
+                  onPress={() => modalPress(category.name)}
+                >
+                  <View style={styles.content}>
+                    <HoliLocalImage imageSource={category.image} width={40} height={40} isSvg label={''} />
+                    <HoliText bold style={styles.text}>
+                      {category.name}
+                    </HoliText>
+                  </View>
+                </Pressable>
+              </React.Fragment>
+            ))}
+          </View>
+        </View>
+      </HoliModal>
+    </View>
+    // </FeatureToggleGuard>
   )
 }
 
