@@ -1,5 +1,3 @@
-// eslint-disable-next-line prettier/prettier
-import { Appium, platform, target } from '../../global'
 import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { waitForHomeScreen } from '../../helpers/navigation'
 import { itif } from '../../helpers/platform'

@@ -1,4 +1,3 @@
-import { target } from '../../global'
 import { scrollUp } from '../../helpers/gestures'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
