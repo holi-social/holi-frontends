@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -9,15 +10,19 @@ import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 
 type CommentsProps = {
   commentableId: string
   commentableType: CommentableType
+  onPressCreateComment?: () => void
 }
 
-const Comments = ({ commentableId, commentableType }: CommentsProps) => {
+const Comments = ({ commentableId, commentableType, onPressCreateComment }: CommentsProps) => {
+  const { t } = useTranslation()
   const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType },
     fetchPolicy: 'cache-and-network',
@@ -32,7 +37,16 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
   const latestCommenters = commentable?.commenters?.data || []
   const comments = commentable?.comments?.data || []
 
-  if (!comments.length) return <></>
+  if (!comments.length && !onPressCreateComment) return <></>
+
+  if (!comments.length)
+    return (
+      <HoliButton transparent inline label={t('insights.discussions.empty')} onPress={onPressCreateComment}>
+        <HoliText color="gray300" size="small">
+          {t('insights.discussions.empty')}
+        </HoliText>
+      </HoliButton>
+    )
 
   return (
     <>
