@@ -10,6 +10,7 @@ import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -23,7 +24,7 @@ type CommentsProps = {
 
 const Comments = ({ commentableId, commentableType, onPressCreateComment }: CommentsProps) => {
   const { t } = useTranslation()
-  const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const { data: { commentable } = {}, loading } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
@@ -36,6 +37,8 @@ const Comments = ({ commentableId, commentableType, onPressCreateComment }: Comm
 
   const latestCommenters = commentable?.commenters?.data || []
   const comments = commentable?.comments?.data || []
+
+  if (loading) return <Skeleton />
 
   if (!comments.length && !onPressCreateComment) return <></>
 
@@ -71,6 +74,17 @@ const Comments = ({ commentableId, commentableType, onPressCreateComment }: Comm
   )
 }
 
+const Skeleton = () => {
+  return (
+    <View>
+      <View style={styles.skeletonContainer}>
+        <HoliSkeleton height={Spacing.sm} width={Spacing.sm} borderRadius={12} />
+        <HoliSkeleton height={Spacing.xxl} width={'100%'} borderRadius={16} />
+      </View>
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   commentersContainerSingle: {
     marginLeft: Spacing['3xs'],
@@ -84,6 +98,10 @@ const styles = StyleSheet.create({
   },
   commentsContainer: {
     gap: Spacing.xs,
+  },
+  skeletonContainer: {
+    flexDirection: 'row',
+    gap: Spacing.xxs,
   },
 })
 
