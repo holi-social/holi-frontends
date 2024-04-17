@@ -8,12 +8,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-type StartDiscussionProps = {
-  discussionId: string
-  insightId: string
-}
-
-const StartDiscussion = ({}: StartDiscussionProps) => {
+const StartDiscussion = () => {
   const { t } = useTranslation()
   const { user, isLoggedIn } = useLoggedInUser()
 

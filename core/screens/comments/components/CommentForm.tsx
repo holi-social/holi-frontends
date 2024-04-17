@@ -75,6 +75,7 @@ const CommentForm = ({ commentableId, commentableType, user, redirectRoute, chil
       })
     },
     refetchQueries: [
+      'Comments',
       { query: commentsMetadata, variables: { commentableId, commentableType }, fetchPolicy: 'network-only' },
     ],
   })

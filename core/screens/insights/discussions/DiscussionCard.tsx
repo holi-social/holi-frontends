@@ -103,7 +103,7 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
           <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
         </>
       ) : (
-        <StartDiscussion discussionId={discussion.id} insightId={insightId} />
+        <StartDiscussion />
       )}
     </HoliButton>
   )
