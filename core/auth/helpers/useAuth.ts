@@ -34,6 +34,6 @@ export const useAuth = () => {
     userId,
     isLoggedIn: !!userId,
     isLoggedOut: userId === null,
-    isLoading: userId === undefined,
+    isUninitialized: userId === undefined,
   }
 }

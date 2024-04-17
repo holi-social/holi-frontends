@@ -111,7 +111,7 @@ describe('ChatHomeContent Component', () => {
   })
 
   it('should render login info screen if the user is not logged-in', async () => {
-    useAuthMock.mockReturnValue({ userId: null, isLoggedIn: false, isLoggedOut: false, isLoading: false })
+    useAuthMock.mockReturnValue({ userId: null, isLoggedIn: false, isLoggedOut: false, isUninitialized: false })
     render(
       <MockedProvider mocks={[]} addTypename={false} cache={createCache()}>
         <ChatHomeContent />
@@ -126,7 +126,7 @@ describe('ChatHomeContent Component', () => {
       userId: HOLI_CREATOR_ID_FIXTURE,
       isLoggedIn: true,
       isLoggedOut: false,
-      isLoading: false,
+      isUninitialized: false,
     })
     const roomName = 'room-name'
     const roomMock = createRoomMock(DM_ROOM_ID, {
@@ -172,7 +172,7 @@ describe('ChatHomeContent Component', () => {
       userId: HOLI_MEMBER1_ID_FIXTURE,
       isLoggedIn: true,
       isLoggedOut: false,
-      isLoading: false,
+      isUninitialized: false,
     })
     const roomName = CREATOR_FIXTURE.name
     const roomMock = createRoomMock(DM_ROOM_ID, {
@@ -217,7 +217,7 @@ describe('ChatHomeContent Component', () => {
       userId: HOLI_MEMBER1_ID_FIXTURE,
       isLoggedIn: true,
       isLoggedOut: false,
-      isLoading: false,
+      isUninitialized: false,
     })
 
     const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {

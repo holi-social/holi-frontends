@@ -5,12 +5,12 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
 export const useLoggedInUser = () => {
-  const { userId } = useAuth()
+  const { userId, isUninitialized } = useAuth()
   const { displayError } = useErrorHandling()
 
   const {
     data: { authenticatedUser: user } = {},
-    loading,
+    loading: isLoadingAuthenticatedUser,
     refetch,
   } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !userId,
@@ -27,9 +27,8 @@ export const useLoggedInUser = () => {
 
   return {
     user,
-    // TODO: refactor all splaces and use `isLoggedIn` from `useAuth()` hook instead
     isLoggedIn: !!user,
-    isLoading: loading,
+    isLoading: isLoadingAuthenticatedUser || isUninitialized,
     refetch,
   }
 }
