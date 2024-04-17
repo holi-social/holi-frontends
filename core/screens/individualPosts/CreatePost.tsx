@@ -92,7 +92,7 @@ const CreatePost = () => {
             placeholderColor={theme.colors.gray300}
             inputStyle={styles.textInput}
             style={styles.description}
-            aria-label={t('individuals.post.create.category.input.title')}
+            aria-label={t('individuals.post.create.category.input.description')}
           />
         </View>
         <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
