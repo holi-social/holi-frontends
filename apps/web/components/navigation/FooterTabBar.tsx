@@ -5,10 +5,12 @@ import { StyleSheet, View } from 'react-native'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
+import { HomeSmile2, HomeSmile2Filled, Megaphone, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -29,6 +31,8 @@ const FooterTabBar = () => {
   const isProfileLoginRegistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
     pathname.startsWith(path)
   )
+
+  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   return (
     <View
@@ -94,6 +98,15 @@ const FooterTabBar = () => {
             {t('chat.title')}
           </HoliText>
         </HoliButton>
+
+        {ftEnabledPosts && (
+          <AppsDrawer style={styles.button}>
+            <HoliIcon icon={Megaphone} color={styles.inactiveTintColor.color} style={{ alignItems: 'center' }} />
+            <HoliText size="extrasmall" style={[styles.buttonLabel, styles.inactiveTintColor]}>
+              {t('apps.drawer.open.btn.text')}
+            </HoliText>
+          </AppsDrawer>
+        )}
 
         <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
           <HoliText
