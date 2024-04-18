@@ -41,8 +41,10 @@ export interface HoliTextInputProps {
   trailingIcon?: HoliIconType
   trailingComponent?: ReactChild
   style?: StyleProp<ViewStyle>
+  fontStyle?: StyleProp<TextStyle>
   inputStyle?: StyleProp<ViewStyle>
   labelStyle?: StyleProp<TextStyle>
+  placeholderColor?: string
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   testID?: string
@@ -95,6 +97,8 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
       inline = false,
       style = {},
       inputStyle = {},
+      fontStyle = {},
+      placeholderColor,
       type,
       value,
       inputLabel,
@@ -222,13 +226,13 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
           >
             <TextInput
               value={value}
-              style={[styles.input, inline ? styles.inline : styles.block]}
+              style={[styles.input, fontStyle, inline ? styles.inline : styles.block]}
               numberOfLines={noOfVisibleLines}
               multiline={multiline}
               onFocus={handleFocus}
               onBlur={handleBlur}
               placeholder={props?.placeholder}
-              placeholderTextColor={colors.foreground10}
+              placeholderTextColor={placeholderColor || colors.foreground10}
               onChange={(event) => {
                 let text = event.nativeEvent.text
                 // type doesn't work with RN 'numeric' on web

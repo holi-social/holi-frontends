@@ -2,7 +2,6 @@ import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import { insightsByUserIdQuery } from '@holi/core/queries'
-import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
 import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
@@ -20,9 +19,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
         userId,
       },
       skip: !userId,
-    },
-    {
-      query: featureTogglesQuery,
     },
     {
       query: insightsByUserIdQuery,

@@ -322,7 +322,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background10,
     },
     postTitleLink: {
-      marginBottom: 4,
+      marginVertical: 4,
     },
     imageContainer: {
       width: '100%',

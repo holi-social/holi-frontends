@@ -2,16 +2,15 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
-import PaginationDot from 'react-native-animated-pagination-dot'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import Carousel from 'react-native-reanimated-carousel'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import HoliSwiper from '@holi/ui/components/molecules/HoliSwiper/index'
+import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import {
@@ -31,14 +30,16 @@ type CarouselItem = {
   type: 'article' | 'teaser'
   article: GoodNewsArticle
 }
+
 export type GoodNewsArticleParams = {
   articleId?: string
 }
+
 const { useParam } = createParamHooks<GoodNewsArticleParams>()
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel = () => {
-  const { width, height } = useWindowDimensions()
+  const { height } = useWindowDimensions()
   const { i18n } = useTranslation()
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   const setScreenOptions = useSetScreenOptions()
@@ -74,6 +75,7 @@ const GoodNewsCarousel = () => {
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
   const [paramArticleId] = useParam('articleId', singleParamConfig)
+  const initialArticleIndex = paramArticleId ? articles.findIndex((article) => article.id === paramArticleId) : 0
 
   const activeArticleFormattedDate =
     articles[activeArticleIndex] && dateFormat.format(Date.parse(articles[activeArticleIndex].date))
@@ -103,28 +105,6 @@ const GoodNewsCarousel = () => {
     }
   }, [articles, paramArticleId, setActiveArticleIndex])
 
-  const renderItem = useCallback(
-    ({ item, index }: { item: CarouselItem; index: number }) => {
-      const accessible = index === activeArticleIndex
-      return item.type === 'article' ? (
-        <GoodNewsArticleComponent
-          article={item.article}
-          key={item.article.id}
-          accessible={accessible}
-          style={styles.article}
-        />
-      ) : (
-        <GoodNewsTeaserComponent
-          article={item.article}
-          key={item.article.id}
-          fetchMore={memoizedFetchMore}
-          accessible={accessible}
-        />
-      )
-    },
-    [activeArticleIndex, memoizedFetchMore]
-  )
-
   // Error and loading states are handled the same way and just hide the component
   if (loading || error) {
     return <></>
@@ -134,57 +114,54 @@ const GoodNewsCarousel = () => {
     logger.debug('GoodNewsCarousel', 'articles array is empty')
     return <></>
   }
+
   const carouselItems: CarouselItem[] = articles
     .map((article) => ({ type: 'article', article: article } as CarouselItem))
     .concat(previousDateTeaser ? [{ type: 'teaser', article: previousDateTeaser }] : [])
 
   return (
-    <GestureHandlerRootView style={styles.rootView}>
-      {/* props documentation https://github.com/dohooo/react-native-reanimated-carousel/blob/HEAD/docs/props.md */}
-      <Carousel
-        width={width}
-        height={height}
-        loop={false}
-        data={carouselItems}
-        defaultIndex={activeArticleIndex}
-        renderItem={renderItem}
-        onSnapToItem={setActiveArticleIndex}
-        scrollAnimationDuration={250}
-        testID={'goodnews-list-container'}
-      />
-      <SafeAreaView
-        style={styles.paginationDotArea}
-        importantForAccessibility="no-hide-descendants"
-        accessibilityElementsHidden={true}
-      >
-        <PaginationDot
-          activeDotColor={colors.foreground30}
-          inactiveDotColor={colors.foreground20}
-          curPage={activeArticleIndex}
-          maxPage={carouselItems.length}
-          sizeRatio={1.0}
-        />
-      </SafeAreaView>
-    </GestureHandlerRootView>
+    <View style={{ alignItems: 'center', flex: 1 }}>
+      <View style={{ width: '100%', maxWidth: +dimensions.maxScreenWidth + 160, flex: 1 }}>
+        <HoliSwiper
+          initialSlide={initialArticleIndex}
+          height={height}
+          onSlideChange={setActiveArticleIndex}
+          count={carouselItems.length}
+        >
+          {carouselItems.map((item, index) => (
+            <HoliSwiper.Slide virtualIndex={index} key={item.article.id}>
+              {({ isActive }) => (
+                <View style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
+                  {item.type === 'article' ? (
+                    <GoodNewsArticleComponent
+                      article={item.article}
+                      key={item.article.id}
+                      accessible={isActive}
+                      style={styles.article}
+                    />
+                  ) : (
+                    <GoodNewsTeaserComponent
+                      article={item.article}
+                      key={item.article.id}
+                      fetchMore={memoizedFetchMore}
+                      accessible={isActive}
+                    />
+                  )}
+                </View>
+              )}
+            </HoliSwiper.Slide>
+          ))}
+        </HoliSwiper>
+      </View>
+    </View>
   )
 }
 
 export default withProfiler(GoodNewsCarousel, { name: 'GoodNewsCarousel' })
 
-const paginationDotAreaHeight = 50
-
 const styles = StyleSheet.create({
   article: {
-    paddingBottom: paginationDotAreaHeight,
-  },
-  paginationDotArea: {
-    zIndex: -1,
-    backgroundColor: 'transparent',
-    bottom: 12,
-    minHeight: paginationDotAreaHeight,
-    position: 'absolute',
-    alignSelf: 'center',
-    flexDirection: 'row',
+    height: '100%',
   },
   rootView: {
     flex: 1,

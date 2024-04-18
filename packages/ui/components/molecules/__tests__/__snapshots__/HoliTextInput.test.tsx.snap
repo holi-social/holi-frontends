@@ -114,6 +114,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "lineHeight": 22.4,
               "overflow": "scroll",
             },
+            {},
             {
               "width": "100%",
             },
@@ -276,6 +277,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "lineHeight": 22.4,
               "overflow": "scroll",
             },
+            {},
             {
               "width": "100%",
             },
@@ -438,6 +440,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "lineHeight": 22.4,
               "overflow": "scroll",
             },
+            {},
             {
               "width": "100%",
             },
@@ -609,6 +612,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "lineHeight": 22.4,
               "overflow": "scroll",
             },
+            {},
             {
               "maxWidth": "100%",
             },
@@ -771,6 +775,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "lineHeight": 22.4,
               "overflow": "scroll",
             },
+            {},
             {
               "width": "100%",
             },
@@ -1006,6 +1011,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "lineHeight": 22.4,
               "overflow": "scroll",
             },
+            {},
             {
               "width": "100%",
             },
@@ -1140,6 +1146,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "lineHeight": 22.4,
               "overflow": "scroll",
             },
+            {},
             {
               "width": "100%",
             },

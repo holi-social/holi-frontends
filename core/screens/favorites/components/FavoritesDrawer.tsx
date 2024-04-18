@@ -78,7 +78,7 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ item, children }: Favor
 
       <HoliActionDrawer.Action
         icon={Bookmark2Line}
-        title={t('favorites.remove.bookmark.button')}
+        title={t('favorites.remove.favorite.button')}
         testID="btn-remove-favorite"
         handleAction={removeInsightFavoriteActionHandler}
       />

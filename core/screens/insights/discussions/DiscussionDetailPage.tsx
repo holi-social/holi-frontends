@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -22,7 +22,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionDetailPageParams = {
@@ -80,6 +80,13 @@ const DiscussionDetailPage = () => {
     })
   }, [theme.colors.background10, t, setScreenOptions])
 
+  const onPressCreateComment = () =>
+    isLoggedIn
+      ? navigate(`/insights/${insightId}/discussions/${discussionId}/comment`)
+      : openLoginModal({
+          description: t('comments.loginRedirect.text'),
+        })
+
   return (
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
@@ -91,30 +98,30 @@ const DiscussionDetailPage = () => {
         }}
         style={styles.wrapper}
         headerOverlap
+        scrollEnabled={false}
+        scrollable={false}
+        contentStyle={styles.wrapperContent}
       >
         <HoliContainer paddingHorizontal={0}>
-          {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
-          {discussionId && (
-            <View style={styles.commentsContainer}>
-              <Comments commentableType={CommentableType.DISCUSSION} commentableId={discussionId} />
-            </View>
-          )}
+          <ScrollView style={styles.scrollView}>
+            {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
+            {discussionId && (
+              <View style={styles.commentsContainer}>
+                <Comments
+                  commentableType={CommentableType.DISCUSSION}
+                  commentableId={discussionId}
+                  onPressCreateComment={onPressCreateComment}
+                />
+              </View>
+            )}
+          </ScrollView>
         </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
 
       <SafeAreaView>
         <View style={styles.commentWrapper}>
           <HoliContainer flex={1}>
-            <PostDetailFooter
-              style={[styles.commentButton]}
-              onPress={() =>
-                isLoggedIn
-                  ? navigate(`/insights/${insightId}/discussions/${discussionId}/comment`)
-                  : openLoginModal({
-                      description: t('comments.loginRedirect.text'),
-                    })
-              }
-            />
+            <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
           </HoliContainer>
         </View>
       </SafeAreaView>
@@ -124,33 +131,42 @@ const DiscussionDetailPage = () => {
 
 const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRadius={0} />
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = ({ colors }: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: theme.colors.background20,
+      height: '100%',
+      flex: 1,
+      backgroundColor: colors.background20,
       ...Platform.select({
         web: {
           minHeight: '100%',
           paddingTop: dimensions.topBarHeight,
-          paddingBottom: Spacing.lg,
+          paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
         ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxs,
+          paddingTop: dimensions.topBarHeight + Spacing.xl - 2,
         },
         android: {
           paddingTop: dimensions.topBarHeight + Spacing.xxl,
         },
       }),
     },
+    wrapperContent: {
+      paddingBottom: 0,
+    },
+    scrollView: {
+      height: '100%',
+    },
     commentsContainer: {
-      padding: Spacing.xs,
+      paddingHorizontal: Spacing.xs,
+      paddingVertical: Spacing.sm,
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
     },
     commentWrapper: {
-      backgroundColor: theme.colors.background10,
-      borderTopColor: theme.colors.background30,
+      backgroundColor: colors.background10,
+      borderTopColor: colors.background30,
       borderTopWidth: 1,
       width: '100%',
       height: 74,

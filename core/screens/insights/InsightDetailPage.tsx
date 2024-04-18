@@ -127,9 +127,12 @@ const InsightDetailPage = () => {
     t('insights.curationPrinciples.principles.1'),
     t('insights.curationPrinciples.principles.2'),
     t('insights.curationPrinciples.principles.3'),
-    t('insights.curationPrinciples.principles.4'),
   ]
-  const curatorInfo2 = [t('insights.curationPrinciples.principles.5'), t('insights.curationPrinciples.principles.6')]
+  const curatorInfo2 = [
+    t('insights.curationPrinciples.principles.4'),
+    t('insights.curationPrinciples.principles.5'),
+    t('insights.curationPrinciples.principles.6'),
+  ]
 
   const curatorSlides = [
     <View style={styles.slide} key={1}>
@@ -162,7 +165,7 @@ const InsightDetailPage = () => {
             >
               {t('insights.curatorModal.profileLink')}
             </HoliButton>
-            <HoliText style={{ marginTop: 8 }} numberOfLines={8}>
+            <HoliText style={{ marginTop: 8 }} numberOfLines={4} ellipsizeMode="tail">
               {creator.aboutMe}
             </HoliText>
           </>
@@ -192,7 +195,8 @@ const InsightDetailPage = () => {
         {curatorInfo2.map((copy, index) => (
           <View style={styles.row} key={index}>
             <View style={styles.count}>
-              <HoliText>{index + 1}</HoliText>
+              {/* For consecutive counting, 4 is the starting index in the second array */}
+              <HoliText>{index + 4}</HoliText>
             </View>
             <HoliText style={styles.copy}>{copy}</HoliText>
           </View>
@@ -278,17 +282,16 @@ const InsightDetailPage = () => {
                       slides={curatorSlides.map((slide) => ({
                         children: slide,
                       }))}
+                      style={{ marginHorizontal: 'auto' }}
                     />
-                    <View>
-                      <HoliButton
-                        inline
-                        style={styles.close}
-                        onPress={() => setShowCuratorModal(false)}
-                        label={t('modal.close')}
-                      >
-                        {t('insights.curatorModal.close')}
-                      </HoliButton>
-                    </View>
+                    <HoliButton
+                      inline
+                      style={styles.close}
+                      onPress={() => setShowCuratorModal(false)}
+                      label={t('modal.close')}
+                    >
+                      {t('insights.curatorModal.close')}
+                    </HoliButton>
                   </HoliModal>
                 </>
               )}
@@ -330,7 +333,7 @@ const InsightDetailPage = () => {
               </InsightCarouselSection>
             )}
 
-            {initiatives.length == 0 && (
+            {initiatives.length > 0 && (
               <InsightCarouselSection
                 heading={initiativesTitle}
                 headingIcon={{
@@ -536,21 +539,31 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       flex: 1,
     },
     slideWrapper: {
-      height: '80%',
       backgroundColor: theme.colors.white100,
       padding: Spacing.md,
       borderRadius: 16,
       borderWidth: 1,
       borderColor: theme.colors.black300,
-      marginBottom: Spacing.md,
-      overflow: 'hidden',
+      flexGrow: 1,
+      ...Platform.select({
+        web: {
+          marginBottom: Spacing.md,
+        },
+      }),
     },
     slideHeader: {
-      marginBottom: Spacing.sm,
+      ...Platform.select({
+        web: {
+          marginBottom: Spacing.sm,
+        },
+        native: {
+          marginBottom: 4,
+        },
+      }),
     },
     row: {
       flexDirection: 'row',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       gap: Spacing.xs,
       padding: Spacing['3xs'],
     },
@@ -575,8 +588,15 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     close: {
       marginHorizontal: 'auto',
-      paddingHorizontal: 42,
       marginVertical: Spacing.md,
+      ...Platform.select({
+        web: {
+          width: 327,
+        },
+        native: {
+          marginHorizontal: Spacing.md,
+        },
+      }),
     },
   })
 

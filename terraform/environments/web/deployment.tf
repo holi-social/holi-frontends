@@ -59,6 +59,10 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
+          name  = "NEXT_PUBLIC_SSR_ENABLED"
+          value = local.environment == "production" ? "false" : "true"
+        }
+        env {
           name  = "NEXT_PUBLIC_POSTHOG_KEY"
           value = local.posthog_key
         }
@@ -91,11 +95,11 @@ resource "google_cloud_run_service" "mvp_web" {
           limits = {
             # cpu can only be scaled down to 1000m as long as container_concurrency is set to != 1
             cpu    = local.environment == "production" ? "1000m" : "1000m"
-            memory = local.environment == "production" ? "512Mi" : "1024Mi"
+            memory = local.environment == "production" ? "512Mi" : "512Mi"
           }
           requests = {
             cpu    = local.environment == "production" ? "1000m" : "200m"
-            memory = local.environment == "production" ? "512Mi" : "1024Mi"
+            memory = local.environment == "production" ? "512Mi" : "256Mi"
           }
         }
         startup_probe {

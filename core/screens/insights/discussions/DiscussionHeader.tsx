@@ -30,7 +30,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     question: {
       padding: Spacing.xs,
-      backgroundColor: theme.colors.background20,
+      backgroundColor: theme.colors.background10,
       borderColor: theme.colors.black300,
       borderWidth: 1,
       borderRadius: Spacing.xs,

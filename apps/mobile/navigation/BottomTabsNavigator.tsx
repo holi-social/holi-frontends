@@ -8,8 +8,16 @@ import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTab
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
+import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
+import {
+  HomeSmile2,
+  HomeSmile2Filled,
+  Megaphone,
+  MegaphoneFilled,
+  Spaces,
+  SpacesFilled,
+} from '@holi/icons/src/generated'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
@@ -23,10 +31,15 @@ export type BottomTabsScreens = {
   [RouteName.Home]: undefined
   [RouteName.SpacesHomeStack]: undefined
   [RouteName.Chat]: undefined
+  [RouteName.AppsModal]: undefined
   [RouteName.Auth]: undefined
 }
 
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
+
+const AppsModalComponent = () => {
+  return null
+}
 
 const BottomTabsNavigator = () => {
   const { theme } = useTheme()
@@ -110,6 +123,24 @@ const BottomTabsNavigator = () => {
           tabBarTestID: 'btn-to-chat-view',
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
+      />
+      <BottomTabs.Screen
+        name={RouteName.AppsModal}
+        component={AppsModalComponent}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={iconColor(focused)} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+              {t('apps.drawer.open.btn.text')}
+            </HoliText>
+          ),
+          tabBarButton: (props) => <AppsDrawer {...props} />,
+          tabBarLabelPosition: 'below-icon',
+          tabBarTestID: 'btn-to-apps-view',
+        }}
       />
       <BottomTabs.Screen
         name={RouteName.Auth}

@@ -4,10 +4,12 @@ import { Platform } from 'react-native'
 import {
   DEBUG_LOG_BY_DEFAULT,
   DEBUG_LOG_COMPONENTS,
-  IS_DEBUG_LOGGING_ENABLED,
   IS_IN_TESTING_ENV,
 } from '@holi/core/helpers/logging/logging_config'
 import { Logger, NoopLoggerImpl } from '@holi/core/helpers/logging/types'
+
+// global switch if debug logging should be on
+export const IS_DEBUG_LOGGING_ENABLED = __DEV__
 
 class NativeLoggerImpl implements Logger {
   constructor(private component: string) {}

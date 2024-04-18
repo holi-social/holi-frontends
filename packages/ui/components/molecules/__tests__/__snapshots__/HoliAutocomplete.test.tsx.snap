@@ -123,6 +123,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 "lineHeight": 22.4,
                 "overflow": "scroll",
               },
+              {},
               {
                 "width": "100%",
               },
@@ -349,6 +350,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "lineHeight": 22.4,
                 "overflow": "scroll",
               },
+              {},
               {
                 "width": "100%",
               },

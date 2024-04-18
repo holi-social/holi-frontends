@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -8,18 +9,22 @@ import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
-import { Comment } from '@holi/core/screens/comments/types'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 
 type CommentsProps = {
   commentableId: string
   commentableType: CommentableType
+  onPressCreateComment?: () => void
 }
 
-const Comments = ({ commentableId, commentableType }: CommentsProps) => {
-  const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
+const Comments = ({ commentableId, commentableType, onPressCreateComment }: CommentsProps) => {
+  const { t } = useTranslation()
+  const { data: { commentable } = {}, loading } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
@@ -30,19 +35,32 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
     },
   })
 
-  const latestCommenters: readonly User[] = commentable?.commenters?.data || []
-  const comments: readonly Comment[] = commentable?.comments?.data || []
+  const latestCommenters = commentable?.commenters?.data || []
+  const comments = commentable?.comments?.data || []
+
+  if (loading) return <Skeleton />
+
+  if (!comments.length && !onPressCreateComment) return <></>
+
+  if (!comments.length)
+    return (
+      <HoliButton transparent inline label={t('insights.discussions.empty')} onPress={onPressCreateComment}>
+        <HoliText color="gray300" size="small">
+          {t('insights.discussions.empty')}
+        </HoliText>
+      </HoliButton>
+    )
 
   return (
     <>
       <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
-        <HoliUserAvatarPile users={latestCommenters} collapse counter />
+        <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
       </View>
       <View style={styles.commentersLine}>
         <VerticalLine />
       </View>
-      {comments.map((comment) => {
-        return (
+      <View style={styles.commentsContainer}>
+        {comments.map((comment) => (
           <CommentView
             key={comment.id}
             comment={comment}
@@ -50,9 +68,18 @@ const Comments = ({ commentableId, commentableType }: CommentsProps) => {
             commentableType={commentableType}
             reportContentType={ContentType.POST_COMMENT}
           />
-        )
-      })}
+        ))}
+      </View>
     </>
+  )
+}
+
+const Skeleton = () => {
+  return (
+    <View style={styles.skeletonContainer}>
+      <HoliSkeleton height={Spacing.sm} width={Spacing.sm} borderRadius={12} />
+      <HoliSkeleton height={Spacing.xxl} width={'80%'} borderRadius={16} />
+    </View>
   )
 }
 
@@ -66,6 +93,13 @@ const styles = StyleSheet.create({
   commentersLine: {
     marginLeft: Spacing.sm,
     marginVertical: Spacing['3xs'],
+  },
+  commentsContainer: {
+    gap: Spacing.xs,
+  },
+  skeletonContainer: {
+    flexDirection: 'row',
+    gap: Spacing.xxs,
   },
 })
 

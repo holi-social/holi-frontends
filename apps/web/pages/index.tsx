@@ -3,7 +3,7 @@ import React from 'react'
 
 import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
 import { POSTS_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InspirationPosts'
-import { featureTogglesQuery, inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
 import { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
@@ -20,9 +20,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const { location } = context.query
 
   const queries = [
-    {
-      query: featureTogglesQuery,
-    },
     {
       query: lastInsightsQuery,
       variables: {

@@ -3,7 +3,6 @@ import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { VisibilityFilter } from '@holi/core/screens/spaces/types'
@@ -30,9 +29,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
       .then((result) => result.data.spaceById)
 
     return [
-      {
-        query: featureTogglesQuery,
-      },
       {
         query: spacePostsQuery,
         variables: {

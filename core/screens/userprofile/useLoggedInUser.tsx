@@ -10,7 +10,7 @@ export const useLoggedInUser = () => {
 
   const {
     data: { authenticatedUser: user } = {},
-    loading,
+    loading: isLoadingAuthenticatedUser,
     refetch,
   } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: loginState.loginState !== 'loggedIn',
@@ -27,9 +27,8 @@ export const useLoggedInUser = () => {
 
   return {
     user,
-    // TODO: refactor all splaces and use `isLoggedIn` from `useAuth()` hook instead
     isLoggedIn: !!user,
-    isLoading: loading,
+    isLoading: isLoadingAuthenticatedUser || loginState.isUnknown,
     refetch,
   }
 }

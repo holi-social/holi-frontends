@@ -1,6 +1,3 @@
-// eslint-disable-next-line prettier/prettier
-import { platform, target, Appium } from '@holi/e2e-mobile/global'
-
 import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { waitForHomeScreen } from '../../helpers/navigation'
 import { itif } from '../../helpers/platform'

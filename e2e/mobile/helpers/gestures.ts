@@ -1,6 +1,3 @@
-// eslint-disable-next-line prettier/prettier
-import { Appium } from '@holi/e2e-mobile/global'
-// eslint-disable-next-line prettier/prettier
 import { RectReturn } from '@wdio/protocols/build/types'
 
 /**

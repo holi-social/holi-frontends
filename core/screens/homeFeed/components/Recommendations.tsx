@@ -1,25 +1,24 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
 import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
 
-const UpdatesOfYourApps = () => {
-  const mixins = useStyleMixins()
+const Recommendations = () => {
   const { t } = useTranslation()
 
   return (
     <HoliBox padding={[32, 0, 0, 0]}>
-      <View style={[mixins.container, styles.wrapper]}>
-        <HoliHeading size="l">{t('apps.updates.headline')}</HoliHeading>
+      <HoliContainer gap={24}>
+        <HoliHeading size="l">{t('recommendations.title')}</HoliHeading>
         <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_DONATIONS}
           featureNameKey="donations:maintenance.feature"
@@ -28,33 +27,30 @@ const UpdatesOfYourApps = () => {
           <DonationUpdates style={styles.updatesContainer} />
         </FeatureToggleGuard>
         <FeatureToggleGuard
-          toggleName={FeatureToggleName.APPS_GOODNEWS}
-          featureNameKey="goodnews:maintenance.feature"
-          noLayout
-        >
-          <GoodNewsUpdates style={styles.updatesContainer} />
-        </FeatureToggleGuard>
-        <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_VOLUNTEERING}
           featureNameKey="volunteering:maintenance.feature"
           noLayout
         >
           <VolunteeringUpdates style={styles.updatesContainer} />
         </FeatureToggleGuard>
-      </View>
+        <FeatureToggleGuard
+          toggleName={FeatureToggleName.APPS_GOODNEWS}
+          featureNameKey="goodnews:maintenance.feature"
+          noLayout
+        >
+          <GoodNewsUpdates style={styles.updatesContainer} />
+        </FeatureToggleGuard>
+      </HoliContainer>
     </HoliBox>
   )
 }
 
-export default UpdatesOfYourApps
+export default Recommendations
 
 const styles = StyleSheet.create({
-  wrapper: {
-    gap: 24,
-  },
   updatesContainer: {
-    // dummy ...
-    minHeight: 200,
+    flex: 1,
+    minHeight: 'auto',
     paddingBottom: 12,
   },
   maintenance: {
