@@ -84,6 +84,7 @@ export enum RouteName {
   VideoCall = 'VideoCall',
 
   // Apps Hub
+  AppsModal = 'AppsModal',
   AppsHub = 'AppsHub',
 
   // separate Stacks

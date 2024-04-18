@@ -1,6 +1,4 @@
 // eslint-disable-next-line prettier/prettier
-import { target } from '@holi/e2e-mobile/global'
-
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,

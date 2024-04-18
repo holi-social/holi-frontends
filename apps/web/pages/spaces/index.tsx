@@ -2,7 +2,6 @@ import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
-import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
 import { SPACES_GROUP_LIMIT } from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
@@ -22,7 +21,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
     const defaultTopics = getDefaultTopics(topics, []).slice(0, 2)
 
     const queries = [
-      { query: featureTogglesQuery }, // Search icon in header
       { query: skillsQuery },
       { query: sdgsQuery },
       ...defaultTopics.map((topic) => {

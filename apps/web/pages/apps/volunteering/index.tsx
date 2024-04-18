@@ -4,7 +4,6 @@ import pino from 'pino'
 import React, { ReactElement } from 'react'
 
 import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
-import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { AppLayout } from '@holi/web/layout/NavigationLayoutVolunteeringApp'
 import type { NextPageWithLayout } from '@holi/web/pages/_app'
@@ -42,9 +41,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
         }))
 
     return [
-      {
-        query: featureTogglesQuery,
-      },
       {
         query: volunteeringEngagementsQuery,
         variables: {
