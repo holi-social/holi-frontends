@@ -41,7 +41,7 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 }
 
 export const setImplicitTimeout = async (timeout: number) => {
-  // @ts-ignore
+  // @ts-ignores
   Appium.options.currentImplicitTimeout = timeout
   await Appium.setImplicitTimeout(timeout)
 }
