@@ -27,6 +27,7 @@ const appInit =
         posthog.identify(loginState.userId)
       }
     } else {
+      logger.debug('lifecycle.appInit', 'consent NOT given, opting out on posthog client')
       await posthog.optOut()
     }
   }
@@ -84,22 +85,6 @@ const userDeniedTrackingConsent = (posthog: PosthogCrossPlatform, isLoggedIn: bo
 const useTracking = (): TrackingHook => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const loginState = useAuth()
-
-  /*
-  if (loginState.isUnknown) {
-    logger.debug('useTracking', 'we are here')
-    return {
-      trackEvent: () => Promise.resolve(),
-      lifecycle: {
-        userLoggedIn: () => Promise.resolve(),
-        userLoggedOut: () => Promise.resolve(),
-        userGaveTrackingConsent: () => Promise.resolve(),
-        userDeniedTrackingConsent: () => Promise.resolve(),
-      },
-    }
-  }
-  */
-
   return {
     trackEvent: trackEvent(posthog),
     lifecycle: {
