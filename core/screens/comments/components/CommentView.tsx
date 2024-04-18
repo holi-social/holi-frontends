@@ -235,6 +235,7 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       justifyContent: 'center',
       gap: 6,
+      marginBottom: Spacing['3xs'],
     },
   })
 

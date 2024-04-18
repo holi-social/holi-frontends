@@ -10,6 +10,9 @@ import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 
@@ -17,11 +20,12 @@ interface CommentsProps {
   commentableId: string
   commentableType: CommentableType
   replyRoute?: string // the route to be redirected to when clicking "reply". If undefined, no reply button is displayed
+  onPressCreateComment?: () => void
 }
 
-const Comments = ({ commentableId, commentableType, replyRoute }: CommentsProps) => {
+const Comments = ({ commentableId, commentableType, replyRoute, onPressCreateComment }: CommentsProps) => {
   const { navigate } = useRouting()
-  const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const { data: { commentable } = {}, loading } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
@@ -35,6 +39,19 @@ const Comments = ({ commentableId, commentableType, replyRoute }: CommentsProps)
   const latestCommenters = commentable?.commenters?.data || []
   const comments = commentable?.comments?.data || []
 
+  if (loading) return <Skeleton />
+
+  if (!comments.length && !onPressCreateComment) return <></>
+
+  if (!comments.length)
+    return (
+      <HoliButton transparent inline label={t('insights.discussions.empty')} onPress={onPressCreateComment}>
+        <HoliText color="gray300" size="small">
+          {t('insights.discussions.empty')}
+        </HoliText>
+      </HoliButton>
+    )
+
   return (
     <>
       <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
@@ -43,17 +60,28 @@ const Comments = ({ commentableId, commentableType, replyRoute }: CommentsProps)
       <View style={styles.commentersLine}>
         <VerticalLine />
       </View>
-      {comments.map((comment) => (
-        <CommentView
-          key={comment.id}
-          comment={comment}
-          commentableId={commentableId}
-          commentableType={commentableType}
-          reportContentType={ContentType.POST_COMMENT}
-          {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
-        />
-      ))}
+      <View style={styles.commentsContainer}>
+        {comments.map((comment) => (
+          <CommentView
+            key={comment.id}
+            comment={comment}
+            commentableId={commentableId}
+            commentableType={commentableType}
+            reportContentType={ContentType.POST_COMMENT}
+            {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
+          />
+        ))}
+      </View>
     </>
+  )
+}
+
+const Skeleton = () => {
+  return (
+    <View style={styles.skeletonContainer}>
+      <HoliSkeleton height={Spacing.sm} width={Spacing.sm} borderRadius={12} />
+      <HoliSkeleton height={Spacing.xxl} width={'80%'} borderRadius={16} />
+    </View>
   )
 }
 
@@ -67,6 +95,13 @@ const styles = StyleSheet.create({
   commentersLine: {
     marginLeft: Spacing.sm,
     marginVertical: Spacing['3xs'],
+  },
+  commentsContainer: {
+    gap: Spacing.xs,
+  },
+  skeletonContainer: {
+    flexDirection: 'row',
+    gap: Spacing.xxs,
   },
 })
 

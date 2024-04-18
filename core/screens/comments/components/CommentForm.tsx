@@ -18,8 +18,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
+import { commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
-import { PostById } from '@holi/core/screens/posts/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -37,9 +37,10 @@ export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
   commentableType: CommentableType
   user: User
+  redirectRoute?: string
 }
 
-const CommentForm = ({ commentableId, commentableType, user, children }: CommentFormProps) => {
+const CommentForm = ({ commentableId, commentableType, user, redirectRoute, children }: CommentFormProps) => {
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
@@ -58,7 +59,11 @@ const CommentForm = ({ commentableId, commentableType, user, children }: Comment
   const [addComment, { loading: createCommentLoading }] = useMutation<CreateCommentResponse>(AddCommentMutation, {
     onCompleted: () => {
       openToast(t('comments.success'), HoliToastType.SUCCESS)
-      navigateBack()
+      if (redirectRoute) {
+        replaceRoute(redirectRoute)
+      } else {
+        navigateBack()
+      }
     },
     onError: (error) => {
       if (isNotFoundError(error)) {
@@ -69,10 +74,10 @@ const CommentForm = ({ commentableId, commentableType, user, children }: Comment
         commentableId,
       })
     },
-    refetchQueries:
-      commentableType === CommentableType.POST
-        ? ['Comments', { query: PostById, variables: { id: commentableId }, fetchPolicy: 'network-only' }]
-        : ['Comments'],
+    refetchQueries: [
+      'Comments',
+      { query: commentsMetadata, variables: { commentableId, commentableType }, fetchPolicy: 'network-only' },
+    ],
   })
 
   /**
@@ -120,7 +125,7 @@ const CommentForm = ({ commentableId, commentableType, user, children }: Comment
                 onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
                 style={styles.scrollContent}
               >
-                {!!children && <View style={styles.childrenView}>{children}</View>}
+                {children}
 
                 {/* Comment input block */}
                 <View style={mixins.container}>
@@ -198,7 +203,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       overflow: 'hidden',
       ...Platform.select({
         web: {
-          paddingTop: dimensions.topBarHeight + 10,
+          paddingTop: dimensions.topBarHeight,
           height: '100vh' as DimensionValue,
           marginHorizontal: 'auto',
         },
@@ -206,9 +211,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
           paddingBottom: 0,
         },
       }),
-    },
-    childrenView: {
-      marginTop: Spacing.xxs,
     },
     safeArea: {
       flex: 1,
@@ -232,14 +234,12 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       }),
     },
     verticalLine: {
-      marginTop: 16,
-      marginBottom: 10,
+      marginTop: Spacing['3xs'],
+      marginBottom: Spacing['3xs'],
       marginHorizontal: 20,
-      minHeight: 50,
-      ...Platform.select({ web: { minHeight: 75 } }),
+      minHeight: Spacing.xl,
     },
     inputContainer: {
-      marginTop: 16,
       lineHeight: 22,
       flexDirection: 'row',
     },
