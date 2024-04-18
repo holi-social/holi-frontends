@@ -56,7 +56,7 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
       <HoliButton inline label={heading} style={styles.headerContainer} transparent onPress={handleHeaderTitlePress}>
         <View style={styles.header} testID={`${appName}-updates-heading`}>
           <View style={styles.iconContainer}>
-            <HoliIcon icon={appIcon} size={20} color={colors.foreground20} />
+            <HoliIcon icon={appIcon} size={20} color={colors.black300} />
           </View>
           <View style={{ gap: 4 }}>
             <HoliHeading>{heading}</HoliHeading>
@@ -103,12 +103,13 @@ const getStyles = (theme: HoliTheme) =>
       borderRadius: 12,
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
-      backgroundColor: theme.colors.background20,
+      backgroundColor: theme.colors.background10,
     },
     itemsContainer: {
       paddingBottom: 12,
       marginHorizontal: -20,
       paddingLeft: 24,
+      flex: 1,
     },
     seeMoreButton: {
       marginRight: 11,

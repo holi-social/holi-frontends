@@ -41,6 +41,9 @@ const DonationProgress = ({
 
   return (
     <View style={[props?.style]} testID={testID}>
+      <View style={styles.progressBarContainer}>
+        <HoliProgressBar percentage={progressPercentage} size={progressSize} />
+      </View>
       <View style={styles.goals}>
         <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.foreground20 }}>
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
@@ -51,9 +54,6 @@ const DonationProgress = ({
           </HoliText>
         )}
       </View>
-      <View style={styles.progressBarContainer}>
-        <HoliProgressBar percentage={progressPercentage} size={progressSize} />
-      </View>
     </View>
   )
 }
@@ -63,7 +63,7 @@ export default DonationProgress
 const getStyles = () =>
   StyleSheet.create({
     progressBarContainer: {
-      marginTop: 8,
+      paddingBottom: 8,
     },
     goals: {
       flexDirection: 'row',
