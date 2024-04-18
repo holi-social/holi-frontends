@@ -50,7 +50,7 @@ export default Recommendations
 const styles = StyleSheet.create({
   updatesContainer: {
     flex: 1,
-    minHeight: 200,
+    minHeight: 'auto',
     paddingBottom: 12,
   },
   maintenance: {
