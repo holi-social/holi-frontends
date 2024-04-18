@@ -14,6 +14,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -27,7 +28,7 @@ const CreatePost = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [, setSelectedCategory] = useState<string | null>(null)
 
   const Categories = [
     {
@@ -75,10 +76,24 @@ const CreatePost = () => {
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
       <View style={styles.layout}>
-        <View style={{ marginTop: 150, alignItems: 'center' }}>
-          <HoliHeading level="1" size="s">
-            {selectedCategory}
-          </HoliHeading>
+        <View style={styles.inputContainer}>
+          <HoliTextInput
+            placeholder={t('individuals.post.create.category.input.title')}
+            fontStyle={styles.titleFont}
+            inputStyle={styles.textInput}
+            placeholderColor={theme.colors.gray300}
+            aria-label={t('individuals.post.create.category.input.title')}
+          />
+          <HoliTextInput
+            placeholder={t('individuals.post.create.category.input.description')}
+            noOfVisibleLines={15}
+            maxNoOfVisibleLines={15}
+            maxNoOfCharacters={800}
+            placeholderColor={theme.colors.gray300}
+            inputStyle={styles.textInput}
+            style={styles.description}
+            aria-label={t('individuals.post.create.category.input.description')}
+          />
         </View>
         <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
           <View style={styles.modalContent}>
@@ -103,7 +118,7 @@ const CreatePost = () => {
                     style={({ hovered }) => [styles.category, hovered ? styles.categoryHovered : styles.category]}
                     onPress={() => modalPress(category.name)}
                   >
-                    <View style={styles.content}>
+                    <View style={styles.categoryContent}>
                       <HoliLocalImage imageSource={category.image} width={40} height={40} isSvg label={''} />
                       <HoliText bold style={styles.text}>
                         {category.name}
@@ -130,7 +145,11 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
     layout: {
       flex: 1,
       backgroundColor: theme.colors.background20,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
+      alignItems: 'center',
     },
+
+    // modal styles
     category: {
       padding: 16,
       backgroundColor: theme.colors.background10,
@@ -155,7 +174,7 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       borderColor: theme.colors.black300,
       height: 72,
     },
-    content: {
+    categoryContent: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
@@ -183,5 +202,28 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
     backButton: {
       position: 'absolute',
       left: 4,
+    },
+
+    // input styles
+    textInput: {
+      backgroundColor: theme.colors.background20,
+      borderWidth: 0,
+      paddingVertical: 8,
+      maxWidth: '100%',
+    },
+    inputContainer: {
+      flex: 1,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingTop: 24,
+      width: '100%',
+    },
+    description: {
+      flex: 1,
+    },
+    titleFont: {
+      fontSize: 21,
+      color: theme.colors.black300,
     },
   })
