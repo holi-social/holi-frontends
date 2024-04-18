@@ -121,7 +121,7 @@ const HomeFeed = () => {
           refreshing,
           onRefresh,
         }}
-        style={styles.layout}
+        style={[styles.layout, { backgroundColor: colors.white200 }]}
       >
         <View style={styles.sections}>
           <HomeFeedHeader />

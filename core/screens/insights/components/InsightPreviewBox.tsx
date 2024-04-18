@@ -9,11 +9,11 @@ import { Insight } from '@holi/core/screens/insights/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -67,64 +67,65 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
       >
-        <HoliImage
-          source={{ uri: insight.headerImage }}
-          blurhash={insight.headerImageBlurhash}
-          label={insight.title}
-          style={styles.mainImage}
-        />
-        <HoliGap size="s" />
+        <HoliCard
+          imageLabel={insight.title}
+          imageUrl={insight.headerImage}
+          imageWidth={327}
+          imageHeight={218}
+          imageAspectRatio={1.75}
+          hasBorder
+        >
+          {!!insight.topic && (
+            <HoliBox padding={[0, 0, 8, 0]}>
+              <HoliText size="small" bold selectable style={{ color: colors.brandB300 }}>
+                {insight.topic.title}
+              </HoliText>
+            </HoliBox>
+          )}
 
-        {!!insight.topic && (
-          <HoliBox padding={[0, 0, 8, 0]}>
-            <HoliText size="small" bold selectable style={{ color: colors.brandB300 }}>
-              {insight.topic.title}
-            </HoliText>
-          </HoliBox>
-        )}
+          <HoliHeading level="2" selectable size="s" numberOfLines={3}>
+            {insight.title}
+          </HoliHeading>
 
-        <HoliHeading level="2" selectable size="s" numberOfLines={3}>
-          {insight.title}
-        </HoliHeading>
-
-        {!!insight.creator && (
-          <HoliBox padding={[8, 0, 0, 0]}>
-            <View style={styles.container}>
-              <View style={styles.row}>
-                <HoliAvatar
-                  imageSrc={insight.creator.avatar}
-                  imageBlurhash={insight.creator.avatarBlurhash}
-                  label={insight.creator.fullName || t('user.profileView.anonymous')}
-                  initials={insight.creator.avatarLabel}
-                  defaultColor={insight.creator.avatarDefaultColor}
-                  size="micro"
-                  testID="insight-curator"
-                  style={styles.avatar}
-                />
-                <HoliText size="small" style={styles.textGrey}>
-                  {insight.creator.fullName}
-                </HoliText>
-                <HoliText size="large" style={styles.dot}>
-                  &middot;
-                </HoliText>
-                <HoliText size="small" style={styles.textGrey}>
-                  {getRelativeDateString(insight.datePublished, i18n.language)}
-                </HoliText>
+          {!!insight.creator && (
+            <HoliBox padding={[8, 0, 0, 0]}>
+              <View style={styles.container}>
+                <View style={styles.row}>
+                  <HoliAvatar
+                    imageSrc={insight.creator.avatar}
+                    imageBlurhash={insight.creator.avatarBlurhash}
+                    label={insight.creator.fullName || t('user.profileView.anonymous')}
+                    initials={insight.creator.avatarLabel}
+                    defaultColor={insight.creator.avatarDefaultColor}
+                    size="micro"
+                    testID="insight-curator"
+                    style={styles.avatar}
+                  />
+                  <HoliText size="small" style={styles.textGrey}>
+                    {insight.creator.fullName}
+                  </HoliText>
+                  <HoliText size="large" style={styles.dot}>
+                    &middot;
+                  </HoliText>
+                  <HoliText size="small" style={styles.textGrey}>
+                    {getRelativeDateString(insight.datePublished, i18n.language)}
+                  </HoliText>
+                </View>
               </View>
-            </View>
-          </HoliBox>
-        )}
+            </HoliBox>
+          )}
 
-        {!!editors.length && (
-          <HoliUserAvatarPile
-            users={editors}
-            usersToShow={3}
-            usersTotal={insight.involvedUsers.totalResults}
-            counter
-            collapse
-            style={styles.avatarPile}
-          />
-        )}
+          {!!editors.length && (
+            <HoliUserAvatarPile
+              users={editors}
+              usersToShow={3}
+              usersTotal={insight.involvedUsers.totalResults}
+              counter
+              collapse
+              style={styles.avatarPile}
+            />
+          )}
+        </HoliCard>
       </HoliButton>
     </View>
   )
