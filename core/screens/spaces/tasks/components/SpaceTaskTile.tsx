@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -16,7 +16,6 @@ import {
   GlobeFilled,
   LockFilled,
   MapPin2Filled,
-  More,
   PhoneFilled,
   RefreshFilled,
   Time,
@@ -28,7 +27,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceTaskTileProps = {
   task: Task
@@ -43,11 +42,14 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
-  isAdmin,
-  isCollaborator,
+  isAdmin = false,
+  isCollaborator = false,
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { userId } = useAuth()
   const [imageError, setImageError] = useState(false)
@@ -59,7 +61,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
-  const isTaskOwner = task?.creator.id === userId
+  const isTaskOwner = isCollaborator && task?.creator.id === userId
 
   const handlePlaceholder = useCallback(() => {
     setShowPlaceholder(imageError || !task.thumbnail)
@@ -70,7 +72,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   }, [handlePlaceholder])
 
   return (
-    <View key={task.id} style={styles.taskItem} testID="space-task-tile">
+    <View style={styles.taskItem} testID="space-task-tile">
       <HoliButton
         transparent
         label={task.name}
@@ -122,16 +124,12 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           disabled={showFullView}
           style={[styles.clickOverlay, { flex: 1 }]}
         >
-          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
+          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })} testID="task-title">
             {task.name}
           </HoliText>
         </HoliButton>
-        {(isAdmin || isTaskOwner) && !showFullView && (
-          <HoliActionDrawer.Drawer
-            label={t('global.moreOptions')}
-            testID="btn-task-more-options"
-            buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
-          >
+        {(isTaskOwner || isAdmin) && !showFullView && (
+          <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options" variant="dark">
             <HoliActionDrawer.Action
               icon={Edit2}
               title={t('global.edit')}
@@ -225,9 +223,6 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
         </HoliButton>
       ) : (
         <View style={styles.descriptionContainer}>
-          <HoliText color="gray300" size="small">
-            {task.description}
-          </HoliText>
           <HoliRichTextOutput
             text={task.description}
             color="gray300"
@@ -291,138 +286,139 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  clickOverlay: {
-    position: 'relative',
-    pointerEvents: 'auto',
-  },
-  detailContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flex: 1,
-  },
-  moreOptionsButton: {
-    marginLeft: 16,
-  },
-  descriptionContainer: {
-    marginVertical: 16,
-  },
-  image: {
-    borderRadius: 8,
-    height: 166,
-    justifyContent: 'center',
-  },
-  imageShowFullView: {
-    borderRadius: 8,
-    width: '100%',
-    aspectRatio: IMAGE_ASPECT_RATIO,
-    height: Platform.OS === 'web' ? '100%' : 'auto',
-  },
-  emptyImage: {
-    backgroundColor: colors.background20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  taskItem: {
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-    padding: 8,
-    flexShrink: 1,
-  },
-  pill: {
-    marginRight: 6,
-    marginTop: 4,
-    flexShrink: 1,
-  },
-  iconsContainer: {
-    marginTop: 4,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  iconGroupContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexShrink: 1,
-  },
-  iconGroupIcon: {
-    marginRight: 4,
-  },
-  iconGroupText: {
-    color: colors.foreground20,
-    marginRight: 8,
-  },
-  spotsClaimed: {
-    textAlign: 'right',
-    color: colors.foreground20,
-  },
-  skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 12,
-  },
-  skill: {
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    color: colors.foreground20,
-    height: 33,
-    marginRight: 4,
-    marginBottom: 4,
-  },
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  visibility: {
-    position: 'absolute',
-    left: 8,
-    top: 8,
-    padding: 4,
-    paddingRight: 8,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  publishedByTitle: {
-    marginTop: 32,
-  },
-  avatar: {
-    marginTop: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatarName: {
-    marginLeft: 16,
-  },
-  contactInformationTitle: {
-    marginTop: 16,
-  },
-  contactContainer: {
-    marginTop: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  contactInformation: {
-    marginLeft: 10,
-  },
-  buttonWithIcon: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    marginBottom: 12,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    clickOverlay: {
+      position: 'relative',
+      pointerEvents: 'auto',
+    },
+    detailContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flex: 1,
+    },
+    moreOptionsButton: {
+      marginLeft: 16,
+    },
+    descriptionContainer: {
+      marginVertical: 16,
+    },
+    image: {
+      borderRadius: 8,
+      height: 166,
+      justifyContent: 'center',
+    },
+    imageShowFullView: {
+      borderRadius: 8,
+      width: '100%',
+      aspectRatio: IMAGE_ASPECT_RATIO,
+      height: Platform.OS === 'web' ? '100%' : 'auto',
+    },
+    emptyImage: {
+      backgroundColor: theme.colors.background20,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    imageContainer: {
+      position: 'relative',
+      marginBottom: 16,
+    },
+    taskItem: {
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+      padding: 8,
+      flexShrink: 1,
+    },
+    pill: {
+      marginRight: 6,
+      marginTop: 4,
+      flexShrink: 1,
+    },
+    iconsContainer: {
+      marginTop: 4,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+    iconGroupContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flexShrink: 1,
+    },
+    iconGroupIcon: {
+      marginRight: 4,
+    },
+    iconGroupText: {
+      color: theme.colors.foreground20,
+      marginRight: 8,
+    },
+    spotsClaimed: {
+      textAlign: 'right',
+      color: theme.colors.foreground20,
+    },
+    skillsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      marginTop: 12,
+    },
+    skill: {
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      paddingHorizontal: 14,
+      paddingVertical: 8,
+      color: theme.colors.foreground20,
+      height: 33,
+      marginRight: 4,
+      marginBottom: 4,
+    },
+    buttonContainer: {
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    visibility: {
+      position: 'absolute',
+      left: 8,
+      top: 8,
+      padding: 4,
+      paddingRight: 8,
+      borderRadius: 24,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background20,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    publishedByTitle: {
+      marginTop: 32,
+    },
+    avatar: {
+      marginTop: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    avatarName: {
+      marginLeft: 16,
+    },
+    contactInformationTitle: {
+      marginTop: 16,
+    },
+    contactContainer: {
+      marginTop: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    contactInformation: {
+      marginLeft: 10,
+    },
+    buttonWithIcon: {
+      display: 'flex',
+      justifyContent: 'center',
+      paddingVertical: 18,
+      marginBottom: 12,
+    },
+  })
 
 export default memo(SpaceTaskTile)

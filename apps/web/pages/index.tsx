@@ -2,7 +2,9 @@ import type { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
-import { featureTogglesQuery, inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { POSTS_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InspirationPosts'
+import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
@@ -19,10 +21,17 @@ export const getServerSideProps = async (context: NextPageContext) => {
 
   const queries = [
     {
-      query: featureTogglesQuery,
+      query: lastInsightsQuery,
+      variables: {
+        limit: INSIGHT_PAGE_SIZE,
+      },
     },
-    { query: lastInsightsQuery },
-    { query: inspirationPostsQuery },
+    {
+      query: inspirationPostsQuery,
+      variables: {
+        limit: POSTS_PAGE_SIZE,
+      },
+    },
     {
       query: donationProjectsQuery,
       variables: {

@@ -1,84 +1,118 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+
+import type { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
-import AppTile from '@holi/core/screens/appsHub/components/AppTile'
+import AppTile, { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Apps, ArrowRightS } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const AppsDrawer: React.FC = () => {
+type AppsDrawerProps = NonNullable<unknown> | BottomTabBarButtonProps
+const isBottomTabBarButtonProps = (
+  value: NonNullable<unknown> | BottomTabBarButtonProps
+): value is BottomTabBarButtonProps => 'children' in value
+
+const AppsDrawer = (props: AppsDrawerProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
-  const { width: screenWidth } = useClientWindowDimensions()
+  const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
-  const [modalIsVisible, setModalIsVisible] = useState(false)
+  const { visible, show, hide } = useModalState()
+  const { theme } = useTheme()
+  const { colors } = theme
 
-  const onAppButtonClick = useCallback(
-    ({ path }: HoliApp) => {
-      if (path) {
-        setModalIsVisible(false)
-        navigate(path)
-      }
-    },
-    [navigate]
-  )
+  const onActionButtonClick = () => {
+    // if pressed too soon, the state is set to true, but the modal is not shown.
+    // crude mechanism to recover from this state.
+    // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+    visible && hide()
+    show()
+  }
 
-  const navigateToAppsHub = useCallback(() => {
-    setModalIsVisible(false)
+  const onAppButtonClick = ({ path }: HoliApp) => {
+    if (!path) return
+    hide()
+    navigate(path)
+  }
+
+  const navigateToAppsHub = () => {
+    hide()
     navigate('/appsHub')
-  }, [navigate])
+  }
 
   return (
     <>
-      {/* Floating apps button */}
-      <HoliButton
-        label={t('apps.drawer.open.btn.label')}
-        type="secondary"
-        testID="home-apps-button"
-        inline
-        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-        onPress={() => {
-          // if pressed too soon, the state is set to true, but the modal is not shown.
-          // crude mechanism to recover from this state.
-          // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-          modalIsVisible && setModalIsVisible(false)
-          setModalIsVisible(true)
-        }}
-      >
-        <HoliText size="small" bold>
-          {t('apps.drawer.open.btn.text')}
-        </HoliText>
-        <HoliIcon icon={Apps} size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
-      </HoliButton>
+      {isBottomTabBarButtonProps(props) ? (
+        // Bottom tab bar button
+        <View style={props.style}>
+          <HoliButton
+            label={t('apps.drawer.open.btn.label')}
+            type="secondary"
+            testID="home-apps-button"
+            inline
+            style={{ height: '100%', alignItems: 'center', justifyContent: 'flex-end' }}
+            transparent
+            onPress={onActionButtonClick}
+          >
+            {props.children}
+          </HoliButton>
+        </View>
+      ) : (
+        //  Floating apps button
+        <View
+          style={[
+            styles.overlayContainer,
+            // @ts-ignore percentage only supported and used for web
+            { transform: [{ translateX: Platform.OS === 'web' ? '-50%' : -screenOffset }] },
+          ]}
+        >
+          <HoliButton
+            label={t('apps.drawer.open.btn.label')}
+            type="secondary"
+            testID="home-apps-button"
+            inline
+            style={[
+              styles.overlayButton,
+              { borderColor: theme.colors.defaultBorder, shadowColor: theme.colors.foreground30 },
+            ]}
+            onPress={onActionButtonClick}
+          >
+            <HoliText size="small" bold>
+              {t('apps.drawer.open.btn.text')}
+            </HoliText>
+            <HoliIcon icon={Apps} size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
+          </HoliButton>
+        </View>
+      )}
 
       {/* Apps modal (drawer) */}
       <HoliModal
         label={t('apps.drawer.label')}
-        show={modalIsVisible}
-        onDismiss={() => setModalIsVisible(false)}
+        show={visible}
+        onDismiss={hide}
         style={{ backgroundColor: colors.background20 }}
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="1">{t('apps.drawer.title')}</HoliHeading>
           <View style={styles.listContents}>
-            {APP_SWIPER_APPS.map((app) => (
+            {APP_SWIPER_APPS.filter((app) => app.active).map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </View>
-          <HoliButton inline transparent style={styles.appsHubButton} label={''} onPress={() => navigateToAppsHub()}>
+          <HoliButton inline transparent style={styles.appsHubButton} label="" onPress={navigateToAppsHub}>
             <View style={styles.appsHubContainer}>
               <HoliHeading size="s">{t('apps.drawer.appsHub')}</HoliHeading>
               <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
@@ -94,15 +128,19 @@ const AppsDrawer: React.FC = () => {
 export default AppsDrawer
 
 const styles = StyleSheet.create({
-  overlayButton: {
+  overlayContainer: {
+    width: '100%',
+    maxWidth: dimensions.maxScreenWidth,
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: (Platform.OS === 'web' ? dimensions.bottomBarHeight : 0) + 16,
-    right: '50%',
+    alignItems: 'flex-end',
+    left: '50%',
+  },
+  overlayButton: {
+    transform: [{ translateX: -16 }],
     justifyContent: 'center',
     paddingHorizontal: 20,
-    borderColor: colors.background30,
     borderWidth: 1,
-    shadowColor: colors.foreground30,
     shadowOffset: {
       width: 2,
       height: 2,

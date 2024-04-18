@@ -16,7 +16,7 @@ type EditSpaceTopicsProps = {
   onDismiss: () => void
 }
 
-const EditSpaceTopics: React.VFC<EditSpaceTopicsProps> = ({ space, onDismiss }: EditSpaceTopicsProps) => {
+const EditSpaceTopics: React.FC<EditSpaceTopicsProps> = ({ space, onDismiss }: EditSpaceTopicsProps) => {
   const [topics, setTopics] = useState<Term[]>([...(space?.topics || [])])
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()

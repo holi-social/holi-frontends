@@ -5,12 +5,14 @@ import { useChatConnected, useChatReloadCounter } from '@holi/chat/src/client/ch
 import type { ChatDevToolsProps } from '@holi/chat/src/components/ChatDevTools/types'
 import { useSubscribeToChat } from '@holi/chat/src/store'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 
-export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./ChatDevTools'))
+const logger = getLogger('Chat')
+
+export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./ChatDevTools'), { ssr: false })
 
 const ChatStore = () => {
-  logDebug('ChatStore', 'subscribeToChat')
+  logger.debug('ChatStore', 'subscribeToChat')
   useSubscribeToChat()
   return null
 }
@@ -23,7 +25,7 @@ const ChatProvider = ({ store, children }: PropsWithChildren<Props>) => {
   const reloadCount = useChatReloadCounter()
   const chatConnected = useChatConnected()
 
-  logDebug('ChatProvider', 'reloadCount:', reloadCount)
+  logger.debug('ChatProvider', 'reloadCount:', reloadCount)
 
   // To reset Jotai Provider for new user login we render a new one only when new identity is provided
   return (

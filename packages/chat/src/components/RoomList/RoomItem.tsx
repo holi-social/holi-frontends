@@ -3,16 +3,11 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { ChatRoomMessage } from '@holi/chat/src/client/types'
+import type { ChatRoom, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'
-import {
-  type ChatRoomAtom,
-  chatPartnerAtomCreator,
-  getHoliUserForChatMember,
-  setLatestMessagesAsRead,
-} from '@holi/chat/src/store'
+import { chatPartnerAtomCreator, setLatestMessagesAsRead } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
-import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
+import { getChatInitials, getChatMemberName, getDefaultAvatarColor, isMatrixId } from '@holi/chat/src/utils'
 import { getInitials } from '@holi/core/helpers'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -20,10 +15,10 @@ import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface RoomItemProps {
-  roomAtom: ChatRoomAtom
+  room: ChatRoom
   loggedInUser: User // optimization to not re-fetch the logged in user on scrolling
 }
 
@@ -32,60 +27,36 @@ export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
+const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
-  const room = useAtomValue(roomAtom)
-  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp, members } = room
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
-  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
-  const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
-  const isChatPartnerDeleted = !!chatPartner && !chatPartnerHoliUser
 
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
-  const roomName = isSpaceRoom ? room.content.spaceName : chatPartnerHoliUser?.fullName ?? t('chat.user.deleted')
-
-  const lastMessageMember = room.members.find(({ id }) => id === lastMessage?.sender)
-  const lastMessageHoliUser = getHoliUserForChatMember(lastMessageMember, matrixIdToHoliUserRecord)
+  const roomName = isSpaceRoom ? room.content.spaceName : room.name
 
   const handleOnPress = async () => {
     await setLatestMessagesAsRead(roomId)
   }
 
-  if (loading) {
-    return (
-      <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
-        <View testID={testID + '-skeleton'} style={styles.rowWrapper}>
-          <View>
-            <HoliAvatar size="medium" loading />
-          </View>
-
-          <View style={styles.content}>
-            <View style={[styles.rowWrapper, styles.nameDateRaw]}>
-              <View style={{ flex: 1 }}>
-                <HoliText bold loading />
-              </View>
-            </View>
-
-            <HoliText skeletonOptions={{ width: '100%' }} loading />
-          </View>
-        </View>
-      </HoliBox>
-    )
-  }
-
-  const getChatMessage = (message: ChatRoomMessage, userName: string, isSpaceRoom = false): string | null => {
+  const getChatMessage = (message: ChatRoomMessage, isSpaceRoom = false): string | null => {
     if (isMsgTextContent(message.content)) {
-      return (isSpaceRoom ? `${userName}: ` : ' ') + message.content.body
+      if (isSpaceRoom) {
+        return members.find((m) => m.id == message.sender)?.name + ': ' + (message.content.body ?? '')
+      }
+      return message.content.body ?? ''
     }
 
     if (isMsgMemberContent(message.content)) {
       switch (message.content.membership) {
         case 'join':
-          return t('chat.room.lastMessage.membership.join', { user: userName })
+          return t('chat.room.lastMessage.membership.join', { user: getChatMemberName(t, message.content.name) })
         case 'leave':
-          return t('chat.room.lastMessage.membership.leave', { user: userName })
+          return t('chat.room.lastMessage.membership.leave', { user: getChatMemberName(t, message.content.name) })
         default:
           return null
       }
@@ -110,11 +81,12 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
                 size="medium"
               />
             ) : chatPartner ? (
-              isChatPartnerDeleted ? (
+              isMatrixId(chatPartner.name) ? (
                 <HoliAvatar
                   label={roomName}
-                  initials=":/"
-                  defaultColor={colors.brandColorD20}
+                  imageSrc={chatPartner.avatar ?? ''}
+                  initials={getChatInitials(chatPartner.name)}
+                  defaultColor={getDefaultAvatarColor(chatPartner.name)}
                   initialsColor="foreground30at48Percent"
                   initialsFontWeight="500"
                   size="medium"
@@ -122,10 +94,9 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
               ) : (
                 <HoliAvatar
                   label={roomName}
-                  imageSrc={chatPartner?.avatar ?? ''}
-                  imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
-                  initials={chatPartnerHoliUser?.avatarLabel ?? ''}
-                  defaultColor={chatPartnerHoliUser?.avatarDefaultColor ?? ''}
+                  imageSrc={chatPartner.avatar ?? ''}
+                  initials={getChatInitials(chatPartner.name)}
+                  defaultColor={getDefaultAvatarColor(chatPartner.name)}
                   size="medium"
                 />
               )
@@ -153,14 +124,13 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
               )}
             </View>
 
-            {hasInvitation && (
+            {hasInvitation ? (
               <HoliText numberOfLines={1} color="brandB300">
                 {t('chat.invitation.newconversation')}
               </HoliText>
-            )}
-            {lastMessage ? (
+            ) : lastMessage ? (
               <HoliText numberOfLines={1} color="gray300">
-                {getChatMessage(lastMessage, lastMessageHoliUser?.fullName ?? '', isSpaceRoom)}
+                {getChatMessage(lastMessage, isSpaceRoom)}
               </HoliText>
             ) : (
               <HoliText numberOfLines={1} color="gray300">
@@ -176,39 +146,40 @@ const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
 
 export default memo(RoomItem)
 
-const styles = StyleSheet.create({
-  rowWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: '100%',
-    gap: 4,
-  },
-  unseenMessageIndicator: {
-    borderWidth: 2,
-    borderColor: colors.white100,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: colors.brandColorB30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-  },
-  nameDateRaw: {
-    justifyContent: 'space-between',
-  },
-  name: {
-    flexShrink: 1,
-  },
-  fontColorGray: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    rowWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 12,
+    },
+    content: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: '100%',
+      gap: 4,
+    },
+    unseenMessageIndicator: {
+      borderWidth: 2,
+      borderColor: theme.colors.white100,
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      backgroundColor: theme.colors.brandColorB30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+    },
+    nameDateRaw: {
+      justifyContent: 'space-between',
+    },
+    name: {
+      flexShrink: 1,
+    },
+    fontColorGray: {
+      color: theme.colors.foreground20,
+    },
+  })

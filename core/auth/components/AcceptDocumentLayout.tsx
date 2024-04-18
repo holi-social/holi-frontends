@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 
-import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
 import CenteredImageHeadlineDescriptionLayout, {
   CenteredImageHeadlineDescriptionLayoutProps,
 } from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
@@ -13,12 +12,13 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
-import { colors } from '@holi/ui/styles/globalVars'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface AgreementProps {
   agreementValue: boolean
@@ -51,6 +51,8 @@ const AcceptDocumentLayout = ({
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const navButtons = (
     <HoliWizardNavigationButtons
@@ -113,44 +115,45 @@ const AcceptDocumentLayout = ({
   )
 }
 
-const styles = StyleSheet.create({
-  outerContentContainerStyle: {
-    paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom,
-  },
-  checkbox: {
-    marginTop: 24,
-    maxWidth: '100%',
-    alignSelf: 'center',
-  },
-  buttonContainer: {
-    bottom: 0,
-    paddingHorizontal: 24,
-    alignItems: 'center',
-    ...Platform.select({
-      native: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
-    paddingBottom: BUTTON_RECTS.paddingBottom,
-  },
-  modal: {
-    backgroundColor: colors.background30,
-  },
-  modalOuter: {
-    paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 50,
-    maxWidth: dimensions.maxScreenWidth,
-    alignSelf: 'center',
-    flex: 1,
-    width: '100%',
-  },
-  modalInner: {
-    width: '100%',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    outerContentContainerStyle: {
+      paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom,
+    },
+    checkbox: {
+      marginTop: 24,
+      maxWidth: '100%',
+      alignSelf: 'center',
+    },
+    buttonContainer: {
+      bottom: 0,
+      paddingHorizontal: 24,
+      alignItems: 'center',
+      ...Platform.select({
+        native: {
+          position: 'absolute',
+        },
+        default: {
+          position: 'fixed',
+        },
+      }),
+      paddingBottom: BUTTON_RECTS.paddingBottom,
+    },
+    modal: {
+      backgroundColor: theme.colors.background30,
+    },
+    modalOuter: {
+      paddingHorizontal: 20,
+      marginTop: 20,
+      marginBottom: 50,
+      maxWidth: dimensions.maxScreenWidth,
+      alignSelf: 'center',
+      flex: 1,
+      width: '100%',
+    },
+    modalInner: {
+      width: '100%',
+    },
+  })
 
 export default AcceptDocumentLayout

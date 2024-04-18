@@ -1,7 +1,5 @@
 import { faker } from '@faker-js/faker'
 
-import { delay } from '@holi/e2e-mobile/helpers/time'
-
 import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
   checkIfElementWithTestIdExists,
@@ -11,6 +9,7 @@ import {
   waitForAnyElementWithTestId,
   waitForElementWithTestId,
 } from './selectors'
+import { delay } from './time'
 
 type AuthMode = 'login' | 'registration'
 

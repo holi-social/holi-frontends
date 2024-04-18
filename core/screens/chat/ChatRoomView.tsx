@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -19,6 +19,7 @@ import {
   useRoomById,
 } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
+import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -31,7 +32,8 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -45,6 +47,9 @@ const ChatRoomView = () => {
   const { t } = useTranslation()
   const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
@@ -86,17 +91,22 @@ const ChatRoomView = () => {
 
         switch (room?.type) {
           case 'private':
-            return !!chatPartnerHoliUser && !!chatPartner ? (
+            return chatPartnerHoliUser ? (
               <ChatRoomHeaderTitle
                 href={'/profile/' + chatPartnerHoliUser.id}
                 name={room.name}
-                imageSrc={chatPartner.avatar}
+                imageSrc={chatPartner?.avatar}
                 imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
-                initials={chatPartnerHoliUser.avatarLabel}
-                defaultColor={chatPartnerHoliUser.avatarDefaultColor}
+                initials={getChatInitials(chatPartner?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
               />
             ) : (
-              <ChatRoomHeaderTitle name={t('chat.user.deleted')} initials=":/" defaultColor={colors.brandColorD20} />
+              <ChatRoomHeaderTitle
+                name={room.name}
+                imageSrc={chatPartner?.avatar}
+                initials={getChatInitials(chatPartner?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
+              />
             )
 
           case 'space.child':
@@ -119,7 +129,18 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom, t, loadingUsers])
+  }, [
+    handleBackPress,
+    chatPartner,
+    setScreenOptions,
+    chatPartnerHoliUser,
+    roomId,
+    room,
+    isSpaceRoom,
+    t,
+    loadingUsers,
+    colors.brandColorD20,
+  ])
 
   useEffect(() => {
     if (chatInitialized && !room) {
@@ -149,72 +170,78 @@ const ChatRoomView = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-      <KeyboardAvoidingViewWrapper
-        renderProp={() => (
-          <View style={styles.container}>
-            <View style={styles.listContainer}>
-              {room.hasInvitation ? (
-                <ChatProfileCard
-                  member={chatPartner}
-                  roomId={roomId}
-                  user={chatPartnerHoliUser}
-                  userIsLoading={loadingUsers}
-                />
-              ) : (
-                <RoomMessageList
-                  roomId={room.id}
-                  roomType={room?.type}
-                  messages={messages || []}
-                  matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-                  starter={
-                    amIRoomCreator &&
-                    chatPartnerHoliUser && (
-                      <View style={styles.listStage}>
-                        <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-                      </View>
-                    )
-                  }
-                  onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                    const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
-
-                    if (needToLoad) {
-                      requestMessages(roomId, false)
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingViewWrapper
+          renderProp={() => (
+            <View style={styles.container}>
+              <View style={styles.listContainer}>
+                {room.hasInvitation ? (
+                  <ChatProfileCard
+                    member={chatPartner}
+                    roomId={roomId}
+                    user={chatPartnerHoliUser}
+                    userIsLoading={loadingUsers}
+                  />
+                ) : (
+                  <RoomMessageList
+                    roomId={room.id}
+                    messages={messages || []}
+                    matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+                    starter={
+                      amIRoomCreator &&
+                      chatPartnerHoliUser && (
+                        <View style={styles.listStage}>
+                          <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+                        </View>
+                      )
                     }
-                  }}
-                />
-              )}
+                    onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                      const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+
+                      if (needToLoad) {
+                        requestMessages(roomId, false)
+                      }
+                    }}
+                  />
+                )}
+              </View>
+
+              <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
             </View>
-            <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
-          </View>
-        )}
-      />
+          )}
+        />
+      </SafeAreaView>
     </PermissionsGuard>
   )
 }
 
 export default ChatRoomView
 
-const styles = StyleSheet.create({
-  headerTitle: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    minHeight: '100%',
-    paddingTop: dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-  },
-  listContainer: {
-    flex: 1,
-    height: '100%',
-    width: '100%',
-  },
-  listStage: {
-    alignSelf: 'center',
-    paddingHorizontal: 16,
-    maxWidth: dimensions.maxScreenWidth,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    safeArea: {
+      flex: 1,
+    },
+    headerTitle: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      gap: 8,
+    },
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      minHeight: '100%',
+      paddingTop: dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+    },
+    listContainer: {
+      flex: 1,
+      height: '100%',
+      width: '100%',
+    },
+    listStage: {
+      alignSelf: 'center',
+      paddingHorizontal: 16,
+      maxWidth: dimensions.maxScreenWidth,
+    },
+  })

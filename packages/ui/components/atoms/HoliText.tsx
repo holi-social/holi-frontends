@@ -4,7 +4,6 @@ import { Platform, StyleProp, StyleSheet, Text, TextProps, TextStyle, View } fro
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
 import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
-import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -43,7 +42,7 @@ const HoliText = ({
   ...props
 }: React.PropsWithChildren<HoliTextProps>) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const styles = React.useMemo(() => getStyles(theme), [theme])
   const alignStyles = getAlignStyles(align)
   const mixins = useStyleMixins()
 
@@ -85,7 +84,7 @@ const getStyles = (theme: HoliTheme) =>
     base: {
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      color: colors.foreground30,
+      color: theme.colors.foreground30,
     },
     extralarge: {
       fontSize: 28,

@@ -33,7 +33,7 @@ const notificationHasInteraction = ({ notificationType }: Notification) =>
     notificationType
   )
 
-const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationSpaceConnection>> = ({
+const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSpaceConnection>> = ({
   notification,
   style,
   testID,

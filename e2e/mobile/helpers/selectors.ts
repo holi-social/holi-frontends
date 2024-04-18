@@ -41,11 +41,13 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 }
 
 export const setImplicitTimeout = async (timeout: number) => {
+  // @ts-ignores
   Appium.options.currentImplicitTimeout = timeout
   await Appium.setImplicitTimeout(timeout)
 }
 
 export const resetImplicitTimeout = async () => {
+  // @ts-ignore
   await setImplicitTimeout(Appium.options.waitforTimeout)
 }
 
@@ -69,6 +71,7 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
   return withImplicitTimeout(timeout, async () => {
     let found = false
     let count = 0
+    // @ts-ignore
     const max = Appium.options.waitforTimeout / 1000
     while (!found && count < max) {
       const foundAll = await Promise.all(

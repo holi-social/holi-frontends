@@ -1,0 +1,101 @@
+@import url('@holi/ui/assets/fonts/CircularStd/style.css');
+@import url('@holi/ui/styles/globalVars/styles.css');
+@import url('@holi/web/styles/common.css');
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  /* disable browser's default pull-to-refresh functionality */
+  overscroll-behavior: none;
+}
+
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  font-family: var(--font-family-web);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--foreground30);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background-color: var(--background10);
+}
+
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > main {
+  height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-style: solid;
+  border-width: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  outline: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-width: thin;
+
+  user-select: none;
+
+  &::selection {
+    background-color: transparent;
+  }
+
+  &::moz-selection {
+    background-color: transparent;
+  }
+
+  &::webkit-selection {
+    background-color: transparent;
+  }
+}
+
+ul,
+li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+[role='checkbox']:focus-visible > div:only-child {
+  border: solid 1px var(--brandColorB30) !important;
+}
+
+/* "data-stepper-wrapper" is our custom data-set attributes for HoliStepper childe nodes
+set 100% height for next three levels of children */
+[data-stepper-wrapper='true'] {
+  & > *,
+  & > * > *,
+  & > * > * > * {
+    height: 100%;
+  }
+}
+
+/* do not display header, if it does not have any children */
+header:empty {
+  display: none;
+}

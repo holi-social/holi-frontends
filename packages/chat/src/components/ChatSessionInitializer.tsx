@@ -1,4 +1,5 @@
 import React, { type PropsWithChildren, memo, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { startChat } from '@holi/chat/src/client/chatSession'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -9,6 +10,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 const ChatSessionInitializer = ({ children }: PropsWithChildren) => {
   const { user } = useLoggedInUser()
   const { deviceToken, deviceTokenInitialized } = useDeviceToken()
+  const { t } = useTranslation()
 
   const identity = user?.identity
   const { displayError } = useErrorHandling()
@@ -17,14 +19,14 @@ const ChatSessionInitializer = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (!ftLoading && ftEnabled) {
       if (identity && deviceTokenInitialized) {
-        startChat(deviceToken).catch((error) =>
+        startChat(t, deviceToken).catch((error) =>
           displayError(error, 'Failed to start chat', {
             location: 'ChatSessionInitializer.startChat',
           })
         )
       }
     }
-  }, [displayError, identity, ftLoading, ftEnabled, deviceTokenInitialized, deviceToken])
+  }, [displayError, identity, ftLoading, ftEnabled, deviceTokenInitialized, deviceToken, t])
 
   return <>{children}</>
 }

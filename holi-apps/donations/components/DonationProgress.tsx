@@ -4,7 +4,7 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 interface DonationProgressProps {
   progressPercentage: number
@@ -12,15 +12,20 @@ interface DonationProgressProps {
   category?: string
   size?: 'default' | 'small' | 'large'
   style?: ViewStyle | ViewStyle[]
+  testID?: string
 }
 
 const DonationProgress = ({
   progressPercentage,
   openAmountInCents,
   size = 'default',
+  testID,
   ...props
 }: DonationProgressProps) => {
   const { t, i18n } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+
   const styles = getStyles()
   const isSmall = size === 'small'
   const goalTextSize = size === 'large' ? 'default' : 'small'
@@ -35,7 +40,10 @@ const DonationProgress = ({
   }, [openAmountInCents, i18n.language])
 
   return (
-    <View style={[props?.style]}>
+    <View style={[props?.style]} testID={testID}>
+      <View style={styles.progressBarContainer}>
+        <HoliProgressBar percentage={progressPercentage} size={progressSize} />
+      </View>
       <View style={styles.goals}>
         <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.foreground20 }}>
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
@@ -46,9 +54,6 @@ const DonationProgress = ({
           </HoliText>
         )}
       </View>
-      <View style={styles.progressBarContainer}>
-        <HoliProgressBar percentage={progressPercentage} size={progressSize} />
-      </View>
     </View>
   )
 }
@@ -58,7 +63,7 @@ export default DonationProgress
 const getStyles = () =>
   StyleSheet.create({
     progressBarContainer: {
-      marginTop: 8,
+      paddingBottom: 8,
     },
     goals: {
       flexDirection: 'row',

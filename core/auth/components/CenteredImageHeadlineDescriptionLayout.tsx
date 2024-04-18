@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import CenteredContentLayout, { CenteredContentLayoutProps } from '@holi/core/components/CenteredContentLayout'
@@ -7,8 +7,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CenteredImageHeadlineDescriptionLayoutProps extends CenteredContentLayoutProps {
   imageSource?: StaticImageData
@@ -35,6 +35,8 @@ const CenteredImageHeadlineDescriptionLayout = React.forwardRef<
     },
     ref
   ) => {
+    const { theme } = useTheme()
+    const styles = useMemo(() => getStyles(theme), [theme])
     const imageLabelValue = imageLabelText ?? headlineText
 
     return (
@@ -68,19 +70,20 @@ const CenteredImageHeadlineDescriptionLayout = React.forwardRef<
 
 CenteredImageHeadlineDescriptionLayout.displayName = 'CenteredImageHeadlineDescriptionLayout'
 
-const styles = StyleSheet.create({
-  inner: {
-    alignItems: 'center',
-    maxWidth: dimensions.breakpointL,
-  },
-  imageContainer: {
-    alignItems: 'center',
-  },
-  description: {
-    color: colors.foreground20,
-    marginTop: 16,
-    textAlign: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    inner: {
+      alignItems: 'center',
+      maxWidth: dimensions.breakpointL,
+    },
+    imageContainer: {
+      alignItems: 'center',
+    },
+    description: {
+      color: theme.colors.foreground20,
+      marginTop: 16,
+      textAlign: 'center',
+    },
+  })
 
 export default CenteredImageHeadlineDescriptionLayout

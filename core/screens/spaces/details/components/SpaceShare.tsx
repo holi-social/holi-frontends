@@ -12,7 +12,7 @@ type SpaceShareProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
+const SpaceShare: React.FC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
   const { t } = useTranslation()
   const [, shareLink] = useShareLink({
     link: `/spaces/${space.name}`,
@@ -26,22 +26,18 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   const isCollaborator = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdministrator = space.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  return (
-    <>
-      {isCollaborator || isAdministrator ? (
-        <HoliButtonLoading
-          inline
-          type="secondary"
-          variant="small"
-          label={t('spaces.share')}
-          onPress={shareLink}
-          style={style}
-          icon={ShareIcon}
-          testID="space-share-btn"
-        />
-      ) : null}
-    </>
-  )
+  return isCollaborator || isAdministrator ? (
+    <HoliButtonLoading
+      inline
+      type="secondary"
+      variant="small"
+      label={t('spaces.share')}
+      onPress={shareLink}
+      style={style}
+      icon={ShareIcon}
+      testID="space-share-btn"
+    />
+  ) : null
 }
 
 export default SpaceShare

@@ -8,7 +8,7 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { EditorState, LexicalEditor } from 'lexical'
 // import { $createParagraphNode, $createTextNode, $getRoot, $getSelection } from 'lexical'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -20,11 +20,11 @@ import { MaxLengthPlugin } from '@holi/ui/components/organisms/HoliRichTextInput
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
 import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
 import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { HoliRichTextInputProps } from './HoliRichTextInput'
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
   autofocus = false,
@@ -33,6 +33,9 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   debounceDelay = 300,
   ...props
 }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
   const [characterCount, setCharacterCount] = useState(0)
 
@@ -138,30 +141,31 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
 export default React.memo(HoliRichTextInput)
 
-const styles = StyleSheet.create({
-  inputDiv: {
-    paddingLeft: 20,
-    paddingRigjt: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  placeholder: {
-    color: colors.foreground20,
-    overflow: 'hidden',
-    position: 'absolute',
-    textOverflow: 'ellipsis',
-    top: 10,
-    left: 20,
-    userSelect: 'none',
-    display: 'inline-block',
-    pointerEvents: 'none',
-  },
-  charactorCountText: {
-    color: colors.foreground20,
-  },
-  charactorCountContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-    marginTop: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    inputDiv: {
+      paddingLeft: 20,
+      paddingRight: 20,
+      paddingTop: 10,
+      paddingBottom: 10,
+    },
+    placeholder: {
+      color: theme.colors.foreground20,
+      overflow: 'hidden',
+      position: 'absolute',
+      textOverflow: 'ellipsis',
+      top: 10,
+      left: 20,
+      userSelect: 'none',
+      display: 'inline-block',
+      pointerEvents: 'none',
+    },
+    charactorCountText: {
+      color: theme.colors.foreground20,
+    },
+    charactorCountContainer: {
+      flex: 1,
+      alignItems: 'flex-end',
+      marginTop: 6,
+    },
+  })

@@ -14,8 +14,20 @@ import {
   roomAtomsRecordAtom,
 } from '@holi/chat/src/store/store'
 import {
+  ADMIN_FIXTURE,
+  CREATOR_FIXTURE,
+  DM_MEMBERS,
+  DM_ROOM_ID,
+  MEMBER1_FIXTURE,
+  NOTIFICATION_COUNT,
+  SPACE_CHILD_EVENT_CONTENT,
+  SPACE_CHILD_ROOM_ID_FIXTURE,
+  SPACE_EVENT_CONTENT,
+  SPACE_MEMBERS_FIXTURE,
+  SPACE_ROOM_ID_FIXTURE,
+  SPACE_ROOM_NAME_FIXTURE,
+  TIMESTAMP_FIXTURE,
   createChatClient,
-  createChatRoomResult,
   createMatrixClientMock,
   createMatrixEventMock,
   createRoomMock,
@@ -25,34 +37,6 @@ import {
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')
 
-const admin: ChatRoomMember = {
-  avatar: undefined,
-  id: '@chat-admin:holi.social',
-  membership: MembershipStatus.join,
-  name: 'chat-admin',
-}
-
-const creator: ChatRoomMember = {
-  avatar: 'https://unsplash.com/',
-  id: '@creator.kato:holi.social',
-  membership: MembershipStatus.join,
-  name: 'creator',
-}
-
-const member1: ChatRoomMember = {
-  avatar: 'https://unsplash.com/',
-  id: '@member1.feynman:holi.social',
-  membership: MembershipStatus.join,
-  name: 'member1',
-}
-
-const member2: ChatRoomMember = {
-  avatar: 'https://unsplash.com/',
-  id: '@nakamoto:holi.social',
-  membership: MembershipStatus.join,
-  name: 'member1',
-}
-
 const useStoreRoomAtomsTest = () => {
   const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
   useAtom(_roomAtomsRecordAtomSubscriber)
@@ -60,33 +44,33 @@ const useStoreRoomAtomsTest = () => {
   return roomAtomsRecord
 }
 
+const convertMemberAvatar = (member: ChatRoomMember) => ({ ...member, avatar: undefined })
+const convertMembersAvatar = (members: ChatRoomMember[]) => members.map(convertMemberAvatar)
+
 describe('Chat Store - rooms', () => {
   const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
   let mxClient: jest.MockedObjectDeep<MatrixClient>
   let chatClient: ChatClient
   let store: ReturnType<typeof createStore>
 
-  const roomId = 'roomId'
-  const notificationCount = 0
-  const spaceRoomId = '!space.room:holi.social'
-  const spaceRoomName = 'space'
-  const spaceChildRoomId = '!general.holi.social'
-  const spaceChildRoomName = '#general'
-  const holiSpaceId = 'holi-uuid'
-  const timestamp = 1706703410441
-  const spaceMembers = [admin, member1, member2]
-  const dmMembers = [creator, member1, member2]
-
-  const spaceEventContent = {
-    holiSpaceId,
-    roomId: spaceRoomId,
+  const roomMockOptions = {
+    members: DM_MEMBERS,
+    name: MEMBER1_FIXTURE.name,
+    timelineEvents: [],
+    unreadNotificationCount: NOTIFICATION_COUNT,
+    creatorId: CREATOR_FIXTURE.id,
+    getMember: CREATOR_FIXTURE,
+    timestamp: TIMESTAMP_FIXTURE,
   }
 
-  const spaceChildEventContent = {
-    ...spaceEventContent,
-    spaceName: spaceRoomName,
-    avatarDefaultColor: '#7BD7EA',
-    parentSpaceRoomId: spaceRoomId,
+  const spaceRoomMockOptions = {
+    members: SPACE_MEMBERS_FIXTURE,
+    timestamp: TIMESTAMP_FIXTURE,
+    timelineEvents: [],
+    unreadNotificationCount: NOTIFICATION_COUNT,
+    creatorId: ADMIN_FIXTURE.id,
+    getMember: ADMIN_FIXTURE,
+    myMembership: MembershipStatus.join,
   }
 
   beforeEach(() => {
@@ -98,65 +82,64 @@ describe('Chat Store - rooms', () => {
   })
 
   it('should render the previously joined DM room', () => {
-    const roomMock = createRoomMock(roomId, {
-      members: dmMembers,
-      timelineEvents: [],
-      unreadNotificationCount: notificationCount,
-      creatorId: creator.id,
+    const roomMock = createRoomMock(DM_ROOM_ID, {
+      ...roomMockOptions,
       myMembership: MembershipStatus.join,
-      getMember: creator,
-      name: 'name',
     })
-    roomMock.getLastActiveTimestamp.mockReturnValue(timestamp)
+
+    roomMock.getLastActiveTimestamp.mockReturnValue(TIMESTAMP_FIXTURE)
 
     mxClient.getRooms.mockReturnValue([roomMock])
     mxClient.roomState.mockResolvedValue([])
 
     const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
-    expect(result.current).toHaveProperty(roomId)
-    expect(store.get(result.current[roomId])).toStrictEqual(
-      createChatRoomResult(roomId, { name: 'name', creator, members: dmMembers, notificationCount, timestamp })
+    expect(result.current).toHaveProperty(DM_ROOM_ID)
+    expect(store.get(result.current[DM_ROOM_ID])).toEqual(
+      expect.objectContaining({
+        id: DM_ROOM_ID,
+        name: MEMBER1_FIXTURE.name,
+        type: 'private',
+        creator: convertMemberAvatar(CREATOR_FIXTURE),
+        members: convertMembersAvatar(DM_MEMBERS),
+        notificationCount: NOTIFICATION_COUNT,
+        timestamp: TIMESTAMP_FIXTURE,
+      })
     )
   })
 
   it('should render the previously joined space room', () => {
-    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, spaceEventContent, {
-      content: spaceEventContent,
+    const spaceSharedDataEvent = createMatrixEventMock(
+      ChatRoomEvent.SharedData,
+      SPACE_ROOM_ID_FIXTURE,
+      SPACE_EVENT_CONTENT,
+      {
+        content: SPACE_EVENT_CONTENT,
+      } as unknown as IEvent
+    )
+
+    const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_CHILD_ROOM_ID_FIXTURE, {}, {
+      content: SPACE_CHILD_EVENT_CONTENT,
     } as unknown as IEvent)
 
-    const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceChildRoomId, {}, {
-      content: spaceChildEventContent,
-    } as unknown as IEvent)
-
-    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, spaceChildRoomId, {}, {
+    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, SPACE_CHILD_ROOM_ID_FIXTURE, {}, {
       type: EventType.SpaceParent,
-      sender: admin.id,
+      sender: ADMIN_FIXTURE.id,
       content: { canonical: true },
-      state_key: spaceRoomId,
-      room_id: spaceChildRoomId,
+      state_key: SPACE_ROOM_ID_FIXTURE,
+      room_id: SPACE_CHILD_ROOM_ID_FIXTURE,
     } as unknown as IEvent)
 
-    const roomMockOptions = {
-      members: spaceMembers,
-      timestamp,
-      timelineEvents: [],
-      unreadNotificationCount: notificationCount,
-      creatorId: admin.id,
-      getMember: admin,
-      myMembership: MembershipStatus.join,
-    }
-
-    const spaceRoomMock = createRoomMock(spaceRoomId, {
-      ...roomMockOptions,
-      name: spaceRoomName,
+    const spaceRoomMock = createRoomMock(SPACE_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_ROOM_NAME_FIXTURE,
       isSpaceRoom: true,
       stateEvents: [spaceSharedDataEvent],
     })
 
-    const spaceChildRoomMock = createRoomMock(spaceChildRoomId, {
-      ...roomMockOptions,
-      name: spaceChildRoomName,
+    const spaceChildRoomMock = createRoomMock(SPACE_CHILD_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_CHILD_ROOM_ID_FIXTURE,
       stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
     })
 
@@ -167,71 +150,68 @@ describe('Chat Store - rooms', () => {
     const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
     expect(Object.keys(result.current).length).toBe(2)
-    expect(store.get(result.current[spaceRoomId])).toStrictEqual({
+    expect(store.get(result.current[SPACE_ROOM_ID_FIXTURE])).toStrictEqual({
       type: 'space',
       avatar: undefined,
-      content: spaceEventContent,
-      creator: admin,
+      content: SPACE_EVENT_CONTENT,
+      creator: ADMIN_FIXTURE,
       hasInvitation: false,
-      id: spaceRoomId,
+      id: SPACE_ROOM_ID_FIXTURE,
       lastMessage: undefined,
-      members: spaceMembers,
-      name: spaceRoomName,
-      notificationCount: notificationCount,
-      timestamp,
+      name: SPACE_ROOM_NAME_FIXTURE,
+      members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
+      notificationCount: NOTIFICATION_COUNT,
+      timestamp: TIMESTAMP_FIXTURE,
     })
-    expect(store.get(result.current[spaceChildRoomId])).toStrictEqual({
-      type: 'space.child',
-      avatar: undefined,
-      content: spaceChildEventContent,
-      creator: admin,
-      hasInvitation: false,
-      id: spaceChildRoomId,
-      lastMessage: undefined,
-      members: spaceMembers,
-      name: spaceChildRoomName,
-      notificationCount: notificationCount,
-      timestamp,
-    })
+
+    expect(store.get(result.current[SPACE_CHILD_ROOM_ID_FIXTURE])).toEqual(
+      expect.objectContaining({
+        type: 'space.child',
+        avatar: undefined,
+        content: SPACE_CHILD_EVENT_CONTENT,
+        creator: ADMIN_FIXTURE,
+        hasInvitation: false,
+        id: SPACE_CHILD_ROOM_ID_FIXTURE,
+        lastMessage: undefined,
+        members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
+        name: SPACE_CHILD_ROOM_ID_FIXTURE,
+        notificationCount: NOTIFICATION_COUNT,
+        timestamp: TIMESTAMP_FIXTURE,
+      })
+    )
   })
 
   it('should delete rooms on subscribtion and update the _roomAtomsRecordAtom', () => {
-    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, spaceEventContent, {
-      content: spaceEventContent,
+    const spaceSharedDataEvent = createMatrixEventMock(
+      ChatRoomEvent.SharedData,
+      SPACE_ROOM_ID_FIXTURE,
+      SPACE_EVENT_CONTENT,
+      {
+        content: SPACE_EVENT_CONTENT,
+      } as unknown as IEvent
+    )
+
+    const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_CHILD_ROOM_ID_FIXTURE, {}, {
+      content: SPACE_CHILD_EVENT_CONTENT,
     } as unknown as IEvent)
 
-    const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceChildRoomId, {}, {
-      content: spaceChildEventContent,
-    } as unknown as IEvent)
-
-    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, spaceChildRoomId, {}, {
+    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, SPACE_CHILD_ROOM_ID_FIXTURE, {}, {
       type: EventType.SpaceParent,
-      sender: admin.id,
-      content: {},
-      state_key: spaceRoomId,
-      room_id: spaceChildRoomId,
+      content: { canonical: true },
+      state_key: SPACE_ROOM_ID_FIXTURE,
+      room_id: SPACE_CHILD_ROOM_ID_FIXTURE,
     } as unknown as IEvent)
 
-    const roomMockOptions = {
-      members: spaceMembers,
-      timestamp,
-      timelineEvents: [],
-      unreadNotificationCount: notificationCount,
-      creatorId: admin.id,
-      getMember: admin,
-      myMembership: MembershipStatus.join,
-    }
-
-    const spaceRoomMock = createRoomMock(spaceRoomId, {
-      ...roomMockOptions,
-      name: spaceRoomName,
+    const spaceRoomMock = createRoomMock(SPACE_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_ROOM_NAME_FIXTURE,
       isSpaceRoom: true,
       stateEvents: [spaceSharedDataEvent],
     })
 
-    const spaceChildRoomMock = createRoomMock(spaceChildRoomId, {
-      ...roomMockOptions,
-      name: spaceChildRoomName,
+    const spaceChildRoomMock = createRoomMock(SPACE_CHILD_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_CHILD_ROOM_ID_FIXTURE,
       stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
     })
 
@@ -248,29 +228,24 @@ describe('Chat Store - rooms', () => {
     ) => void
 
     act(() => {
-      deleteRoomListener(spaceRoomId)
-      deleteRoomListener(spaceChildRoomId)
+      deleteRoomListener(SPACE_ROOM_ID_FIXTURE)
+      deleteRoomListener(SPACE_CHILD_ROOM_ID_FIXTURE)
     })
 
     expect(Object.keys(result.current).length).toBe(0)
-    expect(() => store.get(result.current[spaceRoomId])).toThrow()
-    expect(() => store.get(result.current[spaceChildRoomId])).toThrow()
+    expect(() => store.get(result.current[SPACE_ROOM_ID_FIXTURE])).toThrow()
+    expect(() => store.get(result.current[SPACE_CHILD_ROOM_ID_FIXTURE])).toThrow()
   })
 
   it('should not render DM rooms with an Empty Room name', () => {
-    const dmRoomMock = createRoomMock(roomId, {
+    const dmRoomMock = createRoomMock(DM_ROOM_ID, {
+      ...roomMockOptions,
       name: '',
-      members: dmMembers,
-      timelineEvents: [],
-      unreadNotificationCount: notificationCount,
-      creatorId: creator.id,
-      getMember: creator,
-      timestamp,
     })
 
     const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
-    expect(result.current[roomId]).toBeUndefined()
+    expect(result.current[DM_ROOM_ID]).toBeUndefined()
 
     // First DM comes in
     const newRoomListener = getListenerForMatrixEvent(mxClient, ClientEvent.Room, 'roomEventHandler') as (
@@ -279,24 +254,16 @@ describe('Chat Store - rooms', () => {
 
     act(() => newRoomListener(dmRoomMock))
 
-    expect(result.current[roomId]).toBeUndefined()
+    expect(result.current[DM_ROOM_ID]).toBeUndefined()
     expect(Object.entries(result.current).length).toBe(0)
   })
 
   it('should subscribeToNewRooms events and update the _roomAtomsRecordAtom', async () => {
-    const dmRoomMock = createRoomMock(roomId, {
-      members: dmMembers,
-      name: member1.name,
-      timelineEvents: [],
-      unreadNotificationCount: notificationCount,
-      creatorId: creator.id,
-      getMember: creator,
-      timestamp,
-    })
+    const dmRoomMock = createRoomMock(DM_ROOM_ID, roomMockOptions)
 
     const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
 
-    expect(result.current[roomId]).toBeUndefined()
+    expect(result.current[DM_ROOM_ID]).toBeUndefined()
 
     // First DM comes in
     const newRoomListener = getListenerForMatrixEvent(mxClient, ClientEvent.Room, 'roomEventHandler') as (
@@ -306,52 +273,49 @@ describe('Chat Store - rooms', () => {
     act(() => newRoomListener(dmRoomMock))
 
     expect(Object.entries(result.current).length).toBe(1)
-    expect(result.current).toHaveProperty(roomId)
-    expect(store.get(result.current[roomId])).toStrictEqual({
+    expect(result.current).toHaveProperty(DM_ROOM_ID)
+    expect(store.get(result.current[DM_ROOM_ID])).toStrictEqual({
       avatar: undefined,
-      creator,
+      creator: convertMemberAvatar(CREATOR_FIXTURE),
       hasInvitation: false,
-      id: roomId,
+      id: DM_ROOM_ID,
       lastMessage: undefined,
-      members: dmMembers,
-      name: member1.name,
-      notificationCount: notificationCount,
-      timestamp,
+      members: convertMembersAvatar(DM_MEMBERS),
+      name: MEMBER1_FIXTURE.name,
+      notificationCount: NOTIFICATION_COUNT,
+      timestamp: TIMESTAMP_FIXTURE,
       type: 'private',
     })
 
-    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceRoomId, undefined, {
-      content: spaceEventContent,
+    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
+      content: SPACE_EVENT_CONTENT,
     } as unknown as IEvent)
 
-    const spaceChildSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, spaceChildRoomId, undefined, {
-      content: spaceChildEventContent,
-    } as unknown as IEvent)
+    const spaceChildSharedDataEvent = createMatrixEventMock(
+      ChatRoomEvent.SharedData,
+      SPACE_CHILD_ROOM_ID_FIXTURE,
+      undefined,
+      {
+        content: SPACE_CHILD_EVENT_CONTENT,
+      } as unknown as IEvent
+    )
 
-    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, spaceChildRoomId, undefined, {
+    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, SPACE_CHILD_ROOM_ID_FIXTURE, undefined, {
       content: { canonical: true },
-      state_key: spaceRoomId,
-      room_id: spaceChildRoomId,
+      state_key: SPACE_ROOM_ID_FIXTURE,
+      room_id: SPACE_CHILD_ROOM_ID_FIXTURE,
     } as unknown as IEvent)
 
-    const spaceRoomMock = createRoomMock(spaceRoomId, {
-      timestamp,
-      timelineEvents: [],
-      members: spaceMembers,
-      name: spaceRoomName,
+    const spaceRoomMock = createRoomMock(SPACE_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
       isSpaceRoom: true,
-      creatorId: admin.id,
-      getMember: admin,
+      name: SPACE_ROOM_NAME_FIXTURE,
       stateEvents: [spaceSharedDataEvent],
     })
 
-    const spaceChildRoomMock = createRoomMock(spaceChildRoomId, {
-      timestamp,
-      members: spaceMembers,
-      timelineEvents: [],
-      name: spaceChildRoomName,
-      creatorId: admin.id,
-      getMember: admin,
+    const spaceChildRoomMock = createRoomMock(SPACE_CHILD_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_CHILD_ROOM_ID_FIXTURE,
       stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
     })
 
@@ -373,32 +337,120 @@ describe('Chat Store - rooms', () => {
     })
 
     expect(Object.entries(result.current).length).toBe(3)
-    expect(store.get(result.current[spaceRoomId])).toStrictEqual({
+    expect(store.get(result.current[SPACE_ROOM_ID_FIXTURE])).toStrictEqual({
       type: 'space',
       avatar: undefined,
-      content: spaceEventContent,
-      creator: admin,
+      content: SPACE_EVENT_CONTENT,
+      creator: ADMIN_FIXTURE,
       hasInvitation: false,
-      id: spaceRoomId,
+      id: SPACE_ROOM_ID_FIXTURE,
       lastMessage: undefined,
-      members: spaceMembers,
-      name: spaceRoomName,
-      notificationCount: notificationCount,
-      timestamp,
+      members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
+      name: SPACE_ROOM_NAME_FIXTURE,
+      notificationCount: NOTIFICATION_COUNT,
+      timestamp: TIMESTAMP_FIXTURE,
     })
 
-    expect(store.get(result.current[spaceChildRoomId])).toStrictEqual({
+    expect(store.get(result.current[SPACE_CHILD_ROOM_ID_FIXTURE])).toStrictEqual({
       type: 'space.child',
       avatar: undefined,
-      content: spaceChildEventContent,
-      creator: admin,
+      content: SPACE_CHILD_EVENT_CONTENT,
+      creator: ADMIN_FIXTURE,
       hasInvitation: false,
-      id: spaceChildRoomId,
+      id: SPACE_CHILD_ROOM_ID_FIXTURE,
       lastMessage: undefined,
-      members: spaceMembers,
-      name: spaceChildRoomName,
-      notificationCount: notificationCount,
-      timestamp,
+      members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
+      name: SPACE_CHILD_ROOM_ID_FIXTURE,
+      notificationCount: NOTIFICATION_COUNT,
+      timestamp: TIMESTAMP_FIXTURE,
     })
+  })
+
+  it('should update the space child room shared data content', async () => {
+    const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
+      content: SPACE_EVENT_CONTENT,
+    } as unknown as IEvent)
+
+    const spaceChildSharedDataEvent = createMatrixEventMock(
+      ChatRoomEvent.SharedData,
+      SPACE_CHILD_ROOM_ID_FIXTURE,
+      undefined,
+      {
+        content: SPACE_CHILD_EVENT_CONTENT,
+      } as unknown as IEvent
+    )
+
+    const spaceParentEvent = createMatrixEventMock(EventType.SpaceParent, SPACE_CHILD_ROOM_ID_FIXTURE, {}, {
+      type: EventType.SpaceParent,
+      content: { canonical: true },
+      state_key: SPACE_ROOM_ID_FIXTURE,
+      room_id: SPACE_CHILD_ROOM_ID_FIXTURE,
+    } as unknown as IEvent)
+
+    const spaceRoomMock = createRoomMock(SPACE_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_ROOM_NAME_FIXTURE,
+      isSpaceRoom: true,
+      stateEvents: [spaceSharedDataEvent],
+    })
+
+    const spaceChildRoomMock = createRoomMock(SPACE_CHILD_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_CHILD_ROOM_ID_FIXTURE,
+      stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
+    })
+
+    const rooms = [spaceRoomMock, spaceChildRoomMock]
+    mxClient.getRooms.mockReturnValue(rooms)
+    mxClient.getRoom.mockReturnValue(spaceRoomMock)
+
+    const { result } = renderHook(() => useStoreRoomAtomsTest(), { wrapper })
+
+    expect(Object.keys(result.current).length).toBe(2)
+    expect(store.get(result.current[SPACE_ROOM_ID_FIXTURE])).toEqual(
+      expect.objectContaining({ content: SPACE_EVENT_CONTENT })
+    )
+    expect(store.get(result.current[SPACE_CHILD_ROOM_ID_FIXTURE])).toEqual(
+      expect.objectContaining({ content: SPACE_CHILD_EVENT_CONTENT })
+    )
+
+    // Subscribe to new Shared Data Events
+    const newSpaceName = 'TestLink Hub'
+    const newSpaceChildSharedDataEvent = createMatrixEventMock(
+      ChatRoomEvent.SharedData,
+      SPACE_CHILD_ROOM_ID_FIXTURE,
+      undefined,
+      {
+        content: {
+          ...SPACE_CHILD_EVENT_CONTENT,
+          spaceName: newSpaceName,
+        },
+      } as unknown as IEvent
+    )
+    const newSpaceChildRoomMock = createRoomMock(SPACE_CHILD_ROOM_ID_FIXTURE, {
+      ...spaceRoomMockOptions,
+      name: SPACE_CHILD_ROOM_ID_FIXTURE,
+      stateEvents: [newSpaceChildSharedDataEvent, spaceParentEvent],
+    })
+
+    const sharedDataListener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'handleSharedData') as (
+      event: MatrixEvent,
+      room: Room | undefined
+    ) => void
+
+    await waitFor(() => {
+      act(() => {
+        sharedDataListener(newSpaceChildSharedDataEvent, newSpaceChildRoomMock)
+      })
+    })
+
+    expect(store.get(result.current[SPACE_CHILD_ROOM_ID_FIXTURE])).toEqual(
+      expect.objectContaining({
+        content: {
+          ...SPACE_CHILD_EVENT_CONTENT,
+          spaceName: newSpaceName,
+        },
+      })
+    )
   })
 })

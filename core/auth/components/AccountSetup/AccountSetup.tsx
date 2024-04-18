@@ -20,6 +20,7 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
@@ -28,7 +29,6 @@ import HoliWizard, {
   HoliWizardCurrentStepOptions,
   NextPressHandlerOptions,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum AccountSetupStep {
   'NAMES',
@@ -71,7 +71,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { displayError } = useErrorHandling()
   const { isLoggedOut } = useAuth()
   const { user, isLoading } = useLoggedInUser()
-  const mixins = useStyleMixins()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const updateUserQueryVariables = useRef<Partial<UpdateAuthenticatedUserInput>>({})
@@ -202,81 +201,90 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
           // Names step
           <ScrollView
             ref={namesScrollViewRef}
-            contentContainerStyle={[mixins.container, styles.stepContainer]}
-            key="names"
+            contentContainerStyle={styles.stepContainer}
             testID="account-setup-names-step"
+            key="names"
           >
-            <HoliGap size="l" />
-            <NamesStep
-              names={names}
-              onChange={onNamesChange}
-              scrollToInputWithId={scrollToNamesInputWithId}
-              fieldErrors={namesFieldErrors}
-            />
+            <HoliContainer flex={undefined}>
+              <HoliGap size="l" />
+              <NamesStep
+                names={names}
+                onChange={onNamesChange}
+                scrollToInputWithId={scrollToNamesInputWithId}
+                fieldErrors={namesFieldErrors}
+              />
+            </HoliContainer>
           </ScrollView>,
           // Pre-Success step
           <ScrollView
-            contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
-            key="pre-success"
+            contentContainerStyle={styles.stepContainerCentered}
             testID="account-setup-pre-registration-success-step"
+            key="pre-success"
           >
-            <CenteredImageHeadlineDescriptionLayout
-              imageSource={require('@holi/ui/assets/img/illustrations/registration_pre_success.svg')}
-              imageLabelText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
-              headlineText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
-              descriptionText={t('registration.accountSetup.firstSuccess.description')}
-              contentStyle={styles.stepContainer}
-              testID="account-setup-pre-registration-success-step"
-            />
+            <HoliContainer flex={undefined}>
+              <CenteredImageHeadlineDescriptionLayout
+                imageSource={require('@holi/ui/assets/img/illustrations/registration_pre_success.svg')}
+                imageLabelText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
+                headlineText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
+                descriptionText={t('registration.accountSetup.firstSuccess.description')}
+                contentStyle={styles.stepContainer}
+              />
+            </HoliContainer>
           </ScrollView>,
           // Interests step
           <ScrollView
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={[mixins.container, styles.stepContainer]}
-            key="interests"
+            contentContainerStyle={styles.stepContainer}
             testID="account-setup-interests-step"
+            key="interests"
           >
-            <HoliGap size="l" />
-            <InterestsStep
-              filterString={filterString}
-              onFilterStringChange={onFilterStringChange}
-              terms={terms}
-              onTermSelect={onTermSelect}
-              loading={loadingUserInterests}
-              keyInUserObject={keyInUserObject}
-            />
+            <HoliContainer flex={undefined}>
+              <HoliGap size="l" />
+              <InterestsStep
+                filterString={filterString}
+                onFilterStringChange={onFilterStringChange}
+                terms={terms}
+                onTermSelect={onTermSelect}
+                loading={loadingUserInterests}
+                keyInUserObject={keyInUserObject}
+              />
+            </HoliContainer>
           </ScrollView>,
           // Location step
           <ScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="location"
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.stepContainer}
             testID="account-setup-location-step"
             ref={locationScrollViewRef}
           >
-            <HoliGap size="l" />
-            <LocationStep
-              selected={selectedLocation}
-              value={locationQuery}
-              onClose={onLocationClose}
-              onChangeText={onLocationQueryChange}
-              validationErrorText={locationValidationErrorText}
-              scrollToInputWithId={scrollToLocationInputWithId}
-            />
+            <HoliContainer flex={undefined}>
+              <HoliGap size="l" />
+              <LocationStep
+                selected={selectedLocation}
+                value={locationQuery}
+                onClose={onLocationClose}
+                onChangeText={onLocationQueryChange}
+                validationErrorText={locationValidationErrorText}
+                scrollToInputWithId={scrollToLocationInputWithId}
+              />
+            </HoliContainer>
           </ScrollView>,
           // Success step
           <ScrollView
-            contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
-            key="success"
+            contentContainerStyle={styles.stepContainerCentered}
             testID="account-setup-success-step"
+            key="success"
           >
-            <CenteredImageHeadlineDescriptionLayout
-              imageSource={require('@holi/ui/assets/img/illustrations/registration_success.svg')}
-              imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
-              headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
-              descriptionText={t('registration.accountSetup.success.description')}
-              contentStyle={styles.stepContainer}
-            />
+            <HoliContainer flex={undefined}>
+              <CenteredImageHeadlineDescriptionLayout
+                imageSource={require('@holi/ui/assets/img/illustrations/registration_success.svg')}
+                imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
+                headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
+                descriptionText={t('registration.accountSetup.success.description')}
+                contentStyle={styles.stepContainer}
+              />
+            </HoliContainer>
           </ScrollView>,
         ]}
         stepOptions={ACCOUNT_SETUP_STEP_OPTIONS}
@@ -293,9 +301,10 @@ export default AccountSetup
 
 const styles = StyleSheet.create({
   stepContainer: {
+    display: 'flex',
     paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom + 48,
   },
   stepContainerCentered: {
-    flex: 1,
+    display: 'flex',
   },
 })

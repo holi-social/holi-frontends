@@ -52,11 +52,18 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
 
     [RouteName.Insights]: {
       screens: {
+        [RouteName.InsightsPage]: 'insights',
+        [RouteName.InsightsCurationPrinciples]: 'insights/curationPrinciples',
         [RouteName.InsightDetailPage]: 'insights/:insightId',
         [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
         [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
         [RouteName.PostDetailPage]: 'posts/:postId',
         [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
+        [RouteName.InsightQuoteDetailPage]: 'insights/:insightId/quotes/:quoteId',
+        [RouteName.RecommendationDetailPage]: 'insights/:insightId/recommendations/:recommendationId',
+        [RouteName.InitiativeDetailPage]: 'insights/:insightId/initiatives/:initiativeId',
+        [RouteName.DiscussionDetailPage]: 'insights/:insightId/discussions/:discussionId',
+        [RouteName.DiscussionCommentPage]: 'insights/:insightId/discussions/:discussionId/comment',
       },
     },
 
@@ -114,6 +121,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.VideoCall]: 'video-call/:roomName',
 
     // Apps from the HOLI store
+    [RouteName.ChallengesApp]: {
+      screens: {
+        [RouteName.ChallengesAppHome]: 'apps/challenges',
+      },
+    },
     [RouteName.DonationsApp]: {
       screens: {
         [RouteName.DonationsAppHome]: 'apps/donations',
@@ -129,6 +141,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       screens: {
         [RouteName.VolunteeringAppHome]: 'apps/volunteering',
         [RouteName.VolunteeringAppEngagmentDetail]: 'apps/volunteering/engagement/:engagementId',
+      },
+    },
+    [RouteName.CreatePost]: {
+      screens: {
+        [RouteName.CreatePost]: 'createPost',
       },
     },
   },

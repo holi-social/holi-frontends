@@ -5,12 +5,13 @@
   variables:
     ENVIRONMENT_FILE: '' # must be overriden by jobs extending .mobile_publish
     EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
+    NODE_OPTIONS: '--max_old_space_size=4096' # helps against OOM errors
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
-    - 'eas update --channel=$EXPO_PUBLISH_RELEASE_CHANNEL --auto'
+    - 'eas update --channel=${EXPO_PUBLISH_RELEASE_CHANNEL} --auto'
   interruptible: true
   tags:
     - 4cpu-16gb

@@ -1,5 +1,5 @@
 import { type i18n } from 'i18next'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,7 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -37,6 +37,9 @@ export const getFormattedDate = (date: string | undefined, i18n: i18n) => {
 
 const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testID }: Props) => {
   const { t, i18n } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   /*
     converting given timestamp to a date first (with '00:00:00' as time)
     to show the real days instead of exact timestamp calculations
@@ -93,24 +96,20 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testI
   )
 }
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-  },
-  titleContainer: {
-    flexDirection: 'column',
-    marginHorizontal: 16,
-    marginBottom: 16,
-    flex: 1,
-  },
-  date: {
-    marginTop: 4,
-    color: colors.foreground20,
-  },
-  visibility: {
-    marginRight: 4,
-    marginBottom: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    row: {
+      flexDirection: 'row',
+    },
+    titleContainer: {
+      flexDirection: 'column',
+      marginHorizontal: 16,
+      flex: 1,
+    },
+    date: {
+      marginTop: 4,
+      color: theme.colors.foreground20,
+    },
+  })
 
 export default HoliMediaHeader

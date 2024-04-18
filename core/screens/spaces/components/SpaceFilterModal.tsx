@@ -12,7 +12,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceFilter = {
@@ -27,13 +28,15 @@ type SpaceFilterModalProps = {
   applyFilters: (filter: SpaceFilter) => void
 }
 
-const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
+const SpaceFilterModal: React.FC<SpaceFilterModalProps> = ({
   filters = {},
   initialLocationSelection,
   applyFilters,
 }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
   const [topicSlug, setTopicSlug] = useState(filters.topicSlug)
   const [skillSlugs, setSkillSlugs] = useState(filters.skillSlugs)
   const [locationQuery, setLocationQuery] = useState(initialLocationSelection?.label || '')

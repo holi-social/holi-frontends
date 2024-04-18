@@ -3,8 +3,8 @@ import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import { user } from '@holi/core/screens/spaces/__tests__/testData'
 
-export const pageSize = 20
-export const totalResults = 50
+export const pageSize = 1
+export const totalResults = 3
 
 const insight: Insight = {
   id: '1',
@@ -16,12 +16,13 @@ const insight: Insight = {
   headerImageBlurhash: '',
   topic: { id: '1', title: 'Topic 1', slug: 'topic1', isDiscoverSpacesDefault: false },
   posts: [],
+  quotes: [],
   numberOfPosts: 0,
   involvedUsers: {
     totalResults: 0,
     data: [],
   },
-  isBookmarked: false,
+  isFavorite: false,
 }
 
 export const createInsightList = (length = 3) =>
@@ -76,5 +77,5 @@ export const errorMock = {
       offset: 0,
     },
   },
-  error: new HoliError('Test error'),
+  error: new HoliError('Network error'),
 }

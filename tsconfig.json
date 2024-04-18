@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "*": ["node_modules/@types/*"],
       "@holi/mobile/*": ["apps/mobile/*"],
       "@holi/storybook/*": ["apps/storybook/*"],
       "@holi/web/*": ["apps/web/*"],
@@ -14,6 +13,7 @@
       "@holi-apps/donations/*": ["holi-apps/donations/*"],
       "@holi-apps/goodnews/*": ["holi-apps/goodnews/*"],
       "@holi-apps/volunteering/*": ["holi-apps/volunteering/*"],
+      "@holi-apps/challenges/*": ["holi-apps/challenges/*"],
       "@holi/e2e-mobile/*": ["e2e/mobile/*"],
       "@holi/e2e-web/*": ["e2e/web/*"]
     },

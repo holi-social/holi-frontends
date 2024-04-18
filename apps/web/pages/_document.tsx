@@ -1,6 +1,7 @@
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
+import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import { i18nConfig } from '@holi/core/i18n'
@@ -21,6 +22,7 @@ export default class MyDocument extends Document {
     let pageProps = {}
 
     const originalRenderPage = context.renderPage
+
     context.renderPage = () =>
       originalRenderPage({
         enhanceApp: (App) => (props) => {
@@ -34,7 +36,8 @@ export default class MyDocument extends Document {
     AppRegistry.registerComponent('HOLI', () => Main)
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
-    const styles = getStyleElement()
+
+    const styles = [getStyleElement(), flush()]
     return { ...initialProps, ...pageProps, styles: Children.toArray(styles) }
   }
 

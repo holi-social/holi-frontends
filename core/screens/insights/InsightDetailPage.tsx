@@ -1,14 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageStyle, Platform, StyleSheet, View } from 'react-native'
+import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -18,9 +17,13 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
-import QuotesCarousel from '@holi/core/screens/insights/components/quotes/QuotesCarousel'
+import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
+import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
+import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import { Quote, Recommendation } from '@holi/core/screens/insights/types'
+import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
+import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
+import { Discussion, Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -30,6 +33,7 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -39,12 +43,10 @@ import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBack
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import RecommendationPreview from './components/RecommendationPreview'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -56,10 +58,13 @@ const InsightDetailPage = () => {
   const [insightId] = useParam('insightId')
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
-  const { replaceRoute } = useRouting()
-  const postGridItemsInRow = useBreakpointMatcher()
+  const { navigate, replaceRoute } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const { theme } = useTheme()
+  const { colors } = theme
   const { width: screenWidth } = useClientWindowDimensions()
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
+  const carouselMarginHorizontal = screenWidth < dimensions.breakpointL ? Spacing.xs : 0
 
   const {
     data: { insightById: insight } = {},
@@ -83,7 +88,7 @@ const InsightDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: true,
-      headerTintColor: colors.white100,
+      headerTintColor: colors.light,
       title: '',
       navigationCustomOptions: {
         headerBackgroundGradient: true,
@@ -93,25 +98,112 @@ const InsightDetailPage = () => {
           insight && (
             <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
               <InsightDrawer insight={insight}>
-                <HoliIcon icon={MoreFilled} color={colors.white100} />
+                <HoliIcon icon={MoreFilled} color={colors.light} />
               </InsightDrawer>
             </FeatureToggleGuard>
           )
         )
       },
     })
-  }, [insight, setScreenOptions])
+  }, [insight, setScreenOptions, colors.light])
 
   const posts: Post[] = insight?.posts || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
-
+  const initiatives: Initiative[] = insight?.initiatives || []
+  const discussions: Discussion[] = insight?.discussions || []
   const creator = insight?.creator
+  const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
+  const cardWidth = 330
   const recommendationsTitle =
     recommendations.length > 1
-      ? t('insights.recommendations.title', { name: creator?.firstName, number: recommendations.length })
-      : t('insights.recommendations.title.single', { name: creator?.firstName })
+      ? t('insights.recommendations.title.creator.multiple', {
+          name: creator?.firstName,
+          number: recommendations.length,
+        })
+      : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
 
+  const curatorInfo1 = [
+    t('insights.curationPrinciples.principles.1'),
+    t('insights.curationPrinciples.principles.2'),
+    t('insights.curationPrinciples.principles.3'),
+  ]
+  const curatorInfo2 = [
+    t('insights.curationPrinciples.principles.4'),
+    t('insights.curationPrinciples.principles.5'),
+    t('insights.curationPrinciples.principles.6'),
+  ]
+
+  const curatorSlides = [
+    <View style={styles.slide} key={1}>
+      <HoliText size="extralarge" style={styles.slideHeader}>
+        {t('insights.curatorModal.header1')}
+      </HoliText>
+      <View style={styles.slideWrapper}>
+        {creator && (
+          <>
+            <HoliAvatar
+              imageSrc={creator.avatar}
+              imageBlurhash={creator.avatarBlurhash}
+              label={creator.fullName || t('user.profileView.anonymous')}
+              initials={creator.avatarLabel}
+              defaultColor={creator.avatarDefaultColor}
+              size="extralarge"
+            />
+            <HoliText style={{ marginTop: 8 }} size="large">
+              {creator.fullName}
+            </HoliText>
+            <HoliText size="small" style={styles.subline}>
+              {t('insights.curatorModal.subline')}
+            </HoliText>
+            <HoliButton
+              variant="small"
+              inline
+              onPress={() => navigate(`/profile/${creator.id}`)}
+              label={t('modal.close')}
+              style={{ width: 120 }}
+            >
+              {t('insights.curatorModal.profileLink')}
+            </HoliButton>
+            <HoliText style={{ marginTop: 8 }} numberOfLines={4} ellipsizeMode="tail">
+              {creator.aboutMe}
+            </HoliText>
+          </>
+        )}
+      </View>
+    </View>,
+    <View style={styles.slide} key={2}>
+      <HoliText size="extralarge" style={styles.slideHeader}>
+        {t('insights.curatorModal.header2')}
+      </HoliText>
+      <View style={styles.slideWrapper}>
+        {curatorInfo1.map((copy, index) => (
+          <View style={styles.row} key={index}>
+            <View style={styles.count}>
+              <HoliText>{index + 1}</HoliText>
+            </View>
+            <HoliText style={styles.copy}>{copy}</HoliText>
+          </View>
+        ))}
+      </View>
+    </View>,
+    <View style={styles.slide} key={3}>
+      <HoliText size="extralarge" style={styles.slideHeader}>
+        {t('insights.curatorModal.header3')}
+      </HoliText>
+      <View style={styles.slideWrapper}>
+        {curatorInfo2.map((copy, index) => (
+          <View style={styles.row} key={index}>
+            <View style={styles.count}>
+              {/* For consecutive counting, 4 is the starting index in the second array */}
+              <HoliText>{index + 4}</HoliText>
+            </View>
+            <HoliText style={styles.copy}>{copy}</HoliText>
+          </View>
+        ))}
+      </View>
+    </View>,
+  ]
   return (
     <>
       <StatusBar style="light" animated />
@@ -132,7 +224,7 @@ const InsightDetailPage = () => {
               style={[mixins.container, styles.bannerImage]}
               imageStyle={styles.insightImage as ImageStyle}
             />
-            <View style={[styles.content, mixins.container]}>
+            <View style={[styles.content, styles.section]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
                   <HoliBadge>{insight.topic.title}</HoliBadge>
@@ -155,11 +247,11 @@ const InsightDetailPage = () => {
                       {' · '}
                       <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
                     </HoliText>
-                    <HoliButton
-                      transparent
-                      label={t('user.cards.modal.showInfo', { name: creator.fullName })}
+                    <Pressable
                       onPress={() => setShowCuratorModal(true)}
-                      style={styles.creatorInfoButton}
+                      style={({ hovered }) => {
+                        return hovered ? [styles.creatorInfoButtonHovered] : [styles.creatorInfoButton]
+                      }}
                     >
                       <View style={styles.creatorInfo}>
                         <HoliAvatar
@@ -172,207 +264,340 @@ const InsightDetailPage = () => {
                         />
                         <View>
                           <HoliText bold>{creator.fullName}</HoliText>
-                          <HoliText size="small">{t('global.independentJournalist')}</HoliText>
+                          <HoliText size="small">{t('global.journalist')}</HoliText>
                         </View>
                       </View>
-                    </HoliButton>
+                    </Pressable>
                   </View>
 
                   <HoliModal
                     label={t('user.cards.modal.showInfo', { name: creator.fullName })}
                     show={showCuratorModal}
                     onDismiss={() => setShowCuratorModal(false)}
+                    style={{ backgroundColor: colors.background30 }}
                   >
-                    <HoliUserCardsModalContent
-                      title={''}
-                      users={[creator]}
-                      onDismiss={() => setShowCuratorModal(false)}
+                    <HoliCarousel
+                      marginHorizontal={Spacing.md}
+                      hideDotIndicators={false}
+                      slides={curatorSlides.map((slide) => ({
+                        children: slide,
+                      }))}
+                      style={{ marginHorizontal: 'auto' }}
                     />
+                    <HoliButton
+                      inline
+                      style={styles.close}
+                      onPress={() => setShowCuratorModal(false)}
+                      label={t('modal.close')}
+                    >
+                      {t('insights.curatorModal.close')}
+                    </HoliButton>
                   </HoliModal>
                 </>
               )}
 
-              <HoliRichTextOutput text={insight.description} allowAllLinks />
+              <HoliRichTextOutput testID="insight-description" text={insight.description} allowAllLinks />
             </View>
+            <HoliGap size="s" />
+            {recommendations.length > 0 && (
+              <InsightCarouselSection
+                heading={recommendationsTitle}
+                headingIcon={{
+                  asset: require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg'),
+                  label: recommendationsTitle,
+                }}
+              >
+                <RecommendationsCarousel
+                  insight={insight}
+                  recommendations={recommendations}
+                  marginHorizontal={carouselMarginHorizontal}
+                  slideWidth={cardWidth}
+                />
+              </InsightCarouselSection>
+            )}
+
+            {quotes.length > 0 && (
+              <InsightCarouselSection
+                heading={t('insights.quotes.title')}
+                headingIcon={{
+                  asset: require('@holi/ui/assets/img/illustrations/illustration_people.svg'),
+                  label: 'Quote',
+                }}
+              >
+                <QuotesCarousel
+                  insightId={insight.id}
+                  quotes={quotes}
+                  marginHorizontal={carouselMarginHorizontal}
+                  slideWidth={cardWidth}
+                />
+              </InsightCarouselSection>
+            )}
+
+            {initiatives.length > 0 && (
+              <InsightCarouselSection
+                heading={initiativesTitle}
+                headingIcon={{
+                  asset: require('@holi/ui/assets/img/illustrations/illustration_insight_initiatives.svg'),
+                  label: initiativesTitle,
+                }}
+              >
+                <InitiativesCarousel
+                  insightId={insight.id}
+                  initiatives={initiatives}
+                  marginHorizontal={carouselMarginHorizontal}
+                  slideWidth={cardWidth}
+                />
+              </InsightCarouselSection>
+            )}
+            {discussions.length > 0 && (
+              <DiscussionsSection>
+                {discussions.map((d) => (
+                  <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
+                ))}
+              </DiscussionsSection>
+            )}
+            {posts.length > 0 && (
+              <View style={[styles.section, styles.posts]}>
+                <HoliGridWrapper>
+                  {posts.map((post) => (
+                    <HoliGridCell key={post.id}>
+                      <PostPreview post={post} insightId={insightId} />
+                    </HoliGridCell>
+                  ))}
+                </HoliGridWrapper>
+              </View>
+            )}
           </>
         ) : (
           <Skeleton />
-        )}
-
-        {recommendations.length > 0 && (
-          <View style={[mixins.container, screenWidth <= dimensions.breakpointS ? { paddingHorizontal: 0 } : {}]}>
-            <HoliGap size="l" />
-            <View
-              style={[
-                styles.sectionTitle,
-                screenWidth <= dimensions.breakpointS ? { paddingHorizontal: mixins.container.paddingHorizontal } : {},
-              ]}
-            >
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
-                width={37}
-                height={37}
-                label={recommendationsTitle}
-                isSvg
-              />
-              <HoliHeading>{recommendationsTitle}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
-            <HoliCarousel
-              hideDotIndicators
-              marginHorizontal={20}
-              slides={recommendations.map((recommendation) => ({
-                children: (
-                  <View style={styles.carouselSlide}>
-                    <RecommendationPreview recommendation={recommendation} />
-                  </View>
-                ),
-              }))}
-            />
-          </View>
-        )}
-
-        {quotes.length > 0 && (
-          <View style={mixins.container}>
-            <HoliGap size="l" />
-            <View style={styles.sectionTitle}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_people.svg')}
-                label="Quote"
-                width={37}
-                height={37}
-                isSvg
-              />
-              <HoliHeading>{t('insights.quotes.title')}</HoliHeading>
-            </View>
-            <HoliGap size="s" />
-            <QuotesCarousel quotes={quotes} />
-            <HoliGap size="s" />
-          </View>
-        )}
-
-        {posts.length > 0 && (
-          <View style={[mixins.container, styles.postList]}>
-            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {posts.map((post) => (
-                <HoliGridCell key={post.id}>
-                  <PostPreview post={post} insightId={insightId} />
-                </HoliGridCell>
-              ))}
-            </HoliGridWrapper>
-          </View>
         )}
       </ScrollHeaderLayout.Refreshable>
     </>
   )
 }
 
-// Trying out Skeleton as a separate component, why?
-// i) Feels wrong that smaller atoms & molecules have to have 2 concerns eg show title or a skeleton. SRP FTW.
-// ii) There's lots of branches in the code to deal with an insight possibly being null -
-//      catch this early and we can rely on insight being present and the code is less complex
-// Cons - There's duplication and possible drift between real UI and Skeleton... but Skeleton only has to
-// be an approximation of the ui.
-
-const Skeleton = () => {
-  const mixins = useStyleMixins()
+const InsightCarouselSection: React.FC<{
+  heading: string
+  headingIcon: { asset: NodeRequire; label: string }
+  children: React.ReactNode
+}> = ({ heading, headingIcon, children }) => {
+  const { theme } = useTheme()
+  const { width: screenWidth } = useClientWindowDimensions()
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
 
   return (
+    <View style={styles.section}>
+      <View style={[styles.sectionTitle]}>
+        <HoliLocalImage
+          imageSource={headingIcon.asset as StaticImageData}
+          label={headingIcon.label}
+          width={37}
+          height={37}
+          isSvg
+        />
+        <HoliHeading>{heading}</HoliHeading>
+      </View>
+      <HoliGap size="s" />
+      {children}
+    </View>
+  )
+}
+
+const Skeleton = () => {
+  const { theme } = useTheme()
+  const { width: screenWidth } = useClientWindowDimensions()
+
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
+  return (
     <>
-      <View style={[mixins.container, styles.bannerImage]}>
+      <View style={[styles.bannerImage, styles.section]}>
         <HoliSkeleton height="100%" width="100%" borderRadius={0} />
       </View>
-      <View style={[styles.content, mixins.container]}>
+      <View style={[styles.content, styles.section]}>
         <View style={styles.tag}>
           <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
         </View>
-        <View style={styles.title}>
-          <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
-        </View>
-        <View style={styles.curator}>
-          <View style={styles.skeletonCurrator}>
-            <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
-            <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+        <View style={styles.section}>
+          <View style={styles.tag}>
+            <HoliSkeleton height={Spacing.lg} width="40%" borderRadius={24} />
           </View>
+          <View style={styles.title}>
+            <HoliSkeleton height={Spacing.xxl} width="100%" borderRadius={16} />
+          </View>
+          <View style={styles.curator}>
+            <View style={styles.skeletonCurator}>
+              <HoliSkeleton height={Spacing['4xl']} width={Spacing['4xl']} borderRadius={64} />
+              <HoliSkeleton height={Spacing.xxl} width={128} borderRadius={16} />
+            </View>
+          </View>
+          <HoliSkeleton height={256} width="100%" borderRadius={16} />
         </View>
-        <HoliSkeleton height={256} width="100%" borderRadius={16} />
       </View>
     </>
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-  },
-  bannerImage: {
-    paddingHorizontal: 0,
-    height: Platform.OS === 'web' ? 680 : 340,
-    ...Platform.select({
-      web: {
-        maxHeight: '50vh',
-        objectFit: 'cover',
+const getStyles = (theme: HoliTheme, screenWidth: number) =>
+  StyleSheet.create({
+    section: {
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+      marginBottom: Spacing.xl,
+    },
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+    },
+    bannerImage: {
+      paddingHorizontal: 0,
+      height: Platform.OS === 'web' ? 680 : 340,
+      ...Platform.select({
+        web: {
+          maxHeight: '50vh',
+          objectFit: 'cover',
+        },
+        native: { maxHeight: '50%' },
+      }),
+    } as ImageStyle,
+    insightImage: {
+      ...Platform.select({ web: { height: '100%' } }),
+    },
+    content: {
+      backgroundColor: theme.colors.background10,
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+      paddingTop: Spacing.xl,
+      paddingBottom: Spacing.lg,
+      paddingHorizontal: Spacing.md,
+    },
+    tag: {
+      marginBottom: Spacing['xs'],
+    },
+    title: {
+      marginBottom: Spacing.xs,
+    },
+    curator: {
+      marginBottom: Spacing.md,
+    },
+    skeletonCurator: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+      alignItems: 'center',
+    },
+    creatorInfoButton: {
+      maxWidth: dimensions.maxButtonWidth,
+      borderRadius: dimensions.spacingXs,
+      borderWidth: 1,
+      borderColor: theme.colors.gray100,
+      shadowColor: theme.colors.gray100,
+      shadowOffset: {
+        width: 0,
+        height: 1,
       },
-      native: { maxHeight: '50%' },
-    }),
-  } as ImageStyle,
-  insightImage: {
-    ...Platform.select({ web: { height: '100%' } }),
-  },
-  content: {
-    backgroundColor: colors.background10,
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.lg,
-    paddingHorizontal: Spacing.xs,
-  },
-  tag: {
-    marginBottom: Spacing['xs'],
-  },
-  title: {
-    marginBottom: Spacing.xs,
-  },
-  curator: {
-    marginBottom: Spacing.md,
-  },
-  skeletonCurrator: {
-    flexDirection: 'row',
-    gap: Spacing['3xs'],
-    alignItems: 'center',
-  },
-  creatorInfoButton: {
-    maxWidth: dimensions.maxButtonWidth,
-  },
-  creatorInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.gray100,
-    boxShadow: `0px 1px 0px 0px ${colors.gray100}`,
-    padding: Spacing.xxs,
-  },
-  creatorAvatar: {
-    marginRight: Spacing.xs,
-  },
-  creationDetails: {
-    marginBottom: Spacing['3xs'],
-  },
-  date: {
-    textTransform: 'capitalize',
-  },
-  sectionTitle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing['3xs'],
-  },
-  carouselSlide: {
-    flex: 1,
-  },
-  postList: {
-    marginTop: Spacing.md,
-  },
-})
+    },
+    creatorInfoButtonHovered: {
+      maxWidth: dimensions.maxButtonWidth,
+      borderRadius: dimensions.spacingXs,
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+      shadowColor: theme.colors.black300,
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.12,
+    },
+    creatorInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: Spacing.xxs,
+    },
+    creatorAvatar: {
+      marginRight: Spacing.xxs,
+    },
+    creationDetails: {
+      marginBottom: Spacing['3xs'],
+    },
+    date: {
+      textTransform: 'capitalize',
+    },
+    sectionTitle: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: Spacing['3xs'],
+      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+      maxWidth: '95%',
+    },
+    posts: {
+      marginBottom: 36,
+      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+    },
+    postCard: {
+      width: 304,
+    },
+    slide: {
+      flex: 1,
+    },
+    slideWrapper: {
+      backgroundColor: theme.colors.white100,
+      padding: Spacing.md,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+      flexGrow: 1,
+      ...Platform.select({
+        web: {
+          marginBottom: Spacing.md,
+        },
+      }),
+    },
+    slideHeader: {
+      ...Platform.select({
+        web: {
+          marginBottom: Spacing.sm,
+        },
+        native: {
+          marginBottom: 4,
+        },
+      }),
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: Spacing.xs,
+      padding: Spacing['3xs'],
+    },
+    count: {
+      borderRadius: 100,
+      backgroundColor: theme.colors.brandB200,
+      width: 32,
+      height: 32,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+    },
+    copy: {
+      flexWrap: 'wrap',
+      flex: 1,
+    },
+    subline: {
+      color: theme.colors.foreground20,
+      marginTop: 4,
+      marginBottom: 8,
+    },
+    close: {
+      marginHorizontal: 'auto',
+      marginVertical: Spacing.md,
+      ...Platform.select({
+        web: {
+          width: 327,
+        },
+        native: {
+          marginHorizontal: Spacing.md,
+        },
+      }),
+    },
+  })
 
 export default withProfiler(memo(InsightDetailPage), { name: 'InsightDetailPage' })

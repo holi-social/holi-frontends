@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { cleanup, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { act } from 'react-test-renderer'
@@ -22,20 +22,21 @@ jest.useFakeTimers()
 const TestComponent: React.FC = () => {
   const { loading, error, data, totalResults } = usePaginationContext<Insight>()
 
-  if (loading) {
-    return <Text>Loading</Text>
-  }
-  if (error) {
-    return <Text>{error.message}</Text>
-  }
   return (
     <View>
+      <Text>{loading && 'Loading'}</Text>
+      <Text>{error && error.message}</Text>
       <Text>{totalResults} results</Text>
-      {data.map((element) => (
-        <Text key={element.id} testID="element">
-          {element.id}
-        </Text>
-      ))}
+      {data.map((element) =>
+        element ? (
+          <Text key={element.id} testID="element">
+            {element.id}
+          </Text>
+        ) : (
+          // eslint-disable-next-line react/jsx-key
+          <Text testID="errorElement">Erroneous element</Text>
+        )
+      )}
     </View>
   )
 }
@@ -66,8 +67,7 @@ describe('PaginationContext', () => {
 
   it('provides error state in pagination context', async () => {
     renderPagination([errorMock])
-
-    expect(await screen.findByText('Test error'))
+    expect(await screen.findByText('Network error'))
   })
 
   it('provides total results in pagination context', async () => {
@@ -79,7 +79,7 @@ describe('PaginationContext', () => {
   it('provides data in pagination context', async () => {
     renderPagination([createPaginationMock()])
 
-    expect(await screen.findByText('50 results'))
+    expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
   })
 
@@ -93,7 +93,7 @@ describe('PaginationContext', () => {
   it('renders button to fetch more if possible', async () => {
     renderPagination([createPaginationMock(), createPaginationMock(pageSize), createPaginationMock(pageSize * 2)])
 
-    expect(await screen.findByText('50 results'))
+    expect(await screen.findByText(totalResults + ' results'))
 
     // Fetch second page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
@@ -117,8 +117,4 @@ describe('PaginationContext', () => {
     // The button to fetch more should be hidden now
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
   })
-
-  // solve act() wrap warning
-  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
-  afterEach(cleanup)
 })

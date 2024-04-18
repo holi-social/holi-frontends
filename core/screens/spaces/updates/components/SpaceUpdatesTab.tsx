@@ -1,10 +1,10 @@
 import { withProfiler } from '@sentry/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import type { Space } from '@holi/core/screens/spaces/types'
@@ -18,18 +18,21 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceUpdatesTabProps {
   space: Space
   style?: StyleProp<ViewStyle>
 }
 
-const POSTS_RESULT_PAGE_SIZE = 10
+export const POSTS_RESULT_PAGE_SIZE = 10
 
-const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
+export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
 
@@ -42,7 +45,7 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
         spaceId: space.id,
       })
     },
-    fetchPolicy: 'cache-first',
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -148,40 +151,37 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  buttonContainer: {
-    flexGrow: 1,
-    gap: 8,
-  },
-  buttonWrapper: {
-    paddingBottom: 12,
-  },
-  buttonSpacing: {
-    paddingHorizontal: 6,
-    paddingVertical: 8,
-    flex: 1,
-    ...Platform.select({
-      web: {
-        minWidth: 'fit-content',
-        maxWidth: '33%',
-      },
-    }),
-  },
-  buttonSelected: {
-    backgroundColor: colors.foreground30,
-    borderColor: colors.foreground30,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  loaderBottom: {
-    marginBottom: 24,
-    position: 'relative',
-  },
-})
-
-export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
-  () => import('@holi/core/screens/spaces/updates/components/SpaceUpdatesTab')
-)
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    buttonContainer: {
+      flexGrow: 1,
+      gap: 8,
+    },
+    buttonWrapper: {
+      paddingBottom: 12,
+    },
+    buttonSpacing: {
+      paddingHorizontal: 6,
+      paddingVertical: 8,
+      flex: 1,
+      ...Platform.select({
+        web: {
+          minWidth: 'fit-content',
+          maxWidth: '33%',
+        },
+      }),
+    },
+    buttonSelected: {
+      backgroundColor: theme.colors.foreground30,
+      borderColor: theme.colors.foreground30,
+    },
+    icon: {
+      marginRight: 5,
+    },
+    loaderBottom: {
+      marginBottom: 24,
+      position: 'relative',
+    },
+  })
 
 export default withProfiler(SpaceUpdatesTab, { name: 'SpaceUpdatesTab' })

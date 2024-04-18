@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { StyleProp, StyleSheet, TextInput, View, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps, Suggestion } from 'react-native-controlled-mentions'
 
@@ -11,7 +11,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
 import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliRichTextInputProps = {
   initalValue?: string
@@ -31,7 +31,7 @@ export type HoliRichTextInputProps = {
   maxNoOfCharacters?: number
 }
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
   autofocus = false,
@@ -43,6 +43,9 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   onBlur = () => null,
   ...props
 }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const inputRef = useRef<TextInput>(null)
   const [value, setValue] = useState(initalValue)
   const [suggestions, setSuggestions] = useState<User[]>([])
@@ -189,6 +192,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
         placeholder={placeholder}
         containerStyle={[styles.mentionsStyles, props.style]}
         style={styles.input}
+        placeholderTextColor={theme.dark ? theme.colors.foreground10 : undefined}
         editable={!disabled}
         maxLength={props.maxNoOfCharacters}
         testID={(props.testID || 'richtext-component') + '-input'}
@@ -200,35 +204,36 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
 export default HoliRichTextInput
 
-const styles = StyleSheet.create({
-  mentionsStyles: {
-    flexDirection: 'column-reverse' /* input on top and suggestions below */,
-    zIndex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  input: {
-    width: '100%',
-    paddingVertical: 10,
-    color: colors.foreground30,
-    fontSize: 16,
-  },
-  inlineMention: {
-    color: colors.brandColorB30,
-    fontWeight: '600',
-  },
-  inlineHashtag: {
-    color: colors.foreground20,
-  },
-  inlineUrl: {
-    color: colors.foreground20,
-  },
-  charactorCountText: {
-    color: colors.foreground20,
-  },
-  charactorCountContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-    marginTop: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    mentionsStyles: {
+      flexDirection: 'column-reverse' /* input on top and suggestions below */,
+      zIndex: 1,
+      alignItems: 'flex-start',
+      justifyContent: 'flex-end',
+    },
+    input: {
+      width: '100%',
+      paddingVertical: 10,
+      color: theme.colors.foreground30,
+      fontSize: 16,
+    },
+    inlineMention: {
+      color: theme.colors.brandColorB30,
+      fontWeight: '600',
+    },
+    inlineHashtag: {
+      color: theme.colors.foreground20,
+    },
+    inlineUrl: {
+      color: theme.colors.foreground20,
+    },
+    charactorCountText: {
+      color: theme.colors.foreground20,
+    },
+    charactorCountContainer: {
+      flex: 1,
+      alignItems: 'flex-end',
+      marginTop: 6,
+    },
+  })

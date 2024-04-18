@@ -15,8 +15,8 @@ import { initChatClient } from '@holi/chat/src/store'
 import {
   ADMIN_FIXTURE,
   CREATOR_FIXTURE,
-  DM_MEMBERS_FIXTURE,
-  DM_ROOM_ID_FIXTURE,
+  DM_MEMBERS,
+  DM_ROOM_ID,
   HOLI_CREATOR_FIXTURE,
   HOLI_CREATOR_ID_FIXTURE,
   HOLI_DM_USERS_FIXTURE,
@@ -24,11 +24,11 @@ import {
   HOLI_MEMBER1_ID_FIXTURE,
   HOLI_SPACE_USERS_FIXTURE,
   MEMBER1_FIXTURE,
-  NOTIFICATION_COUNT_FIXTURE,
-  SPACE_CHILD_EVENT_CONTENT_FIXTURE,
+  NOTIFICATION_COUNT,
+  SPACE_CHILD_EVENT_CONTENT,
   SPACE_CHILD_ROOM_ID_FIXTURE,
   SPACE_CHILD_ROOM_NAME_FIXTURE,
-  SPACE_EVENT_CONTENT_FIXTURE,
+  SPACE_EVENT_CONTENT,
   SPACE_MEMBERS_FIXTURE,
   SPACE_ROOM_ID_FIXTURE,
   SPACE_ROOM_NAME_FIXTURE,
@@ -111,7 +111,7 @@ describe('ChatHomeContent Component', () => {
   })
 
   it('should render login info screen if the user is not logged-in', async () => {
-    useAuthMock.mockReturnValue({ userId: null, isLoggedIn: false, isLoggedOut: false, isLoading: false })
+    useAuthMock.mockReturnValue({ userId: null, isLoggedIn: false, isLoggedOut: false, isUninitialized: false })
     render(
       <MockedProvider mocks={[]} addTypename={false} cache={createCache()}>
         <ChatHomeContent />
@@ -126,13 +126,13 @@ describe('ChatHomeContent Component', () => {
       userId: HOLI_CREATOR_ID_FIXTURE,
       isLoggedIn: true,
       isLoggedOut: false,
-      isLoading: false,
+      isUninitialized: false,
     })
     const roomName = 'room-name'
-    const roomMock = createRoomMock(DM_ROOM_ID_FIXTURE, {
-      members: DM_MEMBERS_FIXTURE,
+    const roomMock = createRoomMock(DM_ROOM_ID, {
+      members: DM_MEMBERS,
       timelineEvents: [],
-      unreadNotificationCount: NOTIFICATION_COUNT_FIXTURE,
+      unreadNotificationCount: NOTIFICATION_COUNT,
       creatorId: CREATOR_FIXTURE.id,
       myMembership: MembershipStatus.join,
       getMember: CREATOR_FIXTURE,
@@ -148,7 +148,7 @@ describe('ChatHomeContent Component', () => {
       <MockedProvider
         mocks={[
           getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS_FIXTURE, HOLI_DM_USERS_FIXTURE),
+          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
         addTypename={true}
         defaultOptions={defaultOptions}
@@ -164,7 +164,7 @@ describe('ChatHomeContent Component', () => {
     expect(await screen.findByTestId('chat-home-loader')).toBeOnTheScreen()
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(MEMBER1_FIXTURE.name)
+    expect(displayedRoom).toHaveTextContent(roomName)
   })
 
   it('should render existing room with pending invitation', async () => {
@@ -172,13 +172,13 @@ describe('ChatHomeContent Component', () => {
       userId: HOLI_MEMBER1_ID_FIXTURE,
       isLoggedIn: true,
       isLoggedOut: false,
-      isLoading: false,
+      isUninitialized: false,
     })
     const roomName = CREATOR_FIXTURE.name
-    const roomMock = createRoomMock(DM_ROOM_ID_FIXTURE, {
-      members: DM_MEMBERS_FIXTURE,
+    const roomMock = createRoomMock(DM_ROOM_ID, {
+      members: DM_MEMBERS,
       timelineEvents: [],
-      unreadNotificationCount: NOTIFICATION_COUNT_FIXTURE,
+      unreadNotificationCount: NOTIFICATION_COUNT,
       creatorId: CREATOR_FIXTURE.id,
       myMembership: MembershipStatus.invite,
       getMember: MEMBER1_FIXTURE,
@@ -196,7 +196,7 @@ describe('ChatHomeContent Component', () => {
       <MockedProvider
         mocks={[
           getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS_FIXTURE, HOLI_DM_USERS_FIXTURE),
+          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
         addTypename={false}
         defaultOptions={defaultOptions}
@@ -217,11 +217,11 @@ describe('ChatHomeContent Component', () => {
       userId: HOLI_MEMBER1_ID_FIXTURE,
       isLoggedIn: true,
       isLoggedOut: false,
-      isLoading: false,
+      isUninitialized: false,
     })
 
     const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
-      content: SPACE_EVENT_CONTENT_FIXTURE,
+      content: SPACE_EVENT_CONTENT,
     } as unknown as IEvent)
 
     const spaceChildSharedDataEvent = createMatrixEventMock(
@@ -229,7 +229,7 @@ describe('ChatHomeContent Component', () => {
       SPACE_CHILD_ROOM_ID_FIXTURE,
       undefined,
       {
-        content: SPACE_CHILD_EVENT_CONTENT_FIXTURE,
+        content: SPACE_CHILD_EVENT_CONTENT,
       } as unknown as IEvent
     )
 

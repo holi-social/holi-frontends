@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
@@ -13,8 +13,11 @@ type VolunteeringCardContentProps = {
   engagement: VolunteeringEngagement
 }
 
-const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props) => {
+const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = (props) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const engagement = props.engagement
 
@@ -53,25 +56,26 @@ const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props)
 
 export default VolunteeringCardContent
 
-const styles = StyleSheet.create({
-  volunteeringCardContainer: {
-    marginBottom: 16,
-  },
-  locationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 4,
-  },
-  titleText: {
-    marginTop: 4,
-  },
-  locationIcon: {
-    marginRight: 5,
-  },
-  locationText: {
-    color: colors.foreground20,
-  },
-  categoryText: {
-    color: colors.brandColorB30,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    volunteeringCardContainer: {
+      marginBottom: 16,
+    },
+    locationContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 4,
+    },
+    titleText: {
+      marginTop: 4,
+    },
+    locationIcon: {
+      marginRight: 5,
+    },
+    locationText: {
+      color: theme.colors.foreground20,
+    },
+    categoryText: {
+      color: theme.colors.brandColorB30,
+    },
+  })

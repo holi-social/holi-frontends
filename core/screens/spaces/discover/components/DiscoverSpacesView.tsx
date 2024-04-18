@@ -1,8 +1,9 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
@@ -16,7 +17,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface DiscoverSpacesViewProps {
   style?: StyleProp<ViewStyle>
@@ -53,7 +55,10 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
   const { openLoginModal } = useLoginModal()
-  const { width: screenWidth } = useWindowDimensions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { width: screenWidth } = useClientWindowDimensions()
 
   const { loadingTopics: loading, topics = [] } = useContext(SpaceTermContext)
 
@@ -70,7 +75,6 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
     isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
   }, [isLoggedIn, navigate, openLoginModal, t])
 
-  const { width } = useWindowDimensions()
   const aspectRatio = 188 / 324
 
   return (
@@ -105,8 +109,8 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
             resizeMode="contain"
-            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? width : 324}
-            height={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? aspectRatio * width : 188}
+            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? screenWidth : 324}
+            height={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? aspectRatio * screenWidth : 188}
             style={styles.compositionImage}
             label=""
           />
@@ -231,78 +235,79 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  headerDescription: {
-    paddingVertical: 12,
-    fontWeight: '400',
-  },
-  body: {
-    marginTop: 32,
-  },
-  spacesGroup: {
-    marginBottom: 30,
-  },
-  othersTitle: {
-    marginTop: 18,
-    marginBottom: 48,
-  },
-  createSpaceButtonContainer: {
-    marginTop: 8,
-    alignSelf: 'flex-start',
-    marginBottom: 32,
-  },
-  createSpaceButton: {
-    borderWidth: 1,
-  },
-  compositionImage: {
-    flex: 1,
-    alignSelf: 'center',
-  },
-  compositionImageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignSelf: 'stretch',
-    backgroundColor: colors.background10,
-    borderRadius: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 24,
-    gap: 20,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  compositionImageContainerL: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    backgroundColor: colors.background10,
-    borderRadius: 16,
-    paddingHorizontal: 14,
-    paddingVertical: 24,
-    gap: 32,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  learnMoreDescription: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  learnMoreDescriptionS: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  learnMoreDescriptionContainer: {
-    flex: 1,
-    paddingHorizontal: 14,
-    gap: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    headerDescription: {
+      paddingVertical: 12,
+      fontWeight: '400',
+    },
+    body: {
+      marginTop: 32,
+    },
+    spacesGroup: {
+      marginBottom: 30,
+    },
+    othersTitle: {
+      marginTop: 18,
+      marginBottom: 48,
+    },
+    createSpaceButtonContainer: {
+      marginTop: 8,
+      alignSelf: 'flex-start',
+      marginBottom: 32,
+    },
+    createSpaceButton: {
+      borderWidth: 1,
+    },
+    compositionImage: {
+      flex: 1,
+      alignSelf: 'center',
+    },
+    compositionImageContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignSelf: 'stretch',
+      backgroundColor: theme.colors.background10,
+      borderRadius: 16,
+      paddingHorizontal: 10,
+      paddingVertical: 24,
+      gap: 20,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    compositionImageContainerL: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'stretch',
+      backgroundColor: theme.colors.background10,
+      borderRadius: 16,
+      paddingHorizontal: 14,
+      paddingVertical: 24,
+      gap: 32,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    learnMoreDescription: {
+      flexDirection: 'row',
+      width: '100%',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+    learnMoreDescriptionS: {
+      flexDirection: 'row',
+      width: '100%',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+    learnMoreDescriptionContainer: {
+      flex: 1,
+      paddingHorizontal: 14,
+      gap: 16,
+    },
+  })
 
 export default DiscoverSpacesView

@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useEffect } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
@@ -17,7 +18,7 @@ import {
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -68,6 +69,8 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const { width: windowWidth } = useWindowDimensions()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
 
@@ -75,31 +78,26 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   // because value is constant in web and for mobile windowWidth doesn't change
   const cardWidth = Platform.OS === 'web' ? 320 : windowWidth / 1.5 - 12
 
-  const {
-    loading: dataLoading,
-    data,
-    error,
-  } = useQuery<DiscoverSpacesData, DiscoverSpacesVariables>(discoverSpacesQuery, {
+  const topicFilter = topic ? { topicIds: [topic.id] } : {}
+  const skillFilter = skill ? { skillIds: [skill.id] } : {}
+  const { loading: dataLoading, data } = useQuery<DiscoverSpacesData, DiscoverSpacesVariables>(discoverSpacesQuery, {
     variables: {
       // component is either parameterized with topic or skill, so this doesn't fetch both
-      topicIds: topic ? [topic.id] : [],
-      skillIds: skill ? [skill.id] : [],
+      ...topicFilter,
+      ...skillFilter,
       geolocation: geolocationDetails?.geolocation,
       limit: pageSize,
       offset: 0,
     },
     skip: manualLoading || loadingGeolocation,
-    fetchPolicy: 'cache-and-network',
-  })
-  const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
-  useEffect(() => {
-    if (error) {
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
+    onError: (error) =>
       displayError(error, 'Failed to discover spaces', {
         displayMessage: t('spaces.spaceListing.error'),
         location: 'SpacesGroupSlider.discoverSpacesQuery',
-      })
-    }
-  }, [error, displayError, t])
+      }),
+  })
+  const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
 
   const { totalResults = 0, data: spacesData = [] } = fetchedSpaces ?? {}
   const hasMore = totalResults > (pageSize ?? 0) // false in loading state
@@ -110,7 +108,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
 
   const seeMoreQueryParams = [topicQuery, skillQuery, locationQuery].filter((query) => !!query).join('&')
 
-  const loading = manualLoading || dataLoading || loadingGeolocation
+  const loading = manualLoading || (dataLoading && !fetchedSpaces) || loadingGeolocation
 
   if (!loading && totalResults === 0) {
     // some topics or skills don't have associated spaces, then we just choose to not display them for now
@@ -192,26 +190,27 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
 }
 export default memo(SpacesGroupSlider)
 
-const styles = StyleSheet.create({
-  sliderContainer: {
-    marginBottom: 24,
-  },
-  sliderHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  pill: {
-    marginRight: 6,
-  },
-  seeMoreCard: {
-    paddingVertical: 8,
-  },
-  spaceCard: {
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    marginRight: 8,
-  },
-  backgroundWhite: {
-    backgroundColor: colors.background10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    sliderContainer: {
+      marginBottom: 24,
+    },
+    sliderHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    pill: {
+      marginRight: 6,
+    },
+    seeMoreCard: {
+      paddingVertical: 8,
+    },
+    spaceCard: {
+      paddingVertical: 8,
+      paddingHorizontal: 8,
+      marginRight: 8,
+    },
+    backgroundWhite: {
+      backgroundColor: theme.colors.background10,
+    },
+  })

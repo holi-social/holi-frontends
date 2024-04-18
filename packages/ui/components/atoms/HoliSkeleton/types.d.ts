@@ -2,7 +2,7 @@
 export interface HoliSkeletonProps {
   aspectRatio?: number
   height: number | '100%' | 'auto'
-  width: number | '40%' | '60%' | '100%'
+  width: number | '40%' | '60%' | '80%' | '100%'
   borderRadius: number | 0 | 4 | 8 | 16 | 48
   testID?: string
 }

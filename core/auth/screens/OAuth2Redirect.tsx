@@ -15,7 +15,7 @@ export interface OAuth2RedirectProps {
   errorContext?: ErrorContext
 }
 
-const OAuth2Redirect: React.VFC<OAuth2RedirectProps> = ({ error, errorContext }) => {
+const OAuth2Redirect: React.FC<OAuth2RedirectProps> = ({ error, errorContext }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()

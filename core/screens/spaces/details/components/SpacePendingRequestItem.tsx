@@ -21,9 +21,9 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 
 type SpacePendingRequestsProps = {
   space: Space
@@ -34,6 +34,9 @@ type SpacePendingRequestsProps = {
 
 const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, membershipRequest, initiallyOpen }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { openToast } = useToast()
   const [connectionStatus, setConnectionStatus] = useState<'PENDING' | 'ACCEPTED' | 'DECLINED'>('PENDING')
 
@@ -204,43 +207,44 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    ...Platform.select({
-      web: {
-        paddingRight: 12,
-      },
-    }),
-  },
-  userButton: {
-    flex: 1,
-  },
-  userButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    borderWidth: 1,
-  },
-  name: {
-    marginLeft: 16,
-    flex: 1,
-  },
-  muted: {
-    color: colors.foreground20,
-    paddingLeft: 8,
-  },
-  buttonContainer: {
-    paddingLeft: 48,
-  },
-  button: {
-    borderRadius: 50,
-    width: 40,
-    zIndex: 4,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 12,
+      ...Platform.select({
+        web: {
+          paddingRight: 12,
+        },
+      }),
+    },
+    userButton: {
+      flex: 1,
+    },
+    userButtonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    avatar: {
+      borderWidth: 1,
+    },
+    name: {
+      marginLeft: 16,
+      flex: 1,
+    },
+    muted: {
+      color: theme.colors.foreground20,
+      paddingLeft: 8,
+    },
+    buttonContainer: {
+      paddingLeft: 48,
+    },
+    button: {
+      borderRadius: 50,
+      width: 40,
+      zIndex: 4,
+    },
+  })
 
 export default SpacePendingRequestsItem

@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FavoriteDrawer from '@holi/core/screens/favorites/components/FavoritesDrawer'
-import { User } from '@holi/core/screens/userprofile/types'
+import { FavoriteType } from '@holi/core/screens/favorites/model'
+import { Favorites } from '@holi/core/screens/favorites/types'
+import { Insight } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import AccountCircleFilled from '@holi/icons/src/generated/AccountCircleFilled'
 import MoreFilled from '@holi/icons/src/generated/MoreFilled'
@@ -14,123 +16,124 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface FavoriteCardProps {
-  id: string
-  title: string
-  thumbnail?: string
-  primaryLink: string
-  curator?: User
-  published?: string
-  externalLink?: string
-  contentType?: string
+  item: Favorites
 }
 
-const FavoriteCard: React.FC<FavoriteCardProps> = ({ id, title, thumbnail, primaryLink, curator, published }) => {
+const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
   const { i18n } = useTranslation()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { favoritable, favoritableType } = item
 
-  return (
-    <View style={styles.cardContainer}>
-      <View style={styles.favoriteDrawer}>
-        <FavoriteDrawer id={id}>
-          <HoliIcon icon={MoreFilled} />
-        </FavoriteDrawer>
-      </View>
-      <HoliButton transparent inline label={title} onPress={() => navigate(primaryLink)}>
-        <View style={styles.cardContent}>
-          <View style={styles.thumbnailContainer}>
-            {thumbnail ? (
-              <HoliImage source={{ uri: thumbnail }} style={styles.thumbnail} label={title} />
-            ) : (
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_thumbnail_placeholder.svg')}
-                isSvg
-                label={title}
-                width={100}
-                height={100}
-              />
-            )}
-          </View>
-          <View style={styles.detailsContainer}>
-            <HoliText ellipsizeMode="tail" numberOfLines={2} bold>
-              {title}
-            </HoliText>
-            {curator && (
-              <View style={styles.curatorContainer}>
-                {curator.avatar ? (
-                  <HoliAvatar
-                    imageSrc={curator.avatar}
-                    imageBlurhash={curator.avatarBlurhash}
-                    label={curator.fullName}
-                    initials={curator.avatarLabel || ''}
-                    defaultColor={curator.avatarDefaultColor || ''}
-                    size="micro"
-                    style={styles.curatorAvatar}
-                  />
-                ) : (
-                  <HoliIcon style={styles.curatorAvatar} icon={AccountCircleFilled} color={colors.gray200} />
-                )}
-                <HoliText size="small" color="gray300">
-                  {curator.fullName}
-                </HoliText>
-              </View>
-            )}
-            {published && (
-              <HoliText size="extrasmall" color="gray300">
-                {getRelativeDateString(published, i18n.language)}
-              </HoliText>
-            )}
-          </View>
+  if (favoritableType === FavoriteType.INSIGHT) {
+    const insight = favoritable as Insight
+    return (
+      <View style={styles.cardContainer} testID={'favorites-card'}>
+        <View style={styles.favoriteDrawer}>
+          <FavoriteDrawer item={item}>
+            <HoliIcon icon={MoreFilled} />
+          </FavoriteDrawer>
         </View>
-      </HoliButton>
-    </View>
-  )
+        <HoliButton transparent inline label={insight.title} onPress={() => navigate(`/insights/${insight.id}`)}>
+          <View style={styles.cardContent}>
+            <View style={styles.thumbnailContainer}>
+              {insight.headerImage ? (
+                <HoliImage source={{ uri: insight.headerImage }} style={styles.thumbnail} label={insight.title} />
+              ) : (
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_thumbnail_placeholder.svg')}
+                  isSvg
+                  label={insight.title}
+                  width={100}
+                  height={100}
+                />
+              )}
+            </View>
+            <View style={styles.detailsContainer}>
+              <HoliText ellipsizeMode="tail" numberOfLines={2} bold>
+                {insight.title}
+              </HoliText>
+              {insight.creator && (
+                <View style={styles.curatorContainer}>
+                  {insight.creator.avatar ? (
+                    <HoliAvatar
+                      imageSrc={insight.creator.avatar}
+                      imageBlurhash={insight.creator.avatarBlurhash}
+                      label={insight.creator.fullName}
+                      initials={insight.creator.avatarLabel || ''}
+                      defaultColor={insight.creator.avatarDefaultColor || ''}
+                      size="micro"
+                      style={styles.curatorAvatar}
+                    />
+                  ) : (
+                    <HoliIcon style={styles.curatorAvatar} icon={AccountCircleFilled} color={colors.gray200} />
+                  )}
+                  <HoliText size="small" color="gray300">
+                    {insight.creator.fullName}
+                  </HoliText>
+                </View>
+              )}
+              {insight.datePublished && (
+                <HoliText size="extrasmall" color="gray300">
+                  {getRelativeDateString(insight.datePublished, i18n.language)}
+                </HoliText>
+              )}
+            </View>
+          </View>
+        </HoliButton>
+      </View>
+    )
+  }
 }
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    position: 'relative',
-    borderWidth: 1,
-    borderColor: colors.gray200,
-    backgroundColor: colors.white100,
-    borderRadius: 8,
-    margin: 8,
-    padding: 8,
-  },
-  cardContent: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  thumbnailContainer: {
-    width: 100,
-    height: 100,
-  },
-  thumbnail: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-  },
-  detailsContainer: {
-    flex: 1,
-    marginLeft: 8,
-    marginRight: 32,
-    justifyContent: 'space-between',
-  },
-  curatorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  curatorAvatar: {
-    marginRight: 8,
-  },
-  favoriteDrawer: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    zIndex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    cardContainer: {
+      position: 'relative',
+      borderWidth: 1,
+      borderColor: theme.colors.gray200,
+      backgroundColor: theme.colors.white100,
+      borderRadius: 8,
+      margin: 8,
+      padding: 8,
+    },
+    cardContent: {
+      flexDirection: 'row',
+      flex: 1,
+    },
+    thumbnailContainer: {
+      width: 100,
+      height: 100,
+    },
+    thumbnail: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 8,
+    },
+    detailsContainer: {
+      flex: 1,
+      marginLeft: 8,
+      marginRight: 32,
+      justifyContent: 'space-between',
+    },
+    curatorContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    curatorAvatar: {
+      marginRight: 8,
+    },
+    favoriteDrawer: {
+      position: 'absolute',
+      top: 10,
+      right: 10,
+      zIndex: 1,
+    },
+  })
 
 export default FavoriteCard

@@ -2,7 +2,7 @@ import { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
   Notification,
@@ -13,6 +13,7 @@ import {
 } from '@holi/core/screens/notifications/components/types'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
+const logger = getLogger('Notifications')
 const NOVU_NOTIFICATIONS_PAGE_SIZE = 10
 
 export const useNotifications = () => {
@@ -70,7 +71,7 @@ export const useNotifications = () => {
     if (!novuService || isFetchingMore || !canFetchMore) {
       return
     }
-    logDebug('useNotifications.fetchNextPage', 'start to fetch page', nextPage)
+    logger.debug('useNotifications.fetchNextPage', 'start to fetch page', nextPage)
     setIsFetchingMore(true)
     return fetchMessages({ pageToFetch: nextPage }).finally(() => {
       setIsFetchingMore(false)

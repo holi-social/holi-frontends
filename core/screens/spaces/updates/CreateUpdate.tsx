@@ -1,7 +1,8 @@
-import React, { memo, useEffect, useLayoutEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -10,7 +11,7 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import SpaceUpdateInputForm from '@holi/core/screens/spaces/updates/components/SpaceUpdateInputForm'
 import useCreateOrUpdateSpacePost from '@holi/core/screens/spaces/updates/useUpdateSpaceUpdates'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type CreateUpdateParams = {
   spaceIdOrName: string
@@ -24,6 +25,8 @@ const CreateSpaceUpdate = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [postId] = useParam('postId')
+  const { theme } = useTheme()
+  const { colors } = theme
 
   //input fields
   const {
@@ -73,7 +76,7 @@ const CreateSpaceUpdate = () => {
     setImage(image)
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loading &&
       isMember &&
       setScreenOptions({
@@ -86,7 +89,7 @@ const CreateSpaceUpdate = () => {
           footerShown: false,
         },
       })
-  }, [setScreenOptions, t, loading, isUpdate, isMember])
+  }, [setScreenOptions, t, loading, isUpdate, isMember, colors.background20])
 
   if (error || !space) {
     return <></>

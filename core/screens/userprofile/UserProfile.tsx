@@ -1,18 +1,17 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { Suspense, memo, useEffect } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
+import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
+import SpacesTab from '@holi/core/components/SpacesTab'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -33,16 +32,11 @@ import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-/** TODO: Suspence currently only works on web. To make it work for
- * mobile we need to move to the new React Native architecture */
-const SpacesTab = dynamicImport<SpacesTabProps>(() => import('@holi/core/components/SpacesTab'))
-const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/components/InsightsTab'))
 
 export type UserProfileParams = {
   userId: string
@@ -56,6 +50,9 @@ const UserProfile = () => {
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { userId: authenticatedUserId, isLoggedIn } = useAuth()
   const [userId = ''] = useParam('userId')
@@ -73,7 +70,7 @@ const UserProfile = () => {
   } = useQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: isSSR ? 'network-only' : 'cache-and-network',
-    skip: !userId, // userId is empty for initial page load
+    skip: !userId,
     onError: (error) => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
@@ -100,7 +97,7 @@ const UserProfile = () => {
 
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
     variables: { userId },
-    skip: !userId, // userId is empty for initial page load
+    skip: !userId,
     onError: (error) =>
       logError(error, 'Failed to load insights for user', {
         location: 'UserProfile.insightsByUserIdTotalResultsQuery',
@@ -142,7 +139,16 @@ const UserProfile = () => {
         </HoliActionDrawer.Drawer>
       ),
     })
-  }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
+  }, [
+    isLoadingBlockUser,
+    t,
+    userFullName,
+    blockUser,
+    reportContent,
+    isLoadingReport,
+    setScreenOptions,
+    colors.background10,
+  ])
 
   if (!userId || (loading && !user)) {
     // TODO: replace with proper loading indicator
@@ -228,23 +234,17 @@ const UserProfile = () => {
             ? [
                 {
                   title: t('profile.tabs.insight'),
-                  children: (
-                    <Suspense fallback={<HoliLoader />}>
-                      <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
-                    </Suspense>
-                  ),
+                  children: <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
                 },
               ]
             : []),
           {
             title: t('profile.tabs.spaces'),
             children: (
-              <Suspense fallback={<HoliLoader />}>
-                <SpacesTab
-                  emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
-                  memberId={user.id}
-                />
-              </Suspense>
+              <SpacesTab
+                emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
+                memberId={user.id}
+              />
             ),
           },
         ]}
@@ -253,38 +253,39 @@ const UserProfile = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'baseline',
-  },
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: dimensions.topBarHeight + 50,
-  },
-  chipRowContainer: {
-    marginTop: 24,
-  },
-  chip: {
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  headerEditButton: {
-    marginLeft: 24,
-    marginRight: Platform.OS === 'web' ? 24 : 0,
-  },
-  infoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 56,
-    paddingVertical: 72,
-  },
-  infoText: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-  profileContainer: {
-    paddingBottom: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'baseline',
+    },
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: dimensions.topBarHeight + 50,
+    },
+    chipRowContainer: {
+      marginTop: 24,
+    },
+    chip: {
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    headerEditButton: {
+      marginLeft: 24,
+      marginRight: Platform.OS === 'web' ? 24 : 0,
+    },
+    infoContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 56,
+      paddingVertical: 72,
+    },
+    infoText: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+    profileContainer: {
+      paddingBottom: 24,
+    },
+  })
 
 export default withProfiler(memo(UserProfile), { name: 'UserProfile' })

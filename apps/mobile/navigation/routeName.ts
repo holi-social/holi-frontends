@@ -2,11 +2,18 @@ export enum RouteName {
   // Feed Stack
   HomeFeed = 'HomeFeed',
   InsightDetailPage = 'InsightDetailPage',
+  InsightsPage = 'InsightsPage',
   InsightPostDetailPage = 'InsightPostDetailPage',
   InsightPostCommentInputPage = 'InsightPostCommentInputPage',
   PostDetailPage = 'PostDetailPage',
   PostCommentInputPage = 'PostCommentInputPage',
+  RecommendationDetailPage = 'RecommendationDetailPage',
+  InitiativeDetailPage = 'InitiativeDetailPage',
   UserProfile = 'UserProfile',
+  InsightQuoteDetailPage = 'InsightQuoteDetailPage',
+  InsightsCurationPrinciples = 'InsightsCurationPrinciples',
+  DiscussionDetailPage = 'DiscussionDetailPage',
+  DiscussionCommentPage = 'DiscussionCommentPage',
 
   // Spaces
   SpacesHome = 'SpacesHome',
@@ -70,10 +77,14 @@ export enum RouteName {
   VolunteeringAppHome = 'VolunteeringAppHome',
   VolunteeringAppEngagmentDetail = 'VolunteeringAppEngagmentDetail',
 
+  // Challenges app
+  ChallengesAppHome = 'ChallengesAppHome',
+
   // Video call
   VideoCall = 'VideoCall',
 
   // Apps Hub
+  AppsModal = 'AppsModal',
   AppsHub = 'AppsHub',
 
   // separate Stacks
@@ -85,6 +96,7 @@ export enum RouteName {
   Chat = 'Chat',
   Auth = 'Auth',
   Search = 'Search',
+  ChallengesApp = 'ChallengesApp',
   DonationsApp = 'DonationsApp',
   GoodNewsApp = 'GoodNewsApp',
   VolunteeringApp = 'VolunteeringApp',
@@ -97,4 +109,7 @@ export enum RouteName {
   Registration = 'Registration',
   ForgotPassword = 'ForgotPassword',
   Onboarding = 'Onboarding',
+
+  // Individual Posts
+  CreatePost = 'CreatePost',
 }

@@ -123,11 +123,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     } catch (error) {
       logger.error({
         message: 'Error rejecting login request',
+        // @ts-ignore
         error: error?.response?.data || error,
       })
       return {
         props: {
           ...defaultProps,
+          // @ts-ignore
           error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
           errorContext: {
             location: 'oauth2.login.rejectOAuth2LoginRequest',

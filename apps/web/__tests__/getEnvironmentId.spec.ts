@@ -38,6 +38,7 @@ describe('getEnvironmentId()', () => {
       // mock server side
       // @ts-ignore
       delete global.window
+      // @ts-ignore
       process.env = {}
     })
 
@@ -45,17 +46,23 @@ describe('getEnvironmentId()', () => {
       it('if ENVIRONMENT_ID variable has been set to "production"', () => {
         process.env.ENVIRONMENT_ID = 'production'
         process.env.NEXT_PUBLIC_ENVIRONMENT_ID = 'ignored'
+        // @ts-ignore
+        // noinspection JSConstantReassignment
         process.env.NODE_ENV = 'ignored'
         expect(getEnvironmentId()).toEqual('production')
       })
 
       it('if ENVIRONMENT_ID variable is `undefined` and NEXT_PUBLIC_ENVIRONMENT_ID is "production"', () => {
         process.env.NEXT_PUBLIC_ENVIRONMENT_ID = 'production'
+        // @ts-ignore
+        // noinspection JSConstantReassignment
         process.env.NODE_ENV = 'ignored'
         expect(getEnvironmentId()).toEqual('production')
       })
 
       it('if ENVIRONMENT_ID and NEXT_PUBLIC_ENVIRONMENT_ID variables are `undefined` but NODE_ENV is "production"', () => {
+        // @ts-ignore
+        // noinspection JSConstantReassignment
         process.env.NODE_ENV = 'production'
         expect(getEnvironmentId()).toEqual('production')
       })
@@ -69,6 +76,8 @@ describe('getEnvironmentId()', () => {
       it('have unsupported value', () => {
         process.env.ENVIRONMENT_ID = 'foo'
         process.env.NEXT_PUBLIC_ENVIRONMENT_ID = 'bar'
+        // @ts-ignore
+        // noinspection JSConstantReassignment
         process.env.NODE_ENV = 'bla'
         expect(getEnvironmentId()).toEqual('development')
       })

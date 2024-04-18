@@ -10,7 +10,7 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
-import { Newspaper } from '@holi/icons/src/generated'
+import { NewspaperFilled } from '@holi/icons/src/generated'
 
 import { GoodNewsArticlesQueryResponse, goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
@@ -22,7 +22,7 @@ type GoodNewsUpdatesProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpdatesProps) => {
+const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
 
@@ -47,7 +47,7 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
     return (
       <AppUpdatesItem
         appName={HOLI_APPS.GOOD_NEWS}
-        onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path}?${params.toString()}`)}
+        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path}?${params.toString()}`}
         title={item.headline}
         imageSourceUri={item.pictureUrl}
         footer={formattedDate}
@@ -60,7 +60,7 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
       appName={HOLI_APPS.GOOD_NEWS}
       renderItem={renderItem}
       data={articlesToRender}
-      appIcon={Newspaper}
+      appIcon={NewspaperFilled}
       heading={t('goodnews:app.name')}
       subline={t('goodnews:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path)}

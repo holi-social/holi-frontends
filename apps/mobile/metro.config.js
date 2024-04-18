@@ -22,7 +22,6 @@ config.resolver.nodeModulesPaths = [
 config.resolver = {
   ...config.resolver,
   sourceExts: [...config.resolver.sourceExts, 'cjs', 'mjs'],
-  blockList: [/.*\.web\.(tsx|ts|json|jsx|js|cjs)/, config.resolver.blockList],
 }
 
 module.exports = config

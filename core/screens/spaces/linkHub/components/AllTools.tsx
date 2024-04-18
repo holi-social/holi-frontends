@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -10,7 +10,7 @@ import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AllToolsProps {
@@ -28,6 +28,8 @@ type ToolWidgetProps = {
 
 const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const [categorizedToolsList, setCategorizedToolsList] = useState<CategorizedToolsListProps | undefined>()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -141,27 +143,28 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 
 export default AllTools
 
-const styles = StyleSheet.create({
-  container: {
-    margin: 24,
-  },
-  noToolsContainer: {
-    marginTop: 10,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-    margin: 24,
-    padding: 24,
-    alignItems: 'center',
-  },
-  illustration: {
-    marginTop: 32,
-    marginBottom: 24,
-  },
-  noToolsDescription: { textAlign: 'center', marginTop: 8, color: colors.foreground30 },
-  widgetContainer: { marginBottom: 24 },
-  linkToolButton: {
-    marginTop: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      margin: 24,
+    },
+    noToolsContainer: {
+      marginTop: 10,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+      margin: 24,
+      padding: 24,
+      alignItems: 'center',
+    },
+    illustration: {
+      marginTop: 32,
+      marginBottom: 24,
+    },
+    noToolsDescription: { textAlign: 'center', marginTop: 8, color: theme.colors.foreground30 },
+    widgetContainer: { marginBottom: 24 },
+    linkToolButton: {
+      marginTop: 24,
+    },
+  })

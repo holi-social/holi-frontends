@@ -1,18 +1,31 @@
 import React from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type Props = Pick<LayoutProps, 'backgroundColor'>
 
-const HeaderOffsetScrollView = ({
-  backgroundColor = colors.background10,
-  children,
-}: React.PropsWithChildren<LayoutProps>) => (
-  <SafeArea style={[styles.safeArea, { backgroundColor }]}>{children}</SafeArea>
-)
+const HeaderOffsetScrollView = ({ backgroundColor, children }: React.PropsWithChildren<LayoutProps>) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const insets = useSafeAreaInsets()
+
+  return (
+    <View
+      style={[
+        styles.safeArea,
+        {
+          paddingTop: insets.top,
+          backgroundColor: backgroundColor || colors.background10,
+        },
+      ]}
+    >
+      {children}
+    </View>
+  )
+}
 
 export default HeaderOffsetScrollView
 

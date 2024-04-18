@@ -1,23 +1,16 @@
 import * as React from 'react'
-import {
-  NativeScrollEvent,
-  Platform,
-  ScrollView,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { NativeScrollEvent, Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliCarouselProps {
   slides: { title?: string; children: React.ReactNode }[]
   style?: StyleProp<ViewStyle>
   hideDotIndicators?: boolean
   marginHorizontal?: number
+  slideWidth?: number
 }
 
 const isWeb = Platform.OS === 'web'
@@ -26,24 +19,30 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   slides,
   style,
   hideDotIndicators,
+  slideWidth,
   marginHorizontal = 0, // margin between slide and device screen
 }: HoliCarouselProps) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
 
   const marginBetweenSlides = 8 // margin between slides
-  const scrollingOffset = screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
-  const defaultSlideWidth = 350
+  const scrollingOffset = slideWidth
+    ? slideWidth + marginBetweenSlides
+    : screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
+  const defaultSlideWidth = slideWidth || 350
   const horizontalScrollMinWidth = 600
 
+  const { theme } = useTheme()
   const styles = getStyles(
     screenWidth,
     marginHorizontal,
     marginBetweenSlides,
     defaultSlideWidth,
-    horizontalScrollMinWidth
+    horizontalScrollMinWidth,
+    theme,
+    slideWidth
   )
 
   const handleOnScroll = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
@@ -161,7 +160,9 @@ const getStyles = (
   marginHorizontal: number,
   marginBetweenSlides: number,
   defaultSlideWidth: number,
-  horizontalScrollMinWidth: number
+  horizontalScrollMinWidth: number,
+  theme: HoliTheme,
+  slideWidth?: number
 ) =>
   StyleSheet.create({
     container: {
@@ -174,21 +175,28 @@ const getStyles = (
       alignItems: 'center',
     },
     scrollViewStyle: {
-      overflowX: 'auto',
       width: '100%',
       flexDirection: 'row',
-      scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
+      ...Platform.select({
+        web: {
+          scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
+        },
+      }),
     },
     slideContainer: {
       flexDirection: 'row',
       height: '100%',
-      width: screenWidth - marginHorizontal * 2,
+      width: slideWidth ? slideWidth : screenWidth - marginHorizontal * 2,
       marginLeft: marginBetweenSlides,
       marginRight: 0,
       ...Platform.select({
         web: {
           scrollSnapAlign: 'center',
-          width: screenWidth < horizontalScrollMinWidth ? screenWidth - marginHorizontal * 2 : defaultSlideWidth,
+          width: slideWidth
+            ? slideWidth
+            : screenWidth < horizontalScrollMinWidth
+            ? screenWidth - marginHorizontal * 2
+            : defaultSlideWidth,
           paddingRight: 0,
         },
       }),
@@ -214,12 +222,12 @@ const getStyles = (
     slideButtonIcon: {
       width: 8,
       height: 8,
-      backgroundColor: colors.foreground30,
+      backgroundColor: theme.colors.foreground30,
       opacity: 0.3,
       borderRadius: 50,
     },
     activeSlideButtonIcon: {
-      backgroundColor: colors.foreground30,
+      backgroundColor: theme.colors.foreground30,
       opacity: 1,
     },
   })

@@ -26,9 +26,8 @@ export const getEnvironmentId = () => {
 
 export const environmentId: EnvironmentId = getEnvironmentId()
 
-/** TODO: This is a tiny mock of a feature flag. If you want to enable SSR,
- * set the environment variable NEXT_PUBLIC_SSR_ENABLED. It should be disabled
- * for production until we have a solution for translations. */
+/** TODO: This is a tiny mock of a feature flag. It should be disabled
+ * for production until we are confident that SSR works. */
 export const featureFlag = {
-  enableSSR: process.env.NEXT_PUBLIC_SSR_ENABLED && process.env.ENVIRONMENT_ID !== 'production',
+  enableSSR: process.env.NEXT_PUBLIC_SSR_ENABLED === 'true',
 }

@@ -1,5 +1,11 @@
 import type { Browser } from 'webdriverio'
 
-declare let Appium: Browser<'async'>
-declare let platform: 'android' | 'ios'
-declare let target: 'local' | 'browserstack'
+type PlatformType = 'android' | 'ios'
+type TargetType = 'local' | 'browserstack'
+
+declare global {
+  declare let Appium: Browser<'async'>
+  declare let platform: PlatformType
+  declare let target: TargetType
+  declare let sessionHolder: { id?: string }
+}

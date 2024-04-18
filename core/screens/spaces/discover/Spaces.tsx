@@ -1,14 +1,14 @@
 import { DocumentNode, useQuery } from '@apollo/client'
+import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
-import client from '@holi/api/graphql/client'
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -25,7 +25,8 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Spaces = () => {
@@ -38,22 +39,20 @@ const Spaces = () => {
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const client = useApolloClient()
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
-  const {
-    loading,
-    data: mySpacesData,
-    error: mySpacesError,
-  } = useQuery<MySpacesResponse>(mySpaceQuery, {
+  const { loading, data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, {
     skip: !isLoggedIn,
-    onError: (error) =>
-      error.message !== 'Unauthorized' &&
-      displayError(mySpacesError, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
+    onError: (error) => displayError(error, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
   })
   const mySpaces = mySpacesData?.mySpaces || []
 
-  hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
+  hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
@@ -67,7 +66,7 @@ const Spaces = () => {
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const title = t('spaces.title')
     setScreenOptions({
       title,
@@ -88,7 +87,7 @@ const Spaces = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions])
+  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions, colors.background10])
 
   const onChangeTab = (tabIndex: number) => {
     setActiveTab(tabIndex)
@@ -113,20 +112,8 @@ const Spaces = () => {
     [navigate]
   )
 
-  if (mySpacesError) {
-    if (mySpacesError.message === 'Unauthorized') {
-      hasOwnSpaces = false
-    } else {
-      return (
-        <DefaultLayout style={styles.layout}>
-          <View style={[mixins.container, styles.discoverSpacesContainer]} />
-        </DefaultLayout>
-      )
-    }
-  }
-
   if (loading) {
-    return <HoliLoader />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
   return (
@@ -180,40 +167,41 @@ const Spaces = () => {
         )}
       </ScrollHeaderLayout.Refreshable>
 
-      {(!hasOwnSpaces || (hasOwnSpaces && activeTab === 1)) && <SpaceFilterModal applyFilters={applyFilters} />}
+      {(!hasOwnSpaces || activeTab === 1) && <SpaceFilterModal applyFilters={applyFilters} />}
     </SpaceTermContextProvider>
   )
 }
 
-const styles = StyleSheet.create({
-  layout: {
-    ...(Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-      native: {
-        minHeight: '100%',
-      },
-    }) as ViewStyle),
-    backgroundColor: colors.background20,
-  },
-  discoverSpacesContainer: {
-    flex: 1,
-    paddingTop: 24,
-    paddingBottom: dimensions.bottomBarHeight,
-    minHeight: '100%',
-  },
-  holiTabs: {
-    flex: 1,
-    backgroundColor: colors.background10,
-  },
-  tabStyle: {
-    backgroundColor: colors.background20,
-  },
-  mySpacesContainer: {
-    paddingBottom: 24,
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layout: {
+      ...(Platform.select({
+        web: {
+          minHeight: '100vh',
+        },
+        native: {
+          minHeight: '100%',
+        },
+      }) as ViewStyle),
+      backgroundColor: theme.colors.background20,
+    },
+    discoverSpacesContainer: {
+      flex: 1,
+      paddingTop: 24,
+      paddingBottom: dimensions.bottomBarHeight,
+      minHeight: '100%',
+    },
+    holiTabs: {
+      flex: 1,
+      backgroundColor: theme.colors.background10,
+    },
+    tabStyle: {
+      backgroundColor: theme.colors.background20,
+    },
+    mySpacesContainer: {
+      paddingBottom: 24,
+      flex: 1,
+    },
+  })
 
 export default withProfiler(Spaces, { name: 'Spaces' })

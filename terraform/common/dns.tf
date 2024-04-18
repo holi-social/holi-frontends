@@ -16,7 +16,7 @@ resource "google_dns_record_set" "dev_environments_zone_entry" {
   type    = "NS"
   ttl     = 300
 
-  managed_zone = data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_name
+  managed_zone = google_dns_managed_zone.dev_environments_zone.name
 
   rrdatas = google_dns_managed_zone.dev_environments_zone.name_servers
 }

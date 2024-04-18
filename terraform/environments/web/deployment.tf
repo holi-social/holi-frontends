@@ -59,8 +59,15 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
+          name  = "NEXT_PUBLIC_SSR_ENABLED"
+          value = local.environment == "production" ? "false" : "true"
+        }
+        env {
           name  = "ORY_BASE_URL"
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
+        }
+        env {
+          name = "HOLI_CHALLENGES_APP" == "production" ? "Https://challenges.holi.social" : "https://staging.challenges-dev.holi.social"
         }
         env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
@@ -88,10 +95,10 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
         startup_probe {
-          initial_delay_seconds = 2
-          period_seconds        = 1
-          timeout_seconds       = 1
-          failure_threshold     = 30
+          initial_delay_seconds = 30
+          period_seconds        = 5
+          timeout_seconds       = 5
+          failure_threshold     = 10
           http_get {
             path = "/"
           }

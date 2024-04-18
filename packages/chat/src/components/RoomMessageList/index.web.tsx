@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, View } from 'react-native'
 import { StyleSheet } from 'react-native'
@@ -7,7 +7,8 @@ import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import RoomMessage from './RoomMessage'
 import { RoomMessageListProps, isTextMessageItem } from './types'
@@ -15,7 +16,6 @@ import { RoomMessageListProps, isTextMessageItem } from './types'
 interface MessageDateGroup {
   title: string
   data: ChatRoomMessage[]
-  roomType: string
 }
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageDateGroup[] => {
@@ -50,10 +50,11 @@ const RoomMessageList = ({
   matrixIdToHoliUserRecord,
   starter,
   onScroll,
-  roomType,
   roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const groupedMessages = groupByDate(messages, i18n.language)
 
@@ -79,7 +80,6 @@ const RoomMessageList = ({
               showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
               isPrevMessageFromSameUser={isPrevMessageFromSameUser}
               isNextMessageFromSameUser={isNextMessageFromSameUser}
-              roomType={roomType}
             />
           </View>
         )
@@ -102,21 +102,22 @@ const RoomMessageList = ({
 
 export default RoomMessageList
 
-const styles = StyleSheet.create({
-  list: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: colors.background20,
-  },
-  listItemContainer: {
-    alignSelf: 'center',
-    width: '100%',
-    maxWidth: dimensions.maxScreenWidth,
-  },
-  listFooterSpacer: {
-    paddingTop: dimensions.topBarHeight,
-  },
-  listHeaderSpacer: {
-    height: 20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    list: {
+      width: '100%',
+      height: '100%',
+      backgroundColor: theme.colors.background20,
+    },
+    listItemContainer: {
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+    },
+    listFooterSpacer: {
+      paddingTop: dimensions.topBarHeight,
+    },
+    listHeaderSpacer: {
+      height: 20,
+    },
+  })

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
@@ -28,7 +28,7 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface TaskInputFormProps {
@@ -63,7 +63,7 @@ export interface TaskInputFormProps {
   isAdmin?: boolean
 }
 
-const TaskInputForm: React.VFC<TaskInputFormProps> = ({
+const TaskInputForm: React.FC<TaskInputFormProps> = ({
   name,
   description,
   visibility,
@@ -101,6 +101,9 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   const { t } = useTranslation()
   const { skills: allSkills } = useContext(SpaceTermContext)
   const { height: deviceHeight } = useWindowDimensions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
 
@@ -417,87 +420,88 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
 
 export default TaskInputForm
 
-const styles = StyleSheet.create({
-  marginSeparator: {
-    marginTop: 16,
-  },
-  sectionWrapper: {
-    borderTopWidth: 1,
-    borderTopColor: colors.background30,
-    paddingTop: 32,
-    marginTop: 32,
-  },
-  thumbnailTitle: {
-    marginTop: 56,
-  },
-  thumbnailContainer: {
-    marginTop: 16,
-    padding: 16,
-    backgroundColor: colors.background10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  thumbnail: {
-    aspectRatio: 1,
-    width: '20%',
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  thumbnailSkeleton: {
-    backgroundColor: colors.brandColorB10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  uploadButtonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageUploadButton: {
-    backgroundColor: colors.background10,
-    borderWidth: 1,
-  },
-  instructionsContainer: {
-    marginTop: 16,
-    justifyContent: 'center',
-  },
-  instructions: {
-    justifyContent: 'center',
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-  skillsSection: {
-    paddingBottom: 0,
-    borderTopColor: 'transparent',
-  },
-  skillsDescription: {
-    color: colors.foreground20,
-    marginTop: 8,
-  },
-  skillsButton: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginTop: 16,
-  },
-  skillsButtonText: {
-    marginRight: 6,
-  },
-  listContainer: {
-    marginTop: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flexShrink: 1,
-  },
-  chip: {
-    backgroundColor: colors.background10,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  modalWrapper: {
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    marginSeparator: {
+      marginTop: 16,
+    },
+    sectionWrapper: {
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      paddingTop: 32,
+      marginTop: 32,
+    },
+    thumbnailTitle: {
+      marginTop: 56,
+    },
+    thumbnailContainer: {
+      marginTop: 16,
+      padding: 16,
+      backgroundColor: theme.colors.background10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+    },
+    thumbnail: {
+      aspectRatio: 1,
+      width: '20%',
+      borderRadius: 8,
+      marginBottom: 16,
+    },
+    thumbnailSkeleton: {
+      backgroundColor: theme.colors.brandColorB10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    uploadButtonContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    imageUploadButton: {
+      backgroundColor: theme.colors.background10,
+      borderWidth: 1,
+    },
+    instructionsContainer: {
+      marginTop: 16,
+      justifyContent: 'center',
+    },
+    instructions: {
+      justifyContent: 'center',
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+    skillsSection: {
+      paddingBottom: 0,
+      borderTopColor: 'transparent',
+    },
+    skillsDescription: {
+      color: theme.colors.foreground20,
+      marginTop: 8,
+    },
+    skillsButton: {
+      alignSelf: 'flex-start',
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      marginTop: 16,
+    },
+    skillsButtonText: {
+      marginRight: 6,
+    },
+    listContainer: {
+      marginTop: 16,
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
+    },
+    chip: {
+      backgroundColor: theme.colors.background10,
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    modalWrapper: {
+      flex: 1,
+    },
+  })

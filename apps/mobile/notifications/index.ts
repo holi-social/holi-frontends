@@ -1,7 +1,7 @@
 import type { NotificationResponse, PushNotificationTrigger } from 'expo-notifications'
 
 import { logError } from '@holi/core/errors/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
   PostCommentPushNotification,
@@ -10,6 +10,8 @@ import {
 } from '@holi/mobile/notifications/spacePushNotifications'
 
 export type NotificationPayload = Record<string, unknown>
+
+const logger = getLogger('Notifications')
 
 const extractPayloadFromNotification = (response: NotificationResponse): NotificationPayload | undefined => {
   const request = response?.notification?.request
@@ -29,7 +31,7 @@ const extractPayloadFromNotification = (response: NotificationResponse): Notific
 const createUrlFromChatNotification = (data: NotificationPayload) => {
   const roomId = data?.room_id
   if (roomId && typeof roomId === 'string') {
-    logDebug('createUrlFromChatNotification', 'navigating to room', roomId)
+    logger.debug('createUrlFromChatNotification', 'navigating to room', roomId)
     return 'holi://chat/rooms/' + roomId
   }
 }

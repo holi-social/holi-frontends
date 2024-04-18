@@ -5,7 +5,7 @@ exports[`HoliProgressBar should render correctly in size medium 1`] = `
   style={
     {
       "backgroundColor": "#fff",
-      "borderColor": "#2624241F",
+      "borderColor": "#2624241f",
       "borderRadius": 6,
       "borderWidth": 1,
       "height": 14,
@@ -36,10 +36,10 @@ exports[`HoliProgressBar should render correctly in size small 1`] = `
   style={
     {
       "backgroundColor": "#fff",
-      "borderColor": "#2624241F",
+      "borderColor": "#2624241f",
       "borderRadius": 6,
       "borderWidth": 1,
-      "height": 6,
+      "height": 8,
       "width": "100%",
     }
   }
@@ -52,7 +52,7 @@ exports[`HoliProgressBar should render correctly in size small 1`] = `
         "borderColor": "#86df54",
         "borderRadius": 6,
         "borderWidth": 1,
-        "height": 4,
+        "height": 6,
         "maxWidth": "100%",
         "minWidth": 12,
         "width": "25%",

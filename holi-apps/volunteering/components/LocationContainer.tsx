@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
 import HoliText, { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 type LocationContainerProps = {
   locationName: string
@@ -14,17 +14,20 @@ type LocationContainerProps = {
   fontColor?: string
 }
 
-const LocationContainer: React.VFC<LocationContainerProps> = ({
+const LocationContainer: React.FC<LocationContainerProps> = ({
   locationName,
   iconSize = 14,
-  iconColor = colors.foreground20,
+  iconColor,
   fontSize = 'small',
-  fontColor = colors.foreground20,
+  fontColor,
 }: LocationContainerProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return (
     <View style={styles.container}>
-      <HoliIcon icon={Globe} size={iconSize} color={iconColor} style={styles.locationIcon} />
-      <HoliText size={fontSize} style={{ color: fontColor }}>
+      <HoliIcon icon={Globe} size={iconSize} color={iconColor || colors.foreground20} style={styles.locationIcon} />
+      <HoliText size={fontSize} style={{ color: fontColor || colors.foreground20 }}>
         {locationName}
       </HoliText>
     </View>

@@ -1,8 +1,9 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -13,9 +14,10 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceTasksParams = {
   spaceIdOrName: string
@@ -24,26 +26,26 @@ const { useParam } = createParamHooks<SpaceTasksParams>()
 
 const SpaceTasks = () => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
-  const { loading, space } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-  })
+  const { loading, space } = useSpace(spaceIdOrName)
 
   const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
 
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const navigateToCreateTask = () => navigate(`/spaces/${spaceIdOrName}/tasks/create`)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.rolesAndPermissions.tasks.title'),
       headerStyle: { backgroundColor: colors.background10 },
@@ -53,7 +55,7 @@ const SpaceTasks = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
 
   if (loading || !space) {
     return <></>
@@ -74,11 +76,11 @@ const SpaceTasks = () => {
       )}
       <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
-          <View style={mixins.container}>
+          <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
               <SpaceTaskList space={space} isAdmin={isAdmin} isCollaborator={isCollaborator} />
             </HoliBox>
-          </View>
+          </HoliContainer>
         </HoliBox>
       </ScrollHeaderLayout.Default>
     </>
@@ -87,36 +89,37 @@ const SpaceTasks = () => {
 
 export default SpaceTasks
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    paddingBottom: 0,
-  },
-  defaultLayout: {
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-    paddingTop: dimensions.topBarHeight,
-  },
-  overlayButton: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 40,
-    right: '50%',
-    justifyContent: 'center',
-    borderWidth: 1,
-    shadowColor: colors.foreground30,
-    shadowOffset: {
-      width: 2,
-      height: 2,
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      paddingBottom: 0,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    overflow: 'visible',
-    zIndex: 1,
-    borderRadius: 84,
-    width: 56,
-    height: 56,
-    paddingHorizontal: 0,
-  },
-})
+    defaultLayout: {
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
+      marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+      paddingTop: dimensions.topBarHeight,
+    },
+    overlayButton: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 40,
+      right: '50%',
+      justifyContent: 'center',
+      borderWidth: 1,
+      shadowColor: theme.colors.foreground30,
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 4,
+      overflow: 'visible',
+      zIndex: 1,
+      borderRadius: 84,
+      width: 56,
+      height: 56,
+      paddingHorizontal: 0,
+    },
+  })

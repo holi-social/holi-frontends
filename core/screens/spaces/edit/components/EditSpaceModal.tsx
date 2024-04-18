@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditSpaceModalProps = {
@@ -19,6 +19,8 @@ export const EditSpaceModal = ({
   keyboardShouldPersistTaps = 'always',
 }: EditSpaceModalProps) => {
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <DefaultLayout
@@ -35,25 +37,26 @@ export const EditSpaceModal = ({
   )
 }
 
-const styles = StyleSheet.create({
-  layoutStyle: {
-    flex: 1,
-  },
-  contentStyle: {
-    flex: 1,
-    paddingBottom: 0,
-    backgroundColor: colors.background20,
-  },
-  scrollView: {
-    paddingBottom: 120,
-  },
-  footerContainer: {
-    position: 'absolute',
-    bottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    layoutStyle: {
+      flex: 1,
+    },
+    contentStyle: {
+      flex: 1,
+      paddingBottom: 0,
+      backgroundColor: theme.colors.background20,
+    },
+    scrollView: {
+      paddingBottom: 120,
+    },
+    footerContainer: {
+      position: 'absolute',
+      bottom: 40,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 10,
+    },
+  })
 
 export default EditSpaceModal

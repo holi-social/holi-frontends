@@ -100,6 +100,7 @@ describe('SpaceInviteUserSearch', () => {
     await waitFor(() => screen.findByText('Test User 1'))
   })
 
+  //todo anyone: implement test
   it.skip('paginates search results', async () => {
     renderComponent({ mocks: [userSearchPage1Mock, userSearchPage2Mock] })
 
@@ -107,14 +108,14 @@ describe('SpaceInviteUserSearch', () => {
     await waitFor(() => screen.findByText('Test User 1'))
 
     // Expect button to fetch more
-    screen.findByText('global.seeMore')
+    expect(screen.findByText('global.seeMore'))
 
     // Fetch next page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
     await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
 
     // Expect results
-    screen.findByText('Test User 10')
+    expect(screen.findByText('Test User 10'))
 
     // Do not expect button to fetch more
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()

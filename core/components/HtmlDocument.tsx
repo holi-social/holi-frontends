@@ -6,10 +6,13 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+const logger = getLogger('Other')
 
 interface HtmlDocumentProps {
   url?: URL | string
@@ -29,10 +32,11 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
   const { bottom } = useSafeAreaInsets()
   const styles = getStyles(bottom)
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
 
   useEffect(() => {
     if (needToLoad && !loading) {
-      logDebug('HtmlDocument', 'loading document', url)
+      logger.debug('HtmlDocument', 'loading document', url)
       setLoading(true)
 
       Promise.all([
@@ -44,7 +48,7 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
           },
         }).then(async (res) => {
           const message = await res.text()
-          logDebug('HtmlDocument', 'got document, with length', message.length.toLocaleString('en'))
+          logger.debug('HtmlDocument', 'got document, with length', message.length.toLocaleString('en'))
 
           if (res.status !== 200) {
             throw res.status === 400 ? new HoliBadRequestError() : new HoliError(message)
@@ -56,7 +60,7 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
         // else, rendering the document would freeze the modal animation
         // (because the html rendering is quite JS performance intensive)
         new Promise((resolve) => setTimeout(resolve, 800)).finally(() =>
-          logDebug('HtmlDocument', 'finished waiting for outside modal animation')
+          logger.debug('HtmlDocument', 'finished waiting for outside modal animation')
         ),
       ])
         .then(([document]) => setDocument(document))
@@ -80,6 +84,7 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
         webViewProps={{ source: { uri: url ? url.toString() : '' } }}
         style={styles.webView}
         navigateToExternalBrowser
+        theme={theme}
       />
     )
   } else {

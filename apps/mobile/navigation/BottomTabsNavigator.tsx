@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -8,26 +8,43 @@ import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTab
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
+import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
+import {
+  HomeSmile2,
+  HomeSmile2Filled,
+  Megaphone,
+  MegaphoneFilled,
+  Spaces,
+  SpacesFilled,
+} from '@holi/icons/src/generated'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
   [RouteName.SpacesHomeStack]: undefined
   [RouteName.Chat]: undefined
+  [RouteName.AppsModal]: undefined
   [RouteName.Auth]: undefined
 }
 
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
+const AppsModalComponent = () => {
+  return null
+}
+
 const BottomTabsNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
@@ -38,8 +55,16 @@ const BottomTabsNavigator = () => {
       screenOptions={{
         tabBarShowLabel: true,
         tabBarStyle: {
+          ...Platform.select({
+            ios: {
+              height: dimensions.bottomBarMobile,
+            },
+            android: {
+              height: dimensions.bottomBarHeight,
+            },
+          }),
+          paddingTop: 6,
           backgroundColor: colors.background10,
-          paddingHorizontal: 0,
           borderTopWidth: StyleSheet.hairlineWidth,
           borderTopColor: colors.foreground20,
         },
@@ -98,6 +123,24 @@ const BottomTabsNavigator = () => {
           tabBarTestID: 'btn-to-chat-view',
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
+      />
+      <BottomTabs.Screen
+        name={RouteName.AppsModal}
+        component={AppsModalComponent}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={iconColor(focused)} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+              {t('apps.drawer.open.btn.text')}
+            </HoliText>
+          ),
+          tabBarButton: (props) => <AppsDrawer {...props} />,
+          tabBarLabelPosition: 'below-icon',
+          tabBarTestID: 'btn-to-apps-view',
+        }}
       />
       <BottomTabs.Screen
         name={RouteName.Auth}

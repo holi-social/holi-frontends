@@ -1,11 +1,11 @@
-import * as React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   usersToShow?: number
@@ -29,10 +29,12 @@ interface Props extends BaseProps {
 
 type HoliUserAvatarPileProps = SkeletonProps | Props
 
-const emptyUser = (id: string): User => {
+const emptyUser = (id: string, theme: HoliTheme): User => {
+  const { colors } = theme
+
   return {
     id,
-    avatarDefaultColor: 'white',
+    avatarDefaultColor: colors.background30,
     avatarLabel: '  ',
     fullName: '',
   }
@@ -51,9 +53,11 @@ const HoliUserAvatarPile = ({
   usersTotal = users?.length ?? 0,
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const uniqueUsers = loading
-    ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
+    ? [emptyUser('l1', theme), emptyUser('l2', theme), emptyUser('l3', theme)]
     : users.reduce((newArr: User[], nextUser: User) => {
         return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
       }, [])
@@ -61,33 +65,30 @@ const HoliUserAvatarPile = ({
   return (
     <>
       <View style={[style, styles.container]} testID={testID}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          uniqueUsers.slice(0, usersToShow).map((user, idx) => {
-            const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
+        {uniqueUsers.slice(0, usersToShow).map((user, idx) => {
+          const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
 
-            return (
-              <HoliAvatar
-                key={`${testID}-${user.id}`}
-                imageSrc={user.avatar}
-                imageBlurhash={user.avatarBlurhash}
-                label={user.fullName || t('user.profileView.anonymous')}
-                initials={user.avatarLabel}
-                defaultColor={user.avatarDefaultColor}
-                size={size}
-                style={[
-                  styles.avatar,
-                  {
-                    marginLeft: idx ? collapseDistance : 0,
-                    zIndex: idx * -1,
-                  },
-                ]}
-                testID="pile-avatar"
-                loading={loading}
-              />
-            )
-          })
-        }
+          return (
+            <HoliAvatar
+              key={`${testID}-${user.id}`}
+              imageSrc={user.avatar}
+              imageBlurhash={user.avatarBlurhash}
+              label={user.fullName || t('user.profileView.anonymous')}
+              initials={user.avatarLabel}
+              defaultColor={user.avatarDefaultColor}
+              size={size}
+              style={[
+                styles.avatar,
+                {
+                  marginLeft: idx ? collapseDistance : 0,
+                  zIndex: idx * -1,
+                },
+              ]}
+              testID="pile-avatar"
+              loading={loading}
+            />
+          )
+        })}
 
         {loading && (children || counter) && <HoliText size="small" style={styles.loadingCounter} loading />}
 
@@ -103,23 +104,24 @@ const HoliUserAvatarPile = ({
 
 export default HoliUserAvatarPile
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  loadingCounter: {
-    marginLeft: 8,
-    width: 150,
-  },
-  counter: {
-    marginLeft: 8,
-  },
-  avatar: {
-    borderColor: colors.background10,
-    borderWidth: 2,
-  },
-  textGrey: {
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    loadingCounter: {
+      marginLeft: 8,
+      width: 150,
+    },
+    counter: {
+      marginLeft: 8,
+    },
+    avatar: {
+      borderColor: theme.colors.background10,
+      borderWidth: 2,
+    },
+    textGrey: {
+      color: theme.colors.foreground20,
+    },
+  })

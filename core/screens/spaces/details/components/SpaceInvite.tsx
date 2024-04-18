@@ -10,27 +10,23 @@ export interface SpaceInviteProps {
   space: Space
 }
 
-const SpaceInvite: React.VFC<SpaceInviteProps> = ({ space }) => {
+const SpaceInvite: React.FC<SpaceInviteProps> = ({ space }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   const isCollaborator = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdministrator = space.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  return (
-    <>
-      {isCollaborator || isAdministrator ? (
-        <HoliButtonLoading
-          inline
-          variant="small"
-          label={t('spaces.invite.btn.invite')}
-          icon={UserAdd}
-          testID={'btn-space-invite'}
-          onPress={() => navigate(`/spaces/${space.name}/invite`)}
-        />
-      ) : null}
-    </>
-  )
+  return isCollaborator || isAdministrator ? (
+    <HoliButtonLoading
+      inline
+      variant="small"
+      label={t('spaces.invite.btn.invite')}
+      icon={UserAdd}
+      testID={'btn-space-invite'}
+      onPress={() => navigate(`/spaces/${space.name}/invite`)}
+    />
+  ) : null
 }
 
 export default SpaceInvite

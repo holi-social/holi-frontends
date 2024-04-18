@@ -1,19 +1,21 @@
+import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
-import { Pagination } from '@holi/core/pagination/Pagination'
-import { usePaginationContext } from '@holi/core/pagination/Pagination'
-import InsightList, { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import InsightList from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
@@ -37,14 +39,26 @@ const styles = StyleSheet.create({
   },
 })
 
-const InsightsOfTheWeekList: React.FC = () => {
+const InsightsOfTheWeek = () => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
-  const { loading, data: insights, totalResults, error } = usePaginationContext<Insight>()
+  const mixins = useStyleMixins()
 
-  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
+  const {
+    data: lastInsights,
+    loading,
+    error,
+  } = useQuery(lastInsightsQuery, {
+    variables: { offset: 0, limit: 4 },
+  })
+
+  const insights = (lastInsights?.lastInsights?.data || []).slice(0, 4)
+  const totalResults = lastInsights?.lastInsights?.totalResults || 0
+
+  const insightsCreators = insights.map((insight: Insight) => insight.creator).filter((creator: User) => !!creator)
 
   if (error) {
     logError(error, 'Failed to load insights', { location: 'InsightsOfTheWeekList' })
@@ -53,8 +67,12 @@ const InsightsOfTheWeekList: React.FC = () => {
 
   if (!loading && !totalResults) return <></>
 
+  const goToInsights = () => {
+    navigate('/insights')
+  }
+
   return (
-    <>
+    <View style={mixins.container}>
       {/* Headline */}
       <HoliHeading size="l">{t('homeFeed.insights.heading')}</HoliHeading>
       <HoliGap size="xs" />
@@ -87,33 +105,13 @@ const InsightsOfTheWeekList: React.FC = () => {
       </HoliModal>
 
       <InsightList style={styles.insightList} loading={!!loading} insights={insights} />
-    </>
-  )
-}
-
-const InsightsOfTheWeek: React.FC = () => {
-  const mixins = useStyleMixins()
-  const { t } = useTranslation()
-
-  const queryOptions = {
-    queryPath: 'lastInsights',
-    pageSize: INSIGHT_PAGE_SIZE,
-  }
-
-  return (
-    <View style={mixins.container}>
-      <Pagination
-        query={lastInsightsQuery}
-        queryOptions={queryOptions}
-        fetchMoreButtonProps={{
-          type: 'secondary',
-          style: mixins.moreButton,
-          testID: 'btn-insights-list-load-more',
-        }}
-        fetchMoreButtonLabel={t('homeFeed.insights.loadMoreText')}
-      >
-        <InsightsOfTheWeekList />
-      </Pagination>
+      <HoliButtonLoading
+        type="secondary"
+        label={t('insights.discoverMore')}
+        onPress={() => goToInsights()}
+        testID="btn-navigate-to-insights"
+        style={mixins.moreButton}
+      />
     </View>
   )
 }

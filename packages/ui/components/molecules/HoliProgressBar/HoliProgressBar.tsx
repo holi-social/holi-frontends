@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Animated, DimensionValue, StyleSheet, View } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliProgressBarSize = 'small' | 'medium'
 
@@ -12,6 +12,9 @@ export interface HoliProgressBarProps {
 }
 
 export const HoliProgressBar = ({ size = 'medium', testID, percentage }: HoliProgressBarProps) => {
+  const { theme } = useTheme()
+  const barStyles = useMemo(() => getBarStyles(theme), [theme])
+  const progressStyles = useMemo(() => getProgressStyles(theme), [theme])
   const width: DimensionValue = typeof percentage === 'number' ? `${percentage}%` : percentage
 
   return (
@@ -21,35 +24,37 @@ export const HoliProgressBar = ({ size = 'medium', testID, percentage }: HoliPro
   )
 }
 
-const barStyles = StyleSheet.create({
-  base: {
-    backgroundColor: colors.white100,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: colors.black300at12percent,
-    width: '100%',
-  },
-  medium: {
-    height: 14,
-  },
-  small: {
-    height: 6,
-  },
-})
+const getBarStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    base: {
+      backgroundColor: theme.colors.white100,
+      borderRadius: 6,
+      borderWidth: 1,
+      borderColor: theme.colors.black300at12percent,
+      width: '100%',
+    },
+    medium: {
+      height: 14,
+    },
+    small: {
+      height: 8,
+    },
+  })
 
-const progressStyles = StyleSheet.create({
-  base: {
-    borderColor: colors.brandC300,
-    borderWidth: 1,
-    borderRadius: 6,
-    minWidth: 12,
-    backgroundColor: colors.brandC200,
-    maxWidth: '100%',
-  },
-  medium: {
-    height: 12,
-  },
-  small: {
-    height: 4,
-  },
-})
+const getProgressStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    base: {
+      borderColor: theme.colors.brandC300,
+      borderWidth: 1,
+      borderRadius: 6,
+      minWidth: 12,
+      backgroundColor: theme.colors.brandC200,
+      maxWidth: '100%',
+    },
+    medium: {
+      height: 12,
+    },
+    small: {
+      height: 6,
+    },
+  })

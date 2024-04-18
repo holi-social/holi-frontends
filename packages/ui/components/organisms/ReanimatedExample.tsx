@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const ReanimatedExample = () => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const offset = useSharedValue(0)
 
   const defaultSpringStyles = useAnimatedStyle(() => {
@@ -50,18 +52,19 @@ const ReanimatedExample = () => {
 
 export default ReanimatedExample
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: colors.brandColorB30,
-    borderStyle: 'solid',
-  },
-  box: {
-    width: 100,
-    height: 100,
-    backgroundColor: colors.brandColorB30,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      width: '100%',
+      borderWidth: 1,
+      borderColor: theme.colors.brandColorB30,
+      borderStyle: 'solid',
+    },
+    box: {
+      width: 100,
+      height: 100,
+      backgroundColor: theme.colors.brandColorB30,
+      borderRadius: 10,
+      marginBottom: 10,
+    },
+  })

@@ -11,7 +11,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
   <View
     style={
       [
-        undefined,
         {
           "flexDirection": "row",
           "flexWrap": "wrap",
@@ -23,14 +22,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
     }
   >
     <View
+      dataSet={
+        {
+          "media": undefined,
+        }
+      }
       style={
-        [
-          undefined,
-          {
-            "padding": 8,
-            "width": "50%",
-          },
-        ]
+        {
+          "padding": 8,
+          "width": "50%",
+        }
       }
     >
       <View
@@ -111,38 +112,18 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <ViewManagerAdapter_ExpoImage
+              <Image
                 accessibilityRole="image"
                 accessible={true}
                 aria-label="spaces.tasks.thumbnail.label"
-                borderRadius={8}
                 contentFit="cover"
-                contentPosition={
-                  {
-                    "left": "50%",
-                    "top": "50%",
-                  }
-                }
-                height={166}
-                justifyContent="center"
                 onError={[Function]}
-                onLoad={[Function]}
-                onLoadStart={[Function]}
-                onProgress={[Function]}
-                placeholder={
-                  [
-                    {
-                      "uri": "",
-                    },
-                  ]
-                }
+                placeholder=""
                 role="img"
                 source={
-                  [
-                    {
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                    },
-                  ]
+                  {
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                  }
                 }
                 style={
                   {
@@ -151,7 +132,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                   }
                 }
-                transition={null}
               />
             </View>
           </View>
@@ -243,6 +223,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                testID="task-title"
               >
                 Task title
               </Text>
@@ -845,14 +826,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       </View>
     </View>
     <View
+      dataSet={
+        {
+          "media": undefined,
+        }
+      }
       style={
-        [
-          undefined,
-          {
-            "padding": 8,
-            "width": "50%",
-          },
-        ]
+        {
+          "padding": 8,
+          "width": "50%",
+        }
       }
     >
       <View
@@ -933,38 +916,18 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <ViewManagerAdapter_ExpoImage
+              <Image
                 accessibilityRole="image"
                 accessible={true}
                 aria-label="spaces.tasks.thumbnail.label"
-                borderRadius={8}
                 contentFit="cover"
-                contentPosition={
-                  {
-                    "left": "50%",
-                    "top": "50%",
-                  }
-                }
-                height={166}
-                justifyContent="center"
                 onError={[Function]}
-                onLoad={[Function]}
-                onLoadStart={[Function]}
-                onProgress={[Function]}
-                placeholder={
-                  [
-                    {
-                      "uri": "",
-                    },
-                  ]
-                }
+                placeholder=""
                 role="img"
                 source={
-                  [
-                    {
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                    },
-                  ]
+                  {
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                  }
                 }
                 style={
                   {
@@ -973,7 +936,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                   }
                 }
-                transition={null}
               />
             </View>
           </View>
@@ -1065,6 +1027,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                testID="task-title"
               >
                 Task title
               </Text>
@@ -1667,14 +1630,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       </View>
     </View>
     <View
+      dataSet={
+        {
+          "media": undefined,
+        }
+      }
       style={
-        [
-          undefined,
-          {
-            "padding": 8,
-            "width": "50%",
-          },
-        ]
+        {
+          "padding": 8,
+          "width": "50%",
+        }
       }
     >
       <View
@@ -1755,38 +1720,18 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <ViewManagerAdapter_ExpoImage
+              <Image
                 accessibilityRole="image"
                 accessible={true}
                 aria-label="spaces.tasks.thumbnail.label"
-                borderRadius={8}
                 contentFit="cover"
-                contentPosition={
-                  {
-                    "left": "50%",
-                    "top": "50%",
-                  }
-                }
-                height={166}
-                justifyContent="center"
                 onError={[Function]}
-                onLoad={[Function]}
-                onLoadStart={[Function]}
-                onProgress={[Function]}
-                placeholder={
-                  [
-                    {
-                      "uri": "",
-                    },
-                  ]
-                }
+                placeholder=""
                 role="img"
                 source={
-                  [
-                    {
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                    },
-                  ]
+                  {
+                    "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                  }
                 }
                 style={
                   {
@@ -1795,7 +1740,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                   }
                 }
-                transition={null}
               />
             </View>
           </View>
@@ -1887,6 +1831,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                testID="task-title"
               >
                 Task title
               </Text>

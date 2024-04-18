@@ -1,12 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -29,7 +30,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CreateSpace = () => {
@@ -53,6 +55,10 @@ const CreateSpace = () => {
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpaces.length > 0)
 
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
   const { userId } = useAuth()
   useEffect(() => {
@@ -75,7 +81,7 @@ const CreateSpace = () => {
     refetchQueries: [{ query: mySpaceQuery }],
   })
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => (
@@ -90,7 +96,7 @@ const CreateSpace = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
 
   const handleNextButtonPress = async (currentStep: number) => {
     const result = await validateSpace({
@@ -163,32 +169,33 @@ const CreateSpace = () => {
 
 export default withProfiler(CreateSpace, { name: 'CreateSpace' })
 
-const styles = StyleSheet.create({
-  wrapper: {
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: colors.background10,
-    ...Platform.select({
-      web: {
-        height: '100%',
-      },
-    }),
-  },
-  defaultLayout: {
-    backgroundColor: colors.background10,
-    paddingBottom: 0,
-    width: '100%',
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-  },
-  container: {
-    flex: 1,
-    paddingTop: dimensions.topBarHeight,
-    width: '100%',
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      alignItems: 'center',
+      flex: 1,
+      backgroundColor: theme.colors.background10,
+      ...Platform.select({
+        web: {
+          height: '100%',
+        },
+      }),
+    },
+    defaultLayout: {
+      backgroundColor: theme.colors.background10,
+      paddingBottom: 0,
+      width: '100%',
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
+    },
+    container: {
+      flex: 1,
+      paddingTop: dimensions.topBarHeight,
+      width: '100%',
+      paddingHorizontal: 0,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+        },
+      }),
+    },
+  })

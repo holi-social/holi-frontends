@@ -4,7 +4,6 @@ import {
   Animated,
   ModalProps,
   Platform,
-  SafeAreaView,
   StyleProp,
   StyleSheet,
   View,
@@ -24,7 +23,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 
@@ -86,6 +85,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
   const [contentHeight, setContentHeight] = useState(0)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   // value for appearance animation
   const animShiftRef = useRef(new Animated.Value(0))
@@ -121,9 +123,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
     if (show) {
       Animated.timing(animShiftRef.current, {
         toValue: 0,
-        duration: 350,
+        duration: 200,
         useNativeDriver: false,
-        delay: 300,
+        delay: 0,
       }).start()
       return
     }
@@ -149,171 +151,170 @@ const HoliModal: React.FC<HoliModalProps> = ({
   const isTouchDevice = isWebTouchDevice() || isMobile
 
   return (
-    <>
-      <ModalBasic show={show} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
-        <GestureHandlerRootView style={styles.rootView} accessible={false}>
-          <HoliButton
-            label={t('modal.backdrop')}
-            style={styles.backdrop}
-            onPress={onDismiss}
-            transparent
-            testID={`${testID}-backdrop`}
-          >
-            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
-          </HoliButton>
+    <ModalBasic show={show} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
+      <GestureHandlerRootView style={styles.rootView} accessible={false}>
+        <HoliButton
+          label={t('modal.backdrop')}
+          style={styles.backdrop}
+          onPress={onDismiss}
+          transparent
+          testID={`${testID}-backdrop`}
+        >
+          <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
+        </HoliButton>
 
-          <Animated.View
-            style={[
-              styles.root,
-              {
-                bottom: animShiftInterpolated,
-                transform: [{ translateY: gestureShiftRef.current }],
-                maxHeight: `${height}%`,
-                ...(!autoHeight && { height: `${height}%` }),
-              },
-              isFullscreen && styles.fullscreen,
-              style,
-            ]}
-            onLayout={(event) => {
-              const { height: modalContentHeight } = event.nativeEvent.layout
+        <Animated.View
+          style={[
+            styles.root,
+            {
+              bottom: animShiftInterpolated,
+              transform: [{ translateY: gestureShiftRef.current }],
+              maxHeight: `${height}%`,
+              ...(!autoHeight && { height: `${height}%` }),
+            },
+            isFullscreen && styles.fullscreen,
+            style,
+          ]}
+          onLayout={(event) => {
+            const { height: modalContentHeight } = event.nativeEvent.layout
 
-              if (!autoHeight) {
-                setContentHeight(modalContentHeight)
-              }
-            }}
-            testID={`${testID}-animatedview`}
-          >
-            <SafeAreaView style={[styles.headerContainer, headerStyle]}>
-              {/* not fullscreen modal on touch device */}
-              {!isFullscreen && isTouchDevice ? (
-                <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-                  <View style={styles.handle}>
-                    {onDismiss && (
-                      <HoliButton
-                        label={t('modal.backdrop')}
-                        onPress={onDismiss}
-                        transparent
-                        style={styles.lineButton}
-                        testID={`btn-to-close-${testID}`}
-                      >
-                        <View style={styles.line} />
-                      </HoliButton>
-                    )}
-                  </View>
-                </PanGestureHandler>
-              ) : !!onDismiss || !!heading ? (
-                <View style={styles.heading}>
-                  {!!onDismiss && (
+            if (!autoHeight) {
+              setContentHeight(modalContentHeight)
+            }
+          }}
+          testID={`${testID}-animatedview`}
+        >
+          <View style={[styles.headerContainer, headerStyle]}>
+            {/* not fullscreen modal on touch device */}
+            {!isFullscreen && isTouchDevice ? (
+              <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
+                <View style={styles.handle}>
+                  {onDismiss && (
                     <HoliButton
                       label={t('modal.backdrop')}
-                      style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
                       onPress={onDismiss}
                       transparent
+                      style={styles.lineButton}
                       testID={`btn-to-close-${testID}`}
                     >
-                      <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={25} />
+                      <View style={styles.line} />
                     </HoliButton>
                   )}
-
-                  {!!heading && (
-                    <View style={styles.titleContainer}>
-                      <HoliHeading
-                        level="2"
-                        align="center"
-                        ellipsizeMode="tail"
-                        numberOfLines={1}
-                        testID={`${testID}-heading`}
-                      >
-                        {heading}
-                      </HoliHeading>
-                    </View>
-                  )}
                 </View>
-              ) : null}
-            </SafeAreaView>
+              </PanGestureHandler>
+            ) : !!onDismiss || !!heading ? (
+              <View style={styles.heading}>
+                {!!onDismiss && (
+                  <HoliButton
+                    label={t('modal.backdrop')}
+                    style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
+                    onPress={onDismiss}
+                    transparent
+                    testID={`btn-to-close-${testID}`}
+                  >
+                    <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={25} />
+                  </HoliButton>
+                )}
 
-            {children}
-          </Animated.View>
-        </GestureHandlerRootView>
-      </ModalBasic>
-    </>
+                {!!heading && (
+                  <View style={styles.titleContainer}>
+                    <HoliHeading
+                      level="2"
+                      align="center"
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      testID={`${testID}-heading`}
+                    >
+                      {heading}
+                    </HoliHeading>
+                  </View>
+                )}
+              </View>
+            ) : null}
+          </View>
+
+          {children}
+        </Animated.View>
+      </GestureHandlerRootView>
+    </ModalBasic>
   )
 }
 
 export default memo(HoliModal)
 
-const styles = StyleSheet.create({
-  rootView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  root: {
-    backgroundColor: colors.background10,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    overflow: 'hidden',
-    shadowColor: colors.foreground30,
-    shadowOffset: {
-      width: 0,
-      height: 0,
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    rootView: {
+      flex: 1,
+      justifyContent: 'flex-end',
     },
-  },
-  fullscreen: {
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  headerContainer: {
-    alignSelf: 'center',
-    justifyContent: 'flex-end',
-    width: '100%',
-    paddingBottom: 18,
-    ...Platform.select({
-      web: {
-        alignSelf: 'flex-end',
+    root: {
+      backgroundColor: theme.colors.background10,
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+      overflow: 'hidden',
+      shadowColor: theme.colors.foreground30,
+      shadowOffset: {
+        width: 0,
+        height: 0,
       },
-    }),
-  },
-  handle: {
-    height: 40,
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  lineButton: {
-    padding: 15,
-  },
-  line: {
-    width: 40,
-    height: 4,
-    borderRadius: 4,
-    backgroundColor: colors.foreground30,
-    opacity: 0.3,
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 0,
-    opacity: 0.4,
-    backgroundColor: colors.foreground30,
-  },
-  dismissIcon: {
-    alignSelf: 'flex-end',
-    paddingHorizontal: 15,
-    position: 'absolute',
-    width: 'auto',
-    zIndex: 1,
-    right: 0,
-    top: 0,
-  },
-  dismissIconMobile: {
-    left: 0,
-  },
-  heading: {
-    marginTop: 20,
-    height: 30,
-    width: '100%',
-    position: 'relative',
-    alignItems: 'center',
-  },
-  titleContainer: {
-    width: '80%',
-  },
-})
+    },
+    fullscreen: {
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+    },
+    headerContainer: {
+      alignSelf: 'center',
+      justifyContent: 'flex-end',
+      width: '100%',
+      paddingBottom: 18,
+      ...Platform.select({
+        web: {
+          alignSelf: 'flex-end',
+        },
+      }),
+    },
+    handle: {
+      height: 40,
+      alignItems: 'center',
+      alignSelf: 'center',
+    },
+    lineButton: {
+      padding: 15,
+    },
+    line: {
+      width: 40,
+      height: 4,
+      borderRadius: 4,
+      backgroundColor: theme.colors.foreground30,
+      opacity: 0.3,
+    },
+    backdrop: {
+      ...StyleSheet.absoluteFillObject,
+      zIndex: 0,
+      opacity: 0.4,
+      backgroundColor: theme.colors.backdropBackground,
+    },
+    dismissIcon: {
+      alignSelf: 'flex-end',
+      paddingHorizontal: 15,
+      position: 'absolute',
+      width: 'auto',
+      zIndex: 1,
+      right: 0,
+      top: 0,
+    },
+    dismissIconMobile: {
+      left: 0,
+    },
+    heading: {
+      marginTop: 20,
+      height: 30,
+      width: '100%',
+      position: 'relative',
+      alignItems: 'center',
+    },
+    titleContainer: {
+      width: '80%',
+    },
+  })

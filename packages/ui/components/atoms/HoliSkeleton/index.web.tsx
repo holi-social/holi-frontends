@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 
-import styles from './styles.module.scss'
+import styles from './styles.module.css'
 import { HoliSkeletonProps } from './types'
 
 // inspired by https://github.com/dvtng/react-loading-skeleton/blob/master/src/Skeleton.tsx

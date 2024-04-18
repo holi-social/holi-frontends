@@ -1,24 +1,30 @@
-import React, { RefObject, createRef } from 'react'
+import React, { RefObject, createRef, useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2 } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import data from './dummy_data.json'
 
+const logger = getLogger('Other')
+
 const CardSwiper = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const loadedData = data && data.offers ? data.offers : []
   let lastIndex = 0
   const swiper: RefObject<CardStack> | null = createRef()
 
   const onSwipe = (index: number, direction: string) => {
     if (index === lastIndex) return
-    logDebug('CardSwiper', 'onSwipe', index, direction)
+    logger.debug('CardSwiper', 'onSwipe', index, direction)
     lastIndex = index
   }
 
@@ -29,7 +35,7 @@ const CardSwiper = () => {
       const swipeX = swiper.current.state.drag.x._value
       // @ts-ignore
       const swipeY = swiper.current.state.drag.y._value
-      logDebug('CardSwiper', 'onSwiped end', swipeX, swipeY)
+      logger.debug('CardSwiper', 'onSwiped end', swipeX, swipeY)
     }
   }
 
@@ -124,101 +130,102 @@ const CardSwiper = () => {
 
 export default CardSwiper
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: 400,
-    minHeight: 400,
-    height: 500,
-    marginHorizontal: 'auto',
-  },
-  cardContainer: {
-    flex: 4,
-    alignItems: 'center',
-  },
-  card: {
-    width: 350,
-    height: 420,
-    flex: 1,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 8,
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      width: 400,
+      minHeight: 400,
+      height: 500,
+      marginHorizontal: 'auto',
     },
-    shadowOpacity: 0.07,
-    shadowRadius: 3.3,
-  },
-  cardImg: {
-    width: '100%',
-    height: '100%',
-    minHeight: 300,
-    borderRadius: 13,
-  },
-  textContainer: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    justifyContent: 'space-between',
-    borderRadius: 13,
-  },
-  text: {
-    color: colors.background10,
-    fontSize: 16,
-  },
-  textBig: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
+    cardContainer: {
+      flex: 4,
+      alignItems: 'center',
+    },
+    card: {
+      width: 350,
+      height: 420,
+      flex: 1,
+      shadowColor: '#000000',
+      shadowOffset: {
+        width: 0,
+        height: 8,
+      },
+      shadowOpacity: 0.07,
+      shadowRadius: 3.3,
+    },
+    cardImg: {
+      width: '100%',
+      height: '100%',
+      minHeight: 300,
+      borderRadius: 13,
+    },
+    textContainer: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.3)',
+      paddingHorizontal: 20,
+      paddingVertical: 20,
+      justifyContent: 'space-between',
+      borderRadius: 13,
+    },
+    text: {
+      color: theme.colors.background10,
+      fontSize: 16,
+    },
+    textBig: {
+      fontSize: 22,
+      fontWeight: 'bold',
+    },
 
-  footer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    width: 220,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  button: {
-    shadowColor: 'rgba(0,0,0,0.3)',
-    shadowOffset: {
-      width: 0,
-      height: 1,
+    footer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    shadowOpacity: 0.5,
-    backgroundColor: colors.background10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 0,
-  },
-  orange: {
-    width: 55,
-    height: 55,
-    borderWidth: 6,
-    borderColor: colors.brandColorA30,
-    borderRadius: 55,
-    marginTop: -15,
-  },
-  green: {
-    width: 75,
-    height: 75,
-    backgroundColor: colors.brandColorC30,
-    borderRadius: 75,
-    borderWidth: 6,
-    borderColor: colors.brandColorC30,
-  },
-  red: {
-    width: 75,
-    height: 75,
-    backgroundColor: colors.brandColorB30,
-    borderRadius: 75,
-    borderWidth: 6,
-    borderColor: colors.brandColorB30,
-  },
-})
+    buttonContainer: {
+      width: 220,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    button: {
+      shadowColor: 'rgba(0,0,0,0.3)',
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.5,
+      backgroundColor: theme.colors.background10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 0,
+    },
+    orange: {
+      width: 55,
+      height: 55,
+      borderWidth: 6,
+      borderColor: theme.colors.brandColorA30,
+      borderRadius: 55,
+      marginTop: -15,
+    },
+    green: {
+      width: 75,
+      height: 75,
+      backgroundColor: theme.colors.brandColorC30,
+      borderRadius: 75,
+      borderWidth: 6,
+      borderColor: theme.colors.brandColorC30,
+    },
+    red: {
+      width: 75,
+      height: 75,
+      backgroundColor: theme.colors.brandColorB30,
+      borderRadius: 75,
+      borderWidth: 6,
+      borderColor: theme.colors.brandColorB30,
+    },
+  })

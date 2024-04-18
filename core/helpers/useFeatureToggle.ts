@@ -7,6 +7,7 @@ import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from
 export enum FeatureToggleName {
   APPOINTMENTS = 'APPOINTMENTS',
   CHAT = 'CHAT',
+  CHALLENGES = 'CHALLENGES',
   STORAGE = 'STORAGE',
   VIDEOCALL = 'VIDEOCALL',
   APPS_DONATIONS = 'APPS_DONATIONS',
@@ -16,6 +17,8 @@ export enum FeatureToggleName {
   FEED_DAILY_INSPIRATION = 'FEED_DAILY_INSPIRATION',
   SEARCH = 'SEARCH',
   FAVORITES = 'FAVORITES',
+  THEME_TOGGLE = 'THEME_TOGGLE',
+  INDIVIDUALS_POST = 'INDIVIDUALS_POST',
 }
 
 export type FeatureToggleState = {
@@ -45,6 +48,6 @@ export const useFeatureToggle = (name?: FeatureToggleName) => {
     ftEnabled: loading ? undefined : status === FeatureToggleStatus.PRODUCTION,
     ftMaintenance: loading ? undefined : status === FeatureToggleStatus.MAINTENANCE,
     ftPreview: loading ? undefined : status === FeatureToggleStatus.PREVIEW,
-    ftOff: loading ? undefined : status === FeatureToggleStatus.OFF,
+    ftOff: loading ? undefined : !status || status === FeatureToggleStatus.OFF,
   }
 }

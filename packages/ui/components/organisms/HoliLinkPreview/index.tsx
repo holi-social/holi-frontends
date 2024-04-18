@@ -6,7 +6,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import LinkContent from './LinkContent'
 import { HoliLinkPreviewProps } from './holiLinkPreviewProps'
 
-const HoliLinkPreview: React.VFC<HoliLinkPreviewProps> = ({ previewData, onPress, ...props }) => {
+const HoliLinkPreview: React.FC<HoliLinkPreviewProps> = ({ previewData, onPress, ...props }) => {
   const onLinkPress = useCallback(
     (event: React.SyntheticEvent<Element, Event> | GestureResponderEvent) => {
       onPress?.(event)

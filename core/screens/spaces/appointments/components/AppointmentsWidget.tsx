@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
@@ -15,7 +14,8 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface AppointmentsWidgetProps {
   space: Space
@@ -33,6 +33,9 @@ interface NoAppointmentsAvailableProps {
 
 const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPress }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   return (
     <HoliButton
       label={t('spaces.global.empty.instruction')}
@@ -50,22 +53,18 @@ const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPre
   )
 }
 
-const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
-  space,
-  appointments,
-  totalResults,
-  isCollaborator,
-  style,
-}) => {
+const gridBreakpoints: [number, number][] = [
+  [0, 1],
+  [dimensions.breakpointM, 2],
+]
+
+const AppointmentsWidget = ({ space, appointments, totalResults, isCollaborator, style }: AppointmentsWidgetProps) => {
   const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-
-  const itemsInRow = useBreakpointMatcher([
-    [0, 1],
-    [dimensions.breakpointM, 2],
-  ])
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -95,7 +94,7 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
     >
       <View style={styles.contentWrapper}>
         {!!totalResults && (
-          <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+          <HoliGridWrapper breakpoints={gridBreakpoints} gap={16}>
             {appointments?.slice(0, INITIAL_NUMBER_OF_ITEMS).map((item) => (
               <HoliGridCell key={item.id}>
                 <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
@@ -124,37 +123,38 @@ const AppointmentsWidget: React.VFC<AppointmentsWidgetProps> = ({
 
 export default AppointmentsWidget
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: 16,
-  },
-  nonMemberContainer: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-  },
-  contentWrapper: {
-    padding: 8,
-  },
-  seeAllButtonContainer: {
-    alignSelf: 'center',
-  },
-  seeAllButton: {
-    backgroundColor: colors.background10,
-    marginTop: 16,
-  },
-  noAppointmentsDescriptionContainer: {
-    flex: 1,
-    width: '100%',
-    paddingHorizontal: 8,
-    marginTop: 24,
-  },
-  instruction: {
-    marginTop: 12,
-    alignSelf: 'center',
-    color: colors.foreground30,
-  },
-  descriptionText: {
-    textAlign: 'center',
-    color: colors.foreground20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      paddingBottom: 16,
+    },
+    nonMemberContainer: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+    },
+    contentWrapper: {
+      padding: 8,
+    },
+    seeAllButtonContainer: {
+      alignSelf: 'center',
+    },
+    seeAllButton: {
+      backgroundColor: theme.colors.background10,
+      marginTop: 16,
+    },
+    noAppointmentsDescriptionContainer: {
+      flex: 1,
+      width: '100%',
+      paddingHorizontal: 8,
+      marginTop: 24,
+    },
+    instruction: {
+      marginTop: 12,
+      alignSelf: 'center',
+      color: theme.colors.foreground30,
+    },
+    descriptionText: {
+      textAlign: 'center',
+      color: theme.colors.foreground20,
+    },
+  })

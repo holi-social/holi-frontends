@@ -1,5 +1,4 @@
-import { itif } from '@holi/e2e-mobile/helpers/platform'
-
+import { itif } from '../../helpers/platform'
 import { tapOnElementWithTestId, tapOnLoginLinkInText, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@ForgotPassword', () => {

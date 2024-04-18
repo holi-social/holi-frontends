@@ -18,16 +18,6 @@ export interface ReactionCounts {
 
 export type InspirationPostCategory = Term
 
-export interface Comment {
-  id: string
-  text: string
-  creator: User
-  created?: string // "2022-10-06T17:50:41.661594+00:00"
-  mentions?: User[]
-  myReaction: ReactionCounts
-  reactions: ReactionCounts
-}
-
 export interface PostImage {
   id: string
   url: string
@@ -61,7 +51,6 @@ export interface Post {
   isEdited?: boolean
   isClosed?: boolean
   isDeleted?: boolean
-  comments?: Comment[]
   space?: Space
   status?: string // 'P'
   mediaWidth?: number

@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -29,7 +29,7 @@ import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { Position, delayAnimation, usePositions } from '@holi/ui/helper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type UserProfileFormProps = {
@@ -39,7 +39,7 @@ type UserProfileFormProps = {
   testId?: string
 }
 
-const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
+const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
@@ -62,6 +62,9 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const testID = props.testId || 'user-profile-edit-form'
 
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const resetErrorsForField = useCallback(
     (fieldName: string) =>
@@ -283,36 +286,37 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-  mainContainer: {
-    marginTop: 30,
-    paddingBottom: Platform.OS === 'ios' ? 250 : 0,
-  },
-  headerContainer: {
-    alignItems: 'center',
-  },
-  addImage: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  avatar: {
-    borderColor: colors.foreground30,
-    borderWidth: 2,
-  },
-  input: {
-    marginBottom: 16,
-  },
-  notification: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 10,
-    backgroundColor: colors.background10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      flex: 1,
+    },
+    mainContainer: {
+      marginTop: 30,
+      paddingBottom: Platform.OS === 'ios' ? 250 : 0,
+    },
+    headerContainer: {
+      alignItems: 'center',
+    },
+    addImage: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    avatar: {
+      borderColor: theme.colors.foreground30,
+      borderWidth: 2,
+    },
+    input: {
+      marginBottom: 16,
+    },
+    notification: {
+      ...StyleSheet.absoluteFillObject,
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 10,
+      backgroundColor: theme.colors.background10,
+    },
+  })
 
 export default UserProfileForm

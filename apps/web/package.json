@@ -3,15 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "predev": "yarn workspace @holi/ui run generate-style-vars",
-    "prebuild": "yarn workspace @holi/ui run generate-style-vars",
     "dev": "next dev",
     "build": "next build",
     "start": "NODE_OPTIONS='-r ./server-preload.js' next start",
     "lint": "TIMING=1 next lint",
     "test": "echo 'unit testing goes here'",
-    "clean": "rimraf .next",
-    "clean:all": "yarn clean && rimraf node_modules"
+    "clean": "npx rimraf .next",
+    "clean:all": "yarn clean && npx rimraf node_modules"
   },
   "dependencies": {
     "@lexical/react": "^0.6.0",
@@ -23,7 +21,7 @@
     "i18next-browser-languagedetector": "^6.1.4",
     "lexical": "0.11.1",
     "locale": "0.1.0",
-    "lottie-react": "^2.3.1",
+    "lottie-react": "2.4.0",
     "next": "14.1.0",
     "next-http-proxy-middleware": "^1.2.6",
     "ni18n": "^1.1.0",
@@ -33,23 +31,25 @@
     "react-dom": "18.2.0",
     "react-indiana-drag-scroll": "^2.2.0",
     "react-intersection-observer": "^9.5.2",
-    "react-native-gesture-handler": "~2.12.0",
+    "react-native-gesture-handler": "~2.14.0",
+    "react-native-media-query": "^2.0.1",
     "react-native-svg-web": "^1.0.9",
-    "react-native-web": "0.19.10",
+    "react-native-web": "^0.19.10",
     "react-zoom-pan-pinch": "^2.1.3",
     "sharp": "^0.32.0",
+    "swiper": "^11.1.0",
     "xss": "^1.0.14"
   },
   "devDependencies": {
     "@blunck/next-html": "^1.0.0",
     "@emotion/react": "^11.11.1",
     "@types/locale": "^0.1.4",
-    "@types/react": "~18.2.14",
-    "@types/react-dom": "~18.2.7",
+    "@types/react": "~18.2.45",
+    "@types/react-dom": "~18.2.19",
     "eslint": "^8.33.0",
     "eslint-config-next": "14.1.0",
     "jotai": "2.4.3",
     "jotai-devtools": "0.7.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.3.0"
   }
 }

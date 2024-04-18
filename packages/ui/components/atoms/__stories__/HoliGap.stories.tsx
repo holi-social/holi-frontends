@@ -3,7 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export default {
   title: 'Atoms/HoliGap',
@@ -18,6 +18,9 @@ export default {
 } as ComponentMeta<typeof HoliGap>
 
 const Template: ComponentStory<typeof HoliGap> = ({ ...args }) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return (
     <View
       style={{

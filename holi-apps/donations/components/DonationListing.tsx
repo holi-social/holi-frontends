@@ -2,13 +2,14 @@ import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -19,15 +20,12 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
-import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
-import { PartnerProps } from '@holi-apps/volunteering/types'
 
 type DonationListingProps = {
   locationQuery?: string
@@ -35,7 +33,7 @@ type DonationListingProps = {
 }
 
 const DONATIONS_IMG_SOURCES_MAPPING: {
-  [name: string]: PartnerProps
+  [name: string]: InfoModalItemProps
 } = {
   'betterplace.org': {
     logo: {
@@ -56,11 +54,12 @@ const DONATIONS_IMG_SOURCES_MAPPING: {
 
 const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
-  const postGridItemsInRow = useBreakpointMatcher()
 
   const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
@@ -98,11 +97,11 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             partners={{ 'betterplace.org': partner }}
             onPress={showPartnerModal}
           />
-          <PartnerModal
-            partners={{ 'betterplace.org': partner }}
+          <InfoModal
+            items={{ 'betterplace.org': partner }}
             show={partnerModalVisible}
             onDismiss={closeModal}
-            i18nNamespace={'donations'}
+            i18nPrefix={'donations:listing.partnerModal'}
           />
         </>
       )}
@@ -129,7 +128,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
       )}
       <HoliBox padding={[24, 0, 24, 0]}>
         {isFiltering && !projects.length && (
-          <View style={mixins.container}>
+          <HoliContainer>
             <HoliNoResults
               firstText={t('donations:donationListing.search.empty.tagline')}
               media={
@@ -148,9 +147,9 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                 {t('search.filter.reset')}
               </HoliButton>
             </HoliNoResults>
-          </View>
+          </HoliContainer>
         )}
-        <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={32}>
+        <HoliGridWrapper gap={32}>
           {projects
             // FIX: duplication in projects after loading more
             .map((project) => (
@@ -189,25 +188,26 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
   )
 }
 
-const styles = StyleSheet.create({
-  searchQuery: {
-    color: colors.brandColorB30,
-  },
-  searchFilter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  noResultsMessage: {
-    marginTop: 24,
-  },
-  clearFilter: {
-    paddingLeft: 3,
-  },
-  category: {
-    color: colors.foreground20,
-    marginTop: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    searchQuery: {
+      color: theme.colors.brandColorB30,
+    },
+    searchFilter: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    noResultsMessage: {
+      marginTop: 24,
+    },
+    clearFilter: {
+      paddingLeft: 3,
+    },
+    category: {
+      color: theme.colors.foreground20,
+      marginTop: 8,
+    },
+  })
 
 export default DonationListing

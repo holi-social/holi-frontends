@@ -1,10 +1,11 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -15,7 +16,8 @@ import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceRolesPermissionsParams = {
@@ -166,18 +168,19 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
 
 const { useParam } = createParamHooks<SpaceRolesPermissionsParams>()
 
-const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
+const SpaceRolesPermissions: React.FC<SpaceRolesPermissionsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const [spaceIdOrName] = useParam('spaceIdOrName')
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { error, space } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-  })
+  const { error, space } = useSpace(spaceIdOrName)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.rolesAndPermissions.title'),
@@ -188,7 +191,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
 
   const PermissionsList = ({ permissions }: { permissions: Permission[] }) => {
     return (
@@ -268,62 +271,63 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    ...Platform.select({
-      android: {
-        paddingTop: dimensions.topBarHeight,
-      },
-    }),
-  },
-  wrapper: {
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      native: {
-        height: '100%',
-      },
-    }),
-  },
-  tabWrapper: {
-    paddingTop: dimensions.topBarHeight,
-    backgroundColor: colors.background10,
-    ...Platform.select({
-      native: {
-        height: '100%',
-      },
-    }),
-  },
-  tabStyle: {
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-      native: {
-        height: '100%',
-      },
-    }),
-  },
-  all: {
-    paddingTop: 16,
-    paddingBottom: 40,
-    backgroundColor: colors.background20,
-  },
-  section: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: 16,
-    marginBottom: 32,
-    marginRight: 24,
-  },
-  listing: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  icon: {
-    marginRight: 8,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      ...Platform.select({
+        android: {
+          paddingTop: dimensions.topBarHeight,
+        },
+      }),
+    },
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        native: {
+          height: '100%',
+        },
+      }),
+    },
+    tabWrapper: {
+      paddingTop: dimensions.topBarHeight,
+      backgroundColor: theme.colors.background10,
+      ...Platform.select({
+        native: {
+          height: '100%',
+        },
+      }),
+    },
+    tabStyle: {
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh' as DimensionValue,
+        },
+        native: {
+          height: '100%',
+        },
+      }),
+    },
+    all: {
+      paddingTop: 16,
+      paddingBottom: 40,
+      backgroundColor: theme.colors.background20,
+    },
+    section: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 16,
+      marginBottom: 32,
+      marginRight: 24,
+    },
+    listing: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    icon: {
+      marginRight: 8,
+    },
+  })
 
 export default SpaceRolesPermissions

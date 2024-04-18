@@ -6,7 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { More } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 type MoreButtonProps = {
   icon?: HoliIconType
@@ -16,14 +16,16 @@ type MoreButtonProps = {
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
-const MoreButton: React.VFC<MoreButtonProps> = ({
+const MoreButton: React.FC<MoreButtonProps> = ({
   label,
   icon = More,
-  tintColor = colors.foreground30,
+  tintColor,
   onPress,
   ...props
 }: MoreButtonProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   return (
     <HoliButton
@@ -34,7 +36,7 @@ const MoreButton: React.VFC<MoreButtonProps> = ({
       testID="nav-button-more"
       {...props}
     >
-      <HoliIcon icon={icon} color={tintColor} />
+      <HoliIcon icon={icon} color={tintColor || colors.foreground30} />
     </HoliButton>
   )
 }

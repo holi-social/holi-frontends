@@ -1,13 +1,14 @@
+import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import StyleSheet from 'react-native-media-query'
 
-import client from '@holi/api/graphql/client'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -17,8 +18,8 @@ import FilteredSpacesList from '@holi/core/screens/spaces/filter/components/Filt
 import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface FilteredSpacesProps extends SpaceFilter {
   applyFilters: (filters: SpaceFilter) => void
@@ -26,13 +27,12 @@ interface FilteredSpacesProps extends SpaceFilter {
 
 export const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid widths)
 
-const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
+const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: FilteredSpacesProps) => {
   const { displayError } = useErrorHandling()
-
+  const client = useApolloClient()
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
-  const { height: windowHeight } = useWindowDimensions()
-  const styles = getStyles(windowHeight)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme).styles, [theme])
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
@@ -57,9 +57,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
   }, [displayError, geolocationError, locationId, t])
 
   // Error state just hides the component
-  if (geolocationError) {
-    return <></>
-  }
+  if (geolocationError) return null
 
   const isLoading = loadingGeolocation || (locationId && !geolocationDetails)
 
@@ -73,7 +71,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
       geolocation: geolocationDetails?.geolocation,
       skillSlugs,
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
 
   return (
@@ -83,10 +81,10 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
           refreshing,
           onRefresh,
         }}
-        style={styles.wrapper}
+        style={styles.container}
         testID="filtered-spaces-container"
       >
-        <View style={mixins.container}>
+        <HoliContainer>
           <FilteredSpacesHeading {...filters} />
           {isLoading ? (
             <SpacesGrid style={styles.loadingGrid} loading={true} pageSize={SPACES_PAGE_SIZE} />
@@ -100,7 +98,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
               <FilteredSpacesList pageSize={SPACES_PAGE_SIZE} />
             </Pagination>
           )}
-        </View>
+        </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
 
       <SpaceFilterModal
@@ -112,11 +110,11 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
   )
 }
 
-const getStyles = (deviceHeight: number) =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    wrapper: {
-      backgroundColor: colors.background20,
-      minHeight: deviceHeight,
+    container: {
+      display: 'flex',
+      backgroundColor: theme.colors.background20,
     },
     buttonContainer: {
       marginTop: 20,

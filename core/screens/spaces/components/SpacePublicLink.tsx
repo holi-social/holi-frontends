@@ -1,4 +1,5 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Linking, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { SpaceLink } from '@holi/core/screens/spaces/types'
@@ -6,7 +7,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Discord, Facebook, Instagram, Linkedin, Links, Twitter, Whatsapp } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import { useTheme } from '@holi/ui/styles/theme'
 
 type SpacePublicLinkProps = {
   link: SpaceLink
@@ -23,28 +25,50 @@ const IconBySpaceLinkType = {
   OTHER: Links,
 }
 
-const SpacePublicLink: React.VFC<SpacePublicLinkProps> = ({ link, style }: SpacePublicLinkProps) => {
+const SpacePublicLink: React.FC<SpacePublicLinkProps> = ({ link, style }: SpacePublicLinkProps) => {
   const { url, name, type } = link
+  const { theme } = useTheme()
+  const { colors } = theme
+  const { t } = useTranslation()
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
-  // For web URLs, the protocol ("http://", "https://") must be set accordingly: https://reactnative.dev/docs/linking
-  const urlPrefix = !url.includes('http://') && !url.includes('https://') ? 'https://' : ''
+  const handleConfirm = () => {
+    // For web URLs, the protocol ("http://", "https://") must be set accordingly: https://reactnative.dev/docs/linking
+    const urlPrefix = !url.includes('http://') && !url.includes('https://') ? 'https://' : ''
+    Linking.openURL(`${urlPrefix}${url}`)
+    setShowConfirmationModal(false)
+    return true
+  }
 
   return (
-    <HoliButton
-      inline
-      transparent
-      label={type}
-      role="link"
-      onPress={() => Linking.openURL(`${urlPrefix}${url}`)}
-      style={style}
-      contentStyle={styles.button}
-      testID="btn-to-social-link"
-    >
-      <HoliIcon icon={IconBySpaceLinkType[type]} color={colors.foreground20} />
-      <HoliText size="small" bold style={styles.text}>
-        {name}
-      </HoliText>
-    </HoliButton>
+    <>
+      <HoliButton
+        inline
+        transparent
+        label={type}
+        role="link"
+        onPress={() => setShowConfirmationModal(true)}
+        style={style}
+        contentStyle={styles.button}
+        testID="btn-to-social-link"
+      >
+        <HoliIcon icon={IconBySpaceLinkType[type]} color={colors.foreground20} />
+        <HoliText size="small" bold style={styles.text}>
+          {name}
+        </HoliText>
+      </HoliButton>
+      <HoliConfirmation
+        show={showConfirmationModal}
+        label={t('spaces.spaceDetails.publicLinks.change.title')}
+        title={t('spaces.spaceDetails.publicLinks.change.title')}
+        description={`${t('spaces.spaceDetails.publicLinks.change.url')}${url}`}
+        onDismiss={() => setShowConfirmationModal(false)}
+        onConfirm={handleConfirm}
+        dismissText={t('global.dismiss')}
+        confirmText={t('global.proceed')}
+        testID="confirm-proceed-external-space-link"
+      />
+    </>
   )
 }
 export default memo(SpacePublicLink)

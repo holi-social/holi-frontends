@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import Constants from 'expo-constants'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -39,8 +40,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
-import { colors } from '@holi/ui/styles/globalVars'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type EditAppointmentParams = {
   spaceIdOrName: string
@@ -58,6 +59,9 @@ const EditAppointment: React.FC<ScreenProps> = () => {
   const setScreenOptions = useSetScreenOptions()
   const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   // input fields
   const [title, setTitle] = useState('')
@@ -89,26 +93,36 @@ const EditAppointment: React.FC<ScreenProps> = () => {
     loading: loadingAppointment,
     error: errorAppointment,
     data: appointmentData,
-    called: calledAppointment,
   } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
     variables: { idOrSlug },
-    onError: (error) =>
-      !isNotFoundError(error) &&
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       logError(error, 'Failed to load appointment', {
         location: 'EditAppointment.appointmentByIdOrSlugQuery',
         idOrSlug,
-      }),
+      })
+    },
     skip: !idOrSlug,
   })
 
-  const { data, loading: loadingSpace } = useQuery<SpaceByIdResponse>(spaceByIdWithAllMembersQuery, {
+  const {
+    data,
+    loading: loadingSpace,
+    error: errorSpace,
+  } = useQuery<SpaceByIdResponse>(spaceByIdWithAllMembersQuery, {
     variables: { idOrName: spaceIdOrName },
     skip: !spaceIdOrName,
-    onError: (error) =>
+    onError: (error) => {
+      if (isNotFoundError(error)) {
+        return replaceRoute('/404')
+      }
       logError(error, 'Failed to load space', {
         location: 'EditAppointment.spaceByIdWithAllMembersQuery',
         spaceIdOrName,
-      }),
+      })
+    },
   })
 
   const appointment = appointmentData?.appointment
@@ -183,7 +197,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
     }
   }, [space?.id, title, description, inviteOnly, permissionType, thumbnail, locationDetails])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loadingSpace &&
       isMember &&
       setScreenOptions({
@@ -200,7 +214,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions])
+  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
 
   useEffect(() => {
     setSaveButtonDisabled(!title.length || !inputValid)
@@ -281,11 +295,7 @@ const EditAppointment: React.FC<ScreenProps> = () => {
     return <HoliLoader />
   }
 
-  if (
-    (errorAppointment && isNotFoundError(errorAppointment)) ||
-    (calledAppointment && !loadingAppointment && !appointment)
-  ) {
-    replaceRoute('/404')
+  if (errorSpace || errorAppointment || !appointment || !space) {
     return <></>
   }
 
@@ -365,15 +375,16 @@ const EditAppointment: React.FC<ScreenProps> = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: +dimensions.topBarHeight + (Constants.statusBarHeight || 0) + 24,
-    paddingBottom: +dimensions.bottomBarHeight + 24,
-  },
-  bottomBar: {
-    backgroundColor: colors.background10,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: +dimensions.topBarHeight + (Constants.statusBarHeight || 0) + 24,
+      paddingBottom: +dimensions.bottomBarHeight + 24,
+    },
+    bottomBar: {
+      backgroundColor: theme.colors.background10,
+    },
+  })
 
 export default EditAppointment

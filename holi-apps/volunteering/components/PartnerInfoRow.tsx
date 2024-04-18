@@ -12,11 +12,11 @@ import { ShareBox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { PartnerInfoRowProps } from '@holi-apps/volunteering/types'
 
-const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
+const PartnerInfoRow: React.FC<PartnerInfoRowProps> = ({
   headline,
   rowText,
   showOutlinkIcon = true,
@@ -24,6 +24,9 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
   partners,
   onPress,
 }: PartnerInfoRowProps) => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return (
     <HoliButton transparent onPress={onPress} label={linkTitle ?? ''}>
       <View style={styles.partnerInfoRow}>
@@ -33,7 +36,7 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
             const partner = partners[partnerKey]
             const logoWidth = partner.logo?.width || 40
             const logoHeight = partner.logo?.height || 40
-            const logoStyles = getLogoStyles(logoWidth, idx)
+            const logoStyles = getLogoStyles(logoWidth, idx, theme)
             return (
               !!partner.logo &&
               !!partner.logo.src && (
@@ -45,7 +48,7 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
                     height={logoHeight}
                     label={headline ?? ''}
                     resizeMode="contain"
-                    style={{ backgroundColor: colors.white100 }}
+                    style={{ backgroundColor: colors.light }}
                   />
                 </View>
               )
@@ -65,12 +68,12 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
 
 export default memo(PartnerInfoRow)
 
-const getLogoStyles = (logoWidth: number, idx: number) => {
+const getLogoStyles = (logoWidth: number, idx: number, theme: HoliTheme) => {
   return StyleSheet.create({
     partnerImage: {
       borderRadius: logoWidth / 2,
       borderWidth: 1,
-      borderColor: colors.foreground30,
+      borderColor: theme.colors.foreground30,
       overflow: 'hidden',
       marginRight: 8,
       marginLeft: idx ? -24 : 0,

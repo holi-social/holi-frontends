@@ -22,7 +22,6 @@ import { ErrorWarningFilled } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliTextInputProps {
@@ -42,8 +41,10 @@ export interface HoliTextInputProps {
   trailingIcon?: HoliIconType
   trailingComponent?: ReactChild
   style?: StyleProp<ViewStyle>
+  fontStyle?: StyleProp<TextStyle>
   inputStyle?: StyleProp<ViewStyle>
   labelStyle?: StyleProp<TextStyle>
+  placeholderColor?: string
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   testID?: string
@@ -96,6 +97,8 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
       inline = false,
       style = {},
       inputStyle = {},
+      fontStyle = {},
+      placeholderColor,
       type,
       value,
       inputLabel,
@@ -139,6 +142,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
     )
 
     const { theme } = useTheme()
+    const { colors } = theme
     const styles = useMemo(() => getStyles(theme), [theme])
 
     const [inputHeight, seInputHeight] = useState(INPUT_HEIGHT)
@@ -222,13 +226,13 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
           >
             <TextInput
               value={value}
-              style={[styles.input, inline ? styles.inline : styles.block]}
+              style={[styles.input, fontStyle, inline ? styles.inline : styles.block]}
               numberOfLines={noOfVisibleLines}
               multiline={multiline}
               onFocus={handleFocus}
               onBlur={handleBlur}
               placeholder={props?.placeholder}
-              placeholderTextColor={colors.foreground10}
+              placeholderTextColor={placeholderColor || colors.foreground10}
               onChange={(event) => {
                 let text = event.nativeEvent.text
                 // type doesn't work with RN 'numeric' on web
@@ -326,24 +330,24 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       flexDirection: 'row',
       borderWidth: 2,
-      borderColor: colors.background30,
+      borderColor: theme.colors.background30,
       borderRadius: 4,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       paddingHorizontal: 10,
       paddingVertical: INPUT_VERTICAL_PADDING,
     },
     inputWrapperFocused: {
-      borderColor: colors.brandColorB30,
+      borderColor: theme.colors.brandColorB30,
     },
     inputWrapperDisabled: {
-      borderColor: colors.background30,
-      backgroundColor: colors.background20,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background20,
     },
     inputWrapperHasValidationErrors: {
-      borderColor: colors.error30,
+      borderColor: theme.colors.error30,
     },
     inputWrapperHovered: {
-      borderColor: colors.foreground20,
+      borderColor: theme.colors.foreground20,
     },
     input: {
       flex: 1,
@@ -351,12 +355,12 @@ const getStyles = (theme: HoliTheme) =>
       lineHeight: LINE_HEIGHT,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      color: colors.foreground30,
+      color: theme.colors.foreground30,
       overflow: 'scroll',
       ...Platform.select({
         web: {
           overflowX: 'hidden',
-          caretColor: colors.brandColorB30,
+          caretColor: theme.colors.brandColorB30,
         },
       }),
     },
@@ -373,7 +377,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
     },
     inputCharsTextWrapper: {
-      backgroundColor: colors.foreground10,
+      backgroundColor: theme.colors.foreground10,
       borderRadius: 8,
       position: 'absolute',
       paddingHorizontal: 8,
@@ -381,45 +385,45 @@ const getStyles = (theme: HoliTheme) =>
       bottom: -8,
     },
     inputCharsTextWrapperFocused: {
-      backgroundColor: colors.brandColorB30,
+      backgroundColor: theme.colors.brandColorB30,
     },
     inputCharsTextWrapperDisabled: {
-      backgroundColor: colors.background30,
+      backgroundColor: theme.colors.background30,
     },
     inputCharsTextWrapperHasValidationErrors: {
-      backgroundColor: colors.error30,
+      backgroundColor: theme.colors.error30,
     },
     inputCharsTextWrapperHovered: {
-      backgroundColor: colors.foreground20,
+      backgroundColor: theme.colors.foreground20,
     },
     inputCharsText: {
-      color: colors.background10,
+      color: theme.colors.background10,
     },
     labelWrapper: {
       marginBottom: 6,
       flexDirection: 'row',
     },
     label: {
-      color: colors.foreground30,
+      color: theme.colors.foreground30,
     },
     labelFocused: {
-      color: colors.brandColorB30,
+      color: theme.colors.brandColorB30,
     },
     labelHasValidationErrors: {
-      color: colors.error30,
+      color: theme.colors.error30,
     },
     labelMandatoryStar: {
-      color: colors.brandColorB30,
+      color: theme.colors.brandColorB30,
     },
     helperTextWrapper: {
       flex: 4,
       marginTop: 6,
     },
     helperText: {
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
     },
     validationErrorText: {
-      color: colors.error30,
+      color: theme.colors.error30,
     },
     trailingIconWrapper: {
       height: 22,
@@ -435,6 +439,6 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: 6,
     },
     charactorCountText: {
-      color: colors.foreground20,
+      color: theme.colors.foreground20,
     },
   })

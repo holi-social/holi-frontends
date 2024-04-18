@@ -20,7 +20,7 @@ export type SpaceJoinProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
+const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const { t } = useTranslation()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { show: showJoinOverlay } = useModalState()

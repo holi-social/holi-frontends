@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next'
 import {
   ClientEvent,
   Direction,
@@ -22,7 +23,7 @@ import {
   createClient,
 } from 'matrix-js-sdk'
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
-import { logger } from 'matrix-js-sdk/lib/logger'
+import { logger as matrixLogger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { configurePusher } from '@holi/chat/src/client/pusher'
@@ -63,12 +64,14 @@ import { type ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
 import { environment } from '@holi/core/helpers/environment'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+
+const logger = getLogger('Chat')
 
 // Disable matrix-js-sdk logging for Staging and Production
 if ([EnvironmentId.PRODUCTION, EnvironmentId.STAGING].some((value) => value === environment)) {
-  logger.disableAll()
+  matrixLogger.disableAll()
 }
 
 // TODO: make the client accessible to window for development.
@@ -82,11 +85,7 @@ const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in val
  */
 export default class ChatClient {
   private readonly mxClient: MatrixClient
-  private readonly deviceToken: string | undefined
-
-  private isRoomWithNoMembers(roomState: RoomState): boolean {
-    return roomState.getMembers().every((member) => member.membership === MembershipStatus.leave)
-  }
+  private deviceToken: string | undefined
 
   private getSpaceEvents(room: Room) {
     const state = room.getLiveTimeline().getState(Direction.Forward)
@@ -166,7 +165,7 @@ export default class ChatClient {
     return Object.fromEntries(spaceIdToChildIdsMap.entries())
   }
 
-  public constructor(credentials: ChatCredentials) {
+  public constructor(credentials: ChatCredentials, t: TFunction<'translation', undefined, 'translation'>) {
     if (
       !credentials ||
       !credentials.baseUrl ||
@@ -179,7 +178,7 @@ export default class ChatClient {
 
     const options: ICreateClientOpts = {
       ...credentials,
-      roomNameGenerator,
+      roomNameGenerator: roomNameGenerator(t),
       timelineSupport: true,
       scheduler: new MatrixScheduler(),
     }
@@ -207,7 +206,7 @@ export default class ChatClient {
    * @returns promise that completes when client has intialized (technically: when the client has reached SyncState.Prepared)
    */
   public async start(unknownTokenHandler: () => void, options?: IStartClientOpts): Promise<void> {
-    logDebug('ChatClient.start', `starting chat client with options=${options}`)
+    logger.debug('ChatClient.start', `starting chat client with options=${options}`)
     try {
       await this.mxClient.startClient(options)
     } catch (err) {
@@ -219,7 +218,7 @@ export default class ChatClient {
       // TODO: Implement soft logout and reconnect
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
-        logDebug('ChatClient', 'received sync event', { state, lastState })
+        logger.debug('ChatClient', 'received sync event', { state, lastState })
         if (state === SyncState.Prepared) {
           resolve()
         }
@@ -230,15 +229,23 @@ export default class ChatClient {
     })
   }
 
+  public async updateDeviceToken(
+    deviceToken: string,
+    t: TFunction<'translation', undefined, 'translation'>
+  ): Promise<void> {
+    this.deviceToken = deviceToken
+    return this.configurePusher(t)
+  }
+
   /**
    * Configures push notifications to use holi push notification gateway (Sygnal)
    *
    * @returns a successful promise if succeed
    */
-  public async configurePusher(): Promise<void> {
+  public async configurePusher(t: TFunction<'translation', undefined, 'translation'>): Promise<void> {
     if (this.deviceToken) {
       // delegate to Platform-specific implementation (currently no-op for Web)
-      return configurePusher(this.mxClient, this.deviceToken)
+      return configurePusher(this.mxClient, this.deviceToken, t)
     }
   }
 
@@ -290,22 +297,11 @@ export default class ChatClient {
       throw new HoliChatClientError('createRoom', 'Chat rooms must be created with at least one member')
     }
 
-    const dmInitialState = [
-      {
-        type: 'm.room.guest_access',
-        state_key: 'dm_room',
-        content: {
-          guest_access: 'can_join',
-        },
-      },
-    ]
-
     const options: ICreateRoomOpts = {
       is_direct: isDirectMessage,
       preset: isPrivate ? Preset.PrivateChat : Preset.PublicChat,
       visibility: isPrivate ? Visibility.Private : Visibility.Public,
       ...(name ? { name } : {}),
-      ...(isDirectMessage ? { initial_state: dmInitialState } : {}),
     }
 
     return await this.mxClient.createRoom({ ...options, invite: userIds })
@@ -352,7 +348,11 @@ export default class ChatClient {
   public async setPushNotificationsEnabled(enabled: boolean) {
     // enable this master push rule to disable push notifications
     // https://spec.matrix.org/v1.8/client-server-api/#default-override-rules
-    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', enabled)
+
+    // Attention – inverted thinking ahead
+    // To prevent them, we enable an empty global matrix override rule, that supresses push processing
+    const supressPushNotifications = !enabled
+    await this.mxClient.setPushRuleEnabled('global', PushRuleKind.Override, '.m.rule.master', supressPushNotifications)
   }
 
   public async joinRoom(roomId: string): Promise<Room | null> {
@@ -520,7 +520,6 @@ export default class ChatClient {
       // have yet. To provide symmetry with Matrix, we wait for `SpaceParent`
       // events.
       if (eventType !== ChatRoomEvent.SharedData && eventType !== EventType.SpaceParent) return
-      if (isSharedDataChildContent(event.getEffectiveEvent().content)) return
 
       this.mxClient.roomState(room.roomId).then(() => {
         const chatRoom = this.createChatRoom(room)

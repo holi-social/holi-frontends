@@ -1,8 +1,9 @@
-import React, { memo, useCallback, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -14,10 +15,12 @@ import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskT
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, More } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -31,11 +34,13 @@ const TaskDetails = () => {
   const [taskId] = useParam('taskId')
   const setScreenOptions = useSetScreenOptions()
   const { navigate, replaceRoute } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
-  const { loading, error, space, refetch } = useSpace(spaceIdOrName)
+  const { error, space, refetch } = useSpace(spaceIdOrName)
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const task = (space?.tasks || []).find((t) => t.id === taskId)
@@ -88,10 +93,10 @@ const TaskDetails = () => {
         )}
       </>
     ),
-    [isAdmin, t, isLoadingDeleteTask, deleteTask, navigate, space?.name, task?.id]
+    [isAdmin, t, isLoadingDeleteTask, deleteTask, navigate, space?.name, task?.id, colors.foreground30]
   )
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
       headerTransparent: true,
@@ -103,69 +108,69 @@ const TaskDetails = () => {
         footerShown: false,
       },
     })
-  }, [renderActionDrawer, setScreenOptions, t])
+  }, [renderActionDrawer, setScreenOptions, t, styles.headerRight, colors.background10])
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space || !task) {
+  if (space && !task) {
+    replaceRoute('/404')
     return <></>
   }
 
-  if (!loading && space && !task) {
-    replaceRoute('/404')
-    return null
+  // Error and loading states are handled the same way and just hide the component
+  if (error || !space || !task) {
+    return <></>
   }
 
   return (
-    <>
+    <SafeAreaProvider style={styles.safeAreaProvider}>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
       >
-        <View style={mixins.container}>
+        <HoliContainer>
           <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
-        </View>
+        </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
-    </>
+    </SafeAreaProvider>
   )
 }
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    paddingBottom: 120,
-    minHeight: '100%',
-    paddingTop: dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
-  },
-  contentStyle: {
-    paddingBottom: 0,
-    // paddingTop: dimensions.topBarHeight,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-        paddingTop: 12,
-      },
-      native: {
-        paddingTop: dimensions.topBarHeight,
-      },
-    }),
-  },
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: dimensions.topBarHeight + 50,
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    gap: 14,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    safeAreaProvider: {
+      flex: 1,
+      display: 'flex',
+      minHeight: '100%',
+    },
+    defaultLayout: {
+      paddingBottom: 120,
+      minHeight: '100%',
+      paddingTop: dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+    },
+    contentStyle: {
+      paddingBottom: 0,
+      ...Platform.select({
+        web: {
+          paddingTop: 12,
+        },
+        native: {
+          paddingTop: dimensions.topBarHeight,
+        },
+      }),
+      minHeight: '100%',
+    },
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: dimensions.topBarHeight + 50,
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: 14,
+    },
+  })
 
 export default memo(TaskDetails)

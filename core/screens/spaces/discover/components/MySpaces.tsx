@@ -17,7 +17,7 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
   const mappedSpaces = mySpaces.map((section) => ({
-    title: t(`spaces.tabs.mine.${section.section.toLowerCase()}`),
+    title: t(`spaces.tabs.mine.${section.type.toLowerCase()}`),
     type: section.type,
     data: section.spaces.data,
   }))

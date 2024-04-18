@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -8,6 +8,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import { withProtocol } from '@holi/core/helpers/url'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -29,7 +30,7 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type EditDigitalToolParams = {
   spaceIdOrName: string
@@ -40,10 +41,10 @@ const { useParam } = createParamHooks<EditDigitalToolParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const EditDigitalTool: React.VFC<ScreenProps> = () => {
+const EditDigitalTool: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [toolId] = useParam('toolIdOrName')
-  const { navigateBack } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
@@ -59,6 +60,8 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const [inputValid, setInputValid] = useState(true)
   const { openToast } = useToast()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
@@ -98,7 +101,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     }
   }, [t, url])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loadingSpace &&
       setScreenOptions({
         animation: 'slide_from_bottom',
@@ -110,7 +113,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, setScreenOptions])
+  }, [t, loadingSpace, setScreenOptions, colors.background20])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {
@@ -122,7 +125,11 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     if (space) {
       const collaborationTools = space ? space.collaborationTools : []
       if (collaborationTools && collaborationTools.length > 0 && toolId) {
-        const digitalTool = collaborationTools.filter((tool) => tool.id === toolId)[0]
+        const digitalTool = collaborationTools.find((tool) => tool.id === toolId)
+        if (!digitalTool) {
+          replaceRoute('/404')
+          return
+        }
         const collectionType = COLLECTION_TYPES.filter(
           (collection_type) => collection_type === digitalTool.collectionType
         )[0]
@@ -139,7 +146,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         setCurrentThumbnailBlurhash(digitalTool.thumbnailBlurhash)
       }
     }
-  }, [space, toolId, t])
+  }, [space, toolId, t, replaceRoute])
 
   useEffect(() => {
     const resultSchema = UpdateCollaborationToolSchema.safeParse({

@@ -8,7 +8,8 @@ import { test } from './testmaster'
 require('dotenv').config({ path: '.envrc' })
 
 test.describe('@Comment', () => {
-  test('creates a comment and displays it in the post page.', async ({ userHandler }) => {
+  // TODO: Commenting has been briefly removed from the insight detail page and should be back once HOLI-7390 is finished
+  test.skip('creates a comment and displays it in the post page.', async ({ userHandler }) => {
     await userHandler.asRandomUser(async (page) => {
       // go to home feed
       await clickElementByTestId(page, 'btn-to-home-view')

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,6 +7,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -33,7 +34,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
@@ -48,7 +50,7 @@ const PAGE_SIZE = 20
 const TAB_COLLABORATORS = 0
 const TAB_PENDING = 1
 
-const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
+const EditSpaceCollaborators: React.FC<EditSpaceCollaboratorsParams> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [spaceIdOrName] = useParam('spaceIdOrName')
@@ -62,7 +64,9 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const { user: loggedInUser } = useLoggedInUser()
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const { height: screenHeight } = useWindowDimensions()
-  const styles = createStyles(screenHeight)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
 
   const { data, loading, error, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
     variables: { idOrName: spaceIdOrName },
@@ -90,7 +94,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     variables: { idOrName: spaceIdOrName },
   })
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.collaborators'),
       headerTransparent: true,
@@ -270,7 +274,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   )
 }
 
-const createStyles = (screenHeight: number) =>
+const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       minHeight: '100%',
@@ -292,7 +296,7 @@ const createStyles = (screenHeight: number) =>
     },
     tabStyle: {
       flex: 1,
-      backgroundColor: colors.background20,
+      backgroundColor: theme.colors.background20,
       paddingBottom: 42,
     },
     all: {

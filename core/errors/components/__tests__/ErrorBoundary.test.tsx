@@ -16,7 +16,7 @@ const mockConsoleError = jest.fn()
 global.console.warn = mockConsoleWarn
 global.console.error = mockConsoleError
 
-const ErrorComponent: React.VFC<ErrorComponentProps> = ({ throwError = true }) => {
+const ErrorComponent: React.FC<ErrorComponentProps> = ({ throwError = true }) => {
   if (throwError) {
     throw new HoliError('Test')
   }

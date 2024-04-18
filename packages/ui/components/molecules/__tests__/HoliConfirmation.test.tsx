@@ -11,38 +11,47 @@ describe('renders correctly', () => {
         title="Test Title"
         description="Test Description"
         show={true}
-        onDismiss={() => null}
-        onConfirm={() => null}
+        confirmationButtonType="warning"
+        onDismiss={() => undefined}
+        onConfirm={() => undefined}
       />
     )
-    expect(screen.toJSON()).toMatchSnapshot()
+
+    expect(screen.getByText('Test Title')).toBeVisible()
+    expect(screen.getByText('Test Description')).toBeVisible()
+    expect(screen.getByText('confirmation.dismiss')).toBeVisible()
+    expect(screen.getByText('confirmation.confirm')).toBeVisible()
   })
-  it('renders correctly when open and confirmationButtonType is danger', () => {
+
+  it('renders red confirm button for confirmationButtonType warning', () => {
     render(
       <HoliConfirmation
         label="Test"
         title="Test Title"
         description="Test Description"
-        confirmationButtonType="danger"
+        confirmationButtonType="warning"
         show={true}
-        onDismiss={() => null}
-        onConfirm={() => null}
+        onDismiss={() => undefined}
+        onConfirm={() => undefined}
       />
     )
-    expect(screen.toJSON()).toMatchSnapshot()
+
+    expect(screen.getByTestId('holi-confirmation-confirm')).toHaveStyle({ backgroundColor: '#ffebec' })
   })
-  it('renders correctly when closed', () => {
+
+  it('does not render when closed', () => {
     render(
       <HoliConfirmation
         label="Test"
         title="Test Title"
         description="Test Description"
         show={false}
-        onDismiss={() => null}
-        onConfirm={() => null}
+        onDismiss={() => undefined}
+        onConfirm={() => undefined}
       />
     )
-    expect(screen.toJSON()).toMatchSnapshot()
+
+    expect(screen.toJSON()).toBeNull()
   })
 })
 
@@ -55,7 +64,7 @@ describe('calls onConfirm prop function correctly', () => {
         title="Test Title"
         description="Test Description"
         show={true}
-        onDismiss={() => null}
+        onDismiss={() => undefined}
         onConfirm={mockFn}
         testID="test"
       />

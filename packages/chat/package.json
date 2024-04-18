@@ -7,7 +7,7 @@
     "lint": "TIMING=1 eslint .",
     "test": "jest",
     "clean": "echo 'nothing to be done'",
-    "clean:all": "rimraf node_modules"
+    "clean:all": "npx rimraf node_modules"
   },
   "dependencies": {
     "cross-fetch": "^3.1.6",
@@ -17,7 +17,7 @@
   },
   "peerDependencies": {
     "react": "18.2.0",
-    "react-native": "0.72.6"
+    "react-native": "0.73.6"
   },
   "devDependencies": {
     "jest": "^29.6.4",

@@ -32,7 +32,7 @@ Primary.argTypes = {
   title: { description: 'Confirmation title', type: 'string', control: { type: 'text' } },
   description: { description: 'Confirmation description', type: 'string', control: { type: 'text' } },
   confirmationButtonType: {
-    options: ['primary', 'danger'],
+    options: ['primary', 'warning'],
     control: { type: 'select' },
     description: 'Primary or danger confirm button type',
   },

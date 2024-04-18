@@ -1,5 +1,5 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
@@ -27,6 +27,7 @@ import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -38,7 +39,8 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface ChangePasswordProps {
@@ -69,6 +71,8 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { openToast } = useToast()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [settingsFlow, setSettingsFlow] = useState<SettingsFlow>()
   const [reauthFlow, setReauthFlow] = useState<LoginFlow>()
@@ -110,7 +114,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
     }
   }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (webview)
       setScreenOptions({
         headerLeft: () => null,
@@ -294,31 +298,32 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
 
 export default ChangePassword
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: colors.background20,
-    flex: 1,
-    ...Platform.select({
-      web: {
-        minHeight: '100%',
-      },
-    }),
-  },
-  inner: {
-    flex: 1,
-    // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-    marginTop: dimensions.topBarHeight,
-    ...Platform.select({
-      web: {
-        paddingBottom: dimensions.bottomBarHeight,
-      },
-      android: {
-        paddingBottom: dimensions.bottomBarHeight,
-      },
-    }),
-  },
-  inputFieldsContainer: {
-    paddingTop: 24,
-    gap: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+      flex: 1,
+      ...Platform.select({
+        web: {
+          minHeight: '100%',
+        },
+      }),
+    },
+    inner: {
+      flex: 1,
+      // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
+      marginTop: dimensions.topBarHeight,
+      ...Platform.select({
+        web: {
+          paddingBottom: dimensions.bottomBarHeight,
+        },
+        android: {
+          paddingBottom: dimensions.bottomBarHeight,
+        },
+      }),
+    },
+    inputFieldsContainer: {
+      paddingTop: 24,
+      gap: 16,
+    },
+  })

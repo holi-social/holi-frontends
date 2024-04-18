@@ -1,25 +1,34 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import InfoModal from '@holi/core/components/InfoModal'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelcome'
+import { SDG_INFO_MODAL_SOURCES_MAPPING } from '@holi/core/screens/spaces/edit/EditSpace'
 import { Space } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Phone } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInfoViewProps = {
   space: Space
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
+const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
+  const { show: showInfoModal, hide: closeInfoModal, visible: infoModalVisible } = useModalState()
+  const partner = SDG_INFO_MODAL_SOURCES_MAPPING['sdg']
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
@@ -43,7 +52,7 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
         </SpaceSection>
       )}
       {!!sdgs.length && (
-        <SpaceSection title={t('spaces.spaceDetails.sdgs')}>
+        <SpaceSection title={t('spaces.spaceDetails.sdgs')} infoIcon onPressInfo={showInfoModal}>
           <View style={styles.listContainer}>
             {sdgs.map((sdg, index) => (
               <HoliChip
@@ -55,6 +64,12 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
               />
             ))}
           </View>
+          <InfoModal
+            items={{ sdg: partner }}
+            show={!!infoModalVisible}
+            onDismiss={closeInfoModal}
+            i18nPrefix={'spaces.input.sdgs.infoModal'}
+          />
         </SpaceSection>
       )}
       {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
@@ -94,31 +109,32 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
 }
 export default SpaceInfoView
 
-const styles = StyleSheet.create({
-  listContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flexShrink: 1,
-  },
-  chip: {
-    backgroundColor: colors.background10,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  link: {
-    marginRight: 20,
-    marginBottom: 20,
-  },
-  contactIcon: {
-    marginRight: 10,
-  },
-  contactWrapper: {
-    flex: 1,
-    gap: 16,
-  },
-  contactContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    listContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
+    },
+    chip: {
+      backgroundColor: theme.colors.background10,
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    link: {
+      marginRight: 20,
+      marginBottom: 20,
+    },
+    contactIcon: {
+      marginRight: 10,
+    },
+    contactWrapper: {
+      flex: 1,
+      gap: 16,
+    },
+    contactContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  })

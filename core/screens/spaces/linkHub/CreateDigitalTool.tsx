@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -8,6 +8,7 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import { withProtocol } from '@holi/core/helpers/url'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -26,7 +27,7 @@ import { ArrowDownS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -36,7 +37,9 @@ const { useParam } = createParamHooks<CreateDigitalToolParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const CreateDigitalTool: React.VFC<ScreenProps> = () => {
+const CreateDigitalTool: React.FC<ScreenProps> = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -89,7 +92,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     }
   }, [t, url])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     !loadingSpace &&
       isMember &&
       setScreenOptions({
@@ -102,7 +105,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions])
+  }, [t, loadingSpace, isMember, setScreenOptions, colors.background20])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {

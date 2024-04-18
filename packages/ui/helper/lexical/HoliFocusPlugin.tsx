@@ -7,7 +7,7 @@ export type HoliFocusPluginProps = {
   onFocus?: (event: FocusEvent) => void
   onBlur?: (event: FocusEvent) => void
 }
-const HoliFocusPlugin: React.VFC<HoliFocusPluginProps> = ({ autofocus = true, onFocus, onBlur }) => {
+const HoliFocusPlugin: React.FC<HoliFocusPluginProps> = ({ autofocus = true, onFocus, onBlur }) => {
   const [editor] = useLexicalComposerContext()
 
   useLayoutEffect(() => {

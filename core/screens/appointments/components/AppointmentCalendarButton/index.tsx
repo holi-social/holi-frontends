@@ -1,12 +1,11 @@
 import * as Calendar from 'expo-calendar'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
-import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -16,7 +15,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const CALENDAR_NAME = 'holi'
 
@@ -25,7 +24,7 @@ interface AppointmentCalendarButtonProps {
 }
 
 // Note: Android does not have a default calendar, so we need to create one to store Holi appointments.
-const getOrCreateCalendar = async () => {
+const getOrCreateCalendar = async (theme: HoliTheme) => {
   const calendars = await Calendar.getCalendarsAsync()
   const calendar = calendars.find((calendar) => calendar.name === CALENDAR_NAME)
 
@@ -36,7 +35,7 @@ const getOrCreateCalendar = async () => {
   try {
     const calendarId = await Calendar.createCalendarAsync({
       title: CALENDAR_NAME,
-      color: colors.brandA300,
+      color: theme.colors.brandA300,
       entityType: Calendar.EntityTypes.EVENT,
       source: { isLocalAccount: true, name: CALENDAR_NAME } as Calendar.Source,
       name: CALENDAR_NAME,
@@ -53,11 +52,13 @@ const getOrCreateCalendar = async () => {
 }
 
 const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ appointment }) => {
-  const { i18n, t } = useTranslation()
+  const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
   const { openToast } = useToast()
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const getCalendar = async () => {
     const calendarPermission = await Calendar.requestCalendarPermissionsAsync()
@@ -66,7 +67,7 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
       if (Platform.OS === 'ios') {
         return Calendar.getDefaultCalendarAsync()
       } else {
-        return getOrCreateCalendar()
+        return getOrCreateCalendar(theme)
       }
     }
     showModal()
@@ -79,24 +80,14 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
       return
     }
 
-    // Expo 49 contains a bug that causes the event URL to be distorted when saved in an iOS calendar.
-    // Include the "url" property to the event details after updating Expo.
-    const locale = getLocale(i18n.language)
-
-    const localizedVideoCallLink = locale === 'de' ? 'Videokonferenz-Link' : 'Video call link'
-
-    const description = appointment.videoCallLink
-      ? `${appointment.description}\n${localizedVideoCallLink}: ${appointment.videoCallLink.url}`
-      : appointment.description
-
     const eventDetails = {
-      id: appointment.id,
       title: appointment.title,
       startDate: new Date(appointment.startDateTime),
       endDate: new Date(appointment.endDateTime),
       location: appointment.locationDetails?.completeAddress ?? appointment.videoCallLink?.url,
       organizer: appointment.creator?.fullName,
-      notes: description,
+      url: appointment.videoCallLink?.url,
+      notes: appointment.description,
     }
 
     const event = await Calendar.createEventAsync(calendar.id, eventDetails)
@@ -169,20 +160,21 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
   )
 }
 
-const styles = StyleSheet.create({
-  calendarButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingRight: 12,
-  },
-  calendarButtonDescription: {
-    marginLeft: 30,
-  },
-  modal: {
-    backgroundColor: colors.background30,
-    padding: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    calendarButtonContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      paddingRight: 12,
+    },
+    calendarButtonDescription: {
+      marginLeft: 30,
+    },
+    modal: {
+      backgroundColor: theme.colors.background30,
+      padding: 24,
+    },
+  })
 
 export default memo(AppointmentCalendarButton)

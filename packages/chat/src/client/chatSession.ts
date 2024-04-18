@@ -3,6 +3,7 @@ import fetch from 'cross-fetch'
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
 // We need this lightweight polyfill to support mobile.
 import 'fast-text-encoding'
+import type { TFunction } from 'i18next'
 import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
@@ -19,9 +20,12 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError, logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatServerLoginUrl } from '@holi/core/helpers/config'
 import { chatServerUrl } from '@holi/core/helpers/config'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
+import { registerDeviceTokenListener } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 
 import { chatReloadCounter, setChatConnected, setChatInitialized } from './chatState'
+
+const logger = getLogger('Chat')
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -39,7 +43,10 @@ let chatClient: ChatClient | undefined = undefined
 let isStarting = false
 let isStopping = false
 
-const unknownTokenHandler = async (deviceToken?: string): Promise<void> => {
+const unknownTokenHandler = async (
+  t: TFunction<'translation', undefined, 'translation'>,
+  deviceToken?: string
+): Promise<void> => {
   if (!isStopping) {
     logInfoMsg('[chatSession] chat client has an invalid token: reconnecting')
     try {
@@ -47,16 +54,19 @@ const unknownTokenHandler = async (deviceToken?: string): Promise<void> => {
     } catch (e) {
       logInfo(e, '[chatSession] could not stop chatClient. This is expected.')
     } finally {
-      await startChat(deviceToken)
+      await startChat(t, deviceToken)
     }
   }
 }
 
-export const startChat = async (deviceToken?: string): Promise<void> => {
+export const startChat = async (
+  t: TFunction<'translation', undefined, 'translation'>,
+  deviceToken?: string
+): Promise<void> => {
   if (isStarting || isStopping || chatClient?.isRunning()) return
 
   isStarting = true
-  logDebug('chatSession.startChat', 'isStarting')
+  logger.debug('chatSession.startChat', 'isStarting')
 
   try {
     // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
@@ -65,22 +75,28 @@ export const startChat = async (deviceToken?: string): Promise<void> => {
       throw new HoliError('[ChatLogin]: Can not start chat without Ory session token')
     }
     const credentials = await ensureChatLoggedIn(orySession.session_token)
-    chatClient = new ChatClient({
-      baseUrl: chatServerUrl,
-      accessToken: credentials.access_token,
-      deviceId: credentials.device_id,
-      userId: credentials.user_id,
-      freshLogin: credentials.fresh_login,
-      deviceToken,
-    })
+    chatClient = new ChatClient(
+      {
+        baseUrl: chatServerUrl,
+        accessToken: credentials.access_token,
+        deviceId: credentials.device_id,
+        userId: credentials.user_id,
+        freshLogin: credentials.fresh_login,
+        deviceToken,
+      },
+      t
+    )
 
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
-    await chatClient.start(() => unknownTokenHandler(deviceToken))
+    await chatClient.start(() => unknownTokenHandler(t, deviceToken))
     initChatClient(chatClient)
-    await chatClient.configurePusher().catch((e) => {
+    await chatClient.configurePusher(t).catch((e) => {
       logError(e, 'Could not set up push notifications for chat', { location: 'chatSession.startChat.configurePusher' })
+    })
+    registerDeviceTokenListener((token) => {
+      chatClient?.updateDeviceToken(token, t)
     })
     setChatConnected(true)
   } finally {
@@ -93,7 +109,7 @@ const stopChat = async () => {
 
   isStopping = true
   isStarting = false // stopping has priority over starting. This is particularly important for re-connecting in case of startup failures
-  logDebug('chatSession.stopChat', 'isStopping')
+  logger.debug('chatSession.stopChat', 'isStopping')
   setChatInitialized(false)
   setChatConnected(false)
   chatReloadCounter(chatReloadCounter() + 1)

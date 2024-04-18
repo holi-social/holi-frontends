@@ -1,5 +1,5 @@
 import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -14,14 +14,17 @@ import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+const logger = getLogger('CreateAccount')
 
 const isWeb = Platform.OS === 'web'
 
@@ -41,6 +44,8 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
   const redirect = useRedirect()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const initializeFlow = useCallback(() => {
     if (userId) return
@@ -83,7 +88,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           throw err
         }
 
-        logDebug('CreateAccount', 'registration was successful')
+        logger.debug('CreateAccount', 'registration was successful')
 
         const verificationFlowData = getVerificationFlowFromRegistration(data)
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
@@ -143,26 +148,27 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
 export default memo(CreateAccount)
 
-const styles = StyleSheet.create({
-  inner: {
-    maxWidth: dimensions.breakpointL,
-    width: '100%',
-  },
-  description: {
-    color: colors.foreground20,
-    marginTop: 16,
-  },
-  loginForm: {
-    // reserves space for inputs plus submit until ory flow is done
-    marginTop: 32,
-    minHeight: 235,
-    width: '100%',
-  },
-  headline3: {
-    marginTop: 16,
-  },
-  loginHeadline: {
-    marginTop: 16,
-    textAlign: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    inner: {
+      maxWidth: dimensions.breakpointL,
+      width: '100%',
+    },
+    description: {
+      color: theme.colors.foreground20,
+      marginTop: 16,
+    },
+    loginForm: {
+      // reserves space for inputs plus submit until ory flow is done
+      marginTop: 32,
+      minHeight: 235,
+      width: '100%',
+    },
+    headline3: {
+      marginTop: 16,
+    },
+    loginHeadline: {
+      marginTop: 16,
+      textAlign: 'center',
+    },
+  })

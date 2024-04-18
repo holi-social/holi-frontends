@@ -1,21 +1,25 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
@@ -25,10 +29,14 @@ const { useParam } = createParamHooks<SpaceVideoCallListParams>()
 const SpaceVideoCallList = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const setScreenOptions = useSetScreenOptions()
+
+  const { loading, error, space } = useSpace(spaceIdOrName)
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -40,33 +48,43 @@ const SpaceVideoCallList = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.background10])
+
+  if (loading || error || !space) {
+    return <></>
+  }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
-      <HoliBox padding={[24, 0]}>
-        <View style={mixins.container}>
-          <HoliBox padding={[0, 0, 24, 0]}>
-            <HoliText>{t('spaces.videocall.text')}</HoliText>
-          </HoliBox>
-          <HoliBox padding={[0, 0, 16, 0]}>
-            <CollaboratorAreaCard
-              title={t('spaces.videocall.schedule.heading')}
-              headerLeftIcon={CalendarCheck}
-              headerRightIcon={ArrowRightS}
-              onPressHeaderLeft={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
-              onPressHeaderRight={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
-              headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
-            />
-          </HoliBox>
-          <HoliBox padding={[0, 0, 16, 0]}>
-            <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon={VideoChat}>
-              <VideoCallLinks spaceIdOrName={spaceIdOrName} />
-            </CollaboratorAreaCard>
-          </HoliBox>
-        </View>
-      </HoliBox>
-    </ScrollHeaderLayout.Default>
+    <PermissionsGuard
+      permissionType={PermissionsType.SPACES}
+      space={space}
+      spaceConnectionType={SpaceConnectionType.MEMBER}
+    >
+      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
+        <HoliBox padding={[24, 0]}>
+          <HoliContainer>
+            <HoliBox padding={[0, 0, 24, 0]}>
+              <HoliText>{t('spaces.videocall.text')}</HoliText>
+            </HoliBox>
+            <HoliBox padding={[0, 0, 16, 0]}>
+              <CollaboratorAreaCard
+                title={t('spaces.videocall.schedule.heading')}
+                headerLeftIcon={CalendarCheck}
+                headerRightIcon={ArrowRightS}
+                onPressHeaderLeft={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+                onPressHeaderRight={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+                headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
+              />
+            </HoliBox>
+            <HoliBox padding={[0, 0, 16, 0]}>
+              <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon={VideoChat}>
+                <VideoCallLinks spaceIdOrName={spaceIdOrName} />
+              </CollaboratorAreaCard>
+            </HoliBox>
+          </HoliContainer>
+        </HoliBox>
+      </ScrollHeaderLayout.Default>
+    </PermissionsGuard>
   )
 }
 
@@ -78,15 +96,16 @@ const WrappedSpaceVideoCallList = () => (
 
 export default WrappedSpaceVideoCallList
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    paddingBottom: 0,
-  },
-  defaultLayout: {
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
-    backgroundColor: colors.background20,
-    paddingTop: dimensions.topBarHeight,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      paddingBottom: 0,
+    },
+    defaultLayout: {
+      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
+      marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
+      paddingTop: dimensions.topBarHeight,
+    },
+  })

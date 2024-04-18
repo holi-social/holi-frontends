@@ -3,7 +3,7 @@ import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import crossFetch from 'cross-fetch'
-import { concat, mergeDeepRight, pick, pipe, uniqBy } from 'ramda'
+import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -80,6 +80,13 @@ export const createCache = () =>
           sdgs: alwaysReplacePolicy,
         },
       },
+      Comment: {
+        fields: {
+          interests: alwaysReplacePolicy,
+          skills: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
+        },
+      },
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
@@ -111,6 +118,9 @@ export const createCache = () =>
           lastInsights: pagedPolicy(),
           appDonations_projects: pagedPolicy(),
           appGoodNews_articles: {
+            keyArgs: [],
+          },
+          comments: {
             keyArgs: [],
           },
           appVolunteering_engagementOpportunities: pagedPolicy(
@@ -152,6 +162,7 @@ export const createCache = () =>
           spacesByName: pagedPolicy(),
           connectedUsers: pagedPolicy(),
           inspirationPosts: pagedPolicy(),
+          favorites: pagedPolicy(),
         },
       },
     },
@@ -194,7 +205,7 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
 
   if (initState) {
     const { __META, ...existingCache } = client.extract()
-    client.cache.restore({ __META, ...mergeDeepRight(existingCache, initState) })
+    client.cache.restore({ __META, ...mergeDeepLeft(existingCache, initState) })
   }
 
   // For SSG and SSR always create a new Apollo Client
@@ -207,7 +218,4 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
 }
 
 // Mobile
-// TODO: rename to recognize its only for client-side JS
-export const client = createApolloClient({ ssrMode: false })
-
-export default client
+export const initializeClientSideApolloClient = () => createApolloClient({ ssrMode: false })

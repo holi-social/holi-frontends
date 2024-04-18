@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
@@ -21,7 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpacePermissionsProps = {
@@ -38,7 +38,7 @@ type SpacePermissionsProps = {
   displayMemberActions?: boolean // set to false if no "Set as Admin" or "Remove from space" actions should be present
 }
 
-const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
+const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   space,
   user,
   handleNavigation,
@@ -53,6 +53,9 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
 }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const { displayError } = useErrorHandling()
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
   const [showRevokeAdminConfirmationModal, setshowRevokeAdminConfirmationModal] = useState(false)
@@ -359,47 +362,48 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    padding: 24,
-  },
-  modalContent: {
-    paddingHorizontal: 10,
-  },
-  avatar: {
-    marginBottom: 16,
-  },
-  details: {
-    marginTop: 6,
-    color: colors.foreground20,
-  },
-  description: {
-    marginTop: 12,
-  },
-  actions: {
-    marginTop: 8,
-    paddingTop: 24,
-    borderTopColor: colors.background30,
-    borderTopWidth: 1,
-  },
-  actionsItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  actionsItemText: {
-    color: colors.foreground30,
-    paddingLeft: 10,
-  },
-  actionsItemIcon: {
-    color: colors.foreground30,
-  },
-  acceptRequestIcon: {
-    color: colors.brandColorC30,
-  },
-  declineIcon: {
-    color: colors.error30,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      padding: 24,
+    },
+    modalContent: {
+      paddingHorizontal: 10,
+    },
+    avatar: {
+      marginBottom: 16,
+    },
+    details: {
+      marginTop: 6,
+      color: theme.colors.foreground20,
+    },
+    description: {
+      marginTop: 12,
+    },
+    actions: {
+      marginTop: 8,
+      paddingTop: 24,
+      borderTopColor: theme.colors.background30,
+      borderTopWidth: 1,
+    },
+    actionsItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 24,
+    },
+    actionsItemText: {
+      color: theme.colors.foreground30,
+      paddingLeft: 10,
+    },
+    actionsItemIcon: {
+      color: theme.colors.foreground30,
+    },
+    acceptRequestIcon: {
+      color: theme.colors.brandColorC30,
+    },
+    declineIcon: {
+      color: theme.colors.error30,
+    },
+  })
 
 export default SpacePermissions

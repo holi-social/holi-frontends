@@ -11,16 +11,18 @@ import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/sc
 import { Add, Check, Close } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceMoreActionsProps = {
   space: Space
 }
 
-const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
+const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccessibilityProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
@@ -6,7 +6,7 @@ import tinycolor from 'tinycolor2'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
@@ -24,7 +24,7 @@ interface BaseProps {
   testID?: string
   style?: StyleProp<ViewStyle>
   initialsFontWeight?: TextStyle['fontWeight']
-  initialsColor?: keyof typeof colors
+  initialsColor?: string
 }
 
 interface Props extends BaseProps {
@@ -52,7 +52,7 @@ export const sizes = {
 const HoliAvatar = ({
   size = 'medium',
   shape = 'circle',
-  defaultColor = colors.background20,
+  defaultColor,
   imageSrc,
   imageBlurhash,
   initials,
@@ -65,6 +65,8 @@ const HoliAvatar = ({
   ...props
 }: AvatarProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
   const width = sizes[size]
   const hasImage = !!imageSrc
 
@@ -84,7 +86,7 @@ const HoliAvatar = ({
         styles.wrapper,
         {
           borderRadius: shape === 'circle' ? width / 2 : width * 0.15,
-          backgroundColor: hasImage ? colors.background20 : defaultColor,
+          backgroundColor: hasImage ? colors.background20 : defaultColor || colors.background10,
           borderColor: ['large', 'extralarge'].includes(size) ? colors.foreground30 : undefined,
           borderWidth: ['large', 'extralarge'].includes(size) ? 2 : size === 'medium' ? 1 : 0,
           width,
@@ -111,10 +113,10 @@ const HoliAvatar = ({
             styles.inititals,
             {
               color: initialsColor
-                ? colors[initialsColor]
-                : tinycolor(defaultColor).isLight()
-                ? colors.foreground30
-                : colors.background10,
+                ? initialsColor
+                : tinycolor(defaultColor || colors.background10).isLight()
+                ? colors.dark
+                : colors.light,
               fontSize: initialsFontSize,
               fontWeight: initialsFontWeight,
               lineHeight: initialsFontSize * 1.2,
@@ -129,7 +131,7 @@ const HoliAvatar = ({
   )
 }
 
-export default React.memo(HoliAvatar)
+export default memo(HoliAvatar)
 
 const styles = StyleSheet.create({
   wrapper: {

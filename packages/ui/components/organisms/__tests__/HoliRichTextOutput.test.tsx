@@ -5,21 +5,24 @@ import { Link } from '@holi/core/screens/posts/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 
-const DUMMY_USERS = [
+const DUMMY_USERS: User[] = [
   {
     id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+    identity: 'uschi-meyer',
     fullName: 'Uschi Meyer',
     avatarLabel: '',
     avatarDefaultColor: '',
   },
   {
     id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb4',
+    identity: 'manni-müller',
     fullName: 'Manni Müller',
     avatarLabel: '',
     avatarDefaultColor: '',
   },
   {
     id: '5dbeb15e-3333-4292-96fc-9fbe2e6edbb4',
+    identity: 'shinead-o-conner',
     fullName: "Shinead O'Conner",
     avatarLabel: '',
     avatarDefaultColor: '',

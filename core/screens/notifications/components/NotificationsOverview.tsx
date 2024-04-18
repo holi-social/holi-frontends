@@ -26,11 +26,14 @@ import {
 } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const NotificationsOverview = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const {
     notifications: novuNotifications,
@@ -94,7 +97,7 @@ const NotificationsOverview = () => {
       )
     }
     return footer
-  }, [canFetchMore, fetchNextPage, refreshing])
+  }, [canFetchMore, fetchNextPage, refreshing, styles.bottomLoader, styles.footer])
 
   const allNotifications = useMemo(
     () => [...(data?.notifications?.data ?? []), ...novuNotifications],
@@ -131,31 +134,32 @@ const NotificationsOverview = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  loader: {
-    height: 300,
-  },
-  bottomLoader: {
-    position: 'relative',
-    marginBottom: dimensions.bottomBarHeight,
-  },
-  scrollView: {
-    ...Platform.select({
-      android: {
-        marginTop: dimensions.topBarHeight,
-      },
-      web: {
-        marginHorizontal: 'auto',
-      },
-    }),
-  },
-  footer: {
-    marginBottom: dimensions.bottomBarHeight,
-  },
-  webWrapperStyle: {
-    backgroundColor: colors.background30,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    loader: {
+      height: 300,
+    },
+    bottomLoader: {
+      position: 'relative',
+      marginBottom: dimensions.bottomBarHeight,
+    },
+    scrollView: {
+      ...Platform.select({
+        android: {
+          marginTop: dimensions.topBarHeight,
+        },
+        web: {
+          marginHorizontal: 'auto',
+        },
+      }),
+    },
+    footer: {
+      marginBottom: dimensions.bottomBarHeight,
+    },
+    webWrapperStyle: {
+      backgroundColor: theme.colors.background30,
+    },
+  })
 
 export default NotificationsOverview
 

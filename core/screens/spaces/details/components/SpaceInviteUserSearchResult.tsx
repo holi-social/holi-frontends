@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,7 +11,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInviteUserSearchResultProps = {
   spaceId: string
@@ -36,6 +36,8 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const navigateToUser = useCallback((user: User) => navigate(`/profile/${user.id}`), [navigate])
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading, data: users } = usePaginationContext<User>()
 
@@ -102,45 +104,46 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
   )
 }
 
-const styles = StyleSheet.create({
-  loader: {
-    marginVertical: 24,
-    position: 'relative',
-  },
-  list: {
-    paddingVertical: 20,
-  },
-  listItem: {
-    height: 64,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  listItemContentWrapper: {
-    flex: 1,
-  },
-  listItemContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  listItemTitle: {
-    lineHeight: 24,
-  },
-  listItemDescription: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  userStatus: {
-    color: colors.foreground20,
-  },
-  dot: {
-    color: colors.brandColorB30,
-  },
-  avatar: {
-    borderWidth: 1,
-  },
-  textContainer: {
-    paddingHorizontal: 16,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    loader: {
+      marginVertical: 24,
+      position: 'relative',
+    },
+    list: {
+      paddingVertical: 20,
+    },
+    listItem: {
+      height: 64,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    listItemContentWrapper: {
+      flex: 1,
+    },
+    listItemContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    listItemTitle: {
+      lineHeight: 24,
+    },
+    listItemDescription: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    userStatus: {
+      color: theme.colors.foreground20,
+    },
+    dot: {
+      color: theme.colors.brandColorB30,
+    },
+    avatar: {
+      borderWidth: 1,
+    },
+    textContainer: {
+      paddingHorizontal: 16,
+    },
+  })
 
 export default SpaceInviteUserSearchResult

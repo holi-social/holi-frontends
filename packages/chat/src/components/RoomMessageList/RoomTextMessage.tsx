@@ -1,11 +1,12 @@
 import { useAtomValue } from 'jotai'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgTextContent } from '@holi/chat/src/client/utils'
 import { loggedInMemberIdAtom } from '@holi/chat/src/store'
+import { getChatInitials, getChatMemberName, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { getTimeFormat } from '@holi/core/i18n/helpers/dateHelper'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -13,7 +14,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   message: ChatRoomMessage
@@ -36,6 +37,8 @@ const RoomTextMessage = ({
 }: Props) => {
   const { i18n, t } = useTranslation()
   const locale = getLocale(i18n.language)
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const myId = useAtomValue(loggedInMemberIdAtom)
   const isMyMessage = message.sender === myId
@@ -52,23 +55,14 @@ const RoomTextMessage = ({
       <View style={[styles.rowWrapper, { flexDirection: isMyMessage ? 'row-reverse' : 'row' }]}>
         {showAvatar ? (
           <HoliBox padding={isMyMessage ? [0, 0, 0, 8] : [0, 8, 0, 0]}>
-            {holiUser ? (
-              <HoliAvatar
-                imageSrc={member?.avatar}
-                imageBlurhash={holiUser?.avatarBlurhash}
-                label={holiUser?.fullName ?? ''}
-                initials={holiUser?.avatarLabel ?? ''}
-                defaultColor={holiUser?.avatarDefaultColor ?? ''}
-                size="micro"
-              />
-            ) : (
-              <HoliAvatar
-                label={t('chat.user.deleted')}
-                initials=":/"
-                defaultColor={colors.brandColorD20}
-                size="micro"
-              />
-            )}
+            <HoliAvatar
+              imageSrc={member?.avatar}
+              imageBlurhash={holiUser?.avatarBlurhash}
+              label={getChatMemberName(t, member?.name)}
+              initials={getChatInitials(member?.name)}
+              defaultColor={getDefaultAvatarColor(member?.name)}
+              size="micro"
+            />
           </HoliBox>
         ) : (
           <HoliBox padding={[0, 16]} />
@@ -78,7 +72,7 @@ const RoomTextMessage = ({
           <HoliBox padding={[4, 8, 8, 8]}>
             {!isMyMessage && !isPrevMessageFromSameUser && (
               <HoliBox padding={[0, 0, 4, 0]}>
-                <HoliText bold>{holiUser?.fullName}</HoliText>
+                <HoliText bold>{getChatMemberName(t, member?.name)}</HoliText>
               </HoliBox>
             )}
 
@@ -102,20 +96,21 @@ const RoomTextMessage = ({
 
 export default RoomTextMessage
 
-const styles = StyleSheet.create({
-  wrapper: {
-    borderColor: colors.background30,
-    borderWidth: 1,
-    borderRadius: 12,
-    backgroundColor: colors.white100,
-    flexShrink: 1,
-  },
-  rowWrapper: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-start',
-  },
-  date: {
-    alignItems: 'flex-end',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      borderColor: theme.colors.background30,
+      borderWidth: 1,
+      borderRadius: 12,
+      backgroundColor: theme.colors.white100,
+      flexShrink: 1,
+    },
+    rowWrapper: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-start',
+    },
+    date: {
+      alignItems: 'flex-end',
+    },
+  })

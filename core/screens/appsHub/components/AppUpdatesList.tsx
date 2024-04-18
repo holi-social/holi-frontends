@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FlatList, GestureResponderEvent, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
@@ -9,7 +9,8 @@ import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type AppUpdatesListProps = {
   appName: string
@@ -27,7 +28,7 @@ type AppUpdatesListProps = {
   testID?: string
 }
 
-const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
+const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
   appName,
   renderItem,
   data,
@@ -41,6 +42,9 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   testID,
 }: AppUpdatesListProps) => {
   const { navigate } = useRouting()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
 
   const handleHeaderTitlePress = () => {
     const navigationPath = HOLI_APPS_NAVIGATION_PATHS[appName].path
@@ -52,7 +56,7 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
       <HoliButton inline label={heading} style={styles.headerContainer} transparent onPress={handleHeaderTitlePress}>
         <View style={styles.header} testID={`${appName}-updates-heading`}>
           <View style={styles.iconContainer}>
-            <HoliIcon icon={appIcon} size={20} color={colors.foreground20} />
+            <HoliIcon icon={appIcon} size={20} color={colors.black300} />
           </View>
           <View style={{ gap: 4 }}>
             <HoliHeading>{heading}</HoliHeading>
@@ -82,34 +86,36 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
 }
 export default AppUpdatesList
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    gap: 12,
-  },
-  headerContainer: {
-    alignSelf: 'flex-start',
-    paddingBottom: 24,
-  },
-  iconContainer: {
-    padding: 13,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    backgroundColor: colors.background20,
-  },
-  itemsContainer: {
-    paddingBottom: 12,
-    marginHorizontal: -20,
-    paddingLeft: 24,
-  },
-  seeMoreButton: {
-    marginRight: 11,
-  },
-  listHeader: {
-    paddingTop: dimensions.topBarHeight + 24,
-    paddingBottom: 32,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      alignSelf: 'flex-start',
+      gap: 12,
+    },
+    headerContainer: {
+      alignSelf: 'flex-start',
+      paddingBottom: 24,
+    },
+    iconContainer: {
+      padding: 13,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      backgroundColor: theme.colors.background10,
+    },
+    itemsContainer: {
+      paddingBottom: 12,
+      marginHorizontal: -20,
+      paddingLeft: 24,
+      flex: 1,
+    },
+    seeMoreButton: {
+      marginRight: 11,
+    },
+    listHeader: {
+      paddingTop: dimensions.topBarHeight + 24,
+      paddingBottom: 32,
+    },
+  })

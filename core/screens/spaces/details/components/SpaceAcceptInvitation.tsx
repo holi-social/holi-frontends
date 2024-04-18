@@ -15,7 +15,7 @@ export type SpaceAcceptInvitationProps = {
   space: Space
 }
 
-const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space }) => {
+const SpaceAcceptInvitation: React.FC<SpaceAcceptInvitationProps> = ({ space }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
@@ -52,18 +52,14 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
       },
     })
 
-  return (
-    <>
-      {isInvited ? (
-        <HoliButtonLoading
-          inline
-          variant="small"
-          label={t('spaces.invite.btn.accept')}
-          onPress={approveConnectionRequest}
-        />
-      ) : null}
-    </>
-  )
+  return isInvited ? (
+    <HoliButtonLoading
+      inline
+      variant="small"
+      label={t('spaces.invite.btn.accept')}
+      onPress={approveConnectionRequest}
+    />
+  ) : null
 }
 
 export default SpaceAcceptInvitation

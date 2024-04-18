@@ -1,9 +1,9 @@
+import { useApolloClient } from '@apollo/client'
 import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import client from '@holi/api/graphql/client'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -39,6 +39,7 @@ const Login = () => {
   const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
+  const client = useApolloClient()
 
   const isWeb = Platform.OS === 'web'
 
@@ -113,7 +114,7 @@ const Login = () => {
   }
 
   return (
-    <DefaultLayout headerOverlap={true} keyboardShouldPersistTaps="always">
+    <DefaultLayout headerOverlap={Platform.OS === 'web'} keyboardShouldPersistTaps="always">
       <HoliBox padding={[0, 24]}>
         <LoginRegistrationContainer>
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
@@ -131,7 +132,9 @@ const Login = () => {
           </View>
 
           <HoliGap size="l" />
-          <HoliHeading level="2">{t('auth.login.signUp.link.headline')}</HoliHeading>
+          <HoliHeading level="2" align="center">
+            {t('auth.login.signUp.link.headline')}
+          </HoliHeading>
 
           <RegistrationButton style={styles.formItemContainer} />
         </LoginRegistrationContainer>

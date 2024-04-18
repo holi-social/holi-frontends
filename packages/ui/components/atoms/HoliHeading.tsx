@@ -5,8 +5,7 @@ import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
 import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
-import { colors } from '@holi/ui/styles/globalVars'
-import defaultTheme from '@holi/ui/styles/theme/theme'
+import defaultTheme, { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HoliHeadingLevel = '1' | '2' | '3'
 export type HoliHeadingSize = 'xl' | 'l' | 'm' | 's'
@@ -42,6 +41,9 @@ export const HoliHeading = ({
   loading = false,
   skeletonOptions,
 }: React.PropsWithChildren<HoliHeadingProps>) => {
+  const { theme } = useTheme()
+  const styles = React.useMemo(() => getStyles(theme), [theme])
+
   if (loading) {
     return (
       <HoliSkeleton {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, styles[size].lineHeight, '40%')} />
@@ -80,29 +82,30 @@ export const HoliHeading = ({
   )
 }
 
-const styles = StyleSheet.create({
-  base: {
-    fontWeight: '500',
-    fontFamily: defaultTheme.fontFamily.default('Medium'),
-    color: colors.black300,
-  },
-  xl: {
-    fontSize: 36,
-    lineHeight: 36 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-  },
-  l: {
-    fontSize: 28,
-    lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-  },
-  m: {
-    fontSize: 21,
-    lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-  },
-  s: {
-    fontSize: 16,
-    lineHeight: 16 * 1.4,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    base: {
+      fontWeight: '500',
+      fontFamily: defaultTheme.fontFamily.default('Medium'),
+      color: theme.colors.black300,
+    },
+    xl: {
+      fontSize: 36,
+      lineHeight: 36 * (Platform.OS === 'ios' ? 1.4 : 1.2),
+    },
+    l: {
+      fontSize: 28,
+      lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
+    },
+    m: {
+      fontSize: 21,
+      lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
+    },
+    s: {
+      fontSize: 16,
+      lineHeight: 16 * 1.4,
+    },
+  })
 
 const italicStyles = StyleSheet.create({
   italic: {

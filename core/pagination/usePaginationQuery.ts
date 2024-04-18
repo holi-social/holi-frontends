@@ -1,11 +1,4 @@
-import {
-  ApolloQueryResult,
-  DocumentNode,
-  QueryHookOptions,
-  QueryResult,
-  TypedDocumentNode,
-  useQuery,
-} from '@apollo/client'
+import { DocumentNode, QueryHookOptions, TypedDocumentNode, useQuery } from '@apollo/client'
 import at from 'lodash.at'
 import { useCallback, useState } from 'react'
 
@@ -21,20 +14,10 @@ export interface PaginationQueryHookOptions extends QueryHookOptions {
   queryPath: string
 }
 
-interface PaginationQueryResult<TData, TFetchData> extends Partial<QueryResult<TData>> {
-  data: TData
-  isFetchingMore: boolean
-  totalResults: number
-  canFetchMore: boolean
-  fetchNextPage: () => Promise<TFetchData | void>
-}
-
-export type UsePaginationQueryResult<T> = PaginationQueryResult<T[], ApolloQueryResult<PagedResponse<T, string>>>
-
 function usePaginationQuery<TData>(
   query: DocumentNode | TypedDocumentNode<PagedResponse<TData, string>>,
   options: PaginationQueryHookOptions
-): UsePaginationQueryResult<TData> {
+) {
   const { pageSize, queryPath, variables, ...remainingOptions } = options
   const [isFetchingMore, setIsFetchingMore] = useState(false)
 
@@ -58,11 +41,12 @@ function usePaginationQuery<TData>(
     },
   })
 
-  const { data = [], totalResults = 0 } = at<Paged<TData>>(pagedData, queryPath)[0] || {}
+  const { data = [], totalResults = 0 } = at<Paged<TData>>(pagedData, queryPath)[0] ?? {}
 
-  const canFetchMore = !loading && data.length < totalResults
+  const initialLoading = loading && !pagedData
+  const canFetchMore = !initialLoading && data.length < totalResults
 
-  const memoizedFetchMore = useCallback(async () => {
+  const fetchNextPage = useCallback(async () => {
     if (isFetchingMore) {
       return
     }
@@ -79,14 +63,16 @@ function usePaginationQuery<TData>(
   }, [isFetchingMore, fetchMore, data.length])
 
   return {
-    loading: loading && !pagedData,
+    loading: initialLoading,
     data,
     error,
     totalResults,
     isFetchingMore,
     canFetchMore,
-    fetchNextPage: memoizedFetchMore,
+    fetchNextPage,
   }
 }
+
+export type UsePaginationQueryResult<T> = ReturnType<typeof usePaginationQuery<T>>
 
 export default usePaginationQuery

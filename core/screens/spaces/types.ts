@@ -87,7 +87,7 @@ export interface Space {
   contactDescription?: string
   contactEmail?: string
   contactPhone?: string
-  cover: string
+  cover?: string
   coverBlurhash?: string
   location?: string
   geolocation?: GeolocationPoint

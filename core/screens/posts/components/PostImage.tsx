@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -8,7 +8,8 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -50,8 +51,11 @@ const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   },
 ]
 
-const PostImage: React.VFC<PostImageProps> = ({ loading, uri, imageBlurhash, width, height, postTitle }) => {
+const PostImage: React.FC<PostImageProps> = ({ loading, uri, imageBlurhash, width, height, postTitle }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const [showFullscreenImage, setShowFullscreenImage] = useState(false)
   const imageSrcSet = POST_IMAGE_SIZES.map((transformSize) =>
     getTransformedImageUri({
@@ -105,22 +109,23 @@ const PostImage: React.VFC<PostImageProps> = ({ loading, uri, imageBlurhash, wid
   )
 }
 
-const styles = StyleSheet.create({
-  postImage: {
-    aspectRatio: 343 / 236,
-    backgroundColor: colors.background30,
-    marginTop: 26,
-    width: '100%',
-  },
-  webModalImageContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  webModalImage: {
-    maxWidth: '100%',
-    maxHeight: '100%',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    postImage: {
+      aspectRatio: 343 / 236,
+      backgroundColor: theme.colors.background30,
+      marginTop: 26,
+      width: '100%',
+    },
+    webModalImageContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    webModalImage: {
+      maxWidth: '100%',
+      maxHeight: '100%',
+    },
+  })
 
 export default PostImage

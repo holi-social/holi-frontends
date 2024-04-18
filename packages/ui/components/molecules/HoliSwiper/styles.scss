@@ -1,0 +1,8 @@
+.holi-swiper {
+    --swiper-navigation-color: --foreground30;
+}
+
+.swiper-button-prev.swiper-button-disabled, .swiper-button-next.swiper-button-disabled  {
+    color: var(--foreground20);
+    opacity: 0.2;
+}

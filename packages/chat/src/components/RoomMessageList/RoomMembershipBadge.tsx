@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent } from '@holi/chat/src/client/utils'
+import { getChatInitials, getChatMemberName, getDefaultAvatarColor } from '@holi/chat/src/utils'
+import { chatAdminUserId } from '@holi/core/helpers/config'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface RoomMembershipBadgeProps {
   message: ChatRoomMessage
@@ -19,9 +21,14 @@ interface RoomMembershipBadgeProps {
 
 const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBadgeProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
   const content = message.content
-  // if Holi user wasn't found do not render the badge
-  if (!user || !isMsgMemberContent(content)) return null
+
+  if (!isMsgMemberContent(content)) return null
+  if (member?.id == chatAdminUserId) return null
+  const name = getChatMemberName(t, member?.name)
 
   return (
     <HoliBox padding={[8, 16]}>
@@ -42,9 +49,9 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
                 <HoliAvatar
                   imageSrc={member?.avatar}
                   imageBlurhash={user?.avatarBlurhash}
-                  label={user?.fullName ?? ''}
-                  initials={user?.avatarLabel ?? ''}
-                  defaultColor={user?.avatarDefaultColor ?? ''}
+                  label={name}
+                  initials={getChatInitials(member?.name)}
+                  defaultColor={getDefaultAvatarColor(member?.name)}
                   size="micro"
                 />
               </HoliBox>
@@ -56,7 +63,7 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
                     i18nKey={
                       content.membership === 'join' ? 'chat.message.membership.join' : 'chat.message.membership.leave'
                     }
-                    values={{ user: user?.fullName }}
+                    values={{ user: name }}
                   >
                     <HoliText size="small" italic />
                   </Trans>
@@ -72,23 +79,24 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
 
 export default RoomMembershipBadge
 
-const styles = StyleSheet.create({
-  wrapper: {
-    borderColor: colors.foreground30,
-    borderWidth: 1,
-    borderRadius: 12,
-    flexShrink: 1,
-  },
-  rowWrapper: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  date: {
-    alignItems: 'flex-end',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      borderColor: theme.colors.foreground30,
+      borderWidth: 1,
+      borderRadius: 12,
+      flexShrink: 1,
+    },
+    rowWrapper: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+    },
+    content: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    date: {
+      alignItems: 'flex-end',
+    },
+  })

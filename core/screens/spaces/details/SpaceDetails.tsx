@@ -3,11 +3,11 @@ import { useAtomValue } from 'jotai'
 import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
@@ -31,12 +31,14 @@ import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnbo
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -52,10 +54,10 @@ const SpaceDetails = () => {
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const { theme } = useTheme()
+  const { colors } = theme
 
-  const { loading, error, space, refetch, called } = useSpace(spaceIdOrName, {
-    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
-  })
+  const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const isWeb = Platform.OS === 'web'
@@ -95,13 +97,12 @@ const SpaceDetails = () => {
   }, [space, show, isOnboarded, userId, isCreator, isMember])
 
   const determineInitialTab = useCallback(() => {
-    if (!space) {
+    if (loading || isSSR) {
       return undefined
     }
-    const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-    const { collaborationTools = [] } = space
-    const hasInvolvementContent = space?.tasks?.length !== 0 || collaborationTools?.length !== 0
 
+    const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+    const hasInvolvementContent = space?.tasks?.length !== 0 || space?.collaborationTools?.length !== 0
     if (!isMember) {
       return SpaceDetailsTabs.INFO
     }
@@ -109,7 +110,7 @@ const SpaceDetails = () => {
       return SpaceDetailsTabs.INVOLVEMENT
     }
     return SpaceDetailsTabs.UPDATES
-  }, [space])
+  }, [loading, space?.collaborationTools?.length, space?.connectionStatusToMyself, space?.tasks?.length])
 
   const { initialTabIndex, currentTabName, selectTabWithIndex } = useTabNavigation({
     tabNamesInOrder: SPACE_DETAILS_TABS_IN_ORDER,
@@ -260,14 +261,28 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [id, isAdmin, isMember, isWeb, navigate, renderActionDrawer, setScreenOptions, space, spaceRoom, spaceIdOrName, t])
+  }, [
+    id,
+    isAdmin,
+    isMember,
+    isWeb,
+    navigate,
+    renderActionDrawer,
+    setScreenOptions,
+    space,
+    spaceRoom,
+    spaceIdOrName,
+    t,
+    colors.background10,
+    colors.foreground30,
+  ])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space) {
+  if (error || !space) {
     return <HoliLoader />
   }
 

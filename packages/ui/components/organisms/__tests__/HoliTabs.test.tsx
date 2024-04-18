@@ -1,17 +1,17 @@
-import { fireEvent } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import { Animated, ScrollView, View } from 'react-native'
-import renderer from 'react-test-renderer'
+import { View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 
 const TABS_ID = 'test-tabs'
+
 interface TestTabContent extends React.PropsWithChildren {
   index: number
 }
+
 const TestTabContent: React.FC<TestTabContent> = ({ index, children }) => {
   const { currentStep } = useStepper()
   return <View testID={`${TABS_ID}-panel-${index}-${currentStep === index ? 'active' : 'inactive'}`}>{children}</View>
@@ -44,62 +44,46 @@ const tabs = [
   },
 ]
 
-beforeEach(() => {
-  jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
-    const time = Date.now()
-    cb(time)
-
-    return time
-  })
-})
-
-afterEach(() => {
-  // @ts-ignore
-  window.requestAnimationFrame.mockRestore()
-  jest.clearAllTimers()
-})
-
 describe('HoliTabs', () => {
   describe('renders correctly', () => {
-    beforeEach(() => {
-      // Animated.ScrollView can not be serialized for snapshot tests, using
-      // "normal" ScrollView instead
-      // @ts-ignore
-      jest.spyOn(Animated, 'ScrollView', 'get').mockImplementation(() => ScrollView)
-    })
-
     it('renders correctly when open', () => {
-      const tree = renderer.create(<HoliTabs tabs={tabs} id={TABS_ID} />).toJSON()
-      expect(tree).toMatchSnapshot()
+      render(<HoliTabs tabs={tabs} id={TABS_ID} />)
+
+      expect(screen.getByTestId('profileTab')).toBeVisible()
+      expect(screen.getByText('Profile')).toBeVisible()
+
+      expect(screen.getByTestId('InsightsTab')).toBeVisible()
+      expect(screen.getByText('Insights')).toBeVisible()
+
+      expect(screen.getByTestId('SpacesTab')).toBeVisible()
+      expect(screen.getByText('Spaces')).toBeVisible()
     })
   })
 
   describe('displays the tab buttons correctly', () => {
     it('displays all tab buttons', () => {
-      const testRenderer = renderer.create(<HoliTabs tabs={tabs} id={TABS_ID} />)
-      const holiTabsInstance = testRenderer.root
-      const buttonInstances = holiTabsInstance.findAllByType(HoliTabButton)
-
-      expect(buttonInstances.length).toBe(tabs.length)
+      render(<HoliTabs tabs={tabs} id={TABS_ID} />)
+      expect(screen.getAllByTestId('tab-button-tab')).toHaveLength(tabs.length)
     })
 
     it('initializes with the first tab button active', () => {
-      const testRenderer = renderer.create(<HoliTabs tabs={tabs} id={TABS_ID} testID={TABS_ID} />)
-      const holiTabsInstance = testRenderer.root
+      render(<HoliTabs tabs={tabs} id={TABS_ID} testID={TABS_ID} />)
 
-      expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-0-active' })).toBeDefined()
-      expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-inactive' })).toBeDefined()
-      expect(holiTabsInstance.findByProps({ testID: 'test-tabs-panel-0-active' })).toBeDefined()
+      expect(screen.getByTestId('test-tabs-button-0-active')).toBeVisible()
+      expect(screen.getByTestId('test-tabs-button-1-inactive')).toBeVisible()
+      expect(screen.getByTestId('test-tabs-panel-0-active')).toBeVisible()
     })
 
-    it('activates the correct tab button upon click', async () => {
-      const testRenderer = renderer.create(<HoliTabs tabs={tabs} id={TABS_ID} testID={TABS_ID} />)
-      const holiTabsInstance = testRenderer.root
+    it('activates the correct tab button upon click', () => {
+      render(<HoliTabs tabs={tabs} id={TABS_ID} testID={TABS_ID} />)
 
-      await fireEvent.press(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-inactive' }))
+      expect(screen.getByTestId('test-tabs-button-0-active')).toBeVisible()
+      expect(screen.getByTestId('test-tabs-button-1-inactive')).toBeVisible()
 
-      expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-0-inactive' })).toBeDefined()
-      expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-active' })).toBeDefined()
+      fireEvent.press(screen.getByTestId('test-tabs-button-1-inactive'))
+
+      expect(screen.getByTestId('test-tabs-button-0-inactive')).toBeVisible()
+      expect(screen.getByTestId('test-tabs-button-1-active')).toBeVisible()
     })
   })
 })

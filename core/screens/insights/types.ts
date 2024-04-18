@@ -21,13 +21,12 @@ export interface Quote {
   text: string
   author: string
   authorProfession: string
-
   link: string
   linkPreview: Link
-
   category: ExternalContentCategory
-
   comment: string
+  reactions: ReactionCounts
+  myReaction: ReactionCounts
 }
 
 export interface Insight {
@@ -43,14 +42,40 @@ export interface Insight {
   numberOfPosts: number
   involvedUsers: Paged<User>
   quotes: Quote[]
-  isBookmarked?: boolean
+  isFavorite?: boolean
   recommendations?: Recommendation[]
+  initiatives?: Initiative[]
+  discussions?: Discussion[]
+}
+
+export interface InsightWithQuote extends Insight {
+  quote: Quote
 }
 
 export interface Recommendation {
   id: string
-  category: string
+  category: ExternalContentCategory
   link: string
   linkPreview: Link
   comment: string
+  reactions: ReactionCounts
+  myReaction: ReactionCounts
+}
+
+export interface ReactionCounts {
+  HEART: number
+}
+
+export interface Initiative {
+  id: string
+  category: ExternalContentCategory
+  link: string
+  linkPreview: Link
+  reactions: ReactionCounts
+  myReaction: ReactionCounts
+}
+
+export interface Discussion {
+  id: string
+  question: string
 }

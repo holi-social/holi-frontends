@@ -1,19 +1,12 @@
 import * as React from 'react'
-import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 
 const SvgHeartsFilled = (props) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
-    <G clipPath="url(#hearts-filled_svg__a)">
-      <Path
-        fill="currentColor"
-        d="M17.363 11.045a3.615 3.615 0 0 1 5.084 0 3.55 3.55 0 0 1 0 5.047L17 21.5l-5.447-5.408a3.55 3.55 0 0 1 0-5.047 3.615 3.615 0 0 1 5.084 0l.363.36.363-.36Zm1.88-6.288a5.995 5.995 0 0 1 1.69 3.338A5.613 5.613 0 0 0 17 8.808a5.617 5.617 0 0 0-6.856.818 5.55 5.55 0 0 0-.178 7.701l.178.185 2.421 2.404L11 21.485l-8.48-8.492A6 6 0 0 1 11 4.529a5.998 5.998 0 0 1 8.243.228Z"
-      />
-    </G>
-    <Defs>
-      <ClipPath id="hearts-filled_svg__a">
-        <Path fill="#fff" d="M0 0h24v24H0z" />
-      </ClipPath>
-    </Defs>
+  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 20 17" {...props}>
+    <Path
+      fill="currentColor"
+      d="M14.47 7.454a3.012 3.012 0 0 1 4.236 0 2.959 2.959 0 0 1 0 4.206l-4.54 4.507-4.539-4.507a2.959 2.959 0 0 1 0-4.206 3.012 3.012 0 0 1 4.237 0l.303.3.302-.3Zm1.566-5.24a4.996 4.996 0 0 1 1.407 2.782 4.678 4.678 0 0 0-3.276.594 4.68 4.68 0 0 0-5.714.682 4.625 4.625 0 0 0-.148 6.417l.148.154 2.018 2.004-1.304 1.307L2.1 9.077a5 5 0 0 1 7.067-7.053 4.998 4.998 0 0 1 6.869.19Z"
+    />
   </Svg>
 )
 export default SvgHeartsFilled

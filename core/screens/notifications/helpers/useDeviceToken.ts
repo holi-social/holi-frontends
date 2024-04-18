@@ -1,8 +1,10 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 
 import { logError } from '@holi/core/errors/helpers'
-import { logDebug } from '@holi/core/helpers/logging'
+import { getLogger } from '@holi/core/helpers/logging'
 import { getDeviceToken, registerDeviceTokenListener } from '@holi/core/screens/notifications/helpers/getDeviceToken'
+
+const logger = getLogger('Notifications')
 
 const deviceTokenVar = makeVar<string | undefined>(undefined)
 const deviceTokenInitializedVar = makeVar(false)
@@ -14,7 +16,7 @@ export const initDeviceToken = () =>
   // Forward to platform specific implementation
   getDeviceToken()
     .then((token) => {
-      logDebug('initDeviceToken', 'got device token', token)
+      logger.debug('initDeviceToken', 'got device token', token)
       if (token) {
         deviceTokenVar(token)
       }
@@ -24,7 +26,7 @@ export const initDeviceToken = () =>
 
 export const subscribeToDeviceTokenChanges = () =>
   registerDeviceTokenListener((token) => {
-    logDebug('subscribeToDeviceTokenChanges', 'got device token', token)
+    logger.debug('subscribeToDeviceTokenChanges', 'got device token', token)
     deviceTokenVar(token)
   })
 

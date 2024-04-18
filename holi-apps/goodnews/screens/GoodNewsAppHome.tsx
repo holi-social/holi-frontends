@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
 import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
@@ -16,20 +17,22 @@ import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
 const GoodNewsAppHome = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
+  const { theme } = useTheme()
+  const { colors } = theme
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
-      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerTitle: () => <GoodNewsHeader />,
+      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
-      headerTintColor: colors.background10,
+      headerTintColor: colors.light,
       navigationCustomOptions: {
         headerBackgroundGradient: true,
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, colors.light])
 
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.APPS_GOODNEWS} featureNameKey="goodnews:maintenance.feature">

@@ -36,8 +36,8 @@ export const discoverSpacesQuery = gql`
 `
 
 export type DiscoverSpacesVariables = {
-  topicIds: string[]
-  skillIds: string[]
+  topicIds?: string[]
+  skillIds?: string[]
   geolocation?: GeolocationGeoJSON
   offset: number
   limit: number

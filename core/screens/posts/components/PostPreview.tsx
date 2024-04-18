@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -28,7 +28,7 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -59,6 +59,10 @@ const PostPreview = ({
   loading,
 }: PostPreviewProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
@@ -83,10 +87,16 @@ const PostPreview = ({
 
   const isCurrentUserPostCreator = post?.creator.id === loggedInUser?.id
 
+  const [hasMounted, setHasMounted] = useState(false)
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
       openLoginModal({
-        description: t('insights.posts.comments.loginRedirect.text'),
+        description: t('comments.loginRedirect.text'),
       })
       // return false prevents link execution
       return false
@@ -227,32 +237,29 @@ const PostPreview = ({
       {/* Inspiration posts media header */}
       <InspirationPostMediaHeader post={post} />
 
-      {/* Post title */}
-      {!!post?.title && (
-        <View style={styles.postTitleLink}>
-          <HoliLink
-            href={getPostUrl(post?.id, insightId, spaceIdOrName)}
-            label={post?.title || ''}
-            testID="btn-to-post"
-          >
+      <HoliLink href={getPostUrl(post?.id, insightId, spaceIdOrName)} label={post?.title || ''} testID="btn-to-post">
+        {/* Post title */}
+        {!!post?.title && (
+          <View style={styles.postTitleLink}>
             <HoliHeading level="3" size="s">
               {post?.title}
             </HoliHeading>
-          </HoliLink>
-        </View>
-      )}
-
-      {/* Post content */}
-      <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
-        <HoliRichTextOutput
-          text={post?.text || ''}
-          users={post?.mentions || []}
-          links={post?.links || []}
-          allowAllLinks
-          size="default"
-          color="gray300"
-        />
-      </HoliReadMore>
+          </View>
+        )}
+        {/* Post content */}
+        {hasMounted && (
+          <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
+            <HoliRichTextOutput
+              text={post?.text || ''}
+              users={post?.mentions || []}
+              links={post?.links || []}
+              allowAllLinks
+              size="default"
+              color="gray300"
+            />
+          </HoliReadMore>
+        )}
+      </HoliLink>
 
       {/* Post image */}
       {post?.image && (
@@ -281,7 +288,7 @@ const PostPreview = ({
           <View style={styles.reactionsLink}>
             <HoliLink
               href={`${getPostUrl(post?.id, insightId, spaceIdOrName)}?commentId=first`}
-              label={t('insights.posts.comments.link')}
+              label={t('comments.link')}
             >
               <HoliUserAvatarPile users={commenters || []} usersToShow={3} collapse>
                 {t('insights.post.response', { count: post?.numberOfComments })}
@@ -290,11 +297,7 @@ const PostPreview = ({
           </View>
         ) : (
           <View style={styles.noCommentsYetMessage}>
-            <HoliLink
-              href={commentUrl}
-              label={t('insights.posts.comments.create_comment_button')}
-              onPress={onPressCommentLink}
-            >
+            <HoliLink href={commentUrl} label={t('comments.create_comment_button')} onPress={onPressCommentLink}>
               <HoliText size="small" style={{ color: colors.foreground20 }}>
                 {t('insights.post.no-comment-yet')}
               </HoliText>
@@ -309,41 +312,42 @@ const PostPreview = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    borderRadius: 12,
-    backgroundColor: colors.background10,
-  },
-  postTitleLink: {
-    marginBottom: 4,
-  },
-  imageContainer: {
-    width: '100%',
-  },
-  linkPreview: {
-    paddingTop: 16,
-    maxWidth: 420,
-    width: '100%',
-    alignSelf: 'center',
-  },
-  reactionsBar: {
-    paddingTop: 21,
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  reactionsLink: {
-    height: 'auto',
-    display: 'flex',
-  },
-  noCommentsYetMessage: {
-    paddingRight: 24,
-    flex: 1,
-    marginTop: Platform.OS === 'web' ? 0 : 4,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      borderRadius: 12,
+      backgroundColor: theme.colors.background10,
+    },
+    postTitleLink: {
+      marginVertical: 4,
+    },
+    imageContainer: {
+      width: '100%',
+    },
+    linkPreview: {
+      paddingTop: 16,
+      maxWidth: 420,
+      width: '100%',
+      alignSelf: 'center',
+    },
+    reactionsBar: {
+      paddingTop: 21,
+      alignItems: 'flex-start',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    reactionsLink: {
+      height: 'auto',
+      display: 'flex',
+    },
+    noCommentsYetMessage: {
+      paddingRight: 24,
+      flex: 1,
+      marginTop: Platform.OS === 'web' ? 0 : 4,
+    },
+  })
 
 export default PostPreview

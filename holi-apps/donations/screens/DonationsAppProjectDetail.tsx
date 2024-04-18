@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
@@ -23,7 +23,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
@@ -43,7 +44,9 @@ const DonationsAppProjectDetail = () => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const statusBarHeight = Constants.statusBarHeight
-  const styles = getStyles(statusBarHeight)
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(statusBarHeight, theme), [statusBarHeight, theme])
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
@@ -92,7 +95,7 @@ const DonationsAppProjectDetail = () => {
         <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
           <View style={styles.header}>
-            <HoliHeading level="1" size="l">
+            <HoliHeading level="1" size="l" testID="donations-project-title">
               {project.title}
             </HoliHeading>
             <View style={styles.location}>
@@ -107,8 +110,9 @@ const DonationsAppProjectDetail = () => {
             openAmountInCents={project.openAmountInCents}
             size="large"
             style={styles.card}
+            testID="donations-project-progress"
           />
-          <View style={[styles.card, { paddingVertical: 24 }]}>
+          <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
             <DonationInitiativeButton initiative={project.initiative} />
             <HoliText size={'large'} style={{ marginVertical: 24 }}>
               &ldquo;{project.summary}&rdquo;
@@ -145,7 +149,7 @@ const WrappedDonationsAppProjectDetail = () => (
 
 export default withProfiler(memo(WrappedDonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
 
-const getStyles = (statusBarHeight: number) =>
+const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     messageContainer: {
       alignItems: 'center',
@@ -190,7 +194,7 @@ const getStyles = (statusBarHeight: number) =>
       paddingBottom: 24,
       borderBottomLeftRadius: 32,
       borderBottomRightRadius: 32,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
     },
     location: {
       flexDirection: 'row',
@@ -200,7 +204,7 @@ const getStyles = (statusBarHeight: number) =>
     card: {
       paddingHorizontal: 24,
       borderRadius: 32,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       marginTop: 2,
       paddingVertical: 16,
     },

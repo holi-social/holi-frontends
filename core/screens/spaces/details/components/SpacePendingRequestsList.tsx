@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -10,7 +10,7 @@ import { Space, SpaceMember, SpaceMembershipRequest } from '@holi/core/screens/s
 import { Paged } from '@holi/core/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpacePendingRequestsProps = {
@@ -26,6 +26,8 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({
   spaceMembers,
 }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   // local state created in order to keep the items in the list even after accepting/declining requests
   // (if we use the data from the context directly, a refetch will clear the accepted/declined users from the list)
@@ -81,25 +83,26 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  emptyContainer: {
-    padding: 24,
-    marginTop: 8,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.background10,
-  },
-  emptyTitle: {
-    marginTop: 24,
-    textAlign: 'center',
-  },
-  emptyDescription: {
-    marginTop: 8,
-    textAlign: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    emptyContainer: {
+      padding: 24,
+      marginTop: 8,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background10,
+    },
+    emptyTitle: {
+      marginTop: 24,
+      textAlign: 'center',
+    },
+    emptyDescription: {
+      marginTop: 8,
+      textAlign: 'center',
+    },
+  })
 
 export default SpacePendingRequestsList

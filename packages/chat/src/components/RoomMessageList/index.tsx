@@ -1,5 +1,5 @@
 import { FlashList } from '@shopify/flash-list'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
@@ -9,7 +9,8 @@ import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMe
 import { MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import RoomMessage from './RoomMessage'
 import { RoomMessageListProps } from './types'
@@ -45,10 +46,11 @@ const RoomMessageList = ({
   matrixIdToHoliUserRecord,
   starter,
   onScroll,
-  roomType,
   roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const groupedMessages = groupByDate(messages, i18n.language)
 
@@ -70,7 +72,6 @@ const RoomMessageList = ({
         return (
           <RoomMessage
             roomId={roomId}
-            roomType={roomType}
             message={message}
             holiUser={matrixIdToHoliUserRecord[message.sender ?? '']}
             showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
@@ -93,14 +94,15 @@ const RoomMessageList = ({
 
 export default RoomMessageList
 
-const styles = StyleSheet.create({
-  list: {
-    backgroundColor: colors.background20,
-  },
-  listFooterSpacer: {
-    paddingTop: dimensions.topBarHeight,
-  },
-  listHeaderSpacer: {
-    height: 20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    list: {
+      backgroundColor: theme.colors.background20,
+    },
+    listFooterSpacer: {
+      paddingTop: dimensions.topBarHeight,
+    },
+    listHeaderSpacer: {
+      height: 20,
+    },
+  })
