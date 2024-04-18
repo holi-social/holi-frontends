@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -9,6 +9,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import CreatePostPill from '@holi/core/screens/individualPosts/components/CreatePostPill'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -28,7 +29,7 @@ const CreatePost = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-  const [, setSelectedCategory] = useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
   const Categories = [
     {
@@ -69,13 +70,24 @@ const CreatePost = () => {
     setShowModal(false)
   }
 
-  if (!ftLoading && !ftEnabled) {
-    navigate('/404')
-  }
+  // if (!ftLoading && !ftEnabled) {
+  //   navigate('/404')
+  // }
 
   return (
-    <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-      <View style={styles.layout}>
+    // <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
+    <View style={styles.layout}>
+      <View style={styles.container}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.pillContainer}
+          contentContainerStyle={styles.pillContent}
+        >
+          <CreatePostPill label={'Public'} filterType="visibility" onPress={() => setShowModal(true)} />
+          <CreatePostPill label={selectedCategory ?? ''} filterType="category" onPress={() => setShowModal(true)} />
+          <CreatePostPill label={'Topic'} filterType="topic" onPress={() => setShowModal(true)} />
+        </ScrollView>
         <View style={styles.inputContainer}>
           <HoliTextInput
             placeholder={t('individuals.post.create.category.input.title')}
@@ -95,43 +107,39 @@ const CreatePost = () => {
             aria-label={t('individuals.post.create.category.input.description')}
           />
         </View>
-        <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <HeaderBackButton
-                icon={Close}
-                onPress={() => navigateBack()}
-                tintColor="black"
-                style={styles.backButton}
-              />
-              <HoliHeading level="1" size="s">
-                {t('individuals.post.create.title')}
-              </HoliHeading>
-            </View>
-            <HoliText size="large" style={styles.modalTitle}>
-              {t('individuals.post.create.category.title')}
-            </HoliText>
-            <View style={styles.categoryContainer}>
-              {Categories.map((category) => (
-                <React.Fragment key={category.name}>
-                  <Pressable
-                    style={({ hovered }) => [styles.category, hovered ? styles.categoryHovered : styles.category]}
-                    onPress={() => modalPress(category.name)}
-                  >
-                    <View style={styles.categoryContent}>
-                      <HoliLocalImage imageSource={category.image} width={40} height={40} isSvg label={''} />
-                      <HoliText bold style={styles.text}>
-                        {category.name}
-                      </HoliText>
-                    </View>
-                  </Pressable>
-                </React.Fragment>
-              ))}
-            </View>
-          </View>
-        </HoliModal>
       </View>
-    </FeatureToggleGuard>
+      <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
+        <View style={styles.modalContent}>
+          <View style={styles.modalHeader}>
+            <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor="black" style={styles.backButton} />
+            <HoliHeading level="1" size="s">
+              {t('individuals.post.create.title')}
+            </HoliHeading>
+          </View>
+          <HoliText size="large" style={styles.modalTitle}>
+            {t('individuals.post.create.category.title')}
+          </HoliText>
+          <View style={styles.categoryContainer}>
+            {Categories.map((category) => (
+              <React.Fragment key={category.name}>
+                <Pressable
+                  style={({ hovered }) => [styles.category, hovered ? styles.categoryHovered : styles.category]}
+                  onPress={() => modalPress(category.name)}
+                >
+                  <View style={styles.categoryContent}>
+                    <HoliLocalImage imageSource={category.image} width={40} height={40} isSvg label={''} />
+                    <HoliText bold style={styles.text}>
+                      {category.name}
+                    </HoliText>
+                  </View>
+                </Pressable>
+              </React.Fragment>
+            ))}
+          </View>
+        </View>
+      </HoliModal>
+    </View>
+    // </FeatureToggleGuard>
   )
 }
 
@@ -208,22 +216,35 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
     textInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
-      paddingVertical: 8,
+      paddingVertical: 4,
       maxWidth: '100%',
     },
-    inputContainer: {
-      flex: 1,
+    container: {
       justifyContent: 'flex-start',
       alignItems: 'center',
-      paddingHorizontal: 16,
       paddingTop: 24,
       width: '100%',
     },
-    description: {
-      flex: 1,
+    inputContainer: {
+      width: '100%',
+      paddingHorizontal: 6,
     },
+    description: {},
     titleFont: {
       fontSize: 21,
       color: theme.colors.black300,
+    },
+
+    // pill styles
+    pillContainer: {
+      width: '100%',
+      marginTop: 12,
+      marginBottom: 24,
+      flexDirection: 'row',
+      zIndex: 1,
+    },
+    pillContent: {
+      gap: 8,
+      paddingHorizontal: 16,
     },
   })

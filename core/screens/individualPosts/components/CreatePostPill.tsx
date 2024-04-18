@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Add, Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -40,6 +41,7 @@ const SpacesFilterPill: React.FC<CreatePostPillProps> = ({
 }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(small || false, theme), [theme, small])
+  const icon = filterType === 'topic' ? Add : Pencil
 
   if (loading) {
     const paddingVertical = styles.buttonContent.paddingVertical
@@ -65,23 +67,10 @@ const SpacesFilterPill: React.FC<CreatePostPillProps> = ({
       onPress={onPress}
       testID={testID}
     >
-      {filterType === 'visibility' && (
-        <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_map_pin.svg')}
-          width={14}
-          height={19}
-          label={''}
-          isSvg
-          style={styles.filterIcon}
-        />
-      )}
-      {small ? (
-        <HoliText size={filterType === 'topic' ? 'extrasmall' : 'small'} numberOfLines={1}>
-          {label}
-        </HoliText>
-      ) : (
-        <HoliText numberOfLines={1}>{label}</HoliText>
-      )}
+      <HoliText bold numberOfLines={1}>
+        {label}
+      </HoliText>
+      <HoliIcon icon={icon} size={16} color={theme.colors.foreground30} style={styles.filterIcon} />
     </HoliButton>
   )
 }
@@ -94,10 +83,10 @@ const getStyles = (small: boolean, theme: HoliTheme) =>
       backgroundColor: theme.colors.background10,
     },
     topic: {
-      backgroundColor: theme.colors.brandColorC20,
+      backgroundColor: theme.colors.brandColorC10,
     },
     category: {
-      backgroundColor: theme.colors.brandColorA20,
+      backgroundColor: theme.colors.brandA100,
     },
     buttonContent: {
       borderColor: theme.colors.foreground30,
@@ -107,6 +96,8 @@ const getStyles = (small: boolean, theme: HoliTheme) =>
       paddingHorizontal: small ? 8 : 10,
       flexDirection: 'row',
       justifyContent: 'center',
+      alignItems: 'center',
+      gap: 4,
     },
     loadingContent: {
       borderColor: 'transparent',
@@ -114,9 +105,7 @@ const getStyles = (small: boolean, theme: HoliTheme) =>
       paddingHorizontal: 0,
       width: 220,
     },
-    filterIcon: {
-      marginRight: 6,
-    },
+    filterIcon: {},
   })
 
 export default SpacesFilterPill
