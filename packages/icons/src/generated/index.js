@@ -117,6 +117,7 @@ export { default as HandHeartThinFilledDarker } from './HandHeartThinFilledDarke
 export { default as HandHeartThinFilledRaised } from './HandHeartThinFilledRaised'
 export { default as HandHeartThin } from './HandHeartThin'
 export { default as HandHeart } from './HandHeart'
+export { default as HandHeartsFilled } from './HandHeartsFilled'
 export { default as Headphones } from './Headphones'
 export { default as HeartFilled } from './HeartFilled'
 export { default as Heart } from './Heart'
