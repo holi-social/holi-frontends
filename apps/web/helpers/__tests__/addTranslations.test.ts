@@ -19,6 +19,20 @@ describe('addTranslations', () => {
     expect(props).toEqual({
       foo: 'bar',
       ...mockedTranslations,
+      locale: 'en',
+    })
+  })
+
+  it('should use en if locale is "default"', async () => {
+    const mockedTranslations = { i18n: { key: 'value' } }
+    mockLoadTranslations.mockResolvedValue(mockedTranslations)
+    const existingProps = { foo: 'bar' }
+    const props = await addTranslations('default', existingProps)
+
+    expect(props).toEqual({
+      foo: 'bar',
+      ...mockedTranslations,
+      locale: 'en',
     })
   })
 
