@@ -281,6 +281,8 @@
   "homeFeed.testingBanner": "Beta release for testing only",
   "homeFeed.userSuggestions.avatarAltText": "Profile picture of {{name}}",
   "homeFeed.userSuggestions.title": "Welcome new users",
+  "individuals.post.create.category.input.title": "Add a catchy title...",
+  "individuals.post.create.category.input.description": "Share knowledge or initiate conversations on topics that matter to you and the community...",
   "individuals.post.category.name.awareness": "Generate support for...",
   "individuals.post.category.name.experience": "Personal experience",
   "individuals.post.category.name.recommendation": "Recommendation",
