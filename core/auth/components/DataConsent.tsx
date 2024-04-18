@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import AcceptDocumentLayout, { AgreementProps } from '@holi/core/auth/components/AcceptDocumentLayout'
-import { getDocumentURL } from '@holi/core/helpers'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 
 interface DataConsentProps extends AgreementProps {
   onNextPress?: () => void
@@ -11,10 +11,11 @@ interface DataConsentProps extends AgreementProps {
 
 const DataConsent = ({ onNextPress, onBackPress, ...agreementProps }: DataConsentProps) => {
   const { t } = useTranslation()
+  const documentUrl = useDocumentURL('privacyPolicy')
 
   return (
     <AcceptDocumentLayout
-      docUrl={getDocumentURL('privacyPolicy')}
+      docUrl={documentUrl}
       onNextPress={onNextPress}
       onBackPress={onBackPress}
       {...agreementProps}
