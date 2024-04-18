@@ -19,7 +19,7 @@ import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
-import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
+import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
@@ -126,13 +126,9 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
-
           <InspirationPosts />
-
           <InsightsOfTheWeek />
-
-          <UpdatesOfYourApps />
-
+          <Recommendations />
           {isLoggedIn && <UserSuggestions />}
         </View>
       </ScrollHeaderLayout.Refreshable>

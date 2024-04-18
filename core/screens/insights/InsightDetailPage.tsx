@@ -333,7 +333,7 @@ const InsightDetailPage = () => {
               </InsightCarouselSection>
             )}
 
-            {initiatives.length == 0 && (
+            {initiatives.length > 0 && (
               <InsightCarouselSection
                 heading={initiativesTitle}
                 headingIcon={{

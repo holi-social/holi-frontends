@@ -1,7 +1,4 @@
-// eslint-disable-next-line prettier/prettier
-import { itif } from '@holi/e2e-mobile/helpers/platform'
-
-import { platform } from '../../global'
+import { itif } from '../../helpers/platform'
 import { tapOnElementWithTestId, tapOnLoginLinkInText, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@ForgotPassword', () => {

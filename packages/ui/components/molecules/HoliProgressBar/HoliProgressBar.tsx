@@ -37,7 +37,7 @@ const getBarStyles = (theme: HoliTheme) =>
       height: 14,
     },
     small: {
-      height: 6,
+      height: 8,
     },
   })
 
@@ -55,6 +55,6 @@ const getProgressStyles = (theme: HoliTheme) =>
       height: 12,
     },
     small: {
-      height: 4,
+      height: 6,
     },
   })

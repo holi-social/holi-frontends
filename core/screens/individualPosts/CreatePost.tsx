@@ -28,7 +28,7 @@ const CreatePost = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [, setSelectedCategory] = useState<string | null>(null)
 
   const Categories = [
     {

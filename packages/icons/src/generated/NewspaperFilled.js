@@ -1,19 +1,12 @@
 import * as React from 'react'
-import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 
 const SvgNewspaperFilled = (props) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
-    <G clipPath="url(#newspaper-filled_svg__a)">
-      <Path
-        fill="currentColor"
-        d="M19 22H5a3 3 0 0 1-3-3V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v7h4v9a3 3 0 0 1-3 3Zm-1-10v7a1 1 0 0 0 2 0v-7h-2ZM5 6v6h6V6H5Zm0 7v2h10v-2H5Zm0 3v2h10v-2H5Zm2-8h2v2H7V8Z"
-      />
-    </G>
-    <Defs>
-      <ClipPath id="newspaper-filled_svg__a">
-        <Path fill="#fff" d="M0 0h24v24H0z" />
-      </ClipPath>
-    </Defs>
+  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 18 18" {...props}>
+    <Path
+      fill="currentColor"
+      d="M14.833 17.584H3.167a2.5 2.5 0 0 1-2.5-2.5V1.75A.833.833 0 0 1 1.5.917h11.667A.833.833 0 0 1 14 1.75v5.834h3.333v7.5a2.5 2.5 0 0 1-2.5 2.5ZM14 9.25v5.834a.833.833 0 0 0 1.667 0V9.25H14Zm-10.833-5v5h5v-5h-5Zm0 5.834v1.666H11.5v-1.666H3.167Zm0 2.5v1.666H11.5v-1.666H3.167Zm1.666-6.667H6.5v1.667H4.833V5.917Z"
+    />
   </Svg>
 )
 export default SvgNewspaperFilled

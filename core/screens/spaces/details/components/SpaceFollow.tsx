@@ -21,7 +21,7 @@ export type SpaceFollowProps = {
 
 const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn, isLoading: isLoadingUser } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
 
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
@@ -86,7 +86,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
           style={style}
-          loading={!isLoggedIn}
+          loading={isLoadingUser || loading}
           testID="follow-btn"
         />
       )}

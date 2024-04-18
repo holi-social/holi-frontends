@@ -1,5 +1,4 @@
-import { target } from '@holi/e2e-mobile/appiumConfig'
-
+import { target } from '../../appiumConfig'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,

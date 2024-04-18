@@ -23,6 +23,14 @@ test.describe('@GoodNews', () => {
 })
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
+  await clickElementByTestId(page, 'home-apps-button')
+  await clickElementByTestId(page, 'app-tile-goodnews')
+
+  await page.waitForSelector(byTestId('goodnews-app-home'), { timeout: goodnewsRequestTimeout })
+  expect(page.url()).toContain('/apps/goodnews')
+
+  // navigate back
+  await clickElementByTestId(page, 'nav-button-back')
   await page.waitForSelector(byTestId('goodnews-updates-container'), { timeout: goodnewsRequestTimeout })
 
   // click first element in ScrollView

@@ -1,7 +1,5 @@
-// eslint-disable-next-line prettier/prettier
 import type { Element, ElementArray } from 'webdriverio'
 
-import { Appium, platform } from '../global'
 import { doSwipe, getDeviceScreenSize, scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 import { delay } from './time'
 
@@ -50,7 +48,7 @@ export const setImplicitTimeout = async (timeout: number) => {
 
 export const resetImplicitTimeout = async () => {
   // @ts-ignore
-  await setImplicitTimeout(Appium.options.waitForTimeout)
+  await setImplicitTimeout(Appium.options.waitforTimeout)
 }
 
 export const withImplicitTimeout = async <T>(timeout: number, fn: () => Promise<T>) => {

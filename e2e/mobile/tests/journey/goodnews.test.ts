@@ -1,5 +1,4 @@
 // eslint-disable-next-line prettier/prettier
-import { target } from '../../global'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,
