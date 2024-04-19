@@ -131,6 +131,7 @@ const QuoteDetailPage = () => {
                   imageBlurhash={insight.creator.avatarBlurhash}
                   label={insight.creator.fullName ?? ''}
                   initials={insight.creator.avatarLabel ?? ''}
+                  defaultColor={insight.creator.avatarDefaultColor}
                 />
 
                 <HoliHeading level="3">{t('insights.quotes.detail.subtitle')}</HoliHeading>
