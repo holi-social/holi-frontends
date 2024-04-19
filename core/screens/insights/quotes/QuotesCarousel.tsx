@@ -26,6 +26,7 @@ const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes, marg
             // use next one of the colors sequentially, repeatedly
             quoteColor={quoteIconColors[index % quoteIconColors.length]}
             insightId={insightId}
+            showReaction
           />
         ),
       }))}

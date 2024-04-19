@@ -30,6 +30,8 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import InsightReactions, { ItemType } from '../InsightReactions'
+
 export type QuoteDetailPageParams = {
   insightId: string
   quoteId: string
@@ -139,6 +141,11 @@ const QuoteDetailPage = () => {
               <QuoteCard.QuoteOnly quote={quote} quoteColor="#A3DAFC" />
               <HoliGap size="s" />
               <HoliText>{quote.comment}</HoliText>
+              {!!quote && (
+                <View style={styles.reaction}>
+                  <InsightReactions item={quote} itemType={ItemType.QUOTE} />
+                </View>
+              )}
             </View>
           </>
         ) : (
@@ -231,6 +238,10 @@ const getStyles = (theme: HoliTheme) =>
         native: { position: 'absolute', bottom: 40 },
         web: { position: 'fixed', bottom: 82 },
       }),
+    },
+    reaction: {
+      width: '100%',
+      alignItems: 'flex-end',
     },
   })
 
