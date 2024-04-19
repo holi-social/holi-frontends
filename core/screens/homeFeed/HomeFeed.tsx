@@ -32,6 +32,8 @@ import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 
+import NotEnoughVotesNotification from './components/NotEnoughVotesNotification'
+
 export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
@@ -128,6 +130,8 @@ const HomeFeed = () => {
           <HomeFeedHeader />
 
           <InspirationPosts />
+
+          <NotEnoughVotesNotification />
 
           <InsightsOfTheWeek />
 
