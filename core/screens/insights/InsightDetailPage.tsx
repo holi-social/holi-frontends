@@ -278,11 +278,9 @@ const InsightDetailPage = () => {
                   >
                     <HoliCarousel
                       marginHorizontal={Spacing.md}
-                      hideDotIndicators={false}
                       slides={curatorSlides.map((slide) => ({
                         children: slide,
                       }))}
-                      style={{ marginHorizontal: 'auto' }}
                     />
                     <HoliButton
                       inline
