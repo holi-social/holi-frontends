@@ -12,6 +12,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
@@ -29,8 +30,6 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import InsightReactions, { ItemType } from '../InsightReactions'
 
 export type QuoteDetailPageParams = {
   insightId: string
