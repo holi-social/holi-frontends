@@ -19,6 +19,7 @@ export interface QuoteCardProps {
   quote: Quote
   quoteColor?: string
   numberOfLines?: number
+  showReaction?: boolean
   style?: ViewStyle
 }
 
@@ -31,9 +32,10 @@ export interface QuoteAndSourceCardProps {
   insightId: string
   quote: Quote
   quoteColor: string
+  showReaction?: boolean
 }
 
-const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, style }) => {
+const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, showReaction, style }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -46,7 +48,7 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines,
       <HoliText size="extrasmall" color="gray300" style={styles.author}>
         {quote.author} ∙ {quote.authorProfession}
       </HoliText>
-      <InsightReactions item={quote} itemType={ItemType.QUOTE} style={styles.reaction} />
+      {showReaction && <InsightReactions item={quote} itemType={ItemType.QUOTE} style={styles.reaction} />}
     </View>
   )
 }
@@ -79,7 +81,7 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote, style }) => {
   )
 }
 
-const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteColor }) => {
+const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteColor, showReaction }) => {
   const [hovered, setHovered] = useState(false)
   const { navigate } = useRouting()
   const { theme } = useTheme()
@@ -92,7 +94,13 @@ const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quot
       onHoverIn={() => setHovered(true)}
       onHoverOut={() => setHovered(false)}
     >
-      <QuoteCard quote={quote} quoteColor={quoteColor} numberOfLines={5} style={hovered ? styles.hovered : {}} />
+      <QuoteCard
+        quote={quote}
+        quoteColor={quoteColor}
+        numberOfLines={5}
+        style={hovered ? styles.hovered : {}}
+        showReaction={showReaction}
+      />
       <HoliGap size="xs" />
       <SourceCard quote={quote} style={hovered ? styles.hovered : {}} />
     </Pressable>
