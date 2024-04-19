@@ -19,6 +19,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const styles = StyleSheet.create({
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
 const InsightsOfTheWeek = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { theme } = useTheme()
 
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
@@ -95,7 +97,12 @@ const InsightsOfTheWeek = () => {
         </HoliButton>
       </HoliBox>
 
-      <HoliModal label={t('insights.editors.modal.title')} {...editorsModalProps} testID="insight-editors-modal">
+      <HoliModal
+        label={t('insights.editors.modal.title')}
+        {...editorsModalProps}
+        style={{ backgroundColor: theme.colors.white200 }}
+        testID="insight-editors-modal"
+      >
         <HoliUserCardsModalContent
           title={t('insights.editors.modal.title')}
           users={insightsCreators}
