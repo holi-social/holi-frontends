@@ -124,6 +124,7 @@ export default {
         {
           cameraPermission: 'Allow access to your camera for video calls',
           microphonePermission: 'Allow access to your microphone for video calls',
+          recordAudioAndroid: true,
         },
       ],
       [

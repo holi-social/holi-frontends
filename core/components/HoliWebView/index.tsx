@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
 import { WebView, WebViewNavigation } from 'react-native-webview'
@@ -37,9 +37,8 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
   theme,
   navigateToExternalBrowser = false,
   allowsBackForwardNavigationGesturesMultiOS = true,
+  webViewRef,
 }) => {
-  const webViewRef = useRef<WebView>(null)
-
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const navigation = useNavigation()
@@ -67,7 +66,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
   }
 
   const onAndroidBackPress = () => {
-    if (webViewRef.current && canGoBack) {
+    if (webViewRef?.current && canGoBack) {
       webViewRef.current.goBack()
       return true
     }
@@ -75,7 +74,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
   }
 
   useEffect(() => {
-    const webView = webViewRef.current
+    const webView = webViewRef?.current
     if (Platform.OS === 'android') {
       BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
     }
