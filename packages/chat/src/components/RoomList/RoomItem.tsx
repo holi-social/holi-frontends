@@ -87,7 +87,7 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                   imageSrc={chatPartner.avatar ?? ''}
                   initials={getChatInitials(chatPartner.name)}
                   defaultColor={getDefaultAvatarColor(chatPartner.name)}
-                  initialsColor="foreground30at48Percent"
+                  initialsColor={theme.colors.foreground30at48Percent}
                   initialsFontWeight="500"
                   size="medium"
                 />
