@@ -104,12 +104,12 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
       }
-      container_concurrency = 100 # 0 means thread safe, no restriction on max concurrency
+      container_concurrency = 0 # 0 means thread safe, no restriction on max concurrency
     }
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "0"
-        "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "2"
+        "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "2"
+        "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "4"
         "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
       }
     }
