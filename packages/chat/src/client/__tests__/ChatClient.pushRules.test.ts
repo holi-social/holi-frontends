@@ -20,7 +20,7 @@ describe('ChatClient', () => {
     })
     const enabled = await client.getPushNotificationEnabledState()
 
-    expect(enabled).toBeTruthy()
+    expect(enabled).toBeFalsy() // when the global rule is enabled, push notifications are disabled
   })
 
   it('enabling push notifications should deactivate the overriding empty global push master rule', async () => {
