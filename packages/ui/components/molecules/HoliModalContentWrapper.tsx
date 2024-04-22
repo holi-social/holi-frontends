@@ -78,8 +78,6 @@ const HoliModalContentWrapper = (
       )}
 
       {isSoftkeyboardOpen && <View style={styles.keyboardPlaceHolder} />}
-
-      {showFooter && <View style={styles.actionButtonPlaceholder} />}
     </>
   )
 
@@ -90,7 +88,7 @@ const HoliModalContentWrapper = (
       {loading && <HoliLoader style={styles.saveLoaderContainer} testID={`${testID}-loader`} />}
 
       {scrollable ? (
-        <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+        <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps} style={styles.scrollViewSpacing}>
           {content}
         </ScrollView>
       ) : (
@@ -130,8 +128,8 @@ const getStyles = (theme: HoliTheme) =>
       zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
       height: 120,
     },
-    actionButtonPlaceholder: {
-      height: 96,
+    scrollViewSpacing: {
+      marginBottom: 96,
     },
     actionButtonContainer: {
       position: 'absolute',

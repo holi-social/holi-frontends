@@ -22,7 +22,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   }
   testID="holi-modal-content"
 >
-  <RCTScrollView>
+  <RCTScrollView
+    style={
+      {
+        "marginBottom": 96,
+      }
+    }
+  >
     <View>
       <View
         style={
@@ -77,7 +83,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           pagingEnabled={true}
           scrollEventThrottle={66}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={718}
+          snapToInterval={710}
         >
           <View>
             <View
@@ -88,10 +94,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 710,
+                    "width": 702,
                   },
                   {
-                    "marginLeft": 20,
+                    "marginLeft": 24,
                   },
                   {},
                 ]
@@ -146,12 +152,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         {
                           "alignContent": "center",
                           "alignItems": "center",
-                          "backgroundColor": "#f5f5f5",
+                          "backgroundColor": "#fff",
+                          "borderColor": "#bfbebe",
                           "borderRadius": 16,
-                          "height": "100%",
+                          "borderStyle": "solid",
+                          "borderWidth": 1,
+                          "height": "auto",
                           "padding": 24,
                         },
-                        undefined,
+                        {
+                          "borderColor": "#262424",
+                        },
                       ]
                     }
                     testID="user-card"
@@ -253,7 +264,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 710,
+                    "width": 702,
                   },
                   {},
                   {},
@@ -309,12 +320,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         {
                           "alignContent": "center",
                           "alignItems": "center",
-                          "backgroundColor": "#f5f5f5",
+                          "backgroundColor": "#fff",
+                          "borderColor": "#bfbebe",
                           "borderRadius": 16,
-                          "height": "100%",
+                          "borderStyle": "solid",
+                          "borderWidth": 1,
+                          "height": "auto",
                           "padding": 24,
                         },
-                        undefined,
+                        {
+                          "borderColor": "#262424",
+                        },
                       ]
                     }
                     testID="user-card"
@@ -414,7 +430,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 710,
+                    "width": 702,
                   },
                   {},
                   {},
@@ -470,12 +486,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         {
                           "alignContent": "center",
                           "alignItems": "center",
-                          "backgroundColor": "#f5f5f5",
+                          "backgroundColor": "#fff",
+                          "borderColor": "#bfbebe",
                           "borderRadius": 16,
-                          "height": "100%",
+                          "borderStyle": "solid",
+                          "borderWidth": 1,
+                          "height": "auto",
                           "padding": 24,
                         },
-                        undefined,
+                        {
+                          "borderColor": "#262424",
+                        },
                       ]
                     }
                     testID="user-card"
@@ -577,7 +598,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 710,
+                    "width": 702,
                   },
                   {},
                   {},
@@ -633,12 +654,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         {
                           "alignContent": "center",
                           "alignItems": "center",
-                          "backgroundColor": "#f5f5f5",
+                          "backgroundColor": "#fff",
+                          "borderColor": "#bfbebe",
                           "borderRadius": 16,
-                          "height": "100%",
+                          "borderStyle": "solid",
+                          "borderWidth": 1,
+                          "height": "auto",
                           "padding": 24,
                         },
-                        undefined,
+                        {
+                          "borderColor": "#262424",
+                        },
                       ]
                     }
                     testID="user-card"
@@ -738,7 +764,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 710,
+                    "width": 702,
                   },
                   {},
                   {},
@@ -794,12 +820,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         {
                           "alignContent": "center",
                           "alignItems": "center",
-                          "backgroundColor": "#f5f5f5",
+                          "backgroundColor": "#fff",
+                          "borderColor": "#bfbebe",
                           "borderRadius": 16,
-                          "height": "100%",
+                          "borderStyle": "solid",
+                          "borderWidth": 1,
+                          "height": "auto",
                           "padding": 24,
                         },
-                        undefined,
+                        {
+                          "borderColor": "#262424",
+                        },
                       ]
                     }
                     testID="user-card"
@@ -901,7 +932,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 710,
+                    "width": 702,
                   },
                   {},
                   {},
@@ -957,12 +988,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         {
                           "alignContent": "center",
                           "alignItems": "center",
-                          "backgroundColor": "#f5f5f5",
+                          "backgroundColor": "#fff",
+                          "borderColor": "#bfbebe",
                           "borderRadius": 16,
-                          "height": "100%",
+                          "borderStyle": "solid",
+                          "borderWidth": 1,
+                          "height": "auto",
                           "padding": 24,
                         },
-                        undefined,
+                        {
+                          "borderColor": "#262424",
+                        },
                       ]
                     }
                     testID="user-card"
@@ -1062,11 +1098,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 710,
+                    "width": 702,
                   },
                   {},
                   {
-                    "marginRight": 20,
+                    "marginRight": 24,
                   },
                 ]
               }
@@ -1120,12 +1156,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         {
                           "alignContent": "center",
                           "alignItems": "center",
-                          "backgroundColor": "#f5f5f5",
+                          "backgroundColor": "#fff",
+                          "borderColor": "#bfbebe",
                           "borderRadius": 16,
-                          "height": "100%",
+                          "borderStyle": "solid",
+                          "borderWidth": 1,
+                          "height": "auto",
                           "padding": 24,
                         },
-                        undefined,
+                        {
+                          "borderColor": "#262424",
+                        },
                       ]
                     }
                     testID="user-card"
@@ -1739,7 +1780,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       <View
         style={
           {
-            "height": 96,
+            "height": 24,
           }
         }
       />

@@ -40,7 +40,7 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
 
   if (loading) {
     return (
-      <View {...props}>
+      <View {...props} style={StyleSheet.flatten([styles.skeletonWrapper, props.style])}>
         <HoliSkeleton aspectRatio={327 / 206} borderRadius={16} height={'auto'} width={'100%'} />
 
         <HoliGap size="s" />
@@ -161,5 +161,14 @@ const getStyles = (theme: HoliTheme) =>
     row: {
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    skeletonWrapper: {
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: theme.colors.gray200,
+      padding: 8,
+      paddingBottom: 16,
+      borderRadius: 16,
+      backgroundColor: theme.colors.background10,
     },
   })
