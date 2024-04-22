@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import FilterPill from '@holi/core/components/FilterPill'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
@@ -189,16 +189,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
           {task.skills.map((skill) => {
-            return (
-              <SpacesFilterPill
-                small
-                key={skill.id}
-                testID="spaces-topic-title"
-                label={skill.title}
-                filterType="skill"
-                style={styles.pill}
-              />
-            )
+            return <FilterPill small key={skill.id} label={skill.title} filterType="skill" style={styles.pill} />
           })}
         </View>
       )}
