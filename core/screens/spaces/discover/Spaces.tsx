@@ -86,6 +86,9 @@ const Spaces = () => {
           <NotificationAndSearchHeader {...props} />
         </HoliHorizontalRow>
       ),
+      navigationCustomOptions: {
+        seoTitle: t('seo.h1.spaces'),
+      },
     })
   }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions, colors.background10])
 

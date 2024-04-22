@@ -129,6 +129,9 @@ const VolunteeringAppHome = () => {
       headerStyle: { backgroundColor: colors.background10 },
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
+      navigationCustomOptions: {
+        seoTitle: t('seo.h1.volunteering'),
+      },
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, colors.background10, styles.dot])
 

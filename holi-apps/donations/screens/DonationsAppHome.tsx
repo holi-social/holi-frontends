@@ -83,6 +83,7 @@ const DonationsAppHome = () => {
     setScreenOptions({
       navigationCustomOptions: {
         footerShown: false,
+        seoTitle: t('seo.h1.donations'),
       },
       headerTitle: () => (
         <HoliHeading level="1" size="s">

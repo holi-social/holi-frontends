@@ -98,6 +98,9 @@ const HomeFeed = () => {
       headerTitle: () => null,
       headerLeft: () => logo,
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      navigationCustomOptions: {
+        seoTitle: t('seo.h1.home'),
+      },
     })
   }, [navigate, t, headerTitle, setScreenOptions, logo, colors.background10])
 
