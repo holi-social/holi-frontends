@@ -79,32 +79,39 @@ const HoliText = ({
 
 export default HoliText
 
+export const fontStylesByHoliTextSize = {
+  extralarge: {
+    fontSize: 28,
+    lineHeight: lineHeight(28),
+  },
+  large: {
+    fontSize: 21,
+    lineHeight: lineHeight(21),
+  },
+  default: {
+    fontSize: 16,
+    lineHeight: lineHeight(16),
+  },
+  small: {
+    fontSize: 14,
+    lineHeight: lineHeight(14),
+  },
+  extrasmall: {
+    fontSize: 12,
+    lineHeight: lineHeight(12),
+  },
+}
+
+function lineHeight(fontSize: number) {
+  return fontSize * 1.4
+}
+
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     base: {
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: theme.colors.foreground30,
-    },
-    extralarge: {
-      fontSize: 28,
-      lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    large: {
-      fontSize: 21,
-      lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    default: {
-      fontSize: 16,
-      lineHeight: 16 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    small: {
-      fontSize: 14,
-      lineHeight: 14 * (Platform.OS === 'ios' ? 1.4 : 1.2),
-    },
-    extrasmall: {
-      fontSize: 12,
-      lineHeight: 12 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     bold: {
       fontWeight: '500',
@@ -113,6 +120,7 @@ const getStyles = (theme: HoliTheme) =>
     italic: {
       fontStyle: 'italic',
     },
+    ...fontStylesByHoliTextSize,
   })
 
 function getAlignStyles(alignPosition: TextStyle['textAlign']) {
