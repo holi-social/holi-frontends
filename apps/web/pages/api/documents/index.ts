@@ -31,7 +31,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type: docType = '' } = req.query
 
   if (isDocType(docType)) {
-    const lang = detectLocaleFromHeader(req)
+    const lang = detectLocaleFromHeader(req.headers)
     const document = getDocumentFor(docType, lang)
     const sanitizedDocument = sanitizeBuffer(document)
     res.setHeader('Content-Type', 'text/html')
