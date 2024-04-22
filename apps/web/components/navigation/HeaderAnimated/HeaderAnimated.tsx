@@ -70,7 +70,12 @@ const HeaderAnimated = () => {
     headerShown,
     headerTransparent,
     headerTintColor,
-    navigationCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
+    navigationCustomOptions: {
+      headerBackgroundImageURI,
+      headerBackgroundGradient,
+      headerBackgroundCustom,
+      seoTitle,
+    } = {},
   } = options
 
   if (headerShown === false) return null
@@ -82,6 +87,9 @@ const HeaderAnimated = () => {
       role="navigation"
       aria-label={t('navigation.topNavigation')}
     >
+      {/* Hidden SEO headline */}
+      {seoTitle && <h1 style={{ position: 'absolute', top: '-300%' }}>{seoTitle}</h1>}
+
       <View
         style={[
           StyleSheet.absoluteFill,

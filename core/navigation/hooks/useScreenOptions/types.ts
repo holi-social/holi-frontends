@@ -6,5 +6,6 @@ export interface NavigationCustomOptions extends NativeStackNavigationOptions {
     headerBackgroundGradient: boolean
     headerBackgroundCustom: React.ReactNode
     footerShown: boolean
+    seoTitle: string
   }>
 }
