@@ -90,8 +90,8 @@ resource "google_cloud_run_service" "mvp_web" {
             memory = local.environment == "production" ? "512Mi" : "512Mi"
           }
           requests = {
-            cpu    = local.environment == "production" ? "1000m" : "200m"
-            memory = local.environment == "production" ? "512Mi" : "256Mi"
+            cpu    = local.environment == "production" ? "1000m" : "1000m"
+            memory = local.environment == "production" ? "512Mi" : "512Mi"
           }
         }
         startup_probe {
