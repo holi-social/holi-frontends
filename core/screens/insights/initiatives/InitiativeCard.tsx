@@ -25,9 +25,17 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
+  const holiLinkRegex = /^(https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)\/)/
+
+  const isInternalLink = holiLinkRegex.test(initiative.link)
+
+  const initiativeLink = Platform.OS !== 'web' ? initiative.link.replace(holiLinkRegex, '/') : initiative.link
+
   return (
     <Pressable
-      onPress={() => navigate(`/insights/${insightId}/initiatives/${initiative.id}`)}
+      onPress={() =>
+        isInternalLink ? navigate(initiativeLink) : navigate(`/insights/${insightId}/initiatives/${initiative.id}`)
+      }
       style={({ hovered }) => {
         return hovered ? [styles.card, styles.hovered] : [styles.card]
       }}
