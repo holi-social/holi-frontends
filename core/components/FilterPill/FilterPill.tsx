@@ -1,43 +1,33 @@
 import React, { useMemo } from 'react'
-import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type FilterType = 'generic' | 'topic' | 'skill' | 'location' | 'planned'
 
-interface BaseProps {
+// Pill props
+export interface BasePillProps {
   label: string
   filterType: FilterType
   small?: boolean
-  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
-  testID?: string
 }
 
-interface SkeletonProps extends Partial<BaseProps> {
+interface SkeletonProps extends Partial<BasePillProps> {
   loading: true
 }
 
-interface Props extends BaseProps {
+interface PillProps extends BasePillProps {
   loading?: false
 }
 
-type SpacesFilterPillProps = SkeletonProps | Props
+export type FilterPillProps = SkeletonProps | PillProps
 
 const BORDER_RADIUS = 48
 
-const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
-  loading,
-  label,
-  filterType,
-  onPress,
-  style,
-  small,
-  testID = 'spaces-filter-pill',
-}) => {
+export const FilterPill: React.FC<FilterPillProps> = ({ loading, label, filterType, style, small }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(small || false, theme), [theme, small])
 
@@ -50,21 +40,12 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
         numberOfLines={1}
         style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style])}
         skeletonOptions={{ borderRadius: BORDER_RADIUS, width: '100%', paddingVertical }}
-        testID={testID + '-loading'}
       />
     )
   }
 
   return (
-    <HoliButton
-      label={label}
-      style={style}
-      contentStyle={[styles.buttonContent, styles[filterType]]}
-      transparent
-      inline
-      onPress={onPress}
-      testID={testID}
-    >
+    <View style={[styles.buttonContent, styles[filterType], style]}>
       {filterType === 'location' && (
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_map_pin.svg')}
@@ -82,9 +63,10 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
       ) : (
         <HoliText numberOfLines={1}>{label}</HoliText>
       )}
-    </HoliButton>
+    </View>
   )
 }
+
 const getStyles = (small: boolean, theme: HoliTheme) =>
   StyleSheet.create({
     generic: {
@@ -121,5 +103,3 @@ const getStyles = (small: boolean, theme: HoliTheme) =>
       marginRight: 6,
     },
   })
-
-export default SpacesFilterPill
