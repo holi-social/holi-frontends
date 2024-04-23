@@ -47,6 +47,8 @@ const AllTools = ({ spaceIdOrName }: AllToolsProps) => {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
+  if (!spaceIdOrName || !space) return null
+
   return (
     <View style={[mixins.container, styles.container]}>
       {(categorizedToolsList &&
@@ -59,7 +61,7 @@ const AllTools = ({ spaceIdOrName }: AllToolsProps) => {
                 widgetTitle={t('spaces.toolKit.linkhub.collection.' + collaborationType)}
                 toolsList={tools}
                 spaceIdOrName={spaceIdOrName}
-                spaceName={space?.name}
+                spaceName={space.name}
                 isAdmin={isAdmin}
               />
             )

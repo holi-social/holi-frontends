@@ -7,8 +7,8 @@ import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalToo
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 
 type ToolWidgetProps = {
-  spaceIdOrName?: string
-  spaceName?: string
+  spaceIdOrName: string
+  spaceName: string
   widgetTitle: string
   toolsList: SpaceCollaborationTool[]
   isAdmin: boolean

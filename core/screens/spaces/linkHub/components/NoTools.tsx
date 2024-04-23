@@ -9,7 +9,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type NoToolsProps = {
-  spaceIdOrName?: string
+  spaceIdOrName: string
 }
 
 const imageWidth = 251
