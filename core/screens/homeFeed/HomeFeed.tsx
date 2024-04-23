@@ -134,8 +134,7 @@ const HomeFeed = () => {
       </ScrollHeaderLayout.Refreshable>
 
       {/* AppsDrawer & CreatePostButton need to be outside of the Layout */}
-      {/* {ftEnabledPosts ? <CreatePostButton /> : <AppsDrawer />} */}
-      <CreatePostButton />
+      {ftEnabledPosts ? <CreatePostButton /> : <AppsDrawer />}
     </>
   )
 }

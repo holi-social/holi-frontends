@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -7,36 +8,26 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type FilterType = 'generic' | 'visibility' | 'topic' | 'category'
+export type FilterType = 'visibility' | 'topic' | 'category'
 
 type FilterTypeInfo = {
-  icon: string | React.FC
   text: string
 }
 
 const filterTypes: Record<FilterType, FilterTypeInfo> = {
-  generic: {
-    icon: Pencil,
-    text: 'Generic',
-  },
   visibility: {
-    icon: Pencil,
-    text: 'Visibility',
+    text: 'individuals.post.category.label.visibility.public',
   },
   category: {
-    icon: Pencil,
-    text: 'Category',
+    text: 'individuals.post.category.label.category',
   },
   topic: {
-    icon: Add,
-    text: 'Topic',
+    text: 'individuals.post.category.label.topic',
   },
 }
-
 interface BaseProps {
-  label: string
+  label?: string | null
   filterType: FilterType
-  small?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -60,19 +51,18 @@ const SpacesFilterPill: React.FC<CreatePostPillProps> = ({
   filterType,
   onPress,
   style,
-  small,
   testID = 'spaces-filter-pill',
 }) => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(small || false, theme), [theme, small])
-  const icon = filterType === 'topic' ? Add : Pencil
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { t } = useTranslation()
+  const icon = label ? Pencil : Add
 
   if (loading) {
     const paddingVertical = styles.buttonContent.paddingVertical
     return (
       <HoliText
         loading={true}
-        size={small ? 'small' : undefined}
         numberOfLines={1}
         style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style])}
         skeletonOptions={{ borderRadius: BORDER_RADIUS, width: '100%', paddingVertical }}
@@ -83,7 +73,7 @@ const SpacesFilterPill: React.FC<CreatePostPillProps> = ({
 
   return (
     <HoliButton
-      label={label}
+      label={label || t(filterTypes[filterType].text)}
       style={style}
       contentStyle={[styles.buttonContent, styles[filterType]]}
       transparent
@@ -92,18 +82,13 @@ const SpacesFilterPill: React.FC<CreatePostPillProps> = ({
       testID={testID}
     >
       <HoliText bold numberOfLines={1}>
-        {filterTypes[filterType].text}
+        {label || t(filterTypes[filterType].text)}
       </HoliText>
-      <HoliIcon
-        icon={filterTypes[filterType].icon}
-        size={16}
-        color={theme.colors.foreground30}
-        style={styles.filterIcon}
-      />
+      <HoliIcon icon={icon} size={16} color={theme.colors.foreground30} />
     </HoliButton>
   )
 }
-const getStyles = (small: boolean, theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     generic: {
       backgroundColor: theme.colors.background10,
@@ -121,8 +106,8 @@ const getStyles = (small: boolean, theme: HoliTheme) =>
       borderColor: theme.colors.foreground30,
       borderRadius: BORDER_RADIUS,
       borderWidth: 1,
-      paddingVertical: small ? 2 : 4,
-      paddingHorizontal: small ? 8 : 10,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
@@ -134,7 +119,6 @@ const getStyles = (small: boolean, theme: HoliTheme) =>
       paddingHorizontal: 0,
       width: 220,
     },
-    filterIcon: {},
   })
 
 export default SpacesFilterPill
