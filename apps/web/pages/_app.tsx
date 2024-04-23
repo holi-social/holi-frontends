@@ -9,7 +9,6 @@ import React, { ReactElement, ReactNode, useEffect } from 'react'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
-import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { featureFlag } from '@holi/web/environment'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
@@ -54,13 +53,11 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
 
   return (
     <TrackingProvider>
-      <TrackingInitializer>
-        {featureFlag.enableSSR ? (
-          <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
-        ) : (
-          <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-        )}
-      </TrackingInitializer>
+      {featureFlag.enableSSR ? (
+        <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
+      ) : (
+        <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
+      )}
     </TrackingProvider>
   )
 }

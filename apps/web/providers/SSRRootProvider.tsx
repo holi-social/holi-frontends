@@ -8,6 +8,7 @@ import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitial
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
+import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { useApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
@@ -26,15 +27,17 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
     <ThemeProvider theme={defaultHoliTheme}>
       <ErrorBoundary>
         <ApolloProvider client={apolloWebClient}>
-          <PortalProvider>
-            <ToastProvider>
-              <LoginModalProvider>
-                <ChatSessionInitializer>
-                  <ChatProvider>{children}</ChatProvider>
-                </ChatSessionInitializer>
-              </LoginModalProvider>
-            </ToastProvider>
-          </PortalProvider>
+          <TrackingInitializer>
+            <PortalProvider>
+              <ToastProvider>
+                <LoginModalProvider>
+                  <ChatSessionInitializer>
+                    <ChatProvider>{children}</ChatProvider>
+                  </ChatSessionInitializer>
+                </LoginModalProvider>
+              </ToastProvider>
+            </PortalProvider>
+          </TrackingInitializer>
         </ApolloProvider>
       </ErrorBoundary>
     </ThemeProvider>
