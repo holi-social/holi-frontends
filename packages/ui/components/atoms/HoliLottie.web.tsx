@@ -8,7 +8,7 @@ interface HoliLottieProps {
   animType: keyof typeof animations
 }
 
-const HoliLottie: React.VFC<HoliLottieProps> = ({ animType }) => {
+const HoliLottie: React.FC<HoliLottieProps> = ({ animType }) => {
   return <Lottie animationData={animations[animType]} />
 }
 
