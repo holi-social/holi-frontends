@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, InputAccessoryView, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -14,6 +14,7 @@ import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -74,6 +75,10 @@ const CreatePost = () => {
     navigate('/404')
   }
 
+  if (ftLoading) {
+    return null
+  }
+
   const pillData = [
     {
       filterType: 'visibility',
@@ -83,6 +88,26 @@ const CreatePost = () => {
       filterType: 'category',
     },
   ]
+
+  const inputAccessoryViewID = 'uniqueID'
+
+  const PostMenu = ({ onPress: onPress }: { onPress: () => void }) => {
+    return (
+      <View style={styles.menuContainer}>
+        <View style={styles.items}>
+          <View />
+          {/* TODO: Add upload image functionality 
+          <HoliButton transparent label={'Add Image'} inline onPress={() => uploadImage()}>
+            <HoliIcon icon={ImageAdd} style={styles.addImageIcon} />
+          </HoliButton> 
+          */}
+          <HoliButton label={'Post'} inline variant="small" onPress={onPress} style={styles.postButton}>
+            <HoliText bold>Post</HoliText>
+          </HoliButton>
+        </View>
+      </View>
+    )
+  }
 
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
@@ -105,6 +130,7 @@ const CreatePost = () => {
               inputStyle={styles.textInput}
               placeholderColor={theme.colors.gray300}
               aria-label={t('individuals.post.create.category.input.title')}
+              inputAccessoryViewID={inputAccessoryViewID}
             />
             <HoliTextInput
               placeholder={t('individuals.post.create.category.input.description')}
@@ -113,11 +139,18 @@ const CreatePost = () => {
               maxNoOfCharacters={5000}
               placeholderColor={theme.colors.gray300}
               inputStyle={styles.textInput}
-              style={styles.description}
               aria-label={t('individuals.post.create.category.input.description')}
+              inputAccessoryViewID={inputAccessoryViewID}
             />
           </View>
         </View>
+        {Platform.OS === 'ios' ? (
+          <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
+            <PostMenu onPress={() => alert('Boooom!')} />
+          </InputAccessoryView>
+        ) : (
+          <PostMenu onPress={() => alert('Boooom!')} />
+        )}
         <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
@@ -162,14 +195,15 @@ export default withProfiler(CreatePost, { name: 'CreatePost' })
 
 const getStyles = (theme: HoliTheme, windowWidth: number) =>
   StyleSheet.create({
+    // general styles
     text: {
       fontSize: 16,
     },
     layout: {
-      flex: 1,
       backgroundColor: theme.colors.background20,
       paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
       alignItems: 'center',
+      height: '100%',
     },
 
     // modal styles
@@ -205,6 +239,7 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
     modal: {
       backgroundColor: theme.colors.background20,
       paddingHorizontal: 16,
+      paddingTop: 0,
     },
     modalContent: {
       paddingTop: Platform.OS === 'web' ? 0 : 36,
@@ -265,5 +300,40 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       zIndex: 1,
       gap: 8,
       paddingHorizontal: 16,
+    },
+
+    // menu styles
+    menuContainer: {
+      padding: 12,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.gray100,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      ...Platform.select({
+        web: {
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+        },
+      }),
+      backgroundColor: theme.colors.background10,
+    },
+    postButton: {
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: 500,
+      borderWidth: 1,
+      backgroundColor: theme.colors.brandA200,
+    },
+    addImageIcon: {
+      paddingLeft: 2,
+    },
+    items: {
+      flexDirection: 'row',
+      width: '100%',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      maxWidth: dimensions.breakpointM,
     },
   })
