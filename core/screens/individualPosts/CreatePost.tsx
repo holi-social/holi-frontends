@@ -239,13 +239,10 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       alignItems: 'center',
       alignContent: 'center',
       paddingTop: 24,
+      width: '100%',
       ...Platform.select({
         web: {
-          width: '100%',
           maxWidth: dimensions.breakpointM,
-        },
-        native: {
-          width: '100%',
         },
       }),
     },
@@ -253,7 +250,6 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       width: '100%',
       paddingHorizontal: 6,
     },
-    description: {},
     titleFont: {
       fontSize: 21,
       color: theme.colors.black300,
