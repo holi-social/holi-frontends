@@ -26,12 +26,12 @@ const SCROLL_DIRECTIONS = {
     end: { x: 50, y: 75 },
   },
   right: {
-    start: { x: 85, y: 60 },
-    end: { x: 15, y: 40 },
+    start: { x: 85, y: 50 },
+    end: { x: 15, y: 50 },
   },
   left: {
-    start: { x: 15, y: 40 },
-    end: { x: 85, y: 60 },
+    start: { x: 15, y: 50 },
+    end: { x: 85, y: 50 },
   },
   down: {
     start: { x: 50, y: 75 },

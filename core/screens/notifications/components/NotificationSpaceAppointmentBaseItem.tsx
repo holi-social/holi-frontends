@@ -5,11 +5,10 @@ import { StyleSheet, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
-import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
 import { NotificationAppointments, NotificationProps } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
+import HoliRichNotificationContent from '@holi/ui/components/molecules/HoliRichNotificationContent/HoliRichNotificationContent'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const NotificationSpaceAppointmentBaseItem = ({
@@ -41,9 +40,7 @@ export const NotificationSpaceAppointmentBaseItem = ({
           <SpaceAvatar space={space} size="small" style={{ borderColor: 'transparent' }} />
 
           <View style={styles.content}>
-            <NotificationContentText size="small" style={styles.fontColorGray}>
-              {content && <HoliHtmlView html={content} />}
-            </NotificationContentText>
+            {content && <HoliRichNotificationContent html={content} />}
 
             <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
               {getRelativeDateString(created, i18n.language)}

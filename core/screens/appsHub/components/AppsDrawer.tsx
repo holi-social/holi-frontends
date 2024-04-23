@@ -4,10 +4,10 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs'
 
+import FilterPill from '@holi/core/components/FilterPill'
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppTile, { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
-import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Apps, ArrowRightS } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -115,7 +115,7 @@ const AppsDrawer = (props: AppsDrawerProps) => {
           <HoliButton inline transparent style={styles.appsHubButton} label="" onPress={navigateToAppsHub}>
             <View style={styles.appsHubContainer}>
               <HoliHeading size="s">{t('apps.drawer.appsHub')}</HoliHeading>
-              <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small />
+              <FilterPill label={t('apps.drawer.pill')} filterType="planned" small />
               <HoliIcon icon={ArrowRightS} size={24} color={colors.foreground30} />
             </View>
           </HoliButton>

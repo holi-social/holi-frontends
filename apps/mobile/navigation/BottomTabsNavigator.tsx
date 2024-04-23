@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
@@ -26,7 +26,7 @@ import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
@@ -45,31 +45,19 @@ const AppsModalComponent = () => {
 const BottomTabsNavigator = () => {
   const { theme } = useTheme()
   const { colors } = theme
+  const insets = useSafeAreaInsets()
 
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
+  const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
 
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
       screenOptions={{
         tabBarShowLabel: true,
-        tabBarStyle: {
-          ...Platform.select({
-            ios: {
-              height: dimensions.bottomBarMobile,
-            },
-            android: {
-              height: dimensions.bottomBarHeight,
-            },
-          }),
-          paddingTop: 6,
-          backgroundColor: colors.background10,
-          borderTopWidth: StyleSheet.hairlineWidth,
-          borderTopColor: colors.foreground20,
-        },
+        tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: colors.foreground30,
         tabBarInactiveTintColor: colors.foreground20,
       }}
@@ -83,7 +71,7 @@ const BottomTabsNavigator = () => {
             return <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} color={iconColor(focused)} />
           },
           tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
               {t('navigation.home')}
             </HoliText>
           ),
@@ -101,7 +89,7 @@ const BottomTabsNavigator = () => {
             return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={iconColor(focused)} />
           },
           tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
               {t('spaces.title')}
             </HoliText>
           ),
@@ -117,7 +105,7 @@ const BottomTabsNavigator = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => <ChatBottomTabsNavigatorItem focused={focused} />,
           tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
               {t('chat.title')}
             </HoliText>
           ),
@@ -126,26 +114,24 @@ const BottomTabsNavigator = () => {
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
       />
-      {ftEnabledPosts && (
-        <BottomTabs.Screen
-          name={RouteName.AppsModal}
-          component={AppsModalComponent}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused }) => (
-              <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={iconColor(focused)} />
-            ),
-            tabBarLabel: ({ focused }) => (
-              <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
-                {t('apps.drawer.open.btn.text')}
-              </HoliText>
-            ),
-            tabBarButton: (props) => <AppsDrawer {...props} />,
-            tabBarLabelPosition: 'below-icon',
-            tabBarTestID: 'btn-to-apps-view',
-          }}
-        />
-      )}
+      <BottomTabs.Screen
+        name={RouteName.AppsModal}
+        component={AppsModalComponent}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={iconColor(focused)} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
+              {t('apps.drawer.open.btn.text')}
+            </HoliText>
+          ),
+          tabBarButton: (props) => <AppsDrawer {...props} />,
+          tabBarLabelPosition: 'below-icon',
+          tabBarTestID: 'btn-to-apps-view',
+        }}
+      />
       <BottomTabs.Screen
         name={RouteName.Auth}
         component={AuthStackNavigator}
@@ -155,7 +141,7 @@ const BottomTabsNavigator = () => {
           tabBarLabel: ({ focused }) => (
             <HoliText
               size="extrasmall"
-              style={{ color: iconColor(focused) }}
+              style={[{ color: iconColor(focused) }, styles.label]}
               testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
             >
               {isLoggedIn ? t('profile.title') : t('auth.login')}
@@ -171,3 +157,21 @@ const BottomTabsNavigator = () => {
 }
 
 export default BottomTabsNavigator
+
+const getStyles = (theme: HoliTheme, insets: EdgeInsets) =>
+  StyleSheet.create({
+    tabBar: {
+      paddingTop: 4,
+      /**
+       * insets.bottom are the iOS bottom bar (usually on newer devices).
+       * Older devices don't have them, and setting a single tab bar height for all leads to unnecessarily large bottom tabs on older iOS devices.
+       */
+      height: dimensions.bottomBarHeight + insets.bottom,
+      backgroundColor: theme.colors.background10,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: theme.colors.foreground20,
+    },
+    label: {
+      paddingBottom: 4,
+    },
+  })

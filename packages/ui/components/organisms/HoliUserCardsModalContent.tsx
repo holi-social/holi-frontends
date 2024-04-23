@@ -4,9 +4,12 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { User } from '@holi/core/screens/userprofile/types'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
+import Spacing from '@holi/ui/foundations/Spacing'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliUserCardsModalContentProps = {
   users: User[]
@@ -26,6 +29,7 @@ const HoliUserCardsModalContent: React.FC<HoliUserCardsModalContentProps> = ({
   testID,
 }: HoliUserCardsModalContentProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
 
   const uniqueUsers = users.reduce((newArr: User[], nextUser: User) => {
     return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
@@ -39,22 +43,30 @@ const HoliUserCardsModalContent: React.FC<HoliUserCardsModalContentProps> = ({
       testID={testID}
       style={[styles.modalContentWrapper, style]}
     >
-      <HoliCarousel
-        marginHorizontal={20}
-        slides={uniqueUsers.map((user) => ({
-          children: (
-            <View style={styles.link}>
-              <HoliLink
-                href={`/profile/${user.id}`}
-                label={t('user.visitProfile', { name: user.fullName })}
-                onPress={onDismiss}
-              >
-                <HoliUserCard user={user} category={category} disableFocusability />
-              </HoliLink>
-            </View>
-          ),
-        }))}
-      />
+      <>
+        <HoliCarousel
+          marginHorizontal={Spacing.md}
+          slides={uniqueUsers.map((user) => ({
+            children: (
+              <View style={styles.link}>
+                <HoliLink
+                  href={`/profile/${user.id}`}
+                  label={t('user.visitProfile', { name: user.fullName })}
+                  onPress={onDismiss}
+                >
+                  <HoliUserCard
+                    user={user}
+                    category={category}
+                    disableFocusability
+                    style={{ borderColor: theme.colors.black300 }}
+                  />
+                </HoliLink>
+              </View>
+            ),
+          }))}
+        />
+        <HoliGap />
+      </>
     </HoliModalContentWrapper>
   )
 }
