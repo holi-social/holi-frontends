@@ -119,7 +119,7 @@ const HoliModalContentWrapper = (
 
 export default React.forwardRef(HoliModalContentWrapper)
 
-const getStyles = (theme: HoliTheme, insets: EdgeInsets, isFullscreen = false) =>
+const getStyles = (theme: HoliTheme, insets: EdgeInsets) =>
   StyleSheet.create({
     container: {
       position: 'relative',

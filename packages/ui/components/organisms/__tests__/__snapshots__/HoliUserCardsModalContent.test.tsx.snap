@@ -5,6 +5,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   style={
     [
       {
+        "flexShrink": 1,
         "marginHorizontal": "auto",
         "maxHeight": "100%",
         "maxWidth": 800,
@@ -23,9 +24,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   testID="holi-modal-content"
 >
   <RCTScrollView
-    style={
+    contentContainerStyle={
       {
-        "marginBottom": 96,
+        "paddingBottom": 96,
       }
     }
   >
