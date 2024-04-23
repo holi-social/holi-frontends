@@ -19,26 +19,13 @@ import { getValidLocale } from '@holi/web/helpers/getValidLocale'
 
 export default class MyDocument extends Document {
   static async getInitialProps(context: DocumentContext) {
-    let pageProps = {}
-
-    const originalRenderPage = context.renderPage
-
-    context.renderPage = () =>
-      originalRenderPage({
-        enhanceApp: (App) => (props) => {
-          pageProps = props.pageProps
-          return <App {...props} />
-        },
-        enhanceComponent: (Component) => Component,
-      })
-
-    const initialProps = await Document.getInitialProps(context)
     AppRegistry.registerComponent('HOLI', () => Main)
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
+    const { html, head } = await context.renderPage()
 
     const styles = [getStyleElement(), flush()]
-    return { ...initialProps, ...pageProps, styles: Children.toArray(styles) }
+    return { html, head, styles: Children.toArray(styles) }
   }
 
   render() {
