@@ -17,7 +17,9 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -127,6 +129,24 @@ const InitiativeDetailPage = () => {
                 {initiative.linkPreview.title}
               </HoliHeading>
             </View>
+            {initiative.comment && (
+              <View style={styles.recommendationComment}>
+                <View style={styles.recommendationHeadline}>
+                  <HoliLocalImage
+                    imageSource={require('@holi/ui/assets/img/holi/holi_brandmark.svg')}
+                    label="holi-logo"
+                    width={18}
+                    height={18}
+                    resizeMode="contain"
+                    isSvg
+                    style={styles.logo}
+                  />
+                  <HoliText bold>{t('insights.recommendations.creator_reason')}</HoliText>
+                </View>
+
+                <HoliText>{initiative.comment}</HoliText>
+              </View>
+            )}
           </>
         ) : (
           <Skeleton />
@@ -223,6 +243,26 @@ const getStyles = (theme: HoliTheme) =>
     curvedTop: {
       borderTopLeftRadius: 32,
       borderTopRightRadius: 32,
+    },
+    recommendationComment: {
+      backgroundColor: theme.colors.background10,
+      borderRadius: Spacing.lg,
+      paddingVertical: Spacing.md,
+      paddingHorizontal: Spacing.xs,
+    },
+    recommendationHeadline: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+      alignItems: 'center',
+      marginBottom: Spacing.xs,
+    },
+    logo: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      backgroundColor: theme.colors.brandA200,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   })
 
