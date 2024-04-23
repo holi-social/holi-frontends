@@ -9,6 +9,30 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type FilterType = 'generic' | 'visibility' | 'topic' | 'category'
 
+type FilterTypeInfo = {
+  icon: string | React.FC
+  text: string
+}
+
+const filterTypes: Record<FilterType, FilterTypeInfo> = {
+  generic: {
+    icon: Pencil,
+    text: 'Generic',
+  },
+  visibility: {
+    icon: Pencil,
+    text: 'Visibility',
+  },
+  category: {
+    icon: Pencil,
+    text: 'Category',
+  },
+  topic: {
+    icon: Add,
+    text: 'Topic',
+  },
+}
+
 interface BaseProps {
   label: string
   filterType: FilterType
@@ -68,9 +92,14 @@ const SpacesFilterPill: React.FC<CreatePostPillProps> = ({
       testID={testID}
     >
       <HoliText bold numberOfLines={1}>
-        {label}
+        {filterTypes[filterType].text}
       </HoliText>
-      <HoliIcon icon={icon} size={16} color={theme.colors.foreground30} style={styles.filterIcon} />
+      <HoliIcon
+        icon={filterTypes[filterType].icon}
+        size={16}
+        color={theme.colors.foreground30}
+        style={styles.filterIcon}
+      />
     </HoliButton>
   )
 }
