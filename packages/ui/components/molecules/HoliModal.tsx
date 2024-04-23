@@ -21,6 +21,7 @@ import {
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
@@ -233,8 +234,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
               </View>
             ) : null}
           </View>
-
-          {children}
+          {/** SafeAreaProvider needed to avoid NextJS warnings */}
+          {Platform.OS === 'web' && <SafeAreaProvider>{children}</SafeAreaProvider>}
+          {Platform.OS !== 'web' && children}
         </Animated.View>
       </GestureHandlerRootView>
     </ModalBasic>
