@@ -2,10 +2,10 @@ import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
+import useInitiativeLinkNavigation from '@holi/core/screens/insights/initiatives/useInitiativeLinkNavigation'
 import { Initiative } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -21,21 +21,14 @@ interface InitiativeCardProps {
 
 const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
   const [errorLoadingImage, setErrorLoadingImage] = useState(false)
-  const { navigate } = useRouting()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const holiLinkRegex = /^(https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)\/)/
-
-  const isInternalLink = holiLinkRegex.test(initiative.link)
-
-  const initiativeLink = Platform.OS !== 'web' ? initiative.link.replace(holiLinkRegex, '/') : initiative.link
+  const { navigate } = useInitiativeLinkNavigation(initiative, insightId)
 
   return (
     <Pressable
-      onPress={() =>
-        isInternalLink ? navigate(initiativeLink) : navigate(`/insights/${insightId}/initiatives/${initiative.id}`)
-      }
+      onPress={navigate}
       style={({ hovered }) => {
         return hovered ? [styles.card, styles.hovered] : [styles.card]
       }}
