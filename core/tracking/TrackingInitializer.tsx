@@ -2,6 +2,7 @@ import React, { PropsWithChildren, memo, useEffect, useState } from 'react'
 
 import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { getLogger } from '@holi/core/helpers/logging'
+import { trackingEnabled } from '@holi/core/tracking/config'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 const logger = getLogger('Tracking')
@@ -9,7 +10,7 @@ const logger = getLogger('Tracking')
 const TrackingInitializer = ({ children }: PropsWithChildren) => {
   // don't initialize for SSR
   const isClient: boolean = typeof navigator !== 'undefined'
-  return isClient ? <TrackingInitializerInner>{children}</TrackingInitializerInner> : <>{children}</>
+  return trackingEnabled && isClient ? <TrackingInitializerInner>{children}</TrackingInitializerInner> : <>{children}</>
 }
 
 const TrackingInitializerInner = ({ children }: PropsWithChildren) => {

@@ -1,6 +1,7 @@
 import httpProxy from 'http-proxy'
 
-import { posthogHost, posthogKey } from '@holi/core/helpers/config'
+import { posthogHost } from '@holi/core/helpers/config'
+import { trackingEnabled } from '@holi/core/tracking/config'
 
 const proxy = httpProxy.createProxyServer()
 
@@ -10,8 +11,6 @@ export const config = {
     bodyParser: false,
   },
 }
-
-const trackingEnabled = [posthogKey, posthogHost].every((x) => x !== undefined && x.trim().length > 0)
 
 const handler = (req, res) => {
   if (!trackingEnabled) {

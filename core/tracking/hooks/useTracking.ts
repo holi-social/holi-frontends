@@ -1,6 +1,7 @@
 import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
+import { trackingEnabled } from '@holi/core/tracking/config'
 import { ConsentState, consentStore } from '@holi/core/tracking/consent_store'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/posthog_cross_platform'
@@ -90,7 +91,26 @@ const userDeniedTrackingConsent = (posthog: PosthogCrossPlatform, isLoggedIn: bo
     .catch((error) => logError(error, 'Failed to opt-out from tracking', errorContext))
 }
 
-const useTracking = (): TrackingHook => {
+const useDummyTracking = (): TrackingHook => {
+  return {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    trackEvent() {},
+    lifecycle: {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      appInit: () => {},
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      userLoggedIn: () => {},
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      userLoggedOut: () => {},
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      userGaveTrackingConsent: () => {},
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      userDeniedTrackingConsent: () => {},
+    },
+  }
+}
+
+const useRealTracking = (): TrackingHook => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const loginState = useAuth()
   return {
@@ -104,5 +124,7 @@ const useTracking = (): TrackingHook => {
     },
   }
 }
+
+const useTracking = trackingEnabled ? useRealTracking : useDummyTracking
 
 export default useTracking

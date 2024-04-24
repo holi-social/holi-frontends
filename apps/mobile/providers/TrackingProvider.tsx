@@ -3,10 +3,9 @@ import React from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
+import { trackingEnabled } from '@holi/core/tracking/config'
 
 const logger = getLogger('Tracking')
-
-const trackingEnabled = [posthogKey, posthogHost].every((x) => x !== undefined && x.trim().length > 0)
 
 const posthog = trackingEnabled
   ? new PostHog(posthogKey, {

@@ -5,13 +5,12 @@ import React, { useEffect } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
+import { trackingEnabled } from '@holi/core/tracking/config'
 
 const logger = getLogger('Tracking')
 
 // don't actually set a host. the browser knows the origin of the request.
 const POSTHOG_API_HOST = '/api/tracking'
-
-const trackingEnabled = [posthogKey, posthogHost].every((x) => x !== undefined && x.trim().length > 0)
 
 if (trackingEnabled) {
   // Check that PostHog is client-side (used to handle Next.js SSR)
