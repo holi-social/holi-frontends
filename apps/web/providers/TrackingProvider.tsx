@@ -9,7 +9,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 const logger = getLogger('Tracking')
 
 // don't actually set a host. the browser knows the origin of the request.
-const POSTHOG_API_HOST = '/ingest'
+const POSTHOG_API_HOST = '/api/tracking'
 
 const trackingEnabled = [posthogKey, posthogHost].every((x) => x !== undefined && x.trim().length > 0)
 
@@ -21,6 +21,7 @@ if (trackingEnabled) {
     posthog.init(posthogKey, {
       api_host: POSTHOG_API_HOST,
       ui_host: posthogHost,
+      persistence: 'localStorage',
       disable_compression: isDevEnv,
       opt_out_capturing_by_default: true,
       loaded: (posthog) => {
