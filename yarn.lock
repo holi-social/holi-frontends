@@ -5574,7 +5574,7 @@ __metadata:
     next-http-proxy-middleware: "npm:^1.2.6"
     ni18n: "npm:^1.1.0"
     pino: "npm:^8.8.0"
-    posthog-js: "npm:^1.116.1"
+    posthog-js: "npm:^1.28.5"
     raf: "npm:^3.4.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -25958,13 +25958,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.116.1":
-  version: 1.116.1
-  resolution: "posthog-js@npm:1.116.1"
+"posthog-js@npm:^1.28.5":
+  version: 1.128.5
+  resolution: "posthog-js@npm:1.128.5"
   dependencies:
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-  checksum: 10c0/1fe6661df8300c83ec81b90c5a644038dc72fdfc6b8e5f0a8be7a42080405eddff2a8357f2a200a2e34473137df154e19e2ceb7f9fb892eca7e9296b160d9d27
+  checksum: 10c0/2473f62fbf6e9a3c3c78b1882d59d49e888f0ab9122eac46b47a90fef6daf5a2fd011269222ced1d327f1088f76a97263fa6a2f9b667bce3fc1ec05c48b319e6
   languageName: node
   linkType: hard
 
