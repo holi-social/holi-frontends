@@ -7,6 +7,12 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 const logger = getLogger('Tracking')
 
 const TrackingInitializer = ({ children }: PropsWithChildren) => {
+  // don't initialize for SSR
+  const isClient: boolean = typeof navigator !== 'undefined'
+  return isClient ? <TrackingInitializerInner>{children}</TrackingInitializerInner> : <>{children}</>
+}
+
+const TrackingInitializerInner = ({ children }: PropsWithChildren) => {
   const loginState = useAuth()
   const tracking = useTracking()
   const [previousLoginState, setPreviousLoginState] = useState<LoginState | undefined>(loginState)
