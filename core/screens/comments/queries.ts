@@ -59,6 +59,10 @@ export const commentsMetadata = gql`
         creator {
           ...UserAvatar
         }
+        mentions {
+          id
+          fullName
+        }
       }
       commenters(limit: 5) {
         totalResults

@@ -7,6 +7,7 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
+import CommentText from '@holi/core/screens/comments/components/CommentText'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import useDeleteComment from '@holi/core/screens/comments/hooks/useDeleteComment'
 import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComment'
@@ -17,7 +18,6 @@ import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -138,7 +138,9 @@ const CommentView = ({ comment, commentableId, reportContentType, commentableTyp
       <View style={styles.body}>
         <VerticalLine style={styles.commentConnector} />
         <View style={styles.commentContent}>
-          <HoliRichTextOutput text={comment.text} users={comment.mentions || []} style={styles.text} allowAllLinks />
+          <View style={styles.text}>
+            <CommentText comment={comment} />
+          </View>
 
           <View style={styles.reactionsBar}>
             <HoliReactionsCount

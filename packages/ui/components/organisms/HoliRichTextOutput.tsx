@@ -14,11 +14,21 @@ export interface Props extends HoliTextProps {
   links?: Link[]
   style?: StyleProp<TextStyle>
   mentionStyle?: StyleProp<ViewStyle>
+  linkMentionsToProfile?: boolean
   allowAllLinks?: boolean
   testID?: string
 }
 
-const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowAllLinks = false, ...props }: Props) => {
+const HoliRichTextOutput = ({
+  text,
+  users = [],
+  links = [],
+  testID,
+  size,
+  allowAllLinks = false,
+  linkMentionsToProfile = true,
+  ...props
+}: Props) => {
   const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'default' : size
 
   /**
@@ -27,6 +37,7 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowA
    */
 
   const isExternalLink = (url: string) => !url.includes('holi.social') && !url.includes('localhost')
+  const mentionPrefix = Platform.OS === 'web' ? '' : '@'
 
   const textWithMentions = (() => {
     return text
@@ -37,16 +48,23 @@ const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, allowA
         const replaced = user ? textPart.replace(REGEX_USER_MENTIONS, user.fullName) : undefined
 
         return user && replaced ? (
-          <HoliTextLink
-            label={user.fullName ?? ''}
-            href={`/profile/${user.id}`}
-            key={index}
-            size={linkSize}
-            color="brandB300"
-          >
-            {Platform.OS !== 'web' ? '@' : ''}
-            {replaced}
-          </HoliTextLink>
+          linkMentionsToProfile ? (
+            <HoliTextLink
+              label={user.fullName ?? ''}
+              href={`/profile/${user.id}`}
+              key={index}
+              size={linkSize}
+              color="brandB300"
+            >
+              {mentionPrefix}
+              {replaced}
+            </HoliTextLink>
+          ) : (
+            <HoliText key={index} size={linkSize}>
+              {mentionPrefix}
+              {replaced}
+            </HoliText>
+          )
         ) : (
           textPart
         )
