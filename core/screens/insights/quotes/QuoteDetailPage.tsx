@@ -12,6 +12,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
@@ -130,6 +131,7 @@ const QuoteDetailPage = () => {
                   imageBlurhash={insight.creator.avatarBlurhash}
                   label={insight.creator.fullName ?? ''}
                   initials={insight.creator.avatarLabel ?? ''}
+                  defaultColor={insight.creator.avatarDefaultColor}
                 />
 
                 <HoliHeading level="3">{t('insights.quotes.detail.subtitle')}</HoliHeading>
@@ -139,6 +141,11 @@ const QuoteDetailPage = () => {
               <QuoteCard.QuoteOnly quote={quote} quoteColor="#A3DAFC" />
               <HoliGap size="s" />
               <HoliText>{quote.comment}</HoliText>
+              {!!quote && (
+                <View style={styles.reaction}>
+                  <InsightReactions item={quote} itemType={ItemType.QUOTE} />
+                </View>
+              )}
             </View>
           </>
         ) : (
@@ -231,6 +238,10 @@ const getStyles = (theme: HoliTheme) =>
         native: { position: 'absolute', bottom: 40 },
         web: { position: 'fixed', bottom: 82 },
       }),
+    },
+    reaction: {
+      width: '100%',
+      alignItems: 'flex-end',
     },
   })
 

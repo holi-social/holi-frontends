@@ -17,7 +17,7 @@ export interface HoliCardProps {
   hasBorder?: boolean
 }
 
-type CardAspectRatio = 1.5 | 1
+type CardAspectRatio = 1 | 1.5 | 1.75
 
 const generateVariantStyles = (aspectRatio: CardAspectRatio, hasBorder: boolean) => {
   return StyleSheet.create({

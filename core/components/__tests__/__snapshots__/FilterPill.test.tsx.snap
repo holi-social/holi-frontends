@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterPill renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "borderColor": "#262424",
+        "borderRadius": 48,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "paddingHorizontal": 10,
+        "paddingVertical": 4,
+      },
+      {
+        "backgroundColor": "#fff",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    accessible={false}
+    numberOfLines={1}
+    selectable={true}
+    style={
+      {
+        "color": "#262424",
+        "fontFamily": "Circular Std Book",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
+  >
+    generic filter
+  </Text>
+</View>
+`;
+
+exports[`FilterPill renders correctly 2`] = `
+<View
+  style={
+    [
+      {
+        "borderColor": "#262424",
+        "borderRadius": 48,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "paddingHorizontal": 10,
+        "paddingVertical": 4,
+      },
+      {
+        "backgroundColor": "#fff",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    accessible={false}
+    numberOfLines={1}
+    selectable={true}
+    style={
+      {
+        "color": "#262424",
+        "fontFamily": "Circular Std Book",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
+  >
+    location filter
+  </Text>
+</View>
+`;
+
+exports[`FilterPill renders correctly 3`] = `
+<View
+  style={
+    [
+      {
+        "borderColor": "#262424",
+        "borderRadius": 48,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "paddingHorizontal": 10,
+        "paddingVertical": 4,
+      },
+      {
+        "backgroundColor": "#abff8b",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    accessible={false}
+    numberOfLines={1}
+    selectable={true}
+    style={
+      {
+        "color": "#262424",
+        "fontFamily": "Circular Std Book",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
+  >
+    topic filter
+  </Text>
+</View>
+`;
+
+exports[`FilterPill renders correctly 4`] = `
+<View
+  style={
+    [
+      {
+        "borderColor": "#262424",
+        "borderRadius": 48,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "paddingHorizontal": 10,
+        "paddingVertical": 4,
+      },
+      {
+        "backgroundColor": "#90ddff",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    accessible={false}
+    numberOfLines={1}
+    selectable={true}
+    style={
+      {
+        "color": "#262424",
+        "fontFamily": "Circular Std Book",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
+  >
+    skill filter
+  </Text>
+</View>
+`;

@@ -67,14 +67,14 @@ const HoliUserCard: React.FC<HoliUserCardProps> = ({
             </View>
           </>
         )}
+        {variant === 'small' && (
+          <View style={styles.textContainer}>
+            <HoliText style={styles.textStyleSmall} size="small">
+              {fullName || t('user.profileView.anonymous')}
+            </HoliText>
+          </View>
+        )}
       </View>
-      {variant === 'small' && (
-        <View style={styles.textContainer}>
-          <HoliText style={styles.textStyleSmall} size="small">
-            {fullName || t('user.profileView.anonymous')}
-          </HoliText>
-        </View>
-      )}
     </>
   )
 }
@@ -87,9 +87,12 @@ const getStyles = (variant: HoliUserCardVariant, theme: HoliTheme) =>
       borderRadius: 16,
       alignItems: 'center',
       alignContent: 'center',
-      backgroundColor: theme.colors.background20,
+      backgroundColor: theme.colors.background10,
       padding: variant === 'normal' ? 24 : 16,
-      height: variant === 'normal' ? '100%' : 'auto',
+      height: 'auto',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: theme.colors.gray200,
     },
     chip: {
       marginBottom: 8,

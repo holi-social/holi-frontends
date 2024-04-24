@@ -172,7 +172,7 @@ interface ApolloCreateClientOptions {
   readonly ssrMode: boolean
 }
 
-const API_URL = process.env.HOLI_API_URL
+const API_URL = 'http://localhost:3000/api/graphql'
 const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
 
 const cache = createCache()

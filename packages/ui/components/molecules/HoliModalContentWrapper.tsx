@@ -11,6 +11,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -56,8 +57,9 @@ const HoliModalContentWrapper = (
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
   const showFooter = !hideFooterWhenKeyboardIsOpen || !(isKeyboardOpen || isSoftkeyboardOpen)
+  const insets = useSafeAreaInsets()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
 
   const content = (
     <>
@@ -78,8 +80,6 @@ const HoliModalContentWrapper = (
       )}
 
       {isSoftkeyboardOpen && <View style={styles.keyboardPlaceHolder} />}
-
-      {showFooter && <View style={styles.actionButtonPlaceholder} />}
     </>
   )
 
@@ -90,7 +90,11 @@ const HoliModalContentWrapper = (
       {loading && <HoliLoader style={styles.saveLoaderContainer} testID={`${testID}-loader`} />}
 
       {scrollable ? (
-        <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+        <ScrollView
+          ref={ref}
+          keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+          contentContainerStyle={styles.scrollViewContent}
+        >
           {content}
         </ScrollView>
       ) : (
@@ -115,13 +119,14 @@ const HoliModalContentWrapper = (
 
 export default React.forwardRef(HoliModalContentWrapper)
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, insets: EdgeInsets) =>
   StyleSheet.create({
     container: {
       position: 'relative',
       marginHorizontal: 'auto',
       maxHeight: '100%',
       width: '100%',
+      flexShrink: 1,
       maxWidth: 800,
       ...(Platform.OS === 'web' ? { flex: 1 } : {}),
     },
@@ -130,8 +135,8 @@ const getStyles = (theme: HoliTheme) =>
       zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
       height: 120,
     },
-    actionButtonPlaceholder: {
-      height: 96,
+    scrollViewContent: {
+      paddingBottom: insets.bottom + 96,
     },
     actionButtonContainer: {
       position: 'absolute',
@@ -144,8 +149,8 @@ const getStyles = (theme: HoliTheme) =>
     },
     button: {
       marginTop: 0,
-      marginBottom: 0,
       maxWidth: dimensions.maxButtonWidth,
+      marginBottom: insets.bottom,
     },
     saveLoaderContainer: {
       backgroundColor: theme.colors.background10,

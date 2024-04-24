@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -19,30 +19,14 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-const styles = StyleSheet.create({
-  editorsButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  editorsButtonText: {
-    marginLeft: 10,
-    flex: 1,
-    flexWrap: 'wrap',
-  },
-  insightList: {
-    marginTop: 24,
-  },
-  handwaveFilled: {
-    paddingLeft: 8,
-  },
-})
 
 const InsightsOfTheWeek = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
   const mixins = useStyleMixins()
@@ -95,7 +79,12 @@ const InsightsOfTheWeek = () => {
         </HoliButton>
       </HoliBox>
 
-      <HoliModal label={t('insights.editors.modal.title')} {...editorsModalProps} testID="insight-editors-modal">
+      <HoliModal
+        label={t('insights.editors.modal.title')}
+        {...editorsModalProps}
+        style={styles.modal}
+        testID="insight-editors-modal"
+      >
         <HoliUserCardsModalContent
           title={t('insights.editors.modal.title')}
           users={insightsCreators}
@@ -117,3 +106,23 @@ const InsightsOfTheWeek = () => {
 }
 
 export default withProfiler(InsightsOfTheWeek, { name: 'InsightsOfTheWeek' })
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    editorsButtonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    editorsButtonText: {
+      marginLeft: 10,
+      flex: 1,
+      flexWrap: 'wrap',
+    },
+    insightList: {
+      marginTop: 24,
+    },
+    handwaveFilled: {
+      paddingLeft: 8,
+    },
+    modal: { backgroundColor: theme.colors.white200 },
+  })

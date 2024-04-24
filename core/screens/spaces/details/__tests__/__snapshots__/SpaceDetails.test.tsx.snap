@@ -1504,27 +1504,36 @@ exports[`SpaceDetails renders correctly 1`] = `
                           style={
                             {
                               "alignItems": "center",
+                              "flex": 1,
                               "flexDirection": "row",
                               "gap": 12,
                             }
                           }
                         >
-                          <Text
-                            role="heading"
-                            selectable={true}
+                          <View
                             style={
                               {
-                                "color": "#262424",
-                                "fontFamily": "Circular Std Medium",
-                                "fontSize": 21,
-                                "fontWeight": "500",
-                                "lineHeight": 29.4,
-                                "userSelect": "auto",
+                                "flex": 1,
                               }
                             }
                           >
-                            spaces.spaceDetails.topics
-                          </Text>
+                            <Text
+                              role="heading"
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#262424",
+                                  "fontFamily": "Circular Std Medium",
+                                  "fontSize": 21,
+                                  "fontWeight": "500",
+                                  "lineHeight": 29.4,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              spaces.spaceDetails.topics
+                            </Text>
+                          </View>
                         </View>
                       </View>
                       <View
@@ -1753,27 +1762,36 @@ exports[`SpaceDetails renders correctly 1`] = `
                           style={
                             {
                               "alignItems": "center",
+                              "flex": 1,
                               "flexDirection": "row",
                               "gap": 12,
                             }
                           }
                         >
-                          <Text
-                            role="heading"
-                            selectable={true}
+                          <View
                             style={
                               {
-                                "color": "#262424",
-                                "fontFamily": "Circular Std Medium",
-                                "fontSize": 21,
-                                "fontWeight": "500",
-                                "lineHeight": 29.4,
-                                "userSelect": "auto",
+                                "flex": 1,
                               }
                             }
                           >
-                            spaces.spaceDetails.location
-                          </Text>
+                            <Text
+                              role="heading"
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#262424",
+                                  "fontFamily": "Circular Std Medium",
+                                  "fontSize": 21,
+                                  "fontWeight": "500",
+                                  "lineHeight": 29.4,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              spaces.spaceDetails.location
+                            </Text>
+                          </View>
                         </View>
                       </View>
                       <View
@@ -1831,27 +1849,36 @@ exports[`SpaceDetails renders correctly 1`] = `
                           style={
                             {
                               "alignItems": "center",
+                              "flex": 1,
                               "flexDirection": "row",
                               "gap": 12,
                             }
                           }
                         >
-                          <Text
-                            role="heading"
-                            selectable={true}
+                          <View
                             style={
                               {
-                                "color": "#262424",
-                                "fontFamily": "Circular Std Medium",
-                                "fontSize": 21,
-                                "fontWeight": "500",
-                                "lineHeight": 29.4,
-                                "userSelect": "auto",
+                                "flex": 1,
                               }
                             }
                           >
-                            spaces.spaceDetails.publicLinks
-                          </Text>
+                            <Text
+                              role="heading"
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#262424",
+                                  "fontFamily": "Circular Std Medium",
+                                  "fontSize": 21,
+                                  "fontWeight": "500",
+                                  "lineHeight": 29.4,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              spaces.spaceDetails.publicLinks
+                            </Text>
+                          </View>
                         </View>
                       </View>
                       <View
@@ -3041,44 +3068,20 @@ exports[`SpaceDetails renders correctly 1`] = `
                                     }
                                   >
                                     <View
-                                      accessibilityLabel="Communication skills"
-                                      accessibilityRole="button"
-                                      accessibilityState={
-                                        {
-                                          "busy": undefined,
-                                          "checked": undefined,
-                                          "disabled": false,
-                                          "expanded": undefined,
-                                          "selected": undefined,
-                                        }
-                                      }
-                                      accessibilityValue={
-                                        {
-                                          "max": undefined,
-                                          "min": undefined,
-                                          "now": undefined,
-                                          "text": undefined,
-                                        }
-                                      }
-                                      accessible={true}
-                                      collapsable={false}
-                                      focusable={true}
-                                      onBlur={[Function]}
-                                      onClick={[Function]}
-                                      onFocus={[Function]}
-                                      onResponderGrant={[Function]}
-                                      onResponderMove={[Function]}
-                                      onResponderRelease={[Function]}
-                                      onResponderTerminate={[Function]}
-                                      onResponderTerminationRequest={[Function]}
-                                      onStartShouldSetResponder={[Function]}
                                       style={
                                         [
-                                          [
-                                            {
-                                              "width": "auto",
-                                            },
-                                          ],
+                                          {
+                                            "borderColor": "#262424",
+                                            "borderRadius": 48,
+                                            "borderWidth": 1,
+                                            "flexDirection": "row",
+                                            "justifyContent": "center",
+                                            "paddingHorizontal": 8,
+                                            "paddingVertical": 2,
+                                          },
+                                          {
+                                            "backgroundColor": "#90ddff",
+                                          },
                                           {
                                             "flexShrink": 1,
                                             "marginRight": 6,
@@ -3086,90 +3089,40 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           },
                                         ]
                                       }
-                                      testID="spaces-topic-title"
                                     >
-                                      <View
+                                      <Text
+                                        accessible={false}
+                                        numberOfLines={1}
+                                        selectable={true}
                                         style={
-                                          [
-                                            {
-                                              "pointerEvents": "none",
-                                            },
-                                            false,
-                                            [
-                                              {
-                                                "borderColor": "#262424",
-                                                "borderRadius": 48,
-                                                "borderWidth": 1,
-                                                "flexDirection": "row",
-                                                "justifyContent": "center",
-                                                "paddingHorizontal": 8,
-                                                "paddingVertical": 2,
-                                              },
-                                              {
-                                                "backgroundColor": "#90ddff",
-                                              },
-                                            ],
-                                          ]
+                                          {
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Book",
+                                            "fontSize": 14,
+                                            "fontWeight": "400",
+                                            "lineHeight": 19.599999999999998,
+                                            "userSelect": "auto",
+                                          }
                                         }
                                       >
-                                        <Text
-                                          accessible={false}
-                                          numberOfLines={1}
-                                          selectable={true}
-                                          style={
-                                            {
-                                              "color": "#262424",
-                                              "fontFamily": "Circular Std Book",
-                                              "fontSize": 14,
-                                              "fontWeight": "400",
-                                              "lineHeight": 19.599999999999998,
-                                              "userSelect": "auto",
-                                            }
-                                          }
-                                        >
-                                          Communication skills
-                                        </Text>
-                                      </View>
+                                        Communication skills
+                                      </Text>
                                     </View>
                                     <View
-                                      accessibilityLabel="Creativity"
-                                      accessibilityRole="button"
-                                      accessibilityState={
-                                        {
-                                          "busy": undefined,
-                                          "checked": undefined,
-                                          "disabled": false,
-                                          "expanded": undefined,
-                                          "selected": undefined,
-                                        }
-                                      }
-                                      accessibilityValue={
-                                        {
-                                          "max": undefined,
-                                          "min": undefined,
-                                          "now": undefined,
-                                          "text": undefined,
-                                        }
-                                      }
-                                      accessible={true}
-                                      collapsable={false}
-                                      focusable={true}
-                                      onBlur={[Function]}
-                                      onClick={[Function]}
-                                      onFocus={[Function]}
-                                      onResponderGrant={[Function]}
-                                      onResponderMove={[Function]}
-                                      onResponderRelease={[Function]}
-                                      onResponderTerminate={[Function]}
-                                      onResponderTerminationRequest={[Function]}
-                                      onStartShouldSetResponder={[Function]}
                                       style={
                                         [
-                                          [
-                                            {
-                                              "width": "auto",
-                                            },
-                                          ],
+                                          {
+                                            "borderColor": "#262424",
+                                            "borderRadius": 48,
+                                            "borderWidth": 1,
+                                            "flexDirection": "row",
+                                            "justifyContent": "center",
+                                            "paddingHorizontal": 8,
+                                            "paddingVertical": 2,
+                                          },
+                                          {
+                                            "backgroundColor": "#90ddff",
+                                          },
                                           {
                                             "flexShrink": 1,
                                             "marginRight": 6,
@@ -3177,50 +3130,24 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           },
                                         ]
                                       }
-                                      testID="spaces-topic-title"
                                     >
-                                      <View
+                                      <Text
+                                        accessible={false}
+                                        numberOfLines={1}
+                                        selectable={true}
                                         style={
-                                          [
-                                            {
-                                              "pointerEvents": "none",
-                                            },
-                                            false,
-                                            [
-                                              {
-                                                "borderColor": "#262424",
-                                                "borderRadius": 48,
-                                                "borderWidth": 1,
-                                                "flexDirection": "row",
-                                                "justifyContent": "center",
-                                                "paddingHorizontal": 8,
-                                                "paddingVertical": 2,
-                                              },
-                                              {
-                                                "backgroundColor": "#90ddff",
-                                              },
-                                            ],
-                                          ]
+                                          {
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Book",
+                                            "fontSize": 14,
+                                            "fontWeight": "400",
+                                            "lineHeight": 19.599999999999998,
+                                            "userSelect": "auto",
+                                          }
                                         }
                                       >
-                                        <Text
-                                          accessible={false}
-                                          numberOfLines={1}
-                                          selectable={true}
-                                          style={
-                                            {
-                                              "color": "#262424",
-                                              "fontFamily": "Circular Std Book",
-                                              "fontSize": 14,
-                                              "fontWeight": "400",
-                                              "lineHeight": 19.599999999999998,
-                                              "userSelect": "auto",
-                                            }
-                                          }
-                                        >
-                                          Creativity
-                                        </Text>
-                                      </View>
+                                        Creativity
+                                      </Text>
                                     </View>
                                   </View>
                                   <View
@@ -3845,44 +3772,20 @@ exports[`SpaceDetails renders correctly 1`] = `
                                     }
                                   >
                                     <View
-                                      accessibilityLabel="Communication skills"
-                                      accessibilityRole="button"
-                                      accessibilityState={
-                                        {
-                                          "busy": undefined,
-                                          "checked": undefined,
-                                          "disabled": false,
-                                          "expanded": undefined,
-                                          "selected": undefined,
-                                        }
-                                      }
-                                      accessibilityValue={
-                                        {
-                                          "max": undefined,
-                                          "min": undefined,
-                                          "now": undefined,
-                                          "text": undefined,
-                                        }
-                                      }
-                                      accessible={true}
-                                      collapsable={false}
-                                      focusable={true}
-                                      onBlur={[Function]}
-                                      onClick={[Function]}
-                                      onFocus={[Function]}
-                                      onResponderGrant={[Function]}
-                                      onResponderMove={[Function]}
-                                      onResponderRelease={[Function]}
-                                      onResponderTerminate={[Function]}
-                                      onResponderTerminationRequest={[Function]}
-                                      onStartShouldSetResponder={[Function]}
                                       style={
                                         [
-                                          [
-                                            {
-                                              "width": "auto",
-                                            },
-                                          ],
+                                          {
+                                            "borderColor": "#262424",
+                                            "borderRadius": 48,
+                                            "borderWidth": 1,
+                                            "flexDirection": "row",
+                                            "justifyContent": "center",
+                                            "paddingHorizontal": 8,
+                                            "paddingVertical": 2,
+                                          },
+                                          {
+                                            "backgroundColor": "#90ddff",
+                                          },
                                           {
                                             "flexShrink": 1,
                                             "marginRight": 6,
@@ -3890,90 +3793,40 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           },
                                         ]
                                       }
-                                      testID="spaces-topic-title"
                                     >
-                                      <View
+                                      <Text
+                                        accessible={false}
+                                        numberOfLines={1}
+                                        selectable={true}
                                         style={
-                                          [
-                                            {
-                                              "pointerEvents": "none",
-                                            },
-                                            false,
-                                            [
-                                              {
-                                                "borderColor": "#262424",
-                                                "borderRadius": 48,
-                                                "borderWidth": 1,
-                                                "flexDirection": "row",
-                                                "justifyContent": "center",
-                                                "paddingHorizontal": 8,
-                                                "paddingVertical": 2,
-                                              },
-                                              {
-                                                "backgroundColor": "#90ddff",
-                                              },
-                                            ],
-                                          ]
+                                          {
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Book",
+                                            "fontSize": 14,
+                                            "fontWeight": "400",
+                                            "lineHeight": 19.599999999999998,
+                                            "userSelect": "auto",
+                                          }
                                         }
                                       >
-                                        <Text
-                                          accessible={false}
-                                          numberOfLines={1}
-                                          selectable={true}
-                                          style={
-                                            {
-                                              "color": "#262424",
-                                              "fontFamily": "Circular Std Book",
-                                              "fontSize": 14,
-                                              "fontWeight": "400",
-                                              "lineHeight": 19.599999999999998,
-                                              "userSelect": "auto",
-                                            }
-                                          }
-                                        >
-                                          Communication skills
-                                        </Text>
-                                      </View>
+                                        Communication skills
+                                      </Text>
                                     </View>
                                     <View
-                                      accessibilityLabel="Creativity"
-                                      accessibilityRole="button"
-                                      accessibilityState={
-                                        {
-                                          "busy": undefined,
-                                          "checked": undefined,
-                                          "disabled": false,
-                                          "expanded": undefined,
-                                          "selected": undefined,
-                                        }
-                                      }
-                                      accessibilityValue={
-                                        {
-                                          "max": undefined,
-                                          "min": undefined,
-                                          "now": undefined,
-                                          "text": undefined,
-                                        }
-                                      }
-                                      accessible={true}
-                                      collapsable={false}
-                                      focusable={true}
-                                      onBlur={[Function]}
-                                      onClick={[Function]}
-                                      onFocus={[Function]}
-                                      onResponderGrant={[Function]}
-                                      onResponderMove={[Function]}
-                                      onResponderRelease={[Function]}
-                                      onResponderTerminate={[Function]}
-                                      onResponderTerminationRequest={[Function]}
-                                      onStartShouldSetResponder={[Function]}
                                       style={
                                         [
-                                          [
-                                            {
-                                              "width": "auto",
-                                            },
-                                          ],
+                                          {
+                                            "borderColor": "#262424",
+                                            "borderRadius": 48,
+                                            "borderWidth": 1,
+                                            "flexDirection": "row",
+                                            "justifyContent": "center",
+                                            "paddingHorizontal": 8,
+                                            "paddingVertical": 2,
+                                          },
+                                          {
+                                            "backgroundColor": "#90ddff",
+                                          },
                                           {
                                             "flexShrink": 1,
                                             "marginRight": 6,
@@ -3981,50 +3834,24 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           },
                                         ]
                                       }
-                                      testID="spaces-topic-title"
                                     >
-                                      <View
+                                      <Text
+                                        accessible={false}
+                                        numberOfLines={1}
+                                        selectable={true}
                                         style={
-                                          [
-                                            {
-                                              "pointerEvents": "none",
-                                            },
-                                            false,
-                                            [
-                                              {
-                                                "borderColor": "#262424",
-                                                "borderRadius": 48,
-                                                "borderWidth": 1,
-                                                "flexDirection": "row",
-                                                "justifyContent": "center",
-                                                "paddingHorizontal": 8,
-                                                "paddingVertical": 2,
-                                              },
-                                              {
-                                                "backgroundColor": "#90ddff",
-                                              },
-                                            ],
-                                          ]
+                                          {
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Book",
+                                            "fontSize": 14,
+                                            "fontWeight": "400",
+                                            "lineHeight": 19.599999999999998,
+                                            "userSelect": "auto",
+                                          }
                                         }
                                       >
-                                        <Text
-                                          accessible={false}
-                                          numberOfLines={1}
-                                          selectable={true}
-                                          style={
-                                            {
-                                              "color": "#262424",
-                                              "fontFamily": "Circular Std Book",
-                                              "fontSize": 14,
-                                              "fontWeight": "400",
-                                              "lineHeight": 19.599999999999998,
-                                              "userSelect": "auto",
-                                            }
-                                          }
-                                        >
-                                          Creativity
-                                        </Text>
-                                      </View>
+                                        Creativity
+                                      </Text>
                                     </View>
                                   </View>
                                   <View
