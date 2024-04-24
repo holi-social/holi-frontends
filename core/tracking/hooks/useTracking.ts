@@ -14,6 +14,14 @@ const trackEvent =
     posthog.capture(event.name, event.properties)
   }
 
+const optIn = async (posthog: PosthogCrossPlatform) => {
+  if (!posthog.optedIn()) await posthog.optIn()
+}
+
+const optOut = async (posthog: PosthogCrossPlatform) => {
+  if (posthog.optedIn()) await posthog.optOut()
+}
+
 const appInit =
   (posthog: PosthogCrossPlatform) =>
   async (loginState: LoginState): Promise<void> => {
@@ -21,14 +29,14 @@ const appInit =
     const consent = await consentStore.getConsent(loginState.isLoggedIn)
     if (consent == ConsentState.Given) {
       logger.debug('lifecycle.appInit', 'consent given, opting in on posthog client')
-      await posthog.optIn()
+      await optIn(posthog)
       if (loginState.isLoggedIn) {
         logger.debug('lifecycle.appInit', 'identifying user on posthog client')
         posthog.identify(loginState.userId)
       }
     } else {
       logger.debug('lifecycle.appInit', 'consent NOT given, opting out on posthog client')
-      await posthog.optOut()
+      await optOut(posthog)
     }
   }
 
@@ -38,14 +46,14 @@ const userLoggedIn = (posthog: PosthogCrossPlatform, loginState: LoginState) => 
   // TODO this is called before login has been
   if (consent == ConsentState.Given) {
     logger.debug('lifecycle.userLoggedIn', 'consent given, opting in on posthog client')
-    await posthog.optIn()
+    await optIn(posthog)
     if (loginState.isLoggedIn) {
       logger.debug('lifecycle.userLoggedIn', 'identifying user on posthog client')
       posthog.identify(loginState.userId)
     }
   } else {
     logger.debug('lifecycle.userLoggedIn', 'consent NOT given, opting out on posthog client')
-    await posthog.optOut()
+    await optOut(posthog)
   }
 }
 
@@ -66,7 +74,7 @@ const userGaveTrackingConsent = (posthog: PosthogCrossPlatform, isLoggedIn: bool
     .giveConsent(isLoggedIn)
     .then(() => logger.debug('lifecycle.userGaveTrackingConsent', 'persisted opt-in on consentStore'))
     .catch((error) => logError(error, 'Failed to store given tracking consent', errorContext))
-    .then(() => posthog.optIn())
+    .then(() => optIn(posthog))
     .then(() => logger.debug('lifecycle.userGaveTrackingConsent', 'opted-in on Posthog client'))
     .catch((error) => logError(error, 'Failed to opt-in into tracking', errorContext))
 }
@@ -77,7 +85,7 @@ const userDeniedTrackingConsent = (posthog: PosthogCrossPlatform, isLoggedIn: bo
     .denyConsent(isLoggedIn)
     .then(() => logger.debug('lifecycle.userDeniedTrackingConsent', 'persisted opt-out on consentStore'))
     .catch((error) => logError(error, 'Failed to store denied tracking consent', errorContext))
-    .finally(() => posthog.optOut())
+    .finally(() => optOut(posthog))
     .then(() => logger.debug('lifecycle.userDeniedTrackingConsent', 'opted-out on Posthog client'))
     .catch((error) => logError(error, 'Failed to opt-out from tracking', errorContext))
 }

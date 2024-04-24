@@ -16,6 +16,10 @@ export class PosthogReactNative implements PosthogCrossPlatform {
     this.posthog.identify(distinctId)
   }
 
+  optedIn(): boolean {
+    return !this.posthog.optedOut
+  }
+
   optIn(): Promise<void> {
     return this.posthog.optIn()
   }

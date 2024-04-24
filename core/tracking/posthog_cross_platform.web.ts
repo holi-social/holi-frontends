@@ -17,6 +17,10 @@ export class PosthogWeb implements PosthogCrossPlatform {
     this.posthog.identify(distinctId)
   }
 
+  optedIn(): boolean {
+    return this.posthog.has_opted_in_capturing()
+  }
+
   optIn(): Promise<void> {
     this.posthog.opt_in_capturing()
     return Promise.resolve()

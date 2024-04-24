@@ -13,6 +13,7 @@ export interface TrackingHook {
 }
 
 export interface PosthogCrossPlatform {
+  optedIn: () => boolean
   optIn: () => Promise<void>
   optOut: () => Promise<void>
   reset: () => void
