@@ -45,7 +45,7 @@ type CreatePostPillProps = SkeletonProps | Props
 
 const BORDER_RADIUS = 48
 
-const SpacesFilterPill: React.FC<CreatePostPillProps> = ({
+const CreatePostPill: React.FC<CreatePostPillProps> = ({
   loading,
   label,
   filterType,
@@ -121,4 +121,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default SpacesFilterPill
+export default CreatePostPill
