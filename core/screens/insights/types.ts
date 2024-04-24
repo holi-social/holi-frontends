@@ -73,6 +73,7 @@ export interface Initiative {
   linkPreview: Link
   reactions: ReactionCounts
   myReaction: ReactionCounts
+  comment: string
 }
 
 export interface Discussion {
