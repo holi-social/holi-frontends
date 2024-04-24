@@ -7,6 +7,7 @@ import StyleSheet from 'react-native-media-query'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import CommentText from '@holi/core/screens/comments/components/CommentText'
 import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
@@ -93,9 +94,13 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
                   <HoliText size="small" bold>
                     {topComment.creator.fullName || t('user.profileView.anonymous')}
                   </HoliText>
-                  <HoliText size="small" color="gray300" numberOfLines={2}>
-                    {topComment.text}
-                  </HoliText>
+                  <CommentText
+                    comment={topComment}
+                    size="small"
+                    color="gray300"
+                    numberOfLines={2}
+                    linkMentionsToProfile={false}
+                  />
                 </View>
               </View>
             </ResponsesContainer>
