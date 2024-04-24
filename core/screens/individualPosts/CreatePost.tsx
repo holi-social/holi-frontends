@@ -316,6 +316,11 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
           bottom: 0,
           width: '100%',
         },
+        android: {
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+        },
       }),
       backgroundColor: theme.colors.background10,
     },
