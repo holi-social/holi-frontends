@@ -16,7 +16,13 @@ const posthog = trackingEnabled
 
 export const TrackingProvider = ({ children }: { children?: React.ReactNode }) => {
   logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled)
-  return posthog ? <PostHogProvider client={posthog}>{children}</PostHogProvider> : <>{children}</>
+  return posthog ? (
+    <PostHogProvider client={posthog} autocapture={{ captureTouches: true }}>
+      {children}
+    </PostHogProvider>
+  ) : (
+    <>{children}</>
+  )
 }
 
 export default TrackingProvider
