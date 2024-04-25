@@ -16,7 +16,7 @@ import {
   UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserResponse,
   authenticatedUserQuery,
-  updateUserMutation,
+  updateAuthenticatedUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -40,7 +40,7 @@ type UserProfileFormProps = {
 }
 
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
-  const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
+  const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateAuthenticatedUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')

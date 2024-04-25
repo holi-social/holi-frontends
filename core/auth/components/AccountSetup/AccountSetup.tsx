@@ -17,7 +17,7 @@ import {
   UpdateAuthenticatedUserResponse,
   authenticatedUserQuery,
   interestsQuery,
-  updateUserMutation,
+  updateAuthenticatedUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -72,7 +72,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { isLoggedOut } = useAuth()
   const { user, isLoading } = useLoggedInUser()
 
-  const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
+  const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateAuthenticatedUserMutation)
   const updateUserQueryVariables = useRef<Partial<UpdateAuthenticatedUserInput>>({})
 
   // User Names step logic
