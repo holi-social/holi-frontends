@@ -58,6 +58,7 @@ export interface HoliTextInputProps {
   'aria-controls'?: string
   showCharacterCount?: boolean
   isRequired?: boolean
+  inputAccessoryViewID?: string
 }
 
 const isIOS = Platform.OS === 'ios'
@@ -106,6 +107,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
       onBlur,
       showCharacterCount = false,
       isRequired = false,
+      inputAccessoryViewID,
       ...props
     },
     ref
@@ -254,6 +256,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               ref={textAreaRef}
               // Fix for correct cursor scrolling for multiple lines
               scrollEnabled={multiline ? Math.floor(inputHeight / INPUT_HEIGHT) >= maxNoOfVisibleLines : true}
+              inputAccessoryViewID={inputAccessoryViewID}
             />
             {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
               <View style={styles.trailingIconWrapper}>
