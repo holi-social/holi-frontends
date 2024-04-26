@@ -51,14 +51,10 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  return (
-    <TrackingProvider>
-      {featureFlag.enableSSR ? (
-        <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
-      ) : (
-        <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-      )}
-    </TrackingProvider>
+  return featureFlag.enableSSR ? (
+    <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
+  ) : (
+    <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
   )
 }
 

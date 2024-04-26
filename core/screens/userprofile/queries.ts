@@ -100,14 +100,14 @@ export const authenticatedUserQuery = gql`
   ${FullAuthenticatedUserFragment}
 
   query AuthenticatedUser {
-    authenticatedUserNew {
+    authenticatedUserV2 {
       ...FullAuthenticatedUser
     }
   }
 `
 
 export type AuthenticatedUserResponse = {
-  authenticatedUserNew: AuthenticatedUser
+  authenticatedUserV2: AuthenticatedUser
 }
 
 export interface UserByIdResponse {
@@ -199,7 +199,7 @@ export const updateAuthenticatedUserMutation = gql`
   ${FullAuthenticatedUserFragment}
 
   mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
-    updateAuthenticatedUserNew(input: $input) {
+    updateAuthenticatedUserV2(input: $input) {
       ...FullAuthenticatedUser
     }
   }

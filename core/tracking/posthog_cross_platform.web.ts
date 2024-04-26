@@ -1,5 +1,6 @@
 import { PostHog } from 'posthog-js'
 import { usePostHog } from 'posthog-js/react'
+import { useMemo } from 'react'
 
 import { PosthogCrossPlatform } from '@holi/core/tracking/types'
 
@@ -37,5 +38,6 @@ export class PosthogWeb implements PosthogCrossPlatform {
 }
 
 export const usePosthogCrossPlatform = (): PosthogCrossPlatform => {
-  return new PosthogWeb(usePostHog())
+  const posthog = usePostHog()
+  return useMemo(() => new PosthogWeb(posthog), [posthog])
 }

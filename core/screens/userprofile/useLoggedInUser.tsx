@@ -57,7 +57,7 @@ export const useLoggedInUser = (): LoggedInState => {
   const { displayError } = useErrorHandling()
 
   const {
-    data: { authenticatedUserNew: user } = {},
+    data: { authenticatedUserV2: user } = {},
     loading: isLoadingAuthenticatedUser,
     refetch,
   } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {

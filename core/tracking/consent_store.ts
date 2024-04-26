@@ -8,16 +8,19 @@ const logger = getLogger('Tracking')
 
 const STORE_KEY = 'HOLI_TRACKING_CONSENT'
 
+const defaultState = {
+  [TrackingPurpose.Analytics]: Consent.Unknown,
+  [TrackingPurpose.Personalization]: Consent.Unknown,
+}
+
 const load = (): Promise<ConsentState> => {
   return AsyncStore.getItem(STORE_KEY)
     .then((value) => {
-      logger.debug('loadTrackingConsentFromAsyncStore', 'value=%s', value)
+      logger.debug('consentStore.load', 'value=%s', value)
       if (value) return JSON.parse(value) as ConsentState
-      else
-        return {
-          [TrackingPurpose.Analytics]: Consent.Unknown,
-          [TrackingPurpose.Personalization]: Consent.Unknown,
-        }
+      else {
+        return store(defaultState).then(() => defaultState)
+      }
     })
     .catch((e) => {
       logError(e, 'Error reading from AsyncStorage', { location: 'ConsentStore' })
@@ -26,6 +29,7 @@ const load = (): Promise<ConsentState> => {
 }
 
 const store = (consentState: ConsentState): Promise<void> => {
+  logger.debug('consentStore.store', 'consentState=%s', consentState)
   return AsyncStore.setItem(STORE_KEY, JSON.stringify(consentState)).catch((e) => {
     logError(e, 'Error storing to AsyncStorage', { location: 'ConsentStore' })
     throw e
@@ -34,6 +38,7 @@ const store = (consentState: ConsentState): Promise<void> => {
 
 const clear = async (): Promise<void> => {
   await AsyncStore.removeItem(STORE_KEY).catch((e) => {
+    logger.debug('consentStore.clear', 'clearing store')
     logError(e, 'Error clearing AsyncStorage', { location: 'ConsentStore' })
     throw e
   })
