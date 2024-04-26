@@ -278,11 +278,9 @@ const InsightDetailPage = () => {
                   >
                     <HoliCarousel
                       marginHorizontal={Spacing.md}
-                      hideDotIndicators={false}
                       slides={curatorSlides.map((slide) => ({
                         children: slide,
                       }))}
-                      style={{ marginHorizontal: 'auto' }}
                     />
                     <HoliButton
                       inline
@@ -333,7 +331,7 @@ const InsightDetailPage = () => {
               </InsightCarouselSection>
             )}
 
-            {initiatives.length == 0 && (
+            {initiatives.length > 0 && (
               <InsightCarouselSection
                 heading={initiativesTitle}
                 headingIcon={{

@@ -1,16 +1,13 @@
-import { NextPageContext } from 'next'
 import { Ni18nServerState, loadTranslations } from 'ni18n'
 
-import { detectLocaleFromHeader } from '@holi/web/helpers/detectLocaleFromHeader'
+import { getValidLocale } from '@holi/web/helpers/getValidLocale'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import { NextJSPageProps } from '@holi/web/types'
 
-export interface I18nProps extends Ni18nServerState {
-  locale?: string
-}
+export type I18nProps = Ni18nServerState
 
-export const addTranslations = async (req: NextPageContext['req'], props: Partial<NextJSPageProps>) => {
-  const locale = detectLocaleFromHeader(req)
+export const addTranslations = async (nextJslocale: string | undefined, props: Partial<NextJSPageProps>) => {
+  const locale = getValidLocale(nextJslocale)
   const translations = await loadTranslations(ni18nConfig, locale, ni18nConfig.ns)
 
   return {

@@ -342,7 +342,8 @@ export default class ChatClient {
   public async getPushNotificationEnabledState() {
     const rules = await this.mxClient.getPushRules()
     const [global] = rules.global.override || []
-    return global?.enabled
+    // Attention – inverted thinking ahead: When the global rule is enabled, then push notifications are disabled!
+    return !global?.enabled
   }
 
   public async setPushNotificationsEnabled(enabled: boolean) {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import AcceptDocumentLayout, { AgreementProps } from '@holi/core/auth/components/AcceptDocumentLayout'
-import { getDocumentURL } from '@holi/core/helpers'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 
 interface CommunityGuidelinesProps extends AgreementProps {
   onNextPress?: () => void
@@ -11,10 +11,11 @@ interface CommunityGuidelinesProps extends AgreementProps {
 
 const CommunityGuidelines = ({ onNextPress, onBackPress, ...agreementProps }: CommunityGuidelinesProps) => {
   const { t } = useTranslation()
+  const documentUrl = useDocumentURL('communityGuidelines')
 
   return (
     <AcceptDocumentLayout
-      docUrl={getDocumentURL('communityGuidelines')}
+      docUrl={documentUrl}
       onNextPress={onNextPress}
       onBackPress={onBackPress}
       {...agreementProps}

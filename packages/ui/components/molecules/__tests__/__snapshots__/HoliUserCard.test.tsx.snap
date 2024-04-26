@@ -8,9 +8,12 @@ exports[`HoliUserCard renders correctly 1`] = `
       {
         "alignContent": "center",
         "alignItems": "center",
-        "backgroundColor": "#f5f5f5",
+        "backgroundColor": "#fff",
+        "borderColor": "#bfbebe",
         "borderRadius": 16,
-        "height": "100%",
+        "borderStyle": "solid",
+        "borderWidth": 1,
+        "height": "auto",
         "padding": 24,
       },
       undefined,
@@ -109,68 +112,69 @@ exports[`HoliUserCard renders correctly 1`] = `
 `;
 
 exports[`HoliUserCard renders correctly with small variant 1`] = `
-[
+<View
+  accessible={true}
+  style={
+    [
+      {
+        "alignContent": "center",
+        "alignItems": "center",
+        "backgroundColor": "#fff",
+        "borderColor": "#bfbebe",
+        "borderRadius": 16,
+        "borderStyle": "solid",
+        "borderWidth": 1,
+        "height": "auto",
+        "padding": 16,
+      },
+      undefined,
+    ]
+  }
+  testID="user-card"
+>
   <View
-    accessible={true}
     style={
       [
         {
-          "alignContent": "center",
           "alignItems": "center",
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        {
           "backgroundColor": "#f5f5f5",
-          "borderRadius": 16,
-          "height": "auto",
-          "padding": 16,
+          "borderColor": "#262424",
+          "borderRadius": 64,
+          "borderWidth": 2,
+          "height": 128,
+          "width": 128,
         },
         undefined,
+        false,
       ]
     }
-    testID="user-card"
   >
-    <View
-      style={
-        [
-          {
-            "alignItems": "center",
-            "justifyContent": "center",
-            "overflow": "hidden",
-          },
-          {
-            "backgroundColor": "#f5f5f5",
-            "borderColor": "#262424",
-            "borderRadius": 64,
-            "borderWidth": 2,
-            "height": 128,
-            "width": 128,
-          },
-          undefined,
-          false,
-        ]
+    <Image
+      accessibilityRole="image"
+      accessible={true}
+      aria-label="Dima Rosmait"
+      contentFit="cover"
+      role="img"
+      source={
+        {
+          "height": 128,
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+          "width": 128,
+        }
       }
-    >
-      <Image
-        accessibilityRole="image"
-        accessible={true}
-        aria-label="Dima Rosmait"
-        contentFit="cover"
-        role="img"
-        source={
-          {
-            "height": 128,
-            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-            "width": 128,
-          }
+      style={
+        {
+          "height": "100%",
+          "resizeMode": "contain",
+          "width": "100%",
         }
-        style={
-          {
-            "height": "100%",
-            "resizeMode": "contain",
-            "width": "100%",
-          }
-        }
-      />
-    </View>
-  </View>,
+      }
+    />
+  </View>
   <View
     style={
       {
@@ -195,6 +199,6 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
     >
       Dima Rosmait
     </Text>
-  </View>,
-]
+  </View>
+</View>
 `;

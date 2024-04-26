@@ -3,11 +3,11 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
+import { FilterPillButton } from '@holi/core/components/FilterPill'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
 import {
@@ -118,9 +118,9 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   return (
     <View style={[styles.sliderContainer, style]} testID={testID}>
       <View style={styles.sliderHeader}>
-        {loading && !locationId && !topic && !skill && <SpacesFilterPill loading={true} style={styles.pill} />}
+        {loading && !locationId && !topic && !skill && <FilterPillButton loading={true} style={styles.pill} />}
         {topic && (
-          <SpacesFilterPill
+          <FilterPillButton
             testID="spaces-topic-title"
             label={topic.title}
             filterType="topic"
@@ -129,7 +129,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
           />
         )}
         {!!locationId && (
-          <SpacesFilterPill
+          <FilterPillButton
             testID="spaces-location-title"
             label={geolocationDetails?.name ?? ''}
             loading={loadingGeolocation}
@@ -139,7 +139,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
           />
         )}
         {skill && (
-          <SpacesFilterPill
+          <FilterPillButton
             testID="spaces-skill-title"
             label={skill.title}
             filterType="skill"

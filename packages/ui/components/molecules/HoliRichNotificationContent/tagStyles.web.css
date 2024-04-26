@@ -1,0 +1,8 @@
+@import url('@holi/ui/styles/globalVars/styles.css');
+
+.web-rich-notification {
+  b {
+    font-weight: 500;
+    color: var(--foreground30);
+  }
+}

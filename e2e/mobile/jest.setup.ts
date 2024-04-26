@@ -1,19 +1,20 @@
 import * as webdriverio from 'webdriverio'
 
-import appiumConfig, { target } from './appiumConfig'
+import appiumConfig, { target as appiumConfigTarget } from './appiumConfig'
+import { PlatformType, TargetType } from './global'
 import { logout } from './helpers/auth'
 import { waitForHomeScreen } from './helpers/navigation'
 import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
 
-global.platform = appiumConfig.platform
-global.target = target
+platform = appiumConfig.platform as PlatformType
+target = appiumConfigTarget as TargetType
 
 beforeEach(async () => {
   // make test name visible in BrowserStack
   if (target === 'browserstack') {
     appiumConfig.capabilities['bstack:options'].sessionName = expect.getState().currentTestName
   }
-  global.Appium = await webdriverio.remote(appiumConfig)
+  Appium = await webdriverio.remote(appiumConfig)
 
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
   await resetImplicitTimeout()
@@ -45,8 +46,8 @@ jest.setTimeout(4 * 60 * 1000) // a normal test runs up to 2 minutes, but give s
 
 afterEach(async () => {
   if (!process.env['APPIUM_TARGET'] || process.env.APPIUM_TARGET === 'browserstack') {
-    if (!global.sessionHolder) global.sessionHolder = {}
-    global.sessionHolder.id = Appium.sessionId
+    if (!sessionHolder) sessionHolder = {}
+    sessionHolder.id = Appium.sessionId
   }
-  await global.Appium?.deleteSession()
+  await Appium?.deleteSession()
 })

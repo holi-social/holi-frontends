@@ -9,7 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
-import { HandHeart } from '@holi/icons/src/generated'
+import { HandHeartsFilled } from '@holi/icons/src/generated'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectsResponse, donationProjectsQuery } from '@holi-apps/donations/queries'
@@ -17,7 +17,7 @@ import { Project } from '@holi-apps/donations/typings'
 
 export const PROJECT_PAGE_SIZE = 5
 
-type DonationUpdatesProps = {
+interface DonationUpdatesProps {
   locationQuery?: string
   style?: StyleProp<ViewStyle>
 }
@@ -43,21 +43,20 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
   const projectsToRender = projects.slice(0, PROJECT_PAGE_SIZE)
 
   const renderItem = ({ item }: { item: Project }) => {
-    const { categories, donationsCount, progressPercentage, openAmountInCents, picture } = item
+    const { categories, progressPercentage, openAmountInCents, picture } = item
     // we can't crop + fill mismatching required width+height combinations to the source images with the betterplace api,
     // so we use the original on our image service
     const original = picture.find(({ type }) => type === 'original')
 
     return (
       <AppUpdatesItem
+        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/project/${item.id}`}
         appName={HOLI_APPS.DONATIONS}
-        onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/project/${item.id}`)}
         title={item.title}
         imageSourceUri={original?.url}
         footer={
           <DonationProgress
             category={categories[0]}
-            donationsCount={donationsCount}
             progressPercentage={progressPercentage}
             openAmountInCents={openAmountInCents}
             size={'small'}
@@ -72,7 +71,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
       appName={HOLI_APPS.DONATIONS}
       renderItem={renderItem}
       data={projectsToRender}
-      appIcon={HandHeart}
+      appIcon={HandHeartsFilled}
       heading={t('donations:app.name')}
       subline={t('donations:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path)}

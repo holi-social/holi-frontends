@@ -1,11 +1,11 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import FilterPill from '@holi/core/components/FilterPill'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
@@ -189,16 +189,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
           {task.skills.map((skill) => {
-            return (
-              <SpacesFilterPill
-                small
-                key={skill.id}
-                testID="spaces-topic-title"
-                label={skill.title}
-                filterType="skill"
-                style={styles.pill}
-              />
-            )
+            return <FilterPill small key={skill.id} label={skill.title} filterType="skill" style={styles.pill} />
           })}
         </View>
       )}
@@ -243,7 +234,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
               size="large"
               testID="task-contact-avatar"
             />
-            <HoliText style={styles.avatarName}>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
+            <HoliText>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
           </View>
 
           <HoliText bold style={styles.contactInformationTitle}>
@@ -251,17 +242,27 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           </HoliText>
           <View style={styles.contactContainer}>
             <HoliIcon icon={AtFilled} color={colors.foreground20} />
-            <HoliText style={styles.contactInformation} size="small">
-              {task.contactEmail}
-            </HoliText>
+            <HoliButton
+              inline
+              transparent
+              label={task.contactEmail}
+              onPress={() => Linking.openURL(`mailto:${task.contactEmail}`)}
+            >
+              <HoliText size="small">{task.contactEmail}</HoliText>
+            </HoliButton>
           </View>
 
           {!!task.contactPhone && (
             <View style={styles.contactContainer}>
               <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
-              <HoliText style={styles.contactInformation} size="small">
-                {task.contactPhone}
-              </HoliText>
+              <HoliButton
+                inline
+                transparent
+                label={task.contactPhone}
+                onPress={() => Linking.openURL(`tel:${task.contactPhone}`)}
+              >
+                <HoliText size="small">{task.contactPhone}</HoliText>
+              </HoliButton>
             </View>
           )}
         </View>
@@ -297,9 +298,6 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       flex: 1,
-    },
-    moreOptionsButton: {
-      marginLeft: 16,
     },
     descriptionContainer: {
       marginVertical: 16,
@@ -398,9 +396,7 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: 16,
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    avatarName: {
-      marginLeft: 16,
+      gap: 16,
     },
     contactInformationTitle: {
       marginTop: 16,
@@ -409,9 +405,7 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: 16,
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    contactInformation: {
-      marginLeft: 10,
+      gap: 8,
     },
     buttonWithIcon: {
       display: 'flex',

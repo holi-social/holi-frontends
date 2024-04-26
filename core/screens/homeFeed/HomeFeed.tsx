@@ -15,11 +15,10 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
-import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
+import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
@@ -122,23 +121,19 @@ const HomeFeed = () => {
           refreshing,
           onRefresh,
         }}
-        style={styles.layout}
+        style={[styles.layout, { backgroundColor: colors.white200 }]}
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
-
           <InspirationPosts />
-
           <InsightsOfTheWeek />
-
-          <UpdatesOfYourApps />
-
+          <Recommendations />
           {isLoggedIn && <UserSuggestions />}
         </View>
       </ScrollHeaderLayout.Refreshable>
 
-      {/* AppsDrawer & CreatePostButton need to be outside of the Layout */}
-      {ftEnabledPosts ? <CreatePostButton /> : <AppsDrawer />}
+      {/* Floating CreatePostButton need to be outside of the Layout */}
+      {ftEnabledPosts && <CreatePostButton />}
     </>
   )
 }
