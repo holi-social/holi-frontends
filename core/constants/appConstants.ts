@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import type { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
-import { HandHeartFilled, HeartsFilled, NewspaperFilled, Star } from '@holi/icons/src/generated'
+import { HandHeartFilled, HeartsFilled, Star } from '@holi/icons/src/generated'
 
 export const HOLI_APPS = {
   DONATIONS: 'donations',
@@ -29,21 +29,21 @@ export const HOLI_APPS_NAVIGATION_PATHS = {
 
 export const APP_SWIPER_APPS: HoliApp[] = [
   {
+    id: HOLI_APPS.CHALLENGES,
+    icon: Star,
+    translationKey: 'challenges:app.name',
+    featureToggleName: FeatureToggleName.CHALLENGES,
+    path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.CHALLENGES].path,
+    hasUpdates: true,
+    active: Platform.OS !== 'web',
+  },
+  {
     id: HOLI_APPS.DONATIONS,
     icon: HandHeartFilled,
     translationKey: 'donations:app.name',
     featureToggleName: FeatureToggleName.APPS_DONATIONS,
     path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path,
     hasUpdates: false,
-    active: true,
-  },
-  {
-    id: HOLI_APPS.GOOD_NEWS,
-    icon: NewspaperFilled,
-    translationKey: 'goodnews:app.name',
-    featureToggleName: FeatureToggleName.APPS_GOODNEWS,
-    path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path,
-    hasUpdates: true,
     active: true,
   },
   {
@@ -54,14 +54,5 @@ export const APP_SWIPER_APPS: HoliApp[] = [
     path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path,
     hasUpdates: true,
     active: true,
-  },
-  {
-    id: HOLI_APPS.CHALLENGES,
-    icon: Star,
-    translationKey: 'challenges:app.name',
-    featureToggleName: FeatureToggleName.CHALLENGES,
-    path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.CHALLENGES].path,
-    hasUpdates: true,
-    active: Platform.OS !== 'web',
   },
 ]
