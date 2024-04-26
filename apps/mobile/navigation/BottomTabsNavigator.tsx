@@ -90,29 +90,13 @@ const BottomTabsNavigator = () => {
           },
           tabBarLabel: ({ focused }) => (
             <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
-              {t('spaces.title')}
+              {t('navigation.spaces')}
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-spaces',
         }}
         listeners={{ tabPress: () => setPathname('/spaces') }}
-      />
-      <BottomTabs.Screen
-        name={RouteName.Chat}
-        component={ChatHomeStackNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => <ChatBottomTabsNavigatorItem focused={focused} />,
-          tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
-              {t('chat.title')}
-            </HoliText>
-          ),
-          tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-chat-view',
-        }}
-        listeners={{ tabPress: () => setPathname('/chat') }}
       />
       <BottomTabs.Screen
         name={RouteName.AppsModal}
@@ -124,13 +108,29 @@ const BottomTabsNavigator = () => {
           ),
           tabBarLabel: ({ focused }) => (
             <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
-              {t('apps.drawer.open.btn.text')}
+              {t('navigation.act')}
             </HoliText>
           ),
           tabBarButton: (props) => <AppsDrawer {...props} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-apps-view',
         }}
+      />
+      <BottomTabs.Screen
+        name={RouteName.Chat}
+        component={ChatHomeStackNavigator}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => <ChatBottomTabsNavigatorItem focused={focused} />,
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
+              {t('navigation.chat')}
+            </HoliText>
+          ),
+          tabBarLabelPosition: 'below-icon',
+          tabBarTestID: 'btn-to-chat-view',
+        }}
+        listeners={{ tabPress: () => setPathname('/chat') }}
       />
       <BottomTabs.Screen
         name={RouteName.Auth}
@@ -144,7 +144,7 @@ const BottomTabsNavigator = () => {
               style={[{ color: iconColor(focused) }, styles.label]}
               testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
             >
-              {isLoggedIn ? t('profile.title') : t('auth.login')}
+              {isLoggedIn ? t('navigation.profile') : t('auth.login')}
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',
