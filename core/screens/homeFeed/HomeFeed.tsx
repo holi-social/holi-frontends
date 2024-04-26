@@ -32,7 +32,8 @@ import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 
-import NotEnoughVotesNotification from './components/NotEnoughVotesNotification'
+import NotEnoughVotesNotification1 from './components/NotEnoughVotesNotification1'
+import NotEnoughVotesNotification2 from './components/NotEnoughVotesNotification2'
 
 export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
 
@@ -131,7 +132,9 @@ const HomeFeed = () => {
 
           <InspirationPosts />
 
-          <NotEnoughVotesNotification />
+          <NotEnoughVotesNotification1 />
+
+          <NotEnoughVotesNotification2 />
 
           <InsightsOfTheWeek />
 
