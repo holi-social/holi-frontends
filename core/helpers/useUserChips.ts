@@ -8,7 +8,7 @@ import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
   authenticatedUserQuery,
-  updateUserMutation,
+  updateAuthenticatedUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { Term, User } from '@holi/core/screens/userprofile/types'
 import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
@@ -55,7 +55,7 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
       logError(error, 'Failed to load terms for user chips', { location: 'useUserChips', field: keyInUserObject }),
   })
   const [updateUser, { loading: updateUserLoading, error: updateUserError }] =
-    useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
+    useMutation<UpdateAuthenticatedUserResponse>(updateAuthenticatedUserMutation)
 
   const [filterString, setFilterString] = useState('')
 

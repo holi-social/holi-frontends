@@ -1,94 +1,98 @@
-import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { ApolloClient, useApolloClient } from '@apollo/client'
+
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
+import {
+  UpdateAuthenticatedUserInput,
+  UpdateAuthenticatedUserResponse,
+  updateAuthenticatedUserMutation,
+} from '@holi/core/screens/userprofile/queries'
+import { LoggedInState, LoggedInUser, useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { trackingEnabled } from '@holi/core/tracking/config'
-import { ConsentState, consentStore } from '@holi/core/tracking/consent_store'
+import { consentStore } from '@holi/core/tracking/consent_store'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/posthog_cross_platform'
-import { PosthogCrossPlatform, TrackingHook } from '@holi/core/tracking/types'
+import { Consent, ConsentState, PosthogCrossPlatform, TrackingHook, TrackingPurpose } from '@holi/core/tracking/types'
 
 const logger = getLogger('Tracking')
 
-const trackEvent =
-  (posthog: PosthogCrossPlatform) =>
-  (event: TrackingEvent): void => {
-    posthog.capture(event.name, event.properties)
+class Tracking {
+  constructor(private posthog: PosthogCrossPlatform, private apollo: ApolloClient<object>) {}
+
+  public trackEvent = (event: TrackingEvent): void => {
+    this.posthog.capture(event.name, event.properties)
   }
 
-const optIn = async (posthog: PosthogCrossPlatform) => {
-  if (!posthog.optedIn()) await posthog.optIn()
-}
+  public optIn = async () => {
+    if (!this.posthog.optedIn()) return await this.posthog.optIn()
+    else return Promise.resolve()
+  }
 
-const optOut = async (posthog: PosthogCrossPlatform) => {
-  if (posthog.optedIn()) await posthog.optOut()
-}
+  public optOut = async () => {
+    if (this.posthog.optedIn()) return await this.posthog.optOut()
+    else return Promise.resolve()
+  }
 
-const appInit =
-  (posthog: PosthogCrossPlatform) =>
-  async (loginState: LoginState): Promise<void> => {
-    logger.debug('lifecycle.appInit', 'loginState=%s', loginState)
-    const consent = await consentStore.getConsent(loginState.isLoggedIn)
-    if (consent == ConsentState.Given) {
-      logger.debug('lifecycle.appInit', 'consent given, opting in on posthog client')
-      await optIn(posthog)
-      if (loginState.isLoggedIn) {
+  public appInit = async (loggedInState: LoggedInState): Promise<void> => {
+    logger.debug('lifecycle.appInit', 'loggedInState=%s', loggedInState)
+    const analyticsConsent = loggedInState.isLoggedIn
+      ? Consent.fromBoolean(loggedInState.user.trackingConsentAnalytics)
+      : (await consentStore.load())[TrackingPurpose.Analytics]
+    if (analyticsConsent == Consent.Given) {
+      logger.debug('lifecycle.appInit', 'analytics consent given, opting in on posthog client')
+      await this.optIn()
+      if (loggedInState.isLoggedIn) {
         logger.debug('lifecycle.appInit', 'identifying user on posthog client')
-        posthog.identify(loginState.userId)
+        this.posthog.identify(loggedInState.user.id)
       }
     } else {
-      logger.debug('lifecycle.appInit', 'consent NOT given, opting out on posthog client')
-      await optOut(posthog)
+      logger.debug('lifecycle.appInit', 'analytics consent NOT given, opting out on posthog client')
+      await this.optOut()
+    }
+  }
+  public userLoggedIn = (loggedInUser: LoggedInUser) => async (): Promise<void> => {
+    logger.debug('lifecycle.userLoggedIn', 'loggedInUser=%s', loggedInUser)
+    switch (Consent.fromBoolean(loggedInUser.user.trackingConsentAnalytics)) {
+      case Consent.Given:
+        logger.debug('lifecycle.userLoggedIn', 'analytics consent given, opting in on posthog client')
+        await this.optIn()
+        logger.debug('lifecycle.userLoggedIn', 'identifying user on posthog client')
+        return this.posthog.identify(loggedInUser.user.id)
+      case Consent.Unknown || Consent.Denied:
+        logger.debug('lifecycle.userLoggedIn', 'analytics consent NOT given, opting out on posthog client')
+        return await this.optOut()
     }
   }
 
-const userLoggedIn = (posthog: PosthogCrossPlatform, loginState: LoginState) => async (): Promise<void> => {
-  logger.debug('lifecycle.userLoggedIn', 'loginState=%s', loginState)
-  const consent = await consentStore.getConsent(loginState.isLoggedIn)
-  // TODO this is called before login has been
-  if (consent == ConsentState.Given) {
-    logger.debug('lifecycle.userLoggedIn', 'consent given, opting in on posthog client')
-    await optIn(posthog)
-    if (loginState.isLoggedIn) {
-      logger.debug('lifecycle.userLoggedIn', 'identifying user on posthog client')
-      posthog.identify(loginState.userId)
-    }
-  } else {
-    logger.debug('lifecycle.userLoggedIn', 'consent NOT given, opting out on posthog client')
-    await optOut(posthog)
+  public userLoggedOut = (): Promise<void> => {
+    const errorContext = { location: 'useTracking.userLoggedOut' }
+    return consentStore
+      .clear()
+      .then(() => logger.debug('lifecycle.userLoggedOut', 'cleared consentStore'))
+      .catch((error) => logError(error, 'Failed to clear tracking consent', errorContext))
+      .finally(() => this.posthog.reset())
+      .then(() => logger.debug('lifecycle.userLoggedOut', 'posthog reset'))
+      .catch((error) => logError(error, 'Failed to reset Posthog client', errorContext))
   }
-}
 
-const userLoggedOut = (posthog: PosthogCrossPlatform) => (): Promise<void> => {
-  const errorContext = { location: 'useTracking.userLoggedOut' }
-  return consentStore
-    .clear()
-    .then(() => logger.debug('lifecycle.userLoggedOut', 'cleared consentStore'))
-    .catch((error) => logError(error, 'Failed to clear tracking consent', errorContext))
-    .finally(() => posthog.reset())
-    .then(() => logger.debug('lifecycle.userLoggedOut', 'posthog reset'))
-    .catch((error) => logError(error, 'Failed to reset Posthog client', errorContext))
-}
-
-const userGaveTrackingConsent = (posthog: PosthogCrossPlatform, isLoggedIn: boolean) => (): void => {
-  const errorContext = { location: 'useTracking.userGaveTrackingConsent' }
-  consentStore
-    .giveConsent(isLoggedIn)
-    .then(() => logger.debug('lifecycle.userGaveTrackingConsent', 'persisted opt-in on consentStore'))
-    .catch((error) => logError(error, 'Failed to store given tracking consent', errorContext))
-    .then(() => optIn(posthog))
-    .then(() => logger.debug('lifecycle.userGaveTrackingConsent', 'opted-in on Posthog client'))
-    .catch((error) => logError(error, 'Failed to opt-in into tracking', errorContext))
-}
-
-const userDeniedTrackingConsent = (posthog: PosthogCrossPlatform, isLoggedIn: boolean) => (): void => {
-  const errorContext = { location: 'useTracking.userDeniedTrackingRequest' }
-  consentStore
-    .denyConsent(isLoggedIn)
-    .then(() => logger.debug('lifecycle.userDeniedTrackingConsent', 'persisted opt-out on consentStore'))
-    .catch((error) => logError(error, 'Failed to store denied tracking consent', errorContext))
-    .finally(() => optOut(posthog))
-    .then(() => logger.debug('lifecycle.userDeniedTrackingConsent', 'opted-out on Posthog client'))
-    .catch((error) => logError(error, 'Failed to opt-out from tracking', errorContext))
+  public updateConsent = (loggedInState: LoggedInState, consentState: ConsentState): Promise<void> => {
+    const errorContext = { location: 'useTracking.userGaveTrackingConsent' }
+    const store = !loggedInState.isLoggedIn
+      ? consentStore.store(consentState)
+      : this.apollo.mutate<UpdateAuthenticatedUserResponse>({
+          mutation: updateAuthenticatedUserMutation,
+          variables: {
+            trackingConsentAnalytics: Consent.toBoolean(consentState[TrackingPurpose.Analytics]),
+            trackingConsentPersonalization: Consent.toBoolean(consentState[TrackingPurpose.Personalization]),
+          } as UpdateAuthenticatedUserInput,
+        })
+    return store
+      .then(() => logger.debug('lifecycle.userGaveTrackingConsent', 'persisted opt-in on consentStore'))
+      .catch((error) => logError(error, 'Failed to store given tracking consent', errorContext))
+      .then(() => this.optIn())
+      .then(() => logger.debug('lifecycle.userGaveTrackingConsent', 'opted-in on Posthog client'))
+      .catch((error) => logError(error, 'Failed to opt-in into tracking', errorContext))
+  }
 }
 
 const useDummyTracking = (): TrackingHook => {
@@ -103,24 +107,23 @@ const useDummyTracking = (): TrackingHook => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       userLoggedOut: () => {},
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      userGaveTrackingConsent: () => {},
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      userDeniedTrackingConsent: () => {},
+      updateConsent: () => {},
     },
   }
 }
 
 const useRealTracking = (): TrackingHook => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
-  const loginState = useAuth()
+  const apollo: ApolloClient<object> = useApolloClient()
+  const tracking = new Tracking(posthog, apollo)
+  const loggedInState = useLoggedInUser()
   return {
-    trackEvent: trackEvent(posthog),
+    trackEvent: tracking.trackEvent,
     lifecycle: {
-      appInit: appInit(posthog),
-      userLoggedIn: userLoggedIn(posthog, loginState),
-      userLoggedOut: userLoggedOut(posthog),
-      userGaveTrackingConsent: userGaveTrackingConsent(posthog, loginState.isLoggedIn),
-      userDeniedTrackingConsent: userDeniedTrackingConsent(posthog, loginState.isLoggedIn),
+      appInit: tracking.appInit,
+      userLoggedIn: tracking.userLoggedIn(loggedInState as LoggedInUser),
+      userLoggedOut: tracking.userLoggedOut,
+      updateConsent: tracking.updateConsent,
     },
   }
 }

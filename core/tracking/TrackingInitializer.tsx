@@ -1,9 +1,10 @@
 import React, { PropsWithChildren, memo, useEffect, useState } from 'react'
 
-import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { getLogger } from '@holi/core/helpers/logging'
+import { LoggedInState, useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { Consent, TrackingPurpose } from '@holi/core/tracking/types'
 
 const logger = getLogger('Tracking')
 
@@ -14,20 +15,22 @@ const TrackingInitializer = ({ children }: PropsWithChildren) => {
 }
 
 const TrackingInitializerInner = ({ children }: PropsWithChildren) => {
-  const loginState = useAuth()
+  const loggedInState = useLoggedInUser()
   const tracking = useTracking()
-  const [previousLoginState, setPreviousLoginState] = useState<LoginState | undefined>(loginState)
+  const [previousLoginState, setPreviousLoginState] = useState<LoggedInState | undefined>(loggedInState)
 
   logger.debug('TrackingInitializer', 'init tracking')
-  tracking.lifecycle.appInit(loginState)
+  tracking.lifecycle.appInit(loggedInState)
+
+  // TODO move lifecycle methods from hook here?
 
   useEffect(() => {
-    if (loginState.isUnknown) {
+    if (loggedInState.isLoading) {
       logger.debug('TrackingInitializer', 'login state unknown')
-    } else if (loginState.isLoggedIn) {
+    } else if (loggedInState.isLoggedIn) {
       logger.debug('TrackingInitializer', 'login state loggedIn')
-      tracking.lifecycle.userLoggedIn(loginState)
-    } else if (loginState.isLoggedOut) {
+      tracking.lifecycle.userLoggedIn(loggedInState)
+    } else if (loggedInState.isLoggedOut) {
       logger.debug('TrackingInitializer', 'login state loggedOut')
       // TODO must not be called by mere app-initialization, only on actual logout
       if (previousLoginState?.isLoggedIn) {
@@ -35,24 +38,30 @@ const TrackingInitializerInner = ({ children }: PropsWithChildren) => {
         tracking.lifecycle.userLoggedOut()
       }
     }
-    setPreviousLoginState(loginState)
-  }, [loginState, tracking.lifecycle, previousLoginState, setPreviousLoginState])
+    setPreviousLoginState(loggedInState)
+  }, [loggedInState, tracking.lifecycle, previousLoginState, setPreviousLoginState])
+
+  // TODO HOLI-7894 - remove after development
+  useEffect(() => {
+    setTimeout(() => {
+      tracking.lifecycle.updateConsent(loggedInState, {
+        [TrackingPurpose.Analytics]: Consent.Given,
+        [TrackingPurpose.Personalization]: Consent.Denied,
+      })
+    }, 5 * 1000)
+  })
 
   /*
   // TODO HOLI-7894 - remove after development
   useEffect(() => {
     setTimeout(() => {
-      tracking.lifecycle.userGaveTrackingConsent()
-    }, 5 * 1000)
-  })
-
-
-  // TODO HOLI-7894 - remove after development
-  useEffect(() => {
-    setTimeout(() => {
-      tracking.lifecycle.userDeniedTrackingConsent()
+      tracking.lifecycle.updateConsent(loggedInState, {
+        [TrackingPurpose.Analytics]: Consent.Denied,
+        [TrackingPurpose.Personalization]: Consent.Denied,
+      })
     }, 20 * 1000)
-  })*/
+  })
+  */
 
   return <>{children}</>
 }

@@ -8,7 +8,7 @@ import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
   authenticatedUserQuery,
-  updateUserMutation,
+  updateAuthenticatedUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -36,12 +36,15 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   user,
   buttonsRelativeHeight = 0.35,
 }) => {
-  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation, {
-    onError: (error) =>
-      displayError(error, 'Failed to update user', {
-        location: 'UserEngagementLevelForm.updateUser',
-      }),
-  })
+  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(
+    updateAuthenticatedUserMutation,
+    {
+      onError: (error) =>
+        displayError(error, 'Failed to update user', {
+          location: 'UserEngagementLevelForm.updateUser',
+        }),
+    }
+  )
   const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
