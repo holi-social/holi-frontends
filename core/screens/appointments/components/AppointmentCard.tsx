@@ -77,7 +77,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   )
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/appointments/${appointment.id}`)
-  const isAppointmentCreator = loginState.loginState === 'loggedIn' && appointment?.creator?.id === loginState.userId
+  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.userId
 
   const shouldShowVisibilityLabel = loginState.isLoggedIn && (isMember || isAdmin)
   const userIsAllowedToEdit = isAdmin || isAppointmentCreator

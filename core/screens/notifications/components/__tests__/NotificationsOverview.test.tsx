@@ -5,7 +5,7 @@ import React from 'react'
 import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { LastSeenNotificationMutation, notificationsQuery } from '@holi/core/screens/notifications/queries'
-import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data
@@ -39,12 +39,12 @@ jest.mock('@holi/core/screens/notifications/hooks/useNotifications', () => ({
 
 const authenticatedUserRequest = {
   request: {
-    query: authenticatedUserQuery,
+    query: authenticatedUserV2Query,
     variables: { userId: '123' },
   },
   result: {
     data: {
-      authenticatedUser: {
+      authenticatedUserV2: {
         id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
         avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
         fullName: 'EE. Visited',

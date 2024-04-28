@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client'
 
-import { LoginStateLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+import { AuthenticatedUserResponse, authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 
 export interface LoggedInUserLoading {
@@ -60,8 +60,8 @@ export const useLoggedInUser = (): LoggedInState => {
     data: { authenticatedUserV2: user } = {},
     loading: isLoadingAuthenticatedUser,
     refetch,
-  } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
-    skip: loginState.loginState !== 'loggedIn',
+  } = useQuery<AuthenticatedUserResponse>(authenticatedUserV2Query, {
+    skip: loginState.isUnknown || loginState.isLoggedOut,
     onError: (error) => {
       displayError(error, 'Failed to load authenticated user', {
         location: 'useLoggedInUser.authenticatedUserQuery',
@@ -69,22 +69,22 @@ export const useLoggedInUser = (): LoggedInState => {
     },
     // we avoid getting previous user from GraphQL cache by passing `userId`
     variables: {
-      userId: loginState.isLoggedIn ? (loginState as LoginStateLoggedIn).userId : undefined,
+      userId: loginState.isLoggedIn ? loginState.userId : undefined,
     },
   })
 
-  if (loginState.isUnknown) return loading
-  else if (loginState.isLoggedOut) return loggedOut
-  else {
-    if (isLoadingAuthenticatedUser) return loading
-    else
-      return {
-        state: 'loggedIn',
-        isLoading: false,
-        isLoggedIn: true,
-        isLoggedOut: false,
-        user: user as AuthenticatedUser,
-        refetch,
-      }
+  if (loginState.isUnknown || isLoadingAuthenticatedUser) {
+    return loading
+  } else if (loginState.isLoggedOut) {
+    return loggedOut
+  } else {
+    return {
+      state: 'loggedIn',
+      isLoading: false,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      user: user as AuthenticatedUser,
+      refetch,
+    }
   }
 }

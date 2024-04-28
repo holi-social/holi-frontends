@@ -14,10 +14,10 @@ import { useRegisterUserNames } from '@holi/core/hooks/useRegisterUserNames'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
   UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserResponse,
-  authenticatedUserQuery,
+  UpdateAuthenticatedUserV2Response,
+  authenticatedUserV2Query,
   interestsQuery,
-  updateAuthenticatedUserMutation,
+  updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -72,7 +72,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { isLoggedOut } = useAuth()
   const { user, isLoading } = useLoggedInUser()
 
-  const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateAuthenticatedUserMutation)
+  const [updateUser] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const updateUserQueryVariables = useRef<Partial<UpdateAuthenticatedUserInput>>({})
 
   // User Names step logic
@@ -109,7 +109,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.NAMES: {
         await registerUserNames({
           variables: { input: parseRegisterUserNamesInput(names) },
-          refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+          refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
           onCompleted: goNext,
         })
         break
@@ -128,7 +128,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         if (selectedInterestIds.length) {
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
-            refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+            refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
             onError: (error) =>
               displayError(error, 'Failed to update users interests', {
                 location: 'AccountSetup.handleNextPress.INTERESTS',
@@ -153,7 +153,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
-            refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+            refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
             onError: (error) =>
               displayError(error, 'Failed to update users location', {
                 location: 'AccountSetup.handleNextPress.LOCATION',

@@ -5,7 +5,7 @@ import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
 import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
-import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 
 const loggedIn = (): LoginState => {
   return {
@@ -36,12 +36,12 @@ const useAuthMock = useAuth as jest.Mock
 
 const authenticatedUserRequest = {
   request: {
-    query: authenticatedUserQuery,
+    query: authenticatedUserV2Query,
     variables: { userId: '123' },
   },
   result: {
     data: {
-      authenticatedUser: {
+      authenticatedUserV2: {
         id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
         avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
         fullName: 'EE. Visited',
@@ -76,11 +76,13 @@ describe('renders correctly', () => {
   it('renders fallback content when logged out and no other content was provided', async () => {
     useAuthMock.mockReturnValue(loggedOut)
 
-    const { queryByText } = render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+    const { queryByText, debug } = render(
+      <MockedProvider mocks={[]} addTypename={false}>
         <LoginProtection>Protected Content</LoginProtection>
       </MockedProvider>
     )
+
+    debug()
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
     expect(queryByText('auth.loginProtection.registration')).toBeTruthy()

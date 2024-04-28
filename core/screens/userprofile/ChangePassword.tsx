@@ -32,7 +32,6 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -56,7 +55,6 @@ export type ChangePasswordParams = {
 const { useParam } = createParamHooks<ChangePasswordParams>()
 
 const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
-  const tracking = useTracking()
   const [flow] = useParam('flow')
   const [webview] = useParam('webview')
   const { t, i18n } = useTranslation()
@@ -146,7 +144,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
         if (session) setUserLoggedIn(session)
       })
     }
-  }, [initForm, isLoggedIn, flow, tracking])
+  }, [initForm, isLoggedIn, flow])
 
   const performPasswordChange = async () => {
     setRetypeError(undefined)

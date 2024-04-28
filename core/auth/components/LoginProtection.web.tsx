@@ -16,11 +16,13 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const isOnboardingFinished = storedOnboardingState === 'finished'
   const { navigate } = useRouting()
 
+  console.debug('###########', loginState, isLoggedIn, isUserLoading)
+
   const redirectToHomeScreenOnboarding = useCallback(() => {
     navigate(Platform.OS === 'web' ? '/' : '/onboarding')
   }, [navigate])
 
-  if (loginState === 'loggedIn' && isUserLoading) return <HoliLoader testID="loader" />
+  if (loginState === 'unknown' || isUserLoading) return <HoliLoader testID="loader" />
 
   return isOnboardingFinished && isLoggedIn ? (
     <>{children}</>

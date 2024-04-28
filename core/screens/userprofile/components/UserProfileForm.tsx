@@ -14,9 +14,9 @@ import { replaceSpecialChars } from '@holi/core/helpers'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
-  UpdateAuthenticatedUserResponse,
-  authenticatedUserQuery,
-  updateAuthenticatedUserMutation,
+  UpdateAuthenticatedUserV2Response,
+  authenticatedUserV2Query,
+  updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -40,7 +40,7 @@ type UserProfileFormProps = {
 }
 
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
-  const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateAuthenticatedUserMutation)
+  const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
@@ -104,10 +104,10 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
     }
     await updateUser({
       variables: { input },
-      refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+      refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
       onCompleted: (data) => {
         if (onSubmit) {
-          onSubmit(data.updateAuthenticatedUser)
+          onSubmit(data.updateAuthenticatedUserV2)
         }
       },
       onError: (error) => setFieldErrors(handleGraphQLError(error)),

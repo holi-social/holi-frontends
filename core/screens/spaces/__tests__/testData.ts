@@ -84,7 +84,7 @@ export const user: User & WithTypename = {
   __typename: 'User',
 }
 
-export const authenticatedUser = {
+export const authenticatedUserV2 = {
   id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
   avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
   avatarBlurhash: '',

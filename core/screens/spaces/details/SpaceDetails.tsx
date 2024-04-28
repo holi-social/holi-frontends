@@ -94,7 +94,7 @@ const SpaceDetails = () => {
     if (!isOnboarded && !isCreator && isMember) {
       show()
     }
-  }, [space, show, isOnboarded, loginState, isCreator, isMember])
+  }, [space, show, isOnboarded, isCreator, isMember])
 
   const determineInitialTab = useCallback(() => {
     if (loading || isSSR) {

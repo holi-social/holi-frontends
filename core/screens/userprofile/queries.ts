@@ -96,7 +96,7 @@ export const FullAuthenticatedUserFragment = gql`
   }
 `
 
-export const authenticatedUserQuery = gql`
+export const authenticatedUserV2Query = gql`
   ${FullAuthenticatedUserFragment}
 
   query AuthenticatedUser {
@@ -182,8 +182,8 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
 
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
-export type UpdateAuthenticatedUserResponse = {
-  updateAuthenticatedUser: AuthenticatedUser
+export type UpdateAuthenticatedUserV2Response = {
+  updateAuthenticatedUserV2: AuthenticatedUser
 }
 
 export type UpdateConnectionWithUserInput = {
@@ -195,7 +195,7 @@ export type UpdateConnectionWithUserResponse = {
   updateConnectionWithUser: User
 }
 
-export const updateAuthenticatedUserMutation = gql`
+export const updateAuthenticatedUserV2Mutation = gql`
   ${FullAuthenticatedUserFragment}
 
   mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {

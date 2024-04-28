@@ -1,4 +1,3 @@
-import { LoggedInState, LoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking/events'
 
 export enum TrackingPurpose {
@@ -14,14 +13,6 @@ export enum Consent {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Consent {
-  // TODO can we get rid of one of the two? does it work without explicit (de)serialization
-  export const fromString = (str: string): Consent => {
-    if (Object.values(Consent).includes(str as Consent)) {
-      return str as Consent
-    } else {
-      throw new Error(`Invalid enum value: ${str}`)
-    }
-  }
   export const fromBoolean = (consent: boolean | undefined) => {
     switch (consent) {
       case null:

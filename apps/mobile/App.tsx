@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
@@ -55,7 +55,7 @@ const App = () => {
 
   const [fontsLoaded] = useFonts(fonts)
 
-  const init = useCallback(async () => {
+  const init = async () => {
     try {
       await Promise.all([initI18n(), initAuth(), initNotifications()])
     } catch (error) {
@@ -63,13 +63,13 @@ const App = () => {
     } finally {
       setInitDone(true)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }
 
   useEffect(() => {
     init()
+
     return subscribeToDeviceTokenChanges()
-  }, [init])
+  }, [])
 
   useEffect(() => {
     if (fontsLoaded && initDone) {

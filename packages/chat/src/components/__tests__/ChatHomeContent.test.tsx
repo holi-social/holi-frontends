@@ -40,7 +40,7 @@ import {
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
 import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
-import { authenticatedUserQuery, usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
+import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 
 jest.mock('matrix-js-sdk')
@@ -71,14 +71,14 @@ const defaultOptions: DefaultOptions = {
 const getLoggedUserQueryMock = (user: User) => {
   return {
     request: {
-      query: authenticatedUserQuery,
+      query: authenticatedUserV2Query,
       variables: {
         userId: user.id,
       },
     },
     result: {
       data: {
-        authenticatedUser: user,
+        authenticatedUserV2: user,
       },
     },
   }

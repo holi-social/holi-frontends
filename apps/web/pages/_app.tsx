@@ -41,7 +41,6 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
     )
     // Currently we do not support push notifications for web
     markDeviceTokenAsInitialized()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix

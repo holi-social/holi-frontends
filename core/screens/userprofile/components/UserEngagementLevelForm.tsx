@@ -6,9 +6,9 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserResponse,
-  authenticatedUserQuery,
-  updateAuthenticatedUserMutation,
+  UpdateAuthenticatedUserV2Response,
+  authenticatedUserV2Query,
+  updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -36,8 +36,8 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   user,
   buttonsRelativeHeight = 0.35,
 }) => {
-  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(
-    updateAuthenticatedUserMutation,
+  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserV2Response>(
+    updateAuthenticatedUserV2Mutation,
     {
       onError: (error) =>
         displayError(error, 'Failed to update user', {
@@ -61,10 +61,10 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
     const result = await updateUser({
       variables: { input },
-      refetchQueries: [{ query: authenticatedUserQuery, fetchPolicy: 'network-only' }],
+      refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
     })
     if (!error && result.data && onSubmit) {
-      onSubmit(result.data.updateAuthenticatedUser)
+      onSubmit(result.data.updateAuthenticatedUserV2)
     }
   }
 

@@ -5,8 +5,8 @@ import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
   UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserResponse,
-  updateAuthenticatedUserMutation,
+  UpdateAuthenticatedUserV2Response,
+  updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { LoggedInState, useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -16,29 +16,6 @@ import { usePosthogCrossPlatform } from '@holi/core/tracking/posthog_cross_platf
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 
 const logger = getLogger('Tracking')
-
-const consentStateVar = makeVar<{ onLoad: boolean; state: ConsentState }>({
-  onLoad: true,
-  state: ConsentState.unknown,
-})
-
-export const useConsentState = () => {
-  const initialLoad = () => {
-    tracking.loadConsent(loggedInState).then((newState) => consentStateVar({ onLoad: true, state: newState }))
-  }
-  const update = () => {
-    // ...
-  }
-  return {
-    initialLoad,
-    update,
-  }
-}
-
-// TODO ???
-export const updateConsentState = (consentState: ConsentState) => {
-  consentStateVar({ onLoad: false, state: consentState })
-}
 
 class Tracking {
   constructor(private posthog: PosthogCrossPlatform, private apollo: ApolloClient<object>) {}
@@ -53,9 +30,22 @@ class Tracking {
     else return Promise.resolve()
   }
 
-  public initWithLoggedInUser = async (user: AuthenticatedUser): Promise<void> => {
+  public init = async (loggedInState: LoggedInState, consentState?: ConsentState) => {
+    if (loggedInState.isLoggedIn) {
+      logger.debug('TrackingInitializer', 'login state loggedIn', JSON.stringify(loggedInState))
+      return this.initWithLoggedInUser(loggedInState.user, consentState)
+    } else if (loggedInState.isLoggedOut) {
+      logger.debug('TrackingInitializer', 'login state loggedOut')
+      return this.initWithLoggedOutUser(consentState)
+    }
+  }
+
+  private initWithLoggedInUser = async (user: AuthenticatedUser, consentState?: ConsentState): Promise<void> => {
     logger.debug('TrackingInitializer.userLoggedIn', 'user=%s', user)
-    switch (Consent.fromBoolean(user.trackingConsentAnalytics)) {
+    const analyticsConsent = consentState
+      ? consentState[TrackingPurpose.Analytics]
+      : Consent.fromBoolean(user.trackingConsentAnalytics)
+    switch (analyticsConsent) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
         await this.optIn()
@@ -67,8 +57,11 @@ class Tracking {
     }
   }
 
-  public initWithLoggedOutUser = async (): Promise<void> => {
-    switch ((await consentStore.load())[TrackingPurpose.Analytics]) {
+  private initWithLoggedOutUser = async (consentState?: ConsentState): Promise<void> => {
+    const analyticsConsent = consentState
+      ? consentState[TrackingPurpose.Analytics]
+      : (await consentStore.load())[TrackingPurpose.Analytics]
+    switch (analyticsConsent) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
         return await this.optIn()
@@ -90,7 +83,14 @@ class Tracking {
       .catch((error) => logError(error, 'Failed to reset Posthog client', errorContext))
   }
 
-  public loadConsent = (loggedInState: LoggedInState): Promise<ConsentState> => {}
+  public loadConsent = (loggedInState: LoggedInState): Promise<ConsentState> => {
+    return loggedInState.isLoggedIn
+      ? Promise.resolve({
+          [TrackingPurpose.Analytics]: Consent.fromBoolean(loggedInState.user.trackingConsentAnalytics),
+          [TrackingPurpose.Personalization]: Consent.fromBoolean(loggedInState.user.trackingConsentPersonalization),
+        } as ConsentState)
+      : consentStore.load()
+  }
 
   // TODO make this available to be called by frontend code
   // TODO how to act on updated consent store / user profile?
@@ -108,8 +108,8 @@ class Tracking {
   }
 
   private updateConsentOnUserProfile = async (consentState: ConsentState): Promise<void> => {
-    await this.apollo.mutate<UpdateAuthenticatedUserResponse, { input: Partial<UpdateAuthenticatedUserInput> }>({
-      mutation: updateAuthenticatedUserMutation,
+    await this.apollo.mutate<UpdateAuthenticatedUserV2Response, { input: Partial<UpdateAuthenticatedUserInput> }>({
+      mutation: updateAuthenticatedUserV2Mutation,
       variables: {
         input: {
           trackingConsentAnalytics: Consent.toBoolean(consentState[TrackingPurpose.Analytics]),
@@ -118,6 +118,17 @@ class Tracking {
       },
     })
   }
+}
+
+const consentStateVar = makeVar<{ initializing: boolean; updatedByUser: boolean; state: ConsentState }>({
+  initializing: true, // true when the application initializes for "the first time" (but e.g. also on browser reload)
+  updatedByUser: false, // true for every subsequent update to consentStateVar (typically when user updates consent)
+  state: ConsentState.unknown,
+})
+
+// TODO call this from consent setting dialogue
+export const updateConsentState = (consentState: ConsentState) => {
+  consentStateVar({ initializing: true, updatedByUser: true, state: consentState })
 }
 
 const TrackingInitializer = ({ children }: PropsWithChildren) => {
@@ -131,36 +142,27 @@ const TrackingInitializerInner = ({ children }: PropsWithChildren) => {
   const apollo: ApolloClient<object> = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
   const loggedInState = useLoggedInUser()
-  const lkj = useConsentState()
   const consentState = useReactiveVar(consentStateVar)
 
-  /*
+  // TODO logout not handled (either load from localstorage or clear localstorage)
+  // TODO migrate consent state from localstorage to user profile if unknown in profile
   useEffect(() => {
-    tracking.loadConsent(loggedInState).then((newState) => consentStateVar({ onLoad: true, state: newState }))
-  }, [loggedInState, tracking])
-  */
-
-  useEffect(() => {
-    lkj.initialLoad()
-  }, [loggedInState, tracking])
-
-  useEffect(() => {
-    logger.debug('TrackingInitializer', 'updating consent state')
-    if (!consentState.onLoad) {
-      tracking.storeConsent(loggedInState, consentState.state)
+    logger.debug('TrackingInitializer', '', consentState)
+    if (loggedInState.isLoggedIn || loggedInState.isLoggedOut) {
+      if (consentState.initializing) {
+        tracking.init(loggedInState).then(() => {
+          consentStateVar({ initializing: false, updatedByUser: false, state: consentState.state })
+        })
+      } else if (consentState.updatedByUser) {
+        logger.debug('TrackingInitializer', 'user updated consent %s', JSON.stringify(consentState.state))
+        tracking.storeConsent(loggedInState, consentState.state).then(() => {
+          tracking.init(loggedInState, consentState.state).then(() => {
+            consentStateVar({ initializing: false, updatedByUser: false, state: consentState.state })
+          })
+        })
+      }
     }
   }, [loggedInState, tracking, consentState])
-
-  useEffect(() => {
-    // TODO this should NOT be called on window resize
-    if (loggedInState.isLoggedIn) {
-      logger.debug('TrackingInitializer', 'login state loggedIn', JSON.stringify(loggedInState))
-      tracking.initWithLoggedInUser(loggedInState.user)
-    } else if (loggedInState.isLoggedOut) {
-      logger.debug('TrackingInitializer', 'login state loggedOut')
-      tracking.initWithLoggedOutUser()
-    }
-  }, [loggedInState, tracking])
 
   return <>{children}</>
 }
