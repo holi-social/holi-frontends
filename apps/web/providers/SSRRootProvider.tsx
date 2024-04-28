@@ -12,6 +12,7 @@ import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { useApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
+import TrackingProvider from '@holi/web/providers/TrackingProvider'
 import { NextJSPageProps } from '@holi/web/types'
 
 interface RootProviderProps {
@@ -25,17 +26,19 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
     <ThemeProvider theme={defaultHoliTheme}>
       <ErrorBoundary>
         <ApolloProvider client={apolloWebClient}>
-          <TrackingInitializer>
-            <PortalProvider>
-              <ToastProvider>
-                <LoginModalProvider>
-                  <ChatSessionInitializer>
-                    <ChatProvider>{children}</ChatProvider>
-                  </ChatSessionInitializer>
-                </LoginModalProvider>
-              </ToastProvider>
-            </PortalProvider>
-          </TrackingInitializer>
+          <TrackingProvider>
+            <TrackingInitializer>
+              <PortalProvider>
+                <ToastProvider>
+                  <LoginModalProvider>
+                    <ChatSessionInitializer>
+                      <ChatProvider>{children}</ChatProvider>
+                    </ChatSessionInitializer>
+                  </LoginModalProvider>
+                </ToastProvider>
+              </PortalProvider>
+            </TrackingInitializer>
+          </TrackingProvider>
         </ApolloProvider>
       </ErrorBoundary>
     </ThemeProvider>

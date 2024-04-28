@@ -14,7 +14,6 @@ import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
 import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
-import { TrackingProvider } from '@holi/web/providers/TrackingProvider'
 import '@holi/web/styles/globals.css'
 import { NextJSPageProps } from '@holi/web/types'
 
@@ -51,14 +50,10 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  return (
-    <TrackingProvider>
-      {featureFlag.enableSSR ? (
-        <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
-      ) : (
-        <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-      )}
-    </TrackingProvider>
+  return featureFlag.enableSSR ? (
+    <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
+  ) : (
+    <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
   )
 }
 

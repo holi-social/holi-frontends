@@ -24,6 +24,8 @@ export namespace Consent {
   }
   export const fromBoolean = (consent: boolean | undefined) => {
     switch (consent) {
+      case null:
+        return Consent.Unknown
       case undefined:
         return Consent.Unknown
       case true:
@@ -49,14 +51,16 @@ export interface ConsentState extends Record<TrackingPurpose, Consent> {
   [TrackingPurpose.Personalization]: Consent
 }
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace ConsentState {
+  export const unknown: ConsentState = {
+    [TrackingPurpose.Analytics]: Consent.Unknown,
+    [TrackingPurpose.Personalization]: Consent.Unknown,
+  }
+}
+
 export interface TrackingHook {
   trackEvent: (event: TrackingEvent) => void
-  lifecycle: {
-    appInit: (loggedInState: LoggedInState) => void
-    userLoggedIn: (loggedInState: LoggedInUser) => void
-    userLoggedOut: () => void
-    updateConsent: (loggedInState: LoggedInState, consentState: ConsentState) => void
-  }
 }
 
 export interface PosthogCrossPlatform {
