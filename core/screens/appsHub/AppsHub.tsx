@@ -4,9 +4,9 @@ import { Trans } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FilterPill from '@holi/core/components/FilterPill'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -27,7 +27,7 @@ const AppsHub = () => {
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => (
         <HoliHeading level="1" size="s">
-          Apps Hub
+          {t('apps.drawer.appsHub')}
         </HoliHeading>
       ),
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowLeft} />),
@@ -37,13 +37,13 @@ const AppsHub = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, colors.background20])
+  }, [t, setScreenOptions, colors.background20])
 
   return (
     <DefaultLayout style={styles.container} backgroundColor={colors.background20} headerOverlap>
       <View style={styles.content}>
         <HoliText>
-          <SpacesFilterPill label={t('apps.drawer.pill')} filterType="planned" small style={{ width: 'auto' }} />
+          <FilterPill label={t('apps.drawer.pill')} filterType="planned" small style={{ width: 'auto' }} />
         </HoliText>
         <HoliText size="extralarge" style={styles.title}>
           <Trans t={t} i18nKey="appsHub.preview.title">

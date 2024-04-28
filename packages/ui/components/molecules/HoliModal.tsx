@@ -1,3 +1,4 @@
+import Constants from 'expo-constants'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -20,12 +21,14 @@ import {
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
+const IOS_STATUS_BAR_HEIGHT = Constants.statusBarHeight
 
 /**
  * "relativeHeight" is a percentage value (from 0 to 1). When its value is 1 and autoHeight is false, the modal is fullscreen.
@@ -162,7 +165,6 @@ const HoliModal: React.FC<HoliModalProps> = ({
         >
           <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
         </HoliButton>
-
         <Animated.View
           style={[
             styles.root,
@@ -232,8 +234,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
               </View>
             ) : null}
           </View>
-
-          {children}
+          {/** SafeAreaProvider needed to avoid NextJS warnings */}
+          {Platform.OS === 'web' && <SafeAreaProvider>{children}</SafeAreaProvider>}
+          {Platform.OS !== 'web' && children}
         </Animated.View>
       </GestureHandlerRootView>
     </ModalBasic>
@@ -262,6 +265,11 @@ const getStyles = (theme: HoliTheme) =>
     fullscreen: {
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
+      ...Platform.select({
+        ios: {
+          paddingTop: IOS_STATUS_BAR_HEIGHT, // avoid the overlapping StatusBar on iOS
+        },
+      }),
     },
     headerContainer: {
       alignSelf: 'center',

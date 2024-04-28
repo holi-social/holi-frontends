@@ -56,6 +56,7 @@ export const InitiativeFragment = gql`
   fragment InitiativeFragment on Initiative {
     id
     category
+    comment
     link
     linkPreview {
       ...LinkFragment

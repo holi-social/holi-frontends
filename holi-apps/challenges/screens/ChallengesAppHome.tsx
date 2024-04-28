@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { Camera } from 'expo-camera'
+import React, { useEffect, useRef, useState } from 'react'
+import { Platform, StyleSheet } from 'react-native'
+import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
@@ -18,6 +20,8 @@ export const ChallengesAppHome = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
+  const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
+  const webViewRef = useRef<WebView>(null)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -36,20 +40,48 @@ export const ChallengesAppHome = () => {
     })
   }, [setScreenOptions, theme.colors])
 
+  const requestPermissions = async () => {
+    const cameraPermissionResult = await Camera.requestCameraPermissionsAsync()
+    const micPermissionResult = await Camera.requestMicrophonePermissionsAsync()
+    return cameraPermissionResult.granted && micPermissionResult.granted
+  }
+
+  const isCameraAndMicPermissionGranted = async () => {
+    const cameraPermissionResult = await Camera.getCameraPermissionsAsync()
+    const micPermissionResult = await Camera.getMicrophonePermissionsAsync()
+    return cameraPermissionResult.granted && micPermissionResult.granted
+  }
+
+  const handleCameraPermissionMessage = async (event: WebViewMessageEvent) => {
+    switch (event.nativeEvent.data) {
+      case 'requestPermission':
+        await requestPermissions().then((granted) => {
+          if (granted) {
+            webViewRef.current?.postMessage('requestPermissionGranted')
+          } else {
+            webViewRef.current?.postMessage('requestPermissionDenied')
+          }
+        })
+        break
+    }
+  }
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
     ;(async () => {
+      setRequireCameraPermission(!(await isCameraAndMicPermissionGranted()))
       setAuthHeaders(await createAuthorizationHeaders())
     })()
   }, [])
 
-  if (!authHeaders) {
+  if (authHeaders === undefined || isCameraAndMicPermissionGranted === undefined) {
     return <HoliLoader />
   }
 
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.CHALLENGES} featureNameKey="challenges:maintenance.feature">
       <HoliWebView
+        webViewRef={webViewRef}
         style={styles.container}
         allowsBackForwardNavigationGesturesMultiOS={true}
         webViewProps={{
@@ -58,9 +90,14 @@ export const ChallengesAppHome = () => {
           allowsInlineMediaPlayback: true,
           mediaCapturePermissionGrantType: 'grant',
           sharedCookiesEnabled: true,
+          onMessage: handleCameraPermissionMessage,
           source: {
             uri: challengeAppBaseUrl,
-            headers: { ...authHeaders, 'X-Client-Platform': 'holi' },
+            headers: {
+              ...authHeaders,
+              'X-Client-Platform': 'holi',
+              'X-Require-Camera-Permission': `${Platform.OS == 'android' && requireCameraPermission}`,
+            },
           },
         }}
         theme={theme}
