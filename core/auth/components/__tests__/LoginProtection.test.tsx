@@ -22,6 +22,7 @@ const loggedOut = (): LoginState => ({
   isLoggedOut: true,
   isLoggedIn: false,
 })
+const useAuthMock = useAuth as jest.Mock
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: jest.fn(),
@@ -31,8 +32,6 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
 jest.mock('@holi/core/helpers/useDocumentURL', () => ({
   useDocumentURL: () => new URL('https://localhost:3000').href,
 }))
-
-const useAuthMock = useAuth as jest.Mock
 
 const authenticatedUserRequest = {
   request: {
@@ -74,15 +73,13 @@ describe('renders correctly', () => {
   })
 
   it('renders fallback content when logged out and no other content was provided', async () => {
-    useAuthMock.mockReturnValue(loggedOut)
+    useAuthMock.mockImplementation(loggedOut)
 
-    const { queryByText, debug } = render(
-      <MockedProvider mocks={[]} addTypename={false}>
+    const { queryByText } = render(
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
         <LoginProtection>Protected Content</LoginProtection>
       </MockedProvider>
     )
-
-    debug()
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
     expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
