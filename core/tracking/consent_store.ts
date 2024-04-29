@@ -23,8 +23,8 @@ const load = (): Promise<ConsentState> => {
       }
     })
     .catch((e) => {
-      logError(e, 'Error reading from AsyncStorage', { location: 'ConsentStore' })
-      throw e
+      logError(e, 'Error reading from AsyncStorage, assuming broken state, resetting', { location: 'ConsentStore' })
+      return clear().then(() => store(ConsentState.unknown))
     })
 }
 

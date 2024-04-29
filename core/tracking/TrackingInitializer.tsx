@@ -31,41 +31,37 @@ class Tracking {
   }
 
   public init = async (loggedInState: LoggedInState, consentState?: ConsentState) => {
+    const state = consentState || (await this.loadConsent(loggedInState))
     if (loggedInState.isLoggedIn) {
-      logger.debug('TrackingInitializer', 'login state loggedIn', JSON.stringify(loggedInState))
-      return this.initWithLoggedInUser(loggedInState.user, consentState)
+      logger.debug('TrackingInitializer', 'initializing for logged-in user', state)
+      return this.initWithLoggedInUser(loggedInState.user, state)
     } else if (loggedInState.isLoggedOut) {
-      logger.debug('TrackingInitializer', 'login state loggedOut')
-      return this.initWithLoggedOutUser(consentState)
+      logger.debug('TrackingInitializer', 'initializing for logged-out user', state)
+      return this.initWithLoggedOutUser(state)
     }
   }
 
-  private initWithLoggedInUser = async (user: AuthenticatedUser, consentState?: ConsentState): Promise<void> => {
-    logger.debug('TrackingInitializer.userLoggedIn', 'user=%s', user)
-    const analyticsConsent = consentState
-      ? consentState[TrackingPurpose.Analytics]
-      : Consent.fromBoolean(user.trackingConsentAnalytics)
-    switch (analyticsConsent) {
+  private initWithLoggedInUser = async (user: AuthenticatedUser, consentState: ConsentState): Promise<void> => {
+    switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
         await this.optIn()
         logger.debug('TrackingInitializer.userLoggedIn', 'identifying user on posthog client')
         return this.posthog.identify(user.id)
-      case Consent.Unknown || Consent.Denied:
+      case Consent.Unknown:
+      case Consent.Denied:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent NOT given, opting out on posthog client')
         return await this.optOut()
     }
   }
 
-  private initWithLoggedOutUser = async (consentState?: ConsentState): Promise<void> => {
-    const analyticsConsent = consentState
-      ? consentState[TrackingPurpose.Analytics]
-      : (await consentStore.load())[TrackingPurpose.Analytics]
-    switch (analyticsConsent) {
+  private initWithLoggedOutUser = async (consentState: ConsentState): Promise<void> => {
+    switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
         return await this.optIn()
-      case Consent.Unknown || Consent.Denied:
+      case Consent.Unknown:
+      case Consent.Denied:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent NOT given, opting out on posthog client')
         return await this.optOut()
     }
@@ -84,12 +80,7 @@ class Tracking {
   }
 
   public loadConsent = (loggedInState: LoggedInState): Promise<ConsentState> => {
-    return loggedInState.isLoggedIn
-      ? Promise.resolve({
-          [TrackingPurpose.Analytics]: Consent.fromBoolean(loggedInState.user.trackingConsentAnalytics),
-          [TrackingPurpose.Personalization]: Consent.fromBoolean(loggedInState.user.trackingConsentPersonalization),
-        } as ConsentState)
-      : consentStore.load()
+    return loggedInState.isLoggedIn ? Promise.resolve(ConsentState.fromUser(loggedInState.user)) : consentStore.load()
   }
 
   // TODO make this available to be called by frontend code
@@ -100,11 +91,8 @@ class Tracking {
       ? consentStore.store(consentState)
       : this.updateConsentOnUserProfile(consentState)
     return store
-      .then(() => logger.debug('TrackingInitializer.updateConsent', 'persisted opt-in on consentStore'))
+      .then(() => logger.debug('TrackingInitializer.updateConsent', 'persisted updated consent'))
       .catch((error) => logError(error, 'Failed to store given tracking consent', errorContext))
-      .then(() => this.optIn())
-      .then(() => logger.debug('TrackingInitializer.updateConsent', 'opted-in on Posthog client'))
-      .catch((error) => logError(error, 'Failed to opt-in into tracking', errorContext))
   }
 
   private updateConsentOnUserProfile = async (consentState: ConsentState): Promise<void> => {
@@ -128,7 +116,7 @@ const consentStateVar = makeVar<{ initializing: boolean; updatedByUser: boolean;
 
 // TODO call this from consent setting dialogue
 export const updateConsentState = (consentState: ConsentState) => {
-  consentStateVar({ initializing: true, updatedByUser: true, state: consentState })
+  consentStateVar({ initializing: false, updatedByUser: true, state: consentState })
 }
 
 const TrackingInitializer = ({ children }: PropsWithChildren) => {
@@ -147,14 +135,13 @@ const TrackingInitializerInner = ({ children }: PropsWithChildren) => {
   // TODO logout not handled (either load from localstorage or clear localstorage)
   // TODO migrate consent state from localstorage to user profile if unknown in profile
   useEffect(() => {
-    logger.debug('TrackingInitializer', '', consentState)
     if (loggedInState.isLoggedIn || loggedInState.isLoggedOut) {
       if (consentState.initializing) {
         tracking.init(loggedInState).then(() => {
           consentStateVar({ initializing: false, updatedByUser: false, state: consentState.state })
         })
       } else if (consentState.updatedByUser) {
-        logger.debug('TrackingInitializer', 'user updated consent %s', JSON.stringify(consentState.state))
+        logger.debug('TrackingInitializer', 'user updated consent', consentState)
         tracking.storeConsent(loggedInState, consentState.state).then(() => {
           tracking.init(loggedInState, consentState.state).then(() => {
             consentStateVar({ initializing: false, updatedByUser: false, state: consentState.state })

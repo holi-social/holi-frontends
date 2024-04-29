@@ -1,3 +1,4 @@
+import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking/events'
 
 export enum TrackingPurpose {
@@ -48,6 +49,10 @@ export namespace ConsentState {
     [TrackingPurpose.Analytics]: Consent.Unknown,
     [TrackingPurpose.Personalization]: Consent.Unknown,
   }
+  export const fromUser = (user: AuthenticatedUser): ConsentState => ({
+    [TrackingPurpose.Analytics]: Consent.fromBoolean(user.trackingConsentAnalytics),
+    [TrackingPurpose.Personalization]: Consent.fromBoolean(user.trackingConsentPersonalization),
+  })
 }
 
 export interface TrackingHook {
