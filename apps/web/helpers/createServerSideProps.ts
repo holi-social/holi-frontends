@@ -20,7 +20,7 @@ export const createServerSideProps = async (
   queries: SkippableQueryOptions[] | QueryCreatorFunction = [],
   customProps?: Partial<CustomProps>
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
-  const initialProps = { customProps }
+  const initialProps = customProps ? { customProps } : {}
 
   // TODO: We do an early return with empty page props. It still leads to
   // rendering everything on the client and should not have any
