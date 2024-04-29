@@ -7,16 +7,12 @@ const NotificationPostItem: React.FC<NotificationProps<NotificationPost>> = ({ n
   const {
     comment: { id: commentId },
     post: { id: postId },
+    commentLink,
   } = notification.options
 
-  return (
-    <NotificationWithUserAvatar
-      notification={notification}
-      href={`/posts/${postId}?commentId=${commentId}`}
-      style={style}
-      testID={testID}
-    />
-  )
+  const link = commentLink ? commentLink : `/posts/${postId}?commentId=${commentId}`
+
+  return <NotificationWithUserAvatar notification={notification} href={link} style={style} testID={testID} />
 }
 
 export default NotificationPostItem
