@@ -1,6 +1,7 @@
 import { DocumentNode, useQuery } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import Head from 'next/head'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
@@ -118,6 +119,16 @@ const Spaces = () => {
 
   return (
     <SpaceTermContextProvider>
+      <Head>
+        <meta name="description" content={t('metatags.spaces.description')} />
+        <meta property="og:title" content={t('metatags.spaces.og.title')} key="title" />
+        <meta property="og:description" content={t('metatags.spaces.og.description')} key="description" />
+        <meta
+          property="og:image"
+          content="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
+          key="image"
+        />
+      </Head>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           refreshing,

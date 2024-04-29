@@ -1,4 +1,5 @@
 import { withProfiler } from '@sentry/react'
+import Head from 'next/head'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -186,6 +187,7 @@ const InsightsList = () => {
 
 const InsightsPage = () => {
   const { theme } = useTheme()
+  const { t } = useTranslation()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const queryOptions: PaginationQueryHookOptions = {
@@ -198,20 +200,32 @@ const InsightsPage = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.layout}>
-      <View style={styles.sections}>
-        <HoliContainer>
-          <Pagination
-            query={lastInsightsQuery}
-            queryOptions={queryOptions}
-            loadMoreOnScroll
-            scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
-          >
-            <InsightsList />
-          </Pagination>
-        </HoliContainer>
-      </View>
-    </ScrollHeaderLayout.Default>
+    <>
+      <Head>
+        <meta name="description" content={t('metatags.default.description')} />
+        <meta property="og:title" content={t('metatags.default.og.title')} key="title" />
+        <meta property="og:description" content={t('metatags.default.og.description')} key="description" />
+        <meta
+          property="og:image"
+          content="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
+          key="image"
+        />
+      </Head>
+      <ScrollHeaderLayout.Default style={styles.layout}>
+        <View style={styles.sections}>
+          <HoliContainer>
+            <Pagination
+              query={lastInsightsQuery}
+              queryOptions={queryOptions}
+              loadMoreOnScroll
+              scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+            >
+              <InsightsList />
+            </Pagination>
+          </HoliContainer>
+        </View>
+      </ScrollHeaderLayout.Default>
+    </>
   )
 }
 

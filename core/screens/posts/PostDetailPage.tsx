@@ -1,11 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
+import Head from 'next/head'
 import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -141,6 +143,13 @@ const PostDetailPage = () => {
 
   return (
     <>
+      <Head>
+        <meta name="description" content={post.text.substring(0, METATAG_MAX_LENGTH)} />
+        <meta property="og:title" content={`${post.title} | ${post.creator.fullName}`} />
+        <meta property="og:description" content={post.text.substring(0, METATAG_MAX_LENGTH)} />
+        <meta property="og:image" content={post.image?.url} key="image" />
+      </Head>
+
       <StatusBar animated />
 
       <ScrollHeaderLayout.Refreshable

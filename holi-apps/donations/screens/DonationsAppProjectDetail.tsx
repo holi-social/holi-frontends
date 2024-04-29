@@ -1,12 +1,14 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
+import Head from 'next/head'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
@@ -83,61 +85,69 @@ const DonationsAppProjectDetail = () => {
   }
 
   return (
-    <View
-      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
-      testID="donations-detailview-container"
-    >
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
-        style={{ backgroundColor: colors.background30 }}
-        headerOverlap
+    <>
+      <Head>
+        <meta name="description" content={project.summary.substring(0, METATAG_MAX_LENGTH)} />
+        <meta property="og:title" content={project.title} key="title" />
+        <meta property="og:description" content={project.summary.substring(0, METATAG_MAX_LENGTH)} key="description" />
+        <meta property="og:image" content={project.picture[0].url} key="image" />
+      </Head>
+      <View
+        style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
+        testID="donations-detailview-container"
       >
-        <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
-          <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
-          <View style={styles.header}>
-            <HoliHeading level="1" size="l" testID="donations-project-title">
-              {project.title}
-            </HoliHeading>
-            <View style={styles.location}>
-              <HoliIcon icon={Globe} size={20} />
-              <HoliText size="small" style={{ marginLeft: 8 }}>
-                {project.initiative.city}, {project.initiative.country}
-              </HoliText>
+        <ScrollHeaderLayout.Refreshable
+          refreshableProps={{ refreshing, onRefresh }}
+          style={{ backgroundColor: colors.background30 }}
+          headerOverlap
+        >
+          <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
+            <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
+            <View style={styles.header}>
+              <HoliHeading level="1" size="l" testID="donations-project-title">
+                {project.title}
+              </HoliHeading>
+              <View style={styles.location}>
+                <HoliIcon icon={Globe} size={20} />
+                <HoliText size="small" style={{ marginLeft: 8 }}>
+                  {project.initiative.city}, {project.initiative.country}
+                </HoliText>
+              </View>
             </View>
-          </View>
-          <DonationProgress
-            progressPercentage={project.progressPercentage}
-            openAmountInCents={project.openAmountInCents}
-            size="large"
-            style={styles.card}
-            testID="donations-project-progress"
-          />
-          <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
-            <DonationInitiativeButton initiative={project.initiative} />
-            <HoliText size={'large'} style={{ marginVertical: 24 }}>
-              &ldquo;{project.summary}&rdquo;
-            </HoliText>
-            <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
-          </View>
-          {project?.news.length > 0 && (
-            <DonationNews
-              totalEntries={project.newsCount}
-              news={project.news}
-              style={[styles.card, { paddingVertical: 24 }]}
+            <DonationProgress
+              progressPercentage={project.progressPercentage}
+              openAmountInCents={project.openAmountInCents}
+              size="large"
+              style={styles.card}
+              testID="donations-project-progress"
             />
-          )}
-        </View>
-      </ScrollHeaderLayout.Refreshable>
+            <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
+              <DonationInitiativeButton initiative={project.initiative} />
+              <HoliText size={'large'} style={{ marginVertical: 24 }}>
+                &ldquo;{project.summary}&rdquo;
+              </HoliText>
+              <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
+            </View>
+            {project?.news.length > 0 && (
+              <DonationNews
+                totalEntries={project.newsCount}
+                news={project.news}
+                style={[styles.card, { paddingVertical: 24 }]}
+              />
+            )}
+          </View>
+        </ScrollHeaderLayout.Refreshable>
 
-      <View style={[mixins.container, styles.donateButton]}>
-        <HoliButtonLoading
-          icon={ShareBox}
-          label={t('donations:projectDetail.donate')}
-          onPress={() => Linking.openURL(project.donationUrl)}
-          testID="donations-project-detail-donate-btn"
-        />
+        <View style={[mixins.container, styles.donateButton]}>
+          <HoliButtonLoading
+            icon={ShareBox}
+            label={t('donations:projectDetail.donate')}
+            onPress={() => Linking.openURL(project.donationUrl)}
+            testID="donations-project-detail-donate-btn"
+          />
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 

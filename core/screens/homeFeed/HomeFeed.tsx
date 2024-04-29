@@ -1,6 +1,7 @@
 import { DocumentNode } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import Head from 'next/head'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -116,6 +117,16 @@ const HomeFeed = () => {
 
   return (
     <>
+      <Head>
+        <meta name="description" content={t('metatags.default.description')} />
+        <meta property="og:title" content={t('metatags.default.og.title')} key="title" />
+        <meta property="og:description" content={t('metatags.default.og.description')} key="description" />
+        <meta
+          property="og:image"
+          content="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
+          key="image"
+        />
+      </Head>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           refreshing,

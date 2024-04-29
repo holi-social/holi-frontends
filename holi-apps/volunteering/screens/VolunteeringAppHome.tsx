@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
@@ -143,39 +144,51 @@ const VolunteeringAppHome = () => {
   }, [displayError, geolocationError, location, t])
 
   return (
-    <SafeAreaProvider>
-      <DefaultLayout
-        style={styles.defaultLayout}
-        scrollable={true}
-        testID={'volunteering-list-container'}
-        keyboardShouldPersistTaps="handled"
-        hasFooterTabBar={false}
-      >
-        <HoliModal
-          show={showFilterModal}
-          onDismiss={closeModal}
-          testID="volunteering-filter-modal"
-          label={t('volunteering:filter.heading')}
-          autoHeight={false}
-          relativeHeight={1}
+    <>
+      <Head>
+        <meta name="description" content={t('metatags.volunteering.description')} />
+        <meta property="og:title" content={t('metatags.volunteering.og.title')} key="title" />
+        <meta property="og:description" content={t('metatags.volunteering.og.description')} key="description" />
+        <meta
+          property="og:image"
+          content="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
+          key="image"
+        />
+      </Head>
+      <SafeAreaProvider>
+        <DefaultLayout
+          style={styles.defaultLayout}
+          scrollable={true}
+          testID={'volunteering-list-container'}
+          keyboardShouldPersistTaps="handled"
+          hasFooterTabBar={false}
         >
-          <VolunteeringFilterForm
-            onSubmit={submit}
+          <HoliModal
+            show={showFilterModal}
+            onDismiss={closeModal}
+            testID="volunteering-filter-modal"
+            label={t('volunteering:filter.heading')}
+            autoHeight={false}
+            relativeHeight={1}
+          >
+            <VolunteeringFilterForm
+              onSubmit={submit}
+              filters={filters}
+              clearFilters={clearFilters}
+              initialLocationSelection={initialLocationSelection}
+            />
+          </HoliModal>
+
+          <VolunteeringListing
             filters={filters}
             clearFilters={clearFilters}
-            initialLocationSelection={initialLocationSelection}
+            isFiltering={isFiltering}
+            loadingFilters={loadingFilters}
+            filterError={!!geolocationError}
           />
-        </HoliModal>
-
-        <VolunteeringListing
-          filters={filters}
-          clearFilters={clearFilters}
-          isFiltering={isFiltering}
-          loadingFilters={loadingFilters}
-          filterError={!!geolocationError}
-        />
-      </DefaultLayout>
-    </SafeAreaProvider>
+        </DefaultLayout>
+      </SafeAreaProvider>
+    </>
   )
 }
 

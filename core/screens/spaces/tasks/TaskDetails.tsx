@@ -1,8 +1,10 @@
+import Head from 'next/head'
 import React, { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
@@ -121,18 +123,26 @@ const TaskDetails = () => {
   }
 
   return (
-    <SafeAreaProvider style={styles.safeAreaProvider}>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
-      >
-        <HoliContainer>
-          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
-        </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
-    </SafeAreaProvider>
+    <>
+      <Head>
+        <meta name="description" content={task.description.substring(0, METATAG_MAX_LENGTH)} />
+        <meta property="og:title" content={`${task.name} | ${space.title}`} key="title" />
+        <meta property="og:description" content={task.description.substring(0, METATAG_MAX_LENGTH)} key="description" />
+        <meta property="og:image" content={task.thumbnail || space.cover} key="image" />
+      </Head>
+      <SafeAreaProvider style={styles.safeAreaProvider}>
+        <ScrollHeaderLayout.Refreshable
+          refreshableProps={{ refreshing, onRefresh }}
+          style={styles.defaultLayout}
+          contentStyle={styles.contentStyle}
+          headerOverlap
+        >
+          <HoliContainer>
+            <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
+          </HoliContainer>
+        </ScrollHeaderLayout.Refreshable>
+      </SafeAreaProvider>
+    </>
   )
 }
 

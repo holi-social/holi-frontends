@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import Head from 'next/head'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
@@ -224,31 +225,43 @@ const VolunteeringEngagementDetail = () => {
   }
 
   return (
-    <View style={styles.wrapper} testID="volunteering-detailview-container">
-      <ScrollHeaderLayout.Refreshable refreshableProps={{ refreshing, onRefresh }} style={styles.header} headerOverlap>
-        {engagement && (
-          <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
-            <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
-            <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            {!!partner && providerContainer}
-            <VolunteeringPartnerCard
-              headline={t('volunteering:engagementDetail.technicalPartner')}
-              name={'Voltastics'}
-              partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
-            />
-          </View>
-        )}
-      </ScrollHeaderLayout.Refreshable>
+    <>
+      <Head>
+        <meta name="description" content={engagement.description} />
+        <meta property="og:title" content={engagement.title} key="title" />
+        <meta property="og:description" content={engagement.description} key="description" />
+        <meta property="og:image" content={engagement.imageUrl} key="image" />
+      </Head>
+      <View style={styles.wrapper} testID="volunteering-detailview-container">
+        <ScrollHeaderLayout.Refreshable
+          refreshableProps={{ refreshing, onRefresh }}
+          style={styles.header}
+          headerOverlap
+        >
+          {engagement && (
+            <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
+              <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
+              <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
+              {!!partner && providerContainer}
+              <VolunteeringPartnerCard
+                headline={t('volunteering:engagementDetail.technicalPartner')}
+                name={'Voltastics'}
+                partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
+              />
+            </View>
+          )}
+        </ScrollHeaderLayout.Refreshable>
 
-      <View style={styles.volunteeringButton}>
-        <HoliButtonLoading
-          icon={ShareBox}
-          label={t('volunteering:engagementDetail.getInTouch')}
-          onPress={() => Linking.openURL(engagement.url)}
-          testID="volunteering-engagement-get-in-touch-btn"
-        />
+        <View style={styles.volunteeringButton}>
+          <HoliButtonLoading
+            icon={ShareBox}
+            label={t('volunteering:engagementDetail.getInTouch')}
+            onPress={() => Linking.openURL(engagement.url)}
+            testID="volunteering-engagement-get-in-touch-btn"
+          />
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 

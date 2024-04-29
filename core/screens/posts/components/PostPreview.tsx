@@ -1,7 +1,9 @@
+import Head from 'next/head'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -136,171 +138,183 @@ const PostPreview = ({
   }
 
   return (
-    <View style={styles.container}>
-      {/* Visibility for space update posts */}
-      {hasVisibilityIcon ? (
-        <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
-          <HoliIcon icon={visibilityIcon} size={14} />
-          <HoliBox padding={[0, 0, 0, 6]}>
-            <HoliText size="extrasmall">{visibilityIconText}</HoliText>
-          </HoliBox>
-        </HoliColumns>
-      ) : null}
-
-      {/* Author row with author, post date and three dot menu */}
-      {/* As of v1.10.0: We don't show the author row when it is a daily inspiration post */}
-      {!post?.inspirationPostCategory?.title && (
-        <HoliColumns>
-          {/* Author */}
-          <HoliColumn flex={2}>
-            <HoliLink
-              href={`/profile/${post?.creator.id}`}
-              label={post?.creator.fullName || ''}
-              testID="btn-to-post-creator-profile"
-            >
-              <HoliMediaHeader
-                title={post?.creator.fullName}
-                author={post?.creator || ({} as User)}
-                date={post?.created}
-                boldTitle
-              />
-            </HoliLink>
-          </HoliColumn>
-          {/* Action drawer (three dot menu) */}
-          <HoliColumn>
-            <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-              {/* Report Action */}
-              {/* reporting own content makes no sense, so we hide this option */}
-              {!isCurrentUserPostCreator && (
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingReport}
-                  icon={Flag}
-                  title={t('global.report')}
-                  testID="report-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.report.confirmation.title')}
-                    description={t('insights.post.report.confirmation.description')}
-                    handleConfirmation={reportContent}
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
-              {/* Edit Action */}
-              {/* editing only allowed for own content */}
-              {spaceIdOrName && isCurrentUserPostCreator && (
-                <HoliActionDrawer.Action
-                  icon={Edit2}
-                  title={t('spaces.updates.edit')}
-                  testID="edit-update"
-                  handleAction={editAction}
-                />
-              )}
-              {/* Delete Action */}
-              {/* deleting only allowed for own content */}
-              {isCurrentUserPostCreator && (
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingPostDeletion}
-                  icon={Delete}
-                  title={t('insights.post.delete.confirmation.title')}
-                  testID="delete-post-button"
-                  showConfirmation
-                  variant="danger"
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.delete.confirmation.title')}
-                    description={t('insights.post.delete.confirmation.description')}
-                    confirmText={t('confirmation.delete')}
-                    dismissText={t('global.dismiss')}
-                    handleConfirmation={deletePost}
-                    buttonType="warning"
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
-            </HoliActionDrawer.Drawer>
-          </HoliColumn>
-        </HoliColumns>
-      )}
-
-      {/* Inspiration posts media header */}
-      <InspirationPostMediaHeader post={post} />
-
-      <HoliLink href={getPostUrl(post?.id, insightId, spaceIdOrName)} label={post?.title || ''} testID="btn-to-post">
-        {/* Post title */}
-        {!!post?.title && (
-          <View style={styles.postTitleLink}>
-            <HoliHeading level="3" size="s">
-              {post?.title}
-            </HoliHeading>
-          </View>
-        )}
-        {/* Post content */}
-        {hasMounted && (
-          <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
-            <HoliRichTextOutput
-              text={post?.text || ''}
-              users={post?.mentions || []}
-              links={post?.links || []}
-              allowAllLinks
-              size="default"
-              color="gray300"
-            />
-          </HoliReadMore>
-        )}
-      </HoliLink>
-
-      {/* Post image */}
-      {post?.image && (
-        <PostImage
-          uri={post?.image.url || ''}
-          height={post?.image.height}
-          width={post?.image.width}
-          postTitle={post?.title}
-        />
-      )}
-
-      {/* Post link previews */}
-      {!!post?.links?.length &&
-        post.links.map((link, index) => {
-          return (
-            <HoliBox padding={[0, 24]} key={index}>
-              <HoliLinkPreview style={styles.linkPreview} previewData={link || ({} as Link)} label={link.title || ''} />
+    <>
+      <Head>
+        <meta name="description" content={post.text.substring(0, METATAG_MAX_LENGTH)} />
+        <meta property="og:title" content={`${post.title} | ${post.creator.fullName}`} />
+        <meta property="og:description" content={post.text.substring(0, METATAG_MAX_LENGTH)} />
+        <meta property="og:image" content={post.image?.url} key="image" />
+      </Head>
+      <View style={styles.container}>
+        {/* Visibility for space update posts */}
+        {hasVisibilityIcon ? (
+          <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
+            <HoliIcon icon={visibilityIcon} size={14} />
+            <HoliBox padding={[0, 0, 0, 6]}>
+              <HoliText size="extrasmall">{visibilityIconText}</HoliText>
             </HoliBox>
-          )
-        })}
+          </HoliColumns>
+        ) : null}
 
-      {/* Reaction bar with comments and likes */}
-      <View style={styles.reactionsBar}>
-        {/* Comments */}
-        {post?.numberOfComments > 0 ? (
-          <View style={styles.reactionsLink}>
-            <HoliLink
-              href={`${getPostUrl(post?.id, insightId, spaceIdOrName)}?commentId=first`}
-              label={t('comments.link')}
-            >
-              <HoliUserAvatarPile users={commenters?.length ? [...commenters] : []} usersToShow={3} collapse>
-                {t('insights.post.response', { count: post?.numberOfComments })}
-              </HoliUserAvatarPile>
-            </HoliLink>
-          </View>
-        ) : (
-          <View style={styles.noCommentsYetMessage}>
-            <HoliLink href={commentUrl} label={t('comments.create_comment_button')} onPress={onPressCommentLink}>
-              <HoliText size="small" style={{ color: colors.foreground20 }}>
-                {t('insights.post.no-comment-yet')}
-              </HoliText>
-            </HoliLink>
-          </View>
+        {/* Author row with author, post date and three dot menu */}
+        {/* As of v1.10.0: We don't show the author row when it is a daily inspiration post */}
+        {!post?.inspirationPostCategory?.title && (
+          <HoliColumns>
+            {/* Author */}
+            <HoliColumn flex={2}>
+              <HoliLink
+                href={`/profile/${post?.creator.id}`}
+                label={post?.creator.fullName || ''}
+                testID="btn-to-post-creator-profile"
+              >
+                <HoliMediaHeader
+                  title={post?.creator.fullName}
+                  author={post?.creator || ({} as User)}
+                  date={post?.created}
+                  boldTitle
+                />
+              </HoliLink>
+            </HoliColumn>
+            {/* Action drawer (three dot menu) */}
+            <HoliColumn>
+              <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+                {/* Report Action */}
+                {/* reporting own content makes no sense, so we hide this option */}
+                {!isCurrentUserPostCreator && (
+                  <HoliActionDrawer.Action
+                    isLoading={isLoadingReport}
+                    icon={Flag}
+                    title={t('global.report')}
+                    testID="report-comment-button"
+                    showConfirmation
+                  >
+                    <HoliActionDrawer.Confirmation
+                      title={t('insights.post.report.confirmation.title')}
+                      description={t('insights.post.report.confirmation.description')}
+                      handleConfirmation={reportContent}
+                      hasDismissBtn
+                      requireLogin
+                    />
+                  </HoliActionDrawer.Action>
+                )}
+                {/* Edit Action */}
+                {/* editing only allowed for own content */}
+                {spaceIdOrName && isCurrentUserPostCreator && (
+                  <HoliActionDrawer.Action
+                    icon={Edit2}
+                    title={t('spaces.updates.edit')}
+                    testID="edit-update"
+                    handleAction={editAction}
+                  />
+                )}
+                {/* Delete Action */}
+                {/* deleting only allowed for own content */}
+                {isCurrentUserPostCreator && (
+                  <HoliActionDrawer.Action
+                    isLoading={isLoadingPostDeletion}
+                    icon={Delete}
+                    title={t('insights.post.delete.confirmation.title')}
+                    testID="delete-post-button"
+                    showConfirmation
+                    variant="danger"
+                  >
+                    <HoliActionDrawer.Confirmation
+                      title={t('insights.post.delete.confirmation.title')}
+                      description={t('insights.post.delete.confirmation.description')}
+                      confirmText={t('confirmation.delete')}
+                      dismissText={t('global.dismiss')}
+                      handleConfirmation={deletePost}
+                      buttonType="warning"
+                      hasDismissBtn
+                      requireLogin
+                    />
+                  </HoliActionDrawer.Action>
+                )}
+              </HoliActionDrawer.Drawer>
+            </HoliColumn>
+          </HoliColumns>
         )}
 
-        {/* Reactions */}
-        <PostReactions post={post || ({} as Post)} />
+        {/* Inspiration posts media header */}
+        <InspirationPostMediaHeader post={post} />
+
+        <HoliLink href={getPostUrl(post?.id, insightId, spaceIdOrName)} label={post?.title || ''} testID="btn-to-post">
+          {/* Post title */}
+          {!!post?.title && (
+            <View style={styles.postTitleLink}>
+              <HoliHeading level="3" size="s">
+                {post?.title}
+              </HoliHeading>
+            </View>
+          )}
+          {/* Post content */}
+          {hasMounted && (
+            <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
+              <HoliRichTextOutput
+                text={post?.text || ''}
+                users={post?.mentions || []}
+                links={post?.links || []}
+                allowAllLinks
+                size="default"
+                color="gray300"
+              />
+            </HoliReadMore>
+          )}
+        </HoliLink>
+
+        {/* Post image */}
+        {post?.image && (
+          <PostImage
+            uri={post?.image.url || ''}
+            height={post?.image.height}
+            width={post?.image.width}
+            postTitle={post?.title}
+          />
+        )}
+
+        {/* Post link previews */}
+        {!!post?.links?.length &&
+          post.links.map((link, index) => {
+            return (
+              <HoliBox padding={[0, 24]} key={index}>
+                <HoliLinkPreview
+                  style={styles.linkPreview}
+                  previewData={link || ({} as Link)}
+                  label={link.title || ''}
+                />
+              </HoliBox>
+            )
+          })}
+
+        {/* Reaction bar with comments and likes */}
+        <View style={styles.reactionsBar}>
+          {/* Comments */}
+          {post?.numberOfComments > 0 ? (
+            <View style={styles.reactionsLink}>
+              <HoliLink
+                href={`${getPostUrl(post?.id, insightId, spaceIdOrName)}?commentId=first`}
+                label={t('comments.link')}
+              >
+                <HoliUserAvatarPile users={commenters?.length ? [...commenters] : []} usersToShow={3} collapse>
+                  {t('insights.post.response', { count: post?.numberOfComments })}
+                </HoliUserAvatarPile>
+              </HoliLink>
+            </View>
+          ) : (
+            <View style={styles.noCommentsYetMessage}>
+              <HoliLink href={commentUrl} label={t('comments.create_comment_button')} onPress={onPressCommentLink}>
+                <HoliText size="small" style={{ color: colors.foreground20 }}>
+                  {t('insights.post.no-comment-yet')}
+                </HoliText>
+              </HoliLink>
+            </View>
+          )}
+
+          {/* Reactions */}
+          <PostReactions post={post || ({} as Post)} />
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 

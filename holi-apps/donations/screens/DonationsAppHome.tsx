@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import Constants from 'expo-constants'
+import Head from 'next/head'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -98,31 +99,43 @@ const DonationsAppHome = () => {
   }, [navigate, setScreenOptions, t, title, colors.background10])
 
   return (
-    <ScrollHeaderLayout.Refreshable
-      refreshableProps={{ refreshing, onRefresh }}
-      keyboardShouldPersistTaps="always"
-      headerOverlap
-      style={styles.defaultLayout}
-    >
-      <HoliModal
-        show={showSearchModal}
-        onDismiss={closeModal}
-        testID="donations-search-modal"
-        label={t('donations:search.heading')}
-        autoHeight={false}
-        // Smaller devides use the whole screen and
-        // larger ones should have more space above for clicking the backdrop pane
-        relativeHeight={deviceHeight > 750 ? 0.85 : 1}
+    <>
+      <Head>
+        <meta name="description" content={t('metatags.donations.description')} />
+        <meta property="og:title" content={t('metatags.donations.og.title')} key="title" />
+        <meta property="og:description" content={t('metatags.donations.og.description')} key="description" />
+        <meta
+          property="og:image"
+          content="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
+          key="image"
+        />
+      </Head>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{ refreshing, onRefresh }}
+        keyboardShouldPersistTaps="always"
+        headerOverlap
+        style={styles.defaultLayout}
       >
-        <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
-      </HoliModal>
-      <View
-        style={[mixins.container, { paddingTop: statusBarHeight + dimensions.topBarHeight }]}
-        testID={'donations-list-container'}
-      >
-        <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
-      </View>
-    </ScrollHeaderLayout.Refreshable>
+        <HoliModal
+          show={showSearchModal}
+          onDismiss={closeModal}
+          testID="donations-search-modal"
+          label={t('donations:search.heading')}
+          autoHeight={false}
+          // Smaller devides use the whole screen and
+          // larger ones should have more space above for clicking the backdrop pane
+          relativeHeight={deviceHeight > 750 ? 0.85 : 1}
+        >
+          <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
+        </HoliModal>
+        <View
+          style={[mixins.container, { paddingTop: statusBarHeight + dimensions.topBarHeight }]}
+          testID={'donations-list-container'}
+        >
+          <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
+        </View>
+      </ScrollHeaderLayout.Refreshable>
+    </>
   )
 }
 
