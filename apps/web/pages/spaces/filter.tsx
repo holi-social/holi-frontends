@@ -55,7 +55,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     ]
   }
 
-  return createServerSideProps(context, createQueries)
+  return createServerSideProps(context, createQueries, { seoTitle: 'seo.h1.spaces' })
 }
 
 export default FilteredSpacesPage
