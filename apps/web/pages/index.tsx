@@ -55,7 +55,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, { seoTitle: 'seo.h1.home' })
 }
 
 export default HomeFeedPage

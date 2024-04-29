@@ -5,6 +5,7 @@ import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
@@ -28,9 +29,10 @@ export type NextPageWithLayout = NextPage<NextJSPageProps> & {
 
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
 
-const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
+  const { t } = useTranslation()
 
   useEffect(() => {
     // Init authentication
@@ -49,11 +51,18 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  return featureFlag.enableSSR ? (
-    <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
-  ) : (
-    <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-  )
+  if (featureFlag.enableSSR) {
+    const { customProps: { seoTitle } = {} } = pageProps
+
+    return (
+      <SSRRootProvider pageProps={pageProps}>
+        {seoTitle && <h1 style={{ position: 'absolute', top: '-100%' }}>{t(seoTitle)}</h1>}
+        {getLayout(<Component {...pageProps} />)}
+      </SSRRootProvider>
+    )
+  } else {
+    return <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
+  }
 }
 
 export default appWithI18Next(MyApp, ni18nConfig)
