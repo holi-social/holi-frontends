@@ -9,7 +9,7 @@
   Social-Media-Profile (nachfolgend zusammenfassend bezeichnet als &quot;Onlineangebot&ldquo;).
 </p>
 <p>Die verwendeten Begriffe sind nicht geschlechtsspezifisch.</p>
-<p>Stand: 28. M&auml;rz 2024</p>
+<p>Stand: 30. April 2024</p>
 <h2>Inhalts&uuml;bersicht</h2>
 <ul>
   <li>
@@ -43,7 +43,7 @@
     <p>Rechte der betroffenen Personen</p>
   </li>
   <li>
-    <p>Einsatz von Cookies</p>
+    <p>Auslesen und Speichern von Informationen auf Ihrem Endgerät</p>
   </li>
   <li>
     <p>Bereitstellung des Onlineangebotes und Webhosting</p>
@@ -396,10 +396,12 @@
 </h2>
 <h3>Eingesetzte Technologien</h3>
 <p>
-  Von uns verwendete Tools k&ouml;nnen mithilfe von Technologien Informationen auf Ihrem Endger&auml;t speichern oder
-  Informationen von Ihrem Endger&auml;t auslesen. Dies dient beispielsweise der Gew&auml;hrleistung der
-  Funktionsf&auml;higkeit, der Umsetzung der Anmeldung und Authentifizierung, der Sicherheit und des Komforts von
-  Onlineangeboten. Bei Tools k&ouml;nnen beispielsweise folgende Technologien zum Einsatz kommen:
+  Von uns verwendete Tools können mithilfe von Technologien Informationen auf Ihrem
+  Endgerät speichern oder Informationen von Ihrem Endgerät auslesen. Dies dient
+  beispielsweise der Gewährleistung der Funktionsfähigkeit, der Umsetzung der Anmeldung
+  und Authentifizierung, der Sicherheit und des Komforts unseres Onlineangebotes oder
+  der Analyse ihrer Nutzung. Dabei können beispielsweise folgende Technologien zum
+  Einsatz kommen:
 </p>
 <ul>
   <li>
@@ -468,61 +470,212 @@
   Zwecken dienen. Die widerrufliche Einwilligung wird gegen&uuml;ber den Nutzenden deutlich kommuniziert und
   enth&auml;lt die Informationen zu der jeweiligen Tool-Nutzung.
 </p>
-<h3>Gespeicherte Informationen auf Ihrem Endger&auml;t</h3>
+<h3>Notwendige Datenverarbeitung</h3>
 <p>
-  Aktuell werden ausschlie&szlig;lich unbedingt erforderliche Informationen auf Ihrem Endger&auml;t gespeichert, die
-  keiner Einwilligung bed&uuml;rfen. Dies umfasst im Einzelnen:
+  Aktuell werden folgende unbedingt erforderliche Informationen auf Ihrem Endgerät
+  gespeichert, die keiner Einwilligung bedürfen:
 </p>
 <p><strong>Cookies</strong></p>
 <p>
-  Wir verwenden ausschlie&szlig;lich Cookies im Kontext von User-Logins und Single Sign-On f&uuml;r unsere selbst
-  gehosteten Dienste (Session Cookie, Oauth Cookies, CSRF-Cookies). CSRF = Cross-Site Request Forgery (ein
-  Security-Mechanismus der im Kontext des Login-Prozesses verwendet wird). Hierzu z&auml;hlen:
+  Wir verwenden ausschließlich Cookies im Kontext von User-Logins und Single
+  Sign-On für unsere selbst gehosteten Dienste (Session Cookie, Oauth Cookies, CSRF-
+  Cookies). CSRF = Cross-Site Request Forgery (ein Security-Mechanismus der im Kontext
+  des Login-Prozesses verwendet wird). Hierzu zählen:
 </p>
 <ul>
   <li>
     <p>&bdquo;csrf_token_{ID}&ldquo; (365 Tage): CSRF-Schutz &ndash; Ory;</p>
   </li>
-</ul>
-<ul>
   <li>
     <p>&bdquo;ory_session_{ID}&ldquo; (Sitzung): Anmeldung, Authentifizierung &ndash; Ory.</p>
   </li>
+  <li>
+    <p>&bdquo;requireCameraPermission&ldquo; (Sitzung): Speichern der Kamerazugriffserlaubnis</p>
+  </li>
+  <li>
+    <p>&bdquo;onboarding_swipe_*&ldquo; (1 Jahr): Speichern der Information, ob Nutzende die
+      Erstinformation zur Nutzung des Bereiches Challenges gesehen haben.</p>
+  </li>
+  <li>
+    <p>&bdquo;lastDaySeenSubmissions&ldquo; (1 Tag): Speichern der Information, wann der
+      letzte Report über erfolgreiche Teilnahmen an Challenges übermittelt wurde.</p>
+  </li>
+  <li>
+    <p>&bdquo;SESSION / JSESSIONID&ldquo; (1 Jahr): Speichern der angemeldete Sitzung im
+      Bereich Challenges, um erneuten Login zu vermeiden.</p>
+  </li>
 </ul>
 <p><strong>Local Storage</strong></p>
-<p>Folgende Eintr&auml;ge im Local Storage werden angelegt:</p>
+<p>Folgende Einträge im Local Storage werden angelegt:</p>
 <ul>
   <li>
     <p>&bdquo;i18nextLng&ldquo; (unbegrenzt): Sprache erkennen und speichern &ndash; i18next;</p>
   </li>
   <li>
     <p>
-      &bdquo;onboarding_state_value&ldquo; (unbegrenzt): Speichern der Information, ob Nutzende die n&ouml;tigen
-      Erstinformationen zur Nutzung der Plattform bereits gesehen haben oder sie angezeigt werden sollten;
+      &bdquo;onboarding_state_value&ldquo; (unbegrenzt): Speichern der Information, ob
+      Nutzende die nötigen Erstinformationen zur Nutzung der Plattform
+      bereits gesehen haben oder sie angezeigt werden sollten;
     </p>
   </li>
   <li>
     <p>
-      &bdquo;space_join_is_onboarded&rdquo; (unbegrenzt): Speichern der Information, ob Nutzende die n&ouml;tigen
-      Erstinformationen zur Nutzung von Spaces bereits gesehen haben oder sie angezeigt werden sollten.
+      &bdquo;space_join_is_onboarded&rdquo; (unbegrenzt): Speichern der Information, ob
+      Nutzende die nötigen Erstinformationen zur Nutzung von Spaces bereits
+      gesehen haben oder sie angezeigt werden sollten.
     </p>
   </li>
   <li>
     <p>
-      &bdquo;force_oauth2_logout<strong>&rdquo;</strong>&nbsp;(Sitzung, max. 24 Stunden): Speichern des Loginstatus nach
-      manuellem Logout aus dem Cloudspeicher.
+      &bdquo;force_oauth2_logout&rdquo;  (Sitzung, max. 24 Stunden): Speichern des
+      Loginstatus nach manuellem Logout aus dem Cloudspeicher.
     </p>
   </li>
   <li>
     <p>
-      &bdquo;EXPO_CONSTANTS_INSTALLATION_ID&ldquo; (unbegrenzt) Zuf&auml;llige und eindeutige ID eines Endger&auml;tes
-      oder Browserprofils, welche w&auml;hrend der gesamten Lebensdauer der App-Installation / der Browser-Daten
-      erhalten bleibt. Diese ID erm&ouml;glicht keine R&uuml;ckschl&uuml;sse auf pers&ouml;nliche Daten und wird von
-      holi auch nicht ausgelesen oder anderweitig genutzt.
+      &bdquo;EXPO_CONSTANTS_INSTALLATION_ID&ldquo; (unbegrenzt) Zufällige und
+      eindeutige ID eines Endgerätes oder Browserprofils, welche während der
+      gesamten Lebensdauer der App-Installation / der Browser-Daten
+      erhalten bleibt. Diese ID ermöglicht keine Rückschlüsse auf persönliche
+      Daten und wird von holi auch nicht ausgelesen oder anderweitig genutzt.
     </p>
   </li>
   <li>
-    <p>&bdquo;user_session&ldquo; (2 Wochen): Anmeldung, Authentifizierung &ndash; Ory.</p>
+    <p>&bdquo;user_session&ldquo; (3 Monate): Anmeldung, Authentifizierung – Ory.</p>
+  </li>
+  <li>
+    <p>&bdquo;HOLI_TRACKING_CONSENT&ldquo; (unbegrenzt): Speichern des
+      Zustimmungs-/Ablehnungsstatus zum Tracking für verschiedene Zwecke,
+      wenn Nutzende nicht eingeloggt sind.</p>
+  </li>
+</ul>
+<h3>Optionale Datenverarbeitung</h3>
+<p>Zur Personalisierung des Angebotes und zur Analyse der Plattformperformance, werden
+  darüber hinaus, nach ihrer Einwilligung, die folgenden Informationen auf Ihrem Endgerät
+  gespeichert. Weiterführende Informationen dazu sind nachfolgend zu finden.</p>
+<p><strong>Local Storage</strong></p>
+<ul>
+  <li>
+    <p>&bdquo;ph_{our posthog key}_posthog&ldquo; (unbegrenzt): Posthog-interner Status wie
+      Geräte- und Sitzungs-IDs.</p>
+  </li>
+  <li>
+    <p>&bdquo;__ph_opt_in_out_{our posthog key}&ldquo; (unbegrenzt): Posthog-interner Opt-in-
+      oder Opt-out-Status</p>
+  </li>
+</ul>
+<h3>Tracking von Nutzungsdaten</h3>
+<p>Nach vorheriger Zustimmung, verwenden wir verschiedene Trackinginformationen, um
+  ihre Nutzung zu erfassen und auszuwerten. Dies dient den Zwecken, ihnen ein persönlich
+  relevantes Nutzungserlebnis anzubieten sowie die Nutzung unserer Plattform zu
+  analysieren und stetig zu verbessern. Nachfolgend erklären wir im Einzelnen, welche
+  Daten dabei erfasst und wofür sie verwendet werden.</p>
+<ul>
+  <li>
+    <p>
+      <strong>Ihre Nutzungsaktivität</strong>: Wir erfassen ihre Nutzung der verschiedenen
+      Bereiche und Objekte der App oder Webseite. Dabei werden eingeblendete
+      und geklickte Seiten, Elemente, Beiträge, Aktionen und Reaktionen sowie
+      Filtereinstellungen oder Sucheingaben ausgewertet und erfasst.
+      Auf Basis der gewonnen Informationen verbessern wir das Produkterlebnis,
+      indem beispielsweise Listenelemente (Spenden, ehrenamtliche Tätigkeiten
+      etc.) anhand von Nutzungsinteressen vorsortiert oder individuelle Vorschläge
+      für passende Projekte angeboten werden.
+      Bei Ablehnung des Trackings zur Personalisierung entfallen die
+      individualisierten Angebotsinhalte, es entstehen jedoch keine sonstigen
+      Nutzungsnachteile.</p>
+    <p>
+      Weiterhin werden diese Daten verwendet, um die Sichtbarkeit und
+      Benutzung verschiedener Elemente und Platzierungen zu analysieren und
+      ggf. zu optimieren, in dem wir beispielsweise lernen, wie weit Benutzende im
+      Startseitenfeed scrollen oder welche Positionierungen besonders häufig
+      gesehen und/oder geklickt werden. Dies hilft uns, mehr Menschen möglichst
+      passende Inhalte anzubieten und die Aufmerksamkeit für soziale- oder
+      ökologische Themen zu erhöhen.
+    </p>
+    <p>
+      Bei Ablehnung des Trackings zur Analysezwecken werden keine
+      Nutzungsdaten mit Bezug auf ihre personenbezogenen Daten verarbeitet und
+      damit bei Analysen nicht berücksichtigt, es entstehen jedoch keine
+      Nutzungsnachteile.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Ihre Besuchsquelle</strong>: Falls ihre Nutzung von holi durch ein Werbemittel
+      zustande gekommen ist (beispielsweise eine Werbeanzeige auf anderen
+      Webseiten oder das Einscannen eines QR-codes von Werbeplakaten),
+      verknüpfen wir nach ihrer Zustimmung die Information über die
+      Besuchsquelle mit ihrem Nutzungsprofil. Ziel dieser Zusammenführung von
+      Daten ist es zu ermitteln, wie erfolgreich unterschiedliche
+      Werbeplatzierungen sind und zu analysieren, ob sich das Nutzungsverhalten
+      auf Basis der Besuchsquelle unterscheidet. Bei Ablehnung des Trackings zu
+      Marketingzwecken werden Informationen zu ihrer Besuchsquelle nicht mit
+      Bezug auf ihre personenbezogenen Daten verarbeitet und damit bei
+      Analysen nicht berücksichtigt, es entstehen jedoch keine Nutzungsnachteile.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Technische Daten</strong>: Beim Zugriff auf unsere Plattform erheben wir mit den
+      Trackinginformationen auch einige Geräte- und Netzverbverbindungsdaten,
+      wie z.B. die Appversion, ihr Betriebssystem sowie ihre IP-Adresse. Neben der
+      Bereitstellung der Dienste dient dies auch der Fehler- und
+      Performanceanalyse unserer Anwendung auf verschiedenen Geräten und
+      Betriebssystemen.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Verarbeitete Datenarten</strong>: Beim Zugriff auf unsere Plattform erheben wir
+      mit den Trackinginformationen auch einige Geräte- und
+      Netzverbverbindungsdaten, wie z.B. die Appversion, ihr Betriebssystem
+      sowie ihre IP-Adresse. Neben der Bereitstellung der Dienste dient dies auch
+      der Fehler- und Performanceanalyse unserer Anwendung auf verschiedenen
+      Geräten und Betriebssystemen. Nutzungsdaten (z.B. besuchte Seiten der holi
+      Plattform, Interesse an Inhalten, Zugriffszeiten); Meta-, Kommunikations-
+      und Verfahrensdaten (z. B. IP-Adressen, Zeitangaben,
+      Identifikationsnummern, Einwilligungsstatus).;
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Betroffene Personen</strong>: Nutzer:innen (z.B. Webseitenbesucher:innen,
+      Nutzer:innen unseres Onlinedienstes).;
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Zwecke der Verarbeitung</strong>: Reichweitenmessung, Erstellung der Profile mit
+      nutzerbezogenen Informationen,
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Rechtsgrundlagen</strong>: Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO);
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Empfänger: PostHog</strong>: Wir übermitteln die o. g. Daten über das open-source
+      Programm PostHog an die Firma PostHog Inc. Posthog bietet uns die
+      Möglichkeit, das Nutzungsverhalten einzelner Nutzer:innen sowie aggregierte
+      Nutzungsmuster von Nutzungsgruppen und Zeiträumen zu analysieren und
+      grafisch aufzubereiten. Dies dient dem Erkennen von Nutzungsproblemen sowie
+      dem Testen von verschiedenen Platzierungen von Elementen. Gespeichert
+      werden die Trackingdaten dabei auf Servern des Anbieters PostHog Inc.
+      innerhalb der Europäischen Union. PostHog Inc. agiert dabei als
+      Datenauftragsverarbeiter und speichert die Daten ausschließlich nach unserer
+      Weisung. PostHog inc. hat selbst nur zu Analysezwecken anonymisierten Zugriff
+      auf Nutzungsdaten unserer Nutzer.
+    </p>
+    <p>
+      <strong>Dienstanbieter</strong>: PostHog Inc., 2262 Market Steet #4008, San Fransisco, CA
+      94114, USA
+    </p>
+    <p>
+      <strong>Website</strong>: <a href="https://posthog.com">www.posthog.com</a>
+    </p>
   </li>
 </ul>
 <h3>Datenschutzrechtliche Rechtsgrundlagen</h3>
@@ -653,6 +806,77 @@
         >https://www.dataprivacyframework.gov/s/participant-search/participant-detail?id=a2zt00000008S8eAAE&amp;status=Active</a
       >
       .
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>QR-Track</strong>: Um interessierte Nutzende mittels Plakaten oder Posts auf unsere
+      Angebote aufmerksam zu machen, setzen wir teils QR-Codes ein, welche die
+      URLs unserer Webangebote enthalten. Diese Codes können mit der Kamera
+      eines Mobiltelefons gescannt werden, um die enthaltene Webadresse (URL)
+      auszulesen und den Besuch der URL durch einen mobilen Webbrowser zu
+      ermöglicht. Um zu messen, wie erfolgreich die verschiedenen Platzierungen sind,
+      setzen wir QR-Track als Auftragsdatenverarbeiter ein, welcher die Aufrufe der
+      verschiedenen Platzierungen registriert.
+    </p>
+    <p>
+      <strong>Verarbeitete Datenarten</strong>: Meta-, Kommunikations- und Verfahrensdaten (z.
+      B. IP-Adressen, Gerätetyp, Browser, Betriebssysteme, Zeitangaben, HTTP-
+      Header, User-Agent);
+    </p>
+    <p>
+      <strong>Betroffene Personen</strong>: Nutzende, welche einen QR-Code mit Verweis auf
+      unsere Landingpages mit dem Mobiltelefon scannen und den darin enthaltenen
+      Link mit dem Browser aufrufen.
+    </p>
+    <p>
+      <strong>Zwecke der Verarbeitung</strong>: Reichweitenmessung der verschiedenen QR-Code
+      Platzierungen
+    </p>
+    <p>
+      <strong>Rechtsgrundlagen</strong>: Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO);
+    </p>
+    <p>
+      <strong>Dienstanbieter</strong>: QR-Track - Michael Hack Software e.K., Heimbachstr. 5,
+      86836 Graben
+    </p>
+    <p>
+      <strong>Website</strong>: <a href="https://www.qrtrack.de">https://www.qrtrack.de</a>
+    </p>
+    <p>
+      <strong>Datenschutzerklärung</strong>: <a href="https://www.qrtrack.de/datenschutz">https://www.qrtrack.de/datenschutz</a>
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Usercentrics Consent Management Platform</strong>: Wir nutzen den Dienst
+      Usercentrics der Usercentrics GmbH, Sendlinger Str. 7, 80331 München,
+      Deutschland (nachfolgend Usercentrics) als Consent-Management-Anbieter zur
+      Erhebung der Einwilligungsinformation auf der Website https://holi.social/. Zu
+      diesem Zweck werden die Einwilligungsinformationen verarbeitet. Die Daten
+      werden nach einem Jahr gelöscht.
+    </p>
+    <p>
+      <strong>Verarbeitete Datenarten</strong>: Opt-in- und Opt-out-Informationen, Einwilligungs-
+      ID, Zeitpunkt der Einwilligung, Vorlagenversion und Bannersprache), Referrer-
+      URL, Benutzeragent und IP-Adresse
+    </p>
+    <p>
+      <strong>Betroffene Personen</strong>: Besuchende der Website https://holi.social/ und ihrer
+      Unterseiten
+    </p>
+    <p>
+      <strong>Zwecke der Verarbeitung</strong>: Einwilligungsmanagement Rechtsgrundlagen:
+      Erfüllung einer rechtlichen Verpflichtung (Art. 6 Abs. 1 S. 1 lit. c DSGVO)
+    </p>
+    <p>
+      <strong>Dienstanbieter</strong>: Usercentrics GmbH, Sendlinger Str. 7, 80331 Munich, Germany
+    </p>
+    <p>
+      <strong>Website</strong>: <a href="https://usercentrics.com/">https://usercentrics.com/</a>
+    </p>
+    <p>
+      <strong>Datenschutzerklärung</strong>: <a href="https://usercentrics.com/privacy-policy/">https://usercentrics.com/privacy-policy/</a>
     </p>
   </li>
   <li>
@@ -847,8 +1071,68 @@
       >
     </p>
   </li>
-</ul>
-<ul>
+  <li>
+    <p>
+      <strong>Linkliste</strong>: Innerhalb eines Kollaborationsraumes kann eine Liste mit wichtigen
+      Links im sogenannten Linkhub angelegt und organisiert werden. Dabei können
+      alle Mitwirkenden eines Spaces Einträge vornehmen, bearbeiten und auch
+      löschen. Linkeinträge werden ohne Bezug zur anlegenden Person angezeigt und
+      sind nur innerhalb des jeweiligen Spaces sichtbar.
+    </p>
+    <p>
+      <strong>Verarbeitete Datenarten:</strong><br />
+      - Benutzerkontoinformationen: Name, E-Mail-Adresse, Informationen zur
+      Mitgliedschaft im jeweiligen Kollaborationsraum, technische Nutzungs-ID;<br />
+      - Serverprotokoll: IP-Adressen mit Zeitstempel.
+    </p>
+    <p>
+      <strong>Betroffene Personen</strong>: Nutzende eines Kollaborationsraumes, die den Linkhub
+      nutzen
+    </p>
+    <p>
+      <strong>Zwecke der Verarbeitung</strong>: Bereitstellung des Linkhubs
+    </p>
+    <p>
+      <strong>Rechtsgrundlagen</strong>: Vertragserfüllung und vorvertragliche Anfragen (Art. 6
+      Abs. 1 S. 1 lit. b) DSGVO).
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Aufgaben, Termine und Updateposts</strong>: Innerhalb eines Kollaborationsraumes
+      können Updateposts, Termine und Aufgaben/Gesuche veröffentlicht werden.
+      Normalen Mitwirkenden können diese zur Ansicht innerhalb des betreffenden
+      Kollaborationsraumes anlegen. Administrator:innen eines Spaces können auch
+      öffentlich sichtbare Updates, Termine und Aufgaben anlegen. Die jeweiligen
+      Einträge zeigen die Profilinformation (Nutzungsname und wenn vorhanden
+      Profilfoto) der Erstellenden.
+    </p>
+    <p>
+      Nutzenden ist es möglich, Termine in ihre Kalender zu übertragen und die dafür
+      notwendigen Dateien herunterzuladen (.ics.-Dateien). Zum direkten Einfügen der
+      Termine in die Kalender der Nutzenden der mobilen Apps (Google Kalender oder
+      iCalendar) ist der Zugriff auf den Kalender des Nutzenden notwendig. Die dafür
+      notwendige Berechtigung zum Lesen und Schreiben erbittet die Applikation,
+      wenn die Funktion auf Nutzerwunsch erstmalig aktiv ausgeführt wird.
+    </p>
+    <p>
+      <strong>Verarbeitete Datenarten</strong>:<br />
+      Benutzerkontoinformationen: Name, E-Mail-Adresse, Informationen zur
+      Mitgliedschaft im jeweiligen Kollaborationsraum, technische Nutzungs-ID;
+      Serverprotokoll: IP-Adressen mit Zeitstempel.;
+    </p>
+    <p>
+      <strong>Betroffene Personen</strong>: Nutzende eines Kollaborationsraumes, die Update Posts,
+      Aufgaben oder Termine erstellen;
+    </p>
+    <p>
+      <strong>Zwecke der Verarbeitung</strong>: Bereitstellung der beschriebenen Funktionen;
+    </p>
+    <p>
+      <strong>Rechtsgrundlagen</strong>: Vertragserfüllung und vorvertragliche Anfragen (Art. 6
+      Abs. 1 S. 1 lit. b) DSGVO).;
+    </p>
+  </li>
   <li>
     <p>
       <strong>Dokumentenbearbeitung mit OnlyOffice:</strong>&nbsp;Damit Mitwirkende in unseren bereitgestellten
@@ -1014,6 +1298,16 @@
       gegen&uuml;ber den Nutzer:innen, bzw. ihrer typischen und erwartbaren Funktionsweise.
     </p>
   </li>
+  <li>
+    <p>
+      <strong>Zugriff auf den Kalender</strong>: Zur Speicherung von Eventterminen im Kalender
+      der Nutzenden, können die entsprechenden Kalendereinträge heruntergeladen
+      und in die eigenen Kalender importiert werden. Hierfür ist der Zugriff auf den
+      Kalender der Nutzenden nötig. Diese wird nur abgefragt, wenn ein konkreter
+      Termin erstmalig heruntergeladen werden soll und ist jederzeit in den
+      Einstellungen widerrufbar.
+    </p>
+  </li>
 </ul>
 <h2>Bezug von Applikationen &uuml;ber Appstores</h2>
 <p>
@@ -1156,10 +1450,14 @@
 </ul>
 <h2>Community Funktionen</h2>
 <p>
-  Die von uns bereitgestellten Community Funktionen erlauben es Nutzern:innen miteinander in Konversationen oder sonst
-  miteinander in einen Austausch zu treten. Hierbei bitten wir zu beachten, dass die Nutzung der Communityfunktionen nur
-  unter Beachtung der geltenden Rechtslage, unserer Bedingungen und Richtlinien sowie der Rechte anderer Nutzer:innen
-  und Dritter gestattet ist.
+  Die von uns bereitgestellten Community Funktionen erlauben es Nutzern:innen
+  miteinander in Konversationen oder sonst miteinander in einen Austausch zu treten.
+</p>
+<p>
+  Dabei können beispielsweise eigene Beiträge (Text, Bild, Linkposts) veröffentlich werden,
+  Reaktionen und Kommentare zu Post oder Artikeln abgegeben werden oder
+  Videobeiträge zu sozialen- & ökologischen Herausforderungen („Challenges“)
+  veröffentlicht werden.
 </p>
 <ul>
   <li>
@@ -1183,9 +1481,11 @@
   </li>
   <li>
     <p>
-      <strong>Rechtsgrundlagen:</strong>&nbsp;Vertragserf&uuml;llung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1
-      lit. b) DSGVO); Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO); Erf&uuml;llung rechtlicher
-      Verpflichtungen (Art. 6 Abs. 1 S. 1 lit. c) DSGVO).
+      <strong>Rechtsgrundlagen</strong>: Vertragserfüllung und vorvertragliche Anfragen (Art. 6
+      Abs. 1 S. 1 lit. b) DSGVO); Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f)
+      DSGVO); Erfüllung rechtlicher Verpflichtungen (Art. 6 Abs. 1 S. 1 lit. c) DSGVO),
+      bei Zugriff auf die Kamera oder Medienbibliothek: Einwilligung (Art. 6 Abs. 1 S. 1
+      lit. a) DSGVO).
     </p>
   </li>
 </ul>
