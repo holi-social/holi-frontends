@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import type { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
-import { HandHeartFilled, HeartsFilled, Star } from '@holi/icons/src/generated'
+import { HandHeartFilled, HeartsFilled, StarSmileFilled } from '@holi/icons/src/generated'
 
 export const HOLI_APPS = {
   DONATIONS: 'donations',
@@ -30,7 +30,7 @@ export const HOLI_APPS_NAVIGATION_PATHS = {
 export const APP_SWIPER_APPS: HoliApp[] = [
   {
     id: HOLI_APPS.CHALLENGES,
-    icon: Star,
+    icon: StarSmileFilled,
     translationKey: 'challenges:app.name',
     featureToggleName: FeatureToggleName.CHALLENGES,
     path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.CHALLENGES].path,
