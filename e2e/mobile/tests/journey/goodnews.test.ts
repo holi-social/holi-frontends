@@ -1,8 +1,9 @@
 // eslint-disable-next-line prettier/prettier
-import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
+import { navigateBackFromAppScreen, waitForHomeScreen } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,
   tapOnElementWithTestId,
+  waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
 
@@ -17,8 +18,10 @@ describe('@GoodNews', () => {
 
   it('should support the user journey', async () => {
     // preparation of test
-    await navigateToAppById('goodnews', 'goodnews-detailview-container')
-
+    await waitForHomeScreen()
+    await scrollToElementWithTestId('goodnews-updates-heading', 'down')
+    await tapOnElementWithTestId('goodnews-updates-heading')
+    await waitForElementWithTestId('goodnews-detailview-container')
     await assertAllowsPagination()
   })
 })
