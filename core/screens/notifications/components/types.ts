@@ -33,6 +33,7 @@ export enum NotificationType {
 // interface all Notifications extend
 export interface NotificationBase {
   id: string
+  notificationVersion: string
   notificationType: NotificationType | NovuNotificationType
   read: boolean
   created: string
@@ -59,6 +60,8 @@ export interface PostCommentNotificationData {
   user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
   comment: Pick<Comment, 'id' | 'text'>
   post: Pick<Post, 'id' | 'title'>
+  /* only in 1.1.0*/
+  commentLink?: string
 }
 
 export interface NotificationPost extends NotificationBase {
