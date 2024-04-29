@@ -53,7 +53,14 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
 
   return (
     <View style={style} testID={testID || `${appName}-app-updates-list`}>
-      <HoliButton inline label={heading} style={styles.headerContainer} transparent onPress={handleHeaderTitlePress}>
+      <HoliButton
+        inline
+        label={heading}
+        style={styles.headerContainer}
+        transparent
+        onPress={handleHeaderTitlePress}
+        testID={`${appName}-updates-heading-button`}
+      >
         <View style={styles.header} testID={`${appName}-updates-heading`}>
           <View style={styles.iconContainer}>
             <HoliIcon icon={appIcon} size={20} color={colors.black300} />

@@ -10,28 +10,29 @@ import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterMod
 import FilteredSpaces from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
 
 export type FilteredSpacesPageParams = {
-  topic?: string
   location?: string
+  topic?: string[]
   skill?: string[]
 }
 
 const { useParam, useUpdateParams } = createParamHooks<FilteredSpacesPageParams>()
 
 const FilteredSpacesPage = () => {
-  const [topicSlug] = useParam('topic', singleParamConfig)
   const [locationId] = useParam('location', singleParamConfig)
+  const [topicSlugs] = useParam('topic', arrayParamConfig)
   const [skillSlugs] = useParam('skill', arrayParamConfig)
+
   const updateParams = useUpdateParams(webReplaceQueryConfig)
   const { navigate } = useRouting()
 
   const applyFilters = useCallback(
     (filters: SpaceFilter) => {
-      if (!filters.topicSlug && !filters.locationId && !filters.skillSlugs?.length) {
+      if (!filters.topicSlugs.length && !filters.skillSlugs.length && !filters.location) {
         navigate('/spaces')
       } else {
         updateParams({
-          topic: filters.topicSlug,
-          location: filters.locationId,
+          topic: filters.topicSlugs,
+          location: filters.location?.id,
           skill: filters.skillSlugs,
         })
       }
@@ -39,9 +40,14 @@ const FilteredSpacesPage = () => {
     [updateParams, navigate]
   )
 
-  const filters = { topicSlug, locationId, skillSlugs }
-
-  return <FilteredSpaces {...filters} applyFilters={applyFilters} />
+  return (
+    <FilteredSpaces
+      locationId={locationId}
+      topicSlugs={topicSlugs}
+      skillSlugs={skillSlugs}
+      applyFilters={applyFilters}
+    />
+  )
 }
 
 export default memo(FilteredSpacesPage)
