@@ -114,7 +114,6 @@ const consentStateVar = makeVar<{ initializing: boolean; updatedByUser: boolean;
   state: ConsentState.unknown,
 })
 
-// TODO call this from consent setting dialogue
 export const updateConsentState = (consentState: ConsentState) => {
   consentStateVar({ initializing: false, updatedByUser: true, state: consentState })
 }
