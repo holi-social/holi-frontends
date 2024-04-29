@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloError, NormalizedCacheObject, QueryOptions } from '@apollo/client'
+import { ApolloClient, ApolloError, type NormalizedCacheObject, type QueryOptions } from '@apollo/client'
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
@@ -7,7 +7,7 @@ import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
 import { addApolloSSRState } from '@holi/web/helpers/useApolloSSRClient'
-import { NextJSPageProps } from '@holi/web/types'
+import type { CustomProps, NextJSPageProps } from '@holi/web/types'
 
 interface SkippableQueryOptions extends QueryOptions {
   skip?: boolean
@@ -17,19 +17,22 @@ type QueryCreatorFunction = (client: ApolloClient<NormalizedCacheObject>) => Pro
 
 export const createServerSideProps = async (
   { req, locale }: NextPageContext,
-  queries: SkippableQueryOptions[] | QueryCreatorFunction = []
+  queries: SkippableQueryOptions[] | QueryCreatorFunction = [],
+  customProps?: Partial<CustomProps>
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
+  const initialProps = { customProps }
+
   // TODO: We do an early return with empty page props. It still leads to
   // rendering everything on the client and should not have any
   // performance cost when we render the site.
   const isFirstServerCall = req?.url?.indexOf('/_next/data/') === -1
   if (!featureFlag.enableSSR || !isFirstServerCall) {
     return {
-      props: {},
+      props: initialProps,
     }
   }
 
-  const props = await addTranslations(locale, {})
+  const props = await addTranslations(locale, initialProps)
 
   const client = initializeApolloSSRClient()
 
