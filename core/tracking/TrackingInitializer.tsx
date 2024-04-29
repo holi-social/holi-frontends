@@ -121,7 +121,11 @@ export const updateConsentState = (consentState: ConsentState) => {
 const TrackingInitializer = ({ children }: PropsWithChildren) => {
   // don't initialize for SSR
   const isClient: boolean = typeof navigator !== 'undefined'
-  return trackingEnabled && isClient ? <TrackingInitializerInner>{children}</TrackingInitializerInner> : <>{children}</>
+  return trackingEnabled() && isClient ? (
+    <TrackingInitializerInner>{children}</TrackingInitializerInner>
+  ) : (
+    <>{children}</>
+  )
 }
 
 const TrackingInitializerInner = ({ children }: PropsWithChildren) => {

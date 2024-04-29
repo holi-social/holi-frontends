@@ -7,7 +7,7 @@ import { trackingEnabled } from '@holi/core/tracking/config'
 
 const logger = getLogger('Tracking')
 
-const posthog = trackingEnabled
+const posthog = trackingEnabled()
   ? new PostHog(posthogKey, {
       host: posthogHost,
       defaultOptIn: false,
@@ -15,7 +15,7 @@ const posthog = trackingEnabled
   : undefined
 
 export const TrackingProvider = ({ children }: { children?: React.ReactNode }) => {
-  logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled)
+  logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled())
   return posthog ? (
     <PostHogProvider client={posthog} autocapture={{ captureTouches: true }}>
       {children}

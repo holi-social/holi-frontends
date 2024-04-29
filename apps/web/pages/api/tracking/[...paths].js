@@ -13,7 +13,7 @@ export const config = {
 }
 
 const handler = (req, res) => {
-  if (!trackingEnabled) {
+  if (!trackingEnabled()) {
     res.status(404).json({ error: 'Tracking is not enabled' })
     return
   }

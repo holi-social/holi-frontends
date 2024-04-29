@@ -12,7 +12,7 @@ const logger = getLogger('Tracking')
 // don't actually set a host. the browser knows the origin of the request.
 const POSTHOG_API_HOST = '/api/tracking'
 
-if (trackingEnabled) {
+if (trackingEnabled()) {
   // Check that PostHog is client-side (used to handle Next.js SSR)
   if (typeof window !== 'undefined') {
     const isDevEnv = process.env.NODE_ENV === 'development'
@@ -39,8 +39,8 @@ if (trackingEnabled) {
 }
 
 export const TrackingProvider = ({ children }: { children?: React.ReactNode }) => {
-  logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled)
-  return trackingEnabled ? <PostHogProviderWrapper>{children}</PostHogProviderWrapper> : <>{children}</>
+  logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled())
+  return trackingEnabled() ? <PostHogProviderWrapper>{children}</PostHogProviderWrapper> : <>{children}</>
 }
 
 const PostHogProviderWrapper = ({ children }: { children?: React.ReactNode }) => {

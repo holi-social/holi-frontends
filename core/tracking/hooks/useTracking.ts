@@ -19,6 +19,6 @@ const useRealTracking = (): TrackingHook => {
   }
 }
 
-const useTracking = trackingEnabled ? useRealTracking : useDummyTracking
+const useTracking = trackingEnabled() ? useRealTracking : useDummyTracking
 
 export default useTracking
