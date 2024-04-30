@@ -1,7 +1,5 @@
 import type { InitOptions, Resource } from 'i18next'
 
-import { defaultLocale, locales } from './locales.cjs'
-
 interface I18nConfig extends InitOptions {
   fallbackLng: string
   resources: Resource
@@ -27,8 +25,8 @@ const resources = {
 }
 
 export const i18nConfig: I18nConfig = {
-  fallbackLng: defaultLocale,
-  supportedLngs: locales,
+  fallbackLng: 'en',
+  supportedLngs: ['en', 'de'],
   defaultNS: 'core',
   fallbackNS: 'core',
   resources,

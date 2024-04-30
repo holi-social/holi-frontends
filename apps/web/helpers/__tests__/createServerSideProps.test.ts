@@ -29,10 +29,10 @@ describe('createServerSideProps', () => {
   const mockedCache = {
     foo: 'bar',
   }
-  const expectedProps = {
+  const expectedI18nProps = {
     __APOLLO_STATE__: mockedCache,
-    ...mockedTranslations,
     locale: 'en',
+    ...mockedTranslations,
   }
   const query1 = {
     query: gql`
@@ -75,7 +75,7 @@ describe('createServerSideProps', () => {
 
     expect(mockLoadTranslations).toHaveBeenCalled()
     expect(props).toEqual({
-      props: expectedProps,
+      props: expectedI18nProps,
     })
   })
 
@@ -88,7 +88,7 @@ describe('createServerSideProps', () => {
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
       props: {
-        ...expectedProps,
+        ...expectedI18nProps,
         [APOLLO_STATE_PROP_NAME]: mockedCache,
       },
     })
@@ -106,7 +106,7 @@ describe('createServerSideProps', () => {
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
       props: {
-        ...expectedProps,
+        ...expectedI18nProps,
         [APOLLO_STATE_PROP_NAME]: mockedCache,
       },
     })
@@ -122,7 +122,7 @@ describe('createServerSideProps', () => {
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
       props: {
-        ...expectedProps,
+        ...expectedI18nProps,
         [APOLLO_STATE_PROP_NAME]: mockedCache,
       },
     })
