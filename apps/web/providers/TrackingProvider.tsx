@@ -26,6 +26,14 @@ if (trackingEnabled) {
       loaded: (posthog) => {
         if (isDevEnv) posthog.debug()
       },
+      sanitize_properties: function (properties) {
+        Object.keys(properties).forEach((key) => {
+          if (key.startsWith('utm_')) {
+            delete properties[key]
+          }
+        })
+        return properties
+      },
     })
   }
 }
