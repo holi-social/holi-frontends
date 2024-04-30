@@ -37,7 +37,6 @@ jest.mock('@holi/core/auth/helpers/useAuth')
 
 const useLoggedInUserMock: jest.Mock<() => LoggedInState> = jest.fn()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loggedInStateLoading: LoggedInUserLoading = {
   state: 'loading',
   isLoading: true,
@@ -56,7 +55,6 @@ const loggedInStateLoggedOut: LoggedOut = {
   refetch: () => Promise.resolve(),
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loggedInStateLoggedIn = (consentAnalytics?: boolean, consentPersonalization?: boolean): LoggedInUser => ({
   state: 'loggedIn',
   isLoading: false,
@@ -71,7 +69,6 @@ const loggedInStateLoggedIn = (consentAnalytics?: boolean, consentPersonalizatio
 })
 
 const mockGetStorage = AsyncStorage.getItem as jest.Mock
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockWriteStorage = AsyncStorage.setItem as jest.Mock
 jest.mock('@react-native-async-storage/async-storage', () => {
   return {
