@@ -1,5 +1,6 @@
 import { Camera } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
@@ -19,6 +20,7 @@ import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 export const ChallengesAppHome = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
+  const { t } = useTranslation()
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
   const webViewRef = useRef<WebView>(null)
@@ -27,7 +29,7 @@ export const ChallengesAppHome = () => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">
-          Challenges
+          {t('challenges:app.name')}
         </HoliHeading>
       ),
       headerLeft: () => <HeaderBackButton tintColor={theme.colors.dark} />,
@@ -38,7 +40,7 @@ export const ChallengesAppHome = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, theme.colors])
+  }, [setScreenOptions, t, theme.colors])
 
   const requestPermissions = async () => {
     const cameraPermissionResult = await Camera.requestCameraPermissionsAsync()
