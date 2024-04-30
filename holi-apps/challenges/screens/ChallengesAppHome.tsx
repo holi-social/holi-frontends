@@ -1,7 +1,7 @@
 import { Camera } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
@@ -98,7 +98,7 @@ export const ChallengesAppHome = () => {
             headers: {
               ...authHeaders,
               'X-Client-Platform': 'holi',
-              'X-Require-Camera-Permission': `${Platform.OS == 'android' && requireCameraPermission}`,
+              'X-Require-Camera-Permission': `${requireCameraPermission}`,
             },
           },
         }}
