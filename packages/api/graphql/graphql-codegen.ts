@@ -238,6 +238,46 @@ export type AppointmentPaged = {
   totalResults: Scalars['Int']['output']
 }
 
+/**
+ * Custom user model to change behaviour of the default user model
+ * such as validation and required fields.
+ */
+export type AuthenticatedUser = {
+  __typename?: 'AuthenticatedUser'
+  aboutMe: Maybe<Scalars['String']['output']>
+  avatar: Maybe<Scalars['String']['output']>
+  avatarBlurhash: Maybe<Scalars['String']['output']>
+  avatarDefaultColor: Scalars['String']['output']
+  avatarLabel: Scalars['String']['output']
+  connectionStatusToMyself: Maybe<UserConnectionStatus>
+  connectionStatusToSpace: Array<Maybe<SpaceUserConnectionType>>
+  engagementLevel: Maybe<Scalars['String']['output']>
+  firstName: Maybe<Scalars['String']['output']>
+  /** Can be an empty string */
+  fullName: Scalars['String']['output']
+  geolocationId: Maybe<Scalars['String']['output']>
+  /** Required. 36 characters or fewer. Letters, digits and _ only. */
+  id: Scalars['UUID']['output']
+  /** 255 characters or fewer. Must start with a lowercase letter and contain lowercase letters, digits, '_', '-' and '.' only. */
+  identity: Maybe<Scalars['String']['output']>
+  interests: Array<Maybe<Topic>>
+  lastName: Maybe<Scalars['String']['output']>
+  location: Maybe<Scalars['String']['output']>
+  pronouns: Maybe<Scalars['String']['output']>
+  sdgs: Array<Maybe<Sdg>>
+  skills: Array<Maybe<Skill>>
+  trackingConsentAnalytics: Maybe<Scalars['Boolean']['output']>
+  trackingConsentPersonalization: Maybe<Scalars['Boolean']['output']>
+}
+
+/**
+ * Custom user model to change behaviour of the default user model
+ * such as validation and required fields.
+ */
+export type AuthenticatedUserConnectionStatusToSpaceArgs = {
+  spaceId: Scalars['UUID']['input']
+}
+
 export enum BookmarkType {
   Initiative = 'INITIATIVE',
   Insight = 'INSIGHT',
@@ -287,8 +327,11 @@ export type Comment = {
   mentions: Array<Maybe<User>>
   modified: Scalars['DateTime']['output']
   myReaction: ReactionCounts
+  parentCommentId: Maybe<Scalars['UUID']['output']>
   reactions: ReactionCounts
+  replies: Maybe<Array<Comment>>
   text: Scalars['String']['output']
+  totalReplies: Scalars['Int']['output']
 }
 
 export type CommentPaged = {
@@ -321,6 +364,7 @@ export type CommentableCommentersArgs = {
 export type CommentableCommentsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
+  parentCommentId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export enum CommentableType {
@@ -355,6 +399,7 @@ export type CreateAppointmentInput = {
 export type CreateCommentInput = {
   commentableId: Scalars['UUID']['input']
   commentableType: CommentableType
+  parentCommentId: InputMaybe<Scalars['UUID']['input']>
   text: Scalars['String']['input']
 }
 
@@ -363,7 +408,7 @@ export type CreateFeedPostInput = {
   description: Scalars['String']['input']
   image: InputMaybe<Scalars['Upload']['input']>
   title: Scalars['String']['input']
-  topicIds: Array<InputMaybe<Scalars['UUID']['input']>>
+  topicIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
   visibility: VisibilityLevel
 }
 
@@ -473,8 +518,8 @@ export type FeedPost = {
   image: Maybe<Scalars['String']['output']>
   imageBlurhash: Maybe<Scalars['String']['output']>
   slug: Scalars['String']['output']
-  title: Scalars['String']['output']
-  topics: Array<Maybe<Topic>>
+  title: Maybe<Scalars['String']['output']>
+  topics: Maybe<Array<Topic>>
   visibility: VisibilityLevel
 }
 
@@ -482,6 +527,7 @@ export type FeedPost = {
 export type FeedPostCategory = {
   __typename?: 'FeedPostCategory'
   id: Scalars['UUID']['output']
+  isEnabled: Scalars['Boolean']['output']
   slug: Scalars['String']['output']
   title: Scalars['String']['output']
 }
@@ -490,6 +536,14 @@ export type FeedPostCategoryPaged = {
   __typename?: 'FeedPostCategoryPaged'
   /** The list of items in this pagination window. */
   data: Array<Maybe<FeedPostCategory>>
+  /** Total number of items in the filtered dataset. */
+  totalResults: Scalars['Int']['output']
+}
+
+export type FeedPostPaged = {
+  __typename?: 'FeedPostPaged'
+  /** The list of items in this pagination window. */
+  data: Array<Maybe<FeedPost>>
   /** Total number of items in the filtered dataset. */
   totalResults: Scalars['Int']['output']
 }
@@ -528,10 +582,11 @@ export type GeolocationPointInput = {
   longitude: Scalars['Float']['input']
 }
 
-/** Initiative(id, insight, category, link, link_preview) */
+/** Initiative(id, insight, category, link, link_preview, comment) */
 export type Initiative = {
   __typename?: 'Initiative'
   category: Scalars['String']['output']
+  comment: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
   link: Scalars['String']['output']
   linkPreview: LinkPreview
@@ -677,6 +732,7 @@ export type Mutation = {
   deleteCollaborationTool: Result
   deleteComment: Result
   deleteExternalLink: Result
+  deleteFeedPost: Result
   /** @deprecated Comments can be deleted from other objects. Use deleteComment mutation. */
   deletePostComment: Result
   deleteSpace: Result
@@ -692,14 +748,18 @@ export type Mutation = {
   removeInsightBookmark: Result
   removeReactionFromComment: Comment
   reportContent: Result
+  trackingEndpoint_trackEvent: Scalars['Boolean']['output']
   /** @deprecated This has been renamed. Keep for <= 1.14.5 */
   unbookmark: Result
   unfavorite: Result
   updateAppointment: Appointment
+  /** @deprecated Deprecated in favor of 'updatedAuthenticatedUserNew'. */
   updateAuthenticatedUser: User
+  updateAuthenticatedUserV2: AuthenticatedUser
   updateCollaborationTool: CollaborationTool
   updateConnectionWithUser: User
   updateExternalLink: ExternalLink
+  updateFeedPost: FeedPost
   updateInitiativeReaction: Initiative
   /** @deprecated Comments can be added to other objects. Use updateComment mutation. */
   updatePostComment: CreatePostCommentOutput
@@ -789,6 +849,10 @@ export type MutationDeleteExternalLinkArgs = {
   id: Scalars['UUID']['input']
 }
 
+export type MutationDeleteFeedPostArgs = {
+  postId: Scalars['UUID']['input']
+}
+
 export type MutationDeletePostCommentArgs = {
   id: Scalars['UUID']['input']
 }
@@ -845,6 +909,10 @@ export type MutationReportContentArgs = {
   objectId: Scalars['UUID']['input']
 }
 
+export type MutationTrackingEndpoint_TrackEventArgs = {
+  data: Scalars['String']['input']
+}
+
 export type MutationUnbookmarkArgs = {
   bookmarkId: Scalars['UUID']['input']
   bookmarkType: BookmarkType
@@ -863,6 +931,10 @@ export type MutationUpdateAuthenticatedUserArgs = {
   input: UpdateAuthenticatedUserInput
 }
 
+export type MutationUpdateAuthenticatedUserV2Args = {
+  input: UpdateAuthenticatedUserInput
+}
+
 export type MutationUpdateCollaborationToolArgs = {
   input: UpdateCollaborationToolInput
 }
@@ -873,6 +945,10 @@ export type MutationUpdateConnectionWithUserArgs = {
 
 export type MutationUpdateExternalLinkArgs = {
   input: UpdateExternalLinkInput
+}
+
+export type MutationUpdateFeedPostArgs = {
+  input: UpdateFeedPostInput
 }
 
 export type MutationUpdateInitiativeReactionArgs = {
@@ -1157,7 +1233,9 @@ export type Query = {
   appVolunteering_engagements: AppVolunteering_EngagementsResponse
   appointment: Appointment
   appointments: AppointmentPaged
+  /** @deprecated Deprecated in favor of 'authenticatedUserV2'. */
   authenticatedUser: Maybe<User>
+  authenticatedUserV2: Maybe<AuthenticatedUser>
   checkAppVersion: AppVersionResponse
   collaborationTools: CollaborationToolPaged
   commentable: Commentable
@@ -1169,6 +1247,7 @@ export type Query = {
   favorites: UserFavoritePaged
   featureToggles: Array<FeatureToggle>
   feedPostCategories: FeedPostCategoryPaged
+  feedPosts: FeedPostPaged
   geo_placeDetails: Geo_PlaceDetails
   geo_placesAutocomplete: Array<Maybe<Geo_Place>>
   hasNewNotifications: NewNotificationsResponse
@@ -1178,10 +1257,14 @@ export type Query = {
   inspirationPostCategories: InspirationPostCategoryPaged
   inspirationPosts: PostPaged
   lastInsights: InsightPaged
+  myPosts: FeedPostPaged
   mySpaces: Array<Maybe<MySpaces>>
   notifications: NotificationPaged
   notifications_preferences: Array<Maybe<Notifications_WorkflowPreferences>>
+  post: FeedPost
   postById: Maybe<Post>
+  postsByUserId: FeedPostPaged
+  recommendedSpaces: SpacePaged
   sdgs: SdgPaged
   skills: SkillPaged
   spaceById: Maybe<Space>
@@ -1190,6 +1273,7 @@ export type Query = {
   taskById: Maybe<Task>
   tasksBySpaceId: TaskPaged
   topics: TopicPaged
+  trackingEndpoint_dummy: Scalars['Boolean']['output']
   userById: Maybe<User>
   userByName: UserPaged
   userSuggestions: UserPaged
@@ -1291,6 +1375,11 @@ export type QueryFeedPostCategoriesArgs = {
   offset?: Scalars['Int']['input']
 }
 
+export type QueryFeedPostsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
 export type QueryGeo_PlaceDetailsArgs = {
   id: Scalars['String']['input']
 }
@@ -1331,13 +1420,35 @@ export type QueryLastInsightsArgs = {
   offset?: Scalars['Int']['input']
 }
 
+export type QueryMyPostsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
 export type QueryNotificationsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
+export type QueryPostArgs = {
+  idOrSlug: Scalars['String']['input']
+}
+
 export type QueryPostByIdArgs = {
   id: Scalars['UUID']['input']
+}
+
+export type QueryPostsByUserIdArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+  userId: Scalars['UUID']['input']
+}
+
+export type QueryRecommendedSpacesArgs = {
+  geolocation?: InputMaybe<Scalars['GeoJSON']['input']>
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+  topicIds?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
 }
 
 export type QuerySdgsArgs = {
@@ -1733,6 +1844,8 @@ export type UpdateAuthenticatedUserInput = {
   pronouns: InputMaybe<Scalars['String']['input']>
   sdgs: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
   skills: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  trackingConsentAnalytics: InputMaybe<Scalars['Boolean']['input']>
+  trackingConsentPersonalization: InputMaybe<Scalars['Boolean']['input']>
 }
 
 export type UpdateCollaborationToolInput = {
@@ -1763,6 +1876,16 @@ export type UpdateExternalLinkInput = {
   name: InputMaybe<Scalars['String']['input']>
   type: InputMaybe<ExternalLinkType>
   url: InputMaybe<Scalars['String']['input']>
+}
+
+export type UpdateFeedPostInput = {
+  categoryId: InputMaybe<Scalars['UUID']['input']>
+  description: InputMaybe<Scalars['String']['input']>
+  image: InputMaybe<Scalars['Upload']['input']>
+  postId: Scalars['UUID']['input']
+  title: InputMaybe<Scalars['String']['input']>
+  topicIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  visibility: InputMaybe<VisibilityLevel>
 }
 
 export type UpdatePostInput = {
@@ -1915,6 +2038,32 @@ export enum VisibilityType {
   Public = 'PUBLIC',
 }
 
+export type SpaceRecommendationQueryVariables = Exact<{
+  topicIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>> | InputMaybe<Scalars['UUID']['input']>>
+  geolocation: InputMaybe<Scalars['GeoJSON']['input']>
+  limit: InputMaybe<Scalars['Int']['input']>
+}>
+
+export type SpaceRecommendationQuery = {
+  __typename?: 'Query'
+  recommendedSpaces: {
+    __typename?: 'SpacePaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'Space'
+      title: string
+      description: string
+      location: string
+      id: string
+      cover: string
+      members: {
+        __typename?: 'SpaceMemberPaged'
+        data: Array<{ __typename?: 'SpaceMember'; user: { __typename?: 'User'; avatar: string; avatarLabel: string } }>
+      }
+    }>
+  }
+}
+
 export type FullUserFragment = {
   __typename?: 'User'
   id: string
@@ -1998,6 +2147,71 @@ export const FullUserFragmentDoc = gql`
     connectionStatusToMyself
   }
 `
+export const SpaceRecommendationDocument = gql`
+  query SpaceRecommendation($topicIds: [UUID], $geolocation: GeoJSON, $limit: Int) {
+    recommendedSpaces(topicIds: $topicIds, geolocation: $geolocation, limit: $limit) {
+      data {
+        title
+        description
+        location
+        id
+        cover
+        members {
+          data {
+            user {
+              avatar
+              avatarLabel
+            }
+          }
+        }
+      }
+      totalResults
+    }
+  }
+`
+
+/**
+ * __useSpaceRecommendationQuery__
+ *
+ * To run a query within a React component, call `useSpaceRecommendationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceRecommendationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceRecommendationQuery({
+ *   variables: {
+ *      topicIds: // value for 'topicIds'
+ *      geolocation: // value for 'geolocation'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSpaceRecommendationQuery(
+  baseOptions?: Apollo.QueryHookOptions<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>(
+    SpaceRecommendationDocument,
+    options
+  )
+}
+export function useSpaceRecommendationLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>(
+    SpaceRecommendationDocument,
+    options
+  )
+}
+export type SpaceRecommendationQueryHookResult = ReturnType<typeof useSpaceRecommendationQuery>
+export type SpaceRecommendationLazyQueryHookResult = ReturnType<typeof useSpaceRecommendationLazyQuery>
+export type SpaceRecommendationQueryResult = Apollo.QueryResult<
+  SpaceRecommendationQuery,
+  SpaceRecommendationQueryVariables
+>
 export const AuthenticatedUserDocument = gql`
   query AuthenticatedUser {
     authenticatedUser {

@@ -1,0 +1,20 @@
+query SpaceRecommendation($topicIds: [UUID], $geolocation: GeoJSON, $limit: Int) {
+  recommendedSpaces(topicIds: $topicIds, geolocation: $geolocation, limit: $limit) {
+    data {
+      title
+      description
+      location
+      id
+      cover
+      members {
+        data {
+          user {
+            avatar
+            avatarLabel
+          }
+        }
+      }
+    }
+    totalResults
+  }
+}
