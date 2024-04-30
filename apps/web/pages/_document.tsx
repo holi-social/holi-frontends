@@ -4,8 +4,8 @@ import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+import { i18nConfig } from '@holi/core/i18n'
 import { environmentId } from '@holi/web/environment'
-import { getValidLocale } from '@holi/web/helpers/getValidLocale'
 
 // adapt to react-native behavior
 // Force Next-generated DOM elements to fill their parent's height
@@ -42,7 +42,7 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    const locale = getValidLocale(this.props.locale)
+    const { locale = i18nConfig.fallbackLng } = this.props
     // use same path for local and dev env
     const env = environmentId === EnvironmentId.LOCAL ? EnvironmentId.DEVELOPMENT : environmentId
     return (

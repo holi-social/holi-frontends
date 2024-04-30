@@ -22,6 +22,8 @@ interface RootProviderProps {
 const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
   const apolloWebClient = useApolloSSRClient(pageProps)
 
+  useSyncLanguage(pageProps.locale)
+
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <ErrorBoundary>

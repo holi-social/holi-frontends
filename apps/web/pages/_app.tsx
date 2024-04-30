@@ -61,4 +61,4 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   )
 }
 
-export default appWithI18Next(MyApp, ni18nConfig)
+export default featureFlag.enableSSR ? appWithI18Next(MyApp, ni18nConfig) : MyApp
