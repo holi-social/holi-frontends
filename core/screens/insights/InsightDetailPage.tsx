@@ -209,10 +209,10 @@ const InsightDetailPage = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={insight?.description} />
-        <meta property="og:title" content={insight?.title} key="title" />
-        <meta property="og:description" content={insight?.description} key="description" />
-        <meta property="og:image" content={insight?.headerImage} key="image" />
+        <meta name="description" content={insight?.description} key="description" />
+        <meta property="og:title" content={insight?.title} key="og-title" />
+        <meta property="og:description" content={insight?.description} key="og-description" />
+        <meta property="og:image" content={insight?.headerImage} key="og-image" />
       </Head>
 
       <StatusBar style="light" animated />

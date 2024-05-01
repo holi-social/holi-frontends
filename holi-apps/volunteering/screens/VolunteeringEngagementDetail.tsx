@@ -227,10 +227,10 @@ const VolunteeringEngagementDetail = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={engagement.description} />
-        <meta property="og:title" content={engagement.title} key="title" />
-        <meta property="og:description" content={engagement.description} key="description" />
-        <meta property="og:image" content={engagement.imageUrl} key="image" />
+        <meta name="description" content={engagement.description} key="description" />
+        <meta property="og:title" content={engagement.title} key="og-title" />
+        <meta property="og:description" content={engagement.description} key="og-description" />
+        <meta property="og:image" content={engagement.imageUrl} key="og-image" />
       </Head>
       <View style={styles.wrapper} testID="volunteering-detailview-container">
         <ScrollHeaderLayout.Refreshable

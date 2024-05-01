@@ -143,10 +143,10 @@ const PostDetailPage = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={post.text} />
-        <meta property="og:title" content={`${post.title} | ${post.creator.fullName}`} />
-        <meta property="og:description" content={post.text} />
-        <meta property="og:image" content={post.image?.url} key="image" />
+        <meta name="description" content={post.text} key="description" />
+        <meta property="og:title" content={`${post.title} | ${post.creator.fullName}`} key="og-title" />
+        <meta property="og:description" content={post.text} key="og-description" />
+        <meta property="og:image" content={post.image?.url} key="og-image" />
       </Head>
 
       <StatusBar animated />

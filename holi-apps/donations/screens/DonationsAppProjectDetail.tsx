@@ -86,10 +86,10 @@ const DonationsAppProjectDetail = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={project.summary} />
-        <meta property="og:title" content={project.title} key="title" />
-        <meta property="og:description" content={project.summary} key="description" />
-        <meta property="og:image" content={project.picture[0].url} key="image" />
+        <meta name="description" content={project.summary} key="description" />
+        <meta property="og:title" content={project.title} key="og-title" />
+        <meta property="og:description" content={project.summary} key="og-description" />
+        <meta property="og:image" content={project.picture[0].url} key="og-image" />
       </Head>
       <View
         style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}

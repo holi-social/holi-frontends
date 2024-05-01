@@ -202,13 +202,13 @@ const InsightsPage = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={t('metatags.default.description')} />
-        <meta property="og:title" content={t('metatags.default.og.title')} key="title" />
-        <meta property="og:description" content={t('metatags.default.og.description')} key="description" />
+        <meta name="description" content={t('metatags.default.description')} key="description" />
+        <meta property="og:title" content={t('metatags.default.og.title')} key="og-title" />
+        <meta property="og:description" content={t('metatags.default.og.description')} key="og-description" />
         <meta
           property="og:image"
           content="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
-          key="image"
+          key="og-image"
         />
       </Head>
       <ScrollHeaderLayout.Default style={styles.layout}>

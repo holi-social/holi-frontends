@@ -124,10 +124,10 @@ const TaskDetails = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={task.description} />
-        <meta property="og:title" content={`${task.name} | ${space.title}`} key="title" />
-        <meta property="og:description" content={task.description} key="description" />
-        <meta property="og:image" content={task.thumbnail || space.cover} key="image" />
+        <meta name="description" content={task.description} key="description" />
+        <meta property="og:title" content={`${task.name} | ${space.title}`} key="og-title" />
+        <meta property="og:description" content={task.description} key="og-description" />
+        <meta property="og:image" content={task.thumbnail || space.cover} key="og-image" />
       </Head>
       <SafeAreaProvider style={styles.safeAreaProvider}>
         <ScrollHeaderLayout.Refreshable

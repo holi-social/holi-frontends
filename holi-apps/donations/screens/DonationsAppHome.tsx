@@ -101,13 +101,13 @@ const DonationsAppHome = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={t('metatags.donations.description')} />
-        <meta property="og:title" content={t('metatags.donations.og.title')} key="title" />
-        <meta property="og:description" content={t('metatags.donations.og.description')} key="description" />
+        <meta name="description" content={t('metatags.donations.description')} key="description" />
+        <meta property="og:title" content={t('metatags.donations.og.title')} key="og-title" />
+        <meta property="og:description" content={t('metatags.donations.og.description')} key="og-description" />
         <meta
           property="og:image"
           content="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
-          key="image"
+          key="og-image"
         />
       </Head>
       <ScrollHeaderLayout.Refreshable
