@@ -8,7 +8,6 @@ import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
@@ -87,9 +86,9 @@ const DonationsAppProjectDetail = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={project.summary.substring(0, METATAG_MAX_LENGTH)} />
+        <meta name="description" content={project.summary} />
         <meta property="og:title" content={project.title} key="title" />
-        <meta property="og:description" content={project.summary.substring(0, METATAG_MAX_LENGTH)} key="description" />
+        <meta property="og:description" content={project.summary} key="description" />
         <meta property="og:image" content={project.picture[0].url} key="image" />
       </Head>
       <View

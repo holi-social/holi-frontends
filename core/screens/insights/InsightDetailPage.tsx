@@ -8,7 +8,6 @@ import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
@@ -210,13 +209,9 @@ const InsightDetailPage = () => {
   return (
     <>
       <Head>
-        <meta name="description" content={insight?.description.substring(0, METATAG_MAX_LENGTH)} />
+        <meta name="description" content={insight?.description} />
         <meta property="og:title" content={insight?.title} key="title" />
-        <meta
-          property="og:description"
-          content={insight?.description.substring(0, METATAG_MAX_LENGTH)}
-          key="description"
-        />
+        <meta property="og:description" content={insight?.description} key="description" />
         <meta property="og:image" content={insight?.headerImage} key="image" />
       </Head>
 

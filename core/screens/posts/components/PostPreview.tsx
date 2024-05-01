@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -140,9 +139,9 @@ const PostPreview = ({
   return (
     <>
       <Head>
-        <meta name="description" content={post.text.substring(0, METATAG_MAX_LENGTH)} />
+        <meta name="description" content={post.text} />
         <meta property="og:title" content={`${post.title} | ${post.creator.fullName}`} />
-        <meta property="og:description" content={post.text.substring(0, METATAG_MAX_LENGTH)} />
+        <meta property="og:description" content={post.text} />
         <meta property="og:image" content={post.image?.url} key="image" />
       </Head>
       <View style={styles.container}>

@@ -3,7 +3,6 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { METATAG_MAX_LENGTH } from '@holi/core/constants/constants'
 import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
@@ -43,13 +42,9 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: Sp
   return (
     <>
       <Head>
-        <meta name="description" content={space.description.substring(0, METATAG_MAX_LENGTH)} />
+        <meta name="description" content={space.description} />
         <meta property="og:title" content={space.title} key="title" />
-        <meta
-          property="og:description"
-          content={space.description.substring(0, METATAG_MAX_LENGTH)}
-          key="description"
-        />
+        <meta property="og:description" content={space.description} key="description" />
         <meta property="og:image" content={space.cover} key="image" />
       </Head>
       <View style={[styles.wrapper, style]} testID="space-details-container">
