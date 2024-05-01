@@ -29,7 +29,7 @@ const SpaceInvitesList: React.FC<SpaceInvitesProps> = ({ space, style }) => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   useEffect(() => {
-    setSpaceInvites(data)
+    setSpaceInvites(data as SpaceInvite[])
   }, [data])
 
   return (
