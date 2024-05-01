@@ -38,7 +38,7 @@ const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({
   const mixins = useStyleMixins()
 
   useEffect(() => {
-    setSpaceMembershipRequests(data)
+    setSpaceMembershipRequests(data as SpaceMembershipRequest[])
   }, [data])
 
   return (

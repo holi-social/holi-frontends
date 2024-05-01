@@ -12,6 +12,7 @@ import {
   AppointmentsBySpaceIdResponse,
   appointmentsBySpaceIdQuery,
 } from '@holi/core/screens/appointments/queries'
+import { Appointment } from '@holi/core/screens/appointments/types'
 import AppointmentsWidget from '@holi/core/screens/spaces/appointments/components/AppointmentsWidget'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
@@ -93,7 +94,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             space={space}
             style={styles.card}
             isCollaborator={isCollaborator}
-            appointments={appointmentsResult?.appointments.data}
+            appointments={appointmentsResult?.appointments.data as Appointment[]}
             totalResults={appointmentsResult?.appointments.totalResults}
           />
         )}
