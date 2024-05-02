@@ -172,7 +172,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
         {/* Comments */}
         {post.numberOfComments > 0 && (
           <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-            {t('insights.post.response', { count: post.numberOfComments })}
+            {t('comments.response', { count: post.numberOfComments })}
           </HoliUserAvatarPile>
         )}
 

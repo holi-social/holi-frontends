@@ -37,10 +37,18 @@ export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
   commentableType: CommentableType
   user: User
+  parentCommentId?: string
   redirectRoute?: string
 }
 
-const CommentForm = ({ commentableId, commentableType, user, redirectRoute, children }: CommentFormProps) => {
+const CommentForm = ({
+  commentableId,
+  commentableType,
+  user,
+  parentCommentId,
+  redirectRoute,
+  children,
+}: CommentFormProps) => {
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
@@ -173,6 +181,7 @@ const CommentForm = ({ commentableId, commentableType, user, redirectRoute, chil
                           text: text.trim(),
                           commentableId,
                           commentableType,
+                          parentCommentId,
                         },
                       },
                     })

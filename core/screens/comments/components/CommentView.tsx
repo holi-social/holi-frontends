@@ -13,7 +13,8 @@ import useDeleteComment from '@holi/core/screens/comments/hooks/useDeleteComment
 import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComment'
 import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { Delete, Flag } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Comments, Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -188,6 +189,18 @@ const CommentView = ({
               testID="btn-react-to-comment-HEART"
             />
           </View>
+          {comment.totalReplies > 0 && (
+            <HoliButton
+              transparent
+              label={t('comments.response', { count: comment.totalReplies })}
+              contentStyle={styles.commentsBar}
+            >
+              <HoliIcon icon={Comments} />
+              <HoliText disabled size="small" color="gray300">
+                {t('comments.response', { count: comment.totalReplies })}
+              </HoliText>
+            </HoliButton>
+          )}
         </View>
       </View>
     </View>
@@ -208,29 +221,35 @@ const getStyles = (theme: HoliTheme) =>
     },
     body: {
       flexDirection: 'row',
-      marginTop: 12,
+      marginTop: Spacing.xxs,
     },
     text: {
       flex: 1,
-      marginLeft: 15,
+      marginLeft: Spacing.xs,
     },
     commentConnector: {
-      marginHorizontal: 20,
+      marginHorizontal: Spacing.sm,
     },
     commentContent: {
       flex: 1,
+      paddingBottom: Spacing.xs,
     },
     reactionsBar: {
-      marginTop: 12,
-      marginLeft: 15,
+      marginTop: Spacing.xxs,
+      marginLeft: Spacing.xs,
       alignItems: 'center',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: Spacing.sm,
+    },
+    commentsBar: {
+      marginTop: Spacing['3xs'],
+      marginLeft: Spacing.xs,
+      alignItems: 'center',
+      flexDirection: 'row',
+      gap: 6,
     },
     reactionsBarWithoutComment: {
       justifyContent: 'flex-end',
-      marginBottom: 0,
     },
     addComment: {
       flexDirection: 'row',

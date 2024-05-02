@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -25,6 +26,7 @@ interface CommentsProps {
 
 const Comments = ({ commentableId, commentableType, replyRoute, onPressCreateComment }: CommentsProps) => {
   const { navigate } = useRouting()
+  const { t } = useTranslation()
   const { data: { commentable } = {}, loading } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType },
     fetchPolicy: 'cache-and-network',

@@ -27,6 +27,7 @@ const DiscussionCommentPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const [discussionId] = useParam('discussionId')
   const [insightId] = useParam('insightId')
+  const [commentId] = useParam('commentId')
   const { replaceRoute } = useRouting()
 
   const { theme } = useTheme()
@@ -67,6 +68,7 @@ const DiscussionCommentPage = () => {
         commentableType={CommentableType.DISCUSSION}
         user={user}
         redirectRoute={`/insights/${insightId}/discussions/${discussion.id}`}
+        parentCommentId={commentId}
       >
         <DiscussionHeader question={discussion.question} />
       </CommentForm>
