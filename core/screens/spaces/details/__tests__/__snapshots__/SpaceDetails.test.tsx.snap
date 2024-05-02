@@ -1389,12 +1389,11 @@ exports[`SpaceDetails renders correctly 1`] = `
                         style={
                           [
                             {
-                              "aspectRatio": 1.5571428571428572,
+                              "aspectRatio": 1.5,
                               "backgroundColor": "#fff",
                               "borderColor": "#ebebeb",
                               "borderRadius": 16,
                               "borderWidth": 1,
-                              "height": "auto",
                               "padding": 8,
                               "width": "100%",
                             },
@@ -1406,8 +1405,8 @@ exports[`SpaceDetails renders correctly 1`] = `
                           style={
                             {
                               "alignItems": "center",
-                              "height": "100%",
                               "justifyContent": "center",
+                              "maxHeight": "100%",
                               "width": "100%",
                             }
                           }
