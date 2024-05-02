@@ -1,4 +1,4 @@
-import { Term, Topic } from '@holi/core/screens/userprofile/types'
+import { Term, Topic, User } from '@holi/core/screens/userprofile/types'
 
 export enum VisibilityLevel {
   PUBLIC = 'PUBLIC',
@@ -8,12 +8,14 @@ export enum VisibilityLevel {
 export type Category = Term
 
 export interface FeedPost {
+  id: string
   title: string
   description: string
   image?: string
   visibility: VisibilityLevel
   topics?: Topic[]
   category: Category
+  creator: User
   createdAt: string
   imageBlurhash?: string
 }
