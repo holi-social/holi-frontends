@@ -1,10 +1,11 @@
-import { MockedProvider } from '@apollo/client/testing'
-// import { VariableMatcher } from '@apollo/client/testing/core/mocking/mockLink'
+import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { VariableMatcher } from '@apollo/client/testing/core/mocking/mockLink'
 import { jest } from '@jest/globals'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { act, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { UpdateAuthenticatedUserInput, updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import {
   LoggedInState,
@@ -149,7 +150,6 @@ const mockEnv = (loggedInState: LoggedInState, consentState?: ConsentState): voi
   }
 }
 
-/*
 const updateAuthenticatedUserRequest = (
   user: AuthenticatedUser
 ): [
@@ -172,7 +172,6 @@ const updateAuthenticatedUserRequest = (
   }
   return [variableMatcher, mockedResponse]
 }
-*/
 
 describe('TrackingInitializer', () => {
   beforeEach(() => {
@@ -379,9 +378,7 @@ describe('TrackingInitializer', () => {
   })
   describe('given a logged-in user with denied analytics consent', () => {
     describe('when user gives analytics consent', () => {
-      it.skip('opts-in on PostHog and identifies the user', async () => {
-        // TODO HOLI-7894
-        /*
+      it('opts-in on PostHog and identifies the user', async () => {
         const loggedInState = loggedInStateLoggedIn()
         mockEnv(loggedInState, {
           [TrackingPurpose.Analytics]: Consent.Unknown,
@@ -431,7 +428,6 @@ describe('TrackingInitializer', () => {
             trackingConsentPersonalization: undefined,
           },
         })
-        */
       })
     })
   })

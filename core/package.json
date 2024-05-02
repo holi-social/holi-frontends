@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@apollo/client": "3.7.16",
+    "@apollo/client": "3.10.1",
     "@apollo/react-hooks": "^4.0.0",
     "@novu/client": "0.20.0",
     "@ory/kratos-client": "^0.13.1",
