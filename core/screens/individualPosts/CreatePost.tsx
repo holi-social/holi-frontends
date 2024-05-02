@@ -19,6 +19,7 @@ import {
   CreateFeedPostSchema,
   createFeedPostMutation,
 } from '@holi/core/screens/individualPosts/mutations'
+import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -70,6 +71,7 @@ const CreatePost = () => {
     onError: (error) => {
       alert(error)
     },
+    refetchQueries: [{ query: myPostsQuery }, 'MyPosts'],
   })
 
   useEffect(() => {
@@ -324,5 +326,4 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
       right: 0,
     },
   })
-
 export default withProfiler(CreatePost, { name: 'CreatePost' })

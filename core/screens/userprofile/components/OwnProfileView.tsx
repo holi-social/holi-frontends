@@ -34,6 +34,7 @@ interface Props {
  * mobile we need to move to the new React Native architecture */
 const SpacesTab = dynamicImport<SpacesTabProps>(() => import('@holi/core/components/SpacesTab'))
 const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/components/InsightsTab'))
+const MyPostsTab = dynamicImport(() => import('@holi/core/screens/individualPosts/components/MyPostsTab'))
 
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
@@ -134,6 +135,14 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
                   emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
                   memberId={user.id}
                 />
+              </Suspense>
+            ),
+          },
+          {
+            title: t('individuals.post.name'),
+            children: (
+              <Suspense fallback={<HoliLoader />}>
+                <MyPostsTab />
               </Suspense>
             ),
           },
