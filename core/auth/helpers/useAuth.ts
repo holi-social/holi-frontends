@@ -61,7 +61,7 @@ export const setUserLoggedIn = async (session: OrySessionContext): Promise<void>
   logger.debug('setUserLogged', 'user logged in')
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
-  TrackingInitializer.userLoginStateChanged()
+  TrackingInitializer.userLoggedIn()
   // fetch and save Okuna user
   loggedInUserIdVar(loginStateLoggedIn(session.session.identity.id))
 }
@@ -71,7 +71,7 @@ export const setUserLoggedOut = async () => {
   logger.debug('auth', 'setUserLoggedOut')
   await removeSessionFromStorage()
   await ensureChatLoggedOut()
-  TrackingInitializer.userLoginStateChanged()
+  TrackingInitializer.userLoggedOut()
   loggedInUserIdVar(loginStateLoggedOut)
 }
 

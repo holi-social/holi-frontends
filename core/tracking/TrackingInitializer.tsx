@@ -100,7 +100,8 @@ class Tracking {
 export const consentStateVarInitial = {
   initializing: true, // true when the application initializes for "the first time" (but e.g. also on browser reload)
   updatedByUser: false, // true for every subsequent update to consentStateVar (typically when user updates consent)
-  loginStateChanged: false, // true when the user just logged in or logged out
+  userLoggedIn: false, // true when the user just logged in
+  userLoggedOut: false, // true when the user just logged out
   state: ConsentState.unknown,
 }
 
@@ -108,30 +109,55 @@ export const consentStateVarInitial = {
 export const consentStateVar = makeVar<{
   initializing: boolean
   updatedByUser: boolean
-  loginStateChanged: boolean
+  userLoggedIn: boolean
+  userLoggedOut: boolean
   state: ConsentState
 }>(consentStateVarInitial)
 
 export const updateConsentState = (consentState: ConsentState) => {
-  consentStateVar({ initializing: false, updatedByUser: true, loginStateChanged: true, state: consentState })
+  consentStateVar({
+    initializing: false,
+    updatedByUser: true,
+    userLoggedIn: false,
+    userLoggedOut: false,
+    state: consentState,
+  })
 }
 
-export const userLoginStateChanged = (): void => {
-  consentStateVar({ initializing: false, updatedByUser: false, loginStateChanged: true, state: ConsentState.unknown })
+export const userLoggedIn = (): void => {
+  consentStateVar({
+    initializing: false,
+    updatedByUser: false,
+    userLoggedIn: true,
+    userLoggedOut: false,
+    state: ConsentState.unknown,
+  })
+}
+
+export const userLoggedOut = (): void => {
+  consentStateVar({
+    initializing: false,
+    updatedByUser: false,
+    userLoggedIn: false,
+    userLoggedOut: true,
+    state: ConsentState.unknown,
+  })
 }
 
 export type TrackingInitializerProps = {
   enableTracking?: boolean
   onInitCompleted?: (...args: unknown[]) => void
   onUpdateCompleted?: (...args: unknown[]) => void
-  onLoginStateChangeCompleted?: (...args: unknown[]) => void
+  onUserLoggedInCompleted?: (...args: unknown[]) => void
+  onUserLoggedOutCompleted?: (...args: unknown[]) => void
 }
 
 const TrackingInitializer = ({
   enableTracking,
   onInitCompleted,
   onUpdateCompleted,
-  onLoginStateChangeCompleted,
+  onUserLoggedInCompleted,
+  onUserLoggedOutCompleted,
 }: TrackingInitializerProps) => {
   // don't initialize for SSR
   const init = enableTracking || (typeof navigator !== 'undefined' && trackingEnabled())
@@ -139,7 +165,8 @@ const TrackingInitializer = ({
     <TrackingInitializerInner
       onInitCompleted={onInitCompleted}
       onUpdateCompleted={onUpdateCompleted}
-      onLoginStateChangeCompleted={onLoginStateChangeCompleted}
+      onUserLoggedInCompleted={onUserLoggedInCompleted}
+      onUserLoggedOutCompleted={onUserLoggedOutCompleted}
     />
   ) : null
 }
@@ -147,13 +174,15 @@ const TrackingInitializer = ({
 type TrackingInitializerInnerProps = {
   onInitCompleted?: (...args: unknown[]) => void
   onUpdateCompleted?: (...args: unknown[]) => void
-  onLoginStateChangeCompleted?: (...args: unknown[]) => void
+  onUserLoggedInCompleted?: (...args: unknown[]) => void
+  onUserLoggedOutCompleted?: (...args: unknown[]) => void
 }
 
 const TrackingInitializerInner = ({
   onInitCompleted,
   onUpdateCompleted,
-  onLoginStateChangeCompleted,
+  onUserLoggedInCompleted,
+  onUserLoggedOutCompleted,
 }: TrackingInitializerInnerProps) => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const apollo: ApolloClient<object> = useApolloClient()
@@ -171,7 +200,8 @@ const TrackingInitializerInner = ({
           consentStateVar({
             initializing: false,
             updatedByUser: false,
-            loginStateChanged: false,
+            userLoggedIn: false,
+            userLoggedOut: false,
             state: consentState.state,
           })
           if (onInitCompleted) onInitCompleted()
@@ -183,26 +213,50 @@ const TrackingInitializerInner = ({
             consentStateVar({
               initializing: false,
               updatedByUser: false,
-              loginStateChanged: false,
+              userLoggedIn: false,
+              userLoggedOut: false,
               state: consentState.state,
             })
             if (onUpdateCompleted) onUpdateCompleted()
           })
         })
-      } else if (consentState.loginStateChanged) {
-        logger.debug('TrackingInitializer', 'loginStateChanged', consentState)
+      } else if (consentState.userLoggedIn) {
+        logger.debug('TrackingInitializer', 'userLoggedIn', consentState)
         tracking.init(loggedInState).then(() => {
           consentStateVar({
             initializing: false,
             updatedByUser: false,
-            loginStateChanged: false,
+            userLoggedIn: false,
+            userLoggedOut: false,
             state: consentState.state,
           })
-          if (onLoginStateChangeCompleted) onLoginStateChangeCompleted()
+          if (onUserLoggedInCompleted) onUserLoggedInCompleted()
+        })
+      } else if (consentState.userLoggedOut) {
+        logger.debug('TrackingInitializer', 'userLoggedOut', consentState)
+        consentStore.clear().then(() => {
+          return tracking.init(loggedInState).then(() => {
+            consentStateVar({
+              initializing: false,
+              updatedByUser: false,
+              userLoggedIn: false,
+              userLoggedOut: false,
+              state: consentState.state,
+            })
+            if (onUserLoggedOutCompleted) onUserLoggedOutCompleted()
+          })
         })
       }
     }
-  }, [loggedInState, tracking, consentState, onInitCompleted, onUpdateCompleted, onLoginStateChangeCompleted])
+  }, [
+    loggedInState,
+    tracking,
+    consentState,
+    onInitCompleted,
+    onUpdateCompleted,
+    onUserLoggedInCompleted,
+    onUserLoggedOutCompleted,
+  ])
 
   return null
 }
