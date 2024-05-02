@@ -1111,6 +1111,7 @@
   "spaces.tasks.delete.error": "Es gab einen Fehler beim Löschen der Aufgabe. Bitte probiere es später nochmal",
   "spaces.tasks.delete.success": "Aufgabe erfolgreich gelöscht",
   "spaces.tasks.details.title": "Aufgabendetails",
+  "spaces.tasks.details.space": "Für <0>{{space}}</0>",
   "spaces.tasks.edit.title": "Aufgabe bearbeiten",
   "spaces.tasks.notFound": "Aufgabe {{taskId}} nicht gefunden",
   "spaces.tasks.published.by.title": "Aufgabe erstellt von",

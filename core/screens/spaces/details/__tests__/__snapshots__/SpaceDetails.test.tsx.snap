@@ -2548,7 +2548,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                   style={
                                     {
                                       "backgroundColor": "#fff",
-                                      "borderColor": "#ebebeb",
+                                      "borderColor": "#2222221f",
                                       "borderRadius": 16,
                                       "borderWidth": 1,
                                       "flexShrink": 1,
@@ -2638,7 +2638,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           style={
                                             {
                                               "borderRadius": 8,
-                                              "height": 166,
+                                              "height": 136,
                                               "justifyContent": "center",
                                             }
                                           }
@@ -2802,7 +2802,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           {
                                             "flexDirection": "row",
                                             "flexWrap": "wrap",
-                                            "marginTop": 4,
+                                            "marginTop": 8,
                                           }
                                         }
                                       >
@@ -2985,7 +2985,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                 }
                                               >
                                                 <RNSVGGroup
-                                                  clipPath="time_svg__a"
+                                                  clipPath="time-filled_svg__a"
                                                   fill={
                                                     {
                                                       "payload": 4278190080,
@@ -2994,7 +2994,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                   }
                                                 >
                                                   <RNSVGPath
-                                                    d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16.001A8 8 0 0 0 12 20Zm1-8h4v2h-6V7h2v5Z"
+                                                    d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
                                                     fill={
                                                       {
                                                         "type": 2,
@@ -3015,7 +3015,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                         "type": 0,
                                                       }
                                                     }
-                                                    name="time_svg__a"
+                                                    name="time-filled_svg__a"
                                                   >
                                                     <RNSVGPath
                                                       d="M0 0h24v24H0z"
@@ -3252,7 +3252,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                   style={
                                     {
                                       "backgroundColor": "#fff",
-                                      "borderColor": "#ebebeb",
+                                      "borderColor": "#2222221f",
                                       "borderRadius": 16,
                                       "borderWidth": 1,
                                       "flexShrink": 1,
@@ -3342,7 +3342,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           style={
                                             {
                                               "borderRadius": 8,
-                                              "height": 166,
+                                              "height": 136,
                                               "justifyContent": "center",
                                             }
                                           }
@@ -3506,7 +3506,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                           {
                                             "flexDirection": "row",
                                             "flexWrap": "wrap",
-                                            "marginTop": 4,
+                                            "marginTop": 8,
                                           }
                                         }
                                       >
@@ -3689,7 +3689,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                 }
                                               >
                                                 <RNSVGGroup
-                                                  clipPath="time_svg__a"
+                                                  clipPath="time-filled_svg__a"
                                                   fill={
                                                     {
                                                       "payload": 4278190080,
@@ -3698,7 +3698,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                   }
                                                 >
                                                   <RNSVGPath
-                                                    d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16.001A8 8 0 0 0 12 20Zm1-8h4v2h-6V7h2v5Z"
+                                                    d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
                                                     fill={
                                                       {
                                                         "type": 2,
@@ -3719,7 +3719,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                         "type": 0,
                                                       }
                                                     }
-                                                    name="time_svg__a"
+                                                    name="time-filled_svg__a"
                                                   >
                                                     <RNSVGPath
                                                       d="M0 0h24v24H0z"
