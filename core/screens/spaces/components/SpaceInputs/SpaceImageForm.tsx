@@ -23,6 +23,8 @@ export type SpaceImageFormProps = {
   previewVariant?: string
 }
 
+const IMAGE_ASPECT_RATIO = 3 / 2
+
 const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
   title,
   description,
@@ -59,7 +61,7 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
                 resizeMode="cover"
                 aria-label={t('spaces.input.coverImage.label')}
                 style={{
-                  aspectRatio: 1.5,
+                  aspectRatio: IMAGE_ASPECT_RATIO,
                   borderRadius: 8,
                   width: previewVariant === 'avatar' ? '30%' : '100%',
                 }}
