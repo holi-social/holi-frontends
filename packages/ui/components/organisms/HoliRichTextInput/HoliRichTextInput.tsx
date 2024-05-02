@@ -29,6 +29,8 @@ export type HoliRichTextInputProps = {
   testID?: string
   showCharacterCount?: boolean
   maxNoOfCharacters?: number
+  inputAccessoryViewID?: string
+  placeholderTextColor?: string
 }
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
@@ -38,6 +40,8 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   minSearchChars = 2,
   maxSuggestionOptions = 5,
   debounceDelay = 300,
+  inputAccessoryViewID,
+  placeholderTextColor,
   onChange,
   onFocus = () => null,
   onBlur = () => null,
@@ -192,10 +196,11 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
         placeholder={placeholder}
         containerStyle={[styles.mentionsStyles, props.style]}
         style={styles.input}
-        placeholderTextColor={theme.dark ? theme.colors.foreground10 : undefined}
+        placeholderTextColor={placeholderTextColor || (theme.dark ? theme.colors.foreground10 : undefined)}
         editable={!disabled}
         maxLength={props.maxNoOfCharacters}
         testID={(props.testID || 'richtext-component') + '-input'}
+        inputAccessoryViewID={inputAccessoryViewID}
       />
       <CharactersCount />
     </View>
