@@ -25,16 +25,12 @@ const OtherPostsList = ({ userFirstName }: { userFirstName?: string }) => {
   const { t } = useTranslation()
   const { loading, data: posts, totalResults } = usePaginationContext<FeedPost>()
 
-  if (!loading && !totalResults) {
-    return null
-  }
-
   return (
     <HoliContainer gap={Spacing.xxs}>
       {loading ? (
         <LoadingSkeleton />
-      ) : posts.length == 0 ? (
-        <HoliText>
+      ) : totalResults === 0 ? (
+        <HoliText color="gray300">
           {t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
         </HoliText>
       ) : (

@@ -19,10 +19,6 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const MyPostsList = () => {
   const { loading, data: myPosts, totalResults } = usePaginationContext<FeedPost>()
 
-  if (!loading && !totalResults) {
-    return null
-  }
-
   return (
     <HoliContainer gap={Spacing.xxs}>
       {loading ? (
