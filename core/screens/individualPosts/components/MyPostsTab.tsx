@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import EmptyPosts from '@holi/core/screens/individualPosts/components/EmptyPosts'
@@ -50,6 +51,7 @@ const MyPostsTab = () => {
         location: 'myPostsQuery',
       })
     },
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
 
   return (
