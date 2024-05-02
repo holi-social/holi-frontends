@@ -185,7 +185,7 @@ export const SpaceOverviewFragment = gql`
 `
 
 export const topicsQuery = gql`
-  query Topics {
+  query TopicsSpaces {
     topics {
       data {
         id
@@ -198,7 +198,7 @@ export const topicsQuery = gql`
 `
 
 export const sdgsQuery = gql`
-  query SDGs {
+  query SDGsSpaces {
     sdgs {
       data {
         id
@@ -224,7 +224,7 @@ export type SpaceByIdResponse = {
 }
 
 export const spaceMembershipByIdQuery = gql`
-  query SpaceById($idOrName: String!) {
+  query SpaceMembershipById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
       id
       name
@@ -238,7 +238,7 @@ export const spaceMembershipByIdQuery = gql`
 
 // limit of 100000 to ignore pagination and get all member ids
 export const spaceByIdWithAllMembersQuery = gql`
-  query SpaceById($idOrName: String!) {
+  query SpaceMembershiByIdAllMembers($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
       id
       name
