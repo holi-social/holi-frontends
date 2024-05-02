@@ -16,8 +16,9 @@ const FilteredSpacesPage: NextPage = () => <FilteredSpaces />
 const logger = pino()
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const { topic: topicSlug, location, skill } = context.query
+  const { topic, location, skill } = context.query
   const skillSlugs = arrayParamConfig.parse(skill)
+  const topicSlugs = arrayParamConfig.parse(topic)
 
   const createQueries = async (client: ApolloClient<NormalizedCacheObject>) => {
     const geolocation =
@@ -43,7 +44,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
         query: spacesQuery,
         variables: {
           geolocation,
-          topicSlug,
+          topicSlugs,
           skillSlugs,
           offset: 0,
           limit: SPACES_PAGE_SIZE,

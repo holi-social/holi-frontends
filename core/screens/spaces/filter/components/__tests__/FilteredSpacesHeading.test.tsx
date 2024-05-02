@@ -55,7 +55,7 @@ describe('FilteredSpacesHeading', () => {
   })
 
   it('applies correct title when filtering for topic only', () => {
-    renderHeading({ topicSlug: 'topic-1' })
+    renderHeading({ topicSlugs: ['topic-1'] })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Topic 1' })
   })
@@ -73,19 +73,19 @@ describe('FilteredSpacesHeading', () => {
   })
 
   it('applies generic title when applying multiple filters', () => {
-    renderHeading({ topicSlug: 'topic-1', locationId: '123' })
+    renderHeading({ topicSlugs: ['topic-1'], locationId: '123' })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })
 
   it('applies generic title while loading terms', () => {
-    renderHeading({ topicSlug: 'topic-1' }, { loadingTopics: true })
+    renderHeading({ topicSlugs: ['topic-1'] }, { loadingTopics: true })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })
 
   it('applies generic title when loading of terms failed', () => {
-    renderHeading({ topicSlug: 'topic-1' }, { failedTopics: true })
+    renderHeading({ topicSlugs: ['topic-1'] }, { failedTopics: true })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })

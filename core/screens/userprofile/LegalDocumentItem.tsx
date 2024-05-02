@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
+import { getDocumentURL } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -23,7 +23,7 @@ const LegalDocumentItem = () => {
   const { openToast } = useToast()
   const setScreenOptions = useSetScreenOptions()
 
-  const url = useDocumentURL(docType)
+  const url = getDocumentURL(docType)
 
   const onDocumentLoadError = (err?: Error) => {
     if (err instanceof HoliBadRequestError) {

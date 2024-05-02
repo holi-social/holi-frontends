@@ -8,7 +8,6 @@ import { DefaultTheme, NavigationContainer, createNavigationContainerRef } from 
 
 import { getLogger } from '@holi/core/helpers/logging'
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import { appendLocaleSubPaths } from '@holi/mobile/navigation/helpers/appendLocaleSubPaths'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
 import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
@@ -32,12 +31,7 @@ const getNavigationTheme = (currentTheme: HoliTheme): Theme => ({
 // or holi://profiles/dieter to open the corresponding screen on the app). See
 // https://reactnavigation.org/docs/deep-linking and https://reactnavigation.org/docs/configuring-links for details
 export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
-  prefixes: appendLocaleSubPaths([
-    Linking.createURL('/'),
-    'holi://',
-    'https://app.holi.social',
-    'https://*.dev.holi.social',
-  ]),
+  prefixes: [Linking.createURL('/'), 'holi://', 'https://app.holi.social', 'https://*.dev.holi.social'],
   // this deep linking config needs to reflect the stacking structure of the navigators
   // see also https://reactnavigation.org/docs/configuring-links#mapping-path-to-route-names
   config: linkingConfig,

@@ -117,8 +117,8 @@ export const SDG_INFO_MODAL_SOURCES_MAPPING: {
   sdg: {
     wordmark: {
       src: require('@holi/ui/assets/img/misc/sgd-wordmark.svg'),
-      width: 186,
-      height: 97,
+      width: 115,
+      height: 60,
       isSvg: true,
     },
     url: 'https://sdgs.un.org/goals',

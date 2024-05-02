@@ -27,7 +27,7 @@ const AppsHub = () => {
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => (
         <HoliHeading level="1" size="s">
-          Apps Hub
+          {t('apps.drawer.appsHub')}
         </HoliHeading>
       ),
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowLeft} />),
@@ -37,7 +37,7 @@ const AppsHub = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, colors.background20])
+  }, [t, setScreenOptions, colors.background20])
 
   return (
     <DefaultLayout style={styles.container} backgroundColor={colors.background20} headerOverlap>

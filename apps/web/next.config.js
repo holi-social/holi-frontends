@@ -2,7 +2,6 @@
 const withHtml = require('@blunck/next-html')()
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
-const { locales } = require('../../core/i18n/locales.cjs')
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -25,9 +24,8 @@ const nextConfig = {
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
   i18n: {
-    // Adding a "default" locale as Next.js does not distinguish between explicitly specifying the default locale and not specifying a locale at all (i.e. /default/spaces === /spaces) and would either not allow explicitly overriding the locale with the default ("en") or result in an endless redirect loop
-    locales: ['default'].concat(locales),
-    defaultLocale: 'default',
+    locales: ['en', 'de'],
+    defaultLocale: 'en',
     localeDetection: false,
   },
   compiler: {

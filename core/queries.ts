@@ -90,7 +90,7 @@ export const insightsByUserIdQuery = gql`
 `
 
 export const insightsByUserIdTotalResultsQuery = gql`
-  query InsightsByUserIdQuery($userId: UUID!) {
+  query InsightsByUserIdQueryTotalResults($userId: UUID!) {
     insightsByUserId(id: $userId) {
       totalResults
     }
