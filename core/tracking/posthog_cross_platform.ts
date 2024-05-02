@@ -22,11 +22,13 @@ export class PosthogReactNative implements PosthogCrossPlatform {
   }
 
   optIn(): Promise<void> {
-    return this.posthog.optIn()
+    if (this.posthog.optedOut) return this.posthog.optIn()
+    else return Promise.resolve()
   }
 
   optOut(): Promise<void> {
-    return this.posthog.optOut()
+    if (!this.posthog.optedOut) return this.posthog.optOut()
+    else return Promise.resolve()
   }
 
   reset(): void {

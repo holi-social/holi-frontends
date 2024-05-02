@@ -4,6 +4,7 @@ import { ensureChatLoggedOut } from '@holi/chat/src/client/chatSession'
 import { removeSessionFromStorage, setSessionInStorage } from '@holi/core/auth/helpers/auth'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { getLogger } from '@holi/core/helpers/logging'
+import * as TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 
 const logger = getLogger('Auth')
 
@@ -60,6 +61,7 @@ export const setUserLoggedIn = async (session: OrySessionContext): Promise<void>
   logger.debug('setUserLogged', 'user logged in')
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
+  TrackingInitializer.userLoginStateChanged()
   // fetch and save Okuna user
   loggedInUserIdVar(loginStateLoggedIn(session.session.identity.id))
 }
@@ -69,6 +71,7 @@ export const setUserLoggedOut = async () => {
   logger.debug('auth', 'setUserLoggedOut')
   await removeSessionFromStorage()
   await ensureChatLoggedOut()
+  TrackingInitializer.userLoginStateChanged()
   loggedInUserIdVar(loginStateLoggedOut)
 }
 
