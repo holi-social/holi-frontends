@@ -20,15 +20,23 @@ import Spacing from '@holi/ui/foundations/Spacing'
 interface CommentsProps {
   commentableId: string
   commentableType: CommentableType
+  parentCommentId?: string
   replyRoute?: string // the route to be redirected to when clicking "reply". If undefined, no reply button is displayed
   onPressCreateComment?: () => void
+  isReply?: boolean
 }
 
-const Comments = ({ commentableId, commentableType, replyRoute, onPressCreateComment }: CommentsProps) => {
+const Comments = ({
+  commentableId,
+  commentableType,
+  parentCommentId,
+  replyRoute,
+  onPressCreateComment,
+}: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const { data: { commentable } = {}, loading } = useQuery<CommentsResponse>(commentsByCommentable, {
-    variables: { commentableId, commentableType },
+    variables: { commentableId, commentableType, parentCommentId },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
       logError(error, 'Failed to load comments', {
@@ -56,12 +64,16 @@ const Comments = ({ commentableId, commentableType, replyRoute, onPressCreateCom
 
   return (
     <>
-      <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
-        <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
-      </View>
-      <View style={styles.commentersLine}>
-        <VerticalLine />
-      </View>
+      {!parentCommentId && (
+        <>
+          <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
+            <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
+          </View>
+          <View style={styles.commentersLine}>
+            <VerticalLine style={parentCommentId ? styles.commentersLineReplies : {}} />
+          </View>
+        </>
+      )}
       <View style={styles.commentsContainer}>
         {comments.map((comment) => (
           <CommentView
@@ -71,6 +83,7 @@ const Comments = ({ commentableId, commentableType, replyRoute, onPressCreateCom
             commentableType={commentableType}
             reportContentType={ContentType.POST_COMMENT}
             {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
+            avatarSize={!!parentCommentId ? 'micro' : 'small'}
           />
         ))}
       </View>
@@ -96,6 +109,10 @@ const styles = StyleSheet.create({
   },
   commentersLine: {
     marginLeft: Spacing.sm,
+    marginVertical: Spacing['3xs'],
+  },
+  commentersLineReplies: {
+    marginLeft: Spacing['3xs'],
     marginVertical: Spacing['3xs'],
   },
   commentsContainer: {

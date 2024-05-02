@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -12,6 +12,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -20,7 +21,7 @@ import { Globe, ShareBox } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -36,6 +37,8 @@ import { AppDonationsProjectByIdResponse, donationProjectByIdQuery } from '@holi
 export type DonationsAppProjectDetailParams = {
   projectId: string
 }
+
+const UTM_PARAMS = '?utm_source=holi&utm_medium=detailpage&utm_campaign=holi'
 
 const { useParam } = createParamHooks<DonationsAppProjectDetailParams>()
 
@@ -129,13 +132,19 @@ const DonationsAppProjectDetail = () => {
         </View>
       </ScrollHeaderLayout.Refreshable>
 
-      <View style={[mixins.container, styles.donateButton]}>
-        <HoliButtonLoading
-          icon={ShareBox}
+      <View style={[mixins.container, styles.donateButtonContainer]}>
+        <HoliLink
           label={t('donations:projectDetail.donate')}
-          onPress={() => Linking.openURL(project.donationUrl)}
+          href={`${project.donationUrl}${UTM_PARAMS}`}
           testID="donations-project-detail-donate-btn"
-        />
+        >
+          <HoliButton label={t('donations:projectDetail.donate')}>
+            <View style={styles.donateButtonContent}>
+              <HoliText>{t('donations:projectDetail.donate')}</HoliText>
+              <HoliIcon icon={ShareBox} size={16} />
+            </View>
+          </HoliButton>
+        </HoliLink>
       </View>
     </View>
   )
@@ -168,10 +177,10 @@ const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
         },
       }),
     },
-    donateButton: {
+    donateButtonContainer: {
       bottom: 40,
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'stretch',
       paddingHorizontal: 16,
       ...Platform.select({
         native: {
@@ -182,6 +191,7 @@ const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
         },
       }),
     },
+    donateButtonContent: { flexDirection: 'row', alignItems: 'center', gap: 4 },
     image: {
       // image with is determined by the window with, source material is 2:1
       // if we use lower pixel ratios than 2, we would zoom in into the image and cause blurriness

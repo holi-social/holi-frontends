@@ -47,9 +47,6 @@ export const CommentFragment = gql`
     totalReplies
     replies {
       id
-      creator {
-        ...UserAvatar
-      }
     }
   }
 `

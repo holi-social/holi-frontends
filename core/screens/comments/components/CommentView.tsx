@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -14,16 +14,18 @@ import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComme
 import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Comments, Delete, Flag } from '@holi/icons/src/generated'
+import { Comments as CommentsIcon, Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliAvatar, { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliMediaHeader, { getFormattedDate } from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+import Comments from './Comments'
 
 export interface CommentProps extends ViewProps {
   comment: Comment
@@ -32,6 +34,7 @@ export interface CommentProps extends ViewProps {
   commentableType: CommentableType
   created?: string
   onPressComment?: () => void
+  avatarSize?: AvatarSize
   style?: StyleProp<ViewStyle>
 }
 
@@ -41,11 +44,13 @@ const CommentView = ({
   reportContentType,
   commentableType,
   onPressComment,
+  avatarSize = 'small',
   style,
   ...props
 }: CommentProps) => {
+  const [isRepliesOpen, setIsRepliesOpen] = useState(false)
   const { user: loggedInUser } = useLoggedInUser()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -89,12 +94,23 @@ const CommentView = ({
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
 
+  /*
+    converting given timestamp to a date first (with '00:00:00' as time)
+    to show the real days instead of exact timestamp calculations
+  */
+  const formattedDate = comment.created ? getFormattedDate(new Date(comment.created).toDateString(), i18n) : undefined
+
   return (
     <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
       <View style={styles.header}>
         <View style={styles.mediaHeaderLink}>
           <HoliLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
-            <HoliMediaHeader title={name} author={creator} date={comment.created} />
+            <HoliMediaHeader
+              title={name}
+              author={creator}
+              date={avatarSize !== 'micro' ? comment.created : undefined} // don't show the date when it's a reply (show it above the text instead)
+              avatarSize={avatarSize}
+            />
           </HoliLink>
         </View>
 
@@ -149,9 +165,14 @@ const CommentView = ({
       </View>
 
       <View style={styles.body}>
-        <VerticalLine style={styles.commentConnector} />
+        <VerticalLine style={avatarSize === 'micro' ? styles.commentConnectorMicro : styles.commentConnector} />
         <View style={styles.commentContent}>
           <View style={styles.text}>
+            {avatarSize === 'micro' && (
+              <HoliText size="small" color="gray300" style={{ marginBottom: 12 }}>
+                {formattedDate}
+              </HoliText>
+            )}
             <CommentText comment={comment} />
           </View>
 
@@ -189,17 +210,23 @@ const CommentView = ({
               testID="btn-react-to-comment-HEART"
             />
           </View>
-          {comment.totalReplies > 0 && (
+          {comment.totalReplies > 0 && !isRepliesOpen && (
             <HoliButton
               transparent
               label={t('comments.response', { count: comment.totalReplies })}
               contentStyle={styles.commentsBar}
+              onPress={() => setIsRepliesOpen(true)}
             >
-              <HoliIcon icon={Comments} />
+              <HoliIcon icon={CommentsIcon} />
               <HoliText disabled size="small" color="gray300">
                 {t('comments.response', { count: comment.totalReplies })}
               </HoliText>
             </HoliButton>
+          )}
+          {comment.totalReplies > 0 && isRepliesOpen && (
+            <View style={styles.replies}>
+              <Comments commentableType={commentableType} commentableId={commentableId} parentCommentId={comment.id} />
+            </View>
           )}
         </View>
       </View>
@@ -230,6 +257,9 @@ const getStyles = (theme: HoliTheme) =>
     commentConnector: {
       marginHorizontal: Spacing.sm,
     },
+    commentConnectorMicro: {
+      marginHorizontal: Spacing.xxs,
+    },
     commentContent: {
       flex: 1,
       paddingBottom: Spacing.xs,
@@ -247,6 +277,10 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       flexDirection: 'row',
       gap: 6,
+    },
+    replies: {
+      marginTop: Spacing['3xs'],
+      marginLeft: Spacing.xs,
     },
     reactionsBarWithoutComment: {
       justifyContent: 'flex-end',

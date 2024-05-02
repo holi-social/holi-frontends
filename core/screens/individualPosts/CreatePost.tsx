@@ -13,6 +13,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { CategorySelectionModal } from '@holi/core/screens/individualPosts/CategorySelectionModal'
 import { PostCreationBar } from '@holi/core/screens/individualPosts/PostCreationBar'
 import FeedPostPill, { PostSetting } from '@holi/core/screens/individualPosts/components/FeedPostPill'
+import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
 import {
   CreateFeedPostResponse,
   CreateFeedPostSchema,
@@ -23,6 +24,7 @@ import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -55,6 +57,7 @@ const CreatePost = () => {
 
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
+  const [image, setImage] = useState<HoliImageInfo | null>(null)
 
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
@@ -88,6 +91,7 @@ const CreatePost = () => {
           description,
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
+          image: image?.blob,
         },
       },
       onError: () => openToast(t('individuals.post.create.error'), HoliToastType.ERROR),
@@ -189,15 +193,28 @@ const CreatePost = () => {
               maxSuggestionOptions={30}
             />
             {/* <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} /> */}
+            <ImageEditor onSave={setImage} image={image} />
           </View>
         </View>
 
         {Platform.OS === 'ios' ? (
           <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
-            <PostCreationBar onCreatePost={createPost} submitting={submitting} isSubmittable={isSubmittable} />
+            <PostCreationBar
+              onCreatePost={createPost}
+              onSetImage={setImage}
+              hasSetImage={!!image}
+              submitting={submitting}
+              isSubmittable={isSubmittable}
+            />
           </InputAccessoryView>
         ) : (
-          <PostCreationBar onCreatePost={createPost} submitting={submitting} isSubmittable={isSubmittable} />
+          <PostCreationBar
+            onCreatePost={createPost}
+            onSetImage={setImage}
+            hasSetImage={!!image}
+            submitting={submitting}
+            isSubmittable={isSubmittable}
+          />
         )}
         {!categoriesLoading && categories && (
           <CategorySelectionModal
