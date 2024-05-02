@@ -183,7 +183,7 @@ const CommentView = ({
                 inline
                 label={t('comments.create_comment_button')}
                 contentStyle={styles.addComment}
-                onPress={() => (!!loggedInUser ? onPressComment() : openLoginModal())}
+                onPress={() => (loggedInUser ? onPressComment() : openLoginModal())}
               >
                 {!!loggedInUser && (
                   <HoliAvatar

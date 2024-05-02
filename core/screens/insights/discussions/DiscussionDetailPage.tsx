@@ -4,7 +4,6 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
-import FormWrapper from '@holi/core/components/FormWrapper'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'

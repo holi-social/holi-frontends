@@ -83,7 +83,7 @@ const Comments = ({
             commentableType={commentableType}
             reportContentType={ContentType.POST_COMMENT}
             {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
-            avatarSize={!!parentCommentId ? 'micro' : 'small'}
+            avatarSize={parentCommentId ? 'micro' : 'small'}
           />
         ))}
       </View>
