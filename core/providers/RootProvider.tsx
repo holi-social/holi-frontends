@@ -34,22 +34,21 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
     >
       <ErrorBoundary>
         <ApolloProvider client={client}>
-          <TrackingInitializer>
-            <ToastProvider>
-              <PortalProvider>
-                <SessionExpiryProtection>
-                  <FeatureTogglesFetcher />
-                  {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
-                  {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
-                  <LoginModalProvider>
-                    <ChatSessionInitializer>
-                      <ChatProvider>{children}</ChatProvider>
-                    </ChatSessionInitializer>
-                  </LoginModalProvider>
-                </SessionExpiryProtection>
-              </PortalProvider>
-            </ToastProvider>
-          </TrackingInitializer>
+          <TrackingInitializer />
+          <ToastProvider>
+            <PortalProvider>
+              <SessionExpiryProtection>
+                <FeatureTogglesFetcher />
+                {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
+                {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
+                <LoginModalProvider>
+                  <ChatSessionInitializer>
+                    <ChatProvider>{children}</ChatProvider>
+                  </ChatSessionInitializer>
+                </LoginModalProvider>
+              </SessionExpiryProtection>
+            </PortalProvider>
+          </ToastProvider>
         </ApolloProvider>
       </ErrorBoundary>
     </Suspense>

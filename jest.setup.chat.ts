@@ -1,6 +1,6 @@
 // skip logging matrix client internal stuff
 // remove the next line while you are working on tests
-console.debug = jest.fn()
+// console.debug = jest.fn()
 
 export const CHAT_SERVER_NAME = 'test.chat'
 export const CHAT_SERVER_URL = 'http://test.chat'

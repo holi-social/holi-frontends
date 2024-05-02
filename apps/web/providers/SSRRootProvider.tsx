@@ -28,17 +28,16 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
     <ThemeProvider theme={defaultHoliTheme}>
       <ErrorBoundary>
         <ApolloProvider client={apolloWebClient}>
-          <TrackingInitializer>
-            <PortalProvider>
-              <ToastProvider>
-                <LoginModalProvider>
-                  <ChatSessionInitializer>
-                    <ChatProvider>{children}</ChatProvider>
-                  </ChatSessionInitializer>
-                </LoginModalProvider>
-              </ToastProvider>
-            </PortalProvider>
-          </TrackingInitializer>
+          <TrackingInitializer />
+          <PortalProvider>
+            <ToastProvider>
+              <LoginModalProvider>
+                <ChatSessionInitializer>
+                  <ChatProvider>{children}</ChatProvider>
+                </ChatSessionInitializer>
+              </LoginModalProvider>
+            </ToastProvider>
+          </PortalProvider>
         </ApolloProvider>
       </ErrorBoundary>
     </ThemeProvider>

@@ -1,5 +1,5 @@
 import { ApolloClient, makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
-import React, { PropsWithChildren, memo, useEffect, useMemo } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -58,11 +58,11 @@ class Tracking {
   private initWithLoggedOutUser = async (consentState: ConsentState): Promise<void> => {
     switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
-        logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
+        logger.debug('TrackingInitializer.userLoggedOut', 'analytics consent given, opting in on posthog client')
         return await this.optIn()
       case Consent.Unknown:
       case Consent.Denied:
-        logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent NOT given, opting out on posthog client')
+        logger.debug('TrackingInitializer.userLoggedOut', 'analytics consent NOT given, opting out on posthog client')
         return await this.optOut()
     }
   }
@@ -108,27 +108,42 @@ class Tracking {
   }
 }
 
-const consentStateVar = makeVar<{ initializing: boolean; updatedByUser: boolean; state: ConsentState }>({
+// internal use only! only exported for reset in testing
+export const consentStateVarInitial = {
   initializing: true, // true when the application initializes for "the first time" (but e.g. also on browser reload)
   updatedByUser: false, // true for every subsequent update to consentStateVar (typically when user updates consent)
   state: ConsentState.unknown,
-})
+}
+
+// internal use only! only exported for reset in testing
+export const consentStateVar = makeVar<{ initializing: boolean; updatedByUser: boolean; state: ConsentState }>(
+  consentStateVarInitial
+)
 
 export const updateConsentState = (consentState: ConsentState) => {
   consentStateVar({ initializing: false, updatedByUser: true, state: consentState })
 }
 
-const TrackingInitializer = ({ children }: PropsWithChildren) => {
-  // don't initialize for SSR
-  const isClient: boolean = typeof navigator !== 'undefined'
-  return trackingEnabled() && isClient ? (
-    <TrackingInitializerInner>{children}</TrackingInitializerInner>
-  ) : (
-    <>{children}</>
-  )
+export type TrackingInitializerProps = {
+  enableTracking?: boolean
+  onInitCompleted?: (...args: unknown[]) => void
+  onUpdateCompleted?: (...args: unknown[]) => void
 }
 
-const TrackingInitializerInner = ({ children }: PropsWithChildren) => {
+const TrackingInitializer = ({ enableTracking, onInitCompleted, onUpdateCompleted }: TrackingInitializerProps) => {
+  // don't initialize for SSR
+  const init = enableTracking || (typeof navigator !== 'undefined' && trackingEnabled())
+  return init ? (
+    <TrackingInitializerInner onInitCompleted={onInitCompleted} onUpdateCompleted={onUpdateCompleted} />
+  ) : null
+}
+
+type TrackingInitializerInnerProps = {
+  onInitCompleted?: (...args: unknown[]) => void
+  onUpdateCompleted?: (...args: unknown[]) => void
+}
+
+const TrackingInitializerInner = ({ onInitCompleted, onUpdateCompleted }: TrackingInitializerInnerProps) => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const apollo: ApolloClient<object> = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
@@ -142,19 +157,21 @@ const TrackingInitializerInner = ({ children }: PropsWithChildren) => {
       if (consentState.initializing) {
         tracking.init(loggedInState).then(() => {
           consentStateVar({ initializing: false, updatedByUser: false, state: consentState.state })
+          if (onInitCompleted) onInitCompleted()
         })
       } else if (consentState.updatedByUser) {
         logger.debug('TrackingInitializer', 'user updated consent', consentState)
         tracking.storeConsent(loggedInState, consentState.state).then(() => {
           tracking.init(loggedInState, consentState.state).then(() => {
             consentStateVar({ initializing: false, updatedByUser: false, state: consentState.state })
+            if (onUpdateCompleted) onUpdateCompleted()
           })
         })
       }
     }
-  }, [loggedInState, tracking, consentState])
+  }, [loggedInState, tracking, consentState, onInitCompleted, onUpdateCompleted])
 
-  return <>{children}</>
+  return null
 }
 
 export default memo(TrackingInitializer)
