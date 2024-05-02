@@ -26,7 +26,7 @@ const MyPostsList = () => {
       ) : totalResults === 0 ? (
         <EmptyPosts />
       ) : (
-        myPosts.map((p) => <PostCard key={p.id} post={p} />)
+        myPosts.map((p) => <PostCard key={p.id} post={p} showVisibilityBadge />)
       )}
     </HoliContainer>
   )

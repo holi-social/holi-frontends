@@ -15,27 +15,33 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type PostCardProps = {
   post: FeedPost
+  showVisibilityBadge?: boolean
 }
 
-const PostCard = ({ post: { title, description, visibility, creator, category, createdAt } }: PostCardProps) => {
+const PostCard = ({
+  post: { title, description, visibility, creator, category, createdAt },
+  showVisibilityBadge,
+}: PostCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={styles.container}>
-      <View style={styles.badgeContainer}>
-        <HoliIcon
-          icon={visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
-          color={colors.foreground30}
-          size={14}
-        />
-        <HoliText>
-          {visibility === VisibilityLevel.PUBLIC
-            ? t('individuals.post.card.badge.public')
-            : t('individuals.post.card.badge.registered_users_only')}
-        </HoliText>
-      </View>
+      {showVisibilityBadge && (
+        <View style={styles.badgeContainer}>
+          <HoliIcon
+            icon={visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
+            color={colors.foreground30}
+            size={14}
+          />
+          <HoliText>
+            {visibility === VisibilityLevel.PUBLIC
+              ? t('individuals.post.card.badge.public')
+              : t('individuals.post.card.badge.registered_users_only')}
+          </HoliText>
+        </View>
+      )}
       <HoliMediaHeader
         title={creator.fullName || t('user.profileView.anonymous')}
         author={creator}
