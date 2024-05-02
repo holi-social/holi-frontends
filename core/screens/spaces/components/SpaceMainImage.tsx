@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useFallbackImage } from '@holi/core/helpers'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -16,7 +16,7 @@ type SpaceMainImageProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const IMAGE_ASPECT_RATIO = 327 / 210
+const IMAGE_ASPECT_RATIO = 3 / 2
 
 const SpaceMainImage: React.FC<SpaceMainImageProps> = ({ uri, label, blurhash, editable, onPress, style }) => {
   const { t } = useTranslation()
@@ -59,7 +59,6 @@ const getStyles = (theme: HoliTheme) =>
     imageContainer: {
       width: '100%',
       aspectRatio: IMAGE_ASPECT_RATIO,
-      height: Platform.OS === 'web' ? '100%' : 'auto',
       padding: 8,
       borderWidth: 1,
       borderRadius: 16,
@@ -68,7 +67,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     wrapper: {
       width: '100%',
-      height: '100%',
+      maxHeight: '100%',
       justifyContent: 'center',
       alignItems: 'center',
     },
