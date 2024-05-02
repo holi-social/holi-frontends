@@ -34,6 +34,6 @@ export const jitsiUrl = (() => {
   return process.env.NEXT_PUBLIC_JITSI_URL || baseUrl
 })()
 
-export const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+export const posthogKey = typeof window !== 'undefined' ? window.POSTHOG_KEY : process.env.POSTHOG_KEY
 
-export const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
+export const posthogHost = typeof window !== 'undefined' ? window.POSTHOG_HOST : process.env.POSTHOG_HOST
