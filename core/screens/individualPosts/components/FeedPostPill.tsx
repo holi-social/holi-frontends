@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Pencil } from '@holi/icons/src/generated'
@@ -8,27 +8,28 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type Variant = 'visibility' | 'topic' | 'category'
+export type PostSetting = 'visibility' | 'topic' | 'category'
 
-type VariantInfo = {
-  text: string
+type SettingPresentation = {
+  label: string
 }
 
-const variants: Record<Variant, VariantInfo> = {
+const placeholderSettingPresentationByPostSetting: Record<PostSetting, SettingPresentation> = {
   visibility: {
-    text: 'individuals.post.category.label.visibility.public',
+    label: 'individuals.post.category.label.visibility',
   },
   category: {
-    text: 'individuals.post.category.label.category',
+    label: 'individuals.post.category.label.category',
   },
   topic: {
-    text: 'individuals.post.category.label.topic',
+    label: 'individuals.post.category.label.topic',
   },
 }
+
 interface BaseProps {
   label?: string | null
-  variant: Variant
-  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
+  setting: PostSetting
+  onPress?: (setting: PostSetting) => void
   style?: StyleProp<ViewStyle>
   testID?: string
 }
@@ -41,22 +42,26 @@ interface Props extends BaseProps {
   loading?: false
 }
 
-type CreatePostPillProps = SkeletonProps | Props
+type FeedPostPillProps = SkeletonProps | Props
 
 const BORDER_RADIUS = 48
 
-const CreatePostPill: React.FC<CreatePostPillProps> = ({
+const FeedPostPill: React.FC<FeedPostPillProps> = ({
   loading,
   label,
-  variant,
+  setting,
   onPress,
   style,
-  testID = 'spaces-filter-pill',
+  testID = `create-posts-${setting}-pill`,
 }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { t } = useTranslation()
   const icon = label ? Pencil : Add
+
+  const handlePress = useCallback(() => {
+    onPress && setting && onPress(setting)
+  }, [setting, onPress])
 
   if (loading) {
     const paddingVertical = styles.buttonContent.paddingVertical
@@ -73,16 +78,16 @@ const CreatePostPill: React.FC<CreatePostPillProps> = ({
 
   return (
     <HoliButton
-      label={label || t(variants[variant].text)}
+      label={label || t(placeholderSettingPresentationByPostSetting[setting].label)}
       style={style}
-      contentStyle={[styles.buttonContent, styles[variant]]}
+      contentStyle={[styles.buttonContent, styles[setting]]}
       transparent
       inline
-      onPress={onPress}
+      onPress={handlePress}
       testID={testID}
     >
       <HoliText bold numberOfLines={1}>
-        {label || t(variants[variant].text)}
+        {label || t(placeholderSettingPresentationByPostSetting[setting].label)}
       </HoliText>
       <HoliIcon icon={icon} size={16} color={theme.colors.foreground30} />
     </HoliButton>
@@ -121,4 +126,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default CreatePostPill
+export default FeedPostPill
