@@ -150,8 +150,6 @@ const mockEnv = (loggedInState: LoggedInState, consentState?: ConsentState): voi
   }
 }
 
-// TODO consider using jest.useFakeTimers() / jest.runOnlyPendingTimers() / jest.runAllTimers()
-
 const updateAuthenticatedUserRequest = (
   user: AuthenticatedUser
 ): [
@@ -183,8 +181,17 @@ describe('TrackingInitializer', () => {
   })
 
   describe('while user login state is still loading', () => {
-    it.skip('does not initialize tracking on PostHog', () => {
-      // TODO HOLI-7894
+    it('does not initialize tracking on PostHog', async () => {
+      mockEnv(loggedInStateLoading, ConsentState.unknown)
+
+      render(
+        <MockedProvider mocks={[]}>
+          <TrackingInitializer enableTracking={true} />
+        </MockedProvider>
+      )
+
+      expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
+      expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
     })
   })
   describe('for a logged-out user', () => {
@@ -476,8 +483,40 @@ describe('TrackingInitializer', () => {
         })
       })
       describe('with given analytics consent in user profile', () => {
-        it.skip('stays opted-in to posthog', () => {
-          // TODO HOLI-7894
+        it('stays opted-in to posthog', async () => {
+          mockEnv(loggedInStateLoggedOut, {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Unknown,
+          })
+
+          const onInitCompleted = jest.fn()
+          const onLoginStateChangeCompleted = jest.fn()
+          const component = (
+            <MockedProvider mocks={[]}>
+              <TrackingInitializer
+                enableTracking={true}
+                onInitCompleted={onInitCompleted}
+                onLoginStateChangeCompleted={onLoginStateChangeCompleted}
+              />
+            </MockedProvider>
+          )
+          const { rerender } = render(component)
+          await waitFor(() => expect(onInitCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
+          expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+
+          useLoggedInUserMock.mockClear()
+          useLoggedInUserMock.mockReturnValue(loggedInStateLoggedIn(true))
+          await act(() => {
+            // this is normally called by useAuth.setUserLoggedIn / useAuth.setUserLoggedOut
+            userLoginStateChanged()
+          })
+          rerender(component)
+          await waitFor(() => expect(onLoginStateChangeCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
+          expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
         })
       })
     })
@@ -534,8 +573,40 @@ describe('TrackingInitializer', () => {
     })
     describe('when user logs in', () => {
       describe('with unknown analytics consent in user profile', () => {
-        it.skip('does not opt-in to posthog', () => {
-          // TODO HOLI-7894
+        it('does not opt-in to posthog', async () => {
+          mockEnv(loggedInStateLoggedOut, {
+            [TrackingPurpose.Analytics]: Consent.Denied,
+            [TrackingPurpose.Personalization]: Consent.Unknown,
+          })
+
+          const onInitCompleted = jest.fn()
+          const onLoginStateChangeCompleted = jest.fn()
+          const component = (
+            <MockedProvider mocks={[]}>
+              <TrackingInitializer
+                enableTracking={true}
+                onInitCompleted={onInitCompleted}
+                onLoginStateChangeCompleted={onLoginStateChangeCompleted}
+              />
+            </MockedProvider>
+          )
+          const { rerender } = render(component)
+          await waitFor(() => expect(onInitCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
+          expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+
+          useLoggedInUserMock.mockClear()
+          useLoggedInUserMock.mockReturnValue(loggedInStateLoggedIn())
+          await act(() => {
+            // this is normally called by useAuth.setUserLoggedIn / useAuth.setUserLoggedOut
+            userLoginStateChanged()
+          })
+          rerender(component)
+          await waitFor(() => expect(onLoginStateChangeCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
+          expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
         })
       })
       describe('with given analytics consent in user profile', () => {
@@ -576,8 +647,40 @@ describe('TrackingInitializer', () => {
         })
       })
       describe('with denied analytics consent in user profile', () => {
-        it.skip('does not opt-in to posthog', () => {
-          // TODO HOLI-7894
+        it('does not opt-in to posthog', async () => {
+          mockEnv(loggedInStateLoggedOut, {
+            [TrackingPurpose.Analytics]: Consent.Denied,
+            [TrackingPurpose.Personalization]: Consent.Unknown,
+          })
+
+          const onInitCompleted = jest.fn()
+          const onLoginStateChangeCompleted = jest.fn()
+          const component = (
+            <MockedProvider mocks={[]}>
+              <TrackingInitializer
+                enableTracking={true}
+                onInitCompleted={onInitCompleted}
+                onLoginStateChangeCompleted={onLoginStateChangeCompleted}
+              />
+            </MockedProvider>
+          )
+          const { rerender } = render(component)
+          await waitFor(() => expect(onInitCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
+          expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+
+          useLoggedInUserMock.mockClear()
+          useLoggedInUserMock.mockReturnValue(loggedInStateLoggedIn())
+          await act(() => {
+            // this is normally called by useAuth.setUserLoggedIn / useAuth.setUserLoggedOut
+            userLoginStateChanged()
+          })
+          rerender(component)
+          await waitFor(() => expect(onLoginStateChangeCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
+          expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
         })
       })
     })
