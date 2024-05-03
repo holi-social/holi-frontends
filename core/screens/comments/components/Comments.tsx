@@ -24,6 +24,7 @@ interface CommentsProps {
   replyRoute?: string // the route to be redirected to when clicking "reply". If undefined, no reply button is displayed
   onPressCreateComment?: () => void
   isReply?: boolean
+  initialOpenThread?: string
 }
 
 const Comments = ({
@@ -32,6 +33,7 @@ const Comments = ({
   parentCommentId,
   replyRoute,
   onPressCreateComment,
+  initialOpenThread,
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -84,6 +86,7 @@ const Comments = ({
             reportContentType={ContentType.POST_COMMENT}
             {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
             avatarSize={parentCommentId ? 'micro' : 'small'}
+            startWithOpenThread={initialOpenThread == comment.id}
           />
         ))}
       </View>
