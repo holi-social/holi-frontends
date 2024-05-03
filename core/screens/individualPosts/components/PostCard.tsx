@@ -6,6 +6,7 @@ import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/ty
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
@@ -19,7 +20,7 @@ type PostCardProps = {
 }
 
 const PostCard = ({
-  post: { title, description, visibility, creator, category, createdAt },
+  post: { title, description, visibility, creator, category, createdAt, image, imageBlurhash },
   showVisibilityBadge,
 }: PostCardProps) => {
   const { t } = useTranslation()
@@ -62,6 +63,19 @@ const PostCard = ({
         </HoliHeading>
         <HoliReadMore numberOfLines={3}>{description}</HoliReadMore>
       </View>
+      {!!image && (
+        <View style={styles.imageContainer}>
+          <HoliImage
+            label={title}
+            source={{
+              uri: image,
+            }}
+            blurhash={imageBlurhash}
+            resizeMode="cover"
+            style={styles.image}
+          />
+        </View>
+      )}
     </View>
   )
 }
@@ -95,7 +109,16 @@ const getStyles = (theme: HoliTheme) =>
     badgeContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 5,
+      gap: Spacing['3xs'],
+    },
+    imageContainer: {
+      borderRadius: Spacing.xxs,
+      width: '100%',
+      aspectRatio: 16 / 9,
+      overflow: 'hidden',
+    },
+    image: {
+      height: '100%',
     },
   })
 
