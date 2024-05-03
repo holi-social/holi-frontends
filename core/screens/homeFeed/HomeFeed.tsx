@@ -134,7 +134,6 @@ const HomeFeed = () => {
 
       {/* Floating CreatePostButton need to be outside of the Layout */}
       {ftEnabledPosts && <CreatePostButton />}
-      <CreatePostButton />
     </>
   )
 }
