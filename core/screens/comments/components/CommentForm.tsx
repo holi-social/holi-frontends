@@ -137,7 +137,7 @@ const CommentForm = ({
 
                 {/* Comment input block */}
                 <View style={mixins.container}>
-                  <VerticalLine style={styles.verticalLine} />
+                  {!parentCommentId && <VerticalLine style={styles.verticalLine} />}
 
                   <View style={styles.inputContainer}>
                     <HoliAvatar
@@ -146,7 +146,7 @@ const CommentForm = ({
                       label={user.fullName || t('user.profileView.anonymous')}
                       initials={user.avatarLabel || ''}
                       defaultColor={user.avatarDefaultColor || ''}
-                      size="small"
+                      size={parentCommentId ? 'micro' : 'small'}
                     />
                     <HoliRichTextInput
                       placeholder={t('comments.placeholder')}
