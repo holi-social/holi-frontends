@@ -16,7 +16,7 @@ type FilterTypeInfo = {
 
 const filterTypes: Record<FilterType, FilterTypeInfo> = {
   visibility: {
-    text: 'individuals.post.category.label.visibility.public',
+    text: 'individuals.post.category.label.visibility',
   },
   category: {
     text: 'individuals.post.category.label.category',

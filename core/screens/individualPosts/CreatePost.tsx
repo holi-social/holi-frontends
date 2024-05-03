@@ -65,7 +65,7 @@ const CreatePost = () => {
 
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
-      openToast(t('comments.success'), HoliToastType.SUCCESS)
+      openToast(t('individuals.post.create.success'), HoliToastType.SUCCESS)
       navigate('/')
     },
     onError: (error) => {
