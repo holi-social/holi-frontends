@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -40,12 +41,13 @@ const DiscussionDetailPage = () => {
   const { replaceRoute, navigate } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
+  const insets = useSafeAreaInsets()
 
   const [discussionId] = useParam('discussionId')
   const [insightId] = useParam('insightId')
   const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
 
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
 
   const {
     data: { discussionById: discussion } = {},
@@ -135,7 +137,7 @@ const DiscussionDetailPage = () => {
 
 const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRadius={0} />
 
-const getStyles = ({ colors }: HoliTheme) =>
+const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
   StyleSheet.create({
     wrapper: {
       height: '100%',
@@ -148,10 +150,10 @@ const getStyles = ({ colors }: HoliTheme) =>
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
         ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xl - 2,
+          paddingTop: dimensions.topBarHeight + insets.top - Spacing['3xs'],
         },
         android: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxl,
+          paddingTop: dimensions.topBarHeight + Spacing.xl,
         },
       }),
     },

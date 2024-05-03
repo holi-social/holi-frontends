@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -93,7 +93,9 @@ const DiscussionCommentPage = () => {
         }`}
         parentComment={comment}
       >
-        <DiscussionHeader question={discussion.question} />
+        <View style={styles.discussion}>
+          <DiscussionHeader question={discussion.question} />
+        </View>
 
         {loadingComment && (
           <View style={[styles.parentComment, styles.skeletonContainer]}>
@@ -120,6 +122,13 @@ const DiscussionCommentPage = () => {
 export default DiscussionCommentPage
 
 const styles = StyleSheet.create({
+  discussion: {
+    ...Platform.select({
+      ios: {
+        paddingTop: Spacing.xxs,
+      },
+    }),
+  },
   parentComment: {
     marginVertical: Spacing.xs,
     marginRight: Spacing.xs,
