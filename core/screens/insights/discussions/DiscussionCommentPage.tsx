@@ -15,6 +15,7 @@ import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -53,7 +54,7 @@ const DiscussionCommentPage = () => {
     },
   })
 
-  const { data: { commentById: comment } = {} } = useQuery<CommentResponse>(commentById, {
+  const { data: { commentById: comment } = {}, loading: loadingComment } = useQuery<CommentResponse>(commentById, {
     variables: { commentId },
     notifyOnNetworkStatusChange: true,
     skip: !commentId,
@@ -80,6 +81,10 @@ const DiscussionCommentPage = () => {
     [setScreenOptions, t, colors.background10]
   )
 
+  if (loadingComment) {
+    return
+  }
+
   return (
     discussion &&
     user && (
@@ -91,6 +96,13 @@ const DiscussionCommentPage = () => {
         parentCommentId={commentId}
       >
         <DiscussionHeader question={discussion.question} />
+
+        {loadingComment && (
+          <View style={[styles.parentComment, styles.skeletonContainer]}>
+            <HoliSkeleton height={Spacing.xl} width={Spacing.xl} borderRadius={24} />
+            <HoliSkeleton height={Spacing['4xl']} width={'80%'} borderRadius={16} />
+          </View>
+        )}
 
         {!!comment && (
           <View style={styles.parentComment}>
@@ -114,5 +126,9 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.xs,
     marginRight: Spacing.xs,
     marginLeft: Spacing['3xs'],
+  },
+  skeletonContainer: {
+    flexDirection: 'row',
+    gap: Spacing.xxs,
   },
 })
