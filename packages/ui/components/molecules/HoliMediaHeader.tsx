@@ -6,7 +6,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliAvatar, { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
@@ -19,6 +19,7 @@ interface SkeletonProps extends BaseProps {
   title?: string
   date?: string
   boldTitle?: boolean
+  avatarSize?: AvatarSize
 }
 interface HoliMediaHeaderProps extends BaseProps {
   loading?: false
@@ -26,6 +27,7 @@ interface HoliMediaHeaderProps extends BaseProps {
   author: User
   boldTitle?: boolean
   date?: string
+  avatarSize?: AvatarSize
 }
 type Props = SkeletonProps | HoliMediaHeaderProps
 
@@ -35,7 +37,7 @@ export const getFormattedDate = (date: string | undefined, i18n: i18n) => {
   return dateString.charAt(0).toUpperCase() + dateString.slice(1)
 }
 
-const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testID }: Props) => {
+const HoliMediaHeader = ({ loading, title, author, boldTitle, date, avatarSize, style, testID }: Props) => {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -57,7 +59,7 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testI
           label={authorName}
           initials={author?.avatarLabel || ''}
           defaultColor={author?.avatarDefaultColor || ''}
-          size="small"
+          size={avatarSize || 'small'}
           loading
         />
 
@@ -79,7 +81,7 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, style, testI
         label={authorName}
         initials={author?.avatarLabel ?? ''}
         defaultColor={author?.avatarDefaultColor ?? ''}
-        size="small"
+        size={avatarSize || 'small'}
       />
 
       <View style={[styles.titleContainer]}>
