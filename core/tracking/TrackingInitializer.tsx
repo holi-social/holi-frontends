@@ -24,10 +24,10 @@ class Tracking {
     const state = consentState ?? (await this.loadConsent(loggedInState))
     if (loggedInState.isLoggedIn) {
       logger.debug('TrackingInitializer', 'initializing for logged-in user', state)
-      return this.initWithLoggedInUser(loggedInState.user, state)
+      await this.initWithLoggedInUser(loggedInState.user, state)
     } else if (loggedInState.isLoggedOut) {
       logger.debug('TrackingInitializer', 'initializing for logged-out user', state)
-      return this.initWithLoggedOutUser(state)
+      await this.initWithLoggedOutUser(state)
     }
   }
 
@@ -37,11 +37,13 @@ class Tracking {
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
         await this.posthog.optIn()
         logger.debug('TrackingInitializer.userLoggedIn', 'identifying user on posthog client')
-        return this.posthog.identify(user.id)
+        this.posthog.identify(user.id)
+        break
       case Consent.Unknown:
       case Consent.Denied:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent NOT given, opting out on posthog client')
-        return await this.posthog.optOut()
+        await this.posthog.optOut()
+        break
     }
   }
 
@@ -49,11 +51,13 @@ class Tracking {
     switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedOut', 'analytics consent given, opting in on posthog client')
-        return await this.posthog.optIn()
+        await this.posthog.optIn()
+        break
       case Consent.Unknown:
       case Consent.Denied:
         logger.debug('TrackingInitializer.userLoggedOut', 'analytics consent NOT given, opting out on posthog client')
-        return await this.posthog.optOut()
+        await this.posthog.optOut()
+        break
     }
   }
 
@@ -68,8 +72,8 @@ class Tracking {
       .catch((error) => logError(error, 'Failed to reset Posthog client', errorContext))
   }
 
-  public loadConsent(loggedInState: LoggedInState): Promise<ConsentState> {
-    return loggedInState.isLoggedIn ? Promise.resolve(ConsentState.fromUser(loggedInState.user)) : consentStore.load()
+  public async loadConsent(loggedInState: LoggedInState): Promise<ConsentState> {
+    return loggedInState.isLoggedIn ? ConsentState.fromUser(loggedInState.user) : await consentStore.load()
   }
 
   public storeConsent(loggedInState: LoggedInState, consentState: ConsentState): Promise<void> {
