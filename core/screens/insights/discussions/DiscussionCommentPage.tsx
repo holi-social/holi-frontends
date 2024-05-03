@@ -63,7 +63,7 @@ const DiscussionCommentPage = () => {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load comment', {
-        location: 'commentCommentPage.commentById',
+        location: 'DiscussionCommentPage.commentById',
         variables: { commentId },
       })
     },
