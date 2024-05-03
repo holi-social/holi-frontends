@@ -57,7 +57,6 @@ class Tracking {
     }
   }
 
-  // TODO HOLI-8132 call this after user logged out?
   public clearConsentAfterUserLoggedOut = async (): Promise<void> => {
     const errorContext = { location: 'useTracking.userLoggedOut' }
     return consentStore
@@ -190,8 +189,7 @@ const TrackingInitializerInner = ({
   const loggedInState = useLoggedInUser()
   const consentState = useReactiveVar(consentStateVar)
 
-  // TODO logout not handled (either load from localstorage or clear localstorage)
-  // TODO migrate consent state from localstorage to user profile if unknown in profile
+  // TODO HOLI-8173 migrate consent state from localstorage to user profile if unknown in profile
   useEffect(() => {
     if (loggedInState.isLoggedIn || loggedInState.isLoggedOut) {
       if (consentState.initializing) {
@@ -234,7 +232,7 @@ const TrackingInitializerInner = ({
         })
       } else if (consentState.userLoggedOut) {
         logger.debug('TrackingInitializer', 'userLoggedOut', consentState)
-        consentStore.clear().then(() => {
+        tracking.clearConsentAfterUserLoggedOut().then(() => {
           return tracking.init(loggedInState).then(() => {
             consentStateVar({
               initializing: false,

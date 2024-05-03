@@ -452,7 +452,7 @@ describe('TrackingInitializer', () => {
   })
   describe('given a logged-in user with given analytics consent', () => {
     describe('when user logs out', () => {
-      it('clears local consent storage and opts-out of posthog tracking', async () => {
+      it('clears local consent storage and resets posthog tracking', async () => {
         mockEnv(loggedInStateLoggedIn(true), {
           profile: {
             [TrackingPurpose.Analytics]: Consent.Given,
@@ -488,9 +488,10 @@ describe('TrackingInitializer', () => {
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
+        expect(mockStorageRemoveItem).toHaveBeenCalledWith('HOLI_TRACKING_CONSENT')
+        expect(posthogCrossPlatformMock.reset).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
-        expect(mockStorageRemoveItem).toHaveBeenCalledWith('HOLI_TRACKING_CONSENT')
       })
     })
   })
@@ -498,6 +499,11 @@ describe('TrackingInitializer', () => {
     describe('when user logs in', () => {
       describe('with unknown analytics consent in user profile', () => {
         it.skip('"migrates" the locally stored consent to the user profile', () => {
+          // TODO HOLI-8173 (if required as AC)
+        })
+      })
+      describe('with known analytics consent in the user profile', () => {
+        it.skip('does not "migrate" the locally stored consent to the user profile', () => {
           // TODO HOLI-8173 (if required as AC)
         })
       })
