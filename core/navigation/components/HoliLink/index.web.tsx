@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import type { SyntheticEvent } from 'react'
 import React, { useCallback } from 'react'
-import type { PropsWithChildren } from 'react'
+import type { PropsWithChildren, SyntheticEvent } from 'react'
 
 import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
 
@@ -11,6 +10,7 @@ export const HoliLink = ({
   external,
   onPress,
   children,
+  isFullHeight = false,
   testID = 'link',
 }: PropsWithChildren<HoliLinkProps>) => {
   const onLinkPress = useCallback(
@@ -33,6 +33,7 @@ export const HoliLink = ({
       target={external ? '_blank' : undefined}
       onClick={onLinkPress}
       data-testid={testID}
+      style={{ flex: isFullHeight ? 1 : 'auto' }}
     >
       {children}
     </Link>
