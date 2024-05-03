@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
-import React, { useEffect } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -38,12 +38,12 @@ if (trackingEnabled()) {
   }
 }
 
-export const TrackingProvider = ({ children }: { children?: React.ReactNode }) => {
+export const TrackingProvider = ({ children }: PropsWithChildren) => {
   logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled())
   return trackingEnabled() ? <PostHogProviderWrapper>{children}</PostHogProviderWrapper> : <>{children}</>
 }
 
-const PostHogProviderWrapper = ({ children }: { children?: React.ReactNode }) => {
+const PostHogProviderWrapper = ({ children }: PropsWithChildren) => {
   const router = useRouter()
 
   useEffect(() => {

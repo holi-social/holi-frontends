@@ -1,5 +1,5 @@
 import { PostHog, PostHogProvider } from 'posthog-react-native'
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -14,7 +14,7 @@ const posthog = trackingEnabled()
     })
   : undefined
 
-export const TrackingProvider = ({ children }: { children?: React.ReactNode }) => {
+export const TrackingProvider = ({ children }: PropsWithChildren) => {
   logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled())
   return posthog ? (
     <PostHogProvider client={posthog} autocapture={{ captureTouches: true }}>
