@@ -1,9 +1,11 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -19,6 +21,7 @@ const Recommendations = () => {
     <HoliBox padding={[32, 0, 0, 0]}>
       <HoliContainer gap={24}>
         <HoliHeading size="l">{t('recommendations.title')}</HoliHeading>
+        <SpaceRecommendations />
         <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_DONATIONS}
           featureNameKey="donations:maintenance.feature"
@@ -45,7 +48,7 @@ const Recommendations = () => {
   )
 }
 
-export default Recommendations
+export default withProfiler(Recommendations, { name: 'Recommendations' })
 
 const styles = StyleSheet.create({
   updatesContainer: {

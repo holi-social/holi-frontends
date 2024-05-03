@@ -517,6 +517,8 @@ export type FeedPost = {
   id: Scalars['UUID']['output']
   image: Maybe<Scalars['String']['output']>
   imageBlurhash: Maybe<Scalars['String']['output']>
+  myReaction: ReactionCounts
+  reactions: ReactionCounts
   slug: Scalars['String']['output']
   title: Maybe<Scalars['String']['output']>
   topics: Maybe<Array<Topic>>
@@ -606,7 +608,7 @@ export type Insight = {
   id: Scalars['UUID']['output']
   initiative: Initiative
   initiatives: Array<Initiative>
-  /** A list of all users involved. Curator of the insight, Authors of all the posts and all commenters of those posts */
+  /** A list of all users involved interacting with the insight (excluding the insight creator). Includes authors of all the posts and all commenters of any posts and discussions */
   involvedUsers: UserPaged
   /** @deprecated This type has been renamed. Keep for backwards compatibility. Versions 1.14.XX */
   isBookmarked: Scalars['Boolean']['output']
@@ -760,6 +762,7 @@ export type Mutation = {
   updateConnectionWithUser: User
   updateExternalLink: ExternalLink
   updateFeedPost: FeedPost
+  updateFeedPostReaction: FeedPost
   updateInitiativeReaction: Initiative
   /** @deprecated Comments can be added to other objects. Use updateComment mutation. */
   updatePostComment: CreatePostCommentOutput
@@ -949,6 +952,12 @@ export type MutationUpdateExternalLinkArgs = {
 
 export type MutationUpdateFeedPostArgs = {
   input: UpdateFeedPostInput
+}
+
+export type MutationUpdateFeedPostReactionArgs = {
+  postId: Scalars['UUID']['input']
+  reactionAction: ReactionAction
+  reactionType: ReactionType
 }
 
 export type MutationUpdateInitiativeReactionArgs = {
@@ -1238,6 +1247,7 @@ export type Query = {
   authenticatedUserV2: Maybe<AuthenticatedUser>
   checkAppVersion: AppVersionResponse
   collaborationTools: CollaborationToolPaged
+  commentById: Comment
   commentable: Commentable
   connectedUsers: UserPaged
   discoverSpaces: Array<Maybe<DiscoverSpaces>>
@@ -1265,6 +1275,7 @@ export type Query = {
   postById: Maybe<Post>
   postsByUserId: FeedPostPaged
   recommendedSpaces: SpacePaged
+  recommendedTasks: TaskPaged
   sdgs: SdgPaged
   skills: SkillPaged
   spaceById: Maybe<Space>
@@ -1335,6 +1346,10 @@ export type QueryCollaborationToolsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
   spaceId: Scalars['UUID']['input']
+}
+
+export type QueryCommentByIdArgs = {
+  id: Scalars['UUID']['input']
 }
 
 export type QueryCommentableArgs = {
@@ -1449,6 +1464,11 @@ export type QueryRecommendedSpacesArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
   topicIds?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+}
+
+export type QueryRecommendedTasksArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 export type QuerySdgsArgs = {
@@ -1767,7 +1787,6 @@ export enum StatusType {
 /** Task(id, name, description, community, creator, created, slots_available, slots_taken, visibility, location_type, location, geolocation, regularity, thumbnail, thumbnail_blurhash, contact_email, contact_phone) */
 export type Task = {
   __typename?: 'Task'
-  community: Space
   contactEmail: Scalars['String']['output']
   contactPhone: Maybe<Scalars['String']['output']>
   created: Scalars['DateTime']['output']
@@ -1782,6 +1801,7 @@ export type Task = {
   skills: Array<Skill>
   slotsAvailable: Scalars['Int']['output']
   slotsTaken: Scalars['Int']['output']
+  space: Space
   thumbnail: Maybe<Scalars['String']['output']>
   thumbnailBlurhash: Maybe<Scalars['String']['output']>
   visibility: VisibilityType
@@ -2040,7 +2060,6 @@ export enum VisibilityType {
 
 export type SpaceRecommendationQueryVariables = Exact<{
   topicIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>> | InputMaybe<Scalars['UUID']['input']>>
-  geolocation: InputMaybe<Scalars['GeoJSON']['input']>
   limit: InputMaybe<Scalars['Int']['input']>
 }>
 
@@ -2052,13 +2071,52 @@ export type SpaceRecommendationQuery = {
     data: Array<{
       __typename?: 'Space'
       title: string
+      name: string
       description: string
       location: string
       id: string
       cover: string
       members: {
         __typename?: 'SpaceMemberPaged'
-        data: Array<{ __typename?: 'SpaceMember'; user: { __typename?: 'User'; avatar: string; avatarLabel: string } }>
+        totalResults: number
+        data: Array<{
+          __typename?: 'SpaceMember'
+          user: {
+            __typename?: 'User'
+            id: string
+            avatar: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            avatarBlurhash: string
+            fullName: string
+          }
+        }>
+      }
+    }>
+  }
+}
+
+export type SpaceCardFragment = {
+  __typename?: 'Space'
+  title: string
+  name: string
+  description: string
+  location: string
+  id: string
+  cover: string
+  members: {
+    __typename?: 'SpaceMemberPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'SpaceMember'
+      user: {
+        __typename?: 'User'
+        id: string
+        avatar: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        avatarBlurhash: string
+        fullName: string
       }
     }>
   }
@@ -2113,6 +2171,29 @@ export type AuthenticatedUserQuery = {
   }
 }
 
+export const SpaceCardFragmentDoc = gql`
+  fragment SpaceCard on Space {
+    title
+    name
+    description
+    location
+    id
+    cover
+    members {
+      data {
+        user {
+          id
+          avatar
+          avatarLabel
+          avatarDefaultColor
+          avatarBlurhash
+          fullName
+        }
+      }
+      totalResults
+    }
+  }
+`
 export const FullUserFragmentDoc = gql`
   fragment FullUser on User {
     id
@@ -2148,26 +2229,15 @@ export const FullUserFragmentDoc = gql`
   }
 `
 export const SpaceRecommendationDocument = gql`
-  query SpaceRecommendation($topicIds: [UUID], $geolocation: GeoJSON, $limit: Int) {
-    recommendedSpaces(topicIds: $topicIds, geolocation: $geolocation, limit: $limit) {
+  query SpaceRecommendation($topicIds: [UUID], $limit: Int) {
+    recommendedSpaces(topicIds: $topicIds, limit: $limit) {
       data {
-        title
-        description
-        location
-        id
-        cover
-        members {
-          data {
-            user {
-              avatar
-              avatarLabel
-            }
-          }
-        }
+        ...SpaceCard
       }
       totalResults
     }
   }
+  ${SpaceCardFragmentDoc}
 `
 
 /**
@@ -2183,7 +2253,6 @@ export const SpaceRecommendationDocument = gql`
  * const { data, loading, error } = useSpaceRecommendationQuery({
  *   variables: {
  *      topicIds: // value for 'topicIds'
- *      geolocation: // value for 'geolocation'
  *      limit: // value for 'limit'
  *   },
  * });
