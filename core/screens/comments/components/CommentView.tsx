@@ -66,7 +66,6 @@ const CommentView = ({
   })
 
   useEffect(() => {
-    console.log({ startWithOpenThread })
     if (startWithOpenThread) {
       setIsRepliesOpen(true)
     }
