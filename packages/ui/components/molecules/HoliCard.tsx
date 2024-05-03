@@ -15,6 +15,7 @@ export interface HoliCardProps {
   testID?: string
   imageAspectRatio?: CardAspectRatio
   hasBorder?: boolean
+  caption?: React.ReactNode
 }
 
 type CardAspectRatio = 1 | 1.5 | 1.75
@@ -39,6 +40,7 @@ const HoliCard = ({
   children,
   testID,
   hasBorder,
+  caption,
   imageAspectRatio = 1.5,
 }: PropsWithChildren<HoliCardProps>) => {
   const { theme } = useTheme()
@@ -48,13 +50,16 @@ const HoliCard = ({
   return (
     <View testID={testID} style={StyleSheet.flatten([styles.container, variantStyles.container])}>
       {imageUrl ? (
-        <HoliImage
-          testID={`${testID}-cardImage`}
-          source={{ uri: imageUrl, width: imageWidth, height: imageHeight }}
-          blurhash={imageBlurhash}
-          label={imageLabel}
-          style={StyleSheet.flatten([styles.image, variantStyles.image])}
-        />
+        <View style={styles.imageContainer}>
+          <HoliImage
+            testID={`${testID}-cardImage`}
+            source={{ uri: imageUrl, width: imageWidth, height: imageHeight }}
+            blurhash={imageBlurhash}
+            label={imageLabel}
+            style={StyleSheet.flatten([styles.image, variantStyles.image])}
+          />
+          {!!caption && <View style={styles.imageCaption}>{caption}</View>}
+        </View>
       ) : (
         <View style={styles.imageSkeleton} />
       )}
@@ -78,11 +83,22 @@ const getStyles = (theme: HoliTheme) =>
       borderRadius: 16,
       backgroundColor: theme.colors.background10,
     },
+    imageContainer: {
+      flexGrow: 0,
+      flexShrink: 0,
+      flexBasis: '58%',
+      position: 'relative',
+      marginBottom: 16,
+    },
     image: {
       flex: 1,
       width: '100%',
       borderRadius: 8,
-      marginBottom: 16,
+    },
+    imageCaption: {
+      position: 'absolute',
+      bottom: 8,
+      left: 8,
     },
     imageSkeleton: {
       borderRadius: 8,
@@ -92,6 +108,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background30,
     },
     content: {
+      flex: 1,
       paddingHorizontal: 8,
     },
   })
