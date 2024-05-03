@@ -15,6 +15,7 @@ export const FeedPostDetailsFragment = gql`
     }
     category {
       id
+      title
     }
     createdAt
     image
