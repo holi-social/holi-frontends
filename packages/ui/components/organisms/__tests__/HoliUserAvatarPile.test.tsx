@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 import renderer from 'react-test-renderer'
@@ -7,6 +7,7 @@ import renderer from 'react-test-renderer'
 import i18next from '@holi/core/i18n'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { users } from '@holi/ui/components/organisms/__mocks__/users'
+import theme from '@holi/ui/styles/theme'
 
 describe('HoliUserAvatarPile', () => {
   it('renders correct snapshot', () => {
@@ -15,20 +16,20 @@ describe('HoliUserAvatarPile', () => {
   })
 
   it('has limited avatars count', () => {
-    const { getAllByTestId } = render(<HoliUserAvatarPile users={users} usersToShow={3} />)
+    render(<HoliUserAvatarPile users={users} usersToShow={3} />)
 
-    expect(getAllByTestId('pile-avatar').length).toEqual(3)
+    expect(screen.getAllByTestId('pile-avatar').length).toEqual(3)
   })
 
   it('has optional counter text in the end', () => {
-    const { getByText } = render(<HoliUserAvatarPile users={users} counter />)
+    render(<HoliUserAvatarPile users={users} counter />)
 
-    expect(getByText(i18next.t('insights.editors.discussing', { count: users.length }))).not.toBeNull()
+    expect(screen.getByText(i18next.t('insights.editors.discussing', { count: users.length }))).not.toBeNull()
   })
 
   it('has optional children of counter text', () => {
     const dummyText = faker.lorem.sentence()
-    const { getByText } = render(
+    render(
       <HoliUserAvatarPile users={users} counter>
         <View>
           <Text>{dummyText}</Text>
@@ -36,6 +37,18 @@ describe('HoliUserAvatarPile', () => {
       </HoliUserAvatarPile>
     )
 
-    expect(getByText(dummyText)).not.toBeNull()
+    expect(screen.getByText(dummyText)).not.toBeNull()
+  })
+
+  it('should display with rounded background', () => {
+    render(<HoliUserAvatarPile users={users} counter hasBackground />)
+
+    expect(screen.getByTestId('holi-user-avatar-pile')).toHaveStyle({
+      paddingVertical: 4,
+      paddingLeft: 4,
+      paddingRight: 8,
+      backgroundColor: theme.colors.background10,
+      borderRadius: 100,
+    })
   })
 })
