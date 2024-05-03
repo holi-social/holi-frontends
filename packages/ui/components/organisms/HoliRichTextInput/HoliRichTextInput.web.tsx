@@ -25,7 +25,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { HoliRichTextInputProps } from './HoliRichTextInput'
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
-  initalValue = '',
+  initialValue = '',
   placeholder = '...',
   autofocus = false,
   minSearchChars = 2,
@@ -69,7 +69,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   // TODO: How to insert inital content ?????????????
   // see https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
   // The json format works well, but how to create this nodes?
-  if (initalValue && initalValue.length > 0) {
+  if (initialValue && initialValue.length > 0) {
     throw new HoliError('[HoliRichTextInput] initialValue is not yet implemented.')
   }
   // const initalJson =

@@ -19,7 +19,7 @@ import { PortalGate } from '@holi/core/providers/PortalProvider'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
 import { commentsMetadata } from '@holi/core/screens/comments/queries'
-import { CommentableType } from '@holi/core/screens/comments/types'
+import { Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -37,7 +37,7 @@ export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
   commentableType: CommentableType
   user: User
-  parentCommentId?: string
+  parentComment?: Comment
   redirectRoute?: string
 }
 
@@ -45,7 +45,7 @@ const CommentForm = ({
   commentableId,
   commentableType,
   user,
-  parentCommentId,
+  parentComment,
   redirectRoute,
   children,
 }: CommentFormProps) => {
@@ -137,7 +137,7 @@ const CommentForm = ({
 
                 {/* Comment input block */}
                 <View style={mixins.container}>
-                  <VerticalLine style={styles.verticalLine} />
+                  {!parentComment && <VerticalLine style={styles.verticalLine} />}
 
                   <View style={styles.inputContainer}>
                     <HoliAvatar
@@ -146,7 +146,7 @@ const CommentForm = ({
                       label={user.fullName || t('user.profileView.anonymous')}
                       initials={user.avatarLabel || ''}
                       defaultColor={user.avatarDefaultColor || ''}
-                      size="small"
+                      size={parentComment ? 'micro' : 'small'}
                     />
                     <HoliRichTextInput
                       placeholder={t('comments.placeholder')}
@@ -157,6 +157,16 @@ const CommentForm = ({
                       showCharacterCount={true}
                       maxNoOfCharacters={1500}
                       maxSuggestionOptions={30}
+                      // initialValue is not yet supported on web
+                      {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
+                        ? {
+                            initialValue: ' ', // empty space after the parent comment's user mention
+                            initialSelectedSuggestion: {
+                              id: parentComment.creator.id,
+                              name: parentComment.creator.fullName,
+                            },
+                          }
+                        : {})}
                     />
                   </View>
                 </View>
@@ -181,7 +191,7 @@ const CommentForm = ({
                           text: text.trim(),
                           commentableId,
                           commentableType,
-                          parentCommentId,
+                          parentCommentId: parentComment?.id,
                         },
                       },
                     })

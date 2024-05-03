@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -35,6 +35,7 @@ export interface CommentProps extends ViewProps {
   created?: string
   onPressComment?: () => void
   avatarSize?: AvatarSize
+  startWithOpenThread?: boolean
   style?: StyleProp<ViewStyle>
 }
 
@@ -45,6 +46,7 @@ const CommentView = ({
   commentableType,
   onPressComment,
   avatarSize = 'small',
+  startWithOpenThread,
   style,
   ...props
 }: CommentProps) => {
@@ -62,6 +64,13 @@ const CommentView = ({
     contentType: reportContentType,
     successMsg: t('global.report.successMessage'),
   })
+
+  useEffect(() => {
+    if (startWithOpenThread) {
+      setIsRepliesOpen(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const [isLoadingDeleteComment, deleteComment] = useDeleteComment(comment.id, commentableId, commentableType)
 

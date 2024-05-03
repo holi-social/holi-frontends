@@ -124,3 +124,16 @@ export type CommentsResponse = {
     commenters: Paged<User>
   }
 }
+
+export const commentById = gql`
+  ${CommentFragment}
+  query Comment($commentId: UUID!) {
+    commentById(id: $commentId) {
+      ...CommentFull
+    }
+  }
+`
+
+export type CommentResponse = {
+  commentById: Comment
+}

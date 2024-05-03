@@ -14,7 +14,7 @@ import { useDebounce } from '@holi/ui/helper/useDebounce'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliRichTextInputProps = {
-  initalValue?: string
+  initialValue?: string
   placeholder?: string
   autofocus?: boolean
   minSearchChars?: number
@@ -31,10 +31,11 @@ export type HoliRichTextInputProps = {
   maxNoOfCharacters?: number
   inputAccessoryViewID?: string
   placeholderTextColor?: string
+  initialSelectedSuggestion?: Suggestion
 }
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
-  initalValue = '',
+  initialValue = '',
   placeholder = '...',
   autofocus = false,
   minSearchChars = 2,
@@ -45,13 +46,14 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   onChange,
   onFocus = () => null,
   onBlur = () => null,
+  initialSelectedSuggestion,
   ...props
 }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const inputRef = useRef<TextInput>(null)
-  const [value, setValue] = useState(initalValue)
+  const [value, setValue] = useState(initialValue)
   const [suggestions, setSuggestions] = useState<User[]>([])
   const setSafeSuggestions = useSafeDispatch(setSuggestions)
 
@@ -59,7 +61,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   const { teleport } = usePortals()
 
   const INITIAL_KEYWORD = ''
-  const [keyword, setKeyword] = useState(initalValue)
+  const [keyword, setKeyword] = useState(initialValue)
   const setSafeKeyword = useSafeDispatch(setKeyword)
   const [debouncedKeyword, setDebouncedKeyword] = useState<string>(INITIAL_KEYWORD)
   const setKeywordDebounced = useDebounce(useSafeDispatch(setDebouncedKeyword), debounceDelay)
@@ -74,6 +76,13 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     // Stop the invocation of the debounced function after unmounting
     return () => setKeywordDebounced.cancel()
   }, [setKeywordDebounced])
+
+  useEffect(() => {
+    if (initialSelectedSuggestion) {
+      onChooseOptionRef.current(initialSelectedSuggestion)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // on value change
   useEffect(() => {

@@ -28,6 +28,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export type DiscussionDetailPageParams = {
   discussionId: string
   insightId: string
+  commentId: string
 }
 
 const { useParam } = createParamHooks<DiscussionDetailPageParams>()
@@ -42,6 +43,7 @@ const DiscussionDetailPage = () => {
 
   const [discussionId] = useParam('discussionId')
   const [insightId] = useParam('insightId')
+  const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -112,6 +114,7 @@ const DiscussionDetailPage = () => {
                   commentableId={discussionId}
                   replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
                   onPressCreateComment={onPressCreateComment}
+                  initialOpenThread={commentId}
                 />
               </View>
             )}
