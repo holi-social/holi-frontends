@@ -20,7 +20,7 @@ const logger = getLogger('Tracking')
 class Tracking {
   constructor(private posthog: PosthogCrossPlatform, private apollo: ApolloClient<object>) {}
 
-  public init = async (loggedInState: LoggedInState, consentState?: ConsentState) => {
+  public async init(loggedInState: LoggedInState, consentState?: ConsentState): Promise<void> {
     const state = consentState ?? (await this.loadConsent(loggedInState))
     if (loggedInState.isLoggedIn) {
       logger.debug('TrackingInitializer', 'initializing for logged-in user', state)
@@ -31,7 +31,7 @@ class Tracking {
     }
   }
 
-  private initWithLoggedInUser = async (user: AuthenticatedUser, consentState: ConsentState): Promise<void> => {
+  private async initWithLoggedInUser(user: AuthenticatedUser, consentState: ConsentState): Promise<void> {
     switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
@@ -45,7 +45,7 @@ class Tracking {
     }
   }
 
-  private initWithLoggedOutUser = async (consentState: ConsentState): Promise<void> => {
+  private async initWithLoggedOutUser(consentState: ConsentState): Promise<void> {
     switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedOut', 'analytics consent given, opting in on posthog client')
@@ -57,7 +57,7 @@ class Tracking {
     }
   }
 
-  public clearConsentAfterUserLoggedOut = async (): Promise<void> => {
+  public async clearConsentAfterUserLoggedOut(): Promise<void> {
     const errorContext = { location: 'useTracking.userLoggedOut' }
     return consentStore
       .clear()
@@ -68,11 +68,11 @@ class Tracking {
       .catch((error) => logError(error, 'Failed to reset Posthog client', errorContext))
   }
 
-  public loadConsent = (loggedInState: LoggedInState): Promise<ConsentState> => {
+  public loadConsent(loggedInState: LoggedInState): Promise<ConsentState> {
     return loggedInState.isLoggedIn ? Promise.resolve(ConsentState.fromUser(loggedInState.user)) : consentStore.load()
   }
 
-  public storeConsent = (loggedInState: LoggedInState, consentState: ConsentState): Promise<void> => {
+  public storeConsent(loggedInState: LoggedInState, consentState: ConsentState): Promise<void> {
     const errorContext = { location: 'TrackingInitializer.updateConsent' }
     const store = !loggedInState.isLoggedIn
       ? consentStore.store(consentState)
@@ -82,7 +82,7 @@ class Tracking {
       .catch((error) => logError(error, 'Failed to store given tracking consent', errorContext))
   }
 
-  private updateConsentOnUserProfile = async (consentState: ConsentState): Promise<void> => {
+  private async updateConsentOnUserProfile(consentState: ConsentState): Promise<void> {
     await this.apollo.mutate<UpdateAuthenticatedUserV2Response, { input: Partial<UpdateAuthenticatedUserInput> }>({
       mutation: updateAuthenticatedUserV2Mutation,
       variables: {
