@@ -81,10 +81,6 @@ const DiscussionCommentPage = () => {
     [setScreenOptions, t, colors.background10]
   )
 
-  if (loadingComment) {
-    return
-  }
-
   return (
     discussion &&
     user && (
@@ -93,7 +89,7 @@ const DiscussionCommentPage = () => {
         commentableType={CommentableType.DISCUSSION}
         user={user}
         redirectRoute={`/insights/${insightId}/discussions/${discussion.id}`}
-        parentCommentId={commentId}
+        parentComment={comment}
       >
         <DiscussionHeader question={discussion.question} />
 
