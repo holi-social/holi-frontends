@@ -21,7 +21,7 @@ class Tracking {
   constructor(private posthog: PosthogCrossPlatform, private apollo: ApolloClient<object>) {}
 
   public init = async (loggedInState: LoggedInState, consentState?: ConsentState) => {
-    const state = consentState || (await this.loadConsent(loggedInState))
+    const state = consentState ?? (await this.loadConsent(loggedInState))
     if (loggedInState.isLoggedIn) {
       logger.debug('TrackingInitializer', 'initializing for logged-in user', state)
       return this.initWithLoggedInUser(loggedInState.user, state)
