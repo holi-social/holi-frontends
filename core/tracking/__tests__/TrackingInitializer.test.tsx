@@ -13,6 +13,7 @@ import {
   LoggedOut,
   useLoggedInUser,
 } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import TrackingInitializer, {
   consentStateVar,
   consentStateVarInitial,
@@ -21,7 +22,6 @@ import TrackingInitializer, {
   userLoggedOut,
 } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
-import { usePosthogCrossPlatform } from '@holi/core/tracking/posthog_cross_platform'
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 import TrackingProvider from '@holi/web/providers/TrackingProvider'
@@ -34,7 +34,7 @@ Object.defineProperty(window, 'navigator', {
 jest.mock('@holi/core/tracking/config')
 const trackingEnabledMock = trackingEnabled as jest.Mock
 
-jest.mock('@holi/core/tracking/posthog_cross_platform')
+jest.mock('@holi/core/tracking/PosthogCrossPlatform')
 const posthogCrossPlatformMock = {
   optedIn: jest.fn(),
   optIn: jest.fn(),

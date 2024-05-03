@@ -10,9 +10,9 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { LoggedInState, useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { consentStore } from '@holi/core/tracking/ConsentStore'
+import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { trackingEnabled } from '@holi/core/tracking/config'
-import { consentStore } from '@holi/core/tracking/consent_store'
-import { usePosthogCrossPlatform } from '@holi/core/tracking/posthog_cross_platform'
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 
 const logger = getLogger('Tracking')

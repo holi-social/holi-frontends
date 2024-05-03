@@ -1,6 +1,6 @@
+import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { TrackingEvent } from '@holi/core/tracking/events'
-import { usePosthogCrossPlatform } from '@holi/core/tracking/posthog_cross_platform'
 import { TrackingHook } from '@holi/core/tracking/types'
 
 const useDummyTracking = (): TrackingHook => {
