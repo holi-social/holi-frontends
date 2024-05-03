@@ -1,17 +1,33 @@
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Add, Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type FilterType = 'generic' | 'topic' | 'skill' | 'location' | 'planned'
+export type FilterType = 'visibility' | 'topic' | 'category'
 
+type FilterTypeInfo = {
+  text: string
+}
+
+const filterTypes: Record<FilterType, FilterTypeInfo> = {
+  visibility: {
+    text: 'individuals.post.category.label.visibility.public',
+  },
+  category: {
+    text: 'individuals.post.category.label.category',
+  },
+  topic: {
+    text: 'individuals.post.category.label.topic',
+  },
+}
 interface BaseProps {
-  label: string
+  label?: string | null
   filterType: FilterType
-  small?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -25,28 +41,28 @@ interface Props extends BaseProps {
   loading?: false
 }
 
-type SpacesFilterPillProps = SkeletonProps | Props
+type CreatePostPillProps = SkeletonProps | Props
 
 const BORDER_RADIUS = 48
 
-const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
+const CreatePostPill: React.FC<CreatePostPillProps> = ({
   loading,
   label,
   filterType,
   onPress,
   style,
-  small,
   testID = 'spaces-filter-pill',
 }) => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(small || false, theme), [theme, small])
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { t } = useTranslation()
+  const icon = label ? Pencil : Add
 
   if (loading) {
     const paddingVertical = styles.buttonContent.paddingVertical
     return (
       <HoliText
         loading={true}
-        size={small ? 'small' : undefined}
         numberOfLines={1}
         style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style])}
         skeletonOptions={{ borderRadius: BORDER_RADIUS, width: '100%', paddingVertical }}
@@ -57,7 +73,7 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
 
   return (
     <HoliButton
-      label={label}
+      label={label || t(filterTypes[filterType].text)}
       style={style}
       contentStyle={[styles.buttonContent, styles[filterType]]}
       transparent
@@ -65,51 +81,37 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
       onPress={onPress}
       testID={testID}
     >
-      {filterType === 'location' && (
-        <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_map_pin.svg')}
-          width={14}
-          height={19}
-          label={''}
-          isSvg
-          style={styles.filterIcon}
-        />
-      )}
-      {small ? (
-        <HoliText size={filterType === 'planned' ? 'extrasmall' : 'small'} numberOfLines={1}>
-          {label}
-        </HoliText>
-      ) : (
-        <HoliText numberOfLines={1}>{label}</HoliText>
-      )}
+      <HoliText bold numberOfLines={1}>
+        {label || t(filterTypes[filterType].text)}
+      </HoliText>
+      <HoliIcon icon={icon} size={16} color={theme.colors.foreground30} />
     </HoliButton>
   )
 }
-const getStyles = (small: boolean, theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     generic: {
       backgroundColor: theme.colors.background10,
     },
-    location: {
+    visibility: {
       backgroundColor: theme.colors.background10,
     },
-    skill: {
-      backgroundColor: theme.colors.brandColorD20,
-    },
     topic: {
-      backgroundColor: theme.colors.brandColorC20,
+      backgroundColor: theme.colors.brandColorC10,
     },
-    planned: {
-      backgroundColor: theme.dark ? theme.colors.background10 : theme.colors.brandColorD10,
+    category: {
+      backgroundColor: theme.colors.brandA100,
     },
     buttonContent: {
       borderColor: theme.colors.foreground30,
       borderRadius: BORDER_RADIUS,
       borderWidth: 1,
-      paddingVertical: small ? 2 : 4,
-      paddingHorizontal: small ? 8 : 10,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
       flexDirection: 'row',
       justifyContent: 'center',
+      alignItems: 'center',
+      gap: 4,
     },
     loadingContent: {
       borderColor: 'transparent',
@@ -117,9 +119,6 @@ const getStyles = (small: boolean, theme: HoliTheme) =>
       paddingHorizontal: 0,
       width: 220,
     },
-    filterIcon: {
-      marginRight: 6,
-    },
   })
 
-export default SpacesFilterPill
+export default CreatePostPill

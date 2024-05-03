@@ -21,6 +21,9 @@ export interface Comment {
   mentions?: User[]
   myReaction: ReactionCounts
   reactions: ReactionCounts
+  parentCommentId?: string
+  replies: Comment[]
+  totalReplies: number
 }
 
 export enum CommentableType {

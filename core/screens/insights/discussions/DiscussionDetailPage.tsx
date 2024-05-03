@@ -110,6 +110,7 @@ const DiscussionDetailPage = () => {
                 <Comments
                   commentableType={CommentableType.DISCUSSION}
                   commentableId={discussionId}
+                  replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
                   onPressCreateComment={onPressCreateComment}
                 />
               </View>

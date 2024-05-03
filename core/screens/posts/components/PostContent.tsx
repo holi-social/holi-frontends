@@ -12,6 +12,7 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
@@ -171,8 +172,8 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
       <View style={[styles.reactionsBar]}>
         {/* Comments */}
         {post.numberOfComments > 0 && (
-          <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-            {t('insights.post.response', { count: post.numberOfComments })}
+          <HoliUserAvatarPile users={commenters as User[]} usersToShow={3} collapse>
+            {t('comments.response', { count: post.numberOfComments })}
           </HoliUserAvatarPile>
         )}
 

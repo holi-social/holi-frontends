@@ -60,7 +60,7 @@ const FooterTabBar = () => {
         </HoliButton>
 
         <HoliButton
-          label={t('spaces.title')}
+          label={t('navigation.spaces')}
           inline
           transparent
           onPress={() => navigate('/spaces')}
@@ -75,12 +75,19 @@ const FooterTabBar = () => {
             size="extrasmall"
             style={[styles.buttonLabel, isSpaces ? styles.activeTintColor : styles.inactiveTintColor]}
           >
-            {t('spaces.title')}
+            {t('navigation.spaces')}
           </HoliText>
         </HoliButton>
 
+        <AppsDrawer style={styles.button}>
+          <HoliIcon icon={Megaphone} color={styles.inactiveTintColor.color} style={{ alignItems: 'center' }} />
+          <HoliText size="extrasmall" style={[styles.buttonLabel, styles.inactiveTintColor]}>
+            {t('navigation.act')}
+          </HoliText>
+        </AppsDrawer>
+
         <HoliButton
-          label={t('chat.title')}
+          label={t('navigation.chat')}
           inline
           transparent
           onPress={() => navigate('/chat')}
@@ -92,16 +99,9 @@ const FooterTabBar = () => {
             size="extrasmall"
             style={[styles.buttonLabel, isChat ? styles.activeTintColor : styles.inactiveTintColor]}
           >
-            {t('chat.title')}
+            {t('navigation.chat')}
           </HoliText>
         </HoliButton>
-
-        <AppsDrawer style={styles.button}>
-          <HoliIcon icon={Megaphone} color={styles.inactiveTintColor.color} style={{ alignItems: 'center' }} />
-          <HoliText size="extrasmall" style={[styles.buttonLabel, styles.inactiveTintColor]}>
-            {t('apps.drawer.open.btn.text')}
-          </HoliText>
-        </AppsDrawer>
 
         <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
           <HoliText
@@ -111,7 +111,7 @@ const FooterTabBar = () => {
               isProfileLoginRegistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
             ]}
           >
-            <span suppressHydrationWarning>{isLoggedIn ? t('profile.title') : t('auth.login')}</span>
+            <span suppressHydrationWarning>{isLoggedIn ? t('navigation.profile') : t('auth.login')}</span>
           </HoliText>
         </LoginProfileButton>
       </HoliContainer>

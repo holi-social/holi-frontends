@@ -13,18 +13,17 @@ interface BaseProps {
   collapse?: boolean
   counter?: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-  testID?: string
   usersTotal?: number
+  users: User[]
+  testID?: string
 }
 
-interface SkeletonProps extends BaseProps {
+interface SkeletonProps extends Partial<BaseProps> {
   loading: true
-  users?: User[]
 }
 
 interface Props extends BaseProps {
   loading?: false
-  users: User[]
 }
 
 type HoliUserAvatarPileProps = SkeletonProps | Props
@@ -37,6 +36,7 @@ const emptyUser = (id: string, theme: HoliTheme): User => {
     avatarDefaultColor: colors.background30,
     avatarLabel: '  ',
     fullName: '',
+    identity: '',
   }
 }
 

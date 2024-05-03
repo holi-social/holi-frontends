@@ -24,6 +24,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import { ReadMoreNumberOfLines } from '@holi/ui/components/molecules/HoliReadMore/shared'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -31,23 +32,22 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
-  style?: StyleProp<ViewStyle>
-}
-interface SkeletonProps extends BaseProps {
-  loading: true
-  post?: Post
-  insightId?: string
-  spaceIdOrName?: string
-  hasVisibilityIcon?: boolean
-}
-interface Props extends BaseProps {
-  loading?: false
   post: Post
   insightId?: string
   spaceIdOrName?: string
   hasVisibilityIcon?: boolean
-  numberOfLines?: number
+  numberOfLines?: ReadMoreNumberOfLines
+  style?: StyleProp<ViewStyle>
 }
+
+interface SkeletonProps extends Partial<BaseProps> {
+  loading: true
+}
+
+interface Props extends BaseProps {
+  loading?: false
+}
+
 export type PostPreviewProps = SkeletonProps | Props
 
 const PostPreview = ({
@@ -121,21 +121,13 @@ const PostPreview = ({
         </View>
 
         {/* Post Text */}
-        <HoliText
-          text={post?.text}
-          users={post?.mentions}
-          links={post?.links}
-          loading
-          skeletonOptions={{ numberOfLines: numberOfLines, borderRadius: 16 }}
-        >
-          {post?.text}
-        </HoliText>
+        <HoliText loading skeletonOptions={{ numberOfLines: numberOfLines, borderRadius: 16 }} />
 
         {/* Reaction bar with comments and likes */}
         <View style={styles.reactionsBar}>
           <View style={styles.reactionsLink}>
-            <HoliUserAvatarPile users={commenters || []} usersToShow={3} collapse loading>
-              {t('insights.post.response', { count: post?.numberOfComments })}
+            <HoliUserAvatarPile usersToShow={3} collapse loading>
+              {t('comments.response', { count: post?.numberOfComments })}
             </HoliUserAvatarPile>
           </View>
         </View>
@@ -290,8 +282,8 @@ const PostPreview = ({
               href={`${getPostUrl(post?.id, insightId, spaceIdOrName)}?commentId=first`}
               label={t('comments.link')}
             >
-              <HoliUserAvatarPile users={commenters || []} usersToShow={3} collapse>
-                {t('insights.post.response', { count: post?.numberOfComments })}
+              <HoliUserAvatarPile users={commenters?.length ? [...commenters] : []} usersToShow={3} collapse>
+                {t('comments.response', { count: post?.numberOfComments })}
               </HoliUserAvatarPile>
             </HoliLink>
           </View>

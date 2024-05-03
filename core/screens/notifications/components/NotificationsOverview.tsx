@@ -69,7 +69,7 @@ const NotificationsOverview = () => {
   }, [getNotifications, isLoggedIn])
 
   useEffect(() => {
-    if (containsNotifications(data?.notifications?.data)) {
+    if (containsNotifications(data?.notifications?.data as Notification[])) {
       const lastNotification = data?.notifications?.data[0]
       reportLastSeenNotification({ variables: { notificationId: lastNotification?.id } })
     }

@@ -7,8 +7,10 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { createSpaceList, locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
-import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import FilteredSpaces, { SPACES_PAGE_SIZE } from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
+import FilteredSpaces, {
+  type FilteredSpacesProps,
+  SPACES_PAGE_SIZE,
+} from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -23,9 +25,12 @@ const createSpacesMock = (variables = {}) => ({
   request: {
     query: spacesQuery,
     variables: {
-      ...variables,
+      geolocation: undefined,
+      topicSlugs: [],
+      skillSlugs: [],
       limit: SPACES_PAGE_SIZE,
       offset: 0,
+      ...variables,
     },
   },
   result: {
@@ -41,7 +46,7 @@ const createSpacesMock = (variables = {}) => ({
 
 const spacesMock = createSpacesMock()
 const spacesByLocationMock = createSpacesMock({ geolocation: {} })
-const topicSlug = 'topic1'
+const topicSlugs = ['topic1']
 const skillSlugs = ['skill1']
 
 const createSpacesPaginationMock = (offset = 0) => ({
@@ -50,6 +55,9 @@ const createSpacesPaginationMock = (offset = 0) => ({
     variables: {
       limit: SPACES_PAGE_SIZE,
       offset,
+      geolocation: undefined,
+      topicSlugs: [],
+      skillSlugs: [],
     },
   },
   result: {
@@ -67,6 +75,9 @@ const spacesNoResultsMock = {
   request: {
     query: spacesQuery,
     variables: {
+      geolocation: undefined,
+      topicSlugs: [],
+      skillSlugs: [],
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
@@ -87,6 +98,9 @@ const spacesErrorMock = {
     variables: {
       limit: SPACES_PAGE_SIZE,
       offset: 0,
+      geolocation: undefined,
+      topicSlugs: [],
+      skillSlugs: [],
     },
   },
   error: new HoliError('Test error', 'test-error'),
@@ -103,11 +117,11 @@ export const locationDetailsErrorMock = {
 }
 
 describe('FilteredSpaces', () => {
-  const renderFilteredSpaces = (mocks: MockedResponse[], filters: SpaceFilter = {}) =>
+  const renderFilteredSpaces = (mocks: MockedResponse[], props?: Partial<FilteredSpacesProps>) =>
     render(
       <MockedProvider mocks={mocks} cache={createCache()}>
         <ToastProvider>
-          <FilteredSpaces {...filters} applyFilters={() => ({})} />
+          <FilteredSpaces {...props} applyFilters={() => ({})} />
         </ToastProvider>
       </MockedProvider>
     )
@@ -160,13 +174,13 @@ describe('FilteredSpaces', () => {
   })
 
   it('displays loading screen while loading geolocation', async () => {
-    renderFilteredSpaces([locationDetailsMock, spacesByLocationMock], { locationId })
+    renderFilteredSpaces([locationDetailsMock, spacesByLocationMock])
 
     expect(await screen.findByTestId('spaces-grid-cell-skeleton'))
   })
 
   it('displays error toast if loading geolocation failed', async () => {
-    renderFilteredSpaces([locationDetailsErrorMock], { locationId })
+    renderFilteredSpaces([locationDetailsErrorMock, spacesErrorMock], { locationId })
 
     await waitFor(() =>
       expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
@@ -182,7 +196,7 @@ describe('FilteredSpaces', () => {
   })
 
   it('filters spaces by topic', async () => {
-    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicSlug })], { topicSlug })
+    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicSlugs })], { topicSlugs })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
@@ -194,9 +208,9 @@ describe('FilteredSpaces', () => {
   })
 
   it('filters spaces by multiple filters', async () => {
-    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ geolocation: {}, topicSlug, skillSlugs })], {
+    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ geolocation: {}, topicSlugs, skillSlugs })], {
       locationId,
-      topicSlug,
+      topicSlugs,
       skillSlugs,
     })
 

@@ -38,7 +38,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
         style={
           {
             "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
+            "borderColor": "#2222221f",
             "borderRadius": 16,
             "borderWidth": 1,
             "flexShrink": 1,
@@ -128,7 +128,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   {
                     "borderRadius": 8,
-                    "height": 166,
+                    "height": 136,
                     "justifyContent": "center",
                   }
                 }
@@ -292,7 +292,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
-                  "marginTop": 4,
+                  "marginTop": 8,
                 }
               }
             >
@@ -475,7 +475,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGGroup
-                        clipPath="time_svg__a"
+                        clipPath="time-filled_svg__a"
                         fill={
                           {
                             "payload": 4278190080,
@@ -484,7 +484,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         }
                       >
                         <RNSVGPath
-                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16.001A8 8 0 0 0 12 20Zm1-8h4v2h-6V7h2v5Z"
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
                           fill={
                             {
                               "type": 2,
@@ -505,7 +505,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                               "type": 0,
                             }
                           }
-                          name="time_svg__a"
+                          name="time-filled_svg__a"
                         >
                           <RNSVGPath
                             d="M0 0h24v24H0z"
@@ -557,44 +557,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           }
         >
           <View
-            accessibilityLabel="Communication skills"
-            accessibilityRole="button"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               [
-                [
-                  {
-                    "width": "auto",
-                  },
-                ],
+                {
+                  "borderColor": "#262424",
+                  "borderRadius": 48,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 2,
+                },
+                {
+                  "backgroundColor": "#90ddff",
+                },
                 {
                   "flexShrink": 1,
                   "marginRight": 6,
@@ -602,90 +578,40 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 },
               ]
             }
-            testID="spaces-topic-title"
           >
-            <View
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
               style={
-                [
-                  {
-                    "pointerEvents": "none",
-                  },
-                  false,
-                  [
-                    {
-                      "borderColor": "#262424",
-                      "borderRadius": 48,
-                      "borderWidth": 1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "paddingHorizontal": 8,
-                      "paddingVertical": 2,
-                    },
-                    {
-                      "backgroundColor": "#90ddff",
-                    },
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
               }
             >
-              <Text
-                accessible={false}
-                numberOfLines={1}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 14,
-                    "fontWeight": "400",
-                    "lineHeight": 19.599999999999998,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Communication skills
-              </Text>
-            </View>
+              Communication skills
+            </Text>
           </View>
           <View
-            accessibilityLabel="Creativity"
-            accessibilityRole="button"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               [
-                [
-                  {
-                    "width": "auto",
-                  },
-                ],
+                {
+                  "borderColor": "#262424",
+                  "borderRadius": 48,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 2,
+                },
+                {
+                  "backgroundColor": "#90ddff",
+                },
                 {
                   "flexShrink": 1,
                   "marginRight": 6,
@@ -693,50 +619,24 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 },
               ]
             }
-            testID="spaces-topic-title"
           >
-            <View
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
               style={
-                [
-                  {
-                    "pointerEvents": "none",
-                  },
-                  false,
-                  [
-                    {
-                      "borderColor": "#262424",
-                      "borderRadius": 48,
-                      "borderWidth": 1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "paddingHorizontal": 8,
-                      "paddingVertical": 2,
-                    },
-                    {
-                      "backgroundColor": "#90ddff",
-                    },
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
               }
             >
-              <Text
-                accessible={false}
-                numberOfLines={1}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 14,
-                    "fontWeight": "400",
-                    "lineHeight": 19.599999999999998,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Creativity
-              </Text>
-            </View>
+              Creativity
+            </Text>
           </View>
         </View>
         <View
@@ -842,7 +742,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
         style={
           {
             "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
+            "borderColor": "#2222221f",
             "borderRadius": 16,
             "borderWidth": 1,
             "flexShrink": 1,
@@ -932,7 +832,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   {
                     "borderRadius": 8,
-                    "height": 166,
+                    "height": 136,
                     "justifyContent": "center",
                   }
                 }
@@ -1096,7 +996,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
-                  "marginTop": 4,
+                  "marginTop": 8,
                 }
               }
             >
@@ -1279,7 +1179,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGGroup
-                        clipPath="time_svg__a"
+                        clipPath="time-filled_svg__a"
                         fill={
                           {
                             "payload": 4278190080,
@@ -1288,7 +1188,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         }
                       >
                         <RNSVGPath
-                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16.001A8 8 0 0 0 12 20Zm1-8h4v2h-6V7h2v5Z"
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
                           fill={
                             {
                               "type": 2,
@@ -1309,7 +1209,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                               "type": 0,
                             }
                           }
-                          name="time_svg__a"
+                          name="time-filled_svg__a"
                         >
                           <RNSVGPath
                             d="M0 0h24v24H0z"
@@ -1361,44 +1261,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           }
         >
           <View
-            accessibilityLabel="Communication skills"
-            accessibilityRole="button"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               [
-                [
-                  {
-                    "width": "auto",
-                  },
-                ],
+                {
+                  "borderColor": "#262424",
+                  "borderRadius": 48,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 2,
+                },
+                {
+                  "backgroundColor": "#90ddff",
+                },
                 {
                   "flexShrink": 1,
                   "marginRight": 6,
@@ -1406,90 +1282,40 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 },
               ]
             }
-            testID="spaces-topic-title"
           >
-            <View
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
               style={
-                [
-                  {
-                    "pointerEvents": "none",
-                  },
-                  false,
-                  [
-                    {
-                      "borderColor": "#262424",
-                      "borderRadius": 48,
-                      "borderWidth": 1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "paddingHorizontal": 8,
-                      "paddingVertical": 2,
-                    },
-                    {
-                      "backgroundColor": "#90ddff",
-                    },
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
               }
             >
-              <Text
-                accessible={false}
-                numberOfLines={1}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 14,
-                    "fontWeight": "400",
-                    "lineHeight": 19.599999999999998,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Communication skills
-              </Text>
-            </View>
+              Communication skills
+            </Text>
           </View>
           <View
-            accessibilityLabel="Creativity"
-            accessibilityRole="button"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               [
-                [
-                  {
-                    "width": "auto",
-                  },
-                ],
+                {
+                  "borderColor": "#262424",
+                  "borderRadius": 48,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 2,
+                },
+                {
+                  "backgroundColor": "#90ddff",
+                },
                 {
                   "flexShrink": 1,
                   "marginRight": 6,
@@ -1497,50 +1323,24 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 },
               ]
             }
-            testID="spaces-topic-title"
           >
-            <View
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
               style={
-                [
-                  {
-                    "pointerEvents": "none",
-                  },
-                  false,
-                  [
-                    {
-                      "borderColor": "#262424",
-                      "borderRadius": 48,
-                      "borderWidth": 1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "paddingHorizontal": 8,
-                      "paddingVertical": 2,
-                    },
-                    {
-                      "backgroundColor": "#90ddff",
-                    },
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
               }
             >
-              <Text
-                accessible={false}
-                numberOfLines={1}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 14,
-                    "fontWeight": "400",
-                    "lineHeight": 19.599999999999998,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Creativity
-              </Text>
-            </View>
+              Creativity
+            </Text>
           </View>
         </View>
         <View
@@ -1646,7 +1446,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
         style={
           {
             "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
+            "borderColor": "#2222221f",
             "borderRadius": 16,
             "borderWidth": 1,
             "flexShrink": 1,
@@ -1736,7 +1536,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   {
                     "borderRadius": 8,
-                    "height": 166,
+                    "height": 136,
                     "justifyContent": "center",
                   }
                 }
@@ -1900,7 +1700,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
-                  "marginTop": 4,
+                  "marginTop": 8,
                 }
               }
             >
@@ -2083,7 +1883,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGGroup
-                        clipPath="time_svg__a"
+                        clipPath="time-filled_svg__a"
                         fill={
                           {
                             "payload": 4278190080,
@@ -2092,7 +1892,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         }
                       >
                         <RNSVGPath
-                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16.001A8 8 0 0 0 12 20Zm1-8h4v2h-6V7h2v5Z"
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
                           fill={
                             {
                               "type": 2,
@@ -2113,7 +1913,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                               "type": 0,
                             }
                           }
-                          name="time_svg__a"
+                          name="time-filled_svg__a"
                         >
                           <RNSVGPath
                             d="M0 0h24v24H0z"
@@ -2165,44 +1965,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           }
         >
           <View
-            accessibilityLabel="Communication skills"
-            accessibilityRole="button"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               [
-                [
-                  {
-                    "width": "auto",
-                  },
-                ],
+                {
+                  "borderColor": "#262424",
+                  "borderRadius": 48,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 2,
+                },
+                {
+                  "backgroundColor": "#90ddff",
+                },
                 {
                   "flexShrink": 1,
                   "marginRight": 6,
@@ -2210,90 +1986,40 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 },
               ]
             }
-            testID="spaces-topic-title"
           >
-            <View
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
               style={
-                [
-                  {
-                    "pointerEvents": "none",
-                  },
-                  false,
-                  [
-                    {
-                      "borderColor": "#262424",
-                      "borderRadius": 48,
-                      "borderWidth": 1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "paddingHorizontal": 8,
-                      "paddingVertical": 2,
-                    },
-                    {
-                      "backgroundColor": "#90ddff",
-                    },
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
               }
             >
-              <Text
-                accessible={false}
-                numberOfLines={1}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 14,
-                    "fontWeight": "400",
-                    "lineHeight": 19.599999999999998,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Communication skills
-              </Text>
-            </View>
+              Communication skills
+            </Text>
           </View>
           <View
-            accessibilityLabel="Creativity"
-            accessibilityRole="button"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               [
-                [
-                  {
-                    "width": "auto",
-                  },
-                ],
+                {
+                  "borderColor": "#262424",
+                  "borderRadius": 48,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 2,
+                },
+                {
+                  "backgroundColor": "#90ddff",
+                },
                 {
                   "flexShrink": 1,
                   "marginRight": 6,
@@ -2301,50 +2027,24 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 },
               ]
             }
-            testID="spaces-topic-title"
           >
-            <View
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
               style={
-                [
-                  {
-                    "pointerEvents": "none",
-                  },
-                  false,
-                  [
-                    {
-                      "borderColor": "#262424",
-                      "borderRadius": 48,
-                      "borderWidth": 1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "paddingHorizontal": 8,
-                      "paddingVertical": 2,
-                    },
-                    {
-                      "backgroundColor": "#90ddff",
-                    },
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
               }
             >
-              <Text
-                accessible={false}
-                numberOfLines={1}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 14,
-                    "fontWeight": "400",
-                    "lineHeight": 19.599999999999998,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Creativity
-              </Text>
-            </View>
+              Creativity
+            </Text>
           </View>
         </View>
         <View

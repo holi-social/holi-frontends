@@ -1,11 +1,13 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import FilterPill from '@holi/core/components/FilterPill'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
+import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
@@ -18,8 +20,9 @@ import {
   MapPin2Filled,
   PhoneFilled,
   RefreshFilled,
-  Time,
+  TimeFilled,
 } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -29,23 +32,28 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+export type Variant = 'full' | 'recommendation' | 'list'
+
 export type SpaceTaskTileProps = {
   task: Task
   space: Space
   isAdmin?: boolean
   isCollaborator?: boolean
-  showFullView?: boolean
+  variant?: Variant
 }
 
-const IMAGE_ASPECT_RATIO = 327 / 210
+const IMAGE_ASPECT_RATIO = 311 / 166
 
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
   isAdmin = false,
   isCollaborator = false,
-  showFullView = true,
+  variant = 'full',
 }: SpaceTaskTileProps) => {
+  const isVariantFull = variant === 'full'
+  const isVariantRecommendation = variant === 'recommendation'
+  const isVariantList = variant === 'list'
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
@@ -77,7 +85,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
         transparent
         label={task.name}
         onPress={goToDetailView}
-        disabled={showFullView}
+        disabled={isVariantFull}
         style={styles.clickOverlay}
       >
         <View style={styles.imageContainer}>
@@ -86,7 +94,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
               label={t('spaces.tasks.thumbnail.label')}
               source={{ uri: task.thumbnail }}
               blurhash={task.thumbnailBlurhash}
-              style={showFullView ? styles.imageShowFullView : styles.image}
+              style={isVariantFull ? styles.imageVariantFull : styles.image}
               onError={() => setImageError(true)}
             />
           )}
@@ -102,7 +110,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
               />
             </View>
           )}
-          {isCollaborator && (
+          {isVariantList && isCollaborator && (
             <View style={styles.visibility}>
               <HoliIcon
                 icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
@@ -113,22 +121,29 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
               <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
             </View>
           )}
+          {isVariantRecommendation && (
+            <View style={styles.spaceOverlay}>
+              <SpaceAvatar space={space} size={'micro'} />
+              <HoliText size={'extrasmall'} color={'gray300'}>
+                {space.name}
+              </HoliText>
+            </View>
+          )}
         </View>
       </HoliButton>
-
       <View style={styles.detailContainer}>
         <HoliButton
           transparent
           label={task.name}
           onPress={goToDetailView}
-          disabled={showFullView}
+          disabled={isVariantFull}
           style={[styles.clickOverlay, { flex: 1 }]}
         >
-          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })} testID="task-title">
+          <HoliText ellipsizeMode="tail" bold {...(isVariantFull ? {} : { numberOfLines: 2 })} testID="task-title">
             {task.name}
           </HoliText>
         </HoliButton>
-        {(isTaskOwner || isAdmin) && !showFullView && (
+        {(isTaskOwner || isAdmin) && isVariantList && (
           <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options" variant="dark">
             <HoliActionDrawer.Action
               icon={Edit2}
@@ -157,11 +172,30 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           </HoliActionDrawer.Drawer>
         )}
       </View>
+      {isVariantFull && (
+        <>
+          <HoliGap size={'xs'} />
+          <HoliLink
+            label={space.name ? t('space.visitProfile', { title: space.name }) : ''}
+            href={`/spaces/${space.name}`}
+          >
+            <View style={styles.space}>
+              <SpaceAvatar space={space} size={'micro'} />
+              <HoliText size={'small'}>
+                <Trans t={t} i18nKey="spaces.tasks.details.space" values={{ space: space.name }}>
+                  <HoliText size={'small'} bold />
+                </Trans>
+              </HoliText>
+            </View>
+          </HoliLink>
+          <HoliGap size={'s'} />
+        </>
+      )}
       <HoliButton
         transparent
         label={task.name}
         onPress={goToDetailView}
-        disabled={showFullView}
+        disabled={isVariantFull}
         style={styles.clickOverlay}
       >
         <View style={styles.iconsContainer}>
@@ -179,7 +213,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             </HoliText>
           </View>
           <View style={styles.iconGroupContainer}>
-            <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+            <HoliIcon icon={TimeFilled} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
             <HoliText style={styles.iconGroupText} size="extrasmall">
               {t(`spaces.input.task.regularity.${task.regularity}.title`)}
             </HoliText>
@@ -189,26 +223,17 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
           {task.skills.map((skill) => {
-            return (
-              <SpacesFilterPill
-                small
-                key={skill.id}
-                testID="spaces-topic-title"
-                label={skill.title}
-                filterType="skill"
-                style={styles.pill}
-              />
-            )
+            return <FilterPill small key={skill.id} label={skill.title} filterType="skill" style={styles.pill} />
           })}
         </View>
       )}
 
-      {!showFullView ? (
+      {!isVariantFull ? (
         <HoliButton
           transparent
           label={task.name}
           onPress={goToDetailView}
-          disabled={showFullView}
+          disabled={isVariantFull}
           style={styles.clickOverlay}
         >
           <View style={styles.descriptionContainer}>
@@ -225,7 +250,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
         <View style={styles.descriptionContainer}>
           <HoliRichTextOutput
             text={task.description}
-            color="gray300"
+            color="black300"
             size="small"
             allowAllLinks
             testID="task-description"
@@ -240,10 +265,10 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
               label={task.creator.fullName || t('user.profileView.anonymous')}
               initials={task.creator.avatarLabel || ''}
               defaultColor={task.creator.avatarDefaultColor || ''}
-              size="large"
+              size="medium"
               testID="task-contact-avatar"
             />
-            <HoliText style={styles.avatarName}>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
+            <HoliText>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
           </View>
 
           <HoliText bold style={styles.contactInformationTitle}>
@@ -251,17 +276,27 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           </HoliText>
           <View style={styles.contactContainer}>
             <HoliIcon icon={AtFilled} color={colors.foreground20} />
-            <HoliText style={styles.contactInformation} size="small">
-              {task.contactEmail}
-            </HoliText>
+            <HoliButton
+              inline
+              transparent
+              label={task.contactEmail}
+              onPress={() => Linking.openURL(`mailto:${task.contactEmail}`)}
+            >
+              <HoliText size="small">{task.contactEmail}</HoliText>
+            </HoliButton>
           </View>
 
           {!!task.contactPhone && (
             <View style={styles.contactContainer}>
               <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
-              <HoliText style={styles.contactInformation} size="small">
-                {task.contactPhone}
-              </HoliText>
+              <HoliButton
+                inline
+                transparent
+                label={task.contactPhone}
+                onPress={() => Linking.openURL(`tel:${task.contactPhone}`)}
+              >
+                <HoliText size="small">{task.contactPhone}</HoliText>
+              </HoliButton>
             </View>
           )}
         </View>
@@ -298,18 +333,15 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       flex: 1,
     },
-    moreOptionsButton: {
-      marginLeft: 16,
-    },
     descriptionContainer: {
       marginVertical: 16,
     },
     image: {
       borderRadius: 8,
-      height: 166,
+      height: 136,
       justifyContent: 'center',
     },
-    imageShowFullView: {
+    imageVariantFull: {
       borderRadius: 8,
       width: '100%',
       aspectRatio: IMAGE_ASPECT_RATIO,
@@ -327,10 +359,15 @@ const getStyles = (theme: HoliTheme) =>
     taskItem: {
       borderRadius: 16,
       borderWidth: 1,
-      borderColor: theme.colors.background30,
+      borderColor: theme.colors.foreground30at12Percent,
       backgroundColor: theme.colors.background10,
       padding: 8,
       flexShrink: 1,
+    },
+    space: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      gap: 8,
     },
     pill: {
       marginRight: 6,
@@ -338,7 +375,7 @@ const getStyles = (theme: HoliTheme) =>
       flexShrink: 1,
     },
     iconsContainer: {
-      marginTop: 4,
+      marginTop: 8,
       flexDirection: 'row',
       flexWrap: 'wrap',
     },
@@ -391,6 +428,18 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
     },
+    spaceOverlay: {
+      position: 'absolute',
+      left: 8,
+      bottom: 8,
+      padding: 4,
+      paddingRight: 8,
+      borderRadius: 6,
+      gap: 4,
+      backgroundColor: theme.colors.background10,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
     publishedByTitle: {
       marginTop: 32,
     },
@@ -398,9 +447,7 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: 16,
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    avatarName: {
-      marginLeft: 16,
+      gap: 16,
     },
     contactInformationTitle: {
       marginTop: 16,
@@ -409,9 +456,7 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: 16,
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    contactInformation: {
-      marginLeft: 10,
+      gap: 8,
     },
     buttonWithIcon: {
       display: 'flex',
