@@ -1,11 +1,7 @@
 import * as Device from 'expo-device'
 import { Platform } from 'react-native'
 
-import {
-  DEBUG_LOG_BY_DEFAULT,
-  DEBUG_LOG_COMPONENTS,
-  IS_IN_TESTING_ENV,
-} from '@holi/core/helpers/logging/logging_config'
+import { DEBUG_LOG_BY_DEFAULT, DEBUG_LOG_COMPONENTS, IS_IN_TESTING_ENV } from '@holi/core/helpers/logging/constants'
 import { Logger, NoopLoggerImpl } from '@holi/core/helpers/logging/types'
 
 // global switch if debug logging should be on

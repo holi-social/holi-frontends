@@ -95,7 +95,7 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
     }).then(() => setConnectionAccepted(false))
   }, [updateSpaceUserConnection])
 
-  const { userId } = useAuth()
+  const loginState = useAuth()
 
   const showButtons = connectionAccepted === null && notificationHasInteraction(notification)
 
@@ -105,17 +105,17 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
       return
     }
     // this message is for 'CONNECTION_REVOKED' notification
-    if (connectionRevoked === true) return 'notifications.space.connection.revoked.message'
+    if (connectionRevoked) return 'notifications.space.connection.revoked.message'
 
     // this message is for 'CONNECTION_REQUEST' notification before user does any action
     if (connectionAccepted === null)
-      return userId === notification.options.user.id
+      return loginState.isLoggedIn && loginState.userId === notification.options.user.id
         ? 'notifications.space.connection.message'
         : 'notifications.space.connection.requested.message'
 
-    if (connectionAccepted === true) {
+    if (connectionAccepted) {
       // this case is for 'CONNECTION_REQUEST_APPROVED' notification after connection was accepted
-      return userId === notification.options.user.id
+      return loginState.isLoggedIn && loginState.userId === notification.options.user.id
         ? 'notifications.space.connection.accepted.message'
         : 'notifications.space.connection.joined.message'
     } else {
@@ -151,13 +151,15 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
     </HoliButton>,
   ]
 
+  if (!loginState.isLoggedIn) return <HoliLoader />
+
   return (
     <View testID={testID}>
       <NotificationSpaceItem
         notification={notification}
         i18nKey={getI18nKey()}
         style={[style, loading && styles.notificationProcessing]}
-        testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
+        testID={`${testID ? testID + '-' : ''}notification-item_${loginState.userId}_${notification.options.user.id}`}
       >
         {showButtons && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>

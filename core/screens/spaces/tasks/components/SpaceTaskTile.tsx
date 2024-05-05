@@ -59,7 +59,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
-  const { userId } = useAuth()
+  const loginState = useAuth()
   const [imageError, setImageError] = useState(false)
   const [showPlaceholder, setShowPlaceholder] = useState(true)
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
@@ -69,7 +69,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
-  const isTaskOwner = isCollaborator && task?.creator.id === userId
+  const isTaskOwner = loginState.isLoggedIn && isCollaborator && task?.creator.id === loginState.userId
 
   const handlePlaceholder = useCallback(() => {
     setShowPlaceholder(imageError || !task.thumbnail)

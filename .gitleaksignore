@@ -7,3 +7,5 @@ apps/mobile/google-services-dev.json:generic-api-key:68
 apps/mobile/.yarn/releases/yarn-4.1.1.cjs:aws-access-token:149
 apps/mobile/.yarn/releases/yarn-4.1.1.cjs:aws-access-token:192
 apps/mobile/.yarn/releases/yarn-4.1.1.cjs:generic-api-key:567
+.env.local:generic-api-key:58
+.env.staging:generic-api-key:30

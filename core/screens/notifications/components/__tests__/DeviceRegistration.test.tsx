@@ -2,14 +2,26 @@ import { MockedProvider } from '@apollo/client/testing'
 import { act, render } from '@testing-library/react-native'
 import React from 'react'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
 import { getDeviceToken } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 import { initDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { registerDeviceMutation } from '@holi/core/screens/notifications/mutations'
 
-const loggedIn = () => ({ isLoggedIn: true })
-const loggedOut = () => ({ isLoggedIn: false })
+const loggedIn = (): LoginState => ({
+  loginState: 'loggedIn',
+  isUnknown: false,
+  isLoggedOut: false,
+  isLoggedIn: true,
+  userId: '123',
+})
+const loggedOut = (): LoginState => ({
+  loginState: 'loggedOut',
+  isUnknown: false,
+  isLoggedOut: true,
+  isLoggedIn: false,
+})
+
 const useAuthMock = useAuth as jest.Mock
 
 const mockGetDeviceToken = getDeviceToken as jest.Mock

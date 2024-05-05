@@ -55,14 +55,14 @@ const UserProfile = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { userId: authenticatedUserId, isLoggedIn } = useAuth()
+  const loginState = useAuth()
   const [userId = ''] = useParam('userId')
 
   useEffect(() => {
-    if (isLoggedIn && userId === authenticatedUserId) {
+    if (loginState.isLoggedIn && userId === loginState.userId) {
       replaceRoute('/profile')
     }
-  }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
+  }, [replaceRoute, loginState, userId])
 
   const {
     loading,

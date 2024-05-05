@@ -60,12 +60,14 @@ const CreateSpace = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
-  const { userId } = useAuth()
+  const loginState = useAuth()
   useEffect(() => {
-    mockImageUploadForE2E(userId).then((spaceCoverImage) => {
-      spaceCoverImage && setSpaceCoverImage(spaceCoverImage)
-    })
-  }, [userId])
+    if (loginState.isLoggedIn) {
+      mockImageUploadForE2E(loginState.userId).then((spaceCoverImage) => {
+        spaceCoverImage && setSpaceCoverImage(spaceCoverImage)
+      })
+    }
+  }, [loginState])
 
   const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
     onCompleted: () => setFieldErrors({}),

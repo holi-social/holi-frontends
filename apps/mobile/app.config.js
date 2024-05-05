@@ -211,6 +211,10 @@ export default {
         userId: process.env.E2E_USER_ID, // not required as not used in production
       },
       holi_challenges_app: requiredEnvVar('HOLI_CHALLENGES_APP'),
+      posthog: {
+        key: process.env.POSTHOG_KEY,
+        host: process.env.POSTHOG_HOST,
+      },
     },
   },
 }

@@ -6025,6 +6025,7 @@ __metadata:
     lodash.partition: "npm:^4.6.0"
     lottie-ios: "npm:4.3.3"
     lottie-react-native: "npm:6.5.1"
+    posthog-react-native: "npm:^3.1.1"
     react: "npm:18.2.0"
     react-devtools: "npm:4.14.0"
     react-i18next: "npm:^12.1.5"
@@ -6136,6 +6137,7 @@ __metadata:
     next-http-proxy-middleware: "npm:^1.2.6"
     ni18n: "npm:^1.1.0"
     pino: "npm:^8.8.0"
+    posthog-js: "npm:^1.130.0"
     raf: "npm:^3.4.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -18778,6 +18780,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fflate@npm:^0.4.8":
+  version: 0.4.8
+  resolution: "fflate@npm:0.4.8"
+  checksum: 10c0/29d1eddaaa5deab61b1c6b0d21282adacadbc4d2c01e94d8b1ee784398151673b9c563e53f97a801bc410a1ae55e8de5378114a743430e643e7a0644ba8e5a42
+  languageName: node
+  linkType: hard
+
 "figures@npm:^3.0.0":
   version: 3.2.0
   resolution: "figures@npm:3.2.0"
@@ -26618,6 +26627,56 @@ __metadata:
     picocolors: "npm:^1.0.0"
     source-map-js: "npm:^1.0.2"
   checksum: 10c0/e8dd04e48001eb5857abc9475365bf08f4e508ddf9bc0b8525449a95d190f10d025acebc5b56ac2e94b3c7146790e4ae78989bb9633cb7ee20d1cc9b7dc909b2
+  languageName: node
+  linkType: hard
+
+"posthog-js@npm:^1.130.0":
+  version: 1.130.0
+  resolution: "posthog-js@npm:1.130.0"
+  dependencies:
+    fflate: "npm:^0.4.8"
+    preact: "npm:^10.19.3"
+  checksum: 10c0/63914ab33c424d685149c54d6c06f61ee468e9b02bf980706dbe64579a4d46392ecdc54a36418d4516181e1d4b111c5bc43a6395355b24dd3dc753d51588c0f6
+  languageName: node
+  linkType: hard
+
+"posthog-react-native@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "posthog-react-native@npm:3.1.1"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": ">=1.0.0"
+    "@react-navigation/native": ">= 5.0.10"
+    expo-application: ">= 4.0.0"
+    expo-device: ">= 4.0.0"
+    expo-file-system: ">= 13.0.0"
+    expo-localization: ">= 11.0.0"
+    react-native-device-info: ">= 10.0.0"
+    react-native-navigation: ">=6.0.0"
+  peerDependenciesMeta:
+    "@react-native-async-storage/async-storage":
+      optional: true
+    "@react-navigation/native":
+      optional: true
+    expo-application:
+      optional: true
+    expo-device:
+      optional: true
+    expo-file-system:
+      optional: true
+    expo-localization:
+      optional: true
+    react-native-device-info:
+      optional: true
+    react-native-navigation:
+      optional: true
+  checksum: 10c0/4c3b764b3fc8e2f68ed0a8e04e8dc16f8a5530a4b832cd5a927b4dc4b1d0674e8b284414507636664c4f42c5fd32bbbbe9f5c3c74d2d0d3283b7edf838412e99
+  languageName: node
+  linkType: hard
+
+"preact@npm:^10.19.3":
+  version: 10.19.6
+  resolution: "preact@npm:10.19.6"
+  checksum: 10c0/305c63bc59f9a081185fea8ee9a43c96f69af58e50692228d0e566eacd69bac009f2fb9d4ebfa2bcfcfd9762c5318a7f1ccd1d5223ab8764e3f7e14386bce626
   languageName: node
   linkType: hard
 

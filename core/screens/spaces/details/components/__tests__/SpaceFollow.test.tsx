@@ -9,7 +9,7 @@ import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollo
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -26,12 +26,12 @@ jest.mock('@holi/core/errors/hooks/useErrorHandling', () => ({
 
 const authenticatedUserRequest = {
   request: {
-    query: authenticatedUserQuery,
+    query: authenticatedUserV2Query,
     variables: {},
   },
   result: {
     data: {
-      authenticatedUser: {
+      authenticatedUserV2: {
         id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
         avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
         fullName: 'EE. Visited',

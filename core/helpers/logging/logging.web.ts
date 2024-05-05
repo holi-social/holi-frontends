@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-import { DEBUG_LOG_BY_DEFAULT, DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/logging_config'
+import { DEBUG_LOG_BY_DEFAULT, DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 import { Logger, NoopLoggerImpl } from '@holi/core/helpers/logging/types'
 
 class WebLogger implements Logger {
