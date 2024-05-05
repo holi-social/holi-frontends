@@ -12,7 +12,7 @@ const posthog = trackingEnabled()
       host: posthogHost,
       defaultOptIn: false,
     })
-  : undefined
+  : null
 
 export const TrackingProvider = ({ children }: PropsWithChildren) => {
   logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled())
