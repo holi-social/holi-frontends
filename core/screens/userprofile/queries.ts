@@ -106,8 +106,12 @@ export const authenticatedUserV2Query = gql`
   }
 `
 
-export type AuthenticatedUserResponse = {
+export type AuthenticatedUserV2Response = {
   authenticatedUserV2: AuthenticatedUser
+}
+
+export type AuthenticatedUserV2Variables = {
+  userId: string | undefined
 }
 
 export interface UserByIdResponse {

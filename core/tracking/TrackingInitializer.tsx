@@ -4,8 +4,10 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
+  AuthenticatedUserV2Response,
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserV2Response,
+  authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
@@ -31,7 +33,7 @@ class Tracking {
     }
   }
 
-  private async initWithLoggedInUser(user: AuthenticatedUser, consentState: ConsentState): Promise<void> {
+  public async initWithLoggedInUser(user: AuthenticatedUser, consentState: ConsentState): Promise<void> {
     switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedIn', 'analytics consent given, opting in on posthog client')
@@ -47,7 +49,7 @@ class Tracking {
     }
   }
 
-  private async initWithLoggedOutUser(consentState: ConsentState): Promise<void> {
+  public async initWithLoggedOutUser(consentState: ConsentState): Promise<void> {
     switch (consentState[TrackingPurpose.Analytics]) {
       case Consent.Given:
         logger.debug('TrackingInitializer.userLoggedOut', 'analytics consent given, opting in on posthog client')
@@ -74,6 +76,17 @@ class Tracking {
 
   public async loadConsent(loggedInState: LoggedInState): Promise<ConsentState> {
     return loggedInState.isLoggedIn ? ConsentState.fromUser(loggedInState.user) : await consentStore.load()
+  }
+
+  public async refreshAuthenticatedUser(userId: string): Promise<AuthenticatedUser> {
+    const response = await this.apollo.query<AuthenticatedUserV2Response>({
+      query: authenticatedUserV2Query,
+      fetchPolicy: 'network-only',
+      variables: {
+        userId: userId,
+      },
+    })
+    return response.data.authenticatedUserV2
   }
 
   public storeConsent(loggedInState: LoggedInState, consentState: ConsentState): Promise<void> {
@@ -104,6 +117,7 @@ export const consentStateVarInitial = {
   initializing: true, // true when the application initializes for "the first time" (but e.g. also on browser reload)
   updatedByUser: false, // true for every subsequent update to consentStateVar (typically when user updates consent)
   userLoggedIn: false, // true when the user just logged in
+  userLoggedInUserId: undefined,
   userLoggedOut: false, // true when the user just logged out
   state: ConsentState.unknown,
 }
@@ -113,6 +127,7 @@ export const consentStateVar = makeVar<{
   initializing: boolean
   updatedByUser: boolean
   userLoggedIn: boolean
+  userLoggedInUserId: string | undefined
   userLoggedOut: boolean
   state: ConsentState
 }>(consentStateVarInitial)
@@ -122,16 +137,18 @@ export const updateConsentState = (consentState: ConsentState) => {
     initializing: false,
     updatedByUser: true,
     userLoggedIn: false,
+    userLoggedInUserId: undefined,
     userLoggedOut: false,
     state: consentState,
   })
 }
 
-export const userLoggedIn = (): void => {
+export const userLoggedIn = (userId: string): void => {
   consentStateVar({
     initializing: false,
     updatedByUser: false,
     userLoggedIn: true,
+    userLoggedInUserId: userId,
     userLoggedOut: false,
     state: ConsentState.unknown,
   })
@@ -142,6 +159,7 @@ export const userLoggedOut = (): void => {
     initializing: false,
     updatedByUser: false,
     userLoggedIn: false,
+    userLoggedInUserId: undefined,
     userLoggedOut: true,
     state: ConsentState.unknown,
   })
@@ -203,19 +221,21 @@ const TrackingInitializerInner = ({
             initializing: false,
             updatedByUser: false,
             userLoggedIn: false,
+            userLoggedInUserId: undefined,
             userLoggedOut: false,
             state: consentState.state,
           })
           if (onInitCompleted) onInitCompleted()
         })
       } else if (consentState.updatedByUser) {
-        logger.debug('TrackingInitializer', 'user updated consent', consentState)
+        logger.debug('TrackingInitializer', 'updatedByUser', consentState)
         tracking.storeConsent(loggedInState, consentState.state).then(() => {
           tracking.init(loggedInState, consentState.state).then(() => {
             consentStateVar({
               initializing: false,
               updatedByUser: false,
               userLoggedIn: false,
+              userLoggedInUserId: undefined,
               userLoggedOut: false,
               state: consentState.state,
             })
@@ -224,26 +244,34 @@ const TrackingInitializerInner = ({
         })
       } else if (consentState.userLoggedIn) {
         logger.debug('TrackingInitializer', 'userLoggedIn', consentState)
-        tracking.init(loggedInState).then(() => {
-          consentStateVar({
-            initializing: false,
-            updatedByUser: false,
-            userLoggedIn: false,
-            userLoggedOut: false,
-            state: consentState.state,
-          })
-          if (onUserLoggedInCompleted) onUserLoggedInCompleted()
-        })
-      } else if (consentState.userLoggedOut) {
-        logger.debug('TrackingInitializer', 'userLoggedOut', consentState)
-        tracking.clearConsentAfterUserLoggedOut().then(() => {
-          return tracking.init(loggedInState).then(() => {
+        // consentState.state needs to be ignored, we need to ensure user profile is up-to-date
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        tracking.refreshAuthenticatedUser(consentState.userLoggedInUserId!).then((authenticatedUser) => {
+          if (!authenticatedUser) throw new Error('Unable to fetch authenticated user')
+          const updatedConsentState = ConsentState.fromUser(authenticatedUser)
+          tracking.initWithLoggedInUser(authenticatedUser, updatedConsentState).then(() => {
             consentStateVar({
               initializing: false,
               updatedByUser: false,
               userLoggedIn: false,
+              userLoggedInUserId: undefined,
               userLoggedOut: false,
-              state: consentState.state,
+              state: updatedConsentState,
+            })
+            if (onUserLoggedInCompleted) onUserLoggedInCompleted()
+          })
+        })
+      } else if (consentState.userLoggedOut) {
+        logger.debug('TrackingInitializer', 'userLoggedOut', consentState)
+        tracking.clearConsentAfterUserLoggedOut().then(() => {
+          return tracking.initWithLoggedOutUser(ConsentState.unknown).then(() => {
+            consentStateVar({
+              initializing: false,
+              updatedByUser: false,
+              userLoggedIn: false,
+              userLoggedInUserId: undefined,
+              userLoggedOut: false,
+              state: ConsentState.unknown,
             })
             if (onUserLoggedOutCompleted) onUserLoggedOutCompleted()
           })
