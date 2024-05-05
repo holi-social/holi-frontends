@@ -107,7 +107,9 @@ export const authenticatedUserV2Query = gql`
 `
 
 export type AuthenticatedUserV2Response = {
-  authenticatedUserV2: AuthenticatedUser
+  authenticatedUserV2: AuthenticatedUser & {
+    __typename: 'AuthenticatedUser'
+  }
 }
 
 export type AuthenticatedUserV2Variables = {
@@ -191,7 +193,9 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
 export type UpdateAuthenticatedUserV2Response = {
-  updateAuthenticatedUserV2: AuthenticatedUser
+  updateAuthenticatedUserV2: AuthenticatedUser & {
+    __typename: 'AuthenticatedUser'
+  }
 }
 
 export type UpdateConnectionWithUserInput = {

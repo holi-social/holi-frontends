@@ -8,6 +8,7 @@ import {
   AuthenticatedUserV2Response,
   AuthenticatedUserV2Variables,
   UpdateAuthenticatedUserInput,
+  UpdateAuthenticatedUserV2Response,
   authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
@@ -94,7 +95,7 @@ const loggedInStateLoggedIn = (consentState?: ConsentState): LoggedInUser => {
     isLoggedIn: true,
     isLoggedOut: false,
     user: {
-      ...getRandomUser(),
+      ...getRandomUser(true),
       id: TEST_USER_ID,
       trackingConsentAnalytics: consentAnalytics,
       trackingConsentPersonalization: consentPersonalization,
@@ -148,15 +149,9 @@ const mockAsyncStorage = (consentState?: ConsentState): void => {
   })
 }
 
-type WithTypename = {
-  authenticatedUserV2: {
-    __typename: string
-  }
-}
-
 const mockedAuthenticatedUserResponse = (
   user: AuthenticatedUser
-): MockedResponse<AuthenticatedUserV2Response & WithTypename, AuthenticatedUserV2Variables> => ({
+): MockedResponse<AuthenticatedUserV2Response, AuthenticatedUserV2Variables> => ({
   request: {
     query: authenticatedUserV2Query,
     variables: {
@@ -403,25 +398,30 @@ describe('TrackingInitializer', () => {
           },
         })
 
-        const mockedResponse: MockedResponse<{ authenticatedUserV2: AuthenticatedUser }, UpdateAuthenticatedUserInput> =
-          {
-            request: {
-              query: updateAuthenticatedUserV2Mutation,
-              variables: {
+        const mockedResponse: MockedResponse<
+          UpdateAuthenticatedUserV2Response,
+          { input: UpdateAuthenticatedUserInput }
+        > = {
+          request: {
+            query: updateAuthenticatedUserV2Mutation,
+            variables: {
+              input: {
                 trackingConsentAnalytics: true,
-                trackingConsentPersonalization: undefined,
+                trackingConsentPersonalization: false,
               },
             },
-            result: {
-              data: {
-                authenticatedUserV2: {
-                  ...loggedInState.user,
-                  trackingConsentAnalytics: true,
-                  trackingConsentPersonalization: undefined,
-                },
+          },
+          result: {
+            data: {
+              updateAuthenticatedUserV2: {
+                ...loggedInState.user,
+                trackingConsentAnalytics: true,
+                trackingConsentPersonalization: false,
+                __typename: 'AuthenticatedUser',
               },
             },
-          }
+          },
+        }
 
         const onInitCompleted = jest.fn()
         const onUpdateCompleted = jest.fn()
@@ -443,7 +443,7 @@ describe('TrackingInitializer', () => {
         await act(() =>
           updateConsentState({
             [TrackingPurpose.Analytics]: Consent.Given,
-            [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.Personalization]: Consent.Denied,
           })
         )
         await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
