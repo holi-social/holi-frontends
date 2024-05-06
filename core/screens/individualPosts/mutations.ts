@@ -28,3 +28,15 @@ export const createFeedPostMutation = gql`
 export type CreateFeedPostResponse = {
   createFeedPost: FeedPost
 }
+
+export const deleteFeedPostMutation = gql`
+  mutation DeleteFeedPost($postId: UUID!) {
+    deleteFeedPost(postId: $postId) {
+      success
+    }
+  }
+`
+
+export interface DeleteFeedPostResponse {
+  success: boolean
+}
