@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, InputAccessoryView, Platform, StyleSheet, View } from 'react-native'
+import { Dimensions, InputAccessoryView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -162,7 +162,7 @@ const CreatePost = () => {
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
       <View style={styles.layout}>
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
           <View style={styles.pillContainer}>
             {settingPills.map((pill, index) => (
               <FeedPostPill
@@ -195,9 +195,11 @@ const CreatePost = () => {
               maxSuggestionOptions={30}
             />
             {/* <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} /> */}
-            <ImageEditor onSave={setImage} image={image} />
+            <View style={styles.imageEditor}>
+              <ImageEditor onSave={setImage} image={image} />
+            </View>
           </View>
-        </View>
+        </ScrollView>
 
         {Platform.OS === 'ios' ? (
           <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
@@ -262,9 +264,6 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
       maxWidth: '100%',
     },
     container: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      alignContent: 'center',
       paddingTop: 24,
       width: '100%',
       ...Platform.select({
@@ -273,6 +272,12 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
         },
       }),
     },
+    contentContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center',
+      paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
+    },
     inputContainer: {
       width: '100%',
       paddingHorizontal: 6,
@@ -280,6 +285,9 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
     titleFont: {
       fontSize: 21,
       color: theme.colors.black300,
+    },
+    imageEditor: {
+      paddingTop: 24,
     },
 
     // pill styles
