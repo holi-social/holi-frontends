@@ -105,20 +105,7 @@ describe('middleware', () => {
     expect(mockRedirect).not.toHaveBeenCalled()
   })
 
-  it('should not redirect if path contains "default" as locale subpath and the detected locale is the default locale', () => {
-    // Next.js does not distinguish between "/default/spaces" and "/spaces", i.e. forcing a redirect here would result in an endless loop
-    const request = createRequest({
-      href: origin + '/default/spaces',
-      pathname: '/spaces',
-      acceptLangage: 'en',
-    })
-
-    const response = middleware(request)
-    expect(response).toBeUndefined()
-    expect(mockRedirect).not.toHaveBeenCalled()
-  })
-
-  it('should redirect if path contains "default" as locale subpath and the detected locale differs from the default locale', () => {
+  it('should redirect if path contains "default" as locale subpath', () => {
     const request = createRequest({
       href: origin + '/default/spaces',
       pathname: '/spaces',
@@ -130,18 +117,7 @@ describe('middleware', () => {
     expect(mockRedirect).toHaveBeenCalledWith(new URL(origin + '/de/spaces'))
   })
 
-  it('should not redirect if the detected locale is the default locale', () => {
-    const request = createRequest({
-      pathname: '/spaces',
-      acceptLangage: 'en',
-    })
-
-    const response = middleware(request)
-    expect(response).toBeUndefined()
-    expect(mockRedirect).not.toHaveBeenCalled()
-  })
-
-  it('should redirect to the detected locale if it differs from the default locale', () => {
+  it('should redirect to the detected locale if no locale subpath is present', () => {
     const request = createRequest({
       pathname: '/spaces',
       acceptLangage: 'de',
