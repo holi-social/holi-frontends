@@ -61,6 +61,13 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
     return false
   }
 
+  const trimPrefix = (prefix: string, str: string) => {
+    if (str.startsWith(prefix)) {
+      return str.slice(prefix.length)
+    }
+    return str
+  }
+
   const submitCode = async () => {
     if (!flow) return false
 
@@ -78,11 +85,8 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422 && error.response?.data?.error?.id === 'browser_location_change_required') {
-          navigate(
-            webview
-              ? error.response?.data?.redirect_browser_to + '&webview=true'
-              : error.response?.data?.redirect_browser_to
-          )
+          const url = trimPrefix('/api/.ory', error.response?.data?.redirect_browser_to)
+          navigate(webview ? url + '&webview=true' : url)
         } else {
           displayError(error, 'Failed to recover with code for password recovery', {
             displayMessage: t('auth.forgotPassword.message.submitCode.error'),

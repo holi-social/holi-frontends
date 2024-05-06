@@ -19,7 +19,7 @@ describe('PostContent', () => {
     expect(getByText(post.creator.fullName)).toBeDefined()
     expect(getByText(post.text)).toBeDefined()
     expect(getAllByTestId('holi-user-avatar-pile').length).toBe(post.commenters.data.length)
-    expect(getByText('insights.post.response')).toBeDefined()
+    expect(getByText('comments.response')).toBeDefined()
     expect(getByTestId('btn-react-to-post-HEART')).toBeDefined()
     expect(getByTestId('btn-react-to-post-HEART-counter')).toHaveTextContent(post.reactions.HEART.toString())
   })

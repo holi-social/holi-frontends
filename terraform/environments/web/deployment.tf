@@ -63,6 +63,14 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment == "production" ? "false" : "true"
         }
         env {
+          name  = "POSTHOG_KEY"
+          value = local.posthog_key
+        }
+        env {
+          name  = "POSTHOG_HOST"
+          value = local.posthog_host
+        }
+        env {
           name  = "ORY_BASE_URL"
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }

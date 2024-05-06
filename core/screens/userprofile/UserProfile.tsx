@@ -24,6 +24,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType } from '@holi/core/queries'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
+import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
@@ -54,14 +55,14 @@ const UserProfile = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { userId: authenticatedUserId, isLoggedIn } = useAuth()
+  const loginState = useAuth()
   const [userId = ''] = useParam('userId')
 
   useEffect(() => {
-    if (isLoggedIn && userId === authenticatedUserId) {
+    if (loginState.isLoggedIn && userId === loginState.userId) {
       replaceRoute('/profile')
     }
-  }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
+  }, [replaceRoute, loginState, userId])
 
   const {
     loading,
@@ -246,6 +247,10 @@ const UserProfile = () => {
                 memberId={user.id}
               />
             ),
+          },
+          {
+            title: t('individuals.post.name'),
+            children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
           },
         ]}
       />

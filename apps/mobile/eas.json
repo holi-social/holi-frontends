@@ -29,7 +29,9 @@
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
-        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
+        "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
+        "POSTHOG_HOST": "https://eu.posthog.com"
       }
     },
     "development-simulator": {
@@ -55,7 +57,9 @@
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
-        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
+        "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
+        "POSTHOG_HOST": "https://eu.posthog.com"
       },
       "ios": {
         "simulator": true
@@ -84,12 +88,14 @@
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
-        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
+        "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
+        "POSTHOG_HOST": "https://eu.posthog.com"
       }
     },
     "production": {
       "extends": "base",
-      "channel": "production-1-15",
+      "channel": "production-1-16",
       "env": {
         "APP_VARIANT": "production",
         "ENVIRONMENT_ID": "production",
@@ -108,7 +114,9 @@
         "NOVU_APPLICATION_IDENTIFIER": "unwXQBqcNfF1",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
-        "HOLI_CHALLENGES_APP": "https://challenges.holi.social"
+        "HOLI_CHALLENGES_APP": "https://challenges.holi.social",
+        "POSTHOG_KEY": "",
+        "POSTHOG_HOST": ""
       }
     },
     "simulator": {
@@ -132,7 +140,9 @@
         "NOVU_APPLICATION_IDENTIFIER": "U6haJNi73bg8",
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
-        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social"
+        "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
+        "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
+        "POSTHOG_HOST": "https://eu.posthog.com"
       },
       "ios": {
         "simulator": true

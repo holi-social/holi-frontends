@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.15.0', // user-facing value visible in stores
-  iosBuildNumber: '1.15.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 52, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.16.0', // user-facing value visible in stores
+  iosBuildNumber: '1.16.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 56, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -211,6 +211,10 @@ export default {
         userId: process.env.E2E_USER_ID, // not required as not used in production
       },
       holi_challenges_app: requiredEnvVar('HOLI_CHALLENGES_APP'),
+      posthog: {
+        key: process.env.POSTHOG_KEY,
+        host: process.env.POSTHOG_HOST,
+      },
     },
   },
 }

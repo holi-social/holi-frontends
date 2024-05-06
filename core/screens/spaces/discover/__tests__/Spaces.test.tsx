@@ -2,6 +2,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { LoginStateLoggedIn } from '@holi/core/auth/helpers/useAuth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import {
   authenticatedUserMock,
@@ -16,8 +17,16 @@ import Spaces from '@holi/core/screens/spaces/discover/Spaces'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+const loginStateLoggedIn: LoginStateLoggedIn = {
+  loginState: 'loggedIn',
+  isUnknown: false,
+  isLoggedOut: false,
+  isLoggedIn: true,
+  userId: '123',
+}
+
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: () => ({ userId: '123' }),
+  useAuth: () => loginStateLoggedIn,
   setUserLoggedOut: async () => null,
 }))
 

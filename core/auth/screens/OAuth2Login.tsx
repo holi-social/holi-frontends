@@ -26,7 +26,7 @@ export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProp
 // Only used for OAuth2 login flow on web, see apps/web/pages/oauth2/login.tsx
 // Performing direct redirects by changing window.location.href
 const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = false, ...redirectProps }) => {
-  const { userId } = useAuth()
+  const { isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
@@ -34,8 +34,6 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
   const client = useApolloClient()
-
-  const isLoggedIn = !!userId
 
   useLayoutEffect(() => {
     setScreenOptions({

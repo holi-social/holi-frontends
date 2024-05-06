@@ -3,12 +3,23 @@ import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/r
 import React from 'react'
 import renderer from 'react-test-renderer'
 
+import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser, notificationSpaceInvite } from '@holi/core/screens/notifications/components/seedData'
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+
+jest.mock('@holi/core/auth/helpers/useAuth')
+const useAuthMock = jest.mocked(useAuth)
+const loggedIn: LoginState = {
+  loginState: 'loggedIn',
+  isUnknown: false,
+  isLoggedOut: false,
+  isLoggedIn: true,
+  userId: '123',
+}
 
 // prevent warnings about incomplete apollo mocks,
 // which aren't used as we only test the loading indicator
@@ -45,6 +56,7 @@ const MOCKS = [acceptInvite, declineInvite]
 
 describe('NotificationSpaceInviteItem', () => {
   beforeEach(() => {
+    useAuthMock.mockReturnValue(loggedIn)
     jest.useRealTimers()
   })
 

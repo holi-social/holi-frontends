@@ -9,7 +9,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
         false,
       ]
     }
-    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+    testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
     <View
       accessibilityLabel="Foo"
@@ -461,7 +461,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
         false,
       ]
     }
-    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+    testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
     <View
       accessibilityLabel="Foo"

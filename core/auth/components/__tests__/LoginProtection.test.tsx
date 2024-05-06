@@ -4,11 +4,24 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 
-const loggedIn = () => ({ userId: '123' })
-const loggedOut = () => ({ userId: null })
+const loggedIn = (): LoginState => {
+  return {
+    loginState: 'loggedIn',
+    isUnknown: false,
+    isLoggedOut: false,
+    isLoggedIn: true,
+    userId: '123',
+  }
+}
+const loggedOut = (): LoginState => ({
+  loginState: 'loggedOut',
+  isUnknown: false,
+  isLoggedOut: true,
+  isLoggedIn: false,
+})
 const useAuthMock = useAuth as jest.Mock
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
@@ -22,12 +35,12 @@ jest.mock('@holi/core/helpers/useDocumentURL', () => ({
 
 const authenticatedUserRequest = {
   request: {
-    query: authenticatedUserQuery,
+    query: authenticatedUserV2Query,
     variables: { userId: '123' },
   },
   result: {
     data: {
-      authenticatedUser: {
+      authenticatedUserV2: {
         id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
         avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
         fullName: 'EE. Visited',

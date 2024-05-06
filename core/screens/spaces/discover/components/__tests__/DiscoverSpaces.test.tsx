@@ -10,7 +10,7 @@ import {
   skillsMock,
   topicsMock,
 } from '@holi/core/screens/spaces/__tests__/mocks'
-import { authenticatedUser, spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
+import { authenticatedUserV2, spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -59,7 +59,7 @@ const renderDiscoverSpaces = (mocks: MockedResponse[]) =>
     <MockedProvider mocks={mocks} addTypename={false}>
       <ToastProvider>
         <SpaceTermContextProvider>
-          <DiscoverSpaces user={authenticatedUser} />
+          <DiscoverSpaces user={authenticatedUserV2} />
         </SpaceTermContextProvider>
       </ToastProvider>
     </MockedProvider>

@@ -8,15 +8,15 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type Variant = 'visibility' | 'topic' | 'category'
+export type FilterType = 'visibility' | 'topic' | 'category'
 
-type VariantInfo = {
+type FilterTypeInfo = {
   text: string
 }
 
-const variants: Record<Variant, VariantInfo> = {
+const filterTypes: Record<FilterType, FilterTypeInfo> = {
   visibility: {
-    text: 'individuals.post.category.label.visibility.public',
+    text: 'individuals.post.category.label.visibility',
   },
   category: {
     text: 'individuals.post.category.label.category',
@@ -27,7 +27,7 @@ const variants: Record<Variant, VariantInfo> = {
 }
 interface BaseProps {
   label?: string | null
-  variant: Variant
+  filterType: FilterType
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -48,7 +48,7 @@ const BORDER_RADIUS = 48
 const CreatePostPill: React.FC<CreatePostPillProps> = ({
   loading,
   label,
-  variant,
+  filterType,
   onPress,
   style,
   testID = 'spaces-filter-pill',
@@ -73,16 +73,16 @@ const CreatePostPill: React.FC<CreatePostPillProps> = ({
 
   return (
     <HoliButton
-      label={label || t(variants[variant].text)}
+      label={label || t(filterTypes[filterType].text)}
       style={style}
-      contentStyle={[styles.buttonContent, styles[variant]]}
+      contentStyle={[styles.buttonContent, styles[filterType]]}
       transparent
       inline
       onPress={onPress}
       testID={testID}
     >
       <HoliText bold numberOfLines={1}>
-        {label || t(variants[variant].text)}
+        {label || t(filterTypes[filterType].text)}
       </HoliText>
       <HoliIcon icon={icon} size={16} color={theme.colors.foreground30} />
     </HoliButton>

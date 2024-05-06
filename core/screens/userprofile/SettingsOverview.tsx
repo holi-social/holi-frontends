@@ -67,6 +67,13 @@ const SettingsOverview = () => {
             onPress={() => navigate('/profile/settings/notifications')}
             style={styles.settingsItem}
           />
+          <MoreOptionItem
+            label={t('profile.settings.tracking.title')}
+            icon={Notification3} // TODO change icon
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/tracking')}
+            style={styles.settingsItem}
+          />
           <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
             <MoreOptionItem
               label={t('profile.settings.favorites.title')}
