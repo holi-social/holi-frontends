@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { nextJsDefaultLocale, ni18nConfig } from '@holi/web/helpers/ni18nConfig'
+import { nextJsDefaultLocale } from '@holi/web/helpers/ni18nConfig'
 
 import { detectLocaleFromHeader } from './helpers/detectLocaleFromHeader'
 
@@ -18,8 +18,7 @@ export function middleware(req: NextRequest) {
   ) {
     return
   }
+  // Redirect to locale detected in request headers if current locale is "default"
   const detectedLocale = detectLocaleFromHeader(req.headers)
-  if (detectedLocale !== ni18nConfig.fallbackLng) {
-    return NextResponse.redirect(new URL(`/${detectedLocale}${pathname}${search}`, req.url))
-  }
+  return NextResponse.redirect(new URL(`/${detectedLocale}${pathname}${search}`, req.url))
 }

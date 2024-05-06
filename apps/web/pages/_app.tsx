@@ -29,7 +29,7 @@ export type NextPageWithLayout = NextPage<NextJSPageProps> & {
 
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
 
-const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
 

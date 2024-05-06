@@ -5,7 +5,6 @@ import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import { environmentId } from '@holi/web/environment'
-import { getValidLocale } from '@holi/web/helpers/getValidLocale'
 
 // adapt to react-native behavior
 // Force Next-generated DOM elements to fill their parent's height
@@ -30,11 +29,10 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    const locale = getValidLocale(this.props.locale)
     // use same path for local and dev env
     const env = environmentId === EnvironmentId.LOCAL ? EnvironmentId.DEVELOPMENT : environmentId
     return (
-      <Html lang={locale}>
+      <Html lang={this.props.locale}>
         <Head>
           {/* TODO: i18n meta atttributes like description, title etc. */}
           <meta name="description" content="HOLI community" />
@@ -56,7 +54,7 @@ export default class MyDocument extends Document {
   }
 }
 
-function promoteEnvVarToWindow(varName) {
+const promoteEnvVarToWindow = (varName: string) => {
   const varValue = process.env[varName]
   return <script dangerouslySetInnerHTML={{ __html: `window.${varName} = "${varValue}"` }} />
 }
