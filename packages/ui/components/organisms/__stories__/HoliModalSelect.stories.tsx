@@ -6,6 +6,8 @@ import HoliModalSelect, {
   HoliModalSelectVariants,
 } from '@holi/ui/components/organisms/HoliModalSelect'
 
+import { useModalState } from '../../molecules/HoliModal'
+
 const defaultOptions = [
   {
     id: 'PUBLIC',
@@ -28,9 +30,10 @@ export default {
 
 const Template: ComponentStory<typeof HoliModalSelect> = (props) => {
   const [options, setOptions] = useState(defaultOptions)
+  const { show, hide, visible } = useModalState()
   const onChange = (option: HoliModalSelectOption) =>
     setOptions(options.map((currentOption) => ({ ...currentOption, selected: currentOption.id === option.id })))
-  return <HoliModalSelect {...props} options={options} onChange={onChange} />
+  return <HoliModalSelect {...props} options={options} onChange={onChange} show={show} hide={hide} visible={visible} />
 }
 
 export const Example: ComponentStory<typeof HoliModalSelect> = Template.bind({})

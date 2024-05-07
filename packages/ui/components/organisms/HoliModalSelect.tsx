@@ -38,6 +38,9 @@ export type HoliModalSelectProps<IDType extends string = string> = {
   isRequired?: boolean
   variant?: HoliModalSelectVariant
   showOptionIcon?: boolean
+  show: () => void
+  hide: () => void
+  visible: boolean
 }
 
 const HoliModalSelect = <IDType extends string>({
@@ -52,11 +55,13 @@ const HoliModalSelect = <IDType extends string>({
   isRequired,
   variant = 'normal',
   showOptionIcon = false,
+  show,
+  hide,
+  visible,
 }: HoliModalSelectProps<IDType>) => {
   const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption<IDType> | undefined>()
   const [hovered, setHovered] = useState(false)
 
-  const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
   const { theme } = useTheme()
