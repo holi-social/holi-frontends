@@ -182,6 +182,8 @@ const CreatePost = () => {
               aria-label={t('individuals.post.create.category.input.title')}
               inputAccessoryViewID={inputAccessoryViewID}
               onChange={(title) => setTitle(title)}
+              maxNoOfVisibleLines={2}
+              noOfVisibleLines={2}
             />
             <HoliRichTextInput
               placeholder={t('individuals.post.create.category.input.description')}
@@ -259,9 +261,14 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
     descriptionInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
-      paddingTop: 2,
+      paddingTop: 6,
       paddingHorizontal: 5,
       maxWidth: '100%',
+      ...Platform.select({
+        web: {
+          marginLeft: -10,
+        },
+      }),
     },
     container: {
       paddingTop: 24,
