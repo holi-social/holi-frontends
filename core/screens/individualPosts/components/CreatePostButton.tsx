@@ -20,10 +20,10 @@ const CreatePostButton: React.FC = () => {
   const { colors } = theme
   const { openLoginModal } = useLoginModal()
 
-  const { userId } = useAuth()
+  const { isLoggedIn } = useAuth()
 
   const navigateToCreatePost = useCallback(() => {
-    if (!userId) {
+    if (!isLoggedIn) {
       openLoginModal({
         title: t('individuals.post.login.title'),
         description: t('individuals.post.login.text'),
@@ -31,7 +31,7 @@ const CreatePostButton: React.FC = () => {
     } else {
       navigate('/createPost')
     }
-  }, [navigate, openLoginModal, t, userId])
+  }, [navigate, openLoginModal, t, isLoggedIn])
 
   return (
     <>
@@ -43,10 +43,8 @@ const CreatePostButton: React.FC = () => {
         ]}
       >
         <Pressable
-          label={t('individuals.post.create.title')}
           testID="create-post-button"
           style={({ hovered }) => [styles.overlayButton, hovered ? styles.categoryHovered : styles.overlayButton]}
-          transparent={Platform.OS !== 'web'}
           onPress={() => {
             navigateToCreatePost()
           }}

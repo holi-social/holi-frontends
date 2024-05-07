@@ -1,7 +1,11 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React, { useState } from 'react'
 
-import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModalSelect, {
+  HoliModalSelectOption,
+  HoliModalSelectVariant,
+} from '@holi/ui/components/organisms/HoliModalSelect'
 
 const defaultOptions = [
   {
@@ -17,35 +21,38 @@ const defaultOptions = [
     selected: false,
   },
 ]
-const title = 'test title'
-const label = 'test label'
-const onChange = () => null
-const defaultProps = {
-  title,
-  label,
-  onChange,
-  options: defaultOptions,
-}
 
-const ParentComponent = () => {
+const ParentComponent = (props: { variant?: HoliModalSelectVariant }) => {
   const [options, setOptions] = useState(defaultOptions)
+  const { show, hide, visible } = useModalState()
 
   const onSelect = (option: HoliModalSelectOption) => {
     setOptions(options.map((currentOption) => ({ ...currentOption, selected: currentOption.id === option.id })))
   }
 
-  return <HoliModalSelect onChange={onSelect} options={options} title="test" label="test" />
+  return (
+    <HoliModalSelect
+      show={show}
+      hide={hide}
+      visible={visible}
+      onChange={onSelect}
+      options={options}
+      title="test"
+      label="test"
+      variant={props?.variant}
+    />
+  )
 }
 
 describe('HoliModalSelect', () => {
   it('renders correctly when closed', () => {
-    render(<HoliModalSelect {...defaultProps} />)
+    render(<ParentComponent />)
     // items should not be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(0)
   })
 
   it('renders correctly when opened', () => {
-    render(<HoliModalSelect {...defaultProps} />)
+    render(<ParentComponent />)
     fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     // items should be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
@@ -69,7 +76,7 @@ describe('HoliModalSelect', () => {
   })
 
   it('renders correctly when opened in dense variant', () => {
-    render(<HoliModalSelect {...defaultProps} variant="dense" />)
+    render(<ParentComponent variant="dense" />)
     fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     // items should be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
