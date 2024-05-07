@@ -98,6 +98,10 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   const [contactEmailError, setContactEmailError] = useState<string | undefined>()
   const [contactPhoneError, setContactPhoneError] = useState<string | undefined>()
 
+  const { show: showRegularity, hide: hideRegularity, visible: visibleRegularity } = useModalState()
+  const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
+  const { show: showLocationType, hide: hideLocationType, visible: visibleLocationType } = useModalState()
+
   const { t } = useTranslation()
   const { skills: allSkills } = useContext(SpaceTermContext)
   const { height: deviceHeight } = useWindowDimensions()
@@ -239,6 +243,9 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         label={t('spaces.input.task.visibility.label')}
         testID="task-visibility-input"
         isRequired
+        show={showVisibility}
+        hide={hideVisibility}
+        visible={visibleVisibility}
       />
       <View style={styles.sectionWrapper}>
         <HoliText size="large" testID="task-input-label-name">
@@ -318,6 +325,9 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           isRequired
           testID="task-locationType"
           variant="dense"
+          show={showLocationType}
+          hide={hideLocationType}
+          visible={visibleLocationType}
         />
 
         {locationType && locationType.id !== LocationType.REMOTE && (
@@ -350,6 +360,9 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           isRequired
           testID="task-regularity"
           variant="dense"
+          show={showRegularity}
+          hide={hideRegularity}
+          visible={visibleRegularity}
         />
       </View>
 

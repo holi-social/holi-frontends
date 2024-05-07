@@ -30,11 +30,11 @@ export const CategorySelectionModal: React.FC<{
         <View style={styles.modalHeader}>
           <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor="black" style={styles.backButton} />
           <HoliHeading level="2" size="s">
-            {t('individuals.post.create.title')}
+            {t('individuals.post.input.title')}
           </HoliHeading>
         </View>
         <HoliText size="large" style={styles.modalTitle}>
-          {t('individuals.post.create.category.title')}
+          {t('individuals.post.input.category.title')}
         </HoliText>
         <View style={styles.categoryContainer}>
           {props.categories.map((category) => (
