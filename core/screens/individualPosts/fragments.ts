@@ -23,5 +23,11 @@ export const FeedPostDetailsFragment = gql`
     creator {
       ...UserAvatar
     }
+    myReaction {
+      HEART
+    }
+    reactions {
+      HEART
+    }
   }
 `
