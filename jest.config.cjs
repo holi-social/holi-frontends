@@ -1,4 +1,5 @@
 module.exports = {
+  verbose: true,
   preset: 'jest-expo',
   transform: {
     '^.+\\.jsx$': 'babel-jest',

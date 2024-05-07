@@ -33,7 +33,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const { userId, isLoggedIn } = useAuth()
+  const loginState = useAuth()
   const [imageError, setImageError] = useState(false)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -77,9 +77,9 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   )
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/appointments/${appointment.id}`)
-  const isAppointmentCreator = appointment?.creator?.id === userId
+  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.userId
 
-  const shouldShowVisibilityLabel = isLoggedIn && (isMember || isAdmin)
+  const shouldShowVisibilityLabel = loginState.isLoggedIn && (isMember || isAdmin)
   const userIsAllowedToEdit = isAdmin || isAppointmentCreator
   const isHybrid = appointment?.isHybrid
 
@@ -165,7 +165,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           </View>
         </View>
 
-        {!isLoggedIn && isHybrid && (
+        {!loginState.isLoggedIn && isHybrid && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
@@ -176,7 +176,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           </View>
         )}
 
-        {!isLoggedIn && !isHybrid && appointment.locationDetails && (
+        {!loginState.isLoggedIn && !isHybrid && appointment.locationDetails && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliText style={styles.noIconGroupText} size="extrasmall">
@@ -185,7 +185,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </View>
           </View>
         )}
-        {!isLoggedIn && !isHybrid && appointment.hasVideoCallLink && (
+        {!loginState.isLoggedIn && !isHybrid && appointment.hasVideoCallLink && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
@@ -195,7 +195,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </View>
           </View>
         )}
-        {isLoggedIn && appointment.locationDetails && (
+        {loginState.isLoggedIn && appointment.locationDetails && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
@@ -205,7 +205,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             </View>
           </View>
         )}
-        {isLoggedIn && appointment.videoCallLink?.url && (
+        {loginState.isLoggedIn && appointment.videoCallLink?.url && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
               <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />

@@ -127,7 +127,7 @@ const PostPreview = ({
         <View style={styles.reactionsBar}>
           <View style={styles.reactionsLink}>
             <HoliUserAvatarPile usersToShow={3} collapse loading>
-              {t('insights.post.response', { count: post?.numberOfComments })}
+              {t('comments.response', { count: post?.numberOfComments })}
             </HoliUserAvatarPile>
           </View>
         </View>
@@ -283,7 +283,7 @@ const PostPreview = ({
               label={t('comments.link')}
             >
               <HoliUserAvatarPile users={commenters?.length ? [...commenters] : []} usersToShow={3} collapse>
-                {t('insights.post.response', { count: post?.numberOfComments })}
+                {t('comments.response', { count: post?.numberOfComments })}
               </HoliUserAvatarPile>
             </HoliLink>
           </View>

@@ -1,3 +1,4 @@
+import type { NextApiRequest } from 'next'
 import { Ni18nOptions } from 'ni18n'
 
 import { addTranslations } from '@holi/web/helpers/addTranslations'
@@ -10,34 +11,21 @@ jest.mock('ni18n', () => ({
 }))
 
 describe('addTranslations', () => {
-  it('should add translations to page props', async () => {
+  it('should add translations and locale to page props', async () => {
     const mockedTranslations = { i18n: { key: 'value' } }
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
     const existingProps = { foo: 'bar' }
-    const props = await addTranslations('en', existingProps)
+    const props = await addTranslations({} as NextApiRequest, existingProps)
 
     expect(props).toEqual({
       foo: 'bar',
-      ...mockedTranslations,
       locale: 'en',
-    })
-  })
-
-  it('should use en if locale is "default"', async () => {
-    const mockedTranslations = { i18n: { key: 'value' } }
-    mockLoadTranslations.mockResolvedValue(mockedTranslations)
-    const existingProps = { foo: 'bar' }
-    const props = await addTranslations('default', existingProps)
-
-    expect(props).toEqual({
-      foo: 'bar',
       ...mockedTranslations,
-      locale: 'en',
     })
   })
 
   it('should pass correct paramters to load translations', async () => {
-    await addTranslations('en', {})
+    await addTranslations({} as NextApiRequest, {})
 
     expect(mockLoadTranslations).toHaveBeenCalledWith(ni18nConfig, 'en', ni18nConfig.ns)
   })

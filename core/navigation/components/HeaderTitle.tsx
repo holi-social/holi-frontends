@@ -1,13 +1,13 @@
 import React from 'react'
 import { StyleProp, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import HoliText, { HoliTextColor, HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HeaderTitleProps extends Partial<HoliTextProps> {
   style?: StyleProp<ViewStyle>
   tintColor?: string
-  color?: string
+  color?: HoliTextColor
   widthOfScreen?: number
   testID?: string
 }

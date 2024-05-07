@@ -137,10 +137,10 @@ export const createCache = () =>
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (args: Record<string, any> | null) => {
               // reminder: keep in sync with parameters of `spaces` in `Query`, always exclude offset and limit
-              const { topicSlug, geolocation, skillSlugs, memberId } = args || {}
+              const { topicSlugs, geolocation, skillSlugs, memberId } = args || {}
               return JSON.stringify({
-                topicSlug,
                 geolocation: geolocation?.properties?.place_id,
+                topicSlugs,
                 skillSlugs,
                 memberId,
               })
@@ -163,6 +163,8 @@ export const createCache = () =>
           connectedUsers: pagedPolicy(),
           inspirationPosts: pagedPolicy(),
           favorites: pagedPolicy(),
+          myPosts: pagedPolicy(),
+          postsByUserId: pagedPolicy(),
         },
       },
     },
@@ -172,7 +174,7 @@ interface ApolloCreateClientOptions {
   readonly ssrMode: boolean
 }
 
-const API_URL = process.env.HOLI_API_URL
+const API_URL = 'http://localhost:3000/api/graphql'
 const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
 
 const cache = createCache()

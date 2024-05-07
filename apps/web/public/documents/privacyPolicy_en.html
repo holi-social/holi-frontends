@@ -1,4 +1,4 @@
-<h1>Privacy policy</h1>
+<h1 xmlns="http://www.w3.org/1999/html">Privacy policy</h1>
 <h2>Preamble</h2>
 <p>
   With the following privacy policy, we would like to inform you about the types of your personal data (hereinafter also
@@ -8,7 +8,7 @@
   (hereinafter collectively referred to as &quot;online offer&quot;).
 </p>
 <p>The terms used are not gender-specific.</p>
-<p>Status: 28 March 2024</p>
+<p>Status: 30 April 2024</p>
 <h2>Table of contents</h2>
 <ul>
   <li>
@@ -42,7 +42,7 @@
     <p>Rights of the data subjects</p>
   </li>
   <li>
-    <p>Use of cookies</p>
+    <p>Reading and saving information on your end device</p>
   </li>
   <li>
     <p>Provision of the online offer and web hosting</p>
@@ -373,10 +373,10 @@
 <h2>Reading out and storing information on your terminal device - Use of cookies and similar technologies</h2>
 <h3>Technologies used</h3>
 <p>
-  Tools used by us may store information on your device or read information from your device with the help of
-  technologies. This serves, for example, to ensure the functionality, the implementation of the login and
-  authentication, the security and the convenience of online offers. Tools may use the following technologies, for
-  example:
+  Tools used by us can use technologies to store information on your device or read
+  information from your device. This serves, for example, to ensure the functionality, the
+  implementation of registration and authentication, the security and convenience of our
+  online offer or to analyse its use. The following technologies may be used, for example:
 </p>
 <ul>
   <li>
@@ -438,16 +438,15 @@
   functions of the online offer requested by the users. The revocable consent is clearly communicated to the users and
   contains the information on the respective tool use.
 </p>
-<h3>Information stored on your device</h3>
+<h3>Necessary data processing</h3>
 <p>
-  Currently, only absolutely necessary information is stored on your used device that does not require consent. This
-  includes in detail:
+  The following necessary information is currently stored on your device, which does not require consent:
 </p>
 <p><strong>Cookies</strong></p>
 <p>
-  We only use cookies in the context of user logins and single sign-on for our self-hosted services (session cookie,
-  Oauth cookies, CSRF cookies). CSRF = Cross-Site Request Forgery (a security mechanism used in the context of the login
-  process). These include:
+  We only use cookies in the context of user logins and single sign-on for our
+  self-hosted services (session cookies, Oauth cookies, CSRF cookies). CSRF = Cross-Site
+  Request Forgery (a security mechanism used in the context of the login process). These include
 </p>
 <ul>
   <li>
@@ -456,42 +455,193 @@
 </ul>
 <ul>
   <li>
-    <p>&quot;ory_session_{ID}&quot; (session): Login, Authentication - Ory.</p>
+    <p>&quot;ory_session_{ID}&quot; (session): Login, authentication - Ory.</p>
+  </li>
+</ul>
+<ul>
+  <li>
+    <p>&quot;requireCameraPermission&quot; (session): Saving the camera access permission</p>
+  </li>
+</ul>
+<ul>
+  <li>
+    <p>&quot;onboarding_swipe_*&quot; (1 year): Saving information on whether users have seen
+      the initial information on using the Challenges area.</p>
+  </li>
+</ul>
+<ul>
+  <li>
+    <p>&quot;lastDaySeenSubmissions&quot; (1 day): Saves information on when the last report on
+      successful participation in challenges was submitted.</p>
+  </li>
+</ul>
+<ul>
+  <li>
+    <p>&quot;SESSION / JSESSIONID&quot; (1 year): Saving the logged-in session in the
+      Challenges area to avoid having to log in again.</p>
   </li>
 </ul>
 <p><strong>Local Storage</strong></p>
-<p>The following entries are created in the Local Storage:</p>
+<p>The following entries are created in Local Storage:</p>
 <ul>
   <li>
-    <p>&quot;i18nextLng&quot; (unlimited): Recognise and store language - i18next;</p>
+    <p>&quot;i18nextLng&quot; (unlimited): Recognise and save language - i18next;</p>
   </li>
   <li>
     <p>
-      &quot;onboarding_state_value (unlimited): Store the information whether users have already seen the necessary
-      initial information to use the platform or if it should be displayed;
+      &quot;onboarding_state_value&quot; (unlimited): Store information on whether users have
+      already seen the initial information required to use the platform or whether it
+      should be displayed;
     </p>
   </li>
   <li>
     <p>
-      &quot;space_join_is_onboarded (unlimited): Store information on whether users have already seen or should be shown
-      the initial information needed to use Spaces.
+      &quot;space_join_is_onboarded&quot; (unlimited): Saves the information as to whether
+      users have already seen the initial information required to use Spaces or whether
+      it should be displayed.
     </p>
   </li>
   <li>
     <p>
-      &quot;force_oauth2_logout&quot; (session, max. 24 hours): Saving the login status after manual logout from the
-      cloud storage.
+      &quot;force_oauth2_logout&quot; (session, max. 24 hours): Saves the login status after
+      manual logout from the cloud storage.
     </p>
   </li>
   <li>
     <p>
-      &quot;EXPO_CONSTANTS_INSTALLATION_ID&quot; (unlimited) Random and unique ID of an end device or browser profile,
-      which is retained for the entire lifetime of the app installation / browser data. This ID does not allow any
-      conclusions to be drawn about personal data and is not read out or otherwise used by holi.
+      &quot;EXPO_CONSTANTS_INSTALLATION_ID&quot; (unlimited) Random and unique ID of
+      an end device or browser profile, which is retained for the entire lifetime of the
+      app installation / browser data. This ID does not allow any conclusions to be
+      drawn about personal data and is not read or otherwise used by holi.
     </p>
   </li>
   <li>
-    <p>&quot;user_session&quot; (2 weeks): Login, authentication - Ory.</p>
+    <p>&quot;user_session&quot; (3 months): Login, authentication - Ory.</p>
+  </li>
+  <li>
+    <p>&quot;HOLI_TRACKING_CONSENT&quot; (unlimited): Saves the consent/refusal status for
+      tracking for various purposes if the user is not logged in.</p>
+  </li>
+</ul>
+<h3>Optional data processing</h3>
+<p>
+  To personalise the offer and analyse platform performance, the following information is
+  also stored on your device after you have given your consent. Further information on this
+  can be found below.
+</p>
+<p><strong>Local Storage</strong></p>
+<ul>
+  <li>
+    <p>
+      &quot;ph_{our posthog key}_posthog&quot; (unlimited): Posthog-internal status such as
+      device and session IDs.
+    </p>
+  </li>
+  <li>
+    <p>
+      &quot;__ph_opt_in_out_{our posthog key}&quot; (unlimited): Posthog-internal opt-in or
+      opt-out status
+    </p>
+  </li>
+</ul>
+<h3>Tracking of usage data</h3>
+<p>
+  With your prior consent, we use various tracking information to record and analyse your
+  usage. The purpose of this is to offer you a personally relevant user experience and to
+  analyse and continuously improve the use of our platform. Below we explain in detail
+  what data is collected and what it is used for.
+</p>
+<ul>
+  <li>
+    <p>
+      <strong>Your user activity:</strong> We track your use of the various areas and objects of the
+      app or website. Pages, elements, posts, actions and reactions that are displayed
+      and clicked on, as well as filter settings or search entries are analysed and
+      recorded. Based on the information obtained, we improve the product
+      experience by, for example, pre-sorting list items (donations, volunteer activities,
+      etc.) based on user interests or offering customised suggestions for suitable
+      projects. If tracking for personalisation is rejected, the individualised offer
+      content is omitted, but there are no other user disadvantages.
+    </p>
+    <p>
+      Furthermore, this data is used to analyse the visibility and use of various
+      elements and placements and, if necessary, to optimise them by learning, for
+      example, how far users scroll in the home page feed or which placements are
+      seen and/or clicked on particularly frequently. This helps us to offer more people
+      content that is as relevant as possible and to increase awareness of social or
+      environmental issues.
+    </p>
+    <p>
+      If you refuse tracking for analysis purposes, no usage data relating to your
+      personal data will be processed and therefore not taken into account in analyses,
+      but there will be no disadvantages in terms of usage.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>The source of your visit:</strong> If your use of holi has come about through an
+      advertising medium (e.g. an advert on other websites or scanning a QR code
+      from advertising posters), we will link the information about the source of the
+      visit to your user profile after you have given your consent. The aim of this
+      combination of data is to determine how successful different advertising
+      placements are and to analyse whether user behaviour differs based on the
+      source of the visit. If you refuse tracking for marketing purposes, information
+      about your visit source will not be processed with reference to your personal
+      data and will therefore not be taken into account in analyses, but there will be
+      no disadvantages in terms of use.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Technical data:</strong> When you access our platform, we also collect some device
+      and network connection data with the tracking information, such as the app
+      version, your operating system and your IP address. In addition to providing the
+      services, this also serves to analyse errors and performance of our application on
+      various devices and operating systems.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Types of data processed:</strong> When you access our platform, we also collect some
+      device and network connection data, such as the app version, your operating
+      system and your IP address, along with the tracking information. In addition to
+      providing the services, this also serves to analyse errors and performance of our
+      application on various devices and operating systems. Usage data (e.g. pages
+      visited on the holi platform, interest in content, access times); meta,
+      communication and procedural data (e.g. IP addresses, time data, identification
+      numbers, consent status);
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Data subjects:</strong> Users (e.g. website visitors, users of our online service);
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Purposes of processing:</strong> Reach measurement, creation of profiles with user-related information,
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Legal basis:</strong> Consent (Art. 6 para. 1 sentence 1 lit. a) GDPR);
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Recipient: PostHog:</strong> We transmit the above-mentioned data to PostHog Inc.
+      via the open-source program PostHog. PostHog offers us the possibility to
+      analyse and graphically process the usage behaviour of individual users as well
+      as aggregated usage patterns of usage groups and time periods. This helps us to
+      recognise usage problems and test different placements of elements. The
+      tracking data is stored on servers of the provider PostHog Inc. within the
+      European Union. PostHog Inc. acts as a data processor and stores the data
+      exclusively in accordance with our instructions. PostHog Inc. itself only has
+      anonymised access to our users' usage data for analysis purposes.<br />
+      <strong>Service provider:</strong> PostHog Inc, 2262 Market Steet #4008, San Fransisco, CA
+      94114, USA<br />
+      <strong>Website:</strong><a href="https://www.posthog.com">https://www.posthog.com</a>
+    </p>
   </li>
 </ul>
 <h3>Legal basis for data processing</h3>
@@ -612,6 +762,51 @@
         >https://www.dataprivacyframework.gov/s/participant-search/participant-detail?id=a2zt00000008S8eAAE&amp;status=Active</a
       >
       .
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>QR track:</strong> To draw the attention of interested users to our offers by means of
+      posters or posts, we sometimes use QR codes that contain the URLs of our web
+      offers. These codes can be scanned with the camera of a mobile phone to read
+      the web address (URL) and visit it using a mobile web browser. In order to
+      measure how successful the various placements are, we use QR-Track as a
+      commissioned data processor, which registers the views of the various
+      placements.<br />
+      <strong>Processed data types:</strong> Meta, communication and process data (e.g. IP
+      addresses, device type, browser, operating systems, time data, HTTP headers,
+      user agent);<br />
+      <strong>Data subjects:</strong> Users who scan a QR code with a reference to our landing
+      pages with their mobile phone and call up the link contained therein with their
+      browser.<br />
+      <strong>Purposes of processing:</strong> Reach measurement of the various QR code
+      placements<br />
+      <strong>Legal basis:</strong> Legitimate interests (Art. 6 para. 1 sentence 1 lit. f) GDPR);<br />
+      <strong>Service provider:</strong> QR-Track - Michael Hack Software e.K., Heimbachstr. 5,
+      86836 Graben<br />
+      <strong>Website: </strong>&nbsp;<a href="https://www.qrtrack.de"
+    >https://www.qrtrack.de</a><br />
+      <strong>Privacy policy:</strong> <a href="https://www.qrtrack.de/datenschutz"
+    >https://www.qrtrack.de/datenschutz</a>
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Usercentrics Consent Management Platform:</strong> We use the Usercentrics
+      service of Usercentrics GmbH, Sendlinger Str. 7, 80331 Munich, Germany as a
+      consent management provider to collect consent information on the
+      <a href="https://holi.social/">https://holi.social/ website</a>. The consent information is processed for this
+      purpose. The data will be deleted after one year.<br />
+      <strong>Processed data types:</strong> Opt-in and opt-out information, consent ID, time of
+      consent, template version and banner language), referrer URL, user agent and
+      IP address<br />
+      <strong>Data subjects:</strong> Visitors to the website https://holi.social/ and its subpages<br />
+      <strong>Purposes of processing:</strong>  Consent management Legal basis: Fulfilment of a
+      legal obligation (Art. 6 para. 1 sentence 1 lit. c GDPR)<br />
+      <strong>Service provider:</strong>  Usercentrics GmbH, Sendlinger Str. 7, 80331 Munich,
+      Germany<br />
+      <strong>Website:</strong> <a href="https://www.usercentrics.com/">https://www.usercentrics.com/</a><br />
+      <strong>Privacy policy:</strong> <a href="https://www.usercentrics.com/privacy-policy/">https://www.usercentrics.com/privacy-policy/</a>
     </p>
   </li>
   <li>
@@ -767,6 +962,48 @@
   </li>
   <li>
     <p>
+      <strong>Link hub:</strong>&nbsp;Within a collaboration space, a list of important links can be created
+      and organised in the so-called Link Hub. All contributors to a space can create,
+      edit and also delete entries. Link entries are displayed without reference to the
+      person creating them and are only visible within the respective space.<br />
+      <strong>Processed data types:</strong><br />
+      - User account information: Name, e-mail address, information on membership
+      in the respective collaboration space, technical user ID;<br />
+      - Server protocol: IP addresses with time stamp.<br />
+    <strong>Data subjects:</strong> Users of a collaboration space who use the linkhub<br />
+    <strong>Purposes of processing:</strong> Provision of the link hub<br />
+    <strong>Legal basis:</strong> Contract fulfilment and pre-contractual enquiries (Art. 6 para. 1
+    sentence 1 lit. b) GDPR).
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong>Tasks, appointments and update posts:</strong> Update posts, appointments and
+      tasks can be published within a collaboration Space. Normal contributors can
+      create these for viewing within the relevant collaboration space. Administrators
+      of a space can also create publicly visible updates, appointments and tasks. The
+      respective entries show the profile information (user name and, if available,
+      profile photo) of the creator.Users can transfer appointments to their calendars
+      and download the necessary files (.ics. files).
+    </p>
+    <p>
+      Access to the user's calendar is required to insert the appointments directly into
+      the calendars of the mobile app users (Google Calendar or iCalendar). The
+      application requests the necessary authorisation to read and write when the
+      function is actively used for the first time at the user's request.
+    </p>
+    <p>
+      <strong>Processed data types:</strong> User account information: Name, e-mail address,
+      information on membership in the respective collaboration space, technical
+      usage ID; Server protocol: IP addresses with time stamp.;<br />
+      <strong>Data subjects:</strong> Users of a collaboration room who create update posts, tasks or appointments;<br />
+      <strong>Purposes of processing:</strong> Provision of the functions described;<br />
+      <strong>Legal basis:</strong> Contract fulfilment and pre-contractual enquiries (Art. 6 para. 1
+      sentence 1 lit. b) GDPR);
+    </p>
+  </li>
+  <li>
+    <p>
       <strong>Cloud storage:</strong>&nbsp;Each collaboration room (Space) has a cloud storage for shared access to
       files and documents. The files are stored in encrypted form on rented storage space in the Google Cloud
       environment, which is also used to operate the platform (see section &quot;Provision of the online offering and
@@ -795,7 +1032,7 @@
     <p>
       <strong>Document editing with OnlyOffice:</strong>&nbsp;To enable contributors to (jointly) create and edit
       digital documents in our provided digital collaboration areas (so-called Spaces), we have integrated a self-hosted
-      instance of the open-source software OnlyOffice. This can be opened and used via the cloud storage also provided.
+      instance of the open-source software OnlyOffice. This can be opened and used via the cloud storage also provided.<br />
       <strong>Types of data processed</strong>:<br />- User account information: Name, email address, password
       (encrypted);<br />- Document data: Texts, tables, presentations and other file formats created, edited and
       uploaded by users;<br />- Communication data: Chat logs, comments, change tracking and other interactions within
@@ -941,6 +1178,15 @@
       our application, in accordance with its description to the users, or its typical and expected functionality.
     </p>
   </li>
+  <li>
+    <p>
+      <strong>Access to the calendar:</strong>To save event dates in the user's calendar, the
+      corresponding calendar entries can be downloaded and imported into the user's
+      own calendar. Access to the user's calendar is required for this. This consent is
+      only requested when a specific event is to be downloaded for the first time and
+      can be revoked via the settings area at any time.
+    </p>
+  </li>
 </ul>
 <h2>Purchase of applications via app stores</h2>
 <p>
@@ -1063,9 +1309,18 @@
 </ul>
 <h2>Community functions</h2>
 <p>
-  The community functions provided by us allow users to enter into conversations or other exchanges with each other.
-  Please note that the use of the community functions is only permitted in compliance with the applicable legal
-  situation, our conditions and guidelines and the rights of other users and third parties.
+  The community functions provided by us allow users to enter into conversations or
+  otherwise engage and exchange with each other.
+</p>
+<p>
+  For example, they can publish their own contributions (text, images, link posts), submit
+  reactions and comments on posts or articles or publish video contributions on social and
+  ecological challenges.
+</p>
+<p>
+  Please note that the use of the community functions is only permitted in compliance with
+  the applicable legal situation, our terms and conditions and guidelines as well as the
+  rights of other users and third parties.
 </p>
 <ul>
   <li>
@@ -1086,9 +1341,10 @@
   </li>
   <li>
     <p>
-      <strong>Legal basis:</strong>&nbsp;Contract fulfilment and pre-contractual enquiries (Art. 6 para. 1 p. 1 lit. b)
-      DSGVO); Legitimate interests (Art. 6 para. 1 p. 1 lit. f) DSGVO); Fulfilment of legal obligations (Art. 6 para. 1
-      p. 1 lit. c) DSGVO).
+      <strong>Legal basis:</strong> Contract fulfilment and pre-contractual enquiries (Art. 6 para. 1 p.
+      1 lit. b) DSGVO); Legitimate interests (Art. 6 para. 1 p. 1 lit. f) DSGVO);
+      Fulfilment of legal obligations (Art. 6 para. 1 p. 1 lit. c) DSGVO); When accessing
+      the camera or media library: Consent (Art. 6 para. 1 sentence 1 lit. a) GDPR).;
     </p>
   </li>
 </ul>
@@ -1184,7 +1440,7 @@
   reaction from the user, is also transmitted by email.
 </p>
 <p>
-  With prior consent, we can also send users so-called "push notifications" to draw their attention to particularly
+  With prior consent, we can also send users so-called &quot;push notifications&quot; to draw their attention to particularly
   important information. These are messages that are displayed on users' screens, devices or browsers, even if our
   online service is not being actively used at the time.
 </p>
@@ -1489,10 +1745,8 @@
       ;<br /><strong
         >Standard contractual clauses (ensuring level of data protection in case of processing in third
         countries):</strong
-      >&nbsp;<a href="https://legal.hubspot.com/dpa">https:</a
-      ><a href="//legal.hubspot.com/dpa;">//legal.hubspot.com/dpa;</a><br /><strong
-        >Certification for the DPF (adequacy decision</strong
-      >):
+      >&nbsp;<a href="https://legal.hubspot.com/dpa">https://legal.hubspot.com/dpa</a>;<br />
+      <strong>Certification for the DPF (adequacy decision</strong>):
       <a
         href="https://www.dataprivacyframework.gov/s/participant-search/participant-detail?id=a2zt0000000TN8pAAG&amp;status=Active"
         >https://www.dataprivacyframework.gov/s/participant-search/participant-detail?id=a2zt0000000TN8pAAG&amp;status=Active</a

@@ -130,7 +130,7 @@ const TaskDetails = () => {
         headerOverlap
       >
         <HoliContainer>
-          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
+          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} variant={'full'} />
         </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
     </SafeAreaProvider>

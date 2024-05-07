@@ -100,12 +100,15 @@ const Spaces = () => {
   const applyFilters = useCallback(
     (filters: SpaceFilter) => {
       const params = new URLSearchParams()
-      if (filters.topicSlug) {
-        params.set('topic', filters.topicSlug)
+
+      if (filters.location?.id) {
+        params.set('location', filters.location.id)
       }
-      if (filters.locationId) {
-        params.set('location', filters.locationId)
-      }
+
+      filters.topicSlugs?.forEach((topic) => {
+        params.append('topic', topic)
+      })
+
       filters.skillSlugs?.forEach((skill) => {
         params.append('skill', skill)
       })

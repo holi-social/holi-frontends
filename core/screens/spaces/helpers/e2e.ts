@@ -9,7 +9,7 @@ const e2e = {
   userId: Constants.expoConfig?.extra?.environment !== 'production' && Constants.expoConfig?.extra?.e2e.userId,
 }
 
-export const mockImageUploadForE2E = async (userId?: string | null): Promise<HoliImageInfo | undefined> => {
+export const mockImageUploadForE2E = async (userId: string): Promise<HoliImageInfo | undefined> => {
   if (Platform.OS !== 'web' && userId === e2e.userId) {
     return {
       uri: Image.resolveAssetSource(testImage).uri,

@@ -16,7 +16,7 @@ const isOnboardingStateValue = (value: string | null): value is OnboardingStateV
 const onboardingStateVar = makeVar<OnboardingStateValue>('finished')
 
 export const useStoredOnboardingState = () => {
-  const { userId } = useAuth()
+  const loginState = useAuth()
 
   const storeOnboardingState = useCallback(async (value: OnboardingStateValue = 'finished') => {
     await AsyncStore.setItem(ONBOARDING_STATE_STORAGE_NAME, value)
@@ -25,16 +25,14 @@ export const useStoredOnboardingState = () => {
 
   useEffect(() => {
     // prevent race condition if `usedId` has not been read from the AsyncStorage yet
-    if (userId === undefined) return
-
-    const isLoggedIn = !!userId
+    if (loginState.isUnknown) return
 
     AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
       const value = isOnboardingStateValue(storedValue) ? storedValue : null
 
       switch (value) {
         case 'onboarding':
-          if (isLoggedIn) {
+          if (loginState.isLoggedIn) {
             await storeOnboardingState('finished')
           } else {
             onboardingStateVar(value)
@@ -46,18 +44,18 @@ export const useStoredOnboardingState = () => {
           break
 
         case 'accountSetup':
-          await storeOnboardingState(isLoggedIn ? 'accountSetup' : 'finished')
+          await storeOnboardingState(loginState.isLoggedIn ? 'accountSetup' : 'finished')
           break
 
         case null:
-          await storeOnboardingState(isLoggedIn ? 'finished' : 'onboarding')
+          await storeOnboardingState(loginState.isLoggedIn ? 'finished' : 'onboarding')
           break
 
         default:
           throw new HoliOnboardingError(`Does not support "${value}" value`)
       }
     })
-  }, [userId, storeOnboardingState])
+  }, [loginState, storeOnboardingState])
 
   return {
     storedOnboardingState: useReactiveVar(onboardingStateVar),

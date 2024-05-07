@@ -45,6 +45,11 @@ export interface User {
   connectionStatusToSpace?: SpaceConnectionType[]
 }
 
+export interface AuthenticatedUser extends User {
+  trackingConsentAnalytics?: boolean
+  trackingConsentPersonalization?: boolean
+}
+
 export const isHoliUser = (value: User | unknown): value is User =>
   ['id', 'identity'].every((key) => value && typeof value === 'object' && key in value)
 

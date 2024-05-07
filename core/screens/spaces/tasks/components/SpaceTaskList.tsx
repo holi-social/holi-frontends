@@ -47,7 +47,7 @@ const SpaceTaskList = ({ space, isAdmin, isCollaborator, preview }: SpaceTaskLis
               <HoliGridCell key={task.id}>
                 <SpaceTaskTile
                   task={task}
-                  showFullView={false}
+                  variant={'list'}
                   isAdmin={isAdmin}
                   space={space}
                   isCollaborator={isCollaborator}

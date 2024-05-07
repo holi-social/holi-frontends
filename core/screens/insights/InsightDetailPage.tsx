@@ -408,7 +408,7 @@ const Skeleton = () => {
   const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
   return (
     <>
-      <View style={[styles.bannerImage, styles.section]}>
+      <View style={[styles.bannerImage, styles.section, styles.imageSection]}>
         <HoliSkeleton height="100%" width="100%" borderRadius={0} />
       </View>
       <View style={[styles.content, styles.section]}>
@@ -442,6 +442,9 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       width: '100%',
       maxWidth: dimensions.maxScreenWidth,
       marginBottom: Spacing.xl,
+    },
+    imageSection: {
+      marginBottom: 0,
     },
     wrapper: {
       backgroundColor: theme.colors.background20,

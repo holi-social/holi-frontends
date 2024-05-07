@@ -21,13 +21,14 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceT
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface FilteredSpacesProps extends SpaceFilter {
+export interface FilteredSpacesProps extends Pick<Partial<SpaceFilter>, 'skillSlugs' | 'topicSlugs'> {
+  locationId?: string
   applyFilters: (filters: SpaceFilter) => void
 }
 
 export const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid widths)
 
-const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: FilteredSpacesProps) => {
+const FilteredSpaces = ({ topicSlugs = [], skillSlugs = [], locationId, applyFilters }: FilteredSpacesProps) => {
   const { displayError } = useErrorHandling()
   const client = useApolloClient()
   const { t } = useTranslation()
@@ -61,14 +62,14 @@ const FilteredSpaces = ({ topicSlug, skillSlugs, locationId, applyFilters }: Fil
 
   const isLoading = loadingGeolocation || (locationId && !geolocationDetails)
 
-  const filters = { topicSlug, locationId, skillSlugs }
+  const filters = { topicSlugs, locationId, skillSlugs }
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: SPACES_PAGE_SIZE,
     queryPath: 'spaces',
     variables: {
-      topicSlug,
       geolocation: geolocationDetails?.geolocation,
+      topicSlugs,
       skillSlugs,
     },
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',

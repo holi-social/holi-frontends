@@ -4,20 +4,66 @@ import { ensureChatLoggedOut } from '@holi/chat/src/client/chatSession'
 import { removeSessionFromStorage, setSessionInStorage } from '@holi/core/auth/helpers/auth'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { getLogger } from '@holi/core/helpers/logging'
+import * as TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 
 const logger = getLogger('Auth')
 
-// "undefined" is used on init when we do not know if user is logged in
-// "null" is used when we are SURE there is no logged user
-const loggedInUserIdVar = makeVar<string | null | undefined>(undefined)
+export interface LoginStateUnknown {
+  loginState: 'unknown'
+  isUnknown: true
+  isLoggedOut: false
+  isLoggedIn: false
+}
+
+export interface LoginStateLoggedOut {
+  loginState: 'loggedOut'
+  isUnknown: false
+  isLoggedOut: true
+  isLoggedIn: false
+}
+
+export interface LoginStateLoggedIn {
+  loginState: 'loggedIn'
+  isUnknown: false
+  isLoggedOut: false
+  isLoggedIn: true
+  userId: string
+}
+
+export type LoginState = LoginStateUnknown | LoginStateLoggedOut | LoginStateLoggedIn
+
+export const loginStateUnknown: LoginStateUnknown = {
+  loginState: 'unknown',
+  isUnknown: true,
+  isLoggedOut: false,
+  isLoggedIn: false,
+}
+
+export const loginStateLoggedOut: LoginStateLoggedOut = {
+  loginState: 'loggedOut',
+  isUnknown: false,
+  isLoggedOut: true,
+  isLoggedIn: false,
+}
+
+export const loginStateLoggedIn = (userId: string): LoginStateLoggedIn => ({
+  loginState: 'loggedIn',
+  isUnknown: false,
+  isLoggedOut: false,
+  isLoggedIn: true,
+  userId: userId,
+})
+
+const loggedInUserIdVar = makeVar<LoginState>(loginStateUnknown)
 
 // intended to be called from outside the context provider (e.g. login form)
 export const setUserLoggedIn = async (session: OrySessionContext): Promise<void> => {
   logger.debug('setUserLogged', 'user logged in')
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
+  TrackingInitializer.userLoggedIn()
   // fetch and save Okuna user
-  loggedInUserIdVar(session.session.identity.id)
+  loggedInUserIdVar(loginStateLoggedIn(session.session.identity.id))
 }
 
 // intended to be called from outside the context provider (e.g. logout form)
@@ -25,15 +71,10 @@ export const setUserLoggedOut = async () => {
   logger.debug('auth', 'setUserLoggedOut')
   await removeSessionFromStorage()
   await ensureChatLoggedOut()
-  loggedInUserIdVar(null)
+  TrackingInitializer.userLoggedOut()
+  loggedInUserIdVar(loginStateLoggedOut)
 }
 
-export const useAuth = () => {
-  const userId = useReactiveVar(loggedInUserIdVar)
-  return {
-    userId,
-    isLoggedIn: !!userId,
-    isLoggedOut: userId === null,
-    isUninitialized: userId === undefined,
-  }
+export const useAuth = (): LoginState => {
+  return useReactiveVar(loggedInUserIdVar)
 }

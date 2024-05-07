@@ -1,13 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -43,17 +42,17 @@ const CreatePostButton: React.FC = () => {
           { transform: [{ translateX: Platform.OS === 'web' ? '-50%' : -screenOffset }] },
         ]}
       >
-        <HoliButton
+        <Pressable
           label={t('individuals.post.create.title')}
           testID="create-post-button"
-          style={styles.overlayButton}
+          style={({ hovered }) => [styles.overlayButton, hovered ? styles.categoryHovered : styles.overlayButton]}
           transparent={Platform.OS !== 'web'}
           onPress={() => {
             navigateToCreatePost()
           }}
         >
           <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
-        </HoliButton>
+        </Pressable>
       </View>
     </>
   )
@@ -91,5 +90,9 @@ const getStyles = (theme: HoliTheme) =>
       elevation: 4,
       overflow: 'visible',
       backgroundColor: theme.colors.brandColorA20,
+    },
+    categoryHovered: {
+      shadowOpacity: 0.5,
+      shadowRadius: 10,
     },
   })

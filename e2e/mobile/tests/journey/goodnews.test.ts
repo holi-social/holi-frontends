@@ -1,12 +1,11 @@
 // eslint-disable-next-line prettier/prettier
-import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
+import { navigateBackFromAppScreen, waitForHomeScreen } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
-import { delay } from '../../helpers/time'
 
 describe('@GoodNews', () => {
   afterEach(async () => {
@@ -19,17 +18,13 @@ describe('@GoodNews', () => {
 
   it('should support the user journey', async () => {
     // preparation of test
-    await navigateToAppById('goodnews')
-
-    await assertListItemExisting()
-
+    await waitForHomeScreen()
+    await scrollToElementWithTestId('goodnews-updates-heading-button', 'down')
+    await tapOnElementWithTestId('goodnews-updates-heading-button')
+    await waitForElementWithTestId('goodnews-detailview-container')
     await assertAllowsPagination()
   })
 })
-
-const assertListItemExisting = async () => {
-  await waitForElementWithTestId('goodnews-detailview-container')
-}
 
 const assertAllowsPagination = async () => {
   // swipe to the right until the teaser component is visible
@@ -37,7 +32,7 @@ const assertAllowsPagination = async () => {
   // load more
   await tapOnElementWithTestId('btn-goodnews-list-load-more')
   // wait a moment
-  await delay(1)
+  await tapOnElementWithTestId('goodnews-detailview-container')
   // wait until "load more" button has been replaced by next list item
   await waitForElementWithTestIdToBeNull('btn-goodnews-list-load-more')
 }

@@ -44,6 +44,10 @@ export const CommentFragment = gql`
     reactions {
       HEART
     }
+    totalReplies
+    replies {
+      id
+    }
   }
 `
 
@@ -58,6 +62,10 @@ export const commentsMetadata = gql`
         text
         creator {
           ...UserAvatar
+        }
+        mentions {
+          id
+          fullName
         }
       }
       commenters(limit: 5) {
@@ -82,7 +90,13 @@ export type CommentsMetadataResponse = {
 export const commentsByCommentable = gql`
   ${CommentFragment}
 
-  query Comments($commentableId: UUID!, $commentableType: CommentableType!, $offset: Int! = 0, $limit: Int! = 100) {
+  query Comments(
+    $commentableId: UUID!
+    $commentableType: CommentableType!
+    $parentCommentId: UUID
+    $offset: Int! = 0
+    $limit: Int! = 100
+  ) {
     commentable(id: $commentableId, type: $commentableType) {
       id
       type
@@ -92,7 +106,7 @@ export const commentsByCommentable = gql`
           ...UserAvatar
         }
       }
-      comments(offset: $offset, limit: $limit) {
+      comments(offset: $offset, limit: $limit, parentCommentId: $parentCommentId) {
         totalResults
         data {
           ...CommentFull
@@ -109,4 +123,17 @@ export type CommentsResponse = {
     comments: Paged<Comment>
     commenters: Paged<User>
   }
+}
+
+export const commentById = gql`
+  ${CommentFragment}
+  query Comment($commentId: UUID!) {
+    commentById(id: $commentId) {
+      ...CommentFull
+    }
+  }
+`
+
+export type CommentResponse = {
+  commentById: Comment
 }

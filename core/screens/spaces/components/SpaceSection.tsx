@@ -37,7 +37,9 @@ const SpaceSection = ({
     <View style={[styles.wrapper, style]} testID={testID}>
       <View style={styles.rowContainer}>
         <View style={styles.headingContainer}>
-          <HoliHeading level="2">{title}</HoliHeading>
+          <View style={styles.title}>
+            <HoliHeading level="2">{title}</HoliHeading>
+          </View>
           {infoIcon && (
             <HoliButton label={'infoLabel'} transparent inline onPress={onPressInfo}>
               <HoliIcon icon={Information} color={theme.colors.foreground10} />
@@ -80,6 +82,10 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
+      flex: 1,
+    },
+    title: {
+      flex: 1,
     },
     body: {
       marginTop: 24,

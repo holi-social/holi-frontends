@@ -179,7 +179,7 @@ const InsightsList = () => {
 
       {isWideLayout ? <CurationPrinciplesCardLarge /> : <CurationPrinciplesCardSmall />}
 
-      <InsightList loading={!!loading} insights={insights} />
+      <InsightList loading={!!loading} insights={insights as Insight[]} />
     </>
   )
 }
