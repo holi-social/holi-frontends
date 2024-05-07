@@ -14,7 +14,7 @@ export enum Consent {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Consent {
-  export const fromBoolean = (consent: boolean | undefined) => {
+  export const fromBooleanOrNullOrUndefined = (consent: boolean | undefined | null) => {
     switch (consent) {
       case null:
         return Consent.Unknown
@@ -26,14 +26,14 @@ export namespace Consent {
         return Consent.Denied
     }
   }
-  export const toBoolean = (consent: Consent): boolean | undefined => {
+  export const toBooleanOrNull = (consent: Consent): boolean | null => {
     switch (consent) {
       case Consent.Given:
         return true
       case Consent.Denied:
         return false
       case Consent.Unknown:
-        return undefined
+        return null
     }
   }
 }
@@ -49,9 +49,11 @@ export namespace ConsentState {
     [TrackingPurpose.Analytics]: Consent.Unknown,
     [TrackingPurpose.Personalization]: Consent.Unknown,
   }
+  export const isUnknown = (cs: ConsentState): boolean =>
+    cs.ANALYTICS === Consent.Unknown && cs.PERSONALIZATION === Consent.Unknown
   export const fromUser = (user: AuthenticatedUser): ConsentState => ({
-    [TrackingPurpose.Analytics]: Consent.fromBoolean(user.trackingConsentAnalytics),
-    [TrackingPurpose.Personalization]: Consent.fromBoolean(user.trackingConsentPersonalization),
+    [TrackingPurpose.Analytics]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentAnalytics),
+    [TrackingPurpose.Personalization]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentPersonalization),
   })
 }
 

@@ -106,8 +106,14 @@ export const authenticatedUserV2Query = gql`
   }
 `
 
-export type AuthenticatedUserResponse = {
-  authenticatedUserV2: AuthenticatedUser
+export type AuthenticatedUserV2Response = {
+  authenticatedUserV2: AuthenticatedUser & {
+    __typename: 'AuthenticatedUser'
+  }
+}
+
+export type AuthenticatedUserV2Variables = {
+  userId: string | undefined
 }
 
 export interface UserByIdResponse {
@@ -180,14 +186,16 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   interests: z.array(z.string() /* UUID */).optional(),
   sdgs: z.array(z.string() /* UUID */).optional(),
   skills: z.array(z.string() /* UUID */).optional(),
-  trackingConsentAnalytics: z.boolean().optional(),
-  trackingConsentPersonalization: z.boolean().optional(),
+  trackingConsentAnalytics: z.boolean().optional().nullable(),
+  trackingConsentPersonalization: z.boolean().optional().nullable(),
 })
 
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
 export type UpdateAuthenticatedUserV2Response = {
-  updateAuthenticatedUserV2: AuthenticatedUser
+  updateAuthenticatedUserV2: AuthenticatedUser & {
+    __typename: 'AuthenticatedUser'
+  }
 }
 
 export type UpdateConnectionWithUserInput = {
