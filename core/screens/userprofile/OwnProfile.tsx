@@ -208,6 +208,7 @@ const styles = StyleSheet.create({
   content: {
     minHeight: '100%',
     paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
+    paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 0,
   },
 })
 
