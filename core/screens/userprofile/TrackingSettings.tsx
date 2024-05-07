@@ -39,7 +39,7 @@ const TrackingSettings = () => {
                 logger.debug('TrackingSettings', 'updated analytics consent')
                 updateConsentState({
                   [TrackingPurpose.Analytics]: checked ? Consent.Given : Consent.Denied,
-                  [TrackingPurpose.Personalization]: Consent.fromBoolean(
+                  [TrackingPurpose.Personalization]: Consent.fromBooleanOrNullOrUndefined(
                     loggedInState.user?.trackingConsentPersonalization
                   ),
                 })
@@ -53,7 +53,9 @@ const TrackingSettings = () => {
               onSelect={(checked) => {
                 logger.debug('TrackingSettings', 'updated personalization consent')
                 updateConsentState({
-                  [TrackingPurpose.Analytics]: Consent.fromBoolean(loggedInState.user?.trackingConsentAnalytics),
+                  [TrackingPurpose.Analytics]: Consent.fromBooleanOrNullOrUndefined(
+                    loggedInState.user?.trackingConsentAnalytics
+                  ),
                   [TrackingPurpose.Personalization]: checked ? Consent.Given : Consent.Denied,
                 })
               }}
