@@ -285,7 +285,7 @@ const getStyles = (theme: HoliTheme) =>
       marginRight: 8,
       marginBottom: 8,
       borderWidth: 1,
-      borderColor: theme.colors.black300at12percent,
+      borderColor: theme.colors.foreground30at12Percent,
     },
     chipFont: {
       color: theme.colors.black300,

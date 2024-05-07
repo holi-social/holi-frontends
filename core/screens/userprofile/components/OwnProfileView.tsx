@@ -20,7 +20,7 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -41,6 +41,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { theme } = useTheme()
+  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
@@ -170,7 +171,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     chip: {
       borderWidth: 1,
-      borderColor: theme.colors.black300at12percent,
+      borderColor: theme.colors.foreground30at12Percent,
     },
     chipFont: {
       color: theme.colors.black300,

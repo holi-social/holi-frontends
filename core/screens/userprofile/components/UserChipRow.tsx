@@ -67,7 +67,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     chip: {
       borderWidth: 1,
-      borderColor: theme.colors.black300at12percent,
+      borderColor: theme.colors.foreground30at12Percent,
     },
     chipFont: {
       color: theme.colors.black300,
