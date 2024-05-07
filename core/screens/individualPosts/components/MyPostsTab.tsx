@@ -13,7 +13,6 @@ import { FeedPost } from '@holi/core/screens/individualPosts/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const MyPostsList = () => {
@@ -34,8 +33,6 @@ const MyPostsList = () => {
 
 const MyPostsTab = () => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
   const { displayError } = useErrorHandling()
   const mixins = useStyleMixins()
 
@@ -70,13 +67,11 @@ const MyPostsTab = () => {
 
 const LoadingSkeleton = () => <HoliSkeleton height={60} width="100%" borderRadius={20} />
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      backgroundColor: theme.colors.background20,
-      paddingVertical: Spacing.xs,
-      height: '100%',
-    },
-  })
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: Spacing.xs,
+    height: '100%',
+  },
+})
 
 export default MyPostsTab
