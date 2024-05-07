@@ -320,6 +320,7 @@
   "individuals.post.login.text": "To create a post, you have to sign in first",
   "individuals.post.login.title": "Not signed in",
   "individuals.post.name": "Posts",
+  "individuals.post.reaction.loginRedirect.text": "To react to this post, you have to sign in first",
   "insight.curatedBy": "curated by",
   "insight.page.curatedBy": "curated by journalistic partners",
   "insight.page.description": "Topical deep-dives that help us to understand the major challenges of our time.",
