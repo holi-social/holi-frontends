@@ -38,6 +38,7 @@ export type HoliModalSelectProps<IDType extends string = string> = {
   isRequired?: boolean
   variant?: HoliModalSelectVariant
   showOptionIcon?: boolean
+  hideButton?: boolean
   show: () => void
   hide: () => void
   visible: boolean
@@ -55,6 +56,7 @@ const HoliModalSelect = <IDType extends string>({
   isRequired,
   variant = 'normal',
   showOptionIcon = false,
+  hideButton = false,
   show,
   hide,
   visible,
@@ -140,34 +142,36 @@ const HoliModalSelect = <IDType extends string>({
 
   return (
     <>
-      <View style={style}>
-        {!!label && (
-          <View style={styles.labelWrapper}>
-            <HoliText size="small" bold style={styles.label}>
-              {label}
-              <HoliMandatoryFieldStar show={!!isRequired} />
-            </HoliText>
-          </View>
-        )}
-        <HoliButton
-          label={title}
-          testID={`btn-${testID}`}
-          transparent
-          contentStyle={[styles.button, hovered && styles.buttonHovered]}
-          onPress={show}
-          {...hoverPropsForWeb}
-        >
-          {selectedOption ? (
-            <View style={styles.selectedOptionContainer}>
-              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} />}
-              <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
+      {!hideButton && (
+        <View style={style}>
+          {!!label && (
+            <View style={styles.labelWrapper}>
+              <HoliText size="small" bold style={styles.label}>
+                {label}
+                <HoliMandatoryFieldStar show={!!isRequired} />
+              </HoliText>
             </View>
-          ) : (
-            <HoliText style={styles.placeholder}>{placeholder}</HoliText>
           )}
-          <HoliIcon icon={visible ? ArrowUpS : ArrowDownS} size={22} />
-        </HoliButton>
-      </View>
+          <HoliButton
+            label={title}
+            testID={`btn-${testID}`}
+            transparent
+            contentStyle={[styles.button, hovered && styles.buttonHovered]}
+            onPress={show}
+            {...hoverPropsForWeb}
+          >
+            {selectedOption ? (
+              <View style={styles.selectedOptionContainer}>
+                {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} />}
+                <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
+              </View>
+            ) : (
+              <HoliText style={styles.placeholder}>{placeholder}</HoliText>
+            )}
+            <HoliIcon icon={visible ? ArrowUpS : ArrowDownS} size={22} />
+          </HoliButton>
+        </View>
+      )}
 
       <HoliModal
         show={visible}

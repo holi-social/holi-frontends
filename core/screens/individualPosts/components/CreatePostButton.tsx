@@ -44,7 +44,7 @@ const CreatePostButton: React.FC = () => {
         ]}
       >
         <HoliButton
-          label={t('individuals.post.create.title')}
+          label={t('individuals.post.input.title')}
           testID="create-post-button"
           style={styles.overlayButton}
           transparent={Platform.OS !== 'web'}

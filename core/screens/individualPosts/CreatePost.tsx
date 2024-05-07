@@ -12,7 +12,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { CategorySelectionModal } from '@holi/core/screens/individualPosts/CategorySelectionModal'
 import { PostCreationBar } from '@holi/core/screens/individualPosts/PostCreationBar'
-import FeedPostPill, { PostSetting } from '@holi/core/screens/individualPosts/components/FeedPostPill'
+import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
 import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
 import {
   CreateFeedPostResponse,
@@ -21,11 +21,13 @@ import {
 } from '@holi/core/screens/individualPosts/mutations'
 import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
-import { Close } from '@holi/icons/src/generated'
+import { Close, Global, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -63,9 +65,28 @@ const CreatePost = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
 
+  const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
+
+  const visibilityOptions: HoliModalSelectOption<Visibility>[] = [
+    {
+      id: Visibility.PUBLIC,
+      title: t(`individuals.post.input.visibility.${Visibility.PUBLIC}.title`),
+      description: t(`individuals.post.input.visibility.${Visibility.PUBLIC}.description`),
+      selected: selectedVisibility === Visibility.PUBLIC,
+      icon: Global,
+    },
+    {
+      id: Visibility.REGISTERED_USERS_ONLY,
+      title: t(`individuals.post.input.visibility.${Visibility.REGISTERED_USERS_ONLY}.title`),
+      description: t(`individuals.post.input.visibility.${Visibility.REGISTERED_USERS_ONLY}.description`),
+      selected: selectedVisibility === Visibility.REGISTERED_USERS_ONLY,
+      icon: HoliLogoFilled,
+    },
+  ]
+
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
-      openToast(t('individuals.post.create.success'), HoliToastType.SUCCESS)
+      openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
       navigate('/')
     },
     onError: (error) => {
@@ -96,10 +117,10 @@ const CreatePost = () => {
           image: image?.blob,
         },
       },
-      onError: () => openToast(t('individuals.post.create.error'), HoliToastType.ERROR),
+      onError: () => openToast(t('individuals.post.input.error'), HoliToastType.ERROR),
     })
       .catch(() => {
-        openToast(t('individuals.post.create.error'), HoliToastType.ERROR)
+        openToast(t('individuals.post.input.error'), HoliToastType.ERROR)
       })
       .finally(() => setSubmitting(false))
   }
@@ -108,7 +129,7 @@ const CreatePost = () => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">
-          {t('individuals.post.create.title')}
+          {t('individuals.post.input.title')}
         </HoliHeading>
       ),
       headerTransparent: true,
@@ -124,19 +145,7 @@ const CreatePost = () => {
     setShowCategorySelectionModal(false)
   }
 
-  const handlePostSettingsPress = (setting: PostSetting) => {
-    if ('visibility' === setting) {
-      // toggle this for now
-      if (selectedVisibility === Visibility.PUBLIC) {
-        setSelectedVisibility(Visibility.REGISTERED_USERS_ONLY)
-      } else {
-        setSelectedVisibility(Visibility.PUBLIC)
-      }
-    }
-    if ('category' === setting) {
-      setShowCategorySelectionModal(true)
-    }
-  }
+  const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => setSelectedVisibility(option.id)
 
   if (!ftLoading && !ftEnabled) {
     navigate('/404')
@@ -146,17 +155,6 @@ const CreatePost = () => {
     return null
   }
 
-  const settingPills = [
-    {
-      label: selectedVisibility && t(`individuals.post.category.label.visibility.${selectedVisibility}`),
-      filterType: 'visibility',
-    },
-    {
-      label: categories?.find((category) => category.id === selectedCategoryId)?.name ?? selectedCategoryId,
-      filterType: 'category',
-    },
-  ]
-
   const inputAccessoryViewID = 'inputAccessoryViewID'
 
   return (
@@ -164,29 +162,31 @@ const CreatePost = () => {
       <View style={styles.layout}>
         <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
           <View style={styles.pillContainer}>
-            {settingPills.map((pill, index) => (
-              <FeedPostPill
-                key={index}
-                label={pill.label}
-                setting={pill.filterType as PostSetting}
-                onPress={handlePostSettingsPress}
-              />
-            ))}
+            <FeedPostPill
+              label={t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
+              setting={'visibility'}
+              onPress={showVisibility}
+            />
+            <FeedPostPill
+              label={categories?.find((category) => category.id === selectedCategoryId)?.name ?? selectedCategoryId}
+              setting={'category'}
+              onPress={() => setShowCategorySelectionModal(true)}
+            />
           </View>
           <View style={styles.inputContainer}>
             <HoliTextInput
-              placeholder={t('individuals.post.create.category.input.title')}
+              placeholder={t('individuals.post.input.category.input.title')}
               fontStyle={styles.titleFont}
               inputStyle={styles.titleInput}
               placeholderColor={theme.colors.gray300}
-              aria-label={t('individuals.post.create.category.input.title')}
+              aria-label={t('individuals.post.input.category.input.title')}
               inputAccessoryViewID={inputAccessoryViewID}
               onChange={(title) => setTitle(title)}
             />
             <HoliRichTextInput
-              placeholder={t('individuals.post.create.category.input.description')}
+              placeholder={t('individuals.post.input.category.input.description')}
               style={styles.descriptionInput}
-              aria-label={t('individuals.post.create.category.input.description')}
+              aria-label={t('individuals.post.input.category.input.description')}
               inputAccessoryViewID={inputAccessoryViewID}
               onChange={(description) => setDescription(description)}
               placeholderTextColor={theme.colors.gray300}
@@ -228,6 +228,19 @@ const CreatePost = () => {
           />
         )}
       </View>
+      <HoliModalSelect
+        options={visibilityOptions}
+        title={t('individuals.post.input.visibility.title')}
+        description={t('individuals.post.input.visibility.description')}
+        onChange={handleChangeVisibility}
+        label={t('individuals.post.input.visibility.title')}
+        testID="post-visibility-input"
+        isRequired
+        hideButton
+        show={showVisibility}
+        hide={hideVisibility}
+        visible={visibleVisibility}
+      />
     </FeatureToggleGuard>
   )
 }
