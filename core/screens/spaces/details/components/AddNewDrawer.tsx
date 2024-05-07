@@ -66,7 +66,9 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
         testID="add-new-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="1">{t('allTools.drawer.headline')}</HoliHeading>
+          <HoliHeading level="2" size="l">
+            {t('allTools.drawer.headline')}
+          </HoliHeading>
           <View style={styles.listContents}>
             {[...RESOURCE_CATEGORIES_LIST, ...RESOURCES_COMING_SOON].map((resource) => {
               return (

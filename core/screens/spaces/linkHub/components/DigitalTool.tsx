@@ -169,7 +169,9 @@ const DigitalTool = ({
               <HoliIcon icon={Edit2} />
             </HoliButton>
           </View>
-          <HoliHeading level="1">{defaultTool ? toolName : tool?.title}</HoliHeading>
+          <HoliHeading level="2" size="l">
+            {defaultTool ? toolName : tool?.title}
+          </HoliHeading>
           <HoliGap size="xs" />
           {tool.description && (
             <HoliText size="small" style={styles.modalToolDescription} testID="tool-desc">

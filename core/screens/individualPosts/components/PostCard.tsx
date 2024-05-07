@@ -60,7 +60,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
         </View>
       </View>
       <View style={styles.contenSection}>
-        <HoliHeading level="1" size="s" numberOfLines={3}>
+        <HoliHeading level="2" size="s" numberOfLines={3}>
           {post.title}
         </HoliHeading>
         <HoliReadMore numberOfLines={3}>{post.description}</HoliReadMore>

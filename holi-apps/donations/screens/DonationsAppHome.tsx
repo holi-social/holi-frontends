@@ -85,7 +85,7 @@ const DonationsAppHome = () => {
         footerShown: false,
       },
       headerTitle: () => (
-        <HoliHeading level="1" size="s">
+        <HoliHeading level="2" size="s">
           {title}
         </HoliHeading>
       ),

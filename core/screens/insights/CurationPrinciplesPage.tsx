@@ -126,7 +126,9 @@ const CurationPrinciplesPage: React.FC = () => {
           </View>
 
           <View style={styles.heading}>
-            <HoliHeading level="1">{t('insights.curationPrinciples.principles.heading')}</HoliHeading>
+            <HoliHeading level="2" size="l">
+              {t('insights.curationPrinciples.principles.heading')}
+            </HoliHeading>
           </View>
         </HoliContainer>
 
@@ -136,7 +138,11 @@ const CurationPrinciplesPage: React.FC = () => {
 
         <HoliContainer paddingHorizontal={0}>
           <View style={[styles.section, styles.contributorSection]}>
-            <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
+            <HoliHeading
+              level="2"
+              size="l"
+              {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}
+            >
               {t('insights.curationPrinciples.curators.heading')}
             </HoliHeading>
 
@@ -182,7 +188,11 @@ const CurationPrinciplesPage: React.FC = () => {
 
         <HoliContainer paddingHorizontal={0}>
           <View style={[styles.section, styles.partnersSection]}>
-            <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
+            <HoliHeading
+              level="2"
+              size="l"
+              {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}
+            >
               {t('insights.curationPrinciples.partners.heading')}
             </HoliHeading>
             <View
