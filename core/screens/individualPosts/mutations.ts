@@ -40,3 +40,17 @@ export const deleteFeedPostMutation = gql`
 export interface DeleteFeedPostResponse {
   success: boolean
 }
+
+export const UpdateFeedPostReactionMutation = gql`
+  ${FeedPostDetailsFragment}
+
+  mutation UpdateFeedPostReaction($postId: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
+    updateFeedPostReaction(postId: $postId, reactionType: $reactionType, reactionAction: $reactionAction) {
+      ...FeedPostFull
+    }
+  }
+`
+
+export interface UpdateFeedPostReactionResponse {
+  feedPost: FeedPost
+}

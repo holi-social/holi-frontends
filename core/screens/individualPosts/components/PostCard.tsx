@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -78,6 +79,9 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           />
         </View>
       )}
+      <View style={styles.reactionsBar}>
+        <FeedPostReactions post={post} />
+      </View>
     </View>
   )
 }
@@ -127,6 +131,13 @@ const getStyles = (theme: HoliTheme) =>
       top: Spacing.xs,
       right: Spacing.xs,
       zIndex: 1,
+    },
+    reactionsBar: {
+      marginTop: Spacing.xxs,
+      marginLeft: Spacing.xs,
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
     },
   })
 
