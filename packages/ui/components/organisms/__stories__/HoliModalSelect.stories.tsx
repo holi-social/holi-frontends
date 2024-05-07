@@ -40,6 +40,7 @@ export const Example: ComponentStory<typeof HoliModalSelect> = Template.bind({})
 Example.argTypes = {
   label: { description: 'Button label', required: true },
   title: { description: 'Modal header title', required: true },
+  description: { description: 'Modal header description', required: false },
   placeholder: { description: 'Modal button placeholder', required: false },
   isRequired: { description: 'Boolean to set this form field as required', required: false },
   options: { description: 'Select options', required: true, control: { type: 'object' } },
@@ -54,6 +55,7 @@ Example.argTypes = {
 Example.args = {
   label: 'Holi modal select',
   title: 'Holi modal select',
+  description: 'Description...',
   placeholder: 'Select one...',
   isRequired: false,
   options: defaultOptions,

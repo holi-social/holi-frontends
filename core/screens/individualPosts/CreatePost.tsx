@@ -253,7 +253,6 @@ const SMALL_DEVICE_HEIGHT = 600
 
 const getStyles = (theme: HoliTheme, screenHeight: number) =>
   StyleSheet.create({
-    // general styles
     text: {
       fontSize: 16,
     },
@@ -263,8 +262,6 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
       alignItems: 'center',
       height: '100%',
     },
-
-    // input styles
     titleInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
@@ -309,8 +306,6 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
     imageEditor: {
       paddingTop: 24,
     },
-
-    // pill styles
     pillContainer: {
       width: '100%',
       flexWrap: 'wrap',
@@ -321,7 +316,6 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
       gap: 8,
       paddingHorizontal: 16,
     },
-
     suggestionsScrollView: {
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
       width: '100%',
@@ -354,4 +348,5 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
       right: 0,
     },
   })
+
 export default withProfiler(CreatePost, { name: 'CreatePost' })
