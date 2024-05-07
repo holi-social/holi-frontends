@@ -1,12 +1,11 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React, { useState } from 'react'
 
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalSelect, {
   HoliModalSelectOption,
   HoliModalSelectVariants,
 } from '@holi/ui/components/organisms/HoliModalSelect'
-
-import { useModalState } from '../../molecules/HoliModal'
 
 const defaultOptions = [
   {
