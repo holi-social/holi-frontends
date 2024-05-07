@@ -129,8 +129,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
     [RouteName.DonationsApp]: {
       screens: {
-        [RouteName.DonationsAppHome]: 'apps/donations',
-        [RouteName.DonationsAppProjectDetail]: 'apps/donations/project/:projectId',
+        [RouteName.DonationsAppHome]: 'donations',
+        [RouteName.DonationsAppProjectDetail]: 'donations/:projectId',
       },
     },
     [RouteName.GoodNewsApp]: {
@@ -140,8 +140,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
     [RouteName.VolunteeringApp]: {
       screens: {
-        [RouteName.VolunteeringAppHome]: 'apps/volunteering',
-        [RouteName.VolunteeringAppEngagmentDetail]: 'apps/volunteering/engagement/:engagementId',
+        [RouteName.VolunteeringAppHome]: 'volunteering',
+        [RouteName.VolunteeringAppEngagmentDetail]: 'volunteering/:engagementId',
       },
     },
     [RouteName.CreatePost]: {

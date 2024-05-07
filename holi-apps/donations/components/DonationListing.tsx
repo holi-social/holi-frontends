@@ -154,7 +154,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             // FIX: duplication in projects after loading more
             .map((project) => (
               <HoliGridCell key={project.id}>
-                <HoliLink href={`/apps/donations/project/${project.id}`} label={project.title}>
+                <HoliLink href={`/donations/${project.id}`} label={project.title}>
                   <HoliCard
                     imageLabel={project.title ?? ''}
                     imageUrl={project.picture[0].url}

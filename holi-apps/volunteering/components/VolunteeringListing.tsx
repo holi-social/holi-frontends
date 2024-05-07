@@ -159,7 +159,7 @@ const VolunteeringListing = ({
           <HoliGridWrapper>
             {engagements.map((engagement) => (
               <HoliGridCell key={engagement.id}>
-                <HoliLink href={`/apps/volunteering/engagement/${engagement.id}`} label={engagement.title}>
+                <HoliLink href={`/volunteering/${engagement.id}`} label={engagement.title}>
                   <HoliCard
                     imageUrl={engagement.imageUrl}
                     imageLabel={engagement.title ?? ''}

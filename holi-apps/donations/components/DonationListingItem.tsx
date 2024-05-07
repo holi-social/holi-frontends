@@ -26,7 +26,7 @@ const DonationListingItem: React.FC<DonationListingItemProps> = ({ project }: Do
     <HoliButton
       label={title}
       transparent
-      onPress={() => navigate(`/apps/donations/project/${project.id}`)}
+      onPress={() => navigate(`/donations/${project.id}`)}
       testID={'donations-list-item'}
     >
       <DonationImage picture={picture} label={title} style={styles.mainImage} width={imageWidth} height={imageHeight} />
