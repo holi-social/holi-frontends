@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import AcceptDocumentLayout, { AgreementProps } from '@holi/core/auth/components/AcceptDocumentLayout'
 import { getDocumentURL } from '@holi/core/helpers'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 interface DataConsentProps extends AgreementProps {
   onNextPress?: () => void
@@ -11,10 +12,10 @@ interface DataConsentProps extends AgreementProps {
 
 const DataConsent = ({ onNextPress, onBackPress, ...agreementProps }: DataConsentProps) => {
   const { t } = useTranslation()
+  const privacyPolicyModalHook = useModalState()
 
   return (
     <AcceptDocumentLayout
-      docUrl={getDocumentURL('privacyPolicy')}
       onNextPress={onNextPress}
       onBackPress={onBackPress}
       {...agreementProps}
@@ -23,8 +24,14 @@ const DataConsent = ({ onNextPress, onBackPress, ...agreementProps }: DataConsen
       headlineText={t('registration.dataconsent.heading')}
       descriptionText={t('registration.dataconsent.description')}
       checkboxLabelTranslation="registration.dataconsent.checkboxLabel"
-      documentNavPath="/profile/settings/legalDocuments/document?type=privacyPolicy"
-      modalLabelText={t('registration.dataconsent')}
+      documents={[
+        {
+          url: getDocumentURL('privacyPolicy'),
+          navPath: '/profile/settings/legalDocuments/document?type=privacyPolicy',
+          modalHook: privacyPolicyModalHook,
+          modalLabelText: t('registration.dataconsent'),
+        },
+      ]}
       testID="privacy-policy"
     />
   )

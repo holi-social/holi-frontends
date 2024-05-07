@@ -35,6 +35,14 @@ const LegalDocuments = () => {
             testID="btn-imprint"
           />
           <MoreOptionItem
+            label={t('profile.settings.legalDocuments.termsOfUse')}
+            icon={Pages}
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments/document?type=termsOfUse')}
+            style={styles.item}
+            testID="btn-terms-of-use"
+          />
+          <MoreOptionItem
             label={t('profile.settings.legalDocuments.privacyPolicy')}
             icon={Pages}
             iconRightStyle="arrow"
