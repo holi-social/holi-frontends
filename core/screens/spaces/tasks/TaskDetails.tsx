@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { SeoTitle } from '@holi/core/components/SeoTitle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
@@ -122,6 +123,7 @@ const TaskDetails = () => {
 
   return (
     <SafeAreaProvider style={styles.safeAreaProvider}>
+      <SeoTitle seoTitle={`${task.name} | ${space.name}`.trim()} />
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}

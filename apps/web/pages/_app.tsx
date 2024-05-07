@@ -5,9 +5,9 @@ import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
+import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { featureFlag } from '@holi/web/environment'
@@ -33,7 +33,6 @@ pino().debug('Avoid treeshaking of externally included logging framework by next
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
-  const { t } = useTranslation()
 
   useEffect(() => {
     // Init authentication
@@ -57,8 +56,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     <TrackingProvider>
       {featureFlag.enableSSR ? (
         <SSRRootProvider pageProps={pageProps}>
-          {seoTitle && <h1 style={{ position: 'absolute', top: '-100%' }}>{t(seoTitle)}</h1>}
-
+          <SeoTitle seoTitle={seoTitle} />
           {getLayout(<Component {...pageProps} />)}
         </SSRRootProvider>
       ) : (
