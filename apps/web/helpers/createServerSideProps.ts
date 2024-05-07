@@ -32,7 +32,7 @@ export const createServerSideProps = async (
     }
   }
 
-  const props = await addTranslations(req, {})
+  const props = await addTranslations(req, initialProps)
   const client = initializeApolloSSRClient()
 
   try {
@@ -67,7 +67,7 @@ export const createServerSideProps = async (
     }
     // Switch to client-side rendering
     return {
-      props: {},
+      props: initialProps,
     }
   }
 
