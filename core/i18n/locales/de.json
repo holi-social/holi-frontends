@@ -314,6 +314,7 @@
   "individuals.post.login.text": "Um einen Post zu erstellen, musst du dich erst einloggen.",
   "individuals.post.login.title": "Nicht eingeloggt",
   "individuals.post.name": "Posts",
+  "individuals.post.reaction.loginRedirect.text": "Um auf diesen Post zu reagieren, musst du dich erst einloggen",
   "insight.curatedBy": "zusammengestellt von",
   "insight.page.curatedBy": "erstellt von Partnerjournalist:innen",
   "insight.page.description": "Themeneinblicke die dabei helfen die großen Herausforderungen der Zeit zu verstehen.",
