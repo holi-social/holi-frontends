@@ -130,7 +130,7 @@ export const useNotifications = () => {
 function mapToNotification(
   message: IMessage
 ): NotificationSpaceConnection | NotificationPost | NotificationSpacePost | NotificationAppointments | undefined {
-  const { data, notificationType } = message.payload
+  const { data, notificationType, notificationVersion } = message.payload
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
@@ -145,6 +145,7 @@ function mapToNotification(
       return {
         id: message._id,
         notificationType,
+        notificationVersion,
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationSpaceConnection['options'],
@@ -155,6 +156,7 @@ function mapToNotification(
       return {
         id: message._id,
         notificationType,
+        notificationVersion,
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationPost['options'],
@@ -164,6 +166,7 @@ function mapToNotification(
       return {
         id: message._id,
         notificationType,
+        notificationVersion,
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationSpacePost['options'],
@@ -175,6 +178,7 @@ function mapToNotification(
       return {
         id: message._id,
         notificationType,
+        notificationVersion,
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationAppointments['options'],

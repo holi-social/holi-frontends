@@ -4,8 +4,8 @@ import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+import { i18nConfig } from '@holi/core/i18n'
 import { environmentId } from '@holi/web/environment'
-import { getValidLocale } from '@holi/web/helpers/getValidLocale'
 
 // adapt to react-native behavior
 // Force Next-generated DOM elements to fill their parent's height
@@ -42,7 +42,7 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    const locale = getValidLocale(this.props.locale)
+    const { locale = i18nConfig.fallbackLng } = this.props
     // use same path for local and dev env
     const env = environmentId === EnvironmentId.LOCAL ? EnvironmentId.DEVELOPMENT : environmentId
     return (
@@ -55,6 +55,8 @@ export default class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="32x32" href={`/favicons/${env}/favicon-32x32.png`} />
           <link rel="icon" type="image/png" sizes="16x16" href={`/favicons/${env}/favicon-16x16.png`} />
           <link rel="manifest" href={`/favicons/${env}/site.webmanifest`} />
+          {promoteEnvVarToWindow('POSTHOG_KEY')}
+          {promoteEnvVarToWindow('POSTHOG_HOST')}
         </Head>
 
         <body>
@@ -64,4 +66,9 @@ export default class MyDocument extends Document {
       </Html>
     )
   }
+}
+
+function promoteEnvVarToWindow(varName) {
+  const varValue = process.env[varName]
+  return <script dangerouslySetInnerHTML={{ __html: `window.${varName} = "${varValue}"` }} />
 }

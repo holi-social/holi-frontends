@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
@@ -16,16 +17,28 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-type CommentsProps = {
+interface CommentsProps {
   commentableId: string
   commentableType: CommentableType
+  parentCommentId?: string
+  replyRoute?: string // the route to be redirected to when clicking "reply". If undefined, no reply button is displayed
   onPressCreateComment?: () => void
+  isReply?: boolean
+  initialOpenThread?: string
 }
 
-const Comments = ({ commentableId, commentableType, onPressCreateComment }: CommentsProps) => {
+const Comments = ({
+  commentableId,
+  commentableType,
+  parentCommentId,
+  replyRoute,
+  onPressCreateComment,
+  initialOpenThread,
+}: CommentsProps) => {
+  const { navigate } = useRouting()
   const { t } = useTranslation()
   const { data: { commentable } = {}, loading } = useQuery<CommentsResponse>(commentsByCommentable, {
-    variables: { commentableId, commentableType },
+    variables: { commentableId, commentableType, parentCommentId },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
       logError(error, 'Failed to load comments', {
@@ -53,12 +66,16 @@ const Comments = ({ commentableId, commentableType, onPressCreateComment }: Comm
 
   return (
     <>
-      <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
-        <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
-      </View>
-      <View style={styles.commentersLine}>
-        <VerticalLine />
-      </View>
+      {!parentCommentId && (
+        <>
+          <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
+            <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
+          </View>
+          <View style={styles.commentersLine}>
+            <VerticalLine style={parentCommentId ? styles.commentersLineReplies : {}} />
+          </View>
+        </>
+      )}
       <View style={styles.commentsContainer}>
         {comments.map((comment) => (
           <CommentView
@@ -67,6 +84,9 @@ const Comments = ({ commentableId, commentableType, onPressCreateComment }: Comm
             commentableId={commentableId}
             commentableType={commentableType}
             reportContentType={ContentType.POST_COMMENT}
+            {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
+            avatarSize={parentCommentId ? 'micro' : 'small'}
+            startWithOpenThread={initialOpenThread == comment.id}
           />
         ))}
       </View>
@@ -92,6 +112,10 @@ const styles = StyleSheet.create({
   },
   commentersLine: {
     marginLeft: Spacing.sm,
+    marginVertical: Spacing['3xs'],
+  },
+  commentersLineReplies: {
+    marginLeft: Spacing['3xs'],
     marginVertical: Spacing['3xs'],
   },
   commentsContainer: {

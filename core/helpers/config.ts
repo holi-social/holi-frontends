@@ -8,3 +8,5 @@ export const chatPushGatewayUrl = Constants.expoConfig?.extra?.chat.pushGatewayU
 export const chatAdminName = Constants.expoConfig?.extra?.chat.adminName
 export const owncloudUrl = Constants.expoConfig?.extra?.owncloud.url
 export const jitsiUrl = Constants.expoConfig?.extra?.jitsi.url
+export const posthogKey = Constants.expoConfig?.extra?.posthog.key
+export const posthogHost = Constants.expoConfig?.extra?.posthog.host

@@ -40,7 +40,7 @@ const FilteredSpacesList: React.FC<Props> = ({ pageSize }) => {
   }
 
   if (spaces.length > 0) {
-    return <SpacesGrid style={styles.grid} spaces={spaces} />
+    return <SpacesGrid style={styles.grid} spaces={[...spaces]} />
   }
 
   return (

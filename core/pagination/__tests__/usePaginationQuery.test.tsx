@@ -19,14 +19,14 @@ import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-const topicSlug = 'topic1'
+const topicSlugs = ['topic1']
 const createSpacePaginationMock = (offset = 0) => ({
   request: {
     query: spacesQuery,
     variables: {
       limit: pageSize,
       offset,
-      topicSlug,
+      topicSlugs,
     },
   },
   result: {
@@ -190,7 +190,7 @@ describe('usePaginationQuery', () => {
           createSpacePaginationMock(pageSize * 2),
         ]}
       >
-        <TestComponent query={spacesQuery} queryPath="spaces" variables={{ topicSlug }} />
+        <TestComponent query={spacesQuery} queryPath="spaces" variables={{ topicSlugs }} />
       </MockedProvider>
     )
 

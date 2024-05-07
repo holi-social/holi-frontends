@@ -15,6 +15,7 @@ import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
 import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
+import { TrackingProvider } from '@holi/web/providers/TrackingProvider'
 import '@holi/web/styles/globals.css'
 import { NextJSPageProps } from '@holi/web/types'
 
@@ -51,18 +52,20 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  if (featureFlag.enableSSR) {
-    const { customProps: { seoTitle } = {} } = pageProps
+  const { customProps: { seoTitle } = {} } = pageProps
+  return (
+    <TrackingProvider>
+      {featureFlag.enableSSR ? (
+        <SSRRootProvider pageProps={pageProps}>
+          {seoTitle && <h1 style={{ position: 'absolute', top: '-100%' }}>{t(seoTitle)}</h1>}
 
-    return (
-      <SSRRootProvider pageProps={pageProps}>
-        {seoTitle && <h1 style={{ position: 'absolute', top: '-100%' }}>{t(seoTitle)}</h1>}
-        {getLayout(<Component {...pageProps} />)}
-      </SSRRootProvider>
-    )
-  } else {
-    return <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-  }
+          {getLayout(<Component {...pageProps} />)}
+        </SSRRootProvider>
+      ) : (
+        <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
+      )}
+    </TrackingProvider>
+  )
 }
 
 export default appWithI18Next(MyApp, ni18nConfig)

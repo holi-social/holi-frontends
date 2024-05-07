@@ -16,14 +16,14 @@ export type SpaceOnboardingStateValue = (typeof spaceOnboardingValues)[keyof typ
 const spaceOnboardingStateVar = makeVar<boolean | null>(null)
 
 export const useSpaceOnboarding = (onboarding_type: string) => {
-  const { userId } = useAuth()
+  const loginState = useAuth()
 
   useEffect(() => {
-    if (userId === undefined) return
+    if (loginState.isUnknown) return
     AsyncStore.getItem(onboarding_type)?.then(async (storedValue) => {
       spaceOnboardingStateVar(!!storedValue)
     })
-  }, [userId, onboarding_type])
+  }, [loginState, onboarding_type])
 
   return {
     // null is loading state (AsyncStorage.getItem is async), false is not onboarded, true is onboarded

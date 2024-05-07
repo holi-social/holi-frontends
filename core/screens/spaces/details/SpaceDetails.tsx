@@ -84,9 +84,9 @@ const SpaceDetails = () => {
 
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
   const { visible, show, hide } = useModalState()
-  const { userId } = useAuth()
+  const loginState = useAuth()
 
-  const isCreator = space?.creator?.id === userId
+  const isCreator = loginState.isLoggedIn && space?.creator?.id === loginState.userId
 
   useRefreshOnNavigation({ initialized: called, onRefresh })
 
@@ -94,7 +94,7 @@ const SpaceDetails = () => {
     if (!isOnboarded && !isCreator && isMember) {
       show()
     }
-  }, [space, show, isOnboarded, userId, isCreator, isMember])
+  }, [space, show, isOnboarded, isCreator, isMember])
 
   const determineInitialTab = useCallback(() => {
     if (loading || isSSR) {

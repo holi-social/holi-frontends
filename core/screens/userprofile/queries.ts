@@ -1,7 +1,14 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type {
+  AuthenticatedUser,
+  SDG,
+  Skill,
+  Topic,
+  UpdateConnectionWithUserActions,
+  User,
+} from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
 // This fragment is used in a lot of places throughout the app
@@ -52,18 +59,55 @@ export const FullUserFragment = gql`
   }
 `
 
-export const authenticatedUserQuery = gql`
-  ${FullUserFragment}
+export const FullAuthenticatedUserFragment = gql`
+  fragment FullAuthenticatedUser on AuthenticatedUser {
+    id
+    identity
+    avatar
+    avatarBlurhash
+    avatarDefaultColor
+    avatarLabel
+    fullName
+    firstName
+    lastName
+    aboutMe
+    pronouns
+    location
+    geolocationId
+    engagementLevel
+    interests {
+      id
+      title
+      slug
+    }
+    sdgs {
+      id
+      title
+      slug
+    }
+    skills {
+      id
+      title
+      slug
+    }
+    connectionStatusToMyself
+    trackingConsentAnalytics
+    trackingConsentPersonalization
+  }
+`
+
+export const authenticatedUserV2Query = gql`
+  ${FullAuthenticatedUserFragment}
 
   query AuthenticatedUser {
-    authenticatedUser {
-      ...FullUser
+    authenticatedUserV2 {
+      ...FullAuthenticatedUser
     }
   }
 `
 
 export type AuthenticatedUserResponse = {
-  authenticatedUser: User
+  authenticatedUserV2: AuthenticatedUser
 }
 
 export interface UserByIdResponse {
@@ -122,7 +166,11 @@ export type UsersByChatIdentitiesResponse = {
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
-  firstName: z.string().min(2, { message: 'minCharacters---2' }).max(192, { message: 'maxCharacters---192' }),
+  firstName: z
+    .string()
+    .min(2, { message: 'minCharacters---2' })
+    .max(192, { message: 'maxCharacters---192' })
+    .optional(),
   lastName: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
   aboutMe: z.string().max(3000, { message: 'maxCharacters---3000' }).optional(),
   pronouns: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
@@ -132,12 +180,14 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   interests: z.array(z.string() /* UUID */).optional(),
   sdgs: z.array(z.string() /* UUID */).optional(),
   skills: z.array(z.string() /* UUID */).optional(),
+  trackingConsentAnalytics: z.boolean().optional(),
+  trackingConsentPersonalization: z.boolean().optional(),
 })
 
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
-export type UpdateAuthenticatedUserResponse = {
-  updateAuthenticatedUser: User
+export type UpdateAuthenticatedUserV2Response = {
+  updateAuthenticatedUserV2: AuthenticatedUser
 }
 
 export type UpdateConnectionWithUserInput = {
@@ -149,12 +199,12 @@ export type UpdateConnectionWithUserResponse = {
   updateConnectionWithUser: User
 }
 
-export const updateUserMutation = gql`
-  ${FullUserFragment}
+export const updateAuthenticatedUserV2Mutation = gql`
+  ${FullAuthenticatedUserFragment}
 
   mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
-    updateAuthenticatedUser(input: $input) {
-      ...FullUser
+    updateAuthenticatedUserV2(input: $input) {
+      ...FullAuthenticatedUser
     }
   }
 `

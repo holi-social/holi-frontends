@@ -1,7 +1,8 @@
+import { useMutation } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, InputAccessoryView, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, InputAccessoryView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -9,47 +10,99 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import CreatePostPill, { Variant } from '@holi/core/screens/individualPosts/components/CreatePostPill'
+import { CategorySelectionModal } from '@holi/core/screens/individualPosts/CategorySelectionModal'
+import { PostCreationBar } from '@holi/core/screens/individualPosts/PostCreationBar'
+import FeedPostPill, { PostSetting } from '@holi/core/screens/individualPosts/components/FeedPostPill'
+import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
+import {
+  CreateFeedPostResponse,
+  CreateFeedPostSchema,
+  createFeedPostMutation,
+} from '@holi/core/screens/individualPosts/mutations'
+import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+export enum Visibility {
+  PUBLIC = 'PUBLIC',
+  REGISTERED_USERS_ONLY = 'REGISTERED_USERS_ONLY',
+  //CONNECTIONS_ONLY = 'CONNECTIONS_ONLY',
+}
 
 const CreatePost = () => {
   const { theme } = useTheme()
   const windowWidth = Dimensions.get('window').width
+
   const styles = useMemo(() => getStyles(theme, windowWidth), [theme, windowWidth])
   const { colors } = theme
   const { navigateBack, navigate } = useRouting()
-  const [showModal, setShowModal] = useState(true)
+
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-  const Categories = [
-    {
-      name: t('individuals.post.category.name.topic'),
-      image: require('@holi/ui/assets/img/posts/category-conversation-illustrations.svg'),
+  const { openToast } = useToast()
+
+  const { loading: categoriesLoading, categories } = useFeedPostCategories()
+  const [showCategorySelectionModal, setShowCategorySelectionModal] = useState(true)
+  const [selectedCategoryId, setSelectedCategoryIdId] = useState<string | null>(null)
+
+  const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
+
+  const [description, setDescription] = useState<string>('')
+  const [title, setTitle] = useState<string>('')
+  const [image, setImage] = useState<HoliImageInfo | null>(null)
+
+  const [submitting, setSubmitting] = useState<boolean>(false)
+  const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
+
+  const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
+    onCompleted: () => {
+      openToast(t('individuals.post.create.success'), HoliToastType.SUCCESS)
+      navigate('/')
     },
-    {
-      name: t('individuals.post.category.name.experience'),
-      image: require('@holi/ui/assets/img/posts/category-personal-illustrations.svg'),
+    onError: (error) => {
+      alert(error)
     },
-    {
-      name: t('individuals.post.category.name.recommendation'),
-      image: require('@holi/ui/assets/img/posts/category-recommendation-illustrations.svg'),
-    },
-    {
-      name: t('individuals.post.category.name.awareness'),
-      image: require('@holi/ui/assets/img/posts/category-awareness-illustrations.svg'),
-    },
-  ]
+    refetchQueries: [{ query: myPostsQuery }, 'MyPosts'],
+  })
+
+  useEffect(() => {
+    const formDataParseResult = CreateFeedPostSchema.safeParse({
+      title,
+      description,
+      visibility: selectedVisibility,
+      categoryId: selectedCategoryId,
+    })
+    setIsSubmittable(formDataParseResult.success)
+  }, [title, description, selectedVisibility, selectedCategoryId])
+
+  const createPost = () => {
+    setSubmitting(true)
+    createFeedPost({
+      variables: {
+        input: {
+          title,
+          description,
+          visibility: selectedVisibility,
+          categoryId: selectedCategoryId,
+          image: image?.blob,
+        },
+      },
+      onError: () => openToast(t('individuals.post.create.error'), HoliToastType.ERROR),
+    })
+      .catch(() => {
+        openToast(t('individuals.post.create.error'), HoliToastType.ERROR)
+      })
+      .finally(() => setSubmitting(false))
+  }
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -66,9 +119,23 @@ const CreatePost = () => {
     })
   }, [colors.background20, navigateBack, setScreenOptions, t])
 
-  const modalPress = (category: string) => {
-    setSelectedCategory(category)
-    setShowModal(false)
+  const selectCategory = (categoryId: string) => {
+    setSelectedCategoryIdId(categoryId)
+    setShowCategorySelectionModal(false)
+  }
+
+  const handlePostSettingsPress = (setting: PostSetting) => {
+    if ('visibility' === setting) {
+      // toggle this for now
+      if (selectedVisibility === Visibility.PUBLIC) {
+        setSelectedVisibility(Visibility.REGISTERED_USERS_ONLY)
+      } else {
+        setSelectedVisibility(Visibility.PUBLIC)
+      }
+    }
+    if ('category' === setting) {
+      setShowCategorySelectionModal(true)
+    }
   }
 
   if (!ftLoading && !ftEnabled) {
@@ -79,47 +146,30 @@ const CreatePost = () => {
     return null
   }
 
-  const pillData = [
+  const settingPills = [
     {
-      variant: 'visibility',
+      label: selectedVisibility && t(`individuals.post.category.label.visibility.${selectedVisibility}`),
+      filterType: 'visibility',
     },
     {
-      label: selectedCategory,
-      variant: 'category',
+      label: categories?.find((category) => category.id === selectedCategoryId)?.name ?? selectedCategoryId,
+      filterType: 'category',
     },
   ]
 
   const inputAccessoryViewID = 'inputAccessoryViewID'
 
-  const PostMenu = ({ onPress: onPress }: { onPress: () => void }) => {
-    return (
-      <View style={styles.menuContainer}>
-        <View style={styles.items}>
-          <View />
-          {/* TODO: Add upload image functionality 
-          <HoliButton transparent label={'Add Image'} inline onPress={() => uploadImage()}>
-            <HoliIcon icon={ImageAdd} style={styles.addImageIcon} />
-          </HoliButton> 
-          */}
-          <HoliButton label={'Post'} inline variant="small" onPress={onPress} style={styles.postButton}>
-            <HoliText bold>Post</HoliText>
-          </HoliButton>
-        </View>
-      </View>
-    )
-  }
-
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
       <View style={styles.layout}>
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
           <View style={styles.pillContainer}>
-            {pillData.map((pill, index) => (
-              <CreatePostPill
+            {settingPills.map((pill, index) => (
+              <FeedPostPill
                 key={index}
                 label={pill.label}
-                variant={pill.variant as Variant}
-                onPress={() => setShowModal(true)}
+                setting={pill.filterType as PostSetting}
+                onPress={handlePostSettingsPress}
               />
             ))}
           </View>
@@ -127,73 +177,68 @@ const CreatePost = () => {
             <HoliTextInput
               placeholder={t('individuals.post.create.category.input.title')}
               fontStyle={styles.titleFont}
-              inputStyle={styles.textInput}
+              inputStyle={styles.titleInput}
               placeholderColor={theme.colors.gray300}
               aria-label={t('individuals.post.create.category.input.title')}
               inputAccessoryViewID={inputAccessoryViewID}
+              onChange={(title) => setTitle(title)}
+              maxNoOfVisibleLines={2}
+              noOfVisibleLines={2}
             />
-            <HoliTextInput
+            <HoliRichTextInput
               placeholder={t('individuals.post.create.category.input.description')}
-              noOfVisibleLines={15}
-              maxNoOfVisibleLines={15}
-              maxNoOfCharacters={5000}
-              placeholderColor={theme.colors.gray300}
-              inputStyle={styles.textInput}
+              style={styles.descriptionInput}
               aria-label={t('individuals.post.create.category.input.description')}
               inputAccessoryViewID={inputAccessoryViewID}
+              onChange={(description) => setDescription(description)}
+              placeholderTextColor={theme.colors.gray300}
+              showCharacterCount
+              maxNoOfCharacters={5000}
+              maxSuggestionOptions={30}
             />
+            {/* <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} /> */}
+            <View style={styles.imageEditor}>
+              <ImageEditor onSave={setImage} image={image} />
+            </View>
           </View>
-        </View>
+        </ScrollView>
+
         {Platform.OS === 'ios' ? (
           <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
-            <PostMenu onPress={() => alert('Boooom!')} />
+            <PostCreationBar
+              onCreatePost={createPost}
+              onSetImage={setImage}
+              hasSetImage={!!image}
+              submitting={submitting}
+              isSubmittable={isSubmittable}
+            />
           </InputAccessoryView>
         ) : (
-          <PostMenu onPress={() => alert('Boooom!')} />
+          <PostCreationBar
+            onCreatePost={createPost}
+            onSetImage={setImage}
+            hasSetImage={!!image}
+            submitting={submitting}
+            isSubmittable={isSubmittable}
+          />
         )}
-        <HoliModal show={showModal} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <HeaderBackButton
-                icon={Close}
-                onPress={() => navigateBack()}
-                tintColor="black"
-                style={styles.backButton}
-              />
-              <HoliHeading level="1" size="s">
-                {t('individuals.post.create.title')}
-              </HoliHeading>
-            </View>
-            <HoliText size="large" style={styles.modalTitle}>
-              {t('individuals.post.create.category.title')}
-            </HoliText>
-            <View style={styles.categoryContainer}>
-              {Categories.map((category) => (
-                <React.Fragment key={category.name}>
-                  <Pressable
-                    style={({ hovered }) => [styles.category, hovered ? styles.categoryHovered : styles.category]}
-                    onPress={() => modalPress(category.name)}
-                  >
-                    <View style={styles.categoryContent}>
-                      <HoliLocalImage imageSource={category.image} width={40} height={40} isSvg label={''} />
-                      <HoliText bold style={styles.text}>
-                        {category.name}
-                      </HoliText>
-                    </View>
-                  </Pressable>
-                </React.Fragment>
-              ))}
-            </View>
-          </View>
-        </HoliModal>
+        {!categoriesLoading && categories && (
+          <CategorySelectionModal
+            show={showCategorySelectionModal}
+            categories={categories}
+            onCategorySelection={selectCategory}
+          />
+        )}
       </View>
     </FeatureToggleGuard>
   )
 }
 
-export default withProfiler(CreatePost, { name: 'CreatePost' })
+const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
+const SUGGESTIONS_DROPDOWN_HEIGHT = 150
+const SMALL_DEVICE_HEIGHT = 600
 
-const getStyles = (theme: HoliTheme, windowWidth: number) =>
+const getStyles = (theme: HoliTheme, screenHeight: number) =>
   StyleSheet.create({
     // general styles
     text: {
@@ -206,73 +251,26 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       height: '100%',
     },
 
-    // modal styles
-    category: {
-      padding: 16,
-      backgroundColor: theme.colors.background10,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: theme.colors.gray200,
-      height: 72,
-    },
-    categoryContainer: {
-      display: windowWidth > dimensions.breakpointXl ? 'grid' : 'flex',
-      gridTemplateColumns: windowWidth > dimensions.breakpointXl ? '1fr 1fr' : 'none',
-      flexDirection: windowWidth > dimensions.breakpointXl ? 'row' : 'column',
-      flexWrap: windowWidth > dimensions.breakpointXl ? 'wrap' : 'nowrap',
-      justifyContent: 'space-between',
-      gap: 12,
-    },
-    categoryHovered: {
-      padding: 16,
-      backgroundColor: theme.colors.background10,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: theme.colors.black300,
-      height: 72,
-    },
-    categoryContent: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-    },
-    modal: {
-      backgroundColor: theme.colors.background20,
-      paddingHorizontal: 16,
-      paddingTop: 0,
-    },
-    modalContent: {
-      paddingTop: Platform.OS === 'web' ? 0 : 36,
-      width: '100%',
-      maxWidth: dimensions.maxScreenWidth,
-      alignSelf: 'center',
-    },
-    modalTitle: {
-      marginVertical: 24,
-    },
-    modalHeader: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginVertical: 16,
-      backgroundColor: theme.colors.background20,
-    },
-    backButton: {
-      position: 'absolute',
-      left: 4,
-    },
-
     // input styles
-    textInput: {
+    titleInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
       paddingVertical: 4,
       maxWidth: '100%',
     },
+    descriptionInput: {
+      backgroundColor: theme.colors.background20,
+      borderWidth: 0,
+      paddingTop: 6,
+      paddingHorizontal: 5,
+      maxWidth: '100%',
+      ...Platform.select({
+        web: {
+          marginLeft: -10,
+        },
+      }),
+    },
     container: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      alignContent: 'center',
       paddingTop: 24,
       width: '100%',
       ...Platform.select({
@@ -281,6 +279,12 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
         },
       }),
     },
+    contentContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center',
+      paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
+    },
     inputContainer: {
       width: '100%',
       paddingHorizontal: 6,
@@ -288,6 +292,9 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
     titleFont: {
       fontSize: 21,
       color: theme.colors.black300,
+    },
+    imageEditor: {
+      paddingTop: 24,
     },
 
     // pill styles
@@ -302,43 +309,36 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       paddingHorizontal: 16,
     },
 
-    // menu styles
-    menuContainer: {
-      padding: 12,
+    suggestionsScrollView: {
+      zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
+      width: '100%',
+      height: SUGGESTIONS_DROPDOWN_HEIGHT,
+      maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
+      paddingTop: 10,
+      marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
+      paddingBottom: 10,
+      backgroundColor: theme.colors.background10,
+      shadowColor: theme.colors.foreground30,
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.4,
+      shadowRadius: 6,
+      borderRadius: 12,
+      elevation: 4,
       borderTopWidth: 1,
-      borderTopColor: theme.colors.gray100,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
+      borderTopColor: theme.colors.background30,
       ...Platform.select({
         web: {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        },
-        android: {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
+          maxWidth: dimensions.maxScreenWidth,
+          marginHorizontal: 'auto',
         },
       }),
-      backgroundColor: theme.colors.background10,
-    },
-    postButton: {
-      paddingVertical: 10,
-      paddingHorizontal: 16,
-      borderRadius: 500,
-      borderWidth: 1,
-      backgroundColor: theme.colors.brandA200,
-    },
-    addImageIcon: {
-      paddingLeft: 2,
-    },
-    items: {
-      flexDirection: 'row',
-      width: '100%',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      maxWidth: dimensions.breakpointM,
+      position: 'absolute',
+      bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      left: 0,
+      right: 0,
     },
   })
+export default withProfiler(CreatePost, { name: 'CreatePost' })

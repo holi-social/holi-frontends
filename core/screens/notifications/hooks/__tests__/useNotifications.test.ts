@@ -301,6 +301,7 @@ function aLongNotificationsResponse(notificationContent: string, notificationCre
 function aNotification(id: string, requestMessage: string, created: string) {
   return {
     notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
+    notificationVersion: '1.0.0',
     created: created,
     id: id,
     read: false,

@@ -33,7 +33,7 @@ interface CreateAccountProps {
 }
 
 const CreateAccount = ({ onRegister }: CreateAccountProps) => {
-  const { userId } = useAuth()
+  const { isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
@@ -48,7 +48,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const initializeFlow = useCallback(() => {
-    if (userId) return
+    if (isLoggedIn) return
 
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
@@ -61,7 +61,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           location: 'CreateAccount.initRegistrationFlow',
         })
       )
-  }, [userId, t, safeSetFlow, displayError])
+  }, [isLoggedIn, t, safeSetFlow, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => {

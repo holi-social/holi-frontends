@@ -26,7 +26,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
 }: AppointmentDrawerProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { userId } = useAuth()
+  const loginState = useAuth()
   const [isLoadingDeleteAppointment, deleteAppointment] = useDeleteAppointment({
     id: appointment.id,
     spaceId: space.id,
@@ -34,7 +34,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
     handleDelete,
   })
 
-  const isAppointmentCreator = appointment?.creator?.id === userId
+  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.userId
 
   return (
     (isAdmin || isAppointmentCreator) && (

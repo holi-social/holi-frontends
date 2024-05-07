@@ -14,6 +14,7 @@ import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import LegalDocuments from '@holi/core/screens/userprofile/LegalDocuments'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
+import TrackingSettings from '@holi/core/screens/userprofile/TrackingSettings'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -23,6 +24,7 @@ export type AuthStackScreensList = {
   SettingsOverview: undefined
   AccountSettings: undefined
   NotificationSettings: undefined
+  TrackingSettings: undefined
   HelpSettings: undefined
   ChangePassword: undefined
   ChangeEmail: undefined
@@ -69,6 +71,14 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen
         name={RouteName.NotificationSettings}
         component={NotificationSettings}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
+        name={RouteName.TrackingSettings}
+        component={TrackingSettings}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,

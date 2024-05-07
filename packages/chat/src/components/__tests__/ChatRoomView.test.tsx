@@ -38,10 +38,10 @@ import {
   createMatrixEventMock,
   createRoomMock,
 } from '@holi/chat/src/test-utils'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { LoginStateLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { mockParameters as useParamMock } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
-import { authenticatedUserQuery, usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
+import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 
 jest.mock('matrix-js-sdk')
@@ -51,6 +51,14 @@ jest.mock('@holi/core/navigation/hooks/useParam')
 
 const useAuthMock = jest.mocked(useAuth)
 
+const loggedIn = (userId: string): LoginStateLoggedIn => ({
+  loginState: 'loggedIn',
+  isUnknown: false,
+  isLoggedOut: false,
+  isLoggedIn: true,
+  userId: userId,
+})
+
 const defaultOptions: DefaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
@@ -59,14 +67,14 @@ const defaultOptions: DefaultOptions = {
 const getLoggedUserQueryMock = (user: User) => {
   return {
     request: {
-      query: authenticatedUserQuery,
+      query: authenticatedUserV2Query,
       variables: {
         userId: user.id,
       },
     },
     result: {
       data: {
-        authenticatedUser: user,
+        authenticatedUserV2: user,
       },
     },
   }
@@ -115,12 +123,7 @@ describe('ChatRoomView', () => {
 
   it('should show an invitation screen for new rooms', async () => {
     useParamMock({ roomId: DM_ROOM_ID })
-    useAuthMock.mockReturnValue({
-      userId: HOLI_MEMBER1_ID_FIXTURE,
-      isLoggedIn: true,
-      isLoggedOut: false,
-      isLoading: false,
-    })
+    useAuthMock.mockReturnValue(loggedIn(HOLI_MEMBER1_ID_FIXTURE))
 
     const roomName = CREATOR_FIXTURE.name
     const roomMock = createRoomMock(DM_ROOM_ID, {
@@ -166,12 +169,7 @@ describe('ChatRoomView', () => {
 
   it('should render a DM chat room', async () => {
     useParamMock({ roomId: DM_ROOM_ID })
-    useAuthMock.mockReturnValue({
-      userId: HOLI_CREATOR_ID_FIXTURE,
-      isLoggedIn: true,
-      isLoggedOut: false,
-      isLoading: false,
-    })
+    useAuthMock.mockReturnValue(loggedIn(HOLI_CREATOR_ID_FIXTURE))
 
     const roomName = 'room-name'
     const roomMock = createRoomMock(DM_ROOM_ID, {
@@ -229,12 +227,7 @@ describe('ChatRoomView', () => {
 
   it('should render a Space chat room', async () => {
     useParamMock({ roomId: SPACE_CHILD_ROOM_ID_FIXTURE })
-    useAuthMock.mockReturnValue({
-      userId: HOLI_MEMBER1_ID_FIXTURE,
-      isLoggedIn: true,
-      isLoggedOut: false,
-      isLoading: false,
-    })
+    useAuthMock.mockReturnValue(loggedIn(HOLI_MEMBER1_ID_FIXTURE))
 
     const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
       content: SPACE_EVENT_CONTENT,

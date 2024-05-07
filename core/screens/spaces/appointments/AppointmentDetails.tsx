@@ -53,7 +53,7 @@ const AppointmentDetails = () => {
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
   const { navigateBack, replaceRoute, navigate } = useRouting()
-  const { userId, isLoggedIn } = useAuth()
+  const loginState = useAuth()
   const { width: deviceWidth } = useWindowDimensions()
 
   const { t, i18n } = useTranslation()
@@ -92,7 +92,7 @@ const AppointmentDetails = () => {
   const appointment = appointmentData?.appointment
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isAppointmentCreator = appointment?.creator?.id === userId
+  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.userId
   const isMobile = Platform.OS !== 'web'
 
   const renderActionDrawer = useCallback(
@@ -235,7 +235,7 @@ const AppointmentDetails = () => {
                 </HoliText>
               </View>
             </View>
-            {!isLoggedIn && appointment.locationDetails && (
+            {!loginState.isLoggedIn && appointment.locationDetails && (
               <>
                 <View style={styles.iconGroupContainer}>
                   <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
@@ -264,7 +264,7 @@ const AppointmentDetails = () => {
                 </View>
               </>
             )}
-            {!isLoggedIn && appointment.hasVideoCallLink && (
+            {!loginState.isLoggedIn && appointment.hasVideoCallLink && (
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
                 <HoliButton
@@ -278,7 +278,7 @@ const AppointmentDetails = () => {
                 </HoliButton>
               </View>
             )}
-            {isLoggedIn && appointment.locationDetails && (
+            {loginState.isLoggedIn && appointment.locationDetails && (
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
                 <HoliButton
@@ -296,7 +296,7 @@ const AppointmentDetails = () => {
                 </HoliButton>
               </View>
             )}
-            {isLoggedIn && appointment.videoCallLink?.url && (
+            {loginState.isLoggedIn && appointment.videoCallLink?.url && (
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
                 <HoliButton
@@ -351,7 +351,7 @@ const AppointmentDetails = () => {
             <HoliHeading level="2" size="m">
               {t('spaces.appointments.details.details')}
             </HoliHeading>
-            {isLoggedIn && appointment.creator && (
+            {loginState.isLoggedIn && appointment.creator && (
               <View style={styles.avatar}>
                 <HoliAvatar
                   imageSrc={appointment.creator.avatar}
@@ -367,7 +367,7 @@ const AppointmentDetails = () => {
                 </HoliText>
               </View>
             )}
-            {isLoggedIn && !appointment.creator && (
+            {loginState.isLoggedIn && !appointment.creator && (
               <View style={styles.avatar}>
                 <SpaceAvatar space={space} size="medium" />
                 <HoliText style={styles.avatarName}>

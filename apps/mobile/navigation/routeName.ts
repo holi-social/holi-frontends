@@ -57,6 +57,7 @@ export enum RouteName {
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
   NotificationSettings = 'NotificationSettings',
+  TrackingSettings = 'TrackingSettings',
   ChangePassword = 'ChangePassword',
   ChangeEmail = 'ChangeEmail',
   ChangeEmailVerification = 'ChangeEmailVerification',

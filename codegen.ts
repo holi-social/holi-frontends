@@ -1,30 +1,56 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
+import fs from 'node:fs/promises'
+import path from 'path'
 
-const schema = process.env.UNIFIED_API_URL
+const schema = process.env.UNIFIED_API_SCHEMA_ENDPOINT
+const filePath = 'packages/api/graphql/graphql-codegen.ts'
 
 const config: CodegenConfig = {
   schema,
-  documents: ['core/**/*.{graphql, gql}', 'holi-apps/**/*.{graphql, gql}'],
+  documents: ['core/**/*.graphql', 'holi-apps/**/*.graphql'],
   ignoreNoDocuments: true,
   generates: {
-    'packages/api/graphql/types.ts': {
-      plugins: ['typescript'],
-      config: { maybeValue: 'T', scalars: { UUID: 'string' } },
-    },
-    '.': {
-      preset: 'near-operation-file',
-      presetConfig: {
-        folder: '__generated__',
-        extension: '.ts',
-        baseTypesPath: '~@holi/api/graphql/types',
+    [`${filePath}`]: {
+      plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
+      config: {
+        maybeValue: 'T',
+        scalars: { UUID: 'string' },
+        withHooks: true,
+        withMutationFn: true,
+        withRefetchFn: false,
+        avoidOptionals: true,
+        reactApolloVersion: 3,
       },
-      plugins: ['typescript-operations', 'typescript-react-apollo'],
-      config: { withHooks: true, withMutationFn: true, withRefetchFn: false },
     },
   },
   hooks: {
-    afterOneFileWrite: ['prettier --write'],
+    afterAllFileWrite: [addHeaderContent, 'prettier --write'],
   },
 }
 
 export default config
+
+/**
+ * codegen Hooks
+ */
+const fileHeader = `
+/**
+ * @file NOT EDIT! Automatically generated code with \`@graphql-codegen\`.
+ * If you need to develop the types of your Schema or queries and fragments for the front end,
+ * execute \`yarn schema:generate\` or \`schema:watch\`.
+ */
+`
+const eslintIgnore = `
+/* eslint-disable @typescript-eslint/no-explicit-any */
+`
+
+async function addHeaderContent(): Promise<void> {
+  try {
+    const codeGenContent = await fs.readFile(path.resolve(__dirname, filePath), 'utf-8')
+    const newContent = fileHeader + eslintIgnore + codeGenContent
+    await fs.writeFile(path.resolve(__dirname, filePath), newContent)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error adding header content to generated file', error)
+  }
+}

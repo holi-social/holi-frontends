@@ -1,6 +1,7 @@
 import { Camera } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
@@ -9,6 +10,7 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -19,6 +21,8 @@ import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 export const ChallengesAppHome = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
+  const { navigate } = useRouting()
+  const { t } = useTranslation()
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
   const webViewRef = useRef<WebView>(null)
@@ -27,7 +31,7 @@ export const ChallengesAppHome = () => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">
-          Challenges
+          {t('challenges:app.name')}
         </HoliHeading>
       ),
       headerLeft: () => <HeaderBackButton tintColor={theme.colors.dark} />,
@@ -38,7 +42,7 @@ export const ChallengesAppHome = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, theme.colors])
+  }, [setScreenOptions, t, theme.colors])
 
   const requestPermissions = async () => {
     const cameraPermissionResult = await Camera.requestCameraPermissionsAsync()
@@ -52,7 +56,7 @@ export const ChallengesAppHome = () => {
     return cameraPermissionResult.granted && micPermissionResult.granted
   }
 
-  const handleCameraPermissionMessage = async (event: WebViewMessageEvent) => {
+  const handleMessageFromBackend = async (event: WebViewMessageEvent) => {
     switch (event.nativeEvent.data) {
       case 'requestPermission':
         await requestPermissions().then((granted) => {
@@ -62,6 +66,12 @@ export const ChallengesAppHome = () => {
             webViewRef.current?.postMessage('requestPermissionDenied')
           }
         })
+        break
+      case 'register':
+        navigate('/onboarding')
+        break
+      case 'login':
+        navigate('/login')
         break
     }
   }
@@ -90,13 +100,13 @@ export const ChallengesAppHome = () => {
           allowsInlineMediaPlayback: true,
           mediaCapturePermissionGrantType: 'grant',
           sharedCookiesEnabled: true,
-          onMessage: handleCameraPermissionMessage,
+          onMessage: handleMessageFromBackend,
           source: {
             uri: challengeAppBaseUrl,
             headers: {
               ...authHeaders,
               'X-Client-Platform': 'holi',
-              'X-Require-Camera-Permission': `${Platform.OS == 'android' && requireCameraPermission}`,
+              'X-Require-Camera-Permission': `${requireCameraPermission}`,
             },
           },
         }}

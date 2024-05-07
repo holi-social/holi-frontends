@@ -72,11 +72,11 @@ const EditTask: React.FC<ScreenProps> = () => {
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
-  const { userId } = useAuth()
+  const loginState = useAuth()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const task = (space?.tasks || []).find((t) => t.id === taskId)
-  const isTaskOwner = task?.creator.id === userId
+  const isTaskOwner = loginState.isLoggedIn && task?.creator.id === loginState.userId
 
   const { displayError } = useErrorHandling()
 
