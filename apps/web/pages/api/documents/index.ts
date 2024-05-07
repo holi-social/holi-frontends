@@ -2,12 +2,9 @@ import fs from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
+import { DocType, docTypes } from '@holi/core/documents/DocType'
 import { detectLocaleFromHeader } from '@holi/web/helpers/detectLocaleFromHeader'
 import { sanitizeBuffer } from '@holi/web/helpers/sanitizeBuffer'
-
-const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'openSource'] as const
-
-export type DocType = (typeof docTypes)[number]
 
 const isDocType = (value?: DocType | string | string[]): value is DocType => docTypes.some((dt) => dt === value)
 
