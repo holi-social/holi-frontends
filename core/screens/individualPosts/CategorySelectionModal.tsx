@@ -29,7 +29,7 @@ export const CategorySelectionModal: React.FC<{
       <View style={styles.modalContent}>
         <View style={styles.modalHeader}>
           <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor="black" style={styles.backButton} />
-          <HoliHeading level="1" size="s">
+          <HoliHeading level="2" size="s">
             {t('individuals.post.create.title')}
           </HoliHeading>
         </View>

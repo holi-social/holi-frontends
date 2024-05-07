@@ -51,7 +51,13 @@ const DonationListingSkeleton = ({ isFiltering, amount, ...props }: DonationList
 
   return (
     <View style={styles.skeletonContainer} {...props}>
-      <HoliHeading level="1" testID="donations-list-search-heading" loading skeletonOptions={{ width: '100%' }} />
+      <HoliHeading
+        level="2"
+        size="l"
+        testID="donations-list-search-heading"
+        loading
+        skeletonOptions={{ width: '100%' }}
+      />
       <PartnerInfoRowSkeleton />
       {isFiltering && <HoliText bold style={styles.searchQuery} loading skeletonOptions={{ width: '40%' }} />}
       <HoliGap />

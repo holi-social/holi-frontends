@@ -106,7 +106,7 @@ const TaskDetails = () => {
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,
       navigationCustomOptions: {
         footerShown: false,
-        seoTitle: `${task?.name} ${space?.name}`.trim(),
+        seoTitle: `${task?.name} | ${space?.name}`.trim(),
       },
     })
   }, [renderActionDrawer, setScreenOptions, t, styles.headerRight, colors.background10, task?.name, space?.name])
