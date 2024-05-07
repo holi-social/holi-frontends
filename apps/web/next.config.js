@@ -30,6 +30,55 @@ const nextConfig = {
     defaultLocale: 'default',
     localeDetection: false,
   },
+  redirects: async () => [
+    {
+      source: '/apps/donations',
+      destination: '/donations',
+      permanent: true,
+    },
+    {
+      source: '/apps/donations/project/:projectId*',
+      destination: '/donations/:projectId*',
+      permanent: true,
+    },
+    {
+      source: '/apps/volunteering',
+      destination: '/volunteering',
+      permanent: true,
+    },
+    {
+      source: '/apps/volunteering/engagement/:engagementId*',
+      destination: '/volunteering/:engagementId*',
+      permanent: true,
+    },
+  ],
+  rewrites: async () => [
+    {
+      source: '/spenden',
+      destination: '/donations',
+    },
+    {
+      source: '/spenden/:projectId*',
+      destination: '/donations/:projectId*',
+      locale: false,
+    },
+    {
+      source: '/ehrenamt',
+      destination: '/volunteering',
+    },
+    {
+      source: '/ehrenamt/:engagementId*',
+      destination: '/volunteering/:engagementId*',
+    },
+    {
+      source: '/spaces/:spaceIdOrName/aufgaben',
+      destination: '/spaces/:spaceIdOrName/tasks',
+    },
+    {
+      source: '/spaces/:spaceIdOrName/aufgaben/:taskId*',
+      destination: '/spaces/:spaceIdOrName/tasks/:taskId*',
+    },
+  ],
   compiler: {
     // Remove console outputs in production builds, see https://nextjs.org/docs/advanced-features/compiler#remove-console
     removeConsole: process.env.ENVIRONMENT_ID === 'production',
