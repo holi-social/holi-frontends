@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { Suspense } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -21,6 +21,7 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
@@ -39,6 +40,8 @@ const MyPostsTab = dynamicImport(() => import('@holi/core/screens/individualPost
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
@@ -79,11 +82,15 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
                         text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                         label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                         disabled
+                        style={styles.chip}
+                        fontStyle={styles.chipFont}
                       />
                     ) : (
                       <HoliChip
                         onPress={() => toggleEditMode('engagementLevel')}
                         label={t('profile.engagementLevel.add')}
+                        style={styles.chip}
+                        fontStyle={styles.chipFont}
                       />
                     )}
                   </HoliChipRow>
@@ -153,16 +160,24 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'baseline',
-  },
-  chipRowContainer: {
-    marginTop: 24,
-  },
-  profileContainer: {
-    paddingBottom: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'baseline',
+    },
+    chipRowContainer: {
+      marginTop: 24,
+    },
+    chip: {
+      borderWidth: 1,
+      borderColor: theme.colors.black300at12percent,
+    },
+    chipFont: {
+      color: theme.colors.black300,
+    },
+    profileContainer: {
+      paddingBottom: 24,
+    },
+  })
 
 export default withProfiler(OwnProfileView, { name: 'OwnProfileView' })
