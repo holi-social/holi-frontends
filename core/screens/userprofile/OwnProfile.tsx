@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -12,6 +12,7 @@ import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
@@ -19,14 +20,12 @@ import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/U
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Edit2, Pencil, Settings3, Share } from '@holi/icons/src/generated'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
-import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -199,22 +198,7 @@ const OwnProfile = () => {
           <HoliLoader />
         )}
       </ScrollHeaderLayout.Refreshable>
-      <View style={styles.floatingContainer}>
-        <HoliContainer flexDirection="row" justifyContent="flex-end">
-          <View>
-            <HoliButton
-              label={'TODO'}
-              inline
-              style={styles.button}
-              onPress={() => {
-                alert('Whoop')
-              }}
-            >
-              <HoliIcon icon={Pencil} size={20} />
-            </HoliButton>
-          </View>
-        </HoliContainer>
-      </View>
+      <CreatePostButton />
     </LoginProtection>
   )
 }
@@ -226,30 +210,6 @@ const styles = StyleSheet.create({
     minHeight: '100%',
     paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
     paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 0,
-  },
-  floatingContainer: {
-    ...Platform.select({
-      web: {
-        position: 'fixed',
-        bottom: dimensions.bottomBarHeight,
-      },
-      native: {
-        position: 'absolute',
-        bottom: 0,
-      },
-    }),
-    left: 0,
-    right: 0,
-  },
-  button: {
-    position: 'absolute',
-    bottom: Spacing.xxs,
-    right: 0,
-    marginRight: -4,
-    borderRadius: 28,
-    borderWidth: 1,
-    paddingHorizontal: Spacing.xs,
-    paddingVertical: Spacing.xs,
   },
 })
 
