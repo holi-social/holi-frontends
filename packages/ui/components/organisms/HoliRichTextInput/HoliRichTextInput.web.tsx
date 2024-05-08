@@ -148,6 +148,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingRight: 20,
       paddingTop: 10,
       paddingBottom: 10,
+      outlineWidth: 0,
     },
     placeholder: {
       color: theme.colors.foreground20,
