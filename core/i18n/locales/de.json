@@ -614,7 +614,7 @@
   "registration.accountSetup.success.submitButtonText": "holi erkunden",
   "registration.communityGuidelines.modalLabel.communityGuidelines": "Community Guidelines",
   "registration.communityGuidelines.modalLabel.termsOfUse": "Nutzungsbedingungen",
-  "registration.communityGuidelines.checkboxLabel": "Ich respektiere die <0>Nutzungsbedingungen</0> und <1>Community Guidelines</1>",
+  "registration.communityGuidelines.checkboxLabel": "Ich respektiere die <0>Nutzungsbedingungen</0> und die <1>Community Guidelines</1>",
   "registration.communityGuidelines.description": "Bei holi geht es darum, dass jede:r von uns einen positiven Beitrag leisten kann. Dafür sorgen wir, indem wir eine sichere Umgebung schaffen. Wir legen Wert auf Freundlichkeit, Zusammenhalt und Respekt füreinander. Wenn sich jemand unangemessen verhält, akzeptieren wir das nicht.",
   "registration.communityGuidelines.heading": "Wichtige Nachricht, bevor du holi erkundest!",
   "registration.communityGuidelines.imageLabel": "Illustration für Community Guidelines",
