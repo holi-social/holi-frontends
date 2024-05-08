@@ -4,8 +4,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import FormWrapper from '@holi/core/components/FormWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
@@ -27,7 +25,6 @@ import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/
 import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { LocationDetails } from '@holi/core/types'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -43,9 +40,7 @@ export type CreateAppointmentParams = {
 
 const { useParam } = createParamHooks<CreateAppointmentParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const CreateAppointment: React.FC<ScreenProps> = () => {
+const CreateAppointment = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()

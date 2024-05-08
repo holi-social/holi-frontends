@@ -11,7 +11,9 @@ import DiscussionCommentPage, {
 import DiscussionDetailPage, {
   DiscussionDetailPageParams,
 } from '@holi/core/screens/insights/discussions/DiscussionDetailPage'
-import InitiativeDetailPage from '@holi/core/screens/insights/initiatives/InitiativeDetailPage'
+import InitiativeDetailPage, {
+  InitiativeDetailPageParams,
+} from '@holi/core/screens/insights/initiatives/InitiativeDetailPage'
 import QuoteDetailPage, { QuoteDetailPageParams } from '@holi/core/screens/insights/quotes/QuoteDetailPage'
 import RecommendationDetailPage, {
   RecommendationDetailPageParams,
