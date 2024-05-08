@@ -13,6 +13,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
@@ -54,6 +55,7 @@ const UserProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   const loginState = useAuth()
   const [userId = ''] = useParam('userId')
@@ -252,10 +254,14 @@ const UserProfile = () => {
               />
             ),
           },
-          {
-            title: t('individuals.post.name'),
-            children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
-          },
+          ...(ftEnabledPosts
+            ? [
+                {
+                  title: t('individuals.post.name'),
+                  children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+                },
+              ]
+            : []),
         ]}
       />
     </ScrollHeaderLayout.Refreshable>

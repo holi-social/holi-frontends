@@ -11,7 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -45,7 +45,7 @@ const CreatePost = () => {
     onError: (error) => {
       alert(error)
     },
-    refetchQueries: [{ query: myPostsQuery }, 'MyPosts'],
+    refetchQueries: [{ query: myPostsQuery }, 'MyPosts', { query: feedPostsQuery }],
   })
 
   const createPost = () => {

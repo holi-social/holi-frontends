@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -86,70 +87,79 @@ const DonationsAppProjectDetail = () => {
   }
 
   return (
-    <View
-      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
-      testID="donations-detailview-container"
-    >
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
-        style={{ backgroundColor: colors.background30 }}
-        headerOverlap
+    <>
+      <HoliHead
+        title={project.title}
+        description={project.summary}
+        ogTitle={project.title}
+        ogDescription={project.summary}
+        ogImage={project.picture.length ? project.picture[0].url : undefined}
+      />
+      <View
+        style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
+        testID="donations-detailview-container"
       >
-        <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
-          <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
-          <View style={styles.header}>
-            <HoliHeading level="1" size="l" testID="donations-project-title">
-              {project.title}
-            </HoliHeading>
-            <View style={styles.location}>
-              <HoliIcon icon={Globe} size={20} />
-              <HoliText size="small" style={{ marginLeft: 8 }}>
-                {project.initiative.city}, {project.initiative.country}
-              </HoliText>
-            </View>
-          </View>
-          <DonationProgress
-            progressPercentage={project.progressPercentage}
-            openAmountInCents={project.openAmountInCents}
-            size="large"
-            style={styles.card}
-            testID="donations-project-progress"
-          />
-          <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
-            <DonationInitiativeButton initiative={project.initiative} />
-            <HoliText size={'large'} style={{ marginVertical: 24 }}>
-              &ldquo;{project.summary}&rdquo;
-            </HoliText>
-            <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
-          </View>
-          {project?.news.length > 0 && (
-            <DonationNews
-              totalEntries={project.newsCount}
-              news={project.news}
-              style={[styles.card, { paddingVertical: 24 }]}
-            />
-          )}
-        </View>
-      </ScrollHeaderLayout.Refreshable>
-
-      <View style={[mixins.container, styles.donateButtonContainer]}>
-        <HoliLink
-          label={t('donations:projectDetail.donate')}
-          href={`${project.donationUrl}${UTM_PARAMS}`}
-          testID="donations-project-detail-donate-btn"
+        <ScrollHeaderLayout.Refreshable
+          refreshableProps={{ refreshing, onRefresh }}
+          style={{ backgroundColor: colors.background30 }}
+          headerOverlap
         >
-          <HoliButton
-            label={t('donations:projectDetail.donate')}
-            onPress={() => Linking.openURL(`${project?.donationUrl}${UTM_PARAMS}`)}
-          >
-            <View style={styles.donateButtonContent}>
-              <HoliText>{t('donations:projectDetail.donate')}</HoliText>
-              <HoliIcon icon={ShareBox} size={16} />
+          <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
+            <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
+            <View style={styles.header}>
+              <HoliHeading level="1" size="l" testID="donations-project-title">
+                {project.title}
+              </HoliHeading>
+              <View style={styles.location}>
+                <HoliIcon icon={Globe} size={20} />
+                <HoliText size="small" style={{ marginLeft: 8 }}>
+                  {project.initiative.city}, {project.initiative.country}
+                </HoliText>
+              </View>
             </View>
-          </HoliButton>
-        </HoliLink>
+            <DonationProgress
+              progressPercentage={project.progressPercentage}
+              openAmountInCents={project.openAmountInCents}
+              size="large"
+              style={styles.card}
+              testID="donations-project-progress"
+            />
+            <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
+              <DonationInitiativeButton initiative={project.initiative} />
+              <HoliText size={'large'} style={{ marginVertical: 24 }}>
+                &ldquo;{project.summary}&rdquo;
+              </HoliText>
+              <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
+            </View>
+            {project?.news.length > 0 && (
+              <DonationNews
+                totalEntries={project.newsCount}
+                news={project.news}
+                style={[styles.card, { paddingVertical: 24 }]}
+              />
+            )}
+          </View>
+        </ScrollHeaderLayout.Refreshable>
+
+        <View style={[mixins.container, styles.donateButtonContainer]}>
+          <HoliLink
+            label={t('donations:projectDetail.donate')}
+            href={`${project.donationUrl}${UTM_PARAMS}`}
+            testID="donations-project-detail-donate-btn"
+          >
+            <HoliButton
+              label={t('donations:projectDetail.donate')}
+              onPress={() => Linking.openURL(`${project?.donationUrl}${UTM_PARAMS}`)}
+            >
+              <View style={styles.donateButtonContent}>
+                <HoliText>{t('donations:projectDetail.donate')}</HoliText>
+                <HoliIcon icon={ShareBox} size={16} />
+              </View>
+            </HoliButton>
+          </HoliLink>
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 

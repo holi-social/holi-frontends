@@ -8,8 +8,8 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { DocType } from '@holi/core/documents/DocType'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { getDocumentURL } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -40,6 +40,7 @@ const LoginRegistration = ({
   const { height: screenHeight } = useClientWindowDimensions()
 
   const [shownDocument, setShownDocument] = useState<DocType>('imprint')
+  const documentUrl = useDocumentURL(shownDocument)
 
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState({ visible: false })
 
@@ -140,7 +141,7 @@ const LoginRegistration = ({
         autoHeight={false}
         relativeHeight={1}
       >
-        <HtmlDocument fallbackToWebView url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
+        <HtmlDocument fallbackToWebView url={documentUrl} onError={onDocumentLoadError} />
       </HoliModal>
     </View>
   )

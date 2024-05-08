@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
 import { DocType, docTypes } from '@holi/core/documents/DocType'
-import { detectLocaleFromHeader } from '@holi/web/helpers/detectLocaleFromHeader'
+import { detectLocaleFromRequest } from '@holi/web/helpers/detectLocaleFromRequest'
 import { sanitizeBuffer } from '@holi/web/helpers/sanitizeBuffer'
 
 const isDocType = (value?: DocType | string | string[]): value is DocType => docTypes.some((dt) => dt === value)
@@ -28,7 +28,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type: docType = '' } = req.query
 
   if (isDocType(docType)) {
-    const lang = detectLocaleFromHeader(req)
+    const lang = detectLocaleFromRequest(req)
     const document = getDocumentFor(docType, lang)
     const sanitizedDocument = sanitizeBuffer(document)
     res.setHeader('Content-Type', 'text/html')

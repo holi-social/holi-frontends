@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliHead from '@holi/core/components/HoliHead'
 import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
@@ -39,42 +40,51 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: Sp
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <View style={[styles.wrapper, style]} testID="space-details-container">
-      <View style={styles.header}>
-        <SpaceHeader space={space} style={mixins.container} />
-      </View>
-      <HoliTabs
-        id="space-tabs"
-        testID="space-tabs"
-        centeredButtons
-        initialStep={initialTabIndex}
-        style={{ flex: 1 }}
-        onChangeTab={onChangeTabIndex}
-        backgroundColor={colors.background20}
-        tabs={[
-          {
-            title: t('spaces.tab.info'),
-            titleIcons: [Pushpin, PushpinFilled],
-            style: styles.tabStyle,
-            children: <SpaceInfoView space={space} style={[mixins.container, styles.tabItem]} />,
-          },
-          {
-            title: t('spaces.tab.updates'),
-            titleIcons: [Flag2, Flag2Filled],
-            style: styles.tabStyle,
-            children: <SpaceUpdatesTab space={space} style={[mixins.container, styles.tabItem]} />,
-          },
-          {
-            title: t('spaces.tab.action'),
-            titleIcons: [Sun, SunFilled],
-            style: styles.tabStyle,
-            children: (
-              <SpaceInvolvement style={[mixins.container, styles.tabItem]} space={space} key="space-involvement" />
-            ),
-          },
-        ]}
+    <>
+      <HoliHead
+        title={space.title}
+        description={space.description}
+        ogTitle={space.title}
+        ogDescription={space.description}
+        ogImage={space.cover}
       />
-    </View>
+      <View style={[styles.wrapper, style]} testID="space-details-container">
+        <View style={styles.header}>
+          <SpaceHeader space={space} style={mixins.container} />
+        </View>
+        <HoliTabs
+          id="space-tabs"
+          testID="space-tabs"
+          centeredButtons
+          initialStep={initialTabIndex}
+          style={{ flex: 1 }}
+          onChangeTab={onChangeTabIndex}
+          backgroundColor={colors.background20}
+          tabs={[
+            {
+              title: t('spaces.tab.info'),
+              titleIcons: [Pushpin, PushpinFilled],
+              style: styles.tabStyle,
+              children: <SpaceInfoView space={space} style={[mixins.container, styles.tabItem]} />,
+            },
+            {
+              title: t('spaces.tab.updates'),
+              titleIcons: [Flag2, Flag2Filled],
+              style: styles.tabStyle,
+              children: <SpaceUpdatesTab space={space} style={[mixins.container, styles.tabItem]} />,
+            },
+            {
+              title: t('spaces.tab.action'),
+              titleIcons: [Sun, SunFilled],
+              style: styles.tabStyle,
+              children: (
+                <SpaceInvolvement style={[mixins.container, styles.tabItem]} space={space} key="space-involvement" />
+              ),
+            },
+          ]}
+        />
+      </View>
+    </>
   )
 }
 

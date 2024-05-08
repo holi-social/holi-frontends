@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import AcceptDocumentLayout, { AgreementProps } from '@holi/core/auth/components/AcceptDocumentLayout'
-import { getDocumentURL } from '@holi/core/helpers'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 interface CommunityGuidelinesProps extends AgreementProps {
@@ -12,6 +12,8 @@ interface CommunityGuidelinesProps extends AgreementProps {
 
 const CommunityGuidelines = ({ onNextPress, onBackPress, ...agreementProps }: CommunityGuidelinesProps) => {
   const { t } = useTranslation()
+  const communityGuidelinesUrl = useDocumentURL('communityGuidelines')
+  const termsOfUseUrl = useDocumentURL('termsOfUseUrl')
   const termsOfUseModalHook = useModalState()
   const communityGuidelinesModalHook = useModalState()
 
@@ -27,13 +29,13 @@ const CommunityGuidelines = ({ onNextPress, onBackPress, ...agreementProps }: Co
       checkboxLabelTranslation="registration.communityGuidelines.checkboxLabel"
       documents={[
         {
-          url: getDocumentURL('termsOfUse'),
+          url: termsOfUseUrl,
           navPath: '/profile/settings/legalDocuments/document?type=termsOfUse',
           modalHook: termsOfUseModalHook,
           modalLabelText: t('registration.communityGuidelines.modalLabel.termsOfUse'),
         },
         {
-          url: getDocumentURL('communityGuidelines'),
+          url: communityGuidelinesUrl,
           navPath: '/profile/settings/legalDocuments/document?type=communityGuidelines',
           modalHook: communityGuidelinesModalHook,
           modalLabelText: t('registration.communityGuidelines.modalLabel.communityGuidelines'),
