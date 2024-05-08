@@ -137,6 +137,18 @@ export interface NotificationAppointments extends NotificationBase {
   options: SpaceAppointmentNotificationData
 }
 
+export interface ChallengeNotificationData {
+  link: string
+}
+
+export interface NotificationChallenges extends NotificationBase {
+  notificationType:
+    | NovuNotificationType.CHALLENGE_APPROVAL
+    | NovuNotificationType.CHALLENGE_NEW_COMMENT
+    | NovuNotificationType.CHALLENGE_KEEP_STREAK
+  options: ChallengeNotificationData
+}
+
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
 export type NotificationWithUser =
   | NotificationConnection
@@ -148,6 +160,7 @@ export type Notification =
   | NotificationReleaseInfo
   | NotificationSpacePost
   | NotificationAppointments
+  | NotificationChallenges
 
 export interface NotificationProps<T = Notification> {
   notification: T

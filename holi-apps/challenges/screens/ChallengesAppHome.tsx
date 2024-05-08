@@ -10,6 +10,7 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { useRoute } from '@holi/core/navigation/hooks/useParam/useRoute'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -22,6 +23,8 @@ export const ChallengesAppHome = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { navigate } = useRouting()
+  const route = useRoute()
+
   const { t } = useTranslation()
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
@@ -88,6 +91,13 @@ export const ChallengesAppHome = () => {
     return <HoliLoader />
   }
 
+  let uri = challengeAppBaseUrl
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  const pathQueryParam = (route?.params as any)?.['path']
+  if (typeof pathQueryParam === 'string') {
+    uri += decodeURIComponent(pathQueryParam)
+  }
+
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.CHALLENGES} featureNameKey="challenges:maintenance.feature">
       <HoliWebView
@@ -102,7 +112,7 @@ export const ChallengesAppHome = () => {
           sharedCookiesEnabled: true,
           onMessage: handleMessageFromBackend,
           source: {
-            uri: challengeAppBaseUrl,
+            uri,
             headers: {
               ...authHeaders,
               'X-Client-Platform': 'holi',

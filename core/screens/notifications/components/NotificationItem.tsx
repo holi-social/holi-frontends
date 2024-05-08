@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { NotificationChallengesItem } from '@holi/core/screens/notifications/components/NotificationChallengesItem'
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
@@ -47,6 +48,9 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.SPACE_APPOINTMENT_CREATION,
   NovuNotificationType.SPACE_APPOINTMENT_UPDATE,
   NovuNotificationType.SPACE_APPOINTMENT_DELETION,
+  NovuNotificationType.CHALLENGE_APPROVAL,
+  NovuNotificationType.CHALLENGE_NEW_COMMENT,
+  NovuNotificationType.CHALLENGE_KEEP_STREAK,
 ]
 
 const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props }) => {
@@ -92,6 +96,10 @@ const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props 
       return (
         <NotificationSpaceAppointmentDeletionItem notification={notification} testID={'space-appointment-deletion'} />
       )
+    case NovuNotificationType.CHALLENGE_NEW_COMMENT:
+    case NovuNotificationType.CHALLENGE_KEEP_STREAK:
+    case NovuNotificationType.CHALLENGE_APPROVAL:
+      return <NotificationChallengesItem notification={notification} {...props} />
     default:
       return null
   }

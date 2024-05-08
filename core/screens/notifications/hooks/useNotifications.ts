@@ -7,6 +7,7 @@ import { NovuNotificationType } from '@holi/core/screens/notifications/component
 import {
   Notification,
   NotificationAppointments,
+  NotificationChallenges,
   NotificationPost,
   NotificationSpaceConnection,
   NotificationSpacePost,
@@ -182,6 +183,16 @@ function mapToNotification(
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationAppointments['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.CHALLENGE_APPROVAL:
+      return {
+        id: message._id,
+        notificationType,
+        notificationVersion,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationChallenges['options'],
         content: message.content.toString(),
       }
   }
