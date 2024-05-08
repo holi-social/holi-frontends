@@ -4,16 +4,19 @@ import { z } from 'zod'
 import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
 
-export const CreateFeedPostSchema = z.object({
-  title: z.string().min(2).max(128),
-  description: z.string().trim().min(2).max(5000),
+export const FEED_POST_TITLE_MAX_CHARACTERS = 128
+export const FEED_POST_DESCRIPTION_MAX_CHARACTERS = 5000
+
+export const FeedPostSchema = z.object({
+  title: z.string().min(2).max(FEED_POST_TITLE_MAX_CHARACTERS),
+  description: z.string().trim().min(2).max(FEED_POST_DESCRIPTION_MAX_CHARACTERS),
   categoryId: z.string(),
   topicIds: z.array(z.string()).max(6).optional(),
   visibility: z.string() /* VisibilityLevel */,
   image: z.instanceof(Object).optional(),
 })
 
-export type CreateFeedPostInput = z.infer<typeof CreateFeedPostSchema>
+export type CreateFeedPostInput = z.infer<typeof FeedPostSchema>
 
 export const createFeedPostMutation = gql`
   ${FeedPostDetailsFragment}

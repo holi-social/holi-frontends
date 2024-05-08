@@ -70,7 +70,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   // see https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
   // The json format works well, but how to create this nodes?
   if (initialValue && initialValue.length > 0) {
-    throw new HoliError('[HoliRichTextInput] initialValue is not yet implemented.')
+    // throw new HoliError('[HoliRichTextInput] initialValue is not yet implemented.')
   }
   // const initalJson =
   //   '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"hello ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Uschi Meyer","type":"mention","version":1,"userId":"0001","userName":"Uschi Meyer","displayString":"@Uschi Meyer"},{"detail":0,"format":0,"mode":"normal","style":"","text":" und ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Paul Auster","type":"mention","version":1,"userId":"0006","userName":"Paul Auster","displayString":"@Paul Auster"}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'

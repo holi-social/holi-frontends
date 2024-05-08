@@ -309,6 +309,7 @@
   "individuals.post.input.error": "Unfortunately an error has occurred. Please try again later.",
   "individuals.post.input.first": "Create your first post",
   "individuals.post.input.success": "Post successfully created",
+  "individuals.post.input.submit": "Post",
   "individuals.post.input.title": "Create new post",
   "individuals.post.input.visibility.PUBLIC.description": "Your post will be publicly visible by a broader audience and gain more reach.",
   "individuals.post.input.visibility.PUBLIC.title": "Public, anyone on or off holi",
