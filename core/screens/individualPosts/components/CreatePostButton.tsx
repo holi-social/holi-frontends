@@ -27,7 +27,7 @@ const CreatePostButton: React.FC = () => {
         description: t('individuals.post.login.text'),
       })
     } else {
-      navigate('/createPost')
+      navigate('/feed-posts/create')
     }
   }, [navigate, openLoginModal, t, isLoggedIn])
 

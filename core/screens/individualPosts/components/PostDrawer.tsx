@@ -5,6 +5,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
@@ -24,6 +25,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { userId, isLoggedIn } = useAuth()
+  const { navigate } = useRouting()
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
@@ -53,7 +55,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
   }
 
   const editFeedPostActionHandler = () => {
-    return
+    navigate(`/feed-posts/${post.id}/edit`)
   }
 
   const reportFeedPostActionHandler = () => {

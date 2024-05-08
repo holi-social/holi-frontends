@@ -113,4 +113,5 @@ export enum RouteName {
 
   // Individual Posts
   CreatePost = 'CreatePost',
+  EditPost = 'EditPost',
 }

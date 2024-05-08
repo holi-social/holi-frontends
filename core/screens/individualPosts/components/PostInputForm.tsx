@@ -35,7 +35,7 @@ export interface PostInputFormProps {
   image: HoliImageInfo | null
   selectedVisibility: Visibility
   selectedCategoryId: string | null
-  currentImage?: HoliImageInfo | null
+  currentImage?: string
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
@@ -69,7 +69,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading: categoriesLoading, categories } = useFeedPostCategories()
-  const [showCategorySelectionModal, setShowCategorySelectionModal] = useState(true)
+  const [showCategorySelectionModal, setShowCategorySelectionModal] = useState(!isEdit)
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
@@ -166,7 +166,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               }
             />
             <View style={styles.imageEditor}>
-              <ImageEditor onSave={onChangeImage} image={image} />
+              <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
             </View>
           </View>
         </ScrollView>
@@ -188,6 +188,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             hasSetImage={!!image}
             submitting={submitting}
             isSubmittable={isSubmittable}
+            isEdit={isEdit}
           />
         )}
         {!categoriesLoading && categories && (

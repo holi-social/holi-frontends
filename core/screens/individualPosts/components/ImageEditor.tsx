@@ -14,17 +14,28 @@ import Spacing from '@holi/ui/foundations/Spacing'
 
 type ImageEditorProps = {
   image?: HoliImageInfo | null
+  currentImage?: string // used for edit mode - when we only have a uri and no HoliImageInfo
   onSave: (image: HoliImageInfo | null) => void
 }
 
-const ImageEditor = ({ image, onSave }: ImageEditorProps) => {
+const ImageEditor = ({ image, currentImage, onSave }: ImageEditorProps) => {
   const { t } = useTranslation()
 
   return (
     <>
-      {image && (
+      {(image || currentImage) && (
         <View style={styles.container}>
-          <HoliImage label={t('global.imageEditor.image')} source={image} resizeMode="cover" style={styles.image} />
+          {image && (
+            <HoliImage label={t('global.imageEditor.image')} source={image} resizeMode="cover" style={styles.image} />
+          )}
+          {!image && currentImage && (
+            <HoliImage
+              label={t('global.imageEditor.image')}
+              source={{ uri: currentImage }}
+              resizeMode="cover"
+              style={styles.image}
+            />
+          )}
           <View style={styles.buttonContainer}>
             <HoliButton label={t('global.delete')} type="secondary" variant="small" inline onPress={() => onSave(null)}>
               <HoliText size="small">{t('global.delete')}</HoliText>

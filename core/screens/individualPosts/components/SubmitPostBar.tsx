@@ -18,12 +18,14 @@ export const SubmitPostBar = ({
   hasSetImage,
   submitting,
   isSubmittable,
+  isEdit,
 }: {
   onSubmit: () => void
   onSetImage: (image: HoliImageInfo) => void
   hasSetImage: boolean
   submitting: boolean
   isSubmittable: boolean
+  isEdit: boolean
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -49,7 +51,7 @@ export const SubmitPostBar = ({
         </HoliImagePicker>
 
         <HoliButtonLoading
-          label={t('individuals.post.input.submit')}
+          label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}
           inline
           variant="small"
           onPress={onSubmit}
@@ -57,7 +59,7 @@ export const SubmitPostBar = ({
           loading={submitting}
           disabled={!isSubmittable || submitting}
         >
-          <HoliText bold>{t('individuals.post.input.submit')}</HoliText>
+          <HoliText bold>{isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}</HoliText>
         </HoliButtonLoading>
       </View>
     </View>
