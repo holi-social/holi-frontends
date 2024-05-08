@@ -28,9 +28,17 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
-interface Props {
-  toggleEditMode: (editModeState: EditModeState) => void
+export enum Tab {
+  PROFILE,
+  POSTS,
+  INSIGHTS,
+  SPACES,
+}
+
+interface OwnProfileViewProps {
   user: User
+  toggleEditMode: (editModeState: EditModeState) => void
+  onChangeTab: (tab: Tab) => void
 }
 
 /** TODO: Suspence currently only works on web. To make it work for
@@ -39,7 +47,7 @@ const SpacesTab = dynamicImport<SpacesTabProps>(() => import('@holi/core/compone
 const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/components/InsightsTab'))
 const MyPostsTab = dynamicImport(() => import('@holi/core/screens/individualPosts/components/MyPostsTab'))
 
-const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
+const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren<OwnProfileViewProps>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { theme } = useTheme()
@@ -59,6 +67,15 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
+  const handleTabChanged = (index: number) => {
+    // Keep tab indexes consistent, even when Insights tabs is not present
+    if (!hasInsights && index > 1) {
+      onChangeTab(index + 1)
+    } else {
+      onChangeTab(index)
+    }
+  }
+
   return (
     <>
       <HoliContainer>
@@ -68,6 +85,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
         style={{ marginTop: 24, flex: 1 }}
         tabBarStyle={tabBarStyle}
         backgroundColor={colors.background20}
+        onChangeTab={handleTabChanged}
         id="profile-tabs"
         tabs={[
           {
@@ -126,6 +144,18 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               </View>
             ),
           },
+          ...(ftEnabledPosts
+            ? [
+                {
+                  title: t('individuals.post.name'),
+                  children: (
+                    <Suspense fallback={<HoliLoader />}>
+                      <MyPostsTab />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
           ...(hasInsights
             ? [
                 {
@@ -150,18 +180,6 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               </Suspense>
             ),
           },
-          ...(ftEnabledPosts
-            ? [
-                {
-                  title: t('individuals.post.name'),
-                  children: (
-                    <Suspense fallback={<HoliLoader />}>
-                      <MyPostsTab />
-                    </Suspense>
-                  ),
-                },
-              ]
-            : []),
         ]}
       />
     </>
