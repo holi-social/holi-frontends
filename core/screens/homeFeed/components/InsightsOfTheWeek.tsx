@@ -11,6 +11,7 @@ import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -56,7 +57,7 @@ const InsightsOfTheWeek = () => {
   }
 
   return (
-    <View style={mixins.container}>
+    <HoliContainer>
       {/* Headline */}
       <HoliHeading size="l">{t('homeFeed.insights.heading')}</HoliHeading>
       <HoliGap size="xs" />
@@ -94,6 +95,7 @@ const InsightsOfTheWeek = () => {
       </HoliModal>
 
       <InsightList style={styles.insightList} loading={!!loading} insights={insights} />
+
       <HoliButtonLoading
         type="secondary"
         label={t('insights.discoverMore')}
@@ -101,7 +103,7 @@ const InsightsOfTheWeek = () => {
         testID="btn-navigate-to-insights"
         style={mixins.moreButton}
       />
-    </View>
+    </HoliContainer>
   )
 }
 

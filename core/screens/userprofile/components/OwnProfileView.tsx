@@ -10,12 +10,14 @@ import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -43,6 +45,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
@@ -58,9 +61,9 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
 
   return (
     <>
-      <View style={[mixins.container, styles.container]}>
+      <HoliContainer>
         <UserProfileView user={user} contactPossible={false} />
-      </View>
+      </HoliContainer>
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
         tabBarStyle={tabBarStyle}
@@ -147,14 +150,18 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               </Suspense>
             ),
           },
-          {
-            title: t('individuals.post.name'),
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <MyPostsTab />
-              </Suspense>
-            ),
-          },
+          ...(ftEnabledPosts
+            ? [
+                {
+                  title: t('individuals.post.name'),
+                  children: (
+                    <Suspense fallback={<HoliLoader />}>
+                      <MyPostsTab />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
         ]}
       />
     </>

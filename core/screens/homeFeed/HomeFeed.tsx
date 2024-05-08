@@ -1,5 +1,4 @@
-import { DocumentNode } from '@apollo/client'
-import { useApolloClient } from '@apollo/client'
+import { DocumentNode, useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,10 +17,12 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
+import { Posts } from '@holi/core/screens/homeFeed/components/Posts'
 import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
+import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -104,6 +105,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
+        feedPostsQuery,
         inspirationPostsQuery,
         lastInsightsQuery,
         ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
@@ -125,6 +127,7 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
+          {ftEnabledPosts && <Posts />}
           <InspirationPosts />
           <InsightsOfTheWeek />
           <Recommendations />
