@@ -6,7 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { Delete, Edit2, Flag, Share } from '@holi/icons/src/generated'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -37,7 +37,10 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
 
   const onDelete = () => {
     setShowConfirmationModal(false)
-    deleteFeedPost({ variables: { postId: post.id } })
+    deleteFeedPost({
+      variables: { postId: post.id },
+      refetchQueries: [{ query: feedPostsQuery }, { query: myPostsQuery }],
+    })
     openToast(t('individuals.post.delete.success'), HoliToastType.SUCCESS)
   }
 

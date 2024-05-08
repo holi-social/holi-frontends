@@ -316,7 +316,7 @@
   "individuals.post.input.visibility.REGISTERED_USERS_ONLY.title": "Nur Nutzer:innen auf holi",
   "individuals.post.input.visibility.description": "Bestimme, wer deinen Post sehen soll. Der Post ist sichtbar im Feed, auf deinem Profil und in Suchergebnissen.",
   "individuals.post.input.visibility.title": "Wer kann diesen Post sehen?",
-  "individuals.post.loadMoreText": "Mehr laden",
+  "individuals.post.loadMoreText": "Zeige mehr Posts",
   "individuals.post.login.text": "Um einen Post zu erstellen, musst du dich erst einloggen.",
   "individuals.post.login.title": "Nicht eingeloggt",
   "individuals.post.name": "Posts",

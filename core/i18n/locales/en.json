@@ -316,7 +316,7 @@
   "individuals.post.input.visibility.REGISTERED_USERS_ONLY.title": "Only users on holi",
   "individuals.post.input.visibility.description": "Decide who do you want to reach with this post. Your post will appear in the feed, on your profile and in search results.",
   "individuals.post.input.visibility.title": "Who can see this post?",
-  "individuals.post.loadMoreText": "See more",
+  "individuals.post.loadMoreText": "Show more posts",
   "individuals.post.login.text": "To create a post, you have to sign in first",
   "individuals.post.login.title": "Not signed in",
   "individuals.post.name": "Posts",
