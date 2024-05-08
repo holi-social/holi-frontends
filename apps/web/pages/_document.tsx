@@ -4,7 +4,6 @@ import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
-import { i18nConfig } from '@holi/core/i18n'
 import { environmentId } from '@holi/web/environment'
 
 // adapt to react-native behavior
@@ -19,34 +18,21 @@ import { environmentId } from '@holi/web/environment'
 
 export default class MyDocument extends Document {
   static async getInitialProps(context: DocumentContext) {
-    let pageProps = {}
-
-    const originalRenderPage = context.renderPage
-
-    context.renderPage = () =>
-      originalRenderPage({
-        enhanceApp: (App) => (props) => {
-          pageProps = props.pageProps
-          return <App {...props} />
-        },
-        enhanceComponent: (Component) => Component,
-      })
-
-    const initialProps = await Document.getInitialProps(context)
     AppRegistry.registerComponent('HOLI', () => Main)
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
 
     const styles = [getStyleElement(), flush()]
-    return { ...initialProps, ...pageProps, styles: Children.toArray(styles) }
+    const { html, head } = await context.renderPage()
+
+    return { html, head, styles: Children.toArray(styles) }
   }
 
   render() {
-    const { locale = i18nConfig.fallbackLng } = this.props
     // use same path for local and dev env
     const env = environmentId === EnvironmentId.LOCAL ? EnvironmentId.DEVELOPMENT : environmentId
     return (
-      <Html lang={locale}>
+      <Html lang={this.props.locale}>
         <Head>
           {/* TODO: i18n meta atttributes like description, title etc. */}
           <meta name="description" content="HOLI community" />
@@ -68,7 +54,7 @@ export default class MyDocument extends Document {
   }
 }
 
-function promoteEnvVarToWindow(varName) {
+const promoteEnvVarToWindow = (varName: string) => {
   const varValue = process.env[varName]
   return <script dangerouslySetInnerHTML={{ __html: `window.${varName} = "${varValue}"` }} />
 }

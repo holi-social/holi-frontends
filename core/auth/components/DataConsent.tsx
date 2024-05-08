@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import AcceptDocumentLayout, { AgreementProps } from '@holi/core/auth/components/AcceptDocumentLayout'
-import { getDocumentURL } from '@holi/core/helpers'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 interface DataConsentProps extends AgreementProps {
@@ -12,6 +12,7 @@ interface DataConsentProps extends AgreementProps {
 
 const DataConsent = ({ onNextPress, onBackPress, ...agreementProps }: DataConsentProps) => {
   const { t } = useTranslation()
+  const documentUrl = useDocumentURL('privacyPolicy')
   const privacyPolicyModalHook = useModalState()
 
   return (
@@ -26,7 +27,7 @@ const DataConsent = ({ onNextPress, onBackPress, ...agreementProps }: DataConsen
       checkboxLabelTranslation="registration.dataconsent.checkboxLabel"
       documents={[
         {
-          url: getDocumentURL('privacyPolicy'),
+          url: documentUrl,
           navPath: '/profile/settings/legalDocuments/document?type=privacyPolicy',
           modalHook: privacyPolicyModalHook,
           modalLabelText: t('registration.dataconsent'),

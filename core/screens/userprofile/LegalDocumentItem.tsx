@@ -5,7 +5,7 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { DocType, parseDocType } from '@holi/core/documents/DocType'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { getDocumentURL } from '@holi/core/helpers'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -24,6 +24,7 @@ const LegalDocumentItem = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const docType = parseDocType(docTypeParam)
+  const url = useDocumentURL(docType)
 
   const onDocumentLoadError = (url?: string) => (err?: Error) => {
     if (err instanceof HoliBadRequestError) {
@@ -41,13 +42,7 @@ const LegalDocumentItem = () => {
     setScreenOptions({ title: t(`profile.settings.legalDocuments.${docTypeParam}`) })
   }, [setScreenOptions, docTypeParam, t])
 
-  return docType ? (
-    <HtmlDocument
-      fallbackToWebView
-      url={getDocumentURL(docType)}
-      onError={onDocumentLoadError(getDocumentURL(docType))}
-    />
-  ) : null
+  return docType ? <HtmlDocument fallbackToWebView url={url} onError={onDocumentLoadError(url)} /> : null
 }
 
 export default LegalDocumentItem

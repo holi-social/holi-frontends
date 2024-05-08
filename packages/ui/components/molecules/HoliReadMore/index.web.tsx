@@ -42,7 +42,9 @@ const HoliReadMore = ({ children, numberOfLines = 3, ...textProps }: PropsWithCh
     [buttonState]
   )
 
-  const toggleButtonState = useCallback(() => {
+  const toggleButtonState = useCallback((event: React.SyntheticEvent) => {
+    event.preventDefault()
+    event.stopPropagation()
     setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
   }, [])
 

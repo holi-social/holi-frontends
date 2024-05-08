@@ -25,14 +25,13 @@ export interface AgreementProps {
 }
 
 interface AcceptDocumentLayoutDocument {
-  url: string
+  url?: string
   navPath: string
   modalHook: UseModalStateHook
   modalLabelText: string
 }
 
 interface AcceptDocumentLayoutProps extends AgreementProps, CenteredImageHeadlineDescriptionLayoutProps {
-  docUrl?: string
   onNextPress?: () => void
   onBackPress?: () => void
   checkboxLabelTranslation: string
