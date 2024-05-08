@@ -265,18 +265,23 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
     titleInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
-      paddingVertical: 4,
+      paddingTop: 0,
+      paddingBottom: 2,
+      justifyContent: 'center',
       maxWidth: '100%',
     },
     descriptionInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
-      paddingTop: 6,
-      paddingHorizontal: 5,
       maxWidth: '100%',
       ...Platform.select({
+        native: {
+          paddingLeft: 5,
+          paddingRight: 10,
+          paddingTop: 6,
+        },
         web: {
-          marginLeft: -10,
+          marginHorizontal: -10,
         },
       }),
     },
@@ -302,9 +307,11 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
     titleFont: {
       fontSize: 21,
       color: theme.colors.black300,
+      alignContent: 'center',
     },
     imageEditor: {
       paddingTop: 24,
+      paddingHorizontal: 10,
     },
     pillContainer: {
       width: '100%',
