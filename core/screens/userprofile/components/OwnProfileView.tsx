@@ -68,7 +68,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
   const handleTabChanged = (index: number) => {
-    // Keep tab indexes consistent, even when Insights tabs is not present (at index 1)
+    // Keep tab indexes consistent, even when Insights tabs is not present
     if (!hasInsights && index > 1) {
       onChangeTab(index + 1)
     } else {
