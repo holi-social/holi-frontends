@@ -5,6 +5,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -121,6 +122,12 @@ const Spaces = () => {
 
   return (
     <SpaceTermContextProvider>
+      <HoliHead
+        title={t('metatags.spaces.title')}
+        description={t('metatags.spaces.description')}
+        ogTitle={t('metatags.spaces.og.title')}
+        ogDescription={t('metatags.spaces.og.description')}
+      />
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           refreshing,
