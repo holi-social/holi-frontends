@@ -98,31 +98,33 @@ const DonationsAppHome = () => {
   }, [navigate, setScreenOptions, t, title, colors.background10])
 
   return (
-    <ScrollHeaderLayout.Refreshable
-      refreshableProps={{ refreshing, onRefresh }}
-      keyboardShouldPersistTaps="always"
-      headerOverlap
-      style={styles.defaultLayout}
-    >
-      <HoliModal
-        show={showSearchModal}
-        onDismiss={closeModal}
-        testID="donations-search-modal"
-        label={t('donations:search.heading')}
-        autoHeight={false}
-        // Smaller devides use the whole screen and
-        // larger ones should have more space above for clicking the backdrop pane
-        relativeHeight={deviceHeight > 750 ? 0.85 : 1}
+    <>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{ refreshing, onRefresh }}
+        keyboardShouldPersistTaps="always"
+        headerOverlap
+        style={styles.defaultLayout}
       >
-        <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
-      </HoliModal>
-      <View
-        style={[mixins.container, { paddingTop: statusBarHeight + dimensions.topBarHeight }]}
-        testID={'donations-list-container'}
-      >
-        <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
-      </View>
-    </ScrollHeaderLayout.Refreshable>
+        <HoliModal
+          show={showSearchModal}
+          onDismiss={closeModal}
+          testID="donations-search-modal"
+          label={t('donations:search.heading')}
+          autoHeight={false}
+          // Smaller devides use the whole screen and
+          // larger ones should have more space above for clicking the backdrop pane
+          relativeHeight={deviceHeight > 750 ? 0.85 : 1}
+        >
+          <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
+        </HoliModal>
+        <View
+          style={[mixins.container, { paddingTop: statusBarHeight + dimensions.topBarHeight }]}
+          testID={'donations-list-container'}
+        >
+          <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
+        </View>
+      </ScrollHeaderLayout.Refreshable>
+    </>
   )
 }
 

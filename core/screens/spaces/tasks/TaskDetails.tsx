@@ -2,6 +2,7 @@ import React, { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -121,18 +122,27 @@ const TaskDetails = () => {
   }
 
   return (
-    <SafeAreaProvider style={styles.safeAreaProvider}>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
-      >
-        <HoliContainer>
-          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} variant={'full'} />
-        </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
-    </SafeAreaProvider>
+    <>
+      <HoliHead
+        title={`${task.name} | ${space.title}`}
+        description={task.description}
+        ogTitle={`${task.name} | ${space.title}`}
+        ogDescription={task.description}
+        ogImage={task.thumbnail || space.cover}
+      />
+      <SafeAreaProvider style={styles.safeAreaProvider}>
+        <ScrollHeaderLayout.Refreshable
+          refreshableProps={{ refreshing, onRefresh }}
+          style={styles.defaultLayout}
+          contentStyle={styles.contentStyle}
+          headerOverlap
+        >
+          <HoliContainer>
+            <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} variant={'full'} />
+          </HoliContainer>
+        </ScrollHeaderLayout.Refreshable>
+      </SafeAreaProvider>
+    </>
   )
 }
 

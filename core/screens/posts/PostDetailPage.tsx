@@ -5,6 +5,7 @@ import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
+import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -141,6 +142,13 @@ const PostDetailPage = () => {
 
   return (
     <>
+      <HoliHead
+        title={`${post.title} | ${post.creator.fullName}`}
+        description={post.text}
+        ogTitle={`${post.title} | ${post.creator.fullName}`}
+        ogDescription={post.text}
+        ogImage={post.image?.url}
+      />
       <StatusBar animated />
 
       <ScrollHeaderLayout.Refreshable

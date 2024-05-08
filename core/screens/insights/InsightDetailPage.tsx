@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -206,6 +207,13 @@ const InsightDetailPage = () => {
   ]
   return (
     <>
+      <HoliHead
+        title={insight?.title}
+        description={insight?.description}
+        ogTitle={insight?.title}
+        ogDescription={insight?.description}
+        ogImage={insight?.headerImage}
+      />
       <StatusBar style="light" animated />
 
       <ScrollHeaderLayout.Refreshable

@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
-import Head from 'next/head'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import HoliHead from '@holi/core/components/HoliHead'
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
 import sharedLayoutStyles from './NavigationLayoutRoot.module.css'
@@ -12,13 +11,14 @@ const mergedStyles = { ...sharedLayoutStyles, ...volunteeringLayoutStyles }
 
 export const AppLayout = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()
-
   return (
     <>
-      <Head>
-        <title>{t('volunteering:app.name')}</title>
-      </Head>
-
+      <HoliHead
+        title={t('metatags.volunteering.title')}
+        description={t('metatags.volunteering.description')}
+        ogTitle={t('metatags.volunteering.og.title')}
+        ogDescription={t('metatags.volunteering.og.description')}
+      />
       {/*
         Accessibility region:
         Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html
