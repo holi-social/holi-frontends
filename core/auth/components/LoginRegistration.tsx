@@ -5,10 +5,11 @@ import { Platform, StyleSheet, View } from 'react-native'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import HtmlDocument from '@holi/core/components/HtmlDocument'
+import { DocType } from '@holi/core/documents/DocType'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { getDocumentURL } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -17,7 +18,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { DocType } from '@holi/web/pages/api/documents'
 
 const SMALL_DEVICE_HEIGHT = 624
 
@@ -40,6 +40,7 @@ const LoginRegistration = ({
   const { height: screenHeight } = useClientWindowDimensions()
 
   const [shownDocument, setShownDocument] = useState<DocType>('imprint')
+  const documentUrl = useDocumentURL(shownDocument)
 
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState({ visible: false })
 
@@ -62,7 +63,7 @@ const LoginRegistration = ({
     hideModal()
   }
 
-  const footerDocs: DocType[] = ['imprint', 'privacyPolicy', 'openSource']
+  const footerDocs: DocType[] = ['imprint', 'privacyPolicy', 'termsOfUse', 'openSource']
 
   const docsElement = (
     <View style={styles.bottomLinkContainer}>
@@ -140,7 +141,7 @@ const LoginRegistration = ({
         autoHeight={false}
         relativeHeight={1}
       >
-        <HtmlDocument fallbackToWebView url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
+        <HtmlDocument fallbackToWebView url={documentUrl} onError={onDocumentLoadError} />
       </HoliModal>
     </View>
   )
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   bottomLinkContainer: {
     width: '100%',
     justifyContent: 'center',
-    gap: 6,
+    gap: 12,
     flexDirection: 'row',
     flexWrap: 'wrap',
     bottom: 24,

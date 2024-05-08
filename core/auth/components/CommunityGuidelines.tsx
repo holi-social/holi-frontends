@@ -2,7 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import AcceptDocumentLayout, { AgreementProps } from '@holi/core/auth/components/AcceptDocumentLayout'
-import { getDocumentURL } from '@holi/core/helpers'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 interface CommunityGuidelinesProps extends AgreementProps {
   onNextPress?: () => void
@@ -11,10 +12,13 @@ interface CommunityGuidelinesProps extends AgreementProps {
 
 const CommunityGuidelines = ({ onNextPress, onBackPress, ...agreementProps }: CommunityGuidelinesProps) => {
   const { t } = useTranslation()
+  const communityGuidelinesUrl = useDocumentURL('communityGuidelines')
+  const termsOfUseUrl = useDocumentURL('termsOfUseUrl')
+  const termsOfUseModalHook = useModalState()
+  const communityGuidelinesModalHook = useModalState()
 
   return (
     <AcceptDocumentLayout
-      docUrl={getDocumentURL('communityGuidelines')}
       onNextPress={onNextPress}
       onBackPress={onBackPress}
       {...agreementProps}
@@ -23,8 +27,20 @@ const CommunityGuidelines = ({ onNextPress, onBackPress, ...agreementProps }: Co
       headlineText={t('registration.communityGuidelines.heading')}
       descriptionText={t('registration.communityGuidelines.description')}
       checkboxLabelTranslation="registration.communityGuidelines.checkboxLabel"
-      documentNavPath="/profile/settings/legalDocuments/document?type=communityGuidelines"
-      modalLabelText={t('registration.communityGuidelines')}
+      documents={[
+        {
+          url: termsOfUseUrl,
+          navPath: '/profile/settings/legalDocuments/document?type=termsOfUse',
+          modalHook: termsOfUseModalHook,
+          modalLabelText: t('registration.communityGuidelines.modalLabel.termsOfUse'),
+        },
+        {
+          url: communityGuidelinesUrl,
+          navPath: '/profile/settings/legalDocuments/document?type=communityGuidelines',
+          modalHook: communityGuidelinesModalHook,
+          modalLabelText: t('registration.communityGuidelines.modalLabel.communityGuidelines'),
+        },
+      ]}
       testID="community-guidelines"
     />
   )

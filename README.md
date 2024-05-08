@@ -518,6 +518,8 @@ It may be configured at different places, but over all it must be unique.
 
 We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and [ni18n](https://github.com/JCQuintas/ni18n) for NextJS integration and SSR. We also rely on [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to provide locale data for date and number formatting (polyfilled on mobile using [intl](https://www.npmjs.com/package/intl)).
 
+Our web app supports internationalized routes by adding the locale as sub-path (e.g. <https://app.holi.social/de/spaces>). These sub-paths are ignored when deep linking on mobile.
+
 You can find more documentation [here](https://oss.holi.social/docs/internationalisation).
 
 We use [namespaces](https://www.i18next.com/principles/namespaces) to separate translations for the core application and the different holi-apps, which can be found in

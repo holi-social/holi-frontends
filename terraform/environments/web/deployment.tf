@@ -59,10 +59,6 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
-          name  = "NEXT_PUBLIC_SSR_ENABLED"
-          value = local.environment == "production" ? "false" : "true"
-        }
-        env {
           name  = "POSTHOG_KEY"
           value = local.posthog_key
         }

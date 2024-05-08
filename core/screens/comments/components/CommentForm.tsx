@@ -124,7 +124,7 @@ const CommentForm = ({
   }, [])
 
   return (
-    <HoliContainer paddingHorizontal={0}>
+    <HoliContainer noPadding>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
         <SafeAreaView style={styles.safeArea}>
           <HoliKeyboardSaveView onHeightChange={onHeightChange}>

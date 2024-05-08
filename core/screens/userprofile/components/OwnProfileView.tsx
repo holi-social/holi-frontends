@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { Suspense } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -10,17 +10,20 @@ import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
@@ -39,6 +42,10 @@ const MyPostsTab = dynamicImport(() => import('@holi/core/screens/individualPost
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
@@ -54,12 +61,13 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
 
   return (
     <>
-      <View style={[mixins.container, styles.container]}>
+      <HoliContainer>
         <UserProfileView user={user} contactPossible={false} />
-      </View>
+      </HoliContainer>
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
         tabBarStyle={tabBarStyle}
+        backgroundColor={colors.background20}
         id="profile-tabs"
         tabs={[
           {
@@ -78,11 +86,15 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
                         text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                         label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                         disabled
+                        style={styles.chip}
+                        fontStyle={styles.chipFont}
                       />
                     ) : (
                       <HoliChip
                         onPress={() => toggleEditMode('engagementLevel')}
                         label={t('profile.engagementLevel.add')}
+                        style={styles.chip}
+                        fontStyle={styles.chipFont}
                       />
                     )}
                   </HoliChipRow>
@@ -138,30 +150,42 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               </Suspense>
             ),
           },
-          {
-            title: t('individuals.post.name'),
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <MyPostsTab />
-              </Suspense>
-            ),
-          },
+          ...(ftEnabledPosts
+            ? [
+                {
+                  title: t('individuals.post.name'),
+                  children: (
+                    <Suspense fallback={<HoliLoader />}>
+                      <MyPostsTab />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
         ]}
       />
     </>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'baseline',
-  },
-  chipRowContainer: {
-    marginTop: 24,
-  },
-  profileContainer: {
-    paddingBottom: 24,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'baseline',
+    },
+    chipRowContainer: {
+      marginTop: 24,
+    },
+    chip: {
+      borderWidth: 1,
+      borderColor: theme.colors.foreground30at12Percent,
+    },
+    chipFont: {
+      color: theme.colors.black300,
+    },
+    profileContainer: {
+      paddingBottom: 24,
+    },
+  })
 
 export default withProfiler(OwnProfileView, { name: 'OwnProfileView' })

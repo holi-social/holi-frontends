@@ -2,7 +2,11 @@ import { useQuery } from '@apollo/client'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { AuthenticatedUserResponse, authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
+import {
+  AuthenticatedUserV2Response,
+  AuthenticatedUserV2Variables,
+  authenticatedUserV2Query,
+} from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 
 export interface LoggedInUserLoading {
@@ -60,7 +64,7 @@ export const useLoggedInUser = (): LoggedInState => {
     data: { authenticatedUserV2: user } = {},
     loading: isLoadingAuthenticatedUser,
     refetch,
-  } = useQuery<AuthenticatedUserResponse>(authenticatedUserV2Query, {
+  } = useQuery<AuthenticatedUserV2Response, AuthenticatedUserV2Variables>(authenticatedUserV2Query, {
     skip: loginState.isUnknown || loginState.isLoggedOut,
     onError: (error) => {
       displayError(error, 'Failed to load authenticated user', {

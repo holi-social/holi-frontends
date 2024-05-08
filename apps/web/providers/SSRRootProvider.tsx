@@ -1,5 +1,4 @@
 import { ApolloProvider } from '@apollo/client'
-import { useSyncLanguage } from 'ni18n'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 
@@ -12,7 +11,6 @@ import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { useApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
-import TrackingProvider from '@holi/web/providers/TrackingProvider'
 import { NextJSPageProps } from '@holi/web/types'
 
 interface RootProviderProps {
@@ -21,8 +19,6 @@ interface RootProviderProps {
 
 const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
   const apolloWebClient = useApolloSSRClient(pageProps)
-
-  useSyncLanguage(pageProps.locale)
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>

@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 
 import CenteredImageHeadlineDescriptionLayout, {
@@ -12,7 +11,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { UseModalStateHook } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
@@ -25,30 +24,32 @@ export interface AgreementProps {
   onAgreementChange: () => void
 }
 
-interface AcceptDocumentLayoutProps extends AgreementProps, CenteredImageHeadlineDescriptionLayoutProps {
-  docUrl?: string
-  onNextPress?: () => void
-  onBackPress?: () => void
-  checkboxLabelTranslation: string
-  documentNavPath: string
+interface AcceptDocumentLayoutDocument {
+  url?: string
+  navPath: string
+  modalHook: UseModalStateHook
   modalLabelText: string
 }
 
+interface AcceptDocumentLayoutProps extends AgreementProps, CenteredImageHeadlineDescriptionLayoutProps {
+  onNextPress?: () => void
+  onBackPress?: () => void
+  checkboxLabelTranslation: string
+  documents: AcceptDocumentLayoutDocument[]
+}
+
 const AcceptDocumentLayout = ({
-  docUrl,
   append,
   agreementValue,
   onAgreementChange,
   onNextPress,
   onBackPress,
   checkboxLabelTranslation,
-  documentNavPath,
-  modalLabelText,
+  documents,
   testID,
   ...centeredLayoutProps
 }: AcceptDocumentLayoutProps) => {
   const { t } = useTranslation()
-  const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
@@ -64,14 +65,14 @@ const AcceptDocumentLayout = ({
     />
   )
 
-  const onDocumentLoadError = (err?: Error | number) => {
-    hideModal()
+  const onDocumentLoadError = (document: AcceptDocumentLayoutDocument) => (err?: Error | number) => {
+    document.modalHook.hide()
     if (err instanceof HoliBadRequestError) {
       openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR)
     } else {
       displayError(err, 'Failed to load document', {
         location: 'AcceptDocumentLayout.onDocumentLoadError',
-        docUrl,
+        docUrl: document.url,
       })
     }
   }
@@ -93,24 +94,35 @@ const AcceptDocumentLayout = ({
       >
         <HoliText size="small">
           <Trans t={t} i18nKey={checkboxLabelTranslation}>
-            <HoliTextLink
-              label=""
-              href={documentNavPath}
-              size="small"
-              onPress={() => {
-                showModal()
-                return false
-              }}
-            />
+            {documents.map(({ url, navPath, modalHook }) => (
+              <HoliTextLink
+                key={url}
+                label=""
+                href={navPath}
+                size="small"
+                onPress={() => {
+                  modalHook.show()
+                  return false
+                }}
+              />
+            ))}
           </Trans>
         </HoliText>
       </HoliCheckbox>
-
-      <HoliModal label={modalLabelText} {...modalProps} autoHeight={false} relativeHeight={1} style={styles.modal}>
-        <ScrollView style={styles.modalOuter} contentContainerStyle={styles.modalInner}>
-          <HtmlDocument url={docUrl} onError={onDocumentLoadError} />
-        </ScrollView>
-      </HoliModal>
+      {documents.map((document) => (
+        <HoliModal
+          label={document.modalLabelText}
+          {...document.modalHook.props}
+          autoHeight={false}
+          relativeHeight={1}
+          style={styles.modal}
+          key={document.url}
+        >
+          <ScrollView style={styles.modalOuter} contentContainerStyle={styles.modalInner}>
+            <HtmlDocument url={document.url} onError={onDocumentLoadError(document)} />
+          </ScrollView>
+        </HoliModal>
+      ))}
     </CenteredImageHeadlineDescriptionLayout>
   )
 }

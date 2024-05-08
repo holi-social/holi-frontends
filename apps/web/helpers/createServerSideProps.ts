@@ -16,7 +16,7 @@ interface SkippableQueryOptions extends QueryOptions {
 type QueryCreatorFunction = (client: ApolloClient<NormalizedCacheObject>) => Promise<SkippableQueryOptions[]>
 
 export const createServerSideProps = async (
-  { req }: NextPageContext,
+  { req, locale }: NextPageContext,
   queries: SkippableQueryOptions[] | QueryCreatorFunction = [],
   customProps?: Partial<CustomProps>
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
@@ -32,7 +32,8 @@ export const createServerSideProps = async (
     }
   }
 
-  const props = await addTranslations(req, initialProps)
+  const props = await addTranslations(locale, initialProps)
+
   const client = initializeApolloSSRClient()
 
   try {
