@@ -335,4 +335,21 @@ describe('transformPushInteractionToUrl', () => {
       expect(url).toEqual('holi://spaces/space1?tab=involvement')
     })
   })
+
+  describe('Challenge notifications', () => {
+    it.each`
+      type                                          | data                                         | expectedUrl
+      ${NovuNotificationType.CHALLENGE_APPROVAL}    | ${{ link: '/video/someUuid?refererPath=/' }} | ${'holi://apps/challenges?path=%2Fvideo%2FsomeUuid%3FrefererPath%3D%2F'}
+      ${NovuNotificationType.CHALLENGE_KEEP_STREAK} | ${{ link: '/keepStreak' }}                   | ${'holi://apps/challenges?path=%2FkeepStreak'}
+      ${NovuNotificationType.CHALLENGE_NEW_COMMENT} | ${{ link: '/comment' }}                      | ${'holi://apps/challenges?path=%2Fcomment'}
+    `('should route to the correct URL for $notificationType notifications', ({ type, data, expectedUrl }) => {
+      const url = transformPushInteractionToUrl(
+        createIOSNotificationResponse({
+          notificationType: type,
+          data: JSON.stringify(data),
+        })
+      )
+      expect(url).toEqual(expectedUrl)
+    })
+  })
 })

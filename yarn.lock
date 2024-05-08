@@ -6018,6 +6018,7 @@ __metadata:
     graphql: "npm:^16.3.0"
     i18next: "npm:^22.4.9"
     intl: "npm:^1.2.5"
+    jest-each: "npm:^29.6.3"
     jest-mock-extended: "npm:^3.0.5"
     lodash.at: "npm:^4.6.0"
     lodash.debounce: "npm:^4.0.8"

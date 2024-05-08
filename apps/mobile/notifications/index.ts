@@ -157,6 +157,22 @@ const spaceAppointmentUrl = (notification: NotificationPayload, refresh = false)
   }
 }
 
+const challengeUrl = (notification: NotificationPayload) => {
+  try {
+    const { link } = extractData(notification)
+
+    let url = 'holi://apps/challenges'
+    if (link) {
+      url += '?path=' + encodeURIComponent(link)
+    }
+    return new URL(url).toString()
+  } catch (error) {
+    logError(error, 'Failed to create url for challenges notification', {
+      location: 'notifications.challengeUrl',
+    })
+  }
+}
+
 const extractData = (notification: NotificationPayload) => {
   const data = typeof notification.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
   return data
@@ -196,6 +212,10 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
         return spaceAppointmentUrl(payload, true)
       case NovuNotificationType.SPACE_APPOINTMENT_DELETION:
         return spaceUrl(payload, 'involvement')
+      case NovuNotificationType.CHALLENGE_APPROVAL:
+      case NovuNotificationType.CHALLENGE_NEW_COMMENT:
+      case NovuNotificationType.CHALLENGE_KEEP_STREAK:
+        return challengeUrl(payload)
       default:
         return null
     }

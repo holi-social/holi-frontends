@@ -34,8 +34,6 @@ export default class MyDocument extends Document {
     return (
       <Html lang={this.props.locale}>
         <Head>
-          {/* TODO: i18n meta atttributes like description, title etc. */}
-          <meta name="description" content="HOLI community" />
           <link rel="icon" href={`/favicons/${env}/favicon.ico`} />
           <link rel="apple-touch-icon" sizes="180x180" href={`/favicons/${env}/apple-touch-icon.png`} />
           <link rel="icon" type="image/png" sizes="32x32" href={`/favicons/${env}/favicon-32x32.png`} />

@@ -6,6 +6,7 @@ import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import HoliHead from '@holi/core/components/HoliHead'
 import { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -224,31 +225,44 @@ const VolunteeringEngagementDetail = () => {
   }
 
   return (
-    <View style={styles.wrapper} testID="volunteering-detailview-container">
-      <ScrollHeaderLayout.Refreshable refreshableProps={{ refreshing, onRefresh }} style={styles.header} headerOverlap>
-        {engagement && (
-          <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
-            <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
-            <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            {!!partner && providerContainer}
-            <VolunteeringPartnerCard
-              headline={t('volunteering:engagementDetail.technicalPartner')}
-              name={'Voltastics'}
-              partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
-            />
-          </View>
-        )}
-      </ScrollHeaderLayout.Refreshable>
+    <>
+      <HoliHead
+        title={engagement.title}
+        description={engagement.description}
+        ogTitle={engagement.title}
+        ogDescription={engagement.description}
+        ogImage={engagement.imageUrl}
+      />
+      <View style={styles.wrapper} testID="volunteering-detailview-container">
+        <ScrollHeaderLayout.Refreshable
+          refreshableProps={{ refreshing, onRefresh }}
+          style={styles.header}
+          headerOverlap
+        >
+          {engagement && (
+            <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
+              <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
+              <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
+              {!!partner && providerContainer}
+              <VolunteeringPartnerCard
+                headline={t('volunteering:engagementDetail.technicalPartner')}
+                name={'Voltastics'}
+                partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
+              />
+            </View>
+          )}
+        </ScrollHeaderLayout.Refreshable>
 
-      <View style={styles.volunteeringButton}>
-        <HoliButtonLoading
-          icon={ShareBox}
-          label={t('volunteering:engagementDetail.getInTouch')}
-          onPress={() => Linking.openURL(engagement.url)}
-          testID="volunteering-engagement-get-in-touch-btn"
-        />
+        <View style={styles.volunteeringButton}>
+          <HoliButtonLoading
+            icon={ShareBox}
+            label={t('volunteering:engagementDetail.getInTouch')}
+            onPress={() => Linking.openURL(engagement.url)}
+            testID="volunteering-engagement-get-in-touch-btn"
+          />
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 

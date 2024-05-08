@@ -5,8 +5,10 @@ import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
+import HoliHead from '@holi/core/components/HoliHead'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
@@ -33,6 +35,7 @@ pino().debug('Avoid treeshaking of externally included logging framework by next
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
+  const { t } = useTranslation()
 
   useEffect(() => {
     // Init authentication
@@ -54,6 +57,14 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { customProps: { seoTitle } = {} } = pageProps
   return (
     <TrackingProvider>
+      <HoliHead
+        title={t('metatags.default.title')}
+        description={t('metatags.default.description')}
+        ogTitle={t('metatags.default.og.title')}
+        ogDescription={t('metatags.default.og.description')}
+        ogImage="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
+      />
+
       {featureFlag.enableSSR ? (
         <SSRRootProvider pageProps={pageProps}>
           <SeoTitle seoTitle={seoTitle} />
