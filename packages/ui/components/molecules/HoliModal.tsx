@@ -48,10 +48,20 @@ export interface HoliModalProps extends ModalProps {
   testID?: string
 }
 
+export interface UseModalStateHook {
+  hide: () => void
+  show: () => void
+  visible: boolean
+  props: {
+    onDismiss: () => void
+    show: boolean
+  }
+}
+
 export const useModalState = ({
   visible = false,
   onDismiss,
-}: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}) => {
+}: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}): UseModalStateHook => {
   const [modalVisible, setModalVisible] = useState(visible)
 
   const show = useCallback(() => setModalVisible(true), [])

@@ -2,9 +2,11 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
+import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
+import { GlobalFilled, HoliLogoFilled, MoreFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -19,10 +21,7 @@ type PostCardProps = {
   showVisibilityBadge?: boolean
 }
 
-const PostCard = ({
-  post: { title, description, visibility, creator, category, createdAt, image, imageBlurhash },
-  showVisibilityBadge,
-}: PostCardProps) => {
+const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -32,50 +31,57 @@ const PostCard = ({
       {showVisibilityBadge && (
         <View style={styles.badgeContainer}>
           <HoliIcon
-            icon={visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
+            icon={post.visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
             color={colors.foreground30}
             size={14}
           />
           <HoliText>
-            {visibility === VisibilityLevel.PUBLIC
+            {post.visibility === VisibilityLevel.PUBLIC
               ? t('individuals.post.card.badge.public')
               : t('individuals.post.card.badge.registered_users_only')}
           </HoliText>
         </View>
       )}
       <HoliMediaHeader
-        title={creator.fullName || t('user.profileView.anonymous')}
-        author={creator}
-        date={createdAt}
+        title={post.creator.fullName || t('user.profileView.anonymous')}
+        author={post.creator}
+        date={post.createdAt}
         boldTitle
       />
-
+      <View style={styles.postDrawer}>
+        <PostDrawer post={post}>
+          <HoliIcon icon={MoreFilled} />
+        </PostDrawer>
+      </View>
       <View>
         <View style={[styles.pill, styles.categoryPill]}>
           <HoliText size="small" numberOfLines={1}>
-            {category.title}
+            {post.category.title}
           </HoliText>
         </View>
       </View>
       <View style={styles.contenSection}>
         <HoliHeading level="1" size="s" numberOfLines={3}>
-          {title}
+          {post.title}
         </HoliHeading>
-        <HoliReadMore numberOfLines={3}>{description}</HoliReadMore>
+        <HoliReadMore numberOfLines={3}>{post.description}</HoliReadMore>
       </View>
-      {!!image && (
+      {!!post.image && (
         <View style={styles.imageContainer}>
           <HoliImage
-            label={title}
+            label={post.title}
             source={{
-              uri: image,
+              uri: post.image,
             }}
-            blurhash={imageBlurhash}
+            blurhash={post.imageBlurhash}
             resizeMode="cover"
             style={styles.image}
           />
         </View>
       )}
+      <View style={styles.reactionsBar}>
+        <FeedPostReactions post={post} />
+      </View>
     </View>
   )
 }
@@ -119,6 +125,19 @@ const getStyles = (theme: HoliTheme) =>
     },
     image: {
       height: '100%',
+    },
+    postDrawer: {
+      position: 'absolute',
+      top: Spacing.xs,
+      right: Spacing.xs,
+      zIndex: 1,
+    },
+    reactionsBar: {
+      marginTop: Spacing.xxs,
+      marginLeft: Spacing.xs,
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
     },
   })
 

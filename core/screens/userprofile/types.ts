@@ -46,8 +46,8 @@ export interface User {
 }
 
 export interface AuthenticatedUser extends User {
-  trackingConsentAnalytics?: boolean
-  trackingConsentPersonalization?: boolean
+  trackingConsentAnalytics?: boolean | null
+  trackingConsentPersonalization?: boolean | null
 }
 
 export const isHoliUser = (value: User | unknown): value is User =>

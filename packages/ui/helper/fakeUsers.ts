@@ -1,19 +1,29 @@
 import { faker } from '@faker-js/faker'
 
-import { User } from '@holi/core/screens/userprofile/types'
+import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 export const getRandomUser = (hasAvatar = false): User => {
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
   return {
     id: faker.string.alpha(10),
-    firstName,
-    lastName,
-    fullName: firstName + ' ' + lastName,
     identity: firstName + '_' + lastName,
     avatar: hasAvatar ? faker.image.avatar() : undefined,
-    aboutMe: faker.lorem.sentence(),
-    avatarLabel: firstName[0],
+    avatarBlurhash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
     avatarDefaultColor: faker.color.rgb(),
+    avatarLabel: firstName[0],
+    firstName: firstName,
+    lastName: lastName,
+    fullName: firstName + ' ' + lastName,
+    aboutMe: faker.lorem.sentence(),
+    pronouns: 'they',
+    location: faker.location.city(),
+    geolocationId: 'abc123',
+    engagementLevel: 'INTERESTED',
+    interests: [],
+    sdgs: [],
+    skills: [],
+    connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
+    connectionStatusToSpace: [],
   }
 }

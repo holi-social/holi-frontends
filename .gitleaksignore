@@ -9,3 +9,4 @@ apps/mobile/.yarn/releases/yarn-4.1.1.cjs:aws-access-token:192
 apps/mobile/.yarn/releases/yarn-4.1.1.cjs:generic-api-key:567
 .env.local:generic-api-key:58
 .env.staging:generic-api-key:30
+apps/mobile/eas.json:generic-api-key:118

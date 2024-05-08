@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native'
 
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type UserChipRowProps = {
   keyInUserObject: UserChipTypes
@@ -23,6 +25,8 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   const terms = user ? user[keyInUserObject] || [] : []
   const sortedTerms = [...terms].sort(termsByTitleComparator)
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <HoliChipRow
@@ -35,13 +39,39 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       {sortedTerms.length > 0 ? (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         sortedTerms.map((term) => (
-          <HoliChip numberOfLines={numberOfLines} key={term.id} text={term.title} label={term.title} disabled />
+          <HoliChip
+            numberOfLines={numberOfLines}
+            key={term.id}
+            text={term.title}
+            label={term.title}
+            disabled
+            style={styles.chip}
+            fontStyle={styles.chipFont}
+          />
         ))
       ) : (
-        <HoliChip text={''} key="edit" onPress={onPressEdit} label={t(`profile.${keyInUserObject}.add`)} />
+        <HoliChip
+          text={''}
+          key="edit"
+          onPress={onPressEdit}
+          label={t(`profile.${keyInUserObject}.add`)}
+          style={styles.chip}
+          fontStyle={styles.chipFont}
+        />
       )}
     </HoliChipRow>
   )
 }
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    chip: {
+      borderWidth: 1,
+      borderColor: theme.colors.foreground30at12Percent,
+    },
+    chipFont: {
+      color: theme.colors.black300,
+    },
+  })
 
 export default UserChipRow

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import EmptyTab from '@holi/core/components/EmptyTab'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -11,7 +12,6 @@ import { postsByUserIdQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -25,17 +25,17 @@ const OtherPostsList = ({ userFirstName }: { userFirstName?: string }) => {
   const { t } = useTranslation()
   const { loading, data: posts, totalResults } = usePaginationContext<FeedPost>()
 
+  if (!loading && totalResults === 0) {
+    return (
+      <EmptyTab
+        text={t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
+      />
+    )
+  }
+
   return (
     <HoliContainer gap={Spacing.xxs}>
-      {loading ? (
-        <LoadingSkeleton />
-      ) : totalResults === 0 ? (
-        <HoliText color="gray300">
-          {t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
-        </HoliText>
-      ) : (
-        posts.map((p) => <PostCard key={p.id} post={p} />)
-      )}
+      {loading ? <LoadingSkeleton /> : posts.map((p) => <PostCard key={p.id} post={p} />)}
     </HoliContainer>
   )
 }

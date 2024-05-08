@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -25,6 +25,7 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
@@ -140,6 +141,8 @@ const OwnProfile = () => {
           onRefresh,
         }}
         keyboardShouldPersistTaps="handled"
+        style={styles.layout}
+        contentStyle={styles.content}
       >
         {user ? (
           <>
@@ -197,5 +200,16 @@ const OwnProfile = () => {
     </LoginProtection>
   )
 }
+
+const styles = StyleSheet.create({
+  layout: {
+    minHeight: '100%',
+  },
+  content: {
+    minHeight: '100%',
+    paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
+    paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 0,
+  },
+})
 
 export default withProfiler(memo(OwnProfile), { name: 'OwnProfile' })

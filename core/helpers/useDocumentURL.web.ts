@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import type { DocType } from '@holi/web/pages/api/documents/index'
+import type { DocType } from '@holi/core/documents/DocType'
 
 export const useDocumentURL = (docType?: DocType): string | undefined => {
   const { i18n } = useTranslation()

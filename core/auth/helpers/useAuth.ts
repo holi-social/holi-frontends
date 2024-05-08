@@ -61,9 +61,9 @@ export const setUserLoggedIn = async (session: OrySessionContext): Promise<void>
   logger.debug('setUserLogged', 'user logged in')
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
-  TrackingInitializer.userLoggedIn()
   // fetch and save Okuna user
   loggedInUserIdVar(loginStateLoggedIn(session.session.identity.id))
+  TrackingInitializer.userLoggedIn()
 }
 
 // intended to be called from outside the context provider (e.g. logout form)
