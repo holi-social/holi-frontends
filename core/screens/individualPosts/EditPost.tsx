@@ -75,7 +75,6 @@ const EditPost = () => {
   })
 
   const editPost = () => {
-    console.log(image)
     setSubmitting(true)
     updateFeedPost({
       variables: {
