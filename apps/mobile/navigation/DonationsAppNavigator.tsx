@@ -13,7 +13,11 @@ import DonationsAppProjectDetail, {
 
 export type DonationsAppScreensList = {
   DonationsAppHome: DonationsAppHomeParams
+  DonationsAppHomeOld: DonationsAppHomeParams
+  DonationsAppHomeDE: DonationsAppHomeParams
   DonationsAppProjectDetail: DonationsAppProjectDetailParams
+  DonationsAppProjectDetailOld: DonationsAppProjectDetailParams
+  DonationsAppProjectDetailDE: DonationsAppProjectDetailParams
 }
 
 const DonationsAppStack = createNativeStackNavigator<DonationsAppScreensList>()
@@ -34,7 +38,11 @@ const DonationsAppNavigator = () => {
       }}
     >
       <DonationsAppStack.Screen name={RouteName.DonationsAppHome} component={DonationsAppHome} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppHomeOld} component={DonationsAppHome} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppHomeDE} component={DonationsAppHome} />
       <DonationsAppStack.Screen name={RouteName.DonationsAppProjectDetail} component={DonationsAppProjectDetail} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppProjectDetailOld} component={DonationsAppProjectDetail} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppProjectDetailDE} component={DonationsAppProjectDetail} />
     </DonationsAppStack.Navigator>
   )
 }

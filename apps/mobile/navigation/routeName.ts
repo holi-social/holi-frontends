@@ -29,6 +29,9 @@ export enum RouteName {
   CreateTask = 'CreateTask',
   EditTask = 'EditTask',
   TaskDetails = 'TaskDetails',
+  CreateTaskDE = 'CreateTaskDE',
+  EditTaskDE = 'EditTaskDE',
+  TaskDetailsDE = 'TaskDetailsDE',
   CreateUpdate = 'CreateUpdate',
   EditUpdate = 'EditUpdate',
   SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
@@ -40,6 +43,7 @@ export enum RouteName {
   SpaceOnboarding = 'SpaceOnboarding',
   SpaceOnboardingSteps = 'SpaceOnboardingSteps',
   SpaceTasks = 'SpaceTasks',
+  SpaceTasksDE = 'SpaceTasksDE',
   AboutSpaces = 'AboutSpaces',
   SpaceAppointments = 'SpaceAppointments',
   CreateAppointment = 'CreateAppointment',
@@ -69,14 +73,22 @@ export enum RouteName {
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',
+  DonationsAppHomeOld = 'DonationsAppHomeOld',
+  DonationsAppHomeDE = 'DonationsAppHomeDE',
   DonationsAppProjectDetail = 'DonationsAppProjectDetail',
+  DonationsAppProjectDetailOld = 'DonationsAppProjectDetailOld',
+  DonationsAppProjectDetailDE = 'DonationsAppProjectDetailDE',
 
   // GoodNews app
   GoodNewsAppHome = 'GoodNewsAppHome',
 
   // Volunteering app
   VolunteeringAppHome = 'VolunteeringAppHome',
+  VolunteeringAppHomeOld = 'VolunteeringAppHomeOld',
+  VolunteeringAppHomeDE = 'VolunteeringAppHomeDE',
   VolunteeringAppEngagmentDetail = 'VolunteeringAppEngagmentDetail',
+  VolunteeringAppEngagmentDetailOld = 'VolunteeringAppEngagmentDetailOld',
+  VolunteeringAppEngagmentDetailDE = 'VolunteeringAppEngagmentDetailDE',
 
   // Challenges app
   ChallengesAppHome = 'ChallengesAppHome',
