@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -10,6 +10,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -20,8 +21,9 @@ import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer
 import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { MoreFilled, Share } from '@holi/icons/src/generated'
+import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -43,8 +45,39 @@ const PostDetailsPage = () => {
   const { userId, isLoggedIn } = useAuth()
   const { openLoginModal } = useLoginModal()
   const insets = useSafeAreaInsets()
-
   const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
+
+  const [isDirectLink, setIsDirectLink] = useState(false)
+
+  const isWeb = Platform.OS === 'web'
+  useEffect(() => {
+    setIsDirectLink(isWeb && (document.referrer === '' || document.referrer === window.location.href))
+  }, [isWeb])
+
+  const logo = useMemo(
+    () => (
+      <HoliButton transparent inline label={'btn-navigate-to-home-feed'} onPress={() => navigate('/')}>
+        {theme.dark ? (
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
+            isSvg
+            width={78}
+            height={24}
+            label={t('navigation.title')}
+          />
+        ) : (
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+            isSvg
+            width={78}
+            height={24}
+            label={t('navigation.title')}
+          />
+        )}
+      </HoliButton>
+    ),
+    [theme.dark, t, navigate]
+  )
 
   const {
     data: { post } = {},
@@ -66,15 +99,17 @@ const PostDetailsPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
+  const headerLeft = useMemo(() => {
+    if (isWeb) {
+      return isDirectLink ? logo : <HeaderBackButton icon={ArrowLeft} />
+    } else {
+      return <HeaderBackButton icon={ArrowLeft} />
+    }
+  }, [isWeb, isDirectLink, logo])
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
-      headerStyle: { backgroundColor: theme.colors.background10 },
-      navigationCustomOptions: {
-        footerShown: false,
-      },
+      headerLeft: () => headerLeft,
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>
           {t('individuals.post.details.title', { name: post?.creator.firstName })}
@@ -95,7 +130,7 @@ const PostDetailsPage = () => {
         )
       },
     })
-  }, [theme.colors.background10, t, setScreenOptions, post, styles.headerRight])
+  }, [headerLeft, post, setScreenOptions, styles.headerRight, t])
 
   const onPressCreateComment = () =>
     isLoggedIn
