@@ -30,9 +30,9 @@ export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skill
 
 export enum Tab {
   PROFILE,
+  POSTS,
   INSIGHTS,
   SPACES,
-  POSTS,
 }
 
 interface OwnProfileViewProps {
@@ -69,7 +69,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
 
   const handleTabChanged = (index: number) => {
     // Keep tab indexes consistent, even when Insights tabs is not present (at index 1)
-    if (!hasInsights && index > 0) {
+    if (!hasInsights && index > 1) {
       onChangeTab(index + 1)
     } else {
       onChangeTab(index)
@@ -144,6 +144,18 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
               </View>
             ),
           },
+          ...(ftEnabledPosts
+            ? [
+                {
+                  title: t('individuals.post.name'),
+                  children: (
+                    <Suspense fallback={<HoliLoader />}>
+                      <MyPostsTab />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
           ...(hasInsights
             ? [
                 {
@@ -168,18 +180,6 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
               </Suspense>
             ),
           },
-          ...(ftEnabledPosts
-            ? [
-                {
-                  title: t('individuals.post.name'),
-                  children: (
-                    <Suspense fallback={<HoliLoader />}>
-                      <MyPostsTab />
-                    </Suspense>
-                  ),
-                },
-              ]
-            : []),
         ]}
       />
     </>
