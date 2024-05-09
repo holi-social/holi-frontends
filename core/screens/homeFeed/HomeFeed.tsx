@@ -20,8 +20,8 @@ import InspirationPosts from '@holi/core/screens/homeFeed/components/Inspiration
 import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { Posts } from '@holi/core/screens/individualPosts/components/Posts'
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
@@ -105,7 +105,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
-        feedPostsQuery,
+        ftEnabledPosts ? feedPostsQuery : undefined,
         inspirationPostsQuery,
         lastInsightsQuery,
         ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
@@ -127,7 +127,7 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
-          {ftEnabledPosts && <Posts />}
+          {ftEnabledPosts && <AllPosts />}
           <InspirationPosts />
           <InsightsOfTheWeek />
           <Recommendations />
