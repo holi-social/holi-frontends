@@ -149,6 +149,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreatePost]: 'createPost',
       },
     },
+    [RouteName.FeedPosts]: {
+      screens: {
+        [RouteName.FeedPostDetailsPage]: 'feedPosts/:slug',
+        [RouteName.FeedPostCommentInputPage]: 'feedPosts/:slug/comment',
+      },
+    },
   },
 }
 
