@@ -12,6 +12,8 @@ interface ToastErrorInfo extends ErrorContext {
   testID?: string
 }
 
+export type DisplayErrorFunc = (error: unknown, logMessage: string, toastInfo: ToastErrorInfo) => void
+
 const isApolloError = (error: unknown): error is ApolloError => {
   return (
     typeof error === 'object' &&
@@ -39,8 +41,8 @@ export const useErrorHandling = () => {
   const { t } = useTranslation()
   const { openToast } = useToast()
 
-  const displayError = useCallback(
-    (error: unknown, logMessage: string, { displayMessage, timeout, testID, ...context }: ToastErrorInfo) => {
+  const displayError: DisplayErrorFunc = useCallback(
+    (error, logMessage, { displayMessage, timeout, testID, ...context }) => {
       if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
         if (isApolloError(error) && error.message === 'Bad user input') {
           logErrorLocal(error, logMessage, context)

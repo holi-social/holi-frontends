@@ -1,17 +1,15 @@
+import { ApolloError, OperationVariables } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
-import { useErrorHandling } from '@holi/core/errors/hooks'
+import { DisplayErrorFunc, useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
+import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
+import PostsList from '@holi/core/screens/individualPosts/components/PostsList'
 import { postsByUserIdQuery } from '@holi/core/screens/individualPosts/queries'
-import { FeedPost } from '@holi/core/screens/individualPosts/types'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -21,23 +19,18 @@ export type PostsTabProps = {
   userFirstName?: string
 }
 
-const OtherPostsList = ({ userFirstName }: { userFirstName?: string }) => {
-  const { t } = useTranslation()
-  const { loading, data: posts, totalResults } = usePaginationContext<FeedPost>()
-
-  if (!loading && totalResults === 0) {
-    return (
-      <EmptyTab
-        text={t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
-      />
-    )
+const queryOptions = (errorHandler: DisplayErrorFunc, { userId }: OperationVariables): PaginationQueryHookOptions => {
+  return {
+    variables: { userId },
+    pageSize: 10,
+    queryPath: 'postsByUserId',
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
+    onError: (error: ApolloError) => {
+      errorHandler(error, 'Failed to query posts for user', {
+        location: 'postsByUserIdQuery',
+      })
+    },
   }
-
-  return (
-    <HoliContainer gap={Spacing.xxs}>
-      {loading ? <LoadingSkeleton /> : posts.map((p) => <PostCard key={p.id} post={p} />)}
-    </HoliContainer>
-  )
 }
 
 const OtherPostsTab = ({ userId, userFirstName }: PostsTabProps) => {
@@ -47,22 +40,11 @@ const OtherPostsTab = ({ userId, userFirstName }: PostsTabProps) => {
   const { displayError } = useErrorHandling()
   const mixins = useStyleMixins()
 
-  const queryOptions: PaginationQueryHookOptions = {
-    pageSize: 10,
-    queryPath: 'postsByUserId',
-    variables: { userId },
-    onError: (error) => {
-      displayError(error, 'Failed to query posts for user', {
-        location: 'postsByUserIdQuery',
-      })
-    },
-    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-  }
   return (
     <View style={styles.container}>
       <Pagination
         query={postsByUserIdQuery}
-        queryOptions={queryOptions}
+        queryOptions={queryOptions(displayError, { userId })}
         fetchMoreButtonProps={{
           type: 'secondary',
           style: mixins.moreButton,
@@ -70,13 +52,18 @@ const OtherPostsTab = ({ userId, userFirstName }: PostsTabProps) => {
         }}
         fetchMoreButtonLabel={t('individuals.post.loadMoreText')}
       >
-        <OtherPostsList userFirstName={userFirstName} />
+        <PostsList
+          emptyMessage={
+            <EmptyTab
+              text={t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
+            />
+          }
+          showVisibilityBadge
+        />
       </Pagination>
     </View>
   )
 }
-
-const LoadingSkeleton = () => <HoliSkeleton height={60} width="100%" borderRadius={20} />
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
