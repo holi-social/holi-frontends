@@ -1,6 +1,7 @@
 import { ApolloError, DocumentNode } from '@apollo/client'
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -83,6 +84,42 @@ const PostsList = ({
   )
 }
 
-const LoadingSkeleton = () => <HoliSkeleton height={60} width="100%" borderRadius={20} />
+const PostSkeleton = () => (
+  <HoliGridCell>
+    <View style={skeletonStyles.container}>
+      <View style={skeletonStyles.userBox}>
+        <HoliSkeleton height={44} width={44} borderRadius={80} />
+        <View style={skeletonStyles.metadata}>
+          <HoliSkeleton height={22} width={120} borderRadius={10} />
+          <HoliSkeleton height={14} width={80} borderRadius={10} />
+        </View>
+      </View>
+      <HoliSkeleton height={22} width={200} borderRadius={20} />
+      <HoliSkeleton height={60} width="100%" borderRadius={10} />
+      <HoliSkeleton height={160} width="100%" borderRadius={20} />
+    </View>
+  </HoliGridCell>
+)
+
+const LoadingSkeleton = () => (
+  <>
+    <PostSkeleton />
+    <PostSkeleton />
+  </>
+)
+
+const skeletonStyles = StyleSheet.create({
+  container: {
+    gap: 10,
+    padding: Spacing.xs,
+  },
+  userBox: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  metadata: {
+    gap: 6,
+  },
+})
 
 export default PostsList
