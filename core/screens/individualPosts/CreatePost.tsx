@@ -45,7 +45,7 @@ const CreatePost = () => {
     onError: (error) => {
       alert(error)
     },
-    refetchQueries: [{ query: myPostsQuery }, 'MyPosts', { query: feedPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
   })
 
   const createPost = () => {

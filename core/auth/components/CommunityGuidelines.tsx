@@ -13,7 +13,7 @@ interface CommunityGuidelinesProps extends AgreementProps {
 const CommunityGuidelines = ({ onNextPress, onBackPress, ...agreementProps }: CommunityGuidelinesProps) => {
   const { t } = useTranslation()
   const communityGuidelinesUrl = useDocumentURL('communityGuidelines')
-  const termsOfUseUrl = useDocumentURL('termsOfUseUrl')
+  const termsOfUseUrl = useDocumentURL('termsOfUse')
   const termsOfUseModalHook = useModalState()
   const communityGuidelinesModalHook = useModalState()
 

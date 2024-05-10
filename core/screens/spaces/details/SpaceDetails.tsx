@@ -355,14 +355,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: dimensions.topBarHeight + 50,
   },
-  overlayContainer: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 42,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 24,
-    justifyContent: 'center',
-  },
   overlayButton: {
     width: 56,
     height: 56,
@@ -381,16 +373,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     gap: 14,
-  },
-  floatingContainer: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 42,
-    left: 0,
-    right: 0,
-    gap: 8,
-    width: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
 })
 

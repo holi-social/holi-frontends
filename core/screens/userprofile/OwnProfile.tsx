@@ -12,8 +12,9 @@ import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
-import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
+import OwnProfileView, { EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
@@ -34,6 +35,7 @@ const OwnProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
+  const [currentTab, setCurrentTab] = useState<Tab>(0)
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -191,16 +193,16 @@ const OwnProfile = () => {
                 </HoliKeyboardSaveView>
               </HoliModal>
             )}
-            <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
+            <OwnProfileView user={user} toggleEditMode={toggleEditMode} onChangeTab={setCurrentTab} />
           </>
         ) : (
           <HoliLoader />
         )}
       </ScrollHeaderLayout.Refreshable>
+      {currentTab === Tab.POSTS && <CreatePostButton />}
     </LoginProtection>
   )
 }
-
 const styles = StyleSheet.create({
   layout: {
     minHeight: '100%',

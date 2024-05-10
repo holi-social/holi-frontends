@@ -154,6 +154,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.EditPost]: 'feed-posts/:idOrSlug/edit',
       },
     },
+    [RouteName.FeedPosts]: {
+      screens: {
+        [RouteName.FeedPostDetailsPage]: 'feedPosts/:slug',
+        [RouteName.FeedPostCommentInputPage]: 'feedPosts/:slug/comment',
+      },
+    },
   },
 }
 

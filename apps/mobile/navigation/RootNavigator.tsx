@@ -15,6 +15,7 @@ import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
+import FeedPostsNavigator from '@holi/mobile/navigation/FeedPostsNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
@@ -49,6 +50,7 @@ export type RootStackScreens = {
 
   [RouteName.CreatePost]: undefined
   [RouteName.EditPost]: undefined
+  [RouteName.FeedPosts]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -74,6 +76,8 @@ const RootNavigator = () => {
       {/* ChatHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.ChatStack} component={ChatStackNavigator} options={{ headerShown: false }} />
 
+      {/* FeedPosts */}
+      <RootStack.Screen name={RouteName.FeedPosts} component={FeedPostsNavigator} options={{ headerShown: false }} />
       <RootStack.Screen
         name={RouteName.VideoCall}
         component={VideoCall}
