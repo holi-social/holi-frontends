@@ -132,7 +132,9 @@ const CurationPrinciplesPage: React.FC = () => {
         <HoliGap size={'m'} />
 
         <HoliContainer>
-          <HoliHeading level="1">{t('insights.curationPrinciples.principles.heading')}</HoliHeading>
+          <HoliHeading level="2" size="l">
+            {t('insights.curationPrinciples.principles.heading')}
+          </HoliHeading>
         </HoliContainer>
 
         <HoliGap size={'m'} />
@@ -140,7 +142,11 @@ const CurationPrinciplesPage: React.FC = () => {
         {isWideLayout ? <PrinciplesSectionGrid /> : <PrinciplesSectionCarousel />}
 
         <View style={[styles.section, styles.contributorSection]}>
-          <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
+          <HoliHeading
+            level="2"
+            size="l"
+            {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}
+          >
             {t('insights.curationPrinciples.curators.heading')}
           </HoliHeading>
 
@@ -180,7 +186,11 @@ const CurationPrinciplesPage: React.FC = () => {
         </View>
 
         <View style={[styles.section, styles.partnersSection]}>
-          <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
+          <HoliHeading
+            level="2"
+            size="l"
+            {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}
+          >
             {t('insights.curationPrinciples.partners.heading')}
           </HoliHeading>
           <View

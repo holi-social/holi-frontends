@@ -65,7 +65,7 @@ const HoliModalContentWrapper = (
     <>
       {!!headlineText?.length && (
         <HoliBox padding={[0, 24, 16, 24]}>
-          <HoliHeading level="1" size="l" align={headlineAlign} testID={`${testID}-heading`}>
+          <HoliHeading level="2" size="l" align={headlineAlign} testID={`${testID}-heading`}>
             {headlineText}
           </HoliHeading>
         </HoliBox>

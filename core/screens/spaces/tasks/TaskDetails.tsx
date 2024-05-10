@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { SeoTitle } from '@holi/core/components/SeoTitle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
@@ -122,7 +123,7 @@ const TaskDetails = () => {
   }
 
   return (
-    <>
+    <SafeAreaProvider style={styles.safeAreaProvider}>
       <HoliHead
         title={`${task.name} | ${space.title}`}
         description={task.description}
@@ -130,19 +131,18 @@ const TaskDetails = () => {
         ogDescription={task.description}
         ogImage={task.thumbnail || space.cover}
       />
-      <SafeAreaProvider style={styles.safeAreaProvider}>
-        <ScrollHeaderLayout.Refreshable
-          refreshableProps={{ refreshing, onRefresh }}
-          style={styles.defaultLayout}
-          contentStyle={styles.contentStyle}
-          headerOverlap
-        >
-          <HoliContainer>
-            <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} variant={'full'} />
-          </HoliContainer>
-        </ScrollHeaderLayout.Refreshable>
-      </SafeAreaProvider>
-    </>
+      <SeoTitle seoTitle={`${task.name} | ${space.name}`.trim()} />
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{ refreshing, onRefresh }}
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+        headerOverlap
+      >
+        <HoliContainer>
+          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} variant={'full'} />
+        </HoliContainer>
+      </ScrollHeaderLayout.Refreshable>
+    </SafeAreaProvider>
   )
 }
 

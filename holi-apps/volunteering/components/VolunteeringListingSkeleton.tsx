@@ -55,7 +55,7 @@ const VolunteeringListingSkeleton = ({ isFiltering, amount }: VolunteeringListin
 
   return (
     <View style={[mixins.container, styles.container]}>
-      <HoliHeading level="1" loading skeletonOptions={{ width: '60%' }} />
+      <HoliHeading level="2" size="l" loading skeletonOptions={{ width: '60%' }} />
       <View style={styles.partnerInfoRow}>
         {partnerSkeleton}
         <HoliText style={styles.spaceTop} loading skeletonOptions={{ width: '40%' }} />

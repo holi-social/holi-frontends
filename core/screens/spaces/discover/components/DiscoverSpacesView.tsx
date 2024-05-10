@@ -79,7 +79,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
 
   return (
     <View style={style} testID="spaces-container">
-      <HoliHeading level="1" size="l" testID="discover-spaces-header">
+      <HoliHeading level="2" size="l" testID="discover-spaces-header">
         {t('spaces.discover.welcome')}
       </HoliHeading>
       <HoliText style={styles.headerDescription} testID="discover-spaces-description">

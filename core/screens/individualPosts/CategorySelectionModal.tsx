@@ -28,13 +28,8 @@ export const CategorySelectionModal: React.FC<{
     <HoliModal show={props.show} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
       <View style={styles.modalContent}>
         <View style={styles.modalHeader}>
-          <HeaderBackButton
-            icon={Close}
-            onPress={() => navigateBack()}
-            tintColor={theme.colors.black300}
-            style={styles.backButton}
-          />
-          <HoliHeading level="1" size="s">
+          <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={theme.colors.black300} style={styles.backButton} />
+          <HoliHeading level="2" size="s">
             {t('individuals.post.input.title')}
           </HoliHeading>
         </View>
