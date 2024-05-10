@@ -10,9 +10,9 @@ import { insightsByUserIdQuery } from '@holi/core/queries'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface InsightsTabProps {
@@ -34,40 +34,44 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
   const insights = data?.insightsByUserId
   const hasInsights = !!insights?.totalResults
 
-  return hasInsights ? (
-    <>
-      {insights.data.map((insight) => {
-        return (
-          <View key={insight.id} style={styles.itemContainer}>
-            <HoliLink label="" href={`/insights/${insight.id}`}>
-              <HoliColumns padding={[40, 24]} alignItems="flex-start">
-                <HoliColumn padding={[0, 16, 0, 0]} flex={2}>
-                  <HoliHeading level="3" size="s">
-                    {insight.title}
-                  </HoliHeading>
-                </HoliColumn>
-                {!!insight.headerImage && (
-                  <View style={styles.imageColumn}>
-                    <HoliImage
-                      label=""
-                      source={{
-                        uri: insight.headerImage,
-                        width: THUMBNAIL_SIZE,
-                        height: THUMBNAIL_SIZE,
-                      }}
-                      blurhash={insight.headerImageBlurhash}
-                      resizeMode="cover"
-                    />
-                  </View>
-                )}
-              </HoliColumns>
-            </HoliLink>
-          </View>
-        )
-      })}
-    </>
-  ) : (
-    <EmptyTab text={emptyText} />
+  return (
+    <HoliContainer>
+      {hasInsights ? (
+        <>
+          {insights.data.map((insight) => {
+            return (
+              <View key={insight.id} style={styles.itemContainer}>
+                <HoliLink label="" href={`/insights/${insight.id}`}>
+                  <HoliColumns padding={[40, 24]} alignItems="flex-start">
+                    <HoliColumn padding={[0, 16, 0, 0]} flex={2}>
+                      <HoliHeading level="3" size="s">
+                        {insight.title}
+                      </HoliHeading>
+                    </HoliColumn>
+                    {!!insight.headerImage && (
+                      <View style={styles.imageColumn}>
+                        <HoliImage
+                          label=""
+                          source={{
+                            uri: insight.headerImage,
+                            width: THUMBNAIL_SIZE,
+                            height: THUMBNAIL_SIZE,
+                          }}
+                          blurhash={insight.headerImageBlurhash}
+                          resizeMode="cover"
+                        />
+                      </View>
+                    )}
+                  </HoliColumns>
+                </HoliLink>
+              </View>
+            )
+          })}
+        </>
+      ) : (
+        <EmptyTab text={emptyText} />
+      )}
+    </HoliContainer>
   )
 }
 
@@ -76,10 +80,6 @@ export default withProfiler(InsightsTab, { name: 'InsightsTab' })
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     itemContainer: {
-      flex: 1,
-      alignSelf: 'center',
-      width: '100%',
-      maxWidth: dimensions.maxScreenWidth,
       borderBottomWidth: 1,
       borderStyle: 'solid',
       borderBottomColor: theme.colors.background30,
