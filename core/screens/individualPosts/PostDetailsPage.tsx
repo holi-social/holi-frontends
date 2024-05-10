@@ -109,6 +109,12 @@ const PostDetailsPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerBackVisible: true,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: theme.colors.background10 },
+      navigationCustomOptions: {
+        footerShown: false,
+      },
       headerLeft: () => headerLeft,
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>
@@ -130,7 +136,7 @@ const PostDetailsPage = () => {
         )
       },
     })
-  }, [headerLeft, post, setScreenOptions, styles.headerRight, t])
+  }, [headerLeft, post, setScreenOptions, styles.headerRight, t, theme.colors.background10])
 
   const onPressCreateComment = () =>
     isLoggedIn
