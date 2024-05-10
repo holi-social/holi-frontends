@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, InputAccessoryView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -159,7 +160,7 @@ const CreatePost = () => {
 
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-      <View style={styles.layout}>
+      <KeyboardAvoidingView behavior={'padding'} style={styles.layout}>
         <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
           <View style={styles.pillContainer}>
             <FeedPostPill
@@ -202,18 +203,10 @@ const CreatePost = () => {
             </View>
           </View>
         </ScrollView>
+      </KeyboardAvoidingView>
 
-        {Platform.OS === 'ios' ? (
-          <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
-            <PostCreationBar
-              onCreatePost={createPost}
-              onSetImage={setImage}
-              hasSetImage={!!image}
-              submitting={submitting}
-              isSubmittable={isSubmittable}
-            />
-          </InputAccessoryView>
-        ) : (
+      {Platform.OS === 'ios' ? (
+        <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
           <PostCreationBar
             onCreatePost={createPost}
             onSetImage={setImage}
@@ -221,15 +214,23 @@ const CreatePost = () => {
             submitting={submitting}
             isSubmittable={isSubmittable}
           />
-        )}
-        {!categoriesLoading && categories && (
-          <CategorySelectionModal
-            show={showCategorySelectionModal}
-            categories={categories}
-            onCategorySelection={selectCategory}
-          />
-        )}
-      </View>
+        </InputAccessoryView>
+      ) : (
+        <PostCreationBar
+          onCreatePost={createPost}
+          onSetImage={setImage}
+          hasSetImage={!!image}
+          submitting={submitting}
+          isSubmittable={isSubmittable}
+        />
+      )}
+      {!categoriesLoading && categories && (
+        <CategorySelectionModal
+          show={showCategorySelectionModal}
+          categories={categories}
+          onCategorySelection={selectCategory}
+        />
+      )}
       <HoliModalSelect
         options={visibilityOptions}
         title={t('individuals.post.input.visibility.title')}
@@ -298,7 +299,7 @@ const getStyles = (theme: HoliTheme, screenHeight: number) =>
       justifyContent: 'center',
       alignItems: 'center',
       alignContent: 'center',
-      paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
+      paddingBottom: Platform.OS === 'ios' ? 48 : SUGGESTIONS_DROPDOWN_HEIGHT,
     },
     inputContainer: {
       width: '100%',
