@@ -237,6 +237,14 @@ const UserProfile = () => {
               </View>
             ),
           },
+          ...(ftEnabledPosts
+            ? [
+                {
+                  title: t('individuals.post.name'),
+                  children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+                },
+              ]
+            : []),
           ...(hasInsights
             ? [
                 {
@@ -254,14 +262,6 @@ const UserProfile = () => {
               />
             ),
           },
-          ...(ftEnabledPosts
-            ? [
-                {
-                  title: t('individuals.post.name'),
-                  children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
-                },
-              ]
-            : []),
         ]}
       />
     </ScrollHeaderLayout.Refreshable>

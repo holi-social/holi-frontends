@@ -22,6 +22,7 @@ export interface ReactionCounts {
 
 export interface FeedPost {
   id: string
+  slug: string
   title: string
   description: string
   image?: string
