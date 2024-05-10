@@ -8,6 +8,7 @@ import { TrackingConsentModalDesktop } from './TrackingConsentModalDesktop'
 import { TrackingConsentModalMobile } from './TrackingConsentModalMobile'
 
 export { useUserVisitedScreensCount } from './userVisitedScreensCount'
+export { default as TrackingGeneralContentDescription } from './TrackingGeneralContentDescription'
 
 const TrackingConsentModal = () => {
   const [isMobileViewPort, setIsMobileViewPort] = useState(false)
