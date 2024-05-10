@@ -6,7 +6,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled, MoreFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -15,7 +14,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -32,10 +30,6 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
   const { navigate } = useRouting()
 
   const goToDetailView = () => navigate(`/feedPosts/${post.slug}`)
-
-  //TODO: replace with real data
-  const comments: readonly Comment[] = []
-  const commenters: User[] = []
 
   return (
     <View style={styles.container}>
@@ -96,15 +90,9 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
       )}
 
       <View style={styles.reactionsBar}>
-        {comments.length > 0 ? (
-          <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-            {t('individuals.post.comments.response', { count: comments.length })}
-          </HoliUserAvatarPile>
-        ) : (
-          <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
-            <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
-          </HoliButton>
-        )}
+        <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
+          <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
+        </HoliButton>
         <FeedPostReactions post={post} />
       </View>
     </View>

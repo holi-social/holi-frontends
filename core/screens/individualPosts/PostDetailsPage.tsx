@@ -16,6 +16,8 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import Comments from '@holi/core/screens/comments/components/Comments'
+import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
@@ -166,6 +168,17 @@ const PostDetailsPage = () => {
               <PostContent post={post} showVisibilityBadge={post.creator.id === userId} />
             ) : (
               <LoadingSkeleton />
+            )}
+            {post && (
+              <View style={styles.commentsContainer}>
+                <Comments
+                  commentableType={CommentableType.FEED_POST}
+                  commentableId={post.id}
+                  replyRoute={`/feedPosts/${slug}/comment`}
+                  onPressCreateComment={onPressCreateComment}
+                  initialOpenThread={post.id}
+                />
+              </View>
             )}
           </ScrollView>
         </HoliContainer>
