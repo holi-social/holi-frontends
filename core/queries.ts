@@ -10,6 +10,7 @@ export enum ContentType {
   POST_COMMENT = 'POST_COMMENT',
   USER = 'USER',
   SPACE = 'SPACE',
+  FEED_POST_COMMENT = 'FEED_POST_COMMENT',
 }
 
 export const ReportContentMutation = gql`
