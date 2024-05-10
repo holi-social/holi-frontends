@@ -71,27 +71,30 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
               {post.category.title}
             </HoliText>
           </View>
-          <View style={styles.contenSection}>
+          <View>
             <HoliHeading level="1" size="s" numberOfLines={3}>
               {post.title}
             </HoliHeading>
-            <HoliReadMore numberOfLines={3}>{post.description}</HoliReadMore>
           </View>
-          {!!post.image && (
-            <View style={styles.imageContainer}>
-              <HoliImage
-                label={post.title}
-                source={{
-                  uri: post.image,
-                }}
-                blurhash={post.imageBlurhash}
-                resizeMode="cover"
-                style={styles.image}
-              />
-            </View>
-          )}
         </View>
       </HoliButton>
+      <HoliReadMore numberOfLines={3} onPress={goToDetailView}>
+        {post.description}
+      </HoliReadMore>
+      {!!post.image && (
+        <View style={styles.imageContainer}>
+          <HoliImage
+            label={post.title}
+            source={{
+              uri: post.image,
+            }}
+            blurhash={post.imageBlurhash}
+            resizeMode="cover"
+            style={styles.image}
+          />
+        </View>
+      )}
+
       <View style={styles.reactionsBar}>
         {comments.length > 0 ? (
           <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
@@ -120,10 +123,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     metadata: {
       alignContent: 'space-between',
-    },
-    contenSection: {
-      gap: Spacing['4xs'],
-      marginBottom: Spacing.xs,
     },
     pill: {
       borderRadius: Spacing.xxl,
