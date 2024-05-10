@@ -13,7 +13,7 @@ export const FeedPostSchema = z.object({
   categoryId: z.string(),
   topicIds: z.array(z.string()).max(6).optional(),
   visibility: z.string() /* VisibilityLevel */,
-  image: z.instanceof(Object).optional(),
+  image: z.instanceof(Object).optional().nullable(),
   postId: z.string().optional(), // for edit post
 })
 
@@ -33,10 +33,12 @@ export type CreateFeedPostResponse = {
   createFeedPost: FeedPost
 }
 
+export type UpdateFeedPostInput = z.infer<typeof FeedPostSchema>
+
 export const updateFeedPostMutation = gql`
   ${FeedPostDetailsFragment}
 
-  mutation UpdateFeedPost($input: CreateFeedPostInput!) {
+  mutation UpdateFeedPost($input: UpdateFeedPostInput!) {
     updateFeedPost(input: $input) {
       ...FeedPostFull
     }

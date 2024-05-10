@@ -84,7 +84,7 @@ const EditPost = () => {
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
           postId: post?.id,
-          image: image?.blob,
+          image: image === null ? null : image?.blob,
         },
       },
       onError: () => openToast(t('individuals.post.input.error'), HoliToastType.ERROR),
@@ -136,7 +136,10 @@ const EditPost = () => {
           description={description}
           onChangeDescription={setDescription}
           image={image || null}
-          onChangeImage={setImage}
+          onChangeImage={(value) => {
+            setImage(value)
+            setCurrentImage(undefined)
+          }}
           selectedCategoryId={selectedCategoryId}
           onChangeSelectedCategoryId={setSelectedCategoryId}
           selectedVisibility={selectedVisibility}
