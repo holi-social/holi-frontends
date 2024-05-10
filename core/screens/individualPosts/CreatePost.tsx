@@ -87,7 +87,7 @@ const CreatePost = () => {
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
       openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
-      navigate('/')
+      navigateBack()
     },
     onError: (error) => {
       alert(error)
