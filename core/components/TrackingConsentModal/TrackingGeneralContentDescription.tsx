@@ -1,0 +1,87 @@
+import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { ScrollView, StyleSheet, View } from 'react-native'
+
+import HtmlDocument from '@holi/core/components/HtmlDocument'
+import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Check } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors } from '@holi/ui/styles/globalVars'
+
+interface Props {
+  checkTextCountList?: number[]
+}
+
+const TrackingGeneralContentDescription = ({ checkTextCountList = [1, 2, 3] }: Props) => {
+  const { t } = useTranslation()
+  const { visible, show, hide } = useModalState()
+  const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
+
+  const documentURL = useDocumentURL('dataProcessing')
+
+  const onDocumentLoadError = (err?: Error | number) => {
+    hide()
+    if (err instanceof HoliBadRequestError) {
+      openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR)
+    } else {
+      displayError(err, 'Failed to load document', {
+        location: 'AcceptDocumentLayout.onDocumentLoadError',
+        documentURL,
+      })
+    }
+  }
+
+  return (
+    <>
+      <HoliText>
+        <Trans t={t} i18nKey={'tracking.consentModal.general.description'}>
+          <HoliTextLink label="" href="" onPress={show} />
+        </Trans>
+      </HoliText>
+
+      <HoliGap size="m" />
+
+      {checkTextCountList.map((checkNum, idx) => (
+        <View key={checkNum} style={[styles.flexRow, idx > 0 && styles.checkSection]}>
+          <HoliIcon icon={Check} color={colors.brandColorB30} />
+          <HoliGap size="xs" direction="horizontal" />
+          <HoliText style={styles.checkText}>
+            {t(`tracking.consentModal.general.description.check_${checkNum}`)}
+          </HoliText>
+        </View>
+      ))}
+
+      <HoliModal label="" show={visible} onShow={show} onDismiss={hide} autoHeight={false} relativeHeight={1}>
+        <ScrollView>
+          <HoliContainer>
+            <HtmlDocument url={documentURL} onError={onDocumentLoadError} />
+          </HoliContainer>
+          <HoliGap size="l" />
+        </ScrollView>
+      </HoliModal>
+    </>
+  )
+}
+
+export default TrackingGeneralContentDescription
+
+const styles = StyleSheet.create({
+  checkSection: {
+    paddingTop: 12,
+  },
+  checkText: {
+    flexShrink: 1,
+  },
+  flexRow: {
+    flexDirection: 'row',
+  },
+})
