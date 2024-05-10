@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
 import HoliHead from '@holi/core/components/HoliHead'
+import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { featureFlag } from '@holi/web/environment'
@@ -53,6 +54,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
+  const { customProps: { seoTitle } = {} } = pageProps
   return (
     <TrackingProvider>
       <HoliHead
@@ -64,7 +66,10 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       />
 
       {featureFlag.enableSSR ? (
-        <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
+        <SSRRootProvider pageProps={pageProps}>
+          <SeoTitle seoTitle={seoTitle} />
+          {getLayout(<Component {...pageProps} />)}
+        </SSRRootProvider>
       ) : (
         <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
       )}

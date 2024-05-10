@@ -111,7 +111,9 @@ const StorageWidget: React.FC<StorageWidgetProps> = ({ space, style }) => {
                       resizeMode="contain"
                       style={styles.image}
                     />
-                    <HoliHeading level="1">{widget.title}</HoliHeading>
+                    <HoliHeading level="2" size="l">
+                      {widget.title}
+                    </HoliHeading>
                     <HoliText style={styles.text}>
                       <Trans t={t} i18nKey={widget.i18nKey}>
                         <HoliText bold />

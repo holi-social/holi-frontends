@@ -1,4 +1,12 @@
-import { I18nProps } from '@holi/web/helpers/addTranslations'
-import { ApolloStateProps } from '@holi/web/helpers/useApolloSSRClient'
+import type { I18nProps } from '@holi/web/helpers/addTranslations'
+import type { ApolloStateProps } from '@holi/web/helpers/useApolloSSRClient'
 
-export interface NextJSPageProps extends ApolloStateProps, I18nProps, Record<string, unknown> {}
+export interface CustomProps {
+  seoTitle: string
+}
+
+interface ServerSideCustomProps {
+  customProps: Partial<CustomProps>
+}
+
+export interface NextJSPageProps extends ApolloStateProps, I18nProps, ServerSideCustomProps, Record<string, unknown> {}
