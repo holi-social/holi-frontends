@@ -1,27 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Check, Close } from '@holi/icons/src/generated'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export const HoliSwitchSizes = ['small', 'medium', 'large'] as const
 export type HoliSwitchSize = (typeof HoliSwitchSizes)[number]
 export interface HoliSwitchProps {
-  switchOn: boolean
-  onPress?: () => void
+  value: boolean
+  onChange?: (value: boolean) => void
   size?: HoliSwitchSize
   disabled?: boolean
-  circleColor?: string
-  backgroundColor?: string
   duration?: number
   testID?: string
 }
 
 const HoliSwitch: React.FC<HoliSwitchProps> = ({
-  switchOn,
-  onPress,
+  value,
+  onChange,
   size = 'medium',
-  circleColor,
-  backgroundColor,
   disabled = false,
   duration = 300,
   testID,
@@ -32,37 +30,35 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
 
   const circlePosXEnd = 44
   const circlePosXStart = 4
-  const [on, setOn] = useState(switchOn)
   const prevSwitchOnRef = useRef<boolean>()
   const prevSwitchOn = !!prevSwitchOnRef.current
-  const [animXValue] = useState(new Animated.Value(on ? 1 : 0))
+  const [animXValue] = useState(new Animated.Value(value ? 1 : 0))
 
   useEffect(() => {
     const runAnimation = (): void => {
       const animValue = {
-        fromValue: on ? 0 : 1,
-        toValue: on ? 1 : 0,
+        fromValue: value ? 0 : 1,
+        toValue: value ? 1 : 0,
         duration,
         useNativeDriver: false,
       }
       Animated.timing(animXValue, animValue).start()
     }
-    prevSwitchOnRef.current = on
-    if (prevSwitchOn !== on) runAnimation()
-  }, [prevSwitchOn, on, animXValue, duration])
+    prevSwitchOnRef.current = value
+    if (prevSwitchOn !== value) runAnimation()
+  }, [prevSwitchOn, value, animXValue, duration])
 
   const handleOnPress = (): void => {
     if (disabled) return
-    setOn(!on)
-    onPress && onPress()
+    onChange?.(!value)
   }
+
+  let circleColor: string = colors.background10
+  let backgroundColor: string = value ? colors.brandB300 : colors.gray300
 
   if (disabled) {
     circleColor = colors.background10
     backgroundColor = colors.foreground10
-  } else {
-    circleColor = circleColor || colors.background10
-    backgroundColor = backgroundColor || colors.brandB300
   }
 
   return (
@@ -76,7 +72,7 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
             borderColor: 'transparent',
             backgroundColor: animXValue.interpolate({
               inputRange: [0, 1],
-              outputRange: [backgroundColor || colors.background10, backgroundColor || colors.background10],
+              outputRange: [backgroundColor, backgroundColor],
             }),
           },
         ]}
@@ -86,10 +82,7 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
             styles.circle,
             getSizeStyles(size),
             {
-              backgroundColor: animXValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [circleColor, circleColor] as string[] | number[],
-              }),
+              backgroundColor: circleColor,
             },
             {
               transform: [
@@ -102,7 +95,13 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
               ],
             },
           ]}
-        />
+        >
+          {value ? (
+            <HoliIcon icon={Check} color={colors.brandB300} size={26} />
+          ) : (
+            <HoliIcon icon={Close} color={colors.gray300} size={26} />
+          )}
+        </Animated.View>
       </Animated.View>
     </TouchableOpacity>
   )
@@ -129,9 +128,11 @@ const getStyles = () =>
       borderRadius: 100,
     },
     circle: {
-      width: 32,
-      height: 32,
+      alignItems: 'center',
+      justifyContent: 'center',
       borderRadius: 100,
+      height: 32,
+      width: 32,
     },
   })
 

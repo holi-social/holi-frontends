@@ -1,4 +1,11 @@
-export const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'openSource', 'termsOfUse'] as const
+export const docTypes = [
+  'imprint',
+  'privacyPolicy',
+  'communityGuidelines',
+  'openSource',
+  'termsOfUse',
+  'dataProcessing',
+] as const
 
 export type DocType = (typeof docTypes)[number]
 

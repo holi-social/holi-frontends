@@ -8,7 +8,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { FolderUser, Hearts, Newspaper, Pages, Tools } from '@holi/icons/src/generated'
+import { FolderUser, Hearts, IdCard, Newspaper, Pages, Tools } from '@holi/icons/src/generated'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const LegalDocuments = () => {
@@ -33,6 +33,14 @@ const LegalDocuments = () => {
             onPress={() => navigate('/profile/settings/legalDocuments/document?type=imprint')}
             style={styles.item}
             testID="btn-imprint"
+          />
+          <MoreOptionItem
+            label={t('profile.settings.legalDocuments.dataProcessing')}
+            icon={IdCard}
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments/document?type=dataProcessing')}
+            style={styles.item}
+            testID="btn-data-processing"
           />
           <MoreOptionItem
             label={t('profile.settings.legalDocuments.privacyPolicy')}
