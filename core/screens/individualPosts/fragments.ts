@@ -3,6 +3,7 @@ import { gql } from '@apollo/client'
 export const FeedPostDetailsFragment = gql`
   fragment FeedPostFull on FeedPost {
     id
+    slug
     title
     slug
     description
