@@ -41,9 +41,11 @@ export interface HoliModalProps extends ModalProps {
   label: string
   onDismiss?: () => void
   heading?: string
+  dismissBtnContent?: React.ReactNode
   relativeHeight?: number
   autoHeight?: boolean
   headerStyle?: ViewStyle
+  desktop?: boolean
   style?: StyleProp<ViewStyle>
   testID?: string
 }
@@ -88,10 +90,12 @@ const HoliModal: React.FC<HoliModalProps> = ({
   label,
   onDismiss,
   heading,
+  dismissBtnContent,
   relativeHeight = 0.9,
   autoHeight = true,
   headerStyle,
   children,
+  desktop = false,
   style,
   testID,
 }) => {
@@ -163,91 +167,99 @@ const HoliModal: React.FC<HoliModalProps> = ({
   const isMobile = Platform.OS !== 'web'
   const isTouchDevice = isWebTouchDevice() || isMobile
 
+  let header: React.ReactNode = null
+  if (isFullscreen || heading || !isTouchDevice) {
+    header = (
+      <View style={styles.heading}>
+        {!!onDismiss && (
+          <View style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}>
+            <HoliButton
+              label={t('modal.backdrop')}
+              onPress={onDismiss}
+              transparent
+              inline
+              testID={`btn-to-close-${testID}`}
+            >
+              {dismissBtnContent || (
+                <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={24} />
+              )}
+            </HoliButton>
+          </View>
+        )}
+
+        {!!heading && (
+          <View style={styles.titleContainer}>
+            <HoliHeading level="2" align="center" ellipsizeMode="tail" numberOfLines={1} testID={`${testID}-heading`}>
+              {heading}
+            </HoliHeading>
+          </View>
+        )}
+      </View>
+    )
+  } else if (isTouchDevice && onDismiss && !heading) {
+    header = (
+      <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
+        <View style={styles.handle}>
+          {onDismiss && (
+            <HoliButton
+              label={t('modal.backdrop')}
+              onPress={onDismiss}
+              transparent
+              style={styles.lineButton}
+              testID={`btn-to-close-${testID}`}
+            >
+              <View style={styles.line} />
+            </HoliButton>
+          )}
+        </View>
+      </PanGestureHandler>
+    )
+  }
+
   return (
     <ModalBasic show={show} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
-      <GestureHandlerRootView style={styles.rootView} accessible={false}>
+      <GestureHandlerRootView style={[styles.rootView, desktop && styles.rootViewDesktop]} accessible={false}>
         <HoliButton
           label={t('modal.backdrop')}
           style={styles.backdrop}
           onPress={onDismiss}
+          disabled={!onDismiss}
           transparent
           testID={`${testID}-backdrop`}
         >
           <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
         </HoliButton>
-        <Animated.View
-          style={[
-            styles.root,
-            {
-              bottom: animShiftInterpolated,
-              transform: [{ translateY: gestureShiftRef.current }],
-              maxHeight: `${height}%`,
-              ...(!autoHeight && { height: `${height}%` }),
-            },
-            isFullscreen && styles.fullscreen,
-            style,
-          ]}
-          onLayout={(event) => {
-            const { height: modalContentHeight } = event.nativeEvent.layout
 
-            if (!autoHeight) {
-              setContentHeight(modalContentHeight)
-            }
-          }}
-          testID={`${testID}-animatedview`}
-        >
-          <View style={[styles.headerContainer, headerStyle]}>
-            {/* not fullscreen modal on touch device */}
-            {!isFullscreen && isTouchDevice ? (
-              <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-                <View style={styles.handle}>
-                  {onDismiss && (
-                    <HoliButton
-                      label={t('modal.backdrop')}
-                      onPress={onDismiss}
-                      transparent
-                      style={styles.lineButton}
-                      testID={`btn-to-close-${testID}`}
-                    >
-                      <View style={styles.line} />
-                    </HoliButton>
-                  )}
-                </View>
-              </PanGestureHandler>
-            ) : !!onDismiss || !!heading ? (
-              <View style={styles.heading}>
-                {!!onDismiss && (
-                  <HoliButton
-                    label={t('modal.backdrop')}
-                    style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
-                    onPress={onDismiss}
-                    transparent
-                    testID={`btn-to-close-${testID}`}
-                  >
-                    <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={25} />
-                  </HoliButton>
-                )}
+        {desktop ? (
+          <Animated.View style={[styles.rootDesktop, style]}>{children}</Animated.View>
+        ) : (
+          <Animated.View
+            style={[
+              styles.root,
+              {
+                bottom: animShiftInterpolated,
+                transform: [{ translateY: gestureShiftRef.current }],
+                maxHeight: `${height}%`,
+                ...(!autoHeight && { height: `${height}%` }),
+              },
+              isFullscreen && styles.fullscreen,
+              style,
+            ]}
+            onLayout={(event) => {
+              const { height: modalContentHeight } = event.nativeEvent.layout
 
-                {!!heading && (
-                  <View style={styles.titleContainer}>
-                    <HoliHeading
-                      level="2"
-                      align="center"
-                      ellipsizeMode="tail"
-                      numberOfLines={1}
-                      testID={`${testID}-heading`}
-                    >
-                      {heading}
-                    </HoliHeading>
-                  </View>
-                )}
-              </View>
-            ) : null}
-          </View>
-          {/** SafeAreaProvider needed to avoid NextJS warnings */}
-          {Platform.OS === 'web' && <SafeAreaProvider>{children}</SafeAreaProvider>}
-          {Platform.OS !== 'web' && children}
-        </Animated.View>
+              if (!autoHeight) {
+                setContentHeight(modalContentHeight)
+              }
+            }}
+            testID={`${testID}-animatedview`}
+          >
+            <View style={[styles.headerContainer, headerStyle]}>{header}</View>
+            {/** SafeAreaProvider needed to avoid NextJS warnings */}
+            {Platform.OS === 'web' && <SafeAreaProvider>{children}</SafeAreaProvider>}
+            {Platform.OS !== 'web' && children}
+          </Animated.View>
+        )}
       </GestureHandlerRootView>
     </ModalBasic>
   )
@@ -261,6 +273,10 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       justifyContent: 'flex-end',
     },
+    rootViewDesktop: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     root: {
       backgroundColor: theme.colors.background10,
       borderTopLeftRadius: 24,
@@ -270,6 +286,21 @@ const getStyles = (theme: HoliTheme) =>
       shadowOffset: {
         width: 0,
         height: 0,
+      },
+    },
+    rootDesktop: {
+      backgroundColor: theme.colors.background10,
+      borderColor: theme.colors.black300,
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderRadius: 16,
+      overflow: 'hidden',
+      shadowColor: theme.colors.black300at12percent,
+      marginHorizontal: 24,
+      maxHeight: '95%',
+      shadowOffset: {
+        width: 0,
+        height: 5,
       },
     },
     fullscreen: {
@@ -315,19 +346,19 @@ const getStyles = (theme: HoliTheme) =>
     },
     dismissIcon: {
       alignSelf: 'flex-end',
-      paddingHorizontal: 15,
+      padding: 12,
       position: 'absolute',
       width: 'auto',
       zIndex: 1,
-      right: 0,
-      top: 0,
+      right: 12,
+      top: -12,
     },
     dismissIconMobile: {
-      left: 0,
+      left: 12,
+      right: 'auto',
     },
     heading: {
       marginTop: 20,
-      height: 30,
       width: '100%',
       position: 'relative',
       alignItems: 'center',

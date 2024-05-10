@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -24,6 +25,9 @@ import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
+import { trackingEnabled } from '@holi/core/tracking/config'
+import { ConsentState } from '@holi/core/tracking/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -52,6 +56,9 @@ const HomeFeed = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+
+  const consentState = useConsentState()
+  const needsConsentPermission = ConsentState.isUnknown(consentState)
 
   const { ftEnabled: ftEnabledDonations, ftPreview: ftPreviewDonations } = useFeatureToggle(
     FeatureToggleName.APPS_DONATIONS
@@ -137,6 +144,8 @@ const HomeFeed = () => {
 
       {/* Floating CreatePostButton need to be outside of the Layout */}
       {ftEnabledPosts && <CreatePostButton />}
+
+      {trackingEnabled() && needsConsentPermission && <TrackingConsentModal />}
     </>
   )
 }

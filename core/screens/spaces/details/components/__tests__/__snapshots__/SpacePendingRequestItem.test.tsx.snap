@@ -998,10 +998,13 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
     <View
       accessible={false}
       style={
-        {
-          "flex": 1,
-          "justifyContent": "flex-end",
-        }
+        [
+          {
+            "flex": 1,
+            "justifyContent": "flex-end",
+          },
+          false,
+        ]
       }
     >
       <View

@@ -49,7 +49,7 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
     <>
       {document ? (
         <ScrollHeaderLayout.Default style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }}>
-          <HoliHtmlView html={document} style={{ paddingTop: 4 /* otherwise, the headline is cut off slightly */ }} />{' '}
+          <HoliHtmlView html={document} />
         </ScrollHeaderLayout.Default>
       ) : (
         <HoliLoader style={{ minHeight: 300 }} />
