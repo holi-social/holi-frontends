@@ -11600,11 +11600,11 @@ __metadata:
   linkType: hard
 
 "@types/lodash.at@npm:^4.6.7":
-  version: 4.6.7
-  resolution: "@types/lodash.at@npm:4.6.7"
+  version: 4.6.9
+  resolution: "@types/lodash.at@npm:4.6.9"
   dependencies:
     "@types/lodash": "npm:*"
-  checksum: 10c0/8d65d6527a63230d7362ea8e15895cd951ef5d8fe948f8f4de8d6eeab415cc1dc2925c9902f5abff7e66ac4fe5502bc0842b1fa36fc63306405c217c0bcc44ce
+  checksum: 10c0/7e94fd5e7b7f36d4dc71fa3298b9b2738680382560c7a0dadf3e9fa5a5c63b97e3b5b0ff5508c1b37781ea1227cd6f9ed3c35e0c6a3251d415b9ba510976ab95
   languageName: node
   linkType: hard
 
