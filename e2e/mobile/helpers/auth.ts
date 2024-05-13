@@ -110,6 +110,7 @@ export const logout = async () => {
   }
 
   await tapOnElementWithTestId('btn-to-home-view')
+  await tapOnElementWithTestId('btn-consentModal-acceptAll')
 }
 
 export const deleteAccount = async () => {
