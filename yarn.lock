@@ -11609,11 +11609,11 @@ __metadata:
   linkType: hard
 
 "@types/lodash.debounce@npm:^4.0.7":
-  version: 4.0.7
-  resolution: "@types/lodash.debounce@npm:4.0.7"
+  version: 4.0.9
+  resolution: "@types/lodash.debounce@npm:4.0.9"
   dependencies:
     "@types/lodash": "npm:*"
-  checksum: 10c0/8d4063d40f82900b6ac6b52429a05bdce5925084f03b83e49fbae656986ceab836857490ee8140133d3270c6bdbc0a6e74be9e9e0bff871ded7e42e2a811b729
+  checksum: 10c0/9fbb24e5e52616faf60ba5c82d8c6517f4b86fc6e9ab353b4c56c0760f63d9bf53af3f2d8f6c37efa48090359fb96dba1087d497758511f6c40677002191d042
   languageName: node
   linkType: hard
 
