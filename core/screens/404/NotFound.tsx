@@ -33,9 +33,9 @@ const NotFound = () => {
       headerLeft: () => (
         <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+            imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
             isSvg
-            width={78}
+            width={56}
             height={24}
             label={t('navigation.title')}
           />

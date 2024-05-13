@@ -59,17 +59,17 @@ const PostDetailsPage = () => {
       <HoliButton transparent inline label={'btn-navigate-to-home-feed'} onPress={() => navigate('/')}>
         {theme.dark ? (
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
+            imageSource={require('@holi/ui/assets/img/holi/holi_white.svg')}
             isSvg
-            width={78}
+            width={56}
             height={24}
             label={t('navigation.title')}
           />
         ) : (
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+            imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
             isSvg
-            width={78}
+            width={56}
             height={24}
             label={t('navigation.title')}
           />
