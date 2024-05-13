@@ -186,6 +186,8 @@ function mapToNotification(
         content: message.content.toString(),
       }
     case NovuNotificationType.CHALLENGE_APPROVAL:
+    case NovuNotificationType.CHALLENGE_NEW_COMMENT:
+    case NovuNotificationType.CHALLENGE_KEEP_STREAK:
       return {
         id: message._id,
         notificationType,
