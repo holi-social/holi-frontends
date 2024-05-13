@@ -102,26 +102,47 @@ export const finishAccountSetup = async ({
   delay(10)
 }
 
-export const logout = async () => {
+const logoutOrDelete = async (fn: () => Promise<void>) => {
+  let consent = false
   if (await navigateToSettings()) {
+    await fn()
     await tapOnElementWithTestId('btn-to-logout')
     await tapOnElementWithTestId('modal-logout-confirmation-confirm')
+    await waitForAnyElementWithTestId(['already-have-account-text', 'btn-consentModal-acceptAll'])
+    if (await checkIfElementWithTestIdExists('btn-consentModal-acceptAll')) {
+      await tapOnElementWithTestId('btn-consentModal-acceptAll')
+      consent = true
+    }
     await waitForElementWithTestId('already-have-account-text', 15000)
+  } else {
+    consent = true
   }
 
+  await waitForAnyElementWithTestId(['btn-to-home-view', 'btn-consentModal-acceptAll'])
+  if (await checkIfElementWithTestIdExists('btn-consentModal-acceptAll')) {
+    await tapOnElementWithTestId('btn-consentModal-acceptAll')
+    consent = true
+  }
   await tapOnElementWithTestId('btn-to-home-view')
-  await tapOnElementWithTestId('btn-consentModal-acceptAll')
+
+  if (!consent) {
+    await tapOnElementWithTestId('btn-consentModal-acceptAll')
+  }
+}
+
+export const logout = async () => {
+  await logoutOrDelete(async () => {
+    await tapOnElementWithTestId('btn-to-logout')
+    await tapOnElementWithTestId('modal-logout-confirmation-confirm')
+  })
 }
 
 export const deleteAccount = async () => {
-  if (await navigateToSettings()) {
+  await logoutOrDelete(async () => {
     await tapOnElementWithTestId('btn-your-account')
     await tapOnElementWithTestId('btn-delete-account')
     await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
-    await waitForElementWithTestId('already-have-account-text', 15000)
-  }
-
-  await tapOnElementWithTestId('btn-to-home-view')
+  })
 }
 
 const navigateToSettings = async () => {
