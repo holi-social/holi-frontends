@@ -9,6 +9,7 @@ import defaultTheme, { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HoliHeadingLevel = '1' | '2' | '3'
 export type HoliHeadingSize = 'xl' | 'l' | 'm' | 's'
+export type HoliHeadingWeight = '300' | '400' | '500'
 
 const defaultSizes: { [key in HoliHeadingLevel]: HoliHeadingSize } = {
   1: 'l',
@@ -18,6 +19,7 @@ const defaultSizes: { [key in HoliHeadingLevel]: HoliHeadingSize } = {
 
 export type HoliHeadingProps = {
   size?: HoliHeadingSize
+  weight?: HoliHeadingWeight
   level?: HoliHeadingLevel
   italic?: boolean
   align?: TextStyle['textAlign']
@@ -33,6 +35,7 @@ export const HoliHeading = ({
   children,
   level = '2',
   size = defaultSizes[level],
+  weight, // should not have a default value! It uses default value from "styles.base"
   italic = false,
   align,
   selectable = true,
@@ -72,6 +75,7 @@ export const HoliHeading = ({
         styles[size],
         italicStyle,
         alignmentStyle,
+        weight && { fontWeight: weight },
         { userSelect: selectable ? 'auto' : 'none' },
       ])}
       testID={testID}

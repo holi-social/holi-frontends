@@ -7,6 +7,7 @@ import { createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 
 export interface BoxLayoutProps {
   display?: FlexStyle['display']
+  flexDirection?: FlexStyle['flexDirection']
   alignItems?: FlexAlignType
   alignSelf?: 'auto' | FlexAlignType
   justifyContent?: FlexStyle['justifyContent']

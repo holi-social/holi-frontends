@@ -5,7 +5,11 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+<<<<<<< HEAD
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+=======
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+>>>>>>> 42281ebeb70212ebc0044c9545513410379704f0
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
@@ -50,10 +54,6 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
     setShowConfirmationModal(true)
   }
 
-  const shareFeedPostActionHandler = () => {
-    return
-  }
-
   const editFeedPostActionHandler = () => {
     navigate(`/feed-posts/${post.id}/edit`)
   }
@@ -61,6 +61,12 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
   const reportFeedPostActionHandler = () => {
     return
   }
+
+  const [, shareLink] = useShareLink({
+    link: `/feed-posts/${post.slug}`,
+    linkType: LinkType.UNIVERSAL,
+    message: post.title,
+  })
 
   return (
     isLoggedIn && (
@@ -74,8 +80,9 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
             icon={Share}
             title={t('global.share')}
             testID="btn-share-post"
-            handleAction={shareFeedPostActionHandler}
+            handleAction={shareLink}
           />
+
           {post.creator.id === userId ? (
             <>
               <HoliActionDrawer.Action

@@ -49,8 +49,8 @@ export namespace ConsentState {
     [TrackingPurpose.Analytics]: Consent.Unknown,
     [TrackingPurpose.Personalization]: Consent.Unknown,
   }
-  export const isUnknown = (cs: ConsentState): boolean =>
-    cs.ANALYTICS === Consent.Unknown && cs.PERSONALIZATION === Consent.Unknown
+  export const isUnknown = (cs: ConsentState): boolean => Object.values(cs).every((value) => value === Consent.Unknown)
+
   export const fromUser = (user: AuthenticatedUser): ConsentState => ({
     [TrackingPurpose.Analytics]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentAnalytics),
     [TrackingPurpose.Personalization]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentPersonalization),

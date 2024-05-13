@@ -1,5 +1,5 @@
 import { ApolloClient, ReactiveVar, makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
-import React, { memo, useEffect, useMemo } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 
 import { getLogger } from '@holi/core/helpers/logging'
 import {
@@ -10,6 +10,7 @@ import {
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { consentStore } from '@holi/core/tracking/ConsentStore'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { trackingEnabled } from '@holi/core/tracking/config'
@@ -187,6 +188,27 @@ export const userLoggedOut = (): void => {
     state: currentState.state,
     processing: { trigger: 'userLoggedOut' },
   })
+}
+
+export const useConsentState = (): ConsentState => {
+  const user = useLoggedInUser()
+  const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
+  const apollo: ApolloClient<object> = useApolloClient()
+  const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
+
+  const [consentState, setConsentState] = useState<ConsentState>(ConsentState.unknown)
+
+  useEffect(() => {
+    if (trackingEnabled()) {
+      if (user.isLoggedIn) {
+        setConsentState(ConsentState.fromUser(user.user))
+      } else {
+        tracking.loadConsentStateFromLocalStorage().then(setConsentState)
+      }
+    }
+  }, [tracking, user.isLoading, user.isLoggedIn, user.user])
+
+  return consentState
 }
 
 export interface TrackingInitializerProps extends TrackingInitializerInnerProps {

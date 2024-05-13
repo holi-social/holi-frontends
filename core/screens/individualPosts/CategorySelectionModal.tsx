@@ -8,6 +8,7 @@ import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPo
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -49,7 +50,13 @@ export const CategorySelectionModal: React.FC<{
               onPress={() => props.onCategorySelection(category.id)}
             >
               <View style={styles.categoryContent}>
-                <HoliLocalImageimageSource={category.image} width={40} height={40} isSvg label={''} />
+                <HoliLocalImage
+                  imageSource={category.image as StaticImageData}
+                  width={40}
+                  height={40}
+                  isSvg
+                  label={category.name}
+                />
                 <HoliText bold>{category.name}</HoliText>
               </View>
             </Pressable>

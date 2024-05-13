@@ -4,6 +4,7 @@ import React from 'react'
 
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
+import RouteChangeListener from '@holi/core/components/RouteChangeListener'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
@@ -34,6 +35,8 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
               </LoginModalProvider>
             </ToastProvider>
           </PortalProvider>
+
+          <RouteChangeListener />
         </ApolloProvider>
       </ErrorBoundary>
     </ThemeProvider>

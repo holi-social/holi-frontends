@@ -70,10 +70,9 @@ export const useShareLink = ({ link, message, linkType = LinkType.DEEP }: UseSha
   }, [message, displayError])
 
   const shareLinkWeb = useCallback(async () => {
-    const messageWithUrl = message + (message && '\n') + url.current
-    Clipboard.setString(messageWithUrl)
+    Clipboard.setString(url.current)
     openToast(t('global.share.copied'), HoliToastType.SUCCESS)
-  }, [message, openToast, t])
+  }, [openToast, t])
 
   const shareLink = Platform.OS === 'web' ? shareLinkWeb : shareLinkMobile
 
