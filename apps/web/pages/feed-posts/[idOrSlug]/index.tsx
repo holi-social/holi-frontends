@@ -13,15 +13,15 @@ const FeedPostPage: NextPage = () => (
 )
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const { slug } = context.query
+  const { idOrSlug } = context.query
 
   const queries = [
     {
       query: postQuery,
       variables: {
-        idOrSlug: slug,
+        idOrSlug,
       },
-      skip: !slug,
+      skip: !idOrSlug,
     },
   ]
 
