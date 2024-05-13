@@ -65,13 +65,13 @@ const EditPost = () => {
 
   const [updateFeedPost] = useMutation<UpdateFeedPostResponse>(updateFeedPostMutation, {
     onCompleted: () => {
-      openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
+      openToast(t('individuals.post.edit.success'), HoliToastType.SUCCESS)
       navigateBack()
     },
     onError: (error) => {
       alert(error)
     },
-    refetchQueries: [{ query: myPostsQuery }, 'MyPosts', { query: feedPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
   })
 
   const editPost = () => {
@@ -87,10 +87,10 @@ const EditPost = () => {
           image: image === null ? null : image?.blob,
         },
       },
-      onError: () => openToast(t('individuals.post.input.error'), HoliToastType.ERROR),
+      onError: () => openToast(t('individuals.post.edit.error'), HoliToastType.ERROR),
     })
       .catch(() => {
-        openToast(t('individuals.post.input.error'), HoliToastType.ERROR)
+        openToast(t('individuals.post.edit.error'), HoliToastType.ERROR)
       })
       .finally(() => setSubmitting(false))
   }
@@ -108,7 +108,7 @@ const EditPost = () => {
     setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="s">
-          {t('individuals.post.input.title')}
+          {t('individuals.post.edit.title')}
         </HoliHeading>
       ),
       headerTransparent: true,
