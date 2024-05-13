@@ -241,11 +241,6 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: 6,
       paddingHorizontal: 10,
       maxWidth: '100%',
-      ...Platform.select({
-        web: {
-          marginLeft: -10,
-        },
-      }),
     },
     container: {
       paddingTop: 24,
