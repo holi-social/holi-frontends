@@ -5,8 +5,10 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import useReportContent from '@holi/core/hooks/useReportContent'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { ContentType } from '@holi/core/queries'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
@@ -28,6 +30,11 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
   const { userId, isLoggedIn } = useAuth()
   const { navigate } = useRouting()
 
+  const [isLoadingReport, reportContent] = useReportContent({
+    id: post?.id || '',
+    contentType: ContentType.FEED_POST,
+    successMsg: t('global.report.successMessage'),
+  })
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const [deleteFeedPost] = useMutation<DeleteFeedPostResponse>(deleteFeedPostMutation, {
@@ -53,10 +60,6 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
 
   const editFeedPostActionHandler = () => {
     navigate(`/feed-posts/${post.id}/edit`)
-  }
-
-  const reportFeedPostActionHandler = () => {
-    return
   }
 
   const [, shareLink] = useShareLink({
@@ -98,11 +101,20 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
             </>
           ) : (
             <HoliActionDrawer.Action
+              isLoading={isLoadingReport}
               icon={Flag}
               title={t('global.report')}
               testID="btn-report-post"
-              handleAction={reportFeedPostActionHandler}
-            />
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={t('insights.post.report.confirmation.title')}
+                description={t('insights.post.report.confirmation.description')}
+                handleConfirmation={reportContent}
+                hasDismissBtn
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
           )}
         </HoliActionDrawer.Drawer>
         <HoliConfirmation
