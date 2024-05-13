@@ -32,7 +32,7 @@ const EmptyPosts = () => {
           {t('individuals.post.emptyPrompt')}
         </HoliText>
       </View>
-      <HoliButton inline label={t('individuals.post.input.first')} onPress={() => navigate('/createPost')}>
+      <HoliButton inline label={t('individuals.post.input.first')} onPress={() => navigate('/feed-posts/create')}>
         {t('individuals.post.input.first')}
       </HoliButton>
     </View>

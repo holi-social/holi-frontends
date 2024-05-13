@@ -132,7 +132,7 @@ const getStyles = (theme: HoliTheme) =>
       alignSelf: 'flex-start',
     },
     categoryPill: {
-      backgroundColor: theme.colors.brandA100,
+      backgroundColor: theme.dark ? theme.colors.brandA300 : theme.colors.brandA100,
     },
     badgeContainer: {
       flexDirection: 'row',

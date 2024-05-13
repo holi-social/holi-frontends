@@ -66,6 +66,7 @@ export const feedPostsQuery = gql`
     }
   }
 `
+
 export const postQuery = gql`
   ${FeedPostDetailsFragment}
 
