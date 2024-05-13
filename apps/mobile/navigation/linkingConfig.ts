@@ -151,8 +151,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
     [RouteName.FeedPosts]: {
       screens: {
-        [RouteName.FeedPostDetailsPage]: 'feedPosts/:slug',
-        [RouteName.FeedPostCommentInputPage]: 'feedPosts/:slug/comment',
+        [RouteName.FeedPostDetailsPage]: 'feed-posts/:slug',
+        [RouteName.FeedPostCommentInputPage]: 'feed-posts/:slug/comment',
       },
     },
   },

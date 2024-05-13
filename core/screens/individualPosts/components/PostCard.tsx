@@ -31,7 +31,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
 
-  const goToDetailView = () => navigate(`/feedPosts/${post.slug}`)
+  const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
 
   //TODO: replace with real data
   const comments: readonly Comment[] = []

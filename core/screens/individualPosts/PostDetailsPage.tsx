@@ -134,7 +134,7 @@ const PostDetailsPage = () => {
 
   const onPressCreateComment = () =>
     isLoggedIn
-      ? navigate(`/feedPosts/${slug}/comment`)
+      ? navigate(`/feed-posts/${slug}/comment`)
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
         })
