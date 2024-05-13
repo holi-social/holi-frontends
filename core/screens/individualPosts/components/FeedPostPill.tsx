@@ -105,7 +105,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.brandColorC10,
     },
     category: {
-      backgroundColor: theme.colors.brandA100,
+      backgroundColor: theme.dark ? theme.colors.brandA300 : theme.colors.brandA100,
     },
     buttonContent: {
       borderColor: theme.colors.foreground30,

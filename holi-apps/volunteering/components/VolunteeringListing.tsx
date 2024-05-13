@@ -107,7 +107,9 @@ const VolunteeringListing = ({
     <View style={[mixins.container, styles.list]}>
       {engagements.length > 0 && (
         <View>
-          <HoliHeading level="1">{t('volunteering:listing.headline')}</HoliHeading>
+          <HoliHeading level="2" size="l">
+            {t('volunteering:listing.headline')}
+          </HoliHeading>
           <HoliGap size="s" />
           <PartnerInfoRow
             rowText={t('volunteering:listing.subline')}

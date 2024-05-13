@@ -13,6 +13,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTimePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
@@ -135,6 +136,9 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
   const [permissionTypeOptions, setPermissionTypeOptions] = useState<HoliModalSelectOption[]>(PERMISSION_TYPE_OPTIONS)
 
   const [titleError, setTitleError] = useState<string | undefined>()
+
+  const { show: showInviteOnly, hide: hideInviteOnly, visible: visibleInviteOnly } = useModalState()
+  const { show: showPermissionType, hide: hidePermissionType, visible: visiblePermissionType } = useModalState()
 
   const { t } = useTranslation()
 
@@ -261,6 +265,9 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
           style={styles.marginSeparator}
           showOptionIcon
           isRequired
+          show={showInviteOnly}
+          hide={hideInviteOnly}
+          visible={visibleInviteOnly}
         />
       )}
 
@@ -427,6 +434,9 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
           description={t('spaces.appointments.input.permission.description')}
           showOptionIcon
           isRequired
+          show={showPermissionType}
+          hide={hidePermissionType}
+          visible={visiblePermissionType}
         />
       </View>
     </>

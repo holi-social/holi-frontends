@@ -53,3 +53,30 @@ export const postsByUserIdQuery = gql`
 export type PostsByUserIdQueryResponse = {
   postsByUserId: Paged<FeedPost>
 }
+
+export const feedPostsQuery = gql`
+  ${FeedPostDetailsFragment}
+
+  query FeedPosts($offset: Int! = 0, $limit: Int! = 10) {
+    feedPosts(offset: $offset, limit: $limit) {
+      data {
+        ...FeedPostFull
+      }
+      totalResults
+    }
+  }
+`
+
+export const postQuery = gql`
+  ${FeedPostDetailsFragment}
+
+  query post($idOrSlug: String!) {
+    post(idOrSlug: $idOrSlug) {
+      ...FeedPostFull
+    }
+  }
+`
+
+export type PostQueryResponse = {
+  post: FeedPost
+}

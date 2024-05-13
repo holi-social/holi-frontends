@@ -6,6 +6,7 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
+import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
@@ -14,6 +15,7 @@ import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
+import FeedPostsNavigator from '@holi/mobile/navigation/FeedPostsNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
@@ -47,6 +49,8 @@ export type RootStackScreens = {
   [RouteName.Favorites]: undefined
 
   [RouteName.CreatePost]: undefined
+  [RouteName.EditPost]: undefined
+  [RouteName.FeedPosts]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -72,6 +76,8 @@ const RootNavigator = () => {
       {/* ChatHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.ChatStack} component={ChatStackNavigator} options={{ headerShown: false }} />
 
+      {/* FeedPosts */}
+      <RootStack.Screen name={RouteName.FeedPosts} component={FeedPostsNavigator} options={{ headerShown: false }} />
       <RootStack.Screen
         name={RouteName.VideoCall}
         component={VideoCall}
@@ -165,6 +171,18 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.CreatePost}
         component={CreatePost}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: true,
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: colors.background20,
+          },
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.EditPost}
+        component={EditPost}
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,

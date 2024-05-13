@@ -7,8 +7,22 @@ export enum VisibilityLevel {
 
 export type Category = Term
 
+export enum ReactionType {
+  HEART = 'HEART',
+}
+
+export enum ReactionAction {
+  'SET' = 'SET',
+  'REMOVE' = 'REMOVE',
+}
+
+export interface ReactionCounts {
+  HEART: number
+}
+
 export interface FeedPost {
   id: string
+  slug: string
   title: string
   description: string
   image?: string
@@ -18,4 +32,6 @@ export interface FeedPost {
   creator: User
   createdAt: string
   imageBlurhash?: string
+  reactions: ReactionCounts
+  myReaction: ReactionCounts
 }

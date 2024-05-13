@@ -1,95 +1,83 @@
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const CreatePostButton: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
-  const { colors } = theme
+  const styles = useMemo(() => getStyles(), [])
   const { openLoginModal } = useLoginModal()
 
-  const { userId } = useAuth()
+  const { isLoggedIn } = useAuth()
 
   const navigateToCreatePost = useCallback(() => {
-    if (!userId) {
+    if (!isLoggedIn) {
       openLoginModal({
         title: t('individuals.post.login.title'),
         description: t('individuals.post.login.text'),
       })
     } else {
-      navigate('/createPost')
+      navigate('/feed-posts/create')
     }
-  }, [navigate, openLoginModal, t, userId])
+  }, [navigate, openLoginModal, t, isLoggedIn])
 
   return (
-    <>
-      <View
-        style={[
-          styles.overlayContainer,
-          // @ts-ignore percentage only supported and used for web
-          { transform: [{ translateX: Platform.OS === 'web' ? '-50%' : -screenOffset }] },
-        ]}
-      >
-        <HoliButton
-          label={t('individuals.post.create.title')}
-          testID="create-post-button"
-          style={styles.overlayButton}
-          transparent={Platform.OS !== 'web'}
-          onPress={() => {
-            navigateToCreatePost()
-          }}
-        >
-          <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
-        </HoliButton>
-      </View>
-    </>
+    <View style={styles.floatingContainer}>
+      <HoliContainer flexDirection="row" justifyContent="flex-end">
+        <View>
+          <HoliButton
+            label={t('individuals.post.create.title')}
+            testID="create-post-button"
+            inline
+            style={styles.button}
+            onPress={() => {
+              navigateToCreatePost()
+            }}
+          >
+            <HoliIcon icon={Pencil} size={24} />
+          </HoliButton>
+        </View>
+      </HoliContainer>
+    </View>
   )
 }
 
 export default CreatePostButton
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
-    overlayContainer: {
-      width: '100%',
-      maxWidth: dimensions.maxScreenWidth,
-      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-      bottom: (Platform.OS === 'web' ? dimensions.bottomBarHeight : 0) + 16,
-      alignItems: 'flex-end',
-      left: '50%',
+    floatingContainer: {
+      ...Platform.select({
+        web: {
+          position: 'fixed',
+          bottom: dimensions.bottomBarHeight,
+        },
+        native: {
+          position: 'absolute',
+          bottom: 0,
+        },
+      }),
+      left: 0,
+      right: 0,
     },
-    overlayButton: {
-      transform: [{ translateX: -16 }],
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 20,
-      borderColor: theme.colors.foreground30,
+    button: {
+      position: 'absolute',
+      bottom: Spacing.xxs,
+      right: 0,
+      marginRight: -4,
+      borderRadius: 28,
       borderWidth: 1,
-      borderRadius: 84,
-      shadowColor: theme.colors.foreground30,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      height: 56,
-      width: 56,
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 4,
-      overflow: 'visible',
-      backgroundColor: theme.colors.brandColorA20,
+      paddingHorizontal: 14,
+      paddingVertical: 14,
     },
   })

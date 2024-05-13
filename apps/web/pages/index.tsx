@@ -4,6 +4,8 @@ import React from 'react'
 import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
 import { POSTS_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { FEED_POSTS_PAGE_SIZE } from '@holi/core/screens/individualPosts/components/AllPosts'
+import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
@@ -20,6 +22,12 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const { location } = context.query
 
   const queries = [
+    {
+      query: feedPostsQuery,
+      variables: {
+        limit: FEED_POSTS_PAGE_SIZE,
+      },
+    },
     {
       query: lastInsightsQuery,
       variables: {
@@ -55,7 +63,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, { seoTitle: 'seo.h1.home' })
 }
 
 export default HomeFeedPage

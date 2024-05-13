@@ -55,7 +55,7 @@ const ChatHome = () => {
     return (
       <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
         <HoliContainer>
-          <HoliHeading level="1" size="xl">
+          <HoliHeading level="2" size="xl">
             {' '}
           </HoliHeading>
           <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>

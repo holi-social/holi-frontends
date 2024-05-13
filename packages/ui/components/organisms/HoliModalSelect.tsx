@@ -10,11 +10,12 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
+export type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
 export const HoliModalSelectVariants: HoliModalSelectVariant[] = ['normal', 'dense'] // keep in sync with all possible HoliModalSelectVariant values
 
 export type HoliModalSelectOption<IDType extends string = string> = {
@@ -38,6 +39,10 @@ export type HoliModalSelectProps<IDType extends string = string> = {
   isRequired?: boolean
   variant?: HoliModalSelectVariant
   showOptionIcon?: boolean
+  hideButton?: boolean
+  show: () => void
+  hide: () => void
+  visible: boolean
 }
 
 const HoliModalSelect = <IDType extends string>({
@@ -52,11 +57,14 @@ const HoliModalSelect = <IDType extends string>({
   isRequired,
   variant = 'normal',
   showOptionIcon = false,
+  hideButton = false,
+  show,
+  hide,
+  visible,
 }: HoliModalSelectProps<IDType>) => {
   const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption<IDType> | undefined>()
   const [hovered, setHovered] = useState(false)
 
-  const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
   const { theme } = useTheme()
@@ -84,7 +92,6 @@ const HoliModalSelect = <IDType extends string>({
     (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
         contentStyle={styles.optionCardContent}
-        style={[!isDense && styles.optionCard]}
         label={option.title}
         key={option.id}
         transparent
@@ -123,7 +130,6 @@ const HoliModalSelect = <IDType extends string>({
     ),
     [
       styles.optionCardContent,
-      styles.optionCard,
       styles.optionTextContainer,
       isDense,
       testID,
@@ -135,34 +141,36 @@ const HoliModalSelect = <IDType extends string>({
 
   return (
     <>
-      <View style={style}>
-        {!!label && (
-          <View style={styles.labelWrapper}>
-            <HoliText size="small" bold style={styles.label}>
-              {label}
-              <HoliMandatoryFieldStar show={!!isRequired} />
-            </HoliText>
-          </View>
-        )}
-        <HoliButton
-          label={title}
-          testID={`btn-${testID}`}
-          transparent
-          contentStyle={[styles.button, hovered && styles.buttonHovered]}
-          onPress={show}
-          {...hoverPropsForWeb}
-        >
-          {selectedOption ? (
-            <View style={styles.selectedOptionContainer}>
-              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} />}
-              <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
+      {!hideButton && (
+        <View style={style}>
+          {!!label && (
+            <View style={styles.labelWrapper}>
+              <HoliText size="small" bold style={styles.label}>
+                {label}
+                <HoliMandatoryFieldStar show={!!isRequired} />
+              </HoliText>
             </View>
-          ) : (
-            <HoliText style={styles.placeholder}>{placeholder}</HoliText>
           )}
-          <HoliIcon icon={visible ? ArrowUpS : ArrowDownS} size={22} />
-        </HoliButton>
-      </View>
+          <HoliButton
+            label={title}
+            testID={`btn-${testID}`}
+            transparent
+            contentStyle={[styles.button, hovered && styles.buttonHovered]}
+            onPress={show}
+            {...hoverPropsForWeb}
+          >
+            {selectedOption ? (
+              <View style={styles.selectedOptionContainer}>
+                {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} />}
+                <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
+              </View>
+            ) : (
+              <HoliText style={styles.placeholder}>{placeholder}</HoliText>
+            )}
+            <HoliIcon icon={visible ? ArrowUpS : ArrowDownS} size={22} />
+          </HoliButton>
+        </View>
+      )}
 
       <HoliModal
         show={visible}
@@ -174,12 +182,11 @@ const HoliModalSelect = <IDType extends string>({
         testID={testID}
       >
         <ScrollView style={mixins.container}>
-          <View style={styles.separator}>
-            <HoliBox padding={isDense ? [16, 0, description ? 12 : 24, 0] : 0}>
-              <HoliHeading level="2">{label}</HoliHeading>
-            </HoliBox>
-            {!!description && <HoliText style={styles.description}>{description}</HoliText>}
-          </View>
+          <HoliBox padding={[0, 0, Spacing.xs, 0]}>
+            <HoliHeading level="2">{label}</HoliHeading>
+          </HoliBox>
+          {!!description && <HoliText style={styles.description}>{description}</HoliText>}
+          {isDense && <View style={styles.separator} />}
           <View style={styles.optionsContainer}>{options.map(renderOption)}</View>
         </ScrollView>
       </HoliModal>
@@ -199,8 +206,8 @@ const getStyles = (isDense: boolean, theme: HoliTheme) =>
       color: theme.colors.foreground30,
     },
     button: {
-      paddingVertical: 16,
-      paddingHorizontal: 12,
+      paddingVertical: Spacing.xs,
+      paddingHorizontal: Spacing.xxs,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -220,36 +227,34 @@ const getStyles = (isDense: boolean, theme: HoliTheme) =>
       backgroundColor: isDense ? theme.colors.background10 : theme.colors.background30,
     },
     optionsContainer: {
-      marginTop: isDense ? 12 : 16,
       paddingBottom: 28,
-    },
-    optionCard: {
-      marginTop: 16,
+      gap: isDense ? 0 : Spacing.xs,
     },
     optionCardContent: {
       flex: 1,
       flexDirection: 'row',
       alignItems: 'flex-start',
-      padding: isDense ? undefined : 16,
-      paddingVertical: isDense ? 12 : undefined,
+      padding: isDense ? undefined : Spacing.xs,
+      paddingVertical: isDense ? Spacing.xxs : undefined,
       backgroundColor: theme.colors.background10,
-      borderRadius: 16,
+      borderRadius: Spacing.xs,
       borderWidth: isDense ? 0 : 1,
       borderColor: theme.colors.background30,
     },
     optionTextContainer: {
       flex: 1,
       marginTop: 2,
-      paddingLeft: isDense ? 0 : 8,
-      paddingRight: 8,
+      paddingLeft: isDense ? 0 : Spacing['3xs'],
+      paddingRight: Spacing['3xs'],
     },
     separator: {
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.background30,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      marginBottom: Spacing.xs,
     },
     description: {
       color: theme.colors.foreground20,
-      paddingBottom: 24,
+      paddingBottom: Spacing.xs,
     },
     selectedOptionContainer: {
       flexDirection: 'row',
@@ -257,6 +262,6 @@ const getStyles = (isDense: boolean, theme: HoliTheme) =>
       maxWidth: '90%',
     },
     selectedOptionTitle: {
-      marginLeft: 12,
+      marginLeft: Spacing.xxs,
     },
   })

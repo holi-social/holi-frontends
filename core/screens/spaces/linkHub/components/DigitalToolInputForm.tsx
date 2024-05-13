@@ -8,6 +8,7 @@ import { CollaborationType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -67,6 +68,8 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
   const [titleError, setTitleError] = useState<string | undefined>()
   const [descriptionError, setDescriptionError] = useState<string | undefined>()
 
+  const { show, hide, visible } = useModalState()
+
   useEffect(() => {
     setUrlError(fieldErrors?.url?.[0])
     setDescriptionError(fieldErrors?.description?.[0])
@@ -121,6 +124,9 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
         isRequired={true}
         testID="digital-tool-collection"
         variant="dense"
+        show={show}
+        hide={hide}
+        visible={visible}
       />
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.description.placeholder')}

@@ -124,5 +124,9 @@ export enum RouteName {
   Onboarding = 'Onboarding',
 
   // Individual Posts
+  FeedPosts = 'FeedPosts',
+  FeedPostDetailsPage = 'FeedPostDetailsPage',
+  FeedPostCommentInputPage = 'FeedPostCommentInputPage',
   CreatePost = 'CreatePost',
+  EditPost = 'EditPost',
 }

@@ -12,22 +12,24 @@ import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/typ
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export const PostCreationBar = ({
-  onCreatePost,
+export const SubmitPostBar = ({
+  onSubmit,
   onSetImage,
   hasSetImage,
   submitting,
   isSubmittable,
+  isEdit,
 }: {
-  onCreatePost: () => void
+  onSubmit: () => void
   onSetImage: (image: HoliImageInfo) => void
   hasSetImage: boolean
   submitting: boolean
   isSubmittable: boolean
+  isEdit: boolean
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getPostCreationBarStyles(theme), [theme])
+  const styles = useMemo(() => getSubmitPostBarStyles(theme), [theme])
 
   return (
     <View style={styles.menuContainer}>
@@ -49,21 +51,21 @@ export const PostCreationBar = ({
         </HoliImagePicker>
 
         <HoliButtonLoading
-          label={'Post'}
+          label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}
           inline
           variant="small"
-          onPress={onCreatePost}
+          onPress={onSubmit}
           style={styles.roundSubmitButton}
           loading={submitting}
           disabled={!isSubmittable || submitting}
         >
-          <HoliText bold>Post</HoliText>
+          <HoliText bold>{isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}</HoliText>
         </HoliButtonLoading>
       </View>
     </View>
   )
 }
-const getPostCreationBarStyles = (theme: HoliTheme) =>
+const getSubmitPostBarStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     menuContainer: {
       padding: 12,

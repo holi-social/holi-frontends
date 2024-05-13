@@ -117,7 +117,7 @@ export const finishAccountSetup = async (
       try {
         const response = await route.fetch()
         const result = await response.json()
-        id = result.data.authenticatedUser.id
+        id = result.data.authenticatedUserV2.id
       } finally {
         await route.continue()
       }

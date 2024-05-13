@@ -1,20 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { logError } from '@holi/core/errors/helpers'
-import { getLogger } from '@holi/core/helpers/logging'
 import { ConsentState } from '@holi/core/tracking/types'
 
-const logger = getLogger('Tracking')
-
 const STORE_KEY = 'HOLI_TRACKING_CONSENT'
+const DEFAULT_STATE = ConsentState.unknown
 
 const load = (): Promise<ConsentState> => {
-  const defaultState = ConsentState.unknown
   return AsyncStorage.getItem(STORE_KEY)
     .then((value) => {
-      logger.debug('consentStore.load', 'value=%s', value)
       if (value) return JSON.parse(value) as ConsentState
-      else return store(defaultState)
+      else return store(DEFAULT_STATE)
     })
     .catch((e) => {
       logError(e, 'Error reading from AsyncStorage, assuming broken state, resetting', { location: 'ConsentStore' })
@@ -23,7 +19,6 @@ const load = (): Promise<ConsentState> => {
 }
 
 const store = (consentState: ConsentState): Promise<ConsentState> => {
-  logger.debug('consentStore.store', 'consentState=%s', consentState)
   return AsyncStorage.setItem(STORE_KEY, JSON.stringify(consentState))
     .then(() => consentState)
     .catch((e) => {
@@ -33,11 +28,12 @@ const store = (consentState: ConsentState): Promise<ConsentState> => {
 }
 
 const clear = async (): Promise<void> => {
-  await AsyncStorage.removeItem(STORE_KEY).catch((e) => {
-    logger.debug('consentStore.clear', 'clearing store')
-    logError(e, 'Error clearing AsyncStorage', { location: 'ConsentStore' })
-    throw e
-  })
+  await AsyncStorage.removeItem(STORE_KEY)
+    .catch((e) => {
+      logError(e, 'Error clearing AsyncStorage', { location: 'ConsentStore' })
+      throw e
+    })
+    .then(() => store(DEFAULT_STATE))
 }
 
 export const consentStore = {

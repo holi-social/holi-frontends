@@ -2,7 +2,9 @@ import React, { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { SeoTitle } from '@holi/core/components/SeoTitle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
@@ -122,6 +124,14 @@ const TaskDetails = () => {
 
   return (
     <SafeAreaProvider style={styles.safeAreaProvider}>
+      <HoliHead
+        title={`${task.name} | ${space.title}`}
+        description={task.description}
+        ogTitle={`${task.name} | ${space.title}`}
+        ogDescription={task.description}
+        ogImage={task.thumbnail || space.cover}
+      />
+      <SeoTitle seoTitle={`${task.name} | ${space.name}`.trim()} />
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}

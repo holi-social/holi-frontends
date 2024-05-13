@@ -4,16 +4,20 @@ import { z } from 'zod'
 import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
 
-export const CreateFeedPostSchema = z.object({
-  title: z.string().min(2).max(128),
-  description: z.string().trim().min(2).max(5000),
+export const FEED_POST_TITLE_MAX_CHARACTERS = 128
+export const FEED_POST_DESCRIPTION_MAX_CHARACTERS = 5000
+
+export const FeedPostSchema = z.object({
+  title: z.string().min(2).max(FEED_POST_TITLE_MAX_CHARACTERS),
+  description: z.string().trim().min(2).max(FEED_POST_DESCRIPTION_MAX_CHARACTERS),
   categoryId: z.string(),
   topicIds: z.array(z.string()).max(6).optional(),
   visibility: z.string() /* VisibilityLevel */,
-  image: z.instanceof(Object).optional(),
+  image: z.instanceof(Object).optional().nullable(),
+  postId: z.string().optional(), // for edit post
 })
 
-export type CreateFeedPostInput = z.infer<typeof CreateFeedPostSchema>
+export type CreateFeedPostInput = z.infer<typeof FeedPostSchema>
 
 export const createFeedPostMutation = gql`
   ${FeedPostDetailsFragment}
@@ -27,4 +31,46 @@ export const createFeedPostMutation = gql`
 
 export type CreateFeedPostResponse = {
   createFeedPost: FeedPost
+}
+
+export type UpdateFeedPostInput = z.infer<typeof FeedPostSchema>
+
+export const updateFeedPostMutation = gql`
+  ${FeedPostDetailsFragment}
+
+  mutation UpdateFeedPost($input: UpdateFeedPostInput!) {
+    updateFeedPost(input: $input) {
+      ...FeedPostFull
+    }
+  }
+`
+
+export type UpdateFeedPostResponse = {
+  createFeedPost: FeedPost
+}
+
+export const deleteFeedPostMutation = gql`
+  mutation DeleteFeedPost($postId: UUID!) {
+    deleteFeedPost(postId: $postId) {
+      success
+    }
+  }
+`
+
+export interface DeleteFeedPostResponse {
+  success: boolean
+}
+
+export const UpdateFeedPostReactionMutation = gql`
+  ${FeedPostDetailsFragment}
+
+  mutation UpdateFeedPostReaction($postId: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
+    updateFeedPostReaction(postId: $postId, reactionType: $reactionType, reactionAction: $reactionAction) {
+      ...FeedPostFull
+    }
+  }
+`
+
+export interface UpdateFeedPostReactionResponse {
+  feedPost: FeedPost
 }

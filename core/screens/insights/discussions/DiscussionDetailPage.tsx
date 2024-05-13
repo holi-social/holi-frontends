@@ -106,7 +106,7 @@ const DiscussionDetailPage = () => {
         scrollable={false}
         contentStyle={styles.wrapperContent}
       >
-        <HoliContainer paddingHorizontal={0}>
+        <HoliContainer noPadding>
           <ScrollView style={styles.scrollView}>
             {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
             {discussionId && (

@@ -13,6 +13,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
@@ -54,6 +55,7 @@ const UserProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   const loginState = useAuth()
   const [userId = ''] = useParam('userId')
@@ -183,6 +185,8 @@ const UserProfile = () => {
         refreshing,
         onRefresh,
       }}
+      style={styles.layout}
+      contentStyle={styles.content}
     >
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
@@ -190,6 +194,7 @@ const UserProfile = () => {
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
         tabBarStyle={tabBarStyle}
+        backgroundColor={colors.background20}
         id="profile-tabs"
         tabs={[
           {
@@ -203,6 +208,7 @@ const UserProfile = () => {
                         text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                         label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                         style={styles.chip}
+                        fontStyle={styles.chipFont}
                         disabled
                       />
                     </HoliChipRow>
@@ -231,6 +237,14 @@ const UserProfile = () => {
               </View>
             ),
           },
+          ...(ftEnabledPosts
+            ? [
+                {
+                  title: t('individuals.post.name'),
+                  children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+                },
+              ]
+            : []),
           ...(hasInsights
             ? [
                 {
@@ -248,10 +262,6 @@ const UserProfile = () => {
               />
             ),
           },
-          {
-            title: t('individuals.post.name'),
-            children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
-          },
         ]}
       />
     </ScrollHeaderLayout.Refreshable>
@@ -260,6 +270,13 @@ const UserProfile = () => {
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    layout: {
+      minHeight: '100%',
+    },
+    content: {
+      minHeight: '100%',
+      paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
+    },
     container: {
       alignItems: 'baseline',
     },
@@ -273,6 +290,11 @@ const getStyles = (theme: HoliTheme) =>
     chip: {
       marginRight: 8,
       marginBottom: 8,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground30at12Percent,
+    },
+    chipFont: {
+      color: theme.colors.black300,
     },
     headerEditButton: {
       marginLeft: 24,

@@ -8,6 +8,7 @@ import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPo
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -28,13 +29,18 @@ export const CategorySelectionModal: React.FC<{
     <HoliModal show={props.show} label={''} relativeHeight={1} autoHeight={false} style={styles.modal}>
       <View style={styles.modalContent}>
         <View style={styles.modalHeader}>
-          <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor="black" style={styles.backButton} />
-          <HoliHeading level="1" size="s">
-            {t('individuals.post.create.title')}
+          <HeaderBackButton
+            icon={Close}
+            onPress={() => navigateBack()}
+            tintColor={theme.colors.black300}
+            style={styles.backButton}
+          />
+          <HoliHeading level="2" size="s">
+            {t('individuals.post.input.title')}
           </HoliHeading>
         </View>
         <HoliText size="large" style={styles.modalTitle}>
-          {t('individuals.post.create.category.title')}
+          {t('individuals.post.input.category.title')}
         </HoliText>
         <View style={styles.categoryContainer}>
           {props.categories.map((category) => (
@@ -44,7 +50,13 @@ export const CategorySelectionModal: React.FC<{
               onPress={() => props.onCategorySelection(category.id)}
             >
               <View style={styles.categoryContent}>
-                <HoliLocalImage imageSource={category.image} width={40} height={40} isSvg label={''} />
+                <HoliLocalImage
+                  imageSource={category.image as StaticImageData}
+                  width={40}
+                  height={40}
+                  isSvg
+                  label={category.name}
+                />
                 <HoliText bold>{category.name}</HoliText>
               </View>
             </Pressable>

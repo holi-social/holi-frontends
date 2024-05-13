@@ -17,6 +17,7 @@ import {
   Bookmark3Line,
   FolderLock,
   Help,
+  IdCard,
   Information,
   LogoutBox,
   Notification3,
@@ -69,7 +70,7 @@ const SettingsOverview = () => {
           />
           <MoreOptionItem
             label={t('profile.settings.tracking.title')}
-            icon={Notification3} // TODO change icon
+            icon={IdCard}
             iconRightStyle="arrow"
             onPress={() => navigate('/profile/settings/tracking')}
             style={styles.settingsItem}

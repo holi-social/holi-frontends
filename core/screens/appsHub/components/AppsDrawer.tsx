@@ -106,7 +106,9 @@ const AppsDrawer = (props: AppsDrawerProps) => {
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="1">{t('apps.drawer.title')}</HoliHeading>
+          <HoliHeading level="2" size="l">
+            {t('apps.drawer.title')}
+          </HoliHeading>
           <View style={styles.listContents}>
             {APP_SWIPER_APPS.filter((app) => app.active).map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />

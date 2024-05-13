@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -12,8 +12,9 @@ import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
-import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
+import OwnProfileView, { EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
@@ -25,6 +26,7 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
@@ -33,6 +35,7 @@ const OwnProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
+  const [currentTab, setCurrentTab] = useState<Tab>(0)
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -140,6 +143,8 @@ const OwnProfile = () => {
           onRefresh,
         }}
         keyboardShouldPersistTaps="handled"
+        style={styles.layout}
+        contentStyle={styles.content}
       >
         {user ? (
           <>
@@ -188,14 +193,25 @@ const OwnProfile = () => {
                 </HoliKeyboardSaveView>
               </HoliModal>
             )}
-            <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
+            <OwnProfileView user={user} toggleEditMode={toggleEditMode} onChangeTab={setCurrentTab} />
           </>
         ) : (
           <HoliLoader />
         )}
       </ScrollHeaderLayout.Refreshable>
+      {currentTab === Tab.POSTS && <CreatePostButton />}
     </LoginProtection>
   )
 }
+const styles = StyleSheet.create({
+  layout: {
+    minHeight: '100%',
+  },
+  content: {
+    minHeight: '100%',
+    paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
+    paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 0,
+  },
+})
 
 export default withProfiler(memo(OwnProfile), { name: 'OwnProfile' })

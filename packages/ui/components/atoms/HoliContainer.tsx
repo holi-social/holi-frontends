@@ -1,7 +1,8 @@
-import React, { type PropsWithChildren } from 'react'
+import React, { type PropsWithChildren, useMemo } from 'react'
 import { type FlexStyle, View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 export interface ContainerProps {
@@ -10,15 +11,8 @@ export interface ContainerProps {
   justifyContent?: FlexStyle['justifyContent']
   gap?: FlexStyle['gap']
   flex?: number
-  paddingHorizontal?: number
+  noPadding?: boolean
   testID?: string
-}
-
-const generateStyles = (flexStyles: ContainerProps) => {
-  if (Object.keys(flexStyles).length === 0) return null
-  const { styles: dinamicStyles } = StyleSheet.create({ container: { ...flexStyles } })
-
-  return dinamicStyles.container
 }
 
 const HoliContainer = ({
@@ -28,37 +22,67 @@ const HoliContainer = ({
   alignItems = 'stretch',
   flexDirection = 'column',
   justifyContent = 'flex-start',
-  paddingHorizontal = 16,
+  noPadding,
   testID = 'holi-container',
-}: PropsWithChildren<ContainerProps>) => (
-  <View
-    style={[
-      styles.container,
-      generateStyles({ alignItems, flexDirection, gap, justifyContent, flex, paddingHorizontal }),
-    ]}
-    dataSet={{ media: ids.container }}
-    testID={testID}
-  >
-    {children}
-  </View>
-)
+}: PropsWithChildren<ContainerProps>) => {
+  const { styles, ids } = useMemo(() => getStyles(noPadding), [noPadding])
+
+  return (
+    <View
+      style={[styles.container, buildContainerFlexStyle({ alignItems, flexDirection, gap, justifyContent, flex })]}
+      dataSet={{ media: ids.container }}
+      testID={testID}
+    >
+      {children}
+    </View>
+  )
+}
 
 export default HoliContainer
 
-const { styles, ids } = StyleSheet.create({
-  container: {
-    display: 'flex',
-    alignSelf: 'center',
-    width: '100%',
-    maxWidth: dimensions.maxScreenWidth,
+const buildContainerFlexStyle = (
+  flexProps: Pick<ContainerProps, 'gap' | 'flex' | 'flexDirection' | 'alignItems' | 'justifyContent'>
+) => {
+  if (Object.keys(flexProps).length === 0) return null
+  const sheet = StyleSheet.create({
+    container: {
+      flex: flexProps.flex,
+      flexDirection: flexProps.flexDirection,
+      alignItems: flexProps.alignItems,
+      justifyContent: flexProps.justifyContent,
+      gap: flexProps.gap,
+    },
+  })
 
-    [`@media (min-width: ${dimensions.breakpointS}px)`]: {
-      paddingRight: 32,
-      paddingLeft: 32,
+  return sheet.styles.container
+}
+
+const getStyles = (noPadding?: boolean) => {
+  const horizontalPadding = noPadding
+    ? {
+        /* none – fill container */
+      }
+    : {
+        paddingLeft: Spacing.xs,
+        paddingRight: Spacing.xs,
+
+        [`@media (min-width: ${dimensions.breakpointS}px)`]: {
+          paddingRight: Spacing.lg,
+          paddingLeft: Spacing.lg,
+        },
+        [`@media (min-width: ${dimensions.breakpointL}px)`]: {
+          paddingRight: Spacing['4xl'],
+          paddingLeft: Spacing['4xl'],
+        },
+      }
+
+  return StyleSheet.create({
+    container: {
+      display: 'flex',
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.maxScreenWidth,
+      ...horizontalPadding,
     },
-    [`@media (min-width: ${dimensions.breakpointL}px)`]: {
-      paddingRight: 64,
-      paddingLeft: 64,
-    },
-  },
-})
+  })
+}

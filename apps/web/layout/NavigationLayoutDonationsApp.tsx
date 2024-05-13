@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
-import Head from 'next/head'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import HoliHead from '@holi/core/components/HoliHead'
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
 import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.css'
@@ -15,10 +14,12 @@ export const AppLayout = ({ children }: React.PropsWithChildren<unknown>) => {
 
   return (
     <>
-      <Head>
-        <title>{t('donations:app.name')}</title>
-      </Head>
-
+      <HoliHead
+        title={t('metatags.donations.title')}
+        description={t('metatags.donations.description')}
+        ogTitle={t('metatags.donations.og.title')}
+        ogDescription={t('metatags.donations.og.description')}
+      />
       {/*
         Accessibility region:
         Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html

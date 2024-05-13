@@ -8,6 +8,7 @@ import { initializeClientSideApolloClient } from '@holi/api/graphql/client'
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
+import RouteChangeListener from '@holi/core/components/RouteChangeListener'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import UpdateAppModal from '@holi/core/components/UpdateAppModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -38,6 +39,8 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
             </SessionExpiryProtection>
           </PortalProvider>
         </ToastProvider>
+
+        <RouteChangeListener />
       </ApolloProvider>
     </ErrorBoundary>
   )

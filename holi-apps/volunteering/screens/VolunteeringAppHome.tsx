@@ -121,7 +121,7 @@ const VolunteeringAppHome = () => {
     )
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="1" size="s">
+        <HoliHeading level="2" size="s">
           {title}
         </HoliHeading>
       ),
@@ -179,14 +179,16 @@ const VolunteeringAppHome = () => {
   )
 }
 
-const WrappedVolunteeringAppHome = () => (
-  <FeatureToggleGuard
-    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
-    featureNameKey="volunteering:maintenance.feature"
-  >
-    <VolunteeringAppHome />
-  </FeatureToggleGuard>
-)
+const WrappedVolunteeringAppHome = () => {
+  return (
+    <FeatureToggleGuard
+      toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+      featureNameKey="volunteering:maintenance.feature"
+    >
+      <VolunteeringAppHome />
+    </FeatureToggleGuard>
+  )
+}
 
 export default memo(WrappedVolunteeringAppHome)
 

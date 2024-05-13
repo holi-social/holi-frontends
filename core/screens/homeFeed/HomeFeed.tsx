@@ -1,5 +1,4 @@
-import { DocumentNode } from '@apollo/client'
-import { useApolloClient } from '@apollo/client'
+import { DocumentNode, useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -21,8 +21,13 @@ import InspirationPosts from '@holi/core/screens/homeFeed/components/Inspiration
 import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
+import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
+import { trackingEnabled } from '@holi/core/tracking/config'
+import { ConsentState } from '@holi/core/tracking/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -51,6 +56,9 @@ const HomeFeed = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+
+  const consentState = useConsentState()
+  const needsConsentPermission = ConsentState.isUnknown(consentState)
 
   const { ftEnabled: ftEnabledDonations, ftPreview: ftPreviewDonations } = useFeatureToggle(
     FeatureToggleName.APPS_DONATIONS
@@ -104,6 +112,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
+        ftEnabledPosts ? feedPostsQuery : undefined,
         inspirationPostsQuery,
         lastInsightsQuery,
         ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
@@ -125,6 +134,7 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
+          {ftEnabledPosts && <AllPosts />}
           <InspirationPosts />
           <InsightsOfTheWeek />
           <Recommendations />
@@ -134,6 +144,8 @@ const HomeFeed = () => {
 
       {/* Floating CreatePostButton need to be outside of the Layout */}
       {ftEnabledPosts && <CreatePostButton />}
+
+      {trackingEnabled() && needsConsentPermission && <TrackingConsentModal />}
     </>
   )
 }

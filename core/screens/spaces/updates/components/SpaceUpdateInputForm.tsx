@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import { SPACE_POST_VISIBILITY_TYPE_OPTIONS } from '@holi/core/screens/spaces/tasks/consts'
 import { VisibilityType } from '@holi/core/screens/spaces/types'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -40,6 +41,7 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
   const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption<VisibilityType>[]>(
     SPACE_POST_VISIBILITY_TYPE_OPTIONS
   )
+  const { show, hide, visible } = useModalState()
 
   // set options translations
   useEffect(() => {
@@ -79,6 +81,9 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
         testID="update-visibility-input"
         isRequired
         showOptionIcon
+        show={show}
+        hide={hide}
+        visible={visible}
       />
 
       <HoliTextInput

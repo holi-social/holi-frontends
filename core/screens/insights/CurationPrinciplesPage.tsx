@@ -10,6 +10,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -69,16 +70,18 @@ const PrinciplesSectionGrid: React.FC = () => {
   const styles = useMemo(() => getStyles(theme, true), [theme])
 
   return (
-    <HoliGridWrapper breakpoints={[[1, 2]]} gap={Spacing.xxs}>
-      {[1, 4, 2, 5, 3, 6].map((principle) => (
-        <HoliGridCell key={principle}>
-          <View style={styles.card}>
-            <CircledNumber number={principle} />
-            <HoliText style={styles.cardText}>{t(`insights.curationPrinciples.principles.${principle}`)}</HoliText>
-          </View>
-        </HoliGridCell>
-      ))}
-    </HoliGridWrapper>
+    <HoliContainer>
+      <HoliGridWrapper breakpoints={[[1, 2]]} gap={Spacing.xxs}>
+        {[1, 4, 2, 5, 3, 6].map((principle) => (
+          <HoliGridCell key={principle}>
+            <View style={styles.card}>
+              <CircledNumber number={principle} />
+              <HoliText style={styles.cardText}>{t(`insights.curationPrinciples.principles.${principle}`)}</HoliText>
+            </View>
+          </HoliGridCell>
+        ))}
+      </HoliGridWrapper>
+    </HoliContainer>
   )
 }
 
@@ -117,128 +120,132 @@ const CurationPrinciplesPage: React.FC = () => {
   }, [theme.colors.background10, t, setScreenOptions])
 
   return (
-    <>
-      <ScrollHeaderLayout.Default style={styles.wrapper} headerOverlap>
+    <ScrollHeaderLayout.Default style={styles.wrapper} headerOverlap>
+      <HoliContainer noPadding>
         <HoliContainer>
           <View style={styles.intro}>
             <HoliHeading level="1">{t('insights.curationPrinciples.intro.heading')}</HoliHeading>
             <HoliText>{t('insights.curationPrinciples.intro.description')}</HoliText>
           </View>
-
-          <View style={styles.heading}>
-            <HoliHeading level="1">{t('insights.curationPrinciples.principles.heading')}</HoliHeading>
-          </View>
         </HoliContainer>
 
-        <HoliContainer paddingHorizontal={0}>
-          {isWideLayout ? <PrinciplesSectionGrid /> : <PrinciplesSectionCarousel />}
+        <HoliGap size={'m'} />
+
+        <HoliContainer>
+          <HoliHeading level="2" size="l">
+            {t('insights.curationPrinciples.principles.heading')}
+          </HoliHeading>
         </HoliContainer>
 
-        <HoliContainer paddingHorizontal={0}>
-          <View style={[styles.section, styles.contributorSection]}>
-            <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
-              {t('insights.curationPrinciples.curators.heading')}
-            </HoliHeading>
+        <HoliGap size={'m'} />
 
-            {(loading || !authors) &&
-              [...new Array(5).keys()].map((i) => (
-                <View style={styles.contributor} key={i}>
-                  <HoliAvatar loading label={`Author ${i}`} />
-                  <HoliText
-                    size="small"
-                    align="center"
-                    numberOfLines={1}
-                    loading
-                    ellipsizeMode="tail"
-                    style={styles.contributorName}
-                  />
-                </View>
-              ))}
-            {!loading && authors && (
-              <View style={styles.contributors}>
-                {authors.map((author) => (
-                  <Pressable
-                    key={author.id}
-                    style={styles.contributor}
-                    onPress={() => navigate(`/profile/${author.id}`)}
-                  >
-                    <HoliAvatar
-                      imageSrc={author.avatar}
-                      loading={loading || !author}
-                      imageBlurhash={author.avatarBlurhash}
-                      label={author.avatarLabel}
-                      defaultColor={author.avatarDefaultColor}
-                      initials={author.avatarLabel}
-                    />
-                    <HoliText size="small" align="center">
-                      {author.fullName}
-                    </HoliText>
-                  </Pressable>
-                ))}
+        {isWideLayout ? <PrinciplesSectionGrid /> : <PrinciplesSectionCarousel />}
+
+        <View style={[styles.section, styles.contributorSection]}>
+          <HoliHeading
+            level="2"
+            size="l"
+            {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}
+          >
+            {t('insights.curationPrinciples.curators.heading')}
+          </HoliHeading>
+
+          {(loading || !authors) &&
+            [...new Array(5).keys()].map((i) => (
+              <View style={styles.contributor} key={i}>
+                <HoliAvatar loading label={`Author ${i}`} />
+                <HoliText
+                  size="small"
+                  align="center"
+                  numberOfLines={1}
+                  loading
+                  ellipsizeMode="tail"
+                  style={styles.contributorName}
+                />
               </View>
-            )}
-          </View>
-        </HoliContainer>
-
-        <HoliContainer paddingHorizontal={0}>
-          <View style={[styles.section, styles.partnersSection]}>
-            <HoliHeading level="1" {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}>
-              {t('insights.curationPrinciples.partners.heading')}
-            </HoliHeading>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: Spacing.xs,
-                flexWrap: 'wrap',
-                flex: 1,
-              }}
-            >
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://www.kohero-magazin.de')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_kohero.png')}
-                  resizeMode="contain"
-                  label="kohero magazin"
-                  width={110}
-                  height={36}
-                />
-              </Pressable>
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://piqd.de')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_piqd.svg')}
-                  resizeMode="contain"
-                  label="piqd"
-                  width={64}
-                  height={36}
-                  isSvg
-                />
-              </Pressable>
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://medwatch.de')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_medwatch.svg')}
-                  resizeMode="contain"
-                  label="MEDWATCH"
-                  width={106}
-                  height={36}
-                  isSvg
-                />
-              </Pressable>
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://andererseits.org')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_andererseits.svg')}
-                  resizeMode="contain"
-                  label="andererseits"
-                  width={136}
-                  height={36}
-                  isSvg
-                />
-              </Pressable>
+            ))}
+          {!loading && authors && (
+            <View style={styles.contributors}>
+              {authors.map((author) => (
+                <Pressable key={author.id} style={styles.contributor} onPress={() => navigate(`/profile/${author.id}`)}>
+                  <HoliAvatar
+                    imageSrc={author.avatar}
+                    loading={loading || !author}
+                    imageBlurhash={author.avatarBlurhash}
+                    label={author.avatarLabel}
+                    defaultColor={author.avatarDefaultColor}
+                    initials={author.avatarLabel}
+                  />
+                  <HoliText size="small" align="center">
+                    {author.fullName}
+                  </HoliText>
+                </Pressable>
+              ))}
             </View>
+          )}
+        </View>
+
+        <View style={[styles.section, styles.partnersSection]}>
+          <HoliHeading
+            level="2"
+            size="l"
+            {...Platform.select({ web: { align: 'center' }, default: { align: 'left' } })}
+          >
+            {t('insights.curationPrinciples.partners.heading')}
+          </HoliHeading>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: Spacing.xs,
+              flexWrap: 'wrap',
+              flex: 1,
+            }}
+          >
+            <Pressable style={styles.partner} onPress={() => Linking.openURL('https://www.kohero-magazin.de')}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/logo/partner_kohero.png')}
+                resizeMode="contain"
+                label="kohero magazin"
+                width={110}
+                height={36}
+              />
+            </Pressable>
+            <Pressable style={styles.partner} onPress={() => Linking.openURL('https://piqd.de')}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/logo/partner_piqd.svg')}
+                resizeMode="contain"
+                label="piqd"
+                width={64}
+                height={36}
+                isSvg
+              />
+            </Pressable>
+            <Pressable style={styles.partner} onPress={() => Linking.openURL('https://medwatch.de')}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/logo/partner_medwatch.svg')}
+                resizeMode="contain"
+                label="MEDWATCH"
+                width={106}
+                height={36}
+                isSvg
+              />
+            </Pressable>
+            <Pressable style={styles.partner} onPress={() => Linking.openURL('https://andererseits.org')}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/logo/partner_andererseits.svg')}
+                resizeMode="contain"
+                label="andererseits"
+                width={136}
+                height={36}
+                isSvg
+              />
+            </Pressable>
           </View>
-        </HoliContainer>
-      </ScrollHeaderLayout.Default>
-    </>
+        </View>
+      </HoliContainer>
+    </ScrollHeaderLayout.Default>
   )
 }
 
@@ -247,14 +254,6 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
     intro: {
       gap: Spacing.xs,
       paddingTop: Spacing.md,
-    },
-
-    heading: {
-      gap: Spacing.xs,
-      paddingTop: Spacing.md,
-      paddingBottom: Spacing.sm,
-      width: '100%',
-      maxWidth: dimensions.maxScreenWidth,
     },
 
     wrapper: {

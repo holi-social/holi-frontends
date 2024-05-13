@@ -69,7 +69,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
             </HoliBox>
           )}
           <HoliBox padding={[32, 0, 0, 0]}>
-            <HoliHeading level="1" size="l">
+            <HoliHeading level="2" size="l">
               {/*TODO: how to not render for optional props (headline, text, buttonText)? */}
               {t(`${i18nPrefix}.${itemKey}.headline`)}
             </HoliHeading>

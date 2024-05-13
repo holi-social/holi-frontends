@@ -84,7 +84,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
     <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
       {!!projects.length && (
         <HoliBox padding={[24, 0, 16, 0]}>
-          <HoliHeading level="1" testID="donations-list-search-heading">
+          <HoliHeading level="2" size="l" testID="donations-list-search-heading">
             {t('donations:donationListing.heading')}
           </HoliHeading>
         </HoliBox>

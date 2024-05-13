@@ -48,7 +48,7 @@ const HomeFeedHeader: React.FC = () => {
 
       {/*Headline */}
       <HoliBox padding={[32, 0, 8, 0]} layout={styles.headlineContainer}>
-        <HoliHeading level="1" size="xl" testID="home-feed-insights-heading">
+        <HoliHeading level="2" size="xl" testID="home-feed-insights-heading">
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
         </HoliHeading>
         <HoliLocalImage

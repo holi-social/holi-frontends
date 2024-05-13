@@ -4,7 +4,7 @@ import { View } from 'react-native'
 
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-type HoliGapSize = 'xs' | 's' | 'm' | 'l' | 'xl'
+type HoliGapSize = 'xs' | 's' | 'sm' | 'm' | 'ml' | 'l' | 'xl'
 type HoliGapDirection = 'vertical' | 'horizontal'
 
 interface HoliGapProps {
@@ -16,7 +16,9 @@ interface HoliGapProps {
 const sizes = {
   xs: dimensions.spacingXs,
   s: dimensions.spacingS,
+  sm: dimensions.spacingSM,
   m: dimensions.spacingM,
+  ml: dimensions.spacingML,
   l: dimensions.spacingL,
   xl: dimensions.spacingXl,
 }

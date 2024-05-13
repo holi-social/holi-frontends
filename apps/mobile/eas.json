@@ -115,8 +115,8 @@
         "NOVU_BACKEND_URL": "https://eu.api.novu.co",
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
         "HOLI_CHALLENGES_APP": "https://challenges.holi.social",
-        "POSTHOG_KEY": "",
-        "POSTHOG_HOST": ""
+        "POSTHOG_KEY": "phc_otDkhAWe558gCziFqIE3XrGla2AvdosZftmhOyjfWAu",
+        "POSTHOG_HOST": "https://eu.posthog.com"
       }
     },
     "simulator": {

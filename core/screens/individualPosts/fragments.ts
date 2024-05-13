@@ -1,13 +1,11 @@
 import { gql } from '@apollo/client'
 
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
-
 export const FeedPostDetailsFragment = gql`
-  ${UserAvatarFragment}
-
   fragment FeedPostFull on FeedPost {
     id
+    slug
     title
+    slug
     description
     visibility
     topics {
@@ -21,7 +19,19 @@ export const FeedPostDetailsFragment = gql`
     image
     imageBlurhash
     creator {
-      ...UserAvatar
+      id
+      avatar
+      avatarBlurhash
+      avatarLabel
+      avatarDefaultColor
+      firstName
+      fullName
+    }
+    myReaction {
+      HEART
+    }
+    reactions {
+      HEART
     }
   }
 `
