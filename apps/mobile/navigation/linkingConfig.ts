@@ -146,7 +146,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
     [RouteName.CreatePost]: {
       screens: {
-        [RouteName.CreatePost]: 'createPost',
+        [RouteName.CreatePost]: 'feed-posts/create',
+      },
+    },
+    [RouteName.EditPost]: {
+      screens: {
+        [RouteName.EditPost]: 'feed-posts/:idOrSlug/edit',
       },
     },
     [RouteName.FeedPosts]: {

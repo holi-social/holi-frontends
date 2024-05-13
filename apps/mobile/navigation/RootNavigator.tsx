@@ -6,6 +6,7 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
+import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
@@ -48,6 +49,7 @@ export type RootStackScreens = {
   [RouteName.Favorites]: undefined
 
   [RouteName.CreatePost]: undefined
+  [RouteName.EditPost]: undefined
   [RouteName.FeedPosts]: undefined
 }
 
@@ -169,6 +171,18 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.CreatePost}
         component={CreatePost}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: true,
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: colors.background20,
+          },
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.EditPost}
+        component={EditPost}
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
