@@ -5,7 +5,14 @@ import path from 'path'
 import { detectLocaleFromHeader } from '@holi/web/helpers/detectLocaleFromHeader'
 import { sanitizeBuffer } from '@holi/web/helpers/sanitizeBuffer'
 
-const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'openSource'] as const
+const docTypes = [
+  'imprint',
+  'privacyPolicy',
+  'communityGuidelines',
+  'openSource',
+  'termsOfUse',
+  'dataProcessing',
+] as const
 
 export type DocType = (typeof docTypes)[number]
 
