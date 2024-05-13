@@ -31,13 +31,13 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostDetailsPageParams = {
-  slug: string
+  idOrSlug: string
 }
 
 const { useParam } = createParamHooks<PostDetailsPageParams>()
 
 const PostDetailsPage = () => {
-  const [slug] = useParam('slug')
+  const [idOrSlug] = useParam('idOrSlug')
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
@@ -84,15 +84,15 @@ const PostDetailsPage = () => {
     refetch,
     loading,
   } = useQuery<PostQueryResponse>(postQuery, {
-    variables: { idOrSlug: slug },
-    skip: !slug,
+    variables: { idOrSlug },
+    skip: !idOrSlug,
     onError: (error) => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load feed post', {
         location: 'PostDetailsPage.postQuery',
-        variables: { slug },
+        variables: { idOrSlug },
       })
     },
   })
@@ -134,7 +134,7 @@ const PostDetailsPage = () => {
 
   const onPressCreateComment = () =>
     isLoggedIn
-      ? navigate(`/feed-posts/${slug}/comment`)
+      ? navigate(`/feed-posts/${idOrSlug}/comment`)
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
         })
