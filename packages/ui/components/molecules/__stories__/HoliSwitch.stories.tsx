@@ -1,7 +1,6 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 
 import HoliSwitch, { HoliSwitchSizes } from '@holi/ui/components/molecules/HoliSwitch'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export default {
   title: 'Molecules/HoliSwitch',
@@ -17,18 +16,16 @@ export default {
 export const Primary = ({ ...args }) => {
   const [on, setOn] = useState(false)
   const handleOnChange = () => {
-    args.switchOn = !on
+    args.value = !on
     setOn(!on)
   }
   return (
     <HoliSwitch
-      onPress={handleOnChange}
-      switchOn={args.switchOn || on}
+      onChange={handleOnChange}
+      value={args.value || on}
       size={args.size}
       disabled={args.disabled}
       duration={args.duration}
-      circleColor={args.circleColor}
-      backgroundColor={args.backgroundColor}
     />
   )
 }
@@ -50,6 +47,8 @@ Primary.colorChoices = [
 ]
 
 Primary.argTypes = {
+  value: { description: 'true if the switch is switched on, false otherwise' },
+  onChange: { description: 'Action performed when clicking the switch' },
   size: {
     description: 'Adjusts the size of the switch',
     control: { type: 'select' },
@@ -61,30 +60,6 @@ Primary.argTypes = {
     defaultValue: 'false',
   },
   duration: { description: 'Duration of the toggle animation', defaultValue: 300 },
-  onPress: { description: 'Action performed when clicking the switch' },
-  circleColor: {
-    description: 'Circle color',
-    control: { type: 'select' },
-    options: Primary.colorChoices,
-  },
-  backgroundColor: {
-    description: 'Background color',
-    control: { type: 'select' },
-    options: Primary.colorChoices,
-  },
-}
-
-export const Colored = () => {
-  const { theme } = useTheme()
-  const { colors } = theme
-  return (
-    <Fragment>
-      <div style={{ opacity: 0.5, marginBottom: 8 }}>Colored examples</div>
-      <HoliSwitch switchOn={true} backgroundColor={colors.foreground10} circleColor={colors.brandC300} />
-      <HoliSwitch switchOn={false} backgroundColor="lightsteelblue" circleColor="fuchsia" />
-      <HoliSwitch switchOn={true} backgroundColor={colors.brandA300} circleColor="black" />
-    </Fragment>
-  )
 }
 
 export const All = ({ ...args }) => {
@@ -92,7 +67,13 @@ export const All = ({ ...args }) => {
     return (
       <div key={size} style={{ marginBottom: 16 }}>
         <div style={{ opacity: 0.5, marginBottom: 8 }}>{size}</div>
-        <HoliSwitch size={size} onPress={args.onPress} switchOn={args.switchOn} disabled={args.disabled} />
+        <HoliSwitch
+          size={size}
+          value={args.value}
+          onChange={args.onChange}
+          disabled={args.disabled}
+          duration={args.duration}
+        />
       </div>
     )
   })
