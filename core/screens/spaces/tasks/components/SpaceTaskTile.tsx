@@ -2,18 +2,15 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import FilterPill from '@holi/core/components/FilterPill'
-import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
+import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   AtFilled,
-  Delete,
-  Edit2,
   GlobalFilled,
   GlobeFilled,
   LockFilled,
@@ -28,7 +25,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -47,7 +43,6 @@ const IMAGE_ASPECT_RATIO = 311 / 166
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
-  isAdmin = false,
   isCollaborator = false,
   variant = 'full',
 }: SpaceTaskTileProps) => {
@@ -59,17 +54,10 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
-  const loginState = useAuth()
   const [imageError, setImageError] = useState(false)
   const [showPlaceholder, setShowPlaceholder] = useState(true)
-  const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
-    id: task.id,
-    spaceIdOrName: space.name,
-    successMsg: t('spaces.tasks.delete.success'),
-  })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
-  const isTaskOwner = loginState.isLoggedIn && isCollaborator && task?.creator.id === loginState.userId
 
   const handlePlaceholder = useCallback(() => {
     setShowPlaceholder(imageError || !task.thumbnail)
@@ -143,34 +131,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             {task.name}
           </HoliText>
         </HoliButton>
-        {(isTaskOwner || isAdmin) && isVariantList && (
-          <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options" variant="dark">
-            <HoliActionDrawer.Action
-              icon={Edit2}
-              title={t('global.edit')}
-              testID="btn-to-edit-task"
-              handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
-            />
-            <HoliActionDrawer.Action
-              isLoading={isLoadingDeleteTask}
-              icon={Delete}
-              title={t('spaces.digitalTool.delete.label')}
-              variant="danger"
-              testID="btn-to-delete-task"
-              showConfirmation
-            >
-              <HoliActionDrawer.Confirmation
-                title={t('spaces.tasks.delete.confirmation.title')}
-                description={t('spaces.tasks.delete.confirmation.description')}
-                testID="task-delete"
-                handleConfirmation={deleteTask}
-                buttonType="warning"
-                hasDismissBtn
-                requireLogin
-              />
-            </HoliActionDrawer.Action>
-          </HoliActionDrawer.Drawer>
-        )}
+        {isVariantList && <TaskDrawer task={task} space={space} />}
       </View>
       {isVariantFull && (
         <>
