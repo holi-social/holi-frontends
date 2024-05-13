@@ -86,7 +86,7 @@ const PostCommentPage = () => {
   }
 
   if (!user) {
-    navigate(`/feedPosts/${slug}`)
+    navigate(`/feed-posts/${slug}`)
     return null
   }
 

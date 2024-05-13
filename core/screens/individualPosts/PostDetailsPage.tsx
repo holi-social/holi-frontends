@@ -142,7 +142,7 @@ const PostDetailsPage = () => {
 
   const onPressCreateComment = () =>
     isLoggedIn
-      ? navigate(`/feedPosts/${slug}/comment`)
+      ? navigate(`/feed-posts/${slug}/comment`)
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
         })
@@ -174,7 +174,7 @@ const PostDetailsPage = () => {
                 <Comments
                   commentableType={CommentableType.FEED_POST}
                   commentableId={post.id}
-                  replyRoute={`/feedPosts/${slug}/comment`}
+                  replyRoute={`/feed-posts/${slug}/comment`}
                   onPressCreateComment={onPressCreateComment}
                   initialOpenThread={post.id}
                 />
