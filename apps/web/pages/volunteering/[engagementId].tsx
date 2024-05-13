@@ -25,7 +25,12 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, {
+    urls: {
+      en: `/volunteering/${engagementId}`,
+      de: `/ehrenamt/${engagementId}`,
+    },
+  })
 }
 
 export default VolunteeringEngagementDetailPage

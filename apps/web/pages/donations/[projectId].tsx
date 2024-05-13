@@ -25,7 +25,12 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, {
+    urls: {
+      en: `/donations/${projectId}`,
+      de: `/spenden/${projectId}`,
+    },
+  })
 }
 
 export default DonationsAppProjectDetailPage
