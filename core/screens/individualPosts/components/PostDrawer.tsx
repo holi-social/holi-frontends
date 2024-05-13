@@ -5,11 +5,8 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-<<<<<<< HEAD
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-=======
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
->>>>>>> 42281ebeb70212ebc0044c9545513410379704f0
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
