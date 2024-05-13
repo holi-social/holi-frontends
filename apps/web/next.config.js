@@ -60,7 +60,6 @@ const nextConfig = {
     {
       source: '/spenden/:projectId*',
       destination: '/donations/:projectId*',
-      locale: false,
     },
     {
       source: '/ehrenamt',
