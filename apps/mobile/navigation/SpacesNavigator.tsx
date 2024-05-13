@@ -48,6 +48,9 @@ export type SpacesScreens = {
   [RouteName.CreateTask]: CreateTaskParams
   [RouteName.EditTask]: EditTaskParams
   [RouteName.TaskDetails]: TaskDetailsParams
+  [RouteName.CreateTaskDE]: CreateTaskParams
+  [RouteName.EditTaskDE]: EditTaskParams
+  [RouteName.TaskDetailsDE]: TaskDetailsParams
   [RouteName.CreateUpdate]: CreateUpdateParams
   [RouteName.EditUpdate]: CreateUpdateParams
   [RouteName.SpaceUpdateDetailPage]: PostDetailPageParams
@@ -63,6 +66,7 @@ export type SpacesScreens = {
   [RouteName.SpaceOnboarding]: SpaceOnboardingParams
   [RouteName.SpaceOnboardingSteps]: SpaceOnboardingStepsParams
   [RouteName.SpaceTasks]: SpaceTasksParams
+  [RouteName.SpaceTasksDE]: SpaceTasksParams
   [RouteName.AboutSpaces]: undefined
   [RouteName.SpaceAppointments]: SpaceAppointmentsParams
   [RouteName.CreateAppointment]: CreateAppointmentParams
@@ -99,6 +103,9 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />
       <SpacesStack.Screen name={RouteName.EditTask} component={EditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
+      <SpacesStack.Screen name={RouteName.CreateTaskDE} component={CreateTask} />
+      <SpacesStack.Screen name={RouteName.EditTaskDE} component={EditTask} />
+      <SpacesStack.Screen name={RouteName.TaskDetailsDE} component={TaskDetails} />
       <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateSpaceUpdate} />
       <SpacesStack.Screen name={RouteName.EditUpdate} component={CreateSpaceUpdate} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateDetailPage} component={PostDetailPage} />
@@ -110,6 +117,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.SpaceOnboarding} component={SpaceOnboarding} />
       <SpacesStack.Screen name={RouteName.SpaceOnboardingSteps} component={SpaceOnboardingSteps} />
       <SpacesStack.Screen name={RouteName.SpaceTasks} component={SpaceTasks} />
+      <SpacesStack.Screen name={RouteName.SpaceTasksDE} component={SpaceTasks} />
       <SpacesStack.Screen name={RouteName.AboutSpaces} component={AboutSpaces} />
       <SpacesStack.Screen name={RouteName.SpaceAppointments} component={SpaceAppointments} />
       <SpacesStack.Screen name={RouteName.CreateAppointment} component={CreateAppointment} />

@@ -2,8 +2,6 @@ import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
@@ -26,7 +24,6 @@ import {
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -39,9 +36,7 @@ export type EditDigitalToolParams = {
 
 const { useParam } = createParamHooks<EditDigitalToolParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const EditDigitalTool: React.FC<ScreenProps> = () => {
+const EditDigitalTool = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [toolId] = useParam('toolIdOrName')
   const { navigateBack, replaceRoute } = useRouting()

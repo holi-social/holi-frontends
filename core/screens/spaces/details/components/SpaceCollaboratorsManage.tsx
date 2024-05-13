@@ -2,8 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -15,7 +13,6 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -27,9 +24,7 @@ export type SpaceCollaboratorsManageParams = {
 
 const { useParam } = createParamHooks<SpaceCollaboratorsManageParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const SpaceCollaboratorsManage: React.FC<ScreenProps> = () => {
+const SpaceCollaboratorsManage = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()

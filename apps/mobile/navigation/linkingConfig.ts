@@ -81,6 +81,9 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateTask]: 'spaces/:spaceIdOrName/tasks/create',
         [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
         [RouteName.EditTask]: 'spaces/:spaceIdOrName/tasks/:taskId/edit',
+        [RouteName.CreateTaskDE]: 'spaces/:spaceIdOrName/aufgaben/create',
+        [RouteName.TaskDetailsDE]: 'spaces/:spaceIdOrName/aufgaben/:taskId',
+        [RouteName.EditTaskDE]: 'spaces/:spaceIdOrName/aufgaben/:taskId/edit',
         [RouteName.CreateUpdate]: 'spaces/:spaceIdOrName/updates/create',
         [RouteName.EditUpdate]: 'spaces/:spaceIdOrName/updates/:postId/edit',
         [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',
@@ -92,6 +95,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceOnboarding]: 'spaces/:spaceIdOrName/onboarding',
         [RouteName.SpaceOnboardingSteps]: 'spaces/:spaceIdOrName/onboarding/steps',
         [RouteName.SpaceTasks]: 'spaces/:spaceIdOrName/tasks',
+        [RouteName.SpaceTasksDE]: 'spaces/:spaceIdOrName/aufgaben',
         [RouteName.AboutSpaces]: 'about-spaces',
         [RouteName.SpaceAppointments]: 'spaces/:spaceIdOrName/appointments',
         [RouteName.CreateAppointment]: 'spaces/:spaceIdOrName/appointments/create',
@@ -129,8 +133,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
     [RouteName.DonationsApp]: {
       screens: {
-        [RouteName.DonationsAppHome]: 'apps/donations',
-        [RouteName.DonationsAppProjectDetail]: 'apps/donations/project/:projectId',
+        [RouteName.DonationsAppHome]: 'donations',
+        [RouteName.DonationsAppHomeOld]: 'apps/donations',
+        [RouteName.DonationsAppHomeDE]: 'spenden',
+        [RouteName.DonationsAppProjectDetail]: 'donations/:projectId',
+        [RouteName.DonationsAppProjectDetailOld]: 'apps/donations/project/:projectId',
+        [RouteName.DonationsAppProjectDetailDE]: 'spenden/:projectId',
       },
     },
     [RouteName.GoodNewsApp]: {
@@ -140,8 +148,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
     [RouteName.VolunteeringApp]: {
       screens: {
-        [RouteName.VolunteeringAppHome]: 'apps/volunteering',
-        [RouteName.VolunteeringAppEngagmentDetail]: 'apps/volunteering/engagement/:engagementId',
+        [RouteName.VolunteeringAppHome]: 'volunteering',
+        [RouteName.VolunteeringAppHomeOld]: 'apps/volunteering',
+        [RouteName.VolunteeringAppHomeDE]: 'ehrenamt',
+        [RouteName.VolunteeringAppEngagmentDetail]: 'volunteering/:engagementId',
+        [RouteName.VolunteeringAppEngagmentDetailOld]: 'apps/volunteering/engagement/:engagementId',
+        [RouteName.VolunteeringAppEngagmentDetailDE]: 'ehrenamt/:engagementId',
       },
     },
     [RouteName.CreatePost]: {

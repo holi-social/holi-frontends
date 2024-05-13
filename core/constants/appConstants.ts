@@ -14,13 +14,13 @@ export const HOLI_APPS = {
 
 export const HOLI_APPS_NAVIGATION_PATHS = {
   [HOLI_APPS.DONATIONS]: {
-    path: '/apps/donations',
+    path: '/donations',
   },
   [HOLI_APPS.GOOD_NEWS]: {
     path: '/apps/goodnews',
   },
   [HOLI_APPS.VOLUNTEERING]: {
-    path: '/apps/volunteering',
+    path: '/volunteering',
   },
   [HOLI_APPS.CHALLENGES]: {
     path: '/apps/challenges',

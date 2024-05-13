@@ -38,7 +38,7 @@ const PAGE_SIZE = 20
 const TAB_UPCOMING = 0
 const TAB_PAST = 1
 
-const SpaceAppointments: React.FC<SpaceAppointmentsParams> = () => {
+const SpaceAppointments = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [spaceIdOrName] = useParam('spaceIdOrName')

@@ -2,8 +2,6 @@ import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
@@ -24,7 +22,6 @@ import {
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -35,9 +32,7 @@ export type CreateDigitalToolParams = {
 
 const { useParam } = createParamHooks<CreateDigitalToolParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const CreateDigitalTool: React.FC<ScreenProps> = () => {
+const CreateDigitalTool = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const [spaceIdOrName] = useParam('spaceIdOrName')

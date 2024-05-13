@@ -2,8 +2,6 @@ import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
@@ -21,7 +19,6 @@ import { UpdateTaskResponse, UpdateTaskSchema, updateTaskMutation } from '@holi/
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -34,11 +31,9 @@ export type EditTaskParams = {
 
 const { useParam } = createParamHooks<EditTaskParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
 const DEFAULT_SLOTS_AVAILABLE = 1
 
-const EditTask: React.FC<ScreenProps> = () => {
+const EditTask = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
