@@ -2,19 +2,27 @@
 
 exports[`NotificationSettingsList should correctly render grouped preferences 1`] = `
 <View
+  dataSet={
+    {
+      "media": undefined,
+    }
+  }
   style={
     [
       {
         "alignSelf": "center",
+        "display": "flex",
         "maxWidth": 840,
-        "paddingHorizontal": 32,
         "width": "100%",
       },
       {
-        "paddingHorizontal": 0,
+        "alignItems": "stretch",
+        "flexDirection": "column",
+        "justifyContent": "flex-start",
       },
     ]
   }
+  testID="holi-container"
 >
   <View
     style={
@@ -42,51 +50,68 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
     <View
       style={
         {
-          "paddingBottom": 8,
-          "width": 32,
-        }
-      }
-    />
-    <Text
-      role="heading"
-      selectable={true}
-      style={
-        {
-          "color": "#262424",
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "auto",
+          "alignContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
         }
       }
     >
-      profile.settings.notifications.GLOBAL.title
-    </Text>
+      <View
+        style={
+          {
+            "width": 32,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "marginLeft": 16,
+          }
+        }
+      >
+        <Text
+          role="heading"
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 21,
+              "fontWeight": "500",
+              "lineHeight": 29.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.GLOBAL.title
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.GLOBAL.description
+        </Text>
+      </View>
+    </View>
     <View
       style={
         {
-          "paddingBottom": 4,
+          "height": 16,
         }
       }
     />
-    <Text
-      accessible={false}
-      selectable={true}
-      style={
-        {
-          "color": "#787777",
-          "fontFamily": "Circular Std Book",
-          "fontSize": 16,
-          "fontWeight": "400",
-          "lineHeight": 22.4,
-          "paddingBottom": 16,
-          "userSelect": "auto",
-        }
-      }
-    >
-      profile.settings.notifications.GLOBAL.description
-    </Text>
     <View
       style={
         {
@@ -479,51 +504,68 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
     <View
       style={
         {
-          "paddingBottom": 8,
-          "width": 32,
-        }
-      }
-    />
-    <Text
-      role="heading"
-      selectable={true}
-      style={
-        {
-          "color": "#262424",
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "auto",
+          "alignContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
         }
       }
     >
-      profile.settings.notifications.POSTS_AND_COMMENTS.title
-    </Text>
+      <View
+        style={
+          {
+            "width": 32,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "marginLeft": 16,
+          }
+        }
+      >
+        <Text
+          role="heading"
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 21,
+              "fontWeight": "500",
+              "lineHeight": 29.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.POSTS_AND_COMMENTS.title
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.POSTS_AND_COMMENTS.description
+        </Text>
+      </View>
+    </View>
     <View
       style={
         {
-          "paddingBottom": 4,
+          "height": 16,
         }
       }
     />
-    <Text
-      accessible={false}
-      selectable={true}
-      style={
-        {
-          "color": "#787777",
-          "fontFamily": "Circular Std Book",
-          "fontSize": 16,
-          "fontWeight": "400",
-          "lineHeight": 22.4,
-          "paddingBottom": 16,
-          "userSelect": "auto",
-        }
-      }
-    >
-      profile.settings.notifications.POSTS_AND_COMMENTS.description
-    </Text>
     <View
       style={
         {
@@ -777,9 +819,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             "marginBottom": 2,
             "paddingVertical": 24,
           },
-          {
-            "marginBottom": 24,
-          },
+          false,
         ],
       ]
     }
@@ -787,51 +827,68 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
     <View
       style={
         {
-          "paddingBottom": 8,
-          "width": 32,
-        }
-      }
-    />
-    <Text
-      role="heading"
-      selectable={true}
-      style={
-        {
-          "color": "#262424",
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "auto",
+          "alignContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
         }
       }
     >
-      profile.settings.notifications.SPACES.title
-    </Text>
+      <View
+        style={
+          {
+            "width": 32,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "marginLeft": 16,
+          }
+        }
+      >
+        <Text
+          role="heading"
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 21,
+              "fontWeight": "500",
+              "lineHeight": 29.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.SPACES.title
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.SPACES.description
+        </Text>
+      </View>
+    </View>
     <View
       style={
         {
-          "paddingBottom": 4,
+          "height": 16,
         }
       }
     />
-    <Text
-      accessible={false}
-      selectable={true}
-      style={
-        {
-          "color": "#787777",
-          "fontFamily": "Circular Std Book",
-          "fontSize": 16,
-          "fontWeight": "400",
-          "lineHeight": 22.4,
-          "paddingBottom": 16,
-          "userSelect": "auto",
-        }
-      }
-    >
-      profile.settings.notifications.SPACES.description
-    </Text>
     <View
       style={
         {
@@ -1351,27 +1408,359 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
       </View>
     </View>
   </View>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "#fff",
+          "borderRadius": 32,
+          "padding": 16,
+          "paddingBottom": 24,
+        },
+        [],
+        [
+          {
+            "marginBottom": 2,
+            "paddingVertical": 24,
+          },
+          {
+            "marginBottom": 24,
+          },
+        ],
+      ]
+    }
+  >
+    <View
+      style={
+        {
+          "alignContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "width": 32,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "marginLeft": 16,
+          }
+        }
+      >
+        <Text
+          role="heading"
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 21,
+              "fontWeight": "500",
+              "lineHeight": 29.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.CHALLENGES.title
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.CHALLENGES.description
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        {
+          "height": 16,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "alignContent": "space-between",
+          "alignItems": "stretch",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignSelf": "center",
+            "flex": 1,
+          }
+        }
+      />
+      <View
+        style={{}}
+      >
+        <View
+          style={
+            {
+              "alignContent": "space-between",
+              "alignItems": "stretch",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "width": 64,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
+            >
+              profile.settings.notifications.channel.push
+            </Text>
+          </View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "width": 64,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
+            >
+              profile.settings.notifications.channel.email
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "borderBottomColor": "#ebebeb",
+            "borderBottomWidth": 1,
+            "paddingVertical": 12,
+          },
+          [
+            {
+              "borderBottomColor": "#ebebeb",
+              "borderBottomWidth": 1,
+              "paddingVertical": 12,
+            },
+            {
+              "borderBottomWidth": 0,
+              "paddingBottom": 0,
+            },
+          ],
+        ]
+      }
+      testID="CHALLENGE_APPROVAL"
+    >
+      <View
+        style={
+          {
+            "alignContent": "space-between",
+            "alignItems": "stretch",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignSelf": "center",
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
+              }
+            }
+          >
+            profile.settings.notifications.workflow.CHALLENGE_APPROVAL
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "padding": 10,
+              "width": 64,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="profile.settings.notifications.channel.push"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": false,
+                    "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="checkbox"
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexWrap": "nowrap",
+                  }
+                }
+                testID="push"
+              >
+                <View
+                  collapsable={false}
+                  style={
+                    {
+                      "alignItems": "center",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#ebebeb",
+                      "borderRadius": 5,
+                      "borderWidth": 1,
+                      "height": 24,
+                      "justifyContent": "center",
+                      "transform": [
+                        {
+                          "scale": 1,
+                        },
+                      ],
+                      "width": 24,
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "padding": 10,
+              "width": 64,
+            }
+          }
+        />
+      </View>
+    </View>
+  </View>
 </View>
 `;
 
 exports[`NotificationSettingsList should correctly render loading state 1`] = `
 <View
+  dataSet={
+    {
+      "media": undefined,
+    }
+  }
   style={
     [
       {
         "alignSelf": "center",
+        "display": "flex",
         "maxWidth": 840,
-        "paddingHorizontal": 32,
+        "paddingLeft": 32,
+        "paddingRight": 32,
         "width": "100%",
       },
       {
-        "marginTop": 52,
-      },
-      {
-        "paddingHorizontal": 0,
+        "alignItems": "stretch",
+        "flexDirection": "column",
+        "justifyContent": "flex-start",
       },
     ]
   }
+  testID="holi-container"
 >
   <View
     animatedStyle={
@@ -1409,6 +1798,7 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
         "bottom": 0,
         "justifyContent": "center",
         "left": 0,
+        "marginTop": 52,
         "paddingHorizontal": 16,
         "position": "absolute",
         "right": 0,
@@ -1512,19 +1902,27 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
 
 exports[`NotificationSettingsList should correctly render updating state 1`] = `
 <View
+  dataSet={
+    {
+      "media": undefined,
+    }
+  }
   style={
     [
       {
         "alignSelf": "center",
+        "display": "flex",
         "maxWidth": 840,
-        "paddingHorizontal": 32,
         "width": "100%",
       },
       {
-        "paddingHorizontal": 0,
+        "alignItems": "stretch",
+        "flexDirection": "column",
+        "justifyContent": "flex-start",
       },
     ]
   }
+  testID="holi-container"
 >
   <View
     animatedStyle={
@@ -1633,51 +2031,68 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
     <View
       style={
         {
-          "paddingBottom": 8,
-          "width": 32,
-        }
-      }
-    />
-    <Text
-      role="heading"
-      selectable={true}
-      style={
-        {
-          "color": "#262424",
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "auto",
+          "alignContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
         }
       }
     >
-      profile.settings.notifications.GLOBAL.title
-    </Text>
+      <View
+        style={
+          {
+            "width": 32,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "marginLeft": 16,
+          }
+        }
+      >
+        <Text
+          role="heading"
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 21,
+              "fontWeight": "500",
+              "lineHeight": 29.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.GLOBAL.title
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "userSelect": "auto",
+            }
+          }
+        >
+          profile.settings.notifications.GLOBAL.description
+        </Text>
+      </View>
+    </View>
     <View
       style={
         {
-          "paddingBottom": 4,
+          "height": 16,
         }
       }
     />
-    <Text
-      accessible={false}
-      selectable={true}
-      style={
-        {
-          "color": "#787777",
-          "fontFamily": "Circular Std Book",
-          "fontSize": 16,
-          "fontWeight": "400",
-          "lineHeight": 22.4,
-          "paddingBottom": 16,
-          "userSelect": "auto",
-        }
-      }
-    >
-      profile.settings.notifications.GLOBAL.description
-    </Text>
     <View
       style={
         {
