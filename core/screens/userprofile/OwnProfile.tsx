@@ -35,7 +35,7 @@ const OwnProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const [currentTab, setCurrentTab] = useState<Tab>(0)
+  const [currentTab, setCurrentTab] = useState<Tab>(Tab.PROFILE)
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
