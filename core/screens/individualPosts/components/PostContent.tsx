@@ -11,6 +11,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -79,6 +80,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           />
         </View>
       )}
+      {!!post.linkPreview && <HoliLinkPreview previewData={post.linkPreview} />}
       <View style={styles.reactionsBar}>
         {comments.length > 0 && (
           <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
