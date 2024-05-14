@@ -1,12 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { LayoutChangeEvent, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled, MoreFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -14,8 +13,8 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
-import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -25,7 +24,14 @@ type PostCardProps = {
   showVisibilityBadge?: boolean
 }
 
+// temporarily solution to use HoliRichTextOutput within a read more type component.
+// with 3 max lines, react-native returns a 67 height with our current font and line-height.
+// if the text's height is greater than 67, it is assumed to have a Read More button.
+const LINE_HEIGHT = 23
+const NUMBER_OF_LINES = 3
+
 const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
+  const [isExpanded, setIsExpanded] = useState<boolean>() // undefined is used when no Read More button is needed, false is Read More and true is Read Less
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -33,9 +39,12 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
 
   const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
 
-  //TODO: replace with real data
-  const comments: readonly Comment[] = []
-  const commenters: User[] = []
+  // calculation of text height to check wether Read More button should be displayed
+  const handleTextLayoutEvent = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
+    if (layout.height > LINE_HEIGHT * NUMBER_OF_LINES && isExpanded === undefined) {
+      setIsExpanded(false)
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -71,37 +80,58 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
               {post.category.title}
             </HoliText>
           </View>
-          <View style={styles.contenSection}>
+          <View style={styles.contentSection}>
             <HoliHeading level="2" size="s" numberOfLines={3}>
               {post.title}
             </HoliHeading>
-            <HoliReadMore numberOfLines={3}>{post.description}</HoliReadMore>
           </View>
-          {!!post.image && (
-            <View style={styles.imageContainer}>
-              <HoliImage
-                label={post.title}
-                source={{
-                  uri: post.image,
-                }}
-                blurhash={post.imageBlurhash}
-                resizeMode="cover"
-                style={styles.image}
-              />
-            </View>
-          )}
         </View>
       </HoliButton>
-      <View style={styles.reactionsBar}>
-        {comments.length > 0 ? (
-          <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-            {t('individuals.post.comments.response', { count: comments.length })}
-          </HoliUserAvatarPile>
-        ) : (
-          <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
-            <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
+
+      {/* not clickable */}
+      <View>
+        <HoliRichTextOutput
+          text={post.description}
+          allowAllLinks
+          ellipsizeMode="tail"
+          onLayout={handleTextLayoutEvent}
+          style={{ maxHeight: typeof isExpanded === 'undefined' ? LINE_HEIGHT * (NUMBER_OF_LINES + 1) : undefined }}
+          {...(typeof isExpanded === 'boolean' ? { numberOfLines: isExpanded ? undefined : 3 } : {})}
+        />
+        {typeof isExpanded === 'boolean' && (
+          <HoliButton
+            label={isExpanded ? t('component.readMore.readLess') : t('component.readMore.readMore')}
+            transparent
+            inline
+            style={styles.readMoreButton}
+            onPress={() => setIsExpanded((value) => !value)}
+          >
+            {isExpanded ? t('component.readMore.readLess') : t('component.readMore.readMore')}
           </HoliButton>
         )}
+      </View>
+
+      {!!post.image && (
+        <HoliButton transparent label={post.title} onPress={goToDetailView} style={styles.clickOverlay}>
+          <View style={styles.imageContainer}>
+            <HoliImage
+              label={post.title}
+              source={{
+                uri: post.image,
+              }}
+              blurhash={post.imageBlurhash}
+              resizeMode="cover"
+              style={styles.image}
+            />
+          </View>
+        </HoliButton>
+      )}
+      {!!post.linkPreview && <HoliLinkPreview previewData={post.linkPreview} />}
+
+      <View style={styles.reactionsBar}>
+        <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
+          <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
+        </HoliButton>
         <FeedPostReactions post={post} />
       </View>
     </View>
@@ -121,9 +151,8 @@ const getStyles = (theme: HoliTheme) =>
     metadata: {
       alignContent: 'space-between',
     },
-    contenSection: {
+    contentSection: {
       gap: Spacing['4xs'],
-      marginBottom: Spacing.xs,
     },
     pill: {
       borderRadius: Spacing.xxl,
@@ -163,6 +192,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     clickableArea: {
       gap: Spacing.xs,
+    },
+    readMoreButton: {
+      alignItems: 'flex-end',
     },
     clickOverlay: {
       position: 'relative',

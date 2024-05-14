@@ -57,7 +57,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
         <HoliHeading level="1" size="m" numberOfLines={3}>
           {post.title}
         </HoliHeading>
-        <HoliRichTextOutput text={post.description} />
+        <HoliRichTextOutput text={post.description} allowAllLinks />
       </View>
       {!!post.image && (
         <View style={styles.imageContainer}>
