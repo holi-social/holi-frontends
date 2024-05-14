@@ -138,7 +138,7 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [headerLeft, post, setScreenOptions, styles.headerRight, t])
+  }, [headerLeft, post, setScreenOptions, styles.headerRight, t, navigateBack])
 
   const onPressCreateComment = () =>
     isLoggedIn
