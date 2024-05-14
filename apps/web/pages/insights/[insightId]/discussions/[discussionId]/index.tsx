@@ -1,9 +1,9 @@
 import { NextPageContext } from 'next'
 import React from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DiscussionDetailPage from '@holi/core/screens/insights/discussions/DiscussionDetailPage'
 import { discussionById } from '@holi/core/screens/insights/queries'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const DiscussionPage = () => (
