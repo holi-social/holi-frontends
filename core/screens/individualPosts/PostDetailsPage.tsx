@@ -17,6 +17,8 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import Comments from '@holi/core/screens/comments/components/Comments'
+import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
@@ -33,12 +35,14 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
+  commentId: string
 }
 
 const { useParam } = createParamHooks<PostDetailsPageParams>()
 
 const PostDetailsPage = () => {
   const [idOrSlug] = useParam('idOrSlug')
+  const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
@@ -46,11 +50,11 @@ const PostDetailsPage = () => {
   const { userId, isLoggedIn } = useAuth()
   const { openLoginModal } = useLoginModal()
   const insets = useSafeAreaInsets()
-  const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
+  const isWeb = Platform.OS === 'web'
+  const styles = useMemo(() => getStyles(theme, insets, isWeb), [theme, insets, isWeb])
 
   const [isDirectLink, setIsDirectLink] = useState(false)
 
-  const isWeb = Platform.OS === 'web'
   useEffect(() => {
     setIsDirectLink(isWeb && (document.referrer === '' || document.referrer === window.location.href))
   }, [isWeb])
@@ -130,6 +134,9 @@ const PostDetailsPage = () => {
           )
         )
       },
+      navigationCustomOptions: {
+        footerShown: false,
+      },
     })
   }, [headerLeft, post, setScreenOptions, styles.headerRight, t])
 
@@ -162,10 +169,21 @@ const PostDetailsPage = () => {
         scrollable={false}
         contentStyle={styles.wrapperContent}
       >
-        <HoliContainer noPadding>
+        <HoliContainer>
           <ScrollView style={styles.scrollView}>
             {post && !loading ? (
-              <PostContent post={post} showVisibilityBadge={post.creator.id === userId} />
+              <>
+                <PostContent post={post} showVisibilityBadge={post.creator.id === userId} />
+                <View style={styles.commentsContainer}>
+                  <Comments
+                    commentableType={CommentableType.FEED_POST}
+                    commentableId={post.id}
+                    replyRoute={`/feed-posts/${post.slug}/comment`}
+                    onPressCreateComment={onPressCreateComment}
+                    initialOpenThread={commentId}
+                  />
+                </View>
+              </>
             ) : (
               <LoadingSkeleton />
             )}
@@ -186,7 +204,7 @@ const PostDetailsPage = () => {
 
 const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRadius={0} />
 
-const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
+const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false) =>
   StyleSheet.create({
     wrapper: {
       width: 'auto',
@@ -212,10 +230,11 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
     },
     scrollView: {
       height: '100%',
+      ...(!isWeb ? { paddingHorizontal: Spacing['3xs'] } : {}),
     },
     commentsContainer: {
-      paddingHorizontal: Spacing.xs,
-      paddingVertical: Spacing.sm,
+      // paddingHorizontal: Spacing.xs,
+      // paddingVertical: Spacing.sm,
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
