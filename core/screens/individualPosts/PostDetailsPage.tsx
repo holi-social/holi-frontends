@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
@@ -172,7 +172,7 @@ const PostDetailsPage = () => {
         contentStyle={styles.wrapperContent}
       >
         <HoliContainer noPadding={loading && !isWeb}>
-          <View style={styles.scrollView}>
+          <ScrollView style={styles.scrollView}>
             {post && !loading ? (
               <>
                 <PostContent post={post} showVisibilityBadge={post.creator.id === userId} />
@@ -189,7 +189,7 @@ const PostDetailsPage = () => {
             ) : (
               <LoadingSkeleton />
             )}
-          </View>
+          </ScrollView>
         </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
 
