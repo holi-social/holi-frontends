@@ -620,6 +620,8 @@
   "profile.title": "Profile",
   "profile.userprofile.tabs.spaces.empty": "{{fullName}} is not collaborating in any Space yet",
   "recommendations.title": "Recommended for you",
+  "recommendations.spaces.title": "Spaces",
+  "recommendations.spaces.seeMore": "See more Spaces",
   "registration.accountSetup.firstSuccess.description": "Glad you're here! holi is the space where committed people and nonprofit organizations can get into action together. Tell us something about yourself!",
   "registration.accountSetup.firstSuccess.heading": "Glad to have you on board, {{name}}",
   "registration.accountSetup.location.describtion": "We will enhance your experience of holi with more relevant content based on your location.",

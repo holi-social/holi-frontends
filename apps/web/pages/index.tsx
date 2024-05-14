@@ -1,6 +1,7 @@
 import type { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
+import { SpaceRecommendationDocument } from '@holi/api/graphql/graphql-codegen'
 import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
 import { POSTS_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
@@ -59,6 +60,12 @@ export const getServerSideProps = async (context: NextPageContext) => {
       variables: {
         limit: ENGAGEMENT_PAGE_SIZE,
         offset: 0,
+      },
+    },
+    {
+      query: SpaceRecommendationDocument,
+      variables: {
+        limit: 5,
       },
     },
   ]
