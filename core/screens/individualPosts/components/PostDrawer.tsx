@@ -20,10 +20,11 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 type PostDrawerProps = {
   post: FeedPost
   children: React.ReactNode
+  onDelete?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerProps) => {
+const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: PostDrawerProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
@@ -38,6 +39,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const [deleteFeedPost] = useMutation<DeleteFeedPostResponse>(deleteFeedPostMutation, {
+    onCompleted: onDelete,
     onError: (error) =>
       displayError(error, 'Failed to delete feed post', {
         location: 'PostDrawer.deleteFeedPost',
@@ -45,7 +47,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
     refetchQueries: [{ query: myPostsQuery }, 'MyPosts'],
   })
 
-  const onDelete = () => {
+  const handleDelete = () => {
     setShowConfirmationModal(false)
     deleteFeedPost({
       variables: { postId: post.id },
@@ -126,7 +128,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children }: PostDrawerPro
           dismissText={t('individuals.post.delete.cancel.button')}
           confirmText={t('individuals.post.delete.confirmation.button')}
           testID="post-delete-dialog"
-          onConfirm={onDelete}
+          onConfirm={handleDelete}
         />
       </>
     )
