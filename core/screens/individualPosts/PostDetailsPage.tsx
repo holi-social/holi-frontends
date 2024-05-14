@@ -6,6 +6,7 @@ import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-nati
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -59,17 +60,17 @@ const PostDetailsPage = () => {
       <HoliButton transparent inline label={'btn-navigate-to-home-feed'} onPress={() => navigate('/')}>
         {theme.dark ? (
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta_white.svg')}
+            imageSource={require('@holi/ui/assets/img/holi/holi_white.svg')}
             isSvg
-            width={78}
+            width={56}
             height={24}
             label={t('navigation.title')}
           />
         ) : (
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
+            imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
             isSvg
-            width={78}
+            width={56}
             height={24}
             label={t('navigation.title')}
           />
@@ -141,6 +142,13 @@ const PostDetailsPage = () => {
 
   return (
     <>
+      <HoliHead
+        title={`${post?.title} | ${post?.creator.fullName}`}
+        description={post?.description}
+        ogTitle={`${post?.title} | ${post?.creator.fullName}`}
+        ogDescription={post?.description}
+        ogImage={post?.image}
+      />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
       <ScrollHeaderLayout.Refreshable

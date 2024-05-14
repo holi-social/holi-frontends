@@ -12,6 +12,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
@@ -29,10 +30,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
 export enum Tab {
-  PROFILE,
-  POSTS,
-  INSIGHTS,
-  SPACES,
+  PROFILE = 'profile',
+  POSTS = 'posts',
+  INSIGHTS = 'insights',
+  SPACES = 'spaces',
 }
 
 interface OwnProfileViewProps {
@@ -67,13 +68,18 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
+  const tabNamesInOrder = [Tab.PROFILE]
+  ftEnabledPosts && tabNamesInOrder.push(Tab.POSTS)
+  hasInsights && tabNamesInOrder.push(Tab.INSIGHTS)
+  tabNamesInOrder.push(Tab.SPACES)
+
+  const { selectTabWithIndex, initialTabIndex } = useTabNavigation({
+    tabNamesInOrder,
+  })
+
   const handleTabChanged = (index: number) => {
-    // Keep tab indexes consistent, even when Insights tabs is not present
-    if (!hasInsights && index > 1) {
-      onChangeTab(index + 1)
-    } else {
-      onChangeTab(index)
-    }
+    selectTabWithIndex(index)
+    onChangeTab(tabNamesInOrder[index])
   }
 
   return (
@@ -85,6 +91,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
         style={{ marginTop: 24, flex: 1 }}
         tabBarStyle={tabBarStyle}
         backgroundColor={colors.background20}
+        initialStep={initialTabIndex}
         onChangeTab={handleTabChanged}
         id="profile-tabs"
         tabs={[

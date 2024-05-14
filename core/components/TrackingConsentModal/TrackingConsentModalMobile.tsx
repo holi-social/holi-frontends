@@ -58,7 +58,11 @@ export const TrackingConsentModalMobile = () => {
             <HoliGap size="ml" />
 
             {/* Buttons */}
-            <HoliButton label={t('tracking.consentModal.general.button.acceptAll')} onPress={acceptAll}>
+            <HoliButton
+              label={t('tracking.consentModal.general.button.acceptAll')}
+              onPress={acceptAll}
+              testID="btn-consentModal-acceptAll"
+            >
               {t('tracking.consentModal.general.button.acceptAll')}
             </HoliButton>
 
@@ -68,6 +72,7 @@ export const TrackingConsentModalMobile = () => {
               label={t('tracking.consentModal.general.button.declineAll')}
               onPress={declineAll}
               type="secondary"
+              testID="btn-consentModal-declineAll"
             >
               {t('tracking.consentModal.general.button.declineAll')}
             </HoliButton>
@@ -78,6 +83,7 @@ export const TrackingConsentModalMobile = () => {
               label={t('tracking.consentModal.general.button.manageOptions')}
               onPress={goManageOptions}
               type="secondary"
+              testID="btn-consentModal-manageOptions"
             >
               {t('tracking.consentModal.general.button.manageOptions')}
             </HoliButton>

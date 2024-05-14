@@ -44,6 +44,11 @@ const workflowPreferences = [
     category: 'SPACES',
     preferences: { push: false, email: null },
   },
+  {
+    id: 'CHALLENGE_APPROVAL',
+    category: 'CHALLENGES',
+    preferences: { push: false, email: null },
+  },
 ]
 
 describe('NotificationSettingsList', () => {

@@ -12,24 +12,26 @@ import {
   UpdateWorkflowPreference,
   useNotificationPreferences,
 } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CATEGORY_ILLUSTRATIONS = {
   GLOBAL: require('@holi/ui/assets/img/illustrations/illustration_bell.svg'),
   POSTS_AND_COMMENTS: require('@holi/ui/assets/img/illustrations/illustration_posts_and_comments.svg'),
   CHAT: require('@holi/ui/assets/img/illustrations/illustration_chat.svg'),
   SPACES: require('@holi/ui/assets/img/illustrations/illustration_spaces.svg'),
+  CHALLENGES: require('@holi/icons/assets/challenges-colored.svg'),
 }
 type NOTIFICATION_CATEGORY = keyof typeof CATEGORY_ILLUSTRATIONS
 const NOTIFICATION_CATEGORIES_IN_ORDER: NOTIFICATION_CATEGORY[] = [
@@ -37,11 +39,11 @@ const NOTIFICATION_CATEGORIES_IN_ORDER: NOTIFICATION_CATEGORY[] = [
   'POSTS_AND_COMMENTS',
   Category.CHAT,
   'SPACES',
+  'CHALLENGES',
 ]
 
 const NotificationSettingsList = () => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -58,14 +60,14 @@ const NotificationSettingsList = () => {
 
   if (loading) {
     return (
-      <View style={[mixins.container, styles.loadingContainer, styles.accountSettings]}>
-        <HoliLoader />
-      </View>
+      <HoliContainer>
+        <HoliLoader style={[styles.loadingContainer]} />
+      </HoliContainer>
     )
   }
 
   return (
-    <View style={[mixins.container, styles.accountSettings]}>
+    <HoliContainer noPadding>
       {updatingPreferences && <HoliLoader />}
       {NOTIFICATION_CATEGORIES_IN_ORDER.map((category, index) => {
         const workflows = workflowsByCategory[category]
@@ -107,7 +109,7 @@ const NotificationSettingsList = () => {
           </HoliRoundedSection>
         )
       })}
-    </View>
+    </HoliContainer>
   )
 }
 
@@ -116,12 +118,14 @@ const SettingsCategoryHeading = ({ category }: { category: NOTIFICATION_CATEGORY
 
   return (
     <>
-      <CategoryIllustration style={{ paddingBottom: 8 }} category={category} />
-      <HoliHeading>{t(`profile.settings.notifications.${category}.title`)}</HoliHeading>
-      <HoliBox padding={[0, 0, 4, 0]} />
-      <HoliText style={{ paddingBottom: 16 }} color="gray300">
-        {t(`profile.settings.notifications.${category}.description`)}
-      </HoliText>
+      <HoliColumns alignItems={'center'}>
+        <CategoryIllustration category={category} />
+        <View style={{ marginLeft: Spacing['xs'] }}>
+          <HoliHeading>{t(`profile.settings.notifications.${category}.title`)}</HoliHeading>
+          <HoliText color="gray300">{t(`profile.settings.notifications.${category}.description`)}</HoliText>
+        </View>
+      </HoliColumns>
+      <HoliGap size={'s'} />
     </>
   )
 }
@@ -186,7 +190,10 @@ const SettingsNameColumn = ({ children }: React.PropsWithChildren) => {
   )
 }
 
-const CategoryIllustration: React.FC<{ style: ViewStyle; category: NOTIFICATION_CATEGORY }> = ({ style, category }) => (
+const CategoryIllustration: React.FC<{ style?: ViewStyle; category: NOTIFICATION_CATEGORY }> = ({
+  style,
+  category,
+}) => (
   <View style={{ width: 32, ...style }}>
     <HoliLocalImage
       imageSource={CATEGORY_ILLUSTRATIONS[category]}
@@ -205,9 +212,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     loadingContainer: {
       marginTop: dimensions.topBarHeight,
-    },
-    accountSettings: {
-      paddingHorizontal: 0,
     },
     row: {
       borderBottomWidth: 1,

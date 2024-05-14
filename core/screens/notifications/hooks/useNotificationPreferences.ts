@@ -83,6 +83,7 @@ export const useNotificationPreferences = () => {
   const [updatingPreferences, setUpdatingPreferences] = useState(false)
   const { chatEnabled, chatPushEnabled, updateChatPushPreference, loadingChatPushPreference } = useChatPushPreference()
   const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
+    fetchPolicy: 'network-only',
     onError: (error) =>
       displayError(error, 'Failed to load notification preferences', {
         location: 'useNotificationPreferences.notificationsPreferencesQuery',
