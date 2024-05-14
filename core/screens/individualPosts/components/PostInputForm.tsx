@@ -75,7 +75,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading: categoriesLoading, categories } = useFeedPostCategories()
-  const [showCategorySelectionModal, setShowCategorySelectionModal] = useState(!isEdit)
+  const [showCategorySelectionModal, setShowCategorySelectionModal] = useState(false)
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
@@ -96,6 +96,16 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       setFieldErrors({})
     }
   }, [title, description, selectedVisibility, selectedCategoryId])
+
+  useEffect(() => {
+    if (!isEdit) {
+      const timer = setTimeout(() => {
+        setShowCategorySelectionModal(true)
+      }, 800)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isEdit])
 
   const visibilityOptions: HoliModalSelectOption<Visibility>[] = [
     {
