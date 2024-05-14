@@ -23,6 +23,12 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+// the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
+// this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
+const removeTitlelines = (inputString: string) => {
+  return inputString.replace(/\n/g, '')
+}
+
 export enum Visibility {
   PUBLIC = 'PUBLIC',
   REGISTERED_USERS_ONLY = 'REGISTERED_USERS_ONLY',
@@ -145,7 +151,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               placeholderColor={theme.colors.gray300}
               aria-label={t('individuals.post.input.category.input.title')}
               inputAccessoryViewID={inputAccessoryViewID}
-              onChange={onChangeTitle}
+              onChange={(input) => onChangeTitle(removeTitlelines(input))}
               value={title}
               maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
               maxNoOfVisibleLines={3}
@@ -164,6 +170,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               validationErrorText={
                 description && fieldErrors?.description?.length ? fieldErrors.description[0] : undefined
               }
+              maxNoOfVisibleLines={16}
             />
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
