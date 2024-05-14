@@ -115,13 +115,12 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               </HoliText>
             </View>
           )}
-          {(isAdmin || isAppointmentCreator) && (
-            <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
-              <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
-                <HoliIcon icon={More} color={colors.foreground30} />
-              </View>
-            </AppointmentDrawer>
-          )}
+
+          <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
+            <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
+              <HoliIcon icon={More} color={colors.foreground30} />
+            </View>
+          </AppointmentDrawer>
         </View>
       </View>
 
