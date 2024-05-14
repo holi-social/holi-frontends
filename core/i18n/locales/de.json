@@ -621,6 +621,8 @@
   "profile.title": "Profil",
   "profile.userprofile.tabs.spaces.empty": "{{fullName}} ist bisher in keinem Space ein:e Mitwirkende:r",
   "recommendations.title": "Für dich empfohlen",
+  "recommendations.spaces.title": "Spaces",
+  "recommendations.spaces.seeMore": "Mehr Spaces sehen",
   "registration.accountSetup.firstSuccess.description": "Schön, dass du da bist! holi ist der Ort, an dem engagierte Menschen und gemeinnützige Organisationen zusammen in Aktion treten können. Erzähl uns etwas über dich!",
   "registration.accountSetup.firstSuccess.heading": "Schön, dich dabei zu haben, {{name}}",
   "registration.accountSetup.location.describtion": "Wir verbessern deinen Besuch bei holi mit relevanteren Inhalten basierend auf deinem Standort",

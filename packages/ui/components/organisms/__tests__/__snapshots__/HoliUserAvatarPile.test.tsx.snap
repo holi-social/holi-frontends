@@ -9,6 +9,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         "alignItems": "center",
         "flexDirection": "row",
       },
+      false,
     ]
   }
   testID="holi-user-avatar-pile"
