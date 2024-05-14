@@ -740,6 +740,8 @@
   "spaces.appointments.input.videoCall.delete.button": "Link löschen",
   "spaces.appointments.input.videoCall.delete.confirmation": "Bist du sicher, dass du den Videokonferenz-Link löschen möchtest?",
   "spaces.appointments.input.videoCall.description": "Nutze unsere Jitsi-Integration oder füge Zoom, Webex, GoToMeeting, Google Meet oder ein beliebiges bevorzugtes Videokonferenz-Tool hinzu.",
+  "spaces.appointments.report.title": "Termin melden",
+  "spaces.appointments.report.confirmation": "Möchtest du diesen Termin wirklich melden?",
   "spaces.appointments.share.message.date": "📅 Datum: {{date}} - {{time}}\n",
   "spaces.appointments.share.message.location": "📍 Ort: {{location}}\n",
   "spaces.appointments.share.message.text": "Du bis eingeladen zum Termin - \"{{appointment}}\" von {{space}}\n\n",

@@ -739,6 +739,8 @@
   "spaces.appointments.input.videoCall.delete.button": "Delete link",
   "spaces.appointments.input.videoCall.delete.confirmation": "Are you sure you want to delete the video call link?",
   "spaces.appointments.input.videoCall.description": "Use our Jitsi integration or add Zoom, Webex, GoToMeeting, Google Meet, or any preferred video call tool.",
+  "spaces.appointments.report.title": "Report appointment",
+  "spaces.appointments.report.confirmation": "Do you really want to report this appointment?",
   "spaces.appointments.share.message.date": "📅 Save the date: {{date}} - {{time}}\n",
   "spaces.appointments.share.message.location": "📍 Location: {{location}}\n",
   "spaces.appointments.share.message.text": "Join us for the event - \"{{appointment}}\" of {{space}}\n\n",
