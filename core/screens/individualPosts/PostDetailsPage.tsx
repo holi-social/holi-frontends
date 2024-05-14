@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -26,7 +26,6 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -55,37 +54,6 @@ const PostDetailsPage = () => {
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, insets, isWeb), [theme, insets, isWeb])
 
-  const [isDirectLink, setIsDirectLink] = useState(false)
-
-  useEffect(() => {
-    setIsDirectLink(isWeb && (document.referrer === '' || document.referrer === window.location.href))
-  }, [isWeb])
-
-  const logo = useMemo(
-    () => (
-      <HoliButton transparent inline label={'btn-navigate-to-home-feed'} onPress={() => navigate('/')}>
-        {theme.dark ? (
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_white.svg')}
-            isSvg
-            width={56}
-            height={24}
-            label={t('navigation.title')}
-          />
-        ) : (
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
-            isSvg
-            width={56}
-            height={24}
-            label={t('navigation.title')}
-          />
-        )}
-      </HoliButton>
-    ),
-    [theme.dark, t, navigate]
-  )
-
   const {
     data: { post } = {},
     refetch,
@@ -106,17 +74,9 @@ const PostDetailsPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  const headerLeft = useMemo(() => {
-    if (isWeb) {
-      return isDirectLink ? logo : <HeaderBackButton icon={ArrowLeft} />
-    } else {
-      return <HeaderBackButton icon={ArrowLeft} />
-    }
-  }, [isWeb, isDirectLink, logo])
-
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerLeft: () => headerLeft,
+      headerLeft: () => <HeaderBackButton icon={ArrowLeft} />,
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>
           {t('individuals.post.details.title', { name: post?.creator.firstName })}
@@ -140,7 +100,7 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [headerLeft, post, setScreenOptions, styles.headerRight, t, navigateBack])
+  }, [post, setScreenOptions, styles.headerRight, t, navigateBack])
 
   const onPressCreateComment = () =>
     isLoggedIn
