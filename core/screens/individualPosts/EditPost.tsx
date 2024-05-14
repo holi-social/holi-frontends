@@ -101,6 +101,7 @@ const EditPost = () => {
       setDescription(post.description)
       setCurrentImage(post.image)
       setSelectedCategoryId(post.category.id)
+      setSelectedVisibility(Visibility[post.visibility])
     }
   }, [post])
 
