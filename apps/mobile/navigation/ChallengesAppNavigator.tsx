@@ -6,10 +6,10 @@ import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { useTheme } from '@holi/ui/styles/theme'
 
-import { ChallengesAppHome } from '@holi-apps/challenges/screens/ChallengesAppHome'
+import { ChallengesAppHome, ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome'
 
 export type ChallengesAppScreensList = {
-  [RouteName.ChallengesAppHome]: undefined
+  [RouteName.ChallengesAppHome]: ChallengesAppHomeParams
 }
 
 const ChallengesAppStack = createNativeStackNavigator<ChallengesAppScreensList>()
