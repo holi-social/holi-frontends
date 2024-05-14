@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import NotFound from '@holi/core/screens/404/NotFound'
+import PostCommentPage from '@holi/core/screens/individualPosts/PostCommentPage'
 import PostDetailsPage, { PostDetailsPageParams } from '@holi/core/screens/individualPosts/PostDetailsPage'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -25,8 +25,7 @@ const FeedPostsNavigator = () => {
       }}
     >
       <FeedPostsStack.Screen name={RouteName.FeedPostDetailsPage} component={PostDetailsPage} />
-      {/*TODO: use FeedPostCommentInputPage */}
-      <FeedPostsStack.Screen name={RouteName.FeedPostCommentInputPage} component={NotFound} />
+      <FeedPostsStack.Screen name={RouteName.FeedPostCommentPage} component={PostCommentPage} />
     </FeedPostsStack.Navigator>
   )
 }

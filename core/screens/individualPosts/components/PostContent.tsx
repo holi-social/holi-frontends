@@ -17,12 +17,12 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type PostCardProps = {
+type PostContentProps = {
   post: FeedPost
   showVisibilityBadge?: boolean
 }
 
-const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
+const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -61,7 +61,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
         </View>
       </View>
       <View style={styles.contenSection}>
-        <HoliHeading level="1" size="s" numberOfLines={3}>
+        <HoliHeading level="1" size="m" numberOfLines={3}>
           {post.title}
         </HoliHeading>
         <HoliRichTextOutput text={post.description} />
@@ -95,14 +95,13 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       borderRadius: Spacing.xs,
-      padding: Spacing.xs,
       gap: Spacing.xs,
     },
     metadata: {
       alignContent: 'space-between',
     },
     contenSection: {
-      gap: Spacing['4xs'],
+      gap: Spacing.xs,
       marginBottom: Spacing.xs,
     },
     pill: {
@@ -137,4 +136,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default PostCard
+export default PostContent
