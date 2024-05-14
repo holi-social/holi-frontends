@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { InputAccessoryView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { InputAccessoryView, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CategorySelectionModal } from '@holi/core/screens/individualPosts/CategorySelectionModal'
@@ -129,7 +129,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   return (
     <>
-      <View style={styles.layout}>
+      <KeyboardAvoidingView behavior={'padding'} style={styles.layout}>
         <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
           <View style={styles.pillContainer}>
             <FeedPostPill
@@ -177,19 +177,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             </View>
           </View>
         </ScrollView>
-
-        {Platform.OS === 'ios' ? (
-          <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
-            <SubmitPostBar
-              onSubmit={submit}
-              onSetImage={onChangeImage}
-              hasSetImage={!!image}
-              submitting={submitting}
-              isSubmittable={isSubmittable}
-              isEdit={isEdit}
-            />
-          </InputAccessoryView>
-        ) : (
+      </KeyboardAvoidingView>
+      {Platform.OS === 'ios' ? (
+        <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
           <SubmitPostBar
             onSubmit={submit}
             onSetImage={onChangeImage}
@@ -198,15 +188,24 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             isSubmittable={isSubmittable}
             isEdit={isEdit}
           />
-        )}
-        {!categoriesLoading && categories && (
-          <CategorySelectionModal
-            show={showCategorySelectionModal}
-            categories={categories}
-            onCategorySelection={selectCategory}
-          />
-        )}
-      </View>
+        </InputAccessoryView>
+      ) : (
+        <SubmitPostBar
+          onSubmit={submit}
+          onSetImage={onChangeImage}
+          hasSetImage={!!image}
+          submitting={submitting}
+          isSubmittable={isSubmittable}
+          isEdit={isEdit}
+        />
+      )}
+      {!categoriesLoading && categories && (
+        <CategorySelectionModal
+          show={showCategorySelectionModal}
+          categories={categories}
+          onCategorySelection={selectCategory}
+        />
+      )}
       <HoliModalSelect
         options={visibilityOptions}
         title={t('individuals.post.input.visibility.title')}
@@ -262,6 +261,7 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
       alignItems: 'center',
       alignContent: 'center',
+      paddingBottom: Platform.OS === 'ios' ? 48 : 120,
     },
     inputContainer: {
       width: '100%',
