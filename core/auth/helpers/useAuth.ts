@@ -13,6 +13,7 @@ export interface LoginStateUnknown {
   isUnknown: true
   isLoggedOut: false
   isLoggedIn: false
+  userId: null
 }
 
 export interface LoginStateLoggedOut {
@@ -20,6 +21,7 @@ export interface LoginStateLoggedOut {
   isUnknown: false
   isLoggedOut: true
   isLoggedIn: false
+  userId: null
 }
 
 export interface LoginStateLoggedIn {
@@ -37,6 +39,7 @@ export const loginStateUnknown: LoginStateUnknown = {
   isUnknown: true,
   isLoggedOut: false,
   isLoggedIn: false,
+  userId: null,
 }
 
 export const loginStateLoggedOut: LoginStateLoggedOut = {
@@ -44,6 +47,7 @@ export const loginStateLoggedOut: LoginStateLoggedOut = {
   isUnknown: false,
   isLoggedOut: true,
   isLoggedIn: false,
+  userId: null,
 }
 
 export const loginStateLoggedIn = (userId: string): LoginStateLoggedIn => ({
