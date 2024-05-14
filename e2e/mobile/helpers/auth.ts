@@ -106,8 +106,6 @@ const logoutOrDelete = async (fn: () => Promise<void>) => {
   let consent = false
   if (await navigateToSettings()) {
     await fn()
-    await tapOnElementWithTestId('btn-to-logout')
-    await tapOnElementWithTestId('modal-logout-confirmation-confirm')
     await waitForAnyElementWithTestId(['already-have-account-text', 'btn-consentModal-acceptAll'])
     if (await checkIfElementWithTestIdExists('btn-consentModal-acceptAll')) {
       await tapOnElementWithTestId('btn-consentModal-acceptAll')
