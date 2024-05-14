@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { InputAccessoryView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CategorySelectionModal } from '@holi/core/screens/individualPosts/CategorySelectionModal'
@@ -125,11 +125,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => onChangeSelectedVisibility(option.id)
 
-  const inputAccessoryViewID = 'inputAccessoryViewID'
-
   return (
     <>
-      <View style={styles.layout}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
         <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
           <View style={styles.pillContainer}>
             <FeedPostPill
@@ -150,7 +148,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               inputStyle={styles.titleInput}
               placeholderColor={theme.colors.gray300}
               aria-label={t('individuals.post.input.category.input.title')}
-              inputAccessoryViewID={inputAccessoryViewID}
               onChange={(input) => onChangeTitle(removeTitlelines(input))}
               value={title}
               maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
@@ -161,7 +158,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               placeholder={t('individuals.post.input.category.input.description')}
               inputStyle={styles.descriptionInput}
               aria-label={t('individuals.post.input.category.input.description')}
-              inputAccessoryViewID={inputAccessoryViewID}
               onChange={onChangeDescription}
               placeholderColor={theme.colors.gray300}
               showCharacterCount
@@ -178,27 +174,14 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           </View>
         </ScrollView>
 
-        {Platform.OS === 'ios' ? (
-          <InputAccessoryView nativeID={inputAccessoryViewID} backgroundColor={theme.colors.background10}>
-            <SubmitPostBar
-              onSubmit={submit}
-              onSetImage={onChangeImage}
-              hasSetImage={!!image}
-              submitting={submitting}
-              isSubmittable={isSubmittable}
-              isEdit={isEdit}
-            />
-          </InputAccessoryView>
-        ) : (
-          <SubmitPostBar
-            onSubmit={submit}
-            onSetImage={onChangeImage}
-            hasSetImage={!!image}
-            submitting={submitting}
-            isSubmittable={isSubmittable}
-            isEdit={isEdit}
-          />
-        )}
+        <SubmitPostBar
+          onSubmit={submit}
+          onSetImage={onChangeImage}
+          hasSetImage={!!image}
+          submitting={submitting}
+          isSubmittable={isSubmittable}
+          isEdit={isEdit}
+        />
         {!categoriesLoading && categories && (
           <CategorySelectionModal
             show={showCategorySelectionModal}
@@ -206,7 +189,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             onCategorySelection={selectCategory}
           />
         )}
-      </View>
+      </KeyboardAvoidingView>
       <HoliModalSelect
         options={visibilityOptions}
         title={t('individuals.post.input.visibility.title')}
