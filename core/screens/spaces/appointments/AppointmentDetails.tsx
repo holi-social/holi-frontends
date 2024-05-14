@@ -92,12 +92,12 @@ const AppointmentDetails = () => {
   const appointment = appointmentData?.appointment
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.userId
   const isMobile = Platform.OS !== 'web'
 
   const renderActionDrawer = useCallback(
     () =>
-      space && appointment && (isAdmin || isAppointmentCreator) ? (
+      space &&
+      appointment && (
         <AppointmentDrawer
           appointment={appointment}
           space={space}
@@ -108,10 +108,8 @@ const AppointmentDetails = () => {
             <HoliIcon icon={More} color={colors.foreground30} />
           </View>
         </AppointmentDrawer>
-      ) : (
-        <></>
       ),
-    [isAdmin, space, appointment, isAppointmentCreator, navigateBack, colors.foreground30]
+    [isAdmin, space, appointment, navigateBack, colors.foreground30]
   )
 
   useIsomorphicLayoutEffect(() => {
