@@ -1,6 +1,9 @@
 import { gql } from '@apollo/client'
 
+import { LinkFragment } from '@holi/core/screens/comments/queries'
+
 export const FeedPostDetailsFragment = gql`
+  ${LinkFragment}
   fragment FeedPostFull on FeedPost {
     id
     slug
@@ -32,6 +35,9 @@ export const FeedPostDetailsFragment = gql`
     }
     reactions {
       HEART
+    }
+    linkPreview {
+      ...LinkFragment
     }
   }
 `

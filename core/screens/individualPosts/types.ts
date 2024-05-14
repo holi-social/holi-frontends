@@ -20,6 +20,18 @@ export interface ReactionCounts {
   HEART: number
 }
 
+interface Link {
+  requestedUrl: string
+  url: string
+  title: string
+  description: string
+  type: string
+  image: string
+  siteName: string
+  origin: string
+  icon?: string
+}
+
 export interface FeedPost {
   id: string
   slug: string
@@ -34,4 +46,5 @@ export interface FeedPost {
   imageBlurhash?: string
   reactions: ReactionCounts
   myReaction: ReactionCounts
+  linkPreview?: Link
 }
