@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
@@ -32,6 +32,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+import FeedPostReactions from './components/FeedPostReactions'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -169,8 +171,8 @@ const PostDetailsPage = () => {
         scrollable={false}
         contentStyle={styles.wrapperContent}
       >
-        <HoliContainer>
-          <ScrollView style={styles.scrollView}>
+        <HoliContainer noPadding={loading && !isWeb}>
+          <View style={styles.scrollView}>
             {post && !loading ? (
               <>
                 <PostContent post={post} showVisibilityBadge={post.creator.id === userId} />
@@ -180,13 +182,14 @@ const PostDetailsPage = () => {
                     commentableId={post.id}
                     replyRoute={`/feed-posts/${post.slug}/comment`}
                     initialOpenThread={commentId}
+                    reactionButton={<FeedPostReactions post={post} />}
                   />
                 </View>
               </>
             ) : (
               <LoadingSkeleton />
             )}
-          </ScrollView>
+          </View>
         </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
 
@@ -201,7 +204,34 @@ const PostDetailsPage = () => {
   )
 }
 
-const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRadius={0} />
+const LoadingSkeleton = () => (
+  <View style={skeletonStyles.container}>
+    <View style={skeletonStyles.userBox}>
+      <HoliSkeleton height={44} width={44} borderRadius={80} />
+      <View style={skeletonStyles.metadata}>
+        <HoliSkeleton height={22} width={120} borderRadius={10} />
+        <HoliSkeleton height={14} width={80} borderRadius={10} />
+      </View>
+    </View>
+    <HoliSkeleton height={22} width={200} borderRadius={20} />
+    <HoliSkeleton height={60} width="100%" borderRadius={10} />
+    <HoliSkeleton height={160} width="100%" borderRadius={20} />
+  </View>
+)
+
+const skeletonStyles = StyleSheet.create({
+  container: {
+    gap: 10,
+    padding: Spacing.xs,
+  },
+  userBox: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  metadata: {
+    gap: 6,
+  },
+})
 
 const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false) =>
   StyleSheet.create({
@@ -232,8 +262,7 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false) =>
       ...(!isWeb ? { paddingHorizontal: Spacing['3xs'] } : {}),
     },
     commentsContainer: {
-      // paddingHorizontal: Spacing.xs,
-      // paddingVertical: Spacing.sm,
+      marginTop: Spacing.xs,
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,

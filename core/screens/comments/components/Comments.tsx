@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -25,6 +25,7 @@ interface CommentsProps {
   onPressCreateComment?: () => void
   isReply?: boolean
   initialOpenThread?: string
+  reactionButton?: ReactNode
 }
 
 const Comments = ({
@@ -34,6 +35,7 @@ const Comments = ({
   replyRoute,
   onPressCreateComment,
   initialOpenThread,
+  reactionButton,
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -68,8 +70,14 @@ const Comments = ({
     <>
       {!parentCommentId && (
         <>
-          <View style={latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle}>
+          <View
+            style={[
+              styles.commenters,
+              latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle,
+            ]}
+          >
             <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
+            {reactionButton}
           </View>
           <View style={styles.commentersLine}>
             <VerticalLine style={parentCommentId ? styles.commentersLineReplies : {}} />
@@ -104,6 +112,11 @@ const Skeleton = () => {
 }
 
 const styles = StyleSheet.create({
+  commenters: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   commentersContainerSingle: {
     marginLeft: Spacing['3xs'],
   },
