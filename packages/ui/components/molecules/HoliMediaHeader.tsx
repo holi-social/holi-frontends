@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
@@ -41,6 +43,7 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, avatarSize, 
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { navigate } = useRouting()
 
   /*
     converting given timestamp to a date first (with '00:00:00' as time)
@@ -75,17 +78,23 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, avatarSize, 
 
   return (
     <View style={[styles.row, style]} testID={testID}>
-      <HoliAvatar
-        imageSrc={author?.avatar ?? ''}
-        imageBlurhash={author?.avatarBlurhash ?? ''}
-        label={authorName}
-        initials={author?.avatarLabel ?? ''}
-        defaultColor={author?.avatarDefaultColor ?? ''}
-        size={avatarSize || 'small'}
-      />
-
+      <HoliButton inline transparent label={author.fullName} onPress={() => navigate(`/profile/${author.id}`)}>
+        <HoliAvatar
+          imageSrc={author?.avatar ?? ''}
+          imageBlurhash={author?.avatarBlurhash ?? ''}
+          label={authorName}
+          initials={author?.avatarLabel ?? ''}
+          defaultColor={author?.avatarDefaultColor ?? ''}
+          size={avatarSize || 'small'}
+        />
+      </HoliButton>
       <View style={[styles.titleContainer]}>
-        <HoliText bold={boldTitle}>{title}</HoliText>
+        <HoliText bold={boldTitle}>
+          <HoliButton inline transparent label={author.fullName} onPress={() => navigate(`/profile/${author.id}`)}>
+            {title}
+          </HoliButton>
+        </HoliText>
+
         <View style={styles.row}>
           {!!formattedDate && (
             <HoliText size="small" style={styles.date}>
