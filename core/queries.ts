@@ -11,6 +11,7 @@ export enum ContentType {
   USER = 'USER',
   SPACE = 'SPACE',
   FEED_POST = 'FEED_POST',
+  SPACE_TASK = 'SPACE_TASK',
 }
 
 export const ReportContentMutation = gql`

@@ -7,20 +7,16 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Delete, Edit2, More } from '@holi/icons/src/generated'
+import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
-import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -35,7 +31,7 @@ const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [taskId] = useParam('taskId')
   const setScreenOptions = useSetScreenOptions()
-  const { navigate, replaceRoute } = useRouting()
+  const { replaceRoute } = useRouting()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -47,56 +43,7 @@ const TaskDetails = () => {
 
   const task = (space?.tasks || []).find((t) => t.id === taskId)
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-
-  const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
-    id: task?.id || '',
-    spaceIdOrName: space?.name || '',
-    successMsg: t('spaces.tasks.delete.success'),
-    handleDelete: () => {
-      navigate(`/spaces/${space?.name}`)
-    },
-  })
-
-  const renderActionDrawer = useCallback(
-    () => (
-      <>
-        {isAdmin && (
-          <HoliActionDrawer.Drawer
-            label={t('global.moreOptions')}
-            testID="btn-task-more-options"
-            buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
-          >
-            <HoliActionDrawer.Action
-              icon={Edit2}
-              title={t('global.edit')}
-              testID="btn-to-edit-task"
-              handleAction={() => navigate(`/spaces/${space?.name}/tasks/${task?.id}/edit`)}
-            />
-            <HoliActionDrawer.Action
-              isLoading={isLoadingDeleteTask}
-              icon={Delete}
-              title={t('spaces.digitalTool.delete.label')}
-              variant="danger"
-              testID="btn-to-delete-task"
-              showConfirmation
-            >
-              <HoliActionDrawer.Confirmation
-                title={t('spaces.tasks.delete.confirmation.title')}
-                description={t('spaces.tasks.delete.confirmation.description')}
-                testID="task-delete"
-                handleConfirmation={deleteTask}
-                buttonType="warning"
-                hasDismissBtn
-                requireLogin
-              />
-            </HoliActionDrawer.Action>
-          </HoliActionDrawer.Drawer>
-        )}
-      </>
-    ),
-    [isAdmin, t, isLoadingDeleteTask, deleteTask, navigate, space?.name, task?.id, colors.foreground30]
-  )
+  const renderActionDrawer = useCallback(() => task && space && <TaskDrawer task={task} space={space} />, [task, space])
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
