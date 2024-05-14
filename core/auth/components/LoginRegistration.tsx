@@ -18,6 +18,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 const SMALL_DEVICE_HEIGHT = 624
 
@@ -105,7 +106,7 @@ const LoginRegistration = ({
             label={t('profile.loggedOut.image')}
           />
         </View>
-        <HoliBox padding={[screenHeight <= SMALL_DEVICE_HEIGHT ? 24 : 74, 0, 0, 0]} />
+        <HoliBox padding={[screenHeight <= SMALL_DEVICE_HEIGHT ? Spacing.md : Spacing['3xl'], 0, 0, 0]} />
         <HoliHeading level="1" size="m" align="center" testID="login-protection-heading">
           {headingText}
         </HoliHeading>
@@ -172,10 +173,11 @@ const styles = StyleSheet.create({
   bottomLinkContainer: {
     width: '100%',
     justifyContent: 'center',
-    gap: 12,
+    columnGap: Spacing['xxs'],
+    rowGap: Spacing['4xs'],
     flexDirection: 'row',
     flexWrap: 'wrap',
-    bottom: 24,
+    bottom: Spacing['xxs'],
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
   },
 })
