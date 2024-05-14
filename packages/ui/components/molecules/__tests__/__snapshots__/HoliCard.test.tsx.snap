@@ -17,33 +17,45 @@ exports[`HoliCard renders correctly 1`] = `
   }
   testID="holiCard"
 >
-  <Image
-    accessibilityRole="image"
-    accessible={true}
-    aria-label="volunteering"
-    contentFit="cover"
-    role="img"
-    source={
-      {
-        "height": undefined,
-        "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:2400/ext:webp/quality:80/plain/https%3A%2F%2Flogin.freiwilligenarbeit.de%2Fapi%2Fv1%2Fcontent_delivery%2Fimages%2F4620%2Fvolunteering-michigan-teaser.jpg",
-        "width": 1200,
-      }
-    }
-    style={
-      {
-        "aspectRatio": 1.5,
-        "borderRadius": 8,
-        "flex": 1,
-        "marginBottom": 16,
-        "width": "100%",
-      }
-    }
-    testID="holiCard-cardImage"
-  />
   <View
     style={
       {
+        "flexBasis": "58%",
+        "flexGrow": 0,
+        "flexShrink": 0,
+        "marginBottom": 16,
+        "position": "relative",
+      }
+    }
+  >
+    <Image
+      accessibilityRole="image"
+      accessible={true}
+      aria-label="volunteering"
+      contentFit="cover"
+      role="img"
+      source={
+        {
+          "height": undefined,
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:2400/ext:webp/quality:80/plain/https%3A%2F%2Flogin.freiwilligenarbeit.de%2Fapi%2Fv1%2Fcontent_delivery%2Fimages%2F4620%2Fvolunteering-michigan-teaser.jpg",
+          "width": 1200,
+        }
+      }
+      style={
+        {
+          "aspectRatio": 1.5,
+          "borderRadius": 8,
+          "flex": 1,
+          "width": "100%",
+        }
+      }
+      testID="holiCard-cardImage"
+    />
+  </View>
+  <View
+    style={
+      {
+        "flex": 1,
         "paddingHorizontal": 8,
       }
     }

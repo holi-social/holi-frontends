@@ -16,6 +16,7 @@ interface BaseProps {
   usersTotal?: number
   users: User[]
   testID?: string
+  hasBackground?: boolean
 }
 
 interface SkeletonProps extends Partial<BaseProps> {
@@ -26,7 +27,7 @@ interface Props extends BaseProps {
   loading?: false
 }
 
-type HoliUserAvatarPileProps = SkeletonProps | Props
+export type HoliUserAvatarPileProps = SkeletonProps | Props
 
 const emptyUser = (id: string, theme: HoliTheme): User => {
   const { colors } = theme
@@ -48,9 +49,10 @@ const HoliUserAvatarPile = ({
   collapse = false,
   counter = false,
   style,
-  testID = 'holi-user-avatar-pile',
   loading,
+  hasBackground = false,
   usersTotal = users?.length ?? 0,
+  testID = 'holi-user-avatar-pile',
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -64,7 +66,7 @@ const HoliUserAvatarPile = ({
 
   return (
     <>
-      <View style={[style, styles.container]} testID={testID}>
+      <View style={[style, styles.container, hasBackground && styles.bordered]} testID={testID}>
         {uniqueUsers.slice(0, usersToShow).map((user, idx) => {
           const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
 
@@ -109,6 +111,13 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    bordered: {
+      paddingVertical: 4,
+      paddingLeft: 4,
+      paddingRight: 8,
+      backgroundColor: theme.colors.background10,
+      borderRadius: 100,
     },
     loadingCounter: {
       marginLeft: 8,

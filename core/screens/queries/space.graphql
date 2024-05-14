@@ -1,0 +1,30 @@
+query SpaceRecommendation($limit: Int) {
+  recommendedSpaces(limit: $limit) {
+    data {
+      ...SpaceCard
+    }
+    totalResults
+  }
+}
+
+fragment SpaceCard on Space {
+  title
+  name
+  description
+  location
+  id
+  cover
+  members {
+    data {
+      user {
+        id
+        avatar
+        avatarLabel
+        avatarDefaultColor
+        avatarBlurhash
+        fullName
+      }
+    }
+    totalResults
+  }
+}

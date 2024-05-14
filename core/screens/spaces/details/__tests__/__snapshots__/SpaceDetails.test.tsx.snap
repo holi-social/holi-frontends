@@ -233,6 +233,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                           "alignItems": "center",
                           "flexDirection": "row",
                         },
+                        false,
                       ]
                     }
                     testID="space-members"

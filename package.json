@@ -51,6 +51,7 @@
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@graphql-codegen/typescript-react-apollo": "^3.0.0",
+    "@parcel/watcher": "^2.4.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/jest-native": "^5.4.1",
     "@testing-library/react-hooks": "^8.0.1",

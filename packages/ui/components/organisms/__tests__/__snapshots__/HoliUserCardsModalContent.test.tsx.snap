@@ -144,6 +144,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
+                  style={
+                    [
+                      false,
+                    ]
+                  }
                   testID="link"
                 >
                   <View
@@ -312,6 +317,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
+                  style={
+                    [
+                      false,
+                    ]
+                  }
                   testID="link"
                 >
                   <View
@@ -478,6 +488,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
+                  style={
+                    [
+                      false,
+                    ]
+                  }
                   testID="link"
                 >
                   <View
@@ -646,6 +661,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
+                  style={
+                    [
+                      false,
+                    ]
+                  }
                   testID="link"
                 >
                   <View
@@ -812,6 +832,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
+                  style={
+                    [
+                      false,
+                    ]
+                  }
                   testID="link"
                 >
                   <View
@@ -980,6 +1005,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
+                  style={
+                    [
+                      false,
+                    ]
+                  }
                   testID="link"
                 >
                   <View
@@ -1148,6 +1178,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
+                  style={
+                    [
+                      false,
+                    ]
+                  }
                   testID="link"
                 >
                   <View
