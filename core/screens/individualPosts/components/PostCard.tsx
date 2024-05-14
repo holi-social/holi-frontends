@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
@@ -13,6 +13,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -24,27 +25,15 @@ type PostCardProps = {
   showVisibilityBadge?: boolean
 }
 
-// temporarily solution to use HoliRichTextOutput within a read more type component.
-// with 3 max lines, react-native returns a 67 height with our current font and line-height.
-// if the text's height is greater than 67, it is assumed to have a Read More button.
-const LINE_HEIGHT = 23
 const NUMBER_OF_LINES = 3
 
 const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>() // undefined is used when no Read More button is needed, false is Read More and true is Read Less
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
 
   const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
-
-  // calculation of text height to check wether Read More button should be displayed
-  const handleTextLayoutEvent = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
-    if (layout.height > LINE_HEIGHT * NUMBER_OF_LINES && isExpanded === undefined) {
-      setIsExpanded(false)
-    }
-  }
 
   return (
     <View style={styles.container}>
@@ -90,25 +79,9 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
 
       {/* not clickable */}
       <View>
-        <HoliRichTextOutput
-          text={post.description}
-          allowAllLinks
-          ellipsizeMode="tail"
-          onLayout={handleTextLayoutEvent}
-          style={{ maxHeight: typeof isExpanded === 'undefined' ? LINE_HEIGHT * (NUMBER_OF_LINES + 1) : undefined }}
-          {...(typeof isExpanded === 'boolean' ? { numberOfLines: isExpanded ? undefined : 3 } : {})}
-        />
-        {typeof isExpanded === 'boolean' && (
-          <HoliButton
-            label={isExpanded ? t('component.readMore.readLess') : t('component.readMore.readMore')}
-            transparent
-            inline
-            style={styles.readMoreButton}
-            onPress={() => setIsExpanded((value) => !value)}
-          >
-            {isExpanded ? t('component.readMore.readLess') : t('component.readMore.readMore')}
-          </HoliButton>
-        )}
+        <HoliReadMore numberOfLines={NUMBER_OF_LINES} color="gray300" bold={false}>
+          <HoliRichTextOutput text={post.description} allowAllLinks />
+        </HoliReadMore>
       </View>
 
       {!!post.image && (
