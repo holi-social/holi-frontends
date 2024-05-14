@@ -242,6 +242,7 @@ const getStyles = (theme: HoliTheme) =>
       }),
     },
     contentContainer: {
+      paddingBottom: Platform.OS === 'ios' ? dimensions.bottomBarHeight : dimensions.bottomBarHeight + 60,
       justifyContent: 'center',
       alignItems: 'center',
       alignContent: 'center',
