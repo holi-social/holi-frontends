@@ -46,7 +46,7 @@ const PostDetailsPage = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
-  const { replaceRoute, navigate } = useRouting()
+  const { replaceRoute, navigate, navigateBack } = useRouting()
   const { userId, isLoggedIn } = useAuth()
   const { openLoginModal } = useLoginModal()
   const insets = useSafeAreaInsets()
@@ -127,7 +127,7 @@ const PostDetailsPage = () => {
               <HoliButton transparent label="btn-share-feed-post" inline>
                 <HoliIcon icon={Share} />
               </HoliButton>
-              <PostDrawer post={post}>
+              <PostDrawer post={post} onDelete={navigateBack}>
                 <HoliIcon icon={MoreFilled} />
               </PostDrawer>
             </View>
@@ -179,7 +179,6 @@ const PostDetailsPage = () => {
                     commentableType={CommentableType.FEED_POST}
                     commentableId={post.id}
                     replyRoute={`/feed-posts/${post.slug}/comment`}
-                    onPressCreateComment={onPressCreateComment}
                     initialOpenThread={commentId}
                   />
                 </View>
