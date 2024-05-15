@@ -99,7 +99,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           </View>
         </HoliButton>
       )}
-      {!!post.linkPreview && <HoliLinkPreview previewData={post.linkPreview} />}
+      {!post.image && !!post.linkPreview && <HoliLinkPreview previewData={post.linkPreview} />}
 
       <View style={styles.reactionsBar}>
         <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
