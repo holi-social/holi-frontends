@@ -64,7 +64,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           <HoliRichTextOutput text={post.description} allowAllLinks />
         </View>
         {!!post.image && (
-          <View style={styles.imageContainer}>
+          <View style={[styles.imageContainer, styles.blockContainer]}>
             <HoliImage
               label={post.title}
               source={{
@@ -77,7 +77,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           </View>
         )}
         {!!post.linkPreview && (
-          <View style={styles.imageContainer}>
+          <View style={styles.blockContainer}>
             <HoliLinkPreview previewData={post.linkPreview} />
           </View>
         )}
@@ -112,12 +112,14 @@ const getStyles = (theme: HoliTheme, sm = false) =>
       alignItems: 'center',
       gap: Spacing['3xs'],
     },
-    imageContainer: {
+    blockContainer: {
       paddingHorizontal: sm ? Spacing.md : 0,
+      width: '100%',
+    },
+    imageContainer: {
       ...(!sm
         ? {
             borderRadius: Spacing.xxs,
-            width: '100%',
             aspectRatio: 16 / 9,
             overflow: 'hidden',
           }
