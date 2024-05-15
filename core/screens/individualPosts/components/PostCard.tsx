@@ -158,7 +158,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     reactionsBar: {
       marginTop: Spacing.xxs,
-      marginLeft: Spacing.xs,
       alignItems: 'center',
       flexDirection: 'row',
       justifyContent: 'space-between',
