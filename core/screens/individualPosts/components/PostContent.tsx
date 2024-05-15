@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
@@ -23,12 +23,9 @@ type PostContentProps = {
 
 const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   const { t } = useTranslation()
-  const { width: screenWidth } = useWindowDimensions()
   const { theme } = useTheme()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
-
-  console.log(screenWidth, dimensions.breakpointS)
 
   return (
     <>
@@ -117,12 +114,24 @@ const getStyles = (theme: HoliTheme, sm = false) =>
     },
     imageContainer: {
       paddingHorizontal: sm ? Spacing.md : 0,
+      ...(!sm
+        ? {
+            borderRadius: Spacing.xxs,
+            width: '100%',
+            aspectRatio: 16 / 9,
+            overflow: 'hidden',
+          }
+        : {}),
     },
     image: {
-      borderRadius: Spacing.xxs,
-      width: '100%',
-      aspectRatio: 16 / 9,
-      overflow: 'hidden',
+      ...(sm
+        ? {
+            borderRadius: Spacing.xxs,
+            width: '100%',
+            aspectRatio: 16 / 9,
+            overflow: 'hidden',
+          }
+        : {}),
       height: '100%',
     },
   })

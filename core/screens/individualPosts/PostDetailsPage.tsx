@@ -232,7 +232,7 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isS
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
         ios: {
-          paddingTop: dimensions.topBarHeight + insets.top - Spacing['3xs'],
+          paddingTop: dimensions.topBarHeight + insets.top,
         },
         android: {
           paddingTop: dimensions.topBarHeight + Spacing.xl,
