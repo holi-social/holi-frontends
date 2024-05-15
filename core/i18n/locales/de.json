@@ -376,6 +376,7 @@
   "insights.initiatives.title": "Werde aktiv mit holi",
   "insights.insight.favorite.button": "Speichern",
   "insights.insight.favorite.success": "In Favoriten gespeichert",
+  "insights.insight.login.prompt.message": "Um diesen Insight in den Favoriten zu speichern, musst du dich erst einloggen", 
   "insights.insight.notFound": "Thema {{insightId}} nicht gefunden",
   "insights.insight.remove.favorite.button": "Gespeichert in Favoriten",
   "insights.insight.remove.favorite.success": "Aus Favoriten entfernt",
