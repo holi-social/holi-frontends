@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
@@ -10,19 +11,23 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { useTheme } from '@holi/ui/styles/theme'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const CreatePost = () => {
   const { theme } = useTheme()
 
   const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
   const { navigateBack, navigate } = useRouting()
 
   const { t } = useTranslation()
@@ -31,12 +36,16 @@ const CreatePost = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
 
+  const { loading: categoriesLoading, categories } = useFeedPostCategories()
+
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
 
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | null>(null)
+
+  const [showCategories, setShowCategories] = useState(true)
 
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
@@ -74,18 +83,27 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerTransparent: true,
       headerTitle: () => (
         <HoliHeading level="1" size="s">
           {t('individuals.post.input.title')}
         </HoliHeading>
       ),
-      headerTransparent: true,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={colors.black300} />,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
   }, [colors.background20, colors.black300, navigateBack, setScreenOptions, t])
+
+  const selectCategory = (categoryId: string) => {
+    setSelectedCategoryId(categoryId)
+    setShowCategories(false)
+  }
+
+  const toggleShowCategories = () => {
+    setShowCategories((value) => !value)
+  }
 
   if (!ftLoading && !ftEnabled) {
     navigate('/404')
@@ -97,22 +115,42 @@ const CreatePost = () => {
 
   return (
     <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-      <PostInputForm
-        title={title}
-        onChangeTitle={setTitle}
-        description={description}
-        onChangeDescription={setDescription}
-        image={image}
-        onChangeImage={setImage}
-        selectedCategoryId={selectedCategoryId}
-        onChangeSelectedCategoryId={setSelectedCategoryId}
-        selectedVisibility={selectedVisibility}
-        onChangeSelectedVisibility={setSelectedVisibility}
-        onSubmit={createPost}
-        submitting={submitting}
-      />
+      <View style={styles.grayExtendingBackground}>
+        {showCategories ? (
+          <CategorySelection loading={categoriesLoading} categories={categories} onCategorySelection={selectCategory} />
+        ) : (
+          <PostInputForm
+            title={title}
+            onChangeTitle={setTitle}
+            description={description}
+            onChangeDescription={setDescription}
+            image={image}
+            onChangeImage={setImage}
+            selectedCategoryId={selectedCategoryId}
+            onChangeSelectedCategoryId={setSelectedCategoryId}
+            selectedVisibility={selectedVisibility}
+            onChangeSelectedVisibility={setSelectedVisibility}
+            onSubmit={createPost}
+            submitting={submitting}
+            categories={categories}
+            onClickCategoriesPill={toggleShowCategories}
+          />
+        )}
+      </View>
     </FeatureToggleGuard>
   )
 }
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    grayExtendingBackground: {
+      backgroundColor: theme.colors.background20,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      height: '100%',
+      width: '100%',
+    },
+  })
 
 export default withProfiler(CreatePost, { name: 'CreatePost' })

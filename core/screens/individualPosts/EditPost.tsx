@@ -12,9 +12,11 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { PostQueryResponse, feedPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
+import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -43,6 +45,8 @@ const EditPost = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
 
+  const { loading: categoriesLoading, categories } = useFeedPostCategories()
+
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
 
@@ -50,6 +54,8 @@ const EditPost = () => {
   const [title, setTitle] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | null>()
   const [currentImage, setCurrentImage] = useState<string>()
+
+  const [showCategories, setShowCategories] = useState(false)
 
   const { data: { post } = {}, loading: loadingPost } = useQuery<PostQueryResponse>(postQuery, {
     variables: { idOrSlug },
@@ -124,6 +130,15 @@ const EditPost = () => {
     })
   }, [colors.background20, colors.black300, navigateBack, setScreenOptions, t])
 
+  const selectCategory = (categoryId: string) => {
+    setSelectedCategoryId(categoryId)
+    setShowCategories(false)
+  }
+
+  const toggleShowCategories = () => {
+    setShowCategories((value) => !value)
+  }
+
   if (!ftLoading && !ftEnabled) {
     navigate('/404')
   }
@@ -135,25 +150,33 @@ const EditPost = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.creator.id}>
       <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-        <PostInputForm
-          title={title}
-          onChangeTitle={setTitle}
-          description={description}
-          onChangeDescription={setDescription}
-          image={image || null}
-          onChangeImage={(value) => {
-            setImage(value)
-            setCurrentImage(undefined)
-          }}
-          selectedCategoryId={selectedCategoryId}
-          onChangeSelectedCategoryId={setSelectedCategoryId}
-          selectedVisibility={selectedVisibility}
-          onChangeSelectedVisibility={setSelectedVisibility}
-          onSubmit={editPost}
-          submitting={submitting}
-          currentImage={currentImage}
-          isEdit
-        />
+        {categoriesLoading ? (
+          <HoliLoader />
+        ) : showCategories ? (
+          <CategorySelection categories={categories} onCategorySelection={selectCategory} />
+        ) : (
+          <PostInputForm
+            title={title}
+            onChangeTitle={setTitle}
+            description={description}
+            onChangeDescription={setDescription}
+            image={image || null}
+            onChangeImage={(value) => {
+              setImage(value)
+              setCurrentImage(undefined)
+            }}
+            selectedCategoryId={selectedCategoryId}
+            onChangeSelectedCategoryId={setSelectedCategoryId}
+            selectedVisibility={selectedVisibility}
+            onChangeSelectedVisibility={setSelectedVisibility}
+            onSubmit={editPost}
+            submitting={submitting}
+            currentImage={currentImage}
+            onClickCategoriesPill={toggleShowCategories}
+            categories={categories}
+            isEdit
+          />
+        )}
       </FeatureToggleGuard>
     </PermissionsGuard>
   )
