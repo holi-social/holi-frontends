@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -42,9 +43,6 @@ const CreatePost = () => {
       openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
       navigateBack()
     },
-    onError: (error) => {
-      alert(error)
-    },
     refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
   })
 
@@ -60,7 +58,13 @@ const CreatePost = () => {
           image: image?.blob,
         },
       },
-      onError: () => openToast(t('individuals.post.input.error'), HoliToastType.ERROR),
+      onError: (error) => {
+        if (isMaliciousUrlError(error)) {
+          openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+        } else {
+          openToast(t('individuals.post.input.error'), HoliToastType.ERROR)
+        }
+      },
     })
       .catch(() => {
         openToast(t('individuals.post.input.error'), HoliToastType.ERROR)

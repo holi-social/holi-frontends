@@ -6,7 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { logError } from '@holi/core/errors/helpers'
+import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -28,6 +28,7 @@ import { LocationDetails } from '@holi/core/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
@@ -49,6 +50,7 @@ const CreateAppointment = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { openToast } = useToast()
 
   // input fields
   const [title, setTitle] = useState('')
@@ -96,11 +98,16 @@ const CreateAppointment = () => {
 
   const [createAppointment] = useMutation<CreateAppointmentResponse>(createAppointmentMutation, {
     onCompleted: () => navigateBack(),
-    onError: (error) =>
-      displayError(error, 'Failed to create appointment', {
-        location: 'CreateAppointment.createAppointment',
-        spaceIdOrName,
-      }),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        displayError(error, 'Failed to create appointment', {
+          location: 'CreateAppointment.createAppointment',
+          spaceIdOrName,
+        })
+      }
+    },
     refetchQueries: [
       {
         query: appointmentsBySpaceIdQuery,

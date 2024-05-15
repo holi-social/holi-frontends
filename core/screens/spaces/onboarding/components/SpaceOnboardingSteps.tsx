@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -74,11 +75,16 @@ const SpaceOnboardingSteps = () => {
       openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
       navigate(`/spaces/${spaceIdOrName}`)
     },
-    onError: (error) =>
-      displayError(error, 'Failed to update space', {
-        location: 'SpaceOnboardingSteps.updateSpace',
-        spaceIdOrName,
-      }),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        displayError(error, 'Failed to update space', {
+          location: 'SpaceOnboardingSteps.updateSpace',
+          spaceIdOrName,
+        })
+      }
+    },
   })
 
   const handleChange = useCallback(

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
+import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
 import { urlRegex } from '@holi/core/helpers'
 import { withProtocol } from '@holi/core/helpers/url'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
@@ -35,7 +35,11 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
       onDismiss()
     },
     onError: (e) => {
-      setValidationErrorTextUrl(t('global.validation.url.invalid'))
+      if (isMaliciousUrlError(e)) {
+        setValidationErrorTextUrl(t('global.maliciousUrl.error'))
+      } else {
+        setValidationErrorTextUrl(t('global.validation.url.invalid'))
+      }
       logError(e, 'Failed to add link to space', {
         location: 'CreateSpaceLinks.addExternalLinkMutation',
         spaceId: space.id,

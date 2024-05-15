@@ -240,6 +240,7 @@
   "global.loading": "Lädt…",
   "global.maintenance.description": "Dieses Feature ist aufgrund einer Wartung gerade nicht verfügbar. Es ist bald wieder da!",
   "global.maintenance.title": "{{feature}} macht eine Pause",
+  "global.maliciousUrl.error": "Unsicheren Link erkannt, bitte überprüfen.",
   "global.minutes": "Minute",
   "global.moreOptions": "Mehr Optionen",
   "global.next": "Weiter",

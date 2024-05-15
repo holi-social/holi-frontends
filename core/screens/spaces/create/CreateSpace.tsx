@@ -6,6 +6,7 @@ import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -28,6 +29,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -58,6 +60,7 @@ const CreateSpace = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { openToast } = useToast()
 
   // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
   const loginState = useAuth()
@@ -71,7 +74,13 @@ const CreateSpace = () => {
 
   const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
     onCompleted: () => setFieldErrors({}),
-    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        setFieldErrors(handleGraphQLError(error))
+      }
+    },
   })
   const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
     onCompleted: async (data) => {
@@ -79,7 +88,13 @@ const CreateSpace = () => {
       await replaceHistory(spaceDetailsRoute)
       return navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
     },
-    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        setFieldErrors(handleGraphQLError(error))
+      }
+    },
     refetchQueries: [{ query: mySpaceQuery }],
   })
 

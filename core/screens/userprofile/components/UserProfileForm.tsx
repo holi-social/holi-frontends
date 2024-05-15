@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { IMAGE_MAX_FILE_SIZE_BYTES, PROFILE_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
-import { FieldError } from '@holi/core/errors/helpers'
+import { FieldError, isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, {
   GeolocationLevel,
@@ -25,7 +25,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliToastType, ToastProvider, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { Position, delayAnimation, usePositions } from '@holi/ui/helper'
@@ -40,6 +40,8 @@ type UserProfileFormProps = {
 }
 
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
+  const { openToast } = useToast()
+
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
@@ -110,7 +112,13 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
           onSubmit(data.updateAuthenticatedUserV2)
         }
       },
-      onError: (error) => setFieldErrors(handleGraphQLError(error)),
+      onError: (error) => {
+        if (isMaliciousUrlError(error)) {
+          openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+        } else {
+          setFieldErrors(handleGraphQLError(error))
+        }
+      },
     })
   }
 

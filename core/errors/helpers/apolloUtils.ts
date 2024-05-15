@@ -1,6 +1,6 @@
 import { ApolloError, ServerError } from '@apollo/client'
 
-export type graphQLErrorCode = 'NOT_FOUND' | 'BAD_USER_INPUT' | 'FORBIDDEN'
+export type graphQLErrorCode = 'NOT_FOUND' | 'BAD_USER_INPUT' | 'FORBIDDEN' | 'MALICIOUS_URL'
 
 export type FieldError = {
   message: string
@@ -24,6 +24,9 @@ export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): F
 export const isNotFoundError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, ['NOT_FOUND'])
 
 export const isForbiddenError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, ['FORBIDDEN'])
+
+export const isMaliciousUrlError = (error: Pick<ApolloError, 'graphQLErrors'>) =>
+  isErrorOfType(error, ['MALICIOUS_URL'])
 
 export const isServerError = (error: unknown): error is ServerError => {
   return typeof error === 'object' && error !== null && 'statusCode' in error
