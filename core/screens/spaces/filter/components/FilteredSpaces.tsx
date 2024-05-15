@@ -19,6 +19,8 @@ import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import Spacing from '@holi/ui/foundations/Spacing'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface FilteredSpacesProps extends Pick<Partial<SpaceFilter>, 'skillSlugs' | 'topicSlugs'> {
@@ -116,6 +118,7 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       display: 'flex',
       backgroundColor: theme.colors.background20,
+      paddingBottom: dimensions.bottomBarHeight + Spacing.md,
     },
     buttonContainer: {
       marginTop: 20,
