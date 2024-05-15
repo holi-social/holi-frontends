@@ -2,7 +2,7 @@ import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appC
 
 const appRoute = HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.CHALLENGES].path
 
-export const createChallengesPath = (path: string) => {
+export const createChallengesPath = (path?: string) => {
   if (!path) {
     return appRoute
   }
