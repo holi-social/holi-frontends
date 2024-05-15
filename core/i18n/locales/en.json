@@ -240,6 +240,7 @@
   "global.loading": "Loading…",
   "global.maintenance.description": "This feature is temporarily unavailable due to maintenance. It will come back soon!",
   "global.maintenance.title": "{{feature}} is taking a break",
+  "global.maliciousUrl.error": "Unsafe link detected, please check.",
   "global.minutes": "Minutes",
   "global.moreOptions": "More options",
   "global.next": "Next",
