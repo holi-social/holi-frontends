@@ -11,6 +11,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -74,6 +75,12 @@ const PostDetailsPage = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
+  const [, shareLink] = useShareLink({
+    link: `/feed-posts/${post?.slug}`,
+    linkType: LinkType.UNIVERSAL,
+    message: post?.title ?? '',
+  })
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerLeft: () => <HeaderBackButton icon={ArrowLeft} />,
@@ -86,7 +93,7 @@ const PostDetailsPage = () => {
         return (
           post && (
             <View style={styles.headerRight}>
-              <HoliButton transparent label="btn-share-feed-post" inline>
+              <HoliButton transparent label="btn-share-feed-post" inline onPress={shareLink}>
                 <HoliIcon icon={Share} />
               </HoliButton>
               <PostDrawer post={post} onDelete={navigateBack}>
@@ -100,7 +107,7 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [post, setScreenOptions, styles.headerRight, t, navigateBack])
+  }, [post, setScreenOptions, styles.headerRight, t, navigateBack, shareLink])
 
   const onPressCreateComment = () =>
     isLoggedIn
