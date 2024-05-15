@@ -16,8 +16,10 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
@@ -30,9 +32,10 @@ const isWeb = Platform.OS === 'web'
 
 interface CreateAccountProps {
   onRegister: () => void
+  onDismiss: () => void
 }
 
-const CreateAccount = ({ onRegister }: CreateAccountProps) => {
+const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   const { isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -94,13 +97,14 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
 
+        // update Onboarding state before loading a user
+        await onRegister()
         // and only then load user
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
 
-        onRegister()
         redirect()
       } catch (err) {
         handleFormSubmitError(
@@ -134,6 +138,17 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
             style={styles.loginForm}
             scrollToInputWithId={scrollToInputWithId}
           />
+
+          <HoliGap size="m" />
+
+          <HoliButton
+            label={t('auth.loginProtection.continueAsGuest')}
+            onPress={onDismiss}
+            type="secondary"
+            testID="btn-to-continue-as-guest"
+          >
+            {t('auth.loginProtection.continueAsGuest')}
+          </HoliButton>
 
           <View style={{ alignItems: 'center' }}>
             <AlreadyHaveAccountText style={styles.loginHeadline} />

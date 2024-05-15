@@ -8,7 +8,6 @@ import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
-import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
@@ -18,6 +17,7 @@ import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator
 import FeedPostsNavigator from '@holi/mobile/navigation/FeedPostsNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
+import OnboardingNavigator from '@holi/mobile/navigation/OnboardingNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
@@ -33,7 +33,6 @@ export type RootStackScreens = {
 
   [RouteName.Onboarding]: undefined
   [RouteName.Login]: undefined
-  [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
 
   [RouteName.ChallengesApp]: undefined
@@ -162,7 +161,7 @@ const RootNavigator = () => {
       />
       <RootStack.Screen
         name={RouteName.Onboarding}
-        component={Onboarding}
+        component={OnboardingNavigator}
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,

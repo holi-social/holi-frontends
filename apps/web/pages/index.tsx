@@ -2,7 +2,7 @@ import type { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import { SpaceRecommendationDocument } from '@holi/api/graphql/graphql-codegen'
-import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
+import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import { POSTS_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
 import { FEED_POSTS_PAGE_SIZE } from '@holi/core/screens/individualPosts/components/AllPosts'
@@ -17,7 +17,7 @@ import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringUpdates'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 
-const HomeFeedPage: NextPage = () => <HomeFeedOnboarding />
+const HomeFeedPage: NextPage = () => <HomeFeed />
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const { location } = context.query

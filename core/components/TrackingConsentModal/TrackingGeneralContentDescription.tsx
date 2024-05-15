@@ -14,7 +14,7 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   checkTextCountList?: number[]
@@ -25,6 +25,9 @@ const TrackingGeneralContentDescription = ({ checkTextCountList = [1, 2, 3] }: P
   const { visible, show, hide } = useModalState()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+
+  const { theme } = useTheme()
+  const { colors } = theme
 
   const documentURL = useDocumentURL('dataProcessing')
 

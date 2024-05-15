@@ -2,24 +2,22 @@ import React, { memo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
-import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { TrackingGeneralContentDescription } from '@holi/core/components/TrackingConsentModal'
 import { getLogger } from '@holi/core/helpers/logging'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { updateConsentState } from '@holi/core/tracking/TrackingInitializer'
+import { updateConsentState, useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { Consent, TrackingPurpose } from '@holi/core/tracking/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const logger = getLogger('Tracking')
 
@@ -41,12 +39,26 @@ const updateUserConsentState = ({
 const TrackingSettings = () => {
   const { t } = useTranslation()
 
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = getStyles(theme)
+
   const setScreenOptions = useSetScreenOptions()
-  const { user } = useLoggedInUser()
+
+  useIsomorphicLayoutEffect(() => {
+    setScreenOptions({ title: t('profile.settings.tracking.title') })
+  }, [setScreenOptions, t])
+
+  const consentState = useConsentState()
+
+  if (!consentState) return <HoliLoader />
+
   const {
-    trackingConsentPersonalization: personalization = false,
-    trackingConsentAnalytics: productAnalytics = false,
-  } = user ?? {}
+    [TrackingPurpose.Personalization]: personalizationConsent = Consent.Unknown,
+    [TrackingPurpose.Analytics]: productAnalyticsConsent = Consent.Unknown,
+  } = consentState ?? {}
+  const personalization = Consent.toBooleanOrNull(personalizationConsent)
+  const productAnalytics = Consent.toBooleanOrNull(productAnalyticsConsent)
 
   const onAllPurposesChange = (value: boolean) => {
     updateUserConsentState({ personalization: value, productAnalytics: value })
@@ -61,110 +73,99 @@ const TrackingSettings = () => {
     logger.debug('TrackingSettings', 'updated analytics consent')
   }
 
-  useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('profile.settings.tracking.title') })
-  }, [setScreenOptions, t])
-
   return (
-    <PermissionsGuard permissionType={PermissionsType.AUTH}>
-      <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
-        <LoginProtection>
-          <View style={[styles.section, styles.borderRadiusBottom]}>
-            <HoliContainer>
-              <HoliGap size="s" />
+    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+      <View style={[styles.section, styles.borderRadiusBottom]}>
+        <HoliContainer>
+          <HoliGap size="s" />
 
-              <TrackingGeneralContentDescription checkTextCountList={[1, 2, 4]} />
+          <TrackingGeneralContentDescription checkTextCountList={[1, 2, 4]} />
 
-              <HoliGap size="s" />
+          <HoliGap size="s" />
 
-              <View>
-                {
-                  /* use arry of tuples where the elements in tuple are:
-                   * 1. text translation for the purpose
-                   * 2. value of the HoliSwitch
-                   * 3. onChange callback function for the HoliSwitch
-                   */
+          <View>
+            {
+              /* use arry of tuples where the elements in tuple are:
+               * 1. text translation for the purpose
+               * 2. value of the HoliSwitch
+               * 3. onChange callback function for the HoliSwitch
+               */
 
-                  (
-                    [
-                      [
-                        t('profile.settings.tracking.purpose.all'),
-                        !!(personalization && productAnalytics),
-                        onAllPurposesChange,
-                      ],
-                      [
-                        t('profile.settings.tracking.purpose.personalization'),
-                        !!personalization,
-                        onPersonalizationChange,
-                      ],
-                      [t('profile.settings.tracking.purpose.analytics'), !!productAnalytics, onProductAnalyticsChange],
-                    ] as [string, boolean, (value: boolean) => void][]
-                  ).map(([text, value, onChange], idx) => (
-                    <View style={idx !== 0 && styles.optionBox} key={idx}>
-                      <HoliBox
-                        padding={[24, 0]}
-                        layout={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-                      >
-                        <HoliText>{text}</HoliText>
+              (
+                [
+                  [
+                    t('profile.settings.tracking.purpose.all'),
+                    !!(personalization && productAnalytics),
+                    onAllPurposesChange,
+                  ],
+                  [t('profile.settings.tracking.purpose.personalization'), !!personalization, onPersonalizationChange],
+                  [t('profile.settings.tracking.purpose.analytics'), !!productAnalytics, onProductAnalyticsChange],
+                ] as [string, boolean, (value: boolean) => void][]
+              ).map(([text, value, onChange], idx) => (
+                <View style={idx !== 0 && styles.optionBox} key={idx}>
+                  <HoliBox
+                    padding={[24, 0]}
+                    layout={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+                  >
+                    <HoliText>{text}</HoliText>
 
-                        <HoliGap direction="horizontal" size="s" />
+                    <HoliGap direction="horizontal" size="s" />
 
-                        <HoliSwitch value={value} onChange={onChange} />
-                      </HoliBox>
-                    </View>
-                  ))
-                }
-              </View>
-            </HoliContainer>
+                    <HoliSwitch value={value} onChange={onChange} />
+                  </HoliBox>
+                </View>
+              ))
+            }
           </View>
+        </HoliContainer>
+      </View>
 
-          <View style={[styles.section, styles.sectionGap, styles.borderRadiusTop, styles.borderRadiusBottom]}>
-            <HoliContainer>
-              <HoliBox padding={[24, 0]}>
-                <HoliHeading level="3">{t('profile.settings.tracking.dataManagement.title')}</HoliHeading>
+      <View style={[styles.section, styles.sectionGap, styles.borderRadiusTop, styles.borderRadiusBottom]}>
+        <HoliContainer>
+          <HoliBox padding={[24, 0]}>
+            <HoliHeading level="3">{t('profile.settings.tracking.dataManagement.title')}</HoliHeading>
 
-                <HoliGap size="sm" />
+            <HoliGap size="sm" />
 
-                <HoliText>
-                  <Trans t={t} i18nKey={'profile.settings.tracking.dataManagement.description'}>
-                    <HoliTextLink
-                      label={t('profile.settings.help.support')}
-                      href={isWeb ? t('global.support.mail.href') : ''}
-                      onPress={isWeb ? undefined : () => Linking.openURL(t('global.support.mail.href'))}
-                      color="brandB300"
-                    />
-                  </Trans>
-                </HoliText>
-              </HoliBox>
-            </HoliContainer>
-          </View>
+            <HoliText>
+              <Trans t={t} i18nKey={'profile.settings.tracking.dataManagement.description'}>
+                <HoliTextLink
+                  label={t('profile.settings.help.support')}
+                  href={isWeb ? t('global.support.mail.href') : ''}
+                  onPress={isWeb ? undefined : () => Linking.openURL(t('global.support.mail.href'))}
+                  color="brandB300"
+                />
+              </Trans>
+            </HoliText>
+          </HoliBox>
+        </HoliContainer>
+      </View>
 
-          <HoliGap size="l" />
-        </LoginProtection>
-      </ScrollHeaderLayout.Default>
-    </PermissionsGuard>
+      <HoliGap size="l" />
+    </ScrollHeaderLayout.Default>
   )
 }
 
 export default memo(TrackingSettings)
 
-const styles = StyleSheet.create({
-  section: {
-    backgroundColor: colors.background10,
-  },
-  sectionGap: {
-    marginTop: 2,
-  },
-  borderRadiusTop: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-  },
-  borderRadiusBottom: {
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-  },
-  optionBox: {
-    borderColor: colors.background20,
-    borderTopWidth: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    section: {
+      backgroundColor: theme.colors.background10,
+    },
+    sectionGap: {
+      marginTop: 2,
+    },
+    borderRadiusTop: {
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+    },
+    borderRadiusBottom: {
+      borderBottomLeftRadius: 24,
+      borderBottomRightRadius: 24,
+    },
+    optionBox: {
+      borderColor: theme.colors.background20,
+      borderTopWidth: 1,
+    },
+  })

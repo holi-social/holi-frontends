@@ -8,7 +8,7 @@ import { Favorites } from '@holi/core/screens/favorites/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FavoritesList = () => {
   const { data: favorites, loading } = usePaginationContext<Favorites>()
@@ -32,6 +32,9 @@ const EmptyFavorites = () => {
   const { t } = useTranslation()
   const imageWidth = 251
 
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
+
   return (
     <View style={styles.noFavoritesContainer} testID={'favorites-empty'}>
       <HoliLocalImage
@@ -50,22 +53,23 @@ const EmptyFavorites = () => {
     </View>
   )
 }
-const styles = StyleSheet.create({
-  noFavoritesContainer: {
-    marginTop: 10,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-    backgroundColor: colors.background10,
-    margin: 24,
-    padding: 24,
-    alignItems: 'center',
-  },
-  illustration: {
-    marginTop: 32,
-    marginBottom: 24,
-  },
-  noFavoritesDescription: { textAlign: 'center', marginTop: 8, color: colors.foreground30 },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    noFavoritesContainer: {
+      marginTop: 10,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
+      margin: 24,
+      padding: 24,
+      alignItems: 'center',
+    },
+    illustration: {
+      marginTop: 32,
+      marginBottom: 24,
+    },
+    noFavoritesDescription: { textAlign: 'center', marginTop: 8, color: theme.colors.foreground30 },
+  })
 
 export default FavoritesList

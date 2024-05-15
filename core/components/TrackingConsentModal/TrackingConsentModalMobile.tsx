@@ -8,7 +8,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import GeneralContent from './GeneralContent'
 import ManageOptionsContent from './ManageOptionsContent'
@@ -17,6 +17,9 @@ import { useConsentModalState } from './useConsentModalState'
 
 export const TrackingConsentModalMobile = () => {
   const { t } = useTranslation()
+
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
 
   // Modal management
   const { visible: generalLayerVisible, show: showGeneralLayer, hide: hideGeneralLayer } = useConsentModal()
@@ -52,7 +55,7 @@ export const TrackingConsentModalMobile = () => {
       {/* General layer */}
       <HoliModal label="" show={generalLayerVisible} style={styles.modal}>
         <ScrollView>
-          <HoliContainer paddingHorizontal={24}>
+          <HoliContainer>
             <GeneralContent />
 
             <HoliGap size="ml" />
@@ -103,7 +106,7 @@ export const TrackingConsentModalMobile = () => {
         dismissBtnContent={<HoliIcon icon={ArrowLeft} />}
       >
         <ScrollView>
-          <HoliContainer paddingHorizontal={24}>
+          <HoliContainer>
             {/* Content */}
             <ManageOptionsContent
               allowPersonalization={allowPersonalization}
@@ -137,11 +140,12 @@ export const TrackingConsentModalMobile = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: colors.gray100,
-  },
-  flexRow: {
-    flexDirection: 'row',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    modal: {
+      backgroundColor: theme.colors.background30,
+    },
+    flexRow: {
+      flexDirection: 'row',
+    },
+  })

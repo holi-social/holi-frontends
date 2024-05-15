@@ -7,9 +7,18 @@ import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVeri
 import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
-import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import { OnboardingStateValue, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import {
+  OnboardingStateValue,
+  onboardingStateVar,
+  storeOnboardingState,
+  useStoredOnboardingState,
+} from '@holi/core/screens/onboarding/hooks'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -17,7 +26,6 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 const { useParam } = createParamHooks()
 
 export enum RegistrationStep {
-  'PRE_REGISTRATION_LOGIN',
   'COMMUNITY_GUIDELINES',
   'PRIVACY_POLICY',
   'CREATE_ACCOUNT',
@@ -27,7 +35,7 @@ export enum RegistrationStep {
 
 interface OnboardingStepperProps {
   style?: StyleProp<ViewStyle>
-  onOnboardingStateChange: (value?: OnboardingStateValue) => Promise<void>
+  onOnboardingStateChange: (value: OnboardingStateValue) => Promise<void>
   afterAccountCreated?: () => void
 }
 
@@ -43,6 +51,8 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
     communityGuidelines: false,
     privacyPolicy: false,
   })
+
+  const { navigate, navigateBack } = useRouting()
 
   const onCommunityGuidelinesChange = useCallback(
     () =>
@@ -62,11 +72,19 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
     []
   )
 
+  const onCreateAccountDismiss = useCallback(() => {
+    const currentOnboardingState = onboardingStateVar()
+
+    if (currentOnboardingState === 'finished') {
+      navigateBack()
+    } else {
+      onOnboardingStateChange('finished')
+      navigate('/')
+    }
+  }, [navigate, navigateBack, onOnboardingStateChange])
+
   const goToNextStep = useCallback(async () => {
     switch (currentStep) {
-      case RegistrationStep.PRE_REGISTRATION_LOGIN:
-        goNext()
-        break
       case RegistrationStep.COMMUNITY_GUIDELINES:
         communityGuidelines && goNext()
         break
@@ -92,14 +110,9 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
       <HoliStepper
         scrollEnabled={false}
         steps={[
-          <LoginRegistration
-            onRegistration={goNext}
-            onDismiss={onOnboardingStateChange}
-            key={RegistrationStep.PRE_REGISTRATION_LOGIN}
-          />,
           <CommunityGuidelines
             onNextPress={goToNextStep}
-            onBackPress={goBack}
+            onBackPress={navigateBack}
             agreementValue={communityGuidelines}
             onAgreementChange={onCommunityGuidelinesChange}
             key={RegistrationStep.COMMUNITY_GUIDELINES}
@@ -111,13 +124,17 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
             onAgreementChange={onPrivacyPolicyChange}
             key={RegistrationStep.PRIVACY_POLICY}
           />,
-          <CreateAccount onRegister={goToNextStep} key={RegistrationStep.CREATE_ACCOUNT} />,
+          <CreateAccount
+            onRegister={goToNextStep}
+            onDismiss={onCreateAccountDismiss}
+            key={RegistrationStep.CREATE_ACCOUNT}
+          />,
           <EmailVerification
-            onDismiss={onOnboardingStateChange}
+            onDismiss={() => onOnboardingStateChange('finished')}
             onSuccess={goToNextStep}
             key={RegistrationStep.EMAIL_VERIFICATION}
           />,
-          <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,
+          <AccountSetup onFinish={() => onOnboardingStateChange('finished')} key="account-setup" />,
         ]}
         lazy
       />
@@ -130,12 +147,21 @@ export interface OnboardingProps {
   style?: StyleProp<ViewStyle>
 }
 
-const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
-  // "onOnboardingStateChange" has default argument "finished" to dismiss onboarding
-  const { storedOnboardingState, storeOnboardingState } = useStoredOnboardingState()
+const OnboardingRegistration = ({ afterAccountCreated, style }: OnboardingProps) => {
+  const storedOnboardingState = useStoredOnboardingState()
   const [toRegistration] = useParam('registrationStep')
 
-  let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
+  let initialStep = RegistrationStep.COMMUNITY_GUIDELINES
+
+  const setScreenOptions = useSetScreenOptions()
+
+  const { isLoading } = useLoggedInUser()
+
+  useIsomorphicLayoutEffect(() => {
+    setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
+  }, [setScreenOptions])
+
+  if (isLoading) return <HoliLoader />
 
   if (storedOnboardingState === 'emailVerification') {
     initialStep = RegistrationStep.EMAIL_VERIFICATION
@@ -164,4 +190,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default withProfiler(Onboarding, { name: 'Onboarding' })
+export default withProfiler(OnboardingRegistration, { name: 'OnboardingRegistration' })

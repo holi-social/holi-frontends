@@ -51,7 +51,7 @@ const AuthStackNavigator = () => {
         },
       }}
     >
-      <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} options={{ headerShown: false }} />
+      <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} />
       <AuthStack.Screen
         name={RouteName.SettingsOverview}
         component={SettingsOverview}

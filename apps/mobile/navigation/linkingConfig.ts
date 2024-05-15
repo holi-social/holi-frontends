@@ -117,11 +117,16 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
 
+    [RouteName.Onboarding]: {
+      screens: {
+        [RouteName.OnboardingWelcome]: 'onboarding',
+        [RouteName.OnboardingRegistration]: 'onboarding/registration',
+      },
+    },
+
     // Modals
     [RouteName.Notifications]: 'notifications',
-    [RouteName.Onboarding]: 'onboarding',
     [RouteName.Login]: 'login',
-    [RouteName.Registration]: 'registration',
     [RouteName.ForgotPassword]: 'forgotPassword',
     [RouteName.VideoCall]: 'video-call/:roomName',
 

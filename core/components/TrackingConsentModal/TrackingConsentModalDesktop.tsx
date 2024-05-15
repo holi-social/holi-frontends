@@ -6,7 +6,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import GeneralContent from './GeneralContent'
 import ManageOptionsContent from './ManageOptionsContent'
@@ -15,6 +15,9 @@ import { useConsentModalState } from './useConsentModalState'
 
 export const TrackingConsentModalDesktop = () => {
   const { t } = useTranslation()
+
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
 
   // Modal management
   const { visible, hide } = useConsentModal()
@@ -80,19 +83,20 @@ export const TrackingConsentModalDesktop = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: colors.gray100,
-  },
-  buttonsSection: {
-    backgroundColor: colors.background10,
-    borderColor: colors.gray100,
-    borderTopWidth: 1,
-  },
-  firstButton: {
-    marginRight: 'auto',
-  },
-  flexRow: {
-    flexDirection: 'row',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    modal: {
+      backgroundColor: theme.colors.gray100,
+    },
+    buttonsSection: {
+      backgroundColor: theme.colors.background10,
+      borderColor: theme.colors.gray100,
+      borderTopWidth: 1,
+    },
+    firstButton: {
+      marginRight: 'auto',
+    },
+    flexRow: {
+      flexDirection: 'row',
+    },
+  })

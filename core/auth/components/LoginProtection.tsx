@@ -1,56 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import React from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import Onboarding from '@holi/core/screens/onboarding/Onboarding'
-import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import AnonymousProfileView from '@holi/core/screens/userprofile/components/AnonymousProfileView'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { dimensions } from '@holi/ui/styles/globalVars'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { isLoading, isLoggedIn } = useLoggedInUser()
-  const navigation = useNavigation()
-  const [onboardingKey, setOnboardingKey] = useState(Date.now().toString())
-  const { storedOnboardingState } = useStoredOnboardingState()
-  const isOnboardingFinished = storedOnboardingState === 'finished'
-  const { navigate } = useRouting()
+  const { loginState } = useAuth()
+  const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
 
-  const redirectToHomeScreenOnboarding = useCallback(() => {
-    navigate(Platform.OS === 'web' ? '/' : '/onboarding')
-  }, [navigate])
+  if (loginState === 'unknown' || isUserLoading) return <HoliLoader />
 
-  // user random key to reset registration onboarding when user goes to another app's path
-  useEffect(() => {
-    if (isLoggedIn) return
-
-    const unsubscribe = navigation.addListener('focus', () => {
-      setOnboardingKey(Date.now().toString())
-    })
-
-    return unsubscribe
-  }, [navigation, isLoggedIn])
-
-  if (isLoading) return <HoliLoader />
-
-  return isOnboardingFinished && isLoggedIn ? (
-    <>{children}</>
-  ) : (
-    <Onboarding afterAccountCreated={redirectToHomeScreenOnboarding} style={styles.onboarding} key={onboardingKey} />
-  )
+  return isLoggedIn ? <>{children}</> : <AnonymousProfileView />
 }
 
 export default LoginProtection
-
-const styles = StyleSheet.create({
-  onboarding: {
-    ...Platform.select({
-      web: {
-        minHeight: '100%',
-        paddingBottom: dimensions.bottomBarHeight,
-      },
-    }),
-  },
-})

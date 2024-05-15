@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -10,8 +10,12 @@ import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestErr
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -22,23 +26,22 @@ import Spacing from '@holi/ui/foundations/Spacing'
 
 const SMALL_DEVICE_HEIGHT = 624
 
-interface LoginRegistrationProps {
+interface Props {
   headingText?: string
   onRegistration?: () => void
   onDismiss?: CallableFunction
 }
 
-const LoginRegistration = ({
-  headingText,
-  onRegistration,
-  onDismiss,
-}: React.PropsWithChildren<LoginRegistrationProps>) => {
+const isWeb = Platform.OS === 'web'
+
+const OnboardingWelcome = ({ headingText, onRegistration, onDismiss }: React.PropsWithChildren<Props>) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { navigateBack, navigate, replaceRoute } = useRouting()
   headingText = headingText ?? t('profile.loggedOut.heading')
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { height: screenHeight } = useClientWindowDimensions()
+  const { isLoggedIn } = useLoggedInUser()
 
   const [shownDocument, setShownDocument] = useState<DocType>('imprint')
   const documentUrl = useDocumentURL(shownDocument)
@@ -57,14 +60,26 @@ const LoginRegistration = ({
       openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR)
     } else {
       displayError(err, 'Failed to load document', {
-        location: 'LoginRegistration.onDocumentLoadError',
+        location: 'OnboardingWelcome.onDocumentLoadError',
         document: shownDocument,
       })
     }
     hideModal()
   }
 
+  useEffect(() => {
+    if (isWeb && isLoggedIn) {
+      replaceRoute('/')
+    }
+  }, [replaceRoute, isLoggedIn])
+
   const footerDocs: DocType[] = ['imprint', 'privacyPolicy', 'termsOfUse', 'openSource']
+
+  const setScreenOptions = useSetScreenOptions()
+
+  useIsomorphicLayoutEffect(() => {
+    setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
+  }, [setScreenOptions])
 
   const docsElement = (
     <View style={styles.bottomLinkContainer}>
@@ -113,7 +128,10 @@ const LoginRegistration = ({
 
         <HoliButton
           label={t('auth.loginProtection.registrationLabel')}
-          onPress={onRegistration}
+          onPress={() => {
+            onRegistration?.()
+            navigate('/onboarding/registration')
+          }}
           style={[styles.button, styles.firstButton]}
           testID="btn-to-registration-form"
         >
@@ -123,8 +141,9 @@ const LoginRegistration = ({
         <HoliButton
           label={t('auth.loginProtection.continueAsGuest')}
           onPress={() => {
+            storeOnboardingState('finished')
             onDismiss?.()
-            navigate('/')
+            navigateBack()
           }}
           style={[styles.button, styles.secondButton]}
           type="secondary"
@@ -135,6 +154,7 @@ const LoginRegistration = ({
 
         <AlreadyHaveAccountText style={styles.loginHeadline} />
       </CenteredContentLayout>
+
       <HoliModal
         label={t(`profile.loggedOut.footer.${shownDocument}`)}
         heading={t(`profile.loggedOut.footer.${shownDocument}`)}
@@ -178,8 +198,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     bottom: Spacing['xxs'],
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    position: isWeb ? 'fixed' : 'absolute',
   },
 })
 
-export default LoginRegistration
+export default OnboardingWelcome

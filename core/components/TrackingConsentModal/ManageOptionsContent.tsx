@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import OptionSection from '@holi/core/components/OptionSection'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   allowPersonalization: boolean
@@ -21,6 +21,9 @@ const ManageOptionsContent = ({
   onProductAnalyticsChange,
 }: Props) => {
   const { t } = useTranslation()
+
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
 
   return (
     <>
@@ -53,11 +56,12 @@ const ManageOptionsContent = ({
 
 export default ManageOptionsContent
 
-const styles = StyleSheet.create({
-  optionBox: {
-    backgroundColor: colors.background10,
-    borderWidth: 1,
-    borderColor: colors.gray200,
-    borderRadius: 12,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    optionBox: {
+      backgroundColor: theme.colors.background10,
+      borderWidth: 1,
+      borderColor: theme.colors.gray200,
+      borderRadius: 12,
+    },
+  })

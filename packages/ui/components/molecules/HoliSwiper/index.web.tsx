@@ -8,7 +8,7 @@ import { Navigation, Virtual } from 'swiper/modules'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 
 import { isWebTouchDevice } from '@holi/ui/helper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import './styles.scss'
 import { HoliSwiperProps } from './types'
@@ -48,6 +48,9 @@ interface HoliSwiperPaginationProps {
 
 const HoliSwiperPagination = ({ maxPage }: HoliSwiperPaginationProps) => {
   const swiper = useSwiper()
+
+  const { theme } = useTheme()
+  const { colors } = theme
 
   return (
     <div style={styles.pagination} slot="container-end">
