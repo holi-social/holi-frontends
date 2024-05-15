@@ -20,8 +20,11 @@ import DiscussionHeader from '@holi/core/screens/insights/discussions/Discussion
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -81,8 +84,17 @@ const DiscussionDetailPage = () => {
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
       ),
+      headerLeft: () => (
+        <HoliButton
+          onPress={() => navigate(`/insights/${insightId}`)}
+          transparent
+          label={t('navigation.headerLeft.back')}
+        >
+          <HoliIcon icon={ArrowLeft} />
+        </HoliButton>
+      ),
     })
-  }, [theme.colors.background10, t, setScreenOptions])
+  }, [theme.colors.background10, t, setScreenOptions, navigate, insightId])
 
   const onPressCreateComment = () =>
     isLoggedIn
