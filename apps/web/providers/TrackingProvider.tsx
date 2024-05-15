@@ -5,6 +5,7 @@ import React, { PropsWithChildren, useEffect } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
+import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 import { trackingEnabled } from '@holi/core/tracking/config'
 
 const logger = getLogger('Tracking')
@@ -12,11 +13,13 @@ const logger = getLogger('Tracking')
 // don't actually set a host. the browser knows the origin of the request.
 const POSTHOG_API_HOST = '/api/tracking'
 
+const isDevEnv = process.env.NODE_ENV === 'development'
+
+const debugOutput = isDevEnv && DEBUG_LOG_COMPONENTS.Tracking
+
 if (trackingEnabled()) {
   // Check that PostHog is client-side (used to handle Next.js SSR)
   if (typeof window !== 'undefined') {
-    const isDevEnv = process.env.NODE_ENV === 'development'
-
     posthog.init(posthogKey, {
       api_host: POSTHOG_API_HOST,
       ui_host: posthogHost,
@@ -24,7 +27,7 @@ if (trackingEnabled()) {
       disable_compression: isDevEnv,
       opt_out_capturing_by_default: true,
       loaded: (posthog) => {
-        if (isDevEnv) posthog.debug()
+        if (debugOutput) posthog.debug()
       },
       sanitize_properties: function (properties) {
         Object.keys(properties).forEach((key) => {
