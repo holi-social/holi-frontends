@@ -12,4 +12,4 @@ interface ServerSideCustomProps {
   origin: string
 }
 
-export interface NextJSPageProps extends ApolloStateProps, I18nProps, ServerSideCustomProps, Record<string, unknown> { }
+export interface NextJSPageProps extends ApolloStateProps, I18nProps, ServerSideCustomProps, Record<string, unknown> {}
