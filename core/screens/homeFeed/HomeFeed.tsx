@@ -29,7 +29,7 @@ import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { ConsentState } from '@holi/core/tracking/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
@@ -72,28 +72,6 @@ const HomeFeed = () => {
 
   const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
-  const logo = useMemo(
-    () =>
-      theme.dark ? (
-        <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/holi/holi_white.svg')}
-          isSvg
-          width={56}
-          height={24}
-          label={t('navigation.title')}
-        />
-      ) : (
-        <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
-          isSvg
-          width={56}
-          height={24}
-          label={t('navigation.title')}
-        />
-      ),
-    [theme.dark, t]
-  )
-
   // TODO: when SSR is enabled we need to lazy load the header
   // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -104,10 +82,10 @@ const HomeFeed = () => {
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
-      headerLeft: () => logo,
+      headerLeft: () => <HoliLogo />,
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
-  }, [navigate, t, headerTitle, setScreenOptions, logo, colors.background10])
+  }, [navigate, t, headerTitle, setScreenOptions, colors.background10])
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({

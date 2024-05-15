@@ -28,7 +28,7 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -59,35 +59,16 @@ const PostDetailsPage = () => {
 
   const visitedScreensCount = useUserVisitedScreensCount()
 
-  const logo = useMemo(
-    () => (
-      <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
-        {theme.dark ? (
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_white.svg')}
-            isSvg
-            width={56}
-            height={24}
-            label={t('navigation.title')}
-          />
-        ) : (
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
-            isSvg
-            width={56}
-            height={24}
-            label={t('navigation.title')}
-          />
-        )}
-      </HoliButton>
-    ),
-    [theme.dark, t, navigate]
-  )
-
   const headerLeft = useMemo(() => {
     const directPageVisit = visitedScreensCount <= 1
-    return directPageVisit ? logo : <HeaderBackButton icon={ArrowLeft} />
-  }, [visitedScreensCount, logo])
+    return directPageVisit ? (
+      <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
+        <HoliLogo />
+      </HoliButton>
+    ) : (
+      <HeaderBackButton icon={ArrowLeft} />
+    )
+  }, [navigate, t, visitedScreensCount])
 
   const {
     data: { post } = {},
