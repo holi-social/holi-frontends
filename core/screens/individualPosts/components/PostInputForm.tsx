@@ -176,7 +176,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               validationErrorText={
                 description && fieldErrors?.description?.length ? fieldErrors.description[0] : undefined
               }
-              maxNoOfVisibleLines={16}
+              maxNoOfVisibleLines={1600}
             />
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
