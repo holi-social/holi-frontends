@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import { withProtocol } from '@holi/core/helpers/url'
@@ -22,6 +23,7 @@ import {
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -49,6 +51,7 @@ const CreateDigitalTool = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [inputValid, setInputValid] = useState(true)
+  const { openToast } = useToast()
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
@@ -60,7 +63,13 @@ const CreateDigitalTool = () => {
 
   const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
     onCompleted: () => navigateBack(),
-    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        setFieldErrors(handleGraphQLError(error))
+      }
+    },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
 import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
@@ -45,7 +46,14 @@ const EditSpaceNameAndGoal = ({ space, onDismiss }: EditSpaceNameAndGoalProps) =
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
     },
-    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+        onDismiss()
+      } else {
+        setFieldErrors(handleGraphQLError(error))
+      }
+    },
   })
 
   const { t } = useTranslation()

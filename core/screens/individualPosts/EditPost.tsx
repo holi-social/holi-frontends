@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -68,9 +68,7 @@ const EditPost = () => {
       openToast(t('individuals.post.edit.success'), HoliToastType.SUCCESS)
       navigateBack()
     },
-    onError: (error) => {
-      alert(error)
-    },
+
     refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
   })
 
@@ -87,7 +85,13 @@ const EditPost = () => {
           image: image === null ? null : image?.blob,
         },
       },
-      onError: () => openToast(t('individuals.post.edit.error'), HoliToastType.ERROR),
+      onError: (error) => {
+        if (isMaliciousUrlError(error)) {
+          openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+        } else {
+          openToast(t('individuals.post.edit.error'), HoliToastType.ERROR)
+        }
+      },
     })
       .catch(() => {
         openToast(t('individuals.post.edit.error'), HoliToastType.ERROR)

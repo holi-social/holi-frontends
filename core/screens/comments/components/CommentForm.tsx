@@ -12,7 +12,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import { isNotFoundError } from '@holi/core/errors/helpers'
+import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
@@ -74,13 +74,17 @@ const CommentForm = ({
       }
     },
     onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        if (isNotFoundError(error)) {
+          return replaceRoute('/404')
+        }
+        displayError(error, 'Failed to create comment', {
+          location: 'CommentForm.createComment',
+          commentableId,
+        })
       }
-      displayError(error, 'Failed to create comment', {
-        location: 'CommentForm.createComment',
-        commentableId,
-      })
     },
     refetchQueries: [
       'Comments',

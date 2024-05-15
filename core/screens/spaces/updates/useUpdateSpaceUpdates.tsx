@@ -3,8 +3,9 @@ import { useMutation } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { Dispatch } from 'react'
 import { SetStateAction } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { isNotFoundError } from '@holi/core/errors/helpers'
+import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -19,6 +20,7 @@ import {
 } from '@holi/core/screens/spaces/updates/mutations'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 export interface UseCreateOrUpdateSpacePost {
@@ -46,6 +48,8 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const { displayError } = useErrorHandling()
   const { navigateBack, replaceRoute } = useRouting()
   const tracking = useTracking()
+  const { openToast } = useToast()
+  const { t } = useTranslation()
 
   //input fields
   const [title, setTitle] = useState<string>('')
@@ -96,11 +100,16 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
         tracking.trackEvent({ name: 'space_update_posted' })
         navigateBack()
       },
-      onError: (error) =>
-        displayError(error, 'Failed to create space post', {
-          location: 'useCreateOrUpdateSpacePost.createSpacePost',
-          spaceIdOrName,
-        }),
+      onError: (error) => {
+        if (isMaliciousUrlError(error)) {
+          openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+        } else {
+          displayError(error, 'Failed to create space post', {
+            location: 'useCreateOrUpdateSpacePost.createSpacePost',
+            spaceIdOrName,
+          })
+        }
+      },
       // refetch first page of both the current visibility filter and the ALL filter
       refetchQueries: [
         {
@@ -119,12 +128,17 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     updateSpacePostMutation,
     {
       onCompleted: () => navigateBack(),
-      onError: (error) =>
-        displayError(error, 'Failed to update space post', {
-          location: 'useCreateOrUpdateSpacePost.updateSpacePost',
-          spaceIdOrName,
-          postId,
-        }),
+      onError: (error) => {
+        if (isMaliciousUrlError(error)) {
+          openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+        } else {
+          displayError(error, 'Failed to update space post', {
+            location: 'useCreateOrUpdateSpacePost.updateSpacePost',
+            spaceIdOrName,
+            postId,
+          })
+        }
+      },
       refetchQueries: [spacePostsQuery],
     }
   )

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -20,6 +21,7 @@ import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/typ
 import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -41,6 +43,7 @@ const EditTask = () => {
   const [taskId] = useParam('taskId')
   const { theme } = useTheme()
   const { colors } = theme
+  const { openToast } = useToast()
 
   // input fields
   const [name, setName] = useState('')
@@ -77,11 +80,16 @@ const EditTask = () => {
 
   const [updateTask] = useMutation<UpdateTaskResponse>(updateTaskMutation, {
     onCompleted: () => navigateBack(),
-    onError: (error) =>
-      displayError(error, 'Failed to update task', {
-        location: 'EditTask.updateTask',
-        spaceIdOrName,
-      }),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        displayError(error, 'Failed to update task', {
+          location: 'EditTask.updateTask',
+          spaceIdOrName,
+        })
+      }
+    },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 

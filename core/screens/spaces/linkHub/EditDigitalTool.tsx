@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { urlRegex } from '@holi/core/helpers'
 import { withProtocol } from '@holi/core/helpers/url'
@@ -69,7 +70,13 @@ const EditDigitalTool = () => {
       openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
       navigateBack()
     },
-    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        setFieldErrors(handleGraphQLError(error))
+      }
+    },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
