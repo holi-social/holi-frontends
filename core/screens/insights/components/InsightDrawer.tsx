@@ -6,6 +6,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { FavoriteType } from '@holi/core/screens/favorites/model'
 import {
   FavoriteResponse,
@@ -34,6 +35,8 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
 
   const { id, isFavorite } = insight
 
+  const { openLoginModal } = useLoginModal()
+
   const [favorite] = useMutation<FavoriteResponse>(favoriteMutation, {
     onError: (error) =>
       displayError(error, 'Failed to favorite insight', {
@@ -57,7 +60,9 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
       await favorite({ variables: { favoritableId: id, favoritableType: FavoriteType.INSIGHT } })
       openToast(t('insights.insight.favorite.success'), HoliToastType.SUCCESS)
     }
-    navigate('/login')
+    openLoginModal({
+      title: t('loginRedirect.title'),
+    })
   }
 
   const unfavoriteActionHandler = async () => {
