@@ -115,13 +115,16 @@ export enum RouteName {
   VolunteeringApp = 'VolunteeringApp',
   NotFound = 'NotFound',
 
+  // Onboarding Stack
+  Onboarding = 'Onboarding',
+  OnboardingWelcome = 'OnboardingWelcome',
+  OnboardingRegistration = 'OnboardingRegistration',
+
   // Root Stack
   Notifications = 'Notifications',
   Login = 'Login',
   Logout = 'Logout',
-  Registration = 'Registration',
   ForgotPassword = 'ForgotPassword',
-  Onboarding = 'Onboarding',
 
   // Individual Posts
   FeedPosts = 'FeedPosts',

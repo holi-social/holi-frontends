@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
 import LocationStep, { useLocationStep } from '@holi/core/auth/components/AccountSetup/LocationStep'
@@ -169,7 +169,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.SUCCESS:
         // wait for AsyncStorage to be set
         await onFinish()
-        Platform.OS !== 'web' && navigate('/')
+        navigate('/')
         break
 
       default:

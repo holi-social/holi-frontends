@@ -195,6 +195,7 @@ export const useConsentState = (): ConsentState => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const apollo: ApolloClient<object> = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
+  const state = useReactiveVar(stateVar)
 
   const [consentState, setConsentState] = useState<ConsentState>(ConsentState.unknown)
 
@@ -206,7 +207,7 @@ export const useConsentState = (): ConsentState => {
         tracking.loadConsentStateFromLocalStorage().then(setConsentState)
       }
     }
-  }, [tracking, user.isLoading, user.isLoggedIn, user.user])
+  }, [state, tracking, user.isLoading, user.isLoggedIn, user.user])
 
   return consentState
 }

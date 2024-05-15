@@ -10,11 +10,13 @@ import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitial
 import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
 import RouteChangeListener from '@holi/core/components/RouteChangeListener'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
+import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import UpdateAppModal from '@holi/core/components/UpdateAppModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
+import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -40,6 +42,8 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
           </PortalProvider>
         </ToastProvider>
 
+        <TrackingConsentModal />
+        <OnboardingInitializer />
         <RouteChangeListener />
       </ApolloProvider>
     </ErrorBoundary>

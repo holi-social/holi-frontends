@@ -13,7 +13,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import { storeOnboardingState, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import OwnProfileView, { EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
@@ -45,7 +45,7 @@ const OwnProfile = () => {
   const { height: deviceHeight } = useWindowDimensions()
 
   const { user, isLoggedIn, refetch: refetchAuthenticatedUser } = useLoggedInUser()
-  const { storedOnboardingState, storeOnboardingState } = useStoredOnboardingState()
+  const storedOnboardingState = useStoredOnboardingState()
   const isOnboardingFinished = storedOnboardingState === 'finished'
   const { refreshing, onRefresh } = useOnRefresh(refetchAuthenticatedUser)
 
@@ -117,10 +117,6 @@ const OwnProfile = () => {
           </HoliHorizontalRow>
         ),
       })
-    } else {
-      setScreenOptions({
-        headerShown: false,
-      })
     }
   }, [
     navigate,
@@ -130,7 +126,6 @@ const OwnProfile = () => {
     showFeatureNotImplementedToast,
     isOnboardingFinished,
     setScreenOptions,
-    storeOnboardingState,
     user,
     colors.background10,
   ])

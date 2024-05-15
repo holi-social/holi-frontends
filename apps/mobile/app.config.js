@@ -216,8 +216,8 @@ export default {
       },
       holi_challenges_app: requiredEnvVar('HOLI_CHALLENGES_APP'),
       posthog: {
-        key: process.env.POSTHOG_KEY,
-        host: process.env.POSTHOG_HOST,
+        key: requiredEnvVar('POSTHOG_KEY'),
+        host: requiredEnvVar('POSTHOG_HOST'),
       },
     },
   },

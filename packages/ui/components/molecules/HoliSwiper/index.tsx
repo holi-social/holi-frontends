@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import Swiper from 'react-native-swiper'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 import { HoliSwiperProps, HoliSwiperSlideProps } from './types'
 
@@ -63,6 +63,9 @@ interface HoliSwiperPaginationProps {
 
 const HoliSwiperPagination = ({ maxPage }: HoliSwiperPaginationProps) => {
   const { activeIndex } = useSwiper()
+
+  const { theme } = useTheme()
+  const { colors } = theme
 
   return (
     <SafeAreaView

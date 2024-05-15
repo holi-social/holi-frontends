@@ -1,23 +1,22 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 
-const RegistrationButton = (props: Omit<HoliButtonProps, 'label'>) => {
+type Props = Omit<HoliButtonProps, 'label'> & {
+  replaceRoute?: boolean
+}
+
+const RegistrationButton = (props: Props) => {
   const { t } = useTranslation()
-  const { replaceRoute } = useRouting()
-  const { storedOnboardingState } = useStoredOnboardingState()
+  const { navigate, replaceRoute } = useRouting()
 
   return (
     <HoliButton
       onPress={() => {
-        const profilePath = '/profile'
-        const onboardingPath = Platform.OS === 'web' ? '/' : '/onboarding'
-        const path = storedOnboardingState === 'finished' ? profilePath : onboardingPath
-        replaceRoute(path + '?registrationStep=true')
+        const navFunction = props.replaceRoute ? replaceRoute : navigate
+        navFunction('/onboarding/registration')
       }}
       label={t('auth.loginProtection.registration')}
       type="secondary"

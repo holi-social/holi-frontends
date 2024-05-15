@@ -3,6 +3,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import { ensureChatLoggedOut } from '@holi/chat/src/client/chatSession'
 import { removeSessionFromStorage, setSessionInStorage } from '@holi/core/auth/helpers/auth'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import { createReactiveVarListener } from '@holi/core/helpers/createReactiveVarListener'
 import { getLogger } from '@holi/core/helpers/logging'
 import * as TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 
@@ -55,6 +56,8 @@ export const loginStateLoggedIn = (userId: string): LoginStateLoggedIn => ({
 })
 
 const loggedInUserIdVar = makeVar<LoginState>(loginStateUnknown)
+
+export const listenOnLoginStateChange = createReactiveVarListener(loggedInUserIdVar)
 
 // intended to be called from outside the context provider (e.g. login form)
 export const setUserLoggedIn = async (session: OrySessionContext): Promise<void> => {

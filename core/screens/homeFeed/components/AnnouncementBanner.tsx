@@ -1,19 +1,23 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const AnnouncementBanner: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
+
   return <View style={styles.banner}>{children}</View>
 }
 
 export default AnnouncementBanner
 
-const styles = StyleSheet.create({
-  banner: {
-    backgroundColor: colors.brandColorC20,
-    borderRadius: 4,
-    padding: 16,
-    textAlign: 'center',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    banner: {
+      backgroundColor: theme.colors.brandColorC20,
+      borderRadius: 4,
+      padding: 16,
+      textAlign: 'center',
+    },
+  })

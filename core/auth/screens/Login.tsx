@@ -13,6 +13,7 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { resetUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal/userVisitedScreensCount'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -21,7 +22,7 @@ import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -36,7 +37,6 @@ const Login = () => {
   const { navigate, navigateBack } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
   const client = useApolloClient()
@@ -52,6 +52,9 @@ const Login = () => {
       ),
       headerLeft: () => (isWeb ? null : <HeaderBackButton icon={ArrowDownS} />),
       headerRight: () => (isWeb ? <HeaderBackButton icon={Close} /> : null),
+      navigationCustomOptions: {
+        footerShown: false,
+      },
     })
   }, [isWeb, setScreenOptions, t])
 
@@ -81,6 +84,8 @@ const Login = () => {
       await setUserLoggedIn(data)
       await storeOnboardingState('finished')
 
+      navigate('/')
+      resetUserVisitedScreensCount()
       redirect()
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
@@ -88,13 +93,13 @@ const Login = () => {
         await storeOnboardingState('emailVerification')
 
         if (isWeb) {
-          navigate('/')
+          navigate('/onboarding/registration')
         } else {
           // for Mobile we need first to close Loing modal
           navigateBack()
           // and then navigate to onboarding
           // timeout is used for correct animation of closing modal and navigating
-          setTimeout(() => navigate('/onboarding'), 300)
+          setTimeout(() => navigate('/onboarding/registration'), 300)
         }
       } else {
         handleFormSubmitError(

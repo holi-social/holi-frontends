@@ -1,9 +1,10 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
-import { useCallback, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
+import { createReactiveVarListener } from '@holi/core/helpers/createReactiveVarListener'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
@@ -13,52 +14,54 @@ export type OnboardingStateValue = (typeof onboardingValues)[number]
 const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue =>
   onboardingValues.some((v) => value === v)
 
-const onboardingStateVar = makeVar<OnboardingStateValue>('finished')
+export const onboardingStateVar = makeVar<OnboardingStateValue | undefined>(undefined)
 
-export const useStoredOnboardingState = () => {
-  const loginState = useAuth()
+export const storeOnboardingState = async (value: OnboardingStateValue) => {
+  if (!value) return
 
-  const storeOnboardingState = useCallback(async (value: OnboardingStateValue = 'finished') => {
-    await AsyncStore.setItem(ONBOARDING_STATE_STORAGE_NAME, value)
-    onboardingStateVar(value)
-  }, [])
+  await AsyncStore.setItem(ONBOARDING_STATE_STORAGE_NAME, value)
+  onboardingStateVar(value)
+}
+
+export const useStoredOnboardingState = () => useReactiveVar(onboardingStateVar)
+
+export const useOnboardingInitialization = () => {
+  const loginState = useLoggedInUser()
+  const finishedOnce = useRef(false)
 
   useEffect(() => {
-    // prevent race condition if `usedId` has not been read from the AsyncStorage yet
-    if (loginState.isUnknown) return
+    if (loginState.isLoading || finishedOnce.current) return
 
-    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
-      const value = isOnboardingStateValue(storedValue) ? storedValue : null
+    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)
+      ?.then(async (storedValue) => {
+        const value = isOnboardingStateValue(storedValue) ? storedValue : null
 
-      switch (value) {
-        case 'onboarding':
-          if (loginState.isLoggedIn) {
-            await storeOnboardingState('finished')
-          } else {
+        const userHasIdentity = loginState.isLoggedIn && loginState.user.identity
+        const onboardingNotFinished = value !== 'finished'
+        if (onboardingNotFinished && userHasIdentity) {
+          await storeOnboardingState('finished')
+          return
+        }
+
+        switch (value) {
+          // First app load or when user reseted app data
+          case null:
+            await storeOnboardingState(loginState.isLoggedIn ? 'finished' : 'onboarding')
+            break
+
+          case 'onboarding':
+          case 'emailVerification':
+          case 'finished':
+          case 'accountSetup':
             onboardingStateVar(value)
-          }
-          break
-        case 'emailVerification':
-        case 'finished':
-          onboardingStateVar(value)
-          break
+            break
 
-        case 'accountSetup':
-          await storeOnboardingState(loginState.isLoggedIn ? 'accountSetup' : 'finished')
-          break
-
-        case null:
-          await storeOnboardingState(loginState.isLoggedIn ? 'finished' : 'onboarding')
-          break
-
-        default:
-          throw new HoliOnboardingError(`Does not support "${value}" value`)
-      }
-    })
-  }, [loginState, storeOnboardingState])
-
-  return {
-    storedOnboardingState: useReactiveVar(onboardingStateVar),
-    storeOnboardingState,
-  }
+          default:
+            throw new HoliOnboardingError(`Onboarding does not support "${value}" value`)
+        }
+      })
+      .then(() => (finishedOnce.current = true))
+  }, [loginState])
 }
+
+export const listenOnOnboardingStateChange = createReactiveVarListener(onboardingStateVar)

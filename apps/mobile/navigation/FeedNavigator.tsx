@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import NotFound from '@holi/core/screens/404/NotFound'
-import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
+import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import Search from '@holi/core/screens/search/Search'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
@@ -28,7 +28,7 @@ const FeedNavigator = () => {
         headerTransparent: true,
       }}
     >
-      <FeedStack.Screen name={RouteName.HomeFeed} component={HomeFeedOnboarding} />
+      <FeedStack.Screen name={RouteName.HomeFeed} component={HomeFeed} />
       <FeedStack.Screen name={RouteName.Search} component={Search} />
       <FeedStack.Screen name={RouteName.UserProfile} component={UserProfile} />
       <FeedStack.Screen name={RouteName.NotFound} component={NotFound} />

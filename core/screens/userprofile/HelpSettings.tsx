@@ -2,9 +2,7 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -21,33 +19,29 @@ const HelpSettings = () => {
   const setScreenOptions = useSetScreenOptions()
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('profile.settings.account.title') })
+    setScreenOptions({ title: t('profile.settings.help.title') })
   }, [setScreenOptions, t])
 
   return (
-    <PermissionsGuard permissionType={PermissionsType.AUTH}>
-      <ScrollHeaderLayout.Default>
-        <LoginProtection>
-          <View style={[mixins.container, styles.HelpSettings]}>
-            <MoreOptionItem
-              label={t('profile.settings.help.faq')}
-              icon={Questionnaire}
-              iconRightStyle="outlink"
-              onPress={() => Linking.openURL(t('global.support.faq.href'))}
-              style={styles.settingsItem}
-            />
-            {/* testing mailto links will fail on emulators - see https://github.com/expo/expo/issues/7817 */}
-            <MoreOptionItem
-              label={t('profile.settings.help.support')}
-              icon={Mail}
-              iconRightStyle="outlink"
-              onPress={() => Linking.openURL(t('global.support.mail.href'))}
-              style={styles.settingsItem}
-            />
-          </View>
-        </LoginProtection>
-      </ScrollHeaderLayout.Default>
-    </PermissionsGuard>
+    <ScrollHeaderLayout.Default>
+      <View style={[mixins.container, styles.HelpSettings]}>
+        <MoreOptionItem
+          label={t('profile.settings.help.faq')}
+          icon={Questionnaire}
+          iconRightStyle="outlink"
+          onPress={() => Linking.openURL(t('global.support.faq.href'))}
+          style={styles.settingsItem}
+        />
+        {/* testing mailto links will fail on emulators - see https://github.com/expo/expo/issues/7817 */}
+        <MoreOptionItem
+          label={t('profile.settings.help.support')}
+          icon={Mail}
+          iconRightStyle="outlink"
+          onPress={() => Linking.openURL(t('global.support.mail.href'))}
+          style={styles.settingsItem}
+        />
+      </View>
+    </ScrollHeaderLayout.Default>
   )
 }
 
