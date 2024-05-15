@@ -26,6 +26,7 @@ interface CommentsProps {
   isReply?: boolean
   initialOpenThread?: string
   reactionButton?: ReactNode
+  localeKey?: string
 }
 
 const Comments = ({
@@ -36,6 +37,7 @@ const Comments = ({
   onPressCreateComment,
   initialOpenThread,
   reactionButton,
+  localeKey,
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -76,7 +78,7 @@ const Comments = ({
               latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle,
             ]}
           >
-            <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
+            <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter localeKey={localeKey} />
             {reactionButton}
           </View>
           <View style={styles.commentersLine}>

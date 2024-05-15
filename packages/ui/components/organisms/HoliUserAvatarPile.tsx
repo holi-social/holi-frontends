@@ -13,6 +13,7 @@ interface BaseProps {
   collapse?: boolean
   counter?: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  localeKey?: string
   usersTotal?: number
   users: User[]
   testID?: string
@@ -53,6 +54,7 @@ const HoliUserAvatarPile = ({
   hasBackground = false,
   usersTotal = users?.length ?? 0,
   testID = 'holi-user-avatar-pile',
+  localeKey = 'insights.editors.discussing',
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -96,7 +98,7 @@ const HoliUserAvatarPile = ({
 
         {!loading && (children || counter) && (
           <HoliText size="small" style={[styles.counter, styles.textGrey]}>
-            {children || t('insights.editors.discussing', { count: usersTotal })}
+            {children || t(localeKey, { count: usersTotal })}
           </HoliText>
         )}
       </View>

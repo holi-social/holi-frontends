@@ -150,6 +150,7 @@ const PostDetailsPage = () => {
                     replyRoute={`/feed-posts/${post.slug}/comment`}
                     initialOpenThread={commentId}
                     reactionButton={<FeedPostReactions post={post} />}
+                    localeKey="comments.response"
                   />
                 </View>
               </>
