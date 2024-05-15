@@ -66,25 +66,60 @@ export const checkIfElementWithTestIdExists = async (testId: string, timeout = 1
   return element.elementId !== undefined
 }
 
-export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 10) => {
+export interface FoundElementPair {
+  element: Element<'async'>
+  testId: string
+}
+
+export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 10): Promise<FoundElementPair> => {
   // https://webdriver.io/docs/api/browser/$
   return withImplicitTimeout(timeout, async () => {
-    let found = false
+    let foundElement: FoundElementPair | undefined = undefined
     let count = 0
     // @ts-ignore
     const max = Appium.options.waitforTimeout / 1000
-    while (!found && count < max) {
-      const foundAll = await Promise.all(
-        testIds.map(async (testId): Promise<boolean> => (await elementByTestId(testId)).elementId !== undefined)
-      )
-      found = foundAll.some((e) => e)
+    while (!foundElement && count < max) {
+      const foundAll = await Promise.all(testIds.map(async (testId) => elementByTestId(testId)))
+      const pairs = foundAll.map((e, index) => ({ element: e, testId: testIds[index] }))
+      foundElement = pairs.find((p) => p.element.elementId !== undefined)
       count++
-      if (!found) {
+      if (!foundElement) {
         await delay(1)
       }
     }
-    return found
+    if (foundElement) {
+      await foundElement.element.waitForDisplayed({ timeout: 3000 })
+      return foundElement
+    }
+    throw new Error('None of these elements were found: ' + testIds)
   })
+}
+
+export const waitForElementWithTestIdConsentSkipped = async (testId: string) => {
+  for (let i = 0; i < 10; i++) {
+    const found = await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', testId])
+    if (found.testId == 'btn-consentModal-acceptAll') {
+      await Appium.touchAction({ element: found.element, action: 'tap' })
+      await waitForElementWithTestId(testId)
+      return true
+    }
+    try {
+      const isDisplayed = await found.element.waitForDisplayed({ timeout: 1000 })
+      if (isDisplayed) return false
+    } catch (err) {
+      // waitForDisplayed threw an error, so the element is not displayed, so we retry
+    }
+  }
+  throw new Error('Element could not be found after 10 retries: ' + testId)
+}
+
+export const waitForConsent = async (consent = false) => {
+  while (!consent) {
+    consent ||= await waitForElementWithTestIdConsentSkipped('home-feed-insights-heading')
+    await tapOnElementWithTestId('btn-to-profile-view')
+    consent ||= await waitForElementWithTestIdConsentSkipped('btn-to-registration-form')
+    await tapOnElementWithTestId('btn-to-home-view')
+  }
 }
 
 const scrollElementIntoView = async (testId: string, direction: ScrollDirection, maxAttempts: number) => {
