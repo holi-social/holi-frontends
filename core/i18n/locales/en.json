@@ -376,6 +376,7 @@
   "insights.initiatives.title": "Take action with holi",
   "insights.insight.favorite.button": "Save to favourites",
   "insights.insight.favorite.success": "Saved in favourites",
+  "insights.insight.login.prompt.message": "To save in favourites, you have to sign in first", 
   "insights.insight.notFound": "Topic {{insightId}} not found",
   "insights.insight.remove.favorite.button": "Saved in favourites",
   "insights.insight.remove.favorite.success": "Removed from favourites",

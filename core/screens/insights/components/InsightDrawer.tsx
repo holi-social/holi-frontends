@@ -62,6 +62,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
     }
     openLoginModal({
       title: t('loginRedirect.title'),
+      description: t('insights.insight.login.prompt.message'),
     })
   }
 
