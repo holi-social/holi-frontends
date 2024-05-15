@@ -98,6 +98,12 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           </HoliButton>
         )}
         <View style={styles.header}>
+          <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
+            <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
+              <HoliIcon icon={More} color={colors.foreground30} />
+            </View>
+          </AppointmentDrawer>
+
           {shouldShowVisibilityLabel && (
             <View style={[styles.inviteOnly, appointment.thumbnail && !imageError ? styles.tagWithImage : {}]}>
               <HoliIcon
@@ -115,12 +121,6 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               </HoliText>
             </View>
           )}
-
-          <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
-            <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
-              <HoliIcon icon={More} color={colors.foreground30} />
-            </View>
-          </AppointmentDrawer>
         </View>
       </View>
 
@@ -222,7 +222,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     header: {
-      flexDirection: 'row',
+      flexDirection: 'row-reverse',
       justifyContent: 'space-between',
       position: 'absolute',
       width: '100%',
