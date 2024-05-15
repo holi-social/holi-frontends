@@ -96,14 +96,15 @@ const PostDetailsPage = () => {
     message: post?.title ?? '',
   })
 
+  const headerTitle =
+    post?.creator.id === userId
+      ? t('individuals.post.details.title.personal')
+      : t('individuals.post.details.title', { name: post?.creator.firstName })
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerLeft: () => headerLeft,
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>
-          {t('individuals.post.details.title', { name: post?.creator.firstName })}
-        </HeaderTitle>
-      ),
+      headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,
       headerRight: () => {
         return (
           post && (
@@ -122,7 +123,7 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [post, setScreenOptions, styles.headerRight, t, navigateBack, shareLink, headerLeft])
+  }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
   const onPressCreateComment = () =>
     isLoggedIn
