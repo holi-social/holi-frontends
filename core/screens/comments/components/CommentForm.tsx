@@ -285,7 +285,9 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       backgroundColor: theme.colors.background10,
       ...Platform.select({
         web: {
-          position: 'relative',
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
         },
       }),
     },
