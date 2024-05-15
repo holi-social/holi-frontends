@@ -8,6 +8,7 @@ import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -27,6 +28,7 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -54,6 +56,19 @@ const PostDetailsPage = () => {
   const insets = useSafeAreaInsets()
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, insets, isWeb), [theme, insets, isWeb])
+
+  const visitedScreensCount = useUserVisitedScreensCount()
+
+  const headerLeft = useMemo(() => {
+    const directPageVisit = visitedScreensCount <= 1
+    return directPageVisit ? (
+      <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
+        <HoliLogo />
+      </HoliButton>
+    ) : (
+      <HeaderBackButton icon={ArrowLeft} />
+    )
+  }, [navigate, t, visitedScreensCount])
 
   const {
     data: { post } = {},
@@ -83,7 +98,7 @@ const PostDetailsPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerLeft: () => <HeaderBackButton icon={ArrowLeft} />,
+      headerLeft: () => headerLeft,
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>
           {t('individuals.post.details.title', { name: post?.creator.firstName })}
@@ -107,7 +122,7 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [post, setScreenOptions, styles.headerRight, t, navigateBack, shareLink])
+  }, [post, setScreenOptions, styles.headerRight, t, navigateBack, shareLink, headerLeft])
 
   const onPressCreateComment = () =>
     isLoggedIn
@@ -150,6 +165,7 @@ const PostDetailsPage = () => {
                     replyRoute={`/feed-posts/${post.slug}/comment`}
                     initialOpenThread={commentId}
                     reactionButton={<FeedPostReactions post={post} />}
+                    isDiscussion={false}
                   />
                 </View>
               </>

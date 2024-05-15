@@ -58,7 +58,7 @@ export namespace ConsentState {
 }
 
 export interface TrackingHook {
-  trackEvent: (event: TrackingEvent) => void
+  track: (event: TrackingEvent) => void
 }
 
 export interface PosthogCrossPlatform {

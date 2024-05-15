@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
+import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -10,13 +11,13 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { TrackingEvent } from '@holi/core/tracking'
 import { FolderLock, Help, IdCard, Information, Sun, SunFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const AnonymousProfileView = () => {
@@ -65,17 +66,22 @@ const AnonymousProfileView = () => {
               </View>
 
               <View style={styles.profileButtonWrapper}>
-                <RegistrationButton type="primary" inline />
+                <RegistrationButton
+                  type="primary"
+                  inline
+                  trackingEvent={TrackingEvent.ProfileLoggedOut.RegisterButtonPressed}
+                />
 
-                <HoliButton
+                <HoliButtonTracked
                   type="secondary"
                   inline
                   label={t('auth.loginProtection.login')}
                   onPress={() => navigate('/login')}
                   testID={'anonymous-profile-login-btn'}
+                  trackingEvent={TrackingEvent.ProfileLoggedOut.LoginButtonPressed}
                 >
                   <HoliText>{t('auth.loginProtection.login')}</HoliText>
-                </HoliButton>
+                </HoliButtonTracked>
               </View>
             </View>
           </HoliBox>

@@ -11,6 +11,7 @@ const posthog = trackingEnabled()
   ? new PostHog(posthogKey, {
       host: posthogHost,
       defaultOptIn: false,
+      captureNativeAppLifecycleEvents: true,
     })
   : null
 

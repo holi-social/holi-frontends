@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
+import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { DocType } from '@holi/core/documents/DocType'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
@@ -16,10 +17,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking/events'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -126,33 +127,38 @@ const OnboardingWelcome = ({ headingText, onRegistration, onDismiss }: React.Pro
           {headingText}
         </HoliHeading>
 
-        <HoliButton
+        <HoliButtonTracked
           label={t('auth.loginProtection.registrationLabel')}
           onPress={() => {
             onRegistration?.()
             navigate('/onboarding/registration')
           }}
+          trackingEvent={TrackingEvent.OnboardingWelcome.RegisterButtonPressed}
           style={[styles.button, styles.firstButton]}
           testID="btn-to-registration-form"
         >
           {t('auth.loginProtection.registration')}
-        </HoliButton>
+        </HoliButtonTracked>
 
-        <HoliButton
+        <HoliButtonTracked
           label={t('auth.loginProtection.continueAsGuest')}
           onPress={() => {
             storeOnboardingState('finished')
             onDismiss?.()
             navigateBack()
           }}
+          trackingEvent={TrackingEvent.OnboardingWelcome.ContinueAsGuestButtonPressed}
           style={[styles.button, styles.secondButton]}
           type="secondary"
           testID="btn-to-continue-as-guest"
         >
           {t('auth.loginProtection.continueAsGuest')}
-        </HoliButton>
+        </HoliButtonTracked>
 
-        <AlreadyHaveAccountText style={styles.loginHeadline} />
+        <AlreadyHaveAccountText
+          style={styles.loginHeadline}
+          trackingEvent={TrackingEvent.OnboardingWelcome.LoginButtonPressed}
+        />
       </CenteredContentLayout>
 
       <HoliModal

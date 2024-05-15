@@ -1,20 +1,24 @@
+import { getLogger } from '@holi/core/helpers/logging'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import { TrackingHook } from '@holi/core/tracking/types'
 
+const logger = getLogger('Tracking')
+
 const useDummyTracking = (): TrackingHook => {
   return {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    trackEvent() {},
+    track() {},
   }
 }
 
 const useRealTracking = (): TrackingHook => {
   const posthog = usePosthogCrossPlatform()
   return {
-    trackEvent: (event: TrackingEvent) => {
-      posthog.capture(event.name, event.properties)
+    track: (event: TrackingEvent) => {
+      logger.debug('trackEvent', 'tracking event', event)
+      posthog.capture(event.name, { ...event.properties, screen: event.screen })
     },
   }
 }
