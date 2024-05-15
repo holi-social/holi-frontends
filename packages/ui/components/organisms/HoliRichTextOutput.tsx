@@ -74,7 +74,7 @@ const HoliRichTextOutput = ({
       .flatMap((item) => {
         if (typeof item !== 'string') return item
 
-        return item.split(REGEX_URL).map((textPart) => {
+        return item.split(REGEX_URL).map((textPart, index) => {
           let link = links.find(({ requestedUrl }) => textPart === requestedUrl)
 
           if (!link && allowAllLinks && isValidUrl(textPart)) {
@@ -102,7 +102,9 @@ const HoliRichTextOutput = ({
               {link.title}
             </HoliTextLink>
           ) : onPressText ? (
-            <HoliText onPress={onPressText}>{textPart}</HoliText>
+            <HoliText key={index} onPress={onPressText}>
+              {textPart}
+            </HoliText>
           ) : (
             textPart
           )
