@@ -2,7 +2,6 @@ import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
-import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskDetails from '@holi/core/screens/spaces/tasks/TaskDetails'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
@@ -30,14 +29,15 @@ export const getServerSideProps = async (context: NextPageContext) => {
       client.cache.evict({ id: client.cache.identify(space) })
     }
 
-    return [
-      {
-        query: featureTogglesQuery,
-      },
-    ]
+    return []
   }
 
-  return createServerSideProps(context, createQueries)
+  return createServerSideProps(context, createQueries, {
+    urls: {
+      en: `/spaces/${spaceIdOrName}/tasks/${taskId}`,
+      de: `/spaces/${spaceIdOrName}/aufgaben/${taskId}`,
+    },
+  })
 }
 
 export default TaskDetailsPage

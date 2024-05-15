@@ -87,7 +87,7 @@ const testDisplaysProjectDetails = async (context: BrowserContext, page: Page) =
 
   await checkAccessibility(page)
 
-  const projectUrlPrefix = '/apps/donations/project/'
+  const projectUrlPrefix = '/donations/'
   const projectUrl = page.url()
   const projectId = projectUrl.substring(projectUrl.indexOf(projectUrlPrefix) + projectUrlPrefix.length)
   expect(projectUrl).toContain(projectUrlPrefix)

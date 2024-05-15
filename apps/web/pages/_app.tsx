@@ -54,7 +54,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  const { customProps: { seoTitle } = {} } = pageProps
+  const { customProps: { seoTitle, urls } = {}, origin } = pageProps
   return (
     <TrackingProvider>
       <HoliHead
@@ -63,6 +63,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         ogTitle={t('metatags.default.og.title')}
         ogDescription={t('metatags.default.og.description')}
         ogImage="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
+        origin={origin}
+        urls={urls}
       />
 
       {featureFlag.enableSSR ? (

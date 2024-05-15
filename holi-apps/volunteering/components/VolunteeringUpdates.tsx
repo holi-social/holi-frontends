@@ -53,7 +53,7 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
     return (
       <AppUpdatesItem
         appName={HOLI_APPS.VOLUNTEERING}
-        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/engagement/${item.id}`}
+        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/${item.id}`}
         title={title}
         imageSourceUri={item.imageUrl}
         footer={item.source}

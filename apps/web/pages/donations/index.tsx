@@ -27,7 +27,13 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries, { seoTitle: 'seo.h1.donations' })
+  return createServerSideProps(context, queries, {
+    seoTitle: 'seo.h1.donations',
+    urls: {
+      en: '/donations',
+      de: '/spenden',
+    },
+  })
 }
 
 export default DonationsAppHomePage

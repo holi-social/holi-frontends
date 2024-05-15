@@ -23,8 +23,9 @@ jest.mock('@holi/web/environment', () => ({
 }))
 
 describe('createServerSideProps', () => {
-  const headers = { headers: { header1: 'header1 value' } }
-  const context = { req: { url: '', ...headers } } as unknown as NextPageContext
+  const origin = 'https://app.holi.social'
+  const headers = { header1: 'header1 value' }
+  const context = { req: { url: '', headers } } as unknown as NextPageContext
   const mockedTranslations = { i18n: { key: 'value' } }
   const mockedCache = {
     foo: 'bar',
@@ -33,6 +34,10 @@ describe('createServerSideProps', () => {
     __APOLLO_STATE__: mockedCache,
     ...mockedTranslations,
     locale: 'en',
+    origin,
+  }
+  const minimalProps = {
+    origin,
   }
   const query1 = {
     query: gql`
@@ -62,7 +67,7 @@ describe('createServerSideProps', () => {
   }
 
   const addExpectedHeader = (query: { query: DocumentNode }) => {
-    return { ...query, context: headers }
+    return { ...query, context: { headers } }
   }
 
   beforeEach(() => {
@@ -180,7 +185,7 @@ describe('createServerSideProps', () => {
     })
   })
 
-  it('should switch to client side rendering if creating the queries results fails', async () => {
+  it('should only pass minimal props to switch to client side rendering if creating the queries results fails', async () => {
     const createQueries = jest.fn().mockRejectedValueOnce(
       new ApolloError({
         graphQLErrors: [
@@ -197,16 +202,73 @@ describe('createServerSideProps', () => {
 
     expect(createQueries).toHaveBeenCalledWith(mockedClient)
     expect(props).toStrictEqual({
-      props: {},
+      props: minimalProps,
     })
   })
 
-  it('does not add any server side props if not the first request', async () => {
+  it('only adds minimal props if not the first request', async () => {
     // @ts-ignore
     const { props } = await createServerSideProps({ req: { url: '/_next/data/' } }, [])
 
-    expect(props).toStrictEqual({})
+    expect(props).toStrictEqual(minimalProps)
     expect(mockInitializeApolloSSRClient).not.toHaveBeenCalled()
     expect(mockLoadTranslations).not.toHaveBeenCalled()
+  })
+
+  it('passes on custom props', async () => {
+    const customProps = {
+      seoTitle: 'foobar',
+      urls: {
+        en: '/donations',
+        de: '/spenden',
+      },
+    }
+    const props = await createServerSideProps(context, [], customProps)
+
+    expect(mockLoadTranslations).toHaveBeenCalled()
+    expect(props).toEqual({
+      props: {
+        ...expectedProps,
+        customProps,
+      },
+    })
+  })
+
+  it('passes on custom props even if not the first request', async () => {
+    const customProps = {
+      seoTitle: 'foobar',
+      urls: {
+        en: '/donations',
+        de: '/spenden',
+      },
+    }
+    // @ts-ignore
+    const props = await createServerSideProps({ req: { url: '/_next/data/' } }, [], customProps)
+
+    expect(mockLoadTranslations).not.toHaveBeenCalled()
+    expect(props).toEqual({
+      props: {
+        ...minimalProps,
+        customProps,
+      },
+    })
+  })
+
+  it('extracts origin from request headers', async () => {
+    const headers = {
+      host: 'localhost:3000',
+      'x-forwarded-proto': 'http',
+    }
+    const context = { req: { url: '', headers } } as unknown as NextPageContext
+
+    const props = await createServerSideProps(context)
+
+    expect(mockLoadTranslations).toHaveBeenCalled()
+    expect(props).toEqual({
+      props: {
+        ...expectedProps,
+        origin: 'http://localhost:3000',
+      },
+    })
   })
 })

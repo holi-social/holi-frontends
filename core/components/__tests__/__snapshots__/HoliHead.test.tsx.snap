@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliHead should create correct url meta tags for current locale 1`] = `
+<head>
+  <link
+    href="https://app.holi.social/de/spenden"
+    rel="canonical"
+  />
+  <link
+    href="https://app.holi.social/en/donations"
+    hrefLang="en"
+    rel="alternate"
+  />
+  <link
+    href="https://app.holi.social/donations"
+    hrefLang="x-default"
+    rel="alternate"
+  />
+  <meta
+    content="https://app.holi.social/de/spenden"
+    property="og:url"
+  />
+  <meta
+    content="de"
+    property="og:locale"
+  />
+  <meta
+    content="en"
+    property="og:locale:alternate"
+  />
+</head>
+`;
+
+exports[`HoliHead should create meta tags for localized urls 1`] = `
+<head>
+  <link
+    href="https://app.holi.social/en/donations"
+    rel="canonical"
+  />
+  <link
+    href="https://app.holi.social/de/spenden"
+    hrefLang="de"
+    rel="alternate"
+  />
+  <link
+    href="https://app.holi.social/donations"
+    hrefLang="x-default"
+    rel="alternate"
+  />
+  <meta
+    content="https://app.holi.social/en/donations"
+    property="og:url"
+  />
+  <meta
+    content="en"
+    property="og:locale"
+  />
+  <meta
+    content="de"
+    property="og:locale:alternate"
+  />
+</head>
+`;
+
+exports[`HoliHead should only render meta tags for passed props 1`] = `
+<head>
+  <title>
+    Test title
+  </title>
+  <meta
+    content="Test description"
+    name="description"
+  />
+</head>
+`;
+
+exports[`HoliHead should pass on query parameters to url meta tags 1`] = `
+<head>
+  <link
+    href="https://app.holi.social/en/donations?location=Hamburg"
+    rel="canonical"
+  />
+  <link
+    href="https://app.holi.social/de/donations?location=Hamburg"
+    hrefLang="de"
+    rel="alternate"
+  />
+  <link
+    href="https://app.holi.social/donations?location=Hamburg"
+    hrefLang="x-default"
+    rel="alternate"
+  />
+  <meta
+    content="https://app.holi.social/en/donations?location=Hamburg"
+    property="og:url"
+  />
+  <meta
+    content="en"
+    property="og:locale"
+  />
+  <meta
+    content="de"
+    property="og:locale:alternate"
+  />
+</head>
+`;
+
+exports[`HoliHead should render meta tags 1`] = `
+<head>
+  <title>
+    Test title
+  </title>
+  <meta
+    content="Test description"
+    name="description"
+  />
+  <meta
+    content="Test og:title"
+    property="og:title"
+  />
+  <meta
+    content="Test og:description"
+    property="og:description"
+  />
+  <meta
+    content="https://test.org/og-image.jpg"
+    property="og:image"
+  />
+</head>
+`;
+
+exports[`HoliHead should shorten long og:description 1`] = `
+<head>
+  <meta
+    content="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    property="og:description"
+  />
+</head>
+`;
+
+exports[`HoliHead should use current route as fallback for url meta tags 1`] = `
+<head>
+  <link
+    href="https://app.holi.social/en/spaces"
+    rel="canonical"
+  />
+  <link
+    href="https://app.holi.social/de/spaces"
+    hrefLang="de"
+    rel="alternate"
+  />
+  <link
+    href="https://app.holi.social/spaces"
+    hrefLang="x-default"
+    rel="alternate"
+  />
+  <meta
+    content="https://app.holi.social/en/spaces"
+    property="og:url"
+  />
+  <meta
+    content="en"
+    property="og:locale"
+  />
+  <meta
+    content="de"
+    property="og:locale:alternate"
+  />
+</head>
+`;
+
+exports[`HoliHead should use english routes as fallback for url meta tags 1`] = `
+<head>
+  <link
+    href="https://app.holi.social/en/spaces"
+    rel="canonical"
+  />
+  <link
+    href="https://app.holi.social/de/spaces"
+    hrefLang="de"
+    rel="alternate"
+  />
+  <link
+    href="https://app.holi.social/spaces"
+    hrefLang="x-default"
+    rel="alternate"
+  />
+  <meta
+    content="https://app.holi.social/en/spaces"
+    property="og:url"
+  />
+  <meta
+    content="en"
+    property="og:locale"
+  />
+  <meta
+    content="de"
+    property="og:locale:alternate"
+  />
+</head>
+`;

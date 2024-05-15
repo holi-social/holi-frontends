@@ -50,7 +50,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
 
     return (
       <AppUpdatesItem
-        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/project/${item.id}`}
+        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/${item.id}`}
         appName={HOLI_APPS.DONATIONS}
         title={item.title}
         imageSourceUri={original?.url}

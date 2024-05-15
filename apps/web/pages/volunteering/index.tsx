@@ -57,7 +57,13 @@ export const getServerSideProps = async (context: NextPageContext) => {
     ]
   }
 
-  return createServerSideProps(context, createQueries, { seoTitle: 'seo.h1.volunteering' })
+  return createServerSideProps(context, createQueries, {
+    seoTitle: 'seo.h1.volunteering',
+    urls: {
+      en: '/volunteering',
+      de: '/ehrenamt',
+    },
+  })
 }
 
 export default VolunteeringAppHomePage
