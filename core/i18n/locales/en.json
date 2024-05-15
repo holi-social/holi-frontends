@@ -313,6 +313,7 @@
   "individuals.post.delete.dialog.title": "Delete your post",
   "individuals.post.delete.success": "Your post is deleted",
   "individuals.post.details.title": "{{name}}'s post",
+  "individuals.post.details.title.personal": "Your post",
   "individuals.post.emptyPrompt": "Share what moves you and bring your topics to the table",
   "individuals.post.emptyTitle": "No posts shared yet",
   "individuals.post.emptyTitleOther": "{{name}} hasn’t posted anything yet.",

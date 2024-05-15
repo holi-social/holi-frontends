@@ -313,6 +313,7 @@
   "individuals.post.delete.dialog.title": "Post löschen",
   "individuals.post.delete.success": "Dein Post wurde gelöscht",
   "individuals.post.details.title": "{{name}} Post",
+  "individuals.post.details.title.personal": "Dein Post",
   "individuals.post.emptyPrompt": "Teile was dich bewegt, und bringe deine Themen ein",
   "individuals.post.emptyTitle": "Noch keine Posts geteilt",
   "individuals.post.emptyTitleOther": "{{name}} hat noch nichts gepostet.",
