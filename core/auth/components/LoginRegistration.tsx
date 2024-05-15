@@ -101,8 +101,8 @@ const LoginRegistration = ({
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_join_holi.svg')}
             isSvg
-            width={251}
-            height={181}
+            width={screenHeight <= SMALL_DEVICE_HEIGHT ? 180 : 251}
+            height={screenHeight <= SMALL_DEVICE_HEIGHT ? 130 : 182}
             label={t('profile.loggedOut.image')}
           />
         </View>
