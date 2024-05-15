@@ -6,6 +6,7 @@ import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/c
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -32,7 +33,7 @@ export const SubmitPostBar = ({
   const styles = useMemo(() => getSubmitPostBarStyles(theme), [theme])
 
   return (
-    <View style={styles.menuContainer}>
+    <SafeArea style={styles.menuContainer} edges={['bottom']}>
       <View style={styles.items}>
         <HoliImagePicker
           fileSizeLimitation={{
@@ -62,7 +63,7 @@ export const SubmitPostBar = ({
           <HoliText bold>{isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}</HoliText>
         </HoliButtonLoading>
       </View>
-    </View>
+    </SafeArea>
   )
 }
 const getSubmitPostBarStyles = (theme: HoliTheme) =>
@@ -103,5 +104,11 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       maxWidth: dimensions.breakpointM,
+      ...Platform.select({
+        ios: {
+          paddingTop: 12,
+          paddingHorizontal: 12,
+        },
+      }),
     },
   })
