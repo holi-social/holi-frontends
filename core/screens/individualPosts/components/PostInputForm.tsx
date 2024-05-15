@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
-import { CategorySelectionModal } from '@holi/core/screens/individualPosts/CategorySelectionModal'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
 import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
@@ -13,7 +12,7 @@ import {
   FEED_POST_TITLE_MAX_CHARACTERS,
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
-import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -51,6 +50,8 @@ export interface PostInputFormProps {
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
   submitting: boolean
+  categories: FeedPostCategories | null
+  onClickCategoriesPill: () => void
 }
 
 const PostInputForm: React.FC<PostInputFormProps> = ({
@@ -63,19 +64,18 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   onChangeTitle,
   onChangeDescription,
   onChangeSelectedVisibility,
-  onChangeSelectedCategoryId,
   onChangeImage,
   onSubmit,
   isEdit = false,
   submitting,
+  categories,
+  onClickCategoriesPill,
 }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { loading: categoriesLoading, categories } = useFeedPostCategories()
-  const [showCategorySelectionModal, setShowCategorySelectionModal] = useState(false)
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
@@ -96,16 +96,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       setFieldErrors({})
     }
   }, [title, description, selectedVisibility, selectedCategoryId])
-
-  useEffect(() => {
-    if (!isEdit) {
-      const timer = setTimeout(() => {
-        setShowCategorySelectionModal(true)
-      }, 800)
-
-      return () => clearTimeout(timer)
-    }
-  }, [isEdit])
 
   const visibilityOptions: HoliModalSelectOption<Visibility>[] = [
     {
@@ -128,11 +118,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
     onSubmit()
   }
 
-  const selectCategory = (categoryId: string) => {
-    onChangeSelectedCategoryId(categoryId)
-    setShowCategorySelectionModal(false)
-  }
-
   const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => onChangeSelectedVisibility(option.id)
 
   return (
@@ -148,7 +133,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             <FeedPostPill
               label={categories?.find((category) => category.id === selectedCategoryId)?.name ?? selectedCategoryId}
               setting={'category'}
-              onPress={() => setShowCategorySelectionModal(true)}
+              onPress={onClickCategoriesPill}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -192,13 +177,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           isSubmittable={isSubmittable}
           isEdit={isEdit}
         />
-        {!categoriesLoading && categories && (
-          <CategorySelectionModal
-            show={showCategorySelectionModal}
-            categories={categories}
-            onCategorySelection={selectCategory}
-          />
-        )}
       </KeyboardAvoidingView>
       <HoliModalSelect
         options={visibilityOptions}
@@ -221,9 +199,9 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
       backgroundColor: theme.colors.background20,
-      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
-      alignItems: 'center',
+      width: '100%',
       height: '100%',
+      alignItems: 'center',
     },
     titleInput: {
       backgroundColor: theme.colors.background20,
@@ -243,7 +221,6 @@ const getStyles = (theme: HoliTheme) =>
       maxWidth: '100%',
     },
     container: {
-      paddingTop: 24,
       width: '100%',
       ...Platform.select({
         web: {
@@ -253,9 +230,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     contentContainer: {
       paddingBottom: Platform.OS === 'ios' ? dimensions.bottomBarHeight : dimensions.bottomBarHeight + 60,
-      justifyContent: 'center',
-      alignItems: 'center',
-      alignContent: 'center',
     },
     inputContainer: {
       width: '100%',
