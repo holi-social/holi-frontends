@@ -17,6 +17,7 @@ export interface Props extends HoliTextProps {
   linkMentionsToProfile?: boolean
   allowAllLinks?: boolean
   testID?: string
+  onPressText?: () => void
 }
 
 const HoliRichTextOutput = ({
@@ -27,6 +28,7 @@ const HoliRichTextOutput = ({
   size,
   allowAllLinks = false,
   linkMentionsToProfile = true,
+  onPressText,
   ...props
 }: Props) => {
   const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'default' : size
@@ -99,6 +101,8 @@ const HoliRichTextOutput = ({
             >
               {link.title}
             </HoliTextLink>
+          ) : onPressText ? (
+            <HoliText onPress={onPressText}>{textPart}</HoliText>
           ) : (
             textPart
           )

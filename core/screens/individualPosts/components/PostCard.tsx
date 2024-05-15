@@ -80,7 +80,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
       {/* not clickable */}
       <View>
         <HoliReadMore numberOfLines={NUMBER_OF_LINES} color="gray300" bold={false}>
-          <HoliRichTextOutput text={post.description} allowAllLinks />
+          <HoliRichTextOutput text={post.description} allowAllLinks onPressText={goToDetailView} />
         </HoliReadMore>
       </View>
 
