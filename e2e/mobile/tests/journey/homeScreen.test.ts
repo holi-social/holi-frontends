@@ -16,9 +16,9 @@ describe('@HomeScreen_journey', () => {
 
     await assertShowsAppUpdates('donations')
 
-    await assertShowsAppUpdates('goodnews')
-
     await assertShowsAppUpdates('volunteering')
+
+    await assertShowsAppUpdates('goodnews')
 
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
