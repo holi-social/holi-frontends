@@ -1,8 +1,5 @@
-import { ApolloError, FetchResult, useQuery } from '@apollo/client'
-import { useMutation } from '@apollo/client'
-import { useEffect, useState } from 'react'
-import { Dispatch } from 'react'
-import { SetStateAction } from 'react'
+import { ApolloError, FetchResult, useMutation, useQuery } from '@apollo/client'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
@@ -19,7 +16,6 @@ import {
   updateSpacePostMutation,
 } from '@holi/core/screens/spaces/updates/mutations'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
@@ -47,7 +43,6 @@ export interface UseCreateOrUpdateSpacePost {
 export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: string): UseCreateOrUpdateSpacePost => {
   const { displayError } = useErrorHandling()
   const { navigateBack, replaceRoute } = useRouting()
-  const tracking = useTracking()
   const { openToast } = useToast()
   const { t } = useTranslation()
 
@@ -97,7 +92,6 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     createSpacePostMutation,
     {
       onCompleted: () => {
-        tracking.trackEvent({ name: 'space_update_posted' })
         navigateBack()
       },
       onError: (error) => {

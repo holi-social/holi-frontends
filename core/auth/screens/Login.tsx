@@ -18,11 +18,13 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
+import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -40,6 +42,7 @@ const Login = () => {
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
   const client = useApolloClient()
+  const { track } = useTracking()
 
   const isWeb = Platform.OS === 'web'
 
@@ -74,6 +77,7 @@ const Login = () => {
   }, [isLoggedOut, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {
+    track(TrackingEvent.Login.LoginButtonPressed)
     if (!flow) return
 
     showLoader()
@@ -125,15 +129,16 @@ const Login = () => {
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
           <View style={styles.formItemContainer}>
-            <HoliTextLink
+            <HoliTextLinkTracked
               label={t('auth.login.link.forgotPassword')}
               href="/forgotPassword"
               size="small"
               mobileNavigateBackFirst
               testID="btn-to-forgot-password-form"
+              trackingEvent={TrackingEvent.Login.ForgotPasswordButtonPressed}
             >
               {t('auth.login.link.forgotPassword')}
-            </HoliTextLink>
+            </HoliTextLinkTracked>
           </View>
 
           <HoliGap size="l" />
@@ -141,7 +146,10 @@ const Login = () => {
             {t('auth.login.signUp.link.headline')}
           </HoliHeading>
 
-          <RegistrationButton style={styles.formItemContainer} />
+          <RegistrationButton
+            style={styles.formItemContainer}
+            trackingEvent={TrackingEvent.Login.RegisterButtonPressed}
+          />
         </LoginRegistrationContainer>
       </HoliBox>
       {isLoaderShown && <HoliLoader />}

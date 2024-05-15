@@ -16,6 +16,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -49,6 +51,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   const redirect = useRedirect()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const initializeFlow = useCallback(() => {
     if (isLoggedIn) return
@@ -72,6 +75,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   }, [initializeFlow])
 
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
+    track(TrackingEvent.Registration.RegisterButtonPressed)
     if (flow) {
       showLoader()
       Keyboard.dismiss()
@@ -151,7 +155,10 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
           </HoliButton>
 
           <View style={{ alignItems: 'center' }}>
-            <AlreadyHaveAccountText style={styles.loginHeadline} />
+            <AlreadyHaveAccountText
+              style={styles.loginHeadline}
+              trackingEvent={TrackingEvent.Registration.LoginButtonPressed}
+            />
           </View>
         </View>
 

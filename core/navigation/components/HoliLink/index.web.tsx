@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import React, { useCallback } from 'react'
 import type { PropsWithChildren, SyntheticEvent } from 'react'
+import React, { useCallback } from 'react'
 
 import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
 
