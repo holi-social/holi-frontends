@@ -25,9 +25,11 @@ import CreatePostButton from '@holi/core/screens/individualPosts/components/Crea
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { useTheme } from '@holi/ui/styles/theme'
 
+import { RecommendedChallenges } from '@holi-apps/challenges/components/RecommendedChallenges'
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
@@ -62,6 +64,7 @@ const HomeFeed = () => {
   const { ftEnabled: ftEnabledVolunteering, ftPreview: ftPreviewVolunteering } = useFeatureToggle(
     FeatureToggleName.APPS_VOLUNTEERING
   )
+  const { ftEnabled: ftEnabledChallenges } = useFeatureToggle(FeatureToggleName.CHALLENGES)
 
   const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
@@ -128,6 +131,11 @@ const HomeFeed = () => {
         <View style={styles.sections}>
           <HomeFeedHeader />
           {ftEnabledPosts && <AllPosts />}
+          {ftEnabledChallenges && (
+            <HoliContainer>
+              <RecommendedChallenges style={styles.challengesContainer} />
+            </HoliContainer>
+          )}
           <InspirationPosts />
           <InsightsOfTheWeek />
           <Recommendations />
@@ -147,6 +155,9 @@ const styles = StyleSheet.create({
   },
   sections: {
     gap: 32,
+  },
+  challengesContainer: {
+    paddingBottom: 8,
   },
 })
 
