@@ -9,7 +9,7 @@ import { ContentType } from '@holi/core/queries'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
-import { CommentableType } from '@holi/core/screens/comments/types'
+import { Comment, CommentableType } from '@holi/core/screens/comments/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -26,7 +26,7 @@ interface CommentsProps {
   isReply?: boolean
   initialOpenThread?: string
   reactionButton?: ReactNode
-  localeKey?: string
+  isDiscussion?: boolean
 }
 
 const Comments = ({
@@ -37,7 +37,7 @@ const Comments = ({
   onPressCreateComment,
   initialOpenThread,
   reactionButton,
-  localeKey,
+  isDiscussion,
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -78,7 +78,13 @@ const Comments = ({
               latestCommenters.length > 1 ? styles.commentersContainerMany : styles.commentersContainerSingle,
             ]}
           >
-            <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter localeKey={localeKey} />
+            <HoliUserAvatarPile
+              users={latestCommenters as User[]}
+              collapse
+              counter
+              comments={comments as Comment[]}
+              isDiscussion={isDiscussion}
+            />
             {reactionButton}
           </View>
           <View style={styles.commentersLine}>

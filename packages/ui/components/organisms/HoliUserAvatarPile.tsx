@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import { Comment } from '@holi/core/screens/comments/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliAvatar'
@@ -13,11 +14,13 @@ interface BaseProps {
   collapse?: boolean
   counter?: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-  localeKey?: string
   usersTotal?: number
+  commentsTotal?: number
   users: User[]
+  comments: Comment[]
   testID?: string
   hasBackground?: boolean
+  isDiscussion?: boolean
 }
 
 interface SkeletonProps extends Partial<BaseProps> {
@@ -45,6 +48,7 @@ const emptyUser = (id: string, theme: HoliTheme): User => {
 const HoliUserAvatarPile = ({
   children,
   users,
+  comments,
   usersToShow = 5,
   size = 'micro',
   collapse = false,
@@ -53,8 +57,9 @@ const HoliUserAvatarPile = ({
   loading,
   hasBackground = false,
   usersTotal = users?.length ?? 0,
+  commentsTotal = comments?.length ?? 0,
   testID = 'holi-user-avatar-pile',
-  localeKey = 'insights.editors.discussing',
+  isDiscussion = true,
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -98,7 +103,9 @@ const HoliUserAvatarPile = ({
 
         {!loading && (children || counter) && (
           <HoliText size="small" style={[styles.counter, styles.textGrey]}>
-            {children || t(localeKey, { count: usersTotal })}
+            {children || isDiscussion
+              ? t('insights.editors.discussing', { count: usersTotal })
+              : t('comments.response', { count: commentsTotal })}
           </HoliText>
         )}
       </View>
