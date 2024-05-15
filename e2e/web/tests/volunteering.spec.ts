@@ -43,7 +43,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'app-tile-volunteering')
 
   await page.waitForSelector(byTestId('volunteering-list-container'))
-  expect(page.url()).toContain('/apps/volunteering')
+  expect(page.url()).toContain('/volunteering')
   await clickElementByTestId(page, 'nav-button-back')
   await page.waitForSelector(byTestId('volunteering-updates-item'))
 
@@ -52,7 +52,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate to article in volunteering app
   await page.waitForSelector(byTestId('volunteering-detailview-container'))
-  expect(page.url()).toContain('/apps/volunteering/engagement')
+  expect(page.url()).toContain('/volunteering/')
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
@@ -95,7 +95,7 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
 
   await checkAccessibility(page)
 
-  expect(page.url()).toContain('/apps/volunteering/engagement/')
+  expect(page.url()).toContain('/volunteering/')
 
   // check if clicking on "get in touch" button actually opens a tab with the correct URL
   // follows https://playwright.dev/docs/pages#handling-new-pages
