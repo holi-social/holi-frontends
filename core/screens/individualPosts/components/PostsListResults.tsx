@@ -8,10 +8,11 @@ import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
+import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-const ESTIMATED_POST_HEIGHT = 450
+const ESTIMATED_POST_HEIGHT = 500
 const HALF_PADDING = Spacing.xxs / 2
 
 export type PostsListResultsProps = {
@@ -24,9 +25,10 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
   const numberOfColumns = useBreakpointMatcher() || 1
 
   if (totalResults == 0) return emptyMessage
+  if (loading) return <LoadingSkeleton />
 
   return (
-    <View style={{ margin: -HALF_PADDING }}>
+    <View style={styles.container}>
       <MasonryFlashList
         data={data}
         renderItem={({ item }) => (
@@ -45,10 +47,10 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
 
 const PostSkeleton = () => (
   <HoliGridCell>
-    <View style={skeletonStyles.container}>
-      <View style={skeletonStyles.userBox}>
+    <View style={styles.skeletonPost}>
+      <View style={styles.skeletonUserContainer}>
         <HoliSkeleton height={44} width={44} borderRadius={80} />
-        <View style={skeletonStyles.metadata}>
+        <View style={styles.skeletonMetadata}>
           <HoliSkeleton height={22} width={120} borderRadius={10} />
           <HoliSkeleton height={14} width={80} borderRadius={10} />
         </View>
@@ -61,22 +63,24 @@ const PostSkeleton = () => (
 )
 
 const LoadingSkeleton = () => (
-  <>
+  <HoliGridWrapper gap={Spacing.xs}>
     <PostSkeleton />
     <PostSkeleton />
-  </>
+  </HoliGridWrapper>
 )
 
-const skeletonStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    gap: 10,
-    padding: Spacing.xs,
+    margin: -HALF_PADDING,
   },
-  userBox: {
+  skeletonPost: {
+    gap: 10,
+  },
+  skeletonUserContainer: {
     flexDirection: 'row',
     gap: 10,
   },
-  metadata: {
+  skeletonMetadata: {
     gap: 6,
   },
 })
