@@ -17,11 +17,14 @@ interface ChallengeCardProps {
   challenge: Challenge
 }
 
+const cardPaddingsSum = dimensions.spacingXs * 2 + 4
+
+export const calculateCardWidth = (screenWidth: number) => screenWidth / 1.5 - cardPaddingsSum
+
 export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
-  const cardPaddingsSum = dimensions.spacingXs * 2 + 4
-  const cardWidth = screenWidth / 1.5 - cardPaddingsSum
+  const cardWidth = calculateCardWidth(screenWidth)
   const submissionCardWidth = (cardWidth - cardPaddingsSum) / 2
   const styles = getStyles(theme, cardWidth)
 

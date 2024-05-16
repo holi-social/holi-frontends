@@ -2,17 +2,17 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, StyleSheet } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 
@@ -36,6 +36,7 @@ const UserSuggestions: React.FC = () => {
   }
 
   const userSuggestions = data.userSuggestions.data
+  const labelSeeMore = t('global.seeMore')
 
   const renderItem = ({ item, index }: { item: User; index: number }) => {
     const nameLabel = item.fullName
@@ -69,7 +70,11 @@ const UserSuggestions: React.FC = () => {
           data={userSuggestions}
           renderItem={renderItem}
           ListFooterComponent={
-            <SeeMore loading={loading} onPress={showFeatureNotImplementedToast} style={styles.listItem} />
+            <View style={styles.seeMoreButton}>
+              <HoliMoreCard role="link" label={labelSeeMore} onPress={showFeatureNotImplementedToast}>
+                {labelSeeMore}
+              </HoliMoreCard>
+            </View>
           }
         />
       </HoliContainer>
@@ -89,5 +94,10 @@ const styles = StyleSheet.create({
   },
   listItem: {
     marginRight: 11,
+  },
+  seeMoreButton: {
+    flex: 1,
+    marginRight: 44,
+    width: 162,
   },
 })

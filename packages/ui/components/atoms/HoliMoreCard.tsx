@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { PropsWithChildren } from 'react'
-import { Pressable, type Role, StyleSheet, View } from 'react-native'
+import { type GestureResponderEvent, Pressable, type Role, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -8,7 +8,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HoliLocalImage from './HoliLocalImage'
 
 export interface HoliMoreCardProps {
-  onPress: () => void
+  onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   label?: string
   role: Role
   testID?: string

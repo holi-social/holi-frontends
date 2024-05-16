@@ -2,7 +2,7 @@ import { withProfiler } from '@sentry/react'
 import fetch from 'cross-fetch'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { createAuthorizationHeaders } from '@holi/api/helpers'
 import { HOLI_APPS } from '@holi/core/constants/appConstants'
@@ -11,7 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
 import { StarSmileFilled } from '@holi/icons/src/generated'
 
-import { ChallengeCard } from '@holi-apps/challenges/components/ChallengeCard'
+import { ChallengeCard, calculateCardWidth } from '@holi-apps/challenges/components/ChallengeCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
@@ -34,6 +34,8 @@ export const RecommendedChallenges = ({ style }: RecommendedChallengesProps) => 
   const [allChallengePath, setAllChallengePath] = useState('')
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { width: screenWidth } = useWindowDimensions()
+  const cardWidth = calculateCardWidth(screenWidth)
 
   useEffect(() => {
     createAuthorizationHeaders().then((headers) =>
@@ -69,6 +71,7 @@ export const RecommendedChallenges = ({ style }: RecommendedChallengesProps) => 
       labelSeeMore={t('global.seeMore')}
       loading={isLoading}
       style={style}
+      cardWidth={cardWidth}
     />
   )
 }
