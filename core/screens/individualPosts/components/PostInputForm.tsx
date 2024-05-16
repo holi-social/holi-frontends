@@ -120,6 +120,12 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => onChangeSelectedVisibility(option.id)
 
+  const categoryLabel = categories?.find((category) => category.id === selectedCategoryId)?.label ?? selectedCategoryId
+
+  const descriptionPlaceholder =
+    categories?.find((category) => category.id === selectedCategoryId)?.description ??
+    t('individuals.post.input.category.input.description')
+
   return (
     <>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
@@ -130,11 +136,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               setting={'visibility'}
               onPress={showVisibility}
             />
-            <FeedPostPill
-              label={categories?.find((category) => category.id === selectedCategoryId)?.name ?? selectedCategoryId}
-              setting={'category'}
-              onPress={onClickCategoriesPill}
-            />
+            <FeedPostPill label={categoryLabel} setting={'category'} onPress={onClickCategoriesPill} />
           </View>
           <View style={styles.inputContainer}>
             <HoliTextInput
@@ -150,9 +152,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               noOfVisibleLines={2}
             />
             <HoliTextInput
-              placeholder={t('individuals.post.input.category.input.description')}
+              placeholder={descriptionPlaceholder}
               inputStyle={styles.descriptionInput}
-              aria-label={t('individuals.post.input.category.input.description')}
+              aria-label={descriptionPlaceholder}
               onChange={onChangeDescription}
               placeholderColor={theme.colors.gray300}
               showCharacterCount

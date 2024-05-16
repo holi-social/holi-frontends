@@ -8,6 +8,8 @@ import { FeedPostCategoriesQueryResult, feedPostCategoriesQuery } from '@holi/co
 export type FeedPostCategories = {
   id: string
   name: string
+  label: string
+  description: string
   image: NodeRequire
 }[]
 
@@ -22,21 +24,32 @@ const useFeedPostCategories = () => {
       }),
   })
 
-  const categoryPresentationBySlug: Record<string, { name: string; image: NodeRequire }> = {
+  const categoryPresentationBySlug: Record<
+    string,
+    { name: string; label: string; description: string; image: NodeRequire }
+  > = {
     'topic-for-conversation': {
-      name: t('individuals.post.category.name.topic'),
+      name: t('individuals.post.category.name.conversationTopic'),
+      label: t('individuals.post.category.label.conversationTopic'),
+      description: t('individuals.post.category.description.conversationTopic'),
       image: require('@holi/ui/assets/img/posts/category-topic-for-conversation-illustrations.svg'),
     },
     'personal-experience': {
       name: t('individuals.post.category.name.experience'),
+      label: t('individuals.post.category.label.experience'),
+      description: t('individuals.post.category.description.experience'),
       image: require('@holi/ui/assets/img/posts/category-personal-experience-illustrations.svg'),
     },
     recommendation: {
       name: t('individuals.post.category.name.recommendation'),
+      label: t('individuals.post.category.label.recommendation'),
+      description: t('individuals.post.category.description.recommendation'),
       image: require('@holi/ui/assets/img/posts/category-recommendation-illustrations.svg'),
     },
     'raise-awareness': {
       name: t('individuals.post.category.name.awareness'),
+      label: t('individuals.post.category.label.awareness'),
+      description: t('individuals.post.category.description.awareness'),
       image: require('@holi/ui/assets/img/posts/category-raise-awareness-illustrations.svg'),
     },
   }
@@ -47,6 +60,8 @@ const useFeedPostCategories = () => {
       acc.push({
         id: category.id,
         name: categoryPresentation.name,
+        label: categoryPresentation.label,
+        description: categoryPresentation.description,
         image: categoryPresentation.image,
       })
     }
