@@ -80,7 +80,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
       {/* not clickable */}
       <View>
         <HoliReadMore numberOfLines={NUMBER_OF_LINES} color="gray300" bold={false}>
-          <HoliRichTextOutput text={post.description} allowAllLinks onPressText={goToDetailView} />
+          <HoliRichTextOutput text={post.description} allowAllLinks onPressText={goToDetailView} color="gray300" />
         </HoliReadMore>
       </View>
 
@@ -164,9 +164,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     clickableArea: {
       gap: Spacing.xs,
-    },
-    readMoreButton: {
-      alignItems: 'flex-end',
     },
     clickOverlay: {
       position: 'relative',
