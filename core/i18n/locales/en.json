@@ -310,7 +310,7 @@
   "individuals.post.category.name.recommendation": "Recommendation",
   "individuals.post.category.label.recommendation": "Recommendation",
   "individuals.post.category.description.recommendation": "Write about a life-changing habit, product or service...",
-  "individuals.post.category.name.conversationTopic": "Topic for conversations",
+  "individuals.post.category.name.conversationTopic": "Topic for conversation",
   "individuals.post.category.label.conversationTopic": "Conversation topic",
   "individuals.post.category.description.conversationTopic": "Share knowledge or initiate conversations on topics that matter to you and the community...",
   "individuals.post.comments.response": "{{count}} comment",
