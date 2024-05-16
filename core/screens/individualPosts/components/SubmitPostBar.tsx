@@ -106,8 +106,7 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
       maxWidth: dimensions.breakpointM,
       ...Platform.select({
         ios: {
-          paddingTop: 12,
-          paddingHorizontal: 12,
+          padding: 12,
         },
       }),
     },
