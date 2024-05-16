@@ -4,7 +4,6 @@ export interface Submitter {
   avatarUrl?: string | null
 }
 
-// TODO(SF) more fields nullable?
 export interface Submission {
   id: string
   submissionDate: string

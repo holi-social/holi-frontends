@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
   },
   challengesContainer: {
     paddingBottom: 8,
+    flex: 1,
   },
 })
 

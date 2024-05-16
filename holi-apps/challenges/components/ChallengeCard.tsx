@@ -6,7 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { User } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
@@ -43,7 +43,7 @@ export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
             <HoliText size="extrasmall" color="gray300">
               {challenge.participants}
             </HoliText>
-            <HoliIcon icon={User} size={16} color={colors.gray300} style={styles.participantsIcon} />
+            <HoliIcon icon={User} size={16} color={theme.colors.gray300} style={styles.participantsIcon} />
           </View>
         </View>
 
@@ -75,6 +75,7 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       borderRadius: 16,
       backgroundColor: theme.colors.background10,
       height: '100%',
+      flex: 1,
     },
     headline: {
       flexDirection: 'row',
@@ -98,5 +99,6 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       flexDirection: 'row',
       paddingTop: dimensions.spacingXs,
       gap: 4,
+      flex: 1,
     },
   })

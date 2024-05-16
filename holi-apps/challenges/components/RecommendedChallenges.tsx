@@ -29,6 +29,7 @@ interface RecommendedChallengesProps {
 }
 
 export const RecommendedChallenges = ({ style }: RecommendedChallengesProps) => {
+  const [isLoading, setIsLoading] = useState(true)
   const [challenges, setChallenges] = useState<Challenge[]>([])
   const [allChallengePath, setAllChallengePath] = useState('')
   const { t } = useTranslation()
@@ -48,11 +49,11 @@ export const RecommendedChallenges = ({ style }: RecommendedChallengesProps) => 
             location: 'RecommendedChallenges.useEffect',
           })
         })
+        .finally(() => setIsLoading(false))
     )
   }, [])
 
-  // TODO(SF) handle loading?
-  if (!challenges.length) {
+  if (!isLoading && !challenges.length) {
     return null
   }
 
@@ -66,7 +67,7 @@ export const RecommendedChallenges = ({ style }: RecommendedChallengesProps) => 
       subline={t('challenges:recommendations.subline')}
       onPressSeeMore={() => navigate(createChallengesPath(allChallengePath))}
       labelSeeMore={t('global.seeMore')}
-      loading={!challenges.length}
+      loading={isLoading}
       style={style}
     />
   )
