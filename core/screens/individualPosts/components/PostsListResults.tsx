@@ -20,8 +20,10 @@ export type PostsListResultsProps = {
 }
 
 const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
-  const { data, loading } = usePaginationContext<FeedPost>()
+  const { data, loading, totalResults } = usePaginationContext<FeedPost>()
   const numberOfColumns = useBreakpointMatcher() || 1
+
+  if (totalResults == 0) return emptyMessage
 
   return (
     <View style={{ margin: -HALF_PADDING }}>
@@ -32,7 +34,6 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
             <PostCard post={item} showVisibilityBadge={showVisibilityBadge} />
           </HoliBox>
         )}
-        ListEmptyComponent={<HoliBox padding={HALF_PADDING}>{emptyMessage}</HoliBox>}
         keyExtractor={(post) => post.id}
         numColumns={numberOfColumns}
         refreshing={loading}
