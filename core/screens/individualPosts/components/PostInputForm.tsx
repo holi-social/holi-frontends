@@ -243,7 +243,7 @@ const getStyles = (theme: HoliTheme) =>
     pillContainer: {
       width: '100%',
       flexWrap: 'wrap',
-      marginTop: 12,
+      marginTop: Platform.OS === 'web' ? Spacing.xs : Spacing.md,
       marginBottom: 24,
       flexDirection: 'row',
       zIndex: 1,
