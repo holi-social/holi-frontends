@@ -49,11 +49,10 @@ const useHeaderHideAnimation = (headerHeight = HEADER_HEIGHT) => {
 
   // reset header on screen change (navigation from one screen to another)
   useEffect(() => {
-    const unsubscribe = navigation.addListener('state', () => {
+    return navigation.addListener('state', () => {
       setScreenScrollY(0)
       headerSlideAnimation.current.setValue(0)
     })
-    return unsubscribe
   }, [navigation])
 
   return headerSlideAnimation.current.interpolate({

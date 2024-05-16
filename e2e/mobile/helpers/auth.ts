@@ -5,9 +5,10 @@ import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
-  tapOnLoginLinkInText,
   waitForAnyElementWithTestId,
+  waitForConsent,
   waitForElementWithTestId,
+  waitForElementWithTestIdConsentSkipped,
 } from './selectors'
 import { delay } from './time'
 
@@ -42,13 +43,10 @@ export const defaultAuthSteps = async (
 
   // open user profile
   await tapOnElementWithTestId('btn-to-profile-view', 10000)
-
-  // hit login
-  const buttonId = isLogin ? 'already-have-account-text' : 'btn-to-registration-form'
   if (isLogin) {
-    await tapOnLoginLinkInText()
+    await tapOnElementWithTestId('anonymous-profile-login-btn')
   } else {
-    await tapOnElementWithTestId(buttonId)
+    await tapOnElementWithTestId('btn-to-registration-form')
     await tapOnElementWithTestId('community-guidelines-checkbox')
     await tapOnElementWithTestId('community-guidelines-navbtn-next-btn')
     await tapOnElementWithTestId('privacy-policy-checkbox')
@@ -106,26 +104,14 @@ const logoutOrDelete = async (fn: () => Promise<void>) => {
   let consent = false
   if (await navigateToSettings()) {
     await fn()
-    await waitForAnyElementWithTestId(['already-have-account-text', 'btn-consentModal-acceptAll'])
-    if (await checkIfElementWithTestIdExists('btn-consentModal-acceptAll')) {
-      await tapOnElementWithTestId('btn-consentModal-acceptAll')
-      consent = true
-    }
-    await waitForElementWithTestId('already-have-account-text', 15000)
+    consent = await waitForElementWithTestIdConsentSkipped('btn-to-registration-form')
   } else {
     consent = true
   }
-
-  await waitForAnyElementWithTestId(['btn-to-home-view', 'btn-consentModal-acceptAll'])
-  if (await checkIfElementWithTestIdExists('btn-consentModal-acceptAll')) {
-    await tapOnElementWithTestId('btn-consentModal-acceptAll')
-    consent = true
-  }
+  consent ||= await waitForElementWithTestIdConsentSkipped('btn-to-home-view')
   await tapOnElementWithTestId('btn-to-home-view')
 
-  if (!consent) {
-    await tapOnElementWithTestId('btn-consentModal-acceptAll')
-  }
+  waitForConsent(consent)
 }
 
 export const logout = async () => {
@@ -153,19 +139,16 @@ const navigateToSettings = async () => {
     return true
   }
   if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
-    await tapOnElementWithTestId('btn-to-profile-view')
-    await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
-    if (await checkIfElementWithTestIdExists('btn-to-settings')) {
-      await tapOnElementWithTestId('btn-to-settings')
-      await waitForElementWithTestId('btn-to-logout')
-      return true
-    }
-    return false
+    return await navigateViaProfileToSettings()
   }
   await navigateBackToHomeScreen()
+  return await navigateViaProfileToSettings()
+}
+
+const navigateViaProfileToSettings = async () => {
   await tapOnElementWithTestId('btn-to-profile-view')
-  await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
-  if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+  const found = await waitForAnyElementWithTestId(['btn-to-settings', 'btn-to-registration-form'])
+  if (found.testId == 'btn-to-settings') {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')
     return true

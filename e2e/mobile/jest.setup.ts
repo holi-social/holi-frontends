@@ -5,10 +5,9 @@ import { PlatformType, TargetType } from './global'
 import { logout } from './helpers/auth'
 import { waitForHomeScreen } from './helpers/navigation'
 import {
-  checkIfElementWithTestIdExists,
   resetImplicitTimeout,
   tapOnElementWithTestId,
-  waitForAnyElementWithTestId,
+  waitForConsent,
   waitForElementWithTestId,
 } from './helpers/selectors'
 
@@ -41,10 +40,7 @@ beforeEach(async () => {
       }
     }
     await tapOnElementWithTestId('btn-to-continue-as-guest')
-    await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', 'home-feed-insights-heading'])
-    if (await checkIfElementWithTestIdExists('btn-consentModal-acceptAll')) {
-      await tapOnElementWithTestId('btn-consentModal-acceptAll')
-    }
+    await waitForConsent()
     await waitForHomeScreen(homeScreenTimeout)
   } else {
     // Logout + navigate back to the home screen before each test

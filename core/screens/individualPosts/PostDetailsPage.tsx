@@ -10,6 +10,7 @@ import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -54,8 +55,9 @@ const PostDetailsPage = () => {
   const { userId, isLoggedIn } = useAuth()
   const { openLoginModal } = useLoginModal()
   const insets = useSafeAreaInsets()
+  const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
-  const styles = useMemo(() => getStyles(theme, insets, isWeb), [theme, insets, isWeb])
+  const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
 
   const visitedScreensCount = useUserVisitedScreensCount()
 
@@ -96,14 +98,15 @@ const PostDetailsPage = () => {
     message: post?.title ?? '',
   })
 
+  const headerTitle =
+    post?.creator.id === userId
+      ? t('individuals.post.details.title.personal')
+      : t('individuals.post.details.title', { name: post?.creator.firstName })
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerLeft: () => headerLeft,
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>
-          {t('individuals.post.details.title', { name: post?.creator.firstName })}
-        </HeaderTitle>
-      ),
+      headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,
       headerRight: () => {
         return (
           post && (
@@ -122,7 +125,7 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [post, setScreenOptions, styles.headerRight, t, navigateBack, shareLink, headerLeft])
+  }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
   const onPressCreateComment = () =>
     isLoggedIn
@@ -216,7 +219,7 @@ const skeletonStyles = StyleSheet.create({
   },
 })
 
-const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false) =>
+const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isSm = false) =>
   StyleSheet.create({
     wrapper: {
       width: 'auto',
@@ -226,11 +229,11 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false) =>
       ...Platform.select({
         web: {
           minHeight: '100%',
-          paddingTop: dimensions.topBarHeight,
+          paddingTop: dimensions.topBarHeight + Spacing.md,
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
         ios: {
-          paddingTop: dimensions.topBarHeight + insets.top - Spacing['3xs'],
+          paddingTop: dimensions.topBarHeight + insets.top,
         },
         android: {
           paddingTop: dimensions.topBarHeight + Spacing.xl,
@@ -245,7 +248,7 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false) =>
       ...(!isWeb ? { paddingHorizontal: Spacing['3xs'] } : {}),
     },
     commentsContainer: {
-      marginTop: Spacing.xs,
+      marginTop: isSm ? Spacing.md : Spacing.xs,
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,

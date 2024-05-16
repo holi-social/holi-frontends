@@ -126,7 +126,8 @@ const localIOSSimulator = () => ({
     //bundleId: process.env.APP_PATH ? appId : undefined,
     'appium:showIOSLog': false,
     'appium:settings[snapshotMaxDepth]': 100,
-    'appium:autoAcceptAlerts': 'true',
+    'appium:autoAcceptAlerts': true,
+    'appium:showXcodeLog': false,
   },
 })
 

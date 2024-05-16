@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
@@ -12,6 +13,7 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type PostContentProps = {
@@ -22,73 +24,79 @@ type PostContentProps = {
 const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
+  const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
 
   return (
-    <View style={styles.container}>
-      {showVisibilityBadge && (
-        <View style={styles.badgeContainer}>
-          <HoliIcon
-            icon={post.visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
-            color={theme.colors.foreground30}
-            size={14}
-          />
-          <HoliText>
-            {post.visibility === VisibilityLevel.PUBLIC
-              ? t('individuals.post.card.badge.public')
-              : t('individuals.post.card.badge.registered_users_only')}
-          </HoliText>
+    <>
+      <View style={styles.container}>
+        {showVisibilityBadge && (
+          <View style={styles.badgeContainer}>
+            <HoliIcon
+              icon={post.visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
+              color={theme.colors.foreground30}
+              size={14}
+            />
+            <HoliText>
+              {post.visibility === VisibilityLevel.PUBLIC
+                ? t('individuals.post.card.badge.public')
+                : t('individuals.post.card.badge.registered_users_only')}
+            </HoliText>
+          </View>
+        )}
+        <HoliMediaHeader
+          title={post.creator.fullName || t('user.profileView.anonymous')}
+          author={post.creator}
+          date={post.createdAt}
+          boldTitle
+        />
+        <View>
+          <View style={[styles.pill, styles.categoryPill]}>
+            <HoliText size="small" numberOfLines={1}>
+              {post.category.title}
+            </HoliText>
+          </View>
         </View>
-      )}
-      <HoliMediaHeader
-        title={post.creator.fullName || t('user.profileView.anonymous')}
-        author={post.creator}
-        date={post.createdAt}
-        boldTitle
-      />
-      <View>
-        <View style={[styles.pill, styles.categoryPill]}>
-          <HoliText size="small" numberOfLines={1}>
-            {post.category.title}
-          </HoliText>
+        <View style={styles.contentSection}>
+          <HoliHeading level="1" size="m" numberOfLines={3}>
+            {post.title}
+          </HoliHeading>
+          <HoliRichTextOutput text={post.description} allowAllLinks />
         </View>
+        {!!post.image && (
+          <View style={[styles.imageContainer, styles.blockContainer]}>
+            <HoliImage
+              label={post.title}
+              source={{
+                uri: post.image,
+              }}
+              blurhash={post.imageBlurhash}
+              resizeMode="cover"
+              style={styles.image}
+            />
+          </View>
+        )}
+        {!!post.linkPreview && (
+          <View style={styles.blockContainer}>
+            <HoliLinkPreview previewData={post.linkPreview} />
+          </View>
+        )}
       </View>
-      <View style={styles.contenSection}>
-        <HoliHeading level="1" size="m" numberOfLines={3}>
-          {post.title}
-        </HoliHeading>
-        <HoliRichTextOutput text={post.description} allowAllLinks />
-      </View>
-      {!!post.image && (
-        <View style={styles.imageContainer}>
-          <HoliImage
-            label={post.title}
-            source={{
-              uri: post.image,
-            }}
-            blurhash={post.imageBlurhash}
-            resizeMode="cover"
-            style={styles.image}
-          />
-        </View>
-      )}
-      {!!post.linkPreview && <HoliLinkPreview previewData={post.linkPreview} />}
-    </View>
+    </>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, sm = false) =>
   StyleSheet.create({
     container: {
       borderRadius: Spacing.xs,
-      gap: Spacing.xs,
+      gap: sm ? Spacing.md : Spacing.xs,
     },
     metadata: {
       alignContent: 'space-between',
     },
-    contenSection: {
+    contentSection: {
       gap: Spacing.xs,
-      marginBottom: Spacing.xs,
     },
     pill: {
       borderRadius: Spacing.xxl,
@@ -104,13 +112,28 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       gap: Spacing['3xs'],
     },
-    imageContainer: {
-      borderRadius: Spacing.xxs,
+    blockContainer: {
+      paddingHorizontal: sm ? Spacing.md : 0,
       width: '100%',
-      aspectRatio: 16 / 9,
-      overflow: 'hidden',
+    },
+    imageContainer: {
+      ...(!sm
+        ? {
+            borderRadius: Spacing.xxs,
+            aspectRatio: 16 / 9,
+            overflow: 'hidden',
+          }
+        : {}),
     },
     image: {
+      ...(sm
+        ? {
+            borderRadius: Spacing.xxs,
+            width: '100%',
+            aspectRatio: 16 / 9,
+            overflow: 'hidden',
+          }
+        : {}),
       height: '100%',
     },
   })
