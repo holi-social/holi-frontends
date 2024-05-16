@@ -72,6 +72,7 @@ const LoadingSkeleton = () => (
 const styles = StyleSheet.create({
   container: {
     margin: -HALF_PADDING,
+    minHeight: 10,
   },
   skeletonPost: {
     gap: 10,
