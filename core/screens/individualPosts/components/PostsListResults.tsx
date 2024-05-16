@@ -13,7 +13,7 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 
 const ESTIMATED_POST_HEIGHT = 500
-const HALF_PADDING = Spacing.xxs / 2
+const HALF_PADDING = Spacing.xs / 2
 
 export type PostsListResultsProps = {
   emptyMessage?: ReactNode
