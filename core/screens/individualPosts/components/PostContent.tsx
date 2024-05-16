@@ -53,7 +53,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
         <View>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>
-              {post.category.title}
+              {post.category.label}
             </HoliText>
           </View>
         </View>

@@ -5,7 +5,7 @@ export enum VisibilityLevel {
   REGISTERED_USERS_ONLY = 'REGISTERED_USERS_ONLY',
 }
 
-export type Category = Term
+export type Category = Term & { idx: number; label?: string }
 
 export enum ReactionType {
   HEART = 'HEART',
