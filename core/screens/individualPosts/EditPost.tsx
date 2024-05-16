@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -23,7 +24,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { useTheme } from '@holi/ui/styles/theme'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type EditPostParams = {
   idOrSlug: string
@@ -34,6 +36,8 @@ const { useParam } = createParamHooks<EditPostParams>()
 const EditPost = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const { theme } = useTheme()
+
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { colors } = theme
   const { navigateBack, navigate, replaceRoute } = useRouting()
@@ -150,36 +154,54 @@ const EditPost = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.creator.id}>
       <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-        {categoriesLoading ? (
-          <HoliLoader />
-        ) : showCategories ? (
-          <CategorySelection categories={categories} onCategorySelection={selectCategory} />
-        ) : (
-          <PostInputForm
-            title={title}
-            onChangeTitle={setTitle}
-            description={description}
-            onChangeDescription={setDescription}
-            image={image || null}
-            onChangeImage={(value) => {
-              setImage(value)
-              setCurrentImage(undefined)
-            }}
-            selectedCategoryId={selectedCategoryId}
-            onChangeSelectedCategoryId={setSelectedCategoryId}
-            selectedVisibility={selectedVisibility}
-            onChangeSelectedVisibility={setSelectedVisibility}
-            onSubmit={editPost}
-            submitting={submitting}
-            currentImage={currentImage}
-            onClickCategoriesPill={toggleShowCategories}
-            categories={categories}
-            isEdit
-          />
-        )}
+        <View style={styles.grayExtendingBackground}>
+          {categoriesLoading ? (
+            <HoliLoader />
+          ) : showCategories ? (
+            <CategorySelection
+              categories={categories}
+              onCategorySelection={selectCategory}
+              loading={categoriesLoading}
+            />
+          ) : (
+            <PostInputForm
+              title={title}
+              onChangeTitle={setTitle}
+              description={description}
+              onChangeDescription={setDescription}
+              image={image || null}
+              onChangeImage={(value) => {
+                setImage(value)
+                setCurrentImage(undefined)
+              }}
+              selectedCategoryId={selectedCategoryId}
+              onChangeSelectedCategoryId={setSelectedCategoryId}
+              selectedVisibility={selectedVisibility}
+              onChangeSelectedVisibility={setSelectedVisibility}
+              onSubmit={editPost}
+              submitting={submitting}
+              currentImage={currentImage}
+              onClickCategoriesPill={toggleShowCategories}
+              categories={categories}
+              isEdit
+            />
+          )}
+        </View>
       </FeatureToggleGuard>
     </PermissionsGuard>
   )
 }
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    grayExtendingBackground: {
+      backgroundColor: theme.colors.background20,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      height: '100%',
+      width: '100%',
+    },
+  })
 
 export default withProfiler(EditPost, { name: 'EditPost' })
