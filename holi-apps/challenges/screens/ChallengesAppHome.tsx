@@ -13,6 +13,8 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useRoute } from '@holi/core/navigation/hooks/useParam/useRoute'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
+import { Consent } from '@holi/core/tracking/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -21,6 +23,7 @@ import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 
 export const ChallengesAppHome = () => {
   const setScreenOptions = useSetScreenOptions()
+  const useConsent = useConsentState()
   const { theme } = useTheme()
   const { navigate } = useRouting()
   const route = useRoute()
@@ -117,6 +120,7 @@ export const ChallengesAppHome = () => {
               ...authHeaders,
               'X-Client-Platform': 'holi',
               'X-Require-Camera-Permission': `${requireCameraPermission}`,
+              'X-Client-Platform-User-Consent': `${useConsent.ANALYTICS === Consent.Given}`,
             },
           },
         }}
