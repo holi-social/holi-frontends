@@ -194,7 +194,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
         <HoliBox padding={[16, 0, 0, 0]}>
           <HoliTextLink
             label={t('registration.emailVerification.resendEmail')}
-            href="/"
+            href=""
             onPress={resendEmail}
             size="small"
           >

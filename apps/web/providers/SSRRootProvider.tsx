@@ -9,7 +9,6 @@ import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
-import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
@@ -39,7 +38,6 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
           </PortalProvider>
 
           <TrackingConsentModal />
-          <OnboardingInitializer />
           <RouteChangeListener />
         </ApolloProvider>
       </ErrorBoundary>

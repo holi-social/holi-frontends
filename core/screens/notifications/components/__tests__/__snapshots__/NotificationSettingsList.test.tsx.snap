@@ -18,6 +18,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
       {
         "alignItems": "stretch",
         "flexDirection": "column",
+        "flexWrap": "nowrap",
         "justifyContent": "flex-start",
       },
     ]
@@ -1756,6 +1757,7 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
       {
         "alignItems": "stretch",
         "flexDirection": "column",
+        "flexWrap": "nowrap",
         "justifyContent": "flex-start",
       },
     ]
@@ -1918,6 +1920,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
       {
         "alignItems": "stretch",
         "flexDirection": "column",
+        "flexWrap": "nowrap",
         "justifyContent": "flex-start",
       },
     ]

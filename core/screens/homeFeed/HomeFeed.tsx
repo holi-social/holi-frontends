@@ -24,6 +24,7 @@ import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -115,6 +116,8 @@ const HomeFeed = () => {
 
       {/* Floating CreatePostButton need to be outside of the Layout */}
       {ftEnabledPosts && <CreatePostButton />}
+
+      <OnboardingInitializer />
     </>
   )
 }
