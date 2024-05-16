@@ -9,7 +9,7 @@ import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/help
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
-import { useRoute } from '@holi/core/navigation/hooks/useParam/useRoute'
+import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { Consent } from '@holi/core/tracking/types'
@@ -18,12 +18,18 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 
+export type ChallengesAppHomeParams = {
+  path?: string
+}
+
+const { useParam } = createParamHooks<ChallengesAppHomeParams>()
+
 export const ChallengesAppHome = () => {
   const useConsent = useConsentState()
   const { theme } = useTheme()
   const { navigate } = useRouting()
+  const [pathQueryParam] = useParam('path')
   const { goBack } = useNavigation()
-  const route = useRoute()
 
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
@@ -77,9 +83,7 @@ export const ChallengesAppHome = () => {
   }
 
   let uri = challengeAppBaseUrl
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const pathQueryParam = (route?.params as any)?.['path']
-  if (typeof pathQueryParam === 'string') {
+  if (pathQueryParam) {
     uri += decodeURIComponent(pathQueryParam)
   }
 
