@@ -19,6 +19,7 @@ import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -27,18 +28,11 @@ import Spacing from '@holi/ui/foundations/Spacing'
 
 const SMALL_DEVICE_HEIGHT = 624
 
-interface Props {
-  headingText?: string
-  onRegistration?: () => void
-  onDismiss?: CallableFunction
-}
-
 const isWeb = Platform.OS === 'web'
 
-const OnboardingWelcome = ({ headingText, onRegistration, onDismiss }: React.PropsWithChildren<Props>) => {
+const OnboardingWelcome = () => {
   const { t } = useTranslation()
-  const { navigateBack, navigate, replaceRoute } = useRouting()
-  headingText = headingText ?? t('profile.loggedOut.heading')
+  const { navigate, replaceRoute } = useRouting()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { height: screenHeight } = useClientWindowDimensions()
@@ -84,29 +78,31 @@ const OnboardingWelcome = ({ headingText, onRegistration, onDismiss }: React.Pro
 
   const docsElement = (
     <View style={styles.bottomLinkContainer}>
-      {footerDocs.map((docType) => (
-        <HoliTextLink
-          key={docType}
-          label={t(`profile.loggedOut.footer.${docType}`)}
-          onPress={() => showModalFor(docType)}
-          href={`/profile/settings/legalDocuments/document?type=${docType}`}
-          size="small"
-          color="gray300"
-        >
-          {t(`profile.loggedOut.footer.${docType}`)}
-        </HoliTextLink>
-      ))}
-      {Platform.OS !== 'web' && (
-        <HoliTextLink
-          label={t('profile.loggedOut.footer.aboutholiapp')}
-          onPress={() => navigate('/profile/settings/aboutholiapp')}
-          href={'/profile/settings/aboutholiapp'}
-          size="small"
-          color="gray300"
-        >
-          {t('profile.loggedOut.footer.aboutholiapp')}
-        </HoliTextLink>
-      )}
+      <HoliContainer flexDirection="row" justifyContent="center" flexWrap="wrap" gap={24}>
+        {footerDocs.map((docType) => (
+          <HoliTextLink
+            key={docType}
+            label={t(`profile.loggedOut.footer.${docType}`)}
+            onPress={() => showModalFor(docType)}
+            href={`/profile/settings/legalDocuments/document?type=${docType}`}
+            size="small"
+            color="gray300"
+          >
+            {t(`profile.loggedOut.footer.${docType}`)}
+          </HoliTextLink>
+        ))}
+        {Platform.OS !== 'web' && (
+          <HoliTextLink
+            label={t('profile.loggedOut.footer.aboutholiapp')}
+            onPress={() => navigate('/profile/settings/aboutholiapp')}
+            href={'/profile/settings/aboutholiapp'}
+            size="small"
+            color="gray300"
+          >
+            {t('profile.loggedOut.footer.aboutholiapp')}
+          </HoliTextLink>
+        )}
+      </HoliContainer>
     </View>
   )
 
@@ -124,13 +120,12 @@ const OnboardingWelcome = ({ headingText, onRegistration, onDismiss }: React.Pro
         </View>
         <HoliBox padding={[screenHeight <= SMALL_DEVICE_HEIGHT ? Spacing.md : Spacing['3xl'], 0, 0, 0]} />
         <HoliHeading level="1" size="m" align="center" testID="login-protection-heading">
-          {headingText}
+          {t('profile.loggedOut.heading')}
         </HoliHeading>
 
         <HoliButtonTracked
           label={t('auth.loginProtection.registrationLabel')}
           onPress={() => {
-            onRegistration?.()
             navigate('/onboarding/registration')
           }}
           trackingEvent={TrackingEvent.OnboardingWelcome.RegisterButtonPressed}
@@ -144,8 +139,7 @@ const OnboardingWelcome = ({ headingText, onRegistration, onDismiss }: React.Pro
           label={t('auth.loginProtection.continueAsGuest')}
           onPress={() => {
             storeOnboardingState('finished')
-            onDismiss?.()
-            navigateBack()
+            navigate('/')
           }}
           trackingEvent={TrackingEvent.OnboardingWelcome.ContinueAsGuestButtonPressed}
           style={[styles.button, styles.secondButton]}

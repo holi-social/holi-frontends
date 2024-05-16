@@ -7,10 +7,11 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 
 export interface ContainerProps {
   alignItems?: FlexStyle['alignItems']
-  flexDirection?: FlexStyle['flexDirection']
   justifyContent?: FlexStyle['justifyContent']
   gap?: FlexStyle['gap']
   flex?: number
+  flexWrap?: FlexStyle['flexWrap']
+  flexDirection?: FlexStyle['flexDirection']
   noPadding?: boolean
   testID?: string
 }
@@ -18,9 +19,10 @@ export interface ContainerProps {
 const HoliContainer = ({
   children,
   flex,
+  flexWrap = 'nowrap',
+  flexDirection = 'column',
   gap,
   alignItems = 'stretch',
-  flexDirection = 'column',
   justifyContent = 'flex-start',
   noPadding,
   testID = 'holi-container',
@@ -29,7 +31,10 @@ const HoliContainer = ({
 
   return (
     <View
-      style={[styles.container, buildContainerFlexStyle({ alignItems, flexDirection, gap, justifyContent, flex })]}
+      style={[
+        styles.container,
+        buildContainerFlexStyle({ alignItems, flexDirection, gap, justifyContent, flex, flexWrap }),
+      ]}
       dataSet={{ media: ids.container }}
       testID={testID}
     >
@@ -41,13 +46,14 @@ const HoliContainer = ({
 export default HoliContainer
 
 const buildContainerFlexStyle = (
-  flexProps: Pick<ContainerProps, 'gap' | 'flex' | 'flexDirection' | 'alignItems' | 'justifyContent'>
+  flexProps: Pick<ContainerProps, 'gap' | 'flex' | 'flexDirection' | 'alignItems' | 'justifyContent' | 'flexWrap'>
 ) => {
   if (Object.keys(flexProps).length === 0) return null
   const sheet = StyleSheet.create({
     container: {
       flex: flexProps.flex,
       flexDirection: flexProps.flexDirection,
+      flexWrap: flexProps.flexWrap,
       alignItems: flexProps.alignItems,
       justifyContent: flexProps.justifyContent,
       gap: flexProps.gap,

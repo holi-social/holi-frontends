@@ -15,11 +15,21 @@ export const HoliTextLink = ({
   testID = 'text-link',
   color,
   size,
+  align,
 }: PropsWithChildren<HoliTextLinkProps>) => {
   const handleLinkPress = useLink({ href, external, onPress, mobileNavigateBackFirst })
 
   return (
-    <HoliText role="link" aria-label={label} onPress={handleLinkPress} size={size} color={color} bold testID={testID}>
+    <HoliText
+      role="link"
+      aria-label={label}
+      onPress={handleLinkPress}
+      size={size}
+      color={color}
+      align={align}
+      bold
+      testID={testID}
+    >
       {children}
     </HoliText>
   )

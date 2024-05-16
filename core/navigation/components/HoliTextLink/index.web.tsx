@@ -14,20 +14,21 @@ export const HoliTextLink = ({
   mobileNavigateBackFirst,
   testID = 'text-link',
   color,
+  align,
   size,
 }: PropsWithChildren<HoliTextLinkProps>) => {
   return (
-    <HoliLink
-      href={href}
-      label={label}
-      external={external}
-      onPress={onPress}
-      mobileNavigateBackFirst={mobileNavigateBackFirst}
-      testID={testID}
-    >
-      <HoliText size={size} color={color} bold>
+    <HoliText size={size} color={color} align={align} bold>
+      <HoliLink
+        href={href}
+        label={label}
+        external={external}
+        onPress={onPress}
+        mobileNavigateBackFirst={mobileNavigateBackFirst}
+        testID={testID}
+      >
         {children}
-      </HoliText>
-    </HoliLink>
+      </HoliLink>
+    </HoliText>
   )
 }

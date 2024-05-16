@@ -101,7 +101,7 @@ const HoliRichTextOutput = ({
             >
               {link.title}
             </HoliTextLink>
-          ) : onPressText ? (
+          ) : !!textPart.trim() && onPressText ? (
             <HoliText key={index} onPress={onPressText}>
               {textPart}
             </HoliText>
