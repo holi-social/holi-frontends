@@ -6,7 +6,7 @@ import {
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
-import { delay } from '../../helpers/time'
+import { delayMs } from '../../helpers/time'
 
 describe('@Volunteering', () => {
   afterEach(async () => {
@@ -70,7 +70,7 @@ const assertAllowsPagination = async () => {
   // load more
   await tapOnElementWithTestId('btn-volunteering-list-load-more')
   // wait a moment
-  await delay(1)
+  await delayMs(1000)
   // wait until "load more" button has been replaced by next list item
   await waitForElementWithTestIdToBeNull('btn-volunteering-list-load-more')
 }

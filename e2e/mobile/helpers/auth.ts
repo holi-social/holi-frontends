@@ -5,12 +5,12 @@ import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
+  tapOnElementWithTestIdConsentSkipped,
   waitForAnyElementWithTestId,
   waitForConsent,
   waitForElementWithTestId,
-  waitForElementWithTestIdConsentSkipped,
 } from './selectors'
-import { delay } from './time'
+import { delayMs } from './time'
 
 type AuthMode = 'login' | 'registration'
 
@@ -97,19 +97,17 @@ export const finishAccountSetup = async ({
   await tapOnElementWithTestId('holi-wizard-save-btn')
 
   await waitForHomeScreen()
-  delay(10)
+  delayMs(10000)
 }
 
 const logoutOrDelete = async (fn: () => Promise<void>) => {
   let consent = false
   if (await navigateToSettings()) {
     await fn()
-    consent = await waitForElementWithTestIdConsentSkipped('btn-to-registration-form')
+    consent = await tapOnElementWithTestIdConsentSkipped('btn-to-registration-form', 'btn-to-home-view')
   } else {
     consent = true
   }
-  consent ||= await waitForElementWithTestIdConsentSkipped('btn-to-home-view')
-  await tapOnElementWithTestId('btn-to-home-view')
 
   waitForConsent(consent)
 }

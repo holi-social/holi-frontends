@@ -1,7 +1,7 @@
 import type { Element, ElementArray } from 'webdriverio'
 
 import { doSwipe, getDeviceScreenSize, scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
-import { delay } from './time'
+import { delayMs } from './time'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
@@ -77,48 +77,59 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
     let foundElement: FoundElementPair | undefined = undefined
     let count = 0
     // @ts-ignore
-    const max = Appium.options.waitforTimeout / 1000
+    const max = Appium.options.waitforTimeout / 500
     while (!foundElement && count < max) {
       const foundAll = await Promise.all(testIds.map(async (testId) => elementByTestId(testId)))
       const pairs = foundAll.map((e, index) => ({ element: e, testId: testIds[index] }))
       foundElement = pairs.find((p) => p.element.elementId !== undefined)
       count++
-      if (!foundElement) {
-        await delay(1)
+      if (foundElement) {
+        try {
+          await foundElement.element.waitForDisplayed({ timeout: 3000 })
+          return foundElement
+        } catch (err) {
+          // waitForDisplayed threw an error, so the element is not displayed, so we retry
+        }
+      } else {
+        await delayMs(500)
       }
-    }
-    if (foundElement) {
-      await foundElement.element.waitForDisplayed({ timeout: 3000 })
-      return foundElement
     }
     throw new Error('None of these elements were found: ' + testIds)
   })
 }
 
-export const waitForElementWithTestIdConsentSkipped = async (testId: string) => {
+export const tapOnElementWithTestIdConsentSkipped = async (testIdToAwait: string, testIdToPress: string) => {
   for (let i = 0; i < 10; i++) {
-    const found = await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', testId])
-    if (found.testId == 'btn-consentModal-acceptAll') {
-      await Appium.touchAction({ element: found.element, action: 'tap' })
-      await waitForElementWithTestId(testId)
-      return true
-    }
     try {
-      const isDisplayed = await found.element.waitForDisplayed({ timeout: 1000 })
-      if (isDisplayed) return false
+      const found = await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', testIdToAwait])
+      if (found.testId == 'btn-consentModal-acceptAll') {
+        await Appium.touchAction({ element: found.element, action: 'tap' })
+        await waitForElementWithTestId(testIdToAwait)
+        await tapOnElementWithTestId(testIdToPress)
+        return true
+      } else {
+        const found = await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', testIdToPress])
+        if (found.testId == 'btn-consentModal-acceptAll') {
+          await Appium.touchAction({ element: found.element, action: 'tap' })
+          await tapOnElementWithTestId(testIdToPress)
+          return true
+        } else {
+          await Appium.touchAction({ element: found.element, action: 'tap' })
+          return false
+        }
+      }
     } catch (err) {
-      // waitForDisplayed threw an error, so the element is not displayed, so we retry
+      delayMs(500)
+      // retry
     }
   }
-  throw new Error('Element could not be found after 10 retries: ' + testId)
+  throw new Error('Elements could not be found after 10 retries: ' + testIdToAwait + ', ' + testIdToPress)
 }
 
 export const waitForConsent = async (consent = false) => {
   while (!consent) {
-    consent ||= await waitForElementWithTestIdConsentSkipped('home-feed-insights-heading')
-    await tapOnElementWithTestId('btn-to-profile-view')
-    consent ||= await waitForElementWithTestIdConsentSkipped('btn-to-registration-form')
-    await tapOnElementWithTestId('btn-to-home-view')
+    consent ||= await tapOnElementWithTestIdConsentSkipped('home-feed-insights-heading', 'btn-to-profile-view')
+    consent ||= await tapOnElementWithTestIdConsentSkipped('btn-to-registration-form', 'btn-to-home-view')
   }
 }
 
