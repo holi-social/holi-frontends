@@ -75,7 +75,7 @@ const HoliRichTextOutput = ({
       .flatMap((item) => {
         if (typeof item !== 'string') return item
 
-        return item.split(REGEX_URL).map((textPart, index) => {
+        return item.split(REGEX_URL).map((textPart) => {
           let link = links.find(({ requestedUrl }) => textPart === requestedUrl)
 
           if (!link && allowAllLinks && isValidUrl(textPart)) {
