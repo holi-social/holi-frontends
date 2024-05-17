@@ -28,14 +28,17 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
 
-  const [updateFeedPostReaction] = useMutation<UpdateFeedPostReactionResponse>(UpdateFeedPostReactionMutation, {
-    onCompleted: () => onChange?.(),
-    onError: (error) =>
-      displayError(error, 'Failed to update feed post reaction', {
-        location: 'FeedPostReactions.updateFeedPostReaction',
-        postId: post.id,
-      }),
-  })
+  const [updateFeedPostReaction, { loading }] = useMutation<UpdateFeedPostReactionResponse>(
+    UpdateFeedPostReactionMutation,
+    {
+      onCompleted: () => onChange?.(),
+      onError: (error) =>
+        displayError(error, 'Failed to update feed post reaction', {
+          location: 'FeedPostReactions.updateFeedPostReaction',
+          postId: post.id,
+        }),
+    }
+  )
 
   const reactOnPost = () => {
     if (!user) {
@@ -61,6 +64,7 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
       fullName={post.creator.fullName}
       style={style}
       testID="btn-react-to-feed-post-HEART"
+      disabled={loading}
     />
   )
 }
