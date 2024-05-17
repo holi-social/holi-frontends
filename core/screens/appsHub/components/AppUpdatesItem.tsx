@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -24,7 +24,7 @@ const AppUpdatesItem = ({ to, imageSourceUri, title, footer, appName }: AppUpdat
   const { colors } = theme
   const { width: screenWidth } = useWindowDimensions()
   const cardWidth = calculateCardWidth(screenWidth)
-  const styles = getStyles(cardWidth)
+  const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
 
   if (!to) return null
 
