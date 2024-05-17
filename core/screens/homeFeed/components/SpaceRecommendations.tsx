@@ -43,7 +43,9 @@ const SpaceRecommendation = ({ space }: SpaceRecommendationProps) => {
               counter
               collapse
               hasBackground
-            />
+            >
+              <HoliText>{space.members.totalResults}</HoliText>
+            </HoliUserAvatarPile>
           }
         >
           <View style={styles.cardFooter}>
