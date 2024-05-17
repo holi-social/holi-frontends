@@ -1,18 +1,15 @@
-import { MasonryFlashList } from '@shopify/flash-list'
 import React, { ReactNode } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { createUUID, useBreakpointMatcher } from '@holi/core/helpers'
+import { createUUID } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-const ESTIMATED_POST_HEIGHT = 500
 const HALF_PADDING = Spacing.xs / 2
 
 export type PostsListResultsProps = {
@@ -22,26 +19,24 @@ export type PostsListResultsProps = {
 
 const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
   const { data, loading, totalResults } = usePaginationContext<FeedPost>()
-  const numberOfColumns = useBreakpointMatcher() || 1
 
   if (totalResults == 0) return emptyMessage
   if (loading) return <LoadingSkeleton />
 
   return (
-    <View style={styles.container}>
-      <MasonryFlashList
-        data={data}
-        renderItem={({ item }) => (
-          <HoliBox padding={HALF_PADDING} key={createUUID()}>
-            <PostCard post={item} showVisibilityBadge={showVisibilityBadge} key={createUUID()} />
-          </HoliBox>
-        )}
-        keyExtractor={(post) => post.id}
-        numColumns={numberOfColumns}
-        refreshing={loading}
-        estimatedItemSize={ESTIMATED_POST_HEIGHT}
-      />
-    </View>
+    <HoliGridWrapper gap={Spacing.xxs}>
+      {loading ? (
+        <LoadingSkeleton />
+      ) : totalResults === 0 ? (
+        emptyMessage
+      ) : (
+        data.map((p) => (
+          <HoliGridCell key={createUUID()}>
+            <PostCard post={p} key={createUUID()} showVisibilityBadge={showVisibilityBadge} />
+          </HoliGridCell>
+        ))
+      )}
+    </HoliGridWrapper>
   )
 }
 
