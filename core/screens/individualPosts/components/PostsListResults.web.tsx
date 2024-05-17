@@ -2,7 +2,7 @@ import { MasonryFlashList } from '@shopify/flash-list'
 import React, { ReactNode } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { createUUID, useBreakpointMatcher } from '@holi/core/helpers'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
@@ -32,8 +32,8 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
       <MasonryFlashList
         data={data}
         renderItem={({ item }) => (
-          <HoliBox padding={HALF_PADDING} key={createUUID()}>
-            <PostCard post={item} showVisibilityBadge={showVisibilityBadge} key={createUUID()} />
+          <HoliBox padding={HALF_PADDING} key={item.id}>
+            <PostCard post={item} showVisibilityBadge={showVisibilityBadge} key={item.id} />
           </HoliBox>
         )}
         keyExtractor={(post) => post.id}
