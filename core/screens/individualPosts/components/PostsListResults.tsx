@@ -32,8 +32,8 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
       <MasonryFlashList
         data={data}
         renderItem={({ item }) => (
-          <HoliBox padding={HALF_PADDING}>
-            <PostCard post={item} showVisibilityBadge={showVisibilityBadge} />
+          <HoliBox padding={HALF_PADDING} key={item.id}>
+            <PostCard post={item} showVisibilityBadge={showVisibilityBadge} key={item.id} />
           </HoliBox>
         )}
         keyExtractor={(post) => post.id}
