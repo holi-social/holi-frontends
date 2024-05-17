@@ -57,7 +57,7 @@ export type PostsByUserIdQueryResponse = {
 export const feedPostsQuery = gql`
   ${FeedPostDetailsFragment}
 
-  query FeedPosts($offset: Int! = 0, $limit: Int! = 10) {
+  query FeedPosts($offset: Int! = 0, $limit: Int! = 2) {
     feedPosts(offset: $offset, limit: $limit) {
       data {
         ...FeedPostFull
