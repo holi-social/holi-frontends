@@ -1,6 +1,7 @@
 import React from 'react'
 import { Platform, StyleProp, TextStyle, ViewStyle } from 'react-native'
 
+import { createUUID } from '@holi/core/helpers/strings'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { Link } from '@holi/core/screens/posts/types'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -74,7 +75,7 @@ const HoliRichTextOutput = ({
       .flatMap((item) => {
         if (typeof item !== 'string') return item
 
-        return item.split(REGEX_URL).map((textPart, index) => {
+        return item.split(REGEX_URL).map((textPart) => {
           let link = links.find(({ requestedUrl }) => textPart === requestedUrl)
 
           if (!link && allowAllLinks && isValidUrl(textPart)) {
@@ -102,7 +103,7 @@ const HoliRichTextOutput = ({
               {link.title}
             </HoliTextLink>
           ) : !!textPart.trim() && onPressText ? (
-            <HoliText key={index} onPress={onPressText} {...props}>
+            <HoliText key={createUUID()} onPress={onPressText} {...props}>
               {textPart}
             </HoliText>
           ) : (
