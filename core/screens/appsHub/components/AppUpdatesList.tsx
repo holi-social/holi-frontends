@@ -1,12 +1,22 @@
 import React, { useMemo } from 'react'
-import { FlatList, GestureResponderEvent, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  FlatList,
+  GestureResponderEvent,
+  ListRenderItem,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
+import { calculateCardWidth } from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -26,6 +36,7 @@ type AppUpdatesListProps = {
   loading?: boolean
   style?: StyleProp<ViewStyle>
   testID?: string
+  cardWidth?: number
 }
 
 const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
@@ -40,15 +51,22 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
   loading,
   style,
   testID,
+  cardWidth: overrideCardWidth,
 }: AppUpdatesListProps) => {
   const { navigate } = useRouting()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
+  const { width: screenWidth } = useWindowDimensions()
+  const cardWidth = overrideCardWidth || calculateCardWidth(screenWidth)
+  const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
 
   const handleHeaderTitlePress = () => {
     const navigationPath = HOLI_APPS_NAVIGATION_PATHS[appName].path
     navigate(navigationPath)
+  }
+
+  if (loading) {
+    return null
   }
 
   return (
@@ -78,13 +96,16 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
         data={data}
         renderItem={renderItem}
         ListFooterComponent={
-          <SeeMore
-            label={labelSeeMore}
-            loading={loading}
-            onPress={onPressSeeMore}
-            style={styles.seeMoreButton}
-            testID={`${appName}-updates-load-more-button`}
-          />
+          <View style={styles.seeMoreButton}>
+            <HoliMoreCard
+              role="link"
+              label={labelSeeMore}
+              onPress={onPressSeeMore}
+              testID={`${appName}-updates-load-more-button`}
+            >
+              {labelSeeMore}
+            </HoliMoreCard>
+          </View>
         }
         testID={`${appName}-updates-container`}
       />
@@ -93,7 +114,7 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
 }
 export default AppUpdatesList
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, cardWidth: number) =>
   StyleSheet.create({
     header: {
       flexDirection: 'row',
@@ -119,7 +140,9 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
     },
     seeMoreButton: {
-      marginRight: 11,
+      flex: 1,
+      marginRight: 44,
+      width: cardWidth,
     },
     listHeader: {
       paddingTop: dimensions.topBarHeight + 24,
