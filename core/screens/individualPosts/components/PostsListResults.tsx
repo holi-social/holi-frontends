@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { createUUID } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
@@ -31,8 +30,8 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
         emptyMessage
       ) : (
         data.map((p) => (
-          <HoliGridCell key={createUUID()}>
-            <PostCard post={p} key={createUUID()} showVisibilityBadge={showVisibilityBadge} />
+          <HoliGridCell key={p.id}>
+            <PostCard post={p} key={p.id} showVisibilityBadge={showVisibilityBadge} />
           </HoliGridCell>
         ))
       )}
