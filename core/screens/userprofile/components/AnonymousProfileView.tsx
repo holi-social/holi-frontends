@@ -39,6 +39,8 @@ const AnonymousProfileView = () => {
         </HeaderTitle>
       ),
       title: '',
+      // explicitly set to `null` to override `headerRight` after logout
+      headerRight: () => null,
     })
   }, [setScreenOptions, t])
 
