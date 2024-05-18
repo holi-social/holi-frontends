@@ -99,7 +99,9 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
 }
 
 export const tapOnElementWithTestIdConsentSkipped = async (testIdToAwait: string, testIdToPress: string) => {
-  for (let i = 0; i < 10; i++) {
+  // @ts-ignore
+  const max = Appium.options.waitforTimeout / 500
+  for (let i = 0; i < max / 500; i++) {
     try {
       const found = await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', testIdToAwait])
       if (found.testId == 'btn-consentModal-acceptAll') {
