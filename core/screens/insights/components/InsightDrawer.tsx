@@ -59,11 +59,12 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
     if (isLoggedIn) {
       await favorite({ variables: { favoritableId: id, favoritableType: FavoriteType.INSIGHT } })
       openToast(t('insights.insight.favorite.success'), HoliToastType.SUCCESS)
+    } else {
+      openLoginModal({
+        title: t('loginRedirect.title'),
+        description: t('insights.insight.login.prompt.message'),
+      })
     }
-    openLoginModal({
-      title: t('loginRedirect.title'),
-      description: t('insights.insight.login.prompt.message'),
-    })
   }
 
   const unfavoriteActionHandler = async () => {
