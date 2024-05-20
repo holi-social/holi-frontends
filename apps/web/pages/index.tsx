@@ -5,7 +5,7 @@ import { SpaceRecommendationDocument } from '@holi/api/graphql/graphql-codegen'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import { POSTS_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
-import { FEED_POSTS_PAGE_SIZE } from '@holi/core/screens/individualPosts/components/AllPosts'
+import { feedPostPageSize } from '@holi/core/screens/individualPosts/components/AllPosts'
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
@@ -26,7 +26,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     {
       query: feedPostsQuery,
       variables: {
-        limit: FEED_POSTS_PAGE_SIZE,
+        limit: feedPostPageSize,
       },
     },
     {
