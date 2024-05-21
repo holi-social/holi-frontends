@@ -101,17 +101,17 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
 export const tapOnElementWithTestIdConsentSkipped = async (testIdToAwait: string, testIdToPress: string) => {
   // @ts-ignore
   const max = Appium.options.waitforTimeout / 500
-  for (let i = 0; i < max / 500; i++) {
+  for (let i = 0; i < max; i++) {
     try {
-      const found = await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', testIdToAwait])
-      if (found.testId == 'btn-consentModal-acceptAll') {
+      const found = await waitForAnyElementWithTestId(['btn-consentModal-declineAll', testIdToAwait])
+      if (found.testId == 'btn-consentModal-declineAll') {
         await Appium.touchAction({ element: found.element, action: 'tap' })
         await waitForElementWithTestId(testIdToAwait)
         await tapOnElementWithTestId(testIdToPress)
         return true
       } else {
-        const found = await waitForAnyElementWithTestId(['btn-consentModal-acceptAll', testIdToPress])
-        if (found.testId == 'btn-consentModal-acceptAll') {
+        const found = await waitForAnyElementWithTestId(['btn-consentModal-declineAll', testIdToPress])
+        if (found.testId == 'btn-consentModal-declineAll') {
           await Appium.touchAction({ element: found.element, action: 'tap' })
           await tapOnElementWithTestId(testIdToPress)
           return true
@@ -125,7 +125,7 @@ export const tapOnElementWithTestIdConsentSkipped = async (testIdToAwait: string
       // retry
     }
   }
-  throw new Error('Elements could not be found after 10 retries: ' + testIdToAwait + ', ' + testIdToPress)
+  throw new Error('Elements could not be found after ' + max + ' retries: ' + testIdToAwait + ', ' + testIdToPress)
 }
 
 export const waitForConsent = async (consent = false) => {
