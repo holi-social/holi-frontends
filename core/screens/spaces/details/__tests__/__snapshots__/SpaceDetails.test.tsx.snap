@@ -1390,9 +1390,9 @@ exports[`SpaceDetails renders correctly 1`] = `
                         style={
                           [
                             {
-                              "aspectRatio": 1.5,
+                              "aspectRatio": 1.6855670103092784,
                               "backgroundColor": "#fff",
-                              "borderColor": "#ebebeb",
+                              "borderColor": "#bfbebe",
                               "borderRadius": 16,
                               "borderWidth": 1,
                               "padding": 8,
