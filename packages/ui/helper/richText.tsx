@@ -76,7 +76,10 @@ const whitespaceRegex = /\s+/ // to test whether a string contains whitespace
 
 export const isValidUrl = (urlString: string) => {
   try {
-    const trimmed = urlString.trim()
+    let trimmed = urlString.trim()
+    if (trimmed.startsWith('www.')) {
+      trimmed = 'http://' + trimmed
+    }
     return !whitespaceRegex.test(trimmed) && !!new URL(trimmed)
   } catch (e) {
     return false
