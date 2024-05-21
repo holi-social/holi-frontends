@@ -435,7 +435,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
 const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliTheme) =>
   StyleSheet.create({
     defaultLayout: {
-      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 16,
     },
     contentStyle: {
       paddingBottom: 0,
@@ -466,6 +466,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
     editButton: {
       paddingHorizontal: 12,
       paddingVertical: 8,
+      borderWidth: 2,
     },
     editButtonText: {
       marginRight: 6,
@@ -485,7 +486,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
     body: {
       backgroundColor: theme.colors.background20,
       paddingTop: 24,
-      paddingBottom: 72,
+      paddingBottom: 132,
     },
     noBorderSection: {
       borderTopColor: 'transparent',
@@ -497,9 +498,11 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
       flexShrink: 1,
     },
     chip: {
-      backgroundColor: theme.colors.background10,
       marginRight: 8,
       marginBottom: 8,
+      borderColor: theme.colors.black300at12percent,
+      borderWidth: 2,
+      borderRadius: 24,
     },
     link: {
       marginRight: 20,

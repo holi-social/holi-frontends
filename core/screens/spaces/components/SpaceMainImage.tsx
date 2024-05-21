@@ -16,7 +16,7 @@ type SpaceMainImageProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const IMAGE_ASPECT_RATIO = 3 / 2
+const IMAGE_ASPECT_RATIO = 327 / 194
 
 const SpaceMainImage: React.FC<SpaceMainImageProps> = ({ uri, label, blurhash, editable, onPress, style }) => {
   const { t } = useTranslation()
@@ -62,7 +62,7 @@ const getStyles = (theme: HoliTheme) =>
       padding: 8,
       borderWidth: 1,
       borderRadius: 16,
-      borderColor: theme.colors.background30,
+      borderColor: theme.colors.foreground10,
       backgroundColor: theme.colors.background10,
     },
     wrapper: {
@@ -89,6 +89,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     editButton: {
       position: 'absolute',
+      borderWidth: 2,
     },
   })
 
