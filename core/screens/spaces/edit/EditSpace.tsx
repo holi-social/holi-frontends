@@ -277,6 +277,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                           label={topic.title}
                           disabled
                           style={styles.chip}
+                          fontStyle={styles.chipFontStyle}
                           testID="space-edit-topics-chip"
                         />
                       ))}
@@ -310,6 +311,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                           label={`${sdg.number}. ${sdg.title}`}
                           disabled
                           style={styles.chip}
+                          fontStyle={styles.chipFontStyle}
                           testID="space-edit-sdgs-chip"
                         />
                       ))}
@@ -501,8 +503,12 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
       marginRight: 8,
       marginBottom: 8,
       borderColor: theme.colors.black300at12percent,
-      borderWidth: 2,
+      borderWidth: 1,
       borderRadius: 24,
+    },
+    chipFontStyle: {
+      color: theme.colors.foreground30,
+      fontStyle: 'italic',
     },
     link: {
       marginRight: 20,
