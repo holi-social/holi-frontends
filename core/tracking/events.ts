@@ -55,6 +55,10 @@ export namespace TrackingEvent {
       name = 'loginButton_pressed'
       screen = 'registration'
     })()
+    export const ContinueAsGuestButtonPressed = new (class extends TrackingEvent {
+      name = 'continueAsGuestButton_pressed'
+      screen = 'registration'
+    })()
   }
 
   export namespace Login {
