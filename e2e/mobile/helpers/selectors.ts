@@ -121,7 +121,7 @@ export const tapOnElementWithTestIdConsentSkipped = async (testIdToAwait: string
         }
       }
     } catch (err) {
-      delayMs(500)
+      await delayMs(500)
       // retry
     }
   }

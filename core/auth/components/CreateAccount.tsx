@@ -11,6 +11,7 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
+import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -21,7 +22,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
@@ -145,14 +145,15 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
 
           <HoliGap size="m" />
 
-          <HoliButton
+          <HoliButtonTracked
             label={t('auth.loginProtection.continueAsGuest')}
             onPress={onDismiss}
             type="secondary"
             testID="btn-to-continue-as-guest"
+            trackingEvent={TrackingEvent.Registration.ContinueAsGuestButtonPressed}
           >
             {t('auth.loginProtection.continueAsGuest')}
-          </HoliButton>
+          </HoliButtonTracked>
 
           <View style={{ alignItems: 'center' }}>
             <AlreadyHaveAccountText

@@ -111,7 +111,6 @@ mobile_review_publish:
     - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
-  when: manual
   allow_failure: false
 
 mobile_review_destroy:
