@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import RoomItem from '@holi/chat/src/components/RoomList/RoomItem'
-import type { ChatRoomAtom, ChatRoomId } from '@holi/chat/src/store'
+import { type ChatRoomAtom, type ChatRoomId, isSpaceChildChatRoom } from '@holi/chat/src/store'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -41,6 +41,8 @@ const RoomItemDeletable = ({ onDelete, ...props }: Props) => {
     onDelete(room.id)
   }
 
+  const roomName = isSpaceChildChatRoom(room) ? room.content.spaceName : room.name
+
   return (
     <View>
       <HoliSwipeable
@@ -48,7 +50,7 @@ const RoomItemDeletable = ({ onDelete, ...props }: Props) => {
         swipeLeftConfirmation={{
           label: t('chat.actions.leave'),
           title: t('chat.actions.leave'),
-          description: t('chat.actions.leave.confirmation.text'),
+          description: t('chat.actions.leave.confirmation.text', { name: roomName }),
           confirmText: t('chat.actions.leave.confirmation.leave'),
           dismissText: t('chat.actions.leave.confirmation.cancel'),
         }}
