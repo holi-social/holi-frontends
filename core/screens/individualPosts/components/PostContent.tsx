@@ -90,13 +90,14 @@ const getStyles = (theme: HoliTheme, sm = false) =>
   StyleSheet.create({
     container: {
       borderRadius: Spacing.xs,
-      gap: sm ? Spacing.md : Spacing.xs,
+      gap: Spacing.md,
+      paddingTop: Spacing.md,
     },
     metadata: {
       alignContent: 'space-between',
     },
     contentSection: {
-      gap: Spacing.xs,
+      gap: Spacing.md,
     },
     pill: {
       borderRadius: Spacing.xxl,
