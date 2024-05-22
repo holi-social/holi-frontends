@@ -46,16 +46,46 @@ export const TrackingProvider = ({ children }: PropsWithChildren) => {
   return trackingEnabled() ? <PostHogProviderWrapper>{children}</PostHogProviderWrapper> : <>{children}</>
 }
 
+const normalize = (urlOrPath: string): string => {
+  const lowercased = urlOrPath.toLowerCase()
+  return lowercased.endsWith('/') ? lowercased : lowercased + '/'
+}
+
+const removeCountryCode = (url: string): string => {
+  const regex = /^(https?:\/\/[^/]+)\/[a-zA-Z]{2}(\/.*)?$/
+  const match = url.match(regex)
+
+  if (match) {
+    const protocolAndDomain = match[1] // The protocol and domain part
+    const remainingPath = match[2] || '' // The remaining path after the country code
+    return protocolAndDomain + remainingPath
+  }
+
+  // If no match, return the original URL
+  return url
+}
+
+const countryCodePathnameMatcher = /(^\/[a-z]{2}\/?$|^\/[a-z]{2}\/)/
+
+const createRouteChangeHandler = (url: () => string) => (path: string) => {
+  const urlWithoutCountryCode = normalize(removeCountryCode(url()))
+  const pathWithoutCountryCode = normalize(path.replace(countryCodePathnameMatcher, '/'))
+  posthog.capture('$pageview', {
+    $current_url: urlWithoutCountryCode,
+    $pathname: pathWithoutCountryCode,
+  })
+}
+
 const PostHogProviderWrapper = ({ children }: PropsWithChildren) => {
   const router = useRouter()
 
   useEffect(() => {
+    const routeChangeHandler = createRouteChangeHandler(() => window.location.href)
     // Track page views
-    const handleRouteChange = () => posthog.capture('$pageview')
-    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('routeChangeComplete', routeChangeHandler)
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
+      router.events.off('routeChangeComplete', routeChangeHandler)
     }
   }, [router.events])
 
@@ -63,3 +93,7 @@ const PostHogProviderWrapper = ({ children }: PropsWithChildren) => {
 }
 
 export default TrackingProvider
+
+export const exportedForTesting = {
+  createRouteChangeHandler,
+}
