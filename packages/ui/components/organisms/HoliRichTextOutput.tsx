@@ -7,7 +7,7 @@ import { Link } from '@holi/core/screens/posts/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import type { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import { REGEX_URL, REGEX_USER_MENTIONS, isValidUrl } from '@holi/ui/helper/richText'
+import { REGEX_URL, REGEX_USER_MENTIONS, isExternalLink, isValidUrl, prepUrl } from '@holi/ui/helper/richText'
 
 export interface Props extends HoliTextProps {
   text: string
@@ -39,7 +39,6 @@ const HoliRichTextOutput = ({
    * with the highlighted fullName
    */
 
-  const isExternalLink = (url: string) => !url.includes('holi.social') && !url.includes('localhost')
   const mentionPrefix = Platform.OS === 'web' ? '' : '@'
 
   const textWithMentions = (() => {
@@ -93,7 +92,7 @@ const HoliRichTextOutput = ({
 
           return link ? (
             <HoliTextLink
-              href={link.requestedUrl}
+              href={prepUrl(link.requestedUrl)}
               label={link.title}
               size={linkSize}
               key={link.requestedUrl}

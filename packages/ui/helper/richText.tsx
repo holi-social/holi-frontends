@@ -76,12 +76,15 @@ const whitespaceRegex = /\s+/ // to test whether a string contains whitespace
 
 export const isValidUrl = (urlString: string) => {
   try {
-    let trimmed = urlString.trim()
-    if (trimmed.startsWith('www.')) {
-      trimmed = 'http://' + trimmed
-    }
-    return !whitespaceRegex.test(trimmed) && !!new URL(trimmed)
+    const trimmedUrl = urlString.trim()
+    return !whitespaceRegex.test(trimmedUrl) && REGEX_URL.test(trimmedUrl)
   } catch (e) {
     return false
   }
 }
+
+export const isExternalLink = (url: string) => {
+  const internalLinks = ['holi.social', 'localhost']
+  return !internalLinks.some((internalLink) => url.includes(internalLink))
+}
+export const prepUrl = (url: string) => (url.startsWith('www.') ? `http://${url}` : url)

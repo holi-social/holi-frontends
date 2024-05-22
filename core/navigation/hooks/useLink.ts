@@ -14,34 +14,31 @@ export interface UseLinkProps {
 const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkProps) => {
   const { navigate, navigateBack } = useRouting()
 
-  // Check if href starts with 'www.' and prepend 'http://' if it does
-  const adjustedHref = href && href.startsWith('www.') ? 'http://' + href : href
-
   return useCallback(
     async (event: GestureResponderEvent) => {
       if (onPress) {
         const stopPropagation = await onPress(event)
         if (stopPropagation === false) return
       }
-      if (adjustedHref) {
+      if (href) {
         if (external) {
-          Linking.openURL(adjustedHref)
+          Linking.openURL(href)
           return
         }
 
         if (Platform.OS === 'ios' || Platform.OS === 'android') {
           // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
-          const route = adjustedHref.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)/, '')
+          const route = href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)/, '')
           navigate(route)
         } else if (mobileNavigateBackFirst) {
           navigateBack()
-          setTimeout(() => navigate(adjustedHref), 300)
+          setTimeout(() => navigate(href), 300)
         } else {
-          navigate(adjustedHref)
+          navigate(href)
         }
       }
     },
-    [external, adjustedHref, mobileNavigateBackFirst, navigate, navigateBack, onPress]
+    [external, href, mobileNavigateBackFirst, navigate, navigateBack, onPress]
   )
 }
 
