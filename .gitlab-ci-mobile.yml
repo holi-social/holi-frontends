@@ -5,12 +5,18 @@
   variables:
     ENVIRONMENT_FILE: '' # must be overriden by jobs extending .mobile_publish
     EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
+    USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON: 'false'
     NODE_OPTIONS: '--max_old_space_size=4096' # helps against OOM errors
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
+    - >
+      if [ "$USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON" == "true" ]; then
+        export EXPO_PUBLISH_RELEASE_CHANNEL=$(jq .build.production.channel eas.json)
+        echo "Using production channel: $EXPO_PUBLISH_RELEASE_CHANNEL"
+      fi
     - 'eas update --channel=${EXPO_PUBLISH_RELEASE_CHANNEL} --auto'
   interruptible: true
   tags:
@@ -259,9 +265,10 @@ mobile_production_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
     ENVIRONMENT_FILE: .env.production
-    EXPO_PUBLISH_RELEASE_CHANNEL: production
+    USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON: 'true'
   only:
     - production
+  when: manual
 
 mobile_production_build_android:
   extends: .mobile_build
