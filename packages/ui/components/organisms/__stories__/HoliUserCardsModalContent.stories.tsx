@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider.web'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 
@@ -12,7 +13,9 @@ export default {
 } as ComponentMeta<typeof HoliUserCardsModalContent>
 
 const Template: ComponentStory<typeof HoliUserCardsModalContent> = (props) => (
-  <HoliUserCardsModalContent style={{ minHeight: 550 }} {...props} />
+  <SafeAreaProvider>
+    <HoliUserCardsModalContent style={{ minHeight: 550 }} {...props} />
+  </SafeAreaProvider>
 )
 
 export const Example: ComponentStory<typeof HoliUserCardsModalContent> = Template.bind({})

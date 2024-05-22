@@ -109,7 +109,7 @@ const logoutOrDelete = async (fn: () => Promise<void>) => {
     consent = true
   }
 
-  waitForConsent(consent)
+  await waitForConsent(consent)
 }
 
 export const logout = async () => {
