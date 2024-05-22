@@ -6,12 +6,7 @@ import {
   logout,
   registerNewUser,
 } from '../../helpers/auth'
-import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
-
-const goFromRegistrationToHome = async () => {
-  await navigateBackToHomeScreen('btn-to-home-view')
-}
 
 describe('@Registration - smoke', () => {
   it('Registration - Logout', async () => {
@@ -30,7 +25,7 @@ describe('@Registration - smoke', () => {
 
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 
-    await goFromRegistrationToHome()
+    await tapOnElementWithTestId('btn-to-continue-as-guest')
     await loginNewUser(email)
     await deleteAccount()
   })

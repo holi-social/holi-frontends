@@ -17,10 +17,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
-
-export type ChallengesAppHomeParams = {
-  path?: string
-}
+import { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
 
 const { useParam } = createParamHooks<ChallengesAppHomeParams>()
 
