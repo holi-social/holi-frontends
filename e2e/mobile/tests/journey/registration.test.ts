@@ -1,12 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { defaultAuthSteps } from '../../helpers/auth'
-import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { waitForElementWithTestId } from '../../helpers/selectors'
-
-const goFromRegistrationToHome = async () => {
-  await navigateBackToHomeScreen('btn-to-home-view')
-}
+import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@Registration - journey', () => {
   const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
@@ -19,24 +14,24 @@ describe('@Registration - journey', () => {
     await waitForElementWithTestId('ory-traits-email-input-error-message')
     await waitForElementWithTestId('ory-password-input-error-message')
 
-    await goFromRegistrationToHome()
+    await tapOnElementWithTestId('btn-to-continue-as-guest')
 
     // invalid email provided
     await defaultAuthSteps({ email: '', password }, 'registration', false)
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 
-    await goFromRegistrationToHome()
+    await tapOnElementWithTestId('btn-to-continue-as-guest')
 
     // short password provided
     await defaultAuthSteps({ email, password: 'Sh0rt' }, 'registration', false)
     await waitForElementWithTestId('ory-password-input-error-message')
 
-    await goFromRegistrationToHome()
+    await tapOnElementWithTestId('btn-to-continue-as-guest')
 
     // weak password provided
     await defaultAuthSteps({ email, password: '11111111' }, 'registration', false)
     await waitForElementWithTestId('ory-password-input-error-message')
 
-    await goFromRegistrationToHome()
+    await tapOnElementWithTestId('btn-to-continue-as-guest')
   })
 })
