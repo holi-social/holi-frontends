@@ -14,11 +14,11 @@ const ChallengesAppHome = () => {
   const [pathQueryParam] = useParam('path')
 
   // Immediately redirect to the challenges web app
-  let uri = challengeAppBaseUrl
+  const uri = new URL(challengeAppBaseUrl)
   if (pathQueryParam) {
-    uri += decodeURIComponent(pathQueryParam)
+    uri.pathname = decodeURIComponent(pathQueryParam)
   }
-  window.location.href = uri
+  window.location.href = uri.toString()
   return null
 }
 
