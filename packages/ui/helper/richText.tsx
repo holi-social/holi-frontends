@@ -8,8 +8,7 @@ export type Mention = {
 // Copied from: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 export const REGEX_URL =
   // eslint-disable-next-line no-useless-escape
-  /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
-
+  /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/i
 // @<USER-ID>
 export const REGEX_USER_MENTIONS = /(@[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/g
 
@@ -76,8 +75,8 @@ const whitespaceRegex = /\s+/ // to test whether a string contains whitespace
 
 export const isValidUrl = (urlString: string) => {
   try {
-    const trimmed = urlString.trim()
-    return !whitespaceRegex.test(trimmed) && REGEX_URL.test(trimmed)
+    const url = ensureUrlProtocolPrefix(urlString.trim())
+    return !whitespaceRegex.test(url) && REGEX_URL.test(url)
   } catch (e) {
     return false
   }
