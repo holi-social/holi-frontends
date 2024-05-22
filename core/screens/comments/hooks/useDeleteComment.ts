@@ -4,7 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { DeleteCommentMutation, DeleteCommentResponse } from '@holi/core/screens/comments/mutations'
+import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
+import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -19,6 +22,36 @@ const useDeleteComment = (
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+
+  const commonQueries = [
+    {
+      query: commentsByCommentable,
+      variables: { commentableId, commentableType },
+      fetchPolicy: 'network-only',
+    },
+    {
+      query: commentsMetadata,
+      variables: { commentableId, commentableType },
+      fetchPolicy: 'network-only',
+    },
+  ]
+
+  const refetchQueriesMap = {
+    [CommentableType.POST]: [
+      { query: lastInsightsQuery },
+      { query: inspirationPostsQuery },
+      {
+        query: PostById,
+        variables: { id: commentableId },
+        fetchPolicy: 'network-only',
+      },
+      ...commonQueries,
+    ],
+    [CommentableType.DISCUSSION]: [{ query: lastInsightsQuery }, ...commonQueries],
+  }
+
+  // @ts-ignore
+  const refetchQueries = refetchQueriesMap[commentableType] || commonQueries
 
   const [deleteComment, { loading: isLoadingCommentDelete }] = useMutation<DeleteCommentResponse>(
     DeleteCommentMutation,
@@ -37,10 +70,7 @@ const useDeleteComment = (
           commentableType,
         })
       },
-      refetchQueries:
-        commentableType === CommentableType.POST
-          ? ['Comments', { query: PostById, variables: { id: commentableId }, fetchPolicy: 'network-only' }]
-          : ['Comments'],
+      refetchQueries,
     }
   )
 

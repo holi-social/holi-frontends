@@ -18,8 +18,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
-import { commentsMetadata } from '@holi/core/screens/comments/queries'
+import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { Comment, CommentableType } from '@holi/core/screens/comments/types'
+import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { PostById } from '@holi/core/screens/posts/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -64,6 +67,36 @@ const CommentForm = ({
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
 
+  const commonQueries = [
+    {
+      query: commentsByCommentable,
+      variables: { commentableId, commentableType },
+      fetchPolicy: 'network-only',
+    },
+    {
+      query: commentsMetadata,
+      variables: { commentableId, commentableType },
+      fetchPolicy: 'network-only',
+    },
+  ]
+
+  const refetchQueriesMap = {
+    [CommentableType.POST]: [
+      { query: lastInsightsQuery },
+      { query: inspirationPostsQuery },
+      {
+        query: PostById,
+        variables: { id: commentableId },
+        fetchPolicy: 'network-only',
+      },
+      ...commonQueries,
+    ],
+    [CommentableType.DISCUSSION]: [{ query: lastInsightsQuery }, ...commonQueries],
+  }
+
+  // @ts-ignore
+  const refetchQueries = refetchQueriesMap[commentableType] || commonQueries
+
   const [addComment, { loading: createCommentLoading }] = useMutation<CreateCommentResponse>(AddCommentMutation, {
     onCompleted: () => {
       openToast(t('comments.success'), HoliToastType.SUCCESS)
@@ -86,10 +119,7 @@ const CommentForm = ({
         })
       }
     },
-    refetchQueries: [
-      'Comments',
-      { query: commentsMetadata, variables: { commentableId, commentableType }, fetchPolicy: 'network-only' },
-    ],
+    refetchQueries,
   })
 
   /**
