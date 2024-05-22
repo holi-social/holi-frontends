@@ -87,4 +87,4 @@ export const isExternalLink = (url: string) => {
   const internalLinks = ['staging.dev.holi.social', 'app.holi.social', 'localhost']
   return !internalLinks.some((internalLink) => url.includes(internalLink))
 }
-export const prepUrl = (url: string) => (url.startsWith('www.') ? `http://${url}` : url)
+export const ensureUrlProtocolPrefix = (url: string) => (url.startsWith('www.') ? `http://${url}` : url)
