@@ -10,7 +10,7 @@ export const useUserVisitedScreensCount = () => useReactiveVar(userVisitedScreen
 export const increaseUserVisitedScreensCount = () => {
   const currentUserVisitedScreensCount = userVisitedScreensCount()
   const onboardingStateValue = onboardingStateVar()
-  const isOnboardingFinished = !!onboardingStateValue && onboardingStateValue === 'finished'
+  const isOnboardingFinished = onboardingStateValue === 'finished'
 
   if (isOnboardingFinished && currentUserVisitedScreensCount < SCREENS_TO_VISIT_COUNT) {
     userVisitedScreensCount(currentUserVisitedScreensCount + 1)
