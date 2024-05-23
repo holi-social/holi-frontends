@@ -4,7 +4,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -17,11 +17,11 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   const { isLoggedIn } = useAuth()
   const { isLoading } = useLoggedInUser()
   const { t } = useTranslation()
-  const { navigateBack } = useRouting()
+  const redirect = useRedirect('/')
 
   useIsomorphicLayoutEffect(() => {
-    isLoggedIn && navigateBack()
-  }, [isLoggedIn, navigateBack])
+    isLoggedIn && redirect()
+  }, [isLoggedIn, redirect])
 
   if (isLoading) return <HoliLoader />
 
