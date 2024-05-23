@@ -163,10 +163,7 @@ const CommentForm = ({
         <SafeAreaView style={styles.safeArea}>
           <HoliKeyboardSaveView onHeightChange={onHeightChange}>
             <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
-              <View
-                onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
-                style={styles.scrollContent}
-              >
+              <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
                 {children}
 
                 {/* Comment input block */}
@@ -250,9 +247,9 @@ const SMALL_DEVICE_HEIGHT = 600
 const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
+      backgroundColor: theme.colors.background10,
       paddingTop: dimensions.topBarHeight + 40,
-      height: '100%', // prevents double scrollbars
-      width: '100%',
+      height: '100%',
       overflow: 'hidden',
       ...Platform.select({
         web: {
@@ -260,31 +257,14 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
           height: '100vh' as DimensionValue,
           marginHorizontal: 'auto',
         },
-        android: {
-          paddingBottom: 0,
-        },
       }),
     },
     safeArea: {
       flex: 1,
-      backgroundColor: theme.colors.background10,
+      overflow: 'hidden',
     },
     scrollView: {
       flex: 1,
-      width: '100%',
-      maxWidth: dimensions.maxScreenWidth,
-      marginHorizontal: 'auto',
-    },
-    scrollContent: {
-      paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT + 50,
-      ...Platform.select({
-        web: {
-          paddingBottom:
-            screenHeight > SMALL_DEVICE_HEIGHT
-              ? SUGGESTIONS_DROPDOWN_HEIGHT
-              : SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT,
-        },
-      }),
     },
     verticalLine: {
       marginTop: Spacing['3xs'],
@@ -309,17 +289,10 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       }),
     },
     bottomBar: {
-      width: '100%',
+      flexShrink: 1,
       borderTopWidth: 1,
       borderTopColor: theme.colors.background30,
       backgroundColor: theme.colors.background10,
-      ...Platform.select({
-        web: {
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-        },
-      }),
     },
     suggestionsScrollView: {
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
