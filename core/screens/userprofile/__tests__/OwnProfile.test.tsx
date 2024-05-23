@@ -1,56 +1,81 @@
-import { render } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 
-interface UseAuthReturn {
-  userId: string | null
-  isLoggedIn: boolean
-}
-
-const useAuth = {
-  login: {
-    userId: 'some_id',
-    isLoggedIn: true,
-  },
-  logout: {
-    userId: null,
-    isLoggedIn: false,
-  },
-}
-
-let mockUseAuthReturn: UseAuthReturn = useAuth.login
-
-jest.mock('@holi/core/auth/helpers/useAuth', () => {
-  return {
-    useAuth: () => mockUseAuthReturn,
-  }
-})
-
-let mockIsLoggedIn = true
-
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
-  useLoggedInUser: () => ({
-    isLoggedIn: mockIsLoggedIn,
-  }),
+const mockUseAuth = jest.fn()
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: () => mockUseAuth(),
 }))
 
-describe.skip('OwnProfile', () => {
-  it('renders profile when logged in', () => {
-    mockIsLoggedIn = true
-    const { queryByText } = render(<OwnProfile />)
+const mockUseLoggedInUser = jest.fn()
+jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+  useLoggedInUser: () => mockUseLoggedInUser(),
+}))
 
-    expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
-    expect(queryByText('auth.loginProtection.login')).toBeFalsy()
+const mockUseFeatureToggle = jest.fn()
+jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
+  useFeatureToggle: () => mockUseFeatureToggle(),
+  FeatureToggleName: {
+    THEME_TOGGLE: 'THEME_TOGGLE',
+  },
+}))
+
+const insightsCountRequest = {
+  request: {
+    query: insightsByUserIdTotalResultsQuery,
+    variables: { userId: '123' },
+  },
+  result: {
+    data: {
+      insightsByUserId: {
+        totalResults: 0,
+      },
+    },
+  },
+}
+
+describe('OwnProfile', () => {
+  beforeEach(() => {
+    mockUseFeatureToggle.mockReturnValue({ ftEnabled: false })
   })
 
-  it('renders login hint when logged out', () => {
-    mockIsLoggedIn = false
-    mockUseAuthReturn = useAuth.logout
-    const { queryByText } = render(<OwnProfile />)
+  it('renders profile when logged in', () => {
+    mockUseLoggedInUser.mockReturnValue({
+      isLoggedIn: true,
+      user: { id: '123', fullName: 'Test User' },
+    })
+    mockUseAuth.mockReturnValue({
+      loginState: 'loggedIn',
+    })
 
-    expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
-    expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
-    expect(queryByText('auth.loginProtection.continueAsGuest')).toBeTruthy()
+    render(
+      <MockedProvider mocks={[insightsCountRequest]} addTypename={false}>
+        <OwnProfile />
+      </MockedProvider>
+    )
+
+    expect(screen.queryByText('Test User')).toBeTruthy()
+    expect(screen.queryByText('profile.anonymous.you')).toBeFalsy()
+    expect(screen.queryByText('auth.loginProtection.registration')).toBeFalsy()
+    expect(screen.queryByText('auth.loginProtection.login')).toBeFalsy()
+  })
+
+  it('renders AnonymousProfileView when logged out', () => {
+    mockUseLoggedInUser.mockReturnValue({
+      isLoggedIn: false,
+      isLoading: false,
+    })
+    mockUseAuth.mockReturnValue({
+      loginState: 'loggedOut',
+    })
+
+    render(<OwnProfile />)
+
+    expect(screen.queryByText('profile.anonymous.you')).toBeTruthy()
+    expect(screen.queryByText('auth.loginProtection.registration')).toBeTruthy()
+    expect(screen.queryByText('auth.loginProtection.login')).toBeTruthy()
   })
 })

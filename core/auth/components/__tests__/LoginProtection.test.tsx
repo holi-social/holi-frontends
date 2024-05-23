@@ -32,6 +32,13 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
 jest.mock('@holi/core/helpers/useDocumentURL', () => ({
   useDocumentURL: () => new URL('https://localhost:3000').href,
 }))
+const mockUseFeatureToggle = jest.fn()
+jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
+  useFeatureToggle: () => mockUseFeatureToggle(),
+  FeatureToggleName: {
+    THEME_TOGGLE: 'THEME_TOGGLE',
+  },
+}))
 
 const authenticatedUserRequest = {
   request: {
@@ -54,7 +61,11 @@ const authenticatedUserRequest = {
   },
 }
 
-describe.skip('renders correctly', () => {
+describe('LoginProtection', () => {
+  beforeEach(() => {
+    mockUseFeatureToggle.mockReturnValue({ ftEnabled: false })
+  })
+
   it('renders protected content when logged in', async () => {
     useAuthMock.mockImplementation(loggedIn)
 
@@ -72,7 +83,7 @@ describe.skip('renders correctly', () => {
     expect(screen.queryByText('auth.loginProtection.registration')).toBeFalsy()
   })
 
-  it('renders fallback content when logged out and no other content was provided', async () => {
+  it('renders AnonymousProfileView when logged out', async () => {
     useAuthMock.mockImplementation(loggedOut)
 
     const { queryByText } = render(
@@ -81,8 +92,9 @@ describe.skip('renders correctly', () => {
       </MockedProvider>
     )
 
-    expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
+    expect(queryByText('profile.anonymous.you')).toBeTruthy()
     expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
+    expect(queryByText('auth.loginProtection.login')).toBeTruthy()
     expect(queryByText('Protected Content')).toBeFalsy()
   })
 
@@ -90,44 +102,29 @@ describe.skip('renders correctly', () => {
     it('registration', async () => {
       useAuthMock.mockImplementation(loggedOut)
 
-      const { getByText } = render(
+      render(
         <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
           <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       )
 
-      await fireEvent.press(getByText('auth.loginProtection.registration'))
+      fireEvent.press(screen.getByTestId('btn-to-registration-form'))
 
-      // goes to Privacy Policy step
-      expect(getByText('registration.communityGuidelines.heading')).not.toBeNull()
+      expect(mockNavigate).toHaveBeenCalledWith('/onboarding/registration')
     })
 
     it('login', async () => {
       useAuthMock.mockImplementation(loggedOut)
 
-      const { getByTestId } = render(
+      render(
         <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
           <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       )
 
-      await fireEvent.press(getByTestId('btn-to-login-form'))
+      fireEvent.press(screen.getByTestId('anonymous-profile-login-btn'))
 
       expect(mockNavigate).toHaveBeenCalledWith('/login')
-    })
-
-    it('home', async () => {
-      useAuthMock.mockImplementation(loggedOut)
-
-      const { getByText } = render(
-        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-          <LoginProtection>Protected Content</LoginProtection>
-        </MockedProvider>
-      )
-
-      await fireEvent.press(getByText('auth.loginProtection.continueAsGuest'))
-
-      expect(mockNavigate).toHaveBeenCalledWith('/')
     })
   })
 })

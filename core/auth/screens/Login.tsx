@@ -40,7 +40,7 @@ const Login = () => {
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
-  const redirect = useRedirect()
+  const redirect = useRedirect('/')
   const client = useApolloClient()
   const { track } = useTracking()
 
@@ -88,7 +88,6 @@ const Login = () => {
       await setUserLoggedIn(data)
       await storeOnboardingState('finished')
 
-      navigate('/')
       resetUserVisitedScreensCount()
       redirect()
     } catch (err) {
