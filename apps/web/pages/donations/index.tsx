@@ -13,6 +13,11 @@ const DonationsAppHomePage: NextPageWithLayout = () => <DonationsAppHome />
 
 DonationsAppHomePage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>
 
+export const paths = {
+  en: '/donations',
+  de: '/spenden',
+}
+
 export const getServerSideProps = async (context: NextPageContext) => {
   const { location } = context.query
 
@@ -29,10 +34,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 
   return createServerSideProps(context, queries, {
     seoTitle: 'seo.h1.donations',
-    urls: {
-      en: '/donations',
-      de: '/spenden',
-    },
+    urls: paths,
   })
 }
 

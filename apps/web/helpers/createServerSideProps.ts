@@ -1,13 +1,12 @@
 import { ApolloClient, ApolloError, type NormalizedCacheObject, type QueryOptions } from '@apollo/client'
-import type { IncomingMessage } from 'http'
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { isNotFoundError } from '@holi/core/errors/helpers'
-import { defaultLocale } from '@holi/core/i18n/locales.cjs'
 import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
+import { getOrigin } from '@holi/web/helpers/getOrigin'
 import { addApolloSSRState } from '@holi/web/helpers/useApolloSSRClient'
 import type { CustomProps, NextJSPageProps } from '@holi/web/types'
 
@@ -16,13 +15,6 @@ interface SkippableQueryOptions extends QueryOptions {
 }
 
 type QueryCreatorFunction = (client: ApolloClient<NormalizedCacheObject>) => Promise<SkippableQueryOptions[]>
-
-const getOrigin = (req?: IncomingMessage) => {
-  const headers = req?.headers || {}
-  const protocol = headers['x-forwarded-proto'] || 'https'
-  const host = headers['host'] || 'app.holi.social'
-  return `${protocol}://${host}`
-}
 
 export const createServerSideProps = async (
   { req, locale }: NextPageContext,

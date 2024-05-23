@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -45,13 +45,8 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
         {t('donations:donationNews.total', { count: totalEntries })}
       </HoliText>
       {mainNews && (
-        <View testID="donation-news-spotlight" style={{ marginBottom: 24 }}>
-          <HoliButton
-            label={t('donations:donationNews.readArticle')}
-            transparent
-            disabled={!mainNews.url}
-            onPress={() => mainNews.url && Linking.openURL(mainNews.url)}
-          >
+        <HoliLink label={t('donations:donationNews.readArticle')} href={mainNews.url} external>
+          <View testID="donation-news-spotlight" style={{ marginBottom: 24 }}>
             <HoliText size="large" style={{ marginBottom: 12 }}>
               {mainNews.title}
             </HoliText>
@@ -70,10 +65,10 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
                 })}
               </HoliText>
             )}
-          </HoliButton>
 
-          <HoliReadMore numberOfLines={5}>{mainNews.body}</HoliReadMore>
-        </View>
+            <HoliReadMore numberOfLines={5}>{mainNews.body}</HoliReadMore>
+          </View>
+        </HoliLink>
       )}
 
       {otherNews.length > 0 && (
@@ -85,12 +80,11 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
           {
             /** FIXME convert to VirtualizedList, FlatList or SectionList */
             otherNews.map((entry) => (
-              <HoliButton
+              <HoliLink
                 key={entry.id}
                 label={t('donations:donationNews.readArticle')}
-                transparent
-                disabled={!entry.url}
-                onPress={() => entry.url && Linking.openURL(entry.url)}
+                href={entry.url}
+                external
                 testID="donations-news-other-item"
               >
                 <View style={styles.newsListing}>
@@ -108,7 +102,7 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
                   </View>
                   {!!entry.url && <HoliIcon icon={ShareBox} style={{ flexShrink: 0 }} />}
                 </View>
-              </HoliButton>
+              </HoliLink>
             ))
           }
         </View>
