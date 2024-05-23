@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -146,11 +146,9 @@ const DonationsAppProjectDetail = () => {
             label={t('donations:projectDetail.donate')}
             href={`${project.donationUrl}${UTM_PARAMS}`}
             testID="donations-project-detail-donate-btn"
+            external
           >
-            <HoliButton
-              label={t('donations:projectDetail.donate')}
-              onPress={() => Linking.openURL(`${project?.donationUrl}${UTM_PARAMS}`)}
-            >
+            <HoliButton label={t('donations:projectDetail.donate')}>
               <View style={styles.donateButtonContent}>
                 <HoliText>{t('donations:projectDetail.donate')}</HoliText>
                 <HoliIcon icon={ShareBox} size={16} />
