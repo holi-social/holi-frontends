@@ -1,9 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
-import { View } from 'react-native'
 
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
-import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 
 export default {
   title: 'Molecules/HoliMediaHeader',
@@ -11,23 +9,27 @@ export default {
 } as ComponentMeta<typeof HoliMediaHeader>
 
 const Template: ComponentStory<typeof HoliMediaHeader> = ({ ...args }) => {
-  return (
-    <View style={{ maxWidth: '80%' }}>
-      <HoliMediaHeader {...args} />
-    </View>
-  )
+  return <HoliMediaHeader {...args} onAvatarPressed={() => undefined} onTitlePressed={() => undefined} />
 }
 
 export const Primary: ComponentStory<typeof HoliMediaHeader> = Template.bind({})
 
 Primary.argTypes = {
-  title: { description: 'Title', type: 'string', control: { type: 'Some title' } },
-  boldTitle: { description: 'Title is bold', type: 'boolean' },
+  title: { description: 'Title', type: 'string', control: { type: 'text' } },
+  titleLabel: { description: 'Title Label', type: 'string', control: { type: 'text' } },
+  titleBold: { description: 'Title is bold', type: 'boolean' },
+  date: { description: 'Date', type: 'string', control: { type: 'text' } },
 }
 
 Primary.args = {
+  loading: false,
+  avatarProps: {
+    label: 'Saving the foxes',
+    initials: 'SF',
+    size: 'medium',
+  },
   title: 'Saving the foxes',
-  author: getRandomUser(),
-  date: '2022-11-18T09:54:31.607520+00:00',
-  boldTitle: false,
+  titleLabel: 'Saving the foxes',
+  titleBold: false,
+  date: '2022-11-18',
 }

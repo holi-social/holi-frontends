@@ -41,7 +41,7 @@ const ChatRoomHeaderTitle = ({ href, name, ...avatarProps }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDireHoliLinkction: 'row',
+    flexDirection: 'row',
     columnGap: 20,
   },
   title: {

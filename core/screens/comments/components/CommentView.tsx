@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
@@ -19,7 +21,6 @@ import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliMediaHeader, { getFormattedDate } from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -107,15 +108,16 @@ const CommentView = ({
     converting given timestamp to a date first (with '00:00:00' as time)
     to show the real days instead of exact timestamp calculations
   */
-  const formattedDate = comment.created ? getFormattedDate(new Date(comment.created).toDateString(), i18n) : undefined
+  const formattedDate = comment.created
+    ? getFormattedDate(new Date(comment.created).toDateString(), i18n.language)
+    : undefined
 
   return (
     <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
       <View style={styles.header}>
         <View style={styles.mediaHeaderLink}>
           <HoliLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
-            <HoliMediaHeader
-              title={name}
+            <HoliMediaAuthorHeader
               author={creator}
               date={avatarSize !== 'micro' ? comment.created : undefined} // don't show the date when it's a reply (show it above the text instead)
               avatarSize={avatarSize}

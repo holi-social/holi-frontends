@@ -6,6 +6,7 @@ import tinycolor from 'tinycolor2'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { useTheme } from '@holi/ui/styles/theme'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
@@ -14,7 +15,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 export type AvatarSize = 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
 export type AvatarShape = 'circle' | 'square'
 
-interface BaseProps {
+export interface AvatarProps {
   imageSrc?: string
   imageBlurhash?: string
   'aria-hidden'?: boolean
@@ -25,21 +26,9 @@ interface BaseProps {
   style?: StyleProp<ViewStyle>
   initialsFontWeight?: TextStyle['fontWeight']
   initialsColor?: string
-}
-
-interface Props extends BaseProps {
   label: string
   initials: string
-  loading?: boolean
 }
-
-interface SkeletonProps extends BaseProps {
-  label?: string
-  initials?: string
-  loading: boolean
-}
-
-export type AvatarProps = Props | SkeletonProps
 
 export const sizes = {
   micro: 24,
@@ -63,7 +52,7 @@ const HoliAvatar = ({
   initialsColor,
   initialsFontWeight = 'bold',
   ...props
-}: AvatarProps) => {
+}: PropsWithSkeleton<AvatarProps>) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme

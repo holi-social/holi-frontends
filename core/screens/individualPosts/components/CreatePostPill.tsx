@@ -6,6 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type FilterType = 'visibility' | 'topic' | 'category'
@@ -25,7 +26,7 @@ const filterTypes: Record<FilterType, FilterTypeInfo> = {
     text: 'individuals.post.category.label.topic',
   },
 }
-interface BaseProps {
+interface Props {
   label?: string | null
   filterType: FilterType
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
@@ -33,19 +34,9 @@ interface BaseProps {
   testID?: string
 }
 
-interface SkeletonProps extends Partial<BaseProps> {
-  loading: true
-}
-
-interface Props extends BaseProps {
-  loading?: false
-}
-
-type CreatePostPillProps = SkeletonProps | Props
-
 const BORDER_RADIUS = 48
 
-const CreatePostPill: React.FC<CreatePostPillProps> = ({
+const CreatePostPill: React.FC<PropsWithSkeleton<Props>> = ({
   loading,
   label,
   filterType,

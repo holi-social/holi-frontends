@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -9,7 +10,6 @@ import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -44,12 +44,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
             </HoliText>
           </View>
         )}
-        <HoliMediaHeader
-          title={post.creator.fullName || t('user.profileView.anonymous')}
-          author={post.creator}
-          date={post.createdAt}
-          boldTitle
-        />
+        <HoliMediaAuthorHeader author={post.creator} authorBold date={post.createdAt} />
         <View>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>

@@ -8,24 +8,14 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-interface BaseProps {
+interface Props {
   spaces: Space[]
+  pageSize: number
   style?: StyleProp<ViewStyle>
 }
-
-interface SkeletonProps extends Partial<BaseProps> {
-  loading: true
-  pageSize: number
-}
-
-interface Props extends BaseProps {
-  loading?: false
-  pageSize?: number
-}
-
-type SpacesGridProps = SkeletonProps | Props
 
 const gridBreakpoints: [number, number][] = [
   [0, 2],
@@ -33,7 +23,7 @@ const gridBreakpoints: [number, number][] = [
   [dimensions.breakpointL, 4],
 ]
 
-const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<SpacesGridProps>) => {
+const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<PropsWithSkeleton<Props>>) => {
   const itemsInRow = useBreakpointMatcher(gridBreakpoints) ?? 2
   // approximation, because of padding images are a bit to large, but that's ok
   const { imageWidth } = useWindowDimensionsWithImageScaling({ relativeWidth: 1 / itemsInRow })

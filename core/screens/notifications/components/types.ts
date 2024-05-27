@@ -125,7 +125,7 @@ export interface NotificationSpacePermissions extends NotificationBase {
 
 export interface SpaceAppointmentNotificationData {
   space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
-  appointment: Pick<Appointment, 'id' | 'title' | 'description' | 'location' | 'startDateTime' | 'endDateTime'>
+  appointment: Pick<Appointment, 'id' | 'title' | 'description' | 'locationDetails' | 'startDateTime' | 'endDateTime'>
   link: string
 }
 

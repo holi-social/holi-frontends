@@ -5,9 +5,10 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliAvatar'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface BaseProps {
+interface Props {
   usersToShow?: number
   size?: 'micro' | 'small'
   collapse?: boolean
@@ -19,15 +20,7 @@ interface BaseProps {
   hasBackground?: boolean
 }
 
-interface SkeletonProps extends Partial<BaseProps> {
-  loading: true
-}
-
-interface Props extends BaseProps {
-  loading?: false
-}
-
-export type HoliUserAvatarPileProps = SkeletonProps | Props
+export type HoliUserAvatarPileProps = PropsWithSkeleton<Props>
 
 const emptyUser = (id: string, theme: HoliTheme): User => {
   const { colors } = theme
