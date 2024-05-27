@@ -54,6 +54,7 @@ const Comments = ({
 
   const latestCommenters = commentable?.commenters?.data || []
   const comments = commentable?.comments?.data || []
+  const totalComments = commentable?.totalComments
 
   if (loading) return <Skeleton />
 
@@ -82,7 +83,7 @@ const Comments = ({
               <HoliUserAvatarPile users={latestCommenters as User[]} collapse counter />
             ) : (
               <HoliUserAvatarPile users={latestCommenters as User[]} usersToShow={3} collapse>
-                {t('comments.response', { count: comments.length })}
+                {t('comments.response', { count: totalComments })}
               </HoliUserAvatarPile>
             )}
             {reactionButton}

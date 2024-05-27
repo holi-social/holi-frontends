@@ -74,6 +74,7 @@ export const commentsMetadata = gql`
           ...UserAvatar
         }
       }
+      totalComments
     }
   }
 `
@@ -84,6 +85,7 @@ export type CommentsMetadataResponse = {
     type: CommentableType
     topComment?: Comment
     commenters: Paged<User>
+    totalComments: number
   }
 }
 
@@ -112,6 +114,7 @@ export const commentsByCommentable = gql`
           ...CommentFull
         }
       }
+      totalComments
     }
   }
 `
@@ -122,6 +125,7 @@ export type CommentsResponse = {
     type: CommentableType
     comments: Paged<Comment>
     commenters: Paged<User>
+    totalComments: number
   }
 }
 
