@@ -44,7 +44,7 @@ export const FeedPostDetailsFragment = gql`
       ...LinkFragment
     }
     totalComments
-    commenters {
+    commenters(limit: 5) {
       totalResults
       data {
         ...UserAvatar
