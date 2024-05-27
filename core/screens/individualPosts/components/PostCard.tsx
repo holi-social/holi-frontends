@@ -6,6 +6,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled, MoreFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -16,6 +17,7 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -102,9 +104,15 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
       {!post.image && !!post.linkPreview && <HoliLinkPreview previewData={post.linkPreview} />}
 
       <View style={styles.reactionsBar}>
-        <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
-          <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
-        </HoliButton>
+        {post.totalComments > 0 ? (
+          <HoliUserAvatarPile users={post.commenters.data as User[]} usersToShow={5} collapse>
+            {t('comments.response', { count: post.totalComments })}
+          </HoliUserAvatarPile>
+        ) : (
+          <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
+            <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
+          </HoliButton>
+        )}
         <FeedPostReactions post={post} />
       </View>
     </View>
