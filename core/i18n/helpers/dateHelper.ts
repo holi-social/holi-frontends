@@ -101,3 +101,9 @@ export const getRelativeDateString = (dateStr: string | undefined = '', locale: 
     numeric: 'auto',
   }).format(isNotYesterdayAndBeforeThisWeek ? -weeksAgo : -daysAgo, isNotYesterdayAndBeforeThisWeek ? 'weeks' : 'days')
 }
+
+export const getFormattedDate = (date: string | undefined, locale: string) => {
+  if (!date) return undefined
+  const dateString = getRelativeDateString(date, locale)
+  return dateString.charAt(0).toUpperCase() + dateString.slice(1)
+}

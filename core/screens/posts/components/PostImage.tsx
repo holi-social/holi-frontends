@@ -8,25 +8,18 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface BaseProps {
+interface Props {
   style?: StyleProp<ViewStyle>
-}
-interface SkeletonProps extends BaseProps {
-  loading: true
-  uri?: string
-}
-interface Props extends BaseProps {
-  loading?: false
   uri: string
   imageBlurhash?: string
   height: number
   width: number
   postTitle: string
 }
-export type PostImageProps = SkeletonProps | Props
 
 const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   {
@@ -51,7 +44,7 @@ const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   },
 ]
 
-const PostImage: React.FC<PostImageProps> = ({ loading, uri, imageBlurhash, width, height, postTitle }) => {
+const PostImage: React.FC<PropsWithSkeleton<Props>> = ({ loading, uri, imageBlurhash, width, height, postTitle }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -59,14 +52,14 @@ const PostImage: React.FC<PostImageProps> = ({ loading, uri, imageBlurhash, widt
   const [showFullscreenImage, setShowFullscreenImage] = useState(false)
   const imageSrcSet = POST_IMAGE_SIZES.map((transformSize) =>
     getTransformedImageUri({
-      imageUri: uri,
-      imageSize: { width, height },
+      imageUri: uri ?? '',
+      imageSize: { width: width ?? 0, height: height ?? 0 },
       transformSize,
       aspectRatio: '343-236',
     })
   )
   const imageSizes = getSizes(POST_IMAGE_SIZES)
-  const { uri: mobileImageUri, onLayout } = useContainerSizeForImage(uri, true)
+  const { uri: mobileImageUri, onLayout } = useContainerSizeForImage(uri ?? '', true)
 
   const showImageFullScreen = useCallback(() => {
     setShowFullscreenImage(true)

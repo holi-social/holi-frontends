@@ -27,7 +27,7 @@ export const SectionFooter = ({ type, result, isFilterAll, onLoadMoreButtonPress
         {new Array(isFilterAll ? FILTER_ALL_PAGE_SIZE : SEARCH_PAGE_SIZE).fill(1).map((_, index) => (
           <HoliBox padding={[8, 16]} key={index}>
             <SearchSkeleton width={index % 2 ? '60%' : '40%'}>
-              <HoliAvatar size="medium" shape={type === 'users' ? 'circle' : 'square'} loading />
+              <HoliAvatar size="medium" shape={type === 'users' ? 'circle' : 'square'} loading label={''} />
             </SearchSkeleton>
           </HoliBox>
         ))}
@@ -58,7 +58,7 @@ export const SectionFooter = ({ type, result, isFilterAll, onLoadMoreButtonPress
         {new Array(8).fill(1).map((_, index) => (
           <HoliBox padding={[8, 16]} key={index}>
             <SearchSkeleton width={index % 2 ? '60%' : '40%'}>
-              <HoliAvatar size="medium" shape={type === 'users' ? 'circle' : 'square'} loading />
+              <HoliAvatar size="medium" shape={type === 'users' ? 'circle' : 'square'} loading label={''} />
             </SearchSkeleton>
           </HoliBox>
         ))}

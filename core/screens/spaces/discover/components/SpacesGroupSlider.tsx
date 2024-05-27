@@ -18,6 +18,7 @@ import {
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
@@ -46,17 +47,7 @@ interface SelfLoadingLocationProps extends BaseProps {
 
 type ContentProps = SelfLoadingTopicProps | SelfLoadingSkillProps | SelfLoadingLocationProps
 
-type SkeletonProps = Partial<ContentProps> & {
-  loading: true
-}
-
-type Props = ContentProps & {
-  loading?: false
-}
-
-type SpacesGroupSliderProps = SkeletonProps | Props
-
-const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
+const SpacesGroupSlider = ({
   loading: manualLoading = false,
   style,
   testID = 'spaces-group-slider',
@@ -64,7 +55,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   skill,
   locationId,
   pageSize = 5,
-}: SpacesGroupSliderProps) => {
+}: PropsWithSkeleton<ContentProps>) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()

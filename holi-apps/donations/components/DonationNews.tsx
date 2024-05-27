@@ -2,13 +2,13 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -52,12 +52,7 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
             </HoliText>
 
             {author ? (
-              <HoliMediaHeader
-                style={{ marginBottom: 24 }}
-                title={author.fullName}
-                author={author}
-                date={mainNews.publishDate}
-              />
+              <HoliMediaAuthorHeader author={author} date={mainNews.publishDate} style={{ marginBottom: 24 }} />
             ) : (
               <HoliText size="small" style={{ color: colors.foreground20, marginBottom: 24 }}>
                 {t('donations:donationNews.publishTime', {
