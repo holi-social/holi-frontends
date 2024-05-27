@@ -48,6 +48,7 @@ export default MySpaces
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom: 24,
   },
   section: {
     marginTop: 24,
