@@ -142,21 +142,21 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
       )}
 
       <View style={styles.reactionsBar}>
-        {post.totalComments > 0 ? (
-          <HoliUserAvatarPile users={post.commenters.data as User[]} usersToShow={5} collapse>
-            {t('comments.response', { count: post.totalComments })}
-          </HoliUserAvatarPile>
-        ) : (
-          <HoliButtonTracked
-            transparent
-            inline
-            onPress={goToDetailView}
-            label="btn-comment-to-feed-post"
-            trackingEvent={TrackingEvent.PostCard.CommentNowPressed(post.id)}
-          >
+        <HoliButtonTracked
+          transparent
+          inline
+          onPress={goToDetailView}
+          label="btn-comment-to-feed-post"
+          trackingEvent={TrackingEvent.PostCard.CommentNowPressed(post.id)}
+        >
+          {post.totalComments > 0 ? (
+            <HoliUserAvatarPile users={post.commenters.data as User[]} usersToShow={5} collapse>
+              {t('comments.response', { count: post.totalComments })}
+            </HoliUserAvatarPile>
+          ) : (
             <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
-          </HoliButtonTracked>
-        )}
+          )}
+        </HoliButtonTracked>
         <FeedPostReactions post={post} />
       </View>
     </View>
