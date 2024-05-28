@@ -1,4 +1,6 @@
-import { Term, Topic, User } from '@holi/core/screens/userprofile/types'
+import { Term, Topic } from '@holi/core/screens/userprofile/types'
+import type { User } from '@holi/core/screens/userprofile/types'
+import type { Paged } from '@holi/core/types'
 
 export enum VisibilityLevel {
   PUBLIC = 'PUBLIC',
@@ -47,4 +49,6 @@ export interface FeedPost {
   reactions: ReactionCounts
   myReaction: ReactionCounts
   linkPreview?: Link
+  totalComments: number
+  commenters: Paged<User>
 }

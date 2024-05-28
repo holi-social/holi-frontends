@@ -11,6 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import type { User } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -19,6 +20,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -147,7 +149,13 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           label="btn-comment-to-feed-post"
           trackingEvent={TrackingEvent.PostCard.CommentNowPressed(post.id)}
         >
-          <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
+          {post.totalComments > 0 ? (
+            <HoliUserAvatarPile users={post.commenters.data as User[]} usersToShow={5} collapse>
+              {t('comments.response', { count: post.totalComments })}
+            </HoliUserAvatarPile>
+          ) : (
+            <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
+          )}
         </HoliButtonTracked>
         <FeedPostReactions post={post} />
       </View>

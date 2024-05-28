@@ -1,9 +1,12 @@
 import { gql } from '@apollo/client'
 
 import { LinkFragment } from '@holi/core/screens/comments/queries'
+import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const FeedPostDetailsFragment = gql`
+  ${UserAvatarFragment}
   ${LinkFragment}
+
   fragment FeedPostFull on FeedPost {
     id
     slug
@@ -39,6 +42,13 @@ export const FeedPostDetailsFragment = gql`
     }
     linkPreview {
       ...LinkFragment
+    }
+    totalComments
+    commenters(limit: 5) {
+      totalResults
+      data {
+        ...UserAvatar
+      }
     }
   }
 `
