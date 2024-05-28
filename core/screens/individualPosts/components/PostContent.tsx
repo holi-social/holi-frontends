@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -24,8 +24,10 @@ type PostContentProps = {
 const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
+  const { width: screenWidth } = useWindowDimensions()
+  const contentSpacing = screenWidth < dimensions.breakpointS ? Spacing.xs : Spacing.md
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
-  const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
+  const styles = useMemo(() => getStyles(theme, !!smStyle, contentSpacing), [theme, smStyle, contentSpacing])
 
   return (
     <>
@@ -81,20 +83,21 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   )
 }
 
-const getStyles = (theme: HoliTheme, sm = false) =>
+const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
   StyleSheet.create({
     container: {
       borderRadius: Spacing.xs,
-      gap: Spacing.md,
       paddingTop: Spacing.md,
     },
     metadata: {
       alignContent: 'space-between',
     },
     contentSection: {
-      gap: Spacing.md,
+      gap: contentSpacing,
+      marginTop: contentSpacing,
     },
     pill: {
+      marginTop: Spacing.md,
       borderRadius: Spacing.xxl,
       paddingVertical: Spacing['4xs'],
       paddingHorizontal: Spacing['3xs'],
@@ -113,6 +116,7 @@ const getStyles = (theme: HoliTheme, sm = false) =>
       width: '100%',
     },
     imageContainer: {
+      marginTop: contentSpacing,
       ...(!sm
         ? {
             borderRadius: Spacing.xxs,

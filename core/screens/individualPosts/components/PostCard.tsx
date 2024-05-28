@@ -93,7 +93,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
       </HoliButtonTracked>
 
       {/* not clickable */}
-      <View>
+      <View style={styles.description}>
         <HoliReadMoreTracked
           numberOfLines={NUMBER_OF_LINES}
           color="gray300"
@@ -171,7 +171,6 @@ const getStyles = (theme: HoliTheme) =>
       padding: Spacing.xs,
       borderColor: theme.colors.gray200,
       borderWidth: 1,
-      gap: Spacing.xs,
     },
     metadata: {
       alignContent: 'space-between',
@@ -216,11 +215,16 @@ const getStyles = (theme: HoliTheme) =>
     },
     clickableArea: {
       gap: Spacing.xs,
+      marginTop: Spacing.xs,
     },
     clickOverlay: {
       position: 'relative',
       pointerEvents: 'auto',
       gap: Spacing.xs,
+    },
+    description: {
+      marginTop: Spacing.xxs,
+      marginBottom: Spacing.xs,
     },
   })
 
