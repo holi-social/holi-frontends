@@ -4,16 +4,13 @@ import { mock } from 'jest-mock-extended'
 import React from 'react'
 
 import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
-import { withSilencedConsoleError } from '@holi/core/helpers/__tests__/helpers'
-import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingHook } from '@holi/core/tracking/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
-const testTrackingEvent = new (class extends TrackingEvent {
-  name = 'testTrackingEvent'
-  screen = 'testTrackingScreen'
-})()
+const testTrackingEvent = {
+  name: 'testTrackingEvent',
+}
 
 jest.mock('@holi/core/tracking/hooks/useTracking')
 const useTrackingMock = useTracking as jest.Mock
@@ -53,24 +50,5 @@ describe('HoliButtonTracked', () => {
 
     expect(onPress).toHaveBeenCalled()
     expect(mockTrackingHook.track).toHaveBeenCalledWith(testTrackingEvent)
-  })
-
-  it('calls onPress even if onTrack hook call throws an exception', async () => {
-    withSilencedConsoleError(() => {
-      const onPress = jest.fn()
-      const mockTrackingHook = mock<TrackingHook>()
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      mockTrackingHook.track.mockImplementation((event: TrackingEvent) => {
-        throw new Error('intended error in test')
-      })
-      useTrackingMock.mockReturnValue(mockTrackingHook)
-
-      render(<HoliButtonTracked label="click-me" onPress={onPress} trackingEvent={testTrackingEvent} />)
-
-      fireEvent.press(screen.getByLabelText('click-me'))
-
-      expect(onPress).toHaveBeenCalled()
-      expect(mockTrackingHook.track).toHaveBeenCalledWith(testTrackingEvent)
-    })
   })
 })

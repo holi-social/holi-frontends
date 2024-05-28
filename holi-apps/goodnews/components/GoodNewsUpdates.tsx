@@ -10,6 +10,7 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import { TrackingEvent } from '@holi/core/tracking'
 import { NewspaperFilled } from '@holi/icons/src/generated'
 
 import { GoodNewsArticlesQueryResponse, goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -37,7 +38,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpda
 
   const articlesToRender = articles.slice(0, GOOD_NEWS_PAGE_SIZE)
 
-  const renderItem = ({ item }: { item: GoodNewsArticle }) => {
+  const renderItem = ({ item, index }: { item: GoodNewsArticle; index: number }) => {
     const dateString = getRelativeDateString(item.date, i18n.language)
     const formattedDate = dateString.charAt(0).toUpperCase() + dateString.slice(1)
 
@@ -51,6 +52,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpda
         title={item.headline}
         imageSourceUri={item.pictureUrl}
         footer={formattedDate}
+        trackingEvent={TrackingEvent.RecommendationPressed('goodnews', item.id, index)}
       />
     )
   }

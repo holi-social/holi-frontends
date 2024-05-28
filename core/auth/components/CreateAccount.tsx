@@ -75,7 +75,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   }, [initializeFlow])
 
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
-    track(TrackingEvent.Registration.RegisterButtonPressed)
+    track(TrackingEvent.Auth.RegisterButtonPressed)
     if (flow) {
       showLoader()
       Keyboard.dismiss()
@@ -150,7 +150,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
             onPress={onDismiss}
             type="secondary"
             testID="btn-to-continue-as-guest"
-            trackingEvent={TrackingEvent.Registration.ContinueAsGuestButtonPressed}
+            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
           >
             {t('auth.loginProtection.continueAsGuest')}
           </HoliButtonTracked>
@@ -158,7 +158,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
           <View style={{ alignItems: 'center' }}>
             <AlreadyHaveAccountText
               style={styles.loginHeadline}
-              trackingEvent={TrackingEvent.Registration.LoginButtonPressed}
+              trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
             />
           </View>
         </View>

@@ -21,7 +21,9 @@ export enum LinkType {
   DEEP = 'DEEP',
 }
 
-export type UseShareLink = [string, () => Promise<void>]
+export type ShareLinkAction = 'shared' | 'dismissed'
+
+export type UseShareLink = [string, () => Promise<ShareLinkAction>]
 export interface UseShareLinkProps {
   link: string
   linkType?: LinkType
@@ -45,7 +47,7 @@ export const useShareLink = ({ link, message, linkType = LinkType.DEEP }: UseSha
     }
   }, [link, linkType])
 
-  const shareLinkMobile = useCallback(async () => {
+  const shareLinkMobile: () => Promise<ShareLinkAction> = useCallback(async () => {
     try {
       // Add url to message on android as `url` parameter is not supported
       const messageUrlSuffix = Platform.OS === 'android' ? (message && '\n') + url.current : ''
@@ -53,25 +55,24 @@ export const useShareLink = ({ link, message, linkType = LinkType.DEEP }: UseSha
         message: message + messageUrlSuffix,
         url: url.current,
       })
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
+      switch (result.action) {
+        case 'sharedAction':
+          return 'shared'
+        case 'dismissedAction':
+          return 'dismissed'
       }
     } catch (error) {
       displayError(error, 'Failed to share link', {
         location: 'useShareLink.shareLinkMobile',
       })
+      throw error
     }
   }, [message, displayError])
 
-  const shareLinkWeb = useCallback(async () => {
+  const shareLinkWeb: () => Promise<ShareLinkAction> = useCallback(async () => {
     Clipboard.setString(url.current)
     openToast(t('global.share.copied'), HoliToastType.SUCCESS)
+    return 'shared'
   }, [openToast, t])
 
   const shareLink = Platform.OS === 'web' ? shareLinkWeb : shareLinkMobile

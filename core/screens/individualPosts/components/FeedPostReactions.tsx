@@ -11,6 +11,8 @@ import {
 } from '@holi/core/screens/individualPosts/mutations'
 import { FeedPost, ReactionAction, ReactionType } from '@holi/core/screens/individualPosts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 
 export interface FeedPostReactionsProps {
@@ -21,9 +23,10 @@ export interface FeedPostReactionsProps {
 
 const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, style }) => {
   const { t } = useTranslation()
-  const { user } = useLoggedInUser()
+  const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
@@ -41,18 +44,33 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
   )
 
   const reactOnPost = () => {
-    if (!user) {
-      return openLoginModal({
+    if (!isLoggedIn) {
+      track(
+        TrackingEvent.PostReactions.ReactionPressed(post.id, {
+          loggedIn: false,
+        })
+      )
+      openLoginModal({
         description: t('individuals.post.reaction.loginRedirect.text'),
       })
+    } else {
+      const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
+      const reactionType = ReactionType.HEART
+      track(
+        TrackingEvent.PostReactions.ReactionPressed(post.id, {
+          loggedIn: true,
+          reactionType: reactionType,
+          reactionAction: reactionAction,
+        })
+      )
+      updateFeedPostReaction({
+        variables: {
+          postId: post.id,
+          reactionType: reactionType,
+          reactionAction: reactionAction,
+        },
+      })
     }
-    updateFeedPostReaction({
-      variables: {
-        postId: post.id,
-        reactionType: ReactionType.HEART,
-        reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
-      },
-    })
   }
 
   return (

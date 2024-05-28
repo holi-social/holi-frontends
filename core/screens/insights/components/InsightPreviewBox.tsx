@@ -3,16 +3,17 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
+import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
@@ -53,11 +54,12 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
 
   return (
     <View {...props}>
-      <HoliButton
+      <HoliButtonTracked
         label={insight.title}
         transparent
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
+        trackingEvent={TrackingEvent.InsightCard.CardPressed(insight.id)}
       >
         <HoliCard
           imageLabel={insight.title}
@@ -118,7 +120,7 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
             />
           )}
         </HoliCard>
-      </HoliButton>
+      </HoliButtonTracked>
     </View>
   )
 }

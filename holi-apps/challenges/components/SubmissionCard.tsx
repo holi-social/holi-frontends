@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
+import { TrackingEvent } from '@holi/core/tracking'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
@@ -15,15 +16,16 @@ interface SubmissionCardProps {
   challengeTitle: string
   submission: Submission
   width: number
+  trackingEvent: TrackingEvent
 }
 
-export const SubmissionCard = ({ challengeTitle, submission, width }: SubmissionCardProps) => {
+export const SubmissionCard = ({ challengeTitle, submission, width, trackingEvent }: SubmissionCardProps) => {
   const label = `${challengeTitle} | ${submission.submitter.username}`
   const initials = submission.submitter.username.slice(0, 2)
 
   return (
     <View style={styles.container}>
-      <HoliLink label={label} href={createChallengesPath(submission.playerPath)}>
+      <HoliLinkTracked label={label} href={createChallengesPath(submission.playerPath)} trackingEvent={trackingEvent}>
         <HoliImage
           source={{ uri: submission.imageUrl, width, height: IMAGE_HEIGHT }}
           label={label}
@@ -37,7 +39,7 @@ export const SubmissionCard = ({ challengeTitle, submission, width }: Submission
           style={styles.avatar}
           initials={initials}
         />
-      </HoliLink>
+      </HoliLinkTracked>
     </View>
   )
 }

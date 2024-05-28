@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { GestureResponderEvent, Linking, Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -6,7 +6,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 export interface UseLinkProps {
   href?: string
   /** if given, `onPress` will be executed before opening href (if given). if `onPress` returns `false` event propagation will be stopped */
-  onPress?: CallableFunction
+  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   external?: boolean
   mobileNavigateBackFirst?: boolean
 }
