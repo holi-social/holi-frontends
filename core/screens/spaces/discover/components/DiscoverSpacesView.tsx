@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -13,6 +13,7 @@ import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -21,7 +22,6 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface DiscoverSpacesViewProps {
-  style?: StyleProp<ViewStyle>
   userTopics: Topic[]
   userSkills: Skill[]
   userGeolocationId?: string
@@ -45,12 +45,7 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
   )
 }
 
-const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
-  style,
-  userTopics,
-  userSkills,
-  userGeolocationId,
-}) => {
+const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, userSkills, userGeolocationId }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
@@ -78,7 +73,8 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
   const aspectRatio = 188 / 324
 
   return (
-    <View style={style} testID="spaces-container">
+    <View testID="spaces-container">
+      <HoliGap />
       <HoliHeading level="2" size="l" testID="discover-spaces-header">
         {t('spaces.discover.welcome')}
       </HoliHeading>
