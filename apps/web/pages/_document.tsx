@@ -1,3 +1,5 @@
+import { getApolloContext } from '@apollo/client'
+import { RenderPromises } from '@apollo/client/react/ssr'
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
@@ -22,10 +24,37 @@ export default class MyDocument extends Document {
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
 
-    const styles = [getStyleElement(), flush()]
-    const { html, head } = await context.renderPage()
+    const originalRenderPage = context.renderPage
 
-    return { html, head, styles: Children.toArray(styles) }
+    // Render page until all render promises were resolved to populate the Apollo cache
+    // for usage of renderPromises see https://github.com/apollographql/apollo-client/blob/main/src/react/ssr/getDataFromTree.ts
+    const renderPromises = new RenderPromises()
+    context.renderPage = () =>
+      originalRenderPage({
+        enhanceApp: (App) => (props) => {
+          const ApolloContext = getApolloContext()
+
+          return (
+            <ApolloContext.Provider value={{ renderPromises }}>
+              <App {...props} />
+            </ApolloContext.Provider>
+          )
+        },
+      })
+
+    let initialProps = await Document.getInitialProps(context)
+    while (renderPromises.hasPromises()) {
+      try {
+        await renderPromises.consumeAndAwaitPromises()
+        initialProps = await Document.getInitialProps(context)
+      } finally {
+        renderPromises.stop()
+      }
+    }
+
+    const styles = [getStyleElement(), flush()]
+
+    return { ...initialProps, styles: Children.toArray(styles) }
   }
 
   render() {

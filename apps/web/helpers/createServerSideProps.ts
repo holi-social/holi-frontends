@@ -41,6 +41,7 @@ export const createServerSideProps = async (
   try {
     const queriesToExecute = [
       ...(typeof queries === 'function' ? await queries(client) : queries),
+      // Reduce number of loops when awaiting renderPromises in _document.getInitialProps
       {
         query: featureTogglesQuery,
       },
