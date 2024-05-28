@@ -9,7 +9,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { loginState } = useAuth()
   const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
 
-  if (loginState === 'unknown' || isUserLoading) return <HoliLoader />
+  if (loginState === 'unknown' || isUserLoading) return <HoliLoader testID="loader" />
 
   return isLoggedIn ? <>{children}</> : <AnonymousProfileView />
 }

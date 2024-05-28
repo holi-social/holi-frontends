@@ -11,20 +11,12 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-interface BaseProps {
+interface Props {
   isFiltering?: boolean
   amount: number
 }
-interface SkeletonProps extends BaseProps {
-  loading: true
-}
-interface Props extends BaseProps {
-  loading?: false
-}
 
-type VolunteeringListingSkeletonProps = SkeletonProps | Props
-
-const VolunteeringListingSkeleton = ({ isFiltering, amount }: VolunteeringListingSkeletonProps) => {
+const VolunteeringListingSkeleton = ({ isFiltering, amount }: Props) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

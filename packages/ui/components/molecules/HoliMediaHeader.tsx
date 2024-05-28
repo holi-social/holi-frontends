@@ -1,75 +1,48 @@
-import { type i18n } from 'i18next'
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar, { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
+import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface BaseProps {
+interface Props {
+  avatarProps: AvatarProps
+  title: string
+  titleLabel: string
+  titleBold?: boolean
+  date?: string
+  onAvatarPressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
+  onTitlePressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   style?: StyleProp<ViewStyle>
   testID?: string
 }
-interface SkeletonProps extends BaseProps {
-  loading: true
-  author?: User
-  title?: string
-  date?: string
-  boldTitle?: boolean
-  avatarSize?: AvatarSize
-}
-interface HoliMediaHeaderProps extends BaseProps {
-  loading?: false
-  title: string
-  author: User
-  boldTitle?: boolean
-  date?: string
-  avatarSize?: AvatarSize
-}
-type Props = SkeletonProps | HoliMediaHeaderProps
 
-export const getFormattedDate = (date: string | undefined, i18n: i18n) => {
-  if (!date) return undefined
-  const dateString = getRelativeDateString(date, i18n.language)
-  return dateString.charAt(0).toUpperCase() + dateString.slice(1)
-}
+export type HoliMediaHeaderProps = PropsWithSkeleton<Props>
 
-const HoliMediaHeader = ({ loading, title, author, boldTitle, date, avatarSize, style, testID }: Props) => {
-  const { t, i18n } = useTranslation()
+const HoliMediaHeader = ({
+  loading,
+  title,
+  titleLabel,
+  titleBold,
+  avatarProps,
+  date,
+  onAvatarPressed,
+  onTitlePressed,
+  style,
+  testID,
+}: HoliMediaHeaderProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { navigate } = useRouting()
-
-  /*
-    converting given timestamp to a date first (with '00:00:00' as time)
-    to show the real days instead of exact timestamp calculations
-  */
-  const formattedDate = date ? getFormattedDate(new Date(date).toDateString(), i18n) : undefined
-
-  const authorName = author?.fullName || t('user.profileView.anonymous')
 
   if (loading) {
     return (
       <View style={[styles.row, style]} testID={testID}>
-        <HoliAvatar
-          imageSrc={author?.avatar || ''}
-          imageBlurhash={author?.avatarBlurhash || ''}
-          label={authorName}
-          initials={author?.avatarLabel || ''}
-          defaultColor={author?.avatarDefaultColor || ''}
-          size={avatarSize || 'small'}
-          loading
-        />
+        <HoliAvatar {...avatarProps} size={avatarProps?.size || 'small'} loading label={''} />
 
         <View style={[styles.titleContainer]}>
-          <HoliText bold={!!boldTitle} loading>
-            {title}
-          </HoliText>
+          <HoliText loading />
           <HoliText size="small" style={styles.date} loading />
         </View>
       </View>
@@ -78,27 +51,20 @@ const HoliMediaHeader = ({ loading, title, author, boldTitle, date, avatarSize, 
 
   return (
     <View style={[styles.row, style]} testID={testID}>
-      <HoliButton inline transparent label={author.fullName} onPress={() => navigate(`/profile/${author.id}`)}>
-        <HoliAvatar
-          imageSrc={author?.avatar ?? ''}
-          imageBlurhash={author?.avatarBlurhash ?? ''}
-          label={authorName}
-          initials={author?.avatarLabel ?? ''}
-          defaultColor={author?.avatarDefaultColor ?? ''}
-          size={avatarSize || 'small'}
-        />
+      <HoliButton inline transparent label={avatarProps.label} onPress={onAvatarPressed}>
+        <HoliAvatar {...avatarProps} size={avatarProps.size || 'small'} />
       </HoliButton>
       <View style={[styles.titleContainer]}>
-        <HoliText bold={boldTitle}>
-          <HoliButton inline transparent label={author.fullName} onPress={() => navigate(`/profile/${author.id}`)}>
+        <HoliText bold={!!titleBold}>
+          <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
             {title}
           </HoliButton>
         </HoliText>
 
         <View style={styles.row}>
-          {!!formattedDate && (
+          {!!date && (
             <HoliText size="small" style={styles.date}>
-              {formattedDate}
+              {date}
             </HoliText>
           )}
         </View>

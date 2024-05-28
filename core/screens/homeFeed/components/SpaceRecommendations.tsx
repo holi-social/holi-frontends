@@ -102,7 +102,7 @@ const SpaceRecommendations = () => {
         keyExtractor={(item) => item.id}
         ListFooterComponent={
           <View style={styles.moreCard}>
-            <HoliMoreCard role="link" label={seeMoreText} onPress={() => navigate('/spaces')}>
+            <HoliMoreCard role="link" label={seeMoreText} onPress={() => navigate('/spaces?tab=discover')}>
               {seeMoreText}
             </HoliMoreCard>
           </View>

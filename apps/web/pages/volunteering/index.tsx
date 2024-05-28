@@ -18,6 +18,11 @@ const VolunteeringAppHomePage: NextPageWithLayout = () => <VolunteeringAppHome /
 
 VolunteeringAppHomePage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>
 
+export const paths = {
+  en: '/volunteering',
+  de: '/ehrenamt',
+}
+
 export const getServerSideProps = async (context: NextPageContext) => {
   const { location, category } = context.query
 
@@ -59,10 +64,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 
   return createServerSideProps(context, createQueries, {
     seoTitle: 'seo.h1.volunteering',
-    urls: {
-      en: '/volunteering',
-      de: '/ehrenamt',
-    },
+    urls: paths,
   })
 }
 

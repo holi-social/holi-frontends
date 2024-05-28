@@ -22,7 +22,7 @@ export default {
 
 export const Example: ComponentStory<typeof Card> = () => {
   return (
-    <View style={{ maxWidth: '343px' }}>
+    <View style={{ maxWidth: 343 }}>
       <Card>
         <Slot>
           <HoliAvatar

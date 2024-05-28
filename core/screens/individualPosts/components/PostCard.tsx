@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
@@ -12,7 +13,6 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -51,12 +51,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           </HoliText>
         </View>
       )}
-      <HoliMediaHeader
-        title={post.creator.fullName || t('user.profileView.anonymous')}
-        author={post.creator}
-        date={post.createdAt}
-        boldTitle
-      />
+      <HoliMediaAuthorHeader author={post.creator} authorBold date={post.createdAt} />
       <View style={styles.postDrawer}>
         <PostDrawer post={post}>
           <HoliIcon icon={MoreFilled} />

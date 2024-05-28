@@ -69,55 +69,56 @@ const OwnProfile = () => {
 
   useIsomorphicLayoutEffect(() => {
     const title = t('profile.title')
-
-    if (isLoggedIn && isOnboardingFinished) {
-      if (user?.firstName === null) {
-        storeOnboardingState('accountSetup')
-        return
-      }
-      setScreenOptions({
-        title,
-        headerShown: true,
-        headerBackTitleVisible: true,
-        headerBackVisible: true,
-        headerStyle: { backgroundColor: colors.background10 },
-        headerTitle: () => null,
-        headerLeft: ({ tintColor }) => (
-          <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
-            {title}
-          </HeaderTitle>
-        ),
-        headerRight: ({ tintColor }) => (
-          <HoliHorizontalRow>
-            <HoliButton
-              label={t('profile.edit')}
-              onPress={() => {
-                toggleEditMode('profile')
-              }}
-              transparent
-              inline
-              testID="btn-open-profile-edit-view"
-            >
-              <HoliIcon icon={Edit2} color={tintColor} />
-            </HoliButton>
-
-            <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
-              <HoliIcon icon={Share} color={tintColor} />
-            </HoliButton>
-
-            <HoliButton
-              label={t('profile.settings.overview.title')}
-              inline
-              transparent
-              onPress={() => navigate('/profile/settings')}
-              testID="btn-to-settings"
-            >
-              <HoliIcon icon={Settings3} color={tintColor} />
-            </HoliButton>
-          </HoliHorizontalRow>
-        ),
-      })
+    if (!isLoggedIn) {
+      // AnonymousProfileView will be displayed and handle the header
+      return
     }
+
+    if (isOnboardingFinished && user?.firstName === null) {
+      storeOnboardingState('accountSetup')
+    }
+    setScreenOptions({
+      title,
+      headerShown: true,
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerStyle: { backgroundColor: colors.background10 },
+      headerTitle: () => null,
+      headerLeft: ({ tintColor }) => (
+        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+          {title}
+        </HeaderTitle>
+      ),
+      headerRight: ({ tintColor }) => (
+        <HoliHorizontalRow>
+          <HoliButton
+            label={t('profile.edit')}
+            onPress={() => {
+              toggleEditMode('profile')
+            }}
+            transparent
+            inline
+            testID="btn-open-profile-edit-view"
+          >
+            <HoliIcon icon={Edit2} color={tintColor} />
+          </HoliButton>
+
+          <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
+            <HoliIcon icon={Share} color={tintColor} />
+          </HoliButton>
+
+          <HoliButton
+            label={t('profile.settings.overview.title')}
+            inline
+            transparent
+            onPress={() => navigate('/profile/settings')}
+            testID="btn-to-settings"
+          >
+            <HoliIcon icon={Settings3} color={tintColor} />
+          </HoliButton>
+        </HoliHorizontalRow>
+      ),
+    })
   }, [
     navigate,
     t,

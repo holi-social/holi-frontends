@@ -1,9 +1,9 @@
 import { DocumentNode, useQuery } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleSheet, ViewStyle } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -11,6 +11,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -23,6 +24,7 @@ import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 import { MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -30,11 +32,15 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+export enum Tab {
+  MINE = 'mine',
+  DISCOVER = 'discover',
+}
+
 const Spaces = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
-  const [activeTab, setActiveTab] = useState(0)
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
@@ -54,6 +60,11 @@ const Spaces = () => {
   const mySpaces = mySpacesData?.mySpaces || []
 
   hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
+
+  const tabNamesInOrder = [Tab.MINE, Tab.DISCOVER]
+  const { selectTabWithIndex, initialTabIndex, currentTabName } = useTabNavigation({
+    tabNamesInOrder,
+  })
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
@@ -91,7 +102,7 @@ const Spaces = () => {
   }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions, colors.background10])
 
   const onChangeTab = (tabIndex: number) => {
-    setActiveTab(tabIndex)
+    selectTabWithIndex(tabIndex)
     pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
   }
 
@@ -116,7 +127,7 @@ const Spaces = () => {
     [navigate]
   )
 
-  if (loading) {
+  if (loading || (isLoggedIn && !mySpacesData)) {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
@@ -136,15 +147,13 @@ const Spaces = () => {
         ref={pageViewRef}
         style={styles.layout}
       >
-        {/* User has NO spaces => show discover view */}
-        {!hasOwnSpaces && (
-          <View style={[mixins.container, styles.discoverSpacesContainer]}>
+        {!hasOwnSpaces ? (
+          /* User has NO spaces => show discover view */
+          <HoliContainer flex={1}>
             <DiscoverSpaces user={user} />
-          </View>
-        )}
-
-        {/* User HAS spaces => show tabs with mine and discover */}
-        {hasOwnSpaces && (
+          </HoliContainer>
+        ) : (
+          /* User HAS spaces => show tabs with mine and discover */
           <HoliTabs
             id="space-tabs"
             onChangeTab={onChangeTab}
@@ -152,23 +161,24 @@ const Spaces = () => {
             tabBarStyle={tabBarStyle}
             backgroundColor={colors.background20}
             scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
+            initialStep={initialTabIndex}
             tabs={[
               {
                 title: t('spaces.tabs.mine'),
                 style: styles.tabStyle,
                 children: (
-                  <View style={[mixins.container, styles.mySpacesContainer]}>
+                  <HoliContainer flex={1}>
                     <MySpaces mySpaces={mySpaces} />
-                  </View>
+                  </HoliContainer>
                 ),
               },
               {
                 title: t('spaces.tabs.discover'),
                 style: styles.tabStyle,
                 children: (
-                  <View style={[mixins.container, styles.discoverSpacesContainer]}>
+                  <HoliContainer flex={1}>
                     <DiscoverSpaces user={user} />
-                  </View>
+                  </HoliContainer>
                 ),
               },
             ]}
@@ -177,7 +187,7 @@ const Spaces = () => {
         )}
       </ScrollHeaderLayout.Refreshable>
 
-      {(!hasOwnSpaces || activeTab === 1) && <SpaceFilterModal applyFilters={applyFilters} />}
+      {(!hasOwnSpaces || currentTabName === Tab.DISCOVER) && <SpaceFilterModal applyFilters={applyFilters} />}
     </SpaceTermContextProvider>
   )
 }
@@ -195,22 +205,12 @@ const getStyles = (theme: HoliTheme) =>
       }) as ViewStyle),
       backgroundColor: theme.colors.background20,
     },
-    discoverSpacesContainer: {
-      flex: 1,
-      paddingTop: 24,
-      paddingBottom: dimensions.bottomBarHeight,
-      minHeight: '100%',
-    },
     holiTabs: {
       flex: 1,
       backgroundColor: theme.colors.background10,
     },
     tabStyle: {
       backgroundColor: theme.colors.background20,
-    },
-    mySpacesContainer: {
-      paddingBottom: 24,
-      flex: 1,
     },
   })
 

@@ -15,23 +15,15 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface BaseProps {
+interface Props {
+  insight: Insight
   style?: StyleProp<ViewStyle>
 }
-interface SkeletonProps extends BaseProps {
-  loading: true
-  insight?: Insight
-}
-interface Props extends BaseProps {
-  loading?: false
-  insight: Insight
-}
 
-type InsightPreviewBoxProps = SkeletonProps | Props
-
-const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading, ...props }) => {
+const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loading, ...props }) => {
   const { navigate } = useRouting()
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()

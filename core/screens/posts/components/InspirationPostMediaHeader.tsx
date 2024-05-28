@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useFallbackImage } from '@holi/core/helpers'
+import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { Post } from '@holi/core/screens/posts/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { getFormattedDate } from '@holi/ui/components/molecules/HoliMediaHeader'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const inspirationPostCategoryList = [
@@ -71,7 +71,7 @@ const InspirationPostMediaHeader = ({ post }: InspirationPostMediaHeaderProps) =
             converting given timestamp to a date first (with '00:00:00' as time)
             to show the real days instead of exact timestamp calculations
            */}
-          {getFormattedDate(new Date(post?.modified + '').toDateString(), i18n)}
+          {getFormattedDate(new Date(post?.modified + '').toDateString(), i18n.language)}
         </HoliText>
       </View>
     )

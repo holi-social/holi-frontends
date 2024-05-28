@@ -54,6 +54,10 @@ const nextConfig = {
   ],
   rewrites: async () => [
     {
+      source: '/robots.txt',
+      destination: '/api/robots',
+    },
+    {
       source: '/spenden',
       destination: '/donations',
     },

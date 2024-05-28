@@ -10,9 +10,10 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface BaseProps {
+interface Props {
   title: string
   subtitle?: string
   description?: string
@@ -27,16 +28,6 @@ interface BaseProps {
   totalUserCount?: number
   cardWidthForImageScaling?: number
 }
-
-interface SkeletonProps extends Partial<BaseProps> {
-  loading: true
-}
-
-interface Props extends BaseProps {
-  loading?: false
-}
-
-type HoliBlockItemProps = SkeletonProps | Props
 
 const SMALL_IMAGE_DIMENSION = 64
 const SMALL_OUTER_BORDER_RADIUS = 8
@@ -64,7 +55,7 @@ const HoliBlockItem = ({
   size = 'small',
   totalUserCount,
   cardWidthForImageScaling,
-}: PropsWithChildren<HoliBlockItemProps>) => {
+}: PropsWithChildren<PropsWithSkeleton<Props>>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
   const { theme } = useTheme()

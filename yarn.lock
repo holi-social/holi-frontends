@@ -5907,7 +5907,7 @@ __metadata:
     jest-offline: "npm:^1.0.1"
     jotai: "npm:2.4.3"
     jotai-devtools: "npm:0.7.0"
-    matrix-js-sdk: "npm:^29.1.0"
+    matrix-js-sdk: "npm:^32.4.0"
   peerDependencies:
     react: 18.2.0
     react-native: 0.73.6
@@ -7302,10 +7302,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@matrix-org/matrix-sdk-crypto-wasm@npm:^2.0.0":
-  version: 2.2.0
-  resolution: "@matrix-org/matrix-sdk-crypto-wasm@npm:2.2.0"
-  checksum: 10c0/6649ddc79d0d6fed54c6c99545b287164e8e2fdd37314b6a7ddb6792def769b0a8234f8a847d50ab177ce1a2e1f56d13bdf5eda642e9b2a6df722948e488b298
+"@matrix-org/matrix-sdk-crypto-wasm@npm:^4.9.0":
+  version: 4.10.0
+  resolution: "@matrix-org/matrix-sdk-crypto-wasm@npm:4.10.0"
+  checksum: 10c0/9ace8974ffd364ff4e7727e3a9f2cb99ca4a4edad9edd744661537df775391806fbe8379034d6b1085863ae0813d4215f1110092c09a6dcafb21570d21d952ca
   languageName: node
   linkType: hard
 
@@ -16003,13 +16003,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "crypto-js@npm:4.1.1"
-  checksum: 10c0/50cc66a35f2738171d9a6d80c85ba7d00cb6440b756db035ba9ccd03032c0a803029a62969ecd4c844106c980af87687c64b204dd967989379c4f354fb482d37
-  languageName: node
-  linkType: hard
-
 "crypto-random-string@npm:^1.0.0":
   version: 1.0.0
   resolution: "crypto-random-string@npm:1.0.0"
@@ -23332,10 +23325,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwt-decode@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "jwt-decode@npm:3.1.2"
-  checksum: 10c0/a951547946b5e8b1d9df818152d6b1dbaf13eebb3a6e6daceedf888968f5d255959852c8188aae2c825dc9104a99d25cb6c23f25d76545d1aa0315b968b6912e
+"jwt-decode@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 10c0/de75bbf89220746c388cf6a7b71e56080437b77d2edb29bae1c2155048b02c6b8c59a3e5e8d6ccdfd54f0b8bda25226e491a4f1b55ac5f8da04cfbadec4e546c
   languageName: node
   linkType: hard
 
@@ -24297,25 +24290,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"matrix-js-sdk@npm:^29.1.0":
-  version: 29.1.0
-  resolution: "matrix-js-sdk@npm:29.1.0"
+"matrix-js-sdk@npm:^32.4.0":
+  version: 32.4.0
+  resolution: "matrix-js-sdk@npm:32.4.0"
   dependencies:
     "@babel/runtime": "npm:^7.12.5"
-    "@matrix-org/matrix-sdk-crypto-wasm": "npm:^2.0.0"
+    "@matrix-org/matrix-sdk-crypto-wasm": "npm:^4.9.0"
     another-json: "npm:^0.2.0"
     bs58: "npm:^5.0.0"
     content-type: "npm:^1.0.4"
-    jwt-decode: "npm:^3.1.2"
+    jwt-decode: "npm:^4.0.0"
     loglevel: "npm:^1.7.1"
     matrix-events-sdk: "npm:0.0.1"
     matrix-widget-api: "npm:^1.6.0"
-    oidc-client-ts: "npm:^2.2.4"
+    oidc-client-ts: "npm:^3.0.1"
     p-retry: "npm:4"
     sdp-transform: "npm:^2.14.1"
     unhomoglyph: "npm:^1.0.6"
     uuid: "npm:9"
-  checksum: 10c0/e75df9c78275ccf5f0edfa765d0213d803b71fa510fc437d4a367bff7881229ddb505d85348c31cf710b574108f5425572f21052362c8daad6ca456c6ebdd022
+  checksum: 10c0/d738802e0cd95e4c1c28405f1e67f88f1f9857a8b545e6e2aabd638a8ee93fbf3529181b6f13fe3b8f77dc2b87d40ccfe4e05efe5053184f32295e2462a21bcd
   languageName: node
   linkType: hard
 
@@ -25835,13 +25828,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oidc-client-ts@npm:^2.2.4":
-  version: 2.2.5
-  resolution: "oidc-client-ts@npm:2.2.5"
+"oidc-client-ts@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "oidc-client-ts@npm:3.0.1"
   dependencies:
-    crypto-js: "npm:^4.1.1"
-    jwt-decode: "npm:^3.1.2"
-  checksum: 10c0/22252ba5ec1f6dfb1a6f1321223bce8b4d393380b2e00ed1351d91efa8a6711a1923ba52a5a5d10b56ca863f54771d53a76286b61ad97d7bd33b46e1e6077cd5
+    jwt-decode: "npm:^4.0.0"
+  checksum: 10c0/e65d9642a5fade1aa0829d23ec62bfd78d416ed5adcb5650e3de87cc12d9d63494da3919ba2108f5b22cf2ebd38cdd6a06a09283648a4e012f8e116e7c5feb9f
   languageName: node
   linkType: hard
 

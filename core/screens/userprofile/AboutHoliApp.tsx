@@ -44,6 +44,10 @@ const AboutHoliApp = () => {
     <ScrollHeaderLayout.Default>
       <View style={[mixins.container, styles.wrapper]}>
         {Constants.expoConfig?.version && <HoliText>App Version: {Constants.expoConfig?.version}</HoliText>}
+        {Updates.isEmergencyLaunch && <HoliText>This is an emergency launch</HoliText>}
+        {Updates.isEmbeddedLaunch && <HoliText>Using the embedded bundle</HoliText>}
+        {!Updates.isEmbeddedLaunch && !Updates.isEmergencyLaunch && <HoliText>Using an updated bundle</HoliText>}
+        <HoliText />
         {Constants.expoConfig?.sdkVersion && <HoliText>Expo SDK Version: {Constants.expoConfig?.sdkVersion}</HoliText>}
         {Constants.expoConfig?.extra?.eas.buildId && (
           <HoliText>Build ID: {Constants.expoConfig?.extra?.eas.buildId}</HoliText>
@@ -52,7 +56,7 @@ const AboutHoliApp = () => {
           <HoliText>Build Profile: {Constants.expoConfig?.extra?.eas.profile}</HoliText>
         )}
         {Constants.expoConfig?.extra?.eas.gitCommitHash && (
-          <HoliText>Build Git Commit Hash: {Constants.expoConfig?.extra?.eas.gitCommitHash}</HoliText>
+          <HoliText>Git Commit Hash: {Constants.expoConfig?.extra?.eas.gitCommitHash}</HoliText>
         )}
         <HoliText />
         {/* "Most of the methods and constants in this module can only be used or tested in release mode."
@@ -63,8 +67,6 @@ const AboutHoliApp = () => {
         {Updates.createdAt && (
           <HoliText>Updates.createdAt: {localizeDate(Updates.createdAt, currentLanguage)}</HoliText>
         )}
-        {Updates.isEmbeddedLaunch && <HoliText>Updates.isEmbeddedLaunch: {Updates.isEmbeddedLaunch}</HoliText>}
-        {Updates.isEmergencyLaunch && <HoliText>Updates.isEmergencyLaunch: {Updates.isEmergencyLaunch}</HoliText>}
         {Updates.releaseChannel && <HoliText>Updates.releaseChannel: {Updates.releaseChannel}</HoliText>}
         {Updates.runtimeVersion && <HoliText>Updates.runtimeVersion: {Updates.runtimeVersion}</HoliText>}
         {Updates.updateId && <HoliText>Updates.updateId: {Updates.updateId}</HoliText>}

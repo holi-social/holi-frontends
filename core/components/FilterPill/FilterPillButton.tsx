@@ -2,6 +2,7 @@ import React from 'react'
 import type { GestureResponderEvent } from 'react-native'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 
 import { type BasePillProps, FilterPill } from './FilterPill'
 
@@ -10,17 +11,7 @@ interface BasePillButtonProps extends BasePillProps {
   testID?: string
 }
 
-interface SkeletonProps extends Partial<BasePillButtonProps> {
-  loading: true
-}
-
-interface PillButtonProps extends BasePillButtonProps {
-  loading?: false
-}
-
-export type FilterPillButtonProps = SkeletonProps | PillButtonProps
-
-export const FilterPillButton: React.FC<FilterPillButtonProps> = ({
+export const FilterPillButton: React.FC<PropsWithSkeleton<BasePillButtonProps>> = ({
   label = '',
   onPress,
   testID = 'spaces-filter-pill',
