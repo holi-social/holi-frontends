@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
 
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -9,6 +9,8 @@ import { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
 
+type OnPressHandler = (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
+
 interface Props {
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -16,7 +18,11 @@ interface Props {
   author: User
   authorBold?: boolean
   date?: string
+  onAvatarPressed?: OnPressHandler
+  onTitlePressed?: OnPressHandler
 }
+
+export type HoliMediaAuthorHeaderProps = PropsWithSkeleton<Props>
 
 const HoliMediaAuthorHeader = ({
   date,
@@ -26,7 +32,9 @@ const HoliMediaAuthorHeader = ({
   loading,
   style,
   testID,
-}: PropsWithSkeleton<Props>) => {
+  onAvatarPressed,
+  onTitlePressed,
+}: HoliMediaAuthorHeaderProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
 
@@ -66,8 +74,8 @@ const HoliMediaAuthorHeader = ({
         size: avatarSize,
       }}
       date={formattedDate}
-      onAvatarPressed={() => navigate(`/profile/${author?.id}`)}
-      onTitlePressed={() => navigate(`/profile/${author?.id}`)}
+      onAvatarPressed={onAvatarPressed ?? (() => navigate(`/profile/${author?.id}`))}
+      onTitlePressed={onTitlePressed ?? (() => navigate(`/profile/${author?.id}`))}
       style={style}
       testID={testID}
     />

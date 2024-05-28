@@ -18,7 +18,13 @@ const useRealTracking = (): TrackingHook => {
   return {
     track: (event: TrackingEvent) => {
       logger.debug('trackEvent', 'tracking event', event)
-      posthog.capture(event.name, { ...event.properties, screen: event.screen })
+      try {
+        posthog.capture(event.name, { ...event.properties, version: event.version })
+      } catch (e) {
+        // console.error will be picked up by Sentry, so this does not go unnoticed to the programmer, but to the user.
+        // eslint-disable-next-line no-console
+        console.error('Error during evaluation of onTrack callback', e)
+      }
     },
   }
 }

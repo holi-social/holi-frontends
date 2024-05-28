@@ -9,6 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import { TrackingEvent } from '@holi/core/tracking'
 import { HandHeartsFilled } from '@holi/icons/src/generated'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
@@ -42,7 +43,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
 
   const projectsToRender = projects.slice(0, PROJECT_PAGE_SIZE)
 
-  const renderItem = ({ item }: { item: Project }) => {
+  const renderItem = ({ item, index }: { item: Project; index: number }) => {
     const { categories, progressPercentage, openAmountInCents, picture } = item
     // we can't crop + fill mismatching required width+height combinations to the source images with the betterplace api,
     // so we use the original on our image service
@@ -62,6 +63,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
             size={'small'}
           />
         }
+        trackingEvent={TrackingEvent.RecommendationPressed('donation', `${item.id}`, index)}
       />
     )
   }

@@ -2,19 +2,22 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
+import HoliLinkPreviewTracked from '@holi/core/components/HoliLinkPreviewTracked'
+import { HoliMediaAuthorHeaderTracked } from '@holi/core/components/HoliMediaAuthorHeaderTracked'
+import HoliReadMoreTracked from '@holi/core/components/HoliReadMoreTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled, MoreFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -32,6 +35,8 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
+  const { track } = useTracking()
+  const { isLoggedIn } = useAuth()
 
   const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
 
@@ -51,13 +56,26 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           </HoliText>
         </View>
       )}
-      <HoliMediaAuthorHeader author={post.creator} authorBold date={post.createdAt} />
-      <View style={styles.postDrawer}>
-        <PostDrawer post={post}>
-          <HoliIcon icon={MoreFilled} />
-        </PostDrawer>
-      </View>
-      <HoliButton transparent label={post.title} onPress={goToDetailView} style={styles.clickOverlay}>
+      <HoliMediaAuthorHeaderTracked
+        author={post.creator}
+        authorBold
+        date={post.createdAt}
+        trackingEvent={TrackingEvent.PostCard.AuthorPressed(post.id)}
+      />
+      {isLoggedIn && (
+        <View style={styles.postDrawer}>
+          <PostDrawer post={post}>
+            <HoliIcon icon={MoreFilled} />
+          </PostDrawer>
+        </View>
+      )}
+      <HoliButtonTracked
+        transparent
+        label={post.title}
+        onPress={goToDetailView}
+        style={styles.clickOverlay}
+        trackingEvent={TrackingEvent.PostCard.TitlePressed(post.id)}
+      >
         <View style={styles.clickableArea}>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>
@@ -70,17 +88,37 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
             </HoliHeading>
           </View>
         </View>
-      </HoliButton>
+      </HoliButtonTracked>
 
       {/* not clickable */}
       <View>
-        <HoliReadMore numberOfLines={NUMBER_OF_LINES} color="gray300" bold={false}>
-          <HoliRichTextOutput text={post.description} allowAllLinks onPressText={goToDetailView} color="gray300" />
-        </HoliReadMore>
+        <HoliReadMoreTracked
+          numberOfLines={NUMBER_OF_LINES}
+          color="gray300"
+          bold={false}
+          readMoreTrackingEvent={TrackingEvent.PostCard.ReadMorePressed(post.id)}
+          readLessTrackingEvent={TrackingEvent.PostCard.ReadLessPressed(post.id)}
+        >
+          <HoliRichTextOutput
+            text={post.description}
+            allowAllLinks
+            onPressText={() => {
+              track(TrackingEvent.PostCard.TextPressed(post.id))
+              goToDetailView()
+            }}
+            color="gray300"
+          />
+        </HoliReadMoreTracked>
       </View>
 
       {!!post.image && (
-        <HoliButton transparent label={post.title} onPress={goToDetailView} style={styles.clickOverlay}>
+        <HoliButtonTracked
+          transparent
+          label={post.title}
+          onPress={goToDetailView}
+          style={styles.clickOverlay}
+          trackingEvent={TrackingEvent.PostCard.ImagePressed(post.id)}
+        >
           <View style={styles.imageContainer}>
             <HoliImage
               label={post.title}
@@ -92,14 +130,25 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
               style={styles.image}
             />
           </View>
-        </HoliButton>
+        </HoliButtonTracked>
       )}
-      {!post.image && !!post.linkPreview && <HoliLinkPreview previewData={post.linkPreview} />}
+      {!post.image && !!post.linkPreview && (
+        <HoliLinkPreviewTracked
+          previewData={post.linkPreview}
+          trackingEvent={TrackingEvent.PostCard.LinkPressed(post.id, post.linkPreview.url)}
+        />
+      )}
 
       <View style={styles.reactionsBar}>
-        <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
+        <HoliButtonTracked
+          transparent
+          inline
+          onPress={goToDetailView}
+          label="btn-comment-to-feed-post"
+          trackingEvent={TrackingEvent.PostCard.CommentNowPressed(post.id)}
+        >
           <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
-        </HoliButton>
+        </HoliButtonTracked>
         <FeedPostReactions post={post} />
       </View>
     </View>

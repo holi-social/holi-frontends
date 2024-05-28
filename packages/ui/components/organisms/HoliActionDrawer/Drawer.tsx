@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import React, { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { GestureResponderEvent, StyleSheet } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -34,6 +34,25 @@ export interface ActionDrawerProps {
   variant?: 'default' | 'dark'
   buttonElement?: React.ReactNode
   buttonProps?: Partial<HoliButtonProps>
+  onShow?: CallableFunction
+  onHide?: CallableFunction
+}
+
+const safeSideEffect = (
+  fn: (event?: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>,
+  sideEffectFn?: CallableFunction
+): ((event?: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>) => {
+  return (e) => {
+    try {
+      sideEffectFn?.()
+    } catch (e) {
+      // console.error will be picked up by Sentry, so this does not go unnoticed to the programmer, but to the user.
+      // eslint-disable-next-line no-console
+      console.error('Error during evaluation of onTrack callback', e)
+    } finally {
+      fn(e)
+    }
+  }
 }
 
 export const Drawer = ({
@@ -43,6 +62,8 @@ export const Drawer = ({
   variant,
   buttonElement,
   buttonProps,
+  onShow,
+  onHide,
 }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
@@ -58,7 +79,14 @@ export const Drawer = ({
 
   return (
     <ActionDrawerContext.Provider value={contextValue}>
-      <HoliButton transparent inline label={label} onPress={showModal} testID={testID} {...buttonProps}>
+      <HoliButton
+        transparent
+        inline
+        label={label}
+        onPress={safeSideEffect(showModal, onShow)}
+        testID={testID}
+        {...buttonProps}
+      >
         {buttonElement || (
           <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
         )}
@@ -66,7 +94,7 @@ export const Drawer = ({
 
       <HoliModal
         show={visibleModal}
-        onDismiss={hideModal}
+        onDismiss={safeSideEffect(hideModal, onHide)}
         testID="more-options-modal"
         label={t('global.moreOptions')}
         style={StyleSheet.flatten([styles.modal, { paddingBottom: safeAreaBottom || 18 }])}

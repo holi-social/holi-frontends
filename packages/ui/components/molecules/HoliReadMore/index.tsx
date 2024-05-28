@@ -1,19 +1,26 @@
-import React, { useRef, useState } from 'react'
 import type { PropsWithChildren } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, View } from 'react-native'
 import type { TextLayoutEventData, TextLayoutLine } from 'react-native'
+import { Text, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { styles, truncateTextByLines } from '@holi/ui/components/molecules/HoliReadMore/shared'
 import type { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore/shared'
+import { styles, truncateTextByLines } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
  * This component returns a View which encapsulates HoliText components.
  * Most accessibility props are already present in the HoliText component itself.
  */
-const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: PropsWithChildren<ReadMoreProps>) => {
+const HoliReadMore = ({
+  children,
+  testID,
+  onReadMoreSideEffect,
+  onReadLessSideEffect,
+  numberOfLines = 3,
+  ...textProps
+}: PropsWithChildren<ReadMoreProps>) => {
   const linesRef = useRef<TextLayoutLine[] | undefined>(undefined)
   const [truncatedText, setTruncatedText] = useState(() => children || '')
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
@@ -52,7 +59,12 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
   }
 
   const handleButtonPress = () => {
-    setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
+    try {
+      if (buttonState == 'readMore') onReadMoreSideEffect?.()
+      if (buttonState == 'readLess') onReadLessSideEffect?.()
+    } finally {
+      setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
+    }
   }
 
   return (
@@ -72,7 +84,11 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
       </Text>
       {buttonState !== 'hidden' && (
         <View style={{ alignSelf: 'flex-end' }}>
-          <HoliButton transparent color="black300" onPress={handleButtonPress}>
+          <HoliButton
+            transparent
+            label={buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
+            onPress={handleButtonPress}
+          >
             {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
           </HoliButton>
         </View>

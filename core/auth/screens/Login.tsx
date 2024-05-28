@@ -77,7 +77,7 @@ const Login = () => {
   }, [isLoggedOut, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {
-    track(TrackingEvent.Login.LoginButtonPressed)
+    track(TrackingEvent.Auth.LoginButtonPressed)
     if (!flow) return
 
     showLoader()
@@ -134,7 +134,7 @@ const Login = () => {
               size="small"
               mobileNavigateBackFirst
               testID="btn-to-forgot-password-form"
-              trackingEvent={TrackingEvent.Login.ForgotPasswordButtonPressed}
+              trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
             >
               {t('auth.login.link.forgotPassword')}
             </HoliTextLinkTracked>
@@ -147,7 +147,7 @@ const Login = () => {
 
           <RegistrationButton
             style={styles.formItemContainer}
-            trackingEvent={TrackingEvent.Login.RegisterButtonPressed}
+            trackingEvent={TrackingEvent.Auth.RegisterButtonPressed}
           />
         </LoginRegistrationContainer>
       </HoliBox>
