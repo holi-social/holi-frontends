@@ -6,6 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostSetting = 'visibility' | 'topic' | 'category'
@@ -26,7 +27,7 @@ const placeholderSettingPresentationByPostSetting: Record<PostSetting, SettingPr
   },
 }
 
-interface BaseProps {
+interface Props {
   label?: string | null
   setting: PostSetting
   onPress?: (setting: PostSetting) => void
@@ -34,19 +35,9 @@ interface BaseProps {
   testID?: string
 }
 
-interface SkeletonProps extends Partial<BaseProps> {
-  loading: true
-}
-
-interface Props extends BaseProps {
-  loading?: false
-}
-
-type FeedPostPillProps = SkeletonProps | Props
-
 const BORDER_RADIUS = 48
 
-const FeedPostPill: React.FC<FeedPostPillProps> = ({
+const FeedPostPill: React.FC<PropsWithSkeleton<Props>> = ({
   loading,
   label,
   setting,

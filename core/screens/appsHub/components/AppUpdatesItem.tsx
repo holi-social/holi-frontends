@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
+import { TrackingEvent } from '@holi/core/tracking'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -12,6 +13,7 @@ interface AppUpdatesItemProps {
   imageSourceUri?: string
   title: string
   footer?: string | React.ReactNode
+  trackingEvent: TrackingEvent
 }
 
 const IMAGE_DIMENSION = 160 // px
@@ -19,7 +21,7 @@ const IMAGE_DIMENSION = 160 // px
 export const calculateCardWidth = (screenWidth: number) =>
   Platform.OS === 'web' ? IMAGE_DIMENSION : screenWidth / 2 - 30
 
-const AppUpdatesItem = ({ to, imageSourceUri, title, footer, appName }: AppUpdatesItemProps) => {
+const AppUpdatesItem = ({ to, imageSourceUri, title, footer, appName, trackingEvent }: AppUpdatesItemProps) => {
   const { theme } = useTheme()
   const { colors } = theme
   const { width: screenWidth } = useWindowDimensions()
@@ -30,7 +32,7 @@ const AppUpdatesItem = ({ to, imageSourceUri, title, footer, appName }: AppUpdat
 
   return (
     <View testID={`${appName}-updates-item`} style={styles.container}>
-      <HoliLink label={title} href={to}>
+      <HoliLinkTracked label={title} href={to} trackingEvent={trackingEvent}>
         <HoliCard
           imageLabel={title}
           imageUrl={imageSourceUri}
@@ -56,7 +58,7 @@ const AppUpdatesItem = ({ to, imageSourceUri, title, footer, appName }: AppUpdat
             </View>
           )}
         </HoliCard>
-      </HoliLink>
+      </HoliLinkTracked>
     </View>
   )
 }

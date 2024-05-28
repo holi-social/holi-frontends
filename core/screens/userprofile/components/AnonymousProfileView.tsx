@@ -68,11 +68,7 @@ const AnonymousProfileView = () => {
               </View>
 
               <View style={styles.profileButtonWrapper}>
-                <RegistrationButton
-                  type="primary"
-                  inline
-                  trackingEvent={TrackingEvent.ProfileLoggedOut.RegisterButtonPressed}
-                />
+                <RegistrationButton type="primary" inline trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
 
                 <HoliButtonTracked
                   type="secondary"
@@ -80,7 +76,7 @@ const AnonymousProfileView = () => {
                   label={t('auth.loginProtection.login')}
                   onPress={() => navigate('/login')}
                   testID={'anonymous-profile-login-btn'}
-                  trackingEvent={TrackingEvent.ProfileLoggedOut.LoginButtonPressed}
+                  trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
                 >
                   <HoliText>{t('auth.loginProtection.login')}</HoliText>
                 </HoliButtonTracked>

@@ -74,16 +74,13 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
           <AlreadyHaveAccountText
             mobileNavigateBackFirst
             style={styles.loginHeadline}
-            trackingEvent={TrackingEvent.RecoverPassword.LoginButtonPressed}
+            trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
           />
           <HoliGap size="l" />
           <HoliHeading level="2" align="center">
             {t('auth.login.signUp.link.headline')}
           </HoliHeading>
-          <RegistrationButton
-            style={styles.button}
-            trackingEvent={TrackingEvent.RecoverPassword.RegisterButtonPressed}
-          />
+          <RegistrationButton style={styles.button} trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
         </>
       )}
     </View>

@@ -1,5 +1,4 @@
-import { TextLayoutLine, TextProps, TextStyle, ViewStyle } from 'react-native'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TextLayoutLine, TextProps, TextStyle, ViewStyle } from 'react-native'
 
 import { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 
@@ -10,6 +9,8 @@ export interface ReadMoreProps extends HoliTextProps, TextProps {
   numberOfLines?: ReadMoreNumberOfLines // 1 line is not supported on Android and in this component
   style?: ViewStyle
   buttonStyle?: TextStyle | Record<string, unknown>
+  onReadMoreSideEffect?: CallableFunction
+  onReadLessSideEffect?: CallableFunction
 }
 
 export const styles = StyleSheet.create({

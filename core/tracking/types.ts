@@ -58,6 +58,11 @@ export namespace ConsentState {
 }
 
 export interface TrackingHook {
+  /**
+   * Tracks the given event. Guaranteed not to throw errors, so no error handling necessary around calls.
+   *
+   * @param event the event to track
+   */
   track: (event: TrackingEvent) => void
 }
 

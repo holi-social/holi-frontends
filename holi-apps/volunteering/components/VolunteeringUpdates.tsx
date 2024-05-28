@@ -9,6 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import { TrackingEvent } from '@holi/core/tracking'
 import { HeartsFilled } from '@holi/icons/src/generated'
 
 import { VolunteeringEngagementsQueryResponse, volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
@@ -40,7 +41,7 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
 
   const engagementsToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE)
 
-  const renderItem = ({ item }: { item: VolunteeringEngagement }) => {
+  const renderItem = ({ item, index }: { item: VolunteeringEngagement; index: number }) => {
     const { organizer } = item
     const title = organizer?.name
       ? t('volunteering:engagement.title', {
@@ -57,6 +58,7 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
         title={title}
         imageSourceUri={item.imageUrl}
         footer={item.source}
+        trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', item.id, index)}
       />
     )
   }

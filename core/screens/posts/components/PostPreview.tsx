@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -22,16 +23,16 @@ import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { ReadMoreNumberOfLines } from '@holi/ui/components/molecules/HoliReadMore/shared'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface BaseProps {
+interface Props {
   post: Post
   insightId?: string
   spaceIdOrName?: string
@@ -40,16 +41,6 @@ interface BaseProps {
   style?: StyleProp<ViewStyle>
 }
 
-interface SkeletonProps extends Partial<BaseProps> {
-  loading: true
-}
-
-interface Props extends BaseProps {
-  loading?: false
-}
-
-export type PostPreviewProps = SkeletonProps | Props
-
 const PostPreview = ({
   hasVisibilityIcon,
   insightId,
@@ -57,7 +48,7 @@ const PostPreview = ({
   spaceIdOrName,
   numberOfLines = 10,
   loading,
-}: PostPreviewProps) => {
+}: PropsWithSkeleton<Props>) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
@@ -109,7 +100,7 @@ const PostPreview = ({
         {/* Post Author */}
         <HoliColumns>
           <HoliColumn flex={2}>
-            <HoliMediaHeader title={post?.creator?.fullName} date={post?.created} boldTitle loading />
+            <HoliMediaAuthorHeader loading />
           </HoliColumn>
         </HoliColumns>
 
@@ -158,12 +149,7 @@ const PostPreview = ({
               label={post?.creator.fullName || ''}
               testID="btn-to-post-creator-profile"
             >
-              <HoliMediaHeader
-                title={post?.creator.fullName}
-                author={post?.creator || ({} as User)}
-                date={post?.created}
-                boldTitle
-              />
+              <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
             </HoliLink>
           </HoliColumn>
           {/* Action drawer (three dot menu) */}

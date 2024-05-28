@@ -1,19 +1,25 @@
-import React, { useCallback, useState } from 'react'
 import type { PropsWithChildren } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Text, View } from 'react-native'
+import { GestureResponderEvent, LayoutChangeEvent, Text, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
 import type { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore/shared'
+import { styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
  *
  * This component returns a View which encapsulates HoliText components.
  * Most accessibility props are already present in the HoliText component itself.
  */
-const HoliReadMore = ({ children, numberOfLines = 3, ...textProps }: PropsWithChildren<ReadMoreProps>) => {
+const HoliReadMore = ({
+  children,
+  onReadMoreSideEffect,
+  onReadLessSideEffect,
+  numberOfLines = 3,
+  ...textProps
+}: PropsWithChildren<ReadMoreProps>) => {
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
   const { t } = useTranslation()
 
@@ -42,11 +48,19 @@ const HoliReadMore = ({ children, numberOfLines = 3, ...textProps }: PropsWithCh
     [buttonState]
   )
 
-  const toggleButtonState = useCallback((event: React.SyntheticEvent) => {
-    event.preventDefault()
-    event.stopPropagation()
-    setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
-  }, [])
+  const toggleButtonState = useCallback(
+    (event: React.SyntheticEvent | GestureResponderEvent) => {
+      try {
+        if (buttonState === 'readMore') onReadMoreSideEffect?.()
+        if (buttonState === 'readLess') onReadLessSideEffect?.()
+      } finally {
+        event.preventDefault()
+        event.stopPropagation()
+        setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
+      }
+    },
+    [buttonState, onReadMoreSideEffect, onReadLessSideEffect]
+  )
 
   const buttonLabel = buttonState === 'readMore' ? readMoreButtonText : readLessButtonText
 

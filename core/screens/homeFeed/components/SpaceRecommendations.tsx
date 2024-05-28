@@ -5,9 +5,10 @@ import { FlatList, StyleSheet, View } from 'react-native'
 
 import { SpaceCardFragment, useSpaceRecommendationQuery } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
+import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
@@ -21,12 +22,13 @@ const CARD_WIDTH = 260
 
 interface SpaceRecommendationProps {
   space: SpaceCardFragment
+  trackingEvent: TrackingEvent
 }
 
-const SpaceRecommendation = ({ space }: SpaceRecommendationProps) => {
+const SpaceRecommendation = ({ space, trackingEvent }: SpaceRecommendationProps) => {
   return (
     <View style={styles.cardContainer}>
-      <HoliLink label={space.title} href={`/spaces/${space.name}`} isFullHeight>
+      <HoliLinkTracked label={space.title} href={`/spaces/${space.name}`} isFullHeight trackingEvent={trackingEvent}>
         <HoliCard
           hasBorder
           key={space.id}
@@ -36,7 +38,7 @@ const SpaceRecommendation = ({ space }: SpaceRecommendationProps) => {
           imageHeight={IMAGE_HEIGHT}
           caption={
             <HoliUserAvatarPile
-              // FIXME: necesary cast until we update the HoliUserAvatarPile with types from `graphql-codegen`
+              // FIXME: necessary cast until we update the HoliUserAvatarPile with types from `graphql-codegen`
               users={space.members.data.map((membership) => membership.user) as unknown as User[]}
               usersToShow={3}
               usersTotal={space.members.totalResults}
@@ -62,7 +64,7 @@ const SpaceRecommendation = ({ space }: SpaceRecommendationProps) => {
             </HoliText>
           </View>
         </HoliCard>
-      </HoliLink>
+      </HoliLinkTracked>
     </View>
   )
 }
@@ -98,7 +100,12 @@ const SpaceRecommendations = () => {
         horizontal
         style={styles.listContainer}
         data={spaces}
-        renderItem={({ item }) => <SpaceRecommendation space={item} />}
+        renderItem={({ item, index }) => (
+          <SpaceRecommendation
+            space={item}
+            trackingEvent={TrackingEvent.RecommendationPressed('space', item.id, index)}
+          />
+        )}
         keyExtractor={(item) => item.id}
         ListFooterComponent={
           <View style={styles.moreCard}>

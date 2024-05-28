@@ -1,5 +1,4 @@
 import React, { type PropsWithChildren } from 'react'
-import { GestureResponderEvent } from 'react-native'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
@@ -12,17 +11,13 @@ export type HoliLinkTrackedProps = HoliLinkProps & {
 
 export const HoliLinkTracked = (props: PropsWithChildren<HoliLinkTrackedProps>) => {
   const { track } = useTracking()
-  const tracked = (fn?: CallableFunction): CallableFunction => {
-    return (event: GestureResponderEvent) => {
-      try {
+  return (
+    <HoliLink
+      {...props}
+      onPress={(e) => {
         track(props.trackingEvent)
-      } catch (e) {
-        // console.error will be picked up by Sentry, so this does not go unnoticed to the programmer, but to the user.
-        // eslint-disable-next-line no-console
-        console.error('Error during evaluation of onTrack callback', e)
-      }
-      fn?.(event)
-    }
-  }
-  return <HoliLink {...props} onPress={tracked(props.onPress)} />
+        props.onPress?.(e)
+      }}
+    />
+  )
 }

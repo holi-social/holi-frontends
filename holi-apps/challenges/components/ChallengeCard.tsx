@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
+import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { User } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -15,13 +16,14 @@ import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
 interface ChallengeCardProps {
   challenge: Challenge
+  trackingEvent: TrackingEvent
 }
 
 const cardPaddingsSum = dimensions.spacingXs * 2 + 4
 
 export const calculateCardWidth = (screenWidth: number) => screenWidth / 1.5 - cardPaddingsSum
 
-export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
+export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) => {
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
   const cardWidth = calculateCardWidth(screenWidth)
@@ -35,7 +37,11 @@ export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
 
   return (
     <View style={styles.container}>
-      <HoliLink label={challenge.title} href={createChallengesPath(challenge.challengeDetailPath)}>
+      <HoliLinkTracked
+        label={challenge.title}
+        href={createChallengesPath(challenge.challengeDetailPath)}
+        trackingEvent={trackingEvent}
+      >
         <View style={styles.headline}>
           <View style={styles.title}>
             <HoliHeading level="3" numberOfLines={1} ellipsizeMode="tail">
@@ -51,16 +57,17 @@ export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
         </View>
 
         <View style={styles.submissionContainer}>
-          {submissions.map((submision) => (
+          {submissions.map((submission, index) => (
             <SubmissionCard
-              key={submision.id}
+              key={submission.id}
               challengeTitle={challenge.title}
-              submission={submision}
+              submission={submission}
               width={submissionCardWidth}
+              trackingEvent={TrackingEvent.ChallengeCard.SubmissionPressed(challenge.id, submission.id, index)}
             />
           ))}
         </View>
-      </HoliLink>
+      </HoliLinkTracked>
     </View>
   )
 }

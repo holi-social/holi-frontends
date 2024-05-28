@@ -52,7 +52,7 @@ const PostDetailsPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
-  const { userId, isLoggedIn } = useAuth()
+  const auth = useAuth()
   const { openLoginModal } = useLoginModal()
   const insets = useSafeAreaInsets()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
@@ -99,7 +99,7 @@ const PostDetailsPage = () => {
   })
 
   const headerTitle =
-    post?.creator.id === userId
+    auth.isLoggedIn && auth.userId === post?.creator.id
       ? t('individuals.post.details.title.personal')
       : t('individuals.post.details.title', { name: post?.creator.firstName })
 
@@ -128,7 +128,7 @@ const PostDetailsPage = () => {
   }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
   const onPressCreateComment = () =>
-    isLoggedIn
+    auth.isLoggedIn
       ? navigate(`/feed-posts/${idOrSlug}/comment`)
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
@@ -160,7 +160,7 @@ const PostDetailsPage = () => {
           <ScrollView style={styles.scrollView}>
             {post && !loading ? (
               <>
-                <PostContent post={post} showVisibilityBadge={post.creator.id === userId} />
+                <PostContent post={post} showVisibilityBadge={auth.isLoggedIn && auth.userId === post.creator.id} />
                 <View style={styles.commentsContainer}>
                   <Comments
                     commentableType={CommentableType.FEED_POST}

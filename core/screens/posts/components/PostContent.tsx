@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -21,7 +22,6 @@ import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -130,7 +130,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
               label={post.creator.fullName}
               testID="btn-to-post-creator-profile"
             >
-              <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
+              <HoliMediaAuthorHeader author={post.creator} date={post.created} />
             </HoliLink>
           </>
         )}

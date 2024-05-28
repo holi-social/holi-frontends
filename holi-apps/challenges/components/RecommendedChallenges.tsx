@@ -9,6 +9,7 @@ import { HOLI_APPS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import { TrackingEvent } from '@holi/core/tracking'
 import { StarSmileFilled } from '@holi/icons/src/generated'
 
 import { ChallengeCard, calculateCardWidth } from '@holi-apps/challenges/components/ChallengeCard'
@@ -62,7 +63,9 @@ export const RecommendedChallenges = ({ style }: RecommendedChallengesProps) => 
   return (
     <AppUpdatesList
       appName={HOLI_APPS.CHALLENGES}
-      renderItem={({ item }) => <ChallengeCard challenge={item} />}
+      renderItem={({ item, index }: { item: Challenge; index: number }) => (
+        <ChallengeCard challenge={item} trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)} />
+      )}
       data={challenges.slice(0, MAX_ITEMS_TO_DISPLAY)}
       appIcon={StarSmileFilled}
       heading={t('challenges:recommendations.title')}

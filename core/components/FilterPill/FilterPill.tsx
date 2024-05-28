@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type FilterType = 'generic' | 'topic' | 'skill' | 'location' | 'planned'
@@ -15,19 +16,15 @@ export interface BasePillProps {
   style?: StyleProp<ViewStyle>
 }
 
-interface SkeletonProps extends Partial<BasePillProps> {
-  loading: true
-}
-
-interface PillProps extends BasePillProps {
-  loading?: false
-}
-
-export type FilterPillProps = SkeletonProps | PillProps
-
 const BORDER_RADIUS = 48
 
-export const FilterPill: React.FC<FilterPillProps> = ({ loading, label, filterType, style, small }) => {
+export const FilterPill: React.FC<PropsWithSkeleton<BasePillProps>> = ({
+  loading,
+  label,
+  filterType,
+  style,
+  small,
+}) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(small || false, theme), [theme, small])
 

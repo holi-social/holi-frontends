@@ -128,7 +128,7 @@ const OnboardingWelcome = () => {
           onPress={() => {
             navigate('/onboarding/registration')
           }}
-          trackingEvent={TrackingEvent.OnboardingWelcome.RegisterButtonPressed}
+          trackingEvent={TrackingEvent.Auth.RegisterButtonPressed}
           style={[styles.button, styles.firstButton]}
           testID="btn-to-registration-form"
         >
@@ -141,7 +141,7 @@ const OnboardingWelcome = () => {
             storeOnboardingState('finished')
             navigate('/')
           }}
-          trackingEvent={TrackingEvent.OnboardingWelcome.ContinueAsGuestButtonPressed}
+          trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
           style={[styles.button, styles.secondButton]}
           type="secondary"
           testID="btn-to-continue-as-guest"
@@ -149,10 +149,7 @@ const OnboardingWelcome = () => {
           {t('auth.loginProtection.continueAsGuest')}
         </HoliButtonTracked>
 
-        <AlreadyHaveAccountText
-          style={styles.loginHeadline}
-          trackingEvent={TrackingEvent.OnboardingWelcome.LoginButtonPressed}
-        />
+        <AlreadyHaveAccountText style={styles.loginHeadline} trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
       </CenteredContentLayout>
 
       <HoliModal
