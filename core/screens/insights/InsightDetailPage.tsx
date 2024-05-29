@@ -13,7 +13,8 @@ import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDim
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { getLocale, getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import generateRecommendationTitle from '@holi/core/i18n/helpers/generateRecommendationTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -116,13 +117,14 @@ const InsightDetailPage = () => {
   const creator = insight?.creator
   const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
   const cardWidth = 330
-  const recommendationsTitle =
-    recommendations.length > 1
-      ? t('insights.recommendations.title.creator.multiple', {
-          name: creator?.firstName,
-          number: recommendations.length,
-        })
-      : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
+  const currentLanguage = getLocale(i18n.language || '')
+
+  const recommendationsTitle = generateRecommendationTitle({
+    name: creator?.firstName || '',
+    numRecommendations: recommendations.length,
+    currentLanguage,
+    t,
+  })
 
   const curatorInfo1 = [
     t('insights.curationPrinciples.principles.1'),
