@@ -1,4 +1,4 @@
-import { simpleColumnSortingByIndex } from '@holi/core/screens/individualPosts/components/PostsListResults.web'
+import { simpleColumnSortingByIndex } from '@holi/core/screens/individualPosts/components/PostsListResults'
 
 describe('PostListResults', () => {
   describe('basic masonry sorting algorithym', () => {
