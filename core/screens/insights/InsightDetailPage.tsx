@@ -286,6 +286,7 @@ const InsightDetailPage = () => {
                   >
                     <HoliCarousel
                       marginHorizontal={Spacing.md}
+                      style={{ marginHorizontal: 'auto' }}
                       slides={curatorSlides.map((slide) => ({
                         children: slide,
                       }))}
