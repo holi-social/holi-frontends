@@ -2,7 +2,7 @@ import { simpleColumnSortingByIndex } from '@holi/core/screens/individualPosts/c
 
 describe('PostListResults', () => {
   describe('basic masonry sorting algorithym', () => {
-    it('should sort items into columns', () => {
+    it('should sort items sequentially into columns', () => {
       const sorted = simpleColumnSortingByIndex([1, 4, 7], 2)
 
       expect(sorted[0][0]).toBe(1)
