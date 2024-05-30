@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -29,10 +30,10 @@ const SpaceTasks = () => {
   const { navigate } = useRouting()
 
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
-  const { loading, space } = useSpace(spaceIdOrName)
+  const { space } = useSpace(spaceIdOrName)
 
   const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -57,7 +58,7 @@ const SpaceTasks = () => {
     })
   }, [setScreenOptions, t, colors.background10])
 
-  if (loading || !space) {
+  if (!space) {
     return <></>
   }
 

@@ -41,7 +41,7 @@ const Comments = ({
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
-  const { data: { commentable } = {}, loading } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType, parentCommentId },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
@@ -56,7 +56,7 @@ const Comments = ({
   const comments = commentable?.comments?.data || []
   const totalComments = commentable?.totalComments
 
-  if (loading) return <Skeleton />
+  if (!commentable) return <Skeleton />
 
   if (!comments.length && !onPressCreateComment) return <></>
 
