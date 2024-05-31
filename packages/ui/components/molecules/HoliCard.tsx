@@ -86,7 +86,6 @@ const getStyles = (theme: HoliTheme) =>
     imageContainer: {
       flexGrow: 0,
       flexShrink: 0,
-      flexBasis: '58%',
       position: 'relative',
       marginBottom: 16,
     },
@@ -97,6 +96,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     imageCaption: {
       position: 'absolute',
+      maxWidth: '90%',
       bottom: 8,
       left: 8,
     },

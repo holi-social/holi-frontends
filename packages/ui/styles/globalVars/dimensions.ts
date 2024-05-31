@@ -12,6 +12,7 @@ export default {
   breakpointXl: '1200',
   breakpointXxl: '1920',
   breakpointXxxl: '2396',
+  spacingXxs: '4',
   spacingXs: '8',
   spacingSM: '12',
   spacingS: '16',
