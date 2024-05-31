@@ -28,7 +28,7 @@ export const Image = ({
 }: ImageProps) => {
   return (
     <HoliImage
-      testID={`${testID}-card-mage`}
+      testID={`${testID}-card-image`}
       source={{ uri: imageUrl, width: imageWidth, height: imageHeight }}
       blurhash={imageBlurhash}
       label={imageLabel}

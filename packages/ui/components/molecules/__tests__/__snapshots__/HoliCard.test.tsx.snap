@@ -54,7 +54,7 @@ exports[`HoliCard renders correctly 1`] = `
           "width": "100%",
         }
       }
-      testID="holiCard-card-mage"
+      testID="holiCard-card-image"
     />
   </View>
   <View

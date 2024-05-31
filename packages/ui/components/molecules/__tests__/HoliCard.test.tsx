@@ -27,7 +27,7 @@ describe('HoliCard', () => {
 
   it('renders the image', () => {
     render(<HoliCard {...props} />)
-    const image = screen.getByTestId(`${props.testID}-card-mage`)
+    const image = screen.getByTestId(`${props.testID}-card-image`)
     expect(image).toBeTruthy()
     expect(image).toHaveStyle({
       aspectRatio: 1.5,
@@ -36,7 +36,7 @@ describe('HoliCard', () => {
 
   it('renders the image with a 1/ 1 aspect ratio', () => {
     render(<HoliCard imageAspectRatio={1} {...props} />)
-    expect(screen.getByTestId(`${props.testID}-card-mage`)).toHaveStyle({
+    expect(screen.getByTestId(`${props.testID}-card-image`)).toHaveStyle({
       aspectRatio: 1,
     })
   })
