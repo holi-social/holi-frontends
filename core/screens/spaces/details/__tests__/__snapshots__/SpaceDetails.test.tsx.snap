@@ -2547,14 +2547,17 @@ exports[`SpaceDetails renders correctly 1`] = `
                               >
                                 <View
                                   style={
-                                    {
-                                      "backgroundColor": "#fff",
-                                      "borderColor": "#2222221f",
-                                      "borderRadius": 16,
-                                      "borderWidth": 1,
-                                      "flexShrink": 1,
-                                      "padding": 8,
-                                    }
+                                    [
+                                      {
+                                        "backgroundColor": "#fff",
+                                        "borderColor": "#2222221f",
+                                        "borderRadius": 16,
+                                        "borderWidth": 1,
+                                        "flexShrink": 1,
+                                        "padding": 8,
+                                      },
+                                      false,
+                                    ]
                                   }
                                   testID="space-task-tile"
                                 >
@@ -3251,14 +3254,17 @@ exports[`SpaceDetails renders correctly 1`] = `
                               >
                                 <View
                                   style={
-                                    {
-                                      "backgroundColor": "#fff",
-                                      "borderColor": "#2222221f",
-                                      "borderRadius": 16,
-                                      "borderWidth": 1,
-                                      "flexShrink": 1,
-                                      "padding": 8,
-                                    }
+                                    [
+                                      {
+                                        "backgroundColor": "#fff",
+                                        "borderColor": "#2222221f",
+                                        "borderRadius": 16,
+                                        "borderWidth": 1,
+                                        "flexShrink": 1,
+                                        "padding": 8,
+                                      },
+                                      false,
+                                    ]
                                   }
                                   testID="space-task-tile"
                                 >

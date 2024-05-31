@@ -68,7 +68,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   }, [handlePlaceholder])
 
   return (
-    <View style={styles.taskItem} testID="space-task-tile">
+    <View style={[styles.taskItem, isVariantRecommendation && styles.taskItemRecommendation]} testID="space-task-tile">
       <HoliButton
         transparent
         label={task.name}
@@ -324,6 +324,9 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background10,
       padding: 8,
       flexShrink: 1,
+    },
+    taskItemRecommendation: {
+      borderColor: theme.colors.gray200,
     },
     space: {
       alignItems: 'center',
