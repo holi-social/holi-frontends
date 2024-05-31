@@ -110,3 +110,12 @@ export const getFormattedDate = (date: string | undefined, locale: string) => {
   const dateString = getRelativeDateString(dateWithoutTime, locale)
   return dateString.charAt(0).toUpperCase() + dateString.slice(1)
 }
+
+export const getFormattedDateAbs = (date: string | undefined, locale: string) => {
+  if (!date) return ''
+  const dateObj = new Date(date)
+  return new Intl.DateTimeFormat(locale, {
+    month: 'short',
+    day: 'numeric',
+  }).format(dateObj)
+}

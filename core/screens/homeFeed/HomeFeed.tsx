@@ -30,6 +30,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
+import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { RecommendedChallenges } from '@holi-apps/challenges/components/RecommendedChallenges'
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -109,6 +110,7 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
+          <AttendingChallengeEvents />
           {ftEnabledPosts && <AllPosts />}
           {ftEnabledChallenges && (
             <HoliContainer>

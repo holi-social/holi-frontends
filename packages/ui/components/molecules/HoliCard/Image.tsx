@@ -12,6 +12,7 @@ export interface ImageProps {
   imageWidth: number
   imageBlurhash?: string
   imageHeight?: number
+  borderRadius?: number
   imageAspectRatio?: CardAspectRatio
   onError?: MobileImageProps['onError']
   testID?: string
@@ -24,6 +25,7 @@ export const Image = ({
   imageWidth,
   imageHeight,
   imageAspectRatio = 1.5,
+  borderRadius = 8,
   testID,
 }: ImageProps) => {
   return (
@@ -32,7 +34,7 @@ export const Image = ({
       source={{ uri: imageUrl, width: imageWidth, height: imageHeight }}
       blurhash={imageBlurhash}
       label={imageLabel}
-      style={StyleSheet.flatten([styles.image, { aspectRatio: imageAspectRatio }])}
+      style={StyleSheet.flatten([styles.image, { aspectRatio: imageAspectRatio, borderRadius }])}
     />
   )
 }

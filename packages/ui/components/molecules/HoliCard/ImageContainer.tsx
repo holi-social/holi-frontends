@@ -6,21 +6,29 @@ import { BorderRadius } from './utils'
 
 export interface ImageContainerProps {
   borderRadius?: BorderRadius
+  extraBottomMargin?: boolean
   testID?: string
 }
 
-export const ImageContainer = ({ borderRadius = 8, children, testID }: PropsWithChildren<ImageContainerProps>) => (
-  <View style={[styles.imageContainer, { borderRadius }]} testID={`${testID}-image-container`}>
-    {children}
-  </View>
-)
+export const ImageContainer = ({
+  borderRadius = 8,
+  extraBottomMargin = true,
+  children,
+  testID,
+}: PropsWithChildren<ImageContainerProps>) => {
+  const marginBottom = extraBottomMargin ? 16 : 0
+  return (
+    <View style={[styles.imageContainer, { borderRadius, marginBottom }]} testID={`${testID}-image-container`}>
+      {children}
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   imageContainer: {
     flexGrow: 0,
     flexShrink: 0,
     position: 'relative',
-    marginBottom: 16,
     overflow: 'hidden',
   },
 })

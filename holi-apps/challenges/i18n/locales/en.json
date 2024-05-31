@@ -2,5 +2,6 @@
   "app.name": "Challenges",
   "maintenance.feature": "The Challenges app",
   "recommendations.title": "Challenges",
-  "recommendations.subline": "The daily impact game"
+  "recommendations.subline": "The daily impact game",
+  "attending.title": "Attending"
 }

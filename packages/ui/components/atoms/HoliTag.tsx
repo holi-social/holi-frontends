@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -7,34 +7,39 @@ import HoliLocalImage from './HoliLocalImage'
 
 export interface HoliTagProps {
   size: TagSize
-  children: string
+  children: ReactNode
   color?: TagColor
   variant?: TagVariant
+  hasBorder?: boolean
 }
 
 export type TagSize = 's' | 'm'
-export type TagColor = 'default' | 'brandC200' | 'brandD200'
+const ICON_SIZES = { s: 24, m: 32 }
+export type TagColor = 'default' | 'brandC200' | 'brandD200' | 'background20'
 export type TagVariant = 'disabled' | 'default' | 'location'
 
 const HORIZONTAL_SPACING = 10
 const VERTICAL_SPACING = 8
-const getIconSize = (size: TagSize) => (size === 's' ? 24 : 32)
 
-const HoliTag = ({ children, color = 'default', size = 's', variant = 'default' }: HoliTagProps) => {
+const HoliTag = ({ children, color = 'default', size = 's', variant = 'default', hasBorder = true }: HoliTagProps) => {
   const { theme } = useTheme()
 
-  const iconSize = getIconSize(size)
+  const iconSize = ICON_SIZES[size]
 
   const styles = useMemo(() => {
     const options = {
       fontSize: size === 's' ? 12 : 16,
-      iconOffset: getIconSize(size) / 3,
+      iconOffset: iconSize / 3,
       isDisabled: variant === 'disabled',
       isLocation: variant === 'location',
+      size,
+      hasBorder,
     }
 
     return getStyles(theme, options)
-  }, [size, theme, variant])
+  }, [size, iconSize, hasBorder, theme, variant])
+
+  // const transformedChildren = typeof children === 'string' ? <Text style={styles.text}>{children}</Text> : children
 
   return (
     <View style={[styles.container, styles[color]]}>
@@ -49,7 +54,7 @@ const HoliTag = ({ children, color = 'default', size = 's', variant = 'default' 
           />
         </View>
       )}
-      <Text style={styles.text}>{children}</Text>
+      {typeof children === 'string' ? <Text style={styles.text}>{children}</Text> : children}
     </View>
   )
 }
@@ -61,6 +66,8 @@ interface StyleOptions {
   iconOffset: number
   isDisabled: boolean
   isLocation: boolean
+  size: TagSize
+  hasBorder: boolean
 }
 
 const getStyles = (theme: HoliTheme, options: StyleOptions) =>
@@ -68,11 +75,11 @@ const getStyles = (theme: HoliTheme, options: StyleOptions) =>
     container: {
       position: 'relative',
       flexGrow: 0,
-      borderRadius: 48,
+      borderRadius: options.size == 's' ? 40 : 48,
       paddingVertical: VERTICAL_SPACING,
       paddingRight: HORIZONTAL_SPACING,
       paddingLeft: HORIZONTAL_SPACING + (options.isLocation ? options.iconOffset / 2 : 0),
-      borderWidth: 1,
+      borderWidth: options.hasBorder ? 1 : 0,
       borderStyle: 'solid',
       borderColor: options.isDisabled ? theme.colors.gray200 : theme.colors.black300,
     },
@@ -91,9 +98,12 @@ const getStyles = (theme: HoliTheme, options: StyleOptions) =>
       backgroundColor: options.isDisabled ? theme.colors.white200 : theme.colors.white100,
     },
     brandC200: {
-      backgroundColor: options.isLocation ? theme.colors.white100 : theme.colors.brandC200,
+      backgroundColor: options.isDisabled ? theme.colors.white100 : theme.colors.brandC200,
     },
     brandD200: {
-      backgroundColor: options.isLocation ? theme.colors.white100 : theme.colors.brandD200,
+      backgroundColor: options.isDisabled ? theme.colors.white100 : theme.colors.brandD200,
+    },
+    background20: {
+      backgroundColor: options.isDisabled ? theme.colors.white100 : theme.colors.background20,
     },
   })
