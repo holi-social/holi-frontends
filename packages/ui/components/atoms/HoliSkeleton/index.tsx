@@ -1,7 +1,7 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Easing, LayoutRectangle, StyleSheet, View } from 'react-native'
+import { Animated, DimensionValue, Easing, LayoutRectangle, StyleSheet, View } from 'react-native'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -99,7 +99,7 @@ const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonPro
     },
     gradient: {
       height: '100%',
-      width: gradientWidth * 100 + '%',
+      width: (gradientWidth * 100 + '%') as DimensionValue,
     },
   })
 }
