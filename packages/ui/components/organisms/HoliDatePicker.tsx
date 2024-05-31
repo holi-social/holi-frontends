@@ -48,7 +48,7 @@ const HoliDatePicker = ({
         value: new Date(value),
         onChange: onChangeDate,
         mode: 'date',
-        display: 'spinner',
+        display: 'calendar',
       })
     } else {
       setShowPickerIOS(true)

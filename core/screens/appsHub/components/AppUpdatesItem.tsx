@@ -35,7 +35,7 @@ const AppUpdatesItem = ({ to, imageSourceUri, title, footer, appName, trackingEv
       <HoliLinkTracked label={title} href={to} trackingEvent={trackingEvent}>
         <HoliCard
           imageLabel={title}
-          imageUrl={imageSourceUri}
+          imageUrl={imageSourceUri ?? ''}
           imageWidth={IMAGE_DIMENSION}
           imageHeight={IMAGE_DIMENSION}
           imageAspectRatio={1}
