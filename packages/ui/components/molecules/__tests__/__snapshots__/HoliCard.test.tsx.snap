@@ -19,13 +19,20 @@ exports[`HoliCard renders correctly 1`] = `
 >
   <View
     style={
-      {
-        "flexGrow": 0,
-        "flexShrink": 0,
-        "marginBottom": 16,
-        "position": "relative",
-      }
+      [
+        {
+          "flexGrow": 0,
+          "flexShrink": 0,
+          "marginBottom": 16,
+          "overflow": "hidden",
+          "position": "relative",
+        },
+        {
+          "borderRadius": 8,
+        },
+      ]
     }
+    testID="holiCard-image-container"
   >
     <Image
       accessibilityRole="image"
@@ -43,12 +50,11 @@ exports[`HoliCard renders correctly 1`] = `
       style={
         {
           "aspectRatio": 1.5,
-          "borderRadius": 8,
           "flex": 1,
           "width": "100%",
         }
       }
-      testID="holiCard-cardImage"
+      testID="holiCard-card-mage"
     />
   </View>
   <View
@@ -58,6 +64,7 @@ exports[`HoliCard renders correctly 1`] = `
         "paddingHorizontal": 8,
       }
     }
+    testID="holiCard-content-container"
   >
     <Text
       accessible={false}

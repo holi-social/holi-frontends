@@ -34,7 +34,7 @@ const HoliCard = ({
   imageBorderRadius = 8,
   testID = 'holi-card',
 }: PropsWithChildren<PropsWithSkeleton<HoliCardProps>>) => {
-  const cardConainerProps = { hasBorder, borderColor, borderRadius }
+  const cardConainerProps = { hasBorder, borderColor, borderRadius, testID }
   const containerProps = { borderRadius: imageBorderRadius, testID }
   const imageCaptionProps = { position, testID }
 
@@ -56,6 +56,7 @@ const HoliCard = ({
             imageHeight={imageHeight}
             imageWidth={imageWidth}
             imageAspectRatio={imageAspectRatio}
+            testID={testID}
           />
         )}
         {caption && <ImageCaption {...imageCaptionProps}>{caption}</ImageCaption>}
