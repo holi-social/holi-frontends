@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -5,12 +6,16 @@ import { Platform, StyleSheet, View } from 'react-native'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
+import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
@@ -33,6 +38,7 @@ const TaskDetails = () => {
   const [taskId] = useParam('taskId')
   const setScreenOptions = useSetScreenOptions()
   const { replaceRoute } = useRouting()
+  const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -42,7 +48,24 @@ const TaskDetails = () => {
   const { error, space, refetch } = useSpace(spaceIdOrName)
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  const task = (space?.tasks || []).find((t) => t.id === taskId)
+  const { data, loading } = useQuery(taskByIdQuery, {
+    variables: {
+      id: taskId,
+    },
+    skip: !taskId,
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network', // ensures that all required fields are eventually present for members
+    onError: (error) => {
+      if (isNotFoundError(error) || isForbiddenError(error)) {
+        return replaceRoute('/404')
+      }
+      displayError(error, 'Failed to load task', {
+        location: 'TaskDetails.taskByIdQuery',
+        spaceIdOrName,
+      })
+    },
+  })
+
+  const task = data?.taskById
 
   const renderActionDrawer = useCallback(() => task && space && <TaskDrawer task={task} space={space} />, [task, space])
 
@@ -60,7 +83,7 @@ const TaskDetails = () => {
     })
   }, [renderActionDrawer, setScreenOptions, t, styles.headerRight, colors.background10])
 
-  if (space && !task) {
+  if (!loading && !task) {
     replaceRoute('/404')
     return <></>
   }

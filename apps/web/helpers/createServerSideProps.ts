@@ -2,7 +2,7 @@ import { ApolloClient, ApolloError, type NormalizedCacheObject, type QueryOption
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
-import { isNotFoundError } from '@holi/core/errors/helpers'
+import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
@@ -56,7 +56,10 @@ export const createServerSideProps = async (
         })
     )
 
-    const wasNotFound = results.some((result) => result.status === 'rejected' && isNotFoundError(result.reason))
+    // For now treat 403 the same as 404
+    const wasNotFound = results.some(
+      (result) => result.status === 'rejected' && (isNotFoundError(result.reason) || isForbiddenError(result.reason))
+    )
 
     if (wasNotFound) {
       return {
@@ -64,7 +67,7 @@ export const createServerSideProps = async (
       }
     }
   } catch (error) {
-    if (error instanceof ApolloError && isNotFoundError(error)) {
+    if (error instanceof ApolloError && (isNotFoundError(error) || isForbiddenError(error))) {
       return {
         notFound: true,
       }
