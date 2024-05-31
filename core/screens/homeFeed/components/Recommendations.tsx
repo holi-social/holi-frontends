@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
+import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -22,6 +23,7 @@ const Recommendations = () => {
       <HoliContainer gap={24}>
         <HoliHeading size="l">{t('recommendations.title')}</HoliHeading>
         <SpaceRecommendations />
+        <TaskRecommendations />
         <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_DONATIONS}
           featureNameKey="donations:maintenance.feature"

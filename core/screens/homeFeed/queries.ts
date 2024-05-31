@@ -2,6 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import { Post } from '@holi/core/screens/posts/types'
+import { Task } from '@holi/core/screens/spaces/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
@@ -92,4 +93,46 @@ export const inspirationPostsQuery = gql`
 
 export type InspirationPostsQueryResponse = {
   inspirationPosts: Paged<Post>
+}
+
+const taskFragment = gql`
+  fragment TaskFragment on Task {
+    id
+    name
+    description
+    space {
+      id
+      title
+      name
+      avatar
+      avatarBlurhash
+      avatarDefaultColor
+    }
+    thumbnail
+    thumbnailBlurhash
+    location
+    locationType
+    regularity
+    skills {
+      id
+      title
+      slug
+    }
+  }
+`
+
+export const recommendedTasksQuery = gql`
+  ${taskFragment}
+  query RecommendedTasks($limit: Int) {
+    recommendedTasks(limit: $limit) {
+      data {
+        ...TaskFragment
+      }
+      totalResults
+    }
+  }
+`
+
+export type RecommendedTasksQueryResponse = {
+  recommendedTasks: Paged<Task>
 }

@@ -141,6 +141,7 @@ export interface Task {
   geolocation?: GeolocationPoint
   thumbnail?: string
   thumbnailBlurhash?: string
+  space?: Space
 }
 
 export enum VisibilityType {

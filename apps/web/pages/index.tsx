@@ -4,7 +4,7 @@ import React from 'react'
 import { SpaceRecommendationDocument } from '@holi/api/graphql/graphql-codegen'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import { POSTS_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InspirationPosts'
-import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
+import { inspirationPostsQuery, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import { feedPostPageSize } from '@holi/core/screens/individualPosts/components/AllPosts'
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
@@ -64,6 +64,12 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
     {
       query: SpaceRecommendationDocument,
+      variables: {
+        limit: 5,
+      },
+    },
+    {
+      query: recommendedTasksQuery,
       variables: {
         limit: 5,
       },
