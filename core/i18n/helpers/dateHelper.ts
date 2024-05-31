@@ -103,7 +103,10 @@ export const getRelativeDateString = (dateStr: string | undefined = '', locale: 
 }
 
 export const getFormattedDate = (date: string | undefined, locale: string) => {
-  if (!date) return undefined
-  const dateString = getRelativeDateString(date, locale)
+  if (!date) return ''
+  // converting given timestamp to a date first (with '00:00:00' as time)
+  // to show the real days instead of exact timestamp calculations
+  const dateWithoutTime = new Date(date).toDateString()
+  const dateString = getRelativeDateString(dateWithoutTime, locale)
   return dateString.charAt(0).toUpperCase() + dateString.slice(1)
 }

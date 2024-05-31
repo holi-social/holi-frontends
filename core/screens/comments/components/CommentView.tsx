@@ -104,13 +104,7 @@ const CommentView = ({
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
 
-  /*
-    converting given timestamp to a date first (with '00:00:00' as time)
-    to show the real days instead of exact timestamp calculations
-  */
-  const formattedDate = comment.created
-    ? getFormattedDate(new Date(comment.created).toDateString(), i18n.language)
-    : undefined
+  const formattedDate = getFormattedDate(comment.created, i18n.language)
 
   return (
     <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
