@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import * as React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -12,6 +12,7 @@ export interface CardContainerProps {
   hasBorder?: boolean
   extraBottomPadding?: boolean
   testID?: string
+  flexDirection?: ViewStyle['flexDirection']
 }
 
 export const CardContainer = ({
@@ -19,6 +20,7 @@ export const CardContainer = ({
   borderColor = 'gray200',
   borderRadius = 8,
   extraBottomPadding = true,
+  flexDirection,
   children,
   testID,
 }: PropsWithChildren<CardContainerProps>) => {
@@ -29,7 +31,10 @@ export const CardContainer = ({
   )
 
   return (
-    <View testID={testID} style={StyleSheet.flatten([styles.container, hasBorder && styles.withBorder])}>
+    <View
+      testID={testID}
+      style={StyleSheet.flatten([styles.container, hasBorder && styles.withBorder, { flexDirection }])}
+    >
       {children}
     </View>
   )
