@@ -89,7 +89,7 @@ const getStyles = (theme: HoliTheme, options: StyleOptions) =>
     },
     icon: {
       position: 'absolute',
-      bottom: VERTICAL_SPACING[options.size],
+      bottom: VERTICAL_SPACING['m'],
       left: -options.iconOffset,
     },
     default: {
