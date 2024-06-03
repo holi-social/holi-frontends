@@ -26,7 +26,6 @@ import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -110,13 +109,9 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
-          <AttendingChallengeEvents />
+          {ftEnabledChallenges && <AttendingChallengeEvents />}
           {ftEnabledPosts && <AllPosts />}
-          {ftEnabledChallenges && (
-            <HoliContainer>
-              <RecommendedChallenges style={styles.challengesContainer} />
-            </HoliContainer>
-          )}
+          {ftEnabledChallenges && <RecommendedChallenges style={styles.challengesContainer} />}
           <InspirationPosts />
           <InsightsOfTheWeek />
           <Recommendations />
