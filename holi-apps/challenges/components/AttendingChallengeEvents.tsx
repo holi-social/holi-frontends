@@ -1,101 +1,89 @@
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { createAuthorizationHeaders } from '@holi/api/helpers'
 import { logError } from '@holi/core/errors/helpers'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 import AttendingChallengeEventsCard from '@holi-apps/challenges/components/AttendingChallengeEventsCard'
 import { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
-
-// import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
+import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 
 const API_URL = challengeAppBaseUrl + '/api/v1/events/userAttendingEvents'
 
 const CARD_WIDTH = 260
 
+export const calculateCardWidth = (screenWidth: number) => (Platform.OS === 'web' ? CARD_WIDTH : screenWidth - 32)
+
 const AttendingChallengeEvents = () => {
-  const [isLoading, setIsLoading] = useState(true)
   const [events, setEvents] = useState<ChallengeEvent[]>([])
-  //   const { t } = useTranslation()
-  //   const { navigate } = useRouting()
-  //   const { width: screenWidth } = useWindowDimensions()
-  //   const cardWidth = calculateCardWidth(screenWidth)
+  const { width: screenWidth } = useWindowDimensions()
+  const cardWidth = calculateCardWidth(screenWidth)
+  const styles = getStyles(cardWidth)
+  const headers = useChallengesHeaders()
 
   useEffect(() => {
-    createAuthorizationHeaders().then((headers) => {
-      // console.log('headers', headers)
-      // const xx = {
-      //   ...headers,
-      //   // 'X-Client-Platform': 'holi',
-      //   // 'X-Client-Platform-Version': Constants.expoConfig?.version,
-      //   // 'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
-      //   // 'X-Client-Platform-User-Consent': 'true',
-      // }
-      // console.log('headers xx', xx)
-      fetch(API_URL, {
-        headers: new Headers(headers),
-      })
-        .then((res) => {
-          if (res.status != 200) return []
-          res.json().then((events: ChallengeEvent[]) => {
-            setEvents(events)
-          })
-        })
-        .catch((error) => {
-          logError(error, 'Error fetching challenge events', {
-            location: 'AttendingChallengeEvents.useEffect',
-          })
-        })
-        .finally(() => setIsLoading(false))
+    if (!headers) {
+      return
+    }
+    fetch(API_URL, {
+      headers: new Headers(headers),
     })
-  }, [])
+      .then((res) =>
+        res.json().then((events: ChallengeEvent[]) => {
+          setEvents(events)
+        })
+      )
+      .catch((error) => {
+        logError(error, 'Error fetching challenge events', {
+          location: 'AttendingChallengeEvents.useEffect',
+        })
+      })
+  }, [headers])
 
-  if (isLoading || !events.length) {
+  if (!events.length) {
     return null
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        horizontal
-        style={styles.listContainer}
-        data={events}
-        renderItem={({ item, index }) => {
-          return (
-            <>
+    <HoliContainer>
+      <View style={styles.container}>
+        <FlatList
+          horizontal
+          style={styles.listContainer}
+          data={events}
+          renderItem={({ item, index }) => (
+            <View style={StyleSheet.flatten([styles.itemContainer, index === events.length - 1 && styles.lastItem])}>
               <AttendingChallengeEventsCard challengeEvent={item} />
-              {index === (events?.length || 0) - 1 && <HoliGap direction="horizontal" size="l" />}
-            </>
-          )
-        }}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+            </View>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </HoliContainer>
   )
 }
 
 export default withProfiler(AttendingChallengeEvents, { name: 'AttendingChallenges' })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 24,
-    paddingBottom: 10,
-  },
-  listContainer: {
-    flex: 1,
-    paddingLeft: 24,
-    paddingBottom: 12,
-    marginHorizontal: -20,
-  },
-  cardContainer: {
-    marginRight: 12,
-    width: CARD_WIDTH,
-  },
-  lastCard: {
-    marginRight: 44,
-  },
-})
+const getStyles = (cardWidth: number) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    listContainer: {
+      flex: 1,
+      paddingLeft: 20,
+      marginHorizontal: -20,
+      gap: dimensions.spacingXs,
+    },
+    itemContainer: {
+      width: cardWidth,
+      marginRight: dimensions.spacingXxs,
+    },
+    lastItem: {
+      marginRight: 44,
+    },
+  })

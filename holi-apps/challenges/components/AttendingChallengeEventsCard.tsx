@@ -4,19 +4,18 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getFormattedDateAbs } from '@holi/core/i18n/helpers/dateHelper'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { CalendarEventLine } from '@holi/icons/src/generated'
-import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliTag from '@holi/ui/components/atoms/HoliTag'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { CardContainer } from '@holi/ui/components/molecules/HoliCard/CardContainer'
-import { ContentContainer } from '@holi/ui/components/molecules/HoliCard/ContentContainer'
-import { Image } from '@holi/ui/components/molecules/HoliCard/Image'
-import { ImageContainer } from '@holi/ui/components/molecules/HoliCard/ImageContainer'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import HoliCard from '@holi/ui/components/molecules/HoliCard'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { ChallengeEvent } from '@holi-apps/challenges/components/types'
+import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
 export interface AttendingChallengeEventsCardProps {
   challengeEvent: ChallengeEvent
@@ -29,61 +28,56 @@ const imageAspectRatio = 1
 
 const AttendingChallengeEventsCard = ({
   challengeEvent,
-  loading,
   testID = 'attending-challenge-card',
-}: PropsWithChildren<PropsWithSkeleton<AttendingChallengeEventsCardProps>>) => {
+}: PropsWithChildren<AttendingChallengeEventsCardProps>) => {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
 
-  const imageBorderRadius = 4
-  const containerProps = { borderRadius: imageBorderRadius, testID }
   const dates =
     getFormattedDateAbs(challengeEvent?.startDate, i18n.language) +
     ' - ' +
     getFormattedDateAbs(challengeEvent?.endDate, i18n.language)
 
   return (
-    <CardContainer hasBorder testID={testID} extraBottomPadding={false}>
-      <View style={styles.container}>
-        <ImageContainer borderRadius={4} testID={testID} extraBottomMargin={false}>
-          {loading ? (
-            <HoliSkeleton
-              width={imageWidth ?? 0}
-              height={imageHeight ?? 0}
-              aspectRatio={imageAspectRatio}
-              borderRadius={imageBorderRadius}
-            />
-          ) : (
-            <Image
-              imageUrl={challengeEvent.teaserImageUrl}
-              imageLabel="event teaser"
-              imageHeight={imageHeight}
-              imageWidth={imageWidth}
-              imageAspectRatio={imageAspectRatio}
-              borderRadius={imageBorderRadius}
-              testID={testID}
-            />
-          )}
-        </ImageContainer>
-
-        <ContentContainer {...containerProps}>
-          <HoliTag size="s" hasBorder={false} color="background20">
-            <View style={styles.container}>
-              <HoliIcon icon={CalendarEventLine} color={theme.colors.foreground30} size={14} />
-              <HoliText size="small">{t('challenges:attending.title')}</HoliText>
-            </View>
-          </HoliTag>
-          <HoliText size="small">{challengeEvent?.title}</HoliText>
-          <HoliText size="small">{dates}</HoliText>
-        </ContentContainer>
-      </View>
-    </CardContainer>
+    <HoliLink label={challengeEvent.title} href={createChallengesPath(challengeEvent.link)}>
+      <HoliCard
+        hasBorder
+        testID={testID}
+        direction="horizontal"
+        borderRadius={8}
+        imageUrl={challengeEvent.teaserImageUrl}
+        imageLabel={challengeEvent.title}
+        imageHeight={imageHeight}
+        imageWidth={imageWidth}
+        imageAspectRatio={imageAspectRatio}
+        imageBorderRadius={4}
+      >
+        <HoliTag size="xs" hasBorder={false} variant="disabled">
+          <View style={styles.tag}>
+            <HoliIcon icon={CalendarEventLine} color={theme.colors.gray300} size={14} />
+            <HoliText size="extrasmall" color="gray300">
+              {t('challenges:attending.title')}
+            </HoliText>
+          </View>
+        </HoliTag>
+        <HoliGap size="xs" />
+        <HoliText size="small" bold>
+          {challengeEvent?.title}
+        </HoliText>
+        <HoliGap size="xs" />
+        <HoliText size="extrasmall" color="gray300">
+          {dates}
+        </HoliText>
+      </HoliCard>
+    </HoliLink>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  tag: {
     flexDirection: 'row',
+    gap: dimensions.spacingXxs,
+    alignItems: 'center',
   },
 })
 
