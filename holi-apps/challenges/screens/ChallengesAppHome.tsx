@@ -45,8 +45,9 @@ export const ChallengesAppHome = () => {
   }
 
   const handleMessageFromBackend = async (event: WebViewMessageEvent) => {
-    switch (event.nativeEvent.data) {
-      case 'requestPermission':
+    const message = JSON.parse(event.nativeEvent.data)
+    switch (message.name) {
+      case 'request-permission':
         await requestPermissions().then((granted) => {
           if (granted) {
             webViewRef.current?.postMessage('requestPermissionGranted')
@@ -55,14 +56,14 @@ export const ChallengesAppHome = () => {
           }
         })
         break
-      case 'register':
-        navigate('/onboarding')
+      case 'navigate-path':
+        navigate(message.path)
         break
-      case 'login':
-        navigate('/login')
-        break
-      case 'exit':
+      case 'navigate-exit':
         goBack()
+        break
+      case 'share':
+        // share link
         break
     }
   }
@@ -102,7 +103,8 @@ export const ChallengesAppHome = () => {
               ...authHeaders,
               'X-Client-Platform': 'holi',
               'X-Client-Platform-Version': Constants.expoConfig?.version,
-              'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
+              'X-Client-Platform-Feature-Flags':
+                'no-back-app-header, umuted-video-start, versioned-message-from-backend',
               'X-Require-Camera-Permission': `${requireCameraPermission}`,
               'X-Client-Platform-User-Consent': `${useConsent.ANALYTICS === Consent.Given}`,
             },

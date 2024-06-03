@@ -58,4 +58,42 @@ error message will be displayed.
 
 ![img.png](doc/camera-open.png)
 
+### Handle Backend Actions
+
+The backend communicates with the holi application via `window.ReactNativeWebView.postMessage`. The message is encoded in json to support different action types.
+
+#### Supported Actions with example
+
+This is the list of supported actions in the client. Version is currently not used.
+
+**navigate-path**
+```json
+{
+    "version": "1.0.0",
+    "name": "navigate-path",
+    "path": "/onboarding"
+}
+```
+**navigate-exit**
+```json
+{
+    "version": "1.0.0",
+    "name": "navigate-exit"
+}
+```
+**request-permission**
+```json
+{
+    "version": "1.0.0",
+    "name": "request-permission"
+}
+```
+**share**
+```
+{
+    'version': '1.0.0',
+    'name': 'share',
+    'path': '/challenges/6901689f-353b-4f10-822a-dce5cf48fe0d?referrerPath=/'
+}
+```
     
