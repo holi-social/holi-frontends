@@ -1,6 +1,6 @@
 import { Camera } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
-import { Platform, Share } from 'react-native'
+import { Share } from 'react-native'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
@@ -45,10 +45,9 @@ const ChallengesAppHome = () => {
   const share = async (message: string, path: string) => {
     const url = `${holiNextJSApiUrl}/de/apps/challenges?path=${encodeURIComponent(path)}`
     try {
-      const androidShowUrlInMessage = Platform.OS === 'android' ? (message && '\n') + url : ''
       await Share.share({
-        title: 'Holi Challenge',
-        message: message + androidShowUrlInMessage,
+        title: 'Holi Challenges',
+        message: message,
         url: url,
       })
     } catch (error) {
