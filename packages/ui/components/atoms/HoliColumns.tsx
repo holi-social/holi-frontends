@@ -14,6 +14,7 @@ interface Props {
   alignItems?: FlexAlignType
   /** Alignment of lines along the cross-axis when wrapping */
   alignContent?: FlexStyle['alignContent']
+  flexDirection?: FlexStyle['flexDirection']
   width?: FlexStyle['width']
   height?: FlexStyle['height']
   padding?: number | number[]
