@@ -45,6 +45,19 @@ const VariantsTemplate: StoryFn<typeof HoliTag> = () => {
         Diabled Variant S
       </HoliTag>
       <HoliTag size="s">Default S</HoliTag>
+      <HoliTag color="brandC200" size="xs">
+        BrandC200 XS
+      </HoliTag>
+      <HoliTag color="brandD200" size="xs">
+        BrandD200 XS
+      </HoliTag>
+      <HoliTag variant="location" size="xs">
+        Location Variant XS
+      </HoliTag>
+      <HoliTag variant="disabled" size="xs">
+        Diabled Variant XS
+      </HoliTag>
+      <HoliTag size="xs">Default XS</HoliTag>
     </View>
   )
 }
@@ -61,16 +74,18 @@ export const Variants: StoryFn<typeof HoliTag> = VariantsTemplate.bind({})
 export const Playground: StoryFn<typeof HoliTag> = PlaygroundTemplate.bind({})
 
 Playground.argTypes = {
-  color: { description: 'Set the defined colors: default, brandC200, brandS200', control: { type: 'text' } },
-  size: { description: 'Set a size between S and M', control: { type: 'text' } },
+  color: { description: 'Select a color', control: { type: 'select' }, options: ['default', 'brandC200', 'brandS200'] },
+  size: { description: 'Select a size', control: { type: 'select' }, options: ['xs', 's', 'm'] },
   variant: {
-    description: 'Set the defined variant: default, disabled, location',
+    description: 'Select a variant',
     required: true,
-    control: { type: 'text' },
+    control: { type: 'select' },
+    options: ['default', 'disabled', 'location'],
   },
 }
 
 Playground.args = {
   size: 'm',
   color: 'brandC200',
+  variant: 'default',
 }

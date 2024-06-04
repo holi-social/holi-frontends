@@ -29,6 +29,7 @@ import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNaviga
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
+import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { RecommendedChallenges } from '@holi-apps/challenges/components/RecommendedChallenges'
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -64,6 +65,7 @@ const HomeFeed = () => {
   const { ftEnabled: ftEnabledVolunteering, ftPreview: ftPreviewVolunteering } = useFeatureToggle(
     FeatureToggleName.APPS_VOLUNTEERING
   )
+  const { ftEnabled: ftEnabledChallenges } = useFeatureToggle(FeatureToggleName.CHALLENGES)
 
   const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
@@ -107,6 +109,7 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
+          {ftEnabledChallenges && <AttendingChallengeEvents />}
           {ftEnabledPosts && <AllPosts />}
           <RecommendedChallenges />
           <InspirationPosts />

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, useWindowDimensions } from 'react-native'
 
-import { createAuthorizationHeaders } from '@holi/api/helpers'
 import { HOLI_APPS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -17,6 +16,7 @@ import { ChallengeCard, calculateCardWidth } from '@holi-apps/challenges/compone
 import type { Challenge } from '@holi-apps/challenges/components/types'
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 
 const API_URL = challengeAppBaseUrl + '/api/v1/challenge-with-submissions'
 const MAX_ITEMS_TO_DISPLAY = 5
@@ -34,24 +34,26 @@ export const RecommendedChallenges = () => {
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
   const cardWidth = calculateCardWidth(screenWidth)
+  const headers = useChallengesHeaders()
 
   useEffect(() => {
-    createAuthorizationHeaders().then((headers) =>
-      fetch(API_URL, { headers: new Headers(headers) })
-        .then((res) =>
-          res.json().then(({ allChallengePath, challenges }: RecommendedChallengesResult) => {
-            setChallenges(challenges)
-            setAllChallengePath(allChallengePath)
-          })
-        )
-        .catch((error) => {
-          logError(error, 'Error fetching challenges', {
-            location: 'RecommendedChallenges.useEffect',
-          })
+    if (!headers) {
+      return
+    }
+    fetch(API_URL, { headers: new Headers(headers) })
+      .then((res) =>
+        res.json().then(({ allChallengePath, challenges }: RecommendedChallengesResult) => {
+          setChallenges(challenges)
+          setAllChallengePath(allChallengePath)
         })
-        .finally(() => setIsLoading(false))
-    )
-  }, [])
+      )
+      .catch((error) => {
+        logError(error, 'Error fetching challenges', {
+          location: 'RecommendedChallenges.useEffect',
+        })
+      })
+      .finally(() => setIsLoading(false))
+  }, [headers])
 
   if (!isLoading && !challenges.length) {
     return null
