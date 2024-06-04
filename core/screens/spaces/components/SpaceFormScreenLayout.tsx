@@ -203,6 +203,9 @@ const getStyles = (theme: HoliTheme, keyboardIsOpening: boolean, footerButtonMar
         android: {
           paddingBottom: 0,
         },
+        web: {
+          paddingBottom: 0,
+        },
       }),
     },
     keyboardSaveView: {
