@@ -2,6 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { Initiative, Insight, InsightWithQuote, Recommendation } from '@holi/core/screens/insights/types'
+import { PollFragment } from '@holi/core/screens/polls/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -72,7 +73,9 @@ export const InitiativeFragment = gql`
 
 const InsightWithPostsFragment = gql`
   ${UserAvatarFragment}
+  ${UserAvatarFragment}
   ${PostFragment}
+  ${PollFragment}
   ${RecommendationFragment}
   ${QuoteFragment}
   ${InitiativeFragment}
@@ -95,6 +98,9 @@ const InsightWithPostsFragment = gql`
     }
     posts {
       ...PostFragment
+    }
+    polls {
+      ...PollFragment
     }
     isFavorite
     recommendations {

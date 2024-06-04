@@ -113,6 +113,7 @@ const HomeFeed = () => {
           {ftEnabledPosts && <AllPosts />}
           <RecommendedChallenges />
           <InspirationPosts />
+
           <InsightsOfTheWeek />
           <Recommendations />
           {isLoggedIn && <UserSuggestions />}
