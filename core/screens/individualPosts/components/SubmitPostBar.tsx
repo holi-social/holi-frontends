@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
+import { PortalGate } from '@holi/core/providers/PortalProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -34,6 +35,7 @@ export const SubmitPostBar = ({
 
   return (
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
+      <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
       <View style={styles.items}>
         <HoliImagePicker
           fileSizeLimitation={{
@@ -99,6 +101,7 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
       paddingLeft: 2,
     },
     items: {
+      backgroundColor: theme.colors.background10,
       flexDirection: 'row',
       width: '100%',
       justifyContent: 'space-between',
@@ -109,5 +112,37 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
           padding: 12,
         },
       }),
+    },
+    suggestionsScrollView: {
+      width: '100%',
+      height: 150,
+      maxHeight: 150,
+      paddingTop: 10,
+      paddingBottom: 10,
+      backgroundColor: theme.colors.background10,
+      shadowColor: theme.colors.foreground30,
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.4,
+      shadowRadius: 6,
+      borderRadius: 12,
+      elevation: 4,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.background30,
+      ...Platform.select({
+        web: {
+          maxWidth: dimensions.maxScreenWidth,
+          marginHorizontal: 'auto',
+        },
+      }),
+      position: 'absolute',
+      bottom: Platform.OS === 'web' ? 64 : 56,
+      left: 0,
+      right: 0,
+    },
+    bottomBar: {
+      flexShrink: 1,
     },
   })

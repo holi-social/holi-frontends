@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -7,34 +7,37 @@ import HoliLocalImage from './HoliLocalImage'
 
 export interface HoliTagProps {
   size: TagSize
-  children: string
+  children: ReactNode
   color?: TagColor
   variant?: TagVariant
+  hasBorder?: boolean
 }
 
-export type TagSize = 's' | 'm'
-export type TagColor = 'default' | 'brandC200' | 'brandD200'
-export type TagVariant = 'disabled' | 'default' | 'location'
+export type TagSize = 'xs' | 's' | 'm'
+const ICON_SIZES = { xs: 14, s: 24, m: 32 }
+export type TagColor = 'default' | 'brandC200' | 'brandD200' | 'background20'
+export type TagVariant = 'disabled' | 'default' | 'location' | 'date'
 
-const HORIZONTAL_SPACING = 10
-const VERTICAL_SPACING = 8
-const getIconSize = (size: TagSize) => (size === 's' ? 24 : 32)
+const HORIZONTAL_SPACING = { xs: 8, s: 10, m: 10 }
+const VERTICAL_SPACING = { xs: 4, s: 8, m: 8 }
 
-const HoliTag = ({ children, color = 'default', size = 's', variant = 'default' }: HoliTagProps) => {
+const HoliTag = ({ children, color = 'default', size = 's', variant = 'default', hasBorder = true }: HoliTagProps) => {
   const { theme } = useTheme()
 
-  const iconSize = getIconSize(size)
+  const iconSize = ICON_SIZES[size]
 
   const styles = useMemo(() => {
     const options = {
-      fontSize: size === 's' ? 12 : 16,
-      iconOffset: getIconSize(size) / 3,
+      fontSize: size === 'm' ? 16 : 12,
+      iconOffset: iconSize / 3,
       isDisabled: variant === 'disabled',
       isLocation: variant === 'location',
+      size,
+      hasBorder,
     }
 
     return getStyles(theme, options)
-  }, [size, theme, variant])
+  }, [size, iconSize, hasBorder, theme, variant])
 
   return (
     <View style={[styles.container, styles[color]]}>
@@ -49,7 +52,7 @@ const HoliTag = ({ children, color = 'default', size = 's', variant = 'default' 
           />
         </View>
       )}
-      <Text style={styles.text}>{children}</Text>
+      {typeof children === 'string' ? <Text style={styles.text}>{children}</Text> : children}
     </View>
   )
 }
@@ -61,6 +64,8 @@ interface StyleOptions {
   iconOffset: number
   isDisabled: boolean
   isLocation: boolean
+  size: TagSize
+  hasBorder: boolean
 }
 
 const getStyles = (theme: HoliTheme, options: StyleOptions) =>
@@ -68,11 +73,11 @@ const getStyles = (theme: HoliTheme, options: StyleOptions) =>
     container: {
       position: 'relative',
       flexGrow: 0,
-      borderRadius: 48,
-      paddingVertical: VERTICAL_SPACING,
-      paddingRight: HORIZONTAL_SPACING,
-      paddingLeft: HORIZONTAL_SPACING + (options.isLocation ? options.iconOffset / 2 : 0),
-      borderWidth: 1,
+      borderRadius: options.size == 's' ? 40 : 48,
+      paddingVertical: VERTICAL_SPACING[options.size],
+      paddingRight: HORIZONTAL_SPACING[options.size],
+      paddingLeft: HORIZONTAL_SPACING[options.size] + (options.isLocation ? options.iconOffset / 2 : 0),
+      borderWidth: options.hasBorder ? 1 : 0,
       borderStyle: 'solid',
       borderColor: options.isDisabled ? theme.colors.gray200 : theme.colors.black300,
     },
@@ -84,16 +89,19 @@ const getStyles = (theme: HoliTheme, options: StyleOptions) =>
     },
     icon: {
       position: 'absolute',
-      bottom: VERTICAL_SPACING,
+      bottom: VERTICAL_SPACING['m'],
       left: -options.iconOffset,
     },
     default: {
       backgroundColor: options.isDisabled ? theme.colors.white200 : theme.colors.white100,
     },
     brandC200: {
-      backgroundColor: options.isLocation ? theme.colors.white100 : theme.colors.brandC200,
+      backgroundColor: options.isDisabled ? theme.colors.white100 : theme.colors.brandC200,
     },
     brandD200: {
-      backgroundColor: options.isLocation ? theme.colors.white100 : theme.colors.brandD200,
+      backgroundColor: options.isDisabled ? theme.colors.white100 : theme.colors.brandD200,
+    },
+    background20: {
+      backgroundColor: options.isDisabled ? theme.colors.white100 : theme.colors.background20,
     },
   })

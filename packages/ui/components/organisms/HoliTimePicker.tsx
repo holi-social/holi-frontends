@@ -55,7 +55,7 @@ const HoliTimePicker = ({
         onChange,
         mode: 'time',
         is24Hour: true,
-        display: 'spinner',
+        display: 'clock',
       })
     } else {
       setShowPickerIOS(true)

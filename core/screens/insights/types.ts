@@ -1,3 +1,4 @@
+import { Poll } from '@holi/core/screens/polls/types'
 import { Link, Post } from '@holi/core/screens/posts/types'
 import { Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
@@ -39,6 +40,7 @@ export interface Insight {
   headerImageBlurhash?: string
   topic: Topic
   posts: Post[]
+  polls: Poll[]
   numberOfPosts: number
   involvedUsers: Paged<User>
   quotes: Quote[]

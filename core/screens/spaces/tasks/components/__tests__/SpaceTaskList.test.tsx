@@ -9,7 +9,7 @@ describe('SpaceTaskList', () => {
   it('renders correctly when there are tasks within space', () => {
     render(
       <MockedProvider>
-        <SpaceTaskList isAdmin={false} space={space} isCollaborator={false} />
+        <SpaceTaskList space={space} isCollaborator={false} />
       </MockedProvider>
     )
     expect(screen.toJSON()).toMatchSnapshot()
@@ -22,7 +22,7 @@ describe('SpaceTaskList', () => {
     }
     render(
       <MockedProvider>
-        <SpaceTaskList isAdmin={false} space={spaceWithoutTasks} isCollaborator={false} />
+        <SpaceTaskList space={spaceWithoutTasks} isCollaborator={false} />
       </MockedProvider>
     )
     expect(screen.toJSON()).toHaveTextContent('spaces.spaceDetails.tasks.empty.title.forNonMembers')

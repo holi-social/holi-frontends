@@ -1,1 +1,1 @@
-export type PropsWithSkeleton<P> = ({ loading: true } & Partial<P>) | ({ loading?: false } & P)
+export type PropsWithSkeleton<P = unknown> = ({ loading: true } & Partial<P>) | ({ loading?: false } & P)

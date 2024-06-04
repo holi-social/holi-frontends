@@ -1,34 +1,28 @@
 import { Camera } from 'expo-camera'
-import Constants from 'expo-constants'
 import React, { useEffect, useRef, useState } from 'react'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
 
-import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
-import { Consent } from '@holi/core/tracking/types'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
+import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
 
 const { useParam } = createParamHooks<ChallengesAppHomeParams>()
 
-export const ChallengesAppHome = () => {
-  const useConsent = useConsentState()
+const ChallengesAppHome = () => {
   const { theme } = useTheme()
   const { navigate } = useRouting()
   const [pathQueryParam] = useParam('path')
   const { goBack } = useNavigation()
 
-  const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
+  const headers = useChallengesHeaders()
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
   const webViewRef = useRef<WebView>(null)
 
@@ -68,14 +62,10 @@ export const ChallengesAppHome = () => {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-extra-semi
-    ;(async () => {
-      setRequireCameraPermission(!(await isCameraAndMicPermissionGranted()))
-      setAuthHeaders(await createAuthorizationHeaders())
-    })()
+    isCameraAndMicPermissionGranted().then((permission) => setRequireCameraPermission(!permission))
   }, [])
 
-  if (authHeaders === undefined || isCameraAndMicPermissionGranted === undefined) {
+  if (!headers || isCameraAndMicPermissionGranted === undefined) {
     return <HoliLoader />
   }
 
@@ -85,31 +75,27 @@ export const ChallengesAppHome = () => {
   }
 
   return (
-    <FeatureToggleGuard toggleName={FeatureToggleName.CHALLENGES} featureNameKey="challenges:maintenance.feature">
-      <HoliWebView
-        webViewRef={webViewRef}
-        allowsBackForwardNavigationGesturesMultiOS={true}
-        webViewProps={{
-          setSupportMultipleWindows: false,
-          allowsBackForwardNavigationGestures: true,
-          allowsInlineMediaPlayback: true,
-          mediaCapturePermissionGrantType: 'grant',
-          sharedCookiesEnabled: true,
-          onMessage: handleMessageFromBackend,
-          source: {
-            uri,
-            headers: {
-              ...authHeaders,
-              'X-Client-Platform': 'holi',
-              'X-Client-Platform-Version': Constants.expoConfig?.version,
-              'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
-              'X-Require-Camera-Permission': `${requireCameraPermission}`,
-              'X-Client-Platform-User-Consent': `${useConsent.ANALYTICS === Consent.Given}`,
-            },
+    <HoliWebView
+      webViewRef={webViewRef}
+      allowsBackForwardNavigationGesturesMultiOS={true}
+      webViewProps={{
+        setSupportMultipleWindows: false,
+        allowsBackForwardNavigationGestures: true,
+        allowsInlineMediaPlayback: true,
+        mediaCapturePermissionGrantType: 'grant',
+        sharedCookiesEnabled: true,
+        onMessage: handleMessageFromBackend,
+        source: {
+          uri,
+          headers: {
+            ...headers,
+            'X-Require-Camera-Permission': `${requireCameraPermission}`,
           },
-        }}
-        theme={theme}
-      />
-    </FeatureToggleGuard>
+        },
+      }}
+      theme={theme}
+    />
   )
 }
+
+export default ChallengesAppHome

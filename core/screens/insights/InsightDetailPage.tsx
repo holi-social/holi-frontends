@@ -13,18 +13,20 @@ import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDim
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
-import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { getLocale, getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import generateRecommendationTitle from '@holi/core/i18n/helpers/generateRecommendationTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
-import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
 import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
 import { Discussion, Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
+import PollComponent from '@holi/core/screens/polls/PollComponent'
+import { Poll } from '@holi/core/screens/polls/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -109,6 +111,7 @@ const InsightDetailPage = () => {
   }, [insight, setScreenOptions, colors.light])
 
   const posts: Post[] = insight?.posts || []
+  const polls: Poll[] = insight?.polls || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
@@ -116,13 +119,14 @@ const InsightDetailPage = () => {
   const creator = insight?.creator
   const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
   const cardWidth = 330
-  const recommendationsTitle =
-    recommendations.length > 1
-      ? t('insights.recommendations.title.creator.multiple', {
-          name: creator?.firstName,
-          number: recommendations.length,
-        })
-      : t('insights.recommendations.title.creator.single', { name: creator?.firstName })
+  const currentLanguage = getLocale(i18n.language || '')
+
+  const recommendationsTitle = generateRecommendationTitle({
+    name: creator?.firstName || '',
+    numRecommendations: recommendations.length,
+    currentLanguage,
+    t,
+  })
 
   const curatorInfo1 = [
     t('insights.curationPrinciples.principles.1'),
@@ -286,6 +290,7 @@ const InsightDetailPage = () => {
                   >
                     <HoliCarousel
                       marginHorizontal={Spacing.md}
+                      style={{ marginHorizontal: 'auto' }}
                       slides={curatorSlides.map((slide) => ({
                         children: slide,
                       }))}
@@ -355,11 +360,17 @@ const InsightDetailPage = () => {
                 />
               </InsightCarouselSection>
             )}
-            {discussions.length > 0 && (
+            {(discussions.length > 0 || polls.length > 0) && (
               <DiscussionsSection>
-                {discussions.map((d) => (
-                  <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
-                ))}
+                {polls.length > 0 && (
+                  <View>
+                    {polls.map((poll) => (
+                      <View key={poll.id} style={[styles.section, styles.pollContainer]}>
+                        <PollComponent poll={poll} />
+                      </View>
+                    ))}
+                  </View>
+                )}
               </DiscussionsSection>
             )}
             {posts.length > 0 && (
@@ -538,8 +549,11 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       maxWidth: '95%',
     },
     posts: {
-      marginBottom: 36,
+      marginBottom: 20,
       ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+    },
+    pollContainer: {
+      marginBottom: Spacing.sm,
     },
     postCard: {
       width: 304,

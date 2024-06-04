@@ -18,13 +18,7 @@ export interface BasePillProps {
 
 const BORDER_RADIUS = 48
 
-export const FilterPill: React.FC<PropsWithSkeleton<BasePillProps>> = ({
-  loading,
-  label,
-  filterType,
-  style,
-  small,
-}) => {
+export const FilterPill = ({ loading, label, filterType, style, small }: PropsWithSkeleton<BasePillProps>) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(small || false, theme), [theme, small])
 

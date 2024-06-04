@@ -10,15 +10,14 @@ describe('SpaceTaskTile', () => {
   it('renders correctly', () => {
     const { getByTestId, getByText, getAllByRole } = render(
       <MockedProvider>
-        <SpaceTaskTile task={task} isAdmin={false} space={{} as Space} />
+        <SpaceTaskTile variant="full" task={task} space={{} as Space} />
       </MockedProvider>
     )
 
     expect(getByText('Task title')).toBeDefined()
     expect(getByTestId('task-description')).toHaveTextContent('Task description')
     expect(getByText('Hamburg, Germany')).toBeDefined()
-    expect(getByText('Communication skills')).toBeDefined()
-    expect(getByText('Creativity')).toBeDefined()
+    expect(getByText(task.skills[0].title)).toBeDefined()
     expect(getByText('spaces.input.task.regularity.PROJECT_BASED.title')).toBeDefined()
 
     const avatarImage = getAllByRole('image')[1] // the avatar is the second image (after thumbnail)
