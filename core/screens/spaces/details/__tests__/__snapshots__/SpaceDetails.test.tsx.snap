@@ -2556,7 +2556,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                       "borderWidth": 1,
                                       "display": "flex",
                                       "flex": 1,
-                                      "flexDirection": "column",
+                                      "flexDirection": undefined,
                                       "height": "100%",
                                       "padding": 8,
                                       "paddingBottom": 16,
@@ -2569,12 +2569,13 @@ exports[`SpaceDetails renders correctly 1`] = `
                                         {
                                           "flexGrow": 0,
                                           "flexShrink": 0,
-                                          "marginBottom": 16,
                                           "overflow": "hidden",
                                           "position": "relative",
                                         },
                                         {
                                           "borderRadius": 8,
+                                          "flexBasis": undefined,
+                                          "marginBottom": 16,
                                         },
                                       ]
                                     }
@@ -2597,6 +2598,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                       style={
                                         {
                                           "aspectRatio": 1.75,
+                                          "borderRadius": 8,
                                           "flex": 1,
                                           "width": "100%",
                                         }
@@ -2675,6 +2677,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                   <View
                                     style={
                                       {
+                                        "alignItems": undefined,
                                         "flex": 1,
                                         "paddingHorizontal": 8,
                                       }
@@ -3220,7 +3223,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                       "borderWidth": 1,
                                       "display": "flex",
                                       "flex": 1,
-                                      "flexDirection": "column",
+                                      "flexDirection": undefined,
                                       "height": "100%",
                                       "padding": 8,
                                       "paddingBottom": 16,
@@ -3233,12 +3236,13 @@ exports[`SpaceDetails renders correctly 1`] = `
                                         {
                                           "flexGrow": 0,
                                           "flexShrink": 0,
-                                          "marginBottom": 16,
                                           "overflow": "hidden",
                                           "position": "relative",
                                         },
                                         {
                                           "borderRadius": 8,
+                                          "flexBasis": undefined,
+                                          "marginBottom": 16,
                                         },
                                       ]
                                     }
@@ -3261,6 +3265,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                       style={
                                         {
                                           "aspectRatio": 1.75,
+                                          "borderRadius": 8,
                                           "flex": 1,
                                           "width": "100%",
                                         }
@@ -3339,6 +3344,7 @@ exports[`SpaceDetails renders correctly 1`] = `
                                   <View
                                     style={
                                       {
+                                        "alignItems": undefined,
                                         "flex": 1,
                                         "paddingHorizontal": 8,
                                       }
