@@ -111,11 +111,15 @@ const HomeFeed = () => {
           <HomeFeedHeader />
           {ftEnabledChallenges && <AttendingChallengeEvents />}
           {ftEnabledPosts && <AllPosts />}
+
           <RecommendedChallenges />
+
           <InspirationPosts />
 
           <InsightsOfTheWeek />
+
           <Recommendations />
+
           {isLoggedIn && <UserSuggestions />}
         </View>
       </ScrollHeaderLayout.Refreshable>
