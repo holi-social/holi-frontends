@@ -69,7 +69,7 @@ const AttendingChallengeEvents = () => {
   )
 }
 
-export default withProfiler(AttendingChallengeEvents, { name: 'AttendingChallenges' })
+export default withProfiler(AttendingChallengeEvents, { name: 'AttendingChallengeEvents' })
 
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({

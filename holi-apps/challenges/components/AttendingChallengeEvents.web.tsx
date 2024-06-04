@@ -1,2 +1,4 @@
 // Events are only displayed on mobile
-export const AttendingChallengeEvents = () => null
+const AttendingChallengeEvents = () => null
+
+export default AttendingChallengeEvents

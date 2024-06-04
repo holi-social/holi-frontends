@@ -26,7 +26,7 @@ interface RecommendedChallengesResult {
   allChallengePath: string
 }
 
-export const RecommendedChallenges = () => {
+const RecommendedChallenges = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [challenges, setChallenges] = useState<Challenge[]>([])
   const [allChallengePath, setAllChallengePath] = useState('')
