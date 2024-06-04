@@ -46,7 +46,7 @@ const Recommendation = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) 
             {task.name}
           </HoliText>
 
-          <Content task={task} shortendSkills />
+          <Content task={task} recommendation />
         </HoliCardComponent.ContentContainer>
       </HoliCardComponent.CardContainer>
     </HoliLink>
