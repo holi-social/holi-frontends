@@ -6,6 +6,7 @@ import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallenge
 
 const mockCreateAuthorizationHeaders = jest.fn()
 const mockUseConsentState = jest.fn()
+const mockUseAuth = jest.fn()
 
 jest.mock('@holi/api/helpers', () => ({
   createAuthorizationHeaders: () => mockCreateAuthorizationHeaders(),
@@ -15,39 +16,68 @@ jest.mock('@holi/core/tracking/TrackingInitializer', () => ({
   useConsentState: () => mockUseConsentState(),
 }))
 
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: () => mockUseAuth(),
+}))
+
 describe('useChallengesHeaders', () => {
   beforeEach(() => {
-    mockCreateAuthorizationHeaders.mockResolvedValue({
-      'X-Session-Token': 'testSessionToken',
+    mockCreateAuthorizationHeaders.mockResolvedValue(undefined)
+    mockUseAuth.mockReturnValue({
+      isLoggedIn: false,
     })
     mockUseConsentState.mockReturnValue({
       [TrackingPurpose.Analytics]: Consent.Given,
     })
   })
 
-  it('should return undefined until auth headers are loaded', async () => {
+  it('should load auth headers if logged in', async () => {
+    mockCreateAuthorizationHeaders.mockResolvedValue({
+      'X-Session-Token': 'testSessionToken',
+    })
+    mockUseAuth.mockReturnValue({
+      isLoggedIn: true,
+    })
+
     const { result } = renderHook(() => useChallengesHeaders())
-    expect(result.current).toBeUndefined()
 
-    // Await pending promises
-    await waitFor(() => expect(result.current).not.toBeUndefined())
-  })
-
-  it('should load auth headers', async () => {
-    const { result } = renderHook(() => useChallengesHeaders())
-
-    await waitFor(() => expect(result.current).not.toBeUndefined())
+    // @ts-ignore
+    await waitFor(() => expect(result.current['X-Session-Token']).not.toBeUndefined())
 
     expect(mockCreateAuthorizationHeaders).toHaveBeenCalled()
   })
 
-  it('should return correct headers', async () => {
+  it('should not load auth headers if logged out', async () => {
+    renderHook(() => useChallengesHeaders())
+
+    expect(mockCreateAuthorizationHeaders).not.toHaveBeenCalled()
+  })
+
+  it('should return correct headers for logged in user', async () => {
+    mockCreateAuthorizationHeaders.mockResolvedValue({
+      'X-Session-Token': 'testSessionToken',
+    })
+    mockUseAuth.mockReturnValue({
+      isLoggedIn: true,
+    })
     const { result } = renderHook(() => useChallengesHeaders())
 
-    await waitFor(() => expect(result.current).not.toBeUndefined())
+    // @ts-ignore
+    await waitFor(() => expect(result.current['X-Session-Token']).not.toBeUndefined())
 
     expect(result.current).toEqual({
       'X-Session-Token': 'testSessionToken',
+      'X-Client-Platform': 'holi',
+      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
+      'X-Client-Platform-User-Consent': 'true',
+      'X-Client-Platform-Version': '',
+    })
+  })
+
+  it('should return correct headers for logged out user', async () => {
+    const { result } = renderHook(() => useChallengesHeaders())
+
+    expect(result.current).toEqual({
       'X-Client-Platform': 'holi',
       'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
       'X-Client-Platform-User-Consent': 'true',
@@ -60,8 +90,6 @@ describe('useChallengesHeaders', () => {
       [TrackingPurpose.Analytics]: Consent.Denied,
     })
     const { result } = renderHook(() => useChallengesHeaders())
-
-    await waitFor(() => expect(result.current).not.toBeUndefined())
 
     expect(result.current).toEqual(
       expect.objectContaining({
