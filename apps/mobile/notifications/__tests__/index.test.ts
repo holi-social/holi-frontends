@@ -220,10 +220,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentMentionLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentMentionLink')
   })
 
   it('should create correct url for post comment mention notification on iOS', () => {
@@ -234,10 +235,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentLink')
   })
 
   it('should create correct url for post comment author notification on Android', () => {
@@ -248,10 +250,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentLink')
   })
 
   it('should create correct url for post comment author notification on iOS', () => {
@@ -262,10 +265,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentLink')
   })
 
   it('should create correct url for space new post notification on Android', () => {
