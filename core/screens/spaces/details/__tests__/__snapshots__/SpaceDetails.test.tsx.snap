@@ -2547,127 +2547,96 @@ exports[`SpaceDetails renders correctly 1`] = `
                               >
                                 <View
                                   style={
-                                    [
-                                      {
-                                        "backgroundColor": "#fff",
-                                        "borderColor": "#2222221f",
-                                        "borderRadius": 16,
-                                        "borderWidth": 1,
-                                        "flexShrink": 1,
-                                        "padding": 8,
-                                      },
-                                      false,
-                                    ]
+                                    {
+                                      "alignItems": "stretch",
+                                      "backgroundColor": "#fff",
+                                      "borderColor": "#2222221f",
+                                      "borderRadius": 16,
+                                      "borderStyle": "solid",
+                                      "borderWidth": 1,
+                                      "display": "flex",
+                                      "flex": 1,
+                                      "flexDirection": "column",
+                                      "height": "100%",
+                                      "padding": 8,
+                                      "paddingBottom": 16,
+                                    }
                                   }
-                                  testID="space-task-tile"
                                 >
                                   <View
-                                    accessibilityLabel="Task title"
-                                    accessibilityRole="button"
-                                    accessibilityState={
-                                      {
-                                        "busy": undefined,
-                                        "checked": undefined,
-                                        "disabled": false,
-                                        "expanded": undefined,
-                                        "selected": undefined,
-                                      }
-                                    }
-                                    accessibilityValue={
-                                      {
-                                        "max": undefined,
-                                        "min": undefined,
-                                        "now": undefined,
-                                        "text": undefined,
-                                      }
-                                    }
-                                    accessible={true}
-                                    collapsable={false}
-                                    focusable={true}
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
                                     style={
                                       [
-                                        [
-                                          {
-                                            "width": "100%",
-                                          },
-                                        ],
                                         {
-                                          "pointerEvents": "auto",
+                                          "flexGrow": 0,
+                                          "flexShrink": 0,
+                                          "marginBottom": 16,
+                                          "overflow": "hidden",
                                           "position": "relative",
+                                        },
+                                        {
+                                          "borderRadius": 8,
                                         },
                                       ]
                                     }
+                                    testID="undefined-image-container"
                                   >
+                                    <Image
+                                      accessibilityRole="image"
+                                      accessible={true}
+                                      aria-label="spaces.tasks.thumbnail.label"
+                                      contentFit="cover"
+                                      placeholder=""
+                                      role="img"
+                                      source={
+                                        {
+                                          "height": 136,
+                                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                                          "width": 311,
+                                        }
+                                      }
+                                      style={
+                                        {
+                                          "aspectRatio": 1.75,
+                                          "flex": 1,
+                                          "width": "100%",
+                                        }
+                                      }
+                                      testID="undefined-card-image"
+                                    />
                                     <View
                                       style={
                                         [
                                           {
-                                            "pointerEvents": "none",
+                                            "maxWidth": "100%",
+                                            "paddingHorizontal": 8,
+                                            "position": "absolute",
                                           },
-                                          false,
-                                          undefined,
+                                          {
+                                            "bottom": 8,
+                                          },
                                         ]
                                       }
-                                    >
-                                      <View
-                                        style={
-                                          {
-                                            "marginBottom": 16,
-                                            "position": "relative",
-                                          }
-                                        }
-                                      >
-                                        <Image
-                                          accessibilityRole="image"
-                                          accessible={true}
-                                          aria-label="spaces.tasks.thumbnail.label"
-                                          contentFit="cover"
-                                          onError={[Function]}
-                                          placeholder=""
-                                          role="img"
-                                          source={
-                                            {
-                                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                                            }
-                                          }
-                                          style={
-                                            {
-                                              "borderRadius": 8,
-                                              "height": 136,
-                                              "justifyContent": "center",
-                                            }
-                                          }
-                                        />
-                                      </View>
-                                    </View>
+                                      testID="undefined-caption"
+                                    />
                                   </View>
                                   <View
                                     style={
                                       {
-                                        "alignItems": "center",
-                                        "flex": 1,
-                                        "flexDirection": "row",
-                                        "justifyContent": "space-between",
+                                        "bottom": 0,
+                                        "left": 0,
+                                        "position": "absolute",
+                                        "right": 0,
+                                        "top": 0,
                                       }
                                     }
                                   >
                                     <View
                                       accessibilityLabel="Task title"
-                                      accessibilityRole="button"
                                       accessibilityState={
                                         {
                                           "busy": undefined,
                                           "checked": undefined,
-                                          "disabled": false,
+                                          "disabled": undefined,
                                           "expanded": undefined,
                                           "selected": undefined,
                                         }
@@ -2692,192 +2661,212 @@ exports[`SpaceDetails renders correctly 1`] = `
                                       onResponderTerminate={[Function]}
                                       onResponderTerminationRequest={[Function]}
                                       onStartShouldSetResponder={[Function]}
+                                      role="link"
                                       style={
                                         [
-                                          [
-                                            {
-                                              "width": "100%",
-                                            },
-                                          ],
-                                          [
-                                            {
-                                              "pointerEvents": "auto",
-                                              "position": "relative",
-                                            },
-                                            {
-                                              "flex": 1,
-                                            },
-                                          ],
+                                          {
+                                            "flex": 1,
+                                          },
                                         ]
                                       }
-                                    >
-                                      <View
-                                        style={
-                                          [
-                                            {
-                                              "pointerEvents": "none",
-                                            },
-                                            false,
-                                            undefined,
-                                          ]
-                                        }
-                                      >
-                                        <Text
-                                          accessible={false}
-                                          ellipsizeMode="tail"
-                                          numberOfLines={2}
-                                          selectable={true}
-                                          style={
-                                            {
-                                              "color": "#262424",
-                                              "fontFamily": "Circular Std Medium",
-                                              "fontSize": 16,
-                                              "fontWeight": "500",
-                                              "lineHeight": 22.4,
-                                              "userSelect": "auto",
-                                            }
-                                          }
-                                          testID="task-title"
-                                        >
-                                          Task title
-                                        </Text>
-                                      </View>
-                                    </View>
+                                      testID="link"
+                                    />
                                   </View>
                                   <View
-                                    accessibilityLabel="Task title"
-                                    accessibilityRole="button"
-                                    accessibilityState={
-                                      {
-                                        "busy": undefined,
-                                        "checked": undefined,
-                                        "disabled": false,
-                                        "expanded": undefined,
-                                        "selected": undefined,
-                                      }
-                                    }
-                                    accessibilityValue={
-                                      {
-                                        "max": undefined,
-                                        "min": undefined,
-                                        "now": undefined,
-                                        "text": undefined,
-                                      }
-                                    }
-                                    accessible={true}
-                                    collapsable={false}
-                                    focusable={true}
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
                                     style={
-                                      [
-                                        [
-                                          {
-                                            "width": "100%",
-                                          },
-                                        ],
-                                        {
-                                          "pointerEvents": "auto",
-                                          "position": "relative",
-                                        },
-                                      ]
+                                      {
+                                        "flex": 1,
+                                        "paddingHorizontal": 8,
+                                      }
                                     }
+                                    testID="undefined-content-container"
                                   >
                                     <View
                                       style={
-                                        [
+                                        {
+                                          "alignItems": "center",
+                                          "flex": 1,
+                                          "flexDirection": "row",
+                                          "justifyContent": "space-between",
+                                          "zIndex": 2,
+                                        }
+                                      }
+                                    >
+                                      <Text
+                                        accessible={false}
+                                        ellipsizeMode="tail"
+                                        numberOfLines={2}
+                                        selectable={true}
+                                        style={
                                           {
-                                            "pointerEvents": "none",
-                                          },
-                                          false,
-                                          undefined,
-                                        ]
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Medium",
+                                            "fontSize": 16,
+                                            "fontWeight": "500",
+                                            "lineHeight": 22.4,
+                                            "userSelect": "auto",
+                                          }
+                                        }
+                                        testID="task-title"
+                                      >
+                                        Task title
+                                      </Text>
+                                      <View
+                                        style={
+                                          {
+                                            "bottom": 0,
+                                            "left": 0,
+                                            "position": "absolute",
+                                            "right": 0,
+                                            "top": 0,
+                                          }
+                                        }
+                                      >
+                                        <View
+                                          accessibilityLabel="Task title"
+                                          accessibilityState={
+                                            {
+                                              "busy": undefined,
+                                              "checked": undefined,
+                                              "disabled": undefined,
+                                              "expanded": undefined,
+                                              "selected": undefined,
+                                            }
+                                          }
+                                          accessibilityValue={
+                                            {
+                                              "max": undefined,
+                                              "min": undefined,
+                                              "now": undefined,
+                                              "text": undefined,
+                                            }
+                                          }
+                                          accessible={true}
+                                          collapsable={false}
+                                          focusable={true}
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onResponderGrant={[Function]}
+                                          onResponderMove={[Function]}
+                                          onResponderRelease={[Function]}
+                                          onResponderTerminate={[Function]}
+                                          onResponderTerminationRequest={[Function]}
+                                          onStartShouldSetResponder={[Function]}
+                                          role="link"
+                                          style={
+                                            [
+                                              {
+                                                "flex": 1,
+                                              },
+                                            ]
+                                          }
+                                          testID="link"
+                                        />
+                                      </View>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "flexDirection": "row",
+                                          "flexWrap": "wrap",
+                                          "marginTop": 8,
+                                        }
                                       }
                                     >
                                       <View
                                         style={
                                           {
+                                            "alignItems": "center",
                                             "flexDirection": "row",
-                                            "flexWrap": "wrap",
-                                            "marginTop": 8,
+                                            "flexShrink": 1,
                                           }
                                         }
                                       >
                                         <View
                                           style={
                                             {
-                                              "alignItems": "center",
-                                              "flexDirection": "row",
-                                              "flexShrink": 1,
+                                              "marginRight": 4,
                                             }
                                           }
                                         >
-                                          <View
+                                          <RNSVGSvgView
+                                            align="xMidYMid"
+                                            bbHeight="12"
+                                            bbWidth="12"
+                                            color="#787777"
+                                            fill="none"
+                                            focusable={false}
+                                            height={12}
+                                            meetOrSlice={0}
+                                            minX={0}
+                                            minY={0}
                                             style={
-                                              {
-                                                "marginRight": 4,
-                                              }
+                                              [
+                                                {
+                                                  "backgroundColor": "transparent",
+                                                  "borderWidth": 0,
+                                                },
+                                                {
+                                                  "flex": 0,
+                                                  "height": 12,
+                                                  "width": 12,
+                                                },
+                                              ]
                                             }
+                                            tintColor="#787777"
+                                            vbHeight={24}
+                                            vbWidth={24}
+                                            width={12}
+                                            xmlns="http://www.w3.org/2000/svg"
                                           >
-                                            <RNSVGSvgView
-                                              align="xMidYMid"
-                                              bbHeight="12"
-                                              bbWidth="12"
-                                              color="#787777"
-                                              fill="none"
-                                              focusable={false}
-                                              height={12}
-                                              meetOrSlice={0}
-                                              minX={0}
-                                              minY={0}
-                                              style={
+                                            <RNSVGGroup
+                                              fill={null}
+                                              propList={
                                                 [
-                                                  {
-                                                    "backgroundColor": "transparent",
-                                                    "borderWidth": 0,
-                                                  },
-                                                  {
-                                                    "flex": 0,
-                                                    "height": 12,
-                                                    "width": 12,
-                                                  },
+                                                  "fill",
                                                 ]
                                               }
-                                              tintColor="#787777"
-                                              vbHeight={24}
-                                              vbWidth={24}
-                                              width={12}
-                                              xmlns="http://www.w3.org/2000/svg"
                                             >
                                               <RNSVGGroup
-                                                fill={null}
-                                                propList={
-                                                  [
-                                                    "fill",
-                                                  ]
+                                                clipPath="map-pin-2-filled_svg__a"
+                                                fill={
+                                                  {
+                                                    "payload": 4278190080,
+                                                    "type": 0,
+                                                  }
                                                 }
                                               >
-                                                <RNSVGGroup
-                                                  clipPath="map-pin-2-filled_svg__a"
+                                                <RNSVGPath
+                                                  d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                                                  fill={
+                                                    {
+                                                      "type": 2,
+                                                    }
+                                                  }
+                                                  propList={
+                                                    [
+                                                      "fill",
+                                                    ]
+                                                  }
+                                                />
+                                              </RNSVGGroup>
+                                              <RNSVGDefs>
+                                                <RNSVGClipPath
                                                   fill={
                                                     {
                                                       "payload": 4278190080,
                                                       "type": 0,
                                                     }
                                                   }
+                                                  name="map-pin-2-filled_svg__a"
                                                 >
                                                   <RNSVGPath
-                                                    d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                                                    d="M0 0h24v24H0z"
                                                     fill={
                                                       {
-                                                        "type": 2,
+                                                        "payload": 4294967295,
+                                                        "type": 0,
                                                       }
                                                     }
                                                     propList={
@@ -2886,337 +2875,11 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                       ]
                                                     }
                                                   />
-                                                </RNSVGGroup>
-                                                <RNSVGDefs>
-                                                  <RNSVGClipPath
-                                                    fill={
-                                                      {
-                                                        "payload": 4278190080,
-                                                        "type": 0,
-                                                      }
-                                                    }
-                                                    name="map-pin-2-filled_svg__a"
-                                                  >
-                                                    <RNSVGPath
-                                                      d="M0 0h24v24H0z"
-                                                      fill={
-                                                        {
-                                                          "payload": 4294967295,
-                                                          "type": 0,
-                                                        }
-                                                      }
-                                                      propList={
-                                                        [
-                                                          "fill",
-                                                        ]
-                                                      }
-                                                    />
-                                                  </RNSVGClipPath>
-                                                </RNSVGDefs>
-                                              </RNSVGGroup>
-                                            </RNSVGSvgView>
-                                          </View>
-                                          <Text
-                                            accessible={false}
-                                            selectable={true}
-                                            style={
-                                              {
-                                                "color": "#787777",
-                                                "fontFamily": "Circular Std Book",
-                                                "fontSize": 12,
-                                                "fontWeight": "400",
-                                                "lineHeight": 16.799999999999997,
-                                                "marginRight": 8,
-                                                "userSelect": "auto",
-                                              }
-                                            }
-                                          >
-                                            Hamburg, Germany
-                                          </Text>
+                                                </RNSVGClipPath>
+                                              </RNSVGDefs>
+                                            </RNSVGGroup>
+                                          </RNSVGSvgView>
                                         </View>
-                                        <View
-                                          style={
-                                            {
-                                              "alignItems": "center",
-                                              "flexDirection": "row",
-                                              "flexShrink": 1,
-                                            }
-                                          }
-                                        >
-                                          <View
-                                            style={
-                                              {
-                                                "marginRight": 4,
-                                              }
-                                            }
-                                          >
-                                            <RNSVGSvgView
-                                              align="xMidYMid"
-                                              bbHeight="12"
-                                              bbWidth="12"
-                                              color="#787777"
-                                              fill="none"
-                                              focusable={false}
-                                              height={12}
-                                              meetOrSlice={0}
-                                              minX={0}
-                                              minY={0}
-                                              style={
-                                                [
-                                                  {
-                                                    "backgroundColor": "transparent",
-                                                    "borderWidth": 0,
-                                                  },
-                                                  {
-                                                    "flex": 0,
-                                                    "height": 12,
-                                                    "width": 12,
-                                                  },
-                                                ]
-                                              }
-                                              tintColor="#787777"
-                                              vbHeight={24}
-                                              vbWidth={24}
-                                              width={12}
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <RNSVGGroup
-                                                fill={null}
-                                                propList={
-                                                  [
-                                                    "fill",
-                                                  ]
-                                                }
-                                              >
-                                                <RNSVGGroup
-                                                  clipPath="time-filled_svg__a"
-                                                  fill={
-                                                    {
-                                                      "payload": 4278190080,
-                                                      "type": 0,
-                                                    }
-                                                  }
-                                                >
-                                                  <RNSVGPath
-                                                    d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
-                                                    fill={
-                                                      {
-                                                        "type": 2,
-                                                      }
-                                                    }
-                                                    propList={
-                                                      [
-                                                        "fill",
-                                                      ]
-                                                    }
-                                                  />
-                                                </RNSVGGroup>
-                                                <RNSVGDefs>
-                                                  <RNSVGClipPath
-                                                    fill={
-                                                      {
-                                                        "payload": 4278190080,
-                                                        "type": 0,
-                                                      }
-                                                    }
-                                                    name="time-filled_svg__a"
-                                                  >
-                                                    <RNSVGPath
-                                                      d="M0 0h24v24H0z"
-                                                      fill={
-                                                        {
-                                                          "payload": 4294967295,
-                                                          "type": 0,
-                                                        }
-                                                      }
-                                                      propList={
-                                                        [
-                                                          "fill",
-                                                        ]
-                                                      }
-                                                    />
-                                                  </RNSVGClipPath>
-                                                </RNSVGDefs>
-                                              </RNSVGGroup>
-                                            </RNSVGSvgView>
-                                          </View>
-                                          <Text
-                                            accessible={false}
-                                            selectable={true}
-                                            style={
-                                              {
-                                                "color": "#787777",
-                                                "fontFamily": "Circular Std Book",
-                                                "fontSize": 12,
-                                                "fontWeight": "400",
-                                                "lineHeight": 16.799999999999997,
-                                                "marginRight": 8,
-                                                "userSelect": "auto",
-                                              }
-                                            }
-                                          >
-                                            spaces.input.task.regularity.PROJECT_BASED.title
-                                          </Text>
-                                        </View>
-                                      </View>
-                                    </View>
-                                  </View>
-                                  <View
-                                    style={
-                                      {
-                                        "flexDirection": "row",
-                                        "flexWrap": "wrap",
-                                        "marginTop": 12,
-                                      }
-                                    }
-                                  >
-                                    <View
-                                      style={
-                                        [
-                                          {
-                                            "borderColor": "#262424",
-                                            "borderRadius": 48,
-                                            "borderWidth": 1,
-                                            "flexDirection": "row",
-                                            "justifyContent": "center",
-                                            "paddingHorizontal": 8,
-                                            "paddingVertical": 2,
-                                          },
-                                          {
-                                            "backgroundColor": "#90ddff",
-                                          },
-                                          {
-                                            "flexShrink": 1,
-                                            "marginRight": 6,
-                                            "marginTop": 4,
-                                          },
-                                        ]
-                                      }
-                                    >
-                                      <Text
-                                        accessible={false}
-                                        numberOfLines={1}
-                                        selectable={true}
-                                        style={
-                                          {
-                                            "color": "#262424",
-                                            "fontFamily": "Circular Std Book",
-                                            "fontSize": 14,
-                                            "fontWeight": "400",
-                                            "lineHeight": 19.599999999999998,
-                                            "userSelect": "auto",
-                                          }
-                                        }
-                                      >
-                                        Communication skills
-                                      </Text>
-                                    </View>
-                                    <View
-                                      style={
-                                        [
-                                          {
-                                            "borderColor": "#262424",
-                                            "borderRadius": 48,
-                                            "borderWidth": 1,
-                                            "flexDirection": "row",
-                                            "justifyContent": "center",
-                                            "paddingHorizontal": 8,
-                                            "paddingVertical": 2,
-                                          },
-                                          {
-                                            "backgroundColor": "#90ddff",
-                                          },
-                                          {
-                                            "flexShrink": 1,
-                                            "marginRight": 6,
-                                            "marginTop": 4,
-                                          },
-                                        ]
-                                      }
-                                    >
-                                      <Text
-                                        accessible={false}
-                                        numberOfLines={1}
-                                        selectable={true}
-                                        style={
-                                          {
-                                            "color": "#262424",
-                                            "fontFamily": "Circular Std Book",
-                                            "fontSize": 14,
-                                            "fontWeight": "400",
-                                            "lineHeight": 19.599999999999998,
-                                            "userSelect": "auto",
-                                          }
-                                        }
-                                      >
-                                        Creativity
-                                      </Text>
-                                    </View>
-                                  </View>
-                                  <View
-                                    accessibilityLabel="Task title"
-                                    accessibilityRole="button"
-                                    accessibilityState={
-                                      {
-                                        "busy": undefined,
-                                        "checked": undefined,
-                                        "disabled": false,
-                                        "expanded": undefined,
-                                        "selected": undefined,
-                                      }
-                                    }
-                                    accessibilityValue={
-                                      {
-                                        "max": undefined,
-                                        "min": undefined,
-                                        "now": undefined,
-                                        "text": undefined,
-                                      }
-                                    }
-                                    accessible={true}
-                                    collapsable={false}
-                                    focusable={true}
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
-                                    style={
-                                      [
-                                        [
-                                          {
-                                            "width": "100%",
-                                          },
-                                        ],
-                                        {
-                                          "pointerEvents": "auto",
-                                          "position": "relative",
-                                        },
-                                      ]
-                                    }
-                                  >
-                                    <View
-                                      style={
-                                        [
-                                          {
-                                            "pointerEvents": "none",
-                                          },
-                                          false,
-                                          undefined,
-                                        ]
-                                      }
-                                    >
-                                      <View
-                                        style={
-                                          {
-                                            "marginVertical": 16,
-                                          }
-                                        }
-                                      >
                                         <Text
                                           accessible={false}
                                           selectable={true}
@@ -3224,17 +2887,311 @@ exports[`SpaceDetails renders correctly 1`] = `
                                             {
                                               "color": "#787777",
                                               "fontFamily": "Circular Std Book",
+                                              "fontSize": 12,
+                                              "fontWeight": "400",
+                                              "lineHeight": 16.799999999999997,
+                                              "marginRight": 8,
+                                              "userSelect": "auto",
+                                            }
+                                          }
+                                        >
+                                          Hamburg, Germany
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={
+                                          {
+                                            "alignItems": "center",
+                                            "flexDirection": "row",
+                                            "flexShrink": 1,
+                                          }
+                                        }
+                                      >
+                                        <View
+                                          style={
+                                            {
+                                              "marginRight": 4,
+                                            }
+                                          }
+                                        >
+                                          <RNSVGSvgView
+                                            align="xMidYMid"
+                                            bbHeight="12"
+                                            bbWidth="12"
+                                            color="#787777"
+                                            fill="none"
+                                            focusable={false}
+                                            height={12}
+                                            meetOrSlice={0}
+                                            minX={0}
+                                            minY={0}
+                                            style={
+                                              [
+                                                {
+                                                  "backgroundColor": "transparent",
+                                                  "borderWidth": 0,
+                                                },
+                                                {
+                                                  "flex": 0,
+                                                  "height": 12,
+                                                  "width": 12,
+                                                },
+                                              ]
+                                            }
+                                            tintColor="#787777"
+                                            vbHeight={24}
+                                            vbWidth={24}
+                                            width={12}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <RNSVGGroup
+                                              fill={null}
+                                              propList={
+                                                [
+                                                  "fill",
+                                                ]
+                                              }
+                                            >
+                                              <RNSVGGroup
+                                                clipPath="time-filled_svg__a"
+                                                fill={
+                                                  {
+                                                    "payload": 4278190080,
+                                                    "type": 0,
+                                                  }
+                                                }
+                                              >
+                                                <RNSVGPath
+                                                  d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
+                                                  fill={
+                                                    {
+                                                      "type": 2,
+                                                    }
+                                                  }
+                                                  propList={
+                                                    [
+                                                      "fill",
+                                                    ]
+                                                  }
+                                                />
+                                              </RNSVGGroup>
+                                              <RNSVGDefs>
+                                                <RNSVGClipPath
+                                                  fill={
+                                                    {
+                                                      "payload": 4278190080,
+                                                      "type": 0,
+                                                    }
+                                                  }
+                                                  name="time-filled_svg__a"
+                                                >
+                                                  <RNSVGPath
+                                                    d="M0 0h24v24H0z"
+                                                    fill={
+                                                      {
+                                                        "payload": 4294967295,
+                                                        "type": 0,
+                                                      }
+                                                    }
+                                                    propList={
+                                                      [
+                                                        "fill",
+                                                      ]
+                                                    }
+                                                  />
+                                                </RNSVGClipPath>
+                                              </RNSVGDefs>
+                                            </RNSVGGroup>
+                                          </RNSVGSvgView>
+                                        </View>
+                                        <Text
+                                          accessible={false}
+                                          selectable={true}
+                                          style={
+                                            {
+                                              "color": "#787777",
+                                              "fontFamily": "Circular Std Book",
+                                              "fontSize": 12,
+                                              "fontWeight": "400",
+                                              "lineHeight": 16.799999999999997,
+                                              "marginRight": 8,
+                                              "userSelect": "auto",
+                                            }
+                                          }
+                                        >
+                                          spaces.input.task.regularity.PROJECT_BASED.title
+                                        </Text>
+                                      </View>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "flexDirection": "row",
+                                          "flexWrap": "wrap",
+                                          "marginTop": 12,
+                                        }
+                                      }
+                                    >
+                                      <View
+                                        style={
+                                          [
+                                            {
+                                              "borderColor": "#262424",
+                                              "borderRadius": 48,
+                                              "borderWidth": 1,
+                                              "flexDirection": "row",
+                                              "justifyContent": "center",
+                                              "paddingHorizontal": 8,
+                                              "paddingVertical": 2,
+                                            },
+                                            {
+                                              "backgroundColor": "#90ddff",
+                                            },
+                                            {
+                                              "flexShrink": 1,
+                                              "marginRight": 6,
+                                              "marginTop": 4,
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <Text
+                                          accessible={false}
+                                          numberOfLines={1}
+                                          selectable={true}
+                                          style={
+                                            {
+                                              "color": "#262424",
+                                              "fontFamily": "Circular Std Book",
                                               "fontSize": 14,
                                               "fontWeight": "400",
                                               "lineHeight": 19.599999999999998,
                                               "userSelect": "auto",
                                             }
                                           }
-                                          testID="task-description"
                                         >
-                                          Task description
+                                          Communication skills
                                         </Text>
                                       </View>
+                                      <View
+                                        style={
+                                          [
+                                            {
+                                              "borderColor": "#262424",
+                                              "borderRadius": 48,
+                                              "borderWidth": 1,
+                                              "flexDirection": "row",
+                                              "justifyContent": "center",
+                                              "paddingHorizontal": 8,
+                                              "paddingVertical": 2,
+                                            },
+                                            {
+                                              "backgroundColor": "#90ddff",
+                                            },
+                                            {
+                                              "flexShrink": 1,
+                                              "marginRight": 6,
+                                              "marginTop": 4,
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <Text
+                                          accessible={false}
+                                          numberOfLines={1}
+                                          selectable={true}
+                                          style={
+                                            {
+                                              "color": "#262424",
+                                              "fontFamily": "Circular Std Book",
+                                              "fontSize": 14,
+                                              "fontWeight": "400",
+                                              "lineHeight": 19.599999999999998,
+                                              "userSelect": "auto",
+                                            }
+                                          }
+                                        >
+                                          Creativity
+                                        </Text>
+                                      </View>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "marginVertical": 16,
+                                        }
+                                      }
+                                    >
+                                      <Text
+                                        accessible={false}
+                                        selectable={true}
+                                        style={
+                                          {
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Book",
+                                            "fontSize": 14,
+                                            "fontWeight": "400",
+                                            "lineHeight": 19.599999999999998,
+                                            "userSelect": "auto",
+                                          }
+                                        }
+                                        testID="task-description"
+                                      >
+                                        Task description
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "bottom": 0,
+                                          "left": 0,
+                                          "position": "absolute",
+                                          "right": 0,
+                                          "top": 0,
+                                        }
+                                      }
+                                    >
+                                      <View
+                                        accessibilityLabel="Task title"
+                                        accessibilityState={
+                                          {
+                                            "busy": undefined,
+                                            "checked": undefined,
+                                            "disabled": undefined,
+                                            "expanded": undefined,
+                                            "selected": undefined,
+                                          }
+                                        }
+                                        accessibilityValue={
+                                          {
+                                            "max": undefined,
+                                            "min": undefined,
+                                            "now": undefined,
+                                            "text": undefined,
+                                          }
+                                        }
+                                        accessible={true}
+                                        collapsable={false}
+                                        focusable={true}
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onResponderGrant={[Function]}
+                                        onResponderMove={[Function]}
+                                        onResponderRelease={[Function]}
+                                        onResponderTerminate={[Function]}
+                                        onResponderTerminationRequest={[Function]}
+                                        onStartShouldSetResponder={[Function]}
+                                        role="link"
+                                        style={
+                                          [
+                                            {
+                                              "flex": 1,
+                                            },
+                                          ]
+                                        }
+                                        testID="link"
+                                      />
                                     </View>
                                   </View>
                                 </View>
@@ -3254,127 +3211,96 @@ exports[`SpaceDetails renders correctly 1`] = `
                               >
                                 <View
                                   style={
-                                    [
-                                      {
-                                        "backgroundColor": "#fff",
-                                        "borderColor": "#2222221f",
-                                        "borderRadius": 16,
-                                        "borderWidth": 1,
-                                        "flexShrink": 1,
-                                        "padding": 8,
-                                      },
-                                      false,
-                                    ]
+                                    {
+                                      "alignItems": "stretch",
+                                      "backgroundColor": "#fff",
+                                      "borderColor": "#2222221f",
+                                      "borderRadius": 16,
+                                      "borderStyle": "solid",
+                                      "borderWidth": 1,
+                                      "display": "flex",
+                                      "flex": 1,
+                                      "flexDirection": "column",
+                                      "height": "100%",
+                                      "padding": 8,
+                                      "paddingBottom": 16,
+                                    }
                                   }
-                                  testID="space-task-tile"
                                 >
                                   <View
-                                    accessibilityLabel="Task title"
-                                    accessibilityRole="button"
-                                    accessibilityState={
-                                      {
-                                        "busy": undefined,
-                                        "checked": undefined,
-                                        "disabled": false,
-                                        "expanded": undefined,
-                                        "selected": undefined,
-                                      }
-                                    }
-                                    accessibilityValue={
-                                      {
-                                        "max": undefined,
-                                        "min": undefined,
-                                        "now": undefined,
-                                        "text": undefined,
-                                      }
-                                    }
-                                    accessible={true}
-                                    collapsable={false}
-                                    focusable={true}
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
                                     style={
                                       [
-                                        [
-                                          {
-                                            "width": "100%",
-                                          },
-                                        ],
                                         {
-                                          "pointerEvents": "auto",
+                                          "flexGrow": 0,
+                                          "flexShrink": 0,
+                                          "marginBottom": 16,
+                                          "overflow": "hidden",
                                           "position": "relative",
+                                        },
+                                        {
+                                          "borderRadius": 8,
                                         },
                                       ]
                                     }
+                                    testID="undefined-image-container"
                                   >
+                                    <Image
+                                      accessibilityRole="image"
+                                      accessible={true}
+                                      aria-label="spaces.tasks.thumbnail.label"
+                                      contentFit="cover"
+                                      placeholder=""
+                                      role="img"
+                                      source={
+                                        {
+                                          "height": 136,
+                                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                                          "width": 311,
+                                        }
+                                      }
+                                      style={
+                                        {
+                                          "aspectRatio": 1.75,
+                                          "flex": 1,
+                                          "width": "100%",
+                                        }
+                                      }
+                                      testID="undefined-card-image"
+                                    />
                                     <View
                                       style={
                                         [
                                           {
-                                            "pointerEvents": "none",
+                                            "maxWidth": "100%",
+                                            "paddingHorizontal": 8,
+                                            "position": "absolute",
                                           },
-                                          false,
-                                          undefined,
+                                          {
+                                            "bottom": 8,
+                                          },
                                         ]
                                       }
-                                    >
-                                      <View
-                                        style={
-                                          {
-                                            "marginBottom": 16,
-                                            "position": "relative",
-                                          }
-                                        }
-                                      >
-                                        <Image
-                                          accessibilityRole="image"
-                                          accessible={true}
-                                          aria-label="spaces.tasks.thumbnail.label"
-                                          contentFit="cover"
-                                          onError={[Function]}
-                                          placeholder=""
-                                          role="img"
-                                          source={
-                                            {
-                                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                                            }
-                                          }
-                                          style={
-                                            {
-                                              "borderRadius": 8,
-                                              "height": 136,
-                                              "justifyContent": "center",
-                                            }
-                                          }
-                                        />
-                                      </View>
-                                    </View>
+                                      testID="undefined-caption"
+                                    />
                                   </View>
                                   <View
                                     style={
                                       {
-                                        "alignItems": "center",
-                                        "flex": 1,
-                                        "flexDirection": "row",
-                                        "justifyContent": "space-between",
+                                        "bottom": 0,
+                                        "left": 0,
+                                        "position": "absolute",
+                                        "right": 0,
+                                        "top": 0,
                                       }
                                     }
                                   >
                                     <View
                                       accessibilityLabel="Task title"
-                                      accessibilityRole="button"
                                       accessibilityState={
                                         {
                                           "busy": undefined,
                                           "checked": undefined,
-                                          "disabled": false,
+                                          "disabled": undefined,
                                           "expanded": undefined,
                                           "selected": undefined,
                                         }
@@ -3399,192 +3325,212 @@ exports[`SpaceDetails renders correctly 1`] = `
                                       onResponderTerminate={[Function]}
                                       onResponderTerminationRequest={[Function]}
                                       onStartShouldSetResponder={[Function]}
+                                      role="link"
                                       style={
                                         [
-                                          [
-                                            {
-                                              "width": "100%",
-                                            },
-                                          ],
-                                          [
-                                            {
-                                              "pointerEvents": "auto",
-                                              "position": "relative",
-                                            },
-                                            {
-                                              "flex": 1,
-                                            },
-                                          ],
+                                          {
+                                            "flex": 1,
+                                          },
                                         ]
                                       }
-                                    >
-                                      <View
-                                        style={
-                                          [
-                                            {
-                                              "pointerEvents": "none",
-                                            },
-                                            false,
-                                            undefined,
-                                          ]
-                                        }
-                                      >
-                                        <Text
-                                          accessible={false}
-                                          ellipsizeMode="tail"
-                                          numberOfLines={2}
-                                          selectable={true}
-                                          style={
-                                            {
-                                              "color": "#262424",
-                                              "fontFamily": "Circular Std Medium",
-                                              "fontSize": 16,
-                                              "fontWeight": "500",
-                                              "lineHeight": 22.4,
-                                              "userSelect": "auto",
-                                            }
-                                          }
-                                          testID="task-title"
-                                        >
-                                          Task title
-                                        </Text>
-                                      </View>
-                                    </View>
+                                      testID="link"
+                                    />
                                   </View>
                                   <View
-                                    accessibilityLabel="Task title"
-                                    accessibilityRole="button"
-                                    accessibilityState={
-                                      {
-                                        "busy": undefined,
-                                        "checked": undefined,
-                                        "disabled": false,
-                                        "expanded": undefined,
-                                        "selected": undefined,
-                                      }
-                                    }
-                                    accessibilityValue={
-                                      {
-                                        "max": undefined,
-                                        "min": undefined,
-                                        "now": undefined,
-                                        "text": undefined,
-                                      }
-                                    }
-                                    accessible={true}
-                                    collapsable={false}
-                                    focusable={true}
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
                                     style={
-                                      [
-                                        [
-                                          {
-                                            "width": "100%",
-                                          },
-                                        ],
-                                        {
-                                          "pointerEvents": "auto",
-                                          "position": "relative",
-                                        },
-                                      ]
+                                      {
+                                        "flex": 1,
+                                        "paddingHorizontal": 8,
+                                      }
                                     }
+                                    testID="undefined-content-container"
                                   >
                                     <View
                                       style={
-                                        [
+                                        {
+                                          "alignItems": "center",
+                                          "flex": 1,
+                                          "flexDirection": "row",
+                                          "justifyContent": "space-between",
+                                          "zIndex": 2,
+                                        }
+                                      }
+                                    >
+                                      <Text
+                                        accessible={false}
+                                        ellipsizeMode="tail"
+                                        numberOfLines={2}
+                                        selectable={true}
+                                        style={
                                           {
-                                            "pointerEvents": "none",
-                                          },
-                                          false,
-                                          undefined,
-                                        ]
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Medium",
+                                            "fontSize": 16,
+                                            "fontWeight": "500",
+                                            "lineHeight": 22.4,
+                                            "userSelect": "auto",
+                                          }
+                                        }
+                                        testID="task-title"
+                                      >
+                                        Task title
+                                      </Text>
+                                      <View
+                                        style={
+                                          {
+                                            "bottom": 0,
+                                            "left": 0,
+                                            "position": "absolute",
+                                            "right": 0,
+                                            "top": 0,
+                                          }
+                                        }
+                                      >
+                                        <View
+                                          accessibilityLabel="Task title"
+                                          accessibilityState={
+                                            {
+                                              "busy": undefined,
+                                              "checked": undefined,
+                                              "disabled": undefined,
+                                              "expanded": undefined,
+                                              "selected": undefined,
+                                            }
+                                          }
+                                          accessibilityValue={
+                                            {
+                                              "max": undefined,
+                                              "min": undefined,
+                                              "now": undefined,
+                                              "text": undefined,
+                                            }
+                                          }
+                                          accessible={true}
+                                          collapsable={false}
+                                          focusable={true}
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onResponderGrant={[Function]}
+                                          onResponderMove={[Function]}
+                                          onResponderRelease={[Function]}
+                                          onResponderTerminate={[Function]}
+                                          onResponderTerminationRequest={[Function]}
+                                          onStartShouldSetResponder={[Function]}
+                                          role="link"
+                                          style={
+                                            [
+                                              {
+                                                "flex": 1,
+                                              },
+                                            ]
+                                          }
+                                          testID="link"
+                                        />
+                                      </View>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "flexDirection": "row",
+                                          "flexWrap": "wrap",
+                                          "marginTop": 8,
+                                        }
                                       }
                                     >
                                       <View
                                         style={
                                           {
+                                            "alignItems": "center",
                                             "flexDirection": "row",
-                                            "flexWrap": "wrap",
-                                            "marginTop": 8,
+                                            "flexShrink": 1,
                                           }
                                         }
                                       >
                                         <View
                                           style={
                                             {
-                                              "alignItems": "center",
-                                              "flexDirection": "row",
-                                              "flexShrink": 1,
+                                              "marginRight": 4,
                                             }
                                           }
                                         >
-                                          <View
+                                          <RNSVGSvgView
+                                            align="xMidYMid"
+                                            bbHeight="12"
+                                            bbWidth="12"
+                                            color="#787777"
+                                            fill="none"
+                                            focusable={false}
+                                            height={12}
+                                            meetOrSlice={0}
+                                            minX={0}
+                                            minY={0}
                                             style={
-                                              {
-                                                "marginRight": 4,
-                                              }
+                                              [
+                                                {
+                                                  "backgroundColor": "transparent",
+                                                  "borderWidth": 0,
+                                                },
+                                                {
+                                                  "flex": 0,
+                                                  "height": 12,
+                                                  "width": 12,
+                                                },
+                                              ]
                                             }
+                                            tintColor="#787777"
+                                            vbHeight={24}
+                                            vbWidth={24}
+                                            width={12}
+                                            xmlns="http://www.w3.org/2000/svg"
                                           >
-                                            <RNSVGSvgView
-                                              align="xMidYMid"
-                                              bbHeight="12"
-                                              bbWidth="12"
-                                              color="#787777"
-                                              fill="none"
-                                              focusable={false}
-                                              height={12}
-                                              meetOrSlice={0}
-                                              minX={0}
-                                              minY={0}
-                                              style={
+                                            <RNSVGGroup
+                                              fill={null}
+                                              propList={
                                                 [
-                                                  {
-                                                    "backgroundColor": "transparent",
-                                                    "borderWidth": 0,
-                                                  },
-                                                  {
-                                                    "flex": 0,
-                                                    "height": 12,
-                                                    "width": 12,
-                                                  },
+                                                  "fill",
                                                 ]
                                               }
-                                              tintColor="#787777"
-                                              vbHeight={24}
-                                              vbWidth={24}
-                                              width={12}
-                                              xmlns="http://www.w3.org/2000/svg"
                                             >
                                               <RNSVGGroup
-                                                fill={null}
-                                                propList={
-                                                  [
-                                                    "fill",
-                                                  ]
+                                                clipPath="map-pin-2-filled_svg__a"
+                                                fill={
+                                                  {
+                                                    "payload": 4278190080,
+                                                    "type": 0,
+                                                  }
                                                 }
                                               >
-                                                <RNSVGGroup
-                                                  clipPath="map-pin-2-filled_svg__a"
+                                                <RNSVGPath
+                                                  d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                                                  fill={
+                                                    {
+                                                      "type": 2,
+                                                    }
+                                                  }
+                                                  propList={
+                                                    [
+                                                      "fill",
+                                                    ]
+                                                  }
+                                                />
+                                              </RNSVGGroup>
+                                              <RNSVGDefs>
+                                                <RNSVGClipPath
                                                   fill={
                                                     {
                                                       "payload": 4278190080,
                                                       "type": 0,
                                                     }
                                                   }
+                                                  name="map-pin-2-filled_svg__a"
                                                 >
                                                   <RNSVGPath
-                                                    d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                                                    d="M0 0h24v24H0z"
                                                     fill={
                                                       {
-                                                        "type": 2,
+                                                        "payload": 4294967295,
+                                                        "type": 0,
                                                       }
                                                     }
                                                     propList={
@@ -3593,337 +3539,11 @@ exports[`SpaceDetails renders correctly 1`] = `
                                                       ]
                                                     }
                                                   />
-                                                </RNSVGGroup>
-                                                <RNSVGDefs>
-                                                  <RNSVGClipPath
-                                                    fill={
-                                                      {
-                                                        "payload": 4278190080,
-                                                        "type": 0,
-                                                      }
-                                                    }
-                                                    name="map-pin-2-filled_svg__a"
-                                                  >
-                                                    <RNSVGPath
-                                                      d="M0 0h24v24H0z"
-                                                      fill={
-                                                        {
-                                                          "payload": 4294967295,
-                                                          "type": 0,
-                                                        }
-                                                      }
-                                                      propList={
-                                                        [
-                                                          "fill",
-                                                        ]
-                                                      }
-                                                    />
-                                                  </RNSVGClipPath>
-                                                </RNSVGDefs>
-                                              </RNSVGGroup>
-                                            </RNSVGSvgView>
-                                          </View>
-                                          <Text
-                                            accessible={false}
-                                            selectable={true}
-                                            style={
-                                              {
-                                                "color": "#787777",
-                                                "fontFamily": "Circular Std Book",
-                                                "fontSize": 12,
-                                                "fontWeight": "400",
-                                                "lineHeight": 16.799999999999997,
-                                                "marginRight": 8,
-                                                "userSelect": "auto",
-                                              }
-                                            }
-                                          >
-                                            Hamburg, Germany
-                                          </Text>
+                                                </RNSVGClipPath>
+                                              </RNSVGDefs>
+                                            </RNSVGGroup>
+                                          </RNSVGSvgView>
                                         </View>
-                                        <View
-                                          style={
-                                            {
-                                              "alignItems": "center",
-                                              "flexDirection": "row",
-                                              "flexShrink": 1,
-                                            }
-                                          }
-                                        >
-                                          <View
-                                            style={
-                                              {
-                                                "marginRight": 4,
-                                              }
-                                            }
-                                          >
-                                            <RNSVGSvgView
-                                              align="xMidYMid"
-                                              bbHeight="12"
-                                              bbWidth="12"
-                                              color="#787777"
-                                              fill="none"
-                                              focusable={false}
-                                              height={12}
-                                              meetOrSlice={0}
-                                              minX={0}
-                                              minY={0}
-                                              style={
-                                                [
-                                                  {
-                                                    "backgroundColor": "transparent",
-                                                    "borderWidth": 0,
-                                                  },
-                                                  {
-                                                    "flex": 0,
-                                                    "height": 12,
-                                                    "width": 12,
-                                                  },
-                                                ]
-                                              }
-                                              tintColor="#787777"
-                                              vbHeight={24}
-                                              vbWidth={24}
-                                              width={12}
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <RNSVGGroup
-                                                fill={null}
-                                                propList={
-                                                  [
-                                                    "fill",
-                                                  ]
-                                                }
-                                              >
-                                                <RNSVGGroup
-                                                  clipPath="time-filled_svg__a"
-                                                  fill={
-                                                    {
-                                                      "payload": 4278190080,
-                                                      "type": 0,
-                                                    }
-                                                  }
-                                                >
-                                                  <RNSVGPath
-                                                    d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
-                                                    fill={
-                                                      {
-                                                        "type": 2,
-                                                      }
-                                                    }
-                                                    propList={
-                                                      [
-                                                        "fill",
-                                                      ]
-                                                    }
-                                                  />
-                                                </RNSVGGroup>
-                                                <RNSVGDefs>
-                                                  <RNSVGClipPath
-                                                    fill={
-                                                      {
-                                                        "payload": 4278190080,
-                                                        "type": 0,
-                                                      }
-                                                    }
-                                                    name="time-filled_svg__a"
-                                                  >
-                                                    <RNSVGPath
-                                                      d="M0 0h24v24H0z"
-                                                      fill={
-                                                        {
-                                                          "payload": 4294967295,
-                                                          "type": 0,
-                                                        }
-                                                      }
-                                                      propList={
-                                                        [
-                                                          "fill",
-                                                        ]
-                                                      }
-                                                    />
-                                                  </RNSVGClipPath>
-                                                </RNSVGDefs>
-                                              </RNSVGGroup>
-                                            </RNSVGSvgView>
-                                          </View>
-                                          <Text
-                                            accessible={false}
-                                            selectable={true}
-                                            style={
-                                              {
-                                                "color": "#787777",
-                                                "fontFamily": "Circular Std Book",
-                                                "fontSize": 12,
-                                                "fontWeight": "400",
-                                                "lineHeight": 16.799999999999997,
-                                                "marginRight": 8,
-                                                "userSelect": "auto",
-                                              }
-                                            }
-                                          >
-                                            spaces.input.task.regularity.PROJECT_BASED.title
-                                          </Text>
-                                        </View>
-                                      </View>
-                                    </View>
-                                  </View>
-                                  <View
-                                    style={
-                                      {
-                                        "flexDirection": "row",
-                                        "flexWrap": "wrap",
-                                        "marginTop": 12,
-                                      }
-                                    }
-                                  >
-                                    <View
-                                      style={
-                                        [
-                                          {
-                                            "borderColor": "#262424",
-                                            "borderRadius": 48,
-                                            "borderWidth": 1,
-                                            "flexDirection": "row",
-                                            "justifyContent": "center",
-                                            "paddingHorizontal": 8,
-                                            "paddingVertical": 2,
-                                          },
-                                          {
-                                            "backgroundColor": "#90ddff",
-                                          },
-                                          {
-                                            "flexShrink": 1,
-                                            "marginRight": 6,
-                                            "marginTop": 4,
-                                          },
-                                        ]
-                                      }
-                                    >
-                                      <Text
-                                        accessible={false}
-                                        numberOfLines={1}
-                                        selectable={true}
-                                        style={
-                                          {
-                                            "color": "#262424",
-                                            "fontFamily": "Circular Std Book",
-                                            "fontSize": 14,
-                                            "fontWeight": "400",
-                                            "lineHeight": 19.599999999999998,
-                                            "userSelect": "auto",
-                                          }
-                                        }
-                                      >
-                                        Communication skills
-                                      </Text>
-                                    </View>
-                                    <View
-                                      style={
-                                        [
-                                          {
-                                            "borderColor": "#262424",
-                                            "borderRadius": 48,
-                                            "borderWidth": 1,
-                                            "flexDirection": "row",
-                                            "justifyContent": "center",
-                                            "paddingHorizontal": 8,
-                                            "paddingVertical": 2,
-                                          },
-                                          {
-                                            "backgroundColor": "#90ddff",
-                                          },
-                                          {
-                                            "flexShrink": 1,
-                                            "marginRight": 6,
-                                            "marginTop": 4,
-                                          },
-                                        ]
-                                      }
-                                    >
-                                      <Text
-                                        accessible={false}
-                                        numberOfLines={1}
-                                        selectable={true}
-                                        style={
-                                          {
-                                            "color": "#262424",
-                                            "fontFamily": "Circular Std Book",
-                                            "fontSize": 14,
-                                            "fontWeight": "400",
-                                            "lineHeight": 19.599999999999998,
-                                            "userSelect": "auto",
-                                          }
-                                        }
-                                      >
-                                        Creativity
-                                      </Text>
-                                    </View>
-                                  </View>
-                                  <View
-                                    accessibilityLabel="Task title"
-                                    accessibilityRole="button"
-                                    accessibilityState={
-                                      {
-                                        "busy": undefined,
-                                        "checked": undefined,
-                                        "disabled": false,
-                                        "expanded": undefined,
-                                        "selected": undefined,
-                                      }
-                                    }
-                                    accessibilityValue={
-                                      {
-                                        "max": undefined,
-                                        "min": undefined,
-                                        "now": undefined,
-                                        "text": undefined,
-                                      }
-                                    }
-                                    accessible={true}
-                                    collapsable={false}
-                                    focusable={true}
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
-                                    style={
-                                      [
-                                        [
-                                          {
-                                            "width": "100%",
-                                          },
-                                        ],
-                                        {
-                                          "pointerEvents": "auto",
-                                          "position": "relative",
-                                        },
-                                      ]
-                                    }
-                                  >
-                                    <View
-                                      style={
-                                        [
-                                          {
-                                            "pointerEvents": "none",
-                                          },
-                                          false,
-                                          undefined,
-                                        ]
-                                      }
-                                    >
-                                      <View
-                                        style={
-                                          {
-                                            "marginVertical": 16,
-                                          }
-                                        }
-                                      >
                                         <Text
                                           accessible={false}
                                           selectable={true}
@@ -3931,17 +3551,311 @@ exports[`SpaceDetails renders correctly 1`] = `
                                             {
                                               "color": "#787777",
                                               "fontFamily": "Circular Std Book",
+                                              "fontSize": 12,
+                                              "fontWeight": "400",
+                                              "lineHeight": 16.799999999999997,
+                                              "marginRight": 8,
+                                              "userSelect": "auto",
+                                            }
+                                          }
+                                        >
+                                          Hamburg, Germany
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={
+                                          {
+                                            "alignItems": "center",
+                                            "flexDirection": "row",
+                                            "flexShrink": 1,
+                                          }
+                                        }
+                                      >
+                                        <View
+                                          style={
+                                            {
+                                              "marginRight": 4,
+                                            }
+                                          }
+                                        >
+                                          <RNSVGSvgView
+                                            align="xMidYMid"
+                                            bbHeight="12"
+                                            bbWidth="12"
+                                            color="#787777"
+                                            fill="none"
+                                            focusable={false}
+                                            height={12}
+                                            meetOrSlice={0}
+                                            minX={0}
+                                            minY={0}
+                                            style={
+                                              [
+                                                {
+                                                  "backgroundColor": "transparent",
+                                                  "borderWidth": 0,
+                                                },
+                                                {
+                                                  "flex": 0,
+                                                  "height": 12,
+                                                  "width": 12,
+                                                },
+                                              ]
+                                            }
+                                            tintColor="#787777"
+                                            vbHeight={24}
+                                            vbWidth={24}
+                                            width={12}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <RNSVGGroup
+                                              fill={null}
+                                              propList={
+                                                [
+                                                  "fill",
+                                                ]
+                                              }
+                                            >
+                                              <RNSVGGroup
+                                                clipPath="time-filled_svg__a"
+                                                fill={
+                                                  {
+                                                    "payload": 4278190080,
+                                                    "type": 0,
+                                                  }
+                                                }
+                                              >
+                                                <RNSVGPath
+                                                  d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
+                                                  fill={
+                                                    {
+                                                      "type": 2,
+                                                    }
+                                                  }
+                                                  propList={
+                                                    [
+                                                      "fill",
+                                                    ]
+                                                  }
+                                                />
+                                              </RNSVGGroup>
+                                              <RNSVGDefs>
+                                                <RNSVGClipPath
+                                                  fill={
+                                                    {
+                                                      "payload": 4278190080,
+                                                      "type": 0,
+                                                    }
+                                                  }
+                                                  name="time-filled_svg__a"
+                                                >
+                                                  <RNSVGPath
+                                                    d="M0 0h24v24H0z"
+                                                    fill={
+                                                      {
+                                                        "payload": 4294967295,
+                                                        "type": 0,
+                                                      }
+                                                    }
+                                                    propList={
+                                                      [
+                                                        "fill",
+                                                      ]
+                                                    }
+                                                  />
+                                                </RNSVGClipPath>
+                                              </RNSVGDefs>
+                                            </RNSVGGroup>
+                                          </RNSVGSvgView>
+                                        </View>
+                                        <Text
+                                          accessible={false}
+                                          selectable={true}
+                                          style={
+                                            {
+                                              "color": "#787777",
+                                              "fontFamily": "Circular Std Book",
+                                              "fontSize": 12,
+                                              "fontWeight": "400",
+                                              "lineHeight": 16.799999999999997,
+                                              "marginRight": 8,
+                                              "userSelect": "auto",
+                                            }
+                                          }
+                                        >
+                                          spaces.input.task.regularity.PROJECT_BASED.title
+                                        </Text>
+                                      </View>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "flexDirection": "row",
+                                          "flexWrap": "wrap",
+                                          "marginTop": 12,
+                                        }
+                                      }
+                                    >
+                                      <View
+                                        style={
+                                          [
+                                            {
+                                              "borderColor": "#262424",
+                                              "borderRadius": 48,
+                                              "borderWidth": 1,
+                                              "flexDirection": "row",
+                                              "justifyContent": "center",
+                                              "paddingHorizontal": 8,
+                                              "paddingVertical": 2,
+                                            },
+                                            {
+                                              "backgroundColor": "#90ddff",
+                                            },
+                                            {
+                                              "flexShrink": 1,
+                                              "marginRight": 6,
+                                              "marginTop": 4,
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <Text
+                                          accessible={false}
+                                          numberOfLines={1}
+                                          selectable={true}
+                                          style={
+                                            {
+                                              "color": "#262424",
+                                              "fontFamily": "Circular Std Book",
                                               "fontSize": 14,
                                               "fontWeight": "400",
                                               "lineHeight": 19.599999999999998,
                                               "userSelect": "auto",
                                             }
                                           }
-                                          testID="task-description"
                                         >
-                                          Task description
+                                          Communication skills
                                         </Text>
                                       </View>
+                                      <View
+                                        style={
+                                          [
+                                            {
+                                              "borderColor": "#262424",
+                                              "borderRadius": 48,
+                                              "borderWidth": 1,
+                                              "flexDirection": "row",
+                                              "justifyContent": "center",
+                                              "paddingHorizontal": 8,
+                                              "paddingVertical": 2,
+                                            },
+                                            {
+                                              "backgroundColor": "#90ddff",
+                                            },
+                                            {
+                                              "flexShrink": 1,
+                                              "marginRight": 6,
+                                              "marginTop": 4,
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <Text
+                                          accessible={false}
+                                          numberOfLines={1}
+                                          selectable={true}
+                                          style={
+                                            {
+                                              "color": "#262424",
+                                              "fontFamily": "Circular Std Book",
+                                              "fontSize": 14,
+                                              "fontWeight": "400",
+                                              "lineHeight": 19.599999999999998,
+                                              "userSelect": "auto",
+                                            }
+                                          }
+                                        >
+                                          Creativity
+                                        </Text>
+                                      </View>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "marginVertical": 16,
+                                        }
+                                      }
+                                    >
+                                      <Text
+                                        accessible={false}
+                                        selectable={true}
+                                        style={
+                                          {
+                                            "color": "#262424",
+                                            "fontFamily": "Circular Std Book",
+                                            "fontSize": 14,
+                                            "fontWeight": "400",
+                                            "lineHeight": 19.599999999999998,
+                                            "userSelect": "auto",
+                                          }
+                                        }
+                                        testID="task-description"
+                                      >
+                                        Task description
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={
+                                        {
+                                          "bottom": 0,
+                                          "left": 0,
+                                          "position": "absolute",
+                                          "right": 0,
+                                          "top": 0,
+                                        }
+                                      }
+                                    >
+                                      <View
+                                        accessibilityLabel="Task title"
+                                        accessibilityState={
+                                          {
+                                            "busy": undefined,
+                                            "checked": undefined,
+                                            "disabled": undefined,
+                                            "expanded": undefined,
+                                            "selected": undefined,
+                                          }
+                                        }
+                                        accessibilityValue={
+                                          {
+                                            "max": undefined,
+                                            "min": undefined,
+                                            "now": undefined,
+                                            "text": undefined,
+                                          }
+                                        }
+                                        accessible={true}
+                                        collapsable={false}
+                                        focusable={true}
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onResponderGrant={[Function]}
+                                        onResponderMove={[Function]}
+                                        onResponderRelease={[Function]}
+                                        onResponderTerminate={[Function]}
+                                        onResponderTerminationRequest={[Function]}
+                                        onStartShouldSetResponder={[Function]}
+                                        role="link"
+                                        style={
+                                          [
+                                            {
+                                              "flex": 1,
+                                            },
+                                          ]
+                                        }
+                                        testID="link"
+                                      />
                                     </View>
                                   </View>
                                 </View>

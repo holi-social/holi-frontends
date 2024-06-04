@@ -14,7 +14,6 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
@@ -70,8 +69,6 @@ const TaskDetails = () => {
     return <></>
   }
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-
   return (
     <SafeAreaProvider style={styles.safeAreaProvider}>
       <HoliHead
@@ -89,7 +86,7 @@ const TaskDetails = () => {
         headerOverlap
       >
         <HoliContainer>
-          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} variant="full" />
+          <SpaceTaskTile variant="full" task={task} space={space} />
         </HoliContainer>
       </ScrollHeaderLayout.Refreshable>
     </SafeAreaProvider>

@@ -10,7 +10,7 @@ describe('SpaceTaskTile', () => {
   it('renders correctly', () => {
     const { getByTestId, getByText, getAllByRole } = render(
       <MockedProvider>
-        <SpaceTaskTile task={task} isAdmin={false} space={{} as Space} />
+        <SpaceTaskTile variant="full" task={task} space={{} as Space} />
       </MockedProvider>
     )
 

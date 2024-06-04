@@ -31,19 +31,13 @@ const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<Prop
   return (
     <View style={[style]}>
       <HoliGridWrapper breakpoints={gridBreakpoints} gap={8}>
-        {loading &&
-          new Array(pageSize).fill(1).map((_, idx) => {
-            return (
+        {loading
+          ? new Array(pageSize).fill(1).map((_, idx) => (
               <HoliGridCell key={idx} testID={idx === 0 ? 'spaces-grid-cell-skeleton' : undefined}>
                 <HoliBlockItem size="large" loading={true} />
               </HoliGridCell>
-            )
-          })}
-
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          !loading &&
-            spaces.map((space) => (
+            ))
+          : spaces.map((space) => (
               <HoliGridCell key={space.id}>
                 <HoliBlockItem
                   label={space.title}
@@ -60,8 +54,7 @@ const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<Prop
                   cardWidthForImageScaling={imageWidth}
                 />
               </HoliGridCell>
-            ))
-        }
+            ))}
       </HoliGridWrapper>
     </View>
   )
