@@ -1765,48 +1765,26 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
   testID="holi-container"
 >
   <View
-    animatedStyle={
-      {
-        "value": {},
-      }
-    }
-    collapsable={false}
-    entering={[Function]}
-    exiting={
-      FadeOut {
-        "build": [Function],
-        "callbackV": undefined,
-        "dampingRatioV": undefined,
-        "dampingV": undefined,
-        "delayV": 300,
-        "durationV": undefined,
-        "easingV": undefined,
-        "initialValues": undefined,
-        "massV": undefined,
-        "overshootClampingV": undefined,
-        "randomizeDelay": false,
-        "reduceMotionV": "system",
-        "restDisplacementThresholdV": undefined,
-        "restSpeedThresholdV": undefined,
-        "rotateV": undefined,
-        "stiffnessV": undefined,
-        "type": undefined,
-      }
-    }
     style={
-      {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "bottom": 0,
-        "justifyContent": "center",
-        "left": 0,
-        "marginTop": 52,
-        "paddingHorizontal": 16,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-        "zIndex": 2,
-      }
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "justifyContent": "center",
+          "left": 0,
+          "paddingHorizontal": 16,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "zIndex": 2,
+        },
+        [
+          {
+            "marginTop": 52,
+          },
+        ],
+      ]
     }
   >
     <View
@@ -1928,47 +1906,22 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
   testID="holi-container"
 >
   <View
-    animatedStyle={
-      {
-        "value": {},
-      }
-    }
-    collapsable={false}
-    entering={[Function]}
-    exiting={
-      FadeOut {
-        "build": [Function],
-        "callbackV": undefined,
-        "dampingRatioV": undefined,
-        "dampingV": undefined,
-        "delayV": 300,
-        "durationV": undefined,
-        "easingV": undefined,
-        "initialValues": undefined,
-        "massV": undefined,
-        "overshootClampingV": undefined,
-        "randomizeDelay": false,
-        "reduceMotionV": "system",
-        "restDisplacementThresholdV": undefined,
-        "restSpeedThresholdV": undefined,
-        "rotateV": undefined,
-        "stiffnessV": undefined,
-        "type": undefined,
-      }
-    }
     style={
-      {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "bottom": 0,
-        "justifyContent": "center",
-        "left": 0,
-        "paddingHorizontal": 16,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-        "zIndex": 2,
-      }
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "justifyContent": "center",
+          "left": 0,
+          "paddingHorizontal": 16,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "zIndex": 2,
+        },
+        undefined,
+      ]
     }
   >
     <View

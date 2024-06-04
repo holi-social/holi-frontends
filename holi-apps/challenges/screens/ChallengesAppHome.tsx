@@ -6,9 +6,7 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native'
 
 import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
@@ -85,31 +83,29 @@ export const ChallengesAppHome = () => {
   }
 
   return (
-    <FeatureToggleGuard toggleName={FeatureToggleName.CHALLENGES} featureNameKey="challenges:maintenance.feature">
-      <HoliWebView
-        webViewRef={webViewRef}
-        allowsBackForwardNavigationGesturesMultiOS={true}
-        webViewProps={{
-          setSupportMultipleWindows: false,
-          allowsBackForwardNavigationGestures: true,
-          allowsInlineMediaPlayback: true,
-          mediaCapturePermissionGrantType: 'grant',
-          sharedCookiesEnabled: true,
-          onMessage: handleMessageFromBackend,
-          source: {
-            uri,
-            headers: {
-              ...authHeaders,
-              'X-Client-Platform': 'holi',
-              'X-Client-Platform-Version': Constants.expoConfig?.version,
-              'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
-              'X-Require-Camera-Permission': `${requireCameraPermission}`,
-              'X-Client-Platform-User-Consent': `${useConsent.ANALYTICS === Consent.Given}`,
-            },
+    <HoliWebView
+      webViewRef={webViewRef}
+      allowsBackForwardNavigationGesturesMultiOS={true}
+      webViewProps={{
+        setSupportMultipleWindows: false,
+        allowsBackForwardNavigationGestures: true,
+        allowsInlineMediaPlayback: true,
+        mediaCapturePermissionGrantType: 'grant',
+        sharedCookiesEnabled: true,
+        onMessage: handleMessageFromBackend,
+        source: {
+          uri,
+          headers: {
+            ...authHeaders,
+            'X-Client-Platform': 'holi',
+            'X-Client-Platform-Version': Constants.expoConfig?.version,
+            'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
+            'X-Require-Camera-Permission': `${requireCameraPermission}`,
+            'X-Client-Platform-User-Consent': `${useConsent.ANALYTICS === Consent.Given}`,
           },
-        }}
-        theme={theme}
-      />
-    </FeatureToggleGuard>
+        },
+      }}
+      theme={theme}
+    />
   )
 }
