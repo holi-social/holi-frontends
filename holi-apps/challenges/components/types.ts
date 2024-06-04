@@ -21,3 +21,12 @@ export interface Challenge {
   submissions: Submission[]
   lastSubmittedDate: string
 }
+
+export interface ChallengeEvent {
+  id: string
+  title: string
+  teaserImageUrl: string
+  startDate: string
+  endDate: string
+  link: string
+}

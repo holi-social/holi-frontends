@@ -34,7 +34,7 @@ const TaskRecommendations = () => {
 
   if (!taskData && isLoadingTasks) return null
 
-  const tasks = taskData?.recommendedTasks.data
+  const tasks = taskData?.recommendedTasks.data ?? []
   // const seeMoreText = t('recommendations.spaces.seeMore')
 
   return (
@@ -52,9 +52,7 @@ const TaskRecommendations = () => {
             <View style={[styles.cardContainer, index === (tasks?.length || 0) - 1 && styles.lastCard]}>
               <SpaceTaskTile variant="recommendation" task={item} space={item.space} />
             </View>
-          ) : (
-            <></>
-          )
+          ) : null
         }}
         keyExtractor={(item) => item.id}
         // ListFooterComponent={

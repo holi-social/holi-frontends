@@ -71,7 +71,7 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space, s
     >
       {!!space.tasks?.length && (
         <View style={styles.tasksListContainer}>
-          <SpaceTaskList space={space} isAdmin={isAdmin} isCollaborator={isCollaborator} preview />
+          <SpaceTaskList space={space} isCollaborator={isCollaborator} preview />
         </View>
       )}
 

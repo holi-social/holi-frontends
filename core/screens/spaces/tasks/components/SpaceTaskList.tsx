@@ -15,7 +15,6 @@ import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 interface SpaceTaskListProps {
-  isAdmin: boolean
   isCollaborator: boolean
   space: Space
   preview?: boolean
@@ -28,7 +27,7 @@ const gridBreakpoints: [number, number][] = [
   [dimensions.breakpointXxl, 4],
 ]
 
-const SpaceTaskList = ({ space, isAdmin, isCollaborator, preview }: SpaceTaskListProps) => {
+const SpaceTaskList = ({ space, isCollaborator, preview }: SpaceTaskListProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const itemsInRow = useBreakpointMatcher(gridBreakpoints) || 1
@@ -45,13 +44,7 @@ const SpaceTaskList = ({ space, isAdmin, isCollaborator, preview }: SpaceTaskLis
           <HoliGridWrapper breakpoints={gridBreakpoints} gap={16}>
             {displayTasks.map((task) => (
               <HoliGridCell key={task.id}>
-                <SpaceTaskTile
-                  task={task}
-                  variant={'list'}
-                  isAdmin={isAdmin}
-                  space={space}
-                  isCollaborator={isCollaborator}
-                />
+                <SpaceTaskTile variant="list" task={task} space={space} isCollaborator={isCollaborator} />
               </HoliGridCell>
             ))}
           </HoliGridWrapper>

@@ -19,7 +19,7 @@ const createFeatureToggleQuery = (featureToggles: { name: FeatureToggleName; sta
 })
 
 describe('FeatureToggleGuard', () => {
-  it('should not render the feature component on absend feature response', async () => {
+  it('should not render the feature component for unsupported feature', async () => {
     const featureText = 'secret-feature-flag'
     const mocks = [
       createFeatureToggleQuery([
@@ -34,9 +34,11 @@ describe('FeatureToggleGuard', () => {
       ]),
     ]
 
+    const unsupportedFeatureToggle = FeatureToggleName.INDIVIDUALS_POST
+
     render(
       <MockedProvider mocks={mocks}>
-        <FeatureToggleGuard toggleName={FeatureToggleName.CHALLENGES} featureNameKey={'challenges.title'}>
+        <FeatureToggleGuard toggleName={unsupportedFeatureToggle} featureNameKey={'someFeatureNameKey'}>
           <HoliText>{featureText}</HoliText>
         </FeatureToggleGuard>
       </MockedProvider>
