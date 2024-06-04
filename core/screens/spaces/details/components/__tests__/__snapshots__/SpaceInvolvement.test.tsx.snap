@@ -649,7 +649,8 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       {
                         "flexDirection": "row",
                         "flexWrap": "wrap",
-                        "marginTop": 12,
+                        "gap": 6,
+                        "marginTop": 16,
                       }
                     }
                   >
@@ -670,8 +671,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           },
                           {
                             "flexShrink": 1,
-                            "marginRight": 6,
-                            "marginTop": 4,
                           },
                         ]
                       }
@@ -711,8 +710,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           },
                           {
                             "flexShrink": 1,
-                            "marginRight": 6,
-                            "marginTop": 4,
                           },
                         ]
                       }
@@ -739,28 +736,27 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   <View
                     style={
                       {
-                        "marginVertical": 16,
+                        "height": 16,
                       }
                     }
-                  >
-                    <Text
-                      accessible={false}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 14,
-                          "fontWeight": "400",
-                          "lineHeight": 19.599999999999998,
-                          "userSelect": "auto",
-                        }
+                  />
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      {
+                        "color": "#262424",
+                        "fontFamily": "Circular Std Book",
+                        "fontSize": 14,
+                        "fontWeight": "400",
+                        "lineHeight": 19.599999999999998,
+                        "userSelect": "auto",
                       }
-                      testID="task-description"
-                    >
-                      Task description
-                    </Text>
-                  </View>
+                    }
+                    testID="task-description"
+                  >
+                    Task description
+                  </Text>
                   <View
                     style={
                       {
@@ -1316,7 +1312,8 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       {
                         "flexDirection": "row",
                         "flexWrap": "wrap",
-                        "marginTop": 12,
+                        "gap": 6,
+                        "marginTop": 16,
                       }
                     }
                   >
@@ -1337,8 +1334,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           },
                           {
                             "flexShrink": 1,
-                            "marginRight": 6,
-                            "marginTop": 4,
                           },
                         ]
                       }
@@ -1378,8 +1373,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           },
                           {
                             "flexShrink": 1,
-                            "marginRight": 6,
-                            "marginTop": 4,
                           },
                         ]
                       }
@@ -1406,28 +1399,27 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   <View
                     style={
                       {
-                        "marginVertical": 16,
+                        "height": 16,
                       }
                     }
-                  >
-                    <Text
-                      accessible={false}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 14,
-                          "fontWeight": "400",
-                          "lineHeight": 19.599999999999998,
-                          "userSelect": "auto",
-                        }
+                  />
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      {
+                        "color": "#262424",
+                        "fontFamily": "Circular Std Book",
+                        "fontSize": 14,
+                        "fontWeight": "400",
+                        "lineHeight": 19.599999999999998,
+                        "userSelect": "auto",
                       }
-                      testID="task-description"
-                    >
-                      Task description
-                    </Text>
-                  </View>
+                    }
+                    testID="task-description"
+                  >
+                    Task description
+                  </Text>
                   <View
                     style={
                       {

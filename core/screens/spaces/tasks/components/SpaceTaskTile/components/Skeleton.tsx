@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import FilterPill from '@holi/core/components/FilterPill'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -28,28 +29,27 @@ const Skeleton = ({ descriptionWithDetails }: PropsWithSkeleton<Pick<Props, 'des
           <FilterPill loading />
         </View>
 
-        <View style={contentStyles.descriptionContainer}>
-          <HoliText loading skeletonOptions={{ width: '100%' }} />
+        <HoliGap size="s" />
+        <HoliText loading skeletonOptions={{ width: '100%' }} />
 
-          <HoliText loading style={contentStyles.publishedByTitle} skeletonOptions={{ width: '40%' }} />
+        <HoliText loading style={contentStyles.publishedByTitle} skeletonOptions={{ width: '40%' }} />
 
-          {descriptionWithDetails && (
-            <>
-              <View style={contentStyles.avatar}>
-                <HoliAvatar loading size="medium" />
-                <View style={{ flex: 1 }}>
-                  <HoliText loading skeletonOptions={{ width: '40%' }} />
-                </View>
+        {descriptionWithDetails && (
+          <>
+            <View style={contentStyles.avatar}>
+              <HoliAvatar loading size="medium" />
+              <View style={{ flex: 1 }}>
+                <HoliText loading skeletonOptions={{ width: '40%' }} />
               </View>
+            </View>
 
-              <HoliText loading style={contentStyles.contactInformationTitle} skeletonOptions={{ width: '60%' }} />
+            <HoliText loading style={contentStyles.contactInformationTitle} skeletonOptions={{ width: '60%' }} />
 
-              <View style={contentStyles.contactContainer}>
-                <HoliText loading size="small" style={styles.textWidth} skeletonOptions={{ width: '40%' }} />
-              </View>
-            </>
-          )}
-        </View>
+            <View style={contentStyles.contactContainer}>
+              <HoliText loading size="small" style={styles.textWidth} skeletonOptions={{ width: '40%' }} />
+            </View>
+          </>
+        )}
       </HoliCardComponent.ContentContainer>
     </HoliCardComponent.CardContainer>
   )

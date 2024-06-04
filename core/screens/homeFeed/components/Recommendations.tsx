@@ -1,13 +1,12 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
@@ -19,11 +18,20 @@ const Recommendations = () => {
   const { t } = useTranslation()
 
   return (
-    <HoliBox padding={[32, 0, 0, 0]}>
-      <HoliContainer gap={24}>
+    <View style={styles.container}>
+      <HoliContainer>
         <HoliHeading size="l">{t('recommendations.title')}</HoliHeading>
+      </HoliContainer>
+
+      <HoliContainer>
         <SpaceRecommendations />
+      </HoliContainer>
+
+      <HoliContainer>
         <TaskRecommendations />
+      </HoliContainer>
+
+      <HoliContainer>
         <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_DONATIONS}
           featureNameKey="donations:maintenance.feature"
@@ -31,6 +39,9 @@ const Recommendations = () => {
         >
           <DonationUpdates style={styles.updatesContainer} />
         </FeatureToggleGuard>
+      </HoliContainer>
+
+      <HoliContainer>
         <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_VOLUNTEERING}
           featureNameKey="volunteering:maintenance.feature"
@@ -38,6 +49,9 @@ const Recommendations = () => {
         >
           <VolunteeringUpdates style={styles.updatesContainer} />
         </FeatureToggleGuard>
+      </HoliContainer>
+
+      <HoliContainer>
         <FeatureToggleGuard
           toggleName={FeatureToggleName.APPS_GOODNEWS}
           featureNameKey="goodnews:maintenance.feature"
@@ -46,20 +60,19 @@ const Recommendations = () => {
           <GoodNewsUpdates style={styles.updatesContainer} />
         </FeatureToggleGuard>
       </HoliContainer>
-    </HoliBox>
+    </View>
   )
 }
 
 export default withProfiler(Recommendations, { name: 'Recommendations' })
 
 const styles = StyleSheet.create({
+  container: {
+    gap: 24,
+  },
   updatesContainer: {
     flex: 1,
     minHeight: 'auto',
     paddingBottom: 12,
-  },
-  maintenance: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
   },
 })
