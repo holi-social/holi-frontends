@@ -16,7 +16,7 @@ import { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/Challenge
 
 const { useParam } = createParamHooks<ChallengesAppHomeParams>()
 
-export const ChallengesAppHome = () => {
+const ChallengesAppHome = () => {
   const { theme } = useTheme()
   const { navigate } = useRouting()
   const [pathQueryParam] = useParam('path')
@@ -97,3 +97,5 @@ export const ChallengesAppHome = () => {
     />
   )
 }
+
+export default ChallengesAppHome
