@@ -89,7 +89,7 @@ This is the list of supported actions in the client. Version is currently not us
 }
 ```
 **share**
-```
+```json
 {
     'version': '1.0.0',
     'name': 'share',

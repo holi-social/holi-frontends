@@ -1,13 +1,16 @@
 import { Camera } from 'expo-camera'
 import Constants from 'expo-constants'
 import React, { useEffect, useRef, useState } from 'react'
+import { Platform, Share } from 'react-native'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
 
+import { holiNextJSApiUrl } from '@holi/api/config'
 import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -27,6 +30,7 @@ export const ChallengesAppHome = () => {
   const { navigate } = useRouting()
   const [pathQueryParam] = useParam('path')
   const { goBack } = useNavigation()
+  const { displayError } = useErrorHandling()
 
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
@@ -42,6 +46,23 @@ export const ChallengesAppHome = () => {
     const cameraPermissionResult = await Camera.getCameraPermissionsAsync()
     const micPermissionResult = await Camera.getMicrophonePermissionsAsync()
     return cameraPermissionResult.granted && micPermissionResult.granted
+  }
+
+  const share = async (message: string, path: string) => {
+    const url = `${holiNextJSApiUrl}/de/apps/challenges?path=${encodeURIComponent(path)}`
+    try {
+      const androidShowUrlInMessage = Platform.OS === 'android' ? (message && '\n') + url : ''
+      await Share.share({
+        title: 'Holi Challenge',
+        message: message + androidShowUrlInMessage,
+        url: url,
+      })
+    } catch (error) {
+      displayError(error, 'Failed to share link', {
+        location: 'useShareLink.shareLinkMobile',
+      })
+      throw error
+    }
   }
 
   const handleMessageFromBackend = async (event: WebViewMessageEvent) => {
@@ -63,7 +84,7 @@ export const ChallengesAppHome = () => {
         goBack()
         break
       case 'share':
-        // share link
+        await share(message.message, message.path)
         break
     }
   }
