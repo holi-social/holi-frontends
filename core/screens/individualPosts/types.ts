@@ -51,5 +51,4 @@ export interface FeedPost {
   linkPreview?: Link
   totalComments: number
   commenters: Paged<User>
-  mentions?: User[]
 }
