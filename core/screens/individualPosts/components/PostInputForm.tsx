@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
-import { PortalGate } from '@holi/core/providers/PortalProvider'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
 import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
@@ -19,7 +18,6 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -152,16 +150,20 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
               maxNoOfVisibleLines={3}
               noOfVisibleLines={2}
-              validationErrorText={title && fieldErrors?.title?.length ? fieldErrors.title[0] : undefined}
             />
-            <HoliRichTextInput
+            <HoliTextInput
               placeholder={descriptionPlaceholder}
               inputStyle={styles.descriptionInput}
               aria-label={descriptionPlaceholder}
               onChange={onChangeDescription}
-              placeholderTextColor={theme.colors.gray300}
+              placeholderColor={theme.colors.gray300}
               showCharacterCount
+              value={description}
               maxNoOfCharacters={FEED_POST_DESCRIPTION_MAX_CHARACTERS}
+              validationErrorText={
+                description && fieldErrors?.description?.length ? fieldErrors.description[0] : undefined
+              }
+              maxNoOfVisibleLines={1600}
             />
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
@@ -178,8 +180,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           isEdit={isEdit}
         />
       </KeyboardAvoidingView>
-      {/* Suggestions*/}
-      <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
       <HoliModalSelect
         options={visibilityOptions}
         title={t('individuals.post.input.visibility.title')}
@@ -217,7 +217,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     descriptionInput: {
       backgroundColor: 'transparent',
-      borderColor: 'transparent',
       borderWidth: 0,
       paddingTop: 6,
       paddingHorizontal: 10,
@@ -250,36 +249,6 @@ const getStyles = (theme: HoliTheme) =>
       zIndex: 1,
       gap: 8,
       paddingHorizontal: 16,
-    },
-    suggestionsScrollView: {
-      zIndex: 1,
-      width: '100%',
-      height: 150,
-      maxHeight: 150,
-      paddingTop: 10,
-      paddingBottom: 10,
-      backgroundColor: theme.colors.background10,
-      shadowColor: theme.colors.foreground30,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.4,
-      shadowRadius: 6,
-      borderRadius: 12,
-      elevation: 4,
-      borderTopWidth: 1,
-      borderTopColor: theme.colors.background30,
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.maxScreenWidth,
-          marginHorizontal: 'auto',
-        },
-      }),
-      position: 'absolute',
-      bottom: Platform.OS === 'web' ? 64 : 96,
-      left: 0,
-      right: 0,
     },
   })
 
