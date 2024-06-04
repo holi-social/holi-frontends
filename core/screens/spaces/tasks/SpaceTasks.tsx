@@ -78,7 +78,7 @@ const SpaceTasks = () => {
         <HoliBox padding={[24, 0]}>
           <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
-              <SpaceTaskList space={space} isAdmin={isAdmin} isCollaborator={isCollaborator} />
+              <SpaceTaskList space={space} isCollaborator={isCollaborator} />
             </HoliBox>
           </HoliContainer>
         </HoliBox>
