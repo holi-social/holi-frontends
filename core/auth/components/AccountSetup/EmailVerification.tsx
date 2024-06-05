@@ -65,7 +65,8 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
           displayError(error, 'Failed to retrieve email verification flow', {
             location: 'EmailVerification.getOrCreateVerificationFlow',
           })
-          isLoggedIn && logout({ redirectPath: '/', showToastAfter: false })
+
+          isLoggedIn ? logout({ redirectPath: '/', showToastAfter: false }) : navigate('/')
           onDismiss()
         })
         .finally(hideLoader)

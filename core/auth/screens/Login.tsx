@@ -36,7 +36,7 @@ const Login = () => {
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
@@ -95,15 +95,7 @@ const Login = () => {
         setVerificationFlowData(payload)
         await storeOnboardingState('emailVerification')
 
-        if (isWeb) {
-          navigate('/onboarding/registration')
-        } else {
-          // for Mobile we need first to close Loing modal
-          navigateBack()
-          // and then navigate to onboarding
-          // timeout is used for correct animation of closing modal and navigating
-          setTimeout(() => navigate('/onboarding/registration'), 300)
-        }
+        navigate('/onboarding/registration')
       } else {
         handleFormSubmitError(
           safeSetFlow,
