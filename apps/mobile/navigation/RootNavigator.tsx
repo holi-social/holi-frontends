@@ -8,6 +8,8 @@ import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
+import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
+import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
@@ -17,7 +19,6 @@ import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator
 import FeedPostsNavigator from '@holi/mobile/navigation/FeedPostsNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
-import OnboardingNavigator from '@holi/mobile/navigation/OnboardingNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
@@ -32,6 +33,8 @@ export type RootStackScreens = {
   [RouteName.ChatStack]: undefined
 
   [RouteName.Onboarding]: undefined
+  [RouteName.OnboardingRegistration]: undefined
+
   [RouteName.Login]: undefined
   [RouteName.ForgotPassword]: undefined
 
@@ -159,13 +162,16 @@ const RootNavigator = () => {
           headerShown: false,
         }}
       />
+      {/* Onboarding */}
       <RootStack.Screen
         name={RouteName.Onboarding}
-        component={OnboardingNavigator}
-        options={{
-          animation: 'slide_from_bottom',
-          headerShown: false,
-        }}
+        component={OnboardingWelcome}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <RootStack.Screen
+        name={RouteName.OnboardingRegistration}
+        component={OnboardingRegistration}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen
         name={RouteName.CreatePost}
