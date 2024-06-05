@@ -362,17 +362,13 @@ const InsightDetailPage = () => {
                 />
               </InsightCarouselSection>
             )}
-            {polls.length > 0 && (
+            {(polls.length > 0 || discussions.length > 0) && (
               <DiscussionsSection>
-                {polls.length > 0 && (
-                  <View>
-                    {polls.map((poll) => (
-                      <View key={poll.id} style={[styles.section, styles.pollContainer]}>
-                        <PollComponent poll={poll} />
-                      </View>
-                    ))}
+                {polls.map((poll) => (
+                  <View key={poll.id} style={[styles.section, styles.pollContainer]}>
+                    <PollComponent poll={poll} />
                   </View>
-                )}
+                ))}
                 {discussions.map((d) => (
                   <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
                 ))}
