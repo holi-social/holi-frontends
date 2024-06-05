@@ -2,6 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, StarRounded } from '@holi/icons/src/generated'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
@@ -32,11 +33,11 @@ const PollCompletionMessage = () => {
           <HoliText>{t('homeFeed.notEnoughVotesNotification.notification')}</HoliText>
           <div style={styles.greyContainer}>
             <HoliColumns alignItems="center" justifyContent="space-between">
-              <div>
+              <HoliLink label={t('profile.settings.notifications.GLOBAL.title')} href="/profile/settings/notifications">
                 <Trans t={t} i18nKey="homeFeed.notEnoughVotesNotification.activation">
                   <HoliText bold={true} />
                 </Trans>
-              </div>
+              </HoliLink>
               <HoliIcon style={styles.icon} icon={ArrowRightS} size={30} />
             </HoliColumns>
           </div>
