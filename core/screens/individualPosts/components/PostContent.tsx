@@ -112,6 +112,7 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       gap: Spacing['3xs'],
     },
     blockContainer: {
+      marginTop: Spacing.md,
       paddingHorizontal: sm ? Spacing.md : 0,
       width: '100%',
     },
