@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import * as React from 'react'
+import { ViewStyle } from 'react-native'
 
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
@@ -11,10 +12,11 @@ import { ImageCaption, type ImageCaptionProps } from './ImageCaption'
 import { ImageContainer, type ImageContainerProps } from './ImageContainer'
 import { BorderRadius } from './utils'
 
-export interface HoliCardProps extends CardContainerProps, ImageProps, ImageContainerProps {
+export interface HoliCardProps extends CardContainerProps, ImageContainerProps, Omit<ImageProps, 'borderRadius'> {
   imageBorderRadius?: BorderRadius
   caption?: React.ReactNode
   captionPosition?: ImageCaptionProps['position']
+  direction?: 'horizontal' | 'vertical'
 }
 
 const HoliCard = ({
@@ -32,15 +34,29 @@ const HoliCard = ({
   borderColor,
   borderRadius = 16,
   imageBorderRadius = 8,
+  direction = 'vertical',
   testID = 'holi-card',
 }: PropsWithChildren<PropsWithSkeleton<HoliCardProps>>) => {
-  const cardConainerProps = { hasBorder, borderColor, borderRadius, testID }
-  const containerProps = { borderRadius: imageBorderRadius, testID }
+  const cardConainerProps = {
+    hasBorder,
+    borderColor,
+    borderRadius,
+    testID,
+    extraBottomPadding: direction === 'vertical',
+    flexDirection: (direction === 'horizontal' ? 'row' : 'column') as ViewStyle['flexDirection'],
+  }
+  const containerProps = {
+    borderRadius: imageBorderRadius,
+    testID,
+    extraBottomMargin: direction === 'vertical',
+    alignItems: (direction === 'horizontal' ? 'flex-start' : undefined) as ViewStyle['alignItems'],
+  }
+  const imageFlexBasis = direction === 'horizontal' ? imageWidth : undefined
   const imageCaptionProps = { position, testID }
 
   return (
     <CardContainer {...cardConainerProps}>
-      <ImageContainer {...containerProps}>
+      <ImageContainer {...containerProps} flexBasis={imageFlexBasis}>
         {loading ? (
           <HoliSkeleton
             width={imageWidth ?? 0}

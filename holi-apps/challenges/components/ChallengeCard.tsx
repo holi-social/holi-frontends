@@ -12,7 +12,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
 import { Challenge } from '@holi-apps/challenges/components/types'
-import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
 interface ChallengeCardProps {
   challenge: Challenge
@@ -39,7 +39,7 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
     <View style={styles.container}>
       <HoliLinkTracked
         label={challenge.title}
-        href={createChallengesPath(challenge.challengeDetailPath)}
+        href={createInAppChallengesPath(challenge.challengeDetailPath)}
         trackingEvent={trackingEvent}
       >
         <View style={styles.headline}>

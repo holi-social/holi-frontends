@@ -44,6 +44,7 @@ const getStyles = ({ colors }: HoliTheme) =>
       borderWidth: 1,
       borderRadius: 24,
       marginBottom: Spacing.xl,
+      padding: 0,
     },
     title: {
       flexDirection: 'row',

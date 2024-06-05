@@ -1,2 +1,4 @@
 // Challenges are only displayed on mobile
-export const RecommendedChallenges = () => null
+const RecommendedChallenges = () => null
+
+export default RecommendedChallenges

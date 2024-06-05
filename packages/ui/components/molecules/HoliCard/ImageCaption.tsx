@@ -16,8 +16,7 @@ export const ImageCaption = ({ position = 'bottom', children, testID }: PropsWit
 const styles = StyleSheet.create({
   imageCaption: {
     position: 'absolute',
-    maxWidth: '90%',
-    bottom: 8,
-    left: 8,
+    maxWidth: '100%',
+    paddingHorizontal: 8,
   },
 })

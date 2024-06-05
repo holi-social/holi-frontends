@@ -89,11 +89,16 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
     }
   })
 
-  const renderError = () => (
-    <View style={styles.messageContainer}>
-      <HoliText>{errormessage} </HoliText>
-    </View>
+  const renderError = useCallback(
+    () => (
+      <View style={styles.messageContainer}>
+        <HoliText>{errormessage} </HoliText>
+      </View>
+    ),
+    [styles.messageContainer, errormessage]
   )
+
+  const renderLoading = useCallback(() => <HoliLoader style={styles.loaderContainer} />, [styles.loaderContainer])
 
   const onShouldStartLoadWithRequest = useCallback(
     (request: ShouldStartLoadRequest): boolean => {
@@ -123,7 +128,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
       onRenderProcessGone={handleError('onRenderProcessGone')}
       onNavigationStateChange={onNavigationStateChange}
       startInLoadingState={true}
-      renderLoading={() => <HoliLoader style={styles.loaderContainer} />}
+      renderLoading={renderLoading}
       renderError={renderError}
       onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
       allowsBackForwardNavigationGestures={allowsBackForwardNavigationGesturesMultiOS}

@@ -67,11 +67,7 @@ const InspirationPostMediaHeader = ({ post }: InspirationPostMediaHeaderProps) =
           {!!post?.inspirationPostCategory?.title && <HoliHeading>{post?.inspirationPostCategory?.title}</HoliHeading>}
         </View>
         <HoliText size="small" style={styles.inspirationDate}>
-          {/*
-            converting given timestamp to a date first (with '00:00:00' as time)
-            to show the real days instead of exact timestamp calculations
-           */}
-          {getFormattedDate(new Date(post?.modified + '').toDateString(), i18n.language)}
+          {getFormattedDate(post?.modified, i18n.language)}
         </HoliText>
       </View>
     )
