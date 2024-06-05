@@ -73,7 +73,9 @@ const Spaces = () => {
   )
 
   const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
+    isLoggedIn
+      ? navigate('/spaces/create')
+      : openLoginModal({ description: t('spaces.create.loginRedirect.text'), redirectPath: '/spaces/create' })
   }, [isLoggedIn, navigate, openLoginModal, t])
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
