@@ -29,5 +29,6 @@ export const useChallengesHeaders = () => {
     }
   }, [authHeaders, useConsent.ANALYTICS])
 
+  if (isLoggedIn && (!authHeaders || !authHeaders.Authorization)) return undefined
   return headers
 }
