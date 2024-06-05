@@ -25,7 +25,7 @@ const Recommendation = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) 
   }
 
   return (
-    <HoliLink href={`/spaces/${space.name}/tasks/${task.id}`} label={task.name}>
+    <HoliLink href={`/spaces/${space.name}/tasks/${task.id}`} label={task.name} isFullHeight>
       <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
         <Image
           imageUrl={task.thumbnail}
