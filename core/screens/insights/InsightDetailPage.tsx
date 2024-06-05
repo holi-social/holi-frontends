@@ -5,6 +5,7 @@ import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
+import { Discussion } from '@holi/api/graphql/graphql-codegen'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -19,6 +20,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
@@ -112,6 +114,7 @@ const InsightDetailPage = () => {
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []
+  const discussions: Discussion[] = insight?.discussions || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
@@ -370,8 +373,12 @@ const InsightDetailPage = () => {
                     ))}
                   </View>
                 )}
+                {discussions.map((d) => (
+                  <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
+                ))}
               </DiscussionsSection>
             )}
+
             {posts.length > 0 && (
               <View style={[styles.section, styles.posts]}>
                 <HoliGridWrapper>
