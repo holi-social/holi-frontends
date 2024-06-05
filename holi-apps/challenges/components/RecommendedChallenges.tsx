@@ -15,7 +15,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { ChallengeCard, calculateCardWidth } from '@holi-apps/challenges/components/ChallengeCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
-import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 
 const API_URL = challengeAppBaseUrl + '/api/v1/challenge-with-submissions'
@@ -70,7 +70,7 @@ const RecommendedChallenges = () => {
         appIcon={StarSmileFilled}
         heading={t('challenges:recommendations.title')}
         subline={t('challenges:recommendations.subline')}
-        onPressSeeMore={() => navigate(createChallengesPath(allChallengePath))}
+        onPressSeeMore={() => navigate(createInAppChallengesPath(allChallengePath))}
         labelSeeMore={t('global.seeMore')}
         loading={isLoading}
         style={styles.challengesCardContainer}

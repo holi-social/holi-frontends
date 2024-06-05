@@ -8,7 +8,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
 import { Submission } from '@holi-apps/challenges/components/types'
-import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
 const IMAGE_HEIGHT = 195
 
@@ -25,7 +25,11 @@ export const SubmissionCard = ({ challengeTitle, submission, width, trackingEven
 
   return (
     <View style={styles.container}>
-      <HoliLinkTracked label={label} href={createChallengesPath(submission.playerPath)} trackingEvent={trackingEvent}>
+      <HoliLinkTracked
+        label={label}
+        href={createInAppChallengesPath(submission.playerPath)}
+        trackingEvent={trackingEvent}
+      >
         <HoliImage
           source={{ uri: submission.imageUrl, width, height: IMAGE_HEIGHT }}
           label={label}
