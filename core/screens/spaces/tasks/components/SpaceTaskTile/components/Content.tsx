@@ -25,14 +25,14 @@ export interface Props {
   task: Task
   richTextOutputColor?: HoliTextProps['color']
   descriptionWithDetails?: boolean
-  shortendSkills?: boolean
+  recommendation?: boolean
 }
 
 const Content = ({
   task,
   richTextOutputColor = 'black300',
   descriptionWithDetails = false,
-  shortendSkills = false,
+  recommendation: recommendation = false,
 }: Props) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -64,7 +64,7 @@ const Content = ({
 
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
-          {shortendSkills ? (
+          {recommendation ? (
             <>
               <FilterPill small label={task.skills[0].title} filterType="skill" style={styles.pill} />
               {task.skills.length > 1 && <FilterPill small label={'+' + (task.skills.length - 1)} filterType="skill" />}
@@ -81,6 +81,7 @@ const Content = ({
 
       <HoliGap size="s" />
       <HoliRichTextOutput
+        {...(recommendation ? { numberOfLines: 2 } : {})}
         text={task.description}
         color={richTextOutputColor}
         size="small"

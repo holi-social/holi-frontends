@@ -54,13 +54,7 @@ const HoliButtonLoading = ({
   const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
 
   return (
-    <HoliButton
-      label={label}
-      disabled={disabled || (disabled === undefined && isSpinning)}
-      onPress={onPressWrapper}
-      testID={testID}
-      {...props}
-    >
+    <HoliButton label={label} disabled={disabled || isSpinning} onPress={onPressWrapper} testID={testID} {...props}>
       <HoliText style={disabled && styles.textDisabled} color={color}>
         {labelToShow}
       </HoliText>

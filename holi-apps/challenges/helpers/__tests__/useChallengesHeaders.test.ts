@@ -22,7 +22,7 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
 
 describe('useChallengesHeaders', () => {
   beforeEach(() => {
-    mockCreateAuthorizationHeaders.mockResolvedValue(undefined)
+    mockCreateAuthorizationHeaders.mockResolvedValue({})
     mockUseAuth.mockReturnValue({
       isLoggedIn: false,
     })
@@ -33,6 +33,7 @@ describe('useChallengesHeaders', () => {
 
   it('should load auth headers if logged in', async () => {
     mockCreateAuthorizationHeaders.mockResolvedValue({
+      Authorization: 'Bearer testSessionToken',
       'X-Session-Token': 'testSessionToken',
     })
     mockUseAuth.mockReturnValue({
@@ -55,6 +56,7 @@ describe('useChallengesHeaders', () => {
 
   it('should return correct headers for logged in user', async () => {
     mockCreateAuthorizationHeaders.mockResolvedValue({
+      Authorization: 'Bearer testSessionToken',
       'X-Session-Token': 'testSessionToken',
     })
     mockUseAuth.mockReturnValue({
@@ -66,6 +68,7 @@ describe('useChallengesHeaders', () => {
     await waitFor(() => expect(result.current['X-Session-Token']).not.toBeUndefined())
 
     expect(result.current).toEqual({
+      Authorization: 'Bearer testSessionToken',
       'X-Session-Token': 'testSessionToken',
       'X-Client-Platform': 'holi',
       'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',

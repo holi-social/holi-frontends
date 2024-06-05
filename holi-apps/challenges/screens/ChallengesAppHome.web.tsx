@@ -3,7 +3,7 @@ import React from 'react'
 
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
+import { createExternalChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
 
 const { useParam } = createParamHooks<ChallengesAppHomeParams>()
@@ -12,11 +12,9 @@ const ChallengesAppHome = () => {
   const [pathQueryParam] = useParam('path')
 
   // Immediately redirect to the challenges web app
-  const uri = new URL(challengeAppBaseUrl)
-  if (pathQueryParam) {
-    uri.pathname = decodeURIComponent(pathQueryParam)
-  }
-  window.location.href = uri.toString()
+  const uri = createExternalChallengesPath(pathQueryParam)
+
+  window.location.href = uri
   return null
 }
 
