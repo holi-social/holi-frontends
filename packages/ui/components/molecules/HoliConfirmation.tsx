@@ -37,6 +37,7 @@ export interface HoliConfirmationProps extends ModalProps {
   title: string
   description: string
   confirmationButtonType?: HoliButtonType
+  redirectPath?: string
   onConfirm?: () => boolean | void
   onDismiss?: () => boolean | void
   confirmText?: string

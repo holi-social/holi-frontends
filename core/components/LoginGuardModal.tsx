@@ -19,6 +19,7 @@ export const LoginGuardModal = ({
   onConfirm,
   onDismiss,
   confirmationButtonType,
+  redirectPath,
   testID = 'login-guard-modal',
 }: LoginGuardModalProps) => {
   const { t } = useTranslation()
@@ -27,12 +28,12 @@ export const LoginGuardModal = ({
   const pathname = usePathname()
 
   const confirmHandler = useCallback(() => {
-    setPathToRedirect(pathname)
+    setPathToRedirect(redirectPath ?? pathname)
     navigate('/login')
 
     const confirmPropagation = onConfirm?.()
     if (confirmPropagation !== false) props.onConfirm?.()
-  }, [navigate, onConfirm, pathname, props])
+  }, [navigate, onConfirm, pathname, props, redirectPath])
 
   const dismissHandler = useCallback(() => {
     const dismissPropagation = onDismiss?.()

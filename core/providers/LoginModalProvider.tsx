@@ -10,6 +10,7 @@ export type LoginModalProps = {
   description?: string
   confirmText?: string
   dismissText?: string
+  redirectPath?: string
 }
 
 export interface LoginModalContext {
