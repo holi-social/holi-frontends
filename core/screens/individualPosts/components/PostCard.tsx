@@ -192,6 +192,7 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
+      paddingBottom: Spacing.xs,
     },
     imageContainer: {
       borderRadius: Spacing.xxs,
