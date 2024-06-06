@@ -55,9 +55,37 @@ export const SpaceInviteListFragment = gql`
   }
 `
 
+export const FullTaskFragment = gql`
+  ${UserAvatarFragment}
+  fragment FullTask on Task {
+    id
+    name
+    description
+    slotsAvailable
+    slotsTaken
+    location
+    regularity
+    visibility
+    locationType
+    contactEmail
+    contactPhone
+    thumbnail
+    thumbnailBlurhash
+    creator {
+      ...UserAvatar
+    }
+    skills {
+      id
+      title
+      slug
+    }
+  }
+`
+
 // We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const FullSpaceFragment = gql`
   ${UserAvatarFragment}
+  ${FullTaskFragment}
   fragment FullSpace on Space {
     id
     title
@@ -113,27 +141,7 @@ export const FullSpaceFragment = gql`
       totalResults
     }
     tasks {
-      id
-      name
-      description
-      slotsAvailable
-      slotsTaken
-      location
-      regularity
-      visibility
-      locationType
-      contactEmail
-      contactPhone
-      thumbnail
-      thumbnailBlurhash
-      creator {
-        ...UserAvatar
-      }
-      skills {
-        id
-        title
-        slug
-      }
+      ...FullTask
     }
     topics {
       id
