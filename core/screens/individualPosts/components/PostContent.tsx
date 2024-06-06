@@ -110,8 +110,10 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
+      paddingBottom: Spacing.xs,
     },
     blockContainer: {
+      marginTop: Spacing.md,
       paddingHorizontal: sm ? Spacing.md : 0,
       width: '100%',
     },
