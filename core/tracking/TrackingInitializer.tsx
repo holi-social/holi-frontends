@@ -1,6 +1,7 @@
 import { ApolloClient, ReactiveVar, makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 
+import { listenOnLoginStateChange } from '@holi/core/auth/helpers/useAuth'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
   AuthenticatedUserV2Response,
@@ -174,22 +175,6 @@ export const updateConsentState = (newConsentState: ConsentState) => {
   })
 }
 
-export const userLoggedIn = (): void => {
-  const currentState = stateVar()
-  stateVar({
-    state: currentState.state,
-    processing: { trigger: 'userLoggedIn' },
-  })
-}
-
-export const userLoggedOut = (): void => {
-  const currentState = stateVar()
-  stateVar({
-    state: currentState.state,
-    processing: { trigger: 'userLoggedOut' },
-  })
-}
-
 export const useConsentState = (): ConsentState => {
   const user = useLoggedInUser()
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
@@ -248,6 +233,27 @@ const TrackingInitializerInner = ({
   const apollo: ApolloClient<object> = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
   const state = useReactiveVar(stateVar)
+
+  useEffect(() => {
+    const unsubscribe = listenOnLoginStateChange((curState, prevState) => {
+      if (curState.isLoggedIn) {
+        logger.debug('TrackingInitializer', 'detected user login')
+        const currentState = stateVar()
+        stateVar({
+          state: currentState.state,
+          processing: { trigger: 'userLoggedIn' },
+        })
+      } else if (curState.isLoggedOut && prevState?.isLoggedOut === false) {
+        logger.debug('TrackingInitializer', 'detected user logout')
+        const currentState = stateVar()
+        stateVar({
+          state: currentState.state,
+          processing: { trigger: 'userLoggedOut' },
+        })
+      }
+    })
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
     if (state.processing) {
