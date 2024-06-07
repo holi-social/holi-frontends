@@ -64,7 +64,7 @@ const renderDiscoverSpaces = (
 
 describe('DiscoverSpacesView', () => {
   it('renders correctly, without user spaces, when loading', async () => {
-    const { getByTestId, queryAllByTestId } = renderDiscoverSpaces([], [], undefined, { topics: [] })
+    const { getByTestId, queryAllByTestId } = renderDiscoverSpaces([], [], undefined, { loadingTopics: true })
 
     expect(getByTestId('discover-spaces-header')).toHaveTextContent('spaces.discover.welcome')
     expect(getByTestId('discover-spaces-description')).toHaveTextContent('spaces.discover.description')
@@ -104,7 +104,7 @@ describe('DiscoverSpacesView', () => {
 
   it('renders correctly, with user spaces, when loading', async () => {
     const { getByTestId, queryAllByTestId } = renderDiscoverSpaces(userTopics, userSkills, undefined, {
-      topics: [],
+      loadingTopics: true,
     })
 
     expect(getByTestId('discover-spaces-header')).toHaveTextContent('spaces.discover.welcome')

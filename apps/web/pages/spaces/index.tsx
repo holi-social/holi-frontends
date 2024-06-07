@@ -1,18 +1,44 @@
+import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
-import { sdgsQuery, skillsQuery } from '@holi/core/screens/userprofile/queries'
+import { SPACES_GROUP_LIMIT } from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
+import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
+import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { sdgsQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
+import { TopicsQueryResult, skillsQuery } from '@holi/core/screens/userprofile/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const SpacesPage: NextPage = () => <Spaces />
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  // Headstart to reduce renderPromises in _document.getInitialProps
-  const queries = [{ query: topicsQuery }, { query: skillsQuery }, { query: sdgsQuery }]
+  const createQueries = async (client: ApolloClient<NormalizedCacheObject>) => {
+    const topics = await client
+      .query<TopicsQueryResult>({ query: topicsQuery })
+      .then((result) => result.data.topics?.data.slice() || [])
 
-  return createServerSideProps(context, queries, { seoTitle: 'seo.h1.spaces' })
+    const defaultTopics = getDefaultTopics(topics, []).slice(0, 2)
+
+    const queries = [
+      { query: skillsQuery },
+      { query: sdgsQuery },
+      ...defaultTopics.map((topic) => {
+        return {
+          query: discoverSpacesQuery,
+          variables: {
+            topicIds: [topic.id],
+            limit: SPACES_GROUP_LIMIT,
+            offset: 0,
+          },
+        }
+      }),
+    ]
+
+    return queries
+  }
+
+  return createServerSideProps(context, createQueries, { seoTitle: 'seo.h1.spaces' })
 }
 
 export default SpacesPage

@@ -5,7 +5,7 @@ import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import SpaceTasks from '@holi/core/screens/spaces/tasks/SpaceTasks'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
-const SpaceTasksPage: NextPage = () => <SpaceTasks />
+const SpaceTasksPace: NextPage = () => <SpaceTasks />
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const { spaceIdOrName } = context.query
@@ -16,7 +16,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
       variables: {
         idOrName: spaceIdOrName,
       },
-      skip: !spaceIdOrName,
     },
   ]
 
@@ -28,4 +27,4 @@ export const getServerSideProps = async (context: NextPageContext) => {
   })
 }
 
-export default SpaceTasksPage
+export default SpaceTasksPace

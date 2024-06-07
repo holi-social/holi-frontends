@@ -99,6 +99,24 @@ describe('createServerSideProps', () => {
     })
   })
 
+  it('should create and execute list of queries returned by a creator function and add apollo state to page props', async () => {
+    const createQueries = jest.fn().mockResolvedValue([query1, query2])
+
+    const props = await createServerSideProps(context, createQueries)
+
+    expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
+    expect(createQueries).toHaveBeenCalledWith(mockedClient)
+    expect(mockQueryFunction).toBeCalledTimes(2 + 1)
+    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
+    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
+    expect(props).toEqual({
+      props: {
+        ...expectedProps,
+        [APOLLO_STATE_PROP_NAME]: mockedCache,
+      },
+    })
+  })
+
   it('should add apollo state to page props even if a query fails', async () => {
     mockQueryFunction.mockRejectedValueOnce(new Error('test'))
 
@@ -143,6 +161,48 @@ describe('createServerSideProps', () => {
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
       notFound: true,
+    })
+  })
+
+  it('should redirect to 404 page if creating the queries results in a NOT_FOUND error', async () => {
+    const createQueries = jest.fn().mockRejectedValueOnce(
+      new ApolloError({
+        graphQLErrors: [
+          new GraphQLError('Not found', {
+            extensions: {
+              code: 'NOT_FOUND',
+            },
+          }),
+        ],
+      })
+    )
+
+    const props = await createServerSideProps(context, createQueries)
+
+    expect(createQueries).toHaveBeenCalledWith(mockedClient)
+    expect(props).toEqual({
+      notFound: true,
+    })
+  })
+
+  it('should only pass minimal props to switch to client side rendering if creating the queries results fails', async () => {
+    const createQueries = jest.fn().mockRejectedValueOnce(
+      new ApolloError({
+        graphQLErrors: [
+          new GraphQLError('Forbidden', {
+            extensions: {
+              code: 'FORBIDDEN',
+            },
+          }),
+        ],
+      })
+    )
+
+    const props = await createServerSideProps(context, createQueries)
+
+    expect(createQueries).toHaveBeenCalledWith(mockedClient)
+    expect(props).toStrictEqual({
+      props: minimalProps,
     })
   })
 

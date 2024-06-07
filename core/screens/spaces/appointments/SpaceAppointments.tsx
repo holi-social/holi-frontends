@@ -1,11 +1,10 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
@@ -47,7 +46,7 @@ const SpaceAppointments = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
-  const { height: screenHeight, width: screenWidth } = useClientWindowDimensions()
+  const { height: screenHeight, width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const { theme } = useTheme()
   const { colors } = theme

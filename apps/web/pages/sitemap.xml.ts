@@ -13,17 +13,7 @@ const logger = pino()
 
 type Path = string | { [key: string]: string }
 
-const static_urls: Path[] = [
-  '/',
-  '/spaces',
-  '/appsHub',
-  donationPaths,
-  volunteeringPaths,
-  '/insights',
-  '/insights/curationPrinciples',
-  '/login',
-  '/profile',
-]
+const static_urls: Path[] = ['/', '/spaces', '/appsHub', donationPaths, volunteeringPaths]
 
 const topicSlugsQuery = gql`
   query Topics {

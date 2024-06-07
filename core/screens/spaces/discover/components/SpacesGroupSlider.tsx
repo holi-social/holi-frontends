@@ -71,7 +71,7 @@ const SpacesGroupSlider = ({
 
   const topicFilter = topic ? { topicIds: [topic.id] } : {}
   const skillFilter = skill ? { skillIds: [skill.id] } : {}
-  const { data } = useQuery<DiscoverSpacesData, DiscoverSpacesVariables>(discoverSpacesQuery, {
+  const { loading: dataLoading, data } = useQuery<DiscoverSpacesData, DiscoverSpacesVariables>(discoverSpacesQuery, {
     variables: {
       // component is either parameterized with topic or skill, so this doesn't fetch both
       ...topicFilter,
@@ -99,7 +99,7 @@ const SpacesGroupSlider = ({
 
   const seeMoreQueryParams = [topicQuery, skillQuery, locationQuery].filter((query) => !!query).join('&')
 
-  const loading = manualLoading || !fetchedSpaces || loadingGeolocation
+  const loading = manualLoading || (dataLoading && !fetchedSpaces) || loadingGeolocation
 
   if (!loading && totalResults === 0) {
     // some topics or skills don't have associated spaces, then we just choose to not display them for now

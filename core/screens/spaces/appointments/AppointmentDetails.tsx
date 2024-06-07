@@ -1,13 +1,12 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Linking, Platform, StyleSheet, View } from 'react-native'
+import { DimensionValue, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
@@ -55,7 +54,7 @@ const AppointmentDetails = () => {
   const setScreenOptions = useSetScreenOptions()
   const { navigateBack, replaceRoute, navigate } = useRouting()
   const loginState = useAuth()
-  const { width: deviceWidth } = useClientWindowDimensions()
+  const { width: deviceWidth } = useWindowDimensions()
 
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
@@ -63,9 +62,10 @@ const AppointmentDetails = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { error: errorSpace, space, refetch: refetchSpace } = useSpace(spaceIdOrName)
+  const { loading: loadingSpace, error: errorSpace, space, refetch: refetchSpace } = useSpace(spaceIdOrName)
 
   const {
+    loading: loadingAppointment,
     error: errorAppointment,
     data: appointmentData,
     refetch: refetchAppointment,
@@ -126,7 +126,7 @@ const AppointmentDetails = () => {
     })
   }, [setScreenOptions, t, renderActionDrawer, colors.background10, styles.headerRight])
 
-  if (!appointment || !space || refreshing) {
+  if ((loadingAppointment && !appointment) || (loadingSpace && !space) || refreshing) {
     return <HoliLoader />
   }
 

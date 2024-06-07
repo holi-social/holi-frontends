@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client'
 
 import {
-  FullTaskFragment,
   SpaceInviteListFragment,
   SpaceMemberListFragment,
   SpaceMembershipRequestListFragment,
@@ -73,16 +72,6 @@ export const userConnectionsQuery = gql`
         connectionStatusToSpace(spaceId: $spaceId)
         connectionStatusToMyself
       }
-    }
-  }
-`
-
-export const taskByIdQuery = gql`
-  ${FullTaskFragment}
-
-  query taskById($id: UUID!) {
-    taskById(id: $id) {
-      ...FullTask
     }
   }
 `

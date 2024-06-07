@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, Suspense, useMemo, useState } from 'react'
+import React, { PropsWithChildren, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 const DEFAULT_PLACEHOLDER_HEIGHT = 350
@@ -24,7 +24,11 @@ const ScrollBasedRender = ({ placeholder, children }: PropsWithChildren<Props>) 
     [ref, placeholder]
   )
 
-  return <Suspense fallback={wrappedPlaceholder}>{showChildren ? children : wrappedPlaceholder}</Suspense>
+  if (showChildren) {
+    return <>{children}</>
+  } else {
+    return wrappedPlaceholder
+  }
 }
 
 export default ScrollBasedRender

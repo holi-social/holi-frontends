@@ -55,7 +55,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   const styles = useMemo(() => getStyles(theme), [theme])
   const { width: screenWidth } = useClientWindowDimensions()
 
-  const { topics = [] } = useContext(SpaceTermContext)
+  const { loadingTopics: loading, topics = [] } = useContext(SpaceTermContext)
 
   const defaultTopics = useMemo(
     () =>
@@ -193,38 +193,39 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
           )
         })}
 
-        {!topics.length && <SpacesGroupSliderSkeletons />}
+        {loading && <SpacesGroupSliderSkeletons />}
 
-        {userTopics.length + userSkills.length > 0 && defaultTopics.length > 0 && (
+        {!loading && userTopics.length + userSkills.length > 0 && defaultTopics.length > 0 && (
           <HoliText style={styles.othersTitle} testID="discover-spaces-others">
             {t('spaces.discover.others')}
           </HoliText>
         )}
 
-        {defaultTopics.map((defaultTopic, index) => {
-          // render the first two default topics without ScrollBasedRender, to avoid an empty list after login
-          if (index < 2) {
+        {!loading &&
+          defaultTopics.map((defaultTopic, index) => {
+            // render the first two default topics without ScrollBasedRender, to avoid an empty list after login
+            if (index < 2) {
+              return (
+                <SpacesGroupSlider
+                  key={index}
+                  topic={defaultTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topic-slider-others"
+                />
+              )
+            }
             return (
-              <SpacesGroupSlider
-                key={index}
-                topic={defaultTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topic-slider-others"
-              />
+              <ScrollBasedRender key={index}>
+                <SpacesGroupSlider
+                  topic={defaultTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topic-slider-others"
+                />
+              </ScrollBasedRender>
             )
-          }
-          return (
-            <ScrollBasedRender key={index}>
-              <SpacesGroupSlider
-                topic={defaultTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topic-slider-others"
-              />
-            </ScrollBasedRender>
-          )
-        })}
+          })}
       </View>
     </View>
   )

@@ -178,6 +178,8 @@ interface ApolloCreateClientOptions {
 const API_URL = 'http://localhost:3000/api/graphql'
 const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
 
+const cache = createCache()
+
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
 // For mobile it is also necessary to explicitly set the Accept-Language header.
@@ -190,7 +192,7 @@ const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   return new ApolloClient({
     ssrMode,
     link: clientLink,
-    cache: createCache(),
+    cache,
     assumeImmutableResults: true,
   })
 }

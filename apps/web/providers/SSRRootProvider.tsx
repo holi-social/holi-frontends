@@ -1,7 +1,6 @@
 import { ApolloProvider } from '@apollo/client'
-import { getApolloContext } from '@apollo/client'
 import type { PropsWithChildren } from 'react'
-import React, { useContext } from 'react'
+import React from 'react'
 
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
@@ -21,10 +20,7 @@ interface RootProviderProps {
 }
 
 const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
-  // Apollo context is only available on the server side: client side will create new client from page props
-  const apolloSsrClient = useApolloSSRClient(pageProps)
-  const apolloContext = useContext(getApolloContext())
-  const apolloWebClient = apolloContext.client ?? apolloSsrClient
+  const apolloWebClient = useApolloSSRClient(pageProps)
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>
