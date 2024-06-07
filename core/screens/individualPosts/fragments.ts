@@ -50,9 +50,5 @@ export const FeedPostDetailsFragment = gql`
         ...UserAvatar
       }
     }
-    mentions {
-      id
-      fullName
-    }
   }
 `
