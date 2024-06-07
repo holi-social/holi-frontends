@@ -8,8 +8,20 @@ import { Paged } from '@holi/core/types'
 export const spacesQuery = gql`
   ${SpaceOverviewFragment}
 
-  query Spaces($topicSlug: String, $geolocation: GeoJSON, $skillSlugs: [String], $offset: Int! = 0, $limit: Int! = 12) {
-    spaces(topicSlug: $topicSlug, geolocation: $geolocation, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
+  query Spaces(
+    $topicSlugs: [String]
+    $geolocation: GeoJSON
+    $skillSlugs: [String]
+    $offset: Int! = 0
+    $limit: Int! = 12
+  ) {
+    spaces(
+      topicSlugs: $topicSlugs
+      geolocation: $geolocation
+      skillSlugs: $skillSlugs
+      offset: $offset
+      limit: $limit
+    ) {
       totalResults
       data {
         ...SpaceOverview
