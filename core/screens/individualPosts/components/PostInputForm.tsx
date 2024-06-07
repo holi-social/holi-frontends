@@ -18,7 +18,6 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -151,16 +150,20 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
               maxNoOfVisibleLines={3}
               noOfVisibleLines={2}
-              validationErrorText={title && fieldErrors?.title?.length ? fieldErrors.title[0] : undefined}
             />
-            <HoliRichTextInput
+            <HoliTextInput
               placeholder={descriptionPlaceholder}
               inputStyle={styles.descriptionInput}
               aria-label={descriptionPlaceholder}
               onChange={onChangeDescription}
-              placeholderTextColor={theme.colors.gray300}
+              placeholderColor={theme.colors.gray300}
               showCharacterCount
+              value={description}
               maxNoOfCharacters={FEED_POST_DESCRIPTION_MAX_CHARACTERS}
+              validationErrorText={
+                description && fieldErrors?.description?.length ? fieldErrors.description[0] : undefined
+              }
+              maxNoOfVisibleLines={1600}
             />
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
@@ -214,7 +217,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     descriptionInput: {
       backgroundColor: 'transparent',
-      borderColor: 'transparent',
       borderWidth: 0,
       paddingTop: 6,
       paddingHorizontal: 10,
