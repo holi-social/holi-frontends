@@ -4,9 +4,7 @@ import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -28,11 +26,10 @@ const CreatePost = () => {
 
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { navigateBack, navigate } = useRouting()
+  const { navigateBack } = useRouting()
 
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
 
@@ -105,39 +102,29 @@ const CreatePost = () => {
     setShowCategories((value) => !value)
   }
 
-  if (!ftLoading && !ftEnabled) {
-    navigate('/404')
-  }
-
-  if (ftLoading) {
-    return <></>
-  }
-
   return (
-    <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-      <View style={styles.grayExtendingBackground}>
-        {showCategories ? (
-          <CategorySelection loading={categoriesLoading} categories={categories} onCategorySelection={selectCategory} />
-        ) : (
-          <PostInputForm
-            title={title}
-            onChangeTitle={setTitle}
-            description={description}
-            onChangeDescription={setDescription}
-            image={image}
-            onChangeImage={setImage}
-            selectedCategoryId={selectedCategoryId}
-            onChangeSelectedCategoryId={setSelectedCategoryId}
-            selectedVisibility={selectedVisibility}
-            onChangeSelectedVisibility={setSelectedVisibility}
-            onSubmit={createPost}
-            submitting={submitting}
-            categories={categories}
-            onClickCategoriesPill={toggleShowCategories}
-          />
-        )}
-      </View>
-    </FeatureToggleGuard>
+    <View style={styles.grayExtendingBackground}>
+      {showCategories ? (
+        <CategorySelection loading={categoriesLoading} categories={categories} onCategorySelection={selectCategory} />
+      ) : (
+        <PostInputForm
+          title={title}
+          onChangeTitle={setTitle}
+          description={description}
+          onChangeDescription={setDescription}
+          image={image}
+          onChangeImage={setImage}
+          selectedCategoryId={selectedCategoryId}
+          onChangeSelectedCategoryId={setSelectedCategoryId}
+          selectedVisibility={selectedVisibility}
+          onChangeSelectedVisibility={setSelectedVisibility}
+          onSubmit={createPost}
+          submitting={submitting}
+          categories={categories}
+          onClickCategoriesPill={toggleShowCategories}
+        />
+      )}
+    </View>
   )
 }
 
