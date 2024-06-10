@@ -6,10 +6,10 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
-  const loginState = useAuth()
+  const { loginState } = useAuth()
   const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
 
-  if (loginState.isUnknown || isUserLoading) return <HoliLoader testID="loader" />
+  if (loginState === 'unknown' || isUserLoading) return <HoliLoader testID="loader" />
 
   return isLoggedIn ? <>{children}</> : <AnonymousProfileView />
 }

@@ -4,8 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { act, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, setUserLoggedOut, useAuthExportedForTesting } from '@holi/core/auth/helpers/useAuth'
 import {
   AuthenticatedUserV2Response,
   AuthenticatedUserV2Variables,
@@ -20,6 +18,8 @@ import TrackingInitializer, {
   initialState,
   stateVar,
   updateConsentState,
+  userLoggedIn,
+  userLoggedOut,
 } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
@@ -153,25 +153,11 @@ const mockEnv = () => {
   usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
 }
 
-const mockSession: OrySessionContext = {
-  session_token: 'some-session-token',
-  session: {
-    id: 'some-kratos-id',
-    identity: {
-      id: 'some-user-identity-id',
-      schema_id: 'some-schema-id',
-      schema_url: 'some-schema-url',
-      traits: undefined,
-    },
-  },
-}
-
 describe('TrackingInitializer', () => {
   beforeEach(() => {
     // consentStateVar is a global variable, thereby shared state between tests and needs to be reset for reproducibility
     // using afterEach instead of beforeEach leads to timeouts of tests we couldn't explain ourselves
     stateVar(initialState)
-    useAuthExportedForTesting.resetLoggedInUserIdVar()
   })
 
   describe('while user login state is still loading', () => {
@@ -205,7 +191,7 @@ describe('TrackingInitializer', () => {
         )
         const { rerender } = render(component)
 
-        await act(setUserLoggedOut)
+        await act(userLoggedOut)
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
@@ -227,7 +213,7 @@ describe('TrackingInitializer', () => {
         )
         const { rerender } = render(component)
 
-        await act(setUserLoggedOut)
+        await act(userLoggedOut)
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
@@ -250,7 +236,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(setUserLoggedOut)
+        await act(userLoggedOut)
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
@@ -273,7 +259,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(setUserLoggedOut)
+        await act(userLoggedOut)
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
@@ -296,7 +282,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(setUserLoggedOut)
+        await act(userLoggedOut)
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
@@ -318,7 +304,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(async () => await setUserLoggedIn(mockSession))
+        await act(userLoggedIn)
         rerender(component)
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -341,7 +327,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(async () => await setUserLoggedIn(mockSession))
+        await act(userLoggedIn)
         rerender(component)
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -364,7 +350,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(async () => await setUserLoggedIn(mockSession))
+        await act(userLoggedIn)
         rerender(component)
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -387,7 +373,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(async () => await setUserLoggedIn(mockSession))
+        await act(userLoggedIn)
         rerender(component)
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -427,7 +413,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(async () => await setUserLoggedIn(mockSession))
+        await act(userLoggedIn)
         rerender(component)
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -464,14 +450,14 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(async () => await setUserLoggedIn(mockSession))
+        await act(userLoggedIn)
         rerender(component)
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
 
-        await act(setUserLoggedOut)
+        await act(userLoggedOut)
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
@@ -512,13 +498,13 @@ describe('TrackingInitializer', () => {
             </MockedProvider>
           )
           const { rerender } = render(component)
-          await act(setUserLoggedOut)
+          act(userLoggedOut)
           await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
 
-          await act(async () => await setUserLoggedIn(mockSession))
+          await act(userLoggedIn)
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -550,14 +536,14 @@ describe('TrackingInitializer', () => {
             </MockedProvider>
           )
           const { rerender } = render(component)
-          await act(setUserLoggedOut)
+          act(userLoggedOut)
           await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.optOut).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
 
-          await act(async () => await setUserLoggedIn(mockSession))
+          await act(userLoggedIn)
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -589,14 +575,14 @@ describe('TrackingInitializer', () => {
             </MockedProvider>
           )
           const { rerender } = render(component)
-          await act(setUserLoggedOut)
+          await act(userLoggedOut)
           rerender(component)
           await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
 
-          await act(async () => await setUserLoggedIn(mockSession))
+          await act(userLoggedIn)
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -628,14 +614,14 @@ describe('TrackingInitializer', () => {
             </MockedProvider>
           )
           const { rerender } = render(component)
-          await act(setUserLoggedOut)
+          await act(userLoggedOut)
           rerender(component)
           await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
 
-          await act(async () => await setUserLoggedIn(mockSession))
+          await act(userLoggedIn)
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -667,7 +653,7 @@ describe('TrackingInitializer', () => {
           </MockedProvider>
         )
         const { rerender } = render(component)
-        await act(setUserLoggedOut)
+        await act(userLoggedOut)
         rerender(component)
         await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
@@ -722,14 +708,14 @@ describe('TrackingInitializer', () => {
             </MockedProvider>
           )
           const { rerender } = render(component)
-          await act(setUserLoggedOut)
+          await act(userLoggedOut)
           rerender(component)
           await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
 
-          await act(async () => await setUserLoggedIn(mockSession))
+          await act(userLoggedIn)
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -761,14 +747,14 @@ describe('TrackingInitializer', () => {
             </MockedProvider>
           )
           const { rerender } = render(component)
-          await act(setUserLoggedOut)
+          await act(userLoggedOut)
           rerender(component)
           await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
 
-          await act(async () => await setUserLoggedIn(mockSession))
+          await act(userLoggedIn)
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
@@ -800,14 +786,14 @@ describe('TrackingInitializer', () => {
             </MockedProvider>
           )
           const { rerender } = render(component)
-          await act(setUserLoggedOut)
+          await act(userLoggedOut)
           rerender(component)
           await waitFor(() => expect(onUserLoggedOutCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
 
-          await act(async () => await setUserLoggedIn(mockSession))
+          await act(userLoggedIn)
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
