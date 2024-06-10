@@ -27,8 +27,8 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
   const { data, loading, totalResults } = usePaginationContext<FeedPost>()
   const numberOfColumns = useBreakpointMatcher() || 1
 
+  if (loading) return <LoadingSkeleton columns={numberOfColumns} />
   if (totalResults == 0) return emptyMessage
-  if (loading) return <LoadingSkeleton />
 
   const dataByColumns = simpleColumnSortingByIndex(data, numberOfColumns)
 
