@@ -3,14 +3,11 @@ import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import { PostsListResultsProps } from '@holi/core/screens/individualPosts/components/PostsListResults'
+import PostsListResults from '@holi/core/screens/individualPosts/components/PostsListResults'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-const PostsListResults = dynamicImport<PostsListResultsProps>(() => import('./PostsListResults'), { ssr: false })
 
 type PostsListProps = {
   paginationOptions: PaginationQueryHookOptions
