@@ -11,7 +11,7 @@ import {
 } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import { chatAdminName, chatPushGatewayUrl } from '@holi/core/helpers/config'
+import { chatAdminUserId, chatPushGatewayUrl } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
 
 const logger = getLogger('Chat')
@@ -125,16 +125,23 @@ export const IGNORE_CHAT_ADMIN_RULE_ID = 'm.rule.contains_admin'
  * collaboration is accepted, we already send a background notification. Rules
  * work for both fore- and background notifications.
  */
-export const ignoreChatAdminPushRule: Pick<IPushRule, 'actions' | 'conditions' | 'pattern'> = {
+export const ignoreChatAdminPushRule: IPushRule = {
   actions: [PushRuleActionName.DontNotify],
-  pattern: chatAdminName,
   conditions: [
     {
       kind: ConditionKind.EventMatch,
       key: 'type',
       pattern: 'm.room.member',
     },
+    {
+      kind: ConditionKind.EventMatch,
+      key: 'sender',
+      value: chatAdminUserId,
+    },
   ],
+  rule_id: IGNORE_CHAT_ADMIN_RULE_ID,
+  default: true,
+  enabled: true,
 }
 
 /**
