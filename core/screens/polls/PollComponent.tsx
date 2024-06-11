@@ -6,8 +6,8 @@ import { StyleSheet, View } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
-import NotEnoughVotesNotification1 from '@holi/core/screens/polls/components/PollCompletionMessage'
-import NotEnoughVotesNotification2 from '@holi/core/screens/polls/components/PollNotificationMessage'
+import PollCompletionMessage from '@holi/core/screens/polls/components/PollCompletionMessage'
+import PollNotificationMessage from '@holi/core/screens/polls/components/PollNotificationMessage'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
 import { UpdatePollResponse, updateVotesMutation } from '@holi/core/screens/polls/mutations'
@@ -42,9 +42,9 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   const { openLoginModal } = useLoginModal()
   const { user } = useLoggedInUser()
 
-  const [sent, setSent] = useState<boolean>(false)
+  const [voted, setVoted] = useState<boolean>(false)
   const [selectedAnswerOption, setSelectedAnswerOption] = useState<Choice | null>()
-  const [notificationsOn, setNotificationsOn] = useState<boolean>(false)
+  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false)
   const [votesSum, setVotesSum] = useState<number>(() => {
     return choices.reduce((acc, choice) => acc + choice.votes, 0)
   })
@@ -52,8 +52,9 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   const [updateVotes] = useMutation<UpdatePollResponse>(updateVotesMutation, {
     onError: (error) => logError(error, 'Failed to update votes of poll', { location: 'PollComponent.updateVotes' }),
   })
+
   const sendVote = () => {
-    setSent(true)
+    setVoted(true)
     setVotesSum(votesSum + 1)
     if (selectedAnswerOption) {
       updateVotes({
@@ -67,9 +68,10 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   const { data } = useQuery(userHasVotedByPollId, {
     variables: { id: poll.id },
   })
+
   useEffect(() => {
     if (data && data.userHasVotedByPollId) {
-      setSent(true)
+      setVoted(true)
     }
   }, [data])
 
@@ -79,19 +81,39 @@ const PollComponent = ({ poll }: PollComponentProps) => {
         description: t('individuals.post.reaction.loginRedirect.text'),
       })
     }
-
     setSelectedAnswerOption(selectedChoice)
   }
 
-  const PollOptions = (choices: Choice[]) => {
-    if (!sent && !!choices) {
-      // if not answered yet
-      return <PollSelection answerOptions={choices} onSelected={handleSelected} />
-    } else {
-      // else: show results
-      return (
-        <View>
-          {choices.map((choice: Choice) => {
+  if (notificationsEnabled && votesSum < 30) {
+    return <PollNotificationMessage />
+  }
+
+  if (voted && votesSum < 30) {
+    return (
+      <PollCompletionMessage
+        notificationsEnabled={notificationsEnabled}
+        onNotificationsEnable={() => {
+          setNotificationsEnabled(true)
+        }}
+      />
+    )
+  }
+
+  return (
+    <>
+      <View style={styles.container}>
+        <View style={styles.pollTitle}>
+          <HoliHeading level="3" size="s">
+            {poll.questionText}
+          </HoliHeading>
+        </View>
+
+        {!voted && !!choices ? (
+          // if not voted yet
+          <PollSelection answerOptions={choices} onSelected={handleSelected} />
+        ) : (
+          // else, show results
+          choices.map((choice: Choice) => {
             return (
               <PollResults
                 key={choice.id}
@@ -100,33 +122,8 @@ const PollComponent = ({ poll }: PollComponentProps) => {
                 selected={selectedAnswerOption ? choice.id == selectedAnswerOption.id : false}
               />
             )
-          })}
-        </View>
-      )
-    }
-  }
-  if (notificationsOn && votesSum < 30) {
-    return <NotEnoughVotesNotification2 />
-  } else if (sent && votesSum < 30) {
-    return (
-      <NotEnoughVotesNotification1
-        onNotificationsOn={() => {
-          setNotificationsOn(true)
-        }}
-      />
-    )
-  } else {
-    return (
-      <View style={styles.container}>
-        {/* Poll question */}
-        <View style={styles.pollTitle}>
-          <HoliHeading level="3" size="s">
-            {poll.questionText}
-          </HoliHeading>
-        </View>
-
-        {/* Choices */}
-        {PollOptions(choices)}
+          })
+        )}
 
         <View style={styles.bottomBar}>
           <HoliColumns
@@ -136,12 +133,12 @@ const PollComponent = ({ poll }: PollComponentProps) => {
             {/* number of anonymous votes */}
             <HoliBox padding={[0, 0, 0, 0]} layout={styles.headlineContainer}>
               <HoliIcon icon={userTeam} size={20} style={styles.icon} />
-              <HoliText size={'default'} style={[styles.counter, styles.textGrey]}>
+              <HoliText size={'default'} style={styles.counter}>
                 {votesSum} {t('homeFeed.pollComponent.anonymousVotes')}
               </HoliText>
             </HoliBox>
             {/* button to submit answer */}
-            {!sent && (
+            {!voted && (
               <HoliButton
                 inline={screenWidth > dimensions.breakpointS}
                 disabled={!selectedAnswerOption}
@@ -154,8 +151,8 @@ const PollComponent = ({ poll }: PollComponentProps) => {
           </HoliColumns>
         </View>
       </View>
-    )
-  }
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -172,19 +169,13 @@ const styles = StyleSheet.create({
   headlineContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
   },
   icon: {
     marginLeft: 7,
   },
   counter: {
     marginLeft: 8,
-  },
-  textGrey: {
     color: colors.foreground20,
-  },
-  selected: {
-    borderColor: 'black',
   },
   userItemContent: {
     flexShrink: 1,

@@ -555,7 +555,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
     },
     pollContainer: {
-      marginBottom: Spacing.sm,
+      marginBottom: 0,
     },
     postCard: {
       width: 304,

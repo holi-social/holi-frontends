@@ -9,7 +9,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const NotEnoughVotesNotification = () => {
+const PollNotificationMessage = () => {
   const { t } = useTranslation()
   return (
     <div style={styles.container}>
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NotEnoughVotesNotification
+export default PollNotificationMessage

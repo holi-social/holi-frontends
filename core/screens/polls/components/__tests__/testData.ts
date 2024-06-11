@@ -1,13 +1,13 @@
 import { Choice, Poll } from '@holi/core/screens/polls/types'
 
 export const choice1: Choice = {
-  id: '11111',
+  id: '1',
   choiceText: 'Choice 1',
   votes: 35,
 }
 
 export const choice2: Choice = {
-  id: '22222',
+  id: '2',
   choiceText: 'Choice 2',
   votes: 15,
 }
