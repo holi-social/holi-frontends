@@ -328,7 +328,7 @@
   "individuals.post.delete.dialog.message": "Do you really want to delete your post?\nThis action is irreversible",
   "individuals.post.delete.dialog.title": "Delete your post",
   "individuals.post.delete.success": "Your post is deleted",
-  "individuals.post.details.title": "{{name}}'s post",
+  "individuals.post.details.title": "{{- name}} post",
   "individuals.post.details.title.personal": "Your post",
   "individuals.post.edit.error": "Unfortunately your post couldn't be edited. Please try again later.",
   "individuals.post.edit.success": "Post successfully edited",
