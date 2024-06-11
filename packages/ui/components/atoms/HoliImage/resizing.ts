@@ -129,7 +129,7 @@ export const transformSourcesURL = (source: ImageSource | ImageSource[]) => {
   return source.map(setScalingParams)
 }
 
-const ensureUriOrFallbackUri = (uri: string) => {
+const ensureUriOrFallbackUri = (uri?: string) => {
   if (uri) return uri
   return Platform.OS === 'android'
     ? 'https://ik.imagekit.io/holidev/404_square.png'
