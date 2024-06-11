@@ -74,7 +74,7 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   const calculatedWidth = calcPixelRatioSize(source.width)
   const calculatedHeight = calcPixelRatioSize(source.height)
 
-  if (debugMode) {
+  if (debugMode || !uri) {
     const width = calculatedWidth ?? calcPixelRatioSize(MAX_IMAGE_DIMENSION)
     const height = calculatedHeight ?? calcPixelRatioSize(MAX_IMAGE_DIMENSION)
     const padding = encodeURIComponent('') // add spaces, if needed to see image size
