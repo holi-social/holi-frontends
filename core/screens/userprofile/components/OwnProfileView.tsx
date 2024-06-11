@@ -10,7 +10,6 @@ import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
@@ -54,7 +53,6 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
   const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
@@ -68,8 +66,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
-  const tabNamesInOrder = [Tab.PROFILE]
-  ftEnabledPosts && tabNamesInOrder.push(Tab.POSTS)
+  const tabNamesInOrder = [Tab.PROFILE, Tab.POSTS]
   hasInsights && tabNamesInOrder.push(Tab.INSIGHTS)
   tabNamesInOrder.push(Tab.SPACES)
 
@@ -151,18 +148,14 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
               </View>
             ),
           },
-          ...(ftEnabledPosts
-            ? [
-                {
-                  title: t('individuals.post.name'),
-                  children: (
-                    <Suspense fallback={<HoliLoader />}>
-                      <MyPostsTab />
-                    </Suspense>
-                  ),
-                },
-              ]
-            : []),
+          {
+            title: t('individuals.post.name'),
+            children: (
+              <Suspense fallback={<HoliLoader />}>
+                <MyPostsTab />
+              </Suspense>
+            ),
+          },
           ...(hasInsights
             ? [
                 {

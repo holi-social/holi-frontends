@@ -67,8 +67,6 @@ const HomeFeed = () => {
   )
   const { ftEnabled: ftEnabledChallenges } = useFeatureToggle(FeatureToggleName.CHALLENGES)
 
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-
   // TODO: when SSR is enabled we need to lazy load the header
   // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -87,7 +85,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
-        ftEnabledPosts ? feedPostsQuery : undefined,
+        feedPostsQuery,
         inspirationPostsQuery,
         lastInsightsQuery,
         ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
@@ -110,7 +108,7 @@ const HomeFeed = () => {
         <View style={styles.sections}>
           <HomeFeedHeader />
           {ftEnabledChallenges && <AttendingChallengeEvents />}
-          {ftEnabledPosts && <AllPosts />}
+          <AllPosts />
 
           <RecommendedChallenges />
 
@@ -125,7 +123,7 @@ const HomeFeed = () => {
       </ScrollHeaderLayout.Refreshable>
 
       {/* Floating CreatePostButton need to be outside of the Layout */}
-      {ftEnabledPosts && <CreatePostButton />}
+      <CreatePostButton />
 
       <OnboardingInitializer />
     </>

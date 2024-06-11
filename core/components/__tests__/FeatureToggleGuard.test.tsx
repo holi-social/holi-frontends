@@ -34,7 +34,7 @@ describe('FeatureToggleGuard', () => {
       ]),
     ]
 
-    const unsupportedFeatureToggle = FeatureToggleName.INDIVIDUALS_POST
+    const unsupportedFeatureToggle = FeatureToggleName.APPS_DONATIONS
 
     render(
       <MockedProvider mocks={mocks}>

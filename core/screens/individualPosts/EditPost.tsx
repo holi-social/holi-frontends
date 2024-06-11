@@ -4,10 +4,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -40,12 +38,11 @@ const EditPost = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { colors } = theme
-  const { navigateBack, navigate, replaceRoute } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
   const { user } = useLoggedInUser()
 
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
 
@@ -143,51 +140,41 @@ const EditPost = () => {
     setShowCategories((value) => !value)
   }
 
-  if (!ftLoading && !ftEnabled) {
-    navigate('/404')
-  }
-
-  if (ftLoading || loadingPost) {
+  if (loadingPost) {
     return <HoliLoader />
   }
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.creator.id}>
-      <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
-        <View style={styles.grayExtendingBackground}>
-          {categoriesLoading ? (
-            <HoliLoader />
-          ) : showCategories ? (
-            <CategorySelection
-              categories={categories}
-              onCategorySelection={selectCategory}
-              loading={categoriesLoading}
-            />
-          ) : (
-            <PostInputForm
-              title={title}
-              onChangeTitle={setTitle}
-              description={description}
-              onChangeDescription={setDescription}
-              image={image || null}
-              onChangeImage={(value) => {
-                setImage(value)
-                setCurrentImage(undefined)
-              }}
-              selectedCategoryId={selectedCategoryId}
-              onChangeSelectedCategoryId={setSelectedCategoryId}
-              selectedVisibility={selectedVisibility}
-              onChangeSelectedVisibility={setSelectedVisibility}
-              onSubmit={editPost}
-              submitting={submitting}
-              currentImage={currentImage}
-              onClickCategoriesPill={toggleShowCategories}
-              categories={categories}
-              isEdit
-            />
-          )}
-        </View>
-      </FeatureToggleGuard>
+      <View style={styles.grayExtendingBackground}>
+        {categoriesLoading ? (
+          <HoliLoader />
+        ) : showCategories ? (
+          <CategorySelection categories={categories} onCategorySelection={selectCategory} loading={categoriesLoading} />
+        ) : (
+          <PostInputForm
+            title={title}
+            onChangeTitle={setTitle}
+            description={description}
+            onChangeDescription={setDescription}
+            image={image || null}
+            onChangeImage={(value) => {
+              setImage(value)
+              setCurrentImage(undefined)
+            }}
+            selectedCategoryId={selectedCategoryId}
+            onChangeSelectedCategoryId={setSelectedCategoryId}
+            selectedVisibility={selectedVisibility}
+            onChangeSelectedVisibility={setSelectedVisibility}
+            onSubmit={editPost}
+            submitting={submitting}
+            currentImage={currentImage}
+            onClickCategoriesPill={toggleShowCategories}
+            categories={categories}
+            isEdit
+          />
+        )}
+      </View>
     </PermissionsGuard>
   )
 }

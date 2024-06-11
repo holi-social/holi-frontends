@@ -27,8 +27,8 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
   const { data, loading, totalResults } = usePaginationContext<FeedPost>()
   const numberOfColumns = useBreakpointMatcher() || 1
 
+  if (loading) return <LoadingSkeleton columns={numberOfColumns} />
   if (totalResults == 0) return emptyMessage
-  if (loading) return <LoadingSkeleton />
 
   const dataByColumns = simpleColumnSortingByIndex(data, numberOfColumns)
 
@@ -60,16 +60,14 @@ const PostSkeleton = () => (
   </View>
 )
 
-const LoadingSkeleton = () => (
+const LoadingSkeleton = ({ columns }: { columns: number }) => (
   <View style={styles.container}>
-    <View style={styles.column}>
-      <PostSkeleton />
-      <PostSkeleton />
-    </View>
-    <View style={styles.column}>
-      <PostSkeleton />
-      <PostSkeleton />
-    </View>
+    {new Array(columns).fill(0).map((_, index) => (
+      <View style={styles.column} key={index}>
+        <PostSkeleton />
+        <PostSkeleton />
+      </View>
+    ))}
   </View>
 )
 
