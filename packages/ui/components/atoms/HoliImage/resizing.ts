@@ -70,7 +70,7 @@ const MAX_IMAGE_DIMENSION = 1200
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setScalingParams = (source: ImageSource): ImageSource => {
-  const uri = source.uri
+  const uri = ensureUriOrFallbackUri(source.uri)
   const calculatedWidth = calcPixelRatioSize(source.width)
   const calculatedHeight = calcPixelRatioSize(source.height)
 
@@ -127,4 +127,11 @@ export const transformSourcesURL = (source: ImageSource | ImageSource[]) => {
   }
 
   return source.map(setScalingParams)
+}
+
+const ensureUriOrFallbackUri = (uri: string) => {
+  if (uri) return uri
+  return Platform.OS === 'android'
+    ? 'https://ik.imagekit.io/holidev/404_square.png'
+    : 'https://ik.imagekit.io/holidev/404_square.svg'
 }
