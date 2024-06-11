@@ -149,6 +149,14 @@ export interface NotificationChallenges extends NotificationBase {
   options: ChallengeNotificationData
 }
 
+export interface PollData {
+  poll: { id: string; title: string; insightId: string }
+}
+
+export interface NotificationPolls extends NotificationBase {
+  notificationType: NovuNotificationType.POLL_UPDATES
+  options: PollData
+}
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
 export type NotificationWithUser =
   | NotificationConnection
@@ -161,6 +169,7 @@ export type Notification =
   | NotificationSpacePost
   | NotificationAppointments
   | NotificationChallenges
+  | NotificationPolls
 
 export interface NotificationProps<T = Notification> {
   notification: T

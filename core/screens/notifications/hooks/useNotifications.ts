@@ -8,6 +8,7 @@ import {
   Notification,
   NotificationAppointments,
   NotificationChallenges,
+  NotificationPolls,
   NotificationPost,
   NotificationSpaceConnection,
   NotificationSpacePost,
@@ -195,6 +196,16 @@ function mapToNotification(
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationChallenges['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.POLL_UPDATES:
+      return {
+        id: message._id,
+        notificationType,
+        notificationVersion,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationPolls['options'],
         content: message.content.toString(),
       }
   }
