@@ -14,6 +14,8 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
+import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -48,7 +50,7 @@ const { useParam } = createParamHooks<PostDetailsPageParams>()
 const PostDetailsPage = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
@@ -98,10 +100,16 @@ const PostDetailsPage = () => {
     message: post?.title ?? '',
   })
 
+  const currentLanguage = getLocale(i18n.language || '')
+
   const headerTitle =
     auth.isLoggedIn && auth.userId === post?.creator.id
       ? t('individuals.post.details.title.personal')
-      : t('individuals.post.details.title', { name: post?.creator.firstName })
+      : generatePostTitle({
+          name: post?.creator.firstName || '',
+          currentLanguage,
+          t,
+        })
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({

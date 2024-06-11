@@ -328,7 +328,7 @@
   "individuals.post.delete.dialog.message": "Möchtest du deinen Post wirklich löschen?",
   "individuals.post.delete.dialog.title": "Post löschen",
   "individuals.post.delete.success": "Dein Post wurde gelöscht",
-  "individuals.post.details.title": "{{name}} Post",
+  "individuals.post.details.title": "{{- name}} Post",
   "individuals.post.details.title.personal": "Dein Post",
   "individuals.post.edit.error": "Leider konnte dein Post nicht bearbeitet werden. Bitte probiere es später nochmal.",
   "individuals.post.edit.success": "Post erfolgreich bearbeitet",
