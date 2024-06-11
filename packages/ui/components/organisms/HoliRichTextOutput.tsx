@@ -7,7 +7,7 @@ import { Link } from '@holi/core/screens/posts/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import type { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import { REGEX_URL, REGEX_USER_MENTIONS, isValidUrl } from '@holi/ui/helper/richText'
+import { REGEX_URL, REGEX_USER_MENTIONS, ensureProtocolPrefix, isValidUrl } from '@holi/ui/helper/richText'
 
 export interface Props extends HoliTextProps {
   text: string
@@ -39,7 +39,11 @@ const HoliRichTextOutput = ({
    * with the highlighted fullName
    */
 
-  const isExternalLink = (url: string) => !url.includes('holi.social') && !url.includes('localhost')
+  const isExternalLink = (url: string) => {
+    const domains = ['app.holi.social', 'staging.dev.holi.social', 'localhost']
+    return !domains.some((domain) => url.includes(domain))
+  }
+
   const mentionPrefix = Platform.OS === 'web' ? '' : '@'
 
   const textWithMentions = (() => {
@@ -78,10 +82,12 @@ const HoliRichTextOutput = ({
         return item.split(REGEX_URL).map((textPart) => {
           let link = links.find(({ requestedUrl }) => textPart === requestedUrl)
 
-          if (!link && allowAllLinks && isValidUrl(textPart)) {
+          const urlWithProtocol = ensureProtocolPrefix(textPart)
+
+          if (!link && allowAllLinks && isValidUrl(urlWithProtocol)) {
             link = {
-              requestedUrl: textPart,
-              title: textPart,
+              requestedUrl: urlWithProtocol,
+              title: urlWithProtocol,
               url: '',
               description: '',
               type: '',

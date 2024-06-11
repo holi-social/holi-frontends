@@ -28,7 +28,8 @@ const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkPr
 
         if (Platform.OS === 'ios' || Platform.OS === 'android') {
           // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
-          const route = href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)/, '')
+          const route =
+            '/' + href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)(\/(en|de))?\/?/, '')
           navigate(route)
         } else if (mobileNavigateBackFirst) {
           navigateBack()
