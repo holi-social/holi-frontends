@@ -72,12 +72,22 @@ export const findMentionMatches = (text: string): Mention | undefined => {
   }
 }
 
+export const ensureProtocolPrefix = (url: string) => {
+  if (!/^https?:\/\//i.test(url)) {
+    return 'http://' + url
+  }
+  return url
+}
+
 const whitespaceRegex = /\s+/ // to test whether a string contains whitespace
 
 export const isValidUrl = (urlString: string) => {
   try {
     const trimmed = urlString.trim()
-    return !whitespaceRegex.test(trimmed) && !!new URL(trimmed)
+    const urlWithProtocol = ensureProtocolPrefix(trimmed)
+    const url = new URL(urlWithProtocol)
+
+    return !whitespaceRegex.test(urlString) && /\.[a-z]{2,}$/i.test(url.hostname) && /^https?:\/\/[^/]/i.test(url.href)
   } catch (e) {
     return false
   }

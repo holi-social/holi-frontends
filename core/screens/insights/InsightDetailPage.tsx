@@ -5,6 +5,7 @@ import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
+import { Discussion } from '@holi/api/graphql/graphql-codegen'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -25,7 +26,9 @@ import InitiativesCarousel from '@holi/core/screens/insights/initiatives/Initiat
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
 import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
-import { Discussion, Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
+import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
+import PollComponent from '@holi/core/screens/polls/PollComponent'
+import { Poll } from '@holi/core/screens/polls/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -110,10 +113,11 @@ const InsightDetailPage = () => {
   }, [insight, setScreenOptions, colors.light])
 
   const posts: Post[] = insight?.posts || []
+  const polls: Poll[] = insight?.polls || []
+  const discussions: Discussion[] = insight?.discussions || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
-  const discussions: Discussion[] = insight?.discussions || []
   const creator = insight?.creator
   const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
   const cardWidth = 330
@@ -358,13 +362,19 @@ const InsightDetailPage = () => {
                 />
               </InsightCarouselSection>
             )}
-            {discussions.length > 0 && (
+            {(polls.length > 0 || discussions.length > 0) && (
               <DiscussionsSection>
+                {polls.map((poll) => (
+                  <View key={poll.id} style={[styles.section, styles.pollContainer]}>
+                    <PollComponent poll={poll} />
+                  </View>
+                ))}
                 {discussions.map((d) => (
                   <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
                 ))}
               </DiscussionsSection>
             )}
+
             {posts.length > 0 && (
               <View style={[styles.section, styles.posts]}>
                 <HoliGridWrapper>
