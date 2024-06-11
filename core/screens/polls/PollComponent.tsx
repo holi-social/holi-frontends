@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -169,6 +169,14 @@ const styles = StyleSheet.create({
   headlineContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    ...Platform.select({
+      web: {
+        marginBottom: 0,
+      },
+      native: {
+        marginBottom: 16,
+      },
+    }),
   },
   icon: {
     marginLeft: 7,
