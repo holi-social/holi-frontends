@@ -1,8 +1,8 @@
-import { ApolloClient, ApolloError, type NormalizedCacheObject, type QueryOptions } from '@apollo/client'
+import { type QueryOptions } from '@apollo/client'
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
-import { isNotFoundError } from '@holi/core/errors/helpers'
+import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
@@ -14,11 +14,9 @@ interface SkippableQueryOptions extends QueryOptions {
   skip?: boolean
 }
 
-type QueryCreatorFunction = (client: ApolloClient<NormalizedCacheObject>) => Promise<SkippableQueryOptions[]>
-
 export const createServerSideProps = async (
   { req, locale }: NextPageContext,
-  queries: SkippableQueryOptions[] | QueryCreatorFunction = [],
+  queries: SkippableQueryOptions[] = [],
   customProps?: Partial<CustomProps>
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
   const origin = getOrigin(req)
@@ -38,39 +36,39 @@ export const createServerSideProps = async (
 
   const client = initializeApolloSSRClient()
 
-  try {
-    const queriesToExecute = [
-      ...(typeof queries === 'function' ? await queries(client) : queries),
-      {
-        query: featureTogglesQuery,
-      },
-    ]
+  const queriesToExecute = [
+    ...queries,
+    // Reduce number of loops when awaiting renderPromises in _document.getInitialProps
+    {
+      query: featureTogglesQuery,
+    },
+  ]
 
-    const results = await Promise.allSettled(
-      queriesToExecute
-        .filter((query) => !query.skip)
-        .map((query) => {
-          const newQuery = { ...query, context: { headers: req.headers } }
-          return client.query(newQuery)
-        })
-    )
+  const results = await Promise.allSettled(
+    queriesToExecute
+      .filter((query) => !query.skip)
+      .map((query) => {
+        // Filter content negotation headers except accept-language
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { accept, 'accept-encoding': acceptEncoding, ...headers } = req.headers
+        const newQuery = {
+          ...query,
+          context: {
+            headers,
+          },
+        }
+        return client.query(newQuery)
+      })
+  )
 
-    const wasNotFound = results.some((result) => result.status === 'rejected' && isNotFoundError(result.reason))
+  // For now treat 403 the same as 404
+  const wasNotFound = results.some(
+    (result) => result.status === 'rejected' && (isNotFoundError(result.reason) || isForbiddenError(result.reason))
+  )
 
-    if (wasNotFound) {
-      return {
-        notFound: true,
-      }
-    }
-  } catch (error) {
-    if (error instanceof ApolloError && isNotFoundError(error)) {
-      return {
-        notFound: true,
-      }
-    }
-    // Switch to client-side rendering
+  if (wasNotFound) {
     return {
-      props: initialProps,
+      notFound: true,
     }
   }
 

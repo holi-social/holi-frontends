@@ -24,7 +24,8 @@ jest.mock('@holi/web/environment', () => ({
 
 describe('createServerSideProps', () => {
   const origin = 'https://app.holi.social'
-  const headers = { header1: 'header1 value' }
+  const expectedHeaders = { header1: 'header1 value', 'accept-language': 'en' }
+  const headers = { ...expectedHeaders, accept: 'application/json', 'accept-encoding': 'gzip' }
   const context = { req: { url: '', headers } } as unknown as NextPageContext
   const mockedTranslations = { i18n: { key: 'value' } }
   const mockedCache = {
@@ -67,7 +68,7 @@ describe('createServerSideProps', () => {
   }
 
   const addExpectedHeader = (query: { query: DocumentNode }) => {
-    return { ...query, context: { headers } }
+    return { ...query, context: { headers: expectedHeaders } }
   }
 
   beforeEach(() => {
@@ -89,24 +90,6 @@ describe('createServerSideProps', () => {
 
     expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
     expect(mockQueryFunction).toBeCalledTimes(2 + 1) // query1, query2 and additional featureTogglesQuery inside createServerSideProps
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
-    expect(props).toEqual({
-      props: {
-        ...expectedProps,
-        [APOLLO_STATE_PROP_NAME]: mockedCache,
-      },
-    })
-  })
-
-  it('should create and execute list of queries returned by a creator function and add apollo state to page props', async () => {
-    const createQueries = jest.fn().mockResolvedValue([query1, query2])
-
-    const props = await createServerSideProps(context, createQueries)
-
-    expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
-    expect(createQueries).toHaveBeenCalledWith(mockedClient)
-    expect(mockQueryFunction).toBeCalledTimes(2 + 1)
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
@@ -161,48 +144,6 @@ describe('createServerSideProps', () => {
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
       notFound: true,
-    })
-  })
-
-  it('should redirect to 404 page if creating the queries results in a NOT_FOUND error', async () => {
-    const createQueries = jest.fn().mockRejectedValueOnce(
-      new ApolloError({
-        graphQLErrors: [
-          new GraphQLError('Not found', {
-            extensions: {
-              code: 'NOT_FOUND',
-            },
-          }),
-        ],
-      })
-    )
-
-    const props = await createServerSideProps(context, createQueries)
-
-    expect(createQueries).toHaveBeenCalledWith(mockedClient)
-    expect(props).toEqual({
-      notFound: true,
-    })
-  })
-
-  it('should only pass minimal props to switch to client side rendering if creating the queries results fails', async () => {
-    const createQueries = jest.fn().mockRejectedValueOnce(
-      new ApolloError({
-        graphQLErrors: [
-          new GraphQLError('Forbidden', {
-            extensions: {
-              code: 'FORBIDDEN',
-            },
-          }),
-        ],
-      })
-    )
-
-    const props = await createServerSideProps(context, createQueries)
-
-    expect(createQueries).toHaveBeenCalledWith(mockedClient)
-    expect(props).toStrictEqual({
-      props: minimalProps,
     })
   })
 

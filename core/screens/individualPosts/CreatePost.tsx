@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -128,6 +129,12 @@ const CreatePost = () => {
   )
 }
 
+const WrappedCreatePost = () => (
+  <PermissionsGuard permissionType={PermissionsType.AUTH}>
+    <CreatePost />
+  </PermissionsGuard>
+)
+
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     grayExtendingBackground: {
@@ -140,4 +147,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default withProfiler(CreatePost, { name: 'CreatePost' })
+export default withProfiler(WrappedCreatePost, { name: 'CreatePost' })
