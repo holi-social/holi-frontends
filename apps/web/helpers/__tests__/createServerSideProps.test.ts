@@ -24,7 +24,8 @@ jest.mock('@holi/web/environment', () => ({
 
 describe('createServerSideProps', () => {
   const origin = 'https://app.holi.social'
-  const headers = { header1: 'header1 value' }
+  const expectedHeaders = { header1: 'header1 value', 'accept-language': 'en' }
+  const headers = { ...expectedHeaders, accept: 'application/json', 'accept-encoding': 'gzip' }
   const context = { req: { url: '', headers } } as unknown as NextPageContext
   const mockedTranslations = { i18n: { key: 'value' } }
   const mockedCache = {
@@ -67,7 +68,7 @@ describe('createServerSideProps', () => {
   }
 
   const addExpectedHeader = (query: { query: DocumentNode }) => {
-    return { ...query, context: { headers } }
+    return { ...query, context: { headers: expectedHeaders } }
   }
 
   beforeEach(() => {

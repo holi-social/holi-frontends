@@ -46,14 +46,22 @@ export const createServerSideProps = async (
       },
     ]
 
-    const results = await Promise.allSettled(
-      queriesToExecute
-        .filter((query) => !query.skip)
-        .map((query) => {
-          const newQuery = { ...query, context: { headers: req.headers } }
-          return client.query(newQuery)
-        })
-    )
+  const results = await Promise.allSettled(
+    queriesToExecute
+      .filter((query) => !query.skip)
+      .map((query) => {
+        // Filter content negotation headers except accept-language
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { accept, 'accept-encoding': acceptEncoding, ...headers } = req.headers
+        const newQuery = {
+          ...query,
+          context: {
+            headers,
+          },
+        }
+        return client.query(newQuery)
+      })
+  )
 
     const wasNotFound = results.some((result) => result.status === 'rejected' && isNotFoundError(result.reason))
 
