@@ -3,7 +3,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useFallbackImage } from '@holi/core/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -61,16 +60,15 @@ const HoliBlockItem = ({
   const { theme } = useTheme()
   const styles = isSmall ? getStylesSmall(theme) : getStylesLarge(theme)
 
-  const fallbackImageUri = useFallbackImage().uri
   const largeImageWidth = cardWidthForImageScaling ? cardWidthForImageScaling - 2 * styles.container.padding : undefined
   const imageSource = isSmall
     ? {
-        uri: imageSrc ? imageSrc : fallbackImageUri,
+        uri: imageSrc,
         width: SMALL_IMAGE_DIMENSION,
         height: SMALL_IMAGE_DIMENSION,
       }
     : {
-        uri: imageSrc ? imageSrc : fallbackImageUri,
+        uri: imageSrc,
         width: largeImageWidth,
         height: largeImageWidth ? Math.ceil(largeImageWidth / LARGE_IMAGE_ASPECT_RATIO) : undefined,
       }

@@ -65,7 +65,7 @@ exports[`PostImage renders correctly image 1`] = `
       role="img"
       source={
         {
-          "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/",
+          "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fik.imagekit.io%2Fholidev%2F404_square.svg",
         }
       }
       style={

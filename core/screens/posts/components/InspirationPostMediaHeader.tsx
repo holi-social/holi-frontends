@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useFallbackImage } from '@holi/core/helpers'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { Post } from '@holi/core/screens/posts/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -51,7 +50,6 @@ const InspirationPostMediaHeader = ({ post }: InspirationPostMediaHeaderProps) =
     (t) => post?.inspirationPostCategory?.slug.toLowerCase() === t.slug
   )[0]
   const categoryImgSrc = inspirationPostCategory?.image
-  const fallbackImageUri = useFallbackImage().uri
 
   if (!post) return null
 
@@ -62,7 +60,7 @@ const InspirationPostMediaHeader = ({ post }: InspirationPostMediaHeaderProps) =
           {categoryImgSrc ? (
             <HoliLocalImage imageSource={categoryImgSrc} width={32} height={32} label="" isSvg />
           ) : (
-            <HoliImage label="" source={{ uri: fallbackImageUri }} style={styles.fallbackImage} />
+            <HoliImage label="" source={{}} style={styles.fallbackImage} />
           )}
           {!!post?.inspirationPostCategory?.title && <HoliHeading>{post?.inspirationPostCategory?.title}</HoliHeading>}
         </View>
