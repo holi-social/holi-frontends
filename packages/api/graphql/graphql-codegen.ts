@@ -35,9 +35,9 @@ export type Scalars = {
 
 export type AddCollaborationToolInput = {
   collectionType: CollectionType
-  description: InputMaybe<Scalars['String']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
   spaceId: Scalars['UUID']['input']
-  thumbnail: InputMaybe<Scalars['Upload']['input']>
+  thumbnail?: InputMaybe<Scalars['Upload']['input']>
   title: Scalars['String']['input']
   url: Scalars['String']['input']
 }
@@ -52,7 +52,7 @@ export type AddExternalLinkInput = {
 export type AppDonations_Author = {
   __typename?: 'AppDonations_Author'
   name: Scalars['String']['output']
-  picture: Maybe<Array<Maybe<AppDonations_Picture>>>
+  picture?: Maybe<Array<Maybe<AppDonations_Picture>>>
 }
 
 export type AppDonations_Initiative = {
@@ -61,13 +61,13 @@ export type AppDonations_Initiative = {
   country: Scalars['String']['output']
   id: Scalars['Int']['output']
   name: Scalars['String']['output']
-  picture: Maybe<Array<Maybe<AppDonations_Picture>>>
-  url: Maybe<Scalars['String']['output']>
+  picture?: Maybe<Array<Maybe<AppDonations_Picture>>>
+  url?: Maybe<Scalars['String']['output']>
 }
 
 export type AppDonations_News = {
   __typename?: 'AppDonations_News'
-  author: Maybe<AppDonations_Author>
+  author?: Maybe<AppDonations_Author>
   body: Scalars['String']['output']
   id: Scalars['Int']['output']
   publishDate: Scalars['String']['output']
@@ -77,34 +77,34 @@ export type AppDonations_News = {
 
 export type AppDonations_Picture = {
   __typename?: 'AppDonations_Picture'
-  height: Maybe<Scalars['Int']['output']>
+  height?: Maybe<Scalars['Int']['output']>
   type: Scalars['String']['output']
   url: Scalars['String']['output']
-  width: Maybe<Scalars['Int']['output']>
+  width?: Maybe<Scalars['Int']['output']>
 }
 
 export type AppDonations_Project = {
   __typename?: 'AppDonations_Project'
   categories: Array<Maybe<Scalars['String']['output']>>
-  city: Maybe<Scalars['String']['output']>
-  country: Maybe<Scalars['String']['output']>
-  description: Maybe<Scalars['String']['output']>
-  donationUrl: Maybe<Scalars['String']['output']>
+  city?: Maybe<Scalars['String']['output']>
+  country?: Maybe<Scalars['String']['output']>
+  description?: Maybe<Scalars['String']['output']>
+  donationUrl?: Maybe<Scalars['String']['output']>
   donationsCount: Scalars['Int']['output']
   id: Scalars['Int']['output']
   initiative: AppDonations_Initiative
   news: Array<Maybe<AppDonations_News>>
   newsCount: Scalars['Int']['output']
-  newsUrl: Maybe<Scalars['String']['output']>
+  newsUrl?: Maybe<Scalars['String']['output']>
   openAmountInCents: Scalars['Int']['output']
-  picture: Maybe<Array<Maybe<AppDonations_Picture>>>
+  picture?: Maybe<Array<Maybe<AppDonations_Picture>>>
   progressPercentage: Scalars['Int']['output']
-  summary: Maybe<Scalars['String']['output']>
+  summary?: Maybe<Scalars['String']['output']>
   title: Scalars['String']['output']
 }
 
 export type AppDonations_ProjectNewsArgs = {
-  limit: InputMaybe<Scalars['Int']['input']>
+  limit?: InputMaybe<Scalars['Int']['input']>
 }
 
 export type AppDonations_ProjectsResponse = {
@@ -126,22 +126,22 @@ export enum AppGoodNews_Category {
 export type AppGoodNews_GoodNewsArticle = {
   __typename?: 'AppGoodNews_GoodNewsArticle'
   articleUrl: Scalars['String']['output']
-  category: Maybe<AppGoodNews_Category>
+  category?: Maybe<AppGoodNews_Category>
   date: Scalars['String']['output']
   headline: Scalars['String']['output']
   id: Scalars['String']['output']
-  language: Maybe<Scalars['String']['output']>
-  pictureCredit: Maybe<Scalars['String']['output']>
+  language?: Maybe<Scalars['String']['output']>
+  pictureCredit?: Maybe<Scalars['String']['output']>
   pictureUrl: Scalars['String']['output']
   sortKey: Scalars['Int']['output']
-  source: Maybe<Scalars['String']['output']>
+  source?: Maybe<Scalars['String']['output']>
   teaserText: Scalars['String']['output']
 }
 
 export type AppGoodNews_GoodNewsArticlesQueryResponse = {
   __typename?: 'AppGoodNews_GoodNewsArticlesQueryResponse'
   articles: Array<Maybe<AppGoodNews_GoodNewsArticle>>
-  previousDateTeaser: Maybe<AppGoodNews_GoodNewsArticle>
+  previousDateTeaser?: Maybe<AppGoodNews_GoodNewsArticle>
 }
 
 /** AppVersion(id, version, build_number, need_update, created, app_store_url, play_store_url) */
@@ -175,17 +175,17 @@ export type AppVolunteering_City = {
 export type AppVolunteering_Engagement = {
   __typename?: 'AppVolunteering_Engagement'
   categories: Array<Maybe<Scalars['String']['output']>>
-  description: Maybe<Scalars['String']['output']>
-  id: Maybe<Scalars['String']['output']>
-  imageUrl: Maybe<Scalars['String']['output']>
-  imageUrlOriginal: Maybe<Scalars['String']['output']>
-  latitude: Maybe<Scalars['Float']['output']>
-  location: Maybe<Scalars['String']['output']>
-  longitude: Maybe<Scalars['Float']['output']>
-  organizer: Maybe<AppVolunteering_Organizer>
-  source: Maybe<Scalars['String']['output']>
-  title: Maybe<Scalars['String']['output']>
-  url: Maybe<Scalars['String']['output']>
+  description?: Maybe<Scalars['String']['output']>
+  id?: Maybe<Scalars['String']['output']>
+  imageUrl?: Maybe<Scalars['String']['output']>
+  imageUrlOriginal?: Maybe<Scalars['String']['output']>
+  latitude?: Maybe<Scalars['Float']['output']>
+  location?: Maybe<Scalars['String']['output']>
+  longitude?: Maybe<Scalars['Float']['output']>
+  organizer?: Maybe<AppVolunteering_Organizer>
+  source?: Maybe<Scalars['String']['output']>
+  title?: Maybe<Scalars['String']['output']>
+  url?: Maybe<Scalars['String']['output']>
 }
 
 export type AppVolunteering_EngagementsResponse = {
@@ -196,38 +196,38 @@ export type AppVolunteering_EngagementsResponse = {
 
 export type AppVolunteering_Organizer = {
   __typename?: 'AppVolunteering_Organizer'
-  imageUrl: Maybe<Scalars['String']['output']>
-  name: Maybe<Scalars['String']['output']>
+  imageUrl?: Maybe<Scalars['String']['output']>
+  name?: Maybe<Scalars['String']['output']>
 }
 
 export type AppVolunteering_TrackEngagementViewResponse = {
   __typename?: 'AppVolunteering_TrackEngagementViewResponse'
-  id: Maybe<Scalars['String']['output']>
+  id?: Maybe<Scalars['String']['output']>
 }
 
 /** Appointment(id, title, slug, invite_only, start_date_time, end_date_time, location, geolocation, location_details, video_call_link, description, thumbnail, thumbnail_blurhash, permission, space, creator, created, modified, is_deleted, deleted_at) */
 export type Appointment = {
   __typename?: 'Appointment'
-  creator: Maybe<User>
+  creator?: Maybe<User>
   description: Scalars['String']['output']
   endDateTime: Scalars['DateTime']['output']
   /** @deprecated Use `location_details` instead */
-  geolocation: Maybe<GeolocationPoint>
-  hasVideoCallLink: Maybe<Scalars['Boolean']['output']>
+  geolocation?: Maybe<GeolocationPoint>
+  hasVideoCallLink?: Maybe<Scalars['Boolean']['output']>
   id: Scalars['UUID']['output']
   inviteOnly: Scalars['Boolean']['output']
-  isHybrid: Maybe<Scalars['Boolean']['output']>
+  isHybrid?: Maybe<Scalars['Boolean']['output']>
   /** @deprecated Use `location_details` instead */
-  location: Maybe<Scalars['String']['output']>
-  locationDetails: Maybe<LocationDetails>
-  participants: Maybe<Array<User>>
+  location?: Maybe<Scalars['String']['output']>
+  locationDetails?: Maybe<LocationDetails>
+  participants?: Maybe<Array<User>>
   permission: PermissionType
   slug: Scalars['String']['output']
   startDateTime: Scalars['DateTime']['output']
-  thumbnail: Maybe<Scalars['String']['output']>
-  thumbnailBlurhash: Maybe<Scalars['String']['output']>
+  thumbnail?: Maybe<Scalars['String']['output']>
+  thumbnailBlurhash?: Maybe<Scalars['String']['output']>
   title: Scalars['String']['output']
-  videoCallLink: Maybe<VideoCallLink>
+  videoCallLink?: Maybe<VideoCallLink>
 }
 
 export type AppointmentPaged = {
@@ -244,30 +244,30 @@ export type AppointmentPaged = {
  */
 export type AuthenticatedUser = {
   __typename?: 'AuthenticatedUser'
-  aboutMe: Maybe<Scalars['String']['output']>
-  avatar: Maybe<Scalars['String']['output']>
-  avatarBlurhash: Maybe<Scalars['String']['output']>
+  aboutMe?: Maybe<Scalars['String']['output']>
+  avatar?: Maybe<Scalars['String']['output']>
+  avatarBlurhash?: Maybe<Scalars['String']['output']>
   avatarDefaultColor: Scalars['String']['output']
   avatarLabel: Scalars['String']['output']
-  connectionStatusToMyself: Maybe<UserConnectionStatus>
+  connectionStatusToMyself?: Maybe<UserConnectionStatus>
   connectionStatusToSpace: Array<Maybe<SpaceUserConnectionType>>
-  engagementLevel: Maybe<Scalars['String']['output']>
-  firstName: Maybe<Scalars['String']['output']>
+  engagementLevel?: Maybe<Scalars['String']['output']>
+  firstName?: Maybe<Scalars['String']['output']>
   /** Can be an empty string */
   fullName: Scalars['String']['output']
-  geolocationId: Maybe<Scalars['String']['output']>
+  geolocationId?: Maybe<Scalars['String']['output']>
   /** Required. 36 characters or fewer. Letters, digits and _ only. */
   id: Scalars['UUID']['output']
   /** 255 characters or fewer. Must start with a lowercase letter and contain lowercase letters, digits, '_', '-' and '.' only. */
-  identity: Maybe<Scalars['String']['output']>
+  identity?: Maybe<Scalars['String']['output']>
   interests: Array<Maybe<Topic>>
-  lastName: Maybe<Scalars['String']['output']>
-  location: Maybe<Scalars['String']['output']>
-  pronouns: Maybe<Scalars['String']['output']>
+  lastName?: Maybe<Scalars['String']['output']>
+  location?: Maybe<Scalars['String']['output']>
+  pronouns?: Maybe<Scalars['String']['output']>
   sdgs: Array<Maybe<Sdg>>
   skills: Array<Maybe<Skill>>
-  trackingConsentAnalytics: Maybe<Scalars['Boolean']['output']>
-  trackingConsentPersonalization: Maybe<Scalars['Boolean']['output']>
+  trackingConsentAnalytics?: Maybe<Scalars['Boolean']['output']>
+  trackingConsentPersonalization?: Maybe<Scalars['Boolean']['output']>
 }
 
 /**
@@ -285,15 +285,23 @@ export enum BookmarkType {
   Recommendation = 'RECOMMENDATION',
 }
 
+/** Choice(id, poll, choice_text, votes) */
+export type Choice = {
+  __typename?: 'Choice'
+  choiceText: Scalars['String']['output']
+  id: Scalars['UUID']['output']
+  votes: Scalars['Int']['output']
+}
+
 /** CollaborationTool(id, url, title, collection_type, description, domain, creator, community, created_at, thumbnail, thumbnail_blurhash) */
 export type CollaborationTool = {
   __typename?: 'CollaborationTool'
   collectionType: CollectionType
-  description: Maybe<Scalars['String']['output']>
+  description?: Maybe<Scalars['String']['output']>
   domain: Scalars['String']['output']
   id: Scalars['UUID']['output']
-  thumbnail: Maybe<Scalars['String']['output']>
-  thumbnailBlurhash: Maybe<Scalars['String']['output']>
+  thumbnail?: Maybe<Scalars['String']['output']>
+  thumbnailBlurhash?: Maybe<Scalars['String']['output']>
   title: Scalars['String']['output']
   url: Scalars['String']['output']
 }
@@ -327,9 +335,9 @@ export type Comment = {
   mentions: Array<Maybe<User>>
   modified: Scalars['DateTime']['output']
   myReaction: ReactionCounts
-  parentCommentId: Maybe<Scalars['UUID']['output']>
+  parentCommentId?: Maybe<Scalars['UUID']['output']>
   reactions: ReactionCounts
-  replies: Maybe<Array<Comment>>
+  replies?: Maybe<Array<Comment>>
   text: Scalars['String']['output']
   totalReplies: Scalars['Int']['output']
 }
@@ -352,7 +360,8 @@ export type Commentable = {
   commenters: UserPaged
   comments: CommentPaged
   id: Scalars['UUID']['output']
-  topComment: Maybe<Comment>
+  topComment?: Maybe<Comment>
+  totalComments: Scalars['Int']['output']
   type: CommentableType
 }
 
@@ -369,47 +378,55 @@ export type CommentableCommentsArgs = {
 
 export enum CommentableType {
   Discussion = 'DISCUSSION',
+  FeedPost = 'FEED_POST',
   Post = 'POST',
 }
 
 export enum ContentType {
+  FeedPost = 'FEED_POST',
   Post = 'POST',
   PostComment = 'POST_COMMENT',
   Space = 'SPACE',
+  SpaceAppointment = 'SPACE_APPOINTMENT',
+  SpaceTask = 'SPACE_TASK',
   User = 'USER',
 }
 
 export type CreateAppointmentInput = {
-  description: InputMaybe<Scalars['String']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
   endDateTime: Scalars['String']['input']
-  geolocation: InputMaybe<GeolocationPointInput>
+  geolocation?: InputMaybe<GeolocationPointInput>
   inviteOnly: Scalars['Boolean']['input']
-  location: InputMaybe<Scalars['String']['input']>
-  locationDetails: InputMaybe<LocationDetailsInput>
-  participantIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  location?: InputMaybe<Scalars['String']['input']>
+  locationDetails?: InputMaybe<LocationDetailsInput>
+  participantIds?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
   permission: PermissionType
   spaceId: Scalars['UUID']['input']
   startDateTime: Scalars['String']['input']
-  thumbnail: InputMaybe<Scalars['Upload']['input']>
+  thumbnail?: InputMaybe<Scalars['Upload']['input']>
   title: Scalars['String']['input']
-  videoCallInfo: InputMaybe<Scalars['String']['input']>
-  videoCallLink: InputMaybe<Scalars['String']['input']>
+  videoCallInfo?: InputMaybe<Scalars['String']['input']>
+  videoCallLink?: InputMaybe<Scalars['String']['input']>
 }
 
 export type CreateCommentInput = {
   commentableId: Scalars['UUID']['input']
   commentableType: CommentableType
-  parentCommentId: InputMaybe<Scalars['UUID']['input']>
+  parentCommentId?: InputMaybe<Scalars['UUID']['input']>
   text: Scalars['String']['input']
 }
 
 export type CreateFeedPostInput = {
   categoryId: Scalars['UUID']['input']
   description: Scalars['String']['input']
-  image: InputMaybe<Scalars['Upload']['input']>
+  image?: InputMaybe<Scalars['Upload']['input']>
   title: Scalars['String']['input']
-  topicIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  topicIds?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
   visibility: VisibilityLevel
+}
+
+export type CreatePollInput = {
+  questionText: Scalars['String']['input']
 }
 
 export type CreatePostCommentInput = {
@@ -424,10 +441,10 @@ export type CreatePostCommentOutput = {
 }
 
 export type CreatePostInput = {
-  image: InputMaybe<Scalars['Upload']['input']>
+  image?: InputMaybe<Scalars['Upload']['input']>
   spaceId: Scalars['UUID']['input']
   text: Scalars['String']['input']
-  title: InputMaybe<Scalars['String']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
   visibility: VisibilityType
 }
 
@@ -440,17 +457,17 @@ export type CreateSpaceInput = {
 
 export type CreateTaskInput = {
   contactEmail: Scalars['String']['input']
-  contactPhone: InputMaybe<Scalars['String']['input']>
+  contactPhone?: InputMaybe<Scalars['String']['input']>
   description: Scalars['String']['input']
-  geolocation: InputMaybe<GeolocationPointInput>
-  location: InputMaybe<Scalars['String']['input']>
+  geolocation?: InputMaybe<GeolocationPointInput>
+  location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
   name: Scalars['String']['input']
   regularity: Regularity
-  skills: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  slotsAvailable: InputMaybe<Scalars['Int']['input']>
+  skills?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  slotsAvailable?: InputMaybe<Scalars['Int']['input']>
   spaceId: Scalars['UUID']['input']
-  thumbnail: InputMaybe<Scalars['Upload']['input']>
+  thumbnail?: InputMaybe<Scalars['Upload']['input']>
   visibility: VisibilityType
 }
 
@@ -462,11 +479,11 @@ export enum DeviceType {
 export type DiscoverSpaces = {
   __typename?: 'DiscoverSpaces'
   /** @deprecated Unsupported since version 1.0.16, use location_id instead */
-  location: Maybe<Scalars['String']['output']>
-  locationId: Maybe<Scalars['String']['output']>
-  skillId: Maybe<Scalars['UUID']['output']>
+  location?: Maybe<Scalars['String']['output']>
+  locationId?: Maybe<Scalars['String']['output']>
+  skillId?: Maybe<Scalars['UUID']['output']>
   spaces: SpacePaged
-  topicId: Maybe<Scalars['UUID']['output']>
+  topicId?: Maybe<Scalars['UUID']['output']>
 }
 
 /** Discussion(id, insight, question) */
@@ -507,29 +524,41 @@ export type FeatureToggle = {
   status: Scalars['String']['output']
 }
 
-/** FeedPost(id, title, slug, description, visibility, category, creator, created_at, image, image_blurhash) */
+/** FeedPost(id, title, slug, description, visibility, category, creator, created_at, image, image_blurhash, link_preview) */
 export type FeedPost = {
   __typename?: 'FeedPost'
   category: FeedPostCategory
+  commenters: UserPaged
   createdAt: Scalars['String']['output']
-  creator: Maybe<User>
+  creator?: Maybe<User>
   description: Scalars['String']['output']
   id: Scalars['UUID']['output']
-  image: Maybe<Scalars['String']['output']>
-  imageBlurhash: Maybe<Scalars['String']['output']>
+  image?: Maybe<Scalars['String']['output']>
+  imageBlurhash?: Maybe<Scalars['String']['output']>
+  linkPreview?: Maybe<LinkPreview>
+  mentions?: Maybe<Array<Maybe<User>>>
   myReaction: ReactionCounts
   reactions: ReactionCounts
   slug: Scalars['String']['output']
-  title: Maybe<Scalars['String']['output']>
-  topics: Maybe<Array<Topic>>
+  title?: Maybe<Scalars['String']['output']>
+  topics?: Maybe<Array<Topic>>
+  totalComments: Scalars['Int']['output']
   visibility: VisibilityLevel
+}
+
+/** FeedPost(id, title, slug, description, visibility, category, creator, created_at, image, image_blurhash, link_preview) */
+export type FeedPostCommentersArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 /** Feed Posts have an assigned category that is displayed above the post. */
 export type FeedPostCategory = {
   __typename?: 'FeedPostCategory'
   id: Scalars['UUID']['output']
+  idx: Scalars['Int']['output']
   isEnabled: Scalars['Boolean']['output']
+  label: Scalars['String']['output']
   slug: Scalars['String']['output']
   title: Scalars['String']['output']
 }
@@ -558,12 +587,12 @@ export type Geo_Coordinates = {
 
 export type Geo_Place = {
   __typename?: 'Geo_Place'
-  city: Maybe<Scalars['String']['output']>
+  city?: Maybe<Scalars['String']['output']>
   coordinates: Geo_Coordinates
   country: Scalars['String']['output']
   id: Scalars['String']['output']
   name: Scalars['String']['output']
-  state: Maybe<Scalars['String']['output']>
+  state?: Maybe<Scalars['String']['output']>
 }
 
 export type Geo_PlaceDetails = {
@@ -588,7 +617,7 @@ export type GeolocationPointInput = {
 export type Initiative = {
   __typename?: 'Initiative'
   category: Scalars['String']['output']
-  comment: Maybe<Scalars['String']['output']>
+  comment?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
   link: Scalars['String']['output']
   linkPreview: LinkPreview
@@ -599,12 +628,12 @@ export type Initiative = {
 /** Insight(id, title, description, creator, date_published, header_image, header_image_blurhash, topic) */
 export type Insight = {
   __typename?: 'Insight'
-  creator: Maybe<User>
+  creator?: Maybe<User>
   datePublished: Scalars['Date']['output']
   description: Scalars['String']['output']
   discussions: Array<Discussion>
-  headerImage: Maybe<Scalars['String']['output']>
-  headerImageBlurhash: Maybe<Scalars['String']['output']>
+  headerImage?: Maybe<Scalars['String']['output']>
+  headerImageBlurhash?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
   initiative: Initiative
   initiatives: Array<Initiative>
@@ -614,13 +643,14 @@ export type Insight = {
   isBookmarked: Scalars['Boolean']['output']
   isFavorite: Scalars['Boolean']['output']
   numberOfPosts: Scalars['Int']['output']
+  polls: Array<Poll>
   posts: Array<Post>
   quote: Quote
   quotes: Array<Quote>
   recommendation: Recommendation
   recommendations: Array<Recommendation>
   title: Scalars['String']['output']
-  topic: Maybe<Topic>
+  topic?: Maybe<Topic>
 }
 
 /** Insight(id, title, description, creator, date_published, header_image, header_image_blurhash, topic) */
@@ -675,7 +705,7 @@ export type LinkPreview = {
   __typename?: 'LinkPreview'
   description: Scalars['String']['output']
   fetchedAt: Scalars['DateTime']['output']
-  icon: Maybe<Scalars['String']['output']>
+  icon?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
   image: Scalars['String']['output']
   origin: Scalars['String']['output']
@@ -689,19 +719,19 @@ export type LinkPreview = {
 /** LocationDetails(id, complete_address, geolocation, city, state, country) */
 export type LocationDetails = {
   __typename?: 'LocationDetails'
-  city: Maybe<Scalars['String']['output']>
-  completeAddress: Maybe<Scalars['String']['output']>
-  country: Maybe<Scalars['String']['output']>
-  geolocation: Maybe<GeolocationPoint>
-  state: Maybe<Scalars['String']['output']>
+  city?: Maybe<Scalars['String']['output']>
+  completeAddress?: Maybe<Scalars['String']['output']>
+  country?: Maybe<Scalars['String']['output']>
+  geolocation?: Maybe<GeolocationPoint>
+  state?: Maybe<Scalars['String']['output']>
 }
 
 export type LocationDetailsInput = {
-  city: InputMaybe<Scalars['String']['input']>
-  completeAddress: InputMaybe<Scalars['String']['input']>
-  country: InputMaybe<Scalars['String']['input']>
-  geolocation: InputMaybe<GeolocationPointInput>
-  state: InputMaybe<Scalars['String']['input']>
+  city?: InputMaybe<Scalars['String']['input']>
+  completeAddress?: InputMaybe<Scalars['String']['input']>
+  country?: InputMaybe<Scalars['String']['input']>
+  geolocation?: InputMaybe<GeolocationPointInput>
+  state?: InputMaybe<Scalars['String']['input']>
 }
 
 export enum LocationType {
@@ -724,6 +754,7 @@ export type Mutation = {
   bookmarkInsight: Result
   createAppointment: Appointment
   createFeedPost: FeedPost
+  createPoll: Poll
   createSpace: Space
   /** @deprecated Changed return type to reflect created entity, use create_space_post_2. Deprecated since v1.1.0 */
   createSpacePost: Space
@@ -776,6 +807,7 @@ export type Mutation = {
   /** When no userId is provided, the logged in user is used instead. */
   updateSpaceUserConnection: Space
   updateTask: Task
+  updateVotes: Choice
   validateSpace: Result
 }
 
@@ -818,6 +850,10 @@ export type MutationCreateAppointmentArgs = {
 
 export type MutationCreateFeedPostArgs = {
   input: CreateFeedPostInput
+}
+
+export type MutationCreatePollArgs = {
+  input: CreatePollInput
 }
 
 export type MutationCreateSpaceArgs = {
@@ -1014,6 +1050,10 @@ export type MutationUpdateTaskArgs = {
   input: UpdateTaskInput
 }
 
+export type MutationUpdateVotesArgs = {
+  id: Scalars['UUID']['input']
+}
+
 export type MutationValidateSpaceArgs = {
   input: ValidateSpaceInput
 }
@@ -1032,7 +1072,7 @@ export type MySpacesSpacesArgs = {
 
 export type NewNotificationsResponse = {
   __typename?: 'NewNotificationsResponse'
-  id: Maybe<Scalars['UUID']['output']>
+  id?: Maybe<Scalars['UUID']['output']>
   status: Scalars['Boolean']['output']
 }
 
@@ -1042,19 +1082,19 @@ export type Notification = {
   created: Scalars['DateTime']['output']
   id: Scalars['UUID']['output']
   notificationType: NotificationType
-  options: Maybe<NotificationOptions>
+  options?: Maybe<NotificationOptions>
   owner: User
   read: Scalars['Boolean']['output']
 }
 
 export type NotificationOptions = {
   __typename?: 'NotificationOptions'
-  message: Maybe<Scalars['String']['output']>
-  post: Maybe<Post>
-  postComment: Maybe<PostComment>
-  space: Maybe<Space>
-  teaser: Maybe<Scalars['String']['output']>
-  user: Maybe<User>
+  message?: Maybe<Scalars['String']['output']>
+  post?: Maybe<Post>
+  postComment?: Maybe<PostComment>
+  space?: Maybe<Space>
+  teaser?: Maybe<Scalars['String']['output']>
+  user?: Maybe<User>
 }
 
 export type NotificationPaged = {
@@ -1119,8 +1159,8 @@ export enum Notifications_Channel {
 
 export type Notifications_ChannelPreferences = {
   __typename?: 'Notifications_ChannelPreferences'
-  email: Maybe<Scalars['Boolean']['output']>
-  push: Maybe<Scalars['Boolean']['output']>
+  email?: Maybe<Scalars['Boolean']['output']>
+  push?: Maybe<Scalars['Boolean']['output']>
 }
 
 export type Notifications_UpdatePreferencesInput = {
@@ -1144,7 +1184,7 @@ export type Onboarding = {
 /** OnboardingStep(id, community, text, step_number, created_at) */
 export type OnboardingStep = {
   __typename?: 'OnboardingStep'
-  text: Maybe<Scalars['String']['output']>
+  text?: Maybe<Scalars['String']['output']>
 }
 
 export type OnboardingStepInput = {
@@ -1156,6 +1196,18 @@ export enum PermissionType {
   Participants = 'PARTICIPANTS',
 }
 
+/** Poll(id, question_text, created, modified, creator, is_edited, is_closed, is_deleted, status, is_public) */
+export type Poll = {
+  __typename?: 'Poll'
+  choices: Array<Choice>
+  created: Scalars['DateTime']['output']
+  creator: User
+  id: Scalars['UUID']['output']
+  isPublic: Scalars['Boolean']['output']
+  modified: Scalars['DateTime']['output']
+  questionText: Scalars['String']['output']
+}
+
 /** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
 export type Post = {
   __typename?: 'Post'
@@ -1165,8 +1217,8 @@ export type Post = {
   created: Scalars['DateTime']['output']
   creator: User
   id: Scalars['UUID']['output']
-  image: Maybe<PostImage>
-  inspirationPostCategory: Maybe<InspirationPostCategory>
+  image?: Maybe<PostImage>
+  inspirationPostCategory?: Maybe<InspirationPostCategory>
   /** A list of all users involved. Author of the post plus all commenters */
   involvedUsers: UserPaged
   isPublic: Scalars['Boolean']['output']
@@ -1177,9 +1229,9 @@ export type Post = {
   myReaction: ReactionCounts
   numberOfComments: Scalars['Int']['output']
   reactions: ReactionCounts
-  space: Maybe<Space>
-  text: Maybe<Scalars['String']['output']>
-  title: Maybe<Scalars['String']['output']>
+  space?: Maybe<Space>
+  text?: Maybe<Scalars['String']['output']>
+  title?: Maybe<Scalars['String']['output']>
 }
 
 /** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
@@ -1213,7 +1265,7 @@ export type PostComment = {
 /** PostImage(id, post, image, image_blurhash, width, height) */
 export type PostImage = {
   __typename?: 'PostImage'
-  blurhash: Maybe<Scalars['String']['output']>
+  blurhash?: Maybe<Scalars['String']['output']>
   height: Scalars['Int']['output']
   id: Scalars['UUID']['output']
   url: Scalars['String']['output']
@@ -1232,19 +1284,19 @@ export type Query = {
   __typename?: 'Query'
   appDonations_project: AppDonations_Project
   appDonations_projects: AppDonations_ProjectsResponse
-  appGoodNews_articles: Maybe<AppGoodNews_GoodNewsArticlesQueryResponse>
+  appGoodNews_articles?: Maybe<AppGoodNews_GoodNewsArticlesQueryResponse>
   appVolunteering_categories: AppVolunteering_CategoriesResponse
   /** @deprecated It will no longer be supported after 1.5.1. */
   appVolunteering_cities: AppVolunteering_CitiesResponse
-  appVolunteering_engagement: Maybe<AppVolunteering_Engagement>
+  appVolunteering_engagement?: Maybe<AppVolunteering_Engagement>
   appVolunteering_engagementOpportunities: AppVolunteering_EngagementsResponse
   /** @deprecated Use engagementOpportunities instead, as its support will be discontinued after 1.5.1. */
   appVolunteering_engagements: AppVolunteering_EngagementsResponse
   appointment: Appointment
   appointments: AppointmentPaged
   /** @deprecated Deprecated in favor of 'authenticatedUserV2'. */
-  authenticatedUser: Maybe<User>
-  authenticatedUserV2: Maybe<AuthenticatedUser>
+  authenticatedUser?: Maybe<User>
+  authenticatedUserV2?: Maybe<AuthenticatedUser>
   checkAppVersion: AppVersionResponse
   collaborationTools: CollaborationToolPaged
   commentById: Comment
@@ -1262,7 +1314,7 @@ export type Query = {
   geo_placesAutocomplete: Array<Maybe<Geo_Place>>
   hasNewNotifications: NewNotificationsResponse
   insightAuthors: UserPaged
-  insightById: Maybe<Insight>
+  insightById?: Maybe<Insight>
   insightsByUserId: InsightPaged
   inspirationPostCategories: InspirationPostCategoryPaged
   inspirationPosts: PostPaged
@@ -1271,22 +1323,24 @@ export type Query = {
   mySpaces: Array<Maybe<MySpaces>>
   notifications: NotificationPaged
   notifications_preferences: Array<Maybe<Notifications_WorkflowPreferences>>
+  pollById?: Maybe<Poll>
   post: FeedPost
-  postById: Maybe<Post>
+  postById?: Maybe<Post>
   postsByUserId: FeedPostPaged
   recommendedSpaces: SpacePaged
   recommendedTasks: TaskPaged
   sdgs: SdgPaged
   skills: SkillPaged
-  spaceById: Maybe<Space>
+  spaceById?: Maybe<Space>
   spaces: SpacePaged
   spacesByName: SpacePaged
-  taskById: Maybe<Task>
+  taskById?: Maybe<Task>
   tasksBySpaceId: TaskPaged
   topics: TopicPaged
   trackingEndpoint_dummy: Scalars['Boolean']['output']
-  userById: Maybe<User>
+  userById?: Maybe<User>
   userByName: UserPaged
+  userHasVotedByPollId: Scalars['Boolean']['output']
   userSuggestions: UserPaged
   usersByChatIdentities: UserPaged
 }
@@ -1297,12 +1351,12 @@ export type QueryAppDonations_ProjectArgs = {
 
 export type QueryAppDonations_ProjectsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>
-  location: InputMaybe<Scalars['String']['input']>
+  location?: InputMaybe<Scalars['String']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
 }
 
 export type QueryAppGoodNews_ArticlesArgs = {
-  lastDate: InputMaybe<Scalars['String']['input']>
+  lastDate?: InputMaybe<Scalars['String']['input']>
 }
 
 export type QueryAppVolunteering_EngagementArgs = {
@@ -1310,20 +1364,20 @@ export type QueryAppVolunteering_EngagementArgs = {
 }
 
 export type QueryAppVolunteering_EngagementOpportunitiesArgs = {
-  category: InputMaybe<Scalars['String']['input']>
+  category?: InputMaybe<Scalars['String']['input']>
   limit?: Scalars['Int']['input']
-  location: InputMaybe<Scalars['AppVolunteering_GeoJSON']['input']>
+  location?: InputMaybe<Scalars['AppVolunteering_GeoJSON']['input']>
   offset?: Scalars['Int']['input']
 }
 
 export type QueryAppVolunteering_EngagementsArgs = {
-  category: InputMaybe<Scalars['String']['input']>
-  latitude: InputMaybe<Scalars['Float']['input']>
+  category?: InputMaybe<Scalars['String']['input']>
+  latitude?: InputMaybe<Scalars['Float']['input']>
   limit?: Scalars['Int']['input']
-  location: InputMaybe<Scalars['String']['input']>
-  longitude: InputMaybe<Scalars['Float']['input']>
+  location?: InputMaybe<Scalars['String']['input']>
+  longitude?: InputMaybe<Scalars['Float']['input']>
   offset?: Scalars['Int']['input']
-  radiusKm: InputMaybe<Scalars['Float']['input']>
+  radiusKm?: InputMaybe<Scalars['Float']['input']>
 }
 
 export type QueryAppointmentArgs = {
@@ -1400,8 +1454,8 @@ export type QueryGeo_PlaceDetailsArgs = {
 }
 
 export type QueryGeo_PlacesAutocompleteArgs = {
-  level: InputMaybe<Scalars['String']['input']>
-  limit: InputMaybe<Scalars['Int']['input']>
+  level?: InputMaybe<Scalars['String']['input']>
+  limit?: InputMaybe<Scalars['Int']['input']>
   text: Scalars['String']['input']
 }
 
@@ -1445,6 +1499,10 @@ export type QueryNotificationsArgs = {
   offset?: Scalars['Int']['input']
 }
 
+export type QueryPollByIdArgs = {
+  id: Scalars['UUID']['input']
+}
+
 export type QueryPostArgs = {
   idOrSlug: Scalars['String']['input']
 }
@@ -1460,10 +1518,8 @@ export type QueryPostsByUserIdArgs = {
 }
 
 export type QueryRecommendedSpacesArgs = {
-  geolocation?: InputMaybe<Scalars['GeoJSON']['input']>
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
-  topicIds?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
 }
 
 export type QueryRecommendedTasksArgs = {
@@ -1527,6 +1583,10 @@ export type QueryUserByNameArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
   substring: Scalars['String']['input']
+}
+
+export type QueryUserHasVotedByPollIdArgs = {
+  id: Scalars['UUID']['input']
 }
 
 export type QueryUserSuggestionsArgs = {
@@ -1637,34 +1697,34 @@ export type SkillPaged = {
 export type Space = {
   __typename?: 'Space'
   appointments: AppointmentPaged
-  avatar: Maybe<Scalars['String']['output']>
-  avatarBlurhash: Maybe<Scalars['String']['output']>
+  avatar?: Maybe<Scalars['String']['output']>
+  avatarBlurhash?: Maybe<Scalars['String']['output']>
   avatarDefaultColor: Scalars['String']['output']
   childSpaces: SpacePaged
   collaborationTools: Array<Maybe<CollaborationTool>>
   connectionStatusToMyself: Array<Maybe<SpaceUserConnectionType>>
-  contactDescription: Maybe<Scalars['String']['output']>
-  contactEmail: Maybe<Scalars['String']['output']>
-  contactPhone: Maybe<Scalars['String']['output']>
-  cover: Maybe<Scalars['String']['output']>
-  coverBlurhash: Maybe<Scalars['String']['output']>
+  contactDescription?: Maybe<Scalars['String']['output']>
+  contactEmail?: Maybe<Scalars['String']['output']>
+  contactPhone?: Maybe<Scalars['String']['output']>
+  cover?: Maybe<Scalars['String']['output']>
+  coverBlurhash?: Maybe<Scalars['String']['output']>
   created: Scalars['DateTime']['output']
-  creator: Maybe<User>
-  description: Maybe<Scalars['String']['output']>
-  geolocation: Maybe<GeolocationPoint>
+  creator?: Maybe<User>
+  description?: Maybe<Scalars['String']['output']>
+  geolocation?: Maybe<GeolocationPoint>
   hasPrivatePosts: Scalars['Boolean']['output']
   hasPublicPosts: Scalars['Boolean']['output']
   id: Scalars['UUID']['output']
   /** A list of all active invites to this space */
   invites: SpaceInvitePaged
   links: Array<Maybe<ExternalLink>>
-  location: Maybe<Scalars['String']['output']>
+  location?: Maybe<Scalars['String']['output']>
   /** A list of all active members and their role */
   members: SpaceMemberPaged
   /** A list of all active membership requests */
   membershipRequests: SpaceMembershipRequestPaged
   name: Scalars['String']['output']
-  onboarding: Maybe<Onboarding>
+  onboarding?: Maybe<Onboarding>
   posts: PostPaged
   sdgs: Array<Maybe<Sdg>>
   tasks: Array<Maybe<Task>>
@@ -1750,7 +1810,7 @@ export type SpaceMembershipRequest = {
   __typename?: 'SpaceMembershipRequest'
   community: Space
   id: Scalars['UUID']['output']
-  message: Maybe<Scalars['String']['output']>
+  message?: Maybe<Scalars['String']['output']>
   user: User
 }
 
@@ -1788,13 +1848,13 @@ export enum StatusType {
 export type Task = {
   __typename?: 'Task'
   contactEmail: Scalars['String']['output']
-  contactPhone: Maybe<Scalars['String']['output']>
+  contactPhone?: Maybe<Scalars['String']['output']>
   created: Scalars['DateTime']['output']
   creator: User
   description: Scalars['String']['output']
-  geolocation: Maybe<GeolocationPoint>
+  geolocation?: Maybe<GeolocationPoint>
   id: Scalars['UUID']['output']
-  location: Maybe<Scalars['String']['output']>
+  location?: Maybe<Scalars['String']['output']>
   locationType: LocationType
   name: Scalars['String']['output']
   regularity: Regularity
@@ -1802,8 +1862,8 @@ export type Task = {
   slotsAvailable: Scalars['Int']['output']
   slotsTaken: Scalars['Int']['output']
   space: Space
-  thumbnail: Maybe<Scalars['String']['output']>
-  thumbnailBlurhash: Maybe<Scalars['String']['output']>
+  thumbnail?: Maybe<Scalars['String']['output']>
+  thumbnailBlurhash?: Maybe<Scalars['String']['output']>
   visibility: VisibilityType
 }
 
@@ -1837,44 +1897,44 @@ export type TopicPaged = {
 
 export type UpdateAppointmentInput = {
   appointmentId: Scalars['UUID']['input']
-  description: InputMaybe<Scalars['String']['input']>
-  endDateTime: InputMaybe<Scalars['String']['input']>
-  geolocation: InputMaybe<GeolocationPointInput>
-  inviteOnly: InputMaybe<Scalars['Boolean']['input']>
-  location: InputMaybe<Scalars['String']['input']>
-  locationDetails: InputMaybe<LocationDetailsInput>
-  participantIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  permission: InputMaybe<PermissionType>
-  startDateTime: InputMaybe<Scalars['String']['input']>
-  thumbnail: InputMaybe<Scalars['Upload']['input']>
-  title: InputMaybe<Scalars['String']['input']>
-  videoCallInfo: InputMaybe<Scalars['String']['input']>
-  videoCallLink: InputMaybe<Scalars['String']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
+  endDateTime?: InputMaybe<Scalars['String']['input']>
+  geolocation?: InputMaybe<GeolocationPointInput>
+  inviteOnly?: InputMaybe<Scalars['Boolean']['input']>
+  location?: InputMaybe<Scalars['String']['input']>
+  locationDetails?: InputMaybe<LocationDetailsInput>
+  participantIds?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  permission?: InputMaybe<PermissionType>
+  startDateTime?: InputMaybe<Scalars['String']['input']>
+  thumbnail?: InputMaybe<Scalars['Upload']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
+  videoCallInfo?: InputMaybe<Scalars['String']['input']>
+  videoCallLink?: InputMaybe<Scalars['String']['input']>
 }
 
 export type UpdateAuthenticatedUserInput = {
-  aboutMe: InputMaybe<Scalars['String']['input']>
-  avatar: InputMaybe<Scalars['Upload']['input']>
-  engagementLevel: InputMaybe<Scalars['String']['input']>
-  firstName: InputMaybe<Scalars['String']['input']>
-  geolocation: InputMaybe<Scalars['GeoJSONInput']['input']>
-  interests: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  lastName: InputMaybe<Scalars['String']['input']>
-  location: InputMaybe<Scalars['String']['input']>
-  pronouns: InputMaybe<Scalars['String']['input']>
-  sdgs: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  skills: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  trackingConsentAnalytics: InputMaybe<Scalars['Boolean']['input']>
-  trackingConsentPersonalization: InputMaybe<Scalars['Boolean']['input']>
+  aboutMe?: InputMaybe<Scalars['String']['input']>
+  avatar?: InputMaybe<Scalars['Upload']['input']>
+  engagementLevel?: InputMaybe<Scalars['String']['input']>
+  firstName?: InputMaybe<Scalars['String']['input']>
+  geolocation?: InputMaybe<Scalars['GeoJSONInput']['input']>
+  interests?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  lastName?: InputMaybe<Scalars['String']['input']>
+  location?: InputMaybe<Scalars['String']['input']>
+  pronouns?: InputMaybe<Scalars['String']['input']>
+  sdgs?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  skills?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  trackingConsentAnalytics?: InputMaybe<Scalars['Boolean']['input']>
+  trackingConsentPersonalization?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 export type UpdateCollaborationToolInput = {
-  collectionType: InputMaybe<CollectionType>
-  description: InputMaybe<Scalars['String']['input']>
+  collectionType?: InputMaybe<CollectionType>
+  description?: InputMaybe<Scalars['String']['input']>
   id: Scalars['UUID']['input']
-  thumbnail: InputMaybe<Scalars['Upload']['input']>
-  title: InputMaybe<Scalars['String']['input']>
-  url: InputMaybe<Scalars['String']['input']>
+  thumbnail?: InputMaybe<Scalars['Upload']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
+  url?: InputMaybe<Scalars['String']['input']>
 }
 
 export enum UpdateConnectionAction {
@@ -1888,64 +1948,64 @@ export enum UpdateConnectionAction {
 
 export type UpdateConnectionWithUserInput = {
   action: UpdateConnectionAction
-  userId: InputMaybe<Scalars['String']['input']>
+  userId?: InputMaybe<Scalars['String']['input']>
 }
 
 export type UpdateExternalLinkInput = {
   id: Scalars['UUID']['input']
-  name: InputMaybe<Scalars['String']['input']>
-  type: InputMaybe<ExternalLinkType>
-  url: InputMaybe<Scalars['String']['input']>
+  name?: InputMaybe<Scalars['String']['input']>
+  type?: InputMaybe<ExternalLinkType>
+  url?: InputMaybe<Scalars['String']['input']>
 }
 
 export type UpdateFeedPostInput = {
-  categoryId: InputMaybe<Scalars['UUID']['input']>
-  description: InputMaybe<Scalars['String']['input']>
-  image: InputMaybe<Scalars['Upload']['input']>
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
+  image?: InputMaybe<Scalars['Upload']['input']>
   postId: Scalars['UUID']['input']
-  title: InputMaybe<Scalars['String']['input']>
-  topicIds: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  visibility: InputMaybe<VisibilityLevel>
+  title?: InputMaybe<Scalars['String']['input']>
+  topicIds?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  visibility?: InputMaybe<VisibilityLevel>
 }
 
 export type UpdatePostInput = {
-  image: InputMaybe<Scalars['Upload']['input']>
+  image?: InputMaybe<Scalars['Upload']['input']>
   postId: Scalars['UUID']['input']
-  text: InputMaybe<Scalars['String']['input']>
-  title: InputMaybe<Scalars['String']['input']>
-  visibility: InputMaybe<VisibilityType>
+  text?: InputMaybe<Scalars['String']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
+  visibility?: InputMaybe<VisibilityType>
 }
 
 export type UpdateSpaceInput = {
-  avatar: InputMaybe<Scalars['Upload']['input']>
-  contactDescription: InputMaybe<Scalars['String']['input']>
-  contactEmail: InputMaybe<Scalars['String']['input']>
-  contactPhone: InputMaybe<Scalars['String']['input']>
-  cover: InputMaybe<Scalars['Upload']['input']>
-  description: InputMaybe<Scalars['String']['input']>
-  geolocation: InputMaybe<GeolocationPointInput>
+  avatar?: InputMaybe<Scalars['Upload']['input']>
+  contactDescription?: InputMaybe<Scalars['String']['input']>
+  contactEmail?: InputMaybe<Scalars['String']['input']>
+  contactPhone?: InputMaybe<Scalars['String']['input']>
+  cover?: InputMaybe<Scalars['Upload']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
+  geolocation?: InputMaybe<GeolocationPointInput>
   id: Scalars['UUID']['input']
-  location: InputMaybe<Scalars['String']['input']>
-  onboardingSteps: InputMaybe<Array<InputMaybe<OnboardingStepInput>>>
-  sdgs: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  title: InputMaybe<Scalars['String']['input']>
-  topics: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  location?: InputMaybe<Scalars['String']['input']>
+  onboardingSteps?: InputMaybe<Array<InputMaybe<OnboardingStepInput>>>
+  sdgs?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  title?: InputMaybe<Scalars['String']['input']>
+  topics?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
 }
 
 export type UpdateTaskInput = {
   contactEmail: Scalars['String']['input']
-  contactPhone: InputMaybe<Scalars['String']['input']>
+  contactPhone?: InputMaybe<Scalars['String']['input']>
   description: Scalars['String']['input']
-  geolocation: InputMaybe<GeolocationPointInput>
-  location: InputMaybe<Scalars['String']['input']>
+  geolocation?: InputMaybe<GeolocationPointInput>
+  location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
   name: Scalars['String']['input']
   regularity: Regularity
-  skills: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  slotsAvailable: InputMaybe<Scalars['Int']['input']>
+  skills?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  slotsAvailable?: InputMaybe<Scalars['Int']['input']>
   spaceId: Scalars['UUID']['input']
   taskId: Scalars['UUID']['input']
-  thumbnail: InputMaybe<Scalars['Upload']['input']>
+  thumbnail?: InputMaybe<Scalars['Upload']['input']>
   visibility: VisibilityType
 }
 
@@ -1955,26 +2015,26 @@ export type UpdateTaskInput = {
  */
 export type User = {
   __typename?: 'User'
-  aboutMe: Maybe<Scalars['String']['output']>
-  avatar: Maybe<Scalars['String']['output']>
-  avatarBlurhash: Maybe<Scalars['String']['output']>
+  aboutMe?: Maybe<Scalars['String']['output']>
+  avatar?: Maybe<Scalars['String']['output']>
+  avatarBlurhash?: Maybe<Scalars['String']['output']>
   avatarDefaultColor: Scalars['String']['output']
   avatarLabel: Scalars['String']['output']
-  connectionStatusToMyself: Maybe<UserConnectionStatus>
+  connectionStatusToMyself?: Maybe<UserConnectionStatus>
   connectionStatusToSpace: Array<Maybe<SpaceUserConnectionType>>
-  engagementLevel: Maybe<Scalars['String']['output']>
-  firstName: Maybe<Scalars['String']['output']>
+  engagementLevel?: Maybe<Scalars['String']['output']>
+  firstName?: Maybe<Scalars['String']['output']>
   /** Can be an empty string */
   fullName: Scalars['String']['output']
-  geolocationId: Maybe<Scalars['String']['output']>
+  geolocationId?: Maybe<Scalars['String']['output']>
   /** Required. 36 characters or fewer. Letters, digits and _ only. */
   id: Scalars['UUID']['output']
   /** 255 characters or fewer. Must start with a lowercase letter and contain lowercase letters, digits, '_', '-' and '.' only. */
-  identity: Maybe<Scalars['String']['output']>
+  identity?: Maybe<Scalars['String']['output']>
   interests: Array<Maybe<Topic>>
-  lastName: Maybe<Scalars['String']['output']>
-  location: Maybe<Scalars['String']['output']>
-  pronouns: Maybe<Scalars['String']['output']>
+  lastName?: Maybe<Scalars['String']['output']>
+  location?: Maybe<Scalars['String']['output']>
+  pronouns?: Maybe<Scalars['String']['output']>
   sdgs: Array<Maybe<Sdg>>
   skills: Array<Maybe<Skill>>
 }
@@ -2026,18 +2086,18 @@ export type UserPaged = {
 }
 
 export type ValidateSpaceInput = {
-  cover: InputMaybe<Scalars['Upload']['input']>
-  description: InputMaybe<Scalars['String']['input']>
-  location: InputMaybe<Scalars['String']['input']>
-  sdgs: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
-  title: InputMaybe<Scalars['String']['input']>
-  topics: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  cover?: InputMaybe<Scalars['Upload']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
+  location?: InputMaybe<Scalars['String']['input']>
+  sdgs?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
+  title?: InputMaybe<Scalars['String']['input']>
+  topics?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
 }
 
 /** VideoCallLink(id, url, additional_info) */
 export type VideoCallLink = {
   __typename?: 'VideoCallLink'
-  additionalInfo: Maybe<Scalars['String']['output']>
+  additionalInfo?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
   url: Scalars['String']['output']
 }
@@ -2059,7 +2119,7 @@ export enum VisibilityType {
 }
 
 export type SpaceRecommendationQueryVariables = Exact<{
-  limit: InputMaybe<Scalars['Int']['input']>
+  limit?: InputMaybe<Scalars['Int']['input']>
 }>
 
 export type SpaceRecommendationQuery = {
@@ -2071,10 +2131,10 @@ export type SpaceRecommendationQuery = {
       __typename?: 'Space'
       title: string
       name: string
-      description: string
-      location: string
+      description?: string
+      location?: string
       id: string
-      cover: string
+      cover?: string
       members: {
         __typename?: 'SpaceMemberPaged'
         totalResults: number
@@ -2083,10 +2143,10 @@ export type SpaceRecommendationQuery = {
           user: {
             __typename?: 'User'
             id: string
-            avatar: string
+            avatar?: string
             avatarLabel: string
             avatarDefaultColor: string
-            avatarBlurhash: string
+            avatarBlurhash?: string
             fullName: string
           }
         }>
@@ -2099,10 +2159,10 @@ export type SpaceCardFragment = {
   __typename?: 'Space'
   title: string
   name: string
-  description: string
-  location: string
+  description?: string
+  location?: string
   id: string
-  cover: string
+  cover?: string
   members: {
     __typename?: 'SpaceMemberPaged'
     totalResults: number
@@ -2111,10 +2171,10 @@ export type SpaceCardFragment = {
       user: {
         __typename?: 'User'
         id: string
-        avatar: string
+        avatar?: string
         avatarLabel: string
         avatarDefaultColor: string
-        avatarBlurhash: string
+        avatarBlurhash?: string
         fullName: string
       }
     }>
@@ -2124,20 +2184,20 @@ export type SpaceCardFragment = {
 export type FullUserFragment = {
   __typename?: 'User'
   id: string
-  identity: string
-  avatar: string
-  avatarBlurhash: string
+  identity?: string
+  avatar?: string
+  avatarBlurhash?: string
   avatarDefaultColor: string
   avatarLabel: string
   fullName: string
-  firstName: string
-  lastName: string
-  aboutMe: string
-  pronouns: string
-  location: string
-  geolocationId: string
-  engagementLevel: string
-  connectionStatusToMyself: UserConnectionStatus
+  firstName?: string
+  lastName?: string
+  aboutMe?: string
+  pronouns?: string
+  location?: string
+  geolocationId?: string
+  engagementLevel?: string
+  connectionStatusToMyself?: UserConnectionStatus
   interests: Array<{ __typename?: 'Topic'; id: string; title: string; slug: string }>
   sdgs: Array<{ __typename?: 'SDG'; id: string; title: string; slug: string }>
   skills: Array<{ __typename?: 'Skill'; id: string; title: string; slug: string }>
@@ -2147,23 +2207,23 @@ export type AuthenticatedUserQueryVariables = Exact<{ [key: string]: never }>
 
 export type AuthenticatedUserQuery = {
   __typename?: 'Query'
-  authenticatedUser: {
+  authenticatedUser?: {
     __typename?: 'User'
     id: string
-    identity: string
-    avatar: string
-    avatarBlurhash: string
+    identity?: string
+    avatar?: string
+    avatarBlurhash?: string
     avatarDefaultColor: string
     avatarLabel: string
     fullName: string
-    firstName: string
-    lastName: string
-    aboutMe: string
-    pronouns: string
-    location: string
-    geolocationId: string
-    engagementLevel: string
-    connectionStatusToMyself: UserConnectionStatus
+    firstName?: string
+    lastName?: string
+    aboutMe?: string
+    pronouns?: string
+    location?: string
+    geolocationId?: string
+    engagementLevel?: string
+    connectionStatusToMyself?: UserConnectionStatus
     interests: Array<{ __typename?: 'Topic'; id: string; title: string; slug: string }>
     sdgs: Array<{ __typename?: 'SDG'; id: string; title: string; slug: string }>
     skills: Array<{ __typename?: 'Skill'; id: string; title: string; slug: string }>
