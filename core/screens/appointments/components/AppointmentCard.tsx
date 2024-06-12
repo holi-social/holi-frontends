@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
@@ -158,8 +159,10 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           <View style={styles.iconGroupContainer}>
             <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
             <HoliText style={styles.iconGroupText} size="extrasmall">
-              {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
-              {endTime}
+              <SuppressSsrHydrationWarning>
+                {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+                {endTime}
+              </SuppressSsrHydrationWarning>
             </HoliText>
           </View>
         </View>
