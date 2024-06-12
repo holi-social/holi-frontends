@@ -16,14 +16,14 @@ const createRequest = ({
   href,
   locale = nextJsDefaultLocale,
   search = '',
-  acceptLangage,
+  acceptLanguage,
 }: {
   pathname: string
   locale?: string
   origin?: string
   href?: string
   search?: string
-  acceptLangage?: string
+  acceptLanguage?: string
 }): NextRequest => {
   const url = href || origin + pathname + (search || '')
   return {
@@ -35,7 +35,7 @@ const createRequest = ({
       locale,
     },
     headers: {
-      get: () => acceptLangage,
+      get: () => acceptLanguage,
     },
     url,
   } as NextRequest
@@ -49,7 +49,7 @@ describe('middleware', () => {
   it('should not redirect for _next requests', () => {
     const request = createRequest({
       pathname: '/_next/foobar',
-      acceptLangage: 'de',
+      acceptLanguage: 'de',
     })
 
     const response = middleware(request)
@@ -60,7 +60,7 @@ describe('middleware', () => {
   it('should not redirect for api requests', () => {
     const request = createRequest({
       pathname: '/api/foobar',
-      acceptLangage: 'de',
+      acceptLanguage: 'de',
     })
 
     const response = middleware(request)
@@ -71,7 +71,7 @@ describe('middleware', () => {
   it('should not redirect for public files', () => {
     const request = createRequest({
       pathname: './foobar',
-      acceptLangage: 'de',
+      acceptLanguage: 'de',
     })
 
     const response = middleware(request)
@@ -84,7 +84,7 @@ describe('middleware', () => {
       href: origin + '/de/spaces',
       pathname: '/spaces',
       locale: 'de',
-      acceptLangage: 'en',
+      acceptLanguage: 'en',
     })
 
     const response = middleware(request)
@@ -97,7 +97,7 @@ describe('middleware', () => {
       href: origin + '/en/spaces',
       pathname: '/spaces',
       locale: 'en',
-      acceptLangage: 'de',
+      acceptLanguage: 'de',
     })
 
     const response = middleware(request)
@@ -109,7 +109,7 @@ describe('middleware', () => {
     const request = createRequest({
       href: origin + '/default/spaces',
       pathname: '/spaces',
-      acceptLangage: 'de',
+      acceptLanguage: 'de',
     })
 
     const response = middleware(request)
@@ -120,7 +120,7 @@ describe('middleware', () => {
   it('should redirect to the detected locale if no locale subpath is present', () => {
     const request = createRequest({
       pathname: '/spaces',
-      acceptLangage: 'de',
+      acceptLanguage: 'de',
     })
 
     const response = middleware(request)
@@ -132,7 +132,7 @@ describe('middleware', () => {
     const request = createRequest({
       pathname: '/spaces/filter',
       search: '?topic=123',
-      acceptLangage: 'de',
+      acceptLanguage: 'de',
     })
 
     const response = middleware(request)

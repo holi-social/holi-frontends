@@ -72,7 +72,7 @@ web_build:
     expire_in: 1 week
   interruptible: true
   tags:
-    - 4cpu-4gb
+    - 4cpu-16gb
   except:
     - /^noweb\/.*/
 

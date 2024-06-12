@@ -52,11 +52,7 @@ const DiscussionDetailPage = () => {
 
   const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
 
-  const {
-    data: { discussionById: discussion } = {},
-    refetch,
-    loading,
-  } = useQuery<DiscussionResponse>(discussionById, {
+  const { data: { discussionById: discussion } = {}, refetch } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
     skip: !discussionId,
     onError: (error) => {
@@ -120,7 +116,7 @@ const DiscussionDetailPage = () => {
       >
         <HoliContainer noPadding>
           <ScrollView style={styles.scrollView}>
-            {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
+            {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
             {discussionId && (
               <View style={styles.commentsContainer}>
                 <Comments
