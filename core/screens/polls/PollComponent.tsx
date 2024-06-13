@@ -7,7 +7,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import PollCompletionMessage from '@holi/core/screens/polls/components/PollCompletionMessage'
-import PollNotificationMessage from '@holi/core/screens/polls/components/PollNotificationMessage'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
 import { UpdatePollResponse, updateVotesMutation } from '@holi/core/screens/polls/mutations'
@@ -82,10 +81,6 @@ const PollComponent = ({ poll }: PollComponentProps) => {
       })
     }
     setSelectedAnswerOption(selectedChoice)
-  }
-
-  if (notificationsEnabled && votesSum < 30) {
-    return <PollNotificationMessage />
   }
 
   if (voted && votesSum < 30) {

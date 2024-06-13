@@ -20,11 +20,11 @@ const PollCompletionMessage = ({ notificationsEnabled }: PollCompletionMessagePr
   const { t } = useTranslation()
 
   return (
-    <div style={styles.container}>
-      <div style={styles.notificationContentStyle}>
+    <View style={styles.container}>
+      <View style={styles.notificationContentStyle}>
         <HoliColumns alignItems="flex-end" flexDirection="row" justifyContent="space-between" padding={[0, 0, 16, 0]}>
           <HoliHeading>{t('homeFeed.notEnoughVotesNotification.thanks')}</HoliHeading>
-          <HoliIcon icon={StarRounded} size={30} />
+          <HoliIcon icon={StarRounded} size={30} color={colors.brandB200} />
         </HoliColumns>
         {notificationsEnabled ? (
           <HoliText>{t('homeFeed.notEnoughVotesNotification.confirmationText')}</HoliText>
@@ -33,16 +33,18 @@ const PollCompletionMessage = ({ notificationsEnabled }: PollCompletionMessagePr
             <HoliText>{t('homeFeed.notEnoughVotesNotification.notification')}</HoliText>
             <View style={styles.greyContainer}>
               <HoliLink label={t('profile.settings.notifications.GLOBAL.title')} href="/profile/settings/notifications">
-                <Trans t={t} i18nKey="homeFeed.notEnoughVotesNotification.activation">
-                  <HoliText size="small" bold={true} />
-                </Trans>
+                <HoliText style={{ maxWidth: '95%' }}>
+                  <Trans t={t} i18nKey="homeFeed.notEnoughVotesNotification.activation">
+                    <HoliText size="small" bold={true} />
+                  </Trans>
+                </HoliText>
               </HoliLink>
               <HoliIcon icon={ArrowRightS} size={30} />
             </View>
           </View>
         )}
-      </div>
-    </div>
+      </View>
+    </View>
   )
 }
 
