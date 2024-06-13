@@ -75,6 +75,8 @@ web_build:
     - 4cpu-16gb
   except:
     - /^noweb\/.*/
+  variables:
+    WEB_BUILD: true
 
 storybook_publish:
   needs: ['web_build']
