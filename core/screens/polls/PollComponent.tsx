@@ -148,18 +148,17 @@ const PollComponent = ({ poll }: PollComponentProps) => {
             justifyContent="space-between"
             flexDirection={screenWidth > dimensions.breakpointS ? 'row' : 'column'}
           >
-            {/* number of anonymous votes */}
             <HoliBox padding={[0, 0, 0, 0]} layout={styles.headlineContainer}>
               <HoliIcon icon={userTeam} size={20} style={styles.icon} />
               <HoliText size={'default'} style={styles.counter}>
                 {votesSum} {t('homeFeed.pollComponent.anonymousVotes')}
               </HoliText>
             </HoliBox>
-            {/* button to submit answer */}
             {!voted && (
               <HoliButton
                 inline={screenWidth > dimensions.breakpointS}
                 disabled={!selectedAnswerOption}
+                style={screenWidth < dimensions.breakpointS && { marginTop: 24 }}
                 label={'submit'}
                 onPress={sendVote}
               >
