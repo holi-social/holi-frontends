@@ -6,7 +6,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PollSelectionProps = {
   answerOptions: Choice[]
@@ -15,8 +15,9 @@ export type PollSelectionProps = {
 
 const PollSelection = ({ answerOptions, onSelected }: PollSelectionProps) => {
   const [selectedAnswer, setSelectedAnswer] = useState<Choice | null>(null)
+  const { theme } = useTheme()
   const gap = Platform.OS !== 'web' ? 12 : 16
-  const styles = useMemo(() => getStyles(gap), [gap])
+  const styles = useMemo(() => getStyles(gap, theme), [gap, theme])
 
   const onAnswerSelect = useCallback(
     (answerOption: Choice) => {
@@ -56,7 +57,7 @@ const PollSelection = ({ answerOptions, onSelected }: PollSelectionProps) => {
   })
 }
 
-const getStyles = (gap: number) =>
+const getStyles = (gap: number, theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       marginBottom: 12,
@@ -64,14 +65,14 @@ const getStyles = (gap: number) =>
     answerOptionItem: {
       padding: gap,
       borderWidth: 1,
-      borderColor: colors.foreground10,
+      borderColor: theme.colors.foreground10,
       borderRadius: 8,
-      backgroundColor: colors.background10,
+      backgroundColor: theme.colors.background10,
       flexDirection: 'row',
       alignItems: 'center',
     },
     selected: {
-      borderColor: 'black',
+      borderColor: theme.colors.black300,
     },
     userItemContent: {
       flexShrink: 1,
