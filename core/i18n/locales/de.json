@@ -291,7 +291,7 @@
   "homeFeed.inspirationPosts.loadMoreText": "Mehr laden",
   "homeFeed.notEnoughVotesNotification.activation": "Aktiviere in deinen Einstellungen Benachrichtigungen für <0>Neuigkeiten zu Umfrageergebnissen</0>.",
   "homeFeed.notEnoughVotesNotification.confirmationHeading": "Alles klar, du wirst informiert!",
-  "homeFeed.notEnoughVotesNotification.confirmationText": "Wir geben dir Bescheid, sobald die Ergebnisse vorliegen. Bis dahin, schau doch mal in die Diskussionen rein.",
+  "homeFeed.notEnoughVotesNotification.confirmationText": "Wir geben dir Bescheid, sobald die Ergebnisse vorliegen. Bis dahin, schau doch mal in den Diskussionen rein. ",
   "homeFeed.notEnoughVotesNotification.notification": "Bist du auch schon gespannt auf die Ergebnisse? Lass dich darüber informieren, sobald Ergebnisse vorliegen.",
   "homeFeed.notEnoughVotesNotification.notificationYes": "Ich möchte informiert werden",
   "homeFeed.notEnoughVotesNotification.thanks": "Danke für deine Teilnahme!",
