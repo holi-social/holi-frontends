@@ -11,8 +11,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type PollCompletionMessageProps = {
-  notificationsEnabled?: boolean
-  onNotificationsEnable?: () => void
+  notificationsEnabled?: boolean | 'mixed'
   style?: StyleProp<ViewStyle>
 }
 

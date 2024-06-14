@@ -4,8 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import {
+  NotificationsPreferencesResponse,
+  notificationsPreferencesQuery,
+} from '@holi/core/screens/notifications/queries'
 import PollCompletionMessage from '@holi/core/screens/polls/components/PollCompletionMessage'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
@@ -20,19 +25,14 @@ import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-interface BaseProps {
+export type PollComponentProps = {
   poll: Poll
   insightId?: string
 }
-
-interface Props extends BaseProps {
-  loading?: false
-}
-
-export type PollComponentProps = Props
 
 const PollComponent = ({ poll }: PollComponentProps) => {
   const { t } = useTranslation()
@@ -40,10 +40,21 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   const { width: screenWidth } = useClientWindowDimensions()
   const { openLoginModal } = useLoginModal()
   const { user } = useLoggedInUser()
+  const { displayError } = useErrorHandling()
+  const { data: workflowPreferences, loading } = useQuery<NotificationsPreferencesResponse>(
+    notificationsPreferencesQuery,
+    {
+      fetchPolicy: 'network-only',
+      skip: !user,
+      onError: (error) =>
+        displayError(error, 'Failed to load notification preferences', {
+          location: 'useNotificationPreferences.notificationsPreferencesQuery',
+        }),
+    }
+  )
 
   const [voted, setVoted] = useState<boolean>(false)
   const [selectedAnswerOption, setSelectedAnswerOption] = useState<Choice | null>()
-  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false)
   const [votesSum, setVotesSum] = useState<number>(() => {
     return choices.reduce((acc, choice) => acc + choice.votes, 0)
   })
@@ -52,20 +63,29 @@ const PollComponent = ({ poll }: PollComponentProps) => {
     onError: (error) => logError(error, 'Failed to update votes of poll', { location: 'PollComponent.updateVotes' }),
   })
 
-  const sendVote = () => {
-    setVoted(true)
-    setVotesSum(votesSum + 1)
+  let notificationsEnabled
+  if (!user) {
+    notificationsEnabled = false
+  } else {
+    const updates = workflowPreferences?.notifications_preferences.find((entry) => entry.id === 'POLL_UPDATES')
+    notificationsEnabled = updates?.preferences?.email || updates?.preferences?.push
+  }
+
+  const sendVote = async () => {
     if (selectedAnswerOption) {
-      updateVotes({
+      await updateVotes({
         variables: {
           id: selectedAnswerOption.id,
         },
       })
+      setVoted(true)
+      setVotesSum(votesSum + 1)
     }
   }
 
   const { data } = useQuery(userHasVotedByPollId, {
     variables: { id: poll.id },
+    skip: !user,
   })
 
   useEffect(() => {
@@ -83,15 +103,16 @@ const PollComponent = ({ poll }: PollComponentProps) => {
     setSelectedAnswerOption(selectedChoice)
   }
 
-  if (voted && votesSum < 30) {
+  if (user && loading) {
     return (
-      <PollCompletionMessage
-        notificationsEnabled={notificationsEnabled}
-        onNotificationsEnable={() => {
-          setNotificationsEnabled(true)
-        }}
-      />
+      <View style={styles.loader}>
+        <HoliLoader />
+      </View>
     )
+  }
+
+  if (voted && votesSum < 30) {
+    return <PollCompletionMessage notificationsEnabled={notificationsEnabled || false} />
   }
 
   return (
@@ -185,6 +206,9 @@ const styles = StyleSheet.create({
   },
   bottomBar: {
     marginTop: 16,
+  },
+  loader: {
+    marginBottom: 20,
   },
 })
 
