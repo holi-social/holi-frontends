@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -26,8 +26,8 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { colors } from '@holi/ui/styles/globalVars'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PollComponentProps = {
   poll: Poll
@@ -36,6 +36,8 @@ export type PollComponentProps = {
 
 const PollComponent = ({ poll }: PollComponentProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   const choices = poll?.choices
   const { width: screenWidth } = useClientWindowDimensions()
   const { openLoginModal } = useLoginModal()
@@ -171,45 +173,46 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.black300,
-    borderRadius: 12,
-    backgroundColor: colors.background10,
-  },
-  pollTitle: {
-    marginBottom: 16,
-  },
-  headlineContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    ...Platform.select({
-      web: {
-        marginBottom: 0,
-      },
-      native: {
-        marginBottom: 16,
-      },
-    }),
-  },
-  icon: {
-    marginLeft: 7,
-  },
-  counter: {
-    marginLeft: 8,
-    color: colors.foreground20,
-  },
-  userItemContent: {
-    flexShrink: 1,
-  },
-  bottomBar: {
-    marginTop: 16,
-  },
-  loader: {
-    marginBottom: 20,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+      borderRadius: 12,
+      backgroundColor: theme.colors.background10,
+    },
+    pollTitle: {
+      marginBottom: 16,
+    },
+    headlineContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      ...Platform.select({
+        web: {
+          marginBottom: 0,
+        },
+        native: {
+          marginBottom: 16,
+        },
+      }),
+    },
+    icon: {
+      marginLeft: 7,
+    },
+    counter: {
+      marginLeft: 8,
+      color: theme.colors.foreground20,
+    },
+    userItemContent: {
+      flexShrink: 1,
+    },
+    bottomBar: {
+      marginTop: 16,
+    },
+    loader: {
+      marginBottom: 20,
+    },
+  })
 
 export default PollComponent

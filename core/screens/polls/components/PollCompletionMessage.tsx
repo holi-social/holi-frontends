@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -8,7 +8,7 @@ import { ArrowRightS, StarRounded } from '@holi/icons/src/generated'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PollCompletionMessageProps = {
   notificationsEnabled?: boolean | 'mixed'
@@ -17,6 +17,9 @@ export type PollCompletionMessageProps = {
 
 const PollCompletionMessage = ({ notificationsEnabled }: PollCompletionMessageProps) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={styles.container}>
@@ -47,30 +50,31 @@ const PollCompletionMessage = ({ notificationsEnabled }: PollCompletionMessagePr
   )
 }
 
-const styles = StyleSheet.create({
-  notificationContentStyle: {
-    flexGrow: 1,
-  },
-  container: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.black300,
-    borderRadius: 12,
-    backgroundColor: colors.background10,
-    borderStyle: 'solid',
-  },
-  greyContainer: {
-    fontSize: 14,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingLeft: 12,
-    paddingRight: 8,
-    marginBottom: 8,
-    marginTop: 16,
-    borderRadius: 8,
-    backgroundColor: colors.background30,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    notificationContentStyle: {
+      flexGrow: 1,
+    },
+    container: {
+      padding: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.black300,
+      borderRadius: 12,
+      backgroundColor: theme.colors.background10,
+      borderStyle: 'solid',
+    },
+    greyContainer: {
+      fontSize: 14,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 8,
+      paddingLeft: 12,
+      paddingRight: 8,
+      marginBottom: 8,
+      marginTop: 16,
+      borderRadius: 8,
+      backgroundColor: theme.colors.background30,
+    },
+  })
 
 export default PollCompletionMessage
