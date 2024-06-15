@@ -1,0 +1,557 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PollSelection renders poll selection correctly 1`] = `
+[
+  <View
+    style={
+      {
+        "marginBottom": 12,
+      }
+    }
+  >
+    <View
+      accessibilityLabel="Choice 1"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "100%",
+            },
+          ],
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "pointerEvents": "none",
+            },
+            false,
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "borderColor": "#bfbebe",
+                "borderRadius": 8,
+                "borderWidth": 1,
+                "flexDirection": "row",
+                "padding": 12,
+              },
+              null,
+            ],
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "paddingRight": 12,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="Choice 1"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": false,
+                    "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="checkbox"
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexWrap": "nowrap",
+                  }
+                }
+              >
+                <View
+                  collapsable={false}
+                  style={
+                    {
+                      "alignItems": "center",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#ebebeb",
+                      "borderRadius": 24,
+                      "borderWidth": 1,
+                      "height": 24,
+                      "justifyContent": "center",
+                      "transform": [
+                        {
+                          "scale": 1,
+                        },
+                      ],
+                      "width": 24,
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            [
+              {
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
+            }
+          >
+            Choice 1
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>,
+  <View
+    style={
+      {
+        "marginBottom": 12,
+      }
+    }
+  >
+    <View
+      accessibilityLabel="Choice 2"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "100%",
+            },
+          ],
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "pointerEvents": "none",
+            },
+            false,
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "borderColor": "#bfbebe",
+                "borderRadius": 8,
+                "borderWidth": 1,
+                "flexDirection": "row",
+                "padding": 12,
+              },
+              null,
+            ],
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "paddingRight": 12,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="Choice 2"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": false,
+                    "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="checkbox"
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexWrap": "nowrap",
+                  }
+                }
+              >
+                <View
+                  collapsable={false}
+                  style={
+                    {
+                      "alignItems": "center",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#ebebeb",
+                      "borderRadius": 24,
+                      "borderWidth": 1,
+                      "height": 24,
+                      "justifyContent": "center",
+                      "transform": [
+                        {
+                          "scale": 1,
+                        },
+                      ],
+                      "width": 24,
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            [
+              {
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
+            }
+          >
+            Choice 2
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>,
+]
+`;
+
+exports[`PollSelection renders poll selection correctly with no options 1`] = `null`;
+
+exports[`PollSelection renders poll selection correctly with one option 1`] = `
+<View
+  style={
+    {
+      "marginBottom": 12,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Choice 1"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        [
+          {
+            "width": "100%",
+          },
+        ],
+        undefined,
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "pointerEvents": "none",
+          },
+          false,
+          [
+            {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "borderColor": "#bfbebe",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "flexDirection": "row",
+              "padding": 12,
+            },
+            null,
+          ],
+        ]
+      }
+    >
+      <View
+        style={
+          {
+            "paddingRight": 12,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "flexWrap": "nowrap",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="Choice 1"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": false,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              role="checkbox"
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                }
+              }
+            >
+              <View
+                collapsable={false}
+                style={
+                  {
+                    "alignItems": "center",
+                    "backgroundColor": "#fff",
+                    "borderColor": "#ebebeb",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "height": 24,
+                    "justifyContent": "center",
+                    "transform": [
+                      {
+                        "scale": 1,
+                      },
+                    ],
+                    "width": 24,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flexShrink": 1,
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
+            }
+          }
+        >
+          Choice 1
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
