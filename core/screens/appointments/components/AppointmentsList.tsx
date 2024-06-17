@@ -15,9 +15,10 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 
 interface AppointmentsListProps {
   space: Space
+  pastAppointments?: boolean
 }
 
-const AppointmentsList = ({ space }: AppointmentsListProps) => {
+const AppointmentsList = ({ space, pastAppointments = false }: AppointmentsListProps) => {
   const { data: appointments } = usePaginationContext<Appointment>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -38,7 +39,14 @@ const AppointmentsList = ({ space }: AppointmentsListProps) => {
     <HoliGridWrapper breakpoints={gridBreakpoints} gap={16}>
       {appointments.map((item) => (
         <HoliGridCell key={item.id}>
-          <AppointmentCard appointment={item} space={space} key={item.id} isAdmin={isAdmin} isMember={isMember} />
+          <AppointmentCard
+            appointment={item}
+            space={space}
+            key={item.id}
+            isAdmin={isAdmin}
+            isMember={isMember}
+            pastAppointments={pastAppointments}
+          />
         </HoliGridCell>
       ))}
     </HoliGridWrapper>
@@ -46,7 +54,6 @@ const AppointmentsList = ({ space }: AppointmentsListProps) => {
     <HoliNoResults
       firstText={t('appointment.noResults.title')}
       media={
-        // TODO: update illustration with the calendar icon component
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
           width={152}

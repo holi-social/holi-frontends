@@ -152,7 +152,7 @@ const SpaceAppointments = () => {
                     }}
                     loadMoreOnScroll
                   >
-                    {space && <AppointmentsList space={space} />}
+                    {space && <AppointmentsList space={space} pastAppointments={true} />}
                   </Pagination>
                 </View>
               ),

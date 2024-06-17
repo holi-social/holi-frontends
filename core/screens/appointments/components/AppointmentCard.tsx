@@ -23,6 +23,7 @@ type AppointmentCardProps = {
   space: Space
   isAdmin?: boolean
   isMember?: boolean
+  pastAppointments?: boolean
 }
 
 const AppointmentCard: React.FC<AppointmentCardProps> = ({
@@ -30,6 +31,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   space,
   isAdmin,
   isMember,
+  pastAppointments,
 }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
@@ -142,6 +144,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             day={new Date(appointment.startDateTime).getDate()}
             month={new Date(appointment.startDateTime).getMonth() + 1}
             size="small"
+            disabled={pastAppointments}
           />
           <HoliText ellipsizeMode="tail" bold numberOfLines={2} style={styles.flex1}>
             {appointment.title}
