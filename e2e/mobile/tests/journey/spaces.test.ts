@@ -135,7 +135,7 @@ describe('@Spaces', () => {
     await fillFieldByTestId('update-content-input-input', postDescription)
 
     await tapOnElementWithTestId('update-content-input-label')
-    await tapOnElementWithTestId('form-modal-save-btn')
+    await tapOnElementWithTestId('form-wrapper-save-btn')
 
     // check update post to be shown
     await seeTextWithTestId(postTitle, 'btn-to-post')
