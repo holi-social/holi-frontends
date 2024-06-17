@@ -8,8 +8,8 @@ import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { getVerificationFlowFromRegistration, initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
@@ -38,7 +38,7 @@ interface CreateAccountProps {
 }
 
 const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
@@ -104,7 +104,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
         // update Onboarding state before loading a user
         await onRegister()
         // and only then load user
-        await setUserLoggedIn({
+        await setLoginStateLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)

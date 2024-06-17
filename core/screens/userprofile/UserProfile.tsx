@@ -4,7 +4,7 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -55,7 +55,7 @@ const UserProfile = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const loginState = useAuth()
+  const loginState = useLoginState()
   const [userId = ''] = useParam('userId')
 
   useEffect(() => {

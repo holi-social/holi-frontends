@@ -2,7 +2,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import { LoginStateLoggedIn } from '@holi/core/auth/helpers/useAuth'
+import { LoginStateLoggedIn } from '@holi/core/auth/loginState'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import {
   authenticatedUserMock,
@@ -25,8 +25,8 @@ const loginStateLoggedIn: LoginStateLoggedIn = {
   userId: '123',
 }
 
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: () => loginStateLoggedIn,
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: () => loginStateLoggedIn,
   setUserLoggedOut: async () => null,
 }))
 

@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
@@ -70,7 +70,7 @@ const EditTask = () => {
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
-  const loginState = useAuth()
+  const loginState = useLoginState()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const task = (space?.tasks || []).find((t) => t.id === taskId)

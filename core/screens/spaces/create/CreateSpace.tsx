@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
@@ -63,7 +63,7 @@ const CreateSpace = () => {
   const { openToast } = useToast()
 
   // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
-  const loginState = useAuth()
+  const loginState = useLoginState()
   useEffect(() => {
     if (loginState.isLoggedIn) {
       mockImageUploadForE2E(loginState.userId).then((spaceCoverImage) => {

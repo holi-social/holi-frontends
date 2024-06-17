@@ -6,7 +6,7 @@ import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallenge
 
 const mockCreateAuthorizationHeaders = jest.fn()
 const mockUseConsentState = jest.fn()
-const mockUseAuth = jest.fn()
+const mockUseLoginState = jest.fn()
 
 jest.mock('@holi/api/helpers', () => ({
   createAuthorizationHeaders: () => mockCreateAuthorizationHeaders(),
@@ -16,14 +16,14 @@ jest.mock('@holi/core/tracking/TrackingInitializer', () => ({
   useConsentState: () => mockUseConsentState(),
 }))
 
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: () => mockUseAuth(),
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: () => mockUseLoginState(),
 }))
 
 describe('useChallengesHeaders', () => {
   beforeEach(() => {
     mockCreateAuthorizationHeaders.mockResolvedValue({})
-    mockUseAuth.mockReturnValue({
+    mockUseLoginState.mockReturnValue({
       isLoggedIn: false,
     })
     mockUseConsentState.mockReturnValue({
@@ -36,7 +36,7 @@ describe('useChallengesHeaders', () => {
       Authorization: 'Bearer testSessionToken',
       'X-Session-Token': 'testSessionToken',
     })
-    mockUseAuth.mockReturnValue({
+    mockUseLoginState.mockReturnValue({
       isLoggedIn: true,
     })
 
@@ -59,7 +59,7 @@ describe('useChallengesHeaders', () => {
       Authorization: 'Bearer testSessionToken',
       'X-Session-Token': 'testSessionToken',
     })
-    mockUseAuth.mockReturnValue({
+    mockUseLoginState.mockReturnValue({
       isLoggedIn: true,
     })
     const { result } = renderHook(() => useChallengesHeaders())

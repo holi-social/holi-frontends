@@ -6,7 +6,7 @@ import {
   listenOnLoginStateChange,
   loginState,
   loginStateUnknown,
-} from '@holi/core/auth/helpers/useAuth'
+} from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
   AuthenticatedUserV2Response,

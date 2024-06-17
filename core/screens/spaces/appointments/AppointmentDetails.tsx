@@ -3,7 +3,7 @@ import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Linking, Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
@@ -54,7 +54,7 @@ const AppointmentDetails = () => {
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
   const { navigateBack, replaceRoute, navigate } = useRouting()
-  const loginState = useAuth()
+  const loginState = useLoginState()
   const { width: deviceWidth } = useClientWindowDimensions()
 
   const { t, i18n } = useTranslation()
