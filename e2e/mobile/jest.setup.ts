@@ -45,6 +45,7 @@ beforeEach(async () => {
   } else {
     // Logout + navigate back to the home screen before each test
     await logout()
+    await tapOnElementWithTestId('btn-to-home-view', 100)
   }
 }, 20 * 60 * 1000) // the timeout here has to be very high. If we end up in the queue, there might be 5 tests before us, each potentially 2 minutes long.
 

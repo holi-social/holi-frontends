@@ -1,6 +1,5 @@
 import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { waitForHomeScreen } from '../../helpers/navigation'
-import { itif } from '../../helpers/platform'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -24,21 +23,23 @@ describe('@Spaces', () => {
   afterEach(async () => {
     // Speeds up local execution
     if (target === 'local') {
-      await tapOnElementWithTestId('btn-to-home-view', 0)
       await logout()
+      await tapOnElementWithTestId('btn-to-home-view', 100)
     }
   })
 
-  itif(platform === 'ios', 'should support the user journey', async () => {
+  it('should support the user journey', async () => {
     // preparation of test
     await navigateToSpaces()
 
     await assertMultipleGroupsDisplayed()
     await assertSpaceDetailsDisplayed()
-    await assertCreatingSpace()
-    await assertEditingSpace()
-    await assertCreateDeleteSpaceUpdatePost()
-    await assertDeletingSpace()
+    if (platform === 'ios') {
+      await assertCreatingSpace()
+      await assertEditingSpace()
+      await assertCreateDeleteSpaceUpdatePost()
+      await assertDeletingSpace()
+    }
   })
 
   const assertMultipleGroupsDisplayed = async () => {
