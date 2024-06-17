@@ -7,8 +7,8 @@ import { ScrollView, StyleSheet } from 'react-native'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
@@ -35,7 +35,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { logout } = useLogout()
   const { openToast } = useToast()
   const client = useApolloClient()
@@ -106,7 +106,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
         payload: verificationFlowData,
       })
       await client.clearStore()
-      await setUserLoggedIn(session as OrySessionContext)
+      await setLoginStateLoggedIn(session as OrySessionContext)
     }
 
     openToast(toastMessage, HoliToastType.SUCCESS)

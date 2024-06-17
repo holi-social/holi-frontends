@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import HoliLinkPreviewTracked from '@holi/core/components/HoliLinkPreviewTracked'
 import { HoliMediaAuthorHeaderTracked } from '@holi/core/components/HoliMediaAuthorHeaderTracked'
@@ -38,7 +38,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { track } = useTracking()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
 
   const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
 

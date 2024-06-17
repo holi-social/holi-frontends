@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -30,7 +30,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
-  const auth = useAuth()
+  const loginState = useLoginState()
   const { navigate } = useRouting()
   const { track } = useTracking()
 
@@ -102,7 +102,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
           handleAction={onShare}
         />
 
-        {auth.isLoggedIn && auth.userId === post.creator.id ? (
+        {loginState.isLoggedIn && loginState.userId === post.creator.id ? (
           <>
             <HoliActionDrawer.Action
               icon={Edit2}

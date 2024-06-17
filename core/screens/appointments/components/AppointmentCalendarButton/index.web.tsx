@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
@@ -22,7 +22,7 @@ interface AppointmentCalendarButtonProps {
 
 const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ appointment: { id, slug } }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { navigate } = useRouting()
 
   const [generateAppointmentIcsFile] = useMutation<GenerateAppointmentIcsFileResponse>(

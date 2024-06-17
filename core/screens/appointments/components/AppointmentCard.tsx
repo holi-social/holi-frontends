@@ -2,7 +2,7 @@ import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -24,6 +24,7 @@ type AppointmentCardProps = {
   space: Space
   isAdmin?: boolean
   isMember?: boolean
+  pastAppointments?: boolean
 }
 
 const AppointmentCard: React.FC<AppointmentCardProps> = ({
@@ -31,10 +32,11 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   space,
   isAdmin,
   isMember,
+  pastAppointments,
 }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const loginState = useAuth()
+  const loginState = useLoginState()
   const [imageError, setImageError] = useState(false)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -143,6 +145,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             day={new Date(appointment.startDateTime).getDate()}
             month={new Date(appointment.startDateTime).getMonth() + 1}
             size="small"
+            disabled={pastAppointments}
           />
           <HoliText ellipsizeMode="tail" bold numberOfLines={2} style={styles.flex1}>
             {appointment.title}

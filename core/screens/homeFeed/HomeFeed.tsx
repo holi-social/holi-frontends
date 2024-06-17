@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -46,7 +46,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()

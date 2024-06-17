@@ -1,6 +1,6 @@
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { OrySessionContext, OrySessionToken, newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
+import { setLoginStateLoggedIn, setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 
 const logger = getLogger('Auth')
@@ -17,22 +17,22 @@ export const validateSessionWithOry = async (orySessionToken?: OrySessionToken):
 export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionContext | null) => {
   if (sessionFromStorage === null) {
     logger.debug('auth', 'no session found in storage')
-    await setUserLoggedOut()
+    await setLoginStateLoggedOut()
   } else {
     try {
       const sessionState = await validateSessionWithOry(sessionFromStorage.session_token)
 
       switch (sessionState) {
         case 'active':
-          await setUserLoggedIn(sessionFromStorage)
+          await setLoginStateLoggedIn(sessionFromStorage)
           break
         case 'expired':
         case 'invalid':
         default:
-          await setUserLoggedOut()
+          await setLoginStateLoggedOut()
       }
     } catch (err) {
-      await setUserLoggedOut()
+      await setLoginStateLoggedOut()
       throw err
     }
   }

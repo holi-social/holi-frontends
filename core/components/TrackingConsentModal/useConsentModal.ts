@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { listenOnLoginStateChange } from '@holi/core/auth/helpers/useAuth'
+import { listenOnLoginStateChange } from '@holi/core/auth/loginState'
 import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import { listenOnOnboardingStateChange, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -33,8 +33,9 @@ export const useConsentModal = () => {
 
   // listen on authenticated user changes and reset counter on logout
   useEffect(() => {
+    // noinspection UnnecessaryLocalVariableJS
     const unsubscribe = listenOnLoginStateChange((curState, prevState) => {
-      if (curState.isLoggedOut === true && prevState?.isLoggedOut === false) {
+      if (curState.isLoggedOut && prevState?.isLoggedOut === false) {
         resetUserVisitedScreensCount()
       }
     })

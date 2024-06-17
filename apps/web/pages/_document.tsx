@@ -50,6 +50,10 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
       originalRenderPage({
         // @ts-ignore
         enhanceApp: (App) => (props: AppPropsType<Router, NextJSPageProps>) => {
+          if (process.env.WEB_BUILD) {
+            return <App {...props} />
+          }
+
           apolloClient = apolloClient ?? createApolloSSRClient(props.pageProps)
           const ApolloContext = getApolloContext()
 

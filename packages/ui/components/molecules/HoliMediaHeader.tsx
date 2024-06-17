@@ -55,11 +55,11 @@ const HoliMediaHeader = ({
         <HoliAvatar {...avatarProps} size={avatarProps.size || 'small'} />
       </HoliButton>
       <View style={[styles.titleContainer]}>
-        <HoliText bold={!!titleBold}>
-          <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
+        <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
+          <HoliText bold={!!titleBold} numberOfLines={1}>
             {title}
-          </HoliButton>
-        </HoliText>
+          </HoliText>
+        </HoliButton>
 
         <View style={styles.row}>
           {!!date && (
@@ -80,7 +80,8 @@ const getStyles = (theme: HoliTheme) =>
     },
     titleContainer: {
       flexDirection: 'column',
-      marginHorizontal: 16,
+      marginRight: 32,
+      marginLeft: 16,
       flex: 1,
     },
     date: {

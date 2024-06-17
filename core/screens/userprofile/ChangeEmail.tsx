@@ -22,8 +22,8 @@ import {
   submitSettingsFlowProfile,
 } from '@holi/core/auth/helpers/auth'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { useLoginState } from '@holi/core/auth/loginState'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -50,7 +50,7 @@ const ChangeEmail = () => {
   const [newEmail, setNewEmail] = useState<string>('')
   const [newEmailRetype, setNewEmailRetype] = useState<string>('')
   const [retypeError, setRetypeError] = useState<string>()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()

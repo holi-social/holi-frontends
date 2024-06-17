@@ -2,32 +2,30 @@ import { MockedProvider } from '@apollo/client/testing'
 import { act, render } from '@testing-library/react-native'
 import React from 'react'
 
-import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { LoginState, useLoginState } from '@holi/core/auth/loginState'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
 import { getDeviceToken } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 import { initDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { registerDeviceMutation } from '@holi/core/screens/notifications/mutations'
 
 const loggedIn = (): LoginState => ({
-  loginState: 'loggedIn',
   isUnknown: false,
   isLoggedOut: false,
   isLoggedIn: true,
   userId: '123',
 })
 const loggedOut = (): LoginState => ({
-  loginState: 'loggedOut',
   isUnknown: false,
   isLoggedOut: true,
   isLoggedIn: false,
 })
 
-const useAuthMock = useAuth as jest.Mock
+const useLoginStateMock = useLoginState as jest.Mock
 
 const mockGetDeviceToken = getDeviceToken as jest.Mock
 
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: jest.fn(),
 }))
 jest.mock('@holi/core/screens/notifications/helpers/getDeviceToken', () => ({
   getDeviceToken: jest.fn(),
@@ -62,7 +60,7 @@ describe('DeviceRegistration', () => {
   })
 
   it('should do nothing if no user is logged in', () => {
-    useAuthMock.mockImplementation(loggedOut)
+    useLoginStateMock.mockImplementation(loggedOut)
 
     const { toJSON } = render(
       <MockedProvider mocks={[]} addTypename={false}>
@@ -75,7 +73,7 @@ describe('DeviceRegistration', () => {
   })
 
   it('should register device token for logged in user', async () => {
-    useAuthMock.mockImplementation(loggedIn)
+    useLoginStateMock.mockImplementation(loggedIn)
 
     const { toJSON } = render(
       <MockedProvider mocks={MOCKS} addTypename={false}>

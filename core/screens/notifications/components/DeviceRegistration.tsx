@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import { useEffect } from 'react'
 import { Platform } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import { useDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
@@ -12,7 +12,7 @@ import { RegisterDeviceResponse, registerDeviceMutation } from '@holi/core/scree
 const logger = getLogger('Notifications')
 
 const DeviceRegistration = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { deviceToken } = useDeviceToken()
   const [registerDevice] = useMutation<RegisterDeviceResponse>(registerDeviceMutation, {
     onError: (error) =>

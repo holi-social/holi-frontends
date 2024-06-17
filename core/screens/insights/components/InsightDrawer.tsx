@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -29,7 +29,7 @@ type InsightDrawerProps = {
 const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: InsightDrawerProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
 

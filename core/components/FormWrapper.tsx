@@ -32,6 +32,7 @@ export interface FormWrapperProps extends ScrollViewProps {
   scrollToInput?: boolean
   initialOffsetTop?: number
   saveButtonDisabled?: boolean
+  saveButtonLoading?: boolean
   showBackButton?: boolean
   isModal?: boolean
   buttonLabel?: string
@@ -52,6 +53,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       backButtonLabel,
       initialOffsetTop,
       saveButtonDisabled,
+      saveButtonLoading = false,
       showBackButton,
       isModal = false,
       buttonLabel,
@@ -155,6 +157,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                 inline
                 variant="medium"
                 disabled={saveButtonDisabled}
+                loading={saveButtonLoading}
                 label={label}
                 loadingLabel={t('global.loading')}
                 onPress={onSave}
