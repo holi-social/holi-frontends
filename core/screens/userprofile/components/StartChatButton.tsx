@@ -56,7 +56,7 @@ export function StartChatButton({
       const { room_id } = await getOrCreateRoom([fullIdentity])
 
       if (!room_id) {
-        openToast(t('global.offline.description'), HoliToastType.SUCCESS)
+        openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
         return
       }
       if (doReplaceRoute) {
@@ -65,7 +65,7 @@ export function StartChatButton({
         navigate('/chat/rooms/' + room_id)
       }
     } catch (e) {
-      openToast(t('global.offline.description'), HoliToastType.SUCCESS)
+      openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
     }
   }
 
