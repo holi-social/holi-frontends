@@ -2,14 +2,14 @@ import Constants from 'expo-constants'
 import { useEffect, useMemo, useState } from 'react'
 
 import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { Consent } from '@holi/core/tracking/types'
 
 export const useChallengesHeaders = () => {
   const useConsent = useConsentState()
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
 
   useEffect(() => {
     if (isLoggedIn) {

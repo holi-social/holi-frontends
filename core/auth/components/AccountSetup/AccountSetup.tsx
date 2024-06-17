@@ -7,7 +7,7 @@ import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep
 import LocationStep, { useLocationStep } from '@holi/core/auth/components/AccountSetup/LocationStep'
 import NamesStep, { useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { UserChipTypes, useUserChips } from '@holi/core/helpers/useUserChips'
 import { useRegisterUserNames } from '@holi/core/hooks/useRegisterUserNames'
@@ -69,7 +69,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
-  const { isLoggedOut } = useAuth()
+  const { isLoggedOut } = useLoginState()
   const { user, isLoading } = useLoggedInUser()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)

@@ -3,7 +3,7 @@ import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/r
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { LoginState, useLoginState } from '@holi/core/auth/loginState'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser, notificationSpaceConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
@@ -11,10 +11,9 @@ import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/det
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-jest.mock('@holi/core/auth/helpers/useAuth')
-const useAuthMock = jest.mocked(useAuth)
+jest.mock('@holi/core/auth/loginState')
+const useLoginStateMock = jest.mocked(useLoginState)
 const loggedIn: LoginState = {
-  loginState: 'loggedIn',
   isUnknown: false,
   isLoggedOut: false,
   isLoggedIn: true,
@@ -58,7 +57,7 @@ const MOCKS = [acceptRequest, declineRequest]
 
 describe('NotificationSpaceConnectionItem', () => {
   beforeEach(() => {
-    useAuthMock.mockReturnValue(loggedIn)
+    useLoginStateMock.mockReturnValue(loggedIn)
     jest.useRealTimers()
   })
 

@@ -23,7 +23,7 @@ import {
 import { getSettingsFlow } from '@holi/core/auth/helpers/auth/helpers'
 import { syncUserSessionFromOrySession } from '@holi/core/auth/helpers/auth/helpers'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -64,7 +64,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   const [newPwd, setNewPwd] = useState<string>('')
   const [newPwdRetype, setNewPwdRetype] = useState<string>('')
   const [retypeError, setRetypeError] = useState<string>()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
@@ -141,7 +141,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
       initForm()
     } else if (flow) {
       syncUserSessionFromOrySession().then((session) => {
-        if (session) setUserLoggedIn(session)
+        if (session) setLoginStateLoggedIn(session)
       })
     }
   }, [initForm, isLoggedIn, flow])

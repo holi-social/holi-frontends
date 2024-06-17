@@ -2,7 +2,7 @@ import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
@@ -33,7 +33,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const loginState = useAuth()
+  const loginState = useLoginState()
   const [imageError, setImageError] = useState(false)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

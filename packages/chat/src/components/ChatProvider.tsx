@@ -5,7 +5,7 @@ import { ensureChatLoggedOut } from '@holi/chat/src/client/chatSession'
 import { useChatConnected, useChatReloadCounter } from '@holi/chat/src/client/chatState'
 import type { ChatDevToolsProps } from '@holi/chat/src/components/ChatDevTools/types'
 import { useSubscribeToChat } from '@holi/chat/src/store'
-import { listenOnLoginStateChange } from '@holi/core/auth/helpers/useAuth'
+import { listenOnLoginStateChange } from '@holi/core/auth/loginState'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { getLogger } from '@holi/core/helpers/logging'
 

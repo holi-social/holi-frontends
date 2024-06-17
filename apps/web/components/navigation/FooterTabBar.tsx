@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
@@ -20,7 +20,7 @@ const FooterTabBar = () => {
   const { navigate } = useRouting()
   const { pathname } = useRouter() // Recognize 404 pages when `asPath` differs
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

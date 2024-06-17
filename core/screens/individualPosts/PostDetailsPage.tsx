@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal'
@@ -54,7 +54,7 @@ const PostDetailsPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
-  const auth = useAuth()
+  const loginState = useLoginState()
   const { openLoginModal } = useLoginModal()
   const insets = useSafeAreaInsets()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
@@ -103,7 +103,7 @@ const PostDetailsPage = () => {
   const currentLanguage = getLocale(i18n.language || '')
 
   const headerTitle =
-    auth.isLoggedIn && auth.userId === post?.creator.id
+    loginState.isLoggedIn && loginState.userId === post?.creator.id
       ? t('individuals.post.details.title.personal')
       : generatePostTitle({
           name: post?.creator.firstName || '',
@@ -136,7 +136,7 @@ const PostDetailsPage = () => {
   }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
   const onPressCreateComment = () =>
-    auth.isLoggedIn
+    loginState.isLoggedIn
       ? navigate(`/feed-posts/${idOrSlug}/comment`)
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
@@ -168,7 +168,10 @@ const PostDetailsPage = () => {
           <ScrollView style={styles.scrollView}>
             {post && !loading ? (
               <>
-                <PostContent post={post} showVisibilityBadge={auth.isLoggedIn && auth.userId === post.creator.id} />
+                <PostContent
+                  post={post}
+                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.creator.id}
+                />
                 <View style={styles.commentsContainer}>
                   <Comments
                     commentableType={CommentableType.FEED_POST}

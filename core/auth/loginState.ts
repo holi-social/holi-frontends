@@ -61,8 +61,8 @@ export const listenOnLoginStateChange: (listener: LoginStateChangeListener) => (
   createReactiveVarListener<LoginState>(loginStateVar)
 
 // intended to be called from outside the context provider (e.g. login form)
-export const setUserLoggedIn = async (session: OrySessionContext): Promise<void> => {
-  logger.debug('setUserLoggedIn', 'user logged in')
+export const setLoginStateLoggedIn = async (session: OrySessionContext): Promise<void> => {
+  logger.debug('setLoginStateLoggedIn', 'user logged in')
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
   // fetch and save Okuna user
@@ -70,8 +70,8 @@ export const setUserLoggedIn = async (session: OrySessionContext): Promise<void>
 }
 
 // intended to be called from outside the context provider (e.g. logout form)
-export const setUserLoggedOut = async () => {
-  logger.debug('setUserLoggedOut', 'user logged out')
+export const setLoginStateLoggedOut = async () => {
+  logger.debug('setLoginStateLoggedOut', 'user logged out')
   await removeSessionFromStorage()
   loginStateVar(loginStateLoggedOut)
 }
@@ -83,14 +83,14 @@ export const setUserLoggedOut = async () => {
  *
  * Use `loginState` instead if you only want to retrieve the current login state without (reactive) subscription.
  */
-export const useAuth = (): LoginState => {
+export const useLoginState = (): LoginState => {
   return useReactiveVar(loginStateVar)
 }
 
 /**
  * Function to retrieve the current login state.
  *
- * Use the `useAuth` hook instead if you want to reactively subscribe to login state changes from within a component.
+ * Use the `useLoginState` hook instead if you want to reactively subscribe to login state changes from within a component.
  *
  * Use `listenOnLoginStateChange` instead if you want to subscribe a listener that receives previous and current state (e.g. in order to derive state transitions).
  */

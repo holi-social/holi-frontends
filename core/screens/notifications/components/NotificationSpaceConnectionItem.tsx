@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
@@ -95,7 +95,7 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
     }).then(() => setConnectionAccepted(false))
   }, [updateSpaceUserConnection])
 
-  const loginState = useAuth()
+  const loginState = useLoginState()
 
   const showButtons = connectionAccepted === null && notificationHasInteraction(notification)
 
