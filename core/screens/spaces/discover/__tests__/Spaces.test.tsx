@@ -18,7 +18,6 @@ import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const loginStateLoggedIn: LoginStateLoggedIn = {
-  loginState: 'loggedIn',
   isUnknown: false,
   isLoggedOut: false,
   isLoggedIn: true,

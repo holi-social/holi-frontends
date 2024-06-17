@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
+import { LoginState } from '@holi/core/auth/loginState'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { SuppressSsrHydrationWarning as SuppressSsrHydrationWarningWeb } from '@holi/core/components/SuppressSsrHydrationWarning.web'
 
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: () => ({ userId: 'userId' }),
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: (): LoginState => ({ isUnknown: false, isLoggedIn: true, isLoggedOut: false, userId: '123' }),
 }))
 
 describe('SuppressSsrHydrationWarning', () => {
