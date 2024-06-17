@@ -27,18 +27,18 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   children,
 }) => {
   const { navigate } = useRouting()
-  const { loginState } = useAuth()
+  const loginState = useAuth()
 
   if (forceRestrict) {
     navigate(redirectRoute || '/')
     return <></>
   }
 
-  if (permissionType === PermissionsType.AUTH && loginState === 'unknown') {
+  if (permissionType === PermissionsType.AUTH && loginState.isUnknown) {
     return <HoliLoader />
   }
 
-  if (permissionType === PermissionsType.AUTH && loginState === 'loggedOut') {
+  if (permissionType === PermissionsType.AUTH && loginState.isLoggedOut) {
     navigate(redirectRoute || '/')
     return <></>
   }

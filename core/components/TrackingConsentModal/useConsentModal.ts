@@ -33,8 +33,9 @@ export const useConsentModal = () => {
 
   // listen on authenticated user changes and reset counter on logout
   useEffect(() => {
+    // noinspection UnnecessaryLocalVariableJS
     const unsubscribe = listenOnLoginStateChange((curState, prevState) => {
-      if (curState.isLoggedOut === true && prevState?.isLoggedOut === false) {
+      if (curState.isLoggedOut && prevState?.isLoggedOut === false) {
         resetUserVisitedScreensCount()
       }
     })
