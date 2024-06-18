@@ -82,7 +82,6 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 type OnboardingCard = {
   image: StaticImageData
   description: string
-  instruction: string
   width: number
   height: number
 }
@@ -91,21 +90,18 @@ const onboardingContentList: Array<OnboardingCard> = [
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.png'),
     description: 'spaces.edit.onboarding.description',
-    instruction: 'spaces.edit.onboarding.instruction',
     width: 279,
     height: 200,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.png'),
     description: 'spaces.edit.onboarding.tip1',
-    instruction: '',
     width: 279,
     height: 200,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.png'),
     description: 'spaces.edit.onboarding.tip2',
-    instruction: '',
     width: 279,
     height: 200,
   },
