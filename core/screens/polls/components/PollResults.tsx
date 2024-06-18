@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
-import { Animated, StyleSheet, Text, View } from 'react-native'
+import React, { useMemo, useRef } from 'react'
+import { Animated, StyleSheet, View } from 'react-native'
 
 import { Choice } from '@holi/core/screens/polls/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface PollResultsProps {
   choice: Choice
@@ -11,7 +12,10 @@ interface PollResultsProps {
   selected: boolean
 }
 
-const PollOptionResults = ({ choice, votesSum, selected }: PollResultsProps) => {
+const PollResults = ({ choice, votesSum, selected }: PollResultsProps) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const percentageNotRounded = selected ? 100 * ((choice.votes + 1) / votesSum) : 100 * (choice.votes / votesSum)
   const percentage = Math.round(percentageNotRounded)
   const progressAnimation = useRef(new Animated.Value(percentage)).current
@@ -20,9 +24,9 @@ const PollOptionResults = ({ choice, votesSum, selected }: PollResultsProps) => 
     outputRange: ['0%', '100%'],
     extrapolate: 'clamp',
   })
+
   return (
     <View style={styles.container} testID="poll-results-container">
-      {/* options text and percentages */}
       <View style={styles.textAndPercentageContainer}>
         <HoliRichTextOutput
           numberOfLines={2}
@@ -31,12 +35,12 @@ const PollOptionResults = ({ choice, votesSum, selected }: PollResultsProps) => 
           users={[]}
           links={[]}
           allowAllLinks
-          size="default"
-          color="gray300"
+          size="small"
         />
-        <Text style={styles.percentText}>{percentage}%</Text>
+        <HoliText style={styles.percentText} size="small" testID="poll-result-percentage">
+          {percentage}%
+        </HoliText>
       </View>
-      {/* progress bar */}
       <View style={styles.progressBar}>
         <Animated.View style={{ ...styles.innerBar, width: progressWidth }} />
       </View>
@@ -44,46 +48,47 @@ const PollOptionResults = ({ choice, votesSum, selected }: PollResultsProps) => 
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-    borderWidth: 0,
-    borderColor: colors.background30,
-    borderRadius: 12,
-    backgroundColor: colors.background10,
-    justifyContent: 'space-between',
-  },
-  textAndPercentageContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    flex: 1,
-    marginBottom: 5,
-  },
-  optionsTextStyle: {
-    flexWrap: 'wrap',
-    paddingRight: 'auto',
-    marginRight: 'auto',
-    maxWidth: '80%',
-  },
-  progressBar: {
-    width: '100%',
-    height: 15,
-    borderWidth: 0,
-    borderRadius: 12,
-    backgroundColor: '#eee',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  innerBar: {
-    height: '100%',
-    backgroundColor: '#6267E7',
-    borderRadius: 12,
-  },
-  percentText: {
-    fontSize: 14,
-    marginLeft: 30,
-    color: '#262424',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: 16,
+      borderWidth: 0,
+      borderColor: theme.colors.background30,
+      borderRadius: 12,
+      backgroundColor: theme.colors.background10,
+      justifyContent: 'space-between',
+    },
+    textAndPercentageContainer: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      flex: 1,
+      marginBottom: 5,
+    },
+    optionsTextStyle: {
+      flexWrap: 'wrap',
+      paddingRight: 'auto',
+      marginRight: 'auto',
+      maxWidth: '80%',
+    },
+    progressBar: {
+      width: '100%',
+      height: 15,
+      borderWidth: 0,
+      borderRadius: 12,
+      backgroundColor: theme.colors.gray100,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    innerBar: {
+      height: '100%',
+      backgroundColor: theme.colors.brandColorB30,
+      borderRadius: 12,
+    },
+    percentText: {
+      fontSize: 14,
+      marginLeft: 30,
+      color: theme.colors.foreground30,
+    },
+  })
 
-export default PollOptionResults
+export default PollResults

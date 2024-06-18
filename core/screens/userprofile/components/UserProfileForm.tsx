@@ -215,7 +215,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
             inputLabel={t('user.profileForm.firstName')}
             aria-label={t('user.profileForm.firstName')}
             placeholder={t('user.profileForm.firstNamePlaceholder')}
-            maxNoOfCharacters={30}
+            maxNoOfCharacters={100}
             onChange={(text: string) => {
               setFirstName(replaceSpecialChars(text))
               resetErrorsForField('firstName')
@@ -232,7 +232,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
             inputLabel={t('user.profileForm.lastName')}
             aria-label={t('user.profileForm.lastName')}
             placeholder={t('user.profileForm.lastNamePlaceholder')}
-            maxNoOfCharacters={30}
+            maxNoOfCharacters={100}
             onChange={(text: string) => {
               setLastName(replaceSpecialChars(text))
               resetErrorsForField('lastName')

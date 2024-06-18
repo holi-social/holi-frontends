@@ -1,19 +1,16 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import FormWrapper from '@holi/core/components/FormWrapper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { useKeyboard } from '@holi/ui/helper'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceFormScreenLayoutProps {
   title?: string
@@ -37,61 +34,39 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   const { height: deviceHeight } = useWindowDimensions()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')
-  const { isKeyboardOpen } = useKeyboard()
-  const hideFooter = Platform.OS === 'android' && isKeyboardOpen
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout.Default
+      <FormWrapper
+        onSave={onSave}
+        saveButtonDisabled={saveButtonDisabled}
+        onBack={() => toggleConfirmationModal(true)}
+        showBackButton
         style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
+        behavior="padding"
+        scrollToInput={false}
         keyboardShouldPersistTaps="handled"
-      >
-        <View
-          style={[
-            mixins.container,
-            styles.container,
-            { minHeight: deviceHeight, paddingTop: dimensions.topBarHeight + 40 },
-          ]}
-        >
-          {!!title && (
-            <HoliHeading level="1" size="m">
-              {title}
-            </HoliHeading>
-          )}
-          {!!description && <HoliText style={styles.description}>{description}</HoliText>}
-          {children}
-        </View>
-      </ScrollHeaderLayout.Default>
-
-      {/* Footer */}
-      {!hideFooter && (
-        <View style={styles.footerContainer}>
-          <View style={[mixins.container, styles.footer]}>
-            <HoliButton
-              label={t('global.dismiss')}
-              type="secondary"
-              inline
-              style={styles.footerButton}
-              onPress={() => toggleConfirmationModal(true)}
-            >
-              {t('global.dismiss')}
-            </HoliButton>
-            <HoliButtonLoading
-              disabled={saveButtonDisabled}
-              label={t('global.save')}
-              onPress={onSave}
-              testID="form-modal-save-btn"
-              style={styles.footerButton}
-            />
+        renderProp={() => (
+          <View
+            style={{
+              minHeight: deviceHeight,
+              paddingTop: dimensions.topBarHeight + 40,
+              paddingBottom: dimensions.bottomBarHeight + Spacing.md,
+            }}
+          >
+            {!!title && (
+              <HoliHeading level="1" size="m">
+                {title}
+              </HoliHeading>
+            )}
+            {!!description && <HoliText style={styles.description}>{description}</HoliText>}
+            {children}
           </View>
-        </View>
-      )}
+        )}
+      />
 
       <HoliConfirmation
         show={showConfirmationModal}
@@ -118,42 +93,13 @@ const getStyles = (theme: HoliTheme) =>
     defaultLayout: {
       backgroundColor: theme.colors.background20,
       paddingTop: 16,
-    },
-    contentStyle: {
-      paddingBottom: 0,
-    },
-    container: {
+      paddingBottom: Spacing.xxl,
+      height: '100%',
       flex: 1,
-      paddingBottom: 132,
-      ...Platform.select({
-        native: {
-          maxWidth: '100%',
-        },
-      }),
     },
     description: {
       marginBottom: 32,
       marginTop: 16,
       color: theme.colors.foreground20,
-    },
-    footerContainer: {
-      width: '100%',
-      position: 'absolute',
-      bottom: 0,
-    },
-    footer: {
-      bottom: 40,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      gap: 10,
-      ...Platform.select({
-        web: {
-          alignSelf: 'center',
-          position: 'fixed',
-        },
-      }),
-    },
-    footerButton: {
-      flex: 1,
     },
   })

@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useFallbackImage } from '@holi/core/helpers'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -23,17 +22,10 @@ const SpaceMainImage: React.FC<SpaceMainImageProps> = ({ uri, label, blurhash, e
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const fallbackImageUri = useFallbackImage().uri
-
   return (
     <View style={[styles.imageContainer, style]}>
       <View style={styles.wrapper}>
-        <HoliImage
-          source={{ uri: uri ? uri : fallbackImageUri }}
-          blurhash={blurhash}
-          style={styles.mainImage}
-          label={label}
-        />
+        <HoliImage source={{ uri: uri }} blurhash={blurhash} style={styles.mainImage} label={label} />
         {editable && (
           <>
             <View style={styles.editOverlay} />

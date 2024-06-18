@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -18,7 +18,7 @@ export type TaskDrawerProps = {
 export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, space }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
-  const loginState = useAuth()
+  const loginState = useLoginState()
 
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
     id: task.id,

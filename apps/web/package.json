@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "WEB_BUILD=true next build",
     "start": "NODE_OPTIONS='-r ./server-preload.js' next start",
     "lint": "TIMING=1 next lint",
     "test": "echo 'unit testing goes here'",

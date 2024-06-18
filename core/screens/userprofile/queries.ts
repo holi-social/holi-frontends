@@ -175,9 +175,9 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: 'minCharacters---2' })
-    .max(192, { message: 'maxCharacters---192' })
+    .max(100, { message: 'maxCharacters---100' })
     .optional(),
-  lastName: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
+  lastName: z.string().max(100, { message: 'maxCharacters---100' }).optional(),
   aboutMe: z.string().max(3000, { message: 'maxCharacters---3000' }).optional(),
   pronouns: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
   location: z.string().max(192, { message: 'maxCharacters---192' }).optional(),

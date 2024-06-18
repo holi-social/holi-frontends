@@ -72,9 +72,11 @@ web_build:
     expire_in: 1 week
   interruptible: true
   tags:
-    - 4cpu-4gb
+    - 4cpu-16gb
   except:
     - /^noweb\/.*/
+  variables:
+    WEB_BUILD: true
 
 storybook_publish:
   needs: ['web_build']

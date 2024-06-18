@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setLoginStateLoggedOut, useLoginState } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -23,7 +23,7 @@ const isLoggingOutVar = makeVar(false)
 export let isProcessingLogout = false
 
 export const useLogout = () => {
-  const { loginState } = useAuth()
+  const loginState = useLoginState()
   const isLoggingOut = useReactiveVar(isLoggingOutVar)
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -49,7 +49,7 @@ export const useLogout = () => {
           }
         }
 
-        if (isProcessingLogout || isLoggingOut || loginState === 'loggedOut') {
+        if (isProcessingLogout || isLoggingOut || loginState.isLoggedOut) {
           redirect()
           return
         }
@@ -61,14 +61,14 @@ export const useLogout = () => {
           if (!skipLogoutFlow) {
             await submitLogoutFlow({ session_token: session?.session_token || '' })
           }
-          await setUserLoggedOut()
+          await setLoginStateLoggedOut()
           await client.clearStore()
 
           logger.debug('useLogout', 'logout successful')
           if (showToastAfter) openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
         } catch (err) {
           logger.debug('useLogout', 'logout failed, removing session from storage', err)
-          setUserLoggedOut() // will remove session info from storage
+          setLoginStateLoggedOut() // will remove session info from storage
           throw err // will be sent to Sentry so we're aware of it
           // not displaying any user-facing error messages as with the removal from the storage logout should be done
         } finally {

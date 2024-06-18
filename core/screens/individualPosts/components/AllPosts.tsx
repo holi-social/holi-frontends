@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { Platform } from 'react-native'
 
@@ -18,4 +19,4 @@ export const AllPosts = () => {
   )
 }
 
-export default AllPosts
+export default withProfiler(AllPosts, { name: 'AllPosts' })

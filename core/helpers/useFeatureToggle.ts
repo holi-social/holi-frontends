@@ -18,7 +18,6 @@ export enum FeatureToggleName {
   SEARCH = 'SEARCH',
   FAVORITES = 'FAVORITES',
   THEME_TOGGLE = 'THEME_TOGGLE',
-  INDIVIDUALS_POST = 'INDIVIDUALS_POST_R1',
 }
 
 export type FeatureToggleState = {

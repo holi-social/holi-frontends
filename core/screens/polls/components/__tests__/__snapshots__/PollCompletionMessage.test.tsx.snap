@@ -1,0 +1,730 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PollCompletionMessage renders poll completion message correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+      "borderColor": "#262424",
+      "borderRadius": 12,
+      "borderStyle": "solid",
+      "borderWidth": 1,
+      "padding": 16,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexGrow": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignContent": "space-between",
+          "alignItems": "flex-end",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "paddingBottom": 16,
+        }
+      }
+    >
+      <Text
+        role="heading"
+        selectable={true}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 21,
+            "fontWeight": "500",
+            "lineHeight": 29.4,
+            "userSelect": "auto",
+          }
+        }
+      >
+        homeFeed.notEnoughVotesNotification.thanks
+      </Text>
+      <View>
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight="30"
+          bbWidth="30"
+          color="#8b95ff"
+          fill="none"
+          focusable={false}
+          height={30}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              {
+                "flex": 0,
+                "height": 30,
+                "width": 30,
+              },
+            ]
+          }
+          tintColor="#8b95ff"
+          vbHeight={31}
+          vbWidth={32}
+          width={30}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <RNSVGGroup
+            fill={null}
+            propList={
+              [
+                "fill",
+              ]
+            }
+          >
+            <RNSVGPath
+              d="m18.867 2.383 2.22 4.5a3.198 3.198 0 0 0 2.409 1.749l4.965.722a3.198 3.198 0 0 1 1.773 5.454l-3.593 3.502a3.199 3.199 0 0 0-.92 2.83l.848 4.947a3.198 3.198 0 0 1-4.64 3.371l-4.441-2.334a3.196 3.196 0 0 0-2.976 0l-4.442 2.334a3.198 3.198 0 0 1-4.64-3.371l.849-4.946a3.198 3.198 0 0 0-.92-2.83l-3.593-3.502a3.198 3.198 0 0 1 1.773-5.455l4.965-.721a3.198 3.198 0 0 0 2.409-1.75l2.218-4.5a3.198 3.198 0 0 1 5.736 0Z"
+              fill={
+                {
+                  "type": 2,
+                }
+              }
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
+    </View>
+    <View>
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Book",
+            "fontSize": 16,
+            "fontWeight": "400",
+            "lineHeight": 22.4,
+            "userSelect": "auto",
+          }
+        }
+      >
+        homeFeed.notEnoughVotesNotification.notification
+      </Text>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ebebeb",
+            "borderRadius": 8,
+            "flexDirection": "row",
+            "fontSize": 14,
+            "marginBottom": 8,
+            "marginTop": 16,
+            "paddingLeft": 12,
+            "paddingRight": 8,
+            "paddingVertical": 8,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="profile.settings.notifications.GLOBAL.title"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          role="link"
+          style={
+            [
+              false,
+            ]
+          }
+          testID="link"
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "maxWidth": "95%",
+                "userSelect": "auto",
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </Text>
+        </View>
+        <View>
+          <RNSVGSvgView
+            align="xMidYMid"
+            bbHeight="30"
+            bbWidth="30"
+            color="#262424"
+            fill="none"
+            focusable={false}
+            height={30}
+            meetOrSlice={0}
+            minX={0}
+            minY={0}
+            style={
+              [
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "flex": 0,
+                  "height": 30,
+                  "width": 30,
+                },
+              ]
+            }
+            tintColor="#262424"
+            vbHeight={24}
+            vbWidth={24}
+            width={30}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <RNSVGGroup
+              fill={null}
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            >
+              <RNSVGGroup
+                clipPath="arrow-right-s_svg__a"
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
+                <RNSVGPath
+                  d="m13.173 12-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414 4.95-4.95Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+              <RNSVGDefs>
+                <RNSVGClipPath
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                  name="arrow-right-s_svg__a"
+                >
+                  <RNSVGPath
+                    d="M0 0h24v24H0z"
+                    fill={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGClipPath>
+              </RNSVGDefs>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`PollCompletionMessage renders poll completion message correctly with notifications disabled 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+      "borderColor": "#262424",
+      "borderRadius": 12,
+      "borderStyle": "solid",
+      "borderWidth": 1,
+      "padding": 16,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexGrow": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignContent": "space-between",
+          "alignItems": "flex-end",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "paddingBottom": 16,
+        }
+      }
+    >
+      <Text
+        role="heading"
+        selectable={true}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 21,
+            "fontWeight": "500",
+            "lineHeight": 29.4,
+            "userSelect": "auto",
+          }
+        }
+      >
+        homeFeed.notEnoughVotesNotification.thanks
+      </Text>
+      <View>
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight="30"
+          bbWidth="30"
+          color="#8b95ff"
+          fill="none"
+          focusable={false}
+          height={30}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              {
+                "flex": 0,
+                "height": 30,
+                "width": 30,
+              },
+            ]
+          }
+          tintColor="#8b95ff"
+          vbHeight={31}
+          vbWidth={32}
+          width={30}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <RNSVGGroup
+            fill={null}
+            propList={
+              [
+                "fill",
+              ]
+            }
+          >
+            <RNSVGPath
+              d="m18.867 2.383 2.22 4.5a3.198 3.198 0 0 0 2.409 1.749l4.965.722a3.198 3.198 0 0 1 1.773 5.454l-3.593 3.502a3.199 3.199 0 0 0-.92 2.83l.848 4.947a3.198 3.198 0 0 1-4.64 3.371l-4.441-2.334a3.196 3.196 0 0 0-2.976 0l-4.442 2.334a3.198 3.198 0 0 1-4.64-3.371l.849-4.946a3.198 3.198 0 0 0-.92-2.83l-3.593-3.502a3.198 3.198 0 0 1 1.773-5.455l4.965-.721a3.198 3.198 0 0 0 2.409-1.75l2.218-4.5a3.198 3.198 0 0 1 5.736 0Z"
+              fill={
+                {
+                  "type": 2,
+                }
+              }
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
+    </View>
+    <View>
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Book",
+            "fontSize": 16,
+            "fontWeight": "400",
+            "lineHeight": 22.4,
+            "userSelect": "auto",
+          }
+        }
+      >
+        homeFeed.notEnoughVotesNotification.notification
+      </Text>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ebebeb",
+            "borderRadius": 8,
+            "flexDirection": "row",
+            "fontSize": 14,
+            "marginBottom": 8,
+            "marginTop": 16,
+            "paddingLeft": 12,
+            "paddingRight": 8,
+            "paddingVertical": 8,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="profile.settings.notifications.GLOBAL.title"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          role="link"
+          style={
+            [
+              false,
+            ]
+          }
+          testID="link"
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "maxWidth": "95%",
+                "userSelect": "auto",
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </Text>
+        </View>
+        <View>
+          <RNSVGSvgView
+            align="xMidYMid"
+            bbHeight="30"
+            bbWidth="30"
+            color="#262424"
+            fill="none"
+            focusable={false}
+            height={30}
+            meetOrSlice={0}
+            minX={0}
+            minY={0}
+            style={
+              [
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "flex": 0,
+                  "height": 30,
+                  "width": 30,
+                },
+              ]
+            }
+            tintColor="#262424"
+            vbHeight={24}
+            vbWidth={24}
+            width={30}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <RNSVGGroup
+              fill={null}
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            >
+              <RNSVGGroup
+                clipPath="arrow-right-s_svg__a"
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
+                <RNSVGPath
+                  d="m13.173 12-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414 4.95-4.95Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+              <RNSVGDefs>
+                <RNSVGClipPath
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                  name="arrow-right-s_svg__a"
+                >
+                  <RNSVGPath
+                    d="M0 0h24v24H0z"
+                    fill={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGClipPath>
+              </RNSVGDefs>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`PollCompletionMessage renders poll completion message correctly with notifications enabled 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+      "borderColor": "#262424",
+      "borderRadius": 12,
+      "borderStyle": "solid",
+      "borderWidth": 1,
+      "padding": 16,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexGrow": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignContent": "space-between",
+          "alignItems": "flex-end",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "paddingBottom": 16,
+        }
+      }
+    >
+      <Text
+        role="heading"
+        selectable={true}
+        style={
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 21,
+            "fontWeight": "500",
+            "lineHeight": 29.4,
+            "userSelect": "auto",
+          }
+        }
+      >
+        homeFeed.notEnoughVotesNotification.thanks
+      </Text>
+      <View>
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight="30"
+          bbWidth="30"
+          color="#8b95ff"
+          fill="none"
+          focusable={false}
+          height={30}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              {
+                "flex": 0,
+                "height": 30,
+                "width": 30,
+              },
+            ]
+          }
+          tintColor="#8b95ff"
+          vbHeight={31}
+          vbWidth={32}
+          width={30}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <RNSVGGroup
+            fill={null}
+            propList={
+              [
+                "fill",
+              ]
+            }
+          >
+            <RNSVGPath
+              d="m18.867 2.383 2.22 4.5a3.198 3.198 0 0 0 2.409 1.749l4.965.722a3.198 3.198 0 0 1 1.773 5.454l-3.593 3.502a3.199 3.199 0 0 0-.92 2.83l.848 4.947a3.198 3.198 0 0 1-4.64 3.371l-4.441-2.334a3.196 3.196 0 0 0-2.976 0l-4.442 2.334a3.198 3.198 0 0 1-4.64-3.371l.849-4.946a3.198 3.198 0 0 0-.92-2.83l-3.593-3.502a3.198 3.198 0 0 1 1.773-5.455l4.965-.721a3.198 3.198 0 0 0 2.409-1.75l2.218-4.5a3.198 3.198 0 0 1 5.736 0Z"
+              fill={
+                {
+                  "type": 2,
+                }
+              }
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
+    </View>
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 22.4,
+          "userSelect": "auto",
+        }
+      }
+    >
+      homeFeed.notEnoughVotesNotification.confirmationText
+    </Text>
+  </View>
+</View>
+`;

@@ -135,18 +135,12 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
           {
             /** FIXME convert to VirtualizedList, FlatList or SectionList */
             slides.map((slide, i) => (
-              <View
-                style={[
-                  styles.slideContainer,
-                  i === 0 ? styles.firstSlideContainer : {},
-                  i === slides.length - 1 ? styles.lastSlideContainer : {},
-                ]}
-                key={i}
-              >
+              <View style={[styles.slideContainer, i === 0 ? styles.firstSlideContainer : {}]} key={i}>
                 {slide.children}
               </View>
             ))
           }
+          <View style={styles.lastSlideSpacing} />
         </ScrollView>
       )}
     </View>
@@ -206,6 +200,9 @@ const getStyles = (
     },
     lastSlideContainer: {
       marginRight: marginHorizontal,
+    },
+    lastSlideSpacing: {
+      width: marginHorizontal,
     },
     slideButtonsContainer: {
       flexDirection: 'row',

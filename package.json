@@ -30,6 +30,7 @@
     "web:dev": "yarn workspace @holi/web dev",
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",
+    "check-types": "tsc --noemit",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "clean": "yarn workspaces foreach -A run clean",
@@ -76,7 +77,8 @@
     "jest-when": "^3.6.0",
     "prettier": "^2.8.3",
     "react-test-renderer": "18.2.0",
-    "turbo": "^1.7.2"
+    "turbo": "^1.7.2",
+    "typescript": "^5.3.0"
   },
   "packageManager": "yarn@4.1.1",
   "expo-yarn-workspaces": {

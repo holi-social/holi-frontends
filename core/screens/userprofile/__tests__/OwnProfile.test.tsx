@@ -5,9 +5,9 @@ import React from 'react'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 
-const mockUseAuth = jest.fn()
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: () => mockUseAuth(),
+const mockUseLoginState = jest.fn()
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: () => mockUseLoginState(),
 }))
 
 const mockUseLoggedInUser = jest.fn()
@@ -47,7 +47,7 @@ describe('OwnProfile', () => {
       isLoggedIn: true,
       user: { id: '123', fullName: 'Test User' },
     })
-    mockUseAuth.mockReturnValue({
+    mockUseLoginState.mockReturnValue({
       loginState: 'loggedIn',
     })
 
@@ -68,7 +68,7 @@ describe('OwnProfile', () => {
       isLoggedIn: false,
       isLoading: false,
     })
-    mockUseAuth.mockReturnValue({
+    mockUseLoginState.mockReturnValue({
       loginState: 'loggedOut',
     })
 

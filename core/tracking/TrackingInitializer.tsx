@@ -1,6 +1,12 @@
 import { ApolloClient, ReactiveVar, makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 
+import {
+  LoginStateChangeListener,
+  listenOnLoginStateChange,
+  loginState,
+  loginStateUnknown,
+} from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
   AuthenticatedUserV2Response,
@@ -174,22 +180,6 @@ export const updateConsentState = (newConsentState: ConsentState) => {
   })
 }
 
-export const userLoggedIn = (): void => {
-  const currentState = stateVar()
-  stateVar({
-    state: currentState.state,
-    processing: { trigger: 'userLoggedIn' },
-  })
-}
-
-export const userLoggedOut = (): void => {
-  const currentState = stateVar()
-  stateVar({
-    state: currentState.state,
-    processing: { trigger: 'userLoggedOut' },
-  })
-}
-
 export const useConsentState = (): ConsentState => {
   const user = useLoggedInUser()
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
@@ -248,6 +238,33 @@ const TrackingInitializerInner = ({
   const apollo: ApolloClient<object> = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
   const state = useReactiveVar(stateVar)
+
+  useEffect(() => {
+    const loginStateChangeListener: LoginStateChangeListener = (curState, prevState) => {
+      if (curState.isLoggedIn) {
+        logger.debug('TrackingInitializer', 'detected user login')
+        const currentState = stateVar()
+        stateVar({
+          state: currentState.state,
+          processing: { trigger: 'userLoggedIn' },
+        })
+      } else if (curState.isLoggedOut && prevState?.isLoggedOut === false) {
+        logger.debug('TrackingInitializer', 'detected user logout')
+        const currentState = stateVar()
+        stateVar({
+          state: currentState.state,
+          processing: { trigger: 'userLoggedOut' },
+        })
+      }
+    }
+    // ensure that initial state (which was maybe already executed before registering the listener) is reflected in
+    // TrackingInitializers internal state
+    loginStateChangeListener(loginState(), loginStateUnknown)
+
+    // noinspection UnnecessaryLocalVariableJS
+    const unsubscribe = listenOnLoginStateChange(loginStateChangeListener)
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
     if (state.processing) {

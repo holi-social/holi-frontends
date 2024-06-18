@@ -9,7 +9,8 @@ type WebResizeMode = Property.ObjectFit
 export type ResizeMode = ExpoResizeMode & WebResizeMode
 
 export interface ImageSource {
-  uri: string
+  // a missing uri will be replaced by a placeholder image
+  uri?: string
   // to scale down image to fixed width
   // use constant value, will be scaled to pixel density!
   // when there is an aspect ratio mismatch,

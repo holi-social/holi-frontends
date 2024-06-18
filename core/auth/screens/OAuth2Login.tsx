@@ -9,7 +9,7 @@ import { hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/h
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
 import { OAuth2DefaultProps, confirmOAuth2Login } from '@holi/core/auth/helpers/oauth2'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -26,7 +26,7 @@ export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProp
 // Only used for OAuth2 login flow on web, see apps/web/pages/oauth2/login.tsx
 // Performing direct redirects by changing window.location.href
 const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = false, ...redirectProps }) => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
@@ -79,7 +79,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
     try {
       const { data } = (await submitLoginFlow(flow, payload, undefined)) as { data: OrySessionContext }
       await client.clearStore()
-      await setUserLoggedIn(data)
+      await setLoginStateLoggedIn(data)
       confirmOAuth2Login()
       window.location.href = returnTo
     } catch (err) {

@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -46,7 +46,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
@@ -67,8 +67,6 @@ const HomeFeed = () => {
   )
   const { ftEnabled: ftEnabledChallenges } = useFeatureToggle(FeatureToggleName.CHALLENGES)
 
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-
   // TODO: when SSR is enabled we need to lazy load the header
   // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -87,7 +85,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
-        ftEnabledPosts ? feedPostsQuery : undefined,
+        feedPostsQuery,
         inspirationPostsQuery,
         lastInsightsQuery,
         ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
@@ -110,7 +108,7 @@ const HomeFeed = () => {
         <View style={styles.sections}>
           <HomeFeedHeader />
           {ftEnabledChallenges && <AttendingChallengeEvents />}
-          {ftEnabledPosts && <AllPosts />}
+          <AllPosts />
 
           <RecommendedChallenges />
 
@@ -125,7 +123,7 @@ const HomeFeed = () => {
       </ScrollHeaderLayout.Refreshable>
 
       {/* Floating CreatePostButton need to be outside of the Layout */}
-      {ftEnabledPosts && <CreatePostButton />}
+      <CreatePostButton />
 
       <OnboardingInitializer />
     </>

@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { LoginState } from '@holi/core/auth/loginState'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
@@ -13,8 +14,8 @@ import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: () => ({ userId: '123' }),
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: (): LoginState => ({ isUnknown: false, isLoggedIn: true, isLoggedOut: false, userId: '123' }),
   setUserLoggedOut: jest.fn(),
 }))
 

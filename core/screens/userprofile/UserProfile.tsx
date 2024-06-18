@@ -4,7 +4,7 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -13,7 +13,6 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
@@ -55,9 +54,8 @@ const UserProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
-  const loginState = useAuth()
+  const loginState = useLoginState()
   const [userId = ''] = useParam('userId')
 
   useEffect(() => {
@@ -237,14 +235,10 @@ const UserProfile = () => {
               </View>
             ),
           },
-          ...(ftEnabledPosts
-            ? [
-                {
-                  title: t('individuals.post.name'),
-                  children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
-                },
-              ]
-            : []),
+          {
+            title: t('individuals.post.name'),
+            children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+          },
           ...(hasInsights
             ? [
                 {
