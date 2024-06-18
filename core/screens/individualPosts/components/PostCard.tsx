@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -229,4 +230,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default PostCard
+export default withProfiler(PostCard, { name: 'PostCard' })

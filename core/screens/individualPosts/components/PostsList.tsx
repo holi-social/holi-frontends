@@ -1,4 +1,5 @@
 import { ApolloError, DocumentNode } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -53,4 +54,4 @@ const PostsList = ({
   )
 }
 
-export default PostsList
+export default withProfiler(PostsList, { name: 'PostsList' })
