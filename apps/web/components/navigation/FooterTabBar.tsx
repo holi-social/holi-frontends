@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
 import { useLoginState } from '@holi/core/auth/loginState'
+import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
@@ -111,7 +112,9 @@ const FooterTabBar = () => {
               isProfileLoginRegistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
             ]}
           >
-            <span suppressHydrationWarning>{isLoggedIn ? t('navigation.profile') : t('auth.login')}</span>
+            <SuppressSsrHydrationWarning>
+              {isLoggedIn ? t('navigation.profile') : t('auth.login')}
+            </SuppressSsrHydrationWarning>
           </HoliText>
         </LoginProfileButton>
       </HoliContainer>

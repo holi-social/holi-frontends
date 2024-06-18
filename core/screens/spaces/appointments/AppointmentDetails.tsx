@@ -5,6 +5,7 @@ import { DimensionValue, Linking, Platform, StyleSheet, View } from 'react-nativ
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -228,8 +229,10 @@ const AppointmentDetails = () => {
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
                 <HoliText bold style={styles.infoText}>
-                  {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
-                  {endTime}
+                  <SuppressSsrHydrationWarning>
+                    {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+                    {endTime}
+                  </SuppressSsrHydrationWarning>
                 </HoliText>
               </View>
             </View>
