@@ -93,6 +93,7 @@ export const FullAuthenticatedUserFragment = gql`
     connectionStatusToMyself
     trackingConsentAnalytics
     trackingConsentPersonalization
+    isEmployee
   }
 `
 

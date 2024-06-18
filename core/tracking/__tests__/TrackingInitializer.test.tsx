@@ -1,4 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { faker } from '@faker-js/faker'
 import { jest } from '@jest/globals'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { act, render, waitFor } from '@testing-library/react-native'
@@ -59,6 +60,7 @@ const mockUser = (consentState: ConsentState): AuthenticatedUser => {
     id: '123',
     trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
     trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
+    isEmployee: faker.datatype.boolean(),
   } as AuthenticatedUser
 }
 
@@ -346,7 +348,7 @@ describe('TrackingInitializer', () => {
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
-        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id)
+        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
       })
     })
     describe('given only personalization consent', () => {
@@ -392,7 +394,7 @@ describe('TrackingInitializer', () => {
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
-        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id)
+        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
       })
     })
   })
@@ -438,7 +440,7 @@ describe('TrackingInitializer', () => {
         await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
-        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id)
+        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
       })
     })
   })
@@ -523,7 +525,7 @@ describe('TrackingInitializer', () => {
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
-          expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id)
+          expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
         })
       })
       describe('with known analytics consent in the user profile', () => {

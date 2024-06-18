@@ -2,7 +2,7 @@ import { PostHog } from 'posthog-js'
 import { usePostHog } from 'posthog-js/react'
 import { useMemo } from 'react'
 
-import { PosthogCrossPlatform } from '@holi/core/tracking/types'
+import { PosthogCrossPlatform, Properties } from '@holi/core/tracking/types'
 
 export class PosthogWeb implements PosthogCrossPlatform {
   constructor(private posthog: PostHog) {
@@ -14,8 +14,8 @@ export class PosthogWeb implements PosthogCrossPlatform {
     this.posthog.capture(event, properties)
   }
 
-  identify(distinctId: string | undefined): void {
-    this.posthog.identify(distinctId)
+  identify(distinctId: string, properties?: Properties): void {
+    this.posthog.identify(distinctId, properties)
   }
 
   optedIn(): boolean {
