@@ -74,8 +74,6 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: theme.colors.white100,
       justifyContent: 'center',
       overflow: 'hidden',
-      /*       maxWidth: 24,
-      maxHeight: 24, */
       width: 24,
       height: 24,
     },
