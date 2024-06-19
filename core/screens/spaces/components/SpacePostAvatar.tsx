@@ -8,7 +8,6 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpacePostAvatarProps {
   spacePost: Post
-  size?: AvatarProps['size']
   style?: AvatarProps['style']
   loading?: boolean
   testID?: string
