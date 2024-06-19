@@ -14,12 +14,10 @@ export interface SpacePostAvatarProps {
   testID?: string
 }
 
-/*  Props we need
-spacePost | needed for SpaceAvatar, userAvatar
-*/
-
 const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePostAvatarProps) => {
   const { theme } = useTheme()
+  const spaceInitials = getInitials(spacePost?.space?.title ?? '')
+  const creatorInitials = spacePost?.creator?.avatarLabel
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
@@ -28,9 +26,11 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePos
         style={[styles.spaceAvatar, style]}
         testID={testID ?? 'space-avatar'}
         imageSrc={spacePost?.space?.avatar}
+        imageBlurhash={spacePost?.space?.avatarBlurhash}
+        defaultColor={spacePost?.space?.avatarDefaultColor}
         label={spacePost?.title ?? ''}
         loading={!!loading}
-        initials={getInitials(spacePost?.title ?? '')}
+        initials={spaceInitials}
       />
       <HoliAvatar
         style={[styles.userAvatar, style]}
@@ -39,7 +39,8 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePos
         label={spacePost?.title ?? ''}
         loading={!!loading}
         shape="circle"
-        initials={getInitials(spacePost?.title ?? '')}
+        fontSize={10}
+        initials={creatorInitials}
       />
     </View>
   )
@@ -51,8 +52,8 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     avatarContainer: {
       position: 'relative',
-      width: 40,
-      height: 40,
+      width: 35,
+      height: 35,
     },
     spaceAvatar: {
       borderRadius: 6,
@@ -62,13 +63,14 @@ const getStyles = (theme: HoliTheme) =>
       overflow: 'hidden',
       /* maxWidth: 40,
       maxHeight: 40, */
-      width: 40,
-      height: 40,
+      width: 35,
+      height: 35,
     },
     userAvatar: {
+      fontSize: 5,
       position: 'absolute',
-      bottom: -5,
-      right: -5,
+      top: 16,
+      left: 16,
       alignItems: 'center',
       borderWidth: 1.5,
       borderColor: theme.colors.white100,
