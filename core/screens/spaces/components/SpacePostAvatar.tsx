@@ -20,7 +20,7 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePos
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <View style={styles.avatarContainer}>
+    <View style={[styles.avatarContainer, style]}>
       <HoliAvatar
         style={[styles.spaceAvatar, style]}
         testID={testID ?? 'space-avatar'}
@@ -33,7 +33,7 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePos
         initials={spaceInitials}
       />
       <HoliAvatar
-        style={[styles.userAvatar, style]}
+        style={styles.userAvatar}
         testID={testID ?? 'space-avatar'}
         imageSrc={spacePost?.creator?.avatar}
         label={spacePost?.title ?? ''}
