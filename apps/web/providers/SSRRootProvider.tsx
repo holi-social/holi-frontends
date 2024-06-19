@@ -5,7 +5,9 @@ import React, { useContext } from 'react'
 
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
+import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
 import RouteChangeListener from '@holi/core/components/RouteChangeListener'
+import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
@@ -31,15 +33,18 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
       <ErrorBoundary>
         <ApolloProvider client={apolloWebClient}>
           <TrackingInitializer />
-          <PortalProvider>
-            <ToastProvider>
-              <LoginModalProvider>
-                <ChatSessionInitializer>
-                  <ChatProvider>{children}</ChatProvider>
-                </ChatSessionInitializer>
-              </LoginModalProvider>
-            </ToastProvider>
-          </PortalProvider>
+          <ToastProvider>
+            <PortalProvider>
+              <SessionExpiryProtection>
+                <FeatureTogglesFetcher />
+                <LoginModalProvider>
+                  <ChatSessionInitializer>
+                    <ChatProvider>{children}</ChatProvider>
+                  </ChatSessionInitializer>
+                </LoginModalProvider>
+              </SessionExpiryProtection>
+            </PortalProvider>
+          </ToastProvider>
 
           <TrackingConsentModal />
           <RouteChangeListener />
