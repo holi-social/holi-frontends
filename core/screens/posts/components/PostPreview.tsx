@@ -14,7 +14,6 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Link, Post } from '@holi/core/screens/posts/types'
-import SpacePostAvatar from '@holi/core/screens/spaces/components/SpacePostAvatar'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
@@ -149,9 +148,7 @@ const PostPreview = ({
               label={post?.creator.fullName || ''}
               testID="btn-to-post-creator-profile"
             >
-              <SpacePostAvatar spacePost={post} />
-              {/*               <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
-               */}
+              <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
             </HoliLink>
           </HoliColumn>
           {/* Action drawer (three dot menu) */}
