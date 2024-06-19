@@ -30,6 +30,7 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePos
         defaultColor={spacePost?.space?.avatarDefaultColor}
         label={spacePost?.title ?? ''}
         loading={!!loading}
+        fontSize={14}
         initials={spaceInitials}
       />
       <HoliAvatar
@@ -39,7 +40,7 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePos
         label={spacePost?.title ?? ''}
         loading={!!loading}
         shape="circle"
-        fontSize={10}
+        fontSize={8}
         initials={creatorInitials}
       />
     </View>
@@ -61,8 +62,6 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 0,
       justifyContent: 'center',
       overflow: 'hidden',
-      /* maxWidth: 40,
-      maxHeight: 40, */
       width: 35,
       height: 35,
     },
