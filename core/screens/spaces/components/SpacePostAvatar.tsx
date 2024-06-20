@@ -3,32 +3,31 @@ import { StyleSheet, View } from 'react-native'
 
 import { getInitials } from '@holi/core/helpers'
 import { Post } from '@holi/core/screens/posts/types'
-import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpacePostAvatarProps {
   spacePost: Post
-  style?: AvatarProps['style']
   loading?: boolean
   testID?: string
 }
 
-const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePostAvatarProps) => {
+const SpacePostAvatar = ({ spacePost, loading = false, testID }: SpacePostAvatarProps) => {
   const { theme } = useTheme()
   const spaceInitials = getInitials(spacePost?.space?.title ?? '')
   const creatorInitials = spacePost?.creator?.avatarLabel
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <View style={[styles.avatarContainer, style]}>
+    <View style={styles.avatarContainer}>
       <HoliAvatar
-        style={[styles.spaceAvatar, style]}
+        style={styles.spaceAvatar}
         testID={testID ?? 'space-avatar'}
         imageSrc={spacePost?.space?.avatar}
         imageBlurhash={spacePost?.space?.avatarBlurhash}
         defaultColor={spacePost?.space?.avatarDefaultColor}
         label={spacePost?.title ?? ''}
-        loading={!!loading}
+        loading={loading}
         fontSize={14}
         initials={spaceInitials}
       />
@@ -37,7 +36,7 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID, style }: SpacePos
         testID={testID ?? 'space-avatar'}
         imageSrc={spacePost?.creator?.avatar}
         label={spacePost?.title ?? ''}
-        loading={!!loading}
+        loading={loading}
         shape="circle"
         fontSize={8}
         initials={creatorInitials}
