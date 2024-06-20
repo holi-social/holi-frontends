@@ -28,6 +28,7 @@ export interface AvatarProps {
   initialsColor?: string
   label: string
   initials: string
+  fontSize?: number
 }
 
 export const sizes = {
@@ -51,6 +52,7 @@ const HoliAvatar = ({
   loading = false,
   initialsColor,
   initialsFontWeight = 'bold',
+  fontSize,
   ...props
 }: PropsWithSkeleton<AvatarProps>) => {
   const { t } = useTranslation()
@@ -106,7 +108,7 @@ const HoliAvatar = ({
                 : tinycolor(defaultColor || colors.background10).isLight()
                 ? colors.dark
                 : colors.light,
-              fontSize: initialsFontSize,
+              fontSize: fontSize ? fontSize : initialsFontSize,
               fontWeight: initialsFontWeight,
               lineHeight: initialsFontSize * 1.2,
             },
