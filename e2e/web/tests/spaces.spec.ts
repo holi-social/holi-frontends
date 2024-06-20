@@ -67,7 +67,7 @@ const testDisplaysMultipleGroupsCommon = async (page: Page) => {
 }
 
 const testFiltering = async (browser: Browser, page: Page) => {
-  await clickElementByTestId(page, 'btn-filter-spaces')
+  await clickElementByTestId(page, 'spaces-filter-modal--open-btn')
   // wait until modal is opened
   await page.locator('[role="dialog"]').waitFor()
 
@@ -87,7 +87,7 @@ const testFiltering = async (browser: Browser, page: Page) => {
 
   // reset filter:
   // open filter modal again
-  await clickElementByTestId(page, 'btn-filter-spaces')
+  await clickElementByTestId(page, 'spaces-filter-modal--open-btn')
   await page.locator('[role="dialog"]').waitFor()
 
   // clear location filter
