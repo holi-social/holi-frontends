@@ -1,7 +1,6 @@
-import { FlashList } from '@shopify/flash-list'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
@@ -55,9 +54,8 @@ const RoomMessageList = ({
   const groupedMessages = groupByDate(messages, i18n.language)
 
   return (
-    <FlashList
+    <FlatList
       data={groupedMessages}
-      getItemType={(item) => (isMessageSection(item) ? 'sectionHeader' : 'row')}
       renderItem={({ item: message, index }) => {
         if (isMessageSection(message)) return <RoomMessageSection messageSection={message} />
 
@@ -85,7 +83,6 @@ const RoomMessageList = ({
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       ListFooterComponent={() => <View style={styles.listFooterSpacer}>{starter}</View>}
       inverted={true}
-      estimatedItemSize={80}
       contentContainerStyle={styles.list}
       onScroll={onScroll}
     />
