@@ -1,4 +1,3 @@
-import '@shopify/flash-list/jestSetup'
 import '@testing-library/jest-native/extend-expect'
 import { configure } from '@testing-library/react-native'
 
