@@ -4,8 +4,9 @@ import React from 'react'
 
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { locationId } from '@holi/core/screens/spaces/__tests__/testData'
-import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import FilteredSpacesHeading from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
+import FilteredSpacesHeading, {
+  FilteredSpacesHeadingProps,
+} from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
@@ -36,7 +37,7 @@ const spaceTermContext: SpaceTermContextResult = {
   sdgs,
 }
 
-const renderHeading = (props: SpaceFilter, contextProps: Partial<SpaceTermContextResult> = {}) =>
+const renderHeading = (props: FilteredSpacesHeadingProps, contextProps: Partial<SpaceTermContextResult> = {}) =>
   render(
     <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
       <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
