@@ -97,6 +97,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   const [descriptionError, setDescriptionError] = useState<string | undefined>()
   const [contactEmailError, setContactEmailError] = useState<string | undefined>()
   const [contactPhoneError, setContactPhoneError] = useState<string | undefined>()
+  const [hasInteractedWithEmail, setHasInteractedWithEmail] = useState(false)
 
   const { show: showRegularity, hide: hideRegularity, visible: visibleRegularity } = useModalState()
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
@@ -142,9 +143,11 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   useEffect(() => {
     setNameError(fieldErrors?.name?.length ? fieldErrors.name[0] : undefined)
     setDescriptionError(fieldErrors?.description?.length ? fieldErrors.description[0] : undefined)
-    setContactEmailError(fieldErrors?.contactEmail?.length ? t('global.validation.email.invalid') : undefined)
     setContactPhoneError(fieldErrors?.contactPhone?.length ? fieldErrors.contactPhone[0] : undefined)
-  }, [fieldErrors, t])
+    setContactEmailError(
+      hasInteractedWithEmail && fieldErrors?.contactEmail?.length ? t('global.validation.email.invalid') : undefined
+    )
+  }, [fieldErrors, hasInteractedWithEmail, t])
 
   useEffect(() => {
     if (visibility) {
@@ -379,6 +382,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           aria-label={t('spaces.input.task.contactEmail.label')}
           testID="task-contactEmail"
           maxNoOfCharacters={256}
+          onBlur={() => setHasInteractedWithEmail(true)}
         />
         <HoliTextInput
           placeholder={t('spaces.input.task.contactPhone.placeholder')}
