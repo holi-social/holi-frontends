@@ -2,15 +2,14 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { NavigationRouteContext, Route } from '@react-navigation/native'
+
 import { createCache } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
-import { createSpaceList, locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
-import FilteredSpaces, {
-  type FilteredSpacesProps,
-  SPACES_PAGE_SIZE,
-} from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
+import { createSpaceList, locationId as location, spaces } from '@holi/core/screens/spaces/__tests__/testData'
+import FilteredSpaces, { SPACES_PAGE_SIZE } from '@holi/core/screens/spaces/filter/FilteredSpaces'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -110,20 +109,25 @@ export const locationDetailsErrorMock = {
   request: {
     query: geoPlaceDetailsQuery,
     variables: {
-      id: locationId,
+      id: location,
     },
   },
   error: new HoliError('Test error', 'test-error'),
 }
 
 describe('FilteredSpaces', () => {
-  const renderFilteredSpaces = (mocks: MockedResponse[], props?: Partial<FilteredSpacesProps>) =>
+  const renderFilteredSpaces = (
+    mocks: MockedResponse[],
+    params?: Partial<{ location: string; topic: string[]; skill: string[] }>
+  ) =>
     render(
-      <MockedProvider mocks={mocks} cache={createCache()}>
-        <ToastProvider>
-          <FilteredSpaces {...props} applyFilters={() => ({})} />
-        </ToastProvider>
-      </MockedProvider>
+      <NavigationRouteContext.Provider value={{ params } as Route<string>}>
+        <MockedProvider mocks={mocks} cache={createCache()}>
+          <ToastProvider>
+            <FilteredSpaces />
+          </ToastProvider>
+        </MockedProvider>
+      </NavigationRouteContext.Provider>
     )
 
   it('displays loading screen while loading', async () => {
@@ -180,7 +184,7 @@ describe('FilteredSpaces', () => {
   })
 
   it('displays error toast if loading geolocation failed', async () => {
-    renderFilteredSpaces([locationDetailsErrorMock, spacesErrorMock], { locationId })
+    renderFilteredSpaces([locationDetailsErrorMock, spacesErrorMock], { location })
 
     await waitFor(() =>
       expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
@@ -190,28 +194,28 @@ describe('FilteredSpaces', () => {
   })
 
   it('filters spaces by location', async () => {
-    renderFilteredSpaces([locationDetailsMock, spacesByLocationMock], { locationId })
+    renderFilteredSpaces([locationDetailsMock, spacesByLocationMock], { location })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
   it('filters spaces by topic', async () => {
-    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicSlugs })], { topicSlugs })
+    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicSlugs })], { topic: topicSlugs })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
   it('filters spaces by skills', async () => {
-    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ skillSlugs })], { skillSlugs })
+    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ skillSlugs })], { skill: skillSlugs })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
   it('filters spaces by multiple filters', async () => {
     renderFilteredSpaces([locationDetailsMock, createSpacesMock({ geolocation: {}, topicSlugs, skillSlugs })], {
-      locationId,
-      topicSlugs,
-      skillSlugs,
+      location,
+      topic: topicSlugs,
+      skill: skillSlugs,
     })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)

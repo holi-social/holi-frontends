@@ -6050,7 +6050,7 @@ __metadata:
     expo-linear-gradient: "npm:~12.7.2"
     expo-linking: "npm:~6.2.2"
     expo-localization: "npm:~14.8.4"
-    expo-notifications: "npm:~0.27.7"
+    expo-notifications: "npm:~0.27.8"
     expo-secure-store: "npm:~12.8.1"
     expo-splash-screen: "npm:~0.26.5"
     expo-status-bar: "npm:~1.11.1"
@@ -18450,9 +18450,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-notifications@npm:~0.27.7":
-  version: 0.27.7
-  resolution: "expo-notifications@npm:0.27.7"
+"expo-notifications@npm:~0.27.8":
+  version: 0.27.8
+  resolution: "expo-notifications@npm:0.27.8"
   dependencies:
     "@expo/image-utils": "npm:^0.4.0"
     "@ide/backoff": "npm:^1.0.0"
@@ -18464,7 +18464,7 @@ __metadata:
     fs-extra: "npm:^9.1.0"
   peerDependencies:
     expo: "*"
-  checksum: 10c0/73e89100b71aefbbb676b5329cedc948f3e664661b08157241b4bbbc3a92ceb392da313f384f753e5bddb9670306c4c5681eae74fdc3ad42e6f6f29ceab26dfa
+  checksum: 10c0/b7623fda50886a84b50480bec1a2f3079bf76d8a3e88f4c95c411a76145793e2611f7c94c22648706f9480af5524b7da5ca04345db00508d0c3cef635e189c23
   languageName: node
   linkType: hard
 

@@ -258,6 +258,7 @@ const getStyles = (theme: HoliTheme) =>
     detailContainer: {
       marginTop: 16,
       minHeight: 40,
+      marginRight: 40,
     },
     detailContainerWithoutHeader: {
       marginTop: 0,

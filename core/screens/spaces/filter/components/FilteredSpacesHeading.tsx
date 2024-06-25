@@ -4,10 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 
-const FilteredSpacesHeading: React.FC<SpaceFilter> = ({ locationId, topicSlugs = [], skillSlugs = [] }) => {
+export interface FilteredSpacesHeadingProps extends Pick<Partial<SpaceFilter>, 'skillSlugs' | 'topicSlugs'> {
+  locationId?: string
+}
+
+const FilteredSpacesHeading = ({ locationId, topicSlugs = [], skillSlugs = [] }: FilteredSpacesHeadingProps) => {
   const { t } = useTranslation()
   const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)

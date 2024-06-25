@@ -347,6 +347,8 @@
   "individuals.post.input.submit": "Post",
   "individuals.post.input.success": "Post erfolgreich erstellt",
   "individuals.post.input.title": "Erstelle einen neuen Post",
+  "individuals.post.input.topics.description": "Hilf anderen, die an deinen Inhalten interessiert sein könnten, deinen Beitrag zu finden und zu sehen.",
+  "individuals.post.input.topics.title": "Wähle ein Thema, das zu deinem Beitrag passt",
   "individuals.post.input.visibility.PUBLIC.description": "Für alle auf und außerhalb von holi sichtbar – erreiche ein breiteres Publikum.",
   "individuals.post.input.visibility.PUBLIC.title": "Öffentlich, jeder auf oder außerhalb von holi",
   "individuals.post.input.visibility.REGISTERED_USERS_ONLY.description": "Dein Post wird nur für eingeloggte Nutzer:innen auf holi sichtbar sein.",

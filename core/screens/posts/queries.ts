@@ -38,6 +38,14 @@ export const PostFragment = gql`
         ...UserAvatar
       }
     }
+    space {
+      id
+      title
+      name
+      avatar
+      avatarBlurhash
+      avatarDefaultColor
+    }
     image {
       ...PostImageData
     }

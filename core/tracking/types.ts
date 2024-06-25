@@ -66,17 +66,16 @@ export interface TrackingHook {
   track: (event: TrackingEvent) => void
 }
 
+export type Properties = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any
+}
+
 export interface PosthogCrossPlatform {
   optedIn: () => boolean
   optIn: () => Promise<void>
   optOut: () => Promise<void>
   reset: () => void
-  capture: (
-    event: string,
-    properties?: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      [key: string]: any
-    }
-  ) => void
-  identify: (distinctId?: string) => void
+  capture: (event: string, properties?: Properties) => void
+  identify: (distinctId: string, properties?: Properties) => void
 }

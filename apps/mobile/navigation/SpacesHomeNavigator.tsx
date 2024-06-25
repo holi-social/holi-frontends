@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
-import FilteredSpaces from '@holi/core/screens/spaces/filter/FilteredSpacesPage'
+import FilteredSpaces from '@holi/core/screens/spaces/filter/FilteredSpaces'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { useTheme } from '@holi/ui/styles/theme'

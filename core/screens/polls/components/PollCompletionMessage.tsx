@@ -1,32 +1,48 @@
+import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import {
+  NotificationsPreferencesResponse,
+  notificationsPreferencesQuery,
+} from '@holi/core/screens/notifications/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowRightS, StarRounded } from '@holi/icons/src/generated'
+import { ArrowRightS, StarRoundedFilled } from '@holi/icons/src/generated'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type PollCompletionMessageProps = {
-  notificationsEnabled?: boolean | 'mixed'
-  style?: StyleProp<ViewStyle>
-}
-
-const PollCompletionMessage = ({ notificationsEnabled }: PollCompletionMessageProps) => {
+const PollCompletionMessage = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { displayError } = useErrorHandling()
+
+  const { data: notificationSettings } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
+    fetchPolicy: 'network-only',
+    onError: (error) =>
+      displayError(error, 'Failed to load notification preferences', {
+        location: 'useNotificationPreferences.notificationsPreferencesQuery',
+      }),
+  })
+
+  let notificationsEnabled = false
+  const updates = notificationSettings?.notifications_preferences.find((entry) => entry.id === 'POLL_UPDATES')
+  if (updates?.preferences?.email || updates?.preferences?.push) notificationsEnabled = true
+
+  if (!notificationSettings) return <></>
 
   return (
     <View style={styles.container}>
       <View style={styles.notificationContentStyle}>
         <HoliColumns alignItems="flex-end" flexDirection="row" justifyContent="space-between" padding={[0, 0, 16, 0]}>
           <HoliHeading>{t('homeFeed.notEnoughVotesNotification.thanks')}</HoliHeading>
-          <HoliIcon icon={StarRounded} size={30} color={colors.brandB200} />
+          <HoliIcon icon={StarRoundedFilled} size={30} color={colors.brandB200} />
         </HoliColumns>
         {notificationsEnabled ? (
           <HoliText>{t('homeFeed.notEnoughVotesNotification.confirmationText')}</HoliText>
