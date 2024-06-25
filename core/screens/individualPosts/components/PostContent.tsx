@@ -5,6 +5,7 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -19,9 +20,10 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type PostContentProps = {
   post: FeedPost
   showVisibilityBadge?: boolean
+  aggregatedTopics?: Term[]
 }
 
-const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
+const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostContentProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
@@ -47,12 +49,19 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           </View>
         )}
         <HoliMediaAuthorHeader author={post.creator} authorBold date={post.createdAt} />
-        <View>
+        <View style={styles.pillContainer}>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>
               {post.category.label}
             </HoliText>
           </View>
+          {aggregatedTopics?.map((topic) => (
+            <View style={[styles.pill, styles.topicPill]} key={topic.id}>
+              <HoliText size="small" numberOfLines={1}>
+                {topic.title}
+              </HoliText>
+            </View>
+          ))}
         </View>
         <View style={styles.contentSection}>
           <HoliHeading level="1" size="m" numberOfLines={3}>
@@ -96,8 +105,13 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       gap: contentSpacing,
       marginTop: contentSpacing,
     },
+    pillContainer: {
+      marginVertical: Spacing.md,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: Spacing['3xs'],
+    },
     pill: {
-      marginTop: Spacing.md,
       borderRadius: Spacing.xxl,
       paddingVertical: Spacing['4xs'],
       paddingHorizontal: Spacing['3xs'],
@@ -105,6 +119,9 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
     },
     categoryPill: {
       backgroundColor: theme.dark ? theme.colors.brandA300 : theme.colors.brandA100,
+    },
+    topicPill: {
+      backgroundColor: theme.dark ? theme.colors.brandC300 : theme.colors.brandC100,
     },
     badgeContainer: {
       flexDirection: 'row',

@@ -6,6 +6,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 're
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
 import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
+import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
 import {
   FEED_POST_DESCRIPTION_MAX_CHARACTERS,
@@ -13,8 +14,10 @@ import {
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -41,10 +44,12 @@ export interface PostInputFormProps {
   selectedVisibility: Visibility
   selectedCategoryId: string | null
   currentImage?: string
+  selectedTopics?: Term[]
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
   onChangeImage: (image: HoliImageInfo | null) => void
+  onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onSubmit: () => void
   isEdit?: boolean
@@ -61,10 +66,12 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   selectedVisibility,
   selectedCategoryId,
   currentImage,
+  selectedTopics,
   onChangeTitle,
   onChangeDescription,
   onChangeSelectedVisibility,
   onChangeImage,
+  onChangeSelectedTopics,
   onSubmit,
   isEdit = false,
   submitting,
@@ -80,6 +87,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
+  const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -137,6 +145,17 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               onPress={showVisibility}
             />
             <FeedPostPill label={categoryLabel} setting={'category'} onPress={onClickCategoriesPill} />
+
+            {selectedTopics &&
+              (selectedTopics?.length < 1 ? (
+                <FeedPostPill setting={'topic'} onPress={showTopicsModal} />
+              ) : (
+                <FeedPostPill
+                  label={`${selectedTopics.length} ${selectedTopics.length > 1 ? ' Topics' : 'Topic'}`}
+                  setting={'topic'}
+                  onPress={showTopicsModal}
+                />
+              ))}
           </View>
           <View style={styles.inputContainer}>
             <HoliTextInput
@@ -193,6 +212,22 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         hide={hideVisibility}
         visible={visibleVisibility}
       />
+      <HoliModal
+        label={t('individuals.post.input.topics.title')}
+        autoHeight={true}
+        show={visibleTopicsModal}
+        onDismiss={hideTopicsModal}
+        testID="post-selectedTopics-input"
+      >
+        <HoliModalContentWrapper
+          actionButtonText={t('global.save')}
+          onActionButtonPress={hideTopicsModal}
+          headlineText={t('individuals.post.input.topics.title')}
+          testID="post-selectedTopics-input-content"
+        >
+          <PostTopics onChangeSelectedTopics={onChangeSelectedTopics} selectedTopicsIds={selectedTopics || []} />
+        </HoliModalContentWrapper>
+      </HoliModal>
     </>
   )
 }

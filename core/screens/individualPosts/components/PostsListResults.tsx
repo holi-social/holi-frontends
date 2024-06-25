@@ -1,10 +1,11 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 
@@ -26,6 +27,7 @@ export const simpleColumnSortingByIndex = <T,>(posts: readonly T[], numberOfColu
 const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
   const { data, loading, totalResults } = usePaginationContext<FeedPost>()
   const numberOfColumns = useBreakpointMatcher() || 1
+  const { topics: allTopics } = useContext(SpaceTermContext)
 
   if (loading) return <LoadingSkeleton columns={numberOfColumns} />
   if (totalResults == 0) return emptyMessage
@@ -37,7 +39,7 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
       {dataByColumns.map((column, index) => (
         <View key={index} style={styles.column}>
           {column.map((p) => (
-            <PostCard post={p} showVisibilityBadge={showVisibilityBadge} key={p.id} />
+            <PostCard post={p} showVisibilityBadge={showVisibilityBadge} key={p.id} allTopics={allTopics} />
           ))}
         </View>
       ))}

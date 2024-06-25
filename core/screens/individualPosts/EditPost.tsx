@@ -16,6 +16,8 @@ import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/co
 import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { PostQueryResponse, feedPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -55,7 +57,7 @@ const EditPost = () => {
   const [title, setTitle] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | null>()
   const [currentImage, setCurrentImage] = useState<string>()
-
+  const [selectedTopics, setSelectedTopics] = useState<Term[] | []>()
   const [showCategories, setShowCategories] = useState(false)
 
   const { data: { post } = {}, loading: loadingPost } = useQuery<PostQueryResponse>(postQuery, {
@@ -90,6 +92,7 @@ const EditPost = () => {
           categoryId: selectedCategoryId,
           postId: post?.id,
           image: image === null ? null : image?.blob,
+          topicIds: selectedTopics?.map((topic) => topic.id),
         },
       },
       onError: (error) => {
@@ -113,6 +116,7 @@ const EditPost = () => {
       setCurrentImage(post.image)
       setSelectedCategoryId(post.category.id)
       setSelectedVisibility(Visibility[post.visibility])
+      setSelectedTopics(post.topics)
     }
   }, [post])
 
@@ -146,35 +150,43 @@ const EditPost = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.creator.id}>
-      <View style={styles.grayExtendingBackground}>
-        {categoriesLoading ? (
-          <HoliLoader />
-        ) : showCategories ? (
-          <CategorySelection categories={categories} onCategorySelection={selectCategory} loading={categoriesLoading} />
-        ) : (
-          <PostInputForm
-            title={title}
-            onChangeTitle={setTitle}
-            description={description}
-            onChangeDescription={setDescription}
-            image={image || null}
-            onChangeImage={(value) => {
-              setImage(value)
-              setCurrentImage(undefined)
-            }}
-            selectedCategoryId={selectedCategoryId}
-            onChangeSelectedCategoryId={setSelectedCategoryId}
-            selectedVisibility={selectedVisibility}
-            onChangeSelectedVisibility={setSelectedVisibility}
-            onSubmit={editPost}
-            submitting={submitting}
-            currentImage={currentImage}
-            onClickCategoriesPill={toggleShowCategories}
-            categories={categories}
-            isEdit
-          />
-        )}
-      </View>
+      <SpaceTermContextProvider>
+        <View style={styles.grayExtendingBackground}>
+          {categoriesLoading ? (
+            <HoliLoader />
+          ) : showCategories ? (
+            <CategorySelection
+              categories={categories}
+              onCategorySelection={selectCategory}
+              loading={categoriesLoading}
+            />
+          ) : (
+            <PostInputForm
+              title={title}
+              onChangeTitle={setTitle}
+              description={description}
+              onChangeDescription={setDescription}
+              image={image || null}
+              onChangeImage={(value) => {
+                setImage(value)
+                setCurrentImage(undefined)
+              }}
+              selectedCategoryId={selectedCategoryId}
+              onChangeSelectedCategoryId={setSelectedCategoryId}
+              selectedVisibility={selectedVisibility}
+              onChangeSelectedVisibility={setSelectedVisibility}
+              selectedTopics={selectedTopics}
+              onChangeSelectedTopics={setSelectedTopics}
+              onSubmit={editPost}
+              submitting={submitting}
+              currentImage={currentImage}
+              onClickCategoriesPill={toggleShowCategories}
+              categories={categories}
+              isEdit
+            />
+          )}
+        </View>
+      </SpaceTermContextProvider>
     </PermissionsGuard>
   )
 }

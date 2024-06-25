@@ -12,7 +12,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
-import type { User } from '@holi/core/screens/userprofile/types'
+import type { Term, User } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -29,11 +29,12 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type PostCardProps = {
   post: FeedPost
   showVisibilityBadge?: boolean
+  allTopics?: Term[]
 }
 
 const NUMBER_OF_LINES = 3
 
-const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
+const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -41,8 +42,11 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
   const { track } = useTracking()
   const { isLoggedIn } = useLoginState()
 
-  const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
+  const aggregatedTopics = allTopics?.filter((topic) =>
+    post.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
+  )
 
+  const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
   return (
     <View style={styles.container}>
       {showVisibilityBadge && (
@@ -80,10 +84,21 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
         trackingEvent={TrackingEvent.PostCard.TitlePressed(post.id)}
       >
         <View style={styles.clickableArea}>
-          <View style={[styles.pill, styles.categoryPill]}>
-            <HoliText size="small" numberOfLines={1}>
-              {post.category.label}
-            </HoliText>
+          <View style={styles.pillContainer}>
+            <View style={[styles.pill, styles.categoryPill]}>
+              <HoliText size="small" numberOfLines={1}>
+                {post.category.label}
+              </HoliText>
+            </View>
+            {aggregatedTopics && aggregatedTopics?.length > 0 && (
+              <View style={[styles.pill, styles.topicPill]}>
+                <HoliText size="small" numberOfLines={1}>
+                  {`${aggregatedTopics[0]?.title} ${
+                    aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
+                  }`}
+                </HoliText>
+              </View>
+            )}
           </View>
           <View style={styles.contentSection}>
             <HoliHeading level="2" size="s" numberOfLines={3}>
@@ -179,6 +194,11 @@ const getStyles = (theme: HoliTheme) =>
     contentSection: {
       gap: Spacing['4xs'],
     },
+    pillContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: Spacing['3xs'],
+    },
     pill: {
       borderRadius: Spacing.xxl,
       paddingVertical: Spacing['4xs'],
@@ -187,6 +207,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     categoryPill: {
       backgroundColor: theme.dark ? theme.colors.brandA300 : theme.colors.brandA100,
+    },
+    topicPill: {
+      backgroundColor: theme.dark ? theme.colors.brandC300 : theme.colors.brandC100,
     },
     badgeContainer: {
       flexDirection: 'row',
