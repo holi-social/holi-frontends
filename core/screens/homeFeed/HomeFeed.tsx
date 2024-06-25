@@ -56,6 +56,10 @@ const HomeFeed = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
+  const { ftEnabled: ftEnabledDailyInspiration, ftPreview: ftPreviewDailyInspiration } = useFeatureToggle(
+    FeatureToggleName.FEED_DAILY_INSPIRATION
+  )
+
   const { ftEnabled: ftEnabledDonations, ftPreview: ftPreviewDonations } = useFeatureToggle(
     FeatureToggleName.APPS_DONATIONS
   )
@@ -86,8 +90,8 @@ const HomeFeed = () => {
     client.refetchQueries({
       include: [
         feedPostsQuery,
-        inspirationPostsQuery,
         lastInsightsQuery,
+        ftEnabledDailyInspiration || ftPreviewDailyInspiration ? inspirationPostsQuery : undefined,
         ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
         ftEnabledGoodnews || ftPreviewGoodnews ? goodNewsArticlesQuery : undefined,
         ftEnabledVolunteering || ftPreviewVolunteering ? volunteeringEngagementsQuery : undefined,
@@ -112,7 +116,7 @@ const HomeFeed = () => {
 
           <RecommendedChallenges />
 
-          <InspirationPosts />
+          {ftEnabledDailyInspiration && <InspirationPosts />}
 
           <InsightsOfTheWeek />
 
