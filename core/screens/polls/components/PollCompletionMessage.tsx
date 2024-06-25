@@ -10,7 +10,7 @@ import {
   notificationsPreferencesQuery,
 } from '@holi/core/screens/notifications/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowRightS, StarRounded } from '@holi/icons/src/generated'
+import { ArrowRightS, StarRoundedFilled } from '@holi/icons/src/generated'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -42,7 +42,7 @@ const PollCompletionMessage = () => {
       <View style={styles.notificationContentStyle}>
         <HoliColumns alignItems="flex-end" flexDirection="row" justifyContent="space-between" padding={[0, 0, 16, 0]}>
           <HoliHeading>{t('homeFeed.notEnoughVotesNotification.thanks')}</HoliHeading>
-          <HoliIcon icon={StarRounded} size={30} color={colors.brandB200} />
+          <HoliIcon icon={StarRoundedFilled} size={30} color={colors.brandB200} />
         </HoliColumns>
         {notificationsEnabled ? (
           <HoliText>{t('homeFeed.notEnoughVotesNotification.confirmationText')}</HoliText>
