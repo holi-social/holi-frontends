@@ -15,6 +15,8 @@ import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/co
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -38,6 +40,7 @@ const CreatePost = () => {
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
+  const [selectedTopics, setSelectedTopics] = useState<Term[]>([])
 
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
@@ -63,6 +66,7 @@ const CreatePost = () => {
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
           image: image?.blob,
+          topicIds: selectedTopics.map((topic) => topic.id),
         },
       },
       onError: (error) => {
@@ -119,6 +123,8 @@ const CreatePost = () => {
           onChangeSelectedCategoryId={setSelectedCategoryId}
           selectedVisibility={selectedVisibility}
           onChangeSelectedVisibility={setSelectedVisibility}
+          selectedTopics={selectedTopics}
+          onChangeSelectedTopics={setSelectedTopics}
           onSubmit={createPost}
           submitting={submitting}
           categories={categories}
@@ -131,7 +137,9 @@ const CreatePost = () => {
 
 const WrappedCreatePost = () => (
   <PermissionsGuard permissionType={PermissionsType.AUTH}>
-    <CreatePost />
+    <SpaceTermContextProvider>
+      <CreatePost />
+    </SpaceTermContextProvider>
   </PermissionsGuard>
 )
 
