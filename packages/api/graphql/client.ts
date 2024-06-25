@@ -80,6 +80,13 @@ export const createCache = () =>
           sdgs: alwaysReplacePolicy,
         },
       },
+      AuthenticatedUser: {
+        fields: {
+          interests: alwaysReplacePolicy,
+          skills: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
+        },
+      },
       Comment: {
         fields: {
           interests: alwaysReplacePolicy,
