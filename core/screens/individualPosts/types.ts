@@ -44,6 +44,7 @@ export interface FeedPost {
   topics?: Topic[]
   category: Category
   creator: User
+  space?: string
   createdAt: string
   imageBlurhash?: string
   reactions: ReactionCounts

@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { Post } from '@holi/core/screens/posts/types'
+import SpacePostAvatar from '@holi/core/screens/spaces/components/SpacePostAvatar'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -17,6 +19,8 @@ interface Props {
   onTitlePressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   style?: StyleProp<ViewStyle>
   testID?: string
+  spacePost?: Post
+  creator?: string
 }
 
 export type HoliMediaHeaderProps = PropsWithSkeleton<Props>
@@ -28,6 +32,8 @@ const HoliMediaHeader = ({
   titleBold,
   avatarProps,
   date,
+  spacePost,
+  creator,
   onAvatarPressed,
   onTitlePressed,
   style,
@@ -40,7 +46,6 @@ const HoliMediaHeader = ({
     return (
       <View style={[styles.row, style]} testID={testID}>
         <HoliAvatar {...avatarProps} size={avatarProps?.size || 'small'} loading label={''} />
-
         <View style={[styles.titleContainer]}>
           <HoliText loading />
           <HoliText size="small" style={styles.date} loading />
@@ -52,7 +57,11 @@ const HoliMediaHeader = ({
   return (
     <View style={[styles.row, style]} testID={testID}>
       <HoliButton inline transparent label={avatarProps.label} onPress={onAvatarPressed}>
-        <HoliAvatar {...avatarProps} size={avatarProps.size || 'small'} />
+        {spacePost?.space ? (
+          <SpacePostAvatar spacePost={spacePost} />
+        ) : (
+          <HoliAvatar {...avatarProps} size={avatarProps.size || 'small'} />
+        )}
       </HoliButton>
       <View style={[styles.titleContainer]}>
         <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
@@ -60,8 +69,17 @@ const HoliMediaHeader = ({
             {title}
           </HoliText>
         </HoliButton>
-
         <View style={styles.row}>
+          {spacePost?.space && (
+            <>
+              <HoliText size="small" style={styles.creator}>
+                {creator}
+              </HoliText>
+              <HoliText bold style={styles.dot}>
+                {' ∙ '}
+              </HoliText>
+            </>
+          )}
           {!!date && (
             <HoliText size="small" style={styles.date}>
               {date}
@@ -77,6 +95,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     row: {
       flexDirection: 'row',
+      alignItems: 'center',
     },
     titleContainer: {
       flexDirection: 'column',
@@ -85,8 +104,13 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
     },
     date: {
-      marginTop: 4,
       color: theme.colors.foreground20,
+    },
+    creator: {
+      color: theme.colors.foreground30,
+    },
+    dot: {
+      color: theme.colors.brandB300,
     },
   })
 

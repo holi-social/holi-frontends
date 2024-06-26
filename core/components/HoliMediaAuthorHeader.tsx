@@ -4,6 +4,7 @@ import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
 
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
@@ -15,9 +16,11 @@ interface Props {
   style?: StyleProp<ViewStyle>
   testID?: string
   avatarSize?: AvatarSize
+  title: string
   author: User
   authorBold?: boolean
   date?: string
+  spacePost?: Post
   onAvatarPressed?: OnPressHandler
   onTitlePressed?: OnPressHandler
 }
@@ -27,11 +30,13 @@ export type HoliMediaAuthorHeaderProps = PropsWithSkeleton<Props>
 const HoliMediaAuthorHeader = ({
   date,
   author,
+  title,
   authorBold,
   avatarSize,
   loading,
   style,
   testID,
+  spacePost,
   onAvatarPressed,
   onTitlePressed,
 }: HoliMediaAuthorHeaderProps) => {
@@ -62,8 +67,8 @@ const HoliMediaAuthorHeader = ({
   const formattedDate = getFormattedDate(date, i18n.language)
   return (
     <HoliMediaHeader
-      title={author.fullName}
-      titleLabel={author.fullName}
+      title={spacePost?.space ? title : author.fullName}
+      titleLabel={title}
       titleBold={authorBold}
       avatarProps={{
         imageSrc: author.avatar || '',
@@ -73,6 +78,8 @@ const HoliMediaAuthorHeader = ({
         defaultColor: author.avatarDefaultColor,
         size: avatarSize,
       }}
+      creator={spacePost && author.fullName}
+      spacePost={spacePost}
       date={formattedDate}
       onAvatarPressed={onAvatarPressed ?? (() => navigate(`/profile/${author?.id}`))}
       onTitlePressed={onTitlePressed ?? (() => navigate(`/profile/${author?.id}`))}

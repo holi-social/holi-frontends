@@ -61,6 +61,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
       )}
       <HoliMediaAuthorHeaderTracked
         author={post.creator}
+        spacePost={post}
         authorBold
         date={post.createdAt}
         trackingEvent={TrackingEvent.PostCard.AuthorPressed(post.id)}

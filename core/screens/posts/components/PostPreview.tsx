@@ -46,7 +46,7 @@ const PostPreview = ({
   insightId,
   post,
   spaceIdOrName,
-  numberOfLines = 10,
+  numberOfLines = 3,
   loading,
 }: PropsWithSkeleton<Props>) => {
   const { t } = useTranslation()
@@ -129,7 +129,7 @@ const PostPreview = ({
   return (
     <View style={styles.container}>
       {/* Visibility for space update posts */}
-      {hasVisibilityIcon ? (
+      {hasVisibilityIcon && !post?.space ? (
         <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
           <HoliIcon icon={visibilityIcon} size={14} />
           <HoliBox padding={[0, 0, 0, 6]}>
@@ -141,7 +141,7 @@ const PostPreview = ({
       {/* Author row with author, post date and three dot menu */}
       {/* As of v1.10.0: We don't show the author row when it is a daily inspiration post */}
       {!post?.inspirationPostCategory?.title && (
-        <HoliColumns>
+        <HoliColumns padding={[0, 0, 4, 0]}>
           {/* Author */}
           <HoliColumn flex={2}>
             <HoliLink
@@ -149,12 +149,22 @@ const PostPreview = ({
               label={post?.creator.fullName || ''}
               testID="btn-to-post-creator-profile"
             >
-              <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
+              <HoliMediaAuthorHeader
+                title={post?.space?.title ?? ''}
+                author={post?.creator || ({} as User)}
+                authorBold
+                date={post?.created}
+                spacePost={post}
+              />
             </HoliLink>
           </HoliColumn>
           {/* Action drawer (three dot menu) */}
           <HoliColumn>
-            <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+            <HoliActionDrawer.Drawer
+              variant="dark"
+              label={t('insights.post.preview.more')}
+              testID="post-three-dot-menu-button"
+            >
               {/* Report Action */}
               {/* reporting own content makes no sense, so we hide this option */}
               {!isCurrentUserPostCreator && (
@@ -253,7 +263,7 @@ const PostPreview = ({
       {!!post?.links?.length &&
         post.links.map((link, index) => {
           return (
-            <HoliBox padding={[0, 24]} key={index}>
+            <HoliBox padding={[0, 0]} key={index}>
               <HoliLinkPreview style={styles.linkPreview} previewData={link || ({} as Link)} label={link.title || ''} />
             </HoliBox>
           )
