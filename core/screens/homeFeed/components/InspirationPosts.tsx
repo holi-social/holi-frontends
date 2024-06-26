@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
@@ -64,11 +63,6 @@ const InspirationPosts = () => {
         location: 'inspirationPostsQuery',
       })
     },
-  }
-
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.FEED_DAILY_INSPIRATION)
-  if (!ftLoading && !ftEnabled) {
-    return <></>
   }
 
   return (

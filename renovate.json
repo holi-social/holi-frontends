@@ -28,7 +28,6 @@
         "react-dom",
         "sentry-expo",
         "@shopify/react-native-skia",
-        "@shopify/flash-list",
         "@sentry/react-native"
       ],
       "groupName": "Expo managed dependencies",

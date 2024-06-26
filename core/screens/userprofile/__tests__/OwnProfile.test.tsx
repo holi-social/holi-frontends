@@ -72,7 +72,11 @@ describe('OwnProfile', () => {
       loginState: 'loggedOut',
     })
 
-    render(<OwnProfile />)
+    render(
+      <MockedProvider addTypename={false}>
+        <OwnProfile />
+      </MockedProvider>
+    )
 
     expect(screen.queryByText('profile.anonymous.you')).toBeTruthy()
     expect(screen.queryByText('auth.loginProtection.registration')).toBeTruthy()

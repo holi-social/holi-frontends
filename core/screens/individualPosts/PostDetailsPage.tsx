@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -28,6 +28,8 @@ import PostContent from '@holi/core/screens/individualPosts/components/PostConte
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -60,6 +62,7 @@ const PostDetailsPage = () => {
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
+  const { topics: allTopics } = useContext(SpaceTermContext)
 
   const visitedScreensCount = useUserVisitedScreensCount()
 
@@ -91,6 +94,13 @@ const PostDetailsPage = () => {
       })
     },
   })
+
+  let aggregatedTopics: Term[] = []
+  if (post?.topics) {
+    aggregatedTopics = allTopics?.filter((topic) => {
+      return post.topics?.some((selectedTopic: Term) => selectedTopic.id === topic.id)
+    })
+  }
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -171,6 +181,7 @@ const PostDetailsPage = () => {
                 <PostContent
                   post={post}
                   showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.creator.id}
+                  aggregatedTopics={aggregatedTopics}
                 />
                 <View style={styles.commentsContainer}>
                   <Comments
