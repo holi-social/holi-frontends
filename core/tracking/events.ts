@@ -138,6 +138,14 @@ export namespace TrackingEvent {
       },
       version: '1.0',
     }),
+    commented: (commentableType: string, commentableId: string): TrackingEvent => ({
+      name: 'commented',
+      properties: {
+        commentableType,
+        commentableId,
+      },
+      version: '1.0',
+    }),
   }
 
   export namespace Auth {
