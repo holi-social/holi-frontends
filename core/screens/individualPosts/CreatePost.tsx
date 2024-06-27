@@ -54,7 +54,7 @@ const CreatePost = () => {
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
       openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
-      track(TrackingEvent.Engaging.posted)
+      track(TrackingEvent.FeedPosts.created)
       navigateBack()
     },
     refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],

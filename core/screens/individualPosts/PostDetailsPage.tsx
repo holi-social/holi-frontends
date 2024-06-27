@@ -158,7 +158,7 @@ const PostDetailsPage = () => {
 
   if (!readingTracked && post) {
     setReadingTracked(true)
-    track(TrackingEvent.Engaging.readFeedPost(post.id))
+    track(TrackingEvent.FeedPosts.read(post.id))
   }
 
   return (
