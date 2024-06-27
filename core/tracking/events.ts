@@ -20,47 +20,6 @@ export interface TrackingEvent {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
-  export namespace PostActionDrawer {
-    export const Opened = (postId: string): TrackingEvent => ({
-      name: 'postActionDrawer_opened',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-    export const Closed = (postId: string): TrackingEvent => ({
-      name: 'postActionDrawer_closed',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-  }
-
-  export namespace PostShare {
-    export const Pressed = (postId: string): TrackingEvent => ({
-      name: 'postShare_pressed',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-    export const Shared = (postId: string): TrackingEvent => ({
-      name: 'postShare_shared',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-    export const Dismissed = (postId: string): TrackingEvent => ({
-      name: 'postShare_dismissed',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-  }
-
   export const Engaging = {
     reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
       name: 'reacted',
@@ -78,12 +37,22 @@ export namespace TrackingEvent {
       },
       version: '1.0',
     }),
-    posted: {
-      name: 'posted',
+  }
+
+  export const FeedPosts = {
+    created: {
+      name: 'createdFeedPost',
       version: '1.0',
     },
-    readFeedPost: (postId: string): TrackingEvent => ({
+    read: (postId: string): TrackingEvent => ({
       name: 'readFeedPost',
+      properties: {
+        postId,
+      },
+      version: '1.0',
+    }),
+    shared: (postId: string): TrackingEvent => ({
+      name: 'sharedFeedPost',
       properties: {
         postId,
       },
