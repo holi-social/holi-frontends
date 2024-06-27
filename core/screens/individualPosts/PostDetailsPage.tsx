@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useContext, useEffect, useMemo, useState } from 'react'
+import React, { memo, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
