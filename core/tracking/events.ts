@@ -146,6 +146,10 @@ export namespace TrackingEvent {
       },
       version: '1.0',
     }),
+    posted: {
+      name: 'posted',
+      version: '1.0',
+    },
   }
 
   export namespace Auth {
