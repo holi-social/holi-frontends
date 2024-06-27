@@ -129,19 +129,15 @@ export namespace TrackingEvent {
     })
   }
 
-  export namespace PostReactions {
-    export const ReactionPressed = (
-      postId: string,
-      props: { loggedIn: false } | { loggedIn: true; reactionType: string; reactionAction: string }
-    ): TrackingEvent => ({
-      name: 'postReaction_pressed',
-      version: '1.0',
+  export const Engaging = {
+    reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
+      name: 'reacted',
       properties: {
-        postId: postId,
-        reactionType: props.loggedIn ? props.reactionType : undefined,
-        reactionAction: props.loggedIn ? props.reactionAction : undefined,
+        reactableType,
+        reactableId,
       },
-    })
+      version: '1.0',
+    }),
   }
 
   export namespace Auth {
