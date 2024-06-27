@@ -20,74 +20,6 @@ export interface TrackingEvent {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
-  export namespace PostCard {
-    export const TitlePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'title',
-        postId,
-      },
-    })
-    export const TextPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'text',
-        postId,
-      },
-    })
-    export const AuthorPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'author',
-        postId,
-      },
-    })
-    export const ImagePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'image',
-        postId,
-      },
-    })
-    export const CommentNowPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'commentNow',
-        postId,
-      },
-    })
-    export const ReadMorePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'readMore',
-        postId,
-      },
-    })
-    export const ReadLessPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'readLess',
-        postId,
-      },
-    })
-    export const LinkPressed = (postId: string, url: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'link',
-        postId,
-        url,
-      },
-    })
-  }
-
   export namespace PostActionDrawer {
     export const Opened = (postId: string): TrackingEvent => ({
       name: 'postActionDrawer_opened',
@@ -150,6 +82,13 @@ export namespace TrackingEvent {
       name: 'posted',
       version: '1.0',
     },
+    readFeedPost: (postId: string): TrackingEvent => ({
+      name: 'readFeedPost',
+      properties: {
+        postId,
+      },
+      version: '1.0',
+    }),
   }
 
   export namespace Auth {

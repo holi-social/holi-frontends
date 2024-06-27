@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -30,6 +30,8 @@ import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -63,6 +65,8 @@ const PostDetailsPage = () => {
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
+  const { track } = useTracking()
+  const [readingTracked, setReadingTracked] = useState(false)
 
   const visitedScreensCount = useUserVisitedScreensCount()
 
@@ -151,6 +155,11 @@ const PostDetailsPage = () => {
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
         })
+
+  if (!readingTracked && post) {
+    setReadingTracked(true)
+    track(TrackingEvent.Engaging.readFeedPost(post.id))
+  }
 
   return (
     <>
