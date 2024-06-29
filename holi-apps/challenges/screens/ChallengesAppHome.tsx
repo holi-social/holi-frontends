@@ -65,7 +65,7 @@ const ChallengesAppHome = () => {
     isCameraAndMicPermissionGranted().then((permission) => setRequireCameraPermission(!permission))
   }, [])
 
-  if (!headers || isCameraAndMicPermissionGranted === undefined) {
+  if (!headers || requireCameraPermission === undefined) {
     return <HoliLoader />
   }
 
