@@ -32,6 +32,7 @@ export type HoliRichTextInputProps = {
   inputAccessoryViewID?: string
   placeholderTextColor?: string
   initialSelectedSuggestion?: Suggestion
+  mentions?: User[]
 }
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
@@ -191,12 +192,13 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
       </View>
     )
   }
+  console.log(value)
 
   return (
     <View style={props.style} testID={props.testID || 'richtext-component'}>
       <MentionInput
         inputRef={inputRef}
-        value={value}
+        value={'value'}
         autoFocus={autofocus}
         onChange={onInputChange}
         onFocus={onFocus}

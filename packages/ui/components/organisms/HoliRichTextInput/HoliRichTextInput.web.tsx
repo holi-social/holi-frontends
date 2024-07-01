@@ -23,6 +23,7 @@ import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlug
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { HoliRichTextInputProps } from './HoliRichTextInput'
+import { convertStringToLexicalJson } from './helper/convertStringToLexicalJson'
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initialValue = '',
@@ -31,10 +32,12 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   minSearchChars = 2,
   maxSuggestionOptions = 5,
   debounceDelay = 300,
+  mentions = [],
   ...props
 }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const [editorState, setEditorState] = useState(initialValue)
 
   const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
   const [characterCount, setCharacterCount] = useState(0)
@@ -64,19 +67,61 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
 
       setCharacterCount(pureText.length)
     })
+    setEditorState(JSON.stringify(editor))
   }
 
-  // TODO: How to insert inital content ?????????????
-  // see https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
-  // The json format works well, but how to create this nodes?
-  if (initialValue && initialValue.length > 0) {
-    throw new HoliError('[HoliRichTextInput] initialValue is not yet implemented.')
+  if (!initialValue) {
+    return <></>
   }
-  // const initalJson =
-  //   '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"hello ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Uschi Meyer","type":"mention","version":1,"userId":"0001","userName":"Uschi Meyer","displayString":"@Uschi Meyer"},{"detail":0,"format":0,"mode":"normal","style":"","text":" und ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Paul Auster","type":"mention","version":1,"userId":"0006","userName":"Paul Auster","displayString":"@Paul Auster"}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+
+  const initialJsonTest =
+    '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"hello ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Uschi Meyer","type":"mention","version":1,"userId":"f5704c34-ef42-4231-a5d0-995ac089dc1e","userName":"Uschi Meyer","displayString":"@Uschi Meyer"},{"detail":0,"format":0,"mode":"normal","style":"","text":" und ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Paul Auster","type":"mention","version":1,"userId":"0006","userName":"Paul Auster","displayString":"@Paul Auster"}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
   // const initialHtml =
   //   '<p dir="ltr"><span>Hallo </span><span data-user-id="Uschi Meyer" data-lexical-mention="true">@0001</span><span> und </span><span data-user-id="Paul Müller" data-lexical-mention="true">@0002</span></p>'
 
+  const initialJson = JSON.stringify(convertStringToLexicalJson(initialValue, mentions))
+  // const initialJson = JSON.stringify({
+  //   root: {
+  //     children: [
+  //       {
+  //         children: [
+  //           {
+  //             detail: 0,
+  //             format: 0,
+  //             mode: 'normal',
+  //             style: '',
+  //             text: 'hello @0001 und @0006 dfdf df',
+  //             type: 'text',
+  //             version: 1,
+  //           },
+  //           {
+  //             detail: 1,
+  //             format: 0,
+  //             mode: 'segmented',
+  //             style: '',
+  //             text: 'joao',
+  //             type: 'mention',
+  //             version: 1,
+  //             userId: 'f5704c34-ef42-4231-a5d0-995ac089dc1e',
+  //             userName: 'joao',
+  //             displayString: '@joao',
+  //           },
+  //         ],
+  //         direction: 'ltr',
+  //         format: '',
+  //         indent: 0,
+  //         type: 'paragraph',
+  //         version: 1,
+  //       },
+  //     ],
+  //     direction: 'ltr',
+  //     format: '',
+  //     indent: 0,
+  //     type: 'root',
+  //     version: 1,
+  //   },
+  // })
+  console.log({ initialJson, initialValue, mentions })
   const lexicalConfig = {
     namespace: 'HoliRichTextInput',
     nodes: [HoliMentionsPluginNode],
@@ -98,6 +143,8 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
       logError(error, 'Error in LexicalComposer', {
         location: 'HoliRichTextInput.LexicalComposer.onError',
       }),
+    editorState: initialJson,
+    // ...(editorState ? { editorState } : {}),
   }
   const CharacterCount = () => (
     <View style={styles.charactorCountContainer}>

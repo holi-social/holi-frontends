@@ -125,6 +125,7 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
               goToDetailView()
             }}
             color="gray300"
+            users={post.mentions}
           />
         </HoliReadMoreTracked>
       </View>

@@ -171,6 +171,7 @@ const EditPost = () => {
                 setImage(value)
                 setCurrentImage(undefined)
               }}
+              mentions={post?.mentions}
               selectedCategoryId={selectedCategoryId}
               onChangeSelectedCategoryId={setSelectedCategoryId}
               selectedVisibility={selectedVisibility}
