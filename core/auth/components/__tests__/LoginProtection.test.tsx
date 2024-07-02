@@ -30,12 +30,10 @@ jest.mock('@holi/core/auth/loginState', () => ({
 jest.mock('@holi/core/helpers/useDocumentURL', () => ({
   useDocumentURL: () => new URL('https://localhost:3000').href,
 }))
-const mockUseFeatureToggle = jest.fn()
-jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
-  useFeatureToggle: () => mockUseFeatureToggle(),
-  FeatureToggleName: {
-    THEME_TOGGLE: 'THEME_TOGGLE',
-  },
+
+const mockUsePosthogFeatureFlag = jest.fn()
+jest.mock('@holi/core/helpers/usePosthogFeatureFlag', () => ({
+  usePosthogFeatureFlag: () => mockUsePosthogFeatureFlag(),
 }))
 
 const authenticatedUserRequest = {
@@ -61,7 +59,7 @@ const authenticatedUserRequest = {
 
 describe('LoginProtection', () => {
   beforeEach(() => {
-    mockUseFeatureToggle.mockReturnValue({ ftEnabled: false })
+    mockUsePosthogFeatureFlag.mockReturnValue([false, undefined])
   })
 
   it('renders protected content when logged in', async () => {
