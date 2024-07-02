@@ -36,7 +36,7 @@ const Recommendation = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) 
           <View style={[styles.imageCaption, styles.spaceCaption]}>
             <SpaceAvatar space={space} size="micro" />
             <HoliText size="extrasmall" color="gray300">
-              {space.name}
+              {space.title}
             </HoliText>
           </View>
         </Image>

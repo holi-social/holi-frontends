@@ -41,13 +41,13 @@ const List = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) => {
 
         <HoliGap size="xs" />
         <HoliLink
-          label={space.name ? t('space.visitProfile', { title: space.name }) : ''}
+          label={space.title ? t('space.visitProfile', { title: space.title }) : ''}
           href={`/spaces/${space.name}`}
         >
           <View style={styles.space}>
             <SpaceAvatar space={space} size="micro" />
             <HoliText size="small">
-              <Trans t={t} i18nKey="spaces.tasks.details.space" values={{ space: space.name }}>
+              <Trans t={t} i18nKey="spaces.tasks.details.space" values={{ space: space.title }}>
                 <HoliText size="small" bold />
               </Trans>
             </HoliText>
