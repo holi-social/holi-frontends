@@ -15,7 +15,6 @@ export enum FeatureToggleName {
   NOTIFICATIONS = 'NOTIFICATIONS',
   FEED_DAILY_INSPIRATION = 'FEED_DAILY_INSPIRATION_17',
   SEARCH = 'SEARCH',
-  FAVORITES = 'FAVORITES',
 }
 
 export type FeatureToggleState = {

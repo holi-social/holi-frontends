@@ -4,11 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useLogout } from '@holi/core/helpers'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { usePosthogFeatureFlag } from '@holi/core/helpers/usePosthogFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/helpers/usePosthogFeatureFlag.common'
@@ -77,15 +75,13 @@ const SettingsOverview = () => {
             onPress={() => navigate('/profile/settings/tracking')}
             style={styles.settingsItem}
           />
-          <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
-            <MoreOptionItem
-              label={t('profile.settings.favorites.title')}
-              icon={Bookmark3Line}
-              iconRightStyle="arrow"
-              onPress={() => navigate('/profile/settings/favorites')}
-              style={styles.settingsItem}
-            />
-          </FeatureToggleGuard>
+          <MoreOptionItem
+            label={t('profile.settings.favorites.title')}
+            icon={Bookmark3Line}
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/favorites')}
+            style={styles.settingsItem}
+          />
           <MoreOptionItem
             label={t('profile.settings.help.title')}
             icon={Help}
