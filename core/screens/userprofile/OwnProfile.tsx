@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -131,6 +132,19 @@ const OwnProfile = () => {
     colors.background10,
   ])
 
+  const client = useApolloClient()
+  const onSubmit = useCallback(async () => {
+    // clear store to refetch updated recommendations for the user
+    await client.clearStore()
+    if (Platform.OS !== 'web') {
+      // for mobile we need to refetch data manually, web will refetch it anyway with SSR
+      // fetching all queries can take a while, so we do not await them to not block the UI
+      client.refetchQueries({ include: 'active' })
+    }
+
+    closeModal()
+  }, [client, closeModal])
+
   return (
     <LoginProtection>
       <ScrollHeaderLayout.Refreshable
@@ -156,16 +170,14 @@ const OwnProfile = () => {
                 relativeHeight={deviceHeight > 750 ? 0.85 : 1}
               >
                 <HoliKeyboardSaveView>
-                  {editMode === 'profile' && (
-                    <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
-                  )}
+                  {editMode === 'profile' && <UserProfileForm user={user} onCancel={closeModal} onSubmit={onSubmit} />}
                   {editMode === 'engagementLevel' && (
-                    <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
+                    <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={onSubmit} />
                   )}
                   {editMode === 'interests' && (
                     <UserChipLoader
                       user={user}
-                      onSubmit={closeModal}
+                      onSubmit={onSubmit}
                       keyInUserObject={UserChipTypes.INTERESTS}
                       queryToUse={interestsQuery}
                     />
@@ -173,7 +185,7 @@ const OwnProfile = () => {
                   {editMode === 'skills' && (
                     <UserChipLoader
                       user={user}
-                      onSubmit={closeModal}
+                      onSubmit={onSubmit}
                       keyInUserObject={UserChipTypes.SKILLS}
                       queryToUse={skillsQuery}
                     />
@@ -181,7 +193,7 @@ const OwnProfile = () => {
                   {editMode === 'sdgs' && (
                     <UserChipLoader
                       user={user}
-                      onSubmit={closeModal}
+                      onSubmit={onSubmit}
                       keyInUserObject={UserChipTypes.SDGS}
                       queryToUse={sdgsQuery}
                     />
