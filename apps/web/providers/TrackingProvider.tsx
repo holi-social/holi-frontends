@@ -6,6 +6,7 @@ import React, { PropsWithChildren, useEffect } from 'react'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
+import { featureFlagBootstrapValues } from '@holi/core/helpers/usePosthogFeatureFlag.common'
 import { trackingEnabled } from '@holi/core/tracking/config'
 
 const logger = getLogger('Tracking')
@@ -36,6 +37,10 @@ if (trackingEnabled()) {
           }
         })
         return properties
+      },
+
+      bootstrap: {
+        featureFlags: featureFlagBootstrapValues,
       },
     })
   }

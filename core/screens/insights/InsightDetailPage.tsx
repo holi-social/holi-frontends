@@ -6,12 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import { Discussion } from '@holi/api/graphql/graphql-codegen'
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getLocale, getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
@@ -101,11 +99,9 @@ const InsightDetailPage = () => {
       headerRight: () => {
         return (
           insight && (
-            <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
-              <InsightDrawer insight={insight}>
-                <HoliIcon icon={MoreFilled} color={colors.light} />
-              </InsightDrawer>
-            </FeatureToggleGuard>
+            <InsightDrawer insight={insight}>
+              <HoliIcon icon={MoreFilled} color={colors.light} />
+            </InsightDrawer>
           )
         )
       },

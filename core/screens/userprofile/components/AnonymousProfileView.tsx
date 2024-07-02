@@ -6,8 +6,9 @@ import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { usePosthogFeatureFlag } from '@holi/core/helpers/usePosthogFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/helpers/usePosthogFeatureFlag.common'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -28,7 +29,7 @@ const AnonymousProfileView = () => {
   const { colors } = theme
   const styles = getStyles(theme)
 
-  const { ftEnabled } = useFeatureToggle(FeatureToggleName.THEME_TOGGLE)
+  const [themeToggleEnabled] = usePosthogFeatureFlag(FeatureFlagKey.THEME_TOGGLE)
 
   const setScreenOptions = useSetScreenOptions()
   useIsomorphicLayoutEffect(() => {
@@ -126,7 +127,7 @@ const AnonymousProfileView = () => {
           />
         )}
 
-        {ftEnabled && (
+        {themeToggleEnabled && (
           <MoreOptionItem
             label={t('global.theme.toggle')}
             icon={theme.dark ? Sun : SunFilled}

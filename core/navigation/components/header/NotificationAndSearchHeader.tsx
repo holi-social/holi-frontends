@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useHasNewNotifications } from '@holi/core/helpers/useHasNewNotifications'
 import { SearchButton } from '@holi/core/navigation/components/header/SearchButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -15,10 +13,7 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
   const hasNewNotifications = useHasNewNotifications()
-
-  const { ftOff } = useFeatureToggle(FeatureToggleName.SEARCH)
 
   return (
     <HoliHorizontalRow>
@@ -33,7 +28,7 @@ const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
         testID="btn-to-notifications"
       />
 
-      <SearchButton onPress={!ftOff ? () => navigate('/search') : showFeatureNotImplementedToast} color={tintColor} />
+      <SearchButton onPress={() => navigate('/search')} color={tintColor} />
     </HoliHorizontalRow>
   )
 }

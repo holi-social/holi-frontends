@@ -3,6 +3,7 @@ import React, { PropsWithChildren } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
+import { featureFlagBootstrapValues } from '@holi/core/helpers/usePosthogFeatureFlag.common'
 import { trackingEnabled } from '@holi/core/tracking/config'
 
 const logger = getLogger('Tracking')
@@ -18,7 +19,15 @@ const posthog = trackingEnabled()
 export const TrackingProvider = ({ children }: PropsWithChildren) => {
   logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled())
   return posthog ? (
-    <PostHogProvider client={posthog} autocapture={{ captureTouches: true }}>
+    <PostHogProvider
+      client={posthog}
+      autocapture={{ captureTouches: true }}
+      options={{
+        bootstrap: {
+          featureFlags: featureFlagBootstrapValues,
+        },
+      }}
+    >
       {children}
     </PostHogProvider>
   ) : (
