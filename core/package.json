@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@apollo/client": "3.7.16",
+    "@apollo/client": "3.10.8",
     "@apollo/react-hooks": "^4.0.0",
     "@novu/client": "0.20.0",
     "@ory/kratos-client": "^0.13.1",
@@ -15,7 +15,7 @@
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-graphql-request": "^4.5.8",
     "@graphql-codegen/typescript-operations": "^4.2.0",
-    "@graphql-codegen/typescript-react-apollo": "^3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@graphql-eslint/eslint-plugin": "^3.18.0",
     "@types/react": "~18.2.45",
     "@types/tinycolor2": "1.4.3",
