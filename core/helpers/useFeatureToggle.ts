@@ -5,7 +5,6 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 
 export enum FeatureToggleName {
-  APPOINTMENTS = 'APPOINTMENTS',
   CHAT = 'CHAT',
   CHALLENGES = 'CHALLENGES_16',
   STORAGE = 'STORAGE',
@@ -17,7 +16,6 @@ export enum FeatureToggleName {
   FEED_DAILY_INSPIRATION = 'FEED_DAILY_INSPIRATION_17',
   SEARCH = 'SEARCH',
   FAVORITES = 'FAVORITES',
-  THEME_TOGGLE = 'THEME_TOGGLE',
 }
 
 export type FeatureToggleState = {

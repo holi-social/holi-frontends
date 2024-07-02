@@ -45,7 +45,6 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.EVENT,
     icon: CalendarEventFilled,
     translationKey: 'spaces.resources.category.event',
-    featureToggleName: FeatureToggleName.APPOINTMENTS,
     path: '/appointments',
   },
 ]
