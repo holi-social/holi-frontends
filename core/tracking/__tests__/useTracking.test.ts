@@ -1,0 +1,91 @@
+import { jest } from '@jest/globals'
+
+import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
+import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { Consent, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
+
+jest.mock('@holi/core/helpers/config', () => ({
+  posthogKey: 'some.key',
+  posthogHost: 'some.host',
+}))
+
+jest.mock('@holi/core/tracking/TrackingInitializer')
+const useConsentStateMock = useConsentState as jest.Mock
+
+jest.mock('@holi/core/tracking/PosthogCrossPlatform')
+const posthogCrossPlatformMock = {
+  optedIn: jest.fn(),
+  optIn: jest.fn(),
+  optOut: jest.fn(),
+  reset: jest.fn(),
+  capture: jest.fn(),
+  identify: jest.fn(),
+} as PosthogCrossPlatform
+const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
+
+beforeEach(() => {
+  console.debug('beforeEach')
+  usePosthogCrossPlatformMock.mockReset()
+  useConsentStateMock.mockReset()
+})
+
+describe('useTracking', () => {
+  describe('when tracking is enabled and consent is given', () => {
+    // useTracking shall attach the current consent state for every purpose to every event. This way, when processing
+    // events it can be ensured that only events are included for which the user gave explicit consent at the time the
+    // event was recorded and the events are only used for the purpose that the user gave consent for.
+    describe('and consent for personalization is given', () => {
+      it('does add trackingConsentPersonalization=true as an event property', async () => {
+        // GIVEN
+        usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
+        useConsentStateMock.mockReturnValue({
+          [TrackingPurpose.Analytics]: Consent.Given,
+          [TrackingPurpose.Personalization]: Consent.Given,
+        })
+
+        // WHEN
+        const tracking = useTracking()
+        console.debug('tracking', tracking)
+        tracking.track({
+          name: 'testEvent',
+          version: '1.0',
+          properties: {},
+        })
+
+        // THEN
+        expect(posthogCrossPlatformMock.capture).toHaveBeenCalledWith('testEvent', {
+          version: '1.0',
+          trackingConsentAnalytics: true,
+          trackingConsentPersonalization: true,
+        })
+      })
+    })
+    describe('and consent for personalization is not given', () => {
+      it('does add trackingConsentPersonalization=false as an event property', async () => {
+        // GIVEN
+        usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
+        useConsentStateMock.mockReturnValue({
+          [TrackingPurpose.Analytics]: Consent.Given,
+          [TrackingPurpose.Personalization]: Consent.Denied,
+        })
+
+        // WHEN
+        const tracking = useTracking()
+        console.debug('tracking', tracking)
+        tracking.track({
+          name: 'testEvent',
+          version: '1.0',
+          properties: {},
+        })
+
+        // THEN
+        expect(posthogCrossPlatformMock.capture).toHaveBeenCalledWith('testEvent', {
+          version: '1.0',
+          trackingConsentAnalytics: true,
+          trackingConsentPersonalization: false,
+        })
+      })
+    })
+  })
+})
