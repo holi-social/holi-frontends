@@ -30,8 +30,11 @@
     "@react-navigation/native-stack": "^6.9.1",
     "expo-image-picker": "~14.7.1",
     "expo-linking": "~6.2.2",
+    "leaflet": "1.9.4",
     "react": "18.2.0",
+    "react-leaflet": "4.2.1",
     "react-native": "0.73.6",
+    "react-native-maps": "1.10.0",
     "react-native-svg": "14.1.0",
     "react-zoom-pan-pinch": "^2.1.3"
   },

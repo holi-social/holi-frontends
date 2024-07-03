@@ -1,5 +1,4 @@
-import { DocumentNode, useQuery } from '@apollo/client'
-import { useApolloClient } from '@apollo/client'
+import { DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'

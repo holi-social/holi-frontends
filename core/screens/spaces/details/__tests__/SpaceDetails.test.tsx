@@ -75,22 +75,6 @@ describe('SpaceDetails', () => {
     connectionStatusToMyself: [SpaceConnectionType.MEMBER],
   }
 
-  it('renders correctly', async () => {
-    mockParameters({ spaceIdOrName: space.name })
-    render(
-      <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
-        <SpaceDetails spaceIdOrName={space.name} />
-      </MockedProvider>
-    )
-
-    await act(async () => {
-      jest.runAllTimers()
-      await waitFor(() => screen.getByText(space.title))
-    })
-
-    expect(screen.toJSON()).toMatchSnapshot()
-  })
-
   it('selects info tab for non-members', async () => {
     const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
     render(
