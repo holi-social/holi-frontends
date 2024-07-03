@@ -174,5 +174,6 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 0,
       paddingVertical: 0,
       paddingHorizontal: 0,
+      backgroundColor: theme.colors.white100,
     },
   })
