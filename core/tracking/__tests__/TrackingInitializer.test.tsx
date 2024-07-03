@@ -6,7 +6,11 @@ import { act, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { exportedForTesting, setLoginStateLoggedIn, setLoginStateLoggedOut } from '@holi/core/auth/loginState'
+import {
+  exportedForTesting as loginStateTesting,
+  setLoginStateLoggedIn,
+  setLoginStateLoggedOut,
+} from '@holi/core/auth/loginState'
 import {
   AuthenticatedUserV2Response,
   AuthenticatedUserV2Variables,
@@ -19,7 +23,7 @@ import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import TrackingInitializer, {
   initialState,
-  stateVar,
+  exportedForTesting as trackingInitializerTesting,
   updateConsentState,
 } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
@@ -172,8 +176,8 @@ describe('TrackingInitializer', () => {
   beforeEach(() => {
     // consentStateVar is a global variable, thereby shared state between tests and needs to be reset for reproducibility
     // using afterEach instead of beforeEach leads to timeouts of tests we couldn't explain ourselves
-    stateVar(initialState)
-    exportedForTesting.resetLoggedInUserIdVar()
+    trackingInitializerTesting.initializerStateVar(initialState)
+    loginStateTesting.resetLoggedInUserIdVar()
   })
 
   describe('while user login state is still loading', () => {
@@ -218,8 +222,9 @@ describe('TrackingInitializer', () => {
   describe('for a logged-out user', () => {
     describe('given unknown consent', () => {
       it('does not opt in tracking on PostHog', async () => {
+        const expectedConsentState = ConsentState.unknown
         mockEnv()
-        mockLocalStorage(ConsentState.unknown)
+        mockLocalStorage(expectedConsentState)
 
         const onUserLoggedOutCompleted = jest.fn()
         const component = (
@@ -235,15 +240,17 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
     describe('given only analytics consent', () => {
       it('opts-in on PostHog without identifying the user', async () => {
-        mockEnv()
-        mockLocalStorage({
+        const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Denied,
-        })
+        }
+        mockEnv()
+        mockLocalStorage(expectedConsentState)
 
         const onUserLoggedOutCompleted = jest.fn()
         const component = (
@@ -258,15 +265,17 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
     describe('given only personalization consent', () => {
       it('does not initialize tracking on PostHog', async () => {
-        mockEnv()
-        mockLocalStorage({
+        const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Given,
-        })
+        }
+        mockEnv()
+        mockLocalStorage(expectedConsentState)
 
         const onUserLoggedOutCompleted = jest.fn()
         const component = (
@@ -281,15 +290,17 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
     describe('given analytics + personalization consent', () => {
       it('opts-in on PostHog without identifying the user', async () => {
-        mockEnv()
-        mockLocalStorage({
+        const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Given,
-        })
+        }
+        mockEnv()
+        mockLocalStorage(expectedConsentState)
 
         const onUserLoggedOutCompleted = jest.fn()
         const component = (
@@ -304,14 +315,16 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
   })
   describe('for a logged-in user', () => {
     describe('given unknown consent', () => {
       it('does not initialize tracking on PostHog', async () => {
+        const expectedConsentState = ConsentState.unknown
         mockEnv()
-        const user = mockUser(ConsentState.unknown)
+        const user = mockUser(expectedConsentState)
 
         const onUserLoggedInCompleted = jest.fn()
         const component = (
@@ -326,15 +339,17 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
     describe('given only analytics consent', () => {
       it('opts-in on PostHog and identifies the user', async () => {
-        mockEnv()
-        const user = mockUser({
+        const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Denied,
-        })
+        }
+        mockEnv()
+        const user = mockUser(expectedConsentState)
 
         const onUserLoggedInCompleted = jest.fn()
         const component = (
@@ -349,15 +364,17 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
     describe('given only personalization consent', () => {
       it('does not initialize tracking on PostHog', async () => {
-        mockEnv()
-        const user = mockUser({
+        const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Given,
-        })
+        }
+        mockEnv()
+        const user = mockUser(expectedConsentState)
 
         const onUserLoggedInCompleted = jest.fn()
         const component = (
@@ -372,15 +389,17 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
     describe('given analytics + personalization consent', () => {
       it('opts-in on PostHog and identifies the user', async () => {
-        mockEnv()
-        const user = mockUser({
+        const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Given,
-        })
+        }
+        mockEnv()
+        const user = mockUser(expectedConsentState)
 
         const onUserLoggedInCompleted = jest.fn()
         const component = (
@@ -395,6 +414,7 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
       })
     })
   })
@@ -435,24 +455,27 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(initialConsentState)
 
         await act(() => updateConsentState(updatedConsentState))
         await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(updatedConsentState)
       })
     })
   })
   describe('given a logged-in user with given analytics consent', () => {
     describe('when user logs out', () => {
       it('clears local consent storage and resets posthog tracking', async () => {
-        mockEnv()
-        mockLocalStorage()
-        const user = mockUser({
+        const loggedInConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Unknown,
-        })
+        }
+        mockEnv()
+        mockLocalStorage()
+        const user = mockUser(loggedInConsentState)
 
         const onUserLoggedInCompleted = jest.fn()
         const onUserLoggedOutCompleted = jest.fn()
@@ -472,6 +495,7 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(loggedInConsentState)
 
         await act(setLoginStateLoggedOut)
         rerender(component)
@@ -481,6 +505,7 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.reset).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(ConsentState.unknown)
       })
     })
   })
@@ -519,6 +544,7 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -526,19 +552,22 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
         })
       })
       describe('with known analytics consent in the user profile', () => {
         it('does not "migrate" the locally stored consent to the user profile', async () => {
-          mockEnv()
-          mockLocalStorage({
+          const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Given,
-          })
-          const user = mockUser({
+          }
+          const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Denied,
-          })
+          }
+          mockEnv()
+          mockLocalStorage(localStorageConsentState)
+          const user = mockUser(userProfileConsentState)
 
           const onUserLoggedOutCompleted = jest.fn()
           const onUserLoggedInCompleted = jest.fn()
@@ -558,6 +587,7 @@ describe('TrackingInitializer', () => {
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.optOut).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -565,19 +595,22 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
         })
       })
       describe('with denied analytics consent in user profile', () => {
         it('opts-out of PostHog', async () => {
-          mockEnv()
-          mockLocalStorage({
+          const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
-          const user = mockUser({
+          }
+          const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
+          }
+          mockEnv()
+          mockLocalStorage(localStorageConsentState)
+          const user = mockUser(userProfileConsentState)
 
           const onUserLoggedOutCompleted = jest.fn()
           const onUserLoggedInCompleted = jest.fn()
@@ -597,6 +630,7 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -604,19 +638,22 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
         })
       })
       describe('with given analytics consent in user profile', () => {
         it('stays opted-in to posthog', async () => {
+          const localStorageConsentState = {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Unknown,
+          }
+          const userProfileConsentState = {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Denied,
+          }
           mockEnv()
-          mockLocalStorage({
-            [TrackingPurpose.Analytics]: Consent.Given,
-            [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
-          const user = mockUser({
-            [TrackingPurpose.Analytics]: Consent.Given,
-            [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
+          mockLocalStorage(localStorageConsentState)
+          const user = mockUser(userProfileConsentState)
 
           const onUserLoggedOutCompleted = jest.fn()
           const onUserLoggedInCompleted = jest.fn()
@@ -636,6 +673,7 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -644,6 +682,7 @@ describe('TrackingInitializer', () => {
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(0)
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
         })
       })
     })
@@ -651,11 +690,12 @@ describe('TrackingInitializer', () => {
   describe('given a logged-out user with denied analytics consent', () => {
     describe('when user gives analytics consent', () => {
       it('opts-in on PostHog without identifying the user', async () => {
-        mockEnv()
-        mockLocalStorage({
+        const localStorageConsentState = {
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Unknown,
-        })
+        }
+        mockEnv()
+        mockLocalStorage(localStorageConsentState)
 
         const onUserLoggedOutCompleted = jest.fn()
         const onUpdateCompleted = jest.fn()
@@ -675,12 +715,14 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
+        const updatedConsentState = {
+          [TrackingPurpose.Analytics]: Consent.Given,
+          [TrackingPurpose.Personalization]: Consent.Denied,
+        }
         await act(() => {
-          updateConsentState({
-            [TrackingPurpose.Analytics]: Consent.Given,
-            [TrackingPurpose.Personalization]: Consent.Denied,
-          })
+          updateConsentState(updatedConsentState)
         })
         await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
 
@@ -690,6 +732,7 @@ describe('TrackingInitializer', () => {
           'HOLI_TRACKING_CONSENT',
           '{"ANALYTICS":"given","PERSONALIZATION":"denied"}'
         )
+        expect(trackingInitializerTesting.consentStateVar()).toEqual(updatedConsentState)
       })
     })
     describe('when user logs in', () => {
@@ -701,10 +744,7 @@ describe('TrackingInitializer', () => {
             [TrackingPurpose.Personalization]: Consent.Unknown,
           }
           mockLocalStorage(localStorageConsentState)
-          const user = mockUser({
-            [TrackingPurpose.Analytics]: Consent.Unknown,
-            [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
+          const user = mockUser(ConsentState.unknown)
           const expectedUpdatedConsentState = localStorageConsentState
 
           const onUserLoggedOutCompleted = jest.fn()
@@ -730,6 +770,7 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -737,19 +778,22 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
         })
       })
       describe('with given analytics consent in user profile', () => {
         it('opts-in on PostHog and identifies the user', async () => {
-          mockEnv()
-          mockLocalStorage({
+          const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
-          const user = mockUser({
+          }
+          const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
+          }
+          mockEnv()
+          mockLocalStorage(localStorageConsentState)
+          const user = mockUser(userProfileConsentState)
 
           const onUserLoggedOutCompleted = jest.fn()
           const onUserLoggedInCompleted = jest.fn()
@@ -769,6 +813,7 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -776,19 +821,22 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
         })
       })
       describe('with denied analytics consent in user profile', () => {
         it('does not opt-in to posthog', async () => {
+          const localStorageConsentState = {
+            [TrackingPurpose.Analytics]: Consent.Denied,
+            [TrackingPurpose.Personalization]: Consent.Unknown,
+          }
+          const userProfileConsentState = {
+            [TrackingPurpose.Analytics]: Consent.Denied,
+            [TrackingPurpose.Personalization]: Consent.Denied,
+          }
           mockEnv()
-          mockLocalStorage({
-            [TrackingPurpose.Analytics]: Consent.Denied,
-            [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
-          const user = mockUser({
-            [TrackingPurpose.Analytics]: Consent.Denied,
-            [TrackingPurpose.Personalization]: Consent.Unknown,
-          })
+          mockLocalStorage(localStorageConsentState)
+          const user = mockUser(userProfileConsentState)
 
           const onUserLoggedOutCompleted = jest.fn()
           const onUserLoggedInCompleted = jest.fn()
@@ -808,6 +856,7 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -815,6 +864,7 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
+          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
         })
       })
     })
