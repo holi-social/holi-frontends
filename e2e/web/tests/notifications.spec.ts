@@ -4,9 +4,6 @@ import { BrowserContext, Page, expect } from '@playwright/test'
 import { byTestId, clickElementByTestId, locateElementByTestId, loginAsE2EUser, sendConnectionRequest } from './helpers'
 import { UserHandler, test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.setTimeout(180000)
 
 test.describe('@Notifications', () => {

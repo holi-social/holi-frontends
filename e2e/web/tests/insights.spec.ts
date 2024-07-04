@@ -3,9 +3,6 @@ import { Page, expect } from '@playwright/test'
 import { clickElementByTestId, clickElementByTestIdAndWaitForToast } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.describe('@Insights', () => {
   test('Favorites work', async ({ userHandler }) => {
     await userHandler.asRandomUser(async (user) => {

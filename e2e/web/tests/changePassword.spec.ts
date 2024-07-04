@@ -2,7 +2,6 @@ import { byTestId, clickElementByTestId, locateElementByTestId, newUserEmail, ra
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
 
 test.describe('@ChangePassword', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

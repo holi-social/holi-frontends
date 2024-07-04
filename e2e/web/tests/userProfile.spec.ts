@@ -11,9 +11,6 @@ import {
 } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {

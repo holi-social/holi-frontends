@@ -11,9 +11,6 @@ import {
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.setTimeout(120000)
 test.describe('@Registration', () => {
   test('user journey', async ({ context, page, userHandler, browserName }) => {

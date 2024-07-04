@@ -3,9 +3,6 @@ import { Page, expect } from '@playwright/test'
 import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.describe('@Reactions', () => {
   test('user story', async ({ userHandler }) => {
     await userHandler.asRandomUser(async (page) => {
