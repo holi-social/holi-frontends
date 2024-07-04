@@ -20,128 +20,44 @@ export interface TrackingEvent {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
-  export namespace PostCard {
-    export const TitlePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
+  export const Engaging = {
+    reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
+      name: 'reacted',
       properties: {
-        element: 'title',
-        postId,
+        reactableType,
+        reactableId,
       },
-    })
-    export const TextPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
       version: '1.0',
+    }),
+    commented: (commentableType: string, commentableId: string): TrackingEvent => ({
+      name: 'commented',
       properties: {
-        element: 'text',
-        postId,
+        commentableType,
+        commentableId,
       },
-    })
-    export const AuthorPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
       version: '1.0',
-      properties: {
-        element: 'author',
-        postId,
-      },
-    })
-    export const ImagePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'image',
-        postId,
-      },
-    })
-    export const CommentNowPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'commentNow',
-        postId,
-      },
-    })
-    export const ReadMorePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'readMore',
-        postId,
-      },
-    })
-    export const ReadLessPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'readLess',
-        postId,
-      },
-    })
-    export const LinkPressed = (postId: string, url: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'link',
-        postId,
-        url,
-      },
-    })
+    }),
   }
 
-  export namespace PostActionDrawer {
-    export const Opened = (postId: string): TrackingEvent => ({
-      name: 'postActionDrawer_opened',
+  export const FeedPosts = {
+    created: {
+      name: 'createdFeedPost',
       version: '1.0',
+    },
+    read: (postId: string): TrackingEvent => ({
+      name: 'readFeedPost',
       properties: {
         postId,
       },
-    })
-    export const Closed = (postId: string): TrackingEvent => ({
-      name: 'postActionDrawer_closed',
       version: '1.0',
+    }),
+    shared: (postId: string): TrackingEvent => ({
+      name: 'sharedFeedPost',
       properties: {
         postId,
       },
-    })
-  }
-
-  export namespace PostShare {
-    export const Pressed = (postId: string): TrackingEvent => ({
-      name: 'postShare_pressed',
       version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-    export const Shared = (postId: string): TrackingEvent => ({
-      name: 'postShare_shared',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-    export const Dismissed = (postId: string): TrackingEvent => ({
-      name: 'postShare_dismissed',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-  }
-
-  export namespace PostReactions {
-    export const ReactionPressed = (
-      postId: string,
-      props: { loggedIn: false } | { loggedIn: true; reactionType: string; reactionAction: string }
-    ): TrackingEvent => ({
-      name: 'postReaction_pressed',
-      version: '1.0',
-      properties: {
-        postId: postId,
-        reactionType: props.loggedIn ? props.reactionType : undefined,
-        reactionAction: props.loggedIn ? props.reactionAction : undefined,
-      },
-    })
+    }),
   }
 
   export namespace Auth {

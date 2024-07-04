@@ -13,30 +13,27 @@ const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-2-inactive'
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
 test.describe('@AppointmentNotifications', () => {
-  test('space follower is notified about public appointment', async ({ userHandler, browserName }) => {
-    test.skip(browserName === 'webkit', 'FIXME: Registration flow does not work in Safari')
+  test('space follower is notified about public appointment', async ({ session }) => {
     const spaceName = randomSpaceName()
 
-    await userHandler.asRandomUser(async (admin) => {
-      await createSpace(admin, spaceName)
+    const { page: admin } = await session.signUp()
+    await createSpace(admin, spaceName)
 
-      await userHandler.asRandomUser(async (follower) => {
-        await followSpace(follower, spaceName)
+    const { page: follower } = await session.signUp()
+    await followSpace(follower, spaceName)
 
-        await createSpaceAppointment(admin)
+    await createSpaceAppointment(admin)
 
-        await retry(async () => {
-          await follower.goto('/notifications')
-          await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
-        })
-      })
+    await retry(async () => {
+      await follower.goto('/notifications')
+      await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
+    })
 
-      await test.step('space can be deleted', async () => {
-        await admin.goto('/spaces/' + spaceName)
-        await clickElementByTestId(admin, 'space-options-btn')
-        await clickElementByTestId(admin, 'space-delete')
-        await clickElementByTestId(admin, 'space-delete-confirmation-confirm')
-      })
+    await test.step('space can be deleted', async () => {
+      await admin.goto('/spaces/' + spaceName)
+      await clickElementByTestId(admin, 'space-options-btn')
+      await clickElementByTestId(admin, 'space-delete')
+      await clickElementByTestId(admin, 'space-delete-confirmation-confirm')
     })
   })
 })
