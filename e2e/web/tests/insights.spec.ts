@@ -4,46 +4,44 @@ import { clickElementByTestId, clickElementByTestIdAndWaitForToast } from './hel
 import { test } from './testmaster'
 
 test.describe('@Insights', () => {
-  test('Favorites work', async ({ userHandler }) => {
-    await userHandler.asRandomUser(async (user) => {
-      // given an open insight
-      await clickElementByTestId(user, 'btn-to-home-view')
-      await goToFirstInsight(user)
-      const insightHeadline = await user.getByTestId('insight-headline').innerText()
+  test('Favorites work', async ({ authenticatedSession: { page } }) => {
+    await page.goto('/')
 
-      // when favoriting the insight in the drawer menu
-      await clickElementByTestId(user, 'btn-insight-more-options')
-      await expect(user.getByTestId('more-options-modal-animatedview')).toBeVisible()
+    await goToFirstInsight(page)
+    const insightHeadline = await page.getByTestId('insight-headline').innerText()
 
-      // then a toast is displayed
-      await clickElementByTestIdAndWaitForToast(user, 'btn-favorite-insight', 'toast-SUCCESS')
+    // when favoriting the insight in the drawer menu
+    await clickElementByTestId(page, 'btn-insight-more-options')
+    await expect(page.getByTestId('more-options-modal-animatedview')).toBeVisible()
 
-      // and the drawer menu entry changes to remove favorite
-      await clickElementByTestId(user, 'btn-insight-more-options')
-      await expect(user.getByTestId('btn-remove-insight-favorite')).toBeVisible()
+    // then a toast is displayed
+    await clickElementByTestIdAndWaitForToast(page, 'btn-favorite-insight', 'toast-SUCCESS')
 
-      // and the list of favorites contains the insight
-      await clickElementByTestId(user, 'btn-see-all-favorites')
-      await expect(user.getByTestId('favorites-list')).toBeVisible()
-      await expect(user.getByTestId('favorites-card')).toBeVisible()
-      await expect(user.getByTestId('favorites-card')).toContainText(insightHeadline)
+    // and the drawer menu entry changes to remove favorite
+    await clickElementByTestId(page, 'btn-insight-more-options')
+    await expect(page.getByTestId('btn-remove-insight-favorite')).toBeVisible()
 
-      // when un-favoriting
-      await clickElementByTestId(user, 'btn-favorites-more-options')
-      await expect(user.getByTestId('more-options-modal-animatedview')).toBeVisible()
-      await clickElementByTestIdAndWaitForToast(user, 'btn-remove-favorite', 'toast-SUCCESS')
+    // and the list of favorites contains the insight
+    await clickElementByTestId(page, 'btn-see-all-favorites')
+    await expect(page.getByTestId('favorites-list')).toBeVisible()
+    await expect(page.getByTestId('favorites-card')).toBeVisible()
+    await expect(page.getByTestId('favorites-card')).toContainText(insightHeadline)
 
-      // then the card isn't shown anymore and the empty placeholder illustration shown
-      await expect(user.getByTestId('favorites-card')).not.toBeVisible()
-      await expect(user.getByTestId('favorites-empty')).toBeVisible()
+    // when un-favoriting
+    await clickElementByTestId(page, 'btn-favorites-more-options')
+    await expect(page.getByTestId('more-options-modal-animatedview')).toBeVisible()
+    await clickElementByTestIdAndWaitForToast(page, 'btn-remove-favorite', 'toast-SUCCESS')
 
-      // and the favorite is favoritable again in the insight drawer
-      await clickElementByTestId(user, 'nav-button-back')
-      await expect(user.getByTestId('insight-headline')).toBeVisible()
-      await clickElementByTestId(user, 'btn-insight-more-options')
-      await expect(user.getByTestId('more-options-modal-animatedview')).toBeVisible()
-      await expect(user.getByTestId('btn-favorite-insight')).toBeVisible()
-    })
+    // then the card isn't shown anymore and the empty placeholder illustration shown
+    await expect(page.getByTestId('favorites-card')).not.toBeVisible()
+    await expect(page.getByTestId('favorites-empty')).toBeVisible()
+
+    // and the favorite is favoritable again in the insight drawer
+    await clickElementByTestId(page, 'nav-button-back')
+    await expect(page.getByTestId('insight-headline')).toBeVisible()
+    await clickElementByTestId(page, 'btn-insight-more-options')
+    await expect(page.getByTestId('more-options-modal-animatedview')).toBeVisible()
+    await expect(page.getByTestId('btn-favorite-insight')).toBeVisible()
   })
 })
 

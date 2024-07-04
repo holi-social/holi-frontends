@@ -10,13 +10,13 @@ const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-2-inactive'
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
 test.describe('@AppointmentNotifications', () => {
-  test('space follower is notified about public appointment', async ({ session }) => {
+  test('space follower is notified about public appointment', async ({ sessions }) => {
     const spaceName = randomSpaceName()
 
-    const { page: admin } = await session.signUp()
+    const { page: admin } = await sessions.signUp()
     await createSpace(admin, spaceName)
 
-    const { page: follower } = await session.signUp()
+    const { page: follower } = await sessions.signUp()
     await followSpace(follower, spaceName)
 
     await createSpaceAppointment(admin)

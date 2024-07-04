@@ -3,6 +3,11 @@ import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/tes
 import { newUserEmail, randomPassword, withRandomUserSession } from './helpers'
 import { deleteAuthenticatedAccount, signUp } from './helpers/api'
 
+type Session = {
+  page: Page
+  api: { todo: () => void }
+}
+
 export class UserHandler {
   private browser: Browser
   private sessions: (() => Promise<void>)[] = []
@@ -32,7 +37,7 @@ export class SessionHandler {
     this.browser = browser
   }
 
-  public async signUp(email: string = newUserEmail(), password: string = randomPassword()) {
+  public async signUp(email: string = newUserEmail(), password: string = randomPassword()): Promise<Session> {
     const context = await this.browser.newContext()
 
     await signUp(context, email, password)
@@ -58,15 +63,25 @@ export class SessionHandler {
   }
 }
 
-export const test = baseTest.extend<{ userHandler: UserHandler; session: SessionHandler }>({
+export const test = baseTest.extend<{
+  userHandler: UserHandler
+  sessions: SessionHandler
+  authenticatedSession: Session
+}>({
   userHandler: async ({ browser }, use) => {
     const userHandler = new UserHandler(browser)
     await use(userHandler)
     await userHandler.cleanup()
   },
-  session: async ({ browser }, use) => {
+  sessions: async ({ browser }, use) => {
     const api = new SessionHandler(browser)
     await use(api)
+    await api.cleanup()
+  },
+  authenticatedSession: async ({ browser }, use) => {
+    const api = new SessionHandler(browser)
+    const session = await api.signUp()
+    await use(session)
     await api.cleanup()
   },
 })
