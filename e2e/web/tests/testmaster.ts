@@ -1,7 +1,7 @@
 import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
 
 import { newUserEmail, randomPassword, withRandomUserSession } from './helpers'
-import { deleteAuthenticatedAccount, signUp } from './helpers/api'
+import { deleteAuthenticatedAccount, denyTracking, signUp } from './helpers/api'
 
 export class UserHandler {
   private browser: Browser
@@ -39,6 +39,8 @@ export class SessionHandler {
     this.signInContexts.push(context)
 
     const newPage = await context.newPage()
+    await newPage.goto('/')
+    await denyTracking(newPage)
 
     return {
       page: newPage,
@@ -50,7 +52,6 @@ export class SessionHandler {
   }
 
   public async cleanup() {
-    console.log('CLEANING')
     await Promise.allSettled(
       this.signInContexts.map(async (ctx) => {
         await deleteAuthenticatedAccount(ctx)
