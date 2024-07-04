@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useContext, useMemo, useState } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -31,7 +31,7 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
+import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -65,8 +65,6 @@ const PostDetailsPage = () => {
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
-  const { track } = useTracking()
-  const [readingTracked, setReadingTracked] = useState(false)
 
   const visitedScreensCount = useUserVisitedScreensCount()
 
@@ -149,17 +147,14 @@ const PostDetailsPage = () => {
     })
   }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
+  useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
+
   const onPressCreateComment = () =>
     loginState.isLoggedIn
       ? navigate(`/feed-posts/${idOrSlug}/comment`)
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
         })
-
-  if (!readingTracked && post) {
-    setReadingTracked(true)
-    track(TrackingEvent.FeedPosts.read(post.id))
-  }
 
   return (
     <>
