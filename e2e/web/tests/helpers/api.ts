@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { faker } from '@faker-js/faker'
-import { APIRequestContext, BrowserContext } from '@playwright/test'
+import { APIRequestContext, BrowserContext, Page } from '@playwright/test'
 
 type FlowNode = {
   attributes: {
@@ -40,6 +40,12 @@ const simpleGQLClient = async (request: APIRequestContext, query: string, variab
   })
 
   return await response.json()
+}
+
+export const denyTracking = async (page: Page) => {
+  await page.evaluate(() =>
+    localStorage.setItem('HOLI_TRACKING_CONSENT', '{"ANALYTICS":"denied","PERSONALIZATION":"denied"}')
+  )
 }
 
 export const deleteAuthenticatedAccount = async (context: BrowserContext) => {
