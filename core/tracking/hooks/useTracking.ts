@@ -3,7 +3,7 @@ import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatfor
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { TrackingEvent } from '@holi/core/tracking/events'
-import { Consent, TrackingHook, TrackingPurpose } from '@holi/core/tracking/types'
+import { ConsentState, TrackingHook } from '@holi/core/tracking/types'
 
 const logger = getLogger('Tracking')
 
@@ -17,22 +17,13 @@ const useDummyTracking = (): TrackingHook => {
 const useRealTracking = (): TrackingHook => {
   const posthog = usePosthogCrossPlatform()
   const consent = useConsentState()
-
-  // Attach current consent state for every purpose to every event. This way, when processing events it can be ensured
-  // that only events are included for which the user gave explicit consent at the time the event was recorded and the
-  // events are only used for the purpose that the user gave consent for.
-  const consentProperties = {
-    trackingConsentAnalytics: Consent.toBooleanOrNull(consent[TrackingPurpose.Analytics]),
-    trackingConsentPersonalization: Consent.toBooleanOrNull(consent[TrackingPurpose.Personalization]),
-  }
-
   return {
     track: (event: TrackingEvent) => {
       logger.debug('trackEvent', 'tracking event', event)
       try {
         posthog.capture(event.name, {
           ...event.properties,
-          ...consentProperties,
+          ...ConsentState.toEventProperties(consent),
           version: event.version,
         })
       } catch (e) {
