@@ -55,6 +55,14 @@ export namespace ConsentState {
     [TrackingPurpose.Analytics]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentAnalytics),
     [TrackingPurpose.Personalization]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentPersonalization),
   })
+
+  // can be used to attach the current consent state for every purpose to events sent to PostHog. This way, when
+  // processing events it can be ensured that only events are included for which the user gave explicit consent at
+  // the time the event was recorded and the events are only used for the purpose that the user gave consent for.
+  export const toEventProperties = (cs: ConsentState): Record<string, boolean | null> => ({
+    trackingConsentAnalytics: Consent.toBooleanOrNull(cs[TrackingPurpose.Analytics]),
+    trackingConsentPersonalization: Consent.toBooleanOrNull(cs[TrackingPurpose.Personalization]),
+  })
 }
 
 export interface TrackingHook {

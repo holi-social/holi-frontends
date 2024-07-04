@@ -17,7 +17,7 @@ import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
 import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
-import { TrackingProvider } from '@holi/web/providers/TrackingProvider'
+import WebTrackingProvider from '@holi/web/providers/WebTrackingProvider'
 import '@holi/web/styles/globals.css'
 import { NextJSPageProps } from '@holi/web/types'
 
@@ -56,7 +56,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const { customProps: { seoTitle, urls } = {}, origin } = pageProps
   return (
-    <TrackingProvider>
+    <WebTrackingProvider>
       <HoliHead
         title={t('metatags.default.title')}
         description={t('metatags.default.description')}
@@ -75,7 +75,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       ) : (
         <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
       )}
-    </TrackingProvider>
+    </WebTrackingProvider>
   )
 }
 
