@@ -1,5 +1,5 @@
 import { ApolloClient, ReactiveVar, makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 
 import {
   LoginStateChangeListener,
@@ -16,7 +16,6 @@ import {
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { consentStore } from '@holi/core/tracking/ConsentStore'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { trackingEnabled } from '@holi/core/tracking/config'
@@ -168,39 +167,22 @@ export const initialState: InitializerState = {
   processing: null,
 }
 
-/** internal use only! only exported for reset in testing */
-export const stateVar: ReactiveVar<InitializerState> = makeVar<InitializerState>(initialState)
+const initializerStateVar: ReactiveVar<InitializerState> = makeVar<InitializerState>(initialState)
+
+const consentStateVar: ReactiveVar<ConsentState> = makeVar<ConsentState>(ConsentState.unknown)
 
 /** to be called by UI components when the user updates their consent */
 export const updateConsentState = (newConsentState: ConsentState) => {
-  const currentState = stateVar()
-  stateVar({
+  const currentState = initializerStateVar()
+  initializerStateVar({
     state: currentState.state,
     processing: { trigger: 'consentUpdatedByUser', newConsentState: newConsentState },
   })
 }
 
-export const useConsentState = (): ConsentState => {
-  const user = useLoggedInUser()
-  const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
-  const apollo: ApolloClient<object> = useApolloClient()
-  const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
-  const state = useReactiveVar(stateVar)
+export const useConsentState = (): ConsentState => useReactiveVar(consentStateVar)
 
-  const [consentState, setConsentState] = useState<ConsentState>(ConsentState.unknown)
-
-  useEffect(() => {
-    if (trackingEnabled()) {
-      if (user.isLoggedIn) {
-        setConsentState(ConsentState.fromUser(user.user))
-      } else {
-        tracking.loadConsentStateFromLocalStorage().then(setConsentState)
-      }
-    }
-  }, [state, tracking, user.isLoading, user.isLoggedIn, user.user])
-
-  return consentState
-}
+export const getConsentState = (): ConsentState => consentStateVar()
 
 export interface TrackingInitializerProps extends TrackingInitializerInnerProps {
   enableTracking?: boolean
@@ -237,21 +219,21 @@ const TrackingInitializerInner = ({
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const apollo: ApolloClient<object> = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
-  const state = useReactiveVar(stateVar)
+  const state = useReactiveVar(initializerStateVar)
 
   useEffect(() => {
     const loginStateChangeListener: LoginStateChangeListener = (curState, prevState) => {
       if (curState.isLoggedIn) {
         logger.debug('TrackingInitializer', 'detected user login')
-        const currentState = stateVar()
-        stateVar({
+        const currentState = initializerStateVar()
+        initializerStateVar({
           state: currentState.state,
           processing: { trigger: 'userLoggedIn' },
         })
       } else if (curState.isLoggedOut && prevState?.isLoggedOut === false) {
         logger.debug('TrackingInitializer', 'detected user logout')
-        const currentState = stateVar()
-        stateVar({
+        const currentState = initializerStateVar()
+        initializerStateVar({
           state: currentState.state,
           processing: { trigger: 'userLoggedOut' },
         })
@@ -275,9 +257,12 @@ const TrackingInitializerInner = ({
             case 'userLoggedIn':
               tracking
                 .fetchAuthenticatedUser()
-                .then((au) => tracking.initWithLoggedInUser(au))
+                .then((au) => {
+                  tracking.initWithLoggedInUser(au)
+                  consentStateVar(ConsentState.fromUser(au))
+                })
                 .then(() => {
-                  stateVar({
+                  initializerStateVar({
                     state: 'loggedIn',
                     processing: null,
                   })
@@ -287,9 +272,12 @@ const TrackingInitializerInner = ({
             case 'userLoggedOut':
               tracking
                 .loadConsentStateFromLocalStorage()
-                .then((cs) => tracking.initWithLoggedOutUser(cs))
+                .then((cs) => {
+                  tracking.initWithLoggedOutUser(cs)
+                  consentStateVar(cs)
+                })
                 .then(() => {
-                  stateVar({
+                  initializerStateVar({
                     state: 'loggedOut',
                     processing: null,
                   })
@@ -303,7 +291,7 @@ const TrackingInitializerInner = ({
         case 'loggedIn':
           switch (state.processing.trigger) {
             case 'userLoggedIn':
-              stateVar({
+              initializerStateVar({
                 state: 'loggedIn',
                 processing: null,
               })
@@ -311,9 +299,12 @@ const TrackingInitializerInner = ({
             case 'userLoggedOut':
               tracking
                 .clearConsentAfterUserLoggedOut()
-                .then(() => tracking.initWithLoggedOutUser(ConsentState.unknown))
                 .then(() => {
-                  stateVar({
+                  tracking.initWithLoggedOutUser(ConsentState.unknown)
+                  consentStateVar(ConsentState.unknown)
+                })
+                .then(() => {
+                  initializerStateVar({
                     state: 'loggedOut',
                     processing: null,
                   })
@@ -323,9 +314,12 @@ const TrackingInitializerInner = ({
             case 'consentUpdatedByUser':
               tracking
                 .updateConsentOnUserProfile(state.processing.newConsentState)
-                .then((au) => tracking.initWithLoggedInUser(au))
+                .then((au) => {
+                  tracking.initWithLoggedInUser(au)
+                  consentStateVar(ConsentState.fromUser(au))
+                })
                 .then(() => {
-                  stateVar({
+                  initializerStateVar({
                     state: 'loggedIn',
                     processing: null,
                   })
@@ -346,9 +340,12 @@ const TrackingInitializerInner = ({
                     })
                   : Promise.resolve(authenticatedUser)
                 maybeMigrateConsentStateToUserProfile
-                  .then((maybeMigratedUser) => tracking.initWithLoggedInUser(maybeMigratedUser))
+                  .then((maybeMigratedUser) => {
+                    tracking.initWithLoggedInUser(maybeMigratedUser)
+                    consentStateVar(ConsentState.fromUser(maybeMigratedUser))
+                  })
                   .then(() => {
-                    stateVar({
+                    initializerStateVar({
                       state: 'loggedIn',
                       processing: null,
                     })
@@ -357,7 +354,7 @@ const TrackingInitializerInner = ({
               })
               break
             case 'userLoggedOut':
-              stateVar({
+              initializerStateVar({
                 state: 'loggedOut',
                 processing: null,
               })
@@ -367,9 +364,12 @@ const TrackingInitializerInner = ({
                 const newConsentState = state.processing.newConsentState
                 tracking
                   .updateConsentOnLocalStorage(newConsentState)
-                  .then(() => tracking.initWithLoggedOutUser(newConsentState))
                   .then(() => {
-                    stateVar({
+                    tracking.initWithLoggedOutUser(newConsentState)
+                    consentStateVar(newConsentState)
+                  })
+                  .then(() => {
+                    initializerStateVar({
                       state: 'loggedOut',
                       processing: null,
                     })
@@ -387,3 +387,8 @@ const TrackingInitializerInner = ({
 }
 
 export default memo(TrackingInitializer)
+
+export const exportedForTesting = {
+  initializerStateVar,
+  consentStateVar,
+}

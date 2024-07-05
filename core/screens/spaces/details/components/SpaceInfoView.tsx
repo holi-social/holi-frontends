@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliMap, HoliPin } from '@holi/core/components/HoliMap'
 import InfoModal from '@holi/core/components/InfoModal'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
@@ -11,6 +12,7 @@ import { Space } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Phone } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -46,11 +48,37 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
           </View>
         </SpaceSection>
       )}
-      {!!space.location && (
+
+      {space.location && (
         <SpaceSection title={t('spaces.spaceDetails.location')}>
           <HoliText>{space.location}</HoliText>
+          {space.geolocation && (
+            <>
+              <HoliGap size={'l'} />
+              <View style={{ width: '100%', aspectRatio: 1 }}>
+                <View
+                  style={{
+                    borderRadius: 16,
+                    padding: 8,
+                    borderWidth: 1,
+                    borderColor: theme.colors.gray200,
+                    backgroundColor: theme.colors.white100,
+                    height: '100%',
+                    width: '100%',
+                  }}
+                >
+                  <View style={{ borderRadius: 8, overflow: 'hidden', height: '100%', width: '100%' }}>
+                    <HoliMap center={space.geolocation}>
+                      <HoliPin location={space.geolocation} />
+                    </HoliMap>
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
         </SpaceSection>
       )}
+
       {!!sdgs.length && (
         <SpaceSection title={t('spaces.spaceDetails.sdgs')} infoIcon onPressInfo={showInfoModal}>
           <View style={styles.listContainer}>

@@ -52,7 +52,9 @@ export const FilterPill = ({ loading, label, filterType, style, small }: PropsWi
           {label}
         </HoliText>
       ) : (
-        <HoliText numberOfLines={1}>{label}</HoliText>
+        <HoliText numberOfLines={1} color={theme.dark && filterType !== 'location' ? 'white100' : 'black300'}>
+          {label}
+        </HoliText>
       )}
     </View>
   )

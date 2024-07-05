@@ -9,7 +9,6 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -45,7 +44,6 @@ const CreateAppointment = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
@@ -194,7 +192,7 @@ const CreateAppointment = () => {
     setSaveButtonDisabled(!title.length || !inputValid)
   }, [title, inputValid])
 
-  if (loadingSpace || ftLoading) {
+  if (loadingSpace) {
     return <HoliLoader />
   }
 
@@ -208,7 +206,6 @@ const CreateAppointment = () => {
       permissionType={PermissionsType.SPACES}
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
-      forceRestrict={!ftEnabled && !ftLoading}
       redirectRoute={`/spaces/${spaceIdOrName}`}
     >
       <FormWrapper

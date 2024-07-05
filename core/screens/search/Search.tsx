@@ -2,9 +2,7 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SearchContent from '@holi/core/screens/search/components/SearchContent'
@@ -23,15 +21,13 @@ const Search = () => {
   }, [setScreenOptions, title])
 
   return (
-    <FeatureToggleGuard toggleName={FeatureToggleName.SEARCH} featureNameKey={'search.title'}>
-      <KeyboardAvoidingViewWrapper
-        renderProp={() => (
-          <SafeAreaView style={styles.wrapper}>
-            <SearchContent />
-          </SafeAreaView>
-        )}
-      />
-    </FeatureToggleGuard>
+    <KeyboardAvoidingViewWrapper
+      renderProp={() => (
+        <SafeAreaView style={styles.wrapper}>
+          <SearchContent />
+        </SafeAreaView>
+      )}
+    />
   )
 }
 
