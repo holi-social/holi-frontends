@@ -53,7 +53,7 @@ const EditPost = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
 
-  const [description, setDescription] = useState<string>('')
+  const [description, setDescription] = useState<string>()
   const [title, setTitle] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | null>()
   const [currentImage, setCurrentImage] = useState<string>()

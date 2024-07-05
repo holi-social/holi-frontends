@@ -1,10 +1,17 @@
-/**
- * Converts an input string with mentions into a structured JSON format.
- * @param {string} inputString - The input string containing text and mentions.
- * @param {Array} mentions - An array of mention objects with fullName and id properties.
- * @returns {Array} - An array of segments representing the structured JSON format.
- */
 import { User } from '@holi/core/screens/userprofile/types'
+
+interface LexicalSegment {
+  detail: number
+  format: number
+  mode: 'normal' | 'segmented'
+  style: string
+  text: string
+  type: 'text' | 'mention'
+  version: number
+  userId?: string
+  userName?: string
+  displayString?: string
+}
 
 /**
  * Converts an input string with mentions into a structured JSON format.
@@ -14,11 +21,11 @@ import { User } from '@holi/core/screens/userprofile/types'
  */
 export function convertStringToLexicalJson(inputString: string, mentions: User[] = []) {
   const words = inputString.split(' ')
-  const segments = []
+  const segments: LexicalSegment[] = []
   let normalText = ''
 
   // Create a lookup map from the mentions array for quick ID lookup, if mentions are provided
-  const mentionsMap = mentions.reduce((map, mention) => {
+  const mentionsMap = mentions.reduce((map: Record<string, string>, mention: User) => {
     map[mention.id] = mention.fullName
     return map
   }, {})
@@ -27,18 +34,18 @@ export function convertStringToLexicalJson(inputString: string, mentions: User[]
    * Adds a normal text segment to the segments array.
    * @param {string} text - The normal text to be added.
    */
-  function addTextSegment(text) {
-    if (text) {
-      segments.push({
-        detail: 0,
-        format: 0,
-        mode: 'normal',
-        style: '',
-        text,
-        type: 'text',
-        version: 1,
-      })
-    }
+  function addTextSegment(text: string) {
+    if (!text) return
+
+    segments.push({
+      detail: 0,
+      format: 0,
+      mode: 'normal',
+      style: '',
+      text: text,
+      type: 'text',
+      version: 1,
+    })
   }
 
   /**
@@ -46,7 +53,7 @@ export function convertStringToLexicalJson(inputString: string, mentions: User[]
    * @param {string} id - The mention ID.
    * @param {string} userName - The full name of the mentioned user.
    */
-  function addMentionSegment(id, userName) {
+  function addMentionSegment(id: string, userName: string) {
     segments.push({
       detail: 1,
       format: 0,
@@ -62,7 +69,9 @@ export function convertStringToLexicalJson(inputString: string, mentions: User[]
   }
 
   // Process each word in the input string
-  for (const word of words) {
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i]
+    const appendSpace = i === words.length - 1 ? '' : ' '
     if (word.startsWith('@')) {
       // Extract the mention ID (excluding the '@' character)
       const mentionId = word.slice(1)
@@ -70,15 +79,15 @@ export function convertStringToLexicalJson(inputString: string, mentions: User[]
       if (userName) {
         // Add accumulated normal text before adding a mention
         addTextSegment(normalText)
-        normalText = '' // Reset normal text
+        normalText = appendSpace // Reset normal text
         addMentionSegment(mentionId, userName)
       } else {
         // Append word to normal text if no mention is found
-        normalText += word + ' '
+        normalText += word + appendSpace
       }
     } else {
       // Accumulate normal text
-      normalText += word + ' '
+      normalText += word + appendSpace
     }
   }
 

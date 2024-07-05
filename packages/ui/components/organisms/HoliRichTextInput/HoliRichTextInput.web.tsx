@@ -7,37 +7,35 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { EditorState, LexicalEditor } from 'lexical'
-// import { $createParagraphNode, $createTextNode, $getRoot, $getSelection } from 'lexical'
 import React, { useCallback, useMemo, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { TEXT_INPUT_HORIZONTAL_PADDING, TEXT_INPUT_VERTICAL_PADDING } from '@holi/ui/components/molecules/HoliTextInput'
+import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput/HoliRichTextInput'
 import { MaxLengthPlugin } from '@holi/ui/components/organisms/HoliRichTextInput/helper/MaxLengthPlugin'
+import { convertStringToLexicalJson } from '@holi/ui/components/organisms/HoliRichTextInput/helper/convertStringToLexicalJson'
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
 import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
 import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import type { HoliRichTextInputProps } from './HoliRichTextInput'
-import { convertStringToLexicalJson } from './helper/convertStringToLexicalJson'
-
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
-  initialValue = '',
+  initialValue,
   placeholder = '...',
   autofocus = false,
   minSearchChars = 2,
   maxSuggestionOptions = 5,
   debounceDelay = 300,
   mentions = [],
+  isEdit = false,
   ...props
 }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const [editorState, setEditorState] = useState(initialValue)
 
   const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
   const [characterCount, setCharacterCount] = useState(0)
@@ -52,7 +50,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
             limit: maxSuggestionOptions,
           },
         })
-          .then((response) => resolve(response?.data?.userByName.data ?? []))
+          .then((response) => resolve([...(response?.data?.userByName.data as User[])] ?? []))
           .catch(reject)
       })
     },
@@ -67,85 +65,32 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
 
       setCharacterCount(pureText.length)
     })
-    setEditorState(JSON.stringify(editor))
   }
 
-  if (!initialValue) {
+  const initialJson = useMemo(
+    () => JSON.stringify(convertStringToLexicalJson(initialValue || '', mentions)),
+    [initialValue, mentions]
+  )
+
+  if (isEdit && typeof initialValue === 'undefined') {
     return <></>
   }
 
-  const initialJsonTest =
-    '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"hello ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Uschi Meyer","type":"mention","version":1,"userId":"f5704c34-ef42-4231-a5d0-995ac089dc1e","userName":"Uschi Meyer","displayString":"@Uschi Meyer"},{"detail":0,"format":0,"mode":"normal","style":"","text":" und ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Paul Auster","type":"mention","version":1,"userId":"0006","userName":"Paul Auster","displayString":"@Paul Auster"}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
-  // const initialHtml =
-  //   '<p dir="ltr"><span>Hallo </span><span data-user-id="Uschi Meyer" data-lexical-mention="true">@0001</span><span> und </span><span data-user-id="Paul Müller" data-lexical-mention="true">@0002</span></p>'
-
-  const initialJson = JSON.stringify(convertStringToLexicalJson(initialValue, mentions))
-  // const initialJson = JSON.stringify({
-  //   root: {
-  //     children: [
-  //       {
-  //         children: [
-  //           {
-  //             detail: 0,
-  //             format: 0,
-  //             mode: 'normal',
-  //             style: '',
-  //             text: 'hello @0001 und @0006 dfdf df',
-  //             type: 'text',
-  //             version: 1,
-  //           },
-  //           {
-  //             detail: 1,
-  //             format: 0,
-  //             mode: 'segmented',
-  //             style: '',
-  //             text: 'joao',
-  //             type: 'mention',
-  //             version: 1,
-  //             userId: 'f5704c34-ef42-4231-a5d0-995ac089dc1e',
-  //             userName: 'joao',
-  //             displayString: '@joao',
-  //           },
-  //         ],
-  //         direction: 'ltr',
-  //         format: '',
-  //         indent: 0,
-  //         type: 'paragraph',
-  //         version: 1,
-  //       },
-  //     ],
-  //     direction: 'ltr',
-  //     format: '',
-  //     indent: 0,
-  //     type: 'root',
-  //     version: 1,
-  //   },
-  // })
-  console.log({ initialJson, initialValue, mentions })
   const lexicalConfig = {
     namespace: 'HoliRichTextInput',
     nodes: [HoliMentionsPluginNode],
-    // editorState: initalJson,
-    // editorState: () => {
-    //   const parser = new DOMParser()
-    //   const dom = parser.parseFromString(initialHtml, 'text/html')
-    //   const nodes = $generateNodesFromDOM(editor, dom) // no editor here ;-(
-    //   $getRoot().select()
-    //   $insertNodes(nodes)
-    //   // or
-    //   // const paragraph = $createParagraphNode()
-    //   // const text = $createTextNode('sdfsdf')
-    //   // paragraph.append(text)
-    //   // $getRoot().append(paragraph)
-    //   // $getRoot().selectEnd()
-    // },
-    onError: (error: unknown) =>
+    onError: (error: unknown) => {
+      // we ignore this known issue, which is not our use case https://stackoverflow.com/questions/74030967/keyboard-navigation-across-text-and-decorator-nodes
+      if (error instanceof Error && error.message === 'lexical.$getDecoratorNode is not a function') {
+        return
+      }
       logError(error, 'Error in LexicalComposer', {
         location: 'HoliRichTextInput.LexicalComposer.onError',
-      }),
+      })
+    },
     editorState: initialJson,
-    // ...(editorState ? { editorState } : {}),
   }
+
   const CharacterCount = () => (
     <View style={styles.charactorCountContainer}>
       {props.showCharacterCount && props.maxNoOfCharacters && (
@@ -191,19 +136,19 @@ export default React.memo(HoliRichTextInput)
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     inputDiv: {
-      paddingLeft: 20,
-      paddingRight: 20,
-      paddingTop: 10,
-      paddingBottom: 10,
+      // this is a web only component and paddingVertical and paddingHorizontal are not supported
+      paddingLeft: TEXT_INPUT_HORIZONTAL_PADDING,
+      paddingRight: TEXT_INPUT_HORIZONTAL_PADDING,
+      paddingTop: TEXT_INPUT_VERTICAL_PADDING,
+      paddingBottom: TEXT_INPUT_VERTICAL_PADDING,
       outlineWidth: 0,
     },
     placeholder: {
       color: theme.colors.foreground20,
       overflow: 'hidden',
       position: 'absolute',
-      textOverflow: 'ellipsis',
-      top: 10,
-      left: 20,
+      top: TEXT_INPUT_VERTICAL_PADDING,
+      left: TEXT_INPUT_HORIZONTAL_PADDING,
       userSelect: 'none',
       display: 'inline-block',
       pointerEvents: 'none',

@@ -17,7 +17,6 @@ import {
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Term, User } from '@holi/core/screens/userprofile/types'
 import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -42,7 +41,7 @@ export enum Visibility {
 
 export interface PostInputFormProps {
   title: string
-  description: string
+  description?: string
   image: HoliImageInfo | null
   selectedVisibility: Visibility
   selectedCategoryId: string | null
@@ -89,7 +88,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
-  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const [_, setFieldErrors] = useState<TranslatedFieldErrors>({}) // TODO: include fieldErrors in HoliRichTextInput
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
@@ -175,20 +174,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               maxNoOfVisibleLines={3}
               noOfVisibleLines={2}
             />
-            {/* <HoliTextInput
-              placeholder={descriptionPlaceholder}
-              inputStyle={styles.descriptionInput}
-              aria-label={descriptionPlaceholder}
-              onChange={onChangeDescription}
-              placeholderColor={theme.colors.gray300}
-              showCharacterCount
-              value={description}
-              maxNoOfCharacters={FEED_POST_DESCRIPTION_MAX_CHARACTERS}
-              validationErrorText={
-                description && fieldErrors?.description?.length ? fieldErrors.description[0] : undefined
-              }
-              maxNoOfVisibleLines={1600}
-            /> */}
+
             <HoliRichTextInput
               placeholder={descriptionPlaceholder}
               inputStyle={styles.descriptionInput}
@@ -199,8 +185,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               maxNoOfCharacters={FEED_POST_DESCRIPTION_MAX_CHARACTERS}
               initialValue={description}
               mentions={mentions}
+              isEdit={isEdit}
             />
-            <HoliText>{description}</HoliText>
 
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
@@ -217,6 +203,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           isEdit={isEdit}
         />
       </KeyboardAvoidingView>
+
       {/* Suggestions*/}
       <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
 
