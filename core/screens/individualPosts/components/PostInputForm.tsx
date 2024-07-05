@@ -88,7 +88,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
-  const [_, setFieldErrors] = useState<TranslatedFieldErrors>({}) // TODO: include fieldErrors in HoliRichTextInput
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
@@ -101,12 +100,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       ...(description ? { description } : {}),
     })
     setIsSubmittable(formDataParseResult.success)
-
-    if (!formDataParseResult.success) {
-      setFieldErrors(formDataParseResult.error.flatten().fieldErrors)
-    } else {
-      setFieldErrors({})
-    }
   }, [title, description, selectedVisibility, selectedCategoryId])
 
   const visibilityOptions: HoliModalSelectOption<Visibility>[] = [
@@ -301,17 +294,14 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: 10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
-      shadowColor: theme.colors.foreground30,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.4,
-      shadowRadius: 6,
+      borderTopColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderRightColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderLeftColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderWidth: 1,
+      borderBottomWidth: 0,
       borderRadius: 12,
       elevation: 4,
       borderTopWidth: 1,
-      borderTopColor: theme.colors.background30,
       ...Platform.select({
         web: {
           maxWidth: dimensions.maxScreenWidth,

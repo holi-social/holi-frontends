@@ -119,7 +119,11 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
         <CharacterCount />
         <>{props.maxNoOfCharacters && <MaxLengthPlugin maxLength={props.maxNoOfCharacters} />}</>
         <HistoryPlugin />
-        <HoliFocusPlugin autofocus={autofocus} onFocus={props?.onFocus} onBlur={props?.onBlur} />
+        <HoliFocusPlugin
+          autofocus={autofocus}
+          onFocus={props?.onFocus as ((event: FocusEvent) => void) | undefined}
+          onBlur={props?.onBlur as ((event: FocusEvent) => void) | undefined}
+        />
         <HoliMentionsPlugin
           findUsersByName={findUserMapped}
           minSearchChars={minSearchChars}

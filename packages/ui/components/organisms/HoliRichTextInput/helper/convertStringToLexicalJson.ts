@@ -1,5 +1,9 @@
 import { User } from '@holi/core/screens/userprofile/types'
 
+/**
+ * Web only method to convert a string with mentions into a structured JSON format.
+ */
+
 interface LexicalSegment {
   detail: number
   format: number
