@@ -144,7 +144,6 @@ const getStyles = (checked = false, theme: HoliTheme) =>
       color: checked ? theme.colors.background10 : theme.colors.brandColorB30,
     },
     focused: {
-      outlineColor: theme.colors.brandColorB30,
       borderRadius: 8,
       ...Platform.select({
         web: {
