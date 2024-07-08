@@ -32,7 +32,7 @@ const assertAllowsPagination = async () => {
   // load more
   await tapOnElementWithTestId('btn-goodnews-list-load-more')
   // wait a moment
-  await tapOnElementWithTestId('goodnews-detailview-container')
+  await waitForElementWithTestId('goodnews-detailview-container')
   // wait until "load more" button has been replaced by next list item
   await waitForElementWithTestIdToBeNull('btn-goodnews-list-load-more')
 }
