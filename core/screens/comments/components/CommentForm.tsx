@@ -24,6 +24,8 @@ import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { User } from '@holi/core/screens/userprofile/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -63,6 +65,7 @@ const CommentForm = ({
   const { openToast } = useToast()
   const { height: screenHeight } = useWindowDimensions()
   const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
@@ -100,6 +103,7 @@ const CommentForm = ({
   const [addComment, { loading: createCommentLoading }] = useMutation<CreateCommentResponse>(AddCommentMutation, {
     onCompleted: () => {
       openToast(t('comments.success'), HoliToastType.SUCCESS)
+      track(TrackingEvent.Engaging.commented(commentableType, commentableId))
       if (redirectRoute) {
         replaceRoute(redirectRoute)
       } else {
