@@ -87,6 +87,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     suggestionItem: {
       display: 'flex',
+      width: '100%',
       whiteSpace: 'nowrap',
       paddingLeft: 20,
       paddingRight: 20,

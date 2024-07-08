@@ -207,7 +207,7 @@ const CommentForm = ({
             {/* Bottom Bar */}
             <View style={[styles.bottomBar]}>
               {/* Suggestions*/}
-              <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
+              <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
 
               <View style={[styles.buttonContainer, mixins.container]}>
                 <HoliButton
@@ -297,28 +297,25 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
     },
     suggestionsScrollView: {
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
-      width: '100%',
       height: SUGGESTIONS_DROPDOWN_HEIGHT,
       maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
       paddingTop: 10,
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
-      shadowColor: theme.colors.foreground30,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.4,
-      shadowRadius: 6,
       borderRadius: 12,
       elevation: 4,
-      borderTopWidth: 1,
-      borderTopColor: theme.colors.background30,
+      borderTopColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderRightColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderLeftColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderWidth: 1,
+      borderBottomWidth: 0,
+      width: '100%',
       ...Platform.select({
         web: {
           maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
+          width: '98%',
         },
       }),
       position: 'absolute',
