@@ -1,7 +1,7 @@
-import { ReactNativeFile } from 'apollo-upload-client'
 import Constants from 'expo-constants'
 import { Image, Platform } from 'react-native'
 
+import { ReactNativeFile } from '@holi/api/graphql/client'
 import testImage from '@holi/ui/assets/img/illustrations/illustration_welcome.png'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 

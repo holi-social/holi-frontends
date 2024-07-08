@@ -10,7 +10,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliSwiper from '@holi/ui/components/molecules/HoliSwiper/index'
-import dimensions from '@holi/ui/styles/globalVars/dimensions'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import {
@@ -121,7 +121,7 @@ const GoodNewsCarousel = () => {
 
   return (
     <View style={{ alignItems: 'center', flex: 1 }}>
-      <View style={{ width: '100%', maxWidth: +dimensions.maxScreenWidth + 160, flex: 1 }}>
+      <View style={{ width: '100%', maxWidth: dimensions.maxScreenWidth + 160, flex: 1 }}>
         <HoliSwiper
           initialSlide={initialArticleIndex}
           height={height}

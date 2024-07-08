@@ -71,8 +71,8 @@ export class ReactNativeFile {
   }
 }
 
-function customIsExtractableFile(value: unknown): value is ReactNativeFile {
-  return value instanceof ReactNativeFile
+function customIsExtractableFile(value: unknown): value is ReactNativeFile | File {
+  return value instanceof ReactNativeFile || value instanceof File
 }
 
 // must be last in chain, because it handles the actual call to the server

@@ -173,6 +173,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     ({ keyword, onSuggestionPress }: MentionSuggestionsProps) => {
       requestAnimationFrame(() => setSafeKeyword(!keyword ? '' : keyword))
       onChooseOptionRef.current = onSuggestionPress
+      return null
     },
     [setSafeKeyword]
   )

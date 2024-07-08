@@ -24,7 +24,7 @@ interface Props extends InputProps {
   translationPrefix: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmitPress: () => void
-  isSignin?: BooleanSupportOption
+  isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: ViewStyle | Record<string, unknown>
 }
