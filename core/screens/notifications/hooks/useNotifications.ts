@@ -33,6 +33,7 @@ export const useNotifications = () => {
         const notifications = response.data
           .map(mapToNotification)
           .filter((notification) => !!notification) as Notification[]
+
         const newNotifications = Object.fromEntries(
           notifications.map((notification) => [notification.id, notification])
         )
@@ -131,7 +132,14 @@ export const useNotifications = () => {
 
 function mapToNotification(
   message: IMessage
-): NotificationSpaceConnection | NotificationPost | NotificationSpacePost | NotificationAppointments | undefined {
+):
+  | NotificationSpaceConnection
+  | NotificationPost
+  | NotificationSpacePost
+  | NotificationAppointments
+  | NotificationChallenges
+  | NotificationPolls
+  | undefined {
   const { data, notificationType, notificationVersion } = message.payload
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
@@ -188,6 +196,7 @@ function mapToNotification(
       }
     case NovuNotificationType.CHALLENGE_APPROVAL:
     case NovuNotificationType.CHALLENGE_NEW_COMMENT:
+    case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
     case NovuNotificationType.CHALLENGE_KEEP_STREAK:
       return {
         id: message._id,
