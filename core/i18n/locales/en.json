@@ -1172,6 +1172,7 @@
   "spaces.spaceDetails.tasks.heading": "{{count}} way to get involved",
   "spaces.spaceDetails.tasks.heading_plural": "{{count}} ways to get involved",
   "spaces.spaceDetails.topics": "Topics",
+  "spaces.spaceDetails.map.footer": "Map created based on data from",
   "spaces.spaceListing.error": "Loading spaces failed",
   "spaces.spaceListing.loadMoreButton.text": "See more",
   "spaces.storage.maintenance.feature": "Files",
