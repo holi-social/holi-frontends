@@ -53,6 +53,8 @@ jest.mock('react-native/Libraries/Network/RCTNetworking')
 
 jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
 
+jest.mock('apollo-upload-client/createUploadLink.mjs', () => jest.fn())
+
 jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
 
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {

@@ -33,12 +33,6 @@ function usePaginationQuery<TData>(
       offset: 0,
     },
     ...remainingOptions,
-    onCompleted: (data) => {
-      setIsFetchingMore(false)
-      if (remainingOptions.onCompleted) {
-        remainingOptions.onCompleted(data)
-      }
-    },
   })
 
   const { data = [], totalResults = 0 } = at<Paged<TData>>(pagedData, queryPath)[0] ?? {}
@@ -55,11 +49,13 @@ function usePaginationQuery<TData>(
       variables: {
         offset: data.length,
       },
-    }).catch((error) =>
-      logError(error, 'Failed to fetch more', {
-        location: 'usePaginationQuery.memoizedFetchMore',
-      })
-    )
+    })
+      .catch((error) =>
+        logError(error, 'Failed to fetch more', {
+          location: 'usePaginationQuery.memoizedFetchMore',
+        })
+      )
+      .finally(() => setIsFetchingMore(false))
   }, [isFetchingMore, fetchMore, data.length])
 
   return {
