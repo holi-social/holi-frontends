@@ -39,10 +39,13 @@ describe('useTracking', () => {
       it('does add trackingConsentPersonalization=true as an event property', async () => {
         // GIVEN
         usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
-        useConsentStateMock.mockReturnValue({
-          [TrackingPurpose.Analytics]: Consent.Given,
-          [TrackingPurpose.Personalization]: Consent.Given,
-        })
+        useConsentStateMock.mockReturnValue([
+          {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Given,
+          },
+          { loading: false },
+        ])
 
         // WHEN
         const tracking = useTracking()
@@ -65,10 +68,13 @@ describe('useTracking', () => {
       it('does add trackingConsentPersonalization=false as an event property', async () => {
         // GIVEN
         usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
-        useConsentStateMock.mockReturnValue({
-          [TrackingPurpose.Analytics]: Consent.Given,
-          [TrackingPurpose.Personalization]: Consent.Denied,
-        })
+        useConsentStateMock.mockReturnValue([
+          {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Denied,
+          },
+          { loading: false },
+        ])
 
         // WHEN
         const tracking = useTracking()

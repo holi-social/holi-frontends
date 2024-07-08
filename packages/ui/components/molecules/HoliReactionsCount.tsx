@@ -54,17 +54,17 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
   const labelText = active ? activeText : notActiveText
 
   const onNativeMouseEnter = useCallback(
-    (event: MouseEnterOutEvent) => {
+    (event: NativeSyntheticEvent<NativeMouseEvent> | MouseEnterOutEvent) => {
       setHovered(true)
-      onMouseEnter?.(event)
+      onMouseEnter?.(event as MouseEnterOutEvent)
     },
     [onMouseEnter, setHovered]
   )
 
   const onNativeMouseOut = useCallback(
-    (event: MouseEnterOutEvent) => {
+    (event: NativeSyntheticEvent<NativeMouseEvent> | MouseEnterOutEvent) => {
       setHovered(false)
-      onMouseOut?.(event)
+      onMouseOut?.(event as MouseEnterOutEvent)
     },
     [onMouseOut, setHovered]
   )

@@ -17,6 +17,8 @@ import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -35,6 +37,7 @@ const CreatePost = () => {
   const setScreenOptions = useSetScreenOptions()
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
+  const { track } = useTracking()
 
   const { loading: categoriesLoading, categories } = useFeedPostCategories()
 
@@ -51,6 +54,7 @@ const CreatePost = () => {
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
       openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
+      track(TrackingEvent.FeedPosts.created)
       navigateBack()
     },
     refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],

@@ -240,7 +240,9 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
     describe('given only analytics consent', () => {
@@ -265,7 +267,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
     describe('given only personalization consent', () => {
@@ -290,7 +293,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
     describe('given analytics + personalization consent', () => {
@@ -315,7 +319,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
   })
@@ -339,7 +344,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
     describe('given only analytics consent', () => {
@@ -364,7 +370,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
     describe('given only personalization consent', () => {
@@ -389,7 +396,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
     describe('given analytics + personalization consent', () => {
@@ -414,7 +422,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(expectedConsentState)
+        const [consentState] = trackingInitializerTesting.consentStateVar()
+        expect(consentState).toEqual(expectedConsentState)
       })
     })
   })
@@ -455,14 +464,16 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(initialConsentState)
+        const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+        expect(consentStateBefore).toEqual(initialConsentState)
 
         await act(() => updateConsentState(updatedConsentState))
         await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(updatedConsentState)
+        const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+        expect(consentStateAfter).toEqual(updatedConsentState)
       })
     })
   })
@@ -495,7 +506,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(loggedInConsentState)
+        const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+        expect(consentStateBefore).toEqual(loggedInConsentState)
 
         await act(setLoginStateLoggedOut)
         rerender(component)
@@ -505,7 +517,8 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.reset).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(ConsentState.unknown)
+        const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+        expect(consentStateAfter).toEqual(ConsentState.unknown)
       })
     })
   })
@@ -544,7 +557,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateBefore).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -552,7 +566,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateAfter).toEqual(localStorageConsentState)
         })
       })
       describe('with known analytics consent in the user profile', () => {
@@ -587,7 +602,8 @@ describe('TrackingInitializer', () => {
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.optOut).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateBefore).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -595,7 +611,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
+          const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateAfter).toEqual(userProfileConsentState)
         })
       })
       describe('with denied analytics consent in user profile', () => {
@@ -630,7 +647,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateBefore).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -638,7 +656,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
+          const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateAfter).toEqual(userProfileConsentState)
         })
       })
       describe('with given analytics consent in user profile', () => {
@@ -673,7 +692,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateBefore).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -682,7 +702,8 @@ describe('TrackingInitializer', () => {
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(0)
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
+          const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateAfter).toEqual(userProfileConsentState)
         })
       })
     })
@@ -715,7 +736,8 @@ describe('TrackingInitializer', () => {
 
         expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+        const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+        expect(consentStateBefore).toEqual(localStorageConsentState)
 
         const updatedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
@@ -732,7 +754,8 @@ describe('TrackingInitializer', () => {
           'HOLI_TRACKING_CONSENT',
           '{"ANALYTICS":"given","PERSONALIZATION":"denied"}'
         )
-        expect(trackingInitializerTesting.consentStateVar()).toEqual(updatedConsentState)
+        const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+        expect(consentStateAfter).toEqual(updatedConsentState)
       })
     })
     describe('when user logs in', () => {
@@ -770,7 +793,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateBefore).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -778,7 +802,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateAfter).toEqual(localStorageConsentState)
         })
       })
       describe('with given analytics consent in user profile', () => {
@@ -813,7 +838,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateBefore).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -821,7 +847,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
+          const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateAfter).toEqual(userProfileConsentState)
         })
       })
       describe('with denied analytics consent in user profile', () => {
@@ -856,7 +883,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(localStorageConsentState)
+          const [consentStateBefore] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateBefore).toEqual(localStorageConsentState)
 
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
@@ -864,7 +892,8 @@ describe('TrackingInitializer', () => {
 
           expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
-          expect(trackingInitializerTesting.consentStateVar()).toEqual(userProfileConsentState)
+          const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
+          expect(consentStateAfter).toEqual(userProfileConsentState)
         })
       })
     })
