@@ -1173,6 +1173,7 @@
   "spaces.spaceDetails.tasks.heading": "{{count}} Weg zu helfen",
   "spaces.spaceDetails.tasks.heading_plural": "{{count}} Wege zu helfen",
   "spaces.spaceDetails.topics": "Themen",
+  "spaces.spaceDetails.map.footer": "Karte hergestellt durch Daten von",
   "spaces.spaceListing.error": "Laden von Spaces ist fehlgeschlagen",
   "spaces.spaceListing.loadMoreButton.text": "Weitere Spaces",
   "spaces.storage.maintenance.feature": "Dateien",
