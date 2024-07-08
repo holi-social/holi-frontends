@@ -16,7 +16,7 @@ const useDummyTracking = (): TrackingHook => {
 
 const useRealTracking = (): TrackingHook => {
   const posthog = usePosthogCrossPlatform()
-  const consent = useConsentState()
+  const [consent] = useConsentState()
   return {
     track: (event: TrackingEvent) => {
       logger.debug('trackEvent', 'tracking event', event)

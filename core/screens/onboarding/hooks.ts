@@ -3,7 +3,6 @@ import AsyncStore from '@react-native-async-storage/async-storage'
 import { useEffect, useRef } from 'react'
 
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
-import { createReactiveVarListener } from '@holi/core/helpers/createReactiveVarListener'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
@@ -63,5 +62,3 @@ export const useOnboardingInitialization = () => {
       .then(() => (finishedOnce.current = true))
   }, [loginState])
 }
-
-export const listenOnOnboardingStateChange = createReactiveVarListener(onboardingStateVar)

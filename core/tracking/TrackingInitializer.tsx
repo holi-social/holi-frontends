@@ -169,7 +169,9 @@ export const initialState: InitializerState = {
 
 const initializerStateVar: ReactiveVar<InitializerState> = makeVar<InitializerState>(initialState)
 
-const consentStateVar: ReactiveVar<ConsentState> = makeVar<ConsentState>(ConsentState.unknown)
+const consentStateVar: ReactiveVar<[ConsentState, { loading: boolean }]> = makeVar<
+  [ConsentState, { loading: boolean }]
+>([ConsentState.unknown, { loading: true }])
 
 /** to be called by UI components when the user updates their consent */
 export const updateConsentState = (newConsentState: ConsentState) => {
@@ -180,7 +182,7 @@ export const updateConsentState = (newConsentState: ConsentState) => {
   })
 }
 
-export const useConsentState = (): ConsentState => useReactiveVar(consentStateVar)
+export const useConsentState = (): [ConsentState, { loading: boolean }] => useReactiveVar(consentStateVar)
 
 export const getConsentState = (): ConsentState => consentStateVar()
 
@@ -259,7 +261,7 @@ const TrackingInitializerInner = ({
                 .fetchAuthenticatedUser()
                 .then((au) => {
                   tracking.initWithLoggedInUser(au)
-                  consentStateVar(ConsentState.fromUser(au))
+                  consentStateVar([ConsentState.fromUser(au), { loading: false }])
                 })
                 .then(() => {
                   initializerStateVar({
@@ -274,7 +276,7 @@ const TrackingInitializerInner = ({
                 .loadConsentStateFromLocalStorage()
                 .then((cs) => {
                   tracking.initWithLoggedOutUser(cs)
-                  consentStateVar(cs)
+                  consentStateVar([cs, { loading: false }])
                 })
                 .then(() => {
                   initializerStateVar({
@@ -301,7 +303,7 @@ const TrackingInitializerInner = ({
                 .clearConsentAfterUserLoggedOut()
                 .then(() => {
                   tracking.initWithLoggedOutUser(ConsentState.unknown)
-                  consentStateVar(ConsentState.unknown)
+                  consentStateVar([ConsentState.unknown, { loading: false }])
                 })
                 .then(() => {
                   initializerStateVar({
@@ -316,7 +318,7 @@ const TrackingInitializerInner = ({
                 .updateConsentOnUserProfile(state.processing.newConsentState)
                 .then((au) => {
                   tracking.initWithLoggedInUser(au)
-                  consentStateVar(ConsentState.fromUser(au))
+                  consentStateVar([ConsentState.fromUser(au), { loading: false }])
                 })
                 .then(() => {
                   initializerStateVar({
@@ -342,7 +344,7 @@ const TrackingInitializerInner = ({
                 maybeMigrateConsentStateToUserProfile
                   .then((maybeMigratedUser) => {
                     tracking.initWithLoggedInUser(maybeMigratedUser)
-                    consentStateVar(ConsentState.fromUser(maybeMigratedUser))
+                    consentStateVar([ConsentState.fromUser(maybeMigratedUser), { loading: false }])
                   })
                   .then(() => {
                     initializerStateVar({
@@ -366,7 +368,7 @@ const TrackingInitializerInner = ({
                   .updateConsentOnLocalStorage(newConsentState)
                   .then(() => {
                     tracking.initWithLoggedOutUser(newConsentState)
-                    consentStateVar(newConsentState)
+                    consentStateVar([newConsentState, { loading: false }])
                   })
                   .then(() => {
                     initializerStateVar({
