@@ -4,14 +4,11 @@ import { PostHogProvider } from 'posthog-js/react'
 import React, { PropsWithChildren, useEffect } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
-import { getLogger } from '@holi/core/helpers/logging'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 import { featureFlagBootstrapValues } from '@holi/core/helpers/usePosthogFeatureFlag.common'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { ConsentState } from '@holi/core/tracking/types'
-
-const logger = getLogger('Tracking')
 
 // don't actually set a host. the browser knows the origin of the request.
 const POSTHOG_API_HOST = '/api/tracking'
@@ -40,7 +37,6 @@ const withoutUtmParameters = (properties: PosthogProperties) => {
 }
 
 const WebTrackingProvider = ({ children }: PropsWithChildren) => {
-  logger.debug('TrackingProvider', 'trackingEnabled=%s', trackingEnabled())
   // Check that PostHog is client-side (used to handle Next.js SSR)
   if (trackingEnabled() && typeof window !== 'undefined') {
     posthog.init(posthogKey, {

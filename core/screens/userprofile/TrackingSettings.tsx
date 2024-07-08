@@ -49,7 +49,7 @@ const TrackingSettings = () => {
     setScreenOptions({ title: t('profile.settings.tracking.title') })
   }, [setScreenOptions, t])
 
-  const consentState = useConsentState()
+  const [consentState] = useConsentState()
 
   if (!consentState) return <HoliLoader />
 
