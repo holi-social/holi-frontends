@@ -4,8 +4,6 @@ import { clickElementByTestId, locateElementByTestId, randomSpaceName, retry } f
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
-test.setTimeout(240000)
-
 const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-2-inactive'
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 

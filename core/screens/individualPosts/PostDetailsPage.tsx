@@ -175,7 +175,7 @@ const PostDetailsPage = () => {
         scrollable={false}
         contentStyle={styles.wrapperContent}
       >
-        <HoliContainer noPadding={loading && !isWeb}>
+        <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
           <ScrollView style={styles.scrollView}>
             {post && !loading ? (
               <>

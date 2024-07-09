@@ -71,7 +71,13 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
           </PostDrawer>
         </View>
       )}
-      <HoliButton transparent label={post.title} onPress={goToDetailView} style={styles.clickOverlay}>
+      <HoliButton
+        transparent
+        label={post.title}
+        onPress={goToDetailView}
+        style={styles.clickOverlay}
+        testID="post-card-detail-view-btn"
+      >
         <View style={styles.clickableArea}>
           <View style={styles.pillContainer}>
             <View style={[styles.pill, styles.categoryPill]}>

@@ -16,10 +16,10 @@ test.setTimeout(120000)
 
 test.describe('@HomeScreen', () => {
   test('user journey', async ({ browser, context, page, browserName }) => {
+    await withSSR(browser, '/', testDisplaysHomeScreenContent)
+
     // prepare
     await proceedAsGuest(page)
-
-    await withSSR(browser, page.url(), testDisplaysHomeScreenContent)
 
     await testInsightsSection(browser, page)
 
@@ -43,10 +43,11 @@ test.describe('@HomeScreen', () => {
 
 const testDisplaysHomeScreenContent = async (page: Page) => {
   await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('posts-list-results'))
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
   await page.waitForSelector(byTestId('donations-app-updates-list'))
-  await page.waitForSelector(byTestId('goodnews-app-updates-list'))
   await page.waitForSelector(byTestId('volunteering-app-updates-list'))
+  await page.waitForSelector(byTestId('goodnews-app-updates-list'))
 }
 
 const testDisplaysInsightDetails = async (page: Page) => {
@@ -99,19 +100,18 @@ const testUserSuggestions = async (page: Page, context: BrowserContext) => {
 
   // shows 10 user suggestions if logged in
   await loginAsE2EUser(context, page)
-  await page.locator(byTestId('btn-to-home-view')).click()
   await page.waitForSelector(byTestId('user-suggestions'))
   await expect(page.locator(byTestId('user-card-suggestion'))).toHaveCount(10)
 }
 
 const testDisplaysPostDetails = async (page: Page) => {
-  await page.waitForSelector(byTestId('post-detail-view'))
+  await page.waitForSelector(byTestId('post-detail-page'))
   await page.waitForSelector(byTestId('post-content-container'))
 }
 
 const testPostScreen = async (browser: Browser, page: Page) => {
   // click on first post
-  await clickElementByTestId(page, 'btn-to-post')
+  await clickElementByTestId(page, 'post-card-detail-view-btn')
 
   await testDisplaysPostDetails(page)
   await withSSR(browser, page.url(), testDisplaysPostDetails)

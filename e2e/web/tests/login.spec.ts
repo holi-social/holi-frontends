@@ -16,10 +16,11 @@ test.describe('@Login', () => {
     // Login
     await loginAsE2EUser(context, page)
     // Logout
+    await clickElementByTestId(page, 'btn-to-profile-view')
     await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
-    await page.waitForSelector(byTestId('login-protection-heading'))
+    await page.waitForSelector(byTestId('anonymous-profile-login-btn'))
     await clickElementByTestId(page, 'btn-to-home-view')
     await page.waitForSelector(byTestId('home-feed-insights-heading'))
   })

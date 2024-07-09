@@ -34,7 +34,6 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   await loginAsE2EUser(context, page)
 
   // go to notifications
-  await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // notifications currently can take a while to load, therefore we're setting a long timeout here
   await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 10000 })
@@ -83,8 +82,6 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
   await loginAsE2EUser(context, page)
 
   // go to notifications and click first one post-comment-notification
-
-  await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // FIXME: notifications take a long time to load when there is a lot of them
   await expect(page.getByTestId('post-comment').first()).toBeVisible({ timeout: 120_000 })

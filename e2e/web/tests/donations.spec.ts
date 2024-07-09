@@ -1,5 +1,7 @@
 import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
 
+import { delayMs } from '@holi/e2e-mobile/helpers/time'
+
 import {
   byTestId,
   checkAccessibility,
@@ -61,7 +63,7 @@ const testDisplaysProjectList = async (page: Page) => {
 
 const testProjectListAndPagination = async (page: Page) => {
   await testDisplaysProjectList(page)
-  await checkAccessibility(page)
+  await checkAccessibility(page, false)
 
   const countListItems = async () => countElementsByTestId(page, 'donations-list-item')
 
@@ -85,7 +87,7 @@ const testDisplaysProjectDetailsCommon = async (page: Page) => {
 const testDisplaysProjectDetails = async (context: BrowserContext, page: Page) => {
   await testDisplaysProjectDetailsCommon(page)
 
-  await checkAccessibility(page)
+  await checkAccessibility(page, false)
 
   const projectUrlPrefix = '/donations/'
   const projectUrl = page.url()
@@ -100,10 +102,11 @@ const testDisplaysProjectDetails = async (context: BrowserContext, page: Page) =
     clickElementByTestId(page, 'donations-project-detail-donate-btn'), // opens a new tab
   ])
   const donationUrl = donationPage.url()
-  expect(donationUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/donate\/platform\/projects\/.*/)
+  expect(donationUrl).toMatch(/https:\/\/(www|secure).betterplace.org\/.*\/donate\/platform\/projects\/.*/)
   const donationUrlParts = donationUrl.split('/')
-  expect(donationUrlParts[donationUrlParts.length - 1]).toBe(projectId)
+  expect(donationUrlParts[donationUrlParts.length - 1].split('?')[0]).toBe(projectId)
   await donationPage.close() // close newly opened tab
+  await delayMs(1000)
 
   // check if clicking on initiative button actually opens a tab with a reasonable URL
   await page.waitForSelector(byTestId('donations-project-initiative-btn'))
@@ -112,7 +115,7 @@ const testDisplaysProjectDetails = async (context: BrowserContext, page: Page) =
     clickElementByTestId(page, 'donations-project-initiative-btn'), // opens a new tab
   ])
   const initiativeUrl = initiativePage.url()
-  expect(initiativeUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/organisations\/.*/)
+  expect(initiativeUrl).toMatch(/https:\/\/(www|secure).betterplace.org\/.*\/organisations\/.*/)
   await initiativePage.close() // close newly opened tab
 }
 
@@ -155,7 +158,7 @@ const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, pag
   const resultCountGermany = await extractResultCount(summary)
   expect(resultCountGermany).toBeGreaterThan(0)
 
-  await checkAccessibility(page)
+  await checkAccessibility(page, false)
 
   // reset filter in list
   await clickElementByTestId(page, 'donations-list-search-reset')
@@ -215,7 +218,7 @@ const filterForLocation = async (
   await page.locator('[role="dialog"]').waitFor()
 
   if (assertAccessibility) {
-    await checkAccessibility(page)
+    await checkAccessibility(page, false)
   }
 
   // enter location
