@@ -24,7 +24,9 @@ const useRealTracking = (): TrackingHook => {
         posthog.capture(event.name, {
           ...event.properties,
           ...ConsentState.toEventProperties(consent),
-          version: event.version,
+          event_version__major: event.event_version__major,
+          event_version__minor: event.event_version__minor,
+          event_version__patch: event.event_version__patch,
         })
       } catch (e) {
         // console.error will be picked up by Sentry, so this does not go unnoticed to the programmer, but to the user.
