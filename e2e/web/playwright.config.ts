@@ -1,11 +1,8 @@
 import type { PlaywrightTestConfig } from '@playwright/test'
 import { devices } from '@playwright/test'
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config({ path: '.envrc' })
 
 const baseURL = process.env.BASE_URL || 'https://staging.dev.holi.social'
 
@@ -114,7 +111,7 @@ const config: PlaywrightTestConfig = {
     navigationTimeout: 20000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
-
+    storageState: 'setup/storageState.json',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
   },
 

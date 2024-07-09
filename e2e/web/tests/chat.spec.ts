@@ -1,9 +1,6 @@
 import { clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.describe('@Chat', () => {
   test('starts a chat from a users profile', async ({ userHandler }) => {
     await userHandler.asRandomUser(async (page) => {

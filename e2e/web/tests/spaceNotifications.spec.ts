@@ -4,9 +4,6 @@ import { clickButtonByText, clickElementByTestId, locateElementByTestId, randomS
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.setTimeout(240000)
 
 test.describe('@SpaceNotifications', () => {

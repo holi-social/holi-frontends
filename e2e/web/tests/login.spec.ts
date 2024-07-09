@@ -1,9 +1,6 @@
 import { byTestId, checkAccessibility, clickElementByTestId, gotoFillAndSubmitLogin, loginAsE2EUser } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.describe('@Login', () => {
   test('Login - Logout', async ({ context, page }) => {
     // should not work with invalid credentials

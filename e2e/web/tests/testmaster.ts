@@ -1,6 +1,12 @@
-import { Browser, Page, test as baseTest } from '@playwright/test'
+import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
 
-import { withRandomUserSession } from './helpers'
+import { newUserEmail, randomPassword, withRandomUserSession } from './helpers'
+import { deleteAuthenticatedAccount, signUp } from './helpers/api'
+
+type Session = {
+  page: Page
+  //api: { createSpace: () => void }
+}
 
 export class UserHandler {
   private browser: Browser
@@ -23,10 +29,59 @@ export class UserHandler {
   }
 }
 
-export const test = baseTest.extend<{ userHandler: UserHandler; asGuest: Page; asE2EUser: Page }>({
+export class SessionHandler {
+  private browser: Browser
+  private signInContexts: BrowserContext[] = []
+
+  constructor(browser: Browser) {
+    this.browser = browser
+  }
+
+  public async signUp(email: string = newUserEmail(), password: string = randomPassword()): Promise<Session> {
+    const context = await this.browser.newContext()
+
+    await signUp(context, email, password)
+    this.signInContexts.push(context)
+
+    const newPage = await context.newPage()
+
+    return {
+      page: newPage,
+      // TODO: expand to enable setting up data for test runs, without having to drive the UI (slow)
+      // api: {
+      //   createSpace: () => {//make it so via GQL calls},
+      // },
+    }
+  }
+
+  public async cleanup() {
+    await Promise.allSettled(
+      this.signInContexts.map(async (ctx) => {
+        await deleteAuthenticatedAccount(ctx)
+      })
+    )
+  }
+}
+
+export const test = baseTest.extend<{
+  userHandler: UserHandler
+  sessions: SessionHandler
+  authenticatedSession: Session
+}>({
   userHandler: async ({ browser }, use) => {
     const userHandler = new UserHandler(browser)
     await use(userHandler)
     await userHandler.cleanup()
+  },
+  sessions: async ({ browser }, use) => {
+    const api = new SessionHandler(browser)
+    await use(api)
+    await api.cleanup()
+  },
+  authenticatedSession: async ({ browser }, use) => {
+    const api = new SessionHandler(browser)
+    const session = await api.signUp()
+    await use(session)
+    await api.cleanup()
   },
 })
