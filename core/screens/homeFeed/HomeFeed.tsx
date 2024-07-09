@@ -8,7 +8,6 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -16,10 +15,9 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
-import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
-import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
@@ -53,10 +51,6 @@ const HomeFeed = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
-  const { ftEnabled: ftEnabledDailyInspiration, ftPreview: ftPreviewDailyInspiration } = useFeatureToggle(
-    FeatureToggleName.FEED_DAILY_INSPIRATION
-  )
-
   const donationsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const goodnewsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
   const volunteeringEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
@@ -80,7 +74,6 @@ const HomeFeed = () => {
       include: [
         feedPostsQuery,
         lastInsightsQuery,
-        ftEnabledDailyInspiration || ftPreviewDailyInspiration ? inspirationPostsQuery : undefined,
         donationsEnabled ? donationProjectsQuery : undefined,
         goodnewsEnabled ? goodNewsArticlesQuery : undefined,
         volunteeringEnabled ? volunteeringEngagementsQuery : undefined,
@@ -103,7 +96,6 @@ const HomeFeed = () => {
           <AttendingChallengeEvents />
           <AllPosts />
           <RecommendedChallenges />
-          {ftEnabledDailyInspiration && <InspirationPosts />}
           <InsightsOfTheWeek />
           <Recommendations />
           {isLoggedIn && <UserSuggestions />}

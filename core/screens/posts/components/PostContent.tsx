@@ -8,7 +8,6 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
-import InspirationPostMediaHeader from '@holi/core/screens/posts/components/InspirationPostMediaHeader'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
@@ -57,85 +56,76 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   const visibilityIcon = post.isPublic ? GlobalFilled : LockFilled
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
   const isCurrentUserPostCreator = post.creator.id === user?.id
-  const isDailyInspirationPost = !!post?.inspirationPostCategory?.title
 
   return (
     <View style={[styles.wrapper, style]} testID="post-content-container">
       <View style={styles.paddingHorizontal}>
-        {/* As of v1.10.0: We don't show the header row when it is a daily inspiration post */}
-        {!isDailyInspirationPost && (
-          <>
-            <View style={styles.headerContainer}>
-              <HoliColumns>
-                <HoliColumn flex={2}>
-                  {/* Visibility for space update posts */}
-                  {hasVisibilityIcon ? (
-                    <HoliColumns alignItems="center" padding={[0, 0, 8, 0]}>
-                      <HoliIcon icon={visibilityIcon} size={12} />
-                      <HoliBox padding={[0, 0, 0, 6]}>
-                        <HoliText size="extrasmall">{visibilityIconText}</HoliText>
-                      </HoliBox>
-                    </HoliColumns>
-                  ) : null}
+        <>
+          <View style={styles.headerContainer}>
+            <HoliColumns>
+              <HoliColumn flex={2}>
+                {/* Visibility for space update posts */}
+                {hasVisibilityIcon ? (
+                  <HoliColumns alignItems="center" padding={[0, 0, 8, 0]}>
+                    <HoliIcon icon={visibilityIcon} size={12} />
+                    <HoliBox padding={[0, 0, 0, 6]}>
+                      <HoliText size="extrasmall">{visibilityIconText}</HoliText>
+                    </HoliBox>
+                  </HoliColumns>
+                ) : null}
 
-                  {/* Post title */}
-                  <HoliHeading level="1" size="m" testID="post-heading">
-                    {post.title}
-                  </HoliHeading>
-                </HoliColumn>
+                {/* Post title */}
+                <HoliHeading level="1" size="m" testID="post-heading">
+                  {post.title}
+                </HoliHeading>
+              </HoliColumn>
 
-                {/* Action drawer (three dot menu) */}
-                <HoliColumn>
-                  <SafeAreaProvider>
-                    <HoliActionDrawer.Drawer
-                      label={t('insights.post.preview.more')}
-                      testID="post-three-dot-menu-button"
-                    >
-                      {/* Edit Action */}
-                      {/* editing only allowed for own content */}
-                      {spaceIdOrName && isCurrentUserPostCreator && (
-                        <HoliActionDrawer.Action
-                          icon={Edit2}
-                          title={t('spaces.updates.edit')}
-                          testID="edit-update"
-                          handleAction={editAction}
+              {/* Action drawer (three dot menu) */}
+              <HoliColumn>
+                <SafeAreaProvider>
+                  <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+                    {/* Edit Action */}
+                    {/* editing only allowed for own content */}
+                    {spaceIdOrName && isCurrentUserPostCreator && (
+                      <HoliActionDrawer.Action
+                        icon={Edit2}
+                        title={t('spaces.updates.edit')}
+                        testID="edit-update"
+                        handleAction={editAction}
+                      />
+                    )}
+                    {/* Report Action */}
+                    {/* reporting own content makes no sense, so we hide this option */}
+                    {!isCurrentUserPostCreator && (
+                      <HoliActionDrawer.Action
+                        isLoading={isLoadingReport}
+                        icon={Flag}
+                        title={t('global.report')}
+                        testID="report-comment-button"
+                        showConfirmation
+                      >
+                        <HoliActionDrawer.Confirmation
+                          title={t('insights.post.report.confirmation.title')}
+                          description={t('insights.post.report.confirmation.description')}
+                          handleConfirmation={reportContent}
+                          hasDismissBtn
+                          requireLogin
                         />
-                      )}
-                      {/* Report Action */}
-                      {/* reporting own content makes no sense, so we hide this option */}
-                      {!isCurrentUserPostCreator && (
-                        <HoliActionDrawer.Action
-                          isLoading={isLoadingReport}
-                          icon={Flag}
-                          title={t('global.report')}
-                          testID="report-comment-button"
-                          showConfirmation
-                        >
-                          <HoliActionDrawer.Confirmation
-                            title={t('insights.post.report.confirmation.title')}
-                            description={t('insights.post.report.confirmation.description')}
-                            handleConfirmation={reportContent}
-                            hasDismissBtn
-                            requireLogin
-                          />
-                        </HoliActionDrawer.Action>
-                      )}
-                    </HoliActionDrawer.Drawer>
-                  </SafeAreaProvider>
-                </HoliColumn>
-              </HoliColumns>
-            </View>
-            <HoliLink
-              href={`/profile/${post.creator.id}`}
-              label={post.creator.fullName}
-              testID="btn-to-post-creator-profile"
-            >
-              <HoliMediaAuthorHeader author={post.creator} date={post.created} />
-            </HoliLink>
-          </>
-        )}
-
-        <InspirationPostMediaHeader post={post} />
+                      </HoliActionDrawer.Action>
+                    )}
+                  </HoliActionDrawer.Drawer>
+                </SafeAreaProvider>
+              </HoliColumn>
+            </HoliColumns>
+          </View>
+          <HoliLink
+            href={`/profile/${post.creator.id}`}
+            label={post.creator.fullName}
+            testID="btn-to-post-creator-profile"
+          >
+            <HoliMediaAuthorHeader author={post.creator} date={post.created} />
+          </HoliLink>
+        </>
 
         {/* Post content */}
         <HoliRichTextOutput
@@ -216,25 +206,9 @@ const getStyles = (theme: HoliTheme) =>
       height: 'auto',
       display: 'flex',
     },
-    inspirationMediaHeader: {
-      gap: 16,
-    },
-    inspirationHeadingRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 8,
-    },
     fallbackImage: {
       width: 32,
       height: 32,
-    },
-    inspirationHeading: {
-      fontWeight: 'normal',
-    },
-
-    inspirationDate: {
-      paddingBottom: 8,
-      color: theme.colors.foreground20,
     },
   })
 

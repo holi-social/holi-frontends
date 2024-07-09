@@ -43,7 +43,6 @@ test.describe('@HomeScreen', () => {
 
 const testDisplaysHomeScreenContent = async (page: Page) => {
   await page.waitForSelector(byTestId('home-feed-insights-heading'))
-  await page.waitForSelector(byTestId('home-feed-inspiration-posts-heading'))
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
   await page.waitForSelector(byTestId('donations-app-updates-list'))
   await page.waitForSelector(byTestId('goodnews-app-updates-list'))
