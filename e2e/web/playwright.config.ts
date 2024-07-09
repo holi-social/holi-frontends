@@ -113,8 +113,6 @@ const config: PlaywrightTestConfig = {
     baseURL: baseURL,
     storageState: 'setup/storageState.json',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
-
-    storageState: 'setup/storageState.json',
   },
 
   /* Configure projects for major browsers */
