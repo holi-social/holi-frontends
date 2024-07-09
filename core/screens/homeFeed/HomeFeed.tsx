@@ -4,10 +4,10 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -25,7 +25,6 @@ import CreatePostButton from '@holi/core/screens/individualPosts/components/Crea
 import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -34,8 +33,6 @@ import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedC
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
-
-export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -60,19 +57,11 @@ const HomeFeed = () => {
     FeatureToggleName.FEED_DAILY_INSPIRATION
   )
 
-  const { ftEnabled: ftEnabledDonations, ftPreview: ftPreviewDonations } = useFeatureToggle(
-    FeatureToggleName.APPS_DONATIONS
-  )
-  const { ftEnabled: ftEnabledGoodnews, ftPreview: ftPreviewGoodnews } = useFeatureToggle(
-    FeatureToggleName.APPS_GOODNEWS
-  )
-  const { ftEnabled: ftEnabledVolunteering, ftPreview: ftPreviewVolunteering } = useFeatureToggle(
-    FeatureToggleName.APPS_VOLUNTEERING
-  )
-  const { ftEnabled: ftEnabledChallenges } = useFeatureToggle(FeatureToggleName.CHALLENGES)
+  const donationsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
+  const goodnewsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
+  const volunteeringEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
 
-  // TODO: when SSR is enabled we need to lazy load the header
-  // because it can only be rendered on the client.
+  // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: headerTitle,
@@ -92,9 +81,9 @@ const HomeFeed = () => {
         feedPostsQuery,
         lastInsightsQuery,
         ftEnabledDailyInspiration || ftPreviewDailyInspiration ? inspirationPostsQuery : undefined,
-        ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
-        ftEnabledGoodnews || ftPreviewGoodnews ? goodNewsArticlesQuery : undefined,
-        ftEnabledVolunteering || ftPreviewVolunteering ? volunteeringEngagementsQuery : undefined,
+        donationsEnabled ? donationProjectsQuery : undefined,
+        goodnewsEnabled ? goodNewsArticlesQuery : undefined,
+        volunteeringEnabled ? volunteeringEngagementsQuery : undefined,
         isLoggedIn ? userSuggestionsQuery : undefined,
       ].filter((q) => q !== undefined) as DocumentNode[],
     })
@@ -111,22 +100,17 @@ const HomeFeed = () => {
       >
         <View style={styles.sections}>
           <HomeFeedHeader />
-          {ftEnabledChallenges && <AttendingChallengeEvents />}
+          <AttendingChallengeEvents />
           <AllPosts />
-
           <RecommendedChallenges />
-
           {ftEnabledDailyInspiration && <InspirationPosts />}
-
           <InsightsOfTheWeek />
-
           <Recommendations />
-
           {isLoggedIn && <UserSuggestions />}
         </View>
       </ScrollHeaderLayout.Refreshable>
 
-      {/* Floating CreatePostButton need to be outside of the Layout */}
+      {/* Floating CreatePostButton need to be outside the Layout */}
       <CreatePostButton />
 
       <OnboardingInitializer />

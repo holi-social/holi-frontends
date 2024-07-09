@@ -5,7 +5,7 @@ import React, { PropsWithChildren, useEffect } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
-import { featureFlagBootstrapValues } from '@holi/core/helpers/usePosthogFeatureFlag.common'
+import { featureFlagBootstrapValues } from '@holi/core/helpers/useFeatureFlag.common'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { ConsentState } from '@holi/core/tracking/types'

@@ -6,7 +6,6 @@ import NotificationSettingsMaintenance from '@holi/core/screens/notifications/co
 import { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 
 const mockUseNotificationPreferences = jest.fn()
-let mockChatFeatureToggle: Record<string, boolean | string>
 
 jest.mock('@holi/core/screens/notifications/hooks/useNotificationPreferences', () => {
   const original = jest.requireActual('@holi/core/screens/notifications/hooks/useNotificationPreferences')
@@ -15,13 +14,6 @@ jest.mock('@holi/core/screens/notifications/hooks/useNotificationPreferences', (
     useNotificationPreferences: () => mockUseNotificationPreferences(),
   }
 })
-
-jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
-  useFeatureToggle: () => mockChatFeatureToggle,
-  FeatureToggleName: {
-    NOTIFICATIONS: 'NOTIFICATIONS',
-  },
-}))
 
 const workflowPreferences = [
   {
@@ -51,11 +43,14 @@ const workflowPreferences = [
   },
 ]
 
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
+}))
+
 describe('NotificationSettingsList', () => {
   beforeEach(() => {
-    mockChatFeatureToggle = {
-      ftMaintenance: false,
-    }
+    mockUseFeatureFlag.mockReturnValue(['on', undefined])
   })
 
   it('should correctly render loading state', () => {
@@ -115,9 +110,7 @@ describe('NotificationSettingsList', () => {
   })
 
   it('should correctly render maintenance state', () => {
-    mockChatFeatureToggle = {
-      ftMaintenance: true,
-    }
+    mockUseFeatureFlag.mockReturnValue(['maintenance', undefined])
     render(<NotificationSettingsMaintenance />)
 
     expect(screen.toJSON()).toMatchSnapshot()

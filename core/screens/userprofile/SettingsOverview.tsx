@@ -7,9 +7,9 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useLogout } from '@holi/core/helpers'
+import { useFeatureFlag } from '@holi/core/helpers/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { usePosthogFeatureFlag } from '@holi/core/helpers/usePosthogFeatureFlag'
-import { FeatureFlagKey } from '@holi/core/helpers/usePosthogFeatureFlag.common'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import {
@@ -34,7 +34,7 @@ const SettingsOverview = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
-  const [themeToggleEnabled] = usePosthogFeatureFlag(FeatureFlagKey.THEME_TOGGLE)
+  const [themeToggleEnabled] = useFeatureFlag(FeatureFlagKey.THEME_TOGGLE)
   const { logout, isLoggingOut } = useLogout()
   const { theme, toggleDarkMode } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

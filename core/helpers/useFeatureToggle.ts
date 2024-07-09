@@ -5,21 +5,7 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 
 export enum FeatureToggleName {
-  CHAT = 'CHAT',
-  CHALLENGES = 'CHALLENGES_16',
-  STORAGE = 'STORAGE',
-  VIDEOCALL = 'VIDEOCALL',
-  APPS_DONATIONS = 'APPS_DONATIONS',
-  APPS_GOODNEWS = 'APPS_GOODNEWS',
-  APPS_VOLUNTEERING = 'APPS_VOLUNTEERING',
-  NOTIFICATIONS = 'NOTIFICATIONS',
   FEED_DAILY_INSPIRATION = 'FEED_DAILY_INSPIRATION_17',
-}
-
-export type FeatureToggleState = {
-  loading: boolean
-  status?: FeatureToggleStatus
-  enabled?: boolean
 }
 
 export const useFeatureToggle = (name?: FeatureToggleName) => {

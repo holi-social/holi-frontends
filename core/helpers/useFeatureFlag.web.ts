@@ -1,8 +1,8 @@
 import { useFeatureFlagPayload, useFeatureFlagVariantKey } from 'posthog-js/react'
 
-import type { UsePosthogFeatureFlag } from '@holi/core/helpers/usePosthogFeatureFlag.common'
+import type { UseFeatureFlag } from '@holi/core/helpers/useFeatureFlag.common'
 
-export const usePosthogFeatureFlag: UsePosthogFeatureFlag = (flag) => {
+export const useFeatureFlag: UseFeatureFlag = (flag) => {
   const state = useFeatureFlagVariantKey(flag)
   const payload = useFeatureFlagPayload(flag)
 
