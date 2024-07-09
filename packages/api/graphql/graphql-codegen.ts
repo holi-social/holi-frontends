@@ -518,14 +518,6 @@ export enum FavoritableType {
   Insight = 'INSIGHT',
 }
 
-/** FeatureToggle(id, name, created, status) */
-export type FeatureToggle = {
-  __typename?: 'FeatureToggle'
-  id: Scalars['UUID']['output']
-  name: Scalars['String']['output']
-  status: Scalars['String']['output']
-}
-
 /** FeedPost(id, title, slug, description, visibility, category, creator, created_at, image, image_blurhash, link_preview) */
 export type FeedPost = {
   __typename?: 'FeedPost'
@@ -1287,7 +1279,6 @@ export type Query = {
   /** @deprecated This query is deprecated. Please switch to using the 'favorites' query instead. */
   favoriteInsights: InsightPaged
   favorites: UserFavoritePaged
-  featureToggles: Array<FeatureToggle>
   feedPostCategories: FeedPostCategoryPaged
   feedPosts: FeedPostPaged
   geo_placeDetails: Geo_PlaceDetails
