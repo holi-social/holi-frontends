@@ -85,7 +85,11 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   const [disabled] = useState(false)
 
   useEffect(() => {
-    setValue(transformStringWithMentions(initialValue, mentions || []))
+    // only run the transformation when initialValue and mentions changes AND the value is the same as initialValue
+    // this is to avoid the transformation when the user is typing, which can break the mentioning logic
+    if (initialValue === value) {
+      return setValue(transformStringWithMentions(initialValue, mentions || []))
+    }
   }, [mentions, initialValue])
 
   // on mount / unmount
