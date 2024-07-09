@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { HoliLocationExternalAppLink, HoliMap, HoliPin } from '@holi/core/components/HoliMap'
 import InfoModal from '@holi/core/components/InfoModal'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
@@ -15,7 +14,6 @@ import { At, Phone } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInfoViewProps = {
@@ -52,30 +50,6 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
       {space.location && (
         <SpaceSection title={t('spaces.spaceDetails.location')}>
           <HoliText>{space.location}</HoliText>
-          {space.geolocation && (
-            <>
-              <HoliLocationExternalAppLink location={space.geolocation} />
-              <View style={{ width: '100%', aspectRatio: 1.5, marginTop: dimensions.spacingS }}>
-                <View
-                  style={{
-                    borderRadius: 16,
-                    padding: 8,
-                    borderWidth: 1,
-                    borderColor: theme.colors.gray200,
-                    backgroundColor: theme.colors.white100,
-                    height: '100%',
-                    width: '100%',
-                  }}
-                >
-                  <View style={{ borderRadius: 8, overflow: 'hidden', height: '100%', width: '100%' }}>
-                    <HoliMap center={space.geolocation}>
-                      <HoliPin location={space.geolocation} />
-                    </HoliMap>
-                  </View>
-                </View>
-              </View>
-            </>
-          )}
         </SpaceSection>
       )}
 

@@ -62,7 +62,6 @@
     "react-native-controlled-mentions": "^2.2.5",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-image-pan-zoom": "^2.1.12",
-    "react-native-maps": "1.10.0",
     "react-native-media-query": "^2.0.1",
     "react-native-reanimated": "~3.6.2",
     "react-native-render-html": "^6.3.4",
