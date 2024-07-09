@@ -6,7 +6,8 @@ import { getOrCreateRoom } from '@holi/chat/src/store'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -25,7 +26,7 @@ export function StartChatButton({
   doReplaceRoute?: boolean
 }) {
   const { t } = useTranslation()
-  const { ftLoading, ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const isChatInitialized = useChatInitialized()
 
   const { isLoggedIn } = useLoggedInUser()
@@ -71,7 +72,7 @@ export function StartChatButton({
 
   return (
     <HoliButtonLoading
-      disabled={ftLoading || !ftEnabled || !isChatInitialized || !identity}
+      disabled={!chatFeatureFlag.isOn || !isChatInitialized || !identity}
       label={label}
       onPress={handleChat}
       testID="user-profile-open-chat"

@@ -3,8 +3,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -16,6 +17,10 @@ import VolunteeringUpdates from '@holi-apps/volunteering/components/Volunteering
 
 const Recommendations = () => {
   const { t } = useTranslation()
+
+  const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
+  const displayGoodNews = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
+  const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
 
   return (
     <View style={styles.container}>
@@ -31,35 +36,41 @@ const Recommendations = () => {
         <TaskRecommendations />
       </HoliContainer>
 
-      <HoliContainer>
-        <FeatureToggleGuard
-          toggleName={FeatureToggleName.APPS_DONATIONS}
-          featureNameKey="donations:maintenance.feature"
-          noLayout
-        >
-          <DonationUpdates style={styles.updatesContainer} />
-        </FeatureToggleGuard>
-      </HoliContainer>
+      {displayDonations && (
+        <HoliContainer>
+          <PosthogFeatureFlagGuard
+            featureFlagKey={FeatureFlagKey.DONATIONS}
+            i18nKey="donations:maintenance.feature"
+            noLayout
+          >
+            <DonationUpdates style={styles.updatesContainer} />
+          </PosthogFeatureFlagGuard>
+        </HoliContainer>
+      )}
 
-      <HoliContainer>
-        <FeatureToggleGuard
-          toggleName={FeatureToggleName.APPS_VOLUNTEERING}
-          featureNameKey="volunteering:maintenance.feature"
-          noLayout
-        >
-          <VolunteeringUpdates style={styles.updatesContainer} />
-        </FeatureToggleGuard>
-      </HoliContainer>
+      {displayVolunteering && (
+        <HoliContainer>
+          <PosthogFeatureFlagGuard
+            featureFlagKey={FeatureFlagKey.VOLUNTEERING}
+            i18nKey="volunteering:maintenance.feature"
+            noLayout
+          >
+            <VolunteeringUpdates style={styles.updatesContainer} />
+          </PosthogFeatureFlagGuard>
+        </HoliContainer>
+      )}
 
-      <HoliContainer>
-        <FeatureToggleGuard
-          toggleName={FeatureToggleName.APPS_GOODNEWS}
-          featureNameKey="goodnews:maintenance.feature"
-          noLayout
-        >
-          <GoodNewsUpdates style={styles.updatesContainer} />
-        </FeatureToggleGuard>
-      </HoliContainer>
+      {displayGoodNews && (
+        <HoliContainer>
+          <PosthogFeatureFlagGuard
+            featureFlagKey={FeatureFlagKey.GOODNEWS}
+            i18nKey="goodnews:maintenance.feature"
+            noLayout
+          >
+            <GoodNewsUpdates style={styles.updatesContainer} />
+          </PosthogFeatureFlagGuard>
+        </HoliContainer>
+      )}
     </View>
   )
 }

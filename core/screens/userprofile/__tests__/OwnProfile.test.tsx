@@ -15,9 +15,9 @@ jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 
-const mockUsePosthogFeatureFlag = jest.fn()
-jest.mock('@holi/core/helpers/usePosthogFeatureFlag', () => ({
-  usePosthogFeatureFlag: () => mockUsePosthogFeatureFlag(),
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 
 const insightsCountRequest = {
@@ -36,7 +36,7 @@ const insightsCountRequest = {
 
 describe('OwnProfile', () => {
   beforeEach(() => {
-    mockUsePosthogFeatureFlag.mockReturnValue([false, undefined])
+    mockUseFeatureFlag.mockReturnValue([false, undefined])
   })
 
   it('renders profile when logged in', () => {
