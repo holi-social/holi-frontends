@@ -13,7 +13,6 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import { resetUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal/userVisitedScreensCount'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -88,7 +87,6 @@ const Login = () => {
       await setLoginStateLoggedIn(data)
       await storeOnboardingState('finished')
 
-      resetUserVisitedScreensCount()
       redirect()
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {

@@ -4,12 +4,7 @@ import appiumConfig, { target as appiumConfigTarget } from './appiumConfig'
 import { PlatformType, TargetType } from './global'
 import { logout } from './helpers/auth'
 import { waitForHomeScreen } from './helpers/navigation'
-import {
-  resetImplicitTimeout,
-  tapOnElementWithTestId,
-  waitForConsent,
-  waitForElementWithTestId,
-} from './helpers/selectors'
+import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
 
 platform = appiumConfig.platform as PlatformType
 target = appiumConfigTarget as TargetType
@@ -33,14 +28,14 @@ beforeEach(async () => {
     while (!appRunning && numAttempts) {
       // Wait for the app to start
       try {
-        await waitForElementWithTestId('btn-to-continue-as-guest', homeScreenTimeout)
+        await waitForElementWithTestId('btn-consentModal-declineAll', homeScreenTimeout)
         appRunning = true
       } catch (e) {
         numAttempts--
       }
     }
+    await tapOnElementWithTestId('btn-consentModal-declineAll')
     await tapOnElementWithTestId('btn-to-continue-as-guest')
-    await waitForConsent()
     await waitForHomeScreen(homeScreenTimeout)
   } else {
     // Logout + navigate back to the home screen before each test

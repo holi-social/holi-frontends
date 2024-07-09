@@ -26,9 +26,12 @@ describe('useChallengesHeaders', () => {
     mockUseLoginState.mockReturnValue({
       isLoggedIn: false,
     })
-    mockUseConsentState.mockReturnValue({
-      [TrackingPurpose.Analytics]: Consent.Given,
-    })
+    mockUseConsentState.mockReturnValue([
+      {
+        [TrackingPurpose.Analytics]: Consent.Given,
+      },
+      { loading: false },
+    ])
   })
 
   it('should load auth headers if logged in', async () => {
@@ -89,9 +92,12 @@ describe('useChallengesHeaders', () => {
   })
 
   it('should respect tracking consent', async () => {
-    mockUseConsentState.mockReturnValue({
-      [TrackingPurpose.Analytics]: Consent.Denied,
-    })
+    mockUseConsentState.mockReturnValue([
+      {
+        [TrackingPurpose.Analytics]: Consent.Denied,
+      },
+      { loading: false },
+    ])
     const { result } = renderHook(() => useChallengesHeaders())
 
     expect(result.current).toEqual(

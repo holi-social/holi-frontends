@@ -30,6 +30,8 @@ import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -144,6 +146,8 @@ const PostDetailsPage = () => {
       },
     })
   }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
+
+  useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
 
   const onPressCreateComment = () =>
     loginState.isLoggedIn

@@ -7,7 +7,6 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { TrackingConsentModalDesktop } from './TrackingConsentModalDesktop'
 import { TrackingConsentModalMobile } from './TrackingConsentModalMobile'
 
-export { useUserVisitedScreensCount } from './userVisitedScreensCount'
 export { default as TrackingGeneralContentDescription } from './TrackingGeneralContentDescription'
 
 const TrackingConsentModal = () => {
