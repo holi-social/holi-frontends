@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
@@ -181,12 +181,9 @@ const VolunteeringAppHome = () => {
 
 const WrappedVolunteeringAppHome = () => {
   return (
-    <FeatureToggleGuard
-      toggleName={FeatureToggleName.APPS_VOLUNTEERING}
-      featureNameKey="volunteering:maintenance.feature"
-    >
+    <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering:maintenance.feature">
       <VolunteeringAppHome />
-    </FeatureToggleGuard>
+    </PosthogFeatureFlagGuard>
   )
 }
 

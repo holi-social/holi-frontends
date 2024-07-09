@@ -2,13 +2,21 @@ import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ResourceCategoryTile, {
   ResourceCategory,
 } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Spaces } from '@holi/icons/src/generated'
+import {
+  CalendarEventFilled,
+  CheckboxFilled,
+  FolderOpenFilled,
+  LinkM,
+  Spaces,
+  VidiconFilled,
+} from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -34,13 +42,60 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
 
   const onCategoryButtonClick = useCallback(
     ({ path }: ResourceCategory) => {
-      if (path) {
-        hide()
-        navigate(`/spaces/${spaceIdOrName}${path}`)
-      }
+      hide()
+      navigate(`/spaces/${spaceIdOrName}${path}`)
     },
     [hide, navigate, spaceIdOrName]
   )
+
+  const digitalTool: ResourceCategory = {
+    id: 'digital-tool',
+    icon: LinkM,
+    translationKey: 'spaces.resources.category.linkhub',
+    path: '/linkhub',
+    display: true,
+    inMaintenance: false,
+  }
+
+  const storageFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.STORAGE)
+  const storage: ResourceCategory = {
+    id: 'storage',
+    icon: FolderOpenFilled,
+    translationKey: 'spaces.resources.category.file',
+    path: '/storage',
+    display: storageFeatureFlag.isOn || storageFeatureFlag.inMaintenance,
+    inMaintenance: storageFeatureFlag.inMaintenance,
+  }
+
+  const tasks: ResourceCategory = {
+    id: 'event',
+    icon: CheckboxFilled,
+    translationKey: 'spaces.resources.category.tasks',
+    path: '/tasks',
+    display: true,
+    inMaintenance: false,
+  }
+
+  const videoCallFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.VIDEO_CALL)
+  const videoCall: ResourceCategory = {
+    id: 'video-call',
+    icon: VidiconFilled,
+    translationKey: 'spaces.resources.category.videoCall',
+    path: '/video-call',
+    display: videoCallFeatureFlag.isOn || videoCallFeatureFlag.inMaintenance,
+    inMaintenance: videoCallFeatureFlag.inMaintenance,
+  }
+
+  const event: ResourceCategory = {
+    id: 'tasks',
+    icon: CalendarEventFilled,
+    translationKey: 'spaces.resources.category.event',
+    path: '/appointments',
+    display: true,
+    inMaintenance: false,
+  }
+
+  const tools = [digitalTool, storage, tasks, videoCall, event]
 
   return (
     <>
@@ -70,15 +125,12 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
             {t('allTools.drawer.headline')}
           </HoliHeading>
           <View style={styles.listContents}>
-            {[...RESOURCE_CATEGORIES_LIST, ...RESOURCES_COMING_SOON].map((resource) => {
-              return (
-                <ResourceCategoryTile
-                  resourceCategoryData={resource}
-                  key={resource.id}
-                  onPress={onCategoryButtonClick}
-                />
-              )
-            })}
+            {tools.map(
+              (resource) =>
+                resource.display && (
+                  <ResourceCategoryTile rc={resource} key={resource.id} onPress={onCategoryButtonClick} />
+                )
+            )}
           </View>
         </View>
       </HoliModal>

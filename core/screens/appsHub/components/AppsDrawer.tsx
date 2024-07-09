@@ -5,11 +5,13 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import type { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs'
 
 import FilterPill from '@holi/core/components/FilterPill'
-import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
+import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppTile, { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Apps, ArrowRightS } from '@holi/icons/src/generated'
+import { Apps, ArrowRightS, HandHeartFilled, HeartsFilled, StarSmileFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -32,6 +34,36 @@ const AppsDrawer = (props: AppsDrawerProps) => {
   const { visible, show, hide } = useModalState()
   const { theme } = useTheme()
   const { colors } = theme
+
+  const featureFlagDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS)
+  const featureFlagVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING)
+
+  const displayChallenges = Platform.OS !== 'web'
+  const displayDonations = featureFlagDonations.isOn || featureFlagDonations.inMaintenance
+  const displayVolunteering = featureFlagVolunteering.isOn || featureFlagVolunteering.inMaintenance
+
+  const challenges: HoliApp = {
+    id: HOLI_APPS.CHALLENGES,
+    icon: StarSmileFilled,
+    translationKey: 'challenges:app.name',
+    path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.CHALLENGES].path,
+  }
+
+  const donations: HoliApp = {
+    id: HOLI_APPS.DONATIONS,
+    icon: HandHeartFilled,
+    translationKey: 'donations:app.name',
+    inMaintenance: featureFlagDonations.inMaintenance,
+    path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path,
+  }
+
+  const volunteering: HoliApp = {
+    id: HOLI_APPS.VOLUNTEERING,
+    icon: HeartsFilled,
+    translationKey: 'volunteering:app.name',
+    inMaintenance: featureFlagVolunteering.inMaintenance,
+    path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path,
+  }
 
   const onActionButtonClick = () => {
     // if pressed too soon, the state is set to true, but the modal is not shown.
@@ -110,9 +142,9 @@ const AppsDrawer = (props: AppsDrawerProps) => {
             {t('apps.drawer.title')}
           </HoliHeading>
           <View style={styles.listContents}>
-            {APP_SWIPER_APPS.filter((app) => app.active).map((app) => (
-              <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
-            ))}
+            {displayChallenges && <AppTile app={challenges} key={challenges.id} onPress={onAppButtonClick} />}
+            {displayDonations && <AppTile app={donations} key={donations.id} onPress={onAppButtonClick} />}
+            {displayVolunteering && <AppTile app={volunteering} key={volunteering.id} onPress={onAppButtonClick} />}
           </View>
           <HoliButton inline transparent style={styles.appsHubButton} label="" onPress={navigateToAppsHub}>
             <View style={styles.appsHubContainer}>

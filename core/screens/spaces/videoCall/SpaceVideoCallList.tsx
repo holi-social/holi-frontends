@@ -2,10 +2,10 @@ import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -89,9 +89,9 @@ const SpaceVideoCallList = () => {
 }
 
 const WrappedSpaceVideoCallList = () => (
-  <FeatureToggleGuard toggleName={FeatureToggleName.VIDEOCALL} featureNameKey="spaces.videocall.maintenance.feature">
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VIDEO_CALL} i18nKey="spaces.videocall.maintenance.feature">
     <SpaceVideoCallList />
-  </FeatureToggleGuard>
+  </PosthogFeatureFlagGuard>
 )
 
 export default WrappedSpaceVideoCallList

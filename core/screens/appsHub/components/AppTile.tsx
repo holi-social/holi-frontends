@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -13,35 +12,26 @@ export interface HoliApp {
   id: string
   icon: HoliIconType
   translationKey: string
-  featureToggleName?: FeatureToggleName
-  hasUpdates: boolean
+  inMaintenance?: boolean
   path?: string
-  active: boolean
 }
 
 export interface AppTileProps {
-  appData: HoliApp
-  onPress?: (appData: HoliApp) => void
-  style?: StyleProp<ViewStyle>
+  app: HoliApp
+  onPress?: (app: HoliApp) => void
 }
 
-const AppTile = ({ appData, onPress, style }: AppTileProps) => {
+const AppTile = ({ app, onPress }: AppTileProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
 
   const { t } = useTranslation()
-  const name = t(appData.translationKey)
-  const isActive = !!appData.path
-  const { ftOff, ftMaintenance } = useFeatureToggle(appData.featureToggleName)
+  const name = t(app.translationKey)
 
   const onTilePress = useCallback(() => {
-    if (isActive) {
-      onPress?.(appData)
-    }
-  }, [onPress, isActive, appData])
-
-  if (ftOff) return null
+    onPress?.(app)
+  }, [onPress, app])
 
   return (
     <HoliButton
@@ -49,22 +39,18 @@ const AppTile = ({ appData, onPress, style }: AppTileProps) => {
       inline
       transparent
       onPress={onTilePress}
-      disabled={!isActive || ftMaintenance}
-      style={[styles.contentContainer, style]}
-      testID={`app-tile-${appData.id}`}
+      disabled={app.inMaintenance}
+      style={[styles.contentContainer]}
+      testID={`app-tile-${app.id}`}
     >
       <View style={styles.appTile}>
-        {!!appData.icon && (
-          <HoliIcon
-            icon={appData.icon}
-            size={24}
-            color={isActive && !ftMaintenance ? colors.foreground30 : colors.foreground10}
-          />
+        {!!app.icon && (
+          <HoliIcon icon={app.icon} size={24} color={!app.inMaintenance ? colors.foreground30 : colors.foreground10} />
         )}
-        {(!isActive || ftMaintenance) && (
+        {app.inMaintenance && (
           <View style={styles.inactiveContainer}>
             <HoliText size="extrasmall" color="white100">
-              {ftMaintenance ? t('allTools.drawer.maintenance.label') : t('allTools.drawer.comingSoon.label')}
+              {t('allTools.drawer.maintenance.label')}
             </HoliText>
           </View>
         )}
@@ -73,7 +59,7 @@ const AppTile = ({ appData, onPress, style }: AppTileProps) => {
       <HoliText
         selectable
         bold
-        style={[styles.appName, isActive && !ftMaintenance ? { color: colors.foreground30 } : { marginTop: 4 }]}
+        style={[styles.appName, !app.inMaintenance ? { color: colors.foreground30 } : { marginTop: 4 }]}
         size={'extrasmall'}
       >
         {name}
