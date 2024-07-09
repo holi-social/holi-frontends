@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -19,14 +19,14 @@ const mockFeatureFlags = (on: FeatureFlagKey[], off: FeatureFlagKey[] = [], main
   })
 }
 
-describe('FeatureToggleGuard', () => {
+describe('PostHogFeatureFlagGuard', () => {
   it('should not render the feature component for unsupported key', async () => {
     const featureText = 'secret-feature-flag'
     mockFeatureFlags([FeatureFlagKey.DONATIONS], [], [])
-    const unsupportedFeatureToggle = FeatureFlagKey.STORAGE
+    const unsupportedFeatureFlag = FeatureFlagKey.STORAGE
 
     render(
-      <PosthogFeatureFlagGuard featureFlagKey={unsupportedFeatureToggle} i18nKey={'someFeatureNameKey'}>
+      <PosthogFeatureFlagGuard featureFlagKey={unsupportedFeatureFlag} i18nKey={'someFeatureNameKey'}>
         <HoliText>{featureText}</HoliText>
       </PosthogFeatureFlagGuard>
     )

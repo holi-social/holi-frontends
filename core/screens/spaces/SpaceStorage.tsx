@@ -5,7 +5,7 @@ import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HoliWebView from '@holi/core/components/HoliWebView'
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'

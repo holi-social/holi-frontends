@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'

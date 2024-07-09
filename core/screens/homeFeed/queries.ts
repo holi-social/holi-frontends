@@ -52,31 +52,6 @@ export type CheckAppVersionResponse = {
   checkAppVersion: NeedUpdate
 }
 
-export enum FeatureToggleStatus {
-  OFF = 'OFF',
-  PREVIEW = 'PREVIEW',
-  PRODUCTION = 'PRODUCTION',
-  MAINTENANCE = 'MAINTENANCE',
-}
-
-export type FeatureToggle = {
-  name: string
-  status: FeatureToggleStatus
-}
-
-export const featureTogglesQuery = gql`
-  query FeatureToggles {
-    featureToggles {
-      name
-      status
-    }
-  }
-`
-
-export type FeatureTogglesResponse = {
-  featureToggles: FeatureToggle[]
-}
-
 const taskFragment = gql`
   fragment TaskFragment on Task {
     id

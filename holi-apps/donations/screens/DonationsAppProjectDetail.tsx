@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'

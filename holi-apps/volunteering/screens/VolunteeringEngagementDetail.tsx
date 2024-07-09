@@ -7,7 +7,7 @@ import RenderHtml from 'react-native-render-html'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import { InfoModalItemProps } from '@holi/core/components/InfoModal'
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'

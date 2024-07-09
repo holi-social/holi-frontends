@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'

@@ -89,7 +89,7 @@ describe('createServerSideProps', () => {
     const props = await createServerSideProps(context, [query1, query2])
 
     expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
-    expect(mockQueryFunction).toBeCalledTimes(2 + 1) // query1, query2 and additional featureTogglesQuery inside createServerSideProps
+    expect(mockQueryFunction).toBeCalledTimes(2) // query1, query2 inside createServerSideProps
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
@@ -105,7 +105,7 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(2 + 1)
+    expect(mockQueryFunction).toBeCalledTimes(2)
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
@@ -119,7 +119,7 @@ describe('createServerSideProps', () => {
   it('should not execute queries that should be skipped', async () => {
     await createServerSideProps(context, [{ ...query1, skip: true }, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(1 + 1)
+    expect(mockQueryFunction).toBeCalledTimes(1)
     expect(mockQueryFunction).not.toBeCalledWith(query1)
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
   })
@@ -139,7 +139,7 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(2 + 1)
+    expect(mockQueryFunction).toBeCalledTimes(2)
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'

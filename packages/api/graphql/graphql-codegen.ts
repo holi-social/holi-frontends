@@ -686,6 +686,22 @@ export type InsightPaged = {
 
 export type InsightQuoteRecommendationInitiative = Initiative | Insight | Quote | Recommendation
 
+/** Inspiration Posts have an assigned category that is displayed above the post. */
+export type InspirationPostCategory = {
+  __typename?: 'InspirationPostCategory'
+  id: Scalars['UUID']['output']
+  slug: Scalars['String']['output']
+  title: Scalars['String']['output']
+}
+
+export type InspirationPostCategoryPaged = {
+  __typename?: 'InspirationPostCategoryPaged'
+  /** The list of items in this pagination window. */
+  data: Array<Maybe<InspirationPostCategory>>
+  /** Total number of items in the filtered dataset. */
+  totalResults: Scalars['Int']['output']
+}
+
 /** LinkPreview(id, requested_url, url, title, description, type, image, site_name, icon, fetched_at) */
 export type LinkPreview = {
   __typename?: 'LinkPreview'
@@ -1189,7 +1205,7 @@ export type Poll = {
   questionText: Scalars['String']['output']
 }
 
-/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public) */
+/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
 export type Post = {
   __typename?: 'Post'
   commenters: UserPaged
@@ -1199,6 +1215,7 @@ export type Post = {
   creator: User
   id: Scalars['UUID']['output']
   image?: Maybe<PostImage>
+  inspirationPostCategory?: Maybe<InspirationPostCategory>
   /** A list of all users involved. Author of the post plus all commenters */
   involvedUsers: UserPaged
   isPublic: Scalars['Boolean']['output']
@@ -1214,13 +1231,13 @@ export type Post = {
   title?: Maybe<Scalars['String']['output']>
 }
 
-/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public) */
+/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
 export type PostCommentersArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public) */
+/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
 export type PostInvolvedUsersArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -1296,6 +1313,8 @@ export type Query = {
   insightAuthors: UserPaged
   insightById?: Maybe<Insight>
   insightsByUserId: InsightPaged
+  inspirationPostCategories: InspirationPostCategoryPaged
+  inspirationPosts: PostPaged
   lastInsights: InsightPaged
   myPosts: FeedPostPaged
   mySpaces: Array<Maybe<MySpaces>>
@@ -1447,6 +1466,16 @@ export type QueryInsightByIdArgs = {
 
 export type QueryInsightsByUserIdArgs = {
   id: Scalars['UUID']['input']
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+export type QueryInspirationPostCategoriesArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+export type QueryInspirationPostsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }

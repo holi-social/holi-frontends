@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'

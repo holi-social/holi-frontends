@@ -4,7 +4,6 @@ import React, { useContext } from 'react'
 
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
-import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -34,7 +33,6 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
           <ToastProvider>
             <PortalProvider>
               <SessionExpiryProtection>
-                <FeatureTogglesFetcher />
                 <LoginModalProvider>
                   <ChatSessionInitializer>
                     <ChatProvider>{children}</ChatProvider>

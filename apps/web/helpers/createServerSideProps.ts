@@ -3,7 +3,6 @@ import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
-import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
 import { getOrigin } from '@holi/web/helpers/getOrigin'
@@ -36,19 +35,11 @@ export const createServerSideProps = async (
 
   const client = initializeApolloSSRClient()
 
-  const queriesToExecute = [
-    ...queries,
-    // Reduce number of loops when awaiting renderPromises in _document.getInitialProps
-    {
-      query: featureTogglesQuery,
-    },
-  ]
-
   const results = await Promise.allSettled(
-    queriesToExecute
+    queries
       .filter((query) => !query.skip)
       .map((query) => {
-        // Filter content negotation headers except accept-language
+        // Filter content negotiation headers except accept-language
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { accept, 'accept-encoding': acceptEncoding, ...headers } = req.headers
         const newQuery = {

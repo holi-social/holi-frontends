@@ -7,7 +7,6 @@ import { Platform } from 'react-native'
 import { initializeClientSideApolloClient } from '@holi/api/graphql/client'
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
-import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import UpdateAppModal from '@holi/core/components/UpdateAppModal'
@@ -28,7 +27,6 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
         <ToastProvider>
           <PortalProvider>
             <SessionExpiryProtection>
-              <FeatureTogglesFetcher />
               {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
               {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
               <LoginModalProvider>

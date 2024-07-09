@@ -4,7 +4,7 @@ import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureFlagGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
