@@ -48,7 +48,7 @@ export const gotoFillAndSubmitLogin = async (
 ): Promise<void> => {
   await prepareForLoginOrRegistration(context, page)
 
-  await clickElementByTestId(page, 'btn-to-login-form')
+  await clickElementByTestId(page, 'anonymous-profile-login-btn')
 
   const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
   await emailInput.fill(email)
@@ -185,7 +185,7 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
     process.env.E2E_USER_PASSWORD as string
   )
   // wait for profile - login succeeded
-  await page.waitForSelector(byTestId('user-profile-full-name'))
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }
 
 export const registerNewUserAccount = async (
@@ -202,7 +202,7 @@ export const registerNewUserAccount = async (
   return newAccount
 }
 
-export const checkAccessibility = async (page: Page) => {
+export const checkAccessibility = async (page: Page, failOnError = true) => {
   console.debug('check accessibility for', page.url())
   await injectAxe(page)
   const axeOptions = {
@@ -221,7 +221,7 @@ export const checkAccessibility = async (page: Page) => {
       { id: 'duplicate-id', enabled: false }, // svg icon components rendered in lists have duplicated ids for their shape masks
     ],
   })
-  await checkA11y(page, undefined, axeOptions, false)
+  await checkA11y(page, undefined, axeOptions, !failOnError)
 }
 
 export const sendConnectionRequest = async (page: Page) => {
