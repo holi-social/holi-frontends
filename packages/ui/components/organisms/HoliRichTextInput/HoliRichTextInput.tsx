@@ -90,7 +90,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     if (initialValue === value) {
       return setValue(transformStringWithMentions(initialValue, mentions || []))
     }
-  }, [mentions, initialValue])
+  }, [mentions, initialValue, value])
 
   // on mount / unmount
   useEffect(() => {
