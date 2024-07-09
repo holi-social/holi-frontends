@@ -5,7 +5,7 @@ import { deleteAuthenticatedAccount, signUp } from './helpers/api'
 
 type Session = {
   page: Page
-  api: { todo: () => void }
+  //api: { createSpace: () => void }
 }
 
 export class UserHandler {
@@ -47,10 +47,10 @@ export class SessionHandler {
 
     return {
       page: newPage,
-      api: {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        todo: () => {},
-      },
+      // TODO: expand to enable setting up data for test runs, without having to drive the UI (slow)
+      // api: {
+      //   createSpace: () => {//make it so via GQL calls},
+      // },
     }
   }
 
