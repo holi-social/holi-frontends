@@ -10,7 +10,6 @@ test.describe('@ChangePassword', () => {
     const { page } = await sessions.signUp(email, oldPassword)
     page.goto('/profile')
 
-    // after the login we are on the profile page.
     await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-your-account')
     await clickElementByTestId(page, 'btn-change-password')
