@@ -72,7 +72,7 @@ const HoliMediaHeader = ({
         <View style={styles.row}>
           {spacePost?.space && (
             <>
-              <HoliText size="small" style={styles.creator}>
+              <HoliText size="small" style={styles.creator} numberOfLines={1}>
                 {creator}
               </HoliText>
               <HoliText bold style={styles.dot}>
@@ -81,7 +81,7 @@ const HoliMediaHeader = ({
             </>
           )}
           {!!date && (
-            <HoliText size="small" style={styles.date}>
+            <HoliText size="small" style={styles.date} numberOfLines={1}>
               {date}
             </HoliText>
           )}
@@ -99,7 +99,8 @@ const getStyles = (theme: HoliTheme) =>
     },
     titleContainer: {
       flexDirection: 'column',
-      marginRight: 32,
+      // marginRight: 32,
+      marginRight: 20,
       marginLeft: 16,
       flex: 1,
     },
