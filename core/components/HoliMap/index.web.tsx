@@ -7,7 +7,7 @@ import { MapProps, PinProps } from './types'
 
 const LazyHoliWebMap = dynamic(() => import('./web/HoliWebMap'), {
   ssr: false,
-  loading: () => <HoliSkeleton width={200} height={100} borderRadius={16} />,
+  loading: () => <HoliSkeleton width={300} height={200} borderRadius={16} />,
 })
 
 export const HoliMap = (props: PropsWithChildren<MapProps>) => {
@@ -21,4 +21,9 @@ const LazyHoliWebPin = dynamic(() => import('./web/HoliWebPin'), {
 
 export const HoliPin = (props: PinProps) => {
   return <LazyHoliWebPin {...props} />
+}
+
+export const HoliLocationExternalAppLink = () => {
+  // no link to map routing on web yet
+  return null
 }

@@ -1265,6 +1265,7 @@
   "spaces.videocall.maintenance.feature": "Video call",
   "spaces.videocall.schedule.heading": "Plan an appointment for a video call",
   "spaces.videocall.text": "Plan an appointment for your video call or start a video call immediately",
+  "spaces.maps.externalAppLink": "Show location in your external maps app",
   "tracking.consentModal.general.button.acceptAll": "Accept full data processing",
   "tracking.consentModal.general.button.declineAll": "Decline all",
   "tracking.consentModal.general.button.manageOptions": "Manage options",
