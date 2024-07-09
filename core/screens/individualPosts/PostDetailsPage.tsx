@@ -66,7 +66,7 @@ const PostDetailsPage = () => {
   const { topics: allTopics } = useContext(SpaceTermContext)
 
   const headerLeft = useMemo(() => {
-    const directPageVisit = true // TODO: Implement a useUserVisitedScreenCount hook in order to know the number of visited screens
+    const directPageVisit = Platform.OS === 'web' // TODO: Implement a useUserVisitedScreenCount hook in order to know the number of visited screens
     return directPageVisit ? (
       <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
         <HoliLogo />
