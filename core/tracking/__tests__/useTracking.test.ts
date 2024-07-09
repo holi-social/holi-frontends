@@ -25,7 +25,6 @@ const posthogCrossPlatformMock = {
 const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
 
 beforeEach(() => {
-  console.debug('beforeEach')
   usePosthogCrossPlatformMock.mockReset()
   useConsentStateMock.mockReset()
 })
@@ -52,13 +51,17 @@ describe('useTracking', () => {
         console.debug('tracking', tracking)
         tracking.track({
           name: 'testEvent',
-          version: '1.0',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
           properties: {},
         })
 
         // THEN
         expect(posthogCrossPlatformMock.capture).toHaveBeenCalledWith('testEvent', {
-          version: '1.0',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
           trackingConsentAnalytics: true,
           trackingConsentPersonalization: true,
         })
@@ -81,13 +84,17 @@ describe('useTracking', () => {
         console.debug('tracking', tracking)
         tracking.track({
           name: 'testEvent',
-          version: '1.0',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
           properties: {},
         })
 
         // THEN
         expect(posthogCrossPlatformMock.capture).toHaveBeenCalledWith('testEvent', {
-          version: '1.0',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
           trackingConsentAnalytics: true,
           trackingConsentPersonalization: false,
         })
