@@ -5976,11 +5976,8 @@ __metadata:
     "@react-navigation/native-stack": ^6.9.1
     expo-image-picker: ~14.7.1
     expo-linking: ~6.2.2
-    leaflet: 1.9.4
     react: 18.2.0
-    react-leaflet: 4.2.1
     react-native: 0.73.6
-    react-native-maps: 1.10.0
     react-native-svg: 14.1.0
     react-zoom-pan-pinch: ^2.1.3
   languageName: unknown
@@ -6084,7 +6081,6 @@ __metadata:
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-gesture-handler: "npm:~2.14.0"
     react-native-image-pan-zoom: "npm:^2.1.12"
-    react-native-maps: "npm:1.10.0"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.6.2"
     react-native-render-html: "npm:^6.3.4"
@@ -6168,7 +6164,6 @@ __metadata:
     "@lexical/react": "npm:^0.6.0"
     "@ory/integrations": "npm:^0.2.6"
     "@sentry/nextjs": "npm:^7.98.0"
-    "@types/leaflet": "npm:^1.9.12"
     "@types/locale": "npm:^0.1.4"
     "@types/react": "npm:~18.2.45"
     "@types/react-dom": "npm:~18.2.19"
@@ -6179,8 +6174,6 @@ __metadata:
     http-proxy: "npm:^1.18.1"
     jotai: "npm:2.4.3"
     jotai-devtools: "npm:0.7.0"
-    leaflet: "npm:1.9.4"
-    leaflet-defaulticon-compatibility: "npm:0.1.2"
     lexical: "npm:0.11.1"
     locale: "npm:0.1.0"
     lottie-react: "npm:2.4.0"
@@ -6194,7 +6187,6 @@ __metadata:
     react-dom: "npm:18.2.0"
     react-indiana-drag-scroll: "npm:^2.2.0"
     react-intersection-observer: "npm:^9.5.2"
-    react-leaflet: "npm:4.2.1"
     react-native-gesture-handler: "npm:~2.14.0"
     react-native-media-query: "npm:^2.0.1"
     react-native-svg-web: "npm:^1.0.9"
@@ -8530,17 +8522,6 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.13.10"
   checksum: 10c0/4c5159661340acc31b11e1f2ebd87a1521d39bfa287544dd2cd75b399539a4b625d38a1501c90ceae21fcca18ed164b0c3735817ff140ae334098192c110e571
-  languageName: node
-  linkType: hard
-
-"@react-leaflet/core@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@react-leaflet/core@npm:2.1.0"
-  peerDependencies:
-    leaflet: ^1.9.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 10c0/d5218c79ab9decd458e1fa8a0ec3757542e3ea4e569afa151a32ef0e9ceb63a13174f3fbc740fe0d514df8b0b3e30d913bfb0b8b661dac13924934d7e430bfc9
   languageName: node
   linkType: hard
 
@@ -11607,13 +11588,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/geojson@npm:*, @types/geojson@npm:^7946.0.13":
-  version: 7946.0.14
-  resolution: "@types/geojson@npm:7946.0.14"
-  checksum: 10c0/54f3997708fa2970c03eeb31f7e4540a0eb6387b15e9f8a60513a1409c23cafec8d618525404573468b59c6fecbfd053724b3327f7fca416729c26271d799f55
-  languageName: node
-  linkType: hard
-
 "@types/glob@npm:^8.1.0":
   version: 8.1.0
   resolution: "@types/glob@npm:8.1.0"
@@ -11779,15 +11753,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/ff8f54fc49621210291f815fe5b15d809fd7d032941b3180743440bd507ecdf08b9e844625fa346af568c84bf34114eb378dcdc3e921a08ba1e2a08d7e3c809c
-  languageName: node
-  linkType: hard
-
-"@types/leaflet@npm:^1.9.12":
-  version: 1.9.12
-  resolution: "@types/leaflet@npm:1.9.12"
-  dependencies:
-    "@types/geojson": "npm:*"
-  checksum: 10c0/067f6c91cd5b97b0bf234e5a2847bd8d00e0333f017451eb646ac2ccb9766c55ad9bd92787877b660bb62890d5ab3af408550b6d56bc5f7e36331f4f460e86bd
   languageName: node
   linkType: hard
 
@@ -23485,20 +23450,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"leaflet-defaulticon-compatibility@npm:0.1.2":
-  version: 0.1.2
-  resolution: "leaflet-defaulticon-compatibility@npm:0.1.2"
-  checksum: 10c0/aac51998bfbfbca65f7d65a6f0c48c8b0dfeba11b627bd2982ff7bcccfcdbc06bbcf04a432753b9fd7b295e38522d8fd77cfe0884a5ac236da4258bda321d89f
-  languageName: node
-  linkType: hard
-
-"leaflet@npm:1.9.4":
-  version: 1.9.4
-  resolution: "leaflet@npm:1.9.4"
-  checksum: 10c0/f639441dbb7eb9ae3fcd29ffd7d3508f6c6106892441634b0232fafb9ffb1588b05a8244ec7085de2c98b5ed703894df246898477836cfd0ce5b96d4717b5ca1
-  languageName: node
-  linkType: hard
-
 "leven@npm:^3.1.0":
   version: 3.1.0
   resolution: "leven@npm:3.1.0"
@@ -27796,19 +27747,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-leaflet@npm:4.2.1":
-  version: 4.2.1
-  resolution: "react-leaflet@npm:4.2.1"
-  dependencies:
-    "@react-leaflet/core": "npm:^2.1.0"
-  peerDependencies:
-    leaflet: ^1.9.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 10c0/2e9d1687e883fd7d2e9798e51a04600e1b14784dc98b981a44507e65eb39a24f08c7f237c7522ae5667e999eb53b8d565ebd0f5baa25ef73a0278d6bfcc369e1
-  languageName: node
-  linkType: hard
-
 "react-lifecycles-compat@npm:^3.0.4":
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
@@ -27915,22 +27853,6 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/c1047da6b7eb0d8a80a810eba8dc0c74e11d0b476808c30d1bbc6285c3f8dc8140aba60fb1af35e2c8c114aa32eed64fb545214a6cf1c00d6b80dd3178bdf3f6
-  languageName: node
-  linkType: hard
-
-"react-native-maps@npm:1.10.0":
-  version: 1.10.0
-  resolution: "react-native-maps@npm:1.10.0"
-  dependencies:
-    "@types/geojson": "npm:^7946.0.13"
-  peerDependencies:
-    react: ">= 17.0.1"
-    react-native: ">= 0.64.3"
-    react-native-web: ">= 0.11"
-  peerDependenciesMeta:
-    react-native-web:
-      optional: true
-  checksum: 10c0/ca6a1b1e0ee643c9eca837ee857f6d4c0046746c963d489a3509418e430ea19b1d772f47d630e45b33da6bdd70ced10d8372635f6a24eafac8dde365b9c87c02
   languageName: node
   linkType: hard
 
