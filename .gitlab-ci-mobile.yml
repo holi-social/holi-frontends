@@ -255,7 +255,7 @@ mobile_staging_e2e_ios:
 
 ## production environment
 
-mobile_production_publish:
+mobile_production_publish_release_channel:
   extends: .mobile_publish
   needs: ['lint_compile_test']
   allow_failure: false
@@ -269,6 +269,20 @@ mobile_production_publish:
   only:
     - production
   when: manual
+
+# this job always publishes that latest production build to the production channel for internal use with development builds
+mobile_production_publish_production_channel:
+  extends: .mobile_publish
+  needs: ['lint_compile_test']
+  allow_failure: false
+  environment:
+    name: mobile-production
+    deployment_tier: production
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
+  variables:
+    ENVIRONMENT_FILE: .env.production
+  only:
+    - production
 
 mobile_production_build_android:
   extends: .mobile_build
