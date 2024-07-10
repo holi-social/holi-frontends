@@ -79,26 +79,20 @@ const HoliReadMore = ({
       >
         {/* The visible text. Any font style props and remaining textProps are applied here */}
         <HoliText testID="holi-readmore-text" color="gray300" {...textProps}>
-          {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ''}
+          {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
-
-        {buttonState !== 'hidden' && (
-          <View
-            style={{
-              marginBottom: -3,
-              alignSelf: 'flex-end',
-            }}
-          >
-            <HoliButton
-              transparent
-              label={buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
-              onPress={handleButtonPress}
-            >
-              {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
-            </HoliButton>
-          </View>
-        )}
       </Text>
+      {buttonState !== 'hidden' && (
+        <View style={{ alignSelf: 'flex-end' }}>
+          <HoliButton
+            transparent
+            label={buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
+            onPress={handleButtonPress}
+          >
+            {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
+          </HoliButton>
+        </View>
+      )}
     </>
   )
 }
