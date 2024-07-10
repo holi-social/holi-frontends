@@ -15,7 +15,6 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -32,9 +31,8 @@ import { Term } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
+import { MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -64,17 +62,6 @@ const PostDetailsPage = () => {
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
-
-  const headerLeft = useMemo(() => {
-    const directPageVisit = Platform.OS === 'web' // TODO: Implement a useUserVisitedScreenCount hook in order to know the number of visited screens
-    return directPageVisit ? (
-      <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
-        <HoliLogo />
-      </HoliButton>
-    ) : (
-      <HeaderBackButton icon={ArrowLeft} />
-    )
-  }, [navigate, t])
 
   const {
     data: { post } = {},
@@ -122,7 +109,6 @@ const PostDetailsPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerLeft: () => headerLeft,
       headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,
       headerRight: () => {
         return (
@@ -142,7 +128,7 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
+  }, [headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
   useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
 

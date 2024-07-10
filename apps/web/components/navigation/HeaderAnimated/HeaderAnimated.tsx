@@ -6,10 +6,12 @@ import { ImageBackground, StyleSheet, View } from 'react-native'
 import { Animated } from 'react-native'
 
 import { setScreenScrollY, useScreenScrollY } from '@holi/core/helpers'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -60,6 +62,7 @@ const HeaderAnimated = () => {
   const options = useScreenOptions()
   const { t } = useTranslation()
   const headerHideAnimation = useHeaderHideAnimation()
+  const { navigate } = useRouting()
 
   const {
     title,
@@ -108,7 +111,9 @@ const HeaderAnimated = () => {
             ) : headerLeft !== undefined ? (
               headerLeft
             ) : (
-              <HeaderBackButton tintColor={headerTintColor} />
+              <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
+                <HoliLogo />
+              </HoliButton>
             )}
           </View>
 
