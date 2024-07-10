@@ -32,7 +32,7 @@ export const Image = ({
       {!!imageUrl && !imageError ? (
         <HoliCardComponent.Image
           {...props}
-          imageUrl={imageUrl}
+          imageUri={imageUrl}
           imageWidth={imageWidth}
           imageHeight={imageHeight}
           imageAspectRatio={imageAspectRatio}

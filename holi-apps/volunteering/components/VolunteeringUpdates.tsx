@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { QueryHookOptions, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,6 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
+import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
@@ -26,7 +27,7 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, loading } = useQuery<VolunteeringEngagementsQueryResponse>(volunteeringEngagementsQuery, {
+  const queryOptions: QueryHookOptions = {
     variables: {
       offset: 0,
       limit: ENGAGEMENT_PAGE_SIZE,
@@ -35,7 +36,9 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
       logError(error, 'Failed to load volunteering engagements', {
         location: 'VolunteeringUpdates.VolunteeringEngagementsQuery',
       }),
-  })
+  }
+  const { data, loading } = useQuery<VolunteeringEngagementsQueryResponse>(volunteeringEngagementsQuery, queryOptions)
+  const isReloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringEngagementsQuery, queryOptions)
 
   const { data: engagements = [] } = data?.appVolunteering_engagementOpportunities || {}
 
@@ -73,7 +76,7 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
       subline={t('volunteering:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path)}
       labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
-      loading={loading}
+      loading={loading || isReloading}
       style={style}
     />
   )

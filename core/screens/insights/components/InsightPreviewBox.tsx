@@ -63,7 +63,7 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
       >
         <HoliCard
           imageLabel={insight.title}
-          imageUrl={insight.headerImage}
+          imageUri={insight.headerImage}
           imageWidth={327}
           imageHeight={218}
           imageAspectRatio={1.75}
