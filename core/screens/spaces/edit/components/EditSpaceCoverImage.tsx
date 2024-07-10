@@ -16,11 +16,11 @@ type EditSpaceCoverImageProps = {
 }
 
 const EditSpaceCoverImage: React.FC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
-  const [coverImage, setCoverImage] = useState<HoliImageInfo | null>()
+  const [coverImage, setCoverImage] = useState<HoliImageInfo>()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
-  const handleImageUpload = (image: HoliImageInfo | null) => {
+  const handleImageUpload = (image: HoliImageInfo) => {
     setCoverImage(image)
   }
 
@@ -38,8 +38,7 @@ const EditSpaceCoverImage: React.FC<EditSpaceCoverImageProps> = ({ space, onDism
 
   const { t } = useTranslation()
 
-  const onSave = () =>
-    updateSpace({ variables: { input: { id: space.id, cover: coverImage === null ? null : coverImage?.blob } } })
+  const onSave = () => updateSpace({ variables: { input: { id: space.id, cover: coverImage?.blob } } })
 
   return (
     <EditSpaceModalWithFooter onDismiss={onDismiss} onSave={onSave}>
