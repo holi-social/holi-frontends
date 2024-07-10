@@ -206,7 +206,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     container: {
       flex: 1,
-      paddingTop: dimensions.topBarHeight,
+      paddingTop: dimensions.topBarHeight + 24,
       width: '100%',
       paddingHorizontal: 0,
       ...Platform.select({
