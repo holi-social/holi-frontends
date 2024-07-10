@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { QueryHookOptions, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,6 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
+import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
@@ -27,7 +28,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, loading } = useQuery<AppDonationsProjectsResponse>(donationProjectsQuery, {
+  const queryOptions: QueryHookOptions = {
     variables: {
       limit: PROJECT_PAGE_SIZE,
       offset: 0,
@@ -37,7 +38,9 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
       logError(error, 'Failed to load donation projects', {
         location: 'DonationUpdates.projectsQuery',
       }),
-  })
+  }
+  const { data, loading } = useQuery<AppDonationsProjectsResponse>(donationProjectsQuery, queryOptions)
+  const isReloading = useRefetchOnClientSideForLoggedInWebUser(donationProjectsQuery, queryOptions)
 
   const { data: projects = [] } = data?.appDonations_projects || {}
 
@@ -78,7 +81,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
       subline={t('donations:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path)}
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
-      loading={loading}
+      loading={loading || isReloading}
       style={style}
     />
   )

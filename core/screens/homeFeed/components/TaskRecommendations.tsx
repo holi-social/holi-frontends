@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 // import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
@@ -27,12 +28,13 @@ const TaskRecommendations = () => {
     variables: { limit: 5 },
     onError: (error) => logError(error, 'Failed to load recommendedTasks', { location: 'TaskRecommendations' }),
   })
+  const isReloadingTasks = useRefetchOnClientSideForLoggedInWebUser(recommendedTasksQuery, { variables: { limit: 5 } })
 
   if (tasksError) {
     logError('Could not query tasks', tasksError.message, { location: 'TaskRecommendations' })
   }
 
-  if (!taskData && isLoadingTasks) return null
+  if (!taskData || isLoadingTasks || isReloadingTasks) return null
 
   const tasks = taskData?.recommendedTasks.data ?? []
   // const seeMoreText = t('recommendations.spaces.seeMore')
