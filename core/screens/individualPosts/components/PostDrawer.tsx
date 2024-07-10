@@ -75,26 +75,14 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   })
 
   const onShare = async () => {
-    track(TrackingEvent.PostShare.Pressed(post.id))
-    switch (await shareLink()) {
-      case 'shared':
-        track(TrackingEvent.PostShare.Shared(post.id))
-        break
-      case 'dismissed':
-        track(TrackingEvent.PostShare.Dismissed(post.id))
-        break
+    if ((await shareLink()) === 'shared') {
+      track(TrackingEvent.FeedPosts.shared(post.id))
     }
   }
 
   return (
     <>
-      <HoliActionDrawer.Drawer
-        label={t('global.moreOptions')}
-        testID="btn-post-more-options"
-        buttonElement={children}
-        onShow={() => track(TrackingEvent.PostActionDrawer.Opened(post.id))}
-        onHide={() => track(TrackingEvent.PostActionDrawer.Closed(post.id))}
-      >
+      <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-post-more-options" buttonElement={children}>
         <HoliActionDrawer.Action
           icon={Share}
           title={t('global.share')}

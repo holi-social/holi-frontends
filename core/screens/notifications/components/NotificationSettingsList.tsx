@@ -3,7 +3,8 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import NotificationSettingsMaintenance from '@holi/core/screens/notifications/components/NotificationSettingsMaintenance'
 import {
   Category,
@@ -47,14 +48,14 @@ const NotificationSettingsList = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { ftMaintenance } = useFeatureToggle(FeatureToggleName.NOTIFICATIONS)
+  const notificationsFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.NOTIFICATIONS)
   const { workflowPreferences, updatePreference, updatingPreferences, loading } = useNotificationPreferences()
   const workflowsByCategory = useMemo(
     () => groupBy(workflowPreferences, (entry) => entry.category),
     [workflowPreferences]
   )
 
-  if (ftMaintenance) {
+  if (notificationsFeatureFlag.inMaintenance) {
     return <NotificationSettingsMaintenance />
   }
 

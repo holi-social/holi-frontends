@@ -7,7 +7,7 @@ import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { Consent } from '@holi/core/tracking/types'
 
 export const useChallengesHeaders = () => {
-  const useConsent = useConsentState()
+  const [consentState] = useConsentState()
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
   const { isLoggedIn } = useLoginState()
 
@@ -25,9 +25,9 @@ export const useChallengesHeaders = () => {
       'X-Client-Platform': 'holi',
       'X-Client-Platform-Version': Constants.expoConfig?.version || '',
       'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
-      'X-Client-Platform-User-Consent': `${useConsent.ANALYTICS === Consent.Given}`,
+      'X-Client-Platform-User-Consent': `${consentState.ANALYTICS === Consent.Given}`,
     }
-  }, [authHeaders, useConsent.ANALYTICS])
+  }, [authHeaders, consentState.ANALYTICS])
 
   if (isLoggedIn && (!authHeaders || !authHeaders.Authorization)) return undefined
   return headers

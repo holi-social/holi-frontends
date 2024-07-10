@@ -8,7 +8,6 @@ import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -30,6 +29,8 @@ import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -64,10 +65,8 @@ const PostDetailsPage = () => {
   const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
 
-  const visitedScreensCount = useUserVisitedScreensCount()
-
   const headerLeft = useMemo(() => {
-    const directPageVisit = visitedScreensCount <= 1
+    const directPageVisit = Platform.OS === 'web' // TODO: Implement a useUserVisitedScreenCount hook in order to know the number of visited screens
     return directPageVisit ? (
       <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
         <HoliLogo />
@@ -75,7 +74,7 @@ const PostDetailsPage = () => {
     ) : (
       <HeaderBackButton icon={ArrowLeft} />
     )
-  }, [navigate, t, visitedScreensCount])
+  }, [navigate, t])
 
   const {
     data: { post } = {},
@@ -145,6 +144,8 @@ const PostDetailsPage = () => {
     })
   }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
+  useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
+
   const onPressCreateComment = () =>
     loginState.isLoggedIn
       ? navigate(`/feed-posts/${idOrSlug}/comment`)
@@ -174,7 +175,7 @@ const PostDetailsPage = () => {
         scrollable={false}
         contentStyle={styles.wrapperContent}
       >
-        <HoliContainer noPadding={loading && !isWeb}>
+        <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
           <ScrollView style={styles.scrollView}>
             {post && !loading ? (
               <>

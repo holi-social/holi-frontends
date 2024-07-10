@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client'
+import { capitalize } from 'lodash'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
@@ -16,6 +17,8 @@ import {
 import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 
 export enum ItemType {
@@ -35,6 +38,7 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, sty
   const { user } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const heartReactions = item.reactions.HEART
   const currentUserHasReacted = !!item.myReaction.HEART
@@ -73,6 +77,9 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, sty
         [`${itemType.toLowerCase()}Id`]: item.id,
         reactionType: ReactionType.HEART,
         reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
+      },
+      onCompleted: () => {
+        !currentUserHasReacted && track(TrackingEvent.Engaging.reacted(capitalize(itemType), item.id))
       },
     })
   }

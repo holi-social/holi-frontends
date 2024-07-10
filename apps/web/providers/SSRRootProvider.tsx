@@ -1,12 +1,10 @@
-import { ApolloProvider } from '@apollo/client'
-import { getApolloContext } from '@apollo/client'
+import { ApolloProvider, getApolloContext } from '@apollo/client'
 import type { PropsWithChildren } from 'react'
 import React, { useContext } from 'react'
 
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
-import RouteChangeListener from '@holi/core/components/RouteChangeListener'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -47,7 +45,6 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
           </ToastProvider>
 
           <TrackingConsentModal />
-          <RouteChangeListener />
         </ApolloProvider>
       </ErrorBoundary>
     </ThemeProvider>

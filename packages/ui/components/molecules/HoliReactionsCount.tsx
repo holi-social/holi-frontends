@@ -1,6 +1,13 @@
 import React, { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Platform, StyleSheet, ViewStyle } from 'react-native'
+import {
+  GestureResponderEvent,
+  NativeMouseEvent,
+  NativeSyntheticEvent,
+  Platform,
+  StyleSheet,
+  ViewStyle,
+} from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HandHeartThin, HandHeartThinFilledDarker, HandHeartThinFilledRaised } from '@holi/icons/src/generated'
@@ -47,17 +54,17 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
   const labelText = active ? activeText : notActiveText
 
   const onNativeMouseEnter = useCallback(
-    (event: MouseEnterOutEvent) => {
+    (event: NativeSyntheticEvent<NativeMouseEvent> | MouseEnterOutEvent) => {
       setHovered(true)
-      onMouseEnter?.(event)
+      onMouseEnter?.(event as MouseEnterOutEvent)
     },
     [onMouseEnter, setHovered]
   )
 
   const onNativeMouseOut = useCallback(
-    (event: MouseEnterOutEvent) => {
+    (event: NativeSyntheticEvent<NativeMouseEvent> | MouseEnterOutEvent) => {
       setHovered(false)
-      onMouseOut?.(event)
+      onMouseOut?.(event as MouseEnterOutEvent)
     },
     [onMouseOut, setHovered]
   )

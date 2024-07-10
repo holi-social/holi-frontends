@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliHead from '@holi/core/components/HoliHead'
 import { InfoModalItemProps } from '@holi/core/components/InfoModal'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -267,12 +267,9 @@ const VolunteeringEngagementDetail = () => {
 }
 
 const WrappedVolunteeringEngagementDetail = () => (
-  <FeatureToggleGuard
-    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
-    featureNameKey="volunteering:maintenance.feature"
-  >
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering:maintenance.feature">
     <VolunteeringEngagementDetail />
-  </FeatureToggleGuard>
+  </PosthogFeatureFlagGuard>
 )
 
 export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })

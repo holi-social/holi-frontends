@@ -209,6 +209,7 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
         return spaceUrl(payload, 'involvement')
       case NovuNotificationType.CHALLENGE_APPROVAL:
       case NovuNotificationType.CHALLENGE_NEW_COMMENT:
+      case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
       case NovuNotificationType.CHALLENGE_KEEP_STREAK:
         return challengeUrl(payload)
       default:

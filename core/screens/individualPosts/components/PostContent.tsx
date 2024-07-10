@@ -33,7 +33,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.container} testID="post-content-container">
         {showVisibilityBadge && (
           <View style={styles.badgeContainer}>
             <HoliIcon
@@ -67,7 +67,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
           <HoliHeading level="1" size="m" numberOfLines={3}>
             {post.title}
           </HoliHeading>
-          <HoliRichTextOutput text={post.description} allowAllLinks />
+          <HoliRichTextOutput text={post.description} allowAllLinks users={post.mentions || []} />
         </View>
         {!!post.image && (
           <View style={[styles.imageContainer, styles.blockContainer]}>

@@ -1,9 +1,6 @@
 import { byTestId, checkAccessibility, clickElementByTestId, gotoFillAndSubmitLogin, loginAsE2EUser } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.describe('@Login', () => {
   test('Login - Logout', async ({ context, page }) => {
     // should not work with invalid credentials
@@ -19,10 +16,11 @@ test.describe('@Login', () => {
     // Login
     await loginAsE2EUser(context, page)
     // Logout
+    await clickElementByTestId(page, 'btn-to-profile-view')
     await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
-    await page.waitForSelector(byTestId('login-protection-heading'))
+    await page.waitForSelector(byTestId('anonymous-profile-login-btn'))
     await clickElementByTestId(page, 'btn-to-home-view')
     await page.waitForSelector(byTestId('home-feed-insights-heading'))
   })

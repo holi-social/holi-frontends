@@ -3,9 +3,6 @@ import { expect } from '@playwright/test'
 import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.describe('@ForgotPassword', () => {
   test('user journey', async ({ page }) => {
     await page.goto('/')

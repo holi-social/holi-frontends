@@ -35,7 +35,7 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
   const dataByColumns = simpleColumnSortingByIndex(data, numberOfColumns)
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="posts-list-results">
       {dataByColumns.map((column, index) => (
         <View key={index} style={styles.column}>
           {column.map((p) => (

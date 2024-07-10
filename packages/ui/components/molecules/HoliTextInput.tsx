@@ -322,7 +322,8 @@ export default HoliTextInput
 
 const FONT_SIZE = 16
 const LINE_HEIGHT = FONT_SIZE * 1.4
-const INPUT_VERTICAL_PADDING = 15
+export const TEXT_INPUT_VERTICAL_PADDING = 15
+export const TEXT_INPUT_HORIZONTAL_PADDING = 10
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
@@ -336,8 +337,8 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: theme.colors.background30,
       borderRadius: 4,
       backgroundColor: theme.colors.background10,
-      paddingHorizontal: 10,
-      paddingVertical: INPUT_VERTICAL_PADDING,
+      paddingHorizontal: TEXT_INPUT_HORIZONTAL_PADDING,
+      paddingVertical: TEXT_INPUT_VERTICAL_PADDING,
     },
     inputWrapperFocused: {
       borderColor: theme.colors.brandColorB30,

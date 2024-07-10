@@ -1,7 +1,5 @@
 import { gql } from '@apollo/client/core'
 
-import { PostFragment } from '@holi/core/screens/posts/queries'
-import { Post } from '@holi/core/screens/posts/types'
 import { Task } from '@holi/core/screens/spaces/types'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -77,22 +75,6 @@ export const featureTogglesQuery = gql`
 
 export type FeatureTogglesResponse = {
   featureToggles: FeatureToggle[]
-}
-
-export const inspirationPostsQuery = gql`
-  ${PostFragment}
-  query InspirationPosts($offset: Int = 0, $limit: Int = 10) {
-    inspirationPosts(offset: $offset, limit: $limit) {
-      data {
-        ...PostFragment
-      }
-      totalResults
-    }
-  }
-`
-
-export type InspirationPostsQueryResponse = {
-  inspirationPosts: Paged<Post>
 }
 
 const taskFragment = gql`

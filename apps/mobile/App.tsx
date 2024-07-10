@@ -16,7 +16,7 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
-import { TrackingProvider } from '@holi/mobile/providers/TrackingProvider'
+import MobileTrackingProvider from '@holi/mobile/providers/MobileTrackingProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const logger = getLogger('AppInit')
@@ -83,11 +83,11 @@ const App = () => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <NavigationProvider>
-        <TrackingProvider>
+        <MobileTrackingProvider>
           <RootProvider>
             <RootNavigator />
           </RootProvider>
-        </TrackingProvider>
+        </MobileTrackingProvider>
       </NavigationProvider>
     </ThemeProvider>
   )

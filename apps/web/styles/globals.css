@@ -58,6 +58,7 @@ button {
   -webkit-appearance: none;
   -moz-appearance: none;
   border-width: thin;
+  transition: 0.2s;
 
   user-select: none;
 

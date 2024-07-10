@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
@@ -63,9 +63,9 @@ const StorageWidget: React.FC<StorageWidgetProps> = ({ space, style }) => {
   ]
 
   return (
-    <FeatureToggleGuard
-      toggleName={FeatureToggleName.STORAGE}
-      featureNameKey="spaces.storage.maintenance.feature"
+    <PosthogFeatureFlagGuard
+      featureFlagKey={FeatureFlagKey.STORAGE}
+      i18nKey="spaces.storage.maintenance.feature"
       style={style}
       noLayout
     >
@@ -136,7 +136,7 @@ const StorageWidget: React.FC<StorageWidgetProps> = ({ space, style }) => {
           </HoliModalContentWrapper>
         </HoliModal>
       </CollaboratorAreaCard>
-    </FeatureToggleGuard>
+    </PosthogFeatureFlagGuard>
   )
 }
 

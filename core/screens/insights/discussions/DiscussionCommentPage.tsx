@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -77,8 +78,11 @@ const DiscussionCommentPage = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
+        headerLeft: () => (
+          <HeaderBackButton onPress={() => replaceRoute(`/insights/${insightId}/discussions/${discussionId}`)} />
+        ),
       }),
-    [setScreenOptions, t, colors.background10]
+    [setScreenOptions, t, colors.background10, insightId, discussionId, replaceRoute]
   )
 
   return (

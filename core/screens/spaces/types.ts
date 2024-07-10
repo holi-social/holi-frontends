@@ -90,7 +90,7 @@ export interface Space {
   cover?: string
   coverBlurhash?: string
   location?: string
-  geolocation?: GeolocationPoint
+  geolocation?: GeolocationPoint | null
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   membershipRequests: Paged<SpaceMembershipRequest>

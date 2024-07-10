@@ -2,15 +2,13 @@ import { useMutation, useQuery } from '@apollo/client'
 import Constants from 'expo-constants'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -53,7 +51,6 @@ const EditAppointment = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
@@ -293,7 +290,7 @@ const EditAppointment = () => {
     }
   }, [thumbnail, setCurrentThumbnail])
 
-  if (loadingSpace || ftLoading || loadingAppointment) {
+  if (loadingSpace || loadingAppointment) {
     return <HoliLoader />
   }
 
@@ -306,7 +303,6 @@ const EditAppointment = () => {
       permissionType={PermissionsType.SPACES}
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
-      forceRestrict={!ftEnabled && !ftLoading}
       redirectRoute={`/spaces/${spaceIdOrName}`}
     >
       <FormWrapper
