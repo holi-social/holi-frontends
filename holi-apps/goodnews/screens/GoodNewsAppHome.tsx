@@ -3,9 +3,9 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -35,7 +35,7 @@ const GoodNewsAppHome = () => {
   }, [setScreenOptions, t, colors.light])
 
   return (
-    <FeatureToggleGuard toggleName={FeatureToggleName.APPS_GOODNEWS} featureNameKey="goodnews:maintenance.feature">
+    <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.GOODNEWS} i18nKey="goodnews:maintenance.feature">
       <View testID={'goodnews-app-home'}>
         <StatusBar style="light" animated />
 
@@ -49,7 +49,7 @@ const GoodNewsAppHome = () => {
           <GoodNewsCarousel />
         </ScrollHeaderLayout.Default>
       </View>
-    </FeatureToggleGuard>
+    </PosthogFeatureFlagGuard>
   )
 }
 

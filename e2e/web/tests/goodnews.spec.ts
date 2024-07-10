@@ -23,8 +23,7 @@ test.describe('@GoodNews', () => {
 })
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
-  await clickElementByTestId(page, 'home-apps-button')
-  await clickElementByTestId(page, 'app-tile-goodnews')
+  await clickElementByTestId(page, 'goodnews-updates-heading-button')
 
   await page.waitForSelector(byTestId('goodnews-app-home'), { timeout: goodnewsRequestTimeout })
   expect(page.url()).toContain('/apps/goodnews')

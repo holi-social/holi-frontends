@@ -31,9 +31,9 @@ jest.mock('@holi/core/helpers/useDocumentURL', () => ({
   useDocumentURL: () => new URL('https://localhost:3000').href,
 }))
 
-const mockUsePosthogFeatureFlag = jest.fn()
-jest.mock('@holi/core/helpers/usePosthogFeatureFlag', () => ({
-  usePosthogFeatureFlag: () => mockUsePosthogFeatureFlag(),
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 
 const authenticatedUserRequest = {
@@ -59,7 +59,7 @@ const authenticatedUserRequest = {
 
 describe('LoginProtection', () => {
   beforeEach(() => {
-    mockUsePosthogFeatureFlag.mockReturnValue([false, undefined])
+    mockUseFeatureFlag.mockReturnValue([false, undefined])
   })
 
   it('renders protected content when logged in', async () => {

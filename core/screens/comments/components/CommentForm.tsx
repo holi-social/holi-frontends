@@ -20,7 +20,6 @@ import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
 import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { Comment, CommentableType } from '@holi/core/screens/comments/types'
-import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -86,7 +85,6 @@ const CommentForm = ({
   const refetchQueriesMap = {
     [CommentableType.POST]: [
       { query: lastInsightsQuery },
-      { query: inspirationPostsQuery },
       {
         query: PostById,
         variables: { id: commentableId },

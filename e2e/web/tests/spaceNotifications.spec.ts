@@ -4,11 +4,6 @@ import { clickButtonByText, clickElementByTestId, locateElementByTestId, randomS
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
-test.setTimeout(240000)
-
 test.describe('@SpaceNotifications', () => {
   test('multi user journey', async ({ userHandler, browserName }) => {
     // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/login" is interrupted by another navigation to "http://localhost:3000/profile"`

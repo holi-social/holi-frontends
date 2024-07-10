@@ -1,12 +1,13 @@
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
 
 const mockGetChatClient = jest.fn()
 const mockGetPushNotificationEnabledState = jest.fn()
 const mockSetPushNotificationsEnabled = jest.fn()
-const mockUseFeatureToggle = jest.fn()
+const mockUseFeatureFlag = jest.fn()
 const mockUseChatInitialized = jest.fn()
 
 jest.mock('@holi/core/errors/helpers', () => ({
@@ -17,20 +18,17 @@ jest.mock('@holi/chat/src/store', () => ({
   getChatClient: () => mockGetChatClient(),
 }))
 
-jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
-  useFeatureToggle: () => mockUseFeatureToggle(),
-  FeatureToggleName: {
-    CHAT: 'CHAT',
-  },
-}))
-
 jest.mock('@holi/chat/src/client/chatState', () => ({
   useChatInitialized: () => mockUseChatInitialized(),
 }))
 
+jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+  useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
+}))
+
 describe('useChatPushPreference', () => {
   beforeEach(() => {
-    mockUseFeatureToggle.mockReturnValue({ ftEnabled: true })
+    mockUseFeatureFlag.mockReturnValue(['on', undefined])
     mockUseChatInitialized.mockReturnValue(true)
     mockGetPushNotificationEnabledState.mockResolvedValue(true)
     mockSetPushNotificationsEnabled.mockResolvedValue(null)
@@ -38,13 +36,6 @@ describe('useChatPushPreference', () => {
       getPushNotificationEnabledState: mockGetPushNotificationEnabledState,
       setPushNotificationsEnabled: mockSetPushNotificationsEnabled,
     })
-  })
-
-  it('should return loading state while fetching feature toggle', () => {
-    mockUseFeatureToggle.mockReturnValueOnce({ ftLoading: true })
-    const { result } = renderHook(() => useChatPushPreference())
-
-    expect(result.current.loadingChatPushPreference).toBeTruthy()
   })
 
   it('should return loading state while initializing the chat', () => {
@@ -109,7 +100,7 @@ describe('useChatPushPreference', () => {
   })
 
   it('should ignore preference update if chat is not enabled', async () => {
-    mockUseFeatureToggle.mockReturnValueOnce({ ftEnabled: false })
+    mockUseFeatureFlag.mockReturnValueOnce({ ftEnabled: false })
     const { result } = renderHook(() => useChatPushPreference())
 
     expect(result.current.chatEnabled).toBeFalsy()

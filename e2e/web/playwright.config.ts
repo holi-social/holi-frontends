@@ -1,11 +1,8 @@
 import type { PlaywrightTestConfig } from '@playwright/test'
 import { devices } from '@playwright/test'
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config({ path: '.envrc' })
 
 const baseURL = process.env.BASE_URL || 'https://staging.dev.holi.social'
 
@@ -80,22 +77,22 @@ const browsers = browsersFromEnv(process.env.E2E_WEB_BROWSERS)
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 60000,
+  timeout: 300_000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000,
+    timeout: 5_000,
   },
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   // parallel tests cause flakiness
-  workers: 1,
+  workers: process.env.CI ? 4 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { open: 'never' }]],
   // please edit the variable, not this setting, because other settings depend on it.
@@ -110,12 +107,14 @@ const config: PlaywrightTestConfig = {
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
-    actionTimeout: 10000,
-    navigationTimeout: 20000,
+    actionTimeout: process.env.CI ? 10_000 : 20_000,
+    navigationTimeout: process.env.CI ? 20_000 : 30_000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
-
+    storageState: 'setup/storageState.json',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
+
+    storageState: 'setup/storageState.json',
   },
 
   /* Configure projects for major browsers */

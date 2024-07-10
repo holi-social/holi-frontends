@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
@@ -82,9 +82,9 @@ const SpaceStorage: React.FC = () => {
 }
 
 const WrappedSpaceStorage = () => (
-  <FeatureToggleGuard toggleName={FeatureToggleName.STORAGE} featureNameKey="spaces.storage.maintenance.feature">
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.STORAGE} i18nKey="spaces.storage.maintenance.feature">
     <SpaceStorage />
-  </FeatureToggleGuard>
+  </PosthogFeatureFlagGuard>
 )
 
 const getStyles = (deviceHeight: number) =>

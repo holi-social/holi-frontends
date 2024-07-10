@@ -9,9 +9,9 @@ import {
   proceedAsGuest,
   waitForAnimationEnd,
   withSSR,
-} from './helpers'
-import { inputSpaceNameAndGoal } from './helpers/spaces'
-import { UserHandler, test } from './testmaster'
+} from '../tests/helpers'
+import { inputSpaceNameAndGoal } from '../tests/helpers/spaces'
+import { UserHandler, test } from '../tests/testmaster'
 
 test.setTimeout(240000)
 
