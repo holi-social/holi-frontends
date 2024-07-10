@@ -5,7 +5,6 @@ import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -15,8 +14,8 @@ export type SpaceImageFormProps = {
   title?: string
   description?: string
   instructions?: string
-  onUploadImage: (image: HoliImageInfo | null) => void
-  image: HoliImageInfo | undefined | null
+  onUploadImage: (image: HoliImageInfo) => void
+  image: HoliImageInfo
   blurhash?: string | undefined
   currentImageUri?: string
   style?: ViewStyle
@@ -43,11 +42,6 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
   useEffect(() => {
     setImageUri(currentImageUri)
   }, [currentImageUri])
-
-  const removeImage = () => {
-    onUploadImage(null)
-    setImageUri(undefined)
-  }
 
   const Uploader = () => {
     return (
@@ -84,16 +78,6 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
               >
                 <HoliText numberOfLines={1}>{t('spaces.input.coverImage.change.button.label')}</HoliText>
               </HoliImagePicker>
-
-              <HoliButton
-                label={t('spaces.input.coverImage.remove.button.label')}
-                onPress={removeImage}
-                testID="create-space-remove-image-btn"
-                style={styles.imageUploadButton}
-                inline
-              >
-                <HoliText numberOfLines={1}>{t('spaces.input.coverImage.remove.button.label')}</HoliText>
-              </HoliButton>
             </View>
           </>
         )) || (

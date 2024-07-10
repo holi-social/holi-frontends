@@ -44,7 +44,7 @@ const CreateSpace = () => {
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
-  const [spaceCoverImage, setSpaceCoverImage] = useState<HoliImageInfo | undefined>()
+  const [spaceCoverImage, setSpaceCoverImage] = useState<HoliImageInfo>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const exitConfirmationTitle = t('spaces.create.close.dialog.title')
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
