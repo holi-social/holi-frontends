@@ -2,6 +2,17 @@
 import { faker } from '@faker-js/faker'
 import { APIRequestContext, BrowserContext } from '@playwright/test'
 
+import { newUserEmail, randomPassword } from '@holi/e2e-web/tests/helpers'
+
+export type User = {
+  id: string
+  identity: string
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+}
+
 type FlowNode = {
   attributes: {
     name: string
@@ -49,7 +60,11 @@ export const deleteAuthenticatedAccount = async (context: BrowserContext) => {
   context.clearCookies()
 }
 
-export const signUp = async (context: BrowserContext, email: string, password: string) => {
+export const signUp = async (
+  context: BrowserContext,
+  email: string = newUserEmail(),
+  password: string = randomPassword()
+): Promise<User> => {
   context.clearCookies()
 
   const flowResponse = await context.request.get(`${baseURL}/api/.ory/self-service/registration/browser`, {
@@ -87,14 +102,26 @@ export const signUp = async (context: BrowserContext, email: string, password: s
 
   console.log('REGISTERED', registered)
 
+  const firstName = faker.person.firstName()
+  const lastName = faker.person.lastName()
+
   const userUpdateResponse = await simpleGQLClient(context.request, updateUserMutation, {
     input: {
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
+      firstName,
+      lastName,
       trackingConsentAnalytics: false,
       trackingConsentPersonalization: false,
     },
   })
 
   console.log('USER', userUpdateResponse)
+
+  return {
+    id: userUpdateResponse.data.updateAuthenticatedUserV2.id,
+    identity: userUpdateResponse.data.updateAuthenticatedUserV2.identity,
+    firstName,
+    lastName,
+    email,
+    password,
+  }
 }
