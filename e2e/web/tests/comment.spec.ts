@@ -6,34 +6,31 @@ import { test } from './testmaster'
 
 test.describe('@Comment', () => {
   // TODO: Commenting has been briefly removed from the insight detail page and should be back once HOLI-7390 is finished
-  test.skip('creates a comment and displays it in the post page.', async ({ userHandler }) => {
-    await userHandler.asRandomUser(async (page) => {
-      // go to home feed
-      await clickElementByTestId(page, 'btn-to-home-view')
+  test.skip('creates a comment and displays it in the post page.', async ({ authenticatedSession: { page } }) => {
+    await page.goto('/')
 
-      await goToPost(page)
-      await clickElementByTestId(page, 'post-detail-footer')
+    await goToPost(page)
+    await clickElementByTestId(page, 'post-detail-footer')
 
-      // create e2e comment and fill the textinput
-      const input = await locateElementByTestId(page, 'post-comment-input')
-      const commentText = `e2e comment ${faker.string.alphanumeric(5)}`
-      await input.fill(commentText)
+    // create e2e comment and fill the textinput
+    const input = await locateElementByTestId(page, 'post-comment-input')
+    const commentText = `e2e comment ${faker.string.alphanumeric(5)}`
+    await input.fill(commentText)
 
-      // submit comment
-      await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
-      // wait until submit succeeded
-      await page.waitForSelector(byTestId('btn-to-commenter-profile'))
+    // submit comment
+    await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
+    // wait until submit succeeded
+    await page.waitForSelector(byTestId('btn-to-commenter-profile'))
 
-      // check if comment is present in the comments page
-      await expect(page.getByText(commentText)).toBeVisible()
+    // check if comment is present in the comments page
+    await expect(page.getByText(commentText)).toBeVisible()
 
-      // delete comment
-      clickTreeDotsMenu(page, commentText)
-      await clickElementByTestId(page, 'delete-comment-button')
-      await clickElementByTestIdAndWaitForToast(page, 'delete-comment-confirmation-confirm', 'toast-SUCCESS')
+    // delete comment
+    clickTreeDotsMenu(page, commentText)
+    await clickElementByTestId(page, 'delete-comment-button')
+    await clickElementByTestIdAndWaitForToast(page, 'delete-comment-confirmation-confirm', 'toast-SUCCESS')
 
-      await expect(page.getByText(commentText)).toBeHidden()
-    })
+    await expect(page.getByText(commentText)).toBeHidden()
   })
 })
 

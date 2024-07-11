@@ -4,27 +4,24 @@ import { byTestId, clickElementByTestId, locateElementByTestId } from '../tests/
 import { test } from '../tests/testmaster'
 
 test.describe('@Reactions', () => {
-  test('user story', async ({ userHandler }) => {
-    await userHandler.asRandomUser(async (page) => {
-      // go to home feed
-      await clickElementByTestId(page, 'btn-to-home-view')
+  test('user story', async ({ authenticatedSession: { page } }) => {
+    await page.goto('/')
 
-      // click first insight image link
-      await clickElementByTestId(page, 'feed-insight-image-link')
-      await page.waitForSelector(byTestId('insight-headline'))
+    // click first insight image link
+    await clickElementByTestId(page, 'feed-insight-image-link')
+    await page.waitForSelector(byTestId('insight-headline'))
 
-      // check reactions on first post
-      await assertReactions(page, 'btn-react-to-post-HEART')
+    // check reactions on first post
+    await assertReactions(page, 'btn-react-to-post-HEART')
 
-      // open first post
-      await clickElementByTestId(page, 'btn-to-post')
-      await page.waitForSelector(byTestId('post-heading'))
+    // open first post
+    await clickElementByTestId(page, 'btn-to-post')
+    await page.waitForSelector(byTestId('post-heading'))
 
-      // TODO assure a comment by commenting ourselves, otherwise if no comment, the test fails
+    // TODO assure a comment by commenting ourselves, otherwise if no comment, the test fails
 
-      // check reactions on first comment
-      await assertReactions(page, 'btn-react-to-comment-HEART')
-    })
+    // check reactions on first comment
+    await assertReactions(page, 'btn-react-to-comment-HEART')
   })
 })
 
