@@ -14,6 +14,7 @@ import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useTabNavigation, { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -236,6 +237,7 @@ const SpaceDetails = () => {
       headerStyle: { backgroundColor: colors.background10 },
       headerTintColor: colors.foreground30,
       headerTitle: () => null,
+      headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
         <View style={styles.headerRight}>
           {(isMember || isAdmin) && spaceRoom && (
