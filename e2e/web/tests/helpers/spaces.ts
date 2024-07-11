@@ -7,6 +7,7 @@ import { byTestId, clickElementByTestId, locateElementByTestId } from '../helper
 
 export const createSpace = async (page: Page, initialName = 'e2e space name', initialGoal = 'e2e space goal') => {
   await test.step('space can be created', async () => {
+    await page.goto('/')
     await clickElementByTestId(page, 'btn-to-spaces')
     await clickElementByTestId(page, 'btn-create-space')
 
